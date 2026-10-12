@@ -3,7 +3,7 @@ import SwiftUI
 import WidgetKit
 
 /// The crew SOS Live Activity: who needs help, how many are on the way, how long since their
-/// phone last reported in, and I'M GOING. Where they are stays in the app, on the map behind a
+/// phone last reported in, and "I'm going". Where they are stays in the app, on the map behind a
 /// tap. Resolved, it says so and goes.
 struct SOSLiveActivityWidget: Widget {
     var body: some WidgetConfiguration {
@@ -18,10 +18,12 @@ struct SOSLiveActivityWidget: Widget {
                 DynamicIslandExpandedRegion(.leading) {
                     SOSEyebrow(state: state)
                         .padding(.leading, 4)
+                    .islandAppearance()
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     SOSLastSeen(state: state)
                         .padding(.trailing, 4)
+                    .islandAppearance()
                 }
                 DynamicIslandExpandedRegion(.bottom) {
                     VStack(alignment: .leading, spacing: 6) {
@@ -33,20 +35,24 @@ struct SOSLiveActivityWidget: Widget {
                         }
                     }
                     .padding(.horizontal, 10)
+                    .islandAppearance()
                 }
             } compactLeading: {
                 Image(systemName: "sos")
-                    .font(.system(size: 13, weight: .black))
+                    .font(.system(size: 13, weight: .heavy))
                     .foregroundStyle(tint)
+                    .islandAppearance()
             } compactTrailing: {
                 Text("\(state.responders)")
                     .font(.system(size: 14, weight: .heavy).monospacedDigit())
                     .foregroundStyle(tint)
                     .contentTransition(.numericText())
+                    .islandAppearance()
             } minimal: {
                 Image(systemName: "sos")
-                    .font(.system(size: 12, weight: .black))
+                    .font(.system(size: 12, weight: .heavy))
                     .foregroundStyle(tint)
+                    .islandAppearance()
             }
             .keylineTint(tint)
         }
@@ -66,8 +72,9 @@ struct SOSLockScreen: View {
     }
 
     /// A dark red ground while it is open, the usual card once it is over.
-    static func ground(_ state: SOSActivityAttributes.ContentState) -> Color {
-        over(state) ? LAPalette.card : Color(red: 0x33 / 255, green: 0x0F / 255, blue: 0x16 / 255)
+    /// The system glass once it is over; the destructive tint while someone needs the crew.
+    static func ground(_ state: SOSActivityAttributes.ContentState) -> Color? {
+        over(state) ? nil : LAPalette.destructiveBg
     }
 
     var body: some View {
@@ -127,18 +134,18 @@ struct SOSHeadline: View {
 
     var body: some View {
         Text(line)
-            .font(.system(size: size, weight: .black))
+            .font(.system(size: size, weight: .heavy))
             .foregroundStyle(LAPalette.paper)
             .lineLimit(1)
             .minimumScaleFactor(0.6)
     }
 
     private var line: LocalizedStringResource {
-        let name = attributes.senderName.uppercased()
+        let name = attributes.senderName
         switch state.state {
-        case .open, .responding: return "\(name) NEEDS HELP"
-        case .resolved: return "\(name) IS SAFE"
-        case .cancelled: return "\(name) IS FINE"
+        case .open, .responding: return "\(name) needs help"
+        case .resolved: return "\(name) is safe"
+        case .cancelled: return "\(name) is fine"
         }
     }
 }
@@ -166,7 +173,7 @@ struct SOSResponders: View {
     }
 }
 
-/// I'M GOING from the locked phone; gone once the SOS is over.
+/// "I'm going" from the locked phone; gone once the SOS is over.
 struct SOSGoingButton: View {
     let sosId: String
     let state: SOSActivityAttributes.ContentState
@@ -174,7 +181,7 @@ struct SOSGoingButton: View {
     var body: some View {
         if !SOSLockScreen.over(state) {
             Button(intent: ComingIntent(sosId: sosId)) {
-                LAButtonLabel(text: "I'M GOING", fill: LAPalette.red, ink: LAPalette.night, stretch: false)
+                LAButtonLabel(text: "I'm going", fill: LAPalette.red, ink: LAPalette.night, stretch: false)
             }
             .buttonStyle(.plain)
         }

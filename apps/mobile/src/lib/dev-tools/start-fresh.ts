@@ -43,7 +43,12 @@ export const MMKV_STORES: readonly MmkvStore[] = [
   {
     id: null,
     cleared: true,
-    why: 'first-launch hatch, saved navigation, language, motion, sound and accessibility choices',
+    why: 'first-launch hatch, saved navigation, language, motion, sound and accessibility choices, and the premium UI override',
+  },
+  {
+    id: 'cp-appearance',
+    cleared: false,
+    why: 'light, dark or system: a setting of the phone owner, not of the account',
   },
   { id: 'cp-app-session', cleared: true, why: 'the last signed-in uid and its reported language' },
   { id: 'cp-critters-hatch', cleared: true, why: 'which eggs this account has seen hatch' },

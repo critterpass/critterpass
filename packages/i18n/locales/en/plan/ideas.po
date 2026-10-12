@@ -105,7 +105,7 @@ msgstr "DROP ON A DAY"
 msgid "plan.ideas.findPlaces"
 msgstr "Find places to save"
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/use-ideas-model.ts
 msgid "plan.ideas.fitPending"
 msgstr "Fits will update with signal"
 

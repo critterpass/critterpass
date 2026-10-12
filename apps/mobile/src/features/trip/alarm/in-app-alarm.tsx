@@ -105,7 +105,7 @@ export function InAppAlarm(props: InAppAlarmProps) {
         </Stack>
         <Stack gap="12" align="center">
           <SlideToConfirm
-            label={upper(t({ id: 'trip.alarm.slide', message: "Slide, I'm up" }), locale)}
+            label={upper(t({ id: 'trip.alarm.slide', message: "slide, I'm up →" }), locale)}
             actionLabel={t({ id: 'trip.alarm.imUp', message: "I'm up" })}
             onConfirm={props.onUp}
             testID="trip-alarm-slide"

@@ -108,7 +108,7 @@ msgstr "Asking Viator what comes back"
 
 #. placeholder {0}: '19:30'
 #. placeholder {0}: clock(locale, leg.to.startsAt, data.tz)
-#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
+#: ../../apps/mobile/src/features/bookings/getting-around/use-getting-around-screen.ts
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
 msgid "suppliers.later.at"
 msgstr "At {0}"
@@ -415,7 +415,7 @@ msgstr "Messages to places need signal to load."
 msgid "suppliers.fare.taxi"
 msgstr "Metered taxi"
 
-#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
+#: ../../apps/mobile/src/features/bookings/getting-around/use-getting-around-screen.ts
 msgid "suppliers.later.openOffline"
 msgstr "Needs signal to open the ride app with this trip."
 
@@ -610,7 +610,7 @@ msgstr "That didn’t save. Try again."
 msgid "suppliers.estimate.gone"
 msgstr "That estimate isn’t on this phone any more. Open the ride again to see it."
 
-#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
+#: ../../apps/mobile/src/features/bookings/getting-around/use-getting-around-screen.ts
 msgid "suppliers.later.openFailed"
 msgstr "That ride didn’t open. Try again in a moment."
 

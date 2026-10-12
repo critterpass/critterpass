@@ -8,7 +8,7 @@ msgstr ""
 "Language: fr\n"
 
 #. placeholder {0}: guide.name
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.thinking"
 msgstr ""
 
@@ -40,7 +40,7 @@ msgstr ""
 msgid "explore.split.back"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.inChat"
 msgstr ""
 
@@ -48,7 +48,7 @@ msgstr ""
 msgid "explore.split.noteLabel"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.posted"
 msgstr ""
 
@@ -56,20 +56,20 @@ msgstr ""
 msgid "explore.split.noteLong"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.noWaysSaid"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/split/dev/split-scenes.tsx
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.noWays"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.refusedBody"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.openChat"
 msgstr ""
 
@@ -101,7 +101,7 @@ msgstr ""
 msgid "explore.split.queued.clear"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.refused"
 msgstr ""
 

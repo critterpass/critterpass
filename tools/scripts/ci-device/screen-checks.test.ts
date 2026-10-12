@@ -1,10 +1,10 @@
-import { copyFileSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { copyFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
-import { decodePng, type RgbaImage } from './png';
+import type { RgbaImage } from './png';
 import {
   checkScreen,
   findEmptyScreen,
@@ -13,37 +13,10 @@ import {
   keyboardTop,
   type Rgb,
 } from './screen-checks';
-import { appBackground, scanScreenshots } from './screen-scan';
+import { scanScreenshots } from './screen-scan';
+import { BG, blank, busyScreen, copy, FIXTURES, load, paint } from './screen-test-images';
 
-// Founder device screenshots and one CI simulator capture (downscaled; reviewer marks painted out
-// where they crossed an edge).
-const FIXTURES = path.join(import.meta.dirname, '__fixtures__/screens');
-const load = (name: string) => decodePng(readFileSync(path.join(FIXTURES, `${name}.png`)));
-const BG = appBackground();
 const codes = (image: RgbaImage) => checkScreen(image, { background: BG }).map((f) => f.code);
-
-function blank(width: number, height: number, colour: Rgb): RgbaImage {
-  const data = new Uint8Array(width * height * 4);
-  for (let i = 0; i < width * height; i += 1) data.set([...colour, 255], i * 4);
-  return { width, height, data };
-}
-
-function paint(image: RgbaImage, x0: number, y0: number, x1: number, y1: number, c: Rgb): void {
-  for (let y = Math.round(y0); y < Math.round(y1); y += 1)
-    for (let x = Math.round(x0); x < Math.round(x1); x += 1)
-      image.data.set([...c], (y * image.width + x) * 4);
-}
-
-function copy(image: RgbaImage): RgbaImage {
-  return { ...image, data: new Uint8Array(image.data) };
-}
-
-/** A synthetic screen: text-like lines down the whole height on the app background. */
-function busyScreen(): RgbaImage {
-  const image = blank(400, 860, BG);
-  for (let y = 80; y < 820; y += 24) paint(image, 30, y, 300, y + 12, [240, 235, 220]);
-  return image;
-}
 
 describe('screen checks', { timeout: 60_000 }, () => {
   it('reads the app background from the design tokens', () => {

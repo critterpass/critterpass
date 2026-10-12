@@ -2,8 +2,9 @@ internal import AppIntents
 import SwiftUI
 import WidgetKit
 
-/// The Today widget (5c-2, large): the day's briefing in order, finished items struck through and
-/// faded, DONE or NUDGE on the ones that can be acted on from here, the guide at the foot. Free.
+/// The Today widget (large, 6.31): the day's plan in order, finished items struck through and
+/// faded, "Done" or "Nudge" on the ones that can be acted on from here, the packing still to tick,
+/// the guide's line at the foot. Free.
 struct TodayWidget: Widget {
     let kind = "CPTodayWidget"
 
@@ -62,16 +63,19 @@ struct TodayView: View {
         if let file = entry.file {
             let snapshot = file.snapshot
             let face = TodayFace.make(today: snapshot.today, now: entry.date, acted: entry.acted)
+            // 6.31: the eyebrow and "Today" with the high on the right, the plan rows (time, the
+            // item's colour bar, title), then the guide's line over a hairline.
             VStack(alignment: .leading, spacing: 10) {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 0) {
                         Text(verbatim: eyebrow(snapshot))
-                            .font(.laEyebrow)
-                            .tracking(1.2)
-                            .foregroundStyle(LAPalette.yellow)
+                            .font(.system(size: 12, weight: .bold))
+                            .tracking(0.48)
+                            .foregroundStyle(LAPalette.muted)
                             .lineLimit(1)
-                        Text("TODAY")
-                            .font(.system(size: 28, weight: .black))
+                        Text("Today")
+                            .font(.system(size: 30, weight: .heavy))
+                            .tracking(-1.2)
                             .foregroundStyle(LAPalette.paper)
                     }
                     Spacer(minLength: 8)
@@ -83,7 +87,7 @@ struct TodayView: View {
                     }
                     if face.more > 0 {
                         Text("+\(face.more) more in the app")
-                            .font(.system(size: 11, weight: .semibold))
+                            .font(.system(size: 12, weight: .semibold))
                             .foregroundStyle(LAPalette.muted)
                     }
                     TodayPackingRow(packing: face.packing)
@@ -93,17 +97,20 @@ struct TodayView: View {
                         .foregroundStyle(LAPalette.muted)
                 }
                 Spacer(minLength: 0)
-                HStack(alignment: .bottom) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        if let forecast = face?.forecast { TodayForecastLine(forecast: forecast) }
-                        HomeWidgetStaleLine(entry: HomeWidgetEntry(date: entry.date, file: file, pendingVote: nil))
+                VStack(alignment: .leading, spacing: 8) {
+                    Rectangle().fill(LAPalette.hairline).frame(height: 0.5)
+                    HStack(alignment: .center, spacing: 10) {
+                        Image("gecko-common-idle-color-48pt")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 34, height: 34)
+                            .accessibilityHidden(true)
+                        VStack(alignment: .leading, spacing: 2) {
+                            if let forecast = face?.forecast { TodayForecastLine(forecast: forecast) }
+                            HomeWidgetStaleLine(entry: HomeWidgetEntry(date: entry.date, file: file, pendingVote: nil))
+                        }
+                        Spacer(minLength: 0)
                     }
-                    Spacer(minLength: 0)
-                    Image("gecko-common-idle-color-48pt")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 52, height: 52)
-                        .accessibilityHidden(true)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -129,31 +136,33 @@ struct TodayRowView: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            Capsule()
-                .fill(bar.opacity(row.finished ? 0.4 : 1))
-                .frame(width: 4, height: row.at == nil ? 30 : 34)
-            VStack(alignment: .leading, spacing: 0) {
+            Group {
                 if let at = row.at {
                     Text(at, format: .dateTime.hour().minute())
-                        .font(.system(size: 11, weight: .semibold).monospacedDigit())
-                        .foregroundStyle(LAPalette.muted)
+                } else {
+                    Text(verbatim: "")
                 }
-                Text(row.text)
-                    .font(.system(size: 14, weight: .bold))
-                    .foregroundStyle(row.finished ? LAPalette.muted : LAPalette.paper)
-                    .strikethrough(row.finished, color: LAPalette.muted)
-                    .lineLimit(row.at == nil ? 2 : 1)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .font(.system(size: 13.5, weight: .bold).monospacedDigit())
+            .foregroundStyle(row.finished ? LAPalette.muted : LAPalette.paper)
+            .frame(width: 44, alignment: .leading)
+            RoundedRectangle(cornerRadius: 2, style: .continuous)
+                .fill(bar.opacity(row.finished ? 0.4 : 1))
+                .frame(width: 4, height: 28)
+            Text(row.text)
+                .font(.system(size: 14.5, weight: .semibold))
+                .foregroundStyle(row.finished ? LAPalette.muted : LAPalette.paper)
+                .strikethrough(row.finished, color: LAPalette.muted)
+                .lineLimit(row.at == nil ? 2 : 1)
+                .frame(maxWidth: .infinity, alignment: .leading)
             if let action = row.action {
                 Button(intent: BriefingItemIntent(itemId: row.id, action: action)) {
-                    Text(action == "nudge" ? "NUDGE" : "DONE")
-                        .font(.system(size: 10, weight: .heavy))
-                        .tracking(0.8)
-                        .foregroundStyle(LAPalette.night)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(LAPalette.yellow, in: Capsule())
+                    Text(action == "nudge" ? "Nudge" : "Done")
+                        .font(.system(size: 12.5, weight: .semibold))
+                        .foregroundStyle(LAPalette.card)
+                        .padding(.horizontal, 12)
+                        .frame(minHeight: 26)
+                        .background(LAPalette.paper, in: Capsule())
                 }
                 .buttonStyle(.plain)
             }
@@ -181,10 +190,10 @@ struct TodayPackingRow: View {
                                 .font(.system(size: 10, weight: .bold))
                             Text(item.label).lineLimit(1)
                         }
-                        .font(.system(size: 11, weight: .bold))
+                        .font(.system(size: 12, weight: .semibold))
                         .foregroundStyle(LAPalette.paper)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
                         .background(LAPalette.chip, in: Capsule())
                     }
                     .buttonStyle(.plain)
@@ -199,16 +208,15 @@ struct TodayTempChip: View {
     let forecast: Forecast
 
     var body: some View {
-        HStack(spacing: 4) {
+        HStack(spacing: 6) {
             Image(systemName: Self.symbol(forecast.line))
-                .foregroundStyle(LAPalette.yellow)
+                .symbolRenderingMode(.multicolor)
+                .font(.system(size: 24))
+                .frame(width: 28, height: 28)
             Text(verbatim: "\(forecast.highC)°")
+                .font(.system(size: 22, weight: .bold))
                 .foregroundStyle(LAPalette.paper)
         }
-        .font(.system(size: 13, weight: .heavy))
-        .padding(.horizontal, 10)
-        .padding(.vertical, 5)
-        .background(LAPalette.chip, in: Capsule())
     }
 
     static func symbol(_ line: Forecast.Line) -> String {
@@ -227,12 +235,9 @@ struct TodayForecastLine: View {
 
     var body: some View {
         line
-            .font(.system(size: 13, weight: .semibold).italic())
-            .foregroundStyle(LAPalette.yellow)
-            .lineLimit(1)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
-            .background(LAPalette.chip, in: RoundedRectangle(cornerRadius: 10))
+            .font(.system(size: 12.5))
+            .foregroundStyle(LAPalette.secondary)
+            .lineLimit(2)
     }
 
     private var line: Text {

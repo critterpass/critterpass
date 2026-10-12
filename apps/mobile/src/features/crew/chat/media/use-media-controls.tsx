@@ -4,16 +4,16 @@
  * and this device's uploads at the foot of the timeline. Without device media (no provider) the
  * composer shows no "+" and no mic actions.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- content types, never copy. */
-import { useCallback, useState, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 
-import { AttachMenu, type AttachChoice } from './attach-menu';
-import { useChatMedia } from './media-services';
+import { AttachMenu } from './attach-menu';
+import { useChatMediaActions, type MediaReply } from './use-chat-media-actions';
 import { PendingUploads } from './pending-uploads';
-import { useUploadQueue, type UploadFile } from './use-upload-queue';
-import { useVoiceRecorder, VoiceRecorderBar, type FinishedNote } from './voice-recorder';
+import { VoiceRecorderBar } from './voice-recorder';
+
+export type { MediaReply } from './use-chat-media-actions';
 
 export interface MediaControls {
   readonly composer: {
@@ -33,89 +33,21 @@ export interface MediaControls {
   readonly sheet: ReactNode;
 }
 
-export interface MediaReply {
-  /** The message being replied to: a photo or voice note sent now is a reply to it. */
-  readonly replyTo: string | null;
-  /** The photo or voice note is queued: the reply strip can go. */
-  readonly onQueued: () => void;
-}
-
-const NO_REPLY: MediaReply = { replyTo: null, onQueued: () => undefined };
-
 export function useMediaControls(
   crewId: string,
   online: boolean,
-  reply: MediaReply = NO_REPLY,
+  reply?: MediaReply,
 ): MediaControls {
-  const media = useChatMedia();
+  const actions = useChatMediaActions(crewId, reply);
   const { network } = useLocalFirst();
-  const { items, queue, add } = useUploadQueue(crewId, media);
-  const [menu, setMenu] = useState(false);
-  const [denied, setDenied] = useState<'library' | 'camera' | null>(null);
-  const [failed, setFailed] = useState(false);
+  const { recorder, menu, uploads: items } = actions;
 
-  const { replyTo, onQueued } = reply;
-  const addMessage = useCallback(
-    async (files: readonly UploadFile[]) => {
-      await add({ body: '', files, ...(replyTo === null ? {} : { replyTo }) });
-      onQueued();
-    },
-    [add, replyTo, onQueued],
-  );
-  const onFinished = useCallback(
-    (note: FinishedNote) =>
-      void addMessage([
-        {
-          uri: note.uri,
-          kind: 'voice',
-          contentType: 'audio/mp4',
-          durationMs: note.durationMs,
-          peaks: note.peaks,
-        },
-      ]),
-    [addMessage],
-  );
-  const recorder = useVoiceRecorder(media?.recorder ?? null, onFinished);
-
-  const choose = async (choice: AttachChoice) => {
-    if (media === null) return;
-    if (choice === 'voice') {
-      setMenu(false);
-      recorder.onMicTap();
-      return;
-    }
-    const outcome = await media.pickPhotos(choice);
-    if (outcome.kind === 'denied') {
-      setDenied(choice);
-      setFailed(false);
-      return;
-    }
-    if (outcome.kind === 'failed') {
-      setDenied(null);
-      setFailed(true);
-      return;
-    }
-    setMenu(false);
-    setDenied(null);
-    setFailed(false);
-    if (outcome.kind !== 'picked' || outcome.photos.length === 0) return;
-    await addMessage(
-      outcome.photos.slice(0, 10).map((photo) => ({
-        uri: photo.uri,
-        kind: 'photo' as const,
-        contentType: 'image/jpeg',
-        w: photo.width,
-        h: photo.height,
-      })),
-    );
-  };
-
-  if (media === null) {
+  if (!actions.available) {
     return { composer: { recording: false }, bar: null, uploads: null, pending: 0, sheet: null };
   }
   return {
     composer: {
-      onAttach: () => setMenu(true),
+      onAttach: menu.show,
       onMicTap: recorder.onMicTap,
       onHoldStart: recorder.onHoldStart,
       onHoldEnd: recorder.onHoldEnd,
@@ -127,7 +59,7 @@ export function useMediaControls(
         elapsed={recorder.elapsed}
         onSend={recorder.send}
         onCancel={recorder.cancel}
-        onOpenSettings={media.openSettings}
+        onOpenSettings={actions.openSettings}
         onDismissDenied={recorder.dismissDenied}
       />
     ),
@@ -137,22 +69,18 @@ export function useMediaControls(
         <PendingUploads
           items={items}
           online={online && network.isOnline()}
-          onRetry={(id) => void queue?.retry(id)}
-          onDiscard={(id) => void queue?.discard(id)}
+          onRetry={actions.retryUpload}
+          onDiscard={actions.discardUpload}
         />
       ),
-    sheet: menu ? (
+    sheet: menu.open ? (
       <AttachMenu
         crewId={crewId}
-        denied={denied}
-        failed={failed}
-        onChoose={(choice) => void choose(choice)}
-        onOpenSettings={media.openSettings}
-        onClose={() => {
-          setMenu(false);
-          setDenied(null);
-          setFailed(false);
-        }}
+        denied={menu.denied}
+        failed={menu.failed}
+        onChoose={menu.choose}
+        onOpenSettings={actions.openSettings}
+        onClose={menu.close}
       />
     ) : null,
   };

@@ -1,0 +1,328 @@
+appId: app.critterpass.dev
+---
+# Find and the places it reaches, in ${LOOK}, from Home: the empty Find (4.30), plain words
+# (4.31), no results (4.33), a place (4.36, further down 4.37; 1.12 in dark) and Add to plan
+# (4.39), Swipe together (4.42; 1.09 in dark as a card leaves), day trips (4.49) and a day-trip
+# day (4.50), and, on Android, Find offline (4.57). Dark: Find, the place and the swipe. Nothing
+# is added: Add to plan is closed unconfirmed. Ends on Home.
+- runFlow: plan-open-map.yaml
+- tapOn:
+    id: 'plan-map-search'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 15000
+    optional: true
+- hideKeyboard
+- runFlow:
+    when:
+      visible:
+        id: 'search-screen'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '4.30'
+            NAME: find
+# Swipe together, from Find's start tiles.
+- runFlow:
+    when:
+      visible:
+        id: 'search-tile-swipe'
+    commands:
+      - tapOn:
+          id: 'search-tile-swipe'
+      - extendedWaitUntil:
+          visible:
+            id: 'swipe-deck|swipe-summary'
+          timeout: 15000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'swipe-deck|swipe-summary'
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '4.42'
+                  NAME: swipe
+      # The card leaving with its stamp: the shot is taken mid-throw, without waiting.
+      - runFlow:
+          when:
+            true: ${LOOK == 'dark'}
+          commands:
+            - runFlow:
+                when:
+                  visible:
+                    id: 'swipe-yes'
+                commands:
+                  - tapOn:
+                      id: 'swipe-yes'
+                  - takeScreenshot: premium-1.09-swipe-vote-${LOOK}
+      - runFlow:
+          file: tap.yaml
+          env:
+            ID: 'swipe-close'
+            LABEL: 'Leave'
+      - runFlow:
+          when:
+            notVisible:
+              id: 'search-screen'
+          commands:
+            - runFlow: back.yaml
+- runFlow:
+    when:
+      true: ${LOOK == 'light'}
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'search-tile-day-trips'
+          commands:
+            - tapOn:
+                id: 'search-tile-day-trips'
+            - extendedWaitUntil:
+                visible:
+                  id: 'day-trips'
+                timeout: 15000
+                optional: true
+            - runFlow:
+                when:
+                  visible:
+                    id: 'day-trips'
+                commands:
+                  - runFlow:
+                      file: shot.yaml
+                      env:
+                        CODE: '4.49'
+                        NAME: day-trips
+            - runFlow:
+                when:
+                  visible:
+                    id: 'day-trip-[0-9a-f]{8}-.*'
+                commands:
+                  - tapOn:
+                      id: 'day-trip-[0-9a-f]{8}-.*'
+                      index: 0
+                  - extendedWaitUntil:
+                      visible:
+                        id: 'day-trip-area'
+                      timeout: 15000
+                      optional: true
+                  - runFlow:
+                      when:
+                        visible:
+                          id: 'day-trip-area'
+                      commands:
+                        - runFlow:
+                            file: shot.yaml
+                            env:
+                              CODE: '4.50'
+                              NAME: day-trip-day
+                  - runFlow:
+                      when:
+                        visible:
+                          id: 'day-trip-area'
+                      commands:
+                        - runFlow: back.yaml
+            - runFlow:
+                when:
+                  visible:
+                    id: 'day-trips'
+                commands:
+                  - runFlow: back.yaml
+      # Plain words: the guide reads the sentence into parts.
+      - runFlow:
+          when:
+            visible:
+              id: 'search-field'
+          commands:
+            - tapOn:
+                id: 'search-field'
+            - inputText: 'quiet cafe with a sea view for the morning'
+            - pressKey: Enter
+            - extendedWaitUntil:
+                visible:
+                  id: 'search-plain-results|search-chips'
+                timeout: 30000
+                optional: true
+            - hideKeyboard
+            - runFlow:
+                when:
+                  visible:
+                    id: 'search-plain-results|search-chips'
+                commands:
+                  - runFlow:
+                      file: shot.yaml
+                      env:
+                        CODE: '4.31'
+                        NAME: plain-words
+            - tapOn:
+                id: 'search-clear'
+                optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'search-field'
+          commands:
+            - tapOn:
+                id: 'search-field'
+            - inputText: 'qxzvbnq'
+            - extendedWaitUntil:
+                visible:
+                  id: 'search-no-results'
+                timeout: 30000
+                optional: true
+            - hideKeyboard
+            - runFlow:
+                when:
+                  visible:
+                    id: 'search-no-results'
+                commands:
+                  - runFlow:
+                      file: shot.yaml
+                      env:
+                        CODE: '4.33'
+                        NAME: no-results
+            - tapOn:
+                id: 'search-clear'
+                optional: true
+# A name: the first row opens the place's page.
+- runFlow:
+    when:
+      visible:
+        id: 'search-field'
+    commands:
+      - tapOn:
+          id: 'search-field'
+      - inputText: 'cafe'
+      - extendedWaitUntil:
+          visible:
+            id: 'search-row-[0-9]+'
+          timeout: 60000
+          optional: true
+      - hideKeyboard
+- runFlow:
+    when:
+      visible:
+        id: 'search-row-[0-9]+'
+    commands:
+      - tapOn:
+          id: 'search-row-[0-9]+'
+          index: 0
+      - extendedWaitUntil:
+          visible:
+            id: 'place-detail'
+          timeout: 20000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'place-detail'
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '4.36'
+                  NAME: place
+      - runFlow:
+          when:
+            true: ${LOOK == 'dark'}
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '1.12'
+                  NAME: place-night
+      - runFlow:
+          when:
+            true: ${LOOK == 'light'}
+          commands:
+            - scrollUntilVisible:
+                element:
+                  id: 'place-detail-know|place-detail-nearby|place-detail-similar'
+                direction: DOWN
+                timeout: 10000
+                optional: true
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '4.37'
+                  NAME: further-down
+            - runFlow:
+                when:
+                  visible:
+                    id: 'place-detail-cta'
+                commands:
+                  - tapOn:
+                      id: 'place-detail-cta'
+                  - extendedWaitUntil:
+                      visible:
+                        id: 'plan-add-sheet|plan-add-confirm'
+                      timeout: 15000
+                      optional: true
+                  - runFlow:
+                      when:
+                        visible:
+                          id: 'plan-add-sheet|plan-add-confirm'
+                      commands:
+                        - runFlow:
+                            file: shot.yaml
+                            env:
+                              CODE: '4.39'
+                              NAME: add-to-plan
+                  - runFlow:
+                      file: tap.yaml
+                      env:
+                        ID: 'plan-add-close'
+                        LABEL: 'Close'
+                  - runFlow:
+                      when:
+                        visible:
+                          id: 'plan-add-confirm'
+                      commands:
+                        - runFlow: back.yaml
+      - runFlow:
+          when:
+            visible:
+              id: 'place-detail'
+          commands:
+            - runFlow: back.yaml
+# Offline (Android): Find searches what is saved and holds questions until the signal is back.
+- runFlow:
+    when:
+      platform: Android
+      true: ${LOOK == 'light'}
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'search-field'
+          commands:
+            - setAirplaneMode: enabled
+            - tapOn:
+                id: 'search-clear'
+                optional: true
+            - tapOn:
+                id: 'search-field'
+            - inputText: 'beach'
+            - extendedWaitUntil:
+                visible:
+                  id: 'search-offline|search-offline-banner'
+                timeout: 15000
+                optional: true
+            - hideKeyboard
+            - runFlow:
+                when:
+                  visible:
+                    id: 'search-offline|search-offline-banner'
+                commands:
+                  - runFlow:
+                      file: shot.yaml
+                      env:
+                        CODE: '4.57'
+                        NAME: offline
+            - setAirplaneMode: disabled
+- runFlow: plan-home.yaml

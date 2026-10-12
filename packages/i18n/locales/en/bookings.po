@@ -11,23 +11,36 @@ msgstr ""
 msgid "bookings.detail.policy"
 msgstr "“{policy}”"
 
+#. placeholder {0}: Math.max(0, past)
 #. placeholder {0}: props.archiveCount
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletExtras.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.archive.link"
 msgstr "{0, plural, one {# past booking} other {# past bookings}}"
 
 #. placeholder {0}: view.travellerIds.length
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
 msgid "bookings.candidate.split"
 msgstr "{0, plural, one {Split # way} other {Split # ways}}"
+
+#. placeholder {0}: props.booking.title
+#. placeholder {1}: props.meta
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletStack.tsx
+msgid "bookings.premium.bringToFront"
+msgstr "{0}, {1}. Bring to the front"
 
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.copyAddressA11y"
 msgstr "{address}, copy the address"
 
-#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+#: ../../apps/mobile/src/features/bookings/detail/use-booking-detail.ts
 msgid "bookings.detail.paidBy"
 msgstr "{amount} · paid by {payer}"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/OfflineBadge.tsx
+msgid "bookings.premium.offlineCountLong"
+msgstr "{count, plural, one {# booking opens with no signal} other {# bookings open with no signal}}"
 
 #: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
 msgid "bookings.offline.a11y"
@@ -37,19 +50,28 @@ msgstr "{count, plural, one {# booking ready without signal} other {# bookings r
 msgid "bookings.offline.count"
 msgstr "{count, plural, one {# offline} other {# offline}}"
 
+#: ../../apps/mobile/src/features/bookings/premium/WalletBookingsScreen.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
 msgid "bookings.banner.member"
 msgstr "{count, plural, one {Found # booking in {member}'s inbox that wasn't here yet.} other {Found # bookings in {member}'s inbox that weren't here yet.}}"
 
+#: ../../apps/mobile/src/features/bookings/premium/WalletBookingsScreen.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
 msgid "bookings.banner.mine"
 msgstr "{count, plural, one {Found # booking in your inbox that wasn't here yet.} other {Found # bookings in your inbox that weren't here yet.}}"
 
 #: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletExtras.tsx
 msgid "bookings.heldMail.title"
 msgstr "{count, plural, one {Mail is waiting} other {# emails are waiting}}"
 
+#: ../../apps/mobile/src/features/bookings/premium/components/OfflineBadge.tsx
+msgid "bookings.premium.offlineCount"
+msgstr "{count} offline"
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.lockedLine"
 msgstr "{guideName} checks your inbox for new confirmations every morning with Pass+."
 
@@ -57,7 +79,12 @@ msgstr "{guideName} checks your inbox for new confirmations every morning with P
 msgid "bookings.mailbox.perk"
 msgstr "{guideName} finds new bookings in your inbox every morning"
 
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxPromise"
+msgstr "{guideName} finds new bookings in your inbox every morning. Read-only, confirmations only."
+
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
 msgid "bookings.candidate.parsing"
 msgstr "{guideName} is reading it…"
 
@@ -81,11 +108,19 @@ msgstr "{guideName} pings you when boarding opens."
 msgid "bookings.detail.reminder"
 msgstr "{guideName} reminds you the day before it runs out."
 
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightTicket.tsx
+msgid "bookings.premium.flightTime"
+msgstr "{hours}h {rest}m"
+
 #: ../../apps/mobile/src/features/bookings/stack/deck-meta.ts
 msgid "bookings.card.nights"
 msgstr "{nights, plural, one {# night} other {# nights}}"
 
-#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightTicket.tsx
+msgid "bookings.premium.flightMinutes"
+msgstr "{rest}m"
+
+#: ../../apps/mobile/src/features/bookings/candidates/candidate-line.ts
 msgid "bookings.candidate.seats"
 msgstr "{seats, plural, one {# seat} other {# seats}}"
 
@@ -98,14 +133,21 @@ msgid "bookings.flight.crewOne"
 msgstr "{who} is on this flight."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.timeExample"
 msgstr "09:05"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.arriveExample"
 msgstr "11:55"
 
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+msgid "bookings.premium.dayExample"
+msgstr "2026-10-12"
+
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
 msgid "bookings.candidate.untitled"
 msgstr "A booking"
 
@@ -133,6 +175,10 @@ msgstr "A found booking, added"
 msgid "bookings.queued.candidateIgnore"
 msgstr "A found booking, ignored"
 
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
+msgid "bookings.premium.tilePasteSub"
+msgstr "A link or code"
+
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.pasteCaption"
 msgstr "A link or code"
@@ -142,40 +188,63 @@ msgid "bookings.kind.activity"
 msgstr "Activity"
 
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
 msgid "bookings.candidate.add"
 msgstr "Add"
 
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/WalletBookingsScreen.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.addCard"
 msgstr "Add a booking"
 
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
 msgid "bookings.add.title"
 msgstr "Add a booking"
 
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/EmptyBookings.tsx
+msgid "bookings.premium.byHand"
+msgstr "Add by hand"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.addTitle"
 msgstr "Add by hand"
 
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
 msgid "bookings.candidate.byHand"
 msgstr "Add by hand"
 
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
 msgid "bookings.candidate.flightNotFound"
 msgstr "Add the date and route, or add it by hand."
 
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+msgid "bookings.premium.missingFlight"
+msgstr "Add the flight number to save"
+
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletExtras.tsx
 msgid "bookings.insurance.add"
 msgstr "Add travel insurance"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
 msgid "bookings.form.flightProblem"
 msgstr "Airline code and number"
 
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
 msgid "bookings.candidate.duplicate"
 msgstr "Already in the wallet."
+
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
+msgid "bookings.premium.tileForwardSub"
+msgstr "Any email"
 
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.forwardCaption"
@@ -185,9 +254,17 @@ msgstr "Any email"
 msgid "bookings.insurance.phone"
 msgstr "Assistance"
 
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.premium.assistancePhone"
+msgstr "Assistance phone"
+
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.phoneField"
 msgstr "Assistance phone"
+
+#: ../../apps/mobile/src/features/bookings/premium/GettingAroundPremium.tsx
+msgid "suppliers.premium.back"
+msgstr "Back"
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.back"
@@ -206,6 +283,7 @@ msgid "bookings.flight.boarding"
 msgstr "Boarding"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
 msgid "bookings.detail.pass"
 msgstr "Boarding pass"
 
@@ -218,6 +296,11 @@ msgstr "Boarding pass code for {0}, hold it to the gate reader"
 msgid "bookings.flight.passA11y"
 msgstr "Boarding pass, open full screen"
 
+#: ../../apps/mobile/src/features/bookings/premium/BoardingPassPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightTicket.tsx
+msgid "bookings.pass.boards"
+msgstr "Boards"
+
 #: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
 msgid "bookings.flight.boards"
 msgstr "Boards"
@@ -226,9 +309,17 @@ msgstr "Boards"
 msgid "bookings.kind.boat"
 msgstr "Boat"
 
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+msgid "bookings.premium.booking"
+msgstr "Booking"
+
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.card.detailsA11y"
 msgstr "Booking details"
+
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+msgid "bookings.premium.options"
+msgstr "Booking options"
 
 #: ../../apps/mobile/src/features/bookings/data/commands.ts
 msgid "bookings.queued.add"
@@ -239,57 +330,118 @@ msgstr "Booking: {title}"
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/ArchivePremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
 #: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
 msgid "bookings.back"
 msgstr "Bookings"
 
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletHalfSwitch.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.title"
 msgstr "Bookings"
 
-#: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.disconnectLine"
+msgstr "Bookings already found stay in the wallet."
+
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
-#: ../../apps/mobile/src/features/bookings/detail/BookingFormScreen.tsx
+#: ../../apps/mobile/src/features/bookings/add/use-add-booking.ts
+#: ../../apps/mobile/src/features/bookings/detail/use-booking-form.ts
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/use-add-channels.ts
 msgid "bookings.add.noTrip"
 msgstr "Bookings land in a trip. Start one with the crew and they show up here."
 
+#: ../../apps/mobile/src/features/bookings/premium/BoardingPassPremium.tsx
+msgid "bookings.pass.dim"
+msgstr "Brightness back"
+
+#: ../../apps/mobile/src/features/bookings/premium/BoardingPassPremium.tsx
+msgid "bookings.pass.bright"
+msgstr "Brightness up"
+
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
 msgid "bookings.insurance.call"
 msgstr "Call assistance"
 
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingSheet.tsx
+msgid "common.confirm.cancel"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/bookings/premium/booking-options.ts
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.options.cancel"
+msgstr "Cancel"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.detail.supplierCancel"
 msgstr "Cancel with Viator"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/ArchivePremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+msgid "bookings.detail.cancelled"
+msgstr "Cancelled"
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.cancelled"
 msgstr "Cancelled"
 
-#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
-msgid "bookings.detail.cancelled"
-msgstr "Cancelled"
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+msgid "bookings.premium.cancelledLine"
+msgstr "Cancelled by the airline. You're owed a free change or a refund: ask the airline."
 
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.car"
 msgstr "Car hire"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.checkOut"
 msgstr "Check-out day"
+
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxChecked"
+msgstr "Checked {checked}"
+
+#: ../../apps/mobile/src/features/bookings/premium/BoardingPassPremium.tsx
+msgid "bookings.pass.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/bookings/premium/booking-options.ts
+msgid "bookings.options.close"
+msgstr "Close"
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
 msgid "bookings.mailbox.soon"
 msgstr "Coming soon — forward confirmations meanwhile."
 
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxSoon"
+msgstr "Coming soon. Forward confirmations meanwhile."
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.detail.ref"
 msgstr "Confirmation code"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.ref"
 msgstr "Confirmation code"
+
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.connect"
+msgstr "Connect"
 
 #. placeholder {0}: providerName(provider)
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
@@ -301,6 +453,10 @@ msgstr "Connect {0}"
 msgid "bookings.mailbox.connected"
 msgstr "Connected · {0}"
 
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxConnected"
+msgstr "Connected · {name}"
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.connectingTitle"
 msgstr "Connecting…"
@@ -309,7 +465,13 @@ msgstr "Connecting…"
 msgid "bookings.add.copied"
 msgstr "Copied"
 
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
+msgid "bookings.premium.copy"
+msgstr "Copy"
+
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/EmptyBookings.tsx
 msgid "bookings.add.copy"
 msgstr "Copy"
 
@@ -318,14 +480,21 @@ msgid "bookings.insurance.docFailed"
 msgstr "Couldn't keep the page. Try the scan again with signal."
 
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
 msgid "bookings.candidate.failed"
 msgstr "Couldn’t read this one — add it by hand."
 
+#: ../../apps/mobile/src/features/bookings/premium/components/ShareCard.tsx
+msgid "bookings.premium.crewSees"
+msgstr "Crew sees · flight, times"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/ShareCard.tsx
 msgid "bookings.detail.shareFlight"
 msgstr "Crew sees this flight"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.day"
 msgstr "Day"
 
@@ -337,32 +506,55 @@ msgstr "Delayed"
 msgid "bookings.flight.delayedBy"
 msgstr "Delayed {delayMin}m"
 
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+msgid "bookings.premium.delete"
+msgstr "Delete"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/booking-options.ts
 msgid "bookings.delete.confirm"
 msgstr "Delete booking"
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
 msgid "bookings.insurance.delete"
 msgstr "Delete policy"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+#: ../../apps/mobile/src/features/bookings/premium/booking-options.ts
 msgid "bookings.delete.title"
 msgstr "Delete this booking?"
+
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.insurance.deleteTitle"
+msgstr "Delete this policy?"
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.departed"
 msgstr "Departed"
 
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+msgid "bookings.premium.departs"
+msgstr "Departs"
+
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.card.details"
 msgstr "Details"
 
+#. placeholder {0}: hint.iata
+#. placeholder {1}: hint.city
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
+msgid "bookings.premium.didYouMean"
+msgstr "Did you mean {0}, {1}?"
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.disconnect"
 msgstr "Disconnect"
 
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
 msgid "bookings.candidate.dismiss"
 msgstr "Dismiss"
 
@@ -371,37 +563,76 @@ msgid "bookings.flight.diverted"
 msgstr "Diverted"
 
 #. placeholder {0}: index + 1
-#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+#: ../../apps/mobile/src/features/bookings/detail/use-booking-detail.ts
 msgid "bookings.detail.doc"
 msgstr "Document {0}"
+
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.done"
+msgstr "Done"
 
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
 msgid "bookings.linkCode.done"
 msgstr "Done"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.detail.edit"
 msgstr "Edit"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.editTitle"
 msgstr "Edit booking"
 
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.insurance.editHint"
+msgstr "Edits the policy"
+
 #: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletExtras.tsx
 msgid "bookings.heldMail.enter"
 msgstr "Enter the code"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/EmptyBookings.tsx
+msgid "bookings.premium.emptyLine"
+msgstr "Everything saves to this phone, so it opens with no signal at the gate."
+
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+msgid "bookings.premium.fasterNextTime"
+msgstr "Faster next time: forward the email."
 
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/EmptyBookings.tsx
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.title"
 msgstr "Find bookings in my email"
+
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxWaiting"
+msgstr "First check tomorrow morning"
+
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+msgid "bookings.premium.missingAirport"
+msgstr "Fix the airport to save"
+
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+msgid "bookings.premium.missingTime"
+msgstr "Fix the time to save"
+
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+msgid "bookings.premium.flight"
+msgstr "Flight"
 
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.flight"
 msgstr "Flight"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
 msgid "bookings.form.flight"
 msgstr "Flight number"
 
@@ -409,14 +640,40 @@ msgstr "Flight number"
 msgid "bookings.detail.shareFlightSub"
 msgstr "Flight number and times only. Your seat and pass stay yours."
 
+#: ../../apps/mobile/src/features/bookings/premium/ArchivePremium.tsx
+msgid "bookings.archive.search"
+msgstr "Flights, stays, confirmation codes"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/EmptyBookings.tsx
+msgid "bookings.premium.emptyTitle"
+msgstr "Flights, stays, tickets"
+
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
+msgid "bookings.premium.tileForward"
+msgstr "Forward"
+
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.forward"
 msgstr "Forward"
 
-#: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingSheet.tsx
+msgid "bookings.premium.forwardAnEmail"
+msgstr "Forward an email"
+
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+#: ../../apps/mobile/src/features/bookings/add/use-add-booking.ts
+#: ../../apps/mobile/src/features/bookings/premium/use-add-channels.ts
 msgid "bookings.add.copiedToast"
 msgstr "Forward any confirmation to that address."
+
+#: ../../apps/mobile/src/features/bookings/premium/components/EmptyBookings.tsx
+msgid "bookings.premium.forwardEmail"
+msgstr "Forward the email"
+
+#. placeholder {0}: channels.address
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingSheet.tsx
+msgid "bookings.premium.forwardNote"
+msgstr "Forward to {0} and I'll file it."
 
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
 msgid "bookings.linkCode.line"
@@ -424,6 +681,7 @@ msgstr "Forwarded from an address we don’t know yet? We emailed it a 6-digit c
 
 #. placeholder {0}: pending.length
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
 msgid "bookings.add.found"
 msgstr "Found in your crew’s inboxes · {0}"
 
@@ -432,22 +690,28 @@ msgstr "Found in your crew’s inboxes · {0}"
 msgid "bookings.card.freeCancel"
 msgstr "Free cancellation until {0}"
 
+#. placeholder {0}: dateTime(locale, booking.freeCancelUntil, detail.tz)
 #. placeholder {0}: dateTime(locale, booking.freeCancelUntil, props.tz)
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.detail.freeCancel"
 msgstr "Free cancellation until {0}"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
 msgid "bookings.form.from"
 msgstr "From"
 
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
 msgid "bookings.candidate.from"
 msgstr "From {who}’s email"
 
-#: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassScreen.tsx
+#: ../../apps/mobile/src/features/bookings/boarding-pass/use-boarding-pass.ts
 #: ../../apps/mobile/src/features/bookings/dev/lab-scenes-wallet.tsx
 #: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BoardingPassPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightTicket.tsx
 msgid "bookings.flight.gate"
 msgstr "Gate"
 
@@ -456,15 +720,22 @@ msgid "bookings.flight.gateChange"
 msgstr "Gate change"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.titleProblem"
 msgstr "Give it a name"
 
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+msgid "bookings.premium.missingTitleSave"
+msgstr "Give it a name to save"
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.gmail"
 msgstr "Gmail"
 
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
 msgid "bookings.add.linkCode"
 msgstr "Got a code? Link your email"
 
@@ -473,52 +744,82 @@ msgid "bookings.scan.sent"
 msgstr "Got it. {guideName} is reading it below."
 
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
 msgid "bookings.add.mailboxOffer"
 msgstr "I can also check your inbox for new confirmations every morning."
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
+msgid "bookings.mailbox.footnote"
+msgstr "I check for new confirmations every morning. You can switch that off in Settings."
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.doneLine"
 msgstr "I check for new confirmations every morning. You can switch that off in Settings."
 
-#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
-#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
-msgid "bookings.mailbox.footnote"
-msgstr "I check for new confirmations every morning. You can switch that off in Settings."
-
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.detail.landed"
 msgstr "I landed"
 
+#: ../../apps/mobile/src/features/bookings/premium/GettingAroundPremium.tsx
+msgid "suppliers.journey.start"
+msgstr "I'm in the car"
+
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
 msgid "bookings.candidate.ignore"
 msgstr "Ignore"
 
-#: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
-#: ../../apps/mobile/src/features/bookings/detail/BookingFormScreen.tsx
+#: ../../apps/mobile/src/features/bookings/add/use-add-booking.ts
+#: ../../apps/mobile/src/features/bookings/detail/use-booking-form.ts
 msgid "bookings.add.addedToast"
 msgstr "In the wallet."
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
 msgid "bookings.insurance.provider"
 msgstr "Insurer"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+#: ../../apps/mobile/src/features/bookings/premium/booking-options.ts
 msgid "bookings.delete.wallets"
 msgstr "It leaves everyone’s wallet."
 
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.insurance.deleteLine"
+msgstr "It leaves this phone and Help stops showing it."
+
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+msgid "bookings.premium.missingLine"
+msgstr "It was deleted, or it belongs to a trip you left."
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+#: ../../apps/mobile/src/features/bookings/premium/booking-options.ts
 msgid "bookings.delete.expense"
 msgstr "Its expense stays in Money."
+
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.insurance.kept"
+msgstr "Kept with it ✓"
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.landed"
 msgstr "Landed"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.arrive"
 msgstr "Lands at"
 
+#: ../../apps/mobile/src/features/bookings/premium/components/GettingAroundParts.tsx
+msgid "suppliers.later.title"
+msgstr "Later today"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.timeProblem"
 msgstr "Like 09:05"
 
@@ -529,6 +830,10 @@ msgstr "Link"
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
 msgid "bookings.linkCode.label"
 msgstr "Link code"
+
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
+msgid "bookings.premium.linkIt"
+msgstr "Link it"
 
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
 msgid "bookings.paste.field"
@@ -555,14 +860,24 @@ msgstr "Linking needs signal. Try again."
 msgid "bookings.loading"
 msgstr "Loading your bookings"
 
+#: ../../apps/mobile/src/features/bookings/premium/GettingAroundPremium.tsx
+msgid "suppliers.journey.log"
+msgstr "Log it"
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.doneTitle"
 msgstr "Mailbox connected"
 
+#: ../../apps/mobile/src/features/bookings/premium/booking-options.ts
+msgid "bookings.options.notOurs"
+msgstr "Mark as not ours"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.detail.meet"
 msgstr "Meeting point"
 
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletHalfSwitch.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
 msgid "bookings.switch.money"
 msgstr "Money"
@@ -587,9 +902,18 @@ msgstr "No boarding pass in this email — scan it at check-in."
 msgid "bookings.pass.missing"
 msgstr "No boarding pass on this phone yet. Scan it at check-in and it lands here."
 
+#: ../../apps/mobile/src/features/bookings/premium/BoardingPassPremium.tsx
+msgid "bookings.pass.noCode"
+msgstr "No code saved yet. It saves when this phone next has signal."
+
 #: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletExtras.tsx
 msgid "bookings.heldMail.noCodeLine"
 msgstr "No code went out for this mail, so it can’t be read yet. Paste the email here, or forward it again from the address you sign in with."
+
+#: ../../apps/mobile/src/features/bookings/premium/GettingAroundPremium.tsx
+msgid "suppliers.around.noTrip"
+msgstr "No trip under way"
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.deniedTitle"
@@ -599,18 +923,29 @@ msgstr "Not connected"
 msgid "bookings.mailboxRow.off"
 msgstr "Not connected"
 
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+msgid "bookings.premium.missingTitle"
+msgstr "Not in the wallet"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 msgid "bookings.missing.title"
 msgstr "Not in the wallet"
 
+#: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
+msgid "bookings.premium.passPending"
+msgstr "Not issued yet. Forward it once you check in."
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.detail.notes"
 msgstr "Notes"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.notes"
 msgstr "Notes"
 
+#: ../../apps/mobile/src/features/bookings/premium/ArchivePremium.tsx
 #: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
 msgid "bookings.archive.empty"
 msgstr "Nothing has ended yet."
@@ -618,6 +953,18 @@ msgstr "Nothing has ended yet."
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.empty.line"
 msgstr "Nothing in the wallet yet. Forward, scan or paste a confirmation and I file it here."
+
+#: ../../apps/mobile/src/features/bookings/premium/GettingAroundPremium.tsx
+msgid "suppliers.around.noPlace"
+msgstr "Nothing left to get to today"
+
+#: ../../apps/mobile/src/features/bookings/premium/ArchivePremium.tsx
+msgid "bookings.archive.noMatch"
+msgstr "Nothing matches that."
+
+#: ../../apps/mobile/src/features/bookings/premium/ArchivePremium.tsx
+msgid "bookings.archive.emptyTitle"
+msgstr "Nothing past yet"
 
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
 msgid "bookings.scan.nothing"
@@ -628,12 +975,18 @@ msgid "bookings.paste.empty"
 msgstr "Nothing to paste yet. Copy the link or code first."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/ShareCard.tsx
 msgid "bookings.detail.shareBookingSub"
 msgstr "Off keeps it in your wallet only."
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.surfaceSub"
 msgstr "Off keeps them to you until you add them."
+
+#: ../../apps/mobile/src/features/bookings/premium/GettingAroundPremium.tsx
+msgid "suppliers.premium.onTheWay"
+msgstr "On the way · estimate"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.docs"
@@ -643,11 +996,20 @@ msgstr "On this phone"
 msgid "bookings.flight.onTime"
 msgstr "On time"
 
+#: ../../apps/mobile/src/features/bookings/premium/components/ShareCard.tsx
+msgid "bookings.premium.onlyYou"
+msgstr "Only you · seat, pass"
+
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.privacy"
 msgstr "Only you see this. A clinic gets it only when you say yes, one help request at a time."
 
+#: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
+msgid "bookings.premium.opensOffline"
+msgstr "Opens with no signal"
+
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
 msgid "bookings.add.byHand"
 msgstr "Or type it in by hand"
 
@@ -657,20 +1019,30 @@ msgstr "Other"
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.outlook"
 msgstr "Outlook"
 
-#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+#: ../../apps/mobile/src/features/bookings/candidates/candidate-line.ts
 msgid "bookings.candidate.paidByYou"
 msgstr "paid by you"
+
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
+msgid "bookings.premium.tileScanSub"
+msgstr "Paper or screen"
 
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.scanCaption"
 msgstr "Paper or screen"
 
+#: ../../apps/mobile/src/features/bookings/premium/ArchivePremium.tsx
 #: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
 msgid "bookings.archive.title"
 msgstr "Past bookings"
+
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
+msgid "bookings.premium.tilePaste"
+msgstr "Paste"
 
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.paste"
@@ -685,6 +1057,7 @@ msgid "bookings.paste.fromClipboard"
 msgstr "Paste from clipboard"
 
 #: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletExtras.tsx
 msgid "bookings.heldMail.paste"
 msgstr "Paste the email"
 
@@ -693,16 +1066,41 @@ msgid "bookings.date.pick"
 msgstr "Pick a day"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.dayProblem"
 msgstr "Pick the day"
+
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+msgid "bookings.premium.missingDate"
+msgstr "Pick the day to save"
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
 msgid "bookings.insurance.policyNo"
 msgstr "Policy no."
 
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.premium.policyNoEyebrow"
+msgstr "POLICY NO."
+
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.insurance.number"
+msgstr "Policy number"
+
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.policyField"
 msgstr "Policy number"
+
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.insurance.copied"
+msgstr "Policy number copied."
+
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.insurance.page"
+msgstr "Policy page"
+
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.insurance.attached"
+msgstr "Policy page kept ✓"
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.docAttached"
@@ -713,12 +1111,17 @@ msgid "bookings.date.previous"
 msgstr "Previous month"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.detail.price"
 msgstr "Price"
 
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
 msgid "bookings.paste.read"
 msgstr "Read it"
+
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxReadOnly"
+msgstr "Read-only sign-in"
 
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
 msgid "bookings.mailboxRow.connected"
@@ -728,43 +1131,100 @@ msgstr "Read-only, confirmations only · {provider}"
 msgid "bookings.mailbox.promise"
 msgstr "Read-only, confirmations only. I look at senders and subjects around your trip dates and open only the bookings."
 
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.insurance.scanning"
+msgstr "Reading the page…"
+
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
 msgid "bookings.scan.reading"
 msgstr "Reading the page…"
 
 #. placeholder {0}: pending.length
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
 msgid "bookings.add.read"
 msgstr "Ready to add · {0}"
 
-#: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassScreen.tsx
+#: ../../apps/mobile/src/features/bookings/premium/ArchivePremium.tsx
+msgid "bookings.archive.recap"
+msgstr "Recap"
+
+#: ../../apps/mobile/src/features/bookings/boarding-pass/use-boarding-pass.ts
 #: ../../apps/mobile/src/features/bookings/dev/lab-scenes-wallet.tsx
 #: ../../apps/mobile/src/features/bookings/stack/BookingBody.tsx
 msgid "bookings.card.ref"
 msgstr "Ref"
 
+#: ../../apps/mobile/src/features/bookings/premium/WalletBookingsScreen.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
 msgid "bookings.banner.review"
 msgstr "Review"
 
+#: ../../apps/mobile/src/features/bookings/premium/GettingAroundPremium.tsx
+msgid "suppliers.around.emptyBody"
+msgstr "Rides show up here for the places on your plan."
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.detail.room"
 msgstr "Room"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.save"
 msgstr "Save"
+
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.insurance.save"
+msgstr "Save"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
+msgid "bookings.premium.docSaved"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
+msgid "bookings.premium.savedHere"
+msgstr "Saved on this phone"
+
+#: ../../apps/mobile/src/features/bookings/premium/BoardingPassPremium.tsx
+msgid "bookings.pass.offline"
+msgstr "Saved on this phone · works offline"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
+msgid "bookings.premium.docPending"
+msgstr "Saves when you're back on Wi-Fi"
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.offline"
 msgstr "Saving needs signal."
 
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.premium.insuranceOffline"
+msgstr "Saving needs signal. Your typing stays here."
+
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.insurance.saving"
+msgstr "Saving…"
+
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
+msgid "bookings.premium.tileScan"
+msgstr "Scan"
+
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.scan"
 msgstr "Scan"
 
+#: ../../apps/mobile/src/features/bookings/premium/AddBookingSheet.tsx
+msgid "bookings.premium.scanATicket"
+msgstr "Scan a ticket"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/EmptyBookings.tsx
+msgid "bookings.premium.scanTicket"
+msgstr "Scan a ticket or screenshot"
+
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
 msgid "bookings.insurance.scan"
 msgstr "Scan the policy"
 
@@ -772,9 +1232,23 @@ msgstr "Scan the policy"
 msgid "bookings.flight.scheduled"
 msgstr "Scheduled"
 
-#: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassScreen.tsx
+#: ../../apps/mobile/src/features/bookings/premium/WalletBookingsScreen.tsx
+msgid "bookings.premium.search"
+msgstr "Search bookings"
+
+#: ../../apps/mobile/src/features/bookings/premium/ArchivePremium.tsx
+msgid "bookings.archive.searchLabel"
+msgstr "Search past bookings"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+msgid "bookings.form.seat"
+msgstr "Seat"
+
+#: ../../apps/mobile/src/features/bookings/boarding-pass/use-boarding-pass.ts
 #: ../../apps/mobile/src/features/bookings/dev/lab-scenes-wallet.tsx
 #: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightTicket.tsx
 msgid "bookings.flight.seat"
 msgstr "Seat"
 
@@ -782,37 +1256,78 @@ msgstr "Seat"
 msgid "bookings.detail.seat"
 msgstr "Seat"
 
-#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
-msgid "bookings.form.seat"
-msgstr "Seat"
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+msgid "bookings.premium.optional"
+msgstr "Seat (optional)"
+
+#. placeholder {0}: detail.view.seat
+#. placeholder {0}: view.seat
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
+msgid "bookings.premium.seat"
+msgstr "Seat {0}"
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/MailboxSheetFrame.tsx
 msgid "bookings.mailbox.seePass"
 msgstr "See Pass+"
 
+#: ../../apps/mobile/src/features/bookings/premium/BoardingPassPremium.tsx
+msgid "bookings.pass.share"
+msgstr "Share the flight"
+
+#: ../../apps/mobile/src/features/bookings/premium/booking-options.ts
+msgid "bookings.options.share"
+msgstr "Share with the crew"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/ShareCard.tsx
 msgid "bookings.detail.shareBooking"
 msgstr "Shared with the crew"
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.surface"
 msgstr "Show finds to the crew"
 
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletStack.tsx
+msgid "bookings.premium.showPass"
+msgstr "Show the pass"
+
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
 msgid "bookings.candidate.check"
 msgstr "Something in this email looked odd. Check it before you add it."
 
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
 msgid "bookings.candidate.splitA11y"
 msgstr "Split the price"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
 msgid "bookings.form.flightExample"
 msgstr "SQ 938"
 
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.stay"
 msgstr "Stay"
+
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.disconnectTitle"
+msgstr "Stop checking your email?"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
+msgid "bookings.premium.swapAirports"
+msgstr "Swap the airports"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightTicket.tsx
+msgid "bookings.flight.terminal"
+msgstr "Terminal"
+
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+msgid "bookings.premium.terms"
+msgstr "Terms"
 
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
 msgid "bookings.linkCode.wrong"
@@ -831,6 +1346,7 @@ msgid "bookings.scan.failed"
 msgstr "That didn't go through. Try again."
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
 msgid "bookings.insurance.failed"
 msgstr "That didn't save. Try again."
 
@@ -839,6 +1355,7 @@ msgid "bookings.mailboxDone.failedTitle"
 msgstr "That didn’t work"
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.error"
 msgstr "That didn't work. Try again with signal."
 
@@ -846,9 +1363,14 @@ msgstr "That didn't work. Try again with signal."
 msgid "bookings.scan.denied"
 msgstr "The camera is off for CritterPass. Turn it on in Settings, or paste instead."
 
-#: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/add/use-add-booking.ts
+#: ../../apps/mobile/src/features/bookings/premium/use-add-channels.ts
 msgid "bookings.add.noAddressToast"
 msgstr "The crew’s address isn’t on this phone yet. Scan or paste for now."
+
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.insurance.note"
+msgstr "The Help screen shows this card when you need it."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 msgid "bookings.missing.line"
@@ -859,14 +1381,17 @@ msgid "bookings.scan.unsupported"
 msgstr "This phone can’t scan here. Forward or paste the confirmation instead."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
 msgid "bookings.form.airportProblem"
 msgstr "Three-letter airport code"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.time"
 msgstr "Time"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
 msgid "bookings.form.to"
 msgstr "To"
 
@@ -882,13 +1407,19 @@ msgstr "Train"
 msgid "bookings.kind.transfer"
 msgstr "Transfer"
 
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.insurance.title"
+msgstr "Travel insurance"
+
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletExtras.tsx
 msgid "bookings.insurance.eyebrow"
 msgstr "Travel insurance"
 
-#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
-msgid "bookings.insurance.title"
-msgstr "Travel insurance"
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.premium.insuranceEyebrow"
+msgstr "TRAVEL INSURANCE"
 
 #. placeholder {0}: policy.provider
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
@@ -896,6 +1427,7 @@ msgid "bookings.insurance.cardA11y"
 msgstr "Travel insurance, {0}, policy card"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.detail.who"
 msgstr "Travellers"
 
@@ -915,7 +1447,13 @@ msgstr "Type the departure as {zoneCity} time ({zoneOffset}) and the landing as 
 msgid "bookings.flight.updated"
 msgstr "Updated {at}"
 
+#. placeholder {0}: hint.iata
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
+msgid "bookings.premium.useAirport"
+msgstr "Use {0}"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
 msgid "bookings.detail.voucher"
 msgstr "Voucher code"
 
@@ -923,19 +1461,23 @@ msgstr "Voucher code"
 msgid "bookings.card.voucherA11y"
 msgstr "Voucher code, open full screen"
 
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletHalfSwitch.tsx
+#: ../../apps/mobile/src/features/bookings/premium/WalletBookingsScreen.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
 msgid "bookings.switch.label"
 msgstr "Wallet"
 
 #: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletExtras.tsx
 msgid "bookings.heldMail.line"
 msgstr "We emailed the address it came from a 6-digit code. Enter it to link that address and read the mail."
 
-#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+#: ../../apps/mobile/src/features/bookings/detail/use-booking-detail.ts
 msgid "bookings.detail.landedToast"
 msgstr "Welcome in. {guideName} tells the crew."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.what"
 msgstr "What is it"
 
@@ -944,14 +1486,17 @@ msgid "bookings.card.when"
 msgstr "When"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.detail.when"
 msgstr "When"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.detail.where"
 msgstr "Where"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.where"
 msgstr "Where"
 
@@ -967,13 +1512,26 @@ msgstr "Who sees a flight"
 msgid "bookings.detail.sharing"
 msgstr "Who sees it"
 
+#: ../../apps/mobile/src/features/bookings/premium/components/GettingAroundParts.tsx
+msgid "suppliers.rides.whyEstimate"
+msgstr "Why this estimate"
+
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+#: ../../apps/mobile/src/features/bookings/premium/components/MailboxSheetFrame.tsx
 msgid "bookings.mailboxRow.locked"
 msgstr "With Pass+"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
+msgid "bookings.premium.worksOffline"
+msgstr "Works offline"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.supplierCancelSub"
 msgstr "You see the refund before anything is cancelled."
+
+#: ../../apps/mobile/src/features/bookings/premium/components/EmptyBookings.tsx
+msgid "bookings.premium.firstBooking"
+msgstr "Your first booking"
 
 #: ../../apps/mobile/src/features/bookings/data/commands.ts
 msgid "bookings.queued.landed"

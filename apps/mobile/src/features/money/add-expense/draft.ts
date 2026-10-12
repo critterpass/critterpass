@@ -8,7 +8,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- split modes and reasons are wire values, never copy. */
 import { computeExpenseShares, type Share } from '@cp/cost-engine';
-import type { AddExpensePayload, ExpenseCategory } from '@cp/domain';
+import type { ExpenseCategory, KeypadExpensePayload } from '@cp/domain';
 
 import { digitsToMinor, minorToDigits } from '@/data/money/amount-digits';
 import type { KeypadKey } from '@/ui/inputs/Keypad';
@@ -233,7 +233,7 @@ export function toAddPayload(
     readonly tripId: string;
     readonly fxSnapshotId: string | null;
   },
-): AddExpensePayload | null {
+): KeypadExpensePayload | null {
   if (draftProblem(draft) !== null) return null;
   const shares =
     draft.mode === 'equal'

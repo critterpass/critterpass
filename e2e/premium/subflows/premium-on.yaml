@@ -1,0 +1,56 @@
+appId: app.critterpass.dev
+---
+# Turns the premium UI on for this phone and relaunches into it. Run from the splash or Home, which
+# carry the "Developer tools" entry (at the foot of Home). Developer tools' "Premium UI on here"
+# keeps the choice in the default MMKV store, which a relaunch keeps and a cleared install (or
+# "Start as") drops, so this runs after any `start-as` step. The next-launch line names where the
+# choice comes from: `binary` means this build lacks the premium native modules and the flow stops
+# here.
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry|home-screen'
+    timeout: 60000
+# The entry sits at the foot of a long Home.
+- scrollUntilVisible:
+    element:
+      id: 'dev-tools-entry'
+    direction: DOWN
+    timeout: 20000
+    optional: true
+- retry:
+    maxRetries: 2
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'dev-tools-entry'
+          commands:
+            - tapOn:
+                id: 'dev-tools-entry'
+      - waitForAnimationToEnd
+      # The switch sits near the top of the list; a list that opens scrolled is searched both ways.
+      - scrollUntilVisible:
+          element:
+            id: 'dev-premium-ui-on'
+          direction: DOWN
+          timeout: 15000
+          speed: 20
+          optional: true
+      - scrollUntilVisible:
+          element:
+            id: 'dev-premium-ui-on'
+          direction: UP
+          timeout: 15000
+          speed: 20
+- assertVisible:
+    id: 'dev-premium-ui-source-(flag|override)'
+- tapOn:
+    id: 'dev-premium-ui-on'
+# The switch restarts the JS; a stop and a plain launch make sure the next run reads the choice.
+- waitForAnimationToEnd
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry|home-screen'
+    timeout: 60000

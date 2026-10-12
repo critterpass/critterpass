@@ -43,14 +43,17 @@ object VotePosterNotification {
     Channels.ensure(context)
     val tap = NotificationTap(nid, cp.optString("deeplink").ifEmpty { null }, cp.optString("type").ifEmpty { null }, cp.optString("crew_id").ifEmpty { null })
     val target = ActionTarget("cp.vote", nid, NOTIFICATION_ID, "notif_action", tap)
-    val builder = NotificationCompat.Builder(context, Channels.resolve(data["channel_id"]))
+    val channelId = Channels.resolve(data["channel_id"])
+    val builder = NotificationCompat.Builder(context, channelId)
       .setSmallIcon(NotificationsR.drawable.cp_notification_icon)
+      .setColor(Channels.ACCENT_ARGB)
       .setContentTitle(title)
       .setContentText(body)
       .setCategory(NotificationCompat.CATEGORY_RECOMMENDATION)
       .setPriority(NotificationCompat.PRIORITY_HIGH)
       .setAutoCancel(true)
       .setContentIntent(NotificationTaps.pendingIntent(context, tap, nid.hashCode()))
+    Channels.nameRes(channelId)?.let { builder.setSubText(context.getString(it)) }
     val poster = SnapshotStore.image(context, POSTER_KEY)
     builder.setStyle(
       if (poster != null) {

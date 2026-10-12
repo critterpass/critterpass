@@ -224,7 +224,7 @@ describe('<Sticker>', () => {
     expect(resolveStickerEdge(gold, undefined)).toBe(gold);
   });
 
-  it('draws the edged and the bare art as different images and reports a bare critter, not a bare icon', async () => {
+  it('draws the edged and the bare art as different images and reports a bare critter, not a bare icon or bare-by-design art', async () => {
     const reports: string[] = [];
     setUiQaSink((line) => reports.push(line));
     try {
@@ -270,6 +270,20 @@ describe('<Sticker>', () => {
           size={24}
           sticker={null}
           blend="srcOver"
+          engine={engine}
+          cache={cache}
+        />,
+      );
+      expect(reports).toHaveLength(1);
+
+      // The premium kit's avatar critters and doodles are bare in the design itself.
+      await render(
+        <Sticker
+          kind="gecko"
+          name="Tokek"
+          size={28}
+          sticker={null}
+          bareByDesign
           engine={engine}
           cache={cache}
         />,

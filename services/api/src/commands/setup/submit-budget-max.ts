@@ -18,13 +18,15 @@ import {
 
 import { asSystemRole } from '../../admin/command';
 import { defineCommand } from '../_framework/define-command';
+import { draftAgainWithNewAnswers } from '../draft/as-you-go';
 import { loadBudgetEstimates } from './budget-shared';
 import {
+  MEMBER_INPUT_STATUSES,
   publishSetup,
   queueBudgetRecompute,
+  refreshMemberSetup,
   requireSetupMember,
   requireStatus,
-  SETUP_OPEN_STATUSES,
 } from './shared';
 
 export const submitBudgetMaxCommand = defineCommand({
@@ -34,7 +36,7 @@ export const submitBudgetMaxCommand = defineCommand({
   offline: true,
   allowAnonymous: true,
   authorize: async (tx, payload, ctx) => {
-    requireStatus(await requireSetupMember(tx, payload.trip_id, ctx.uid), SETUP_OPEN_STATUSES);
+    requireStatus(await requireSetupMember(tx, payload.trip_id, ctx.uid), MEMBER_INPUT_STATUSES);
   },
   handle: async (tx, payload, ctx): Promise<SubmitBudgetMaxResult> => {
     const estimates = await loadBudgetEstimates(tx, payload.trip_id);
@@ -102,6 +104,9 @@ export const submitBudgetMaxCommand = defineCommand({
       payload: { trip_id: payload.trip_id, maxes_count: counts.maxes },
     });
     await queueBudgetRecompute(tx, payload.trip_id);
+    if ((await asSystemRole(tx, () => refreshMemberSetup(tx, payload.trip_id))) > 0) {
+      await draftAgainWithNewAnswers(tx, payload.trip_id, ctx.uid);
+    }
     return { trip_id: payload.trip_id, set: true };
   },
 });

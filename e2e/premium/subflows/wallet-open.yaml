@@ -1,0 +1,23 @@
+appId: app.critterpass.dev
+---
+# The Wallet tab on its ${HALF} half (bookings or money; ${LABEL} is the half's name on the switch).
+- runFlow:
+    file: tab.yaml
+    env:
+      TAB: wallet
+      LABEL: Wallet
+- extendedWaitUntil:
+    visible:
+      id: 'wallet-switch'
+    timeout: 20000
+    optional: true
+- runFlow:
+    file: tap.yaml
+    env:
+      ID: 'wallet-switch-${HALF}'
+      LABEL: ${LABEL}
+- extendedWaitUntil:
+    visible:
+      id: "${HALF == 'money' ? 'money-(ready|none|syncing)' : 'bookings-wallet-(empty|ready)'}"
+    timeout: 20000
+    optional: true

@@ -42,6 +42,8 @@ export interface TicketModel {
   readonly members: readonly TicketMember[];
   /** Named seats still waiting on someone else. */
   readonly waiting: number;
+  /** People already waiting for a seat on a full trip (a newcomer would be this + 1 in line). */
+  readonly waitlistAhead: number;
   readonly guideSlug: string | null;
   readonly expiresAt: string | null;
 }
@@ -57,6 +59,7 @@ const EMPTY: Omit<TicketModel, 'status'> = {
   estimate: null,
   members: [],
   waiting: 0,
+  waitlistAhead: 0,
   guideSlug: null,
   expiresAt: null,
 };
@@ -94,6 +97,7 @@ export function ticketModel(result: PreviewResult | null): TicketModel {
         : { minor: p.estimate_minor, currency: p.estimate_currency },
     members: (p.members ?? []).map((m) => ({ name: m.first_name, colour: m.colour })),
     waiting: p.invited_waiting ?? 0,
+    waitlistAhead: p.waitlist_ahead ?? 0,
     guideSlug: p.guide_slug ?? null,
     expiresAt: p.expires_at,
   };

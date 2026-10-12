@@ -5,6 +5,8 @@
  */
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
+  // The premium shell, reached through the plan feature's index, re-exports its screen.
+  Stack: Object.assign(() => null, { Screen: () => null }),
   usePathname: () => '/',
   useLocalSearchParams: () => ({}),
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },

@@ -23,7 +23,8 @@ import { HubView } from './HubView';
 // eslint-disable-next-line lingui/no-unlocalized-strings -- a route, never copy.
 const SETTINGS_FALLBACK = '/you/settings';
 
-export function HubScreen({ search = searchHelpOnline }: { readonly search?: SearchHelp }) {
+/** Everything Help shows and opens, shared by the current and the premium page. */
+export function useHelpHub(search: SearchHelp = searchHelpOnline) {
   const params = useLocalSearchParams<{ context?: string }>();
   const context = typeof params.context === 'string' ? params.context : 'settings';
   const locale = useLocale();
@@ -37,26 +38,27 @@ export function HubScreen({ search = searchHelpOnline }: { readonly search?: Sea
     const url = storeReviewUrl(Platform.OS, applicationId);
     if (url !== null) void Linking.openURL(url).catch(() => undefined);
   };
-  return (
-    <HubView
-      guide="tokek"
-      articles={hubArticles(articles, context)}
-      englishFallback={fallback}
-      articlesLoaded={loaded}
-      query={query}
-      onQuery={setQuery}
-      searching={found.status === 'loading'}
-      results={found.results}
-      ideasToVote={ideasToVote}
-      repliesVia={repliesVia}
-      shakeToReport={shakeToReportAvailable() && shakeOn}
-      onBack={() => goBackOr(SETTINGS_FALLBACK)}
-      onReport={() => router.push(feedbackHref({ mode: 'problem', context }))}
-      onFeedback={() => router.push(feedbackHref({ mode: 'feedback', context }))}
-      onSuggest={() => router.push(feedbackHref({ mode: 'idea', context }))}
-      onRate={openReview}
-      onArticle={(slug) => router.push(articleHref(slug))}
-      onAskHuman={() => router.push(feedbackHref({ mode: 'feedback', context }))}
-    />
-  );
+  return {
+    articles: hubArticles(articles, context),
+    englishFallback: fallback,
+    articlesLoaded: loaded,
+    query,
+    onQuery: setQuery,
+    searching: found.status === 'loading',
+    results: found.results,
+    ideasToVote,
+    repliesVia,
+    shakeToReport: shakeToReportAvailable() && shakeOn,
+    onBack: () => goBackOr(SETTINGS_FALLBACK),
+    onReport: () => router.push(feedbackHref({ mode: 'problem', context })),
+    onFeedback: () => router.push(feedbackHref({ mode: 'feedback', context })),
+    onSuggest: () => router.push(feedbackHref({ mode: 'idea', context })),
+    onRate: openReview,
+    onArticle: (slug: string) => router.push(articleHref(slug)),
+    onAskHuman: () => router.push(feedbackHref({ mode: 'feedback', context })),
+  };
+}
+
+export function HubScreen({ search = searchHelpOnline }: { readonly search?: SearchHelp }) {
+  return <HubView guide="tokek" {...useHelpHub(search)} />;
 }

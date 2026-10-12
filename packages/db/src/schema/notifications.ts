@@ -126,6 +126,7 @@ export const notificationPrefs = pgTable('notification_prefs', {
   leaveByDnd: boolean('leave_by_dnd').notNull().default(true),
   perCategory: jsonb('per_category').notNull().default({}),
   voiceReadout: boolean('voice_readout').notNull().default(false),
+  hideMessageText: boolean('hide_message_text').notNull().default(false),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });

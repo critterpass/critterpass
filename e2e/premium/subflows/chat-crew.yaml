@@ -1,0 +1,135 @@
+appId: app.critterpass.dev
+---
+# The Bali crew's chat in ${LOOK}, from Home and back to Home: the chat (5.01; in dark also the
+# Foundations dark chat, 1.10), the long-press menu (5.04), the keyboard up with a draft that is
+# then sent, the sticker tray (5.08) and, in light, a sticker sent (5.09), the microphone-off sheet
+# (5.05) and, on Android, the offline chat with a queued message (5.03).
+- runFlow: chat-open-crew.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'chat-screen'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '5.01'
+            NAME: crew-chat
+            LOOK: ${LOOK}
+      - runFlow:
+          when:
+            true: ${LOOK == 'dark'}
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '1.10'
+                  NAME: dark-chat
+                  LOOK: ${LOOK}
+      # Long-press a crewmate's message: the lifted bubble, the reaction bar and the menu.
+      - longPressOn:
+          text: '.*Uluwatu at sunset.*'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'chat-message-menu'
+          timeout: 5000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'chat-message-menu'
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '5.04'
+                  NAME: long-press
+                  LOOK: ${LOOK}
+            # The backdrop closes the menu (the system back on Android).
+            - runFlow:
+                when:
+                  platform: Android
+                commands:
+                  - back
+            - runFlow:
+                when:
+                  platform: iOS
+                commands:
+                  - tapOn:
+                      point: '50%,8%'
+            - waitForAnimationToEnd
+      # The keyboard up with a draft, then the draft sent to the crew.
+      - runFlow:
+          when:
+            visible:
+              id: 'chat-input'
+          commands:
+            - tapOn:
+                id: 'chat-input'
+            - inputText: 'Sunset works for me'
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '5.01'
+                  NAME: keyboard
+                  LOOK: ${LOOK}
+            - tapOn:
+                id: 'chat-send'
+                optional: true
+      # The sticker tray swaps in for the keyboard.
+      - tapOn:
+          id: 'chat-sticker-button'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'chat-sticker-tray'
+          timeout: 5000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'chat-sticker-tray'
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '5.08'
+                  NAME: sticker-tray
+                  LOOK: ${LOOK}
+            # The first sticker in the tray goes to the crew and lands in the chat.
+            - runFlow:
+                when:
+                  true: ${LOOK == 'light'}
+                commands:
+                  - tapOn:
+                      id: 'chat-tray-sticker-.*'
+                      optional: true
+                  - waitForAnimationToEnd:
+                      timeout: 4000
+                  - runFlow:
+                      file: shot.yaml
+                      env:
+                        CODE: '5.09'
+                        NAME: sticker-lands
+                        LOOK: ${LOOK}
+            # The sticker button again gives the keyboard back.
+            - runFlow:
+                when:
+                  visible:
+                    id: 'chat-sticker-tray'
+                commands:
+                  - tapOn:
+                      id: 'chat-sticker-button'
+                      optional: true
+      - runFlow:
+          when:
+            true: ${LOOK == 'light'}
+          commands:
+            - runFlow: chat-crew-mic.yaml
+            - runFlow:
+                when:
+                  platform: Android
+                commands:
+                  - runFlow: chat-crew-offline.yaml
+- runFlow: chat-home.yaml

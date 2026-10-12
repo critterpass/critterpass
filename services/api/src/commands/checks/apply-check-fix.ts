@@ -1,15 +1,16 @@
 /**
  * `apply_check_fix {issue_id, base_version}` (docs/api-contracts-planning.md, commands): one FIX
  * from the plan check. The fix's ops are worked out on the current plan (a one-tap fix carries
- * them; Too far swaps a stop for a nearer place of its kind). An organiser's fix applies at once
- * with an undo from the trip feed; a member's goes to the crew as a change set, trigger `check`.
+ * them; Too far swaps a stop for a nearer place of its kind). An organiser's fix (or anyone's, on a
+ * trip whose rule lets members edit) applies at once with an undo from the trip feed; a member's
+ * goes to the crew as a change set, trigger `check`.
  * An issue checked on an older plan than the one now (or than the caller saw) is stale. The fix is
  * timed on real travel before it is applied: one that would leave the stop it moves in a clash is
  * refused (`fix_would_clash`), so a fix never ships a new clash.
  */
 import { applyCheckFixPayloadSchema, DomainError, type ApplyCheckFixResult } from '@cp/domain';
 
-import { tripAccess } from '../../plan/access';
+import { planRightsOf, tripAccess } from '../../plan/access';
 import { lockTripPlan } from '../../plan/versioning';
 import { loadCheckInput, type FixerDeps } from '../../planning/fixers/check-input';
 import { fixForIssue, readIssue } from '../../planning/fixers/fix-ops';
@@ -60,7 +61,7 @@ export function applyCheckFixCommand(deps: FixerDeps) {
         },
         ctx,
       );
-      if ((await tripAccess(tx, issue.trip_id)).organiser) {
+      if ((await planRightsOf(tx, issue.trip_id)).direct) {
         const actionId = await applyWithUndo(tx, {
           changeSetId: created.change_set_id,
           uid: ctx.uid,

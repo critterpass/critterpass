@@ -8,7 +8,7 @@
 import { toLocalWallTime } from '@cp/domain';
 import { format } from '@cp/i18n';
 import { router } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, type ComponentType, type ReactNode } from 'react';
 
 import { clockOption } from '@/lib/i18n/formats';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -22,7 +22,7 @@ import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { type FormRow } from '../data/queries';
 import { formSpec } from '../dex/dex-model';
 import { deviceTimeZone, markHatchSeen } from './hatch-model';
-import { HatchView } from './hatch-view';
+import { HatchView, type HatchViewProps } from './hatch-view';
 
 /** How long the ceremony waits for its trip's rows before giving up on them. */
 export const MISSING_GRACE_MS = 3000;
@@ -110,7 +110,17 @@ function hatchTheme(slug: string | null): string | null {
   return music.themedGuideFor(slug, guidesOfSameCountry(slug)) ?? null;
 }
 
-export function HatchScreen({ tripId }: { readonly tripId: string }) {
+export function HatchScreen({
+  tripId,
+  View = HatchView,
+  loading,
+}: {
+  readonly tripId: string;
+  /** The view that plays the ceremony (the premium one draws the same props). */
+  readonly View?: ComponentType<HatchViewProps>;
+  /** Drawn until the trip's row is read. */
+  readonly loading?: ReactNode;
+}) {
   // The ceremony's ways out are its own: SAY HI and "Show me around later".
   useNoBackByDesign();
   const uid = useOwnerUid();
@@ -133,6 +143,7 @@ export function HatchScreen({ tripId }: { readonly tripId: string }) {
   // The route is a see-through card: until the trip's row is read it shows the page, never nothing
   // (an empty card would look like the screen below while swallowing its taps).
   if (!loaded || row === undefined) {
+    if (loading !== undefined) return <>{loading}</>;
     return <Scaffold variant="dark" edges={['top', 'bottom']} testID="critters-hatch-loading" />;
   }
   const isGuide = row.critter_key !== null && row.critter_key === row.hero_critter_key;
@@ -153,7 +164,7 @@ export function HatchScreen({ tripId }: { readonly tripId: string }) {
         });
   const sayHi = hrefFor('3j-1', { tripId });
   return (
-    <HatchView
+    <View
       place={row.place ?? row.set_name ?? ''}
       landedTime={
         row.landed_at === null

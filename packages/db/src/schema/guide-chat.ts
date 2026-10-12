@@ -11,6 +11,7 @@ import {
   integer,
   jsonb,
   pgTable,
+  primaryKey,
   smallint,
   text,
   timestamp,
@@ -151,12 +152,28 @@ export const guideCrewTurns = pgTable('guide_crew_turns', {
   updatedAt: instant('updated_at').notNull().defaultNow(),
 });
 
+/** "Ping me": the asker waits for the thread's next answer away from the guide (server only). */
+export const guideAnswerPings = pgTable(
+  'guide_answer_pings',
+  {
+    threadId: uuid('thread_id')
+      .notNull()
+      .references(() => guideThreads.id, { onDelete: 'cascade' }),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id),
+    requestedAt: instant('requested_at').notNull().defaultNow(),
+  },
+  (t) => [primaryKey({ columns: [t.threadId, t.userId] })],
+);
+
 registerTablePrivacy('guide_threads', { class: 'C2' });
 registerTablePrivacy('guide_messages', { class: 'C2' });
 registerTablePrivacy('queued_guide_questions', { class: 'C2' });
 registerTablePrivacy('phrase_progress', { class: 'C2' });
 registerTablePrivacy('custom_phrase_cards', { class: 'C2' });
 registerTablePrivacy('guide_crew_turns', { class: 'C4' });
+registerTablePrivacy('guide_answer_pings', { class: 'C4' });
 
 // Guide chat: threads, questions, phrase cards and practice follow their owner. A merged user may
 // end up with two private threads for one trip; both stay readable. A queued question for a day
@@ -177,3 +194,10 @@ registerMergeRule({
 });
 registerMergeRule({ table: 'custom_phrase_cards', userColumn: 'user_id', strategy: 'reassign' });
 registerMergeRule({ table: 'guide_crew_turns', userColumn: 'asker_id', strategy: 'reassign' });
+// A pending "ping me" is short-lived: the existing account's own ping for the thread wins.
+registerMergeRule({
+  table: 'guide_answer_pings',
+  userColumn: 'user_id',
+  strategy: 'union',
+  conflictColumns: ['thread_id'],
+});

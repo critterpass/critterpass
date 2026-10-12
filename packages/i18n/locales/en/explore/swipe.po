@@ -44,18 +44,6 @@ msgstr "{name} is picking cards for the crew. It takes about {minutes} minutes, 
 msgid "explore.swipe.building"
 msgstr "{0} is picking the cards"
 
-#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
-msgid "explore.swipe.toastMatch"
-msgstr "{place} is a match"
-
-#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
-msgid "explore.swipe.toastIdea"
-msgstr "{place} is in Ideas. {guideName} will find it a day."
-
-#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
-msgid "explore.swipe.toastSuggested"
-msgstr "{place} suggested for Day {day}"
-
 #: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
 msgid "explore.swipe.matchUnslotted"
 msgstr "{placeName} is a match. The plan has no free slot for it yet."
@@ -159,10 +147,6 @@ msgstr "They are yours in Ideas already. A match adds the others to them."
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.endedTitle"
 msgstr "This session is over"
-
-#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
-msgid "explore.swipe.trip"
-msgstr "Trip"
 
 #: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
 msgid "explore.swipe.undo"

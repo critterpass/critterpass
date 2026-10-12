@@ -9,6 +9,7 @@ export const GUIDE_EVENT_TYPES = [
   'guide.question_cancelled',
   'guide.question_answered',
   'guide.answer_rated',
+  'guide.answer_ready',
   'guide.offer_posted',
   'phrase.requested',
   'phrase.ready',
@@ -23,6 +24,13 @@ export const GUIDE_EVENT_PAYLOADS = {
   'guide.question_cancelled': question,
   // The N-36 passive push goes to `user_id`.
   'guide.question_answered': question.extend({
+    thread_id: z.uuid(),
+    message_id: z.uuid(),
+    trip_id: z.uuid().nullable(),
+  }),
+  // The "ping me" push goes to `user_id`, who asked for it while the answer was being written.
+  'guide.answer_ready': z.object({
+    user_id: z.uuid(),
     thread_id: z.uuid(),
     message_id: z.uuid(),
     trip_id: z.uuid().nullable(),

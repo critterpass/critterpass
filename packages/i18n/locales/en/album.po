@@ -7,11 +7,16 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: ../../apps/mobile/src/features/album/premium/day-pocket.tsx
+msgid "album.premium.photoCount"
+msgstr "{count, plural, one {# photo} other {# photos}}"
+
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
 msgid "album.upload.failed"
 msgstr "{failed, plural, one {# photo didn't upload.} other {# photos didn't upload.}}"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.noteLeft"
 msgstr "{left} characters left"
 
@@ -52,12 +57,14 @@ msgid "album.upload.waiting"
 msgstr "{waiting, plural, one {# photo waits for a connection. It goes up on its own.} other {# photos wait for a connection. They go up on their own.}}"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.upload"
 msgstr "+ Upload"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.formerTraveller"
 msgstr "A former traveller"
@@ -107,10 +114,12 @@ msgid "album.viewer.meOff"
 msgstr "Add me"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.empty.add"
 msgstr "Add photos"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.empty.line"
 msgstr "Add the trip's photos and the whole crew sees them. Photos only, no videos. Free, always."
 
@@ -121,6 +130,11 @@ msgstr "Address removed"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.savedToast"
 msgstr "Address saved"
+
+#. placeholder {0}: photos.length
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.premium.all"
+msgstr "All · {0}"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.all"
@@ -136,10 +150,12 @@ msgid "album.address.back"
 msgstr "Back"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.best"
 msgstr "Best · {picks}"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.byPerson"
 msgstr "By person"
 
@@ -158,6 +174,10 @@ msgstr "Choose the photo"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.city"
 msgstr "City"
+
+#: ../../apps/mobile/src/features/album/premium/premium-sheet.tsx
+msgid "recap.premium.sheet.close"
+msgstr "Close"
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.failed"
@@ -204,6 +224,7 @@ msgid "album.postcard.sendFailed"
 msgstr "Couldn't send it. Try again"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export.failed"
 msgstr "Couldn't zip it. Try again"
 
@@ -214,6 +235,11 @@ msgstr "Country"
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.saveDenied"
 msgstr "CritterPass needs permission to add to Photos. Turn it on in Settings."
+
+#. placeholder {0}: section.dayNo
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.premium.day.number"
+msgstr "Day {0}"
 
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
 msgid "album.day.number"
@@ -237,12 +263,18 @@ msgstr "Delete this photo?"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
 #: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.close"
 msgstr "Done"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export"
 msgstr "Download all"
+
+#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
+msgid "album.premium.postcard.editNote"
+msgstr "Edit the note"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.line2"
@@ -252,15 +284,24 @@ msgstr "Flat, floor (optional)"
 msgid "album.address.why"
 msgstr "For printed postcards from your crew. Only the printer sees it; your crew and the guide never do."
 
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.premium.postcard.format"
+msgstr "Format"
+
 #: ../../apps/mobile/src/features/album/postcard/received-view.tsx
 msgid "album.received.from"
 msgstr "From {sender}"
+
+#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
+msgid "album.premium.postcard.greetings"
+msgstr "Greetings from"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
 msgid "album.postcard.greetings"
 msgstr "Greetings from"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.curating"
 msgstr "I'm going through the photos. My picks land here soon."
 
@@ -298,6 +339,7 @@ msgid "album.postcard.loading"
 msgstr "Loading your postcard"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.mail"
 msgstr "Mail a real one to each of you"
 
@@ -330,14 +372,17 @@ msgid "album.day.undated"
 msgstr "No date"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.noPhoto"
 msgstr "No photo"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.noPhotos"
 msgstr "No photos in the album yet, so the front is the guide's colour."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.empty.title"
 msgstr "No photos yet"
 
@@ -346,6 +391,7 @@ msgid "album.address.offlineLine"
 msgstr "No signal. We can't show whether your address is saved, and saving needs a connection."
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.solo"
 msgstr "Nobody else is on this trip yet, so there is no one to send it to."
 
@@ -354,9 +400,11 @@ msgid "album.who.nobody"
 msgstr "Nobody's said they're in this one yet."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.people.none"
 msgstr "Nobody's tagged yet. Open a photo and tap “I'm in this”."
 
+#: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
 #: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
 msgid "album.upload.dismiss"
 msgstr "OK"
@@ -382,6 +430,7 @@ msgid "album.mail.status.queued"
 msgstr "Ordered"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.mailing"
 msgstr "Ordering the prints…"
 
@@ -390,6 +439,7 @@ msgid "album.report.line"
 msgstr "Our team looks at it. The crew is not told who reported it."
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.passPlus"
 msgstr "Pass+"
 
@@ -411,11 +461,16 @@ msgstr "Photos"
 msgid "album.viewer.pickOff"
 msgstr "Pick"
 
+#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
+msgid "album.premium.postcard.pickPhoto"
+msgstr "Pick the photo"
+
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.pickOn"
 msgstr "Picked"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.format.classic"
 msgstr "Postcard"
 
@@ -428,6 +483,7 @@ msgid "album.address.postal"
 msgstr "Postcode"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.format.square"
 msgstr "Poster"
 
@@ -497,6 +553,7 @@ msgid "album.postcard.open"
 msgstr "Send it home"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.send"
 msgstr "Send to the crew"
 
@@ -517,6 +574,7 @@ msgid "album.viewer.share"
 msgstr "Share"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.segments"
 msgstr "Show"
 
@@ -525,6 +583,7 @@ msgid "album.address.region"
 msgstr "State or province (optional)"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.format.story"
 msgstr "Story 9:16"
 
@@ -549,10 +608,12 @@ msgid "album.tile.crew"
 msgstr "the crew's album"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.photoTitle"
 msgstr "The front"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.noteTitle"
 msgstr "The note"
 
@@ -582,8 +643,13 @@ msgid "album.address.long"
 msgstr "Too long for the label"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.back"
 msgstr "Trip"
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.premium.title"
+msgstr "Trip journal"
 
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.retry"
@@ -593,15 +659,18 @@ msgstr "Try again"
 msgid "album.upload.pickFailedLine"
 msgstr "Try again in a moment"
 
+#: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
 #: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
 msgid "album.upload.retry"
 msgstr "Try the failed ones again"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.noteDone"
 msgstr "Use this note"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.photoOption"
 msgstr "Use this photo"
 
@@ -654,6 +723,7 @@ msgid "album.inbox.mailing.failed"
 msgstr "Your printed postcards couldn't be made. This trip's mailing is free again."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export.open"
 msgstr "Your zip is ready. Download it"
 
@@ -662,5 +732,6 @@ msgid "album.export.started"
 msgstr "Zipping the album. The link appears here when it is ready"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export.asking"
 msgstr "Zipping the album…"

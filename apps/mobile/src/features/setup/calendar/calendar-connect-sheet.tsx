@@ -6,7 +6,7 @@
  */
 import { calendarOAuthFlag, type OAuthCalendarProvider } from '@cp/domain';
 import { t } from '@lingui/core/macro';
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
 import { View } from 'react-native';
 
 import { useFlag } from '@/lib/analytics/flags';
@@ -25,6 +25,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { useSetupServices } from '../data/services';
 import { installDeviceId, startCalendarOAuth } from './oauth';
 import { useCalendarSync, type CalendarSyncStatus } from './use-calendar-sync';
+import { useMyDays, type MyDay } from './use-my-days';
 
 export interface CalendarConnectViewProps {
   readonly status: CalendarSyncStatus;
@@ -43,6 +44,8 @@ export interface CalendarConnectViewProps {
   readonly onProvider: (provider: OAuthCalendarProvider) => void;
   readonly onMarkByHand: () => void;
   readonly onDismiss: () => void;
+  /** This person's own days for the coming week as the crew reads them; null when not read. */
+  readonly week?: readonly MyDay[] | null;
 }
 
 const useStyles = makeStyles((th) => ({
@@ -233,17 +236,21 @@ export interface CalendarConnectSheetProps {
   readonly tripId: string;
   readonly onDismiss: () => void;
   readonly onMarkByHand: () => void;
+  /** How the sheet is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<CalendarConnectViewProps>;
 }
 
 export function CalendarConnectSheet({
   tripId,
   onDismiss,
   onMarkByHand,
+  View: Look = CalendarConnectView,
 }: CalendarConnectSheetProps) {
   const services = useSetupServices();
   const sync = useCalendarSync(tripId, { now: services.now });
   const google = useFlag(calendarOAuthFlag('google'));
   const microsoft = useFlag(calendarOAuthFlag('microsoft'));
+  const week = useMyDays(tripId, sync.lastSyncedAt);
   const [opening, setOpening] = useState<OAuthCalendarProvider | null>(null);
   const [oauthFailed, setOauthFailed] = useState(false);
   const providers: OAuthCalendarProvider[] = [
@@ -264,7 +271,7 @@ export function CalendarConnectSheet({
   };
 
   return (
-    <CalendarConnectView
+    <Look
       status={sync.status}
       lastSyncedAt={sync.lastSyncedAt}
       now={new Date(services.now())}
@@ -279,6 +286,7 @@ export function CalendarConnectSheet({
       onProvider={onProvider}
       onMarkByHand={onMarkByHand}
       onDismiss={onDismiss}
+      week={week}
     />
   );
 }

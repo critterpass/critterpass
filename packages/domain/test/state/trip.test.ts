@@ -11,6 +11,7 @@ const LEGAL_PAIRS: ReadonlySet<string> = new Set([
   'setup\u0000drafting',
   'drafting\u0000draft_review',
   'drafting\u0000setup',
+  'draft_review\u0000drafting',
   'draft_review\u0000redrafting',
   'redrafting\u0000draft_review',
   'draft_review\u0000proposed',

@@ -103,7 +103,7 @@ struct VoteShowdown: View {
     private func side(_ side: VoteFace.Side, art: String, alignment: HorizontalAlignment) -> some View {
         VStack(alignment: alignment, spacing: 2) {
             Text(side.label.uppercased())
-                .font(.system(size: 22, weight: .black))
+                .font(.system(size: 22, weight: .heavy))
                 .foregroundStyle(LAPalette.night)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
@@ -125,7 +125,7 @@ struct VoteShowdown: View {
     @ViewBuilder
     private func button(_ side: VoteFace.Side) -> some View {
         let label = HStack(spacing: 4) {
-            if side.mine { Image(systemName: "checkmark").font(.system(size: 10, weight: .black)) }
+            if side.mine { Image(systemName: "checkmark").font(.system(size: 10, weight: .heavy)) }
             Text(verbatim: "\(side.label.uppercased()) · ")
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
@@ -158,7 +158,7 @@ struct VoteShowdown: View {
             : face.closesAt.map { $0.formatted(.dateTime.weekday(.abbreviated)).uppercased() }
         if let text {
             Text(verbatim: text)
-                .font(.system(size: 10, weight: .black))
+                .font(.system(size: 10, weight: .heavy))
                 .foregroundStyle(LAPalette.night)
                 .padding(.horizontal, 6)
                 .padding(.vertical, 3)

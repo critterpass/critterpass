@@ -6,7 +6,7 @@
 import { router } from 'expo-router';
 
 import { goBackOr } from '@/lib/navigation/back';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type ComponentType } from 'react';
 import { selectOrdinal, t } from '@lingui/core/macro';
 
 import { useTripPlan } from '@/data/plan/use-trip-plan';
@@ -20,7 +20,7 @@ import { noteDayFixed } from '../fixed-days';
 import { dayTag, driveTitle } from '../format';
 import { planOpsOf } from '../plan-ops';
 import { checkRoutes } from '../routes';
-import { LessDrivingView, type OrderRow } from './less-driving-view';
+import { LessDrivingView, type LessDrivingViewProps, type OrderRow } from './less-driving-view';
 
 const COUNT_MS = 1200;
 
@@ -60,9 +60,12 @@ export function wasLabel(position: number, time: string, moved: boolean): string
 export function LessDrivingScreen({
   tripId,
   dayId,
+  View: Look = LessDrivingView,
 }: {
   readonly tripId: string;
   readonly dayId: string;
+  /** How the order is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<LessDrivingViewProps>;
 }) {
   const plan = useTripPlan(tripId);
   const editor = useDayEditing(plan);
@@ -122,7 +125,7 @@ export function LessDrivingScreen({
   };
 
   return (
-    <LessDrivingView
+    <Look
       backLabel={date === null ? '' : dayTag(date)}
       onBack={() => goBackOr(checkRoutes.check(tripId))}
       state={answer === null ? 'loading' : answer.found ? 'ready' : 'none'}

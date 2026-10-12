@@ -17,7 +17,7 @@ function db() {
     CREATE TABLE destinations (id TEXT, name TEXT, slug TEXT, tz TEXT);
     CREATE TABLE trips (id TEXT, crew_id TEXT, tz TEXT, current_version_id TEXT,
       destination_id TEXT, start_date TEXT, status TEXT, guide_id TEXT, phase TEXT,
-      end_date TEXT, draft_version_id TEXT, local_currency TEXT);
+      end_date TEXT, draft_version_id TEXT, local_currency TEXT, plan_change_rule TEXT);
     CREATE TABLE trip_participants (trip_id TEXT, user_id TEXT, role TEXT, rsvp TEXT);
     CREATE TABLE guides (id TEXT, slug TEXT, name TEXT);
     CREATE TABLE must_dos (trip_id TEXT, poi_id TEXT, owner_id TEXT, created_at TEXT, deleted_at TEXT);

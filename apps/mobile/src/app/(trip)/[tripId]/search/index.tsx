@@ -1,10 +1,12 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useMemo } from 'react';
 
+import { FindScreen } from '@/features/explore/premium/search/find-screen';
 import { SearchScreen } from '@/features/explore/search/search-screen';
 import { deviceSearchServices } from '@/features/explore/search/data/device-search-services';
 import { SearchServicesProvider } from '@/features/explore/search/data/search-services';
 import { scopeOf } from '@/features/explore/search/routes';
+import { usePremiumUi } from '@/lib/premium-ui';
 
 import { getOcr } from '../../../../../modules/cp-ocr';
 
@@ -19,9 +21,11 @@ export default function SearchRoute() {
     q?: string;
   }>();
   const services = useMemo(() => deviceSearchServices(getOcr()), []);
+  // Find (4.30) in the premium look; both read the same search controller.
+  const Screen = usePremiumUi() ? FindScreen : SearchScreen;
   return (
     <SearchServicesProvider services={services}>
-      <SearchScreen
+      <Screen
         tripId={params.tripId ?? ''}
         scope={scopeOf(params.scope)}
         dayId={params.day_id}

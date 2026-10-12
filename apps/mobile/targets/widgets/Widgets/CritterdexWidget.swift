@@ -66,11 +66,11 @@ struct CritterdexView: View {
                     .foregroundStyle(LAPalette.muted)
                 HStack(alignment: .firstTextBaseline, spacing: 0) {
                     Text("\(dex.found)")
-                        .font(.system(size: 34, weight: .black).monospacedDigit())
+                        .font(.system(size: 34, weight: .heavy).monospacedDigit())
                         .foregroundStyle(LAPalette.paper)
                         .contentTransition(.numericText())
                     Text(verbatim: "/\(dex.total)")
-                        .font(.system(size: 34, weight: .black).monospacedDigit())
+                        .font(.system(size: 34, weight: .heavy).monospacedDigit())
                         .foregroundStyle(LAPalette.muted)
                 }
                 .lineLimit(1)

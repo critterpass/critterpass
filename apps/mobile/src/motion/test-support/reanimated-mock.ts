@@ -13,6 +13,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 
+import { layoutMockExports } from './reanimated-mock-layout';
 import { isWorklet, registerUIRuntimeFunctions, toUIWorklet } from './ui-runtime';
 
 type Listener<Value> = (value: Value) => void;
@@ -257,6 +258,7 @@ const mockExports = {
   useAnimatedKeyboard,
   keyboardForTests,
   Easing,
+  ...layoutMockExports,
 };
 
 registerUIRuntimeFunctions(Object.values(mockExports));

@@ -9,7 +9,7 @@ struct VoteLiveActivityWidget: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: VoteActivityAttributes.self) { context in
             VoteLockScreen(attributes: context.attributes, state: context.state)
-                .activityBackgroundTint(LAPalette.card)
+                .activityBackgroundTint(nil)
                 .activitySystemActionForegroundColor(LAPalette.paper)
                 .widgetURL(LADeepLink.url(route: "vote/\(context.attributes.pollId)"))
         } dynamicIsland: { context in
@@ -18,10 +18,12 @@ struct VoteLiveActivityWidget: Widget {
                 DynamicIslandExpandedRegion(.leading) {
                     VoteEyebrow(state: state)
                         .padding(.leading, 4)
+                    .islandAppearance()
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     VoteCloses(state: state, size: 14)
                         .padding(.trailing, 4)
+                    .islandAppearance()
                 }
                 DynamicIslandExpandedRegion(.bottom) {
                     VStack(alignment: .leading, spacing: 6) {
@@ -29,15 +31,19 @@ struct VoteLiveActivityWidget: Widget {
                         VoteOptions(pollId: context.attributes.pollId, state: state)
                     }
                     .padding(.horizontal, 10)
+                    .islandAppearance()
                 }
             } compactLeading: {
                 Image(systemName: "checkmark.seal.fill")
                     .foregroundStyle(LAPalette.yellow)
+                    .islandAppearance()
             } compactTrailing: {
                 VoteCloses(state: state, size: 13)
+                    .islandAppearance()
             } minimal: {
                 Image(systemName: "checkmark.seal.fill")
                     .foregroundStyle(LAPalette.yellow)
+                    .islandAppearance()
             }
             .keylineTint(LAPalette.yellow)
             .widgetURL(LADeepLink.url(route: "vote/\(context.attributes.pollId)"))
@@ -117,7 +123,7 @@ struct VoteQuestion: View {
     var body: some View {
         Group {
             if state.state == .closed, let winner = state.winnerLabel {
-                Text("\(winner.uppercased()) WINS")
+                Text("\(winner) wins")
             } else {
                 Text(attributes.question)
             }
@@ -162,7 +168,7 @@ struct VoteOptionLabel: View {
 
     var body: some View {
         HStack(spacing: 4) {
-            Text(tally.label.uppercased())
+            Text(tally.label)
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
             Text(verbatim: "·")
@@ -183,7 +189,7 @@ struct VoteOptionLabel: View {
 struct VoteStamp: View {
     var body: some View {
         Text("YOU VOTED")
-            .font(.system(size: 9, weight: .black))
+            .font(.system(size: 9, weight: .heavy))
             .tracking(1)
             .foregroundStyle(LAPalette.green)
             .padding(.horizontal, 6)

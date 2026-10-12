@@ -21,6 +21,10 @@ const SUBSCRIPTIONS_URL =
     ? 'https://apps.apple.com/account/subscriptions'
     : 'https://play.google.com/store/account/subscriptions';
 
+/** Where a store code is redeemed on a phone without the in-app sheet (Play, or no store SDK). */
+const REDEEM_URL =
+  Platform.OS === 'ios' ? 'https://apps.apple.com/redeem' : 'https://play.google.com/redeem';
+
 const NO_PARAMS: readonly unknown[] = [];
 
 export interface PlanState {
@@ -33,6 +37,8 @@ export interface PlanState {
   readonly recheck: () => void;
   /** Opens the store's own subscription page. */
   readonly manage: () => void;
+  /** Redeems a store offer or promo code: the App Store's sheet in the app, else the store's page. */
+  readonly redeem: () => void;
 }
 
 export function usePlan(): PlanState {
@@ -56,5 +62,16 @@ export function usePlan(): PlanState {
     }
     store.showManageSubscriptions().catch(() => Linking.openURL(SUBSCRIPTIONS_URL));
   }, [store]);
-  return { rows, store, plan, boosts, restore, recheck, manage };
+  const redeem = useCallback(() => {
+    const sheet = store?.presentCodeRedemption;
+    if (sheet === undefined) {
+      void Linking.openURL(REDEEM_URL);
+      return;
+    }
+    // A redeemed code arrives as a store purchase; the re-check verifies it at once.
+    sheet()
+      .then(recheck)
+      .catch(() => Linking.openURL(REDEEM_URL));
+  }, [store, recheck]);
+  return { rows, store, plan, boosts, restore, recheck, manage, redeem };
 }

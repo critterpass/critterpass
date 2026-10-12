@@ -123,6 +123,10 @@ msgstr "{name} saved {body} to Ideas"
 msgid "chat.system.ideaSavedPlain"
 msgstr "{name} saved a place to Ideas"
 
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rejoinAsked"
+msgstr "{name} would like to rejoin the crew"
+
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.withGuide"
 msgstr "{people} · {guideName} is in this chat"
@@ -143,19 +147,31 @@ msgstr "1.5×"
 msgid "chat.voice.rate1"
 msgstr "1×"
 
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.sticker"
+msgstr "A sticker to the crew chat"
+
 #: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
 msgid "chat.attach.title"
 msgstr "Add to the chat"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.tripSettled"
+msgstr "All square: everyone's settled up"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.alsoMute"
 msgstr "Also mute {senderName}"
 
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.askToRejoin"
+msgstr "Asking to rejoin the crew"
+
 #: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
 msgid "chat.empty.loneLine"
 msgstr "Bring your friends in. Plans, photos and votes all land here."
 
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+#: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.harassment"
 msgstr "Bullying or harassment"
 
@@ -256,9 +272,17 @@ msgstr "Get the update"
 msgid "chat.mention.guide"
 msgstr "Guide"
 
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+#: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.hate"
 msgstr "Hate"
+
+#: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
+msgid "chat.sticker.caption.wave"
+msgstr "hi!"
+
+#: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
+msgid "chat.sticker.caption.think"
+msgstr "hmm"
 
 #: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
 msgid "chat.empty.invite"
@@ -343,6 +367,10 @@ msgstr "Muting a crewmate"
 msgid "chat.unread.divider"
 msgstr "New"
 
+#: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
+msgid "chat.sticker.caption.point"
+msgstr "omw"
+
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.composer.unsafeLink"
 msgstr "Only http and https links can be sent."
@@ -383,6 +411,10 @@ msgstr "Photo library"
 msgid "chat.attach.useLibrary"
 msgstr "Pick from the library"
 
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.pin"
+msgstr "Pinning a message to the trip"
+
 #: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
 msgid "chat.empty.line"
 msgstr "Plans, photos and votes all land here. Start with a hello."
@@ -395,7 +427,7 @@ msgstr "Play voice note"
 msgid "chat.voice.speed"
 msgstr "Playback speed {rate}×"
 
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+#: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.impersonation"
 msgstr "Pretending to be someone"
 
@@ -414,6 +446,10 @@ msgstr "Reactions"
 #: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
 msgid "chat.voice.releaseToSend"
 msgstr "Release to send"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.removeChat"
+msgstr "Removing a crew chat"
 
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
@@ -461,11 +497,11 @@ msgstr "Sending"
 msgid "chat.typing.many"
 msgstr "Several people are typing"
 
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+#: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.sexual"
 msgstr "Sexual content"
 
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+#: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.personalInfo"
 msgstr "Sharing private information"
 
@@ -482,13 +518,17 @@ msgstr "Someone"
 msgid "chat.system.someone"
 msgstr "Someone"
 
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+#: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.other"
 msgstr "Something else"
 
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+#: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.spam"
 msgstr "Spam"
+
+#: ../../apps/mobile/src/features/crew/chat/cards/sticker-card.tsx
+msgid "chat.sticker.a11y"
+msgstr "Sticker: {caption}"
 
 #: ../../apps/mobile/src/features/crew/chat/components/skeleton.tsx
 msgid "chat.loading.slow"
@@ -566,6 +606,10 @@ msgstr "Type instead"
 msgid "chat.queued.unmute"
 msgstr "Unmuting a crewmate"
 
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.unpin"
+msgstr "Unpinning a message"
+
 #: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
 msgid "chat.card.unknown.line"
 msgstr "Update the app to see it here."
@@ -574,7 +618,7 @@ msgstr "Update the app to see it here."
 msgid "chat.upload.uploading"
 msgstr "Uploading"
 
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+#: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.violence"
 msgstr "Violence or threats"
 
@@ -601,6 +645,10 @@ msgstr "Votes, the plan, who is in and photos all land in this chat."
 #: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
 msgid "chat.upload.waiting"
 msgstr "Waiting for signal"
+
+#: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
+msgid "chat.sticker.caption.cheer"
+msgstr "yes pls"
 
 #: ../../apps/mobile/src/features/crew/chat/components/day-separator.tsx
 msgid "chat.day.yesterday"
@@ -629,3 +677,7 @@ msgstr "You're offline. Messages send when you're back."
 #: ../../apps/mobile/src/features/crew/chat/components/chat-start.tsx
 msgid "chat.start.titlePlain"
 msgstr "Your crew talks here"
+
+#: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
+msgid "chat.sticker.caption.sleep"
+msgstr "zzz"

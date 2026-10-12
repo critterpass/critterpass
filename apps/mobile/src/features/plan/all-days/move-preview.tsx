@@ -58,19 +58,15 @@ function DayChange({ change }: { readonly change: DayAfter }) {
   );
 }
 
-export function MovePreview({
-  stop,
-  plan,
-  canApply,
-  onConfirm,
-  onClose,
-}: {
+export interface MovePreviewProps {
   readonly stop: DayItem;
   readonly plan: MovePlan;
   readonly canApply: boolean;
   readonly onConfirm: () => void;
   readonly onClose: () => void;
-}) {
+}
+
+export function MovePreview({ stop, plan, canApply, onConfirm, onClose }: MovePreviewProps) {
   const { t } = useLingui();
   const styles = useStyles();
   const name = stop.title;
@@ -114,17 +110,14 @@ export function MovePreview({
   );
 }
 
-export function MoveStopSheet({
-  day,
-  days,
-  onPick,
-  onClose,
-}: {
+export interface MoveStopSheetProps {
   readonly day: TripDay;
   readonly days: readonly TripDay[];
   readonly onPick: (stop: DayItem, to: number) => void;
   readonly onClose: () => void;
-}) {
+}
+
+export function MoveStopSheet({ day, days, onPick, onClose }: MoveStopSheetProps) {
   const { t } = useLingui();
   const locale = useLocale();
   const styles = useStyles();

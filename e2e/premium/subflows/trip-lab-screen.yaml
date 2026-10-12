@@ -1,0 +1,33 @@
+appId: app.critterpass.dev
+---
+# One real screen from a lab's list: the lab ${NAV} (its list shows ${LIST}), the row ${ITEM}, the
+# screen ready on ${READY}, then the screenshot ${CODE} / ${NAME} in ${LOOK}.
+- runFlow:
+    file: trip-dev-lab.yaml
+    env:
+      NAV: ${NAV}
+      LIST: ${LIST}
+- scrollUntilVisible:
+    element:
+      id: '${ITEM}'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: '${ITEM}'
+    commands:
+      - tapOn:
+          id: '${ITEM}'
+      - extendedWaitUntil:
+          visible:
+            id: '${READY}'
+          timeout: 15000
+          optional: true
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: ${CODE}
+            NAME: ${NAME}
+            LOOK: ${LOOK}

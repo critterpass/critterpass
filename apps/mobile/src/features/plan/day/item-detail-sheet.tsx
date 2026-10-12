@@ -69,22 +69,7 @@ const TITLE_LINES = 8;
 
 type Pending = { readonly kind: 'save' } | { readonly kind: 'remove' };
 
-export function ItemDetailSheet({
-  item,
-  dayNos,
-  members,
-  canApply,
-  readOnly = false,
-  comments,
-  lead,
-  actions,
-  dayLabels,
-  mustDoMine = false,
-  removeLine = null,
-  priceLevel = null,
-  suggestion = null,
-  preview,
-}: {
+export interface ItemDetailSheetProps {
   readonly item: DayItem;
   readonly dayNos: readonly number[];
   readonly members: readonly PlanMember[];
@@ -110,7 +95,24 @@ export function ItemDetailSheet({
     readonly end: number;
     readonly dayNo: number;
   }) => ChangePreview;
-}) {
+}
+
+export function ItemDetailSheet({
+  item,
+  dayNos,
+  members,
+  canApply,
+  readOnly = false,
+  comments,
+  lead,
+  actions,
+  dayLabels,
+  mustDoMine = false,
+  removeLine = null,
+  priceLevel = null,
+  suggestion = null,
+  preview,
+}: ItemDetailSheetProps) {
   const styles = useStyles();
   const locale = useLocale();
   const { t } = useLingui();

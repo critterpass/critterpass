@@ -41,6 +41,10 @@ msgstr "Tin nhắn chờ trong ứng dụng"
 msgid "you.pings.crewChat"
 msgstr "Trò chuyện của hội"
 
+#: ../../apps/mobile/src/features/you/ping-settings/use-crew-chat-modes.ts
+msgid "crew.queued.notify"
+msgstr "Cài đặt thông báo của nhóm"
+
 #: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
 msgid "you.pings.critters"
 msgstr "Critter gần đây"

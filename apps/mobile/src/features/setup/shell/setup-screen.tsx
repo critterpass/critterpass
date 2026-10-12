@@ -79,9 +79,15 @@ export function StepRefused() {
 export function SetupScreen({
   tripId,
   step,
+  anyOrder = false,
+  views,
 }: {
   readonly tripId: string;
   readonly step: WizardStep | null;
+  /** Setup together: once the dates are locked, any step opens as asked. */
+  readonly anyOrder?: boolean;
+  /** Steps drawn in another look; the rest keep the current one. */
+  readonly views?: Partial<Record<WizardStep, (props: StepProps) => ReactNode>>;
 }) {
   const services = useSetupServices();
   const me = useMe();
@@ -97,10 +103,11 @@ export function SetupScreen({
   const held = landingStep(current);
   // A link that asks for a step setup has not reached draws the step it is on, and the asked one
   // as soon as the trip's row says setup is there (a push can beat the sync that follows it).
+  const datesLocked = trip?.startDate != null && trip.endDate !== null;
   const viewing = shownStep(
     step,
     current,
-    (asked) => !refusal.refused && movedTo.has(`${tripId}:${asked}`),
+    (asked) => (anyOrder && datesLocked) || (!refusal.refused && movedTo.has(`${tripId}:${asked}`)),
   );
   // A refused move left the app a step ahead of the server: back to the step the server holds.
   const ahead = trip != null && refusal.refused && step !== null && viewing !== step;
@@ -184,6 +191,6 @@ export function SetupScreen({
       </Scaffold>
     );
   }
-  const StepView = STEP_VIEWS[viewing];
+  const StepView = views?.[viewing] ?? STEP_VIEWS[viewing];
   return <StepView trip={trip} shell={frame} />;
 }

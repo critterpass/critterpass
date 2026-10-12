@@ -1,0 +1,205 @@
+appId: app.critterpass.dev
+---
+# Home for the Bali demo crew (the `everyday` start, its organiser) in ${LOOK}: the trip as a
+# collage card (3.02), the tab bar shrunk by a scroll (1.04), the crew switcher (3.07), the inbox
+# answered from its cards (3.17), Your trips (3.05) and crew settings (3.12). In light only, also
+# editing the crew (3.13), a member (3.14), removing them up to the alert, which is cancelled
+# (3.15), leaving as the organiser up to "hand it over first", which stays (3.16), a lost link
+# (3.19) and the invite-friends page (3.11).
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '3.02'
+      NAME: trip-collage
+      LOOK: ${LOOK}
+- swipe:
+    start: 50%, 70%
+    end: 50%, 35%
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '1.04'
+      NAME: tab-bar-scrolled
+      LOOK: ${LOOK}
+- swipe:
+    start: 50%, 35%
+    end: 50%, 80%
+- waitForAnimationToEnd
+- runFlow:
+    file: home-switcher.yaml
+    env:
+      LOOK: ${LOOK}
+
+# The inbox from the bell; a first-time page (once per account) is passed with "Not now".
+- runFlow:
+    file: tap.yaml
+    env:
+      ID: 'home-bell'
+      LABEL: 'Inbox'
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-(first-time|screen)'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'inbox-first-time'
+    commands:
+      - tapOn:
+          id: 'inbox-not-now'
+          optional: true
+      - waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-card-.*'
+    timeout: 10000
+    optional: true
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '3.17'
+      NAME: inbox
+      LOOK: ${LOOK}
+- runFlow:
+    file: home-back-to.yaml
+    env:
+      MARK: home-screen
+
+- runFlow:
+    file: tab.yaml
+    env:
+      TAB: trips
+      LABEL: Trips
+- extendedWaitUntil:
+    visible:
+      id: 'trip-list-row-.*'
+    timeout: 10000
+    optional: true
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '3.05'
+      NAME: trips
+      LOOK: ${LOOK}
+- runFlow:
+    file: tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
+
+# Crew settings from the crew chat's title.
+- tapOn:
+    id: 'home-chat'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'chat-crew-settings'
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'chat-crew-settings'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'crew-settings'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'crew-settings'
+    commands:
+      - waitForAnimationToEnd
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '3.12'
+            NAME: crew-settings
+            LOOK: ${LOOK}
+- runFlow:
+    when:
+      visible:
+        id: 'crew-settings'
+      true: ${LOOK == 'light'}
+    commands:
+      - runFlow: home-crew-settings.yaml
+- runFlow:
+    file: home-back-to.yaml
+    env:
+      MARK: home-screen
+
+- runFlow:
+    when:
+      true: ${LOOK == 'light'}
+    commands:
+      # A link to nowhere: the lost-link page and its way home.
+      - runFlow:
+          file: ../../screens/sweep/subflows/open-link.yaml
+          env:
+            URL: critterpass-dev://nowhere-at-all
+      - extendedWaitUntil:
+          visible:
+            id: 'not-found'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '3.19'
+            NAME: lost-link
+            LOOK: light
+      - tapOn:
+          id: 'not-found-home'
+          optional: true
+      - runFlow:
+          file: home-back-to.yaml
+          env:
+            MARK: home-screen
+      # Invite friends, from the Pass page.
+      - runFlow:
+          file: tab.yaml
+          env:
+            TAB: pass
+            LABEL: Pass
+      - extendedWaitUntil:
+          visible:
+            id: 'you-profile'
+          timeout: 10000
+          optional: true
+      - scrollUntilVisible:
+          element:
+            id: 'you-profile-invite-friends'
+          direction: DOWN
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'you-profile-invite-friends'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'referral-dashboard'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '3.11'
+            NAME: invite-friends
+            LOOK: light
+      - runFlow:
+          file: home-back-to.yaml
+          env:
+            MARK: you-profile
+      - runFlow:
+          file: tab.yaml
+          env:
+            TAB: home
+            LABEL: Home

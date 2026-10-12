@@ -84,11 +84,13 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.personal_plan_ops', ['user_id', del]),
   ...rules('public.poll_reveals', ['user_id', del]),
   ...rules('public.room_prefs', ['user_id', del], ['partner_id', nul]),
+  ...rules('public.trip_member_setup', ['user_id', del]),
   ...rules('public.saved_items', ['user_id', del]),
   ...rules('public.saved_lists', ['user_id', del]),
   ...rules('public.phrase_progress', ['user_id', del]),
   ...rules('public.custom_phrase_cards', ['user_id', del]),
   ...rules('public.queued_guide_questions', ['user_id', del]),
+  ...rules('public.guide_answer_pings', ['user_id', del]),
   ...rules('public.guide_messages', ['author_id', del]),
   ...rules('public.guide_threads', ['user_id', del]),
   ...rules('public.private_guide_threads', ['owner_id', del]),
@@ -167,7 +169,7 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.media_objects', ['owner_id', keep('the stored objects still to erase')]),
   ...rules('public.devices', ['user_id', del]),
   // Chat: the user's messages go (3n-9), the conversation around them stays.
-  ...rules('public.messages', ['sender_id', { kind: 'tombstone' }]),
+  ...rules('public.messages', ['sender_id', { kind: 'tombstone' }], ['pinned_by', nul]),
   ...rules('public.message_reactions', ['user_id', keep(CREW)]),
   // Membership: a former member, so crews render "former member".
   ...rules('public.crew_members', ['user_id', { kind: 'former_member' }]),

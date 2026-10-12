@@ -15,6 +15,9 @@ export const boundaryElements = [
     capture: ['feature'],
   },
   { type: 'mobile-feature', pattern: 'apps/mobile/src/features/*', capture: ['feature'] },
+  // The premium kit sits inside src/ui but is its own layer: it never reaches into the legacy kit,
+  // and the legacy kit never reaches into it.
+  { type: 'mobile-ui-premium', pattern: 'apps/mobile/src/ui/premium' },
   { type: 'mobile-ui', pattern: 'apps/mobile/src/ui' },
   { type: 'mobile-motion', pattern: 'apps/mobile/src/motion' },
   { type: 'mobile-data', pattern: 'apps/mobile/src/data' },
@@ -67,6 +70,7 @@ export const consumerDeps = {
   // node-free subpaths `@cp/content/onboarding` and `@cp/content/airports`.
   'mobile-feature': [...mobilePackages, 'content'],
   'mobile-ui': ['design-tokens', 'critter-art', 'i18n'],
+  'mobile-ui-premium': ['design-tokens', 'critter-art', 'i18n'],
   'mobile-motion': ['design-tokens'],
   // 'cost-engine' added for the shared money formatter (apps/mobile/src/data/money): formatting is
   // pure presentation logic over synced/passed-in values, not I/O, so it stays a data-layer concern
@@ -102,13 +106,22 @@ const mobileLayerDeps = {
   'mobile-route': [
     'mobile-feature',
     'mobile-ui',
+    'mobile-ui-premium',
     'mobile-motion',
     'mobile-data',
     'mobile-lib',
     'mobile-native-module',
   ],
-  'mobile-feature': ['mobile-ui', 'mobile-motion', 'mobile-data', 'mobile-lib'],
+  'mobile-feature': [
+    'mobile-ui',
+    'mobile-ui-premium',
+    'mobile-motion',
+    'mobile-data',
+    'mobile-lib',
+  ],
   'mobile-ui': ['mobile-motion', 'mobile-lib'],
+  // No legacy motion (`src/motion`): the premium kit animates on its own three springs.
+  'mobile-ui-premium': ['mobile-lib'],
   'mobile-motion': ['mobile-lib'],
   'mobile-data': ['mobile-lib'],
   'mobile-lib': [],
@@ -116,6 +129,7 @@ const mobileLayerDeps = {
     'mobile-route',
     'mobile-feature',
     'mobile-ui',
+    'mobile-ui-premium',
     'mobile-motion',
     'mobile-data',
     'mobile-lib',
@@ -163,6 +177,17 @@ export const boundaryPolicies = [
       allow: { to: { element: { type: layer } } },
     })),
   ),
+  // The premium kit reuses three engines of the legacy kit, never its look: the one critter renderer
+  // (`ui/sticker`), the shared-element zoom machinery (`ui/transitions`) and the UI QA checks (`ui/qa`).
+  {
+    from: { element: { type: 'mobile-ui-premium' } },
+    allow: {
+      to: {
+        element: { type: 'mobile-ui' },
+        file: { path: '**/src/ui/{sticker,transitions,qa}/**' },
+      },
+    },
+  },
   // A feature may use another feature only through its public index.ts.
   {
     from: { element: { type: 'mobile-feature' } },
@@ -190,6 +215,8 @@ export const boundaryPolicies = [
 ];
 
 const serverOnlyPatterns = serverOnlyPackages.flatMap((pkg) => [`@cp/${pkg}`, `@cp/${pkg}/*`]);
+const serverOnlyMessage =
+  'Server-only package: apps reach the database, AI and suppliers through the api over HTTP.';
 
 /**
  * Flat-config blocks enforcing the architecture: boundaries between classified elements plus a
@@ -245,8 +272,47 @@ export function architectureLintConfig(rootDir, boundariesPlugin) {
             patterns: [
               {
                 group: serverOnlyPatterns,
+                message: serverOnlyMessage,
+              },
+            ],
+          },
+        ],
+      },
+    },
+    // The premium / legacy kit split by import path, so it holds even where the `@/` alias does not
+    // resolve for the element rules above. Each block repeats the server-only ban because a later
+    // block's options replace the earlier ones for the same rule.
+    {
+      files: ['apps/mobile/src/ui/premium/**/*.{ts,tsx}'],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              { group: serverOnlyPatterns, message: serverOnlyMessage },
+              {
+                // Any `@/ui…` outside `premium`, `sticker`, `transitions` and `qa`, and any `@/motion…`.
+                regex: '^@/(ui(?!/(premium|sticker|transitions|qa)(/|$))|motion)(/|$)',
                 message:
-                  'Server-only package: apps reach the database, AI and suppliers through the api over HTTP.',
+                  'The premium kit never uses the legacy kit or legacy motion (only the critter renderer, the zoom engine and the UI QA checks).',
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      files: ['apps/mobile/src/ui/**/*.{ts,tsx}', 'apps/mobile/src/motion/**/*.{ts,tsx}'],
+      ignores: ['apps/mobile/src/ui/premium/**'],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              { group: serverOnlyPatterns, message: serverOnlyMessage },
+              {
+                group: ['@/ui/premium', '@/ui/premium/*'],
+                message: 'The legacy kit never uses the premium kit.',
               },
             ],
           },

@@ -1,0 +1,80 @@
+appId: app.critterpass.dev
+---
+# From the `crew_with_code` Home (a crew of one with no trip) to a solo trip's setup: a city without
+# a guide, its guest guide and the solo pass started, which opens setup's When step in place of a
+# vote (4.13), then the setup captures when the checklist shows (plan-setup.yaml) and back to Home.
+# Every step is conditional.
+- scrollUntilVisible:
+    element:
+      id: 'home-pitch-place'
+    direction: DOWN
+    timeout: 10000
+    centerElement: true
+    optional: true
+- tapOn:
+    id: 'home-pitch-place'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'place-search-field'
+    timeout: 15000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'place-search-field'
+    commands:
+      - tapOn:
+          id: 'place-search-field'
+      - inputText: 'Marrakech'
+      - extendedWaitUntil:
+          visible:
+            id: 'place-result-.*'
+          timeout: 30000
+          optional: true
+      - hideKeyboard
+      - tapOn:
+          id: 'place-result-.*'
+          index: 0
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'guest-notes|guest-error|explore-destination'
+          timeout: 60000
+          optional: true
+      - scrollUntilVisible:
+          element:
+            id: 'guest-solo'
+          direction: DOWN
+          timeout: 10000
+          centerElement: true
+          optional: true
+      - tapOn:
+          id: 'guest-solo'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'solo-start'
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'solo-start'
+          optional: true
+      # A solo trip's setup opens on its first step, When, with the phone's calendar in (4.13).
+      - extendedWaitUntil:
+          visible:
+            id: 'setup-checklist|setup-when-.*'
+          timeout: 60000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'setup-when-.*'
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '4.13'
+                  NAME: calendar-in
+- runFlow: plan-setup.yaml
+- runFlow: plan-home.yaml

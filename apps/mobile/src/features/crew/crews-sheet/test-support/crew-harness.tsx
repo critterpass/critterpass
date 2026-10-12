@@ -16,6 +16,7 @@ import { LocalFirstProvider } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import type { TestLocalFirst } from '@/data/powersync/test-support/local-first-fixture';
 import type { SyncTransport, TransportResponse } from '@/data/powersync/transport';
+import { AnalyticsProvider, type AnalyticsClient } from '@/lib/analytics';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { CrewServicesProvider, type CrewServices } from '../crew-services';
@@ -91,6 +92,12 @@ export function recordingServices(uid: string): RecordingServices {
   return services;
 }
 
+/** PostHog is the network boundary: no flag is on and nothing is sent. */
+const analytics = new Proxy(
+  { posthog: { getFeatureFlag: () => undefined, onFeatureFlags: () => () => undefined } },
+  { get: (target, key) => (key in target ? target[key as keyof typeof target] : () => undefined) },
+) as unknown as AnalyticsClient;
+
 export async function renderWithCrew(
   ui: ReactElement,
   stack: TestLocalFirst,
@@ -104,15 +111,17 @@ export async function renderWithCrew(
   ]);
   return render(
     <I18nProvider i18n={i18n}>
-      <SafeAreaProvider initialMetrics={METRICS}>
-        <GestureHandlerRootView>
-          <CrewServicesProvider services={services}>
-            <LocalFirstProvider value={stack.value}>
-              <ScreenJoltProvider>{ui}</ScreenJoltProvider>
-            </LocalFirstProvider>
-          </CrewServicesProvider>
-        </GestureHandlerRootView>
-      </SafeAreaProvider>
+      <AnalyticsProvider client={analytics}>
+        <SafeAreaProvider initialMetrics={METRICS}>
+          <GestureHandlerRootView>
+            <CrewServicesProvider services={services}>
+              <LocalFirstProvider value={stack.value}>
+                <ScreenJoltProvider>{ui}</ScreenJoltProvider>
+              </LocalFirstProvider>
+            </CrewServicesProvider>
+          </GestureHandlerRootView>
+        </SafeAreaProvider>
+      </AnalyticsProvider>
     </I18nProvider>,
   );
 }

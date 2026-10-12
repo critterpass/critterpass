@@ -14,6 +14,12 @@ import {
 } from './areas';
 import { customPlaceSchema, ideaSourceSchema } from './ideas';
 import { placeStanceSchema, stanceNoteSchema } from './stances';
+import {
+  changeTripDatesPayloadSchema,
+  changeTripDatesResultSchema,
+  setPlanChangeRulePayloadSchema,
+  setPlanChangeRuleResultSchema,
+} from './trip-settings';
 
 export const saveIdeaPayloadSchema = z
   .strictObject({
@@ -176,5 +182,13 @@ export const PLANNING_COMMANDS = {
   set_day_area: { payload: setDayAreaPayloadSchema, result: dayAreaResultSchema },
   clear_day_area: { payload: clearDayAreaPayloadSchema, result: dayAreaResultSchema },
   set_trip_stops: { payload: setTripStopsPayloadSchema, result: setTripStopsResultSchema },
+  set_plan_change_rule: {
+    payload: setPlanChangeRulePayloadSchema,
+    result: setPlanChangeRuleResultSchema,
+  },
+  change_trip_dates: {
+    payload: changeTripDatesPayloadSchema,
+    result: changeTripDatesResultSchema,
+  },
 } as const satisfies Record<string, { payload: z.ZodType; result: z.ZodType }>;
 export type PlanningCommandName = keyof typeof PLANNING_COMMANDS;

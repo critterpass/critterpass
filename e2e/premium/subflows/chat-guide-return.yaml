@@ -1,0 +1,52 @@
+appId: app.critterpass.dev
+---
+# Back to the guide sheet from a screen it opened (dietary, camera, voice): one step back at a time
+# while ${MARK} (an id only that screen shows) is up, with a swipe down on iOS for a screen
+# presented as a sheet.
+- repeat:
+    times: 3
+    while:
+      visible:
+        id: '${MARK}'
+    commands:
+      # A full-screen page (the menu camera) closes with its ✕, top left.
+      - runFlow:
+          when:
+            visible:
+              id: 'full-screen-close'
+          commands:
+            - tapOn:
+                id: 'full-screen-close'
+            - waitForAnimationToEnd
+      - runFlow:
+          when:
+            visible:
+              id: '${MARK}'
+          commands:
+            - runFlow: back.yaml
+      # Android's back does not leave the menu camera: its ✕ is tapped where it sits.
+      - runFlow:
+          when:
+            visible:
+              id: 'guide-camera|guide-camera-denied'
+          commands:
+            - tapOn:
+                point: '10%,9%'
+            - waitForAnimationToEnd
+      # A form the flow typed into asks before it closes: its changes are thrown away.
+      - runFlow:
+          when:
+            visible: 'Discard your changes\?'
+          commands:
+            - tapOn: 'DISCARD|Discard'
+            - waitForAnimationToEnd
+      - runFlow:
+          when:
+            platform: iOS
+            visible:
+              id: '${MARK}'
+          commands:
+            - swipe:
+                start: 50%, 30%
+                end: 50%, 95%
+            - waitForAnimationToEnd

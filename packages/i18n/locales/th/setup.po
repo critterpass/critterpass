@@ -7,16 +7,187 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: th\n"
 
+#. placeholder {0}: money(locale, track.minMinor, currency)
+#. placeholder {1}: money(locale, track.maxMinor, currency)
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.scale"
+msgstr ""
+
+#. placeholder {0}: modeWord(way.mode)
+#. placeholder {1}: clock(locale, way.arrivesAt)
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.arrives"
+msgstr ""
+
+#. placeholder {0}: money(locale, room.nightlyMinor, props.currency)
+#: ../../apps/mobile/src/features/setup/premium/rooms/room-list.tsx
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.premium.rooms.nightly"
+msgstr ""
+
+#. placeholder {0}: whole(price.low)
+#: ../../apps/mobile/src/features/setup/premium/rooms/organiser-plan.tsx
+msgid "setup.premium.rooms.priceEach"
+msgstr ""
+
+#. placeholder {0}: model.items.length
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.premium.mustDos.count"
+msgstr ""
+
+#. placeholder {0}: organiser?.name ?? ''
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.waitingStay"
+msgstr ""
+
+#. placeholder {0}: member.name
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.premium.mustDos.typing"
+msgstr ""
+
+#. placeholder {0}: stop.nights
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.nights"
+msgstr ""
+
+#. placeholder {0}: band.set
+#. placeholder {1}: band.of
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.in"
+msgstr ""
+
+#. placeholder {0}: model.counts.set
+#. placeholder {1}: model.counts.of
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.premium.budget.member.counted"
+msgstr ""
+
+#. placeholder {0}: shell.destination
+#. placeholder {0}: trip.destinationName
+#. placeholder {0}: trip?.destinationName ?? ''
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.premium.title"
+msgstr ""
+
+#. placeholder {0}: money(locale, expense.amountMinor, currency)
+#: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
+msgid "setup.premium.rooms.split"
+msgstr ""
+
+#. placeholder {0}: stops.length
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.title"
+msgstr ""
+
+#. placeholder {0}: model.place
+#. placeholder {1}: model.score.won
+#. placeholder {2}: model.score.next
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.premium.when.won"
+msgstr ""
+
+#. placeholder {0}: whole(price.low)
+#. placeholder {1}: whole(price.high)
+#: ../../apps/mobile/src/features/setup/premium/rooms/organiser-plan.tsx
+msgid "setup.premium.rooms.priceRange"
+msgstr ""
+
+#. placeholder {0}: props.guide.name
+#: ../../apps/mobile/src/features/setup/premium/rooms/organiser-plan.tsx
+msgid "setup.premium.rooms.firstGo"
+msgstr ""
+
+#. placeholder {0}: model.guideName
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.premium.when.option.pick"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.going"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
+msgid "setup.manual.dayA11y"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/shell/setup-shell.tsx
 msgid "setup.shell.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.checklist.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
 msgid "setup.tag.won"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.freeDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.budget"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.gettingThere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.mustDos"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.found"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.draftEyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.draftWriting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.writingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.redrafts"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.readyLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
 msgid "setup.tag.doneA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.thingsLeft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.organising"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/room-seat.tsx
+msgid "setup.rooms.a11y.selected"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.prompt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/room-seat.tsx
+msgid "setup.rooms.a11y.person"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
@@ -27,6 +198,139 @@ msgstr ""
 msgid "setup.status.away"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.header"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.windowPill"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.windowPillSolo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.ready"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/organiser-plan.tsx
+msgid "setup.premium.rooms.summary"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.sketched"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.stops"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/crew-sees.tsx
+msgid "setup.premium.calendar.dayA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+msgid "setup.when.picker.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "vote.search.label"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.premium.rooms.alone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.infeasible.shorter"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+msgid "setup.when.picker.tooLong"
+msgstr ""
+
+#. placeholder {0}: money(locale, way.estimateMinor, way.currency)
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.about"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.estimate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.estimateQuoted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.memberLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.returnKey"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.keepA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.exampleA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.addAnother"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.addYours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/premium-steps.tsx
+msgid "setup.budget.own.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.premium.rooms.adjust"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.other"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.organiserNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.sleep.know"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.as"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.cta.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.rooms.askSwap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.rooms.swapSent"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.ask"
 msgstr ""
@@ -35,41 +339,408 @@ msgstr ""
 msgid "setup.queued.swap"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+#: ../../apps/mobile/src/features/setup/premium/steps/step-parts.tsx
+msgid "setup.premium.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.home"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connected-view.tsx
+msgid "setup.connected.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.note"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.boat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/organiser-plan.tsx
+msgid "setup.premium.rooms.booked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.booked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
+msgid "setup.premium.manual.brush"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/shell/stepper.tsx
 msgid "setup.stepper.budget"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.row.budget"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.bus"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
+msgid "setup.premium.rooms.byRoom"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.deniedTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/notifications.ts
 msgid "setup.push.notMovable"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.premium.rooms.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.car"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/premium-steps.tsx
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.premium.max.change"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.locked.change"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.infeasible.dates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.sleep.shareLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+msgid "setup.when.picker.clear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
 #: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.sheet.close"
 msgstr "ปิด"
 
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.premium.calendar.close"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.connect"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.sleep.ownLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.error"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.row.dates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.note"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.premium.rooms.discard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.premium.rooms.discardTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.sleep.either"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.draft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.draftNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.draftWithout"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
+msgid "setup.premium.rooms.estimate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.earlier"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.chip.early"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
+msgid "setup.premium.rooms.evenly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/crew-sees.tsx
+msgid "setup.premium.calendar.staysHere"
+msgstr ""
+
+#. placeholder {0}: props.organiser
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.premium.rooms.everyoneElse"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.roomsLocked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/organiser-plan.tsx
+msgid "setup.premium.rooms.samePairsLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.computing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.flight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.partLine.way"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.flights"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.food"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.examples"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.freeBusyOnly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.row.freeDays"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/notifications.ts
 msgid "setup.push.freed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.partLine.days"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.fun"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.premium.row.gettingThere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.part.gettingThere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.google"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.chip.ground"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.back.home"
 msgstr "หน้าแรก"
 
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.pick"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.sleep.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.titleOpen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+msgid "setup.when.picker.howLong"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
+msgid "setup.premium.rooms.splitMode"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.gettingThere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.chip.snore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.line"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.rooms.unplaced.organiser"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.premium.max.headline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.oneStop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.premium.rooms.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.budget.member.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.less"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.chip.light"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.budget.member.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+#: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 #: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.cta.lock"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+msgid "setup.when.picker.ghostLock"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.locked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/notice-text.ts
+msgid "setup.rooms.notice.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.more.searching"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.cta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.lock"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.lottery"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.premium.calendar.byHand"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
+msgid "setup.manual.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.partLine.daysDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.infeasible.hostels"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.more"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.more.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.premium.max.most"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/data/commands.ts
@@ -80,12 +751,327 @@ msgstr ""
 msgid "setup.stepper.mustDos"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.row.mustDos"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.unavailable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/month-grid.tsx
+msgid "setup.premium.month.next"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.chip.owl"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.noResults"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.offlineSaved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.noFit.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.partLine.max"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.premium.max.inLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.line.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.infeasible.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.notConnected"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.rooms.unplaced.member"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.notYet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.noSketch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.noStaysLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.infeasible.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.lessNights"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.moreNights"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.oneStop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.promise"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.typed.labelAlone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.typed.label"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.microsoft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.sleep.own"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.peek"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
+msgid "setup.premium.manual.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.rooms.wishesMissing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.pickOtherDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.pickDates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.pickMyself"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.premium.rooms.pick"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+msgid "setup.when.picker.titleDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.partLine.wayDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.more.attribution"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/month-grid.tsx
+msgid "setup.premium.month.previous"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.syncing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-do-card.tsx
+msgid "setup.mustDos.row.remind"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-do-card.tsx
+msgid "setup.mustDos.row.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.premium.calendar.retry"
+msgstr ""
+
+#. placeholder {0}: at + 1
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+#: ../../apps/mobile/src/features/setup/premium/rooms/room-list.tsx
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.premium.rooms.roomN"
+msgstr ""
+
+#. placeholder {0}: at + 1
+#: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
+msgid "setup.premium.rooms.tileEach"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/shell/stepper.tsx
 msgid "setup.stepper.rooms"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.row.rooms"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.noDates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.noStaysTitle"
+msgstr ""
+
+#. placeholder {0}: money(locale, track.stepMinor, currency)
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.typed.hint"
+msgstr ""
+
+#. placeholder {0}: stayName(second.type)
+#: ../../apps/mobile/src/features/setup/premium/rooms/organiser-plan.tsx
+msgid "setup.premium.rooms.samePairs"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.premium.rooms.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
+msgid "setup.manual.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.premium.max.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+msgid "setup.when.picker.howTo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.seeDraft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.seeTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-do-card.tsx
+msgid "setup.mustDos.row.pending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.budget.member.queued"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.part.set"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.memberNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.premium.calendar.settings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/step-parts.tsx
+msgid "setup.premium.pill.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.voteOpen.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.doneLineMember"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.doneLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.plannedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.sleep.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.premium.calendar.tentative"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.skip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.skip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/notice-text.ts
+msgid "setup.rooms.notice.conflict"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.part.star"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.part.mustDo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.partLine.mustDoDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.stays"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/shell/stepper.tsx
@@ -96,48 +1082,272 @@ msgstr ""
 msgid "setup.stepper.a11yDone"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.budgetLocked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.each"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.premium.calendar.sync"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.synced"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.oauthFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/notice-text.ts
+msgid "setup.rooms.notice.lockFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.rooms.full"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/notice-text.ts
+msgid "setup.rooms.notice.stayFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/notice-text.ts
+msgid "setup.rooms.notice.stayUnavailable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.stayGone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.theCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.premium.calendar.tentativeHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.locked.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.sleep.eitherLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.budget.member.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.partLine.mustDo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.waitsOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.premium.rooms.discardLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.row.route"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.voteOpen.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.premium.pill.anyOrder"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.device"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.status.stepRefused"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.train"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.travel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.deniedBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.budget.member.everyTrip"
+msgstr ""
+
+#. placeholder {0}: props.organiser
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.premium.rooms.waitingOn"
+msgstr ""
+
+#. placeholder {0}: props.organiser
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.premium.rooms.swapLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.premium.calendar.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/crew-sees.tsx
+msgid "setup.premium.calendar.crewSees"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/shell/stepper.tsx
 msgid "setup.stepper.when"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.titleSolo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.pickDates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.from"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.titleSolo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.rooms"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.rooms"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/rooms/organiser-plan.tsx
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.premium.rooms.with"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.you"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.locked.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
 #: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.sheet.notYours"
 msgstr "คุณไม่ได้อยู่ในการเตรียมทริปนี้ จึงไม่มีอะไรต้องทำที่นี่"
 
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.fromHint"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.answer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.part.freeDays"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.availability"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/steps/premium-steps.tsx
+msgid "setup.budget.member.yourMax"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.part.max"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.premium.max.in"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.mustDos"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.yourPart"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.allSet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.premium.max.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.budgetMax"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.premium.rooms.yours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.rooms.wishes"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.roomPrefs"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.premium.rooms.yourShare"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/data/commands.ts

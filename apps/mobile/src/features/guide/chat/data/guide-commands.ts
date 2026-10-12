@@ -4,7 +4,11 @@
  * is online only; the rest may wait in the offline queue.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command names and wire values, never copy. */
-import type { QueueGuideQuestionPayload } from '@cp/domain';
+import type {
+  EditQueuedQuestionPayload,
+  PingGuideAnswerPayload,
+  QueueGuideQuestionPayload,
+} from '@cp/domain';
 import { msg } from '@lingui/core/macro';
 
 import { defineClientCommand } from '@/data/commands/summaries';
@@ -23,9 +27,21 @@ export const queueGuideQuestionCommand = defineClientCommand<QueueGuideQuestionP
   offline: false,
 });
 
+export const editQueuedQuestionCommand = defineClientCommand<EditQueuedQuestionPayload>({
+  name: 'edit_queued_question',
+  offline: true,
+  summarize: () => msg({ id: 'guide.queued.edit', message: 'Rewording a question for midnight' }),
+});
+
 export const cancelQueuedQuestionCommand = defineClientCommand<{ readonly question_id: string }>({
   name: 'cancel_queued_question',
   offline: true,
   summarize: () =>
     msg({ id: 'guide.queued.cancel', message: 'Cancelling a question for midnight' }),
+});
+
+/** "Ping me": the slow answer keeps going after the guide is closed and lands as a push. */
+export const pingGuideAnswerCommand = defineClientCommand<PingGuideAnswerPayload>({
+  name: 'ping_guide_answer',
+  offline: false,
 });

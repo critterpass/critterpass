@@ -1,8 +1,10 @@
 import { useLocalSearchParams } from 'expo-router';
 
 import { CheckCardScreen } from '@/features/drivers/intake/check/CheckCardScreen';
+import { CheckCardPremium } from '@/features/drivers/premium/CheckCardPremium';
+import { usePremiumUi } from '@/lib/premium-ui';
 
-/** Check the card (6c-2) or couldn't read it (6c-3): `/{tripId}/drivers/check?intake|unread`. */
+/** Check the card (6c-2, 6.22) or couldn't read it (6c-3): `/{tripId}/drivers/check?intake|unread`. */
 export default function CheckCardRoute() {
   const { tripId, intake, unread, days } = useLocalSearchParams<{
     tripId: string;
@@ -10,12 +12,12 @@ export default function CheckCardRoute() {
     unread?: string;
     days?: string;
   }>();
-  return (
-    <CheckCardScreen
-      tripId={tripId ?? ''}
-      unread={unread === '1'}
-      {...(intake ? { intakeId: intake } : {})}
-      {...(days ? { days } : {})}
-    />
-  );
+  const premium = usePremiumUi();
+  const props = {
+    tripId: tripId ?? '',
+    unread: unread === '1',
+    ...(intake ? { intakeId: intake } : {}),
+    ...(days ? { days } : {}),
+  };
+  return premium ? <CheckCardPremium {...props} /> : <CheckCardScreen {...props} />;
 }

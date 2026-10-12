@@ -8,7 +8,7 @@
 import { router } from 'expo-router';
 
 import { goBackOr } from '@/lib/navigation/back';
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
 import { View } from 'react-native';
 
 import { useGettingThere } from '@/data/areas/use-getting-there';
@@ -25,8 +25,13 @@ import { tripPlanRoutes } from '../hub/routes';
 import { setChosenDay } from '../trip-map/chosen-day';
 import { ShareSheet } from '../trip-map/share-sheet';
 import { useTripMapModel } from '../trip-map/use-trip-map-model';
-import { AllDaysView } from './all-days-view';
-import { MovePreview, MoveStopSheet } from './move-preview';
+import { AllDaysView, type AllDaysViewProps } from './all-days-view';
+import {
+  MovePreview,
+  MoveStopSheet,
+  type MovePreviewProps,
+  type MoveStopSheetProps,
+} from './move-preview';
 import { planMove, useCrossDayDrag, type MovePlan } from './use-cross-day-drag';
 
 const GHOST = 22;
@@ -51,10 +56,21 @@ const travel: Travel = (from, to) =>
 export function AllDaysScreen({
   tripId,
   from,
+  View: DaysView = AllDaysView,
+  sheets = {},
 }: {
   readonly tripId: string;
   readonly from: number | null;
+  /** How the grid is drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<AllDaysViewProps>;
+  /** The move sheets drawn in another look. @default the current look's */
+  readonly sheets?: {
+    readonly Move?: ComponentType<MoveStopSheetProps>;
+    readonly Preview?: ComponentType<MovePreviewProps>;
+  };
 }) {
+  const Move = sheets.Move ?? MoveStopSheet;
+  const Preview = sheets.Preview ?? MovePreview;
   const { data, model } = useTripMapModel(tripId);
   const editor = useDayEditing(data.plan);
   const gettingThere = useGettingThere(data.plan.trip?.destination_id ?? null, data.plan.uid);
@@ -77,7 +93,7 @@ export function AllDaysScreen({
   };
   return (
     <>
-      <AllDaysView
+      <DaysView
         model={model}
         from={model.days.find((day) => day.dayNo === from) ?? null}
         over={drag.over}
@@ -129,7 +145,7 @@ export function AllDaysScreen({
         />
       )}
       {menuStopDay === undefined ? null : (
-        <MoveStopSheet
+        <Move
           day={menuStopDay}
           days={model.days}
           onPick={(stop, to) => {
@@ -140,7 +156,7 @@ export function AllDaysScreen({
         />
       )}
       {preview === null ? null : (
-        <MovePreview
+        <Preview
           stop={preview.stop}
           plan={preview.plan}
           canApply={data.plan.canApply}

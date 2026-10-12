@@ -202,6 +202,17 @@ export function useOffline(
       );
     },
     onDismissConflict: (opId) => void dismissOfflineConflict(db, opId),
+    queued:
+      open === null
+        ? null
+        : {
+            summary: queue.find((op) => op.opId === open.opId)?.summary ?? GONE,
+            since: clockIn(open.since, tz, locale),
+            body: open.body,
+            onCancel: () => cancelQueued(db, open.opId),
+            onEdit: (body: string) => editQueuedMessage(db, open.opId, body),
+            onClose: () => setOpen(null),
+          },
     sheet:
       open === null ? null : (
         <QueuedItemSheet

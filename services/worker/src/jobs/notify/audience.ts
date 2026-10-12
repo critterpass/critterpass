@@ -35,6 +35,8 @@ export interface Recipient {
   readonly inForeground: boolean;
   /** Pushes leave out money amounts and exact places (`user_settings.hide_lockscreen_details`). */
   readonly hideLockscreenDetails: boolean;
+  /** Chat and guide pushes leave out the words (`notification_prefs.hide_message_text`). */
+  readonly hideMessageText: boolean;
   readonly prefs: RecipientPrefs;
 }
 
@@ -57,6 +59,7 @@ interface RecipientRow {
   per_category: Record<string, boolean> | null;
   voice_readout: boolean | null;
   hide_lockscreen_details: boolean | null;
+  hide_message_text: boolean | null;
 }
 
 /**
@@ -81,7 +84,7 @@ export async function loadRecipient(
        d.tz AS device_tz, d.foreground, d.last_seen_at,
        p.budget_per_day, p.roundup_time::text, p.roundup_tz, p.quiet_from::text,
        p.quiet_to::text, p.guide_tips, p.money, p.critters_nearby, p.crew_chat_mode,
-       p.per_category, p.voice_readout,
+       p.per_category, p.voice_readout, p.hide_message_text,
        (SELECT s.hide_lockscreen_details FROM user_settings s WHERE s.user_id = u.id)
          AS hide_lockscreen_details
      FROM users u
@@ -108,6 +111,7 @@ export async function loadRecipient(
       row.last_seen_at !== null &&
       now.getTime() - row.last_seen_at.getTime() < FOREGROUND_FRESH_MS,
     hideLockscreenDetails: row.hide_lockscreen_details === true,
+    hideMessageText: row.hide_message_text === true,
     prefs: {
       budgetPerDay: row.budget_per_day ?? DEFAULT_BUDGET_PER_DAY,
       roundupMinutes: clockMinutes(row.roundup_time ?? '20:00'),

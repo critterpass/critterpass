@@ -16,11 +16,13 @@ import type {
   RequestRoomSwapPayload,
   SetAvailabilityPayload,
   SetBudgetDefaultPayload,
+  SetGettingTherePayload,
   SetMustDosPayload,
   SetRoomAssignmentPayload,
   SetRoomPrefsPayload,
   SetSetupStepPayload,
   SetStayChoicePayload,
+  SetTripStopsPayload,
   SubmitBudgetMaxPayload,
   TrackLotteryPayload,
 } from '@cp/domain';
@@ -124,4 +126,16 @@ export const trackLotteryCommand = defineClientCommand<TrackLotteryPayload>({
   name: 'track_lottery',
   offline: true,
   summarize: () => msg({ id: 'setup.queued.lottery', message: 'Lottery reminders' }),
+});
+
+export const setGettingThereCommand = defineClientCommand<SetGettingTherePayload>({
+  name: 'set_getting_there',
+  offline: true,
+  summarize: () => msg({ id: 'setup.queued.gettingThere', message: 'How you get there' }),
+});
+
+/** The route: the trip's stops in order with their nights. Needs the server's answer there and then. */
+export const setTripStopsCommand = defineClientCommand<SetTripStopsPayload>({
+  name: 'set_trip_stops',
+  offline: false,
 });

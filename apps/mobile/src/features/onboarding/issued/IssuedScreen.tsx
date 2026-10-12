@@ -7,9 +7,9 @@
  * offering to save again.
  */
 import { t } from '@lingui/core/macro';
-import { router, useIsFocused } from 'expo-router';
-import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { BackHandler, StyleSheet, View } from 'react-native';
+import { router } from 'expo-router';
+import { useEffect, useState, type ReactNode } from 'react';
+import { StyleSheet, View } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -22,7 +22,6 @@ import { tokens } from '@cp/design-tokens';
 import { homeBaseFor } from '@cp/domain';
 import { format, upper } from '@cp/i18n';
 
-import { useAnalytics } from '@/lib/analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { deviceTier } from '@/motion/device-tier';
 import { useMotionMode } from '@/motion/motion-mode';
@@ -40,8 +39,8 @@ import { degrees, makeStyles, useTheme } from '@/ui/theme';
 import { airportDataset } from '../content';
 import { ensureDraft, usePassDraft, usePassSync } from '../flow-controller/draft-store';
 import { ONBOARDING_ROUTES } from '../flow-controller/steps';
-import { useTrackStep } from '../flow-controller/track';
 import { OnboardingPassCard, PASS_DATE } from '../pass-view';
+import { useHoldBack, useIssuedArrival } from './use-issued-step';
 
 const ISSUED_AT_MS = 900;
 const HOME_AT_MS = 1500;
@@ -214,40 +213,15 @@ const tickStyles = StyleSheet.create({
   },
 });
 
-/** A UUIDv7's leading 48 bits are its creation time: when this draft was started. */
-function uuidV7Ms(id: string): number {
-  return Number.parseInt(id.replace(/-/gu, '').slice(0, 12), 16);
-}
-
 /** The page itself (first arrival plays the choreography; a relaunch shows it settled). */
 export function IssuedScreen() {
-  useTrackStep('issued');
   useNoBackByDesign();
   // An issued pass is no longer a draft: Android's back button stays on this page while it is in
   // front (the swipe is off in the stack's options), so nothing after it is skipped on the way
   // forward again.
-  const focused = useIsFocused();
-  useEffect(() => {
-    if (!focused) return undefined;
-    const held = BackHandler.addEventListener('hardwareBackPress', () => true);
-    return () => held.remove();
-  }, [focused]);
-  const analytics = useAnalytics();
-  const first = useRef(true);
+  useHoldBack();
+  const choreography = useIssuedArrival();
   const draft = usePassDraft();
-  const [choreography] = useState(() => {
-    const issuedAt = draft?.issued_at;
-    return issuedAt != null && Date.now() - new Date(issuedAt).getTime() < 10_000;
-  });
-  useEffect(() => {
-    if (!first.current || !choreography || draft == null || draft.issued_at === null) return;
-    first.current = false;
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- an analytics event name.
-    analytics.capture('pass_issued', {
-      path: 'new',
-      duration_ms: Math.max(0, new Date(draft.issued_at).getTime() - uuidV7Ms(draft.pass_id)),
-    });
-  }, [analytics, choreography, draft]);
   const saved = draft?.saved === true;
   return (
     <IssuedPage

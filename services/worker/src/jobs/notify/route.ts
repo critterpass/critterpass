@@ -23,6 +23,7 @@ import type pg from 'pg';
 
 import { defineJob, type JobDefinition } from '../../boss';
 import { lockscreenCopy } from '../../push/lockscreen-copy';
+import { messageTextCopy } from '../../push/message-text-copy';
 import type { CopyRenderer } from '../../push/render';
 import { loadRecipient } from './audience';
 import { decide, localClock, type Decision } from './policy';
@@ -174,11 +175,22 @@ async function routeRecipient(
   // Someone who hides details on the lock screen reads each template's sibling without amounts or
   // exact places; the guide's rewrite is skipped for those, since it would put them back.
   const hide = recipient.hideLockscreenDetails;
+  // Someone who hides message text reads that a message is waiting, not its words (nor the guide's).
+  const privateBody = messageTextCopy({
+    hide: recipient.hideMessageText,
+    key: spec.key,
+    class: cls,
+    sender: composed.sender.kind,
+  });
   const titleCopy = lockscreenCopy(composed.title, hide);
-  const bodyCopy = lockscreenCopy(composed.body, hide);
+  const bodyCopy = privateBody ?? lockscreenCopy(composed.body, hide);
   const title = await deps.renderer.render(recipient.locale, titleCopy, vars);
-  let body = await deps.renderer.render(recipient.locale, bodyCopy, vars);
+  let body = await deps.renderer.render(recipient.locale, bodyCopy, {
+    ...vars,
+    ...(privateBody === null ? {} : { guide: composed.sender.name }),
+  });
   if (
+    privateBody === null &&
     deps.rewriter !== undefined &&
     composed.sender.kind === 'guide' &&
     bodyCopy === composed.body

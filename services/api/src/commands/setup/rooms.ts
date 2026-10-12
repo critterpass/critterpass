@@ -5,7 +5,8 @@
  * together and groups light sleepers, early risers and night owls. Moving people is checked
  * against the plan's version (a concurrent edit is rejected with the current version to rebase on)
  * and each room's capacity. Every change queues the trip's cost recompute, which prices rooms into
- * everyone's share. Locking the rooms moves setup on to must-dos.
+ * everyone's share, and re-splits every stay expense split by room in the same transaction.
+ * Locking the rooms moves setup on to must-dos and changes nobody's room, so it re-splits nothing.
  */
 import { groupRooms, type RoomChip, type RoomGuest } from '@cp/cost-engine';
 import { emitEvent, sendInTx } from '@cp/db';
@@ -21,6 +22,7 @@ import {
 import type pg from 'pg';
 
 import { asSystemRole } from '../../admin/command';
+import { recomputeRoomExpenses } from '../../money/room-split';
 import { defineCommand } from '../_framework/define-command';
 import { loadBudgetEstimates } from './budget-shared';
 import { priceStays } from './stay-stops';
@@ -144,6 +146,7 @@ export const setStayChoiceCommand = defineCommand({
       }
       return rows[0]?.version ?? 1;
     });
+    await recomputeRoomExpenses(tx, trip.id, ctx.uid);
     await queueCosts(tx, trip.id);
     await publishSetup(tx, trip.id, SETUP_RT.roomsChanged, { version });
     await emitEvent(tx, {
@@ -225,6 +228,7 @@ export const setRoomAssignmentCommand = defineCommand({
         [payload.trip_id, sameAll],
       );
       const version = updated.rows[0]?.version ?? plan.version + 1;
+      await recomputeRoomExpenses(tx, payload.trip_id, ctx.uid);
       await queueCosts(tx, payload.trip_id);
       await publishSetup(tx, payload.trip_id, SETUP_RT.roomsChanged, { version });
       await emitEvent(tx, {

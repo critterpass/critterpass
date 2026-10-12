@@ -95,15 +95,15 @@ msgstr "{m} min"
 msgid "search.plain.drive"
 msgstr "{minutes} min"
 
-#: ../../apps/mobile/src/features/explore/search/offline-section.tsx
-msgid "search.offline.walk"
-msgstr "{minutes} min walk"
-
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.walk"
 msgstr "{minutes} min walk"
 
-#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/use-offline-rows.ts
+msgid "search.offline.walk"
+msgstr "{minutes} min walk"
+
+#: ../../apps/mobile/src/features/explore/search/use-search-controller.ts
 msgid "search.pin.saved"
 msgstr "{name} is in Ideas"
 
@@ -387,7 +387,7 @@ msgstr "Good with kids"
 msgid "search.link.error.unsupported"
 msgstr "I can’t read this link. Send a screenshot of the post instead."
 
-#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/use-link-screen.ts
 msgid "search.link.noText"
 msgstr "I couldn’t read any words in that screenshot."
 
@@ -565,7 +565,7 @@ msgstr "Nothing was saved. Try again."
 msgid "search.offline.count"
 msgstr "Offline results · {count}"
 
-#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/use-link-screen.ts
 msgid "search.link.openIdeas"
 msgstr "Open"
 
@@ -577,7 +577,7 @@ msgstr "Open past {time}"
 msgid "search.plain.openTill"
 msgstr "Open till {time}"
 
-#: ../../apps/mobile/src/features/explore/search/offline-section.tsx
+#: ../../apps/mobile/src/features/explore/search/use-offline-rows.ts
 msgid "search.offline.openAsOf"
 msgstr "open, as of {syncedOn}"
 
@@ -685,7 +685,7 @@ msgstr "Saved"
 msgid "search.link.end.ideasInstead"
 msgstr "Saved to Ideas: {ideas}"
 
-#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/use-link-screen.ts
 msgid "search.link.noPicker"
 msgstr "Screenshots can’t be read on this phone."
 

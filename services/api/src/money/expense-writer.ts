@@ -19,7 +19,7 @@ import {
   type ExpenseCategory,
   type ExpenseResult,
   type ExpenseSource,
-  type ExpenseSplitInput,
+  type KeypadSplitInput,
   type ExpenseSplitMode,
 } from '@cp/domain';
 import type pg from 'pg';
@@ -40,7 +40,7 @@ export interface ShareRow {
 export function sharesFromSplit(
   amountMinor: bigint,
   currency: string,
-  split: ExpenseSplitInput,
+  split: KeypadSplitInput,
   payerId: string,
 ): ShareRow[] {
   const shares = computeExpenseShares({
@@ -71,6 +71,8 @@ export interface ExpenseFields {
   readonly fxSnapshotId: string | null;
   readonly crewCurrency: string;
   readonly splitMode: ExpenseSplitMode;
+  /** By room: the stay of the room plan it pays for (null: every stay). */
+  readonly splitStayKey?: string | null | undefined;
   readonly category: ExpenseCategory;
   readonly description: string;
   readonly merchant: string | null;
@@ -119,6 +121,7 @@ export function snapshot(fields: ExpenseFields, priced: Priced): Record<string, 
     fx_snapshot_id: priced.fxSnapshotId,
     payer_id: fields.payerId,
     split_mode: fields.splitMode,
+    ...(fields.splitMode === 'by_room' ? { split_stay_key: fields.splitStayKey ?? null } : {}),
     category: fields.category,
     description: fields.description,
     merchant: fields.merchant,
@@ -185,9 +188,9 @@ export async function createExpense(
     await tx.query(
       `INSERT INTO expenses (id, crew_id, trip_id, payer_id, amount_minor, currency, fx_snapshot_id,
          crew_amount_minor, crew_currency, split_mode, category, description, merchant, local_date,
-         trip_day, spent_at, poi_id, receipt_id, source, created_by)
+         trip_day, spent_at, poi_id, receipt_id, source, created_by, split_stay_key)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19,
-         $20)`,
+         $20, $21)`,
       [
         expense.id,
         expense.crewId,
@@ -209,6 +212,7 @@ export async function createExpense(
         expense.receiptId,
         expense.source,
         expense.createdBy,
+        expense.splitStayKey ?? null,
       ],
     );
     await writeShares(tx, expense, priced);

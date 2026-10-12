@@ -27,6 +27,10 @@ msgstr "{asker} wants to change the plan"
 msgid "notifications.billing.boost_title"
 msgstr "{buyer} boosted {place}"
 
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.lock_freed_body"
+msgstr "{buyer} didn’t finish boosting. It’s yours if you want it."
+
 #: ../domain/src/disruptions/templates.ts
 msgid "notifications.disruption.late_body_waiting"
 msgstr "{count, plural, one {{names} is running {minutes} min late.} other {{names} are running {minutes} min late.}}"
@@ -91,6 +95,10 @@ msgstr "{crew} said yes, so I updated the plan."
 msgid "notifications.nudge.rsvp"
 msgstr "{crew} wants to know if you're in. Yes, no or maybe all help."
 
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.ftf_ending_title"
+msgstr "{days, plural, one {# day} other {# days}} left on your free first trip"
+
 #: ../domain/src/disruptions/templates.ts
 msgid "notifications.disruption.done_body"
 msgstr "{detail}"
@@ -114,6 +122,14 @@ msgstr "{flight} is boarding"
 #: ../domain/src/guide/templates.ts
 msgid "notifications.guide.queued_answer.title"
 msgstr "{guide} answered your question"
+
+#: ../../services/worker/src/push/message-text-copy.ts
+msgid "notifications.private.guide_body"
+msgstr "{guide} has something for you. Open CritterPass to read it."
+
+#: ../domain/src/guide/templates.ts
+msgid "notifications.guide.answer_ready.title"
+msgstr "{guide} has your answer"
 
 #: ../domain/src/planning/templates.ts
 msgid "notifications.ideas.placed.title"
@@ -231,6 +247,10 @@ msgstr "{name} locked the trip in."
 msgid "notifications.trip_day.knock_body"
 msgstr "{name} might need a knock."
 
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.invite_refresh.title"
+msgstr "{name} would like a fresh invite"
+
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.rooms.swap"
 msgstr "{name} would like to swap rooms. Have a look before you lock them."
@@ -326,6 +346,10 @@ msgstr "{place} · today"
 #: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.trip_cancelled.title"
 msgstr "{place} is called off"
+
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.lock_freed_title"
+msgstr "{place} is free to boost"
 
 #: ../domain/src/critters/realtime.ts
 msgid "notifications.critters.legendary.body"
@@ -657,6 +681,10 @@ msgstr "Meet-up · {time}"
 msgid "notifications.lockscreen.crew_ping.ping_meetup"
 msgstr "Meet-up at {time}."
 
+#: ../../services/worker/src/push/message-text-copy.ts
+msgid "notifications.private.chat_body"
+msgstr "New message in {crew}"
+
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.timed_out"
 msgstr "No answer from {name} in two days, so {dates} is back to the best partial week."
@@ -709,6 +737,10 @@ msgstr "Open the trip to see what changed."
 msgid "notifications.billing.resume_body"
 msgstr "Pass+ stays off until you turn it back on. Open Your plan to pick it up again."
 
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.ftf_ending_body"
+msgstr "Perks pause on {date}. The plan, photos and critters stay yours."
+
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.pickup"
 msgstr "Pickup"
@@ -746,6 +778,10 @@ msgid "notifications.crew_chat.photo"
 msgstr "Sent a photo"
 
 #: ../../services/worker/src/jobs/chat/notify.ts
+msgid "notifications.crew_chat.sticker"
+msgstr "Sent a sticker"
+
+#: ../../services/worker/src/jobs/chat/notify.ts
 msgid "notifications.crew_chat.voice"
 msgstr "Sent a voice note"
 
@@ -768,6 +804,10 @@ msgstr "Someone forwarded a booking from this address to {crew} on CritterPass. 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.critter_start_title"
 msgstr "Someone is hiding nearby"
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.invite_refresh.title_anonymous"
+msgstr "Someone would like a fresh invite"
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.stay"
@@ -793,6 +833,10 @@ msgstr "Take a look when you have a minute."
 msgid "notifications.invite_nudge.body"
 msgstr "Tap to join them. It takes a few seconds."
 
+#: ../domain/src/guide/templates.ts
+msgid "notifications.guide.answer_ready.body"
+msgstr "The answer you were waiting for is in the guide."
+
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.meet_up_arrived_body"
 msgstr "The crew is all here."
@@ -816,6 +860,10 @@ msgstr "The question you asked last night has its answer."
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.meet_up_start_body"
 msgstr "The whole crew, on your lock screen."
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.invite_refresh.body"
+msgstr "Their invite to {crew} ran out. Send a new one in a tap."
 
 #: ../domain/src/nudges/templates.ts
 msgid "notifications.nudge.payment"

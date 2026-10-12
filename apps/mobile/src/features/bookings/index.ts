@@ -12,5 +12,7 @@ export { parseMailboxReturn } from './mailbox/oauth';
 export { WalletSwitch } from './stack/WalletSwitch';
 export { useWalletGuide, WalletGuideProvider } from './data/wallet-guide';
 export { Disclosure } from './supplier/Disclosure';
+export { DisclosureLine as DisclosurePremium } from './premium/components/DisclosureLine';
 export { usePartnerLink } from './supplier/data/use-partner-link';
 export { openWalletTrip, useWalletTripId } from './data/wallet-trip';
+export { WalletHalfSwitch as WalletHalfSwitchPremium } from './premium/components/WalletHalfSwitch';

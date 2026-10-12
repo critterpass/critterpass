@@ -4,6 +4,7 @@
  * take part in the trip's money, or whom the expense already names (someone who has since left). A
  * stale `base_version` answers `VERSION_CONFLICT` with the current version. A money change reverses
  * the expense's ledger entries and derives new ones; a delete hides the expense and reverses them.
+ * A by-room expense keeps taking its shares from the room plan until a new split is given.
  */
 import {
   DomainError,
@@ -19,7 +20,8 @@ import {
   updateExpense,
   type StoredExpense,
 } from '../../money/expense-changes';
-import { sharesFromSplit, type ExpenseFields } from '../../money/expense-writer';
+import { sharesFromSplit, type ExpenseFields, type ShareRow } from '../../money/expense-writer';
+import { roomShares } from '../../money/room-split';
 import { defineCommand } from '../_framework/define-command';
 import {
   loadMoneyTrip,
@@ -72,16 +74,42 @@ export const editExpenseCommand = defineCommand({
       // An itemised split is the receipt's lines; changing its total needs a new split.
       throw new DomainError('STATE_INVALID', { reason: 'itemised_needs_split' });
     }
-    const split = patch.split ?? {
-      mode: before.splitMode === 'items' ? ('fixed' as const) : before.splitMode,
-      shares: before.shares.map((share) => ({
-        user_id: share.userId,
-        weight: share.weight,
-        ...(before.splitMode === 'fixed' || before.splitMode === 'items'
-          ? { fixed_minor: Number(share.fixedMinor ?? share.computedMinor) }
-          : {}),
-      })),
-    };
+    const byRoom =
+      patch.split?.mode === 'by_room' ||
+      (patch.split === undefined && before.splitMode === 'by_room');
+    const stayKey =
+      patch.split?.mode === 'by_room' ? patch.split.stay_key : (before.splitStayKey ?? null);
+    const keepsItems = patch.split === undefined && before.splitMode === 'items';
+    let shares: readonly ShareRow[];
+    if (byRoom) {
+      shares = await roomShares(tx, {
+        tripId: before.tripId,
+        amountMinor,
+        currency,
+        stayKey,
+        payerId,
+      });
+    } else if (keepsItems) {
+      shares = before.shares;
+    } else {
+      const split =
+        patch.split !== undefined && patch.split.mode !== 'by_room'
+          ? patch.split
+          : {
+              mode:
+                before.splitMode === 'equal' || before.splitMode === 'weights'
+                  ? before.splitMode
+                  : ('fixed' as const),
+              shares: before.shares.map((share) => ({
+                user_id: share.userId,
+                weight: share.weight,
+                ...(before.splitMode === 'equal' || before.splitMode === 'weights'
+                  ? {}
+                  : { fixed_minor: Number(share.fixedMinor ?? share.computedMinor) }),
+              })),
+            };
+      shares = sharesFromSplit(amountMinor, currency, split, payerId);
+    }
     // Whoever the expense already names stays on it after leaving the crew, so an old expense can
     // still be changed; an edit cannot add someone who has left.
     requireAllInTrip(
@@ -90,12 +118,11 @@ export const editExpenseCommand = defineCommand({
         before.payerId,
         ...before.shares.map((share) => share.userId),
       ],
-      [payerId, ...split.shares.map((share) => share.user_id)],
+      [payerId, ...shares.map((share) => share.userId)],
     );
     const spentAt = patch.spent_at === undefined ? before.spentAt : new Date(patch.spent_at);
     const localDate =
       patch.spent_at === undefined ? before.localDate : localDateIn(trip.tz, spentAt);
-    const keepsItems = patch.split === undefined && before.splitMode === 'items';
     const next: ExpenseFields = {
       id: before.id,
       crewId: before.crewId,
@@ -110,7 +137,12 @@ export const editExpenseCommand = defineCommand({
             ? before.fxSnapshotId
             : null,
       crewCurrency: before.crewCurrency,
-      splitMode: keepsItems ? 'items' : split.mode,
+      splitMode: keepsItems
+        ? 'items'
+        : byRoom
+          ? 'by_room'
+          : (patch.split?.mode ?? before.splitMode),
+      splitStayKey: byRoom ? stayKey : null,
       category: patch.category ?? before.category,
       description: patch.description ?? before.description,
       merchant: patch.merchant === undefined ? before.merchant : patch.merchant,
@@ -118,7 +150,7 @@ export const editExpenseCommand = defineCommand({
       localDate,
       tripDay:
         patch.spent_at === undefined ? before.tripDay : tripDayOf(trip.start_date, localDate),
-      shares: keepsItems ? before.shares : sharesFromSplit(amountMinor, currency, split, payerId),
+      shares,
     };
     return updateExpense(tx, before, next, ctx.uid);
   },

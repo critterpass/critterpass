@@ -19,23 +19,26 @@ export function focusedBackAffordances(): number {
 }
 
 /**
- * Called by every back and close control (the back eyebrow, a sheet's ✕): while its screen is
- * focused, it counts as that screen's way back. Outside a navigator it counts as focused.
+ * Called by every back and close control (the back eyebrow, a sheet's ✕, the premium glass back
+ * and the native bar a premium push screen shows): while its screen is focused, it counts as that
+ * screen's way back. Outside a navigator it counts as focused. `active` false is for a control that
+ * only sometimes is the way back (a glass circle drawing another glyph).
  */
-export function useBackAffordance(): void {
+export function useBackAffordance(active = true): void {
   const focused = useIsRouteFocused(undefined);
   useEffect(() => {
-    if (!UI_QA_ENABLED || !focused) return undefined;
+    if (!UI_QA_ENABLED || !focused || !active) return undefined;
     focusedAffordances += 1;
     return () => {
       focusedAffordances -= 1;
     };
-  }, [focused]);
+  }, [focused, active]);
 }
 
 /**
  * For a pushed screen the design draws without a back or close control on purpose, such as the
- * issued pass (3a-6): onboarding is finished and is not re-entered. It counts like a control, so the
+ * issued pass (3a-6): onboarding is finished and is not re-entered. The premium root screen type
+ * says the same: a large-title page (Inbox, Trips) keeps the tab bar and draws no back. It counts like a control, so the
  * guard stays quiet for that screen only.
  */
 export function useNoBackByDesign(): void {

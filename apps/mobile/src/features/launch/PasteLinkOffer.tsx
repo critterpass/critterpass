@@ -7,7 +7,9 @@ import * as Clipboard from 'expo-clipboard';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 
+import { PremiumPasteOffer } from '@/features/onboarding';
 import type { PasteOfferControls } from '@/lib/links/SplashResolveGate';
+import { usePremiumUi } from '@/lib/premium-ui';
 import { makeStyles, MIN_TOUCH_TARGET } from '@/ui';
 import { CloseButton } from '@/ui/sheet/CloseButton';
 
@@ -37,7 +39,12 @@ export interface PasteLinkOfferProps extends PasteOfferControls {
   readonly onShown: () => void;
 }
 
-export function PasteLinkOffer({ onPasted, onSkip, onShown }: PasteLinkOfferProps) {
+export function PasteLinkOffer(props: PasteLinkOfferProps) {
+  // The premium offer draws its own page; the current one is the bare paste control.
+  return usePremiumUi() ? <PremiumPasteOffer {...props} /> : <CurrentPasteLinkOffer {...props} />;
+}
+
+function CurrentPasteLinkOffer({ onPasted, onSkip, onShown }: PasteLinkOfferProps) {
   const styles = useStyles();
   const available = Clipboard.isPasteButtonAvailable;
 

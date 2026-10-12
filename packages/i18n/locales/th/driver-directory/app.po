@@ -80,7 +80,7 @@ msgstr "กำลังยกเลิกคำชวน"
 msgid "drivers.ours.rerate"
 msgstr "เปลี่ยนคำตอบ"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.shortlistFailed"
 msgstr "เพิ่มไม่ได้ ลองอีกครั้ง"
 
@@ -88,7 +88,7 @@ msgstr "เพิ่มไม่ได้ ลองอีกครั้ง"
 msgid "drivers.invite.failed"
 msgstr "สร้างลิงก์ไม่ได้ ลองอีกครั้ง"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.failed"
 msgstr "บันทึกไม่ได้ ลองอีกครั้ง"
 
@@ -152,7 +152,7 @@ msgstr "ภาษาอังกฤษดี"
 msgid "drivers.tag.greatPhotos"
 msgstr "ถ่ายรูปสวย"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.firstLine"
 msgstr "สวัสดีคุณ{first} เราเจอคุณใน CritterPass ว่างขับให้กลุ่มเราไหม"
 
@@ -237,8 +237,8 @@ msgid "drivers.directory.emptyLine"
 msgstr "ยังไม่มีแก๊งไหนพาคนขับที่อยากลงรายชื่อแถวนี้มา มีคนขับที่ {widenTo}"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.empty"
-msgstr "ทริปนี้ยังไม่มีคนขับ"
+msgid "drivers.ours.emptyTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 msgid "drivers.directory.empty"
@@ -268,7 +268,7 @@ msgstr "เตือน"
 msgid "drivers.queued.nudge"
 msgstr "เตือนคนขับ"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-directory.ts
 msgid "drivers.directory.stale"
 msgstr "ออฟไลน์ รายการเมื่อ {time}"
 
@@ -301,8 +301,8 @@ msgid "drivers.ours.title"
 msgstr "คนขับของเรา"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.back"
 msgstr "คนขับของเรา"
 
@@ -326,7 +326,7 @@ msgstr "ให้คะแนน"
 msgid "drivers.rate.title"
 msgstr "ให้คะแนนคนขับ"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.notEligible"
 msgstr "ให้คะแนนได้หลังจบทริป สำหรับสมาชิกที่ยืนยันเบอร์แล้ว"
 
@@ -346,6 +346,10 @@ msgstr "รายงานเคล็ดลับนี้"
 msgid "drivers.report.title"
 msgstr "รายงานสิ่งนี้?"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.emptyLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.own"
 msgstr "ดูแลโปรไฟล์เอง"
@@ -362,7 +366,7 @@ msgstr "บันทึกคำตอบ"
 msgid "drivers.directory.widen"
 msgstr "แสดง {widenTo} ด้วย"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.reported"
 msgstr "ขอบคุณ เราจะตรวจสอบ"
 

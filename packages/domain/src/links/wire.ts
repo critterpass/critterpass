@@ -29,6 +29,8 @@ export const linkPreviewSchema = z.object({
   trip_end: z.string().nullable().optional(),
   seats_taken: z.number().int().nonnegative().nullable().optional(),
   seat_cap: z.number().int().positive().nullable().optional(),
+  /** A trip invite: how many already wait for a seat (a full trip's newcomer is this + 1 in line). */
+  waitlist_ahead: z.number().int().nonnegative().optional(),
   /** The crew's active members as the ticket's stubs: first name and member colour only. */
   members: z
     .array(z.object({ first_name: z.string(), colour: z.string().nullable() }))

@@ -4,8 +4,7 @@
  * sticker treatment (see RealPhotoSheet).
  */
 import { t } from '@lingui/core/macro';
-import { router } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -16,26 +15,20 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { tokens } from '@cp/design-tokens';
-import { advanceDraft, guideFormId, guideOfForm, PASS_NUMBER_PLACEHOLDER } from '@cp/domain';
+import { PASS_NUMBER_PLACEHOLDER } from '@cp/domain';
 
-import { requestWithPrimer } from '@/lib/permissions';
-import { feedback } from '@/motion/feedback';
 import { useLoop } from '@/motion/use-loop';
 import { useMotionMode } from '@/motion/motion-mode';
-import { AvatarPicker, guideSticker, type GuideAvatarId } from '@/ui/avatar';
+import { AvatarPicker, guideSticker } from '@/ui/avatar';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { ensureDraft, updateDraft, usePassDraft } from '../flow-controller/draft-store';
-import { routeForStep } from '../flow-controller/steps';
-import { useTrackStep } from '../flow-controller/track';
 import { OnboardingPage } from '../page-chrome';
 import { PassPhoto } from '../pass-view';
-import { useOnboardingServices } from '../services';
 import { RealPhotoSheet } from './RealPhotoSheet';
-import { useRealPhoto } from './use-real-photo';
+import { usePhotoStep } from './use-photo-step';
 
 const FRAME_W = 132;
 const FRAME_H = 160;
@@ -65,17 +58,12 @@ function tiltFor(count: number): number {
 }
 
 export function PhotoScreen() {
-  useTrackStep('photo');
   const styles = useStyles();
   const theme = useTheme();
-  const services = useOnboardingServices();
-  const draft = usePassDraft() ?? ensureDraft();
+  const step = usePhotoStep();
+  const { draft, selected, picks, pick, real } = step;
   const [mode] = useMotionMode();
   const full = mode === 'full';
-  const current = draft.avatar?.kind === 'critter' ? guideOfForm(draft.avatar.form_id) : null;
-  const selected: GuideAvatarId | null =
-    draft.avatar === null ? 'tokek' : draft.avatar.kind === 'photo' ? null : current;
-  const [picks, setPicks] = useState(0);
   const tilt = useSharedValue(tiltFor(0));
   const flash = useSharedValue(0);
   const bob = useLoop('bob');
@@ -97,44 +85,6 @@ export function PhotoScreen() {
   const frameStyle = useAnimatedStyle(() => ({ transform: [{ rotate: `${tilt.value}deg` }] }));
   const flashStyle = useAnimatedStyle(() => ({ opacity: flash.value }));
 
-  const pick = (guide: GuideAvatarId) => {
-    feedback.emit('shutter');
-    updateDraft((d) => ({
-      ...d,
-      avatar: { kind: 'critter', form_id: guideFormId(guide) },
-      photo_uri: null,
-    }));
-    setPicks((n) => n + 1);
-  };
-
-  const onUploaded = useCallback((result: { mediaKey: string; uri: string }) => {
-    updateDraft((d) => ({
-      ...d,
-      avatar: { kind: 'photo', media_key: result.mediaKey },
-      photo_uri: result.uri,
-    }));
-    setPicks((n) => n + 1);
-  }, []);
-
-  const real = useRealPhoto({
-    photos: services.photos,
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- a permission trigger id.
-    requestCamera: () => requestWithPrimer('camera', 'real_photo'),
-    onUploaded,
-  });
-
-  const onNext = () => {
-    const next = updateDraft((d) =>
-      advanceDraft(
-        d.avatar === null
-          ? { ...d, avatar: { kind: 'critter', form_id: guideFormId('tokek') } }
-          : d,
-        'photo',
-      ),
-    );
-    if (next.step !== 'photo') router.push(routeForStep(next.step));
-  };
-
   const guide = selected === null ? null : guideSticker(selected);
   return (
     <>
@@ -144,7 +94,7 @@ export function PhotoScreen() {
         footer={
           <PillButton
             label={t({ id: 'onboarding.photo.next', message: 'That’s me' })}
-            onPress={onNext}
+            onPress={step.next}
             testID="onboarding-photo-next"
           />
         }
@@ -177,7 +127,7 @@ export function PhotoScreen() {
           </Animated.View>
         </View>
         <AvatarPicker selected={selected} onPick={pick} testID="onboarding-photo-guides" />
-        {services.photos !== null ? (
+        {step.realPhotos ? (
           <View style={styles.realRow}>
             <PillButton
               label={t({ id: 'onboarding.photo.real', message: 'Use a real photo' })}
@@ -189,7 +139,7 @@ export function PhotoScreen() {
           </View>
         ) : null}
       </OnboardingPage>
-      {services.photos !== null ? (
+      {step.realPhotos ? (
         <RealPhotoSheet
           state={real.state}
           onLibrary={() => void real.fromLibrary()}

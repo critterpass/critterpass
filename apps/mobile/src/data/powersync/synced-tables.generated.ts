@@ -37,7 +37,7 @@ export const SYNCED_TABLE_COLUMNS = {
   boost_credits:
     'crew_id user_id reason from_boost_id store_transaction_id expires_at consumed_by_boost_id consumed_at revoked_at created_at',
   boost_intents:
-    'trip_id crew_id buyer_id product_key split_mode split_member_ids status expires_at created_at updated_at',
+    'trip_id crew_id buyer_id product_key split_mode split_member_ids status expires_at waiting_uids created_at updated_at',
   briefing_items:
     'briefing_id trip_id user_id position:integer icon text action target_user_ids deep_link facts status source source_event_id dedupe_key acted_at created_at updated_at i18n',
   briefings:
@@ -67,7 +67,7 @@ export const SYNCED_TABLE_COLUMNS = {
   crew_year_grants:
     'crew_id buyer_id subscription_id original_transaction_id intent_id split_expense_id valid_from valid_to rebound_for_period_end revoked_at created_at updated_at',
   crews:
-    'name art settlement_currency member_ceiling:integer membership_epoch:integer created_by created_at updated_at',
+    'name art cover settlement_currency member_ceiling:integer membership_epoch:integer created_by created_at updated_at',
   critter_forms:
     'key critter_id rarity palette pose edge note requirement_copy xp:integer release_id created_at updated_at',
   critter_sets:
@@ -95,7 +95,7 @@ export const SYNCED_TABLE_COLUMNS = {
   expense_shares:
     'expense_id trip_id user_id weight:integer fixed_minor:integer computed_minor:integer crew_computed_minor:integer excluded_reason created_at',
   expenses:
-    'crew_id trip_id payer_id amount_minor:integer currency fx_snapshot_id crew_amount_minor:integer crew_currency split_mode category description merchant local_date trip_day:integer spent_at poi_id booking_id ride_id boost_id receipt_id source created_by deleted_at deleted_by version:integer created_at updated_at',
+    'crew_id trip_id payer_id amount_minor:integer currency fx_snapshot_id crew_amount_minor:integer crew_currency split_mode split_stay_key category description merchant local_date trip_day:integer spent_at poi_id booking_id ride_id boost_id receipt_id source created_by deleted_at deleted_by version:integer created_at updated_at',
   facilities:
     'key destination_id kind name lat:real lng:real address phone open_24h:integer source_url retrieved_on verified_at release_id created_at updated_at',
   feedback_tickets:
@@ -156,11 +156,11 @@ export const SYNCED_TABLE_COLUMNS = {
   memory_reactions: 'memory_id trip_id user_id emoji text created_at updated_at',
   message_reactions: 'message_id crew_id user_id emoji created_at',
   messages:
-    'crew_id trip_id seq:integer sender_kind sender_id guide_id type body ref_kind ref_id reply_to_id mentions mentions_guide:integer attachments edited_at deleted_at hidden_at created_at updated_at',
+    'crew_id trip_id seq:integer sender_kind sender_id guide_id type body ref_kind ref_id reply_to_id mentions mentions_guide:integer attachments edited_at deleted_at hidden_at pinned_at pinned_by created_at updated_at',
   must_dos:
     'trip_id owner_id title poi_id freeform:integer priority:integer co_owner_ids fit_status fit_note target_day:integer external_action external_deadline external_url fit_checked_at time_of_day deleted_at version:integer created_at updated_at',
   notification_prefs:
-    'user_id budget_per_day:integer roundup_time roundup_tz quiet_from quiet_to guide_tips:integer money:integer critters_nearby:integer crew_chat_mode leave_by_dnd:integer per_category voice_readout:integer created_at updated_at',
+    'user_id budget_per_day:integer roundup_time roundup_tz quiet_from quiet_to guide_tips:integer money:integer critters_nearby:integer crew_chat_mode leave_by_dnd:integer per_category voice_readout:integer hide_message_text:integer created_at updated_at',
   notifications:
     'user_id crew_id trip_id event_id key category class sender template_id title body items ctx deep_link collapse_key thread_id dedupe_key is_private:integer needs_you:integer llm_generated:integer local_date not_before expires_at state drop_reason sent_at created_at updated_at',
   nudges:
@@ -259,7 +259,7 @@ export const SYNCED_TABLE_COLUMNS = {
   room_assignments: 'trip_id stay_key room_key user_id trait_label created_at updated_at',
   room_plans:
     'trip_id stay_option_id rooms currency nights:integer stay_booking_id free_cancel_until same_pairs_all_stays:integer is_stale:integer locked_at locked_by version:integer created_at updated_at',
-  room_prefs: 'trip_id user_id chips partner_id created_at updated_at',
+  room_prefs: 'trip_id user_id chips partner_id sleep created_at updated_at',
   roundups:
     'user_id local_date tz guide_id notification_ids lines sent_at fallback_used:integer created_at updated_at',
   rsvp_suggestions:
@@ -302,6 +302,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id boost_active:integer seat_cap:integer redraft_limit:integer live_map:integer sponsored:integer computed_at',
   trip_ideas:
     'trip_id poi_id name name_local category lat:real lng:real backer_ids sources source_url fit fit_version_id created_by created_at updated_at deleted_at',
+  trip_member_setup:
+    'trip_id user_id days_in:integer max_in:integer way_mode way_from way_arrives_at way_minutes:integer way_estimate_minor:integer way_currency way_booking_id way_set_at created_at updated_at',
   trip_participants:
     'trip_id user_id role rsvp holds_seat:integer waitlist_position:integer chosen_options landed_at countdown_target_at egg_id created_at updated_at',
   trip_places:
@@ -311,7 +313,7 @@ export const SYNCED_TABLE_COLUMNS = {
   trip_stops:
     'trip_id crew_id position:integer destination_id nights:integer created_at updated_at',
   trips:
-    'crew_id status phase setup_step destination_id guide_id is_guest_guide:integer is_solo:integer start_date end_date tz local_currency seat_cap:integer trip_length_days:integer plan_progress:integer redrafts_used:integer redraft_limit:integer current_version_id draft_version_id reply_by cancelled_at created_at updated_at',
+    'crew_id status phase setup_step destination_id guide_id is_guest_guide:integer is_solo:integer start_date end_date tz local_currency seat_cap:integer trip_length_days:integer plan_progress:integer redrafts_used:integer redraft_limit:integer current_version_id draft_version_id reply_by cancelled_at plan_change_rule sketched_days created_at updated_at',
   usage_counters:
     'subject_kind subject_id metric period_key count:integer limit_at_time:integer reset_at started_at',
   user_entitlements:

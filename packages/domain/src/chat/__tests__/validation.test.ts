@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   findUnsafeLink,
   isReactionEmoji,
+  parseCritterReaction,
   reactMessagePayloadSchema,
   sendMessagePayloadSchema,
 } from '..';
@@ -68,5 +69,37 @@ describe('reactions', () => {
     expect(reactMessagePayloadSchema.safeParse({ message_id: crew, emoji: 'ok ok' }).success).toBe(
       false,
     );
+  });
+});
+
+describe('critter stickers and reactions', () => {
+  const form = '0192f000-0000-7000-8000-0000000000aa';
+  const message = '0192f000-0000-7000-8000-0000000000bb';
+
+  it('sends a sticker as a form in a pose, with no text or media', () => {
+    const sticker = { form_id: form, pose: 'cheer' };
+    expect(sendMessagePayloadSchema.safeParse({ crew_id: crew, sticker }).success).toBe(true);
+    expect(sendMessagePayloadSchema.safeParse({ crew_id: crew, sticker, body: 'yo' }).success).toBe(
+      false,
+    );
+    expect(
+      sendMessagePayloadSchema.safeParse({ crew_id: crew, sticker, mentions_guide: true }).success,
+    ).toBe(false);
+    expect(
+      sendMessagePayloadSchema.safeParse({ crew_id: crew, sticker: { form_id: form, pose: 'hop' } })
+        .success,
+    ).toBe(false);
+  });
+
+  it('accepts a critter of the dex in a pose as a reaction, and nothing looser', () => {
+    expect(parseCritterReaction('c112.cheer')).toEqual({ no: 112, pose: 'cheer' });
+    expect(parseCritterReaction('c0.cheer')).toBeNull();
+    expect(parseCritterReaction('c1000.cheer')).toBeNull();
+    expect(parseCritterReaction('c12.dance')).toBeNull();
+    const react = (emoji: string) =>
+      reactMessagePayloadSchema.safeParse({ message_id: message, emoji });
+    expect(react('c7.sleep').success).toBe(true);
+    expect(react('✨').success).toBe(true);
+    expect(react('c7 sleep').success).toBe(false);
   });
 });

@@ -33,6 +33,10 @@ msgstr "{0} per hari · {1} per orang"
 msgid "drivers.share.opened"
 msgstr "{count, plural, other {Dibuka # kali · terakhir pukul {time}}}"
 
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.set"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/share/share-text.ts
 msgid "drivers.share.expiresIn"
 msgstr "{left, plural, other {# hari lagi · {date}}}"
@@ -69,6 +73,18 @@ msgstr "Nama depan sopir atau pemandu"
 msgid "drivers.share.message"
 msgstr "Ini hari-hari kami butuh bantuanmu, lengkap dengan jam dan titik jemput: {url}"
 
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.confirmMessagePrice"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.confirmMessage"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.tellBody"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.quote"
 msgstr "Izinkan {name} kirim penawaran"
@@ -103,6 +119,10 @@ msgstr "Belum dibuka"
 msgid "drivers.replied.overtime"
 msgstr "Lembur {0} per jam setelah {1} jam"
 
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.pick"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.noDays"
 msgstr "Pilih minimal satu hari"
@@ -131,6 +151,10 @@ msgstr "Bagikan ke sopirmu"
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.revokeConfirm"
 msgstr "Ketuk lagi untuk mencabut"
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.tell"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.revoked"

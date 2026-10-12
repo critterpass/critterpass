@@ -1,6 +1,7 @@
 /**
  * Queued guide questions through the command door: ASK AT MIDNIGHT is accepted only while today's
- * free answers are spent, waits for that day's reset, once per day; cancelling frees the day;
+ * free answers are spent, waits for that day's reset, once per day; the owner may reword it until
+ * it is answered or cancelled; cancelling frees the day;
  * rating an answer is kept on the message; and a custom phrase card is for trip members only and
  * queues its text and audio job.
  */
@@ -97,10 +98,30 @@ describe('queue_guide_question', () => {
       detail: { state: 'already_queued' },
     });
 
+    const questionId = queued.body.result?.['question_id'];
+    const edited = await send(me, 'edit_queued_question', {
+      question_id: questionId,
+      text: 'Sunrise spot near Ubud?',
+    });
+    expect(edited.body.result).toMatchObject({ text: 'Sunrise spot near Ubud?' });
+    const reworded = await harness.pool.query(
+      'SELECT text, status FROM queued_guide_questions WHERE id = $1',
+      [questionId],
+    );
+    expect(reworded.rows).toEqual([{ text: 'Sunrise spot near Ubud?', status: 'queued' }]);
+
     const cancelled = await send(me, 'cancel_queued_question', {
       question_id: queued.body.result?.['question_id'],
     });
     expect(cancelled.body.result).toMatchObject({ status: 'cancelled' });
+    const late = await send(me, 'edit_queued_question', {
+      question_id: questionId,
+      text: 'too late',
+    });
+    expect(late.body.error).toMatchObject({
+      code: 'STATE_INVALID',
+      detail: { state: 'not_queued' },
+    });
     expect((await send(me, 'queue_guide_question', ask)).status).toBe(200);
   });
 

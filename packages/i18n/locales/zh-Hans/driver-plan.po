@@ -33,6 +33,10 @@ msgstr ""
 msgid "drivers.share.opened"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.set"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/share/share-text.ts
 msgid "drivers.share.expiresIn"
 msgstr ""
@@ -69,6 +73,18 @@ msgstr ""
 msgid "drivers.share.message"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.confirmMessagePrice"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.confirmMessage"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.tellBody"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.quote"
 msgstr ""
@@ -103,6 +119,10 @@ msgstr ""
 msgid "drivers.replied.overtime"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
+msgid "drivers.replied.pick"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.noDays"
 msgstr ""
@@ -130,6 +150,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.revokeConfirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
+msgid "drivers.replied.tell"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx

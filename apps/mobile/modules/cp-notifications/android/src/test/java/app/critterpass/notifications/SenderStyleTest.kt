@@ -127,5 +127,53 @@ class SenderStyleTest {
     val ids = Channels.ALL.map { it.id }
     assertEquals(ids.size, ids.toSet().size)
     assertTrue(Channels.FALLBACK in ids)
+    val local = Channels.ALL.map { it.localId }
+    assertEquals(local.size + Channels.RETIRED.size, (local + Channels.RETIRED).toSet().size)
+  }
+
+  @Test
+  fun `money and critters post quietly on their own local channels and retire the old ones`() {
+    assertEquals("cp_money_quiet", Channels.resolve("cp_money"))
+    assertEquals("cp_critters_quiet", Channels.resolve("cp_critters"))
+    assertEquals("cp_money_quiet", Channels.resolve("cp_money_quiet"))
+    assertEquals(listOf("cp_money", "cp_critters"), Channels.RETIRED)
+    Channels.ALL.filter { it.id in Channels.RETIRED }.forEach { assertEquals(2, it.importance) }
+    val money = SenderStyle.parse(data(memberChat, "channel_id" to "cp_money", "type" to "expense_added"))!!
+    assertEquals("cp_money_quiet", money.channelId)
+    assertEquals("cp_crew_chat", Channels.localId("cp_crew_chat"))
+    assertEquals("cp_sos_dnd", Channels.localId("cp_sos_dnd"))
+  }
+
+  @Test
+  fun `the header names the channel, and a variant channel carries its base channel's name`() {
+    assertEquals(R.string.cp_channel_money, Channels.nameRes("cp_money_quiet"))
+    assertEquals(R.string.cp_channel_sos, Channels.nameRes("cp_sos_dnd"))
+    assertNull(Channels.nameRes("cp_unknown"))
+  }
+
+  @Test
+  fun `the subtitle reads as a line under the body, except in a chat thread`() {
+    val cp = """{"v":1,"nid":"$nid","type":"nudge","sender":{"kind":"guide","id":"tokek","name":"Tokek"},"full":true}"""
+    val briefing = SenderStyle.parse(
+      data(cp, "type" to "nudge", "channel_id" to "cp_guide", "subtitle" to "Morning briefing · 4 things today"),
+    )!!
+    assertEquals("Landing at 6, who's up for dinner?\nMorning briefing · 4 things today", briefing.text)
+    val chat = SenderStyle.parse(data(memberChat, "subtitle" to "Bali crew"))!!
+    assertEquals(chat.body, chat.text)
+  }
+
+  @Test
+  fun `a crewmate with no photo is drawn as their initial on their crew colour`() {
+    val cp = """
+      {"v":1,"nid":"$nid","type":"crew_chat","crew_id":"$crewId",
+       "sender":{"kind":"member","id":"u-maya","name":"maya","tone":"orange"},"full":true}
+    """.trimIndent()
+    val sender = SenderStyle.parse(data(cp))!!.sender!!
+    assertEquals("orange", sender.tone)
+    assertEquals(app.critterpass.notifications.tokens.CpPremium.Accent.tangerine, InitialAvatar.accent(sender.tone))
+    assertEquals("M", InitialAvatar.initial(sender.name))
+    assertEquals("Đ", InitialAvatar.initial(" đức"))
+    assertNull(InitialAvatar.initial(" "))
+    assertNull(InitialAvatar.accent("red"))
   }
 }

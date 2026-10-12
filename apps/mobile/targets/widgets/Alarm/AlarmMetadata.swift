@@ -11,11 +11,13 @@ extension AlarmAttributes where Metadata == CPAlarmMetadata {
     }
 }
 
-/// Design tokens the alarm views use (packages/design-tokens `color.*`), as SwiftUI colours.
+/// The alarm's colours: the StandBy night ground and warm figures (6.28 right), dark marks on the
+/// tint.
 enum AlarmPalette {
-    static let night = Color(red: 0x0D / 255, green: 0x0B / 255, blue: 0x18 / 255)
-    static let cream = Color(red: 0xF4 / 255, green: 0xEF / 255, blue: 0xE4 / 255)
-    static let muted = Color(red: 0xA9 / 255, green: 0xA3 / 255, blue: 0xC0 / 255)
+    static let ground = StandByPalette.rightGround
+    static let night = CPPremium.light.colorOnAccent
+    static let cream = StandByPalette.numeral
+    static let muted = StandByPalette.footer
 }
 
 extension AlarmPresentationState.Mode {

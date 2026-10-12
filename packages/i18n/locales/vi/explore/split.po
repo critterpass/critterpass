@@ -8,7 +8,7 @@ msgstr ""
 "Language: vi\n"
 
 #. placeholder {0}: guide.name
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.thinking"
 msgstr "{0} đang tìm cách."
 
@@ -40,7 +40,7 @@ msgstr "Cả {going}"
 msgid "explore.split.back"
 msgstr "Quay lại"
 
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.inChat"
 msgstr "Đã vào chat nhóm · Mở"
 
@@ -48,7 +48,7 @@ msgstr "Đã vào chat nhóm · Mở"
 msgid "explore.split.noteLabel"
 msgstr "Bằng lời của bạn (không bắt buộc)"
 
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.posted"
 msgstr "Đã gửi vào chat nhóm để bỏ phiếu."
 
@@ -56,20 +56,20 @@ msgstr "Đã gửi vào chat nhóm để bỏ phiếu."
 msgid "explore.split.noteLong"
 msgstr "Tối đa 140 ký tự"
 
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.noWaysSaid"
 msgstr "Chưa có cách nào hợp cả nhóm. Vào chat nhóm bàn thêm nhé."
 
 #: ../../apps/mobile/src/features/explore/split/dev/split-scenes.tsx
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.noWays"
 msgstr "Chưa có cách nào. Nói bạn nghĩ sao rồi mình xem lại."
 
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.refusedBody"
 msgstr "Chưa gửi gì cả. Thử lại nhé."
 
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.openChat"
 msgstr "Mở chat nhóm"
 
@@ -101,7 +101,7 @@ msgstr "Rút lại"
 msgid "explore.split.queued.clear"
 msgstr "Rút lại ý kiến"
 
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.refused"
 msgstr "Chưa gửi được"
 

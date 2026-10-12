@@ -9,7 +9,7 @@ import { generateStableId, visitMinutes, type GapIdea, type PlanOp } from '@cp/d
 import { router } from 'expo-router';
 
 import { goBackOr } from '@/lib/navigation/back';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type ComponentType } from 'react';
 import { resolveMemberStyle, tokens } from '@cp/design-tokens';
 
 import { clearMapPreview, showMapPreview } from '@/data/plan/map-preview';
@@ -26,7 +26,7 @@ import { useCheckContext } from '../data/use-check-context';
 import { tripPlanRoutes } from '../../hub/routes';
 import { compactMoney, dayTag } from '../format';
 import * as copy from './gap-copy';
-import { GapView, type GapIdeaView } from './gap-view';
+import { GapView, type GapIdeaView, type GapViewProps } from './gap-view';
 
 const OWNER = 'fill-gap';
 const PLACES_SQL =
@@ -53,7 +53,17 @@ export interface GapSheetProps {
   readonly end: string;
 }
 
-export function GapSheet({ tripId, dayId: givenDayId, dayNo, start, end }: GapSheetProps) {
+export function GapSheet({
+  tripId,
+  dayId: givenDayId,
+  dayNo,
+  start,
+  end,
+  View: Look = GapView,
+}: GapSheetProps & {
+  /** How the ideas are drawn; the logic is the same in every look. @default the current look */
+  readonly View?: ComponentType<GapViewProps>;
+}) {
   const plan = useTripPlan(tripId);
   const dayId =
     givenDayId !== '' ? givenDayId : (plan.dayRows.find((row) => row.day_no === dayNo)?.id ?? '');
@@ -193,7 +203,7 @@ export function GapSheet({ tripId, dayId: givenDayId, dayNo, start, end }: GapSh
   ].join(' ');
 
   return (
-    <GapView
+    <Look
       window={copy.windowLabel(date === null ? '' : dayTag(date), start, end)}
       title={copy.freeTitle(freeIds.length)}
       free={freeIds.flatMap((uid) => {

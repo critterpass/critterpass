@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script src="doodles.js"></script>
+</helmet>
+<div style="width:{{ size }}px;height:{{ size }}px;border-radius:{{ radius }};overflow:hidden;position:relative;flex:none;box-shadow:{{ shadow }};backdrop-filter:{{ c.bf }};-webkit-backdrop-filter:{{ c.bf }};">
+<div style="position:absolute;left:0;top:0;width:200px;height:200px;transform:scale({{ k }});transform-origin:0 0;">
+<div style="position:absolute;inset:0;background:{{ c.bg }};"></div>
+<div style="position:absolute;inset:0;transform:scale({{ art }});transform-origin:50% 50%;">
+<sc-if value="{{ pFull }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;left:0;top:-30px;bottom:-30px;width:22px;background:{{ c.spine }};box-shadow:1px 0 0 rgba(255,255,255,.14);"></div>
+<div style="position:absolute;left:36px;right:14px;top:14px;bottom:14px;border-radius:16px;box-shadow:inset 0 0 0 2px #ffd84a;opacity:.6;"></div>
+<div style="position:absolute;left:50px;top:39px;width:122px;height:122px;border-radius:61px;background:{{ gold }};box-shadow:0 3px 8px rgba(80,25,0,.4),inset 0 0 0 1px rgba(255,255,255,.55);">
+<div style="position:absolute;inset:7px;border-radius:50%;background:radial-gradient(circle at 40% 28%,#fffdf6,#ffefc2);box-shadow:inset 0 2px 5px rgba(120,60,0,.3);overflow:hidden;display:flex;align-items:flex-end;justify-content:center;line-height:0;"><doodle-art kind="gecko" size="114" pose="wave" anim="none" blink="false" seed="3" style="margin-bottom:-10px;"></doodle-art></div>
+</div>
+<div style="position:absolute;inset:0;background:linear-gradient(140deg,rgba(255,255,255,.2),rgba(255,255,255,0) 38%);"></div>
+</sc-if>
+<sc-if value="{{ pLine }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:36px;right:14px;top:14px;bottom:14px;border-radius:16px;box-shadow:inset 0 0 0 2px {{ c.em }};opacity:.45;"></div>
+<div style="position:absolute;left:50px;top:39px;width:122px;height:122px;border-radius:61px;box-shadow:inset 0 0 0 6px {{ c.em }};overflow:hidden;display:flex;align-items:flex-end;justify-content:center;line-height:0;"><doodle-art kind="gecko" size="114" pose="wave" anim="none" blink="false" seed="3" ink="{{ c.em }}" fill="transparent" accent="transparent" eye="transparent" style="margin-bottom:-10px;"></doodle-art></div>
+</sc-if>
+<sc-if value="{{ isFace }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:-90px;top:-30px;line-height:0;"><doodle-art kind="gecko" size="380" anim="none" blink="false" seed="41" ink="{{ g.ink }}" fill="{{ g.fill }}" accent="{{ g.accent }}" eye="{{ g.eye }}"></doodle-art></div>
+</sc-if>
+<sc-if value="{{ sFull }}" hint-placeholder-val="{{ false }}">
+<sc-for list="{{ scallops }}" as="d" hint-placeholder-count="20"><div style="position:absolute;left:{{ d.x }}px;top:{{ d.y }}px;width:24px;height:24px;border-radius:12px;background:#d4a020;"></div></sc-for>
+<div style="position:absolute;left:22px;top:22px;width:156px;height:156px;border-radius:78px;background:{{ gold }};box-shadow:0 8px 18px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.5);">
+<div style="position:absolute;inset:11px;border-radius:50%;background:radial-gradient(circle at 50% 30%,#34305a,#17142a 80%);box-shadow:inset 0 3px 6px rgba(0,0,0,.55),0 0 0 1px rgba(120,80,0,.4);overflow:hidden;display:flex;align-items:flex-end;justify-content:center;line-height:0;">
+<div style="position:absolute;inset:6px;border-radius:50%;box-shadow:inset 0 0 0 1.5px rgba(255,216,74,.65);"></div>
+<doodle-art kind="gecko" size="116" pose="cheer" anim="none" blink="false" seed="9" ink="#ffd84a" fill="transparent" accent="transparent" eye="#17142a" style="margin-bottom:-6px;"></doodle-art>
+</div>
+</div>
+<div style="position:absolute;left:26px;top:30px;width:10px;height:10px;background:#fff0a8;transform:rotate(45deg);box-shadow:0 0 8px rgba(255,216,74,.8);"></div>
+<div style="position:absolute;left:170px;top:156px;width:7px;height:7px;background:#fff0a8;transform:rotate(45deg);box-shadow:0 0 6px rgba(255,216,74,.8);"></div>
+</sc-if>
+<sc-if value="{{ sLine }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:24px;top:24px;width:152px;height:152px;border-radius:76px;box-shadow:inset 0 0 0 6px {{ c.em }},inset 0 0 0 12px transparent,inset 0 0 0 14px {{ c.em }};overflow:hidden;display:flex;align-items:flex-end;justify-content:center;line-height:0;"><doodle-art kind="gecko" size="116" pose="cheer" anim="none" blink="false" seed="9" ink="{{ c.em }}" fill="transparent" accent="transparent" eye="transparent" style="margin-bottom:-6px;"></doodle-art></div>
+</sc-if>
+<sc-if value="{{ isSticker }}" hint-placeholder-val="{{ false }}">
+<sc-if value="{{ stFull }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:126px;top:12px;line-height:0;transform:rotate(16deg);filter:drop-shadow(0 4px 5px rgba(10,30,90,.3));"><doodle-art kind="star" size="62" sticker="#ffffff" accent="#ffd84a" anim="none"></doodle-art></div></sc-if>
+<div style="position:absolute;left:14px;top:22px;line-height:0;transform:rotate(-8deg);filter:{{ c.drop }};"><doodle-art kind="gecko" size="168" pose="wave" anim="none" blink="false" seed="41" sticker="{{ g.sticker }}" ink="{{ g.ink }}" fill="{{ g.fill }}" accent="{{ g.accent }}" eye="{{ g.eye }}"></doodle-art></div>
+<sc-if value="{{ stFull }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:0;background:linear-gradient(150deg,rgba(255,255,255,.22),rgba(255,255,255,0) 34%);"></div></sc-if>
+</sc-if>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:200,&quot;height&quot;:200},&quot;variant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;passport&quot;,&quot;face&quot;,&quot;stamp&quot;,&quot;sticker&quot;],&quot;default&quot;:&quot;passport&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;,&quot;clear&quot;,&quot;tinted&quot;,&quot;mono&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;shape&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ios&quot;,&quot;circle&quot;,&quot;squircle&quot;,&quot;teardrop&quot;,&quot;square&quot;],&quot;default&quot;:&quot;ios&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;size&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:180,&quot;min&quot;:16,&quot;max&quot;:512,&quot;tsType&quot;:&quot;number&quot;},&quot;tint&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#ffd84a&quot;,&quot;options&quot;:[&quot;#ffd84a&quot;,&quot;#ff5fa8&quot;,&quot;#4f86ff&quot;,&quot;#54d6a4&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;shadow&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const v = p.variant ?? 'passport', m = p.mode ?? 'light', shape = p.shape ?? 'ios', size = +(p.size ?? 180), tint = p.tint ?? '#ffd84a';
+    const DK = 'linear-gradient(165deg,#2c2d36,#15161c)', INK = 'radial-gradient(circle at 50% 30%,#2c2a44,#141226 78%)';
+    const V = {
+      passport: { light: { bg: 'linear-gradient(165deg,#ff9f55,#f47f2e 50%,#de6a1f)', spine: 'rgba(110,35,0,.22)', full: true }, dark: { bg: DK, spine: 'rgba(0,0,0,.4)', full: true } },
+      face: { light: { bg: 'radial-gradient(circle at 35% 25%,#fff3b8 0,#ffd84a 45%,#f2b92e 100%)', full: true }, dark: { bg: 'radial-gradient(circle at 35% 25%,#3a3b46,#16171d 72%)', full: true } },
+      stamp: { light: { bg: INK, full: true }, dark: { bg: 'radial-gradient(circle at 50% 30%,#22202e,#0c0b12 78%)', full: true } },
+      sticker: { light: { bg: 'radial-gradient(circle at 28% 18%,#a6c4ff,#4f86ff 52%,#2c5fd2)', full: true, drop: 'drop-shadow(0 6px 7px rgba(10,30,100,.38))' }, dark: { bg: DK, full: true, drop: 'drop-shadow(0 6px 8px rgba(0,0,0,.5))' } },
+    };
+    const line = {
+      clear: { bg: 'linear-gradient(160deg,rgba(255,255,255,.46),rgba(255,255,255,.14))', em: 'rgba(255,255,255,.97)', bf: 'blur(14px) saturate(1.7)' },
+      tinted: { bg: 'linear-gradient(165deg,#2e2e33,#111114)', em: tint },
+      mono: { bg: '#e2e7d0', em: '#39461f' },
+    };
+    const base = V[v] || V.passport;
+    const c = Object.assign({ spine: 'transparent', bf: 'none', full: false, drop: 'none' }, base[m] || line[m] || base.light);
+    const g = c.full ? { ink: '', fill: '', accent: '', eye: '', sticker: '#ffffff' } : { ink: c.em, fill: 'transparent', accent: 'transparent', eye: 'transparent', sticker: '' };
+    const R = { ios: '22.37%', circle: '50%', squircle: '30%', teardrop: '50% 50% 50% 14%', square: '0' };
+    const rim = m === 'clear' ? 'inset 0 1.5px 0 rgba(255,255,255,.75),inset 0 0 0 1px rgba(255,255,255,.35)' : 'inset 0 0 0 .5px rgba(255,255,255,.1)';
+    const drop = p.shadow ? '0 1px 2px rgba(20,22,40,.14),0 10px 24px -6px rgba(20,22,40,.28)' : '';
+    const scallops = Array.from({ length: 20 }, (_, i) => { const a = i / 20 * Math.PI * 2; return { x: (100 + 78 * Math.cos(a) - 12).toFixed(1), y: (100 + 78 * Math.sin(a) - 12).toFixed(1) }; });
+    return {
+      size, k: size / 200, c, g, radius: R[shape] || R.ios, scallops,
+      gold: 'conic-gradient(from 210deg,#fff0a8,#e2a92a,#fff6c9,#c8901a,#ffe48a,#e2a92a,#fff0a8)',
+      art: ['circle', 'squircle', 'teardrop'].includes(shape) ? 0.8 : 1,
+      shadow: drop ? rim + ',' + drop : rim,
+      pFull: v === 'passport' && c.full, pLine: v === 'passport' && !c.full,
+      sFull: v === 'stamp' && c.full, sLine: v === 'stamp' && !c.full,
+      isFace: v === 'face', isSticker: v === 'sticker', stFull: c.full,
+    };
+  }
+}
+</script>
+</body>
+</html>

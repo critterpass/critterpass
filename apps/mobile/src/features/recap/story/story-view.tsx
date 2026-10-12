@@ -52,7 +52,7 @@ const useStyles = makeStyles((th) => ({
   },
 }));
 
-interface CardHostProps {
+export interface CardHostProps {
   readonly spec: StoryCardSpec;
   readonly voiceOn: boolean;
   /** A sheet is over the story, or the app is not in front: the voice stops with the bar. */
@@ -64,7 +64,14 @@ interface CardHostProps {
   readonly cardRef: RefObject<CardView | null>;
 }
 
-function CardHost({ spec, voiceOn, frozen, onVoiceHold, loadVoiceUrl, cardRef }: CardHostProps) {
+export function CardHost({
+  spec,
+  voiceOn,
+  frozen,
+  onVoiceHold,
+  loadVoiceUrl,
+  cardRef,
+}: CardHostProps) {
   const clock = useStoryClock();
   const [speaking, setSpeaking] = useState(false);
   const holding = useVoiceWait(speaking, spec.durationMs);

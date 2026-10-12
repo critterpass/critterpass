@@ -1,0 +1,54 @@
+appId: app.critterpass.dev
+---
+# From the Pass+ page, light: what's in each (9.11), then boosting the trip from it (9.12). Nothing
+# is bought: the boost sheet is closed before its buy button.
+- scrollUntilVisible:
+    element:
+      id: 'paywall-compare'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'paywall-compare'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'compare'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'compare'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '9.11'
+            NAME: compare
+            LOOK: light
+      - scrollUntilVisible:
+          element:
+            id: 'compare-boost'
+          direction: DOWN
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'compare-boost'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'boost-sheet'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'boost-sheet'
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '9.12'
+                  NAME: boost
+                  LOOK: light

@@ -7,6 +7,10 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: fr\n"
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.storm_start_body"
+msgstr ""
+
 #: ../domain/src/planning/templates.ts
 msgid "notifications.check.ask_member.body"
 msgstr ""
@@ -17,6 +21,14 @@ msgstr ""
 
 #: ../domain/src/plan/templates.ts
 msgid "notifications.changeset.needs_yes.title"
+msgstr ""
+
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.boost_title"
+msgstr ""
+
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.lock_freed_body"
 msgstr ""
 
 #: ../domain/src/disruptions/templates.ts
@@ -83,6 +95,10 @@ msgstr ""
 msgid "notifications.nudge.rsvp"
 msgstr ""
 
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.ftf_ending_title"
+msgstr ""
+
 #: ../domain/src/disruptions/templates.ts
 msgid "notifications.disruption.done_body"
 msgstr ""
@@ -105,6 +121,14 @@ msgstr ""
 
 #: ../domain/src/guide/templates.ts
 msgid "notifications.guide.queued_answer.title"
+msgstr ""
+
+#: ../../services/worker/src/push/message-text-copy.ts
+msgid "notifications.private.guide_body"
+msgstr ""
+
+#: ../domain/src/guide/templates.ts
+msgid "notifications.guide.answer_ready.title"
 msgstr ""
 
 #: ../domain/src/planning/templates.ts
@@ -133,6 +157,10 @@ msgstr ""
 
 #: ../domain/src/itinerary/templates.ts
 msgid "notifications.draft.ready.title"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.storm_start_title"
 msgstr ""
 
 #: ../domain/src/disruptions/templates.ts
@@ -217,6 +245,10 @@ msgstr ""
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.knock_body"
+msgstr ""
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.invite_refresh.title"
 msgstr ""
 
 #: ../domain/src/setup/templates.ts
@@ -315,6 +347,10 @@ msgstr ""
 msgid "notifications.trip_cancelled.title"
 msgstr ""
 
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.lock_freed_title"
+msgstr ""
+
 #: ../domain/src/critters/realtime.ts
 msgid "notifications.critters.legendary.body"
 msgstr ""
@@ -401,6 +437,10 @@ msgstr ""
 msgid "notifications.meetup_changed.created"
 msgstr ""
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.ride_start_title"
+msgstr ""
+
 #: ../../services/worker/src/jobs/chat/notify.ts
 msgid "notifications.crew_chat.text"
 msgstr ""
@@ -451,6 +491,10 @@ msgstr ""
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.seat_opened.title"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.ride_start_body"
 msgstr ""
 
 #: ../domain/src/money/templates.ts
@@ -573,6 +617,10 @@ msgstr ""
 msgid "notifications.vote.final.body"
 msgstr ""
 
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.boost_body"
+msgstr ""
+
 #: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.trip_confirmed.title_no_dates"
 msgstr ""
@@ -633,6 +681,10 @@ msgstr ""
 msgid "notifications.lockscreen.crew_ping.ping_meetup"
 msgstr ""
 
+#: ../../services/worker/src/push/message-text-copy.ts
+msgid "notifications.private.chat_body"
+msgstr ""
+
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.timed_out"
 msgstr ""
@@ -665,6 +717,10 @@ msgstr ""
 msgid "notifications.recap.anniversary.title"
 msgstr ""
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.storm_plain_action"
+msgstr ""
+
 #: ../../services/worker/src/push/lockscreen-copy.ts
 msgid "notifications.lockscreen.disruption.needs_yes_body"
 msgstr ""
@@ -675,6 +731,14 @@ msgstr ""
 
 #: ../../services/worker/src/push/lockscreen-copy.ts
 msgid "notifications.lockscreen.disruption.done_body"
+msgstr ""
+
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.resume_body"
+msgstr ""
+
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.ftf_ending_body"
 msgstr ""
 
 #: ../domain/src/surfaces/la-copy.ts
@@ -714,6 +778,10 @@ msgid "notifications.crew_chat.photo"
 msgstr ""
 
 #: ../../services/worker/src/jobs/chat/notify.ts
+msgid "notifications.crew_chat.sticker"
+msgstr ""
+
+#: ../../services/worker/src/jobs/chat/notify.ts
 msgid "notifications.crew_chat.voice"
 msgstr ""
 
@@ -734,7 +802,23 @@ msgid "email.bookings.link_body"
 msgstr ""
 
 #: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.critter_start_title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.invite_refresh.title_anonymous"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.stay"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.critter_start_body"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.critter_start_body_plain"
 msgstr ""
 
 #: ../../services/worker/src/jobs/proposal/notify.ts
@@ -747,6 +831,10 @@ msgstr ""
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.invite_nudge.body"
+msgstr ""
+
+#: ../domain/src/guide/templates.ts
+msgid "notifications.guide.answer_ready.body"
 msgstr ""
 
 #: ../domain/src/surfaces/la-copy.ts
@@ -771,6 +859,10 @@ msgstr ""
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.meet_up_start_body"
+msgstr ""
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.invite_refresh.body"
 msgstr ""
 
 #: ../domain/src/nudges/templates.ts
@@ -807,6 +899,10 @@ msgstr ""
 
 #: ../../services/worker/src/jobs/proposal/notify.ts
 msgid "notifications.proposal.version_body"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.storm_plain_headline"
 msgstr ""
 
 #: ../domain/src/critters/realtime.ts
@@ -863,6 +959,10 @@ msgstr ""
 
 #: ../../services/worker/src/jobs/safety/notify.ts
 msgid "notifications.location_share.ending"
+msgstr ""
+
+#: ../domain/src/billing/templates.ts
+msgid "notifications.billing.resume_title"
 msgstr ""
 
 #: ../../services/worker/src/push/lockscreen-copy.ts

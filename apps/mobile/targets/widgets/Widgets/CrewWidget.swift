@@ -10,7 +10,7 @@ struct CrewWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: HomeSnapshotProvider()) { entry in
             CrewWidgetView(entry: entry)
-                .containerBackground(for: .widget) { LAPalette.card }
+                .containerBackground(for: .widget) { CPPremium.light.colorInk }
                 .widgetURL(LADeepLink.url(route: entry.file?.snapshot.trip.map { "trips/\($0.id)" } ?? "trips"))
         }
         .pushHandler(CPWidgetPushHandler.self)
@@ -25,21 +25,28 @@ struct CrewWidgetView: View {
 
     var body: some View {
         if let file = entry.file {
+            // 6.31: the one ink widget, so the crew reads apart from the light ones.
             VStack(alignment: .leading, spacing: 4) {
-                LAPill(tier: .boost)
                 if file.isLocked("crew") {
+                    LAPill(tier: .boost)
                     Text("See the crew live")
-                        .font(.system(size: 16, weight: .black))
+                        .font(.system(size: 16, weight: .heavy))
                         .foregroundStyle(LAPalette.paper)
                     Text("Boost the trip to see everyone on the way to the meet-up.")
                         .font(.system(size: 11, weight: .semibold))
                         .foregroundStyle(LAPalette.muted)
                     Spacer(minLength: 0)
                 } else if let face = CrewFace.make(crew: file.snapshot.crew) {
-                    headline(face)
+                    HStack(spacing: 6) {
+                        headline(face)
+                        LAPill(tier: .boost)
+                    }
+                    // Initials only on the widget (the snapshot never carries names).
                     Text("\(face.here) of \(face.total) there")
-                        .font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(LAPalette.muted)
+                        .font(.system(size: 17, weight: .bold))
+                        .foregroundStyle(LAPalette.paper)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
                         .contentTransition(.numericText())
                     Spacer(minLength: 0)
                     CrewLine(face: face)
@@ -52,8 +59,10 @@ struct CrewWidgetView: View {
                 HomeWidgetStaleLine(entry: entry)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .islandAppearance()
         } else {
             HomeWidgetSignedOut()
+                .islandAppearance()
         }
     }
 
@@ -68,8 +77,9 @@ struct CrewWidgetView: View {
                 Text(meetAt, format: .dateTime.hour().minute())
             }
         }
-        .font(.system(size: 15, weight: .black))
-        .foregroundStyle(LAPalette.paper)
+        .font(.system(size: 11.5, weight: .bold))
+        .tracking(0.46)
+        .foregroundStyle(LAPalette.paper.opacity(0.7))
     }
 }
 
@@ -88,7 +98,7 @@ struct CrewLine: View {
                     .foregroundStyle(LAPalette.yellow)
                     .position(x: geo.size.width - 6, y: mid - 8)
                 ForEach(face.dots, id: \.index) { dot in
-                    LAMemberDot(initial: dot.initial, tone: dot.index, size: 20)
+                    LAMemberDot(initial: dot.initial, tone: dot.index, size: 24, ring: CPPremium.light.colorInk)
                         .opacity(dot.known ? 1 : 0.4)
                         .position(x: 10 + (width - 20) * dot.x, y: mid + CGFloat(dot.row) * 10)
                 }

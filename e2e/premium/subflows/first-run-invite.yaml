@@ -1,0 +1,119 @@
+appId: app.critterpass.dev
+---
+# Joining a crew on a new phone. An organiser account starts as `crew_with_code` and leaves its
+# crew's code; the phone then becomes a cleared premium install. From the splash: the code found
+# (2.15), back, then the crew's invite link opens the ticket (2.14); taking the seat runs the
+# invited pass and ends on the crew manifest (2.19). Light only.
+- runFlow:
+    file: ../../_shared/start-as.yaml
+    env:
+      SCENARIO: crew_with_code
+      LANG: en
+- runFlow: fresh.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'paste-link-skip'
+    commands:
+      - tapOn:
+          id: 'paste-link-skip'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-invite-code'
+    timeout: 60000
+    optional: true
+
+# The code typed on the splash's "Got a code?": the keyboard makes way for the crew card.
+- runFlow:
+    when:
+      true: ${output.crewCode.length == 6}
+    commands:
+      - tapOn:
+          id: 'onboarding-invite-code'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'invite-code-boxes'
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'invite-code-boxes'
+          optional: true
+      - inputText: ${output.crewCode}
+      - extendedWaitUntil:
+          visible:
+            id: 'invite-code-found'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '2.15'
+            NAME: code-found
+            LOOK: light
+      - hideKeyboard
+      - runFlow:
+          file: home-back-to.yaml
+          env:
+            MARK: onboarding-invite-code
+
+# The crew's invite link on the same install: the ticket, then the seat.
+- runFlow:
+    when:
+      true: ${output.crewCode.length == 6}
+    commands:
+      - runFlow:
+          file: ../../screens/sweep/subflows/open-link.yaml
+          env:
+            URL: critterpass-dev://i/${output.crewCode}
+      - extendedWaitUntil:
+          visible:
+            id: 'invite-take-seat'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '2.14'
+            NAME: ticket
+            LOOK: light
+      - tapOn:
+          id: 'invite-take-seat'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'invite-(edit-name|pass-issue)'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'invite-edit-name'
+          commands:
+            - runFlow:
+                file: ../../journeys/subflows/invited-pass.yaml
+                optional: true
+      - tapOn:
+          id: 'invite-pass-issue'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'save-not-now'
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'save-not-now'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'invite-manifest-screen'
+          timeout: 10000
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '2.19'
+            NAME: manifest
+            LOOK: light

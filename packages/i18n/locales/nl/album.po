@@ -7,11 +7,16 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: nl\n"
 
+#: ../../apps/mobile/src/features/album/premium/day-pocket.tsx
+msgid "album.premium.photoCount"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
 msgid "album.upload.failed"
 msgstr "{failed, plural, one {# foto is niet geüpload.} other {# foto's zijn niet geüpload.}}"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.noteLeft"
 msgstr "Nog {left} tekens"
 
@@ -52,12 +57,14 @@ msgid "album.upload.waiting"
 msgstr "{waiting, plural, one {# foto wacht op verbinding. Hij gaat vanzelf.} other {# foto's wachten op verbinding. Ze gaan vanzelf.}}"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.upload"
 msgstr "+ Uploaden"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.formerTraveller"
 msgstr "Een oud-reiziger"
@@ -107,10 +114,12 @@ msgid "album.viewer.meOff"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.empty.add"
 msgstr "Foto's toevoegen"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.empty.line"
 msgstr "Voeg de foto's van de trip toe en de hele crew ziet ze. Alleen foto's, geen video's. Altijd gratis."
 
@@ -120,6 +129,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.savedToast"
+msgstr ""
+
+#. placeholder {0}: photos.length
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.premium.all"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
@@ -136,10 +150,12 @@ msgid "album.address.back"
 msgstr "Terug"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.best"
 msgstr "Beste · {picks}"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.byPerson"
 msgstr "Per persoon"
 
@@ -158,6 +174,10 @@ msgstr "Foto kiezen"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.city"
 msgstr "Plaats"
+
+#: ../../apps/mobile/src/features/album/premium/premium-sheet.tsx
+msgid "recap.premium.sheet.close"
+msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.failed"
@@ -204,6 +224,7 @@ msgid "album.postcard.sendFailed"
 msgstr "Niet verstuurd. Probeer het opnieuw"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export.failed"
 msgstr "Inpakken mislukt. Probeer het opnieuw"
 
@@ -214,6 +235,11 @@ msgstr ""
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.saveDenied"
 msgstr "CritterPass heeft toestemming nodig om aan Foto's toe te voegen. Zet het aan in Instellingen."
+
+#. placeholder {0}: section.dayNo
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.premium.day.number"
+msgstr ""
 
 #: ../../apps/mobile/src/features/album/grid/album-copy.ts
 msgid "album.day.number"
@@ -237,12 +263,18 @@ msgstr "Deze foto verwijderen?"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
 #: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.close"
 msgstr "Klaar"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export"
 msgstr "Alles downloaden"
+
+#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
+msgid "album.premium.postcard.editNote"
+msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.line2"
@@ -252,15 +284,24 @@ msgstr "Appartement, verdieping (optioneel)"
 msgid "album.address.why"
 msgstr "Voor gedrukte kaarten van je crew. Alleen de drukker ziet het; je crew en de gids nooit."
 
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+msgid "album.premium.postcard.format"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/postcard/received-view.tsx
 msgid "album.received.from"
 msgstr "Van {sender}"
+
+#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
+msgid "album.premium.postcard.greetings"
+msgstr ""
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
 msgid "album.postcard.greetings"
 msgstr "Groeten uit"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.curating"
 msgstr "Ik ga de foto's door. Mijn favorieten komen hier snel."
 
@@ -298,6 +339,7 @@ msgid "album.postcard.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.mail"
 msgstr "Stuur ieder van jullie een echte"
 
@@ -330,14 +372,17 @@ msgid "album.day.undated"
 msgstr "Geen datum"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.noPhoto"
 msgstr "Geen foto"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.noPhotos"
 msgstr "Nog geen foto's in het album, dus de voorkant krijgt de kleur van de gids."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.empty.title"
 msgstr "Nog geen foto's"
 
@@ -346,6 +391,7 @@ msgid "album.address.offlineLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.solo"
 msgstr ""
 
@@ -354,9 +400,11 @@ msgid "album.who.nobody"
 msgstr "Nog niemand heeft gezegd dat hij hierop staat."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.people.none"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
 #: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
 msgid "album.upload.dismiss"
 msgstr ""
@@ -382,6 +430,7 @@ msgid "album.mail.status.queued"
 msgstr "Besteld"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.mailing"
 msgstr ""
 
@@ -390,6 +439,7 @@ msgid "album.report.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.passPlus"
 msgstr "Pass+"
 
@@ -411,11 +461,16 @@ msgstr "Foto's"
 msgid "album.viewer.pickOff"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
+msgid "album.premium.postcard.pickPhoto"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.pickOn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.format.classic"
 msgstr "Ansichtkaart"
 
@@ -428,6 +483,7 @@ msgid "album.address.postal"
 msgstr "Postcode"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.format.square"
 msgstr "Poster"
 
@@ -497,6 +553,7 @@ msgid "album.postcard.open"
 msgstr "Stuur hem naar huis"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.send"
 msgstr "Naar de crew sturen"
 
@@ -517,6 +574,7 @@ msgid "album.viewer.share"
 msgstr "Delen"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.segments"
 msgstr "Toon"
 
@@ -525,6 +583,7 @@ msgid "album.address.region"
 msgstr "Provincie of staat (optioneel)"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.format.story"
 msgstr "Story 9:16"
 
@@ -549,10 +608,12 @@ msgid "album.tile.crew"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.photoTitle"
 msgstr "De voorkant"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.noteTitle"
 msgstr "Het briefje"
 
@@ -582,7 +643,12 @@ msgid "album.address.long"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
+msgid "album.premium.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
@@ -593,15 +659,18 @@ msgstr ""
 msgid "album.upload.pickFailedLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
 #: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
 msgid "album.upload.retry"
 msgstr "Mislukte opnieuw proberen"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.noteDone"
 msgstr "Dit briefje gebruiken"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
+#: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.photoOption"
 msgstr "Deze foto gebruiken"
 
@@ -654,6 +723,7 @@ msgid "album.inbox.mailing.failed"
 msgstr "Je gedrukte kaarten konden niet gemaakt worden. De verzending voor deze trip is weer vrij."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export.open"
 msgstr ""
 
@@ -662,5 +732,6 @@ msgid "album.export.started"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export.asking"
 msgstr "Album inpakken…"

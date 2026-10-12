@@ -1,0 +1,291 @@
+/**
+ * The guide drafting (4.20, slow 4.21) in the premium look: the guide floating in its tint, "Pon is
+ * drafting your 8 days" and what to expect, the steps in the job's real order (done in mint with a
+ * check, the running one ringed and bold, the rest waiting at .45), and the days as stickers as
+ * they are sketched. Every state has a way out: come back later or stop while it runs, try again
+ * when it failed. When the result has shown long enough the page fades and the draft opens.
+ */
+import { t } from '@lingui/core/macro';
+import { useEffect } from 'react';
+import { ScrollView, View } from 'react-native';
+import Animated, { FadeOut } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { useLocale } from '@/lib/i18n/use-locale';
+import { guideSticker } from '@/ui/avatar/guides';
+import {
+  Button,
+  CritterSticker,
+  GlassIconButton,
+  Icon,
+  ListCard,
+  OfflinePill,
+  Spinner,
+  Text,
+  TextButton,
+  usePremiumTheme,
+} from '@/ui/premium';
+
+import { VISIBLE_STEP_IDS, type StepRow } from '../../draft/data/job';
+import { lineFor, titleFor, type DraftingViewProps } from '../../draft/drafting/drafting-view';
+import { dayCardLabel, failLine, stepLine } from '../../draft/drafting/step-copy';
+import { draftingBackLabel } from '../../draft/review/draft-copy';
+import { dayColours } from '../map';
+import { confirmAlert } from '@/ui/premium/shell';
+
+const DISC = 22;
+/* eslint-disable-next-line lingui/no-unlocalized-strings -- sticker tilts, never copy. */
+const TILTS = ['-3deg', '3deg'] as const;
+
+function StepMark({ status }: { readonly status: StepRow['status'] }) {
+  const theme = usePremiumTheme();
+  if (status === 'done') {
+    return (
+      <View
+        style={{
+          width: DISC,
+          height: DISC,
+          borderRadius: DISC / 2,
+          backgroundColor: theme.accent.mint,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Icon name="check" size={13} color={theme.color.onAccent} stroke={3} />
+      </View>
+    );
+  }
+  if (status === 'running') return <Spinner size={DISC} />;
+  return (
+    <View
+      style={{
+        width: DISC,
+        height: DISC,
+        borderRadius: DISC / 2,
+        borderWidth: status === 'failed' ? 2.5 : 2,
+        borderColor:
+          status === 'failed' ? theme.color.destructive.fieldRing : theme.color.progressTodo,
+      }}
+    />
+  );
+}
+
+export function PremiumDraftingView({
+  guide,
+  days,
+  phase,
+  steps,
+  dayCards,
+  leaving,
+  onDone,
+  onRetry,
+  onCancel,
+  onBack,
+  testID = 'drafting-screen',
+}: DraftingViewProps) {
+  const theme = usePremiumTheme();
+  const insets = useSafeAreaInsets();
+  const locale = useLocale();
+  const sticker = guideSticker(guide);
+  const rows = steps.filter((row) => (VISIBLE_STEP_IDS as readonly string[]).includes(row.id));
+  const working = phase.kind === 'running' || phase.kind === 'starting' || phase.kind === 'done';
+  const slow = phase.kind === 'running' && phase.slow;
+  useEffect(() => {
+    if (!leaving) return undefined;
+    const timer = setTimeout(onDone, 250);
+    return () => clearTimeout(timer);
+  }, [leaving, onDone]);
+  if (leaving) return <View style={{ flex: 1, backgroundColor: theme.color.ground }} />;
+  return (
+    <Animated.View
+      exiting={FadeOut}
+      style={{ flex: 1, backgroundColor: theme.color.ground }}
+      testID={testID}
+    >
+      {slow ? (
+        <View
+          style={{
+            paddingTop: insets.top + theme.space.gap4,
+            paddingHorizontal: theme.space.gutter,
+          }}
+        >
+          <GlassIconButton
+            icon="close"
+            label={draftingBackLabel()}
+            onPress={onBack}
+            testID="drafting-close"
+          />
+        </View>
+      ) : null}
+      <ScrollView
+        contentContainerStyle={{
+          paddingTop: slow ? theme.space.gap16 : insets.top + theme.space.gap16 * 3,
+          paddingHorizontal: theme.space.gutter,
+          paddingBottom: theme.space.gap16,
+          gap: theme.space.gap16,
+          alignItems: 'stretch',
+        }}
+      >
+        <View style={{ alignItems: 'center' }}>
+          <View
+            style={{
+              width: 180,
+              height: 180,
+              borderRadius: 90,
+              backgroundColor: theme.color.status.tangerine.bg,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <CritterSticker kind={sticker.kind} name={sticker.name} size={140} />
+          </View>
+        </View>
+        <View style={{ gap: theme.space.gap8, alignItems: 'center' }}>
+          {phase.kind === 'offline' ? <OfflinePill /> : null}
+          <Text variant="display" align="center" accessibilityRole="header" testID="drafting-title">
+            {slow
+              ? t({
+                  id: 'plan.premium.drafting.slowTitle',
+                  message: 'Taking a bit longer than usual',
+                })
+              : titleFor(phase, sticker.name, days)}
+          </Text>
+          <Text
+            variant="body"
+            tone="muted"
+            align="center"
+            accessibilityLiveRegion="polite"
+            testID="drafting-line"
+          >
+            {lineFor(phase, days)}
+          </Text>
+        </View>
+        {phase.kind === 'blocked' || rows.length === 0 ? null : (
+          <ListCard>
+            {rows.map((row) => (
+              <View
+                key={row.id}
+                testID={`drafting-step-${row.id}`}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: theme.space.gap12,
+                  paddingVertical: 9,
+                  paddingHorizontal: theme.space.gap16,
+                  opacity: row.status === 'pending' ? 0.45 : 1,
+                }}
+              >
+                <StepMark status={row.status} />
+                <View style={{ flex: 1 }}>
+                  <Text variant={row.status === 'running' ? 'rowTextStrong' : 'rowText'}>
+                    {stepLine(row)}
+                  </Text>
+                  {row.status === 'failed' ? (
+                    <Text variant="caption" color={theme.color.destructive.text}>
+                      {failLine(row.reason)}
+                    </Text>
+                  ) : null}
+                </View>
+              </View>
+            ))}
+          </ListCard>
+        )}
+        {working && dayCards.length > 0 ? (
+          <View
+            style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap8 }}
+            testID="drafting-days"
+          >
+            {dayCards.map((day, index) => (
+              <View
+                key={day.dayNo}
+                style={{
+                  paddingVertical: theme.space.gap8,
+                  paddingHorizontal: theme.space.gap12,
+                  borderRadius: theme.radius.tag,
+                  borderWidth: 2.5,
+                  borderColor: theme.accent.stickerEdge,
+                  backgroundColor: dayColours(day.dayNo).fill,
+                  boxShadow: theme.shadow.sticker,
+                  transform: [{ rotate: TILTS[index % 2] ?? TILTS[0] }],
+                }}
+              >
+                <Text variant="caption" color={theme.color.onAccent}>
+                  {dayCardLabel(day, locale)}
+                </Text>
+              </View>
+            ))}
+          </View>
+        ) : null}
+      </ScrollView>
+      <View
+        style={{
+          paddingHorizontal: theme.space.titleGutter,
+          paddingBottom: insets.bottom + theme.space.gap16,
+          gap: theme.space.gap4,
+          alignItems: 'center',
+        }}
+      >
+        {phase.kind === 'failed' || phase.kind === 'cancelled' ? (
+          <>
+            <View style={{ alignSelf: 'stretch' }}>
+              <Button
+                label={
+                  phase.kind === 'failed'
+                    ? t({ id: 'planDraft.drafting.retry', message: 'Try again' })
+                    : t({ id: 'planDraft.drafting.again', message: 'Draft again' })
+                }
+                onPress={onRetry}
+                testID="drafting-retry"
+              />
+            </View>
+            <TextButton label={draftingBackLabel()} onPress={onBack} testID="drafting-back" />
+          </>
+        ) : phase.kind === 'blocked' ? (
+          <View style={{ alignSelf: 'stretch' }}>
+            <Button label={draftingBackLabel()} onPress={onBack} testID="drafting-back" />
+          </View>
+        ) : phase.kind === 'done' ? null : (
+          <>
+            <View style={{ alignSelf: 'stretch' }}>
+              <Button
+                label={
+                  slow
+                    ? t({ id: 'plan.premium.drafting.ping', message: 'Ping me when it’s ready' })
+                    : t({ id: 'planDraft.drafting.leave', message: 'Come back later' })
+                }
+                variant={slow ? 'primary' : 'secondary'}
+                onPress={onBack}
+                testID="drafting-leave"
+              />
+            </View>
+            {phase.kind === 'offline' ? null : (
+              <TextButton
+                label={t({ id: 'plan.premium.drafting.cancel', message: 'Cancel the draft' })}
+                onPress={() =>
+                  void confirmAlert({
+                    title: t({
+                      id: 'plan.premium.drafting.cancelTitle',
+                      message: 'Cancel the draft?',
+                    }),
+                    message: t({
+                      id: 'planDraft.drafting.stopped',
+                      message: 'Nobody saw it. Start again whenever you like.',
+                    }),
+                    confirm: t({
+                      id: 'plan.premium.drafting.cancelConfirm',
+                      message: 'Cancel draft',
+                    }),
+                    cancel: t({ id: 'plan.premium.drafting.keep', message: 'Keep drafting' }),
+                  }).then((yes) => {
+                    if (yes) onCancel();
+                  })
+                }
+                testID="drafting-cancel"
+              />
+            )}
+          </>
+        )}
+      </View>
+    </Animated.View>
+  );
+}

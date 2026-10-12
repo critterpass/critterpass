@@ -21,7 +21,9 @@ export {
   type InboxRenderer,
 } from './inbox/kind-renderers';
 export type { InboxItem } from './inbox/inbox-data';
-export { useNudge, type NudgeOutcome } from './nudge/use-nudge';
+export { nudgeOutcome, useNudge, type NudgeOutcome } from './nudge/use-nudge';
+export { shareRelay } from './nudge/share-relay';
+export { sendNudgeCommand } from './home-commands';
 export { homeRoutes, HOME_ROUTES } from './routes';
 export { PostTripCard } from './post-trip-card';
 export { useWidgetSync } from './widget-gallery/use-widget-sync';

@@ -2,7 +2,10 @@ import { useLocalSearchParams } from 'expo-router';
 import { useMemo } from 'react';
 
 import { threadModeOf } from '@/features/guide/chat/data/use-guide-thread';
+import { PremiumVoiceConsent } from '@/features/guide/premium/voice/voice-consent';
+import { PremiumVoiceScene } from '@/features/guide/premium/voice/voice-scene';
 import { VoiceScreen, type VoiceSpeech } from '@/features/guide/voice/voice-screen';
+import { usePremiumUi } from '@/lib/premium-ui';
 
 import { createBargeIn, getSpeech, startListening } from '../../../../modules/cp-speech';
 
@@ -40,6 +43,7 @@ export default function VoiceRoute() {
     mode?: string;
     talk?: string;
   }>();
+  const premium = usePremiumUi();
   const speech = useMemo(() => deviceSpeech(), []);
   return (
     <VoiceScreen
@@ -47,6 +51,7 @@ export default function VoiceRoute() {
       mode={threadModeOf(mode) ?? null}
       speech={speech}
       talkOnOpen={talk === '1'}
+      {...(premium ? { View: PremiumVoiceScene, Consent: PremiumVoiceConsent } : {})}
     />
   );
 }

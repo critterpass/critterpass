@@ -7,13 +7,20 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#. placeholder {0}: meter.limit
+#: ../../apps/mobile/src/features/guide/premium/use-premium-guide-meter.tsx
+msgid "guide.premium.allowance"
+msgstr "{0} câu trả lời mỗi ngày với gói miễn phí · làm mới lúc nửa đêm"
+
 #. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.micDeniedBody"
 msgstr "{0} không nghe được bạn khi chưa có micro. Bật trong Cài đặt, hoặc gõ câu hỏi nhé."
 
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.deniedBody"
 msgstr "{0} không xem được thực đơn khi chưa có máy ảnh. Bật trong Cài đặt, hoặc gõ tên món vào khung chat nhé."
 
@@ -22,26 +29,40 @@ msgstr "{0} không xem được thực đơn khi chưa có máy ảnh. Bật tro
 msgid "guide.limit.hintLabel"
 msgstr "{0} có Pass+. Hỏi trong nhóm chat"
 
+#. placeholder {0}: passHolder.name
 #. placeholder {0}: props.passHolder.name
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
 msgid "guide.limit.hint"
 msgstr "{0} có Pass+. Hỏi trong nhóm chat, {guideName} sẽ trả lời ở đó."
 
 #. placeholder {0}: meter.used
 #. placeholder {1}: meter.limit
 #: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
 msgid "guide.meter.count"
 msgstr "{0} trên {1} hôm nay"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.plan.cost"
 msgstr "{cost} mỗi người"
+
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
+msgid "guide.premium.voice.group"
+msgstr "{guide} · chế độ nhóm"
+
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
+msgid "guide.premium.voice.me"
+msgstr "{guide} · chỉ mình tôi"
 
 #: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
 msgid "guide.voice.consentEyebrow"
 msgstr "{guideName} · Giọng nói"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
 #: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.body"
 msgstr "{guideName} sẽ trả lời câu này lúc {clock} và báo bạn nhẹ nhàng. Câu này tính vào lượt của ngày mai."
@@ -59,18 +80,32 @@ msgid "guide.camera.fairUse"
 msgstr "Hôm nay {guideName} đã đọc rất nhiều thực đơn rồi, mai sẽ đọc tiếp nhé."
 
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/use-premium-guide-meter.tsx
 msgid "guide.limit.backAtMidnight"
 msgstr "{guideName} sẽ quay lại lúc nửa đêm"
 
 #. placeholder {0}: left.hours
 #. placeholder {1}: left.minutes
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/use-premium-guide-meter.tsx
 msgid "guide.limit.backIn"
 msgstr "{guideName} quay lại sau {0} giờ {1} phút"
+
+#: ../../apps/mobile/src/features/guide/premium/typing-bubble.tsx
+msgid "guide.premium.thinking"
+msgstr "{guideName} đang suy nghĩ"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 msgid "guide.practice.count"
 msgstr "Đã thuộc {learned}/{total}"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
+msgid "guide.premium.left"
+msgstr "còn {left}"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.identity"
+msgstr "{name}, hướng dẫn viên AI của bạn. {modeLine}"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-screen.tsx
 msgid "guide.camera.askWithMenu"
@@ -80,39 +115,75 @@ msgstr "{question} Thực đơn: {dishes}"
 msgid "guide.limit.count"
 msgstr "{used} trên {limit} hôm nay"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-bubbles.tsx
+msgid "guide.premium.answered"
+msgstr "✓ Đã trả lời"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-turn-cards.tsx
+msgid "guide.premium.pinged"
+msgstr "🔔 Mình sẽ báo bạn"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-turn-cards.tsx
+msgid "guide.premium.ping"
+msgstr "🔔 Báo mình nhé"
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.driver"
 msgstr "Một tài xế"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
+msgid "guide.premium.starter.crewLine"
+msgstr "Bước đầu cho cả nhóm"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-screen.tsx
 msgid "guide.practice.queued"
 msgstr "Một câu bạn vừa luyện"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.anItem"
 msgstr "Một mục trong lịch trình"
 
 #: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderAdd"
 msgstr "Thêm một {name}"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.cost"
+msgstr "Đang cộng chi phí"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.ai"
 msgstr "Hướng dẫn viên AI · câu trả lời có thể sai, hãy kiểm tra lại điều quan trọng"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.allergies"
 msgstr "Dị ứng"
 
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.state.speaking"
 msgstr "Đang trả lời"
 
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-composer.tsx
+msgid "guide.premium.send"
+msgstr "Hỏi"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-composer.tsx
+msgid "guide.premium.placeholder"
+msgstr "Hỏi {guide}"
+
 #: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderAsk"
 msgstr "Hỏi {guideName} nên gọi món gì"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.askPlaceholder"
 msgstr "Hỏi về thực đơn này"
 
@@ -120,7 +191,16 @@ msgstr "Hỏi về thực đơn này"
 msgid "guide.limit.askAtMidnight"
 msgstr "Hỏi lúc nửa đêm"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-turn-cards.tsx
+msgid "guide.premium.rephrase"
+msgstr "Hỏi cách khác"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-empty.tsx
+msgid "guide.premium.knowsNoTrip"
+msgstr "Hỏi mình nên đi đâu, đi lúc nào, hoặc làm sao để cả nhóm cùng lên kế hoạch."
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/use-premium-guide-meter.tsx
 msgid "guide.limit.queuePlaceholder"
 msgstr "Hỏi ngay, {guideName} trả lời lúc nửa đêm"
 
@@ -128,18 +208,41 @@ msgstr "Hỏi ngay, {guideName} trả lời lúc nửa đêm"
 msgid "guide.composer.placeholder"
 msgstr "Hỏi, hoặc giữ để nói"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-offline.tsx
+msgid "guide.premium.waitsForSignal"
+msgstr "Sẽ hỏi khi bạn có sóng lại"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
+msgid "guide.premium.atMidnight"
+msgstr "Lúc nửa đêm"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.back"
+msgstr "Quay lại"
+
 #: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderClose"
 msgstr "Quay lại thực đơn"
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
+msgid "guide.premium.tool.bookings"
+msgstr "Đặt chỗ"
+
+#: ../../apps/mobile/src/features/guide/premium/phrases/phrase-show-screen.tsx
+msgid "guide.premium.phrase.hint"
+msgstr "Tăng độ sáng · chạm bất kỳ đâu để đóng"
+
+#: ../../apps/mobile/src/features/guide/chat/data/use-guide-sheet.ts
 msgid "guide.quick.callCar"
 msgstr "Gọi xe"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
 msgid "guide.empty.promptSlow"
 msgstr "Mình làm ngày 2 thong thả hơn được không?"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
 #: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.cancelAction"
 msgstr "Huỷ"
@@ -152,6 +255,42 @@ msgstr "Huỷ câu hỏi lúc nửa đêm"
 msgid "guide.practice.checkToggle"
 msgstr "Kiểm tra cách tôi nói"
 
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.flights"
+msgstr "Đang kiểm tra chuyến bay"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.crowds"
+msgstr "Đang xem nơi đó đông thế nào"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.fit"
+msgstr "Đang xem có vừa trong ngày không"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.placeDetails"
+msgstr "Đang kiểm tra giờ mở cửa"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.fx"
+msgstr "Đang xem tỷ giá"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.weather"
+msgstr "Đang xem thời tiết"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.bookable"
+msgstr "Đang xem những gì đặt được"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.crew"
+msgstr "Đang xem cả nhóm thích gì"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.balances"
+msgstr "Đang xem ai nợ ai"
+
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 msgid "guide.practice.checking"
 msgstr "Đang kiểm tra…"
@@ -159,6 +298,26 @@ msgstr "Đang kiểm tra…"
 #: ../../apps/mobile/src/features/guide/camera/menu-language.ts
 msgid "guide.camera.lang.zh"
 msgstr "Tiếng Trung"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.close"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/guide/premium/phrases/phrase-show-screen.tsx
+msgid "guide.premium.phrase.close"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-screen.tsx
+msgid "guide.premium.dietary.close"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
+msgid "guide.premium.camera.close"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-screen.tsx
+msgid "guide.premium.pingToast"
+msgstr "Bạn cứ đóng hướng dẫn viên nếu muốn. Có câu trả lời là mình báo ngay."
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.copied"
@@ -169,12 +328,17 @@ msgid "guide.chat.copy"
 msgstr "Chép"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.avoidLabel"
 msgstr "Rau mùi, nội tạng, cá sống…"
 
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.confirm"
 msgstr "Cho mình tham gia"
+
+#: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
+msgid "guide.premium.offer.confirm"
+msgstr "Cho mình một suất · còn {left}"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 msgid "guide.practice.okSaid"
@@ -185,9 +349,19 @@ msgid "guide.dietary.dairy"
 msgstr "Sữa"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.diet"
 msgstr "Chế độ ăn"
 
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-screen.tsx
+msgid "guide.premium.dietary.discardYes"
+msgstr "Bỏ"
+
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-screen.tsx
+msgid "guide.premium.dietary.discard"
+msgstr "Bỏ những thay đổi của bạn?"
+
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.done"
 msgstr "Nói xong"
@@ -197,10 +371,32 @@ msgid "guide.practice.check"
 msgstr "Xong, kiểm tra giúp"
 
 #: ../../apps/mobile/src/features/guide/phrases/show-mode.tsx
+#: ../../apps/mobile/src/features/guide/premium/phrases/phrase-show-screen.tsx
 msgid "guide.phrase.closeHint"
 msgstr "Chạm hai lần để đóng"
 
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.booking"
+msgstr "Đang soạn một đặt chỗ"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.planChange"
+msgstr "Đang soạn một thay đổi kế hoạch"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.vote"
+msgstr "Đang soạn một bình chọn"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.expense"
+msgstr "Đang soạn khoản chi"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
+msgid "guide.premium.starter.rainLine"
+msgstr "Đổi lịch tránh mưa trong ngày"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-conversation.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-thread.tsx
 msgid "guide.chat.earlier"
 msgstr "Tin nhắn trước đó"
 
@@ -208,33 +404,49 @@ msgstr "Tin nhắn trước đó"
 msgid "guide.dietary.eggs"
 msgstr "Trứng"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
+msgid "guide.premium.tool.emergency"
+msgstr "Số khẩn cấp"
+
 #: ../../apps/mobile/src/features/guide/camera/menu-language.ts
 msgid "guide.camera.lang.en"
 msgstr "Tiếng Anh"
 
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.full"
 msgstr "Đã hết chỗ"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
+msgid "guide.premium.starter.slowLine"
+msgstr "Ít điểm dừng, nhiều thời gian hơn"
 
 #: ../../apps/mobile/src/features/guide/camera/menu-language.ts
 msgid "guide.camera.lang.tl"
 msgstr "Tiếng Philippines"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.places"
+msgstr "Đang tìm chỗ gần đây"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.fish"
 msgstr "Cá"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.caution"
 msgstr "Các nhãn chỉ để tham khảo, không phải lời khuyên y tế. Hãy hỏi nhân viên về dị ứng."
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
-msgid "guide.quick.dietary"
-msgstr "Nhu cầu ăn uống và đi lại"
-
 #: ../../apps/mobile/src/features/guide/dietary/dev/lab-scenes-dietary.tsx
 #: ../../apps/mobile/src/features/guide/dietary/dietary-screen.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.title"
+msgstr "Nhu cầu ăn uống và đi lại"
+
+#: ../../apps/mobile/src/features/guide/chat/data/use-guide-sheet.ts
+msgid "guide.quick.dietary"
 msgstr "Nhu cầu ăn uống và đi lại"
 
 #: ../../apps/mobile/src/features/guide/camera/menu-language.ts
@@ -246,10 +458,12 @@ msgid "guide.camera.lang.de"
 msgstr "Tiếng Đức"
 
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
 msgid "guide.limit.getPass"
 msgstr "Mua Pass+"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.access"
 msgstr "Đi lại"
 
@@ -260,6 +474,10 @@ msgstr "Đang tải âm thanh…"
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.gluten"
 msgstr "Gluten"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.group"
+msgstr "Nhóm"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.groupTab"
@@ -286,11 +504,20 @@ msgstr "Đề xuất của hướng dẫn viên: {0}"
 msgid "guide.dietary.dietHalal"
 msgstr "Halal"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-empty.tsx
+msgid "guide.premium.hello"
+msgstr "Xin chào"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-empty.tsx
+msgid "guide.premium.helloName"
+msgstr "Chào {name}"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.helpful"
 msgstr "Hữu ích"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.read"
 msgstr "Thực đơn có những món này. Cứ hỏi mình về món nào cũng được."
 
@@ -307,6 +534,7 @@ msgid "guide.dietary.spiceHot"
 msgstr "Cay nhiều"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
 msgid "guide.empty.promptCrew"
 msgstr "Làm sao để cả nhóm bắt đầu lên kế hoạch?"
 
@@ -338,6 +566,10 @@ msgstr "Mình chưa nghe rõ. Bạn thử ra chỗ yên tĩnh hơn hoặc đưa 
 msgid "guide.practice.heard"
 msgstr "Mình nghe được"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-empty.tsx
+msgid "guide.premium.knows"
+msgstr "Mình biết kế hoạch, các đặt chỗ và nơi bạn sắp tới. Hỏi bằng ngôn ngữ nào cũng được."
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.error.unavailable"
 msgstr "Mình lạc mất mạch suy nghĩ rồi. Câu đó không bị tính lượt."
@@ -352,10 +584,12 @@ msgid "guide.offline.line"
 msgstr "Mình sẽ trả lời khi bạn có mạng lại."
 
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.inMany"
 msgstr "Mình tham gia · còn {left} chỗ"
 
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.inOne"
 msgstr "Mình tham gia · còn 1 chỗ"
 
@@ -363,7 +597,12 @@ msgstr "Mình tham gia · còn 1 chỗ"
 msgid "guide.error.busy"
 msgstr "Giờ mình đang bận quá. Chờ một phút rồi hỏi lại nhé."
 
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
+msgid "guide.premium.starter.whereLine"
+msgstr "Ý tưởng cho cả nhóm"
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.applied"
 msgstr "Đã vào lịch trình"
 
@@ -383,12 +622,13 @@ msgstr "Tiếng Nhật"
 msgid "guide.voice.justMe"
 msgstr "Riêng tôi"
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
-msgid "guide.header.meTab"
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
+msgid "guide.plan.justMe"
 msgstr "Riêng tôi"
 
-#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
-msgid "guide.plan.justMe"
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.meTab"
 msgstr "Riêng tôi"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
@@ -398,6 +638,14 @@ msgstr "Riêng tôi · {place}"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.private"
 msgstr "Riêng tôi · chỉ bạn xem được"
+
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-screen.tsx
+msgid "guide.premium.dietary.keep"
+msgstr "Tiếp tục sửa"
+
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
+msgid "guide.premium.dietary.justMe"
+msgstr "Chỉ mình tôi biết"
 
 #: ../../apps/mobile/src/features/guide/camera/menu-language.ts
 msgid "guide.camera.lang.km"
@@ -427,6 +675,7 @@ msgstr "Món nào ít cay nhất?"
 msgid "guide.practice.consentTitle"
 msgstr "Cho điện thoại nghe bạn nói?"
 
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.state.listening"
 msgstr "Đang nghe"
@@ -451,9 +700,21 @@ msgstr "Số khẩn cấp ở địa phương và cả nhóm của bạn chỉ c
 msgid "guide.chat.actionsHint"
 msgstr "Nhấn giữ để xem thao tác"
 
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.bookings"
+msgstr "Đang xem các đặt chỗ của bạn"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.other"
+msgstr "Đang tìm hiểu"
+
 #: ../../apps/mobile/src/features/guide/camera/menu-language.ts
 msgid "guide.camera.lang.ms"
 msgstr "Tiếng Mã Lai"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.me"
+msgstr "Tôi"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.spiceMedium"
@@ -463,13 +724,22 @@ msgstr "Vừa"
 msgid "guide.dietary.spiceMild"
 msgstr "Ít cay"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
+msgid "guide.premium.starter.foodLine"
+msgstr "Gần lịch tối nay"
+
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 msgid "guide.practice.next"
 msgstr "Câu tiếp theo"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.noCost"
 msgstr "Mỗi người trả không đổi"
+
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
+msgid "guide.premium.dietary.noPeanuts"
+msgstr "Không đậu phộng"
 
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
@@ -488,26 +758,50 @@ msgstr "Không cay"
 msgid "guide.chat.notHelpful"
 msgstr "Không hữu ích"
 
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
-msgid "guide.dietary.notNow"
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
+msgid "guide.offer.notNow"
 msgstr "Để sau"
 
-#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
-msgid "guide.offer.notNow"
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
+msgid "guide.dietary.notNow"
 msgstr "Để sau"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 msgid "guide.practice.retry"
 msgstr "Chưa đúng lắm. Nghe lại rồi thử thêm lần nữa nhé."
 
+#: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
+msgid "guide.premium.offer.line"
+msgstr "Chưa có gì được đặt hay thanh toán."
+
+#: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
+msgid "guide.premium.ofLimit"
+msgstr "trên {limit}"
+
 #: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderLess"
 msgstr "Bớt một {name}"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.help.open"
 msgstr "Mở Trợ giúp"
+
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
+msgid "chat.premium.openSettings"
+msgstr "Mở Cài đặt"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-screen.tsx
+msgid "guide.premium.opening"
+msgstr "Đang mở hướng dẫn viên…"
+
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-screen.tsx
+msgid "guide.premium.dietary.opening"
+msgstr "Đang mở nhu cầu ăn uống của bạn…"
 
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
 msgid "guide.phrase.showHint"
@@ -519,8 +813,13 @@ msgstr "Gọi món"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-screen.tsx
 #: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderFor"
 msgstr "Gọi món cho {crewSize} người"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
+msgid "guide.premium.passLine"
+msgstr "Pass+ giúp {guide} luôn trò chuyện: chữ, giọng nói và máy ảnh, bao nhiêu tuỳ thích."
 
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.bodyTrip"
@@ -538,32 +837,51 @@ msgstr "Đậu phộng"
 msgid "guide.dietary.dietPescatarian"
 msgstr "Ăn cá, không ăn thịt"
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+#: ../../apps/mobile/src/features/guide/chat/data/use-guide-sheet.ts
 msgid "guide.quick.pharmacy"
 msgstr "Nhà thuốc"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
+msgid "guide.premium.tool.phrases"
+msgstr "Sổ tay câu nói"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-plan-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.pending"
 msgstr "Thay đổi lịch trình đang tới…"
+
+#: ../../apps/mobile/src/features/guide/premium/phrases/phrase-show-screen.tsx
+msgid "guide.premium.phrase.play"
+msgstr "Phát thành tiếng"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
 msgid "guide.camera.title"
 msgstr "Chĩa và hỏi"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.aim"
 msgstr "Chĩa máy vào thực đơn, mình sẽ dịch sang tiếng của bạn."
+
+#: ../../apps/mobile/src/features/guide/premium/guide-composer.tsx
+msgid "guide.premium.camera"
+msgstr "Hướng máy ảnh vào thực đơn"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
+msgid "guide.premium.starter.cameraLine"
+msgstr "Hướng máy ảnh vào đó"
 
 #: ../../apps/mobile/src/features/guide/camera/menu-language.ts
 msgid "guide.camera.lang.pt"
 msgstr "Tiếng Bồ Đào Nha"
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+#: ../../apps/mobile/src/features/guide/chat/data/use-guide-sheet.ts
 msgid "guide.quick.practise"
 msgstr "Luyện câu nói"
 
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
 #: ../../apps/mobile/src/features/guide/phrases/show-mode.tsx
+#: ../../apps/mobile/src/features/guide/premium/phrases/phrase-show-screen.tsx
 msgid "guide.phrase.practise"
 msgstr "Tập nói câu này"
 
@@ -571,19 +889,33 @@ msgstr "Tập nói câu này"
 msgid "guide.practice.practising"
 msgstr "Đang luyện"
 
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.ride"
+msgstr "Đang báo giá xe"
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.propose"
 msgstr "Gửi cả nhóm"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-composer.tsx
+msgid "guide.premium.placeholderOffline"
+msgstr "Câu hỏi sẽ chờ có sóng"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 msgid "guide.dietary.avoid"
 msgstr "Không muốn ăn"
+
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
+msgid "guide.premium.dietary.avoid"
+msgstr "Không muốn ăn · chỉ bạn thấy"
 
 #: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
 msgid "guide.queued.rate"
 msgstr "Đánh giá câu trả lời của hướng dẫn viên"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.retake"
 msgstr "Đọc thực đơn khác"
 
@@ -592,26 +924,59 @@ msgid "guide.phrase.deviceVoice"
 msgstr "Đọc bằng giọng của điện thoại"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.scan"
 msgstr "Đọc thực đơn này"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.reading"
 msgstr "Đang đọc thực đơn…"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.plan"
+msgstr "Đang đọc kế hoạch của bạn"
 
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.resets"
 msgstr "Làm mới {clock}"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.review"
 msgstr "Xem lại"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
+msgid "guide.premium.rewordHint"
+msgstr "Sửa lại câu hỏi trước giờ đó"
+
+#: ../../apps/mobile/src/features/guide/premium/use-premium-guide-meter.tsx
+msgid "guide.premium.reword"
+msgstr "Sửa lại câu hỏi"
+
+#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
+msgid "guide.queued.edit"
+msgstr "Đang sửa câu hỏi cho nửa đêm"
+
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-screen.tsx
 msgid "guide.dietary.save"
 msgstr "Lưu"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-composer.tsx
+msgid "guide.premium.queueSend"
+msgstr "Để dành tới nửa đêm"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-offline.tsx
+msgid "guide.premium.offlineSaved"
+msgstr "Đã lưu trên điện thoại này"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-offline.tsx
+msgid "guide.premium.offlineSavedFor"
+msgstr "Đã lưu trên điện thoại này cho {place}"
+
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-screen.tsx
 msgid "guide.dietary.saved"
 msgstr "Đã lưu. Hướng dẫn viên sẽ lên kế hoạch theo đó."
 
@@ -627,15 +992,22 @@ msgstr "Nói lại"
 msgid "guide.practice.title"
 msgstr "Nói thành tiếng"
 
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.web"
+msgstr "Đang tìm trên mạng"
+
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-footer.tsx
 msgid "guide.voice.sendToGroup"
 msgstr "Gửi cả nhóm"
 
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-footer.tsx
 msgid "guide.voice.sentToGroup"
 msgstr "Đã gửi vào nhóm chat để bình chọn"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.sent"
 msgstr "Đã gửi vào nhóm chat để bình chọn"
 
@@ -644,14 +1016,17 @@ msgid "guide.dietary.sesame"
 msgstr "Mè"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
 msgid "guide.dietary.share"
 msgstr "Chia sẻ nhãn"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.shareToggle"
 msgstr "Chia sẻ nhãn với nhóm và hướng dẫn viên"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
 msgid "guide.dietary.consentTitle"
 msgstr "Chia sẻ nhãn với nhóm và hướng dẫn viên?"
 
@@ -664,18 +1039,22 @@ msgid "guide.dietary.shellfish"
 msgstr "Hải sản có vỏ"
 
 #: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderShow"
 msgstr "Đưa xem món đã chọn"
 
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.problemFull"
 msgstr "Có người đã lấy chỗ cuối cùng trước bạn."
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.ownAllergy"
 msgstr "Thứ khác? Gõ vào rồi chạm xong"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.newItem"
 msgstr "Một điều mới"
 
@@ -688,15 +1067,18 @@ msgid "guide.camera.lang.es"
 msgstr "Tiếng Tây Ban Nha"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.spice"
 msgstr "Độ cay"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-screen.tsx
 #: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.split"
 msgstr "Chia hoá đơn"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.accessLabel"
 msgstr "Cầu thang, đi bộ xa, thính giác, bất cứ điều gì hướng dẫn viên nên tính đến"
 
@@ -704,6 +1086,15 @@ msgstr "Cầu thang, đi bộ xa, thính giác, bất cứ điều gì hướng 
 msgid "guide.chat.filler"
 msgstr "Mình vẫn đang kiểm tra, chờ chút nhé…"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-offline.tsx
+msgid "guide.premium.offlineTools"
+msgstr "Vẫn dùng được khi ngoại tuyến"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-turn-cards.tsx
+msgid "guide.premium.stop"
+msgstr "Dừng"
+
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.interrupt"
 msgstr "Dừng và nói"
@@ -716,22 +1107,34 @@ msgstr "Dừng câu trả lời"
 msgid "guide.error.stopped"
 msgstr "Mình dừng ở đây nhé. Bạn cứ hỏi lại bất cứ lúc nào."
 
+#: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
+msgid "guide.premium.offer.title"
+msgstr "Lấy một suất nhé?"
+
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.confirmBody"
 msgstr "Giữ một chỗ nhé? Chưa có gì được đặt hay thanh toán."
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.removed"
 msgstr "Bỏ khỏi lịch trình"
 
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.talk"
 msgstr "Nói"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-composer.tsx
+msgid "guide.premium.talk"
+msgstr "Nói với {guide}"
+
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-consent.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
 msgid "guide.voice.consentTitle"
 msgstr "Nói chuyện thành tiếng với {guideName}?"
 
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.state.idle"
 msgstr "Chạm để nói"
@@ -745,13 +1148,16 @@ msgid "guide.practice.ok"
 msgstr "Nghe rất rõ. Sang câu tiếp theo nhé."
 
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.problem"
 msgstr "Chưa gửi được. Thử lại nhé?"
 
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.problemOffline"
 msgstr "Cần có mạng mới làm được."
 
+#: ../../apps/mobile/src/features/guide/premium/use-premium-guide-meter.tsx
 #: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.offline"
 msgstr "Cần có mạng mới làm được. Thử lại khi bạn có mạng nhé."
@@ -764,6 +1170,7 @@ msgstr "Câu đó chưa kiểm tra được nên không bị tính. Bạn thử 
 msgid "guide.camera.captureFailed"
 msgstr "Chưa chụp được ảnh. Bạn thử lại nhé."
 
+#: ../../apps/mobile/src/features/guide/premium/use-premium-guide-meter.tsx
 #: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.refused"
 msgstr "Không lưu được câu hỏi này để hỏi sau."
@@ -797,6 +1204,7 @@ msgid "guide.phrase.unavailable"
 msgstr "Âm thanh chưa có trên điện thoại này. Chạm vào thẻ để đưa người khác xem."
 
 #: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.deniedTitle"
 msgstr "Máy ảnh đang tắt"
 
@@ -805,6 +1213,7 @@ msgid "guide.camera.noCamera"
 msgstr "Ở đây không dùng được máy ảnh. Bạn gõ các món trong thực đơn, {guideName} sẽ dịch trong khung chat."
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.micDeniedTitle"
 msgstr "Micro đang tắt"
@@ -814,26 +1223,32 @@ msgid "guide.camera.failed"
 msgstr "Bản dịch chưa tới nơi và không bị tính lượt. Bạn thử lại nhé."
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.shareCaption"
 msgstr "Họ chỉ thấy \"ăn chay\" hay \"không đậu phộng\", không bao giờ thấy ghi chú hay danh sách bạn không muốn ăn."
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
 msgid "guide.dietary.consentBody"
 msgstr "Họ chỉ thấy chế độ ăn của bạn và nhãn \"không\" cho các món dị ứng, để hướng dẫn viên chọn chỗ hợp với cả nhóm. Ghi chú và danh sách bạn không muốn ăn chỉ mình bạn giữ. Bạn có thể ngừng chia sẻ bất cứ lúc nào, và các nhãn sẽ bị xoá."
 
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.state.thinking"
 msgstr "Đang nghĩ"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.closed"
 msgstr "Thay đổi này không còn mở nữa"
 
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.problemExpired"
 msgstr "Đề xuất này đã đóng."
 
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.expired"
 msgstr "Đề xuất này đã hết"
 
@@ -841,6 +1256,7 @@ msgstr "Đề xuất này đã hết"
 msgid "guide.camera.unsupportedScript"
 msgstr "Điện thoại này chưa đọc được loại chữ đó. Bạn gõ tên món, mình sẽ giải thích."
 
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.textOnly"
 msgstr "Câu trả lời này chưa đọc thành tiếng được nên chỉ có chữ."
@@ -853,7 +1269,12 @@ msgstr "Bản ứng dụng này chưa nghe được. Bạn cứ nói, rồi ch�
 msgid "guide.practice.consentBody"
 msgstr "Để kiểm tra một câu, lời bạn nói có thể được gửi tới một dịch vụ nhận dạng giọng nói để chép thành chữ. Chỉ phần chữ được so với thẻ câu nói."
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
+msgid "guide.premium.tool.today"
+msgstr "Lịch hôm nay"
+
+#: ../../apps/mobile/src/features/guide/chat/data/use-guide-sheet.ts
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
 msgid "guide.quick.menu"
 msgstr "Dịch thực đơn"
 
@@ -862,10 +1283,12 @@ msgid "guide.dietary.treeNuts"
 msgstr "Các loại hạt"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-turn-cards.tsx
 msgid "guide.error.retry"
 msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-consent.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
 msgid "guide.voice.consentYes"
 msgstr "Bật giọng nói"
@@ -875,12 +1298,16 @@ msgid "guide.voice.queuedConsent"
 msgstr "Đang bật giọng nói"
 
 #: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-consent.tsx
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.typeInstead"
 msgstr "Gõ thay vì nói"
 
 #: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
 msgid "guide.meter.unlimited"
 msgstr "{guideName} không giới hạn"
 
@@ -889,6 +1316,7 @@ msgid "guide.dietary.dietVegan"
 msgstr "Thuần chay"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
 msgid "guide.dietary.dietVegetarian"
 msgstr "Ăn chay"
 
@@ -901,10 +1329,12 @@ msgid "guide.voice.noModule"
 msgstr "Bản ứng dụng này chưa có trò chuyện bằng giọng nói. Bạn gõ câu hỏi nhé."
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-consent.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
 msgid "guide.voice.consentNeedsConnection"
 msgstr "Giọng nói cần có kết nối. Tính năng sẽ bật ngay khi bạn có mạng trở lại."
 
+#: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
 #: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.waiting"
 msgstr "Chờ tới {clock}"
@@ -913,7 +1343,12 @@ msgstr "Chờ tới {clock}"
 msgid "guide.offline.waiting"
 msgstr "Đang chờ có mạng"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
+msgid "guide.premium.starter.whenLine"
+msgstr "Thời tiết và độ đông"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
 msgid "guide.empty.promptRain"
 msgstr "Nếu mai trời mưa thì sao?"
 
@@ -921,19 +1356,27 @@ msgstr "Nếu mai trời mưa thì sao?"
 msgid "guide.camera.orderForAsk"
 msgstr "Nhóm {crewSize} người thì nên gọi những món nào, và nói thế nào?"
 
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-screen.tsx
+msgid "guide.premium.dietary.discardLine"
+msgstr "Những gì bạn đã sửa sẽ mất."
+
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-consent.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
 msgid "guide.voice.consentBody"
 msgstr "Khi bạn nói, lời bạn nói có thể được gửi tới một dịch vụ nhận dạng giọng nói để chép thành chữ, và câu trả lời của {guideName} được một dịch vụ giọng nói đọc lên. Phần chữ nằm trong khung chat như mọi thứ bạn gõ."
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
 msgid "guide.empty.promptFood"
 msgstr "Tối nay mình ăn ở đâu?"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
 msgid "guide.empty.promptWhere"
 msgstr "Chuyến tới mình nên đi đâu?"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+#: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
 msgid "guide.empty.promptWhen"
 msgstr "Tháng nào đi là đẹp nhất?"
 
@@ -941,10 +1384,27 @@ msgstr "Tháng nào đi là đẹp nhất?"
 msgid "guide.camera.leastSpicyAsk"
 msgstr "Trong các món này, món nào ít cay nhất?"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.whoSees"
+msgstr "Ai thấy được"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.modes"
 msgstr "Ai xem được cuộc trò chuyện này"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-turn-cards.tsx
+msgid "guide.premium.working"
+msgstr "Đang làm"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.route"
+msgstr "Đang tính thời gian di chuyển"
+
+#: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
+msgid "guide.step.phrase"
+msgstr "Đang viết câu nói"
+
+#: ../../apps/mobile/src/features/guide/premium/use-premium-guide-meter.tsx
 #: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.already"
 msgstr "Bạn đã có một câu hỏi đang chờ tới nửa đêm."
@@ -961,9 +1421,12 @@ msgstr "Bạn thấy câu này hữu ích"
 msgid "guide.chat.ratedDown"
 msgstr "Bạn thấy câu này chưa hữu ích"
 
+#. placeholder {0}: offer.taken
 #. placeholder {0}: props.taken
+#. placeholder {1}: offer.total
 #. placeholder {1}: props.total
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.mine"
 msgstr "Bạn đã tham gia · {0} trên {1} chỗ đã có người"
 
@@ -991,7 +1454,12 @@ msgstr "Bạn đã dùng hết lượt hỏi miễn phí hôm nay. {0} quay lạ
 msgid "guide.dietary.queued"
 msgstr "Nhu cầu ăn uống và đi lại của bạn"
 
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
+msgid "guide.premium.dietary.yourNotes"
+msgstr "ghi chú của bạn"
+
 #: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderTitle"
 msgstr "Món bạn gọi"
 

@@ -37,14 +37,14 @@ import {
   clampNote,
   closeStep,
   initialDraft,
+  recapNote,
   recipientsOf,
   saveStep,
   type PostcardDraft,
   type SavedPostcard,
 } from './postcard-draft';
 import type { PostcardFormat } from './postcard-pair';
-import { NoteSheet, PhotoSheet } from './postcard-sheets';
-import { PostcardView } from './postcard-view';
+import { CURRENT_POSTCARD_LOOK, type PostcardLook } from './postcard-look';
 
 const SAVED_SQL = `
   SELECT id, format, photo_id, note, sent_at FROM postcards
@@ -54,18 +54,13 @@ const RECAP_SQL = 'SELECT cards FROM recaps WHERE trip_id = ?';
 const PAYWALL_SCREEN = '4e-1';
 const RECAP_SCREEN = '3m-1';
 
-function recapNote(cards: unknown): string | null {
-  try {
-    const parsed = (typeof cards === 'string' ? JSON.parse(cards) : cards) as {
-      postcard?: { line?: string; narration?: string };
-    } | null;
-    return parsed?.postcard?.line ?? parsed?.postcard?.narration ?? null;
-  } catch {
-    return null;
-  }
-}
-
-export function PostcardScreen({ tripId }: { readonly tripId: string }) {
+export function PostcardScreen({
+  tripId,
+  look = CURRENT_POSTCARD_LOOK,
+}: {
+  readonly tripId: string;
+  readonly look?: PostcardLook;
+}) {
   useTripStreams(tripId);
   const { t } = useLingui();
   const locale = useLocale();
@@ -247,7 +242,7 @@ export function PostcardScreen({ tripId }: { readonly tripId: string }) {
 
   return (
     <AlbumMediaProvider http={albumHttp}>
-      <PostcardView
+      <look.View
         format={draft.format}
         photoKey={photo?.displayKey ?? photo?.thumbKey ?? null}
         photoCaption={
@@ -273,7 +268,7 @@ export function PostcardScreen({ tripId }: { readonly tripId: string }) {
         onClose={() => void onClose()}
       />
       {sheet === 'note' ? (
-        <NoteSheet
+        <look.Note
           note={draft.note}
           format={draft.format}
           onDone={(note) => {
@@ -284,7 +279,7 @@ export function PostcardScreen({ tripId }: { readonly tripId: string }) {
         />
       ) : null}
       {sheet === 'photo' ? (
-        <PhotoSheet
+        <look.Photo
           photos={album.photos}
           selected={draft.photoId}
           onPick={(photoId) => {

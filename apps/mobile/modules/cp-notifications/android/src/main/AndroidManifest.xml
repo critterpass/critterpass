@@ -8,5 +8,18 @@
         <action android:name="com.google.firebase.MESSAGING_EVENT" />
       </intent-filter>
     </service>
+    <!-- The system notification settings link here ("Manage"); it opens the app's own settings. -->
+    <activity
+      android:name="app.critterpass.notifications.NotificationPreferencesActivity"
+      android:exported="true"
+      android:excludeFromRecents="true"
+      android:noHistory="true"
+      android:taskAffinity=""
+      android:theme="@android:style/Theme.Translucent.NoTitleBar">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.NOTIFICATION_PREFERENCES" />
+      </intent-filter>
+    </activity>
   </application>
 </manifest>

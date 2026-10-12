@@ -15,7 +15,6 @@ import { Sticker } from '@/ui/sticker/Sticker';
 import { Hatch } from '@/ui/textures/hatch';
 
 import { CameraView, type MenuFollowUp } from '../camera-view';
-import { MenuOrderCard } from '../menu-order-card';
 import {
   MENU_AIMING,
   menuStickers,
@@ -134,19 +133,17 @@ function Scene({
       {...(order === undefined
         ? {}
         : {
-            order: (
-              <MenuOrderCard
-                guideName="Ngựa"
-                crewSize={6}
-                stickers={menuStickers(MENU_LINES, MENU_READING)}
-                order={order}
-                onChange={noop}
-                onShow={noop}
-                onSplit={noop}
-                onAsk={noop}
-                onClose={noop}
-              />
-            ),
+            order: {
+              guideName: 'Ngựa',
+              crewSize: 6,
+              stickers: menuStickers(MENU_LINES, MENU_READING),
+              order,
+              onChange: noop,
+              onShow: noop,
+              onSplit: noop,
+              onAsk: noop,
+              onClose: noop,
+            },
           })}
       onScan={noop}
       onRetake={noop}

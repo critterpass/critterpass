@@ -80,7 +80,7 @@ msgstr "Annulation de l'invitation"
 msgid "drivers.ours.rerate"
 msgstr "Changer ma réponse"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.shortlistFailed"
 msgstr "Ajout impossible. Réessaie."
 
@@ -88,7 +88,7 @@ msgstr "Ajout impossible. Réessaie."
 msgid "drivers.invite.failed"
 msgstr "Lien non créé. Réessaie."
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.failed"
 msgstr "Réponse non enregistrée. Réessaie."
 
@@ -152,7 +152,7 @@ msgstr "Bon anglais"
 msgid "drivers.tag.greatPhotos"
 msgstr "Super photos"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.firstLine"
 msgstr "Bonjour {first}, je t'ai trouvé sur CritterPass. Es-tu libre pour conduire notre groupe ?"
 
@@ -237,8 +237,8 @@ msgid "drivers.directory.emptyLine"
 msgstr "Aucun groupe n'a encore ramené ici un chauffeur qui voulait apparaître. Des chauffeurs couvrent {widenTo}."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.empty"
-msgstr "Pas encore de chauffeur pour ce voyage."
+msgid "drivers.ours.emptyTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 msgid "drivers.directory.empty"
@@ -268,7 +268,7 @@ msgstr "Relancer"
 msgid "drivers.queued.nudge"
 msgstr "Relance à ton chauffeur"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-directory.ts
 msgid "drivers.directory.stale"
 msgstr "Hors ligne. La liste de {time}."
 
@@ -301,8 +301,8 @@ msgid "drivers.ours.title"
 msgstr "Nos chauffeurs"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.back"
 msgstr "Nos chauffeurs"
 
@@ -326,7 +326,7 @@ msgstr "Noter"
 msgid "drivers.rate.title"
 msgstr "Note ton chauffeur"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.notEligible"
 msgstr "La note s'ouvre après le voyage, pour les membres au numéro vérifié."
 
@@ -346,6 +346,10 @@ msgstr "Signaler ce conseil"
 msgid "drivers.report.title"
 msgstr "Signaler ceci ?"
 
+#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+msgid "drivers.ours.emptyLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 msgid "drivers.detail.own"
 msgstr "Gère sa propre fiche"
@@ -362,7 +366,7 @@ msgstr "Enregistrer notre réponse"
 msgid "drivers.directory.widen"
 msgstr "Afficher aussi {widenTo}"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
+#: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.reported"
 msgstr "Merci. Nous allons vérifier."
 

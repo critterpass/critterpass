@@ -12,6 +12,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useSyncPhase } from '@/data/status/use-sync-status';
+import { usePremiumUi } from '@/lib/premium-ui';
 import { toast } from '@/motion';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
@@ -33,29 +34,29 @@ const useStyles = makeStyles((th) => ({
   },
 }));
 
-export function SoloConfirm({
+/**
+ * Starting a solo trip, for either look: online, setup opens once the server has made the trip (a
+ * refusal says why); offline it opens at once and fills in when the trip lands.
+ */
+export function useSoloStart({
   placeId,
   placeName,
-  guideName,
   crewId,
-  onCancel,
 }: {
   readonly placeId: string;
   readonly placeName: string;
-  readonly guideName: string;
   readonly crewId: string | undefined;
-  readonly onCancel: () => void;
 }) {
-  const styles = useStyles();
-  const { t, i18n } = useLingui();
+  const { t } = useLingui();
   const create = useCommand(createTripCommand);
   const syncPhase = useSyncPhase();
+  const premium = usePremiumUi();
   const [waiting, setWaiting] = useState<{ opId: string; tripId: string } | null>(null);
   const outcome = useOpOutcome(waiting?.opId ?? null);
 
   const open = useCallback(
     (tripId: string) => {
-      const setup = voteRoutes.tripSetup(tripId);
+      const setup = voteRoutes.tripStart(tripId, premium);
       if (setup !== undefined) {
         router.replace(setup);
         return;
@@ -67,7 +68,7 @@ export function SoloConfirm({
       });
       router.back();
     },
-    [placeName, t],
+    [placeName, premium, t],
   );
 
   const refuse = useCallback(
@@ -108,6 +109,25 @@ export function SoloConfirm({
     else if (result.kind === 'queued') setWaiting({ opId: result.opId, tripId });
     else if (result.kind === 'applied') open(tripId);
   };
+  return { start, busy };
+}
+
+export function SoloConfirm({
+  placeId,
+  placeName,
+  guideName,
+  crewId,
+  onCancel,
+}: {
+  readonly placeId: string;
+  readonly placeName: string;
+  readonly guideName: string;
+  readonly crewId: string | undefined;
+  readonly onCancel: () => void;
+}) {
+  const styles = useStyles();
+  const { t, i18n } = useLingui();
+  const { start, busy } = useSoloStart({ placeId, placeName, crewId });
   return (
     <Stack style={styles.card} testID="solo-confirm">
       <Text variant="h3">

@@ -6,7 +6,7 @@
  * soon as nothing else of the trip is in it.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useEffect, useRef, useSyncExternalStore } from 'react';
+import { useEffect, useRef, useSyncExternalStore, type ComponentType } from 'react';
 import { View } from 'react-native';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
@@ -93,9 +93,12 @@ export function UploadBannerView({ counts, onRetry, onDismiss }: UploadBannerVie
 export function UploadBanner({
   tripId,
   onRetry,
+  View: BannerView = UploadBannerView,
 }: {
   readonly tripId: string;
   readonly onRetry: () => void;
+  /** The look of the banner (the premium one takes the same props). */
+  readonly View?: ComponentType<UploadBannerViewProps>;
 }) {
   const { commands } = useLocalFirst();
   const queue = albumUploadQueue(commands);
@@ -111,10 +114,6 @@ export function UploadBanner({
     if (settled) queue.clearSettled(tripId);
   }, [settled, queue, tripId]);
   return (
-    <UploadBannerView
-      counts={counts}
-      onRetry={onRetry}
-      onDismiss={() => queue.clearSettled(tripId)}
-    />
+    <BannerView counts={counts} onRetry={onRetry} onDismiss={() => queue.clearSettled(tripId)} />
   );
 }

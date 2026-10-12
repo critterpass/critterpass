@@ -9,6 +9,8 @@ import {
   designIdOf,
   parseCompareArgs,
   planPairs,
+  premiumCodeOf,
+  premiumTitles,
   RENDERS_DIR,
   renderTitle,
   SHEET,
@@ -56,6 +58,46 @@ describe('planPairs', () => {
 
   it('titles a render from its file name', () => {
     expect(renderTitle('/r/3a-2_Your_name.png')).toBe('3a-2 Your name');
+  });
+
+  it('pairs premium screenshots with the premium render of their code, beside legacy ones', () => {
+    const premium = {
+      files: ['/p/3.01.png', '/p/3.10.png', '/p/10.store-3.png'],
+      titles: new Map([['3.01', '3.01 Home']]),
+    };
+    const pairs = planPairs(
+      [
+        '/d/premium-3.10-invite-dark.png',
+        '/d/premium-3.01-home-light.png',
+        '/d/premium-10.store-3-shot.png',
+        '/d/premium-4.99-unknown.png',
+        '/d/en-3a-1-splash.png',
+      ],
+      renders,
+      premium,
+    );
+    expect(pairs.map((pair) => [pair.id, pair.design, pair.title])).toEqual([
+      ['3a-1', '/r/3a-1_Splash.png', undefined],
+      ['10.store-3', '/p/10.store-3.png', '10.store-3'],
+      ['3.01', '/p/3.01.png', '3.01 Home'],
+      ['3.10', '/p/3.10.png', '3.10'],
+      ['4.99', undefined, '4.99'],
+    ]);
+  });
+});
+
+describe('premiumCodeOf', () => {
+  it('reads the code after the premium prefix only', () => {
+    expect(premiumCodeOf('premium-2.05-name-light')).toBe('2.05');
+    expect(premiumCodeOf('premium-a-premium-9.10-paywall')).toBe('9.10');
+    expect(premiumCodeOf('en-3a-2-name')).toBeUndefined();
+    expect(premiumCodeOf('premium-shell-01-legend-top')).toBeUndefined();
+  });
+
+  it('titles every committed premium render from screens.json', () => {
+    const titles = premiumTitles();
+    expect(titles.get('3.01')).toMatch(/^3\.01 Home/u);
+    expect(titles.size).toBeGreaterThan(200);
   });
 });
 

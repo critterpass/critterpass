@@ -54,6 +54,11 @@ export interface StickerProps {
    * without an edge).
    */
   readonly sticker?: StickerSpec | null;
+  /**
+   * Bare on purpose where the premium design draws it bare (`doodle-art` with no `sticker`): small
+   * critters in avatars, notes and docks, and one-colour doodles. The outline check leaves it be.
+   */
+  readonly bareByDesign?: boolean;
   readonly seed?: number;
   readonly closedEyes?: boolean;
   /** A Reanimated shared value driving the hero draw-on (0..1); absent = static final frame (also the Reduce Motion path). */
@@ -133,11 +138,11 @@ export function Sticker(props: StickerProps): React.JSX.Element {
   useEffect(() => {
     // Icons draw bare by design: masks, and the `srcOver` line icons on dark UI (the egg tab icon).
     const icon = spec.variant === 'mask' || spec.blend === 'srcOver';
-    if (UI_QA_ENABLED && spec.sticker === null && !icon) {
+    if (UI_QA_ENABLED && spec.sticker === null && !icon && props.bareByDesign !== true) {
       // eslint-disable-next-line lingui/no-unlocalized-strings -- a report code, never shown to a user
       reportUiQa('STICKER_NO_OUTLINE', `${props.kind}:${name}`);
     }
-  }, [spec, props.kind, name]);
+  }, [spec, props.kind, props.bareByDesign, name]);
 
   // Re-renders every native frame while a draw-on is in flight so `drawProgress.value` (read fresh
   // below) drives the live picture; under Jest's reanimated double this callback never fires

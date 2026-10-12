@@ -1,0 +1,1724 @@
+[
+ {
+  "code": "1.01",
+  "part": 1,
+  "partName": "Foundations",
+  "label": "Empty · all caught up",
+  "file": "1.01.png"
+ },
+ {
+  "code": "1.02",
+  "part": 1,
+  "partName": "Foundations",
+  "label": "Loading · the layout, shimmering",
+  "file": "1.02.png"
+ },
+ {
+  "code": "1.03",
+  "part": 1,
+  "partName": "Foundations",
+  "label": "Toasts and banners · confirm, undo, offline",
+  "file": "1.03.png"
+ },
+ {
+  "code": "1.04",
+  "part": 1,
+  "partName": "Foundations",
+  "label": "Tab lens · slides with a stretch, bar shrinks when you scroll",
+  "file": "1.04.png"
+ },
+ {
+  "code": "1.05",
+  "part": 1,
+  "partName": "Foundations",
+  "label": "Zoom · the trip card grows into the trip",
+  "file": "1.05.png"
+ },
+ {
+  "code": "1.06",
+  "part": 1,
+  "partName": "Foundations",
+  "label": "Morph · the + becomes the sheet, the page steps back",
+  "file": "1.06.png"
+ },
+ {
+  "code": "1.07",
+  "part": 1,
+  "partName": "Foundations",
+  "label": "Stamp · drops, squashes, inks, and the page answers",
+  "file": "1.07.png"
+ },
+ {
+  "code": "1.08",
+  "part": 1,
+  "partName": "Foundations",
+  "label": "Island · the ride grows out of the Dynamic Island",
+  "file": "1.08.png"
+ },
+ {
+  "code": "1.09",
+  "part": 1,
+  "partName": "Foundations",
+  "label": "Swipe vote · the card leaves with its stamp",
+  "file": "1.09.png"
+ },
+ {
+  "code": "1.10",
+  "part": 1,
+  "partName": "Foundations",
+  "label": "Dark · crew chat, stickers keep their white edge",
+  "file": "1.10.png"
+ },
+ {
+  "code": "1.11",
+  "part": 1,
+  "partName": "Foundations",
+  "label": "Dark · day plan, the map goes night",
+  "file": "1.11.png"
+ },
+ {
+  "code": "1.12",
+  "part": 1,
+  "partName": "Foundations",
+  "label": "Dark · a place, photos stay bright",
+  "file": "1.12.png"
+ },
+ {
+  "code": "1.13",
+  "part": 1,
+  "partName": "Foundations",
+  "label": "Dark · flight detail, the boarding pass stays light",
+  "file": "1.13.png"
+ },
+ {
+  "code": "2.01",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "Splash",
+  "file": "2.01.png"
+ },
+ {
+  "code": "2.02",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "Splash · returning, and offline on first launch",
+  "file": "2.02.png"
+ },
+ {
+  "code": "2.03",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "First launch · a crew link you copied, one tap to paste",
+  "file": "2.03.png"
+ },
+ {
+  "code": "2.04",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "Pasted · not a crew link, and where it can still go",
+  "file": "2.04.png"
+ },
+ {
+  "code": "2.05",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "Your name · it types onto the pass",
+  "file": "2.05.png"
+ },
+ {
+  "code": "2.06",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "Name · at the 24-letter limit, any script",
+  "file": "2.06.png"
+ },
+ {
+  "code": "2.07",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "This or that",
+  "file": "2.07.png"
+ },
+ {
+  "code": "2.08",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "Real photo · camera off, three other ways",
+  "file": "2.08.png"
+ },
+ {
+  "code": "2.09",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "Home base · your first stamp",
+  "file": "2.09.png"
+ },
+ {
+  "code": "2.10",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "Home base · nothing found, Tokek suggests",
+  "file": "2.10.png"
+ },
+ {
+  "code": "2.11",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "Pass issued",
+  "file": "2.11.png"
+ },
+ {
+  "code": "2.12",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "Save your pass · a sheet, not a wall",
+  "file": "2.12.png"
+ },
+ {
+  "code": "2.13",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "Permissions · three asks, each with a why",
+  "file": "2.13.png"
+ },
+ {
+  "code": "2.14",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "Invite a seat for you",
+  "file": "2.14.png"
+ },
+ {
+  "code": "2.15",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "Join with a code · found it",
+  "file": "2.15.png"
+ },
+ {
+  "code": "2.16",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "Join with a code · wrong code, paste offered",
+  "file": "2.16.png"
+ },
+ {
+  "code": "2.17",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "Invite ticket · ran out, three ways in",
+  "file": "2.17.png"
+ },
+ {
+  "code": "2.18",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "Trip full · glass sheet, your place in line",
+  "file": "2.18.png"
+ },
+ {
+  "code": "2.19",
+  "part": 2,
+  "partName": "First run and joining",
+  "label": "You’re in · the crew manifest",
+  "file": "2.19.png"
+ },
+ {
+  "code": "3.01",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Home · crew ready, nothing planned yet",
+  "file": "3.01.png"
+ },
+ {
+  "code": "3.02",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Home · the trip as a collage card",
+  "file": "3.02.png"
+ },
+ {
+  "code": "3.03",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Home · first sync on a new phone, layout shimmers",
+  "file": "3.03.png"
+ },
+ {
+  "code": "3.04",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Home · just back, the trip winds down",
+  "file": "3.04.png"
+ },
+ {
+  "code": "3.05",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Your trips · live trip leads, the rest wait their turn",
+  "file": "3.05.png"
+ },
+ {
+  "code": "3.06",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "No trips yet · an empty passport, two ways in",
+  "file": "3.06.png"
+ },
+ {
+  "code": "3.07",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Crew switcher · from the Home title",
+  "file": "3.07.png"
+ },
+ {
+  "code": "3.08",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Start a crew · the pass builds as you type",
+  "file": "3.08.png"
+ },
+ {
+  "code": "3.09",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Crew is on · the code arrives as a ticket",
+  "file": "3.09.png"
+ },
+ {
+  "code": "3.10",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Invite sheet · code, QR, and who to send it to",
+  "file": "3.10.png"
+ },
+ {
+  "code": "3.11",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Invite friends · a stamp page with rewards",
+  "file": "3.11.png"
+ },
+ {
+  "code": "3.12",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Crew settings · organiser view, every row goes somewhere",
+  "file": "3.12.png"
+ },
+ {
+  "code": "3.13",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Edit the crew · same pass, Save in the header",
+  "file": "3.13.png"
+ },
+ {
+  "code": "3.14",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "A member · tap anyone in the crew",
+  "file": "3.14.png"
+ },
+ {
+  "code": "3.15",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Remove a member · glass alert over the crew",
+  "file": "3.15.png"
+ },
+ {
+  "code": "3.16",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Leave the crew · hand it over first",
+  "file": "3.16.png"
+ },
+ {
+  "code": "3.17",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Inbox · answer from the card",
+  "file": "3.17.png"
+ },
+ {
+  "code": "3.18",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Inbox · first time, shows what will land here",
+  "file": "3.18.png"
+ },
+ {
+  "code": "3.19",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Lost link · this page wandered off",
+  "file": "3.19.png"
+ },
+ {
+  "code": "3.20",
+  "part": 3,
+  "partName": "Home, crews and inbox",
+  "label": "Something broke · keeps your place, three ways on",
+  "file": "3.20.png"
+ },
+ {
+  "code": "4.01",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "New poll · posts from the sheet header",
+  "file": "4.01.png"
+ },
+ {
+  "code": "4.02",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Search places · field docked above the keyboard",
+  "file": "4.02.png"
+ },
+ {
+  "code": "4.03",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Guest guide · Tokek’s notes on Marrakech",
+  "file": "4.03.png"
+ },
+ {
+  "code": "4.04",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Destination guide · ready to pitch",
+  "file": "4.04.png"
+ },
+ {
+  "code": "4.05",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Vote showdown · guide versus guide",
+  "file": "4.05.png"
+ },
+ {
+  "code": "4.06",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Kyoto wins · the stamp lands",
+  "file": "4.06.png"
+ },
+ {
+  "code": "4.07",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Solo trip · one seat, no vote",
+  "file": "4.07.png"
+ },
+ {
+  "code": "4.08",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Setup · one checklist, everyone fills their part, any order",
+  "file": "4.08.png"
+ },
+ {
+  "code": "4.09",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Setup · a member’s view, just their part",
+  "file": "4.09.png"
+ },
+ {
+  "code": "4.10",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "When · five calendars as one heatmap",
+  "file": "4.10.png"
+ },
+ {
+  "code": "4.11",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Find your free days · what the crew can see",
+  "file": "4.11.png"
+ },
+ {
+  "code": "4.12",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Mark your days · pick a brush, drag across",
+  "file": "4.12.png"
+ },
+ {
+  "code": "4.13",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Calendar connected · April at a glance",
+  "file": "4.13.png"
+ },
+ {
+  "code": "4.14",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "No week fits · two honest options",
+  "file": "4.14.png"
+ },
+ {
+  "code": "4.15",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Budget · private maxes, one sweet spot",
+  "file": "4.15.png"
+ },
+ {
+  "code": "4.16",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Budget · waiting on maxes, nobody’s number shown",
+  "file": "4.16.png"
+ },
+ {
+  "code": "4.17",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Budget · your private max, and how you sleep",
+  "file": "4.17.png"
+ },
+ {
+  "code": "4.18",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Getting there · everyone starts from home",
+  "file": "4.18.png"
+ },
+ {
+  "code": "4.19",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "The route · a trip with more than one stop",
+  "file": "4.19.png"
+ },
+ {
+  "code": "4.20",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Pon is drafting · watch it think",
+  "file": "4.20.png"
+ },
+ {
+  "code": "4.21",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Drafting · past 45 seconds, safe to leave",
+  "file": "4.21.png"
+ },
+ {
+  "code": "4.22",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Pon’s draft · only you see this",
+  "file": "4.22.png"
+ },
+ {
+  "code": "4.23",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Draft · 4 of 5 must-dos made it, the miss explained",
+  "file": "4.23.png"
+ },
+ {
+  "code": "4.24",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Redraft · couldn’t beat the day, keeps the original",
+  "file": "4.24.png"
+ },
+ {
+  "code": "4.25",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "The plan · peek, map first, one problem line",
+  "file": "4.25.png"
+ },
+ {
+  "code": "4.26",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "The plan · one day at half, hold any stop to move it",
+  "file": "4.26.png"
+ },
+ {
+  "code": "4.27",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "The plan · whole trip, problems as chips",
+  "file": "4.27.png"
+ },
+ {
+  "code": "4.28",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "All days · drag a stop onto another day",
+  "file": "4.28.png"
+ },
+ {
+  "code": "4.29",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Stop sheet · long-press any stop",
+  "file": "4.29.png"
+ },
+ {
+  "code": "4.30",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Find · one field for names, plain words and links",
+  "file": "4.30.png"
+ },
+ {
+  "code": "4.31",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Plain words · Tokek reads it, you can untick any part",
+  "file": "4.31.png"
+ },
+ {
+  "code": "4.32",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Add from a link · the places tick in one by one",
+  "file": "4.32.png"
+ },
+ {
+  "code": "4.33",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "No results · three ways out, each says what it finds",
+  "file": "4.33.png"
+ },
+ {
+  "code": "4.34",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "The plan · places as a layer, same map",
+  "file": "4.34.png"
+ },
+ {
+  "code": "4.35",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Place picked · on the plan map, nearest first",
+  "file": "4.35.png"
+ },
+ {
+  "code": "4.36",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "A place · when it fits, worked out from your days",
+  "file": "4.36.png"
+ },
+ {
+  "code": "4.37",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Further down · tips, what to know, what’s next to it",
+  "file": "4.37.png"
+ },
+ {
+  "code": "4.38",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Crew can’t agree · where everyone stands, in their words",
+  "file": "4.38.png"
+ },
+ {
+  "code": "4.39",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Add to plan · one sheet for every add",
+  "file": "4.39.png"
+ },
+ {
+  "code": "4.40",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Ideas · star your must-do, drag the rest onto a day",
+  "file": "4.40.png"
+ },
+ {
+  "code": "4.41",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Tokek is placing them · safe to leave",
+  "file": "4.41.png"
+ },
+ {
+  "code": "4.42",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Swipe together · the same cards and match as the vote",
+  "file": "4.42.png"
+ },
+ {
+  "code": "4.43",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "A problem chip · the fix opens where the problem is",
+  "file": "4.43.png"
+ },
+ {
+  "code": "4.44",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Fill a gap · the free four get three ideas",
+  "file": "4.44.png"
+ },
+ {
+  "code": "4.45",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Less driving · same day, untangled",
+  "file": "4.45.png"
+ },
+ {
+  "code": "4.46",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Rain and crowds · the day, against the weather",
+  "file": "4.46.png"
+ },
+ {
+  "code": "4.47",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Balance the crew · whose picks made it, organisers only",
+  "file": "4.47.png"
+ },
+ {
+  "code": "4.48",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Tokek’s changes · one review, wherever they came from",
+  "file": "4.48.png"
+ },
+ {
+  "code": "4.49",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Day trips from Ubud · places past the map",
+  "file": "4.49.png"
+ },
+ {
+  "code": "4.50",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "A day-trip day · Penida has its own map and stops",
+  "file": "4.50.png"
+ },
+ {
+  "code": "4.51",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Who’s in · RSVPs with Pon’s nudges",
+  "file": "4.51.png"
+ },
+ {
+  "code": "4.52",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Slide to board · the proposal lands",
+  "file": "4.52.png"
+ },
+ {
+  "code": "4.53",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Trip settings · organiser, from the plan’s ⋯",
+  "file": "4.53.png"
+ },
+ {
+  "code": "4.54",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Change dates · see what moves before it moves",
+  "file": "4.54.png"
+ },
+ {
+  "code": "4.55",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Cancel the trip · what happens, before it happens",
+  "file": "4.55.png"
+ },
+ {
+  "code": "4.56",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Nothing saved yet · the day Bali won",
+  "file": "4.56.png"
+ },
+ {
+  "code": "4.57",
+  "part": 4,
+  "partName": "Decide and plan",
+  "label": "Offline · search what’s saved, questions wait",
+  "file": "4.57.png"
+ },
+ {
+  "code": "5.01",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Crew chat · polls, offers, stickers and splits inline",
+  "file": "5.01.png"
+ },
+ {
+  "code": "5.02",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Crew chat · brand new, Tokek breaks the ice",
+  "file": "5.02.png"
+ },
+ {
+  "code": "5.03",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Crew chat · offline, sends queue, one bounced",
+  "file": "5.03.png"
+ },
+ {
+  "code": "5.04",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Crew chat · long-press, react and act",
+  "file": "5.04.png"
+ },
+ {
+  "code": "5.05",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Voice note · microphone is off, type instead",
+  "file": "5.05.png"
+ },
+ {
+  "code": "5.06",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Crew chat · you left, you can still read",
+  "file": "5.06.png"
+ },
+ {
+  "code": "5.07",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Group offer in chat · claim a slot",
+  "file": "5.07.png"
+ },
+ {
+  "code": "5.08",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Stickers · your Critterdex, one tap from the keyboard",
+  "file": "5.08.png"
+ },
+ {
+  "code": "5.09",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "A sticker lands · react with a critter, reply in kind",
+  "file": "5.09.png"
+ },
+ {
+  "code": "5.10",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Plan cards · a change to say yes to, a meet-up",
+  "file": "5.10.png"
+ },
+ {
+  "code": "5.11",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Money, rides and boosts · each card carries its next step",
+  "file": "5.11.png"
+ },
+ {
+  "code": "5.12",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Housekeeping · joins, renames, typing, a card from the future",
+  "file": "5.12.png"
+ },
+ {
+  "code": "5.13",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Guide chat · empty, the guide offers four starts",
+  "file": "5.13.png"
+ },
+ {
+  "code": "5.14",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Guide chat",
+  "file": "5.14.png"
+ },
+ {
+  "code": "5.15",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Voice",
+  "file": "5.15.png"
+ },
+ {
+  "code": "5.16",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Point and ask",
+  "file": "5.16.png"
+ },
+ {
+  "code": "5.17",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Guide chat · offline question waits, a failed turn retries",
+  "file": "5.17.png"
+ },
+ {
+  "code": "5.18",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Guide chat · a slow answer shows its working",
+  "file": "5.18.png"
+ },
+ {
+  "code": "5.19",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Out of questions · the limit, in Pon’s voice",
+  "file": "5.19.png"
+ },
+ {
+  "code": "5.20",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Out of answers · queue it for midnight",
+  "file": "5.20.png"
+ },
+ {
+  "code": "5.21",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Dietary · consent first",
+  "file": "5.21.png"
+ },
+ {
+  "code": "5.22",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Dietary · the form",
+  "file": "5.22.png"
+ },
+ {
+  "code": "5.23",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Phrase · show mode, full screen",
+  "file": "5.23.png"
+ },
+ {
+  "code": "5.24",
+  "part": 5,
+  "partName": "Chat and guide",
+  "label": "Getting around",
+  "file": "5.24.png"
+ },
+ {
+  "code": "6.01",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Trip hub",
+  "file": "6.01.png"
+ },
+ {
+  "code": "6.02",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Trip hub · briefing didn’t write, yesterday’s is kept",
+  "file": "6.02.png"
+ },
+ {
+  "code": "6.03",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Trip hub · check-in day, rooms waiting on a nod",
+  "file": "6.03.png"
+ },
+ {
+  "code": "6.04",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Day-of",
+  "file": "6.04.png"
+ },
+ {
+  "code": "6.05",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Day-of · a free day, nothing booked on purpose",
+  "file": "6.05.png"
+ },
+ {
+  "code": "6.06",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Forecast · only what changes the plan",
+  "file": "6.06.png"
+ },
+ {
+  "code": "6.07",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Storm warning · swap the days",
+  "file": "6.07.png"
+ },
+ {
+  "code": "6.08",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Running late · the spa already said yes",
+  "file": "6.08.png"
+ },
+ {
+  "code": "6.09",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Flight delayed",
+  "file": "6.09.png"
+ },
+ {
+  "code": "6.10",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Crew map",
+  "file": "6.10.png"
+ },
+ {
+  "code": "6.11",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Crew map · first open, your sharing is off",
+  "file": "6.11.png"
+ },
+ {
+  "code": "6.12",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Crew map · offline, last fixes fade, pings queue",
+  "file": "6.12.png"
+ },
+ {
+  "code": "6.13",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Crew map · before the trip, nothing to show yet",
+  "file": "6.13.png"
+ },
+ {
+  "code": "6.14",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Meet-up compass",
+  "file": "6.14.png"
+ },
+ {
+  "code": "6.15",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Offline at the top · what still works",
+  "file": "6.15.png"
+ },
+ {
+  "code": "6.16",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Help · numbers, words, nearest clinic",
+  "file": "6.16.png"
+ },
+ {
+  "code": "6.17",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Crew SOS · Tokek’s already on it",
+  "file": "6.17.png"
+ },
+ {
+  "code": "6.18",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Queued send · edit or cancel, conflicts",
+  "file": "6.18.png"
+ },
+ {
+  "code": "6.19",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Find a driver",
+  "file": "6.19.png"
+ },
+ {
+  "code": "6.20",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Driver detail",
+  "file": "6.20.png"
+ },
+ {
+  "code": "6.21",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Private tours",
+  "file": "6.21.png"
+ },
+ {
+  "code": "6.22",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Check the card · confirm each line",
+  "file": "6.22.png"
+ },
+ {
+  "code": "6.23",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Compare · gaps named, not hidden",
+  "file": "6.23.png"
+ },
+ {
+  "code": "6.24",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Rate your driver · tags for the next crew",
+  "file": "6.24.png"
+ },
+ {
+  "code": "6.25",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Nobody listed · empty, with three ways out",
+  "file": "6.25.png"
+ },
+ {
+  "code": "6.26",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Leave-by alarm · full screen",
+  "file": "6.26.png"
+ },
+ {
+  "code": "6.27",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Dynamic Island · expanded on the drive",
+  "file": "6.27.png"
+ },
+ {
+  "code": "6.29",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Vote from the lock screen",
+  "file": "6.29.png"
+ },
+ {
+  "code": "6.30",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Critter nearby · Live Activity",
+  "file": "6.30.png"
+ },
+ {
+  "code": "6.31",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Home screen widgets",
+  "file": "6.31.png"
+ },
+ {
+  "code": "6.32",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Lock screen live",
+  "file": "6.32.png"
+ },
+ {
+  "code": "6.33",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Lock screen · a trip morning, from Tokek and the crew",
+  "file": "6.33.png"
+ },
+ {
+  "code": "6.34",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Long-press · say yes to a change without opening the app",
+  "file": "6.34.png"
+ },
+ {
+  "code": "6.35",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Time-sensitive · gets through Sleep, the rest waits",
+  "file": "6.35.png"
+ },
+ {
+  "code": "6.36",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Evening roundup · the small things wait for 20:00",
+  "file": "6.36.png"
+ },
+ {
+  "code": "6.38",
+  "part": 6,
+  "partName": "On the trip",
+  "label": "Notifications · what reaches you, and when",
+  "file": "6.38.png"
+ },
+ {
+  "code": "7.01",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Bookings · empty, three ways to fill it",
+  "file": "7.01.png"
+ },
+ {
+  "code": "7.02",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Bookings · a wallet stack, next one on top",
+  "file": "7.02.png"
+ },
+ {
+  "code": "7.03",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Add a booking · forward, scan, paste",
+  "file": "7.03.png"
+ },
+ {
+  "code": "7.04",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Add by hand · fixes it for you",
+  "file": "7.04.png"
+ },
+ {
+  "code": "7.05",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Mailbox · connect, then connected",
+  "file": "7.05.png"
+ },
+ {
+  "code": "7.06",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Booking detail · stay",
+  "file": "7.06.png"
+ },
+ {
+  "code": "7.07",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Stay booked · Pon proposes who sleeps where",
+  "file": "7.07.png"
+ },
+ {
+  "code": "7.08",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Who sleeps where · drag to adjust, the split follows",
+  "file": "7.08.png"
+ },
+ {
+  "code": "7.09",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Your room · member view, a swap waiting on Ray",
+  "file": "7.09.png"
+ },
+ {
+  "code": "7.10",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Flight detail · a real boarding card, saved for no signal",
+  "file": "7.10.png"
+ },
+ {
+  "code": "7.11",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Boarding pass · full screen, brightness up",
+  "file": "7.11.png"
+ },
+ {
+  "code": "7.12",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Flight cancelled · rebook options, crew told",
+  "file": "7.12.png"
+ },
+ {
+  "code": "7.13",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Travel insurance · a card in the wallet",
+  "file": "7.13.png"
+ },
+ {
+  "code": "7.14",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Past bookings · archive",
+  "file": "7.14.png"
+ },
+ {
+  "code": "7.15",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Action sheet · booking options",
+  "file": "7.15.png"
+ },
+ {
+  "code": "7.16",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Balances · empty ledger, first expense",
+  "file": "7.16.png"
+ },
+ {
+  "code": "7.17",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Balances · up and down, one chart",
+  "file": "7.17.png"
+ },
+ {
+  "code": "7.18",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Add an expense · rupiah first, dollars underneath",
+  "file": "7.18.png"
+ },
+ {
+  "code": "7.19",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Error · couldn’t read the receipt",
+  "file": "7.19.png"
+ },
+ {
+  "code": "7.20",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Receipt · lines don’t add up, fix in place",
+  "file": "7.20.png"
+ },
+ {
+  "code": "7.21",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Expense detail · shares and changes",
+  "file": "7.21.png"
+ },
+ {
+  "code": "7.22",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Stay expense · splits by room, follows the rooms",
+  "file": "7.22.png"
+ },
+ {
+  "code": "7.23",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Every expense · filter by person",
+  "file": "7.23.png"
+ },
+ {
+  "code": "7.24",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Settle up · three payments, one reward",
+  "file": "7.24.png"
+ },
+ {
+  "code": "7.25",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Pay someone · their QR, your bank app",
+  "file": "7.25.png"
+ },
+ {
+  "code": "7.26",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Payment states · waiting, owed to you",
+  "file": "7.26.png"
+ },
+ {
+  "code": "7.27",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "How people pay you · pick, then fill in place",
+  "file": "7.27.png"
+ },
+ {
+  "code": "7.28",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Settle up · all square, the trip’s books close",
+  "file": "7.28.png"
+ },
+ {
+  "code": "7.29",
+  "part": 7,
+  "partName": "Wallet",
+  "label": "Budget · over by $86, what to trim",
+  "file": "7.29.png"
+ },
+ {
+  "code": "8.01",
+  "part": 8,
+  "partName": "Critters and memories",
+  "label": "Critterdex · here now, then the sets",
+  "file": "8.01.png"
+ },
+ {
+  "code": "8.02",
+  "part": 8,
+  "partName": "Critters and memories",
+  "label": "Critter detail · sticker over the place it lives",
+  "file": "8.02.png"
+ },
+ {
+  "code": "8.03",
+  "part": 8,
+  "partName": "Critters and memories",
+  "label": "Encounter · hold to befriend",
+  "file": "8.03.png"
+ },
+ {
+  "code": "8.04",
+  "part": 8,
+  "partName": "Critters and memories",
+  "label": "Befriended · rays, stamp, sticker",
+  "file": "8.04.png"
+ },
+ {
+  "code": "8.05",
+  "part": 8,
+  "partName": "Critters and memories",
+  "label": "Egg hatch · welcome to Bali",
+  "file": "8.05.png"
+ },
+ {
+  "code": "8.06",
+  "part": 8,
+  "partName": "Critters and memories",
+  "label": "It wandered off · a gentle miss",
+  "file": "8.06.png"
+ },
+ {
+  "code": "8.07",
+  "part": 8,
+  "partName": "Critters and memories",
+  "label": "Crew quests · a team sport",
+  "file": "8.07.png"
+ },
+ {
+  "code": "8.08",
+  "part": 8,
+  "partName": "Critters and memories",
+  "label": "Once a year · the legendary calendar",
+  "file": "8.08.png"
+ },
+ {
+  "code": "8.09",
+  "part": 8,
+  "partName": "Critters and memories",
+  "label": "Recap · the trip in four stickers",
+  "file": "8.09.png"
+ },
+ {
+  "code": "8.10",
+  "part": 8,
+  "partName": "Critters and memories",
+  "label": "Recap story · the route",
+  "file": "8.10.png"
+ },
+ {
+  "code": "8.11",
+  "part": 8,
+  "partName": "Critters and memories",
+  "label": "Recap story · money, wrapped",
+  "file": "8.11.png"
+ },
+ {
+  "code": "8.12",
+  "part": 8,
+  "partName": "Critters and memories",
+  "label": "Trip journal · one photo pocket per day",
+  "file": "8.12.png"
+ },
+ {
+  "code": "8.13",
+  "part": 8,
+  "partName": "Critters and memories",
+  "label": "Recap story · the cover collage",
+  "file": "8.13.png"
+ },
+ {
+  "code": "8.14",
+  "part": 8,
+  "partName": "Critters and memories",
+  "label": "Postcard · front and back, ready to mail",
+  "file": "8.14.png"
+ },
+ {
+  "code": "8.15",
+  "part": 8,
+  "partName": "Critters and memories",
+  "label": "A year later · the memory resurfaces",
+  "file": "8.15.png"
+ },
+ {
+  "code": "9.01",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Profile · your passport page",
+  "file": "9.01.png"
+ },
+ {
+  "code": "9.02",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Edit profile · you edit the page the crew sees",
+  "file": "9.02.png"
+ },
+ {
+  "code": "9.03",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "App icon · see it on your home screen first",
+  "file": "9.03.png"
+ },
+ {
+  "code": "9.04",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Settings · who sees what, plainly",
+  "file": "9.04.png"
+ },
+ {
+  "code": "9.05",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Trips saved on this phone · storage",
+  "file": "9.05.png"
+ },
+ {
+  "code": "9.06",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Help and feedback · shake any screen",
+  "file": "9.06.png"
+ },
+ {
+  "code": "9.07",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Idea board · vote on what’s next",
+  "file": "9.07.png"
+ },
+ {
+  "code": "9.08",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Confirm · destructive, with a way out",
+  "file": "9.08.png"
+ },
+ {
+  "code": "9.09",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Delete account · hold to delete",
+  "file": "9.09.png"
+ },
+ {
+  "code": "9.10",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Pass+ · the visa, the boost, one page",
+  "file": "9.10.png"
+ },
+ {
+  "code": "9.11",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "What’s in each · the Pass+ column, highlighted",
+  "file": "9.11.png"
+ },
+ {
+  "code": "9.12",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Boost Kyoto · who pays, split in Balances",
+  "file": "9.12.png"
+ },
+ {
+  "code": "9.13",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Checkout · the system pay sheet",
+  "file": "9.13.png"
+ },
+ {
+  "code": "9.14",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Boosted · the entry stamp slams down",
+  "file": "9.14.png"
+ },
+ {
+  "code": "9.15",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Welcome to Pass+ · admitted",
+  "file": "9.15.png"
+ },
+ {
+  "code": "9.16",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "What the crew sees · the boost lands in chat",
+  "file": "9.16.png"
+ },
+ {
+  "code": "9.17",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Your plan · Pass+, boosts, codes, restore",
+  "file": "9.17.png"
+ },
+ {
+  "code": "9.18",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Last free redraft · asked before, never a surprise",
+  "file": "9.18.png"
+ },
+ {
+  "code": "9.19",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Crew map on an unboosted trip · last trip’s map, still moving",
+  "file": "9.19.png"
+ },
+ {
+  "code": "9.20",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Seat 7 · free crews stop at six",
+  "file": "9.20.png"
+ },
+ {
+  "code": "9.21",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Free first trip ending · what stays, what pauses",
+  "file": "9.21.png"
+ },
+ {
+  "code": "9.22",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Someone’s already boosting · no double charge",
+  "file": "9.22.png"
+ },
+ {
+  "code": "9.23",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Cancel · pause till Kyoto instead",
+  "file": "9.23.png"
+ },
+ {
+  "code": "9.24",
+  "part": 9,
+  "partName": "Pass and account",
+  "label": "Card declined · seven days’ grace",
+  "file": "9.24.png"
+ },
+ {
+  "code": "10.01",
+  "part": 10,
+  "partName": "Icon, splash and store",
+  "label": "iOS launch screen · still, light",
+  "file": "10.01.png"
+ },
+ {
+  "code": "10.02",
+  "part": 10,
+  "partName": "Icon, splash and store",
+  "label": "First launch · stamp, then the welcome",
+  "file": "10.02.png"
+ },
+ {
+  "code": "10.03",
+  "part": 10,
+  "partName": "Icon, splash and store",
+  "label": "iOS launch screen · dark",
+  "file": "10.03.png"
+ },
+ {
+  "code": "10.store-3",
+  "part": 10,
+  "partName": "Icon, splash and store",
+  "label": "shot 1",
+  "file": "10.store-3.png"
+ },
+ {
+  "code": "10.store-4",
+  "part": 10,
+  "partName": "Icon, splash and store",
+  "label": "shot 2",
+  "file": "10.store-4.png"
+ },
+ {
+  "code": "10.store-5",
+  "part": 10,
+  "partName": "Icon, splash and store",
+  "label": "shot 3",
+  "file": "10.store-5.png"
+ },
+ {
+  "code": "10.store-6",
+  "part": 10,
+  "partName": "Icon, splash and store",
+  "label": "shot 4",
+  "file": "10.store-6.png"
+ },
+ {
+  "code": "10.store-7",
+  "part": 10,
+  "partName": "Icon, splash and store",
+  "label": "shot 5",
+  "file": "10.store-7.png"
+ },
+ {
+  "code": "10.store-8",
+  "part": 10,
+  "partName": "Icon, splash and store",
+  "label": "shot 6",
+  "file": "10.store-8.png"
+ }
+]

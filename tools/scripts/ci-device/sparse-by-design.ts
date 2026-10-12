@@ -7,6 +7,34 @@
  */
 export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
   [
+    '6.21-private-tours-light',
+    'undesigned-states 6f-1 "Private tours, supplier down or no cards": the link rows only, with the disclosure line',
+  ],
+  [
+    '6.22-couldnt-read-light',
+    "render 6c-3 Couldn't read it: the guide's line, TYPE THE REST IN and TRY ANOTHER SCREENSHOT",
+  ],
+  [
+    '6.23-compare-light',
+    'undesigned-states 6.23 "Compare, nobody on the shortlist": the title, one line and FIND DRIVERS',
+  ],
+  [
+    '9.07-idea-board-light',
+    'undesigned-states 3p-4 "Idea board, a tab with no rows": the tabs, one line and SUGGEST AN IDEA',
+  ],
+  [
+    '9.17-your-plan-light',
+    'undesigned-states 4d-1 "Your plan, free with no store": the free card with SEE PASS+ and the no-store line',
+  ],
+  [
+    '9.17-your-plan-dark',
+    'undesigned-states 4d-1 "Your plan, free with no store": the free card with SEE PASS+ and the no-store line',
+  ],
+  [
+    '9.17-your-plan-vi',
+    'undesigned-states 4d-1 "Your plan, free with no store": the free card with SEE PASS+ and the no-store line',
+  ],
+  [
     'bookings-mailbox-done',
     'undesigned-states 3h-2 "Mailbox footnote and sheet": the sign-in return page is a status line and BACK TO BOOKINGS',
   ],

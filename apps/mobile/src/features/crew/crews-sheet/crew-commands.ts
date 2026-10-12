@@ -11,6 +11,7 @@ import type {
   LeaveCrewPayload,
   RemoveMemberPayload,
   SetCrewNotifyPayload,
+  TransferOrganiserPayload,
   UpdateCrewPayload,
 } from '@cp/domain';
 import { msg } from '@lingui/core/macro';
@@ -52,6 +53,11 @@ export const LEAVE_CREW = defineClientCommand<LeaveCrewPayload>({
 
 export const REMOVE_MEMBER = defineClientCommand<RemoveMemberPayload>({
   name: 'remove_member',
+  offline: false,
+});
+
+export const TRANSFER_ORGANISER = defineClientCommand<TransferOrganiserPayload>({
+  name: 'transfer_organiser',
   offline: false,
 });
 

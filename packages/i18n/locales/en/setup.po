@@ -7,17 +7,188 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: money(locale, track.minMinor, currency)
+#. placeholder {1}: money(locale, track.maxMinor, currency)
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.scale"
+msgstr "{0} · each dot is someone's max · {1}"
+
+#. placeholder {0}: modeWord(way.mode)
+#. placeholder {1}: clock(locale, way.arrivesAt)
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.arrives"
+msgstr "{0} · lands {1}"
+
+#. placeholder {0}: money(locale, room.nightlyMinor, props.currency)
+#: ../../apps/mobile/src/features/setup/premium/rooms/room-list.tsx
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.premium.rooms.nightly"
+msgstr "{0} a night"
+
+#. placeholder {0}: whole(price.low)
+#: ../../apps/mobile/src/features/setup/premium/rooms/organiser-plan.tsx
+msgid "setup.premium.rooms.priceEach"
+msgstr "{0} each, estimate"
+
+#. placeholder {0}: model.items.length
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.premium.mustDos.count"
+msgstr "{0} in"
+
+#. placeholder {0}: organiser?.name ?? ''
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.waitingStay"
+msgstr "{0} is picking the stay. The rooms show up here."
+
+#. placeholder {0}: member.name
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.premium.mustDos.typing"
+msgstr "{0} is typing…"
+
+#. placeholder {0}: stop.nights
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.nights"
+msgstr "{0} nights"
+
+#. placeholder {0}: band.set
+#. placeholder {1}: band.of
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.in"
+msgstr "{0} of {1} in"
+
+#. placeholder {0}: model.counts.set
+#. placeholder {1}: model.counts.of
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.premium.budget.member.counted"
+msgstr "{0} of {1} maxes are in."
+
+#. placeholder {0}: shell.destination
+#. placeholder {0}: trip.destinationName
+#. placeholder {0}: trip?.destinationName ?? ''
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.premium.title"
+msgstr "{0} setup"
+
+#. placeholder {0}: money(locale, expense.amountMinor, currency)
+#: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
+msgid "setup.premium.rooms.split"
+msgstr "{0} split"
+
+#. placeholder {0}: stops.length
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.title"
+msgstr "{0} stops, {placed} nights"
+
+#. placeholder {0}: model.place
+#. placeholder {1}: model.score.won
+#. placeholder {2}: model.score.next
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.premium.when.won"
+msgstr "{0} won {1}–{2}"
+
+#. placeholder {0}: whole(price.low)
+#. placeholder {1}: whole(price.high)
+#: ../../apps/mobile/src/features/setup/premium/rooms/organiser-plan.tsx
+msgid "setup.premium.rooms.priceRange"
+msgstr "{0}–{1} each, estimate"
+
+#. placeholder {0}: props.guide.name
+#: ../../apps/mobile/src/features/setup/premium/rooms/organiser-plan.tsx
+msgid "setup.premium.rooms.firstGo"
+msgstr "{0}'s first go"
+
+#. placeholder {0}: model.guideName
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.premium.when.option.pick"
+msgstr "{0}'s pick"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.going"
+msgstr "{count, plural, other {# going}}"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
+msgid "setup.manual.dayA11y"
+msgstr "{dayName}, {state}"
+
 #: ../../apps/mobile/src/features/setup/shell/setup-shell.tsx
 msgid "setup.shell.back"
+msgstr "{destination} setup"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.checklist.title"
 msgstr "{destination} setup"
 
 #: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
 msgid "setup.tag.won"
 msgstr "{destination} won {won}–{next}"
 
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.freeDays"
+msgstr "{done} of {total} marked their days"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.budget"
+msgstr "{done} of {total} maxes in, all private"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.gettingThere"
+msgstr "{done} of {total} picked a way"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.mustDos"
+msgstr "{done} of {total} starred one"
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.found"
+msgstr "{guideName} found"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.draftEyebrow"
+msgstr "{guideName} is drafting as you go"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.draftWriting"
+msgstr "{guideName} is drafting. See how far"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.writingLine"
+msgstr "{guideName} is writing the draft. It takes a few minutes; you can leave and come back."
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.redrafts"
+msgstr "{guideName} redrafts as the rest come in"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.readyLine"
+msgstr "{guideName}’s draft is ready for you."
+
 #: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
 msgid "setup.tag.doneA11y"
 msgstr "{label}, done"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.thingsLeft"
+msgstr "{left, plural, one {One thing left for you} other {# things left for you}}"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.organising"
+msgstr "{name} is organising"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/room-seat.tsx
+msgid "setup.rooms.a11y.selected"
+msgstr "{name}, picked. Tap a room to move them."
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.prompt"
+msgstr "{name}, what’s the one thing {place} isn’t complete without?"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/room-seat.tsx
+msgid "setup.rooms.a11y.person"
+msgstr "{name}. Tap to move to another room."
 
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.status.here"
@@ -27,6 +198,139 @@ msgstr "{organiser} is setting up right now."
 msgid "setup.status.away"
 msgstr "{organiser} runs setup. Your part is below."
 
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.header"
+msgstr "{place} · Must-dos"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.windowPill"
+msgstr "{range} · all {everyone} free"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.windowPillSolo"
+msgstr "{range} · you're free"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.ready"
+msgstr "{ready} of {total} ready"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/organiser-plan.tsx
+msgid "setup.premium.rooms.summary"
+msgstr "{rooms} rooms · {nights} nights"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.sketched"
+msgstr "{sketched} of {days} days sketched"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.stops"
+msgstr "{stops, plural, other {# stops}}"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/crew-sees.tsx
+msgid "setup.premium.calendar.dayA11y"
+msgstr "{weekday} {dayNumber}: {spoken}"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+msgid "setup.when.picker.free"
+msgstr "{who} of {all} can make every day of it."
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "vote.search.label"
+msgstr "A city or a country"
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.search"
+msgstr "A place or your own words"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.premium.rooms.alone"
+msgstr "A room to yourself."
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.infeasible.shorter"
+msgstr "A shorter trip"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+msgid "setup.when.picker.tooLong"
+msgstr "A trip can be {max} days at most. Pick fewer days to lock it."
+
+#. placeholder {0}: money(locale, way.estimateMinor, way.currency)
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.about"
+msgstr "about {0}"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.estimate"
+msgstr "About {estimate} a room a night, estimate"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.estimateQuoted"
+msgstr "About {estimate} a room a night, estimate in {code}"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.memberLine"
+msgstr "About a minute. Nobody sees your numbers."
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.returnKey"
+msgstr "Add"
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.keepA11y"
+msgstr "Add “{typed}” as you typed it"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.exampleA11y"
+msgstr "Add {name} as a must-do"
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.add"
+msgstr "Add a stop"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.addAnother"
+msgstr "Add another"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.addYours"
+msgstr "Add your must-do"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/premium-steps.tsx
+msgid "setup.budget.own.add"
+msgstr "Add yours"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.premium.rooms.adjust"
+msgstr "Adjust"
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.other"
+msgstr "Another way"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.organiserNote"
+msgstr "Any order works once the dates are locked. I fill days in as answers land."
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.sleep.know"
+msgstr "Anything the guide should know"
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.as"
+msgstr "As {name}"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.cta.ask"
+msgstr "Ask {name}"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.rooms.askSwap"
+msgstr "Ask to swap"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.rooms.swapSent"
+msgstr "Asked {organiser} for a swap."
+
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.ask"
 msgstr "Asking about a maybe block"
@@ -35,42 +339,409 @@ msgstr "Asking about a maybe block"
 msgid "setup.queued.swap"
 msgstr "Asking to swap rooms"
 
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+#: ../../apps/mobile/src/features/setup/premium/steps/step-parts.tsx
+msgid "setup.premium.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.home"
 msgstr "Back home"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connected-view.tsx
+msgid "setup.connected.back"
+msgstr "Back to setup"
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.done"
+msgstr "Back to the checklist"
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.note"
+msgstr "Between two stops goes a travel day. I fit the days in each stop around it."
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.boat"
+msgstr "Boat"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/organiser-plan.tsx
+msgid "setup.premium.rooms.booked"
+msgstr "Booked"
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.booked"
+msgstr "Booked"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
+msgid "setup.premium.manual.brush"
+msgstr "Brush"
 
 #: ../../apps/mobile/src/features/setup/shell/stepper.tsx
 msgid "setup.stepper.budget"
 msgstr "Budget"
 
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.row.budget"
+msgstr "Budget"
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.bus"
+msgstr "Bus"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
+msgid "setup.premium.rooms.byRoom"
+msgstr "By room"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.deniedTitle"
+msgstr "Calendar access is off"
+
 #: ../../apps/mobile/src/features/setup/notifications.ts
 msgid "setup.push.notMovable"
 msgstr "Can’t move it"
 
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.premium.rooms.cancel"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.car"
+msgstr "Car"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/premium-steps.tsx
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.premium.max.change"
+msgstr "Change my max"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.locked.change"
+msgstr "Change the dates"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.infeasible.dates"
+msgstr "Cheaper dates"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.sleep.shareLine"
+msgstr "Cheapest"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+msgid "setup.when.picker.clear"
+msgstr "Clear"
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
 #: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.sheet.close"
 msgstr "Close"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.premium.calendar.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.closed"
+msgstr "Closed on your dates"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.connect"
+msgstr "Connect"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.sleep.ownLine"
+msgstr "Costs more a night"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.error"
+msgstr "Couldn’t read your calendar."
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.row.dates"
+msgstr "Dates"
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.title"
+msgstr "Day 1 starts at {startsAt}"
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.note"
+msgstr "Day 1 waits for the last arrival, so nobody misses the first dinner."
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.premium.rooms.discard"
+msgstr "Discard"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.premium.rooms.discardTitle"
+msgstr "Discard these moves?"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.sleep.either"
+msgstr "Don’t mind"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.draft"
+msgstr "Draft my trip"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.draftNow"
+msgstr "Draft with what we have"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.draftWithout"
+msgstr "Draft without one"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
+msgid "setup.premium.rooms.estimate"
+msgstr "Each, estimate"
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.earlier"
+msgstr "Earlier"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.chip.early"
+msgstr "Early riser"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
+msgid "setup.premium.rooms.evenly"
+msgstr "Evenly"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/crew-sees.tsx
+msgid "setup.premium.calendar.staysHere"
+msgstr "Event names and times stay on your phone."
+
+#. placeholder {0}: props.organiser
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.premium.rooms.everyoneElse"
+msgstr "Everyone else · set by {0}"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.roomsLocked"
+msgstr "Everyone has a bed"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/organiser-plan.tsx
+msgid "setup.premium.rooms.samePairsLine"
+msgstr "Everyone keeps the same roommates at every stay."
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.line"
+msgstr "Everyone picks their own way. A booking replaces the estimate."
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.title"
+msgstr "Find your free days"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.computing"
+msgstr "Finding the best week"
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.flight"
+msgstr "Flight"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.partLine.way"
+msgstr "Flight, bus, train, car or boat"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.flights"
+msgstr "Flights"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.food"
+msgstr "Food"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.examples"
+msgstr "For example"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.freeBusyOnly"
+msgstr "Free and busy only"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.row.freeDays"
+msgstr "Free days"
 
 #: ../../apps/mobile/src/features/setup/notifications.ts
 msgid "setup.push.freed"
 msgstr "Freed it"
 
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.partLine.days"
+msgstr "From your calendar or by hand"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.fun"
+msgstr "Fun"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.premium.row.gettingThere"
+msgstr "Getting there"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.part.gettingThere"
+msgstr "Getting there"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.google"
+msgstr "Google Calendar"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.chip.ground"
+msgstr "Ground floor"
+
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.back.home"
 msgstr "Home"
 
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.pick"
+msgstr "How do you get there?"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.sleep.title"
+msgstr "How do you like to sleep?"
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.titleOpen"
+msgstr "How is everyone getting there?"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+msgid "setup.when.picker.howLong"
+msgstr "How many days?"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
+msgid "setup.premium.rooms.splitMode"
+msgstr "How the stay splits"
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.gettingThere"
+msgstr "How you get there"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.chip.snore"
+msgstr "I snore, honestly"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.line"
 msgstr "It shows up once your phone has synced. Try again in a moment."
 
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.rooms.unplaced.organiser"
+msgstr "Joined after the rooms were made. Drop them into a room."
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.premium.max.headline"
+msgstr "Just for you"
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.oneStop"
+msgstr "Just one stop"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.premium.rooms.keep"
+msgstr "Keep editing"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.budget.member.keep"
+msgstr "Keep it as it is"
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.keep"
+msgstr "Keep it just as you typed it"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.less"
+msgstr "Less"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.chip.light"
+msgstr "Light sleeper"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.budget.member.loading"
+msgstr "Loading"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+#: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 #: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.loading"
 msgstr "Loading trip setup"
 
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.cta.lock"
+msgstr "Lock {range}"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+msgid "setup.when.picker.ghostLock"
+msgstr "Lock it, or tap another last day."
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.locked"
+msgstr "Locked"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/notice-text.ts
+msgid "setup.rooms.notice.offline"
+msgstr "Locking the rooms needs signal."
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.loading"
+msgstr "Looking for places"
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.more.searching"
+msgstr "Looking further"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.cta"
+msgstr "Looks good"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.lock"
+msgstr "Looks good"
+
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.lottery"
 msgstr "Lottery reminders"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.premium.calendar.byHand"
+msgstr "Mark days by hand instead"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
+msgid "setup.manual.title"
+msgstr "Mark your days"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.partLine.daysDone"
+msgstr "Marked"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.infeasible.hostels"
+msgstr "Mix in hostels"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.more"
+msgstr "More"
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.more.title"
+msgstr "More places"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.premium.max.most"
+msgstr "Most I’d spend, each"
 
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.step"
@@ -80,13 +751,328 @@ msgstr "Moving setup along"
 msgid "setup.stepper.mustDos"
 msgstr "Must-dos"
 
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.title"
+msgstr "Must-dos"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.row.mustDos"
+msgstr "Must-dos"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.unavailable"
+msgstr "Needs the latest app update. Mark your days by hand for now."
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/month-grid.tsx
+msgid "setup.premium.month.next"
+msgstr "Next month"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.chip.owl"
+msgstr "Night owl"
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.noResults"
+msgstr "No place matches that in {place}. Keep it in your own words."
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.offline"
+msgstr "No signal, so no new places. Keep your own words and it sends when you’re back."
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.offlineSaved"
+msgstr "No signal: these are the places on your phone. Your pick sends when you’re back."
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.noFit.title"
+msgstr "No week fits all {total}"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.partLine.max"
+msgstr "Nobody sees it, not even the crew"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.premium.max.inLine"
+msgstr "Nobody sees it, not even the crew."
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.line.empty"
+msgstr "Nobody’s added one yet. Start with yours."
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.infeasible.line"
+msgstr "Nobody’s named. A few ways to bring the trip within everyone’s reach:"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.notConnected"
+msgstr "Not connected"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.rooms.unplaced.member"
+msgstr "Not in a room yet."
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.notYet"
+msgstr "Not picked yet"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.noSketch"
+msgstr "Nothing sketched yet"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.noStaysLine"
+msgstr "Once a stay is booked, {guide} splits the rooms. Until then everyone shares evenly."
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.waiting"
+msgstr "Once the dates are locked"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.infeasible.title"
+msgstr "One budget is below the cheapest plan"
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.lessNights"
+msgstr "One night less"
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.moreNights"
+msgstr "One night more"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.oneStop"
+msgstr "One stop so far"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.promise"
+msgstr "Only free and busy days leave your phone. Titles, places and people stay here."
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.typed.labelAlone"
+msgstr "Or type an amount"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.typed.label"
+msgstr "Or type an amount, each"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.microsoft"
+msgstr "Outlook Calendar"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.sleep.own"
+msgstr "Own room"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.peek"
+msgstr "Peek ›"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
+msgid "setup.premium.manual.line"
+msgstr "Pick a brush, then drag across the days."
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.rooms.wishesMissing"
+msgstr "Pick any that fit you. Nobody sees them; they only shape the rooms."
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.pickOtherDays"
+msgstr "Pick other days"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.pickDates"
+msgstr "Pick the dates"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.pickMyself"
+msgstr "Pick the dates myself"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.premium.rooms.pick"
+msgstr "Pick where you’ll stay and {guideName} splits the rooms."
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+msgid "setup.when.picker.titleDays"
+msgstr "Pick your days"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.partLine.wayDone"
+msgstr "Picked"
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+msgid "setup.addMustDo.more.attribution"
+msgstr "Powered by Foursquare"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/month-grid.tsx
+msgid "setup.premium.month.previous"
+msgstr "Previous month"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.syncing"
+msgstr "Reading your free days…"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-do-card.tsx
+msgid "setup.mustDos.row.remind"
+msgstr "Remind me to enter"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-do-card.tsx
+msgid "setup.mustDos.row.remove"
+msgstr "Remove"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.premium.calendar.retry"
+msgstr "Retry"
+
+#. placeholder {0}: at + 1
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+#: ../../apps/mobile/src/features/setup/premium/rooms/room-list.tsx
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.premium.rooms.roomN"
+msgstr "Room {0}"
+
+#. placeholder {0}: at + 1
+#: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
+msgid "setup.premium.rooms.tileEach"
+msgstr "Room {0}, each"
+
 #: ../../apps/mobile/src/features/setup/shell/stepper.tsx
 msgid "setup.stepper.rooms"
 msgstr "Rooms"
 
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.row.rooms"
+msgstr "Rooms"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.noDates"
+msgstr "Rooms come once the dates are locked, so the nights add up."
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.noStaysTitle"
+msgstr "Rooms come with a stay"
+
+#. placeholder {0}: money(locale, track.stepMinor, currency)
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.typed.hint"
+msgstr "Rounds to steps of {0}."
+
+#. placeholder {0}: stayName(second.type)
+#: ../../apps/mobile/src/features/setup/premium/rooms/organiser-plan.tsx
+msgid "setup.premium.rooms.samePairs"
+msgstr "Same pairs at the {0}"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.premium.rooms.save"
+msgstr "Save"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
+msgid "setup.manual.save"
+msgstr "Save my days"
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.save"
+msgstr "Save my way"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.premium.max.save"
+msgstr "Save privately"
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.save"
+msgstr "Save the route"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
+msgid "setup.when.picker.howTo"
+msgstr "Say how many days, then tap the first day. Or tap a first and a last day."
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.seeDraft"
+msgstr "See the draft"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.seeTrip"
+msgstr "See the trip"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-do-card.tsx
+msgid "setup.mustDos.row.pending"
+msgstr "Sends when you’re back online"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.budget.member.queued"
+msgstr "Sends when you’re back online."
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.part.set"
+msgstr "Set"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.memberNote"
+msgstr "Set your max and I’ll stop guessing at dinners."
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.premium.calendar.settings"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/step-parts.tsx
+msgid "setup.premium.pill.eyebrow"
+msgstr "Setup checklist · {position} of {total}"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.voteOpen.line"
 msgstr "Setup opens once the crew has picked a place. Finish the vote from Home."
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.doneLineMember"
+msgstr "Setup’s done. {guideName} is drafting the trip with {organiser}."
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.doneLine"
+msgstr "Setup’s done. {guideName} starts the draft from here."
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.plannedLine"
+msgstr "Setup’s finished and the plan is made."
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.sleep.share"
+msgstr "Share a room"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.premium.calendar.tentative"
+msgstr "Share tentative as “maybe”"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.share"
+msgstr "Share the invite"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.skip"
+msgstr "Skip rooms"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.skip"
+msgstr "Skip the budget"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/notice-text.ts
+msgid "setup.rooms.notice.conflict"
+msgstr "Someone else just moved people. Here’s the latest."
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.part.star"
+msgstr "Star"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.part.mustDo"
+msgstr "Star a must-do"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.partLine.mustDoDone"
+msgstr "Starred"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.stays"
+msgstr "Stays"
 
 #: ../../apps/mobile/src/features/setup/shell/stepper.tsx
 msgid "setup.stepper.a11y"
@@ -96,49 +1082,273 @@ msgstr "Step {n}, {title}"
 msgid "setup.stepper.a11yDone"
 msgstr "Step {n}, {title}, done"
 
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.budgetLocked"
+msgstr "Sweet spot set"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.premium.budget.each"
+msgstr "Sweet spot, each"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.premium.calendar.sync"
+msgstr "Sync"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.synced"
+msgstr "Synced {age}"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.oauthFailed"
+msgstr "That calendar didn’t open. Check your signal and try again."
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/notice-text.ts
+msgid "setup.rooms.notice.lockFailed"
+msgstr "That didn’t lock. Pick a stay and try again."
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.failed"
+msgstr "That didn’t save. Check the nights add up, then try again."
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.rooms.full"
+msgstr "That room is full. Move someone out of it first."
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/notice-text.ts
+msgid "setup.rooms.notice.stayFailed"
+msgstr "That stay didn’t go through. Check the dates are locked and try again."
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/notice-text.ts
+msgid "setup.rooms.notice.stayUnavailable"
+msgstr "That stay has no price for this trip right now, so it wasn’t picked. Try another."
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.stayGone"
+msgstr "That stay isn’t on offer for these dates any more. Pick another."
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.theCrew"
+msgstr "The crew"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.premium.calendar.tentativeHint"
+msgstr "The crew sees maybe, never the event."
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.locked.title"
+msgstr "The dates are set"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
+msgid "setup.premium.sleep.eitherLine"
+msgstr "The guide decides"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.budget.member.line"
+msgstr "The most you’d spend on this trip, all in. Only you ever see it."
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.partLine.mustDo"
+msgstr "The one place {guideName} fits in"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.waitsOn"
+msgstr "The rest waits on free days and must-dos."
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+msgid "setup.premium.rooms.discardLine"
+msgstr "The rooms stay as they were."
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.row.route"
+msgstr "The route"
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.line"
+msgstr "The trip has {totalNights} nights to place."
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.voteOpen.title"
 msgstr "The vote isn’t over yet"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.premium.pill.anyOrder"
+msgstr "Then any order"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.device"
+msgstr "This phone’s calendar"
 
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.status.stepRefused"
 msgstr "This step isn’t finished for the whole crew yet, so setup is still here."
 
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.title"
 msgstr "This trip isn’t here yet"
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.train"
+msgstr "Train"
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.travel"
+msgstr "Travel day"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.deniedBody"
+msgstr "Turn it on in Settings, or mark the days you can do by hand."
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.budget.member.everyTrip"
+msgstr "Use this for every trip"
+
+#. placeholder {0}: props.organiser
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.premium.rooms.waitingOn"
+msgstr "Waiting on {0}"
+
+#. placeholder {0}: props.organiser
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.premium.rooms.swapLine"
+msgstr "Want a different room? {0} sets the rooms."
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.premium.calendar.line"
+msgstr "We read free and busy. Nothing else."
+
+#: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
+msgid "setup.budget.title"
+msgstr "What feels comfy?"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/crew-sees.tsx
+msgid "setup.premium.calendar.crewSees"
+msgstr "What the crew sees"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
+msgid "setup.mustDos.line"
+msgstr "What the trip isn’t complete without. Up to five each."
 
 #: ../../apps/mobile/src/features/setup/shell/stepper.tsx
 msgid "setup.stepper.when"
 msgstr "When"
 
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.title"
+msgstr "When can everyone go?"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.titleSolo"
+msgstr "When can you go?"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.pickDates"
+msgstr "When everyone can go"
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.from"
+msgstr "Where from"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.titleSolo"
+msgstr "Where will you stay?"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.line.rooms"
+msgstr "Who sleeps where"
+
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.rooms"
 msgstr "Who sleeps where"
 
+#: ../../apps/mobile/src/features/setup/premium/rooms/organiser-plan.tsx
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
+#: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx
+msgid "setup.rooms.title"
+msgstr "Who sleeps where?"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.premium.rooms.with"
+msgstr "With {otherNames}."
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.you"
+msgstr "You"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+msgid "setup.when.locked.line"
+msgstr "You’re going {range}."
+
+#: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
 #: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.sheet.notYours"
 msgstr "You’re not part of this trip’s setup, so there’s nothing to do here."
+
+#: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
+msgid "setup.way.fromHint"
+msgstr "Your airport or city"
 
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.answer"
 msgstr "Your answer about those days"
 
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.part.freeDays"
+msgstr "Your free days"
+
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.availability"
 msgstr "Your free days"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/premium-steps.tsx
+msgid "setup.budget.member.yourMax"
+msgstr "Your max"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.part.max"
+msgstr "Your max"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.premium.max.in"
+msgstr "Your max is in"
 
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.mustDos"
 msgstr "Your must-dos"
 
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.yourPart"
+msgstr "Your part"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.allSet"
+msgstr "Your part is done"
+
+#: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
+msgid "setup.premium.max.title"
+msgstr "Your private max"
+
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.budgetMax"
 msgstr "Your private max"
 
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.premium.rooms.yours"
+msgstr "YOUR ROOM"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.rooms.wishes"
+msgstr "Your room wishes"
+
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.roomPrefs"
 msgstr "Your room wishes"
+
+#: ../../apps/mobile/src/features/setup/premium/rooms/member-room.tsx
+msgid "setup.premium.rooms.yourShare"
+msgstr "Your share"
 
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.stay"

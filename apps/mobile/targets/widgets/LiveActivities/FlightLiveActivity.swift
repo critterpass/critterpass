@@ -10,36 +10,43 @@ struct FlightLiveActivityWidget: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: FlightActivityAttributes.self) { context in
             FlightLockScreen(attributes: context.attributes, state: context.state)
-                .activityBackgroundTint(LAPalette.card)
+                .activityBackgroundTint(nil)
                 .activitySystemActionForegroundColor(LAPalette.paper)
         } dynamicIsland: { context in
             let tint = FlightLockScreen.tint(context.state.colour)
             return DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
                     Text(context.attributes.from)
-                        .font(.system(size: 24, weight: .black))
+                        .font(.system(size: 24, weight: .heavy))
                         .foregroundStyle(LAPalette.paper)
+                    .islandAppearance()
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     Text(context.attributes.to)
-                        .font(.system(size: 24, weight: .black))
+                        .font(.system(size: 24, weight: .heavy))
                         .foregroundStyle(LAPalette.paper)
+                    .islandAppearance()
                 }
                 DynamicIslandExpandedRegion(.center) {
                     FlightEyebrow(attributes: context.attributes, state: context.state, tint: tint)
+                    .islandAppearance()
                 }
                 DynamicIslandExpandedRegion(.bottom) {
                     FlightFacts(state: context.state, tint: tint)
                         .padding(.horizontal, 6)
+                    .islandAppearance()
                 }
             } compactLeading: {
                 Image(systemName: "airplane")
                     .foregroundStyle(tint)
+                    .islandAppearance()
             } compactTrailing: {
                 FlightCompactTime(state: context.state, tint: tint)
+                    .islandAppearance()
             } minimal: {
                 Image(systemName: "airplane")
                     .foregroundStyle(tint)
+                    .islandAppearance()
             }
             .keylineTint(tint)
         }
@@ -74,7 +81,7 @@ struct FlightLockScreen: View {
             }
             HStack(spacing: 10) {
                 Text(attributes.from)
-                    .font(.system(size: 34, weight: .black))
+                    .font(.system(size: 34, weight: .heavy))
                     .foregroundStyle(LAPalette.paper)
                 ZStack {
                     LADashedLine()
@@ -83,11 +90,9 @@ struct FlightLockScreen: View {
                     Image(systemName: "airplane")
                         .font(.system(size: 16, weight: .bold))
                         .foregroundStyle(tint)
-                        .padding(.horizontal, 6)
-                        .background(LAPalette.card)
                 }
                 Text(attributes.to)
-                    .font(.system(size: 34, weight: .black))
+                    .font(.system(size: 34, weight: .heavy))
                     .foregroundStyle(LAPalette.paper)
             }
             if let pickup = state.pickup, state.phase == .landed || state.phase == .pickup {

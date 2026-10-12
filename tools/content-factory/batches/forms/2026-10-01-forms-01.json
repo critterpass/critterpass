@@ -7144,9 +7144,9 @@
       "rarity": "epic",
       "name": "Epic Tokek",
       "palette": {
-        "f": "#ff9a4d",
-        "dk": "#c4623e",
-        "bl": "#ff9a4d"
+        "f": "#ff8fbf",
+        "dk": "#d6337f",
+        "bl": "#ff8fbf"
       },
       "pose": "cheer",
       "edge": "epic",
@@ -9674,5 +9674,5 @@
     "generated_at": "2026-10-01T11:00:00.000Z"
   },
   "approved_by": null,
-  "checksum": "a289c33d95915b3687d69e6f725b0ac51c5cfda83e85c34cd53e84ce0be3c70f"
+  "checksum": "da1fd179517a5f4d808a2439b3ce29520d7fe2d719f4731b9ff3776da8dd107b"
 }

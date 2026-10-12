@@ -7,11 +7,13 @@
  * Captures the flows exactly like `pnpm screens:capture` (into --out/device), then pairs every
  * screenshot whose name carries a design screen id (`en-3a-2-name` → `3a-2`) with its render in
  * docs/design-renders/screens, and writes one side-by-side PNG per screen plus index.png, a grid of
- * every pair, so a reviewer can scan a whole flow in one look. Screens with no render are shown
- * alone and labelled so. A capture that fails (a flow, or `[ui-qa]` reports) still gets its sheets
+ * every pair, so a reviewer can scan a whole flow in one look. A premium screenshot names its
+ * premium design code (`premium-3.01-home-light` → `3.01`) and pairs with
+ * docs/design-renders/premium/3.01.png, titled from that folder's screens.json. Screens with no
+ * render are shown alone and labelled so. A capture that fails (a flow, or `[ui-qa]` reports) still gets its sheets
  * written from whatever was captured before the command fails.
  */
-import { mkdirSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 
@@ -21,6 +23,7 @@ import { createCanvas, GlobalFonts, loadImage, type CanvasImage } from './review
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '../..');
 export const RENDERS_DIR = path.join(REPO_ROOT, 'docs/design-renders/screens');
+export const PREMIUM_RENDERS_DIR = path.join(REPO_ROOT, 'docs/design-renders/premium');
 const FONT = path.join(REPO_ROOT, 'apps/mobile/assets/fonts/Geist-600.ttf');
 
 /** Sheet geometry, in pixels: both screens are drawn this tall, under a caption bar. */
@@ -74,18 +77,50 @@ export function designIdOf(name: string): string | undefined {
   return /(?:^|[-_])(\d+[a-z]-\d+)(?=$|[-_.])/u.exec(name)?.[1];
 }
 
+/** The premium design code a screenshot name carries (`premium-3.01-home` → `3.01`), if any. */
+export function premiumCodeOf(name: string): string | undefined {
+  return /(?:^|[-_])premium-(\d+\.(?:\d+|store-\d+))(?=$|[-_])/u.exec(name)?.[1];
+}
+
+/** Premium render titles by code (`3.01` → `3.01 Home · crew ready…`), from screens.json. */
+export function premiumTitles(dir: string = PREMIUM_RENDERS_DIR): Map<string, string> {
+  const file = path.join(dir, 'screens.json');
+  if (!existsSync(file)) return new Map();
+  const screens = JSON.parse(readFileSync(file, 'utf8')) as { code: string; label: string }[];
+  return new Map(screens.map(({ code, label }) => [code, `${code} ${label}`]));
+}
+
+export interface PremiumRenders {
+  readonly files: readonly string[];
+  readonly titles: ReadonlyMap<string, string>;
+}
+
 export interface Pair {
   /** Screenshot name without `.png`. */
   readonly name: string;
   readonly device: string;
   readonly id: string | undefined;
   readonly design: string | undefined;
+  /** The design caption when it is not read from the render's file name (premium renders). */
+  readonly title?: string;
 }
 
-/** Pairs each captured PNG with the render whose file name starts with its screen id. */
-export function planPairs(devicePngs: readonly string[], renders: readonly string[]): Pair[] {
+/**
+ * Pairs each captured PNG with its render: a premium code with `<code>.png` among the premium
+ * renders, otherwise a screen id with the render whose file name starts with it.
+ */
+export function planPairs(
+  devicePngs: readonly string[],
+  renders: readonly string[],
+  premium: PremiumRenders = { files: [], titles: new Map() },
+): Pair[] {
   return [...devicePngs].sort().map((device) => {
     const name = path.basename(device, '.png');
+    const code = premiumCodeOf(name);
+    if (code !== undefined) {
+      const design = premium.files.find((file) => path.basename(file, '.png') === code);
+      return { name, device, id: code, design, title: premium.titles.get(code) ?? code };
+    }
     const id = designIdOf(name);
     const render = id
       ? renders.find((file) => path.basename(file).startsWith(`${id}_`))
@@ -123,7 +158,7 @@ export async function composePair(pair: Pair): Promise<Buffer> {
   };
   const top = pad + caption;
   if (design && pair.design) {
-    label(`DESIGN  ${renderTitle(pair.design)}`, pad, PAPER);
+    label(`DESIGN  ${pair.title ?? renderTitle(pair.design)}`, pad, PAPER);
     ctx.drawImage(design, pad, top, designWidth, h);
   } else {
     label('DESIGN  no render for this screen', pad, MUTED);
@@ -168,7 +203,10 @@ export async function writeSheets(deviceDir: string, out: string): Promise<strin
   if (GlobalFonts.families.every((family) => family.family !== 'Geist'))
     GlobalFonts.registerFromPath(FONT, 'Geist');
   mkdirSync(out, { recursive: true });
-  const pairs = planPairs(pngsIn(deviceDir), pngsIn(RENDERS_DIR));
+  const premium = existsSync(PREMIUM_RENDERS_DIR)
+    ? { files: pngsIn(PREMIUM_RENDERS_DIR), titles: premiumTitles() }
+    : undefined;
+  const pairs = planPairs(pngsIn(deviceDir), pngsIn(RENDERS_DIR), premium);
   const sheets: Buffer[] = [];
   const written: string[] = [];
   for (const pair of pairs) {

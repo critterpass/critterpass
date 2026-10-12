@@ -95,15 +95,15 @@ msgstr "{m} phút"
 msgid "search.plain.drive"
 msgstr "{minutes} phút"
 
-#: ../../apps/mobile/src/features/explore/search/offline-section.tsx
-msgid "search.offline.walk"
-msgstr "{minutes} phút đi bộ"
-
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.walk"
 msgstr "{minutes} phút đi bộ"
 
-#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/use-offline-rows.ts
+msgid "search.offline.walk"
+msgstr "{minutes} phút đi bộ"
+
+#: ../../apps/mobile/src/features/explore/search/use-search-controller.ts
 msgid "search.pin.saved"
 msgstr "{name} đã vào Ý tưởng"
 
@@ -387,7 +387,7 @@ msgstr "Hợp với trẻ em"
 msgid "search.link.error.unsupported"
 msgstr "Mình không đọc được liên kết này. Gửi ảnh chụp màn hình bài đăng nhé."
 
-#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/use-link-screen.ts
 msgid "search.link.noText"
 msgstr "Mình không đọc được chữ nào trong ảnh chụp đó."
 
@@ -565,7 +565,7 @@ msgstr "Chưa lưu được gì. Thử lại nhé."
 msgid "search.offline.count"
 msgstr "Kết quả ngoại tuyến · {count}"
 
-#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/use-link-screen.ts
 msgid "search.link.openIdeas"
 msgstr "Mở"
 
@@ -577,7 +577,7 @@ msgstr "Còn mở sau {time}"
 msgid "search.plain.openTill"
 msgstr "Mở đến {time}"
 
-#: ../../apps/mobile/src/features/explore/search/offline-section.tsx
+#: ../../apps/mobile/src/features/explore/search/use-offline-rows.ts
 msgid "search.offline.openAsOf"
 msgstr "đang mở, tính đến {syncedOn}"
 
@@ -685,7 +685,7 @@ msgstr "Đã lưu"
 msgid "search.link.end.ideasInstead"
 msgstr "Đã lưu vào Ý tưởng: {ideas}"
 
-#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/use-link-screen.ts
 msgid "search.link.noPicker"
 msgstr "Điện thoại này chưa đọc được ảnh chụp màn hình."
 

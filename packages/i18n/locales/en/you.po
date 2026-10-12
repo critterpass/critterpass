@@ -12,6 +12,12 @@ msgstr ""
 msgid "you.stamps.selfReportedWhen"
 msgstr "{0} · Self-reported"
 
+#. placeholder {0}: model.earnedUnlocked
+#. placeholder {1}: model.earned.length
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
+msgid "you.premium.appIcon.earnedCount"
+msgstr "{0} of {1}"
+
 #. placeholder {0}: props.forms.length
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
 msgid "you.avatar.unlocked"
@@ -66,6 +72,10 @@ msgstr "{days, plural, one {In # day} other {In # days}}"
 msgid "you.appIcon.earnedCount"
 msgstr "{earnedUnlocked} of {earnedTotal}"
 
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "you.premium.offline.free"
+msgstr "{free} GB free"
+
 #: ../../apps/mobile/src/features/you/language/currency-model.ts
 msgid "you.currency.homeChosenLine"
 msgstr "{home} · chosen by you"
@@ -87,6 +97,7 @@ msgid "you.settings.languageBoth"
 msgstr "{language} · prices in {symbol} and local"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
 msgid "you.appIcon.lockedLine"
 msgstr "{lockedName} is earned on a trip. It unlocks when you find it."
 
@@ -106,6 +117,10 @@ msgstr "{next} takes over organising {name}."
 msgid "you.profile.crew.today"
 msgstr "{place} today"
 
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.size"
+msgstr "{size} MB"
+
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.counts"
 msgstr "{styleCount, plural, one {# style · {earnedUnlocked} earned} other {# styles · {earnedUnlocked} earned}}"
@@ -113,6 +128,10 @@ msgstr "{styleCount, plural, one {# style · {earnedUnlocked} earned} other {# s
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.form.found"
 msgstr "{tier} · found {when}"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationParts.tsx
+msgid "you.premium.pings.used"
+msgstr "{used} of {budget} pushes"
 
 #: ../../apps/mobile/src/features/you/language/formats-section.tsx
 msgid "you.formats.twelveHour"
@@ -147,6 +166,7 @@ msgid "you.stamps.addPastTrip"
 msgstr "Add a past trip"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
 msgid "you.edit.languages.none"
 msgstr "Add the languages you speak"
 
@@ -159,6 +179,7 @@ msgid "you.stamps.allYears"
 msgstr "All"
 
 #. placeholder {0}: model.stampTotal
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.allStamps"
 msgstr "All {0} ›"
@@ -171,12 +192,21 @@ msgstr "All of it. Sign in again and everything comes back."
 msgid "you.settings.location.always"
 msgstr "Always"
 
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.always"
+msgstr "Always gets through"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.app"
 msgstr "App"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.appIcon"
+msgstr "App icon"
+
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
+msgid "you.premium.appIcon"
 msgstr "App icon"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
@@ -187,7 +217,13 @@ msgstr "App icon"
 msgid "you.language.appLanguage"
 msgstr "App language"
 
+#: ../../apps/mobile/src/features/you/premium/edit/appearance-sheet.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
+msgid "you.premium.appearance"
+msgstr "Appearance"
+
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
 msgid "you.appIcon.appearance"
 msgstr "Appearance"
 
@@ -211,6 +247,10 @@ msgstr "Avatar"
 msgid "you.currency.note"
 msgstr "Balances split in the crew’s currency. Rates work offline."
 
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.kind.bookings"
+msgstr "Bookings"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offlineTripsLine"
 msgstr "Bookings, maps and phrases on this phone"
@@ -218,6 +258,10 @@ msgstr "Bookings, maps and phrases on this phone"
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
 msgid "you.currency.mode.both"
 msgstr "Both"
+
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
+msgid "you.premium.inviteFriendsLine"
+msgstr "Both of you get a stamp when they plan a trip"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.budgetMax"
@@ -231,12 +275,32 @@ msgstr "Can ring through Do Not Disturb"
 msgid "you.edit.username.unknown"
 msgstr "Can’t check right now. Saving will tell you."
 
+#: ../../apps/mobile/src/features/you/premium/edit/appearance-sheet.tsx
+msgid "you.premium.cancel"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.alwaysCard"
+msgstr "Card problems"
+
+#: ../../apps/mobile/src/features/you/premium/edit/data-page.tsx
+msgid "you.premium.change"
+msgstr "Change"
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
 msgid "you.edit.changeAvatar"
 msgstr "Change avatar"
 
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.hideTextLine"
+msgstr "Chat and guide pushes only say something new is waiting."
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.chatty"
+msgstr "Chatty"
+
+#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
+msgid "you.premium.chatty.chatty"
 msgstr "Chatty"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
@@ -268,6 +332,7 @@ msgid "you.closed.keepHint"
 msgstr "Closing signed you out everywhere, so keeping it means signing in again."
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.closing"
 msgstr "Closing your account…"
 
@@ -300,6 +365,14 @@ msgstr "Country"
 msgid "you.pings.crewChat"
 msgstr "Crew chat"
 
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.crewChats"
+msgstr "Crew chats"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.alwaysKnock"
+msgstr "Crew knocks"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.reason.moved"
 msgstr "Crew moved apps"
@@ -322,12 +395,25 @@ msgid "you.avatar.formLabel"
 msgstr "Critter {0}"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
 msgid "you.appIcon.footer"
 msgstr "Critter icons are earned by being there, and none of them can be bought."
 
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.voices"
 msgstr "Critter voices"
+
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
+msgid "you.premium.critterdex"
+msgstr "Critterdex"
+
+#: ../../apps/mobile/src/features/you/premium/edit/data-page.tsx
+msgid "you.premium.passHeader"
+msgstr "CRITTERPASS · PASSPORT"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.critters"
+msgstr "Critters nearby"
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
 msgid "you.currency.title"
@@ -341,6 +427,11 @@ msgstr "Currency code, like SGD"
 msgid "you.sound.theme.chava"
 msgstr "Đàn bầu lo-fi"
 
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/appearance-copy.ts
+msgid "you.premium.appearance.dark"
+msgstr "Dark"
+
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.dark"
 msgstr "Dark"
@@ -350,10 +441,12 @@ msgid "you.settings.deleteAccount"
 msgstr "Delete account"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.holdAction"
 msgstr "Delete my account"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.title"
 msgstr "Delete your account?"
 
@@ -378,6 +471,7 @@ msgid "you.settings.downloadData"
 msgstr "Download my data"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.downloadFirst"
 msgstr "Download my data first"
 
@@ -394,12 +488,19 @@ msgid "you.appIcon.earned"
 msgstr "Earned"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
 msgid "you.appIcon.earnedTitle"
 msgstr "Earned on the road"
 
+#: ../../apps/mobile/src/features/you/premium/profile/profile-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.edit"
 msgstr "Edit"
+
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
+msgid "you.premium.editTitle"
+msgstr "Edit profile"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
 msgid "you.edit.title"
@@ -429,16 +530,29 @@ msgstr "ENTRY · ENTRÉE"
 msgid "you.edit.form.epic"
 msgstr "Epic form"
 
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.roundup"
+msgstr "Evening roundup"
+
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
+msgid "you.premium.critterdexLine"
+msgstr "Every local you have met"
+
 #: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.pings.crewChat.all"
 msgstr "Every message"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.everything"
+msgstr "Everything"
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.exit"
 msgstr "EXIT · SORTIE"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.keeps.expenses"
 msgstr "Expenses you added, so Balances still add up"
 
@@ -450,9 +564,17 @@ msgstr "Face"
 msgid "you.sound.theme.sardi"
 msgstr "Fado guitar waltz"
 
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.alwaysFlight"
+msgstr "Flight changes"
+
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.follow"
 msgstr "Follow my guide"
+
+#: ../../apps/mobile/src/features/you/premium/edit/appearance-copy.ts
+msgid "you.premium.appearance.system"
+msgstr "Follows the phone"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.helpShareLine"
@@ -466,6 +588,10 @@ msgstr "Formats"
 msgid "you.settings.mailboxForward"
 msgstr "Forward confirmations to your crew’s address"
 
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
+msgid "you.premium.icon.free"
+msgstr "Free"
+
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.free"
 msgstr "Free"
@@ -473,6 +599,10 @@ msgstr "Free"
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.fr"
 msgstr "French"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.fromGuide"
+msgstr "From Tokek"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 msgid "you.edit.avatarCritter"
@@ -499,13 +629,22 @@ msgstr "Get Pass+"
 msgid "you.export.building"
 msgstr "Getting it ready… {0}%. We’ll tell you when it’s done."
 
+#: ../../apps/mobile/src/features/you/premium/edit/data-page.tsx
+msgid "you.premium.givenName"
+msgstr "GIVEN NAME · PRÉNOM"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.goes"
 msgstr "Goes"
 
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.haptics"
 msgstr "Haptics"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationParts.tsx
+msgid "you.premium.pings.held"
+msgstr "Held"
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.stampBack"
@@ -520,12 +659,17 @@ msgid "you.settings.helpCentre"
 msgstr "Help centre"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.lede"
 msgstr "Here’s what goes with you, and what the crew keeps."
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hideLockscreen"
 msgstr "Hide details on the lock screen"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.hideText"
+msgstr "Hide message text"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hideCollection"
@@ -544,6 +688,7 @@ msgid "you.delete.holdFor"
 msgstr "Hold for 3 seconds"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.holdTitle"
 msgstr "Hold to delete"
 
@@ -559,8 +704,13 @@ msgstr "Home"
 msgid "you.currency.mode.home"
 msgstr "Home"
 
+#: ../../apps/mobile/src/features/you/premium/edit/data-page.tsx
+msgid "you.premium.home"
+msgstr "HOME"
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
 msgid "you.edit.homeAirport"
 msgstr "Home airport"
 
@@ -578,6 +728,7 @@ msgstr "Home currency"
 msgid "you.profile.stamp.homeLabel"
 msgstr "Home stamp, {0}"
 
+#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.howChatty"
 msgstr "How chatty"
@@ -586,9 +737,22 @@ msgstr "How chatty"
 msgid "you.avatar.crewSees"
 msgstr "How the crew sees it"
 
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.howYouTravel"
 msgstr "How you travel"
+
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "you.premium.offline.tokek"
+msgstr "I pack the next trip in the days before you fly, whenever the app is open."
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationParts.tsx
+msgid "you.premium.pings.inRoundup"
+msgstr "In the roundup"
+
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
+msgid "you.premium.icon.inUse"
+msgstr "In use"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.inUse"
@@ -610,6 +774,10 @@ msgstr "Initials"
 msgid "you.settings.inviteFriends"
 msgstr "Invite friends"
 
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
+msgid "you.premium.inviteFriends"
+msgstr "Invite friends"
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.username.available"
 msgstr "It’s yours if you save."
@@ -618,11 +786,24 @@ msgstr "It’s yours if you save."
 msgid "you.pastTrip.removeLine"
 msgstr "Its stamp leaves your passport. You can add the trip again later."
 
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.removeConfirmLine"
+msgstr "Its tickets and maps will need signal until you save it again."
+
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.ja"
 msgstr "Japanese"
 
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
+msgid "you.premium.keepEditing"
+msgstr "Keep editing"
+
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "you.premium.offline.keep"
+msgstr "Keep it"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.keep"
 msgstr "Keep my account"
 
@@ -652,6 +833,7 @@ msgstr "Language and currency"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
 msgid "you.edit.languages"
 msgstr "Languages"
 
@@ -664,6 +846,7 @@ msgid "you.closed.lastPage"
 msgstr "LAST PAGE"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
 msgid "you.edit.discard"
 msgstr "Leave"
 
@@ -672,11 +855,16 @@ msgid "you.closed.leave"
 msgstr "Leave it closed"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
 msgid "you.edit.discardTitle"
 msgstr "Leave without saving?"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.leaveByAlarms"
+msgstr "Leave-by alarms"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.alwaysAlarm"
 msgstr "Leave-by alarms"
 
 #: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
@@ -695,6 +883,11 @@ msgstr "Legendary form"
 msgid "you.edit.username.chars"
 msgstr "Letters, numbers, dots and underscores only."
 
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/appearance-copy.ts
+msgid "you.premium.appearance.light"
+msgstr "Light"
+
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.light"
 msgstr "Light"
@@ -711,18 +904,32 @@ msgstr "Local"
 msgid "you.settings.location"
 msgstr "Location"
 
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.lockScreen"
+msgstr "Lock screen"
+
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.locked"
 msgstr "Locked"
 
+#: ../../apps/mobile/src/features/you/premium/profile/passport-card.tsx
+msgid "you.premium.mrz"
+msgstr "Machine-readable line"
+
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.manageSubscription"
 msgstr "Manage subscription ›"
+
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.kind.maps"
+msgstr "maps"
 
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts
 msgid "you.sound.theme.ajo"
 msgstr "Marimba lo-fi"
 
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
 #: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.pings.crewChat.mentions"
@@ -735,6 +942,10 @@ msgstr "mi"
 #: ../../apps/mobile/src/features/you/language/formats-section.tsx
 msgid "you.formats.miLong"
 msgstr "Miles"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.money"
+msgstr "Money"
 
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.music"
@@ -754,6 +965,7 @@ msgstr "Mutes everything 22:00–07:00 and inside temples"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
 msgid "you.edit.name"
 msgstr "Name"
 
@@ -764,6 +976,10 @@ msgstr "Needs a connection"
 #: ../../apps/mobile/src/features/you/export/export-copy.ts
 msgid "you.export.offline"
 msgstr "Needs a connection. Try again in a moment."
+
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.saveFailed"
+msgstr "Needs signal to save. Try again when you have it."
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.budgetMaxLine"
@@ -777,6 +993,10 @@ msgstr "New"
 msgid "you.edit.username.dots"
 msgstr "No dot at the start or end, and never two in a row."
 
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.nothingSaved"
+msgstr "No trip is saved on this phone yet."
+
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.none"
 msgstr "No trips yet"
@@ -789,6 +1009,10 @@ msgstr "Nobody else is on {name}, so it closes with you."
 msgid "you.settings.chatty.normal"
 msgstr "Normal"
 
+#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
+msgid "you.premium.chatty.normal"
+msgstr "Normal"
+
 #. placeholder {0}: until ?? ''
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.body"
@@ -798,14 +1022,23 @@ msgstr "Nothing is erased until {0}. Sign in before then and your pass, critters
 msgid "you.settings.notifications"
 msgstr "Notifications"
 
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.title"
+msgstr "Notifications"
+
 #: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
 msgid "you.androidPermissions.notifications"
 msgstr "Notifications are off, so alarms, SOS and votes cannot reach you."
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.notificationsOff"
+msgstr "Notifications are off, so nothing reaches your lock screen."
 
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
 msgid "you.settings.musicOff"
 msgstr "Off"
 
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
 #: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.pings.crewChat.off"
@@ -815,8 +1048,16 @@ msgstr "Off"
 msgid "you.settings.location.off"
 msgstr "Off"
 
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.quietOff"
+msgstr "Off"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offline"
+msgstr "Offline"
+
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.storageTitle"
 msgstr "Offline"
 
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
@@ -843,10 +1084,25 @@ msgstr "One export a day. Try again tomorrow."
 msgid "you.avatar.initialsTitle"
 msgstr "One letter, every crew’s colour"
 
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "you.premium.offline.wifiOnly"
+msgstr "Only on Wi-Fi"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.crittersLine"
+msgstr "Only when you’re already there"
+
+#: ../../apps/mobile/src/features/you/premium/profile/profile-premium-screen.tsx
+msgid "you.premium.loading"
+msgstr "Opening your pass…"
+
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts
 msgid "you.sound.theme.paco"
 msgstr "Pan flute and charango"
 
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/profile/profile-premium-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.backPass"
 msgstr "Pass"
@@ -860,14 +1116,17 @@ msgid "you.appIcon.lapsed"
 msgstr "Pass+ ended, so the app icon is back to Passport."
 
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.billedPlay"
 msgstr "Pass+ is billed by Google Play. Deleting doesn’t cancel it, so cancel it there too."
 
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.billedAppStore"
 msgstr "Pass+ is billed by the App Store. Deleting doesn’t cancel it, so cancel it there too."
 
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.passPlus"
 msgstr "Pass+ is billed by the store you bought it from. Deleting doesn’t cancel it, so cancel it there too."
 
@@ -878,6 +1137,11 @@ msgstr "Pass+, your plan"
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-tiles.tsx
 msgid "you.appIcon.passport"
 msgstr "Passport"
+
+#. placeholder {0}: props.roundupTime
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationParts.tsx
+msgid "you.premium.pings.past"
+msgstr "Past {budget}, the rest wait for your {0} roundup."
 
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
 msgid "you.pastTrip.editTitle"
@@ -895,7 +1159,12 @@ msgstr "Photo"
 msgid "you.avatar.photoLine"
 msgstr "Photos only show inside your crews."
 
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.kind.phrases"
+msgstr "phrases"
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
 msgid "you.edit.username.none"
 msgstr "Pick a username"
 
@@ -911,6 +1180,10 @@ msgstr "Pick the one on your home screen"
 msgid "you.settings.hideLockscreenLine"
 msgstr "Pings and live trips show no amounts or places"
 
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.budgetLabel"
+msgstr "Pings per day"
+
 #. placeholder {0}: line.place
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.planningPlace"
@@ -921,6 +1194,7 @@ msgid "you.profile.crew.planning"
 msgstr "Planning a trip"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.keeps.plans"
 msgstr "Plans you helped make, shown as “former member”"
 
@@ -964,6 +1238,14 @@ msgstr "Profile"
 msgid "you.settings.chatty.quiet"
 msgstr "Quiet"
 
+#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
+msgid "you.premium.chatty.quiet"
+msgstr "Quiet"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.quiet"
+msgstr "Quiet hours"
+
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.quiet"
 msgstr "Quiet on the road"
@@ -992,6 +1274,10 @@ msgstr "Rates from {day}"
 msgid "you.export.ready"
 msgstr "Ready to download until {until}"
 
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.remove"
+msgstr "Remove"
+
 #: ../../apps/mobile/src/features/you/history/past-trip-screen.tsx
 msgid "you.pastTrip.removeConfirm"
 msgstr "Remove"
@@ -1008,6 +1294,7 @@ msgstr "Remove this trip?"
 msgid "you.closed.restore"
 msgstr "Restore my account"
 
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.retake"
 msgstr "Retake"
@@ -1020,6 +1307,10 @@ msgstr "Same as the store icons"
 msgid "you.appIcon.sardi"
 msgstr "Sardi"
 
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
+msgid "you.premium.save"
+msgstr "Save"
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
 msgid "you.edit.save"
 msgstr "Save"
@@ -1028,9 +1319,29 @@ msgstr "Save"
 msgid "you.signOut.savePass"
 msgstr "Save my pass first"
 
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "you.premium.offline.saveNow"
+msgstr "Save now"
+
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "you.premium.offline.auto"
+msgstr "Save the next trip automatically"
+
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
 msgid "you.pastTrip.save"
 msgstr "Save trip"
+
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "you.premium.offline.savedFor"
+msgstr "Saved for no signal"
+
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.savedToast"
+msgstr "Saved. Today works with no signal."
+
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
+msgid "you.premium.saving"
+msgstr "Saving…"
 
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
 msgid "you.pastTrip.searchCountry"
@@ -1052,6 +1363,10 @@ msgstr "Self-reported"
 msgid "you.settings.feedback"
 msgstr "Send feedback"
 
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationParts.tsx
+msgid "you.premium.pings.sent"
+msgstr "Sent"
+
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.back"
 msgstr "Settings"
@@ -1060,8 +1375,27 @@ msgstr "Settings"
 msgid "you.settings.title"
 msgstr "Settings"
 
+#: ../../apps/mobile/src/features/you/premium/profile/profile-premium-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.settings"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.backToSettings"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.back"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.openSettings"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
+msgid "you.delete.back"
 msgstr "Settings"
 
 #: ../../apps/mobile/src/features/you/language/language-view.tsx
@@ -1072,17 +1406,22 @@ msgstr "Settings"
 msgid "you.appIcon.back"
 msgstr "Settings"
 
-#: ../../apps/mobile/src/features/you/account/delete-view.tsx
-msgid "you.delete.back"
-msgstr "Settings"
-
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.back"
 msgstr "Settings"
 
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
+msgid "you.premium.settleUp"
+msgstr "Settle up"
+
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.settleUp"
 msgstr "Settle up"
+
+#. placeholder {0}: balance.crew_name
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
+msgid "you.premium.delete.owedLine"
+msgstr "Settle up first, or {0} keep it."
 
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.owedLine"
@@ -1129,6 +1468,11 @@ msgstr "Signing out erases it from this phone, and there is no way to sign back 
 msgid "you.profile.since"
 msgstr "SINCE {0}"
 
+#. placeholder {0}: model.sinceYear
+#: ../../apps/mobile/src/features/you/premium/profile/passport-card.tsx
+msgid "you.premium.since"
+msgstr "SINCE {0}"
+
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts
 msgid "you.sound.theme.lundi"
 msgstr "Slow sea shanty"
@@ -1154,6 +1498,10 @@ msgstr "Something else"
 msgid "you.profile.stamp.soon"
 msgstr "Soon"
 
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.alwaysSos"
+msgstr "SOS"
+
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.title"
 msgstr "Sound"
@@ -1166,6 +1514,7 @@ msgstr "Sound effects"
 msgid "you.language.name.es"
 msgstr "Spanish"
 
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.stamps"
 msgstr "Stamps"
@@ -1178,6 +1527,7 @@ msgstr "Stamps"
 msgid "you.stamps.title"
 msgstr "Stamps"
 
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
 #: ../../apps/mobile/src/features/you/profile/crew-rows.tsx
 msgid "you.profile.startCrew"
 msgstr "Start a crew"
@@ -1205,6 +1555,10 @@ msgstr "Style"
 #: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.idea"
 msgstr "Suggest a feature"
+
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.removeConfirmTitle"
+msgstr "Take this trip off this phone?"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.talkOutLoud"
@@ -1251,10 +1605,12 @@ msgid "you.language.note"
 msgstr "The app, your guide’s replies and your notifications switch together. Places keep their local names."
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.keeps"
 msgstr "The crew keeps"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
 msgid "you.appIcon.failed"
 msgstr "The icon didn’t change. Try again."
 
@@ -1274,11 +1630,16 @@ msgstr "The trip on your home screen"
 msgid "you.profile.retakeTitle"
 msgstr "This or that"
 
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
+msgid "you.premium.crewsSee"
+msgstr "This page is all your crews ever see"
+
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.unsavedTitle"
 msgstr "This pass isn’t saved"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.closesInstant"
 msgstr "This pass isn’t saved, so it’s erased right away. There’s no way back to it."
 
@@ -1295,9 +1656,21 @@ msgstr "This phone is cleared. Close the app and open it again."
 msgid "you.formats.row"
 msgstr "Time and distance"
 
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.timing"
+msgstr "Timing"
+
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
+msgid "you.premium.icon.tinted"
+msgstr "Tinted"
+
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.tinted"
 msgstr "Tinted"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.tips"
+msgstr "Tips and nudges"
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
 msgid "you.currency.samplePlace"
@@ -1306,6 +1679,14 @@ msgstr "Tirta Empul"
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.stamp.today"
 msgstr "Today"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationParts.tsx
+msgid "you.premium.pings.today"
+msgstr "TODAY"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.guide"
+msgstr "Tokek"
 
 #: ../../apps/mobile/src/features/you/settings/tokek-footer.tsx
 msgid "you.settings.tokek"
@@ -1357,8 +1738,13 @@ msgstr "Use a real photo"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
 msgid "you.edit.username"
 msgstr "Username"
+
+#: ../../apps/mobile/src/features/you/premium/edit/data-page.tsx
+msgid "you.premium.handle"
+msgstr "USERNAME"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.vi"
@@ -1369,6 +1755,7 @@ msgid "you.settings.talkOutLoudLine"
 msgstr "Voice replies when you speak first"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.notClosed"
 msgstr "We couldn’t close your account, so nothing was changed on this phone. Try again in a moment."
 
@@ -1383,6 +1770,10 @@ msgstr "Welcome back"
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
 msgid "you.pastTrip.when"
 msgstr "When"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.moneyLine"
+msgstr "When someone pays or owes you"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.why"
@@ -1405,12 +1796,18 @@ msgid "you.delete.owe"
 msgstr "You owe {crew} {amount}. It stays on the crew’s balances under “former member”."
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.offline"
 msgstr "You’re offline. Deleting needs a connection."
 
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.activeTrip"
 msgstr "You’re on {name} right now. The crew loses your plans, pings and location at once."
+
+#. placeholder {0}: amountText(balance.net_minor, balance.currency, locale)
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
+msgid "you.premium.owed"
+msgstr "You’re owed {0}"
 
 #: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.owed"
@@ -1422,10 +1819,12 @@ msgid "you.closed.restoreBody"
 msgstr "Your account is closed and will be erased on {0}. Restore it and your pass, critters and crews come back as they were."
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.closesLine"
 msgstr "Your account is closed now and erased after 30 days. Sign in before then and everything comes back."
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
 msgid "you.edit.discardLine"
 msgstr "Your changes to the profile are dropped."
 
@@ -1433,6 +1832,7 @@ msgstr "Your changes to the profile are dropped."
 msgid "you.edit.name.empty"
 msgstr "Your crew needs something to call you."
 
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.yourCrews"
 msgstr "Your crews"
@@ -1445,6 +1845,7 @@ msgstr "Your crews see your name, avatar and home airport. Nothing else."
 msgid "you.avatar.initialsLine"
 msgstr "Your first letter in your crew colour. Each crew keeps its own colour."
 
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.noTrips"
 msgstr "Your first trip stamps itself here when you land."
@@ -1466,10 +1867,12 @@ msgid "you.settings.inviteFriendsLine"
 msgstr "Your link, and who joined with it"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.goes.pass"
 msgstr "Your pass, your critters and your stamps"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.goes.profile"
 msgstr "Your profile, uploads and chat messages"
 

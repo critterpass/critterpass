@@ -46,11 +46,22 @@ export type QueueGuideQuestionPayload = z.infer<typeof queueGuideQuestionPayload
 
 export const cancelQueuedQuestionPayloadSchema = z.strictObject({ question_id: z.uuid() });
 
+/** Rewording a queued question before the reset answers it. */
+export const editQueuedQuestionPayloadSchema = z.strictObject({
+  question_id: z.uuid(),
+  text: guideQuestionTextSchema,
+});
+export type EditQueuedQuestionPayload = z.infer<typeof editQueuedQuestionPayloadSchema>;
+
 export const rateGuideAnswerPayloadSchema = z.strictObject({
   message_id: z.uuid(),
   verdict: z.enum(['up', 'down']),
   note: z.string().trim().max(500).optional(),
 });
+
+/** "Ping me": push the caller when the thread's next answer lands (they are leaving the guide). */
+export const pingGuideAnswerPayloadSchema = z.strictObject({ thread_id: z.uuid() });
+export type PingGuideAnswerPayload = z.infer<typeof pingGuideAnswerPayloadSchema>;
 
 export const PHRASE_REGISTERS = ['casual', 'polite', 'formal'] as const;
 

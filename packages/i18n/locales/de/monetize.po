@@ -8,28 +8,42 @@ msgstr ""
 "Language: de\n"
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
 msgid "monetize.compare.no"
 msgstr ""
 
 #. placeholder {0}: boost.destination
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
 msgid "monetize.issue.boost"
 msgstr ""
 
+#. placeholder {0}: props.destination
+#: ../../apps/mobile/src/features/monetize/premium/stamped-premium.tsx
+msgid "monetize.premium.stamped.onYou"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-card-premium.tsx
 msgid "monetize.card.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-card-premium.tsx
 msgid "monetize.card.titleNoBuyer"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 msgid "monetize.stamped.onYou"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
+msgid "monetize.premium.splitNote"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
@@ -49,26 +63,42 @@ msgid "monetize.boost.lockedBy"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/stamped-premium.tsx
 msgid "monetize.stamped.oweLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/stamped-premium.tsx
 msgid "monetize.stamped.owesLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-card-premium.tsx
+msgid "monetize.premium.settledRow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/last-redraft-premium.tsx
+msgid "monetize.premium.redraftEyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/live-map-gate-premium.tsx
+msgid "monetize.premium.gateEyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.disclosure.monthly"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.disclosure.yearly"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.price"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-card-premium.tsx
 msgid "monetize.card.toGo"
 msgstr ""
 
@@ -76,8 +106,20 @@ msgstr ""
 msgid "monetize.card.settledDetail"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/last-redraft-premium.tsx
+msgid "monetize.premium.redraftLeft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/boost-lock-alert.tsx
+msgid "monetize.premium.lockedTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.boost.settled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
+msgid "monetize.premium.plusPassForYou"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
@@ -93,14 +135,17 @@ msgid "monetize.card.chip.redrafts"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
 msgid "monetize.compare.yes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
 msgid "monetize.paywall.validMonth"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
 msgid "monetize.paywall.validYear"
 msgstr ""
 
@@ -121,7 +166,7 @@ msgid "monetize.compare.seats.free"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.disclosure.once"
 msgstr ""
 
@@ -133,11 +178,16 @@ msgstr ""
 msgid "monetize.compare.icons.free"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
+msgid "monetize.premium.gift"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.eyebrow.gift"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
 msgid "monetize.paywall.aMonth"
 msgstr ""
 
@@ -145,18 +195,29 @@ msgstr ""
 msgid "monetize.perks.passPlusPostcard"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/entry-chip.tsx
+msgid "monetize.premium.entry.postcard"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
 msgid "monetize.paywall.aYear"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
 msgid "monetize.paywall.aYearPerMonth"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
+msgid "monetize.premium.splitNoteAbout"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 msgid "monetize.boost.splitLineEach"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.admitted"
 msgstr ""
@@ -169,10 +230,16 @@ msgstr ""
 msgid "monetize.compare.icons.pass"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.paused.icons"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
 msgid "monetize.issue.recovered"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.waiting"
 msgstr ""
@@ -182,26 +249,37 @@ msgid "monetize.issue.boostLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
 msgid "monetize.boost.allYearLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.inAppStore"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
+msgid "monetize.premium.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
 msgid "monetize.cancel.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
 msgid "monetize.cancel.between"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.managePlay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.manageAppStore"
 msgstr ""
 
@@ -213,24 +291,54 @@ msgstr ""
 msgid "monetize.perks.passPlusMailboxImport"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
-msgid "monetize.compare.boost"
-msgstr ""
-
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
 msgid "monetize.boost.buy"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-parts.tsx
+msgid "monetize.compare.boost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/last-redraft-premium.tsx
+msgid "monetize.premium.redraftBoost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/last-redraft-premium.tsx
+msgid "monetize.premium.redraftBoostEach"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
+msgid "monetize.premium.boostInstead"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.boost"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
 msgid "monetize.boost.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.boostPrice"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/live-map-gate-premium.tsx
+msgid "monetize.premium.gateBoost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.boost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/live-map-gate-premium.tsx
+msgid "monetize.premium.gateBoostPrice"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-links.tsx
@@ -242,8 +350,34 @@ msgstr ""
 msgid "monetize.boost.buyFor"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
+msgid "monetize.premium.boost.buyFor"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
+msgid "monetize.premium.boostSplitBuy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/last-redraft-premium.tsx
+msgid "planDraft.spent.boost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/live-map-gate-premium.tsx
+msgid "monetize.premium.gateLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.boostTrip"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/boost/boost-screen.tsx
 msgid "monetize.boost.sheet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-card-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/stamped-premium.tsx
+msgid "monetize.stamped.stamp"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boosted-pill.tsx
@@ -254,38 +388,54 @@ msgstr ""
 msgid "monetize.boost.done"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
-msgid "monetize.stamped.stamp"
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
+msgid "monetize.premium.boosts"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
 msgid "monetize.plan.boosts"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx
+msgid "monetize.premium.cancel"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
 msgid "monetize.cancel.anyway"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.cancel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.change"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
 msgid "monetize.paywall.checkAgain"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.restore.busy"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
 msgid "monetize.issue.checking"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/boost-lock-alert.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
+msgid "monetize.premium.close"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
@@ -304,17 +454,40 @@ msgstr ""
 msgid "monetize.perks.boostSeats"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.kept.critters"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.note"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
+msgid "monetize.premium.critters"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.daysLeft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
+msgid "monetize.premium.declined"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/stamped-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.done"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
 msgid "monetize.issue.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
+msgid "monetize.premium.boostEnded"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
@@ -326,15 +499,19 @@ msgid "monetize.plan.line.ends"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.entries"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/stamped-premium.tsx
 msgid "monetize.compare.chrome"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.entry"
 msgstr ""
@@ -344,6 +521,8 @@ msgid "monetize.paywall.boostEyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.everyCrew"
 msgstr ""
@@ -353,34 +532,52 @@ msgid "monetize.perks.passPlusIconStyles"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
 msgid "monetize.boost.allYear"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/entry-chip.tsx
+msgid "monetize.premium.entry.widget"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/boost-lock-alert.tsx
+msgid "monetize.premium.tellMeHint"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-card-premium.tsx
 msgid "monetize.card.square"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.guideNote"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/stamped-premium.tsx
 msgid "monetize.stamped.finishing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
+msgid "monetize.paywall.firstTripFree"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.boost.ftf"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
-msgid "monetize.paywall.firstTripFree"
-msgstr ""
-
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.fixPayment"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.restore.passPlus"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
 msgid "monetize.compare.free"
 msgstr ""
 
@@ -388,6 +585,11 @@ msgstr ""
 msgid "monetize.plan.eyebrow.free"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
+msgid "monetize.premium.compareTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.body"
 msgstr ""
@@ -397,30 +599,44 @@ msgid "monetize.chip.free"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
 msgid "monetize.paywall.get"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
+msgid "monetize.premium.getMonthly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
+msgid "monetize.premium.getYearly"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.resubscribe"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.phase.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
 msgid "monetize.paywall.headline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.inPlay"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.disclosure.play"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
 msgid "monetize.cancel.pausePlay"
 msgstr ""
 
@@ -428,12 +644,19 @@ msgstr ""
 msgid "monetize.compare.guide"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/live-map-gate-premium.tsx
+msgid "monetize.premium.gateSafety"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.holder"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
 msgid "monetize.boost.cover"
 msgstr ""
 
@@ -442,11 +665,17 @@ msgid "monetize.compare.icons"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
 msgid "monetize.cancel.staysUntil"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
 msgid "monetize.cancel.stays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
+msgid "monetize.premium.lose"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
@@ -454,6 +683,7 @@ msgid "monetize.boost.splitLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/stamped-premium.tsx
 msgid "monetize.stamped.coverLine"
 msgstr ""
 
@@ -461,16 +691,30 @@ msgstr ""
 msgid "monetize.boost.doneLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.keep"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
 msgid "monetize.cancel.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.keptLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/last-redraft-premium.tsx
+msgid "monetize.premium.redraftTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.liveMap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.paused.liveMap"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost-card/perk-chips.ts
@@ -478,16 +722,31 @@ msgid "monetize.card.chip.liveMap"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.manage"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.kept.trail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/live-map-gate-premium.tsx
+msgid "monetize.premium.later"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/boost-lock-alert.tsx
+msgid "monetize.premium.messageCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-parts.tsx
+msgid "monetize.paywall.monthly"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.line.monthly"
-msgstr ""
-
-#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
-msgid "monetize.paywall.monthly"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
@@ -518,20 +777,34 @@ msgstr ""
 msgid "monetize.compare.none"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
+msgid "monetize.premium.noLock"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/boost-lock-alert.tsx
+msgid "monetize.premium.notCharged"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
 msgid "monetize.issue.none"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.restore.nothing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
 msgid "monetize.issue.offTag"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.paymentFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
+msgid "monetize.premium.boostOn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
@@ -543,10 +816,16 @@ msgid "monetize.plan.boost.on"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-card-premium.tsx
 msgid "monetize.card.covered"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
+msgid "monetize.premium.boostUntil"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
 msgid "monetize.boost.thisTripLine"
 msgstr ""
 
@@ -554,44 +833,72 @@ msgstr ""
 msgid "monetize.boost.thisTripUntil"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/entry-chip.tsx
+msgid "monetize.premium.entry.seat"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
 msgid "monetize.compare.covers.boost"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
+#: ../../apps/mobile/src/features/monetize/premium/boost-lock-alert.tsx
 msgid "monetize.boost.lockedLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/paywall-parts.tsx
+msgid "monetize.premium.boostRow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx
+msgid "monetize.premium.seatGuide"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.page"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/stamped-premium.tsx
 msgid "monetize.compare.page"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
+msgid "monetize.premium.paidNotAffected"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.phase.verifying"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.phase.background"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.passPlus"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
 msgid "monetize.issue.passPlus"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
 msgid "monetize.compare.pass"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
+msgid "monetize.premium.passPlusEyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/use-plan-chip.ts
@@ -610,15 +917,24 @@ msgstr ""
 msgid "monetize.plan.line.expired"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
+msgid "monetize.premium.compareLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
 msgid "monetize.plan.line.granted"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.passPlus"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.disclosure.renews"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
 msgid "monetize.issue.staysOn"
 msgstr ""
 
@@ -631,27 +947,37 @@ msgstr ""
 msgid "monetize.paywall.visaLabelPriced"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
+msgid "monetize.premium.paywall.visaLabelPriced"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
 msgid "monetize.paywall.visaLabel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.visaLabel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
 msgid "monetize.cancel.pauseInPlay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
 msgid "monetize.cancel.pauseTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
 msgid "monetize.cancel.pauseTill"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
 msgid "monetize.cancel.pauseTitleTrip"
 msgstr ""
 
@@ -663,8 +989,25 @@ msgstr ""
 msgid "monetize.plan.line.pausedUntil"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/pause-bars.tsx
+msgid "monetize.premium.pausedMonths"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.pausedLabel"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.payment"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.pauses"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.kept.photos"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
@@ -675,48 +1018,86 @@ msgstr ""
 msgid "monetize.perks.passPlusReadOut"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/stamped-premium.tsx
+msgid "monetize.premium.stampedWaiting"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/premium/components/purchase-footer.tsx
 msgid "monetize.disclosure.privacy"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.noStore"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.phase.unavailable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
+msgid "monetize.premium.redeem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.paused.redrafts"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.redrafts"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/last-redraft-premium.tsx
+msgid "planDraft.spent.reset"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.renews"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
+msgid "monetize.premium.renewsPrice"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-links.tsx
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/premium/components/purchase-footer.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
 msgid "monetize.disclosure.restore"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.restore"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/paywall-parts.tsx
+msgid "monetize.premium.save"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.see"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-card-premium.tsx
 msgid "monetize.card.thanked"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-card-premium.tsx
 msgid "monetize.card.settle"
 msgstr ""
 
@@ -732,12 +1113,17 @@ msgstr ""
 msgid "monetize.card.settledMine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.titleSix"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.sponsored.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/boost-lock-alert.tsx
+msgid "monetize.premium.someone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
@@ -750,51 +1136,89 @@ msgid "monetize.boost.split"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-card-premium.tsx
 msgid "monetize.card.split"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.split"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
+msgid "monetize.premium.boost.split"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx
+msgid "monetize.premium.seatSplit"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.compare.sponsored"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.stayFree"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/boost-lock-alert.tsx
+msgid "monetize.premium.tellMe"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/stamped-premium.tsx
 msgid "monetize.stamped.tell"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/premium/components/purchase-footer.tsx
 msgid "monetize.disclosure.terms"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-card-premium.tsx
 msgid "monetize.card.thanks"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
+msgid "monetize.premium.lockWatchFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.disclosure.appStore"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
 msgid "monetize.cancel.pauseAppStore"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/stamped-premium.tsx
 msgid "monetize.stamped.splitPending"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
+msgid "monetize.premium.cardDidntGo"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/stamped-premium.tsx
 msgid "monetize.stamped.told"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/stamped-premium.tsx
 msgid "monetize.stamped.crewIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/entry-chip.tsx
+msgid "monetize.premium.entry.liveMap"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
@@ -813,6 +1237,10 @@ msgstr ""
 msgid "monetize.perks.boostLiveMap"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/live-map-gate-premium.tsx
+msgid "monetize.premium.gateTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
 msgid "monetize.perks.passPlusNextFlight"
 msgstr ""
@@ -822,7 +1250,12 @@ msgid "monetize.issue.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
 msgid "monetize.issue.recoveredLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.kept.plan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
@@ -833,39 +1266,64 @@ msgstr ""
 msgid "monetize.boost.afterLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.endedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.kept.recap"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-card-premium.tsx
 msgid "monetize.card.splitPending"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
+msgid "monetize.premium.stampIcon"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.phase.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
 msgid "monetize.issue.noneLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.restore.otherAccount"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-card-premium.tsx
 msgid "monetize.card.moved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost-card/boost-card-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-card-premium.tsx
 msgid "monetize.card.revoked"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/last-redraft-premium.tsx
+msgid "monetize.premium.redraftLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
 msgid "monetize.issue.fixPlay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
 msgid "monetize.issue.fixAppStore"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
 msgid "monetize.boost.thisTrip"
 msgstr ""
 
@@ -875,6 +1333,19 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 msgid "monetize.boost.ended"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/entry-chip.tsx
+msgid "monetize.premium.entry.guide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
+msgid "monetize.premium.welcomeWaiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
+msgid "monetize.premium.planLoading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/register.ts
@@ -890,28 +1361,46 @@ msgstr ""
 msgid "monetize.paywall.boostTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/boost-parts.tsx
+msgid "monetize.premium.entryHead"
+msgstr ""
+
 #. placeholder {0}: boost.priceString
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
 msgid "monetize.paywall.boostLabel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/paywall-parts.tsx
+msgid "monetize.premium.paywall.boostLabel"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
 msgid "monetize.boost.cancelled"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
 msgid "monetize.issue.tryAgain"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
+msgid "monetize.premium.tryStamp"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
 msgid "monetize.cancel.pauseInAppStore"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.turnBackOn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.unlimited"
 msgstr ""
@@ -940,19 +1429,38 @@ msgstr ""
 msgid "monetize.boost.boostedLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/stamped-premium.tsx
+msgid "monetize.premium.stampedGuide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.paused.guide"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/boost-card/perk-chips.ts
 msgid "monetize.card.chip.seats"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
+msgid "monetize.premium.updateCard"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 msgid "monetize.issue.update"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/last-redraft-premium.tsx
+msgid "monetize.premium.redraftUse"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
 msgid "monetize.paywall.valid"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.visaEyebrow"
 msgstr ""
@@ -963,6 +1471,7 @@ msgid "monetize.paywall.chrome"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.freeLine"
 msgstr ""
 
@@ -970,18 +1479,20 @@ msgstr ""
 msgid "monetize.compare.note"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.phase.pending"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.restore.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
 msgid "monetize.boost.refused"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.waitingLine"
 msgstr ""
@@ -991,14 +1502,17 @@ msgid "monetize.cancel.lose"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
 msgid "monetize.compare.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-links.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
 msgid "monetize.paywall.compare"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/boost-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
 msgid "monetize.boost.whoPays"
 msgstr ""
 
@@ -1011,17 +1525,21 @@ msgid "monetize.plan.line.cancelled"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.paywall.worksIn"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
-#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
-msgid "monetize.plan.line.yearly"
+#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-parts.tsx
+msgid "monetize.paywall.yearly"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
-msgid "monetize.paywall.yearly"
+#: ../../apps/mobile/src/features/monetize/plan/plan-copy.ts
+#: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
+msgid "monetize.plan.line.yearly"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
@@ -1037,10 +1555,12 @@ msgid "monetize.compare.covers.free"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/compare/compare-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
 msgid "monetize.compare.havePass"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/paywall/paywall-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-premium.tsx
 msgid "monetize.paywall.yourPlan"
 msgstr ""
 
@@ -1048,28 +1568,44 @@ msgstr ""
 msgid "monetize.compare.covers.pass"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 #: ../../apps/mobile/src/features/monetize/welcome/welcome-view.tsx
 msgid "monetize.welcome.titleNamed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.phase.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.phase.verifyFailed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/boost/stamped-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/stamped-premium.tsx
 msgid "monetize.stamped.finishingLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/ftf-ending/ftf-ending-copy.ts
+msgid "monetize.ftfEnding.ended"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/entry-chip.tsx
+msgid "monetize.premium.entry.ftf"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.someone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/entry-chip.tsx
+msgid "monetize.premium.entry.redraft"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-banner.tsx
@@ -1077,31 +1613,37 @@ msgid "monetize.issue.banner"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
 msgid "monetize.issue.off"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
 msgid "monetize.issue.grace"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-screen.tsx
 #: ../../apps/mobile/src/features/monetize/plan/cancel-screen.tsx
+#: ../../apps/mobile/src/features/monetize/premium/billing-issue-premium.tsx
 msgid "monetize.back.plan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/billing-issue-view.tsx
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
 msgid "monetize.cancel.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/plan-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/plan-premium.tsx
 msgid "monetize.plan.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/paywall/purchase-copy.tsx
+#: ../../apps/mobile/src/features/monetize/paywall/purchase-lines.ts
 msgid "monetize.restore.found"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/plan/cancel-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/cancel-premium.tsx
 msgid "monetize.cancel.yearly"
 msgstr ""

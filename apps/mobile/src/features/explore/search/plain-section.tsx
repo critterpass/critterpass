@@ -96,9 +96,9 @@ export interface PlainSectionProps {
   readonly after?: ReactNode;
 }
 
-export function PlainSection(props: PlainSectionProps) {
-  const theme = useTheme();
-  const { state, trip } = props;
+/** What a plain-words answer shows: its rows (the louder or further ones once asked for), the
+ * plan's note, and the closest places when nothing matched every chip. */
+export function usePlainSection(state: PlainState, trip: SearchTrip) {
   const [softShown, setSoftShown] = useState(false);
   const readsLocal = useReadsLocalNames(trip.destinationId);
   const answer = state.answer;
@@ -119,16 +119,49 @@ export function PlainSection(props: PlainSectionProps) {
       ? null
       : excludeLine(state.excludeReason, trip.days, trip.itemTitles);
   const settled = state.search === 'ready' && answer !== null;
-  const onMap = props.onMap;
   const close = settled && answer.places.length === 0 && !softShown ? answer.close : null;
   const closeRows = useMemo(
     () => (close === null ? [] : plainRows(close.places, trip, readsLocal)),
     [close, trip, readsLocal],
   );
   const closePhotos = usePlaceTilePhotos(closeRows.map((row) => row.key));
+  return {
+    answer,
+    rows,
+    photos,
+    note,
+    settled,
+    close,
+    closeRows,
+    closePhotos,
+    softShown,
+    showSoftMisses: () => setSoftShown(true),
+    /** Nothing at all matched: the ways out show instead of rows. */
+    empty: settled && answer.places.length === 0 && !softShown,
+    failed: state.search === 'failed' || state.search === 'offline',
+  };
+}
+
+export function PlainSection(props: PlainSectionProps) {
+  const theme = useTheme();
+  const { state, trip } = props;
+  const {
+    answer,
+    rows,
+    photos,
+    note,
+    close,
+    closeRows,
+    closePhotos,
+    softShown,
+    showSoftMisses,
+    empty,
+    failed,
+  } = usePlainSection(state, trip);
+  const onMap = props.onMap;
   // A search that timed out or could not reach the api reads the same to her as one that failed:
   // words and a retry, never "0 places" over an empty page.
-  if ((state.search === 'failed' || state.search === 'offline') && props.onRetry !== undefined) {
+  if (failed && props.onRetry !== undefined) {
     return (
       <View style={{ gap: theme.space['20'] }}>
         <PlainFailed onRetry={props.onRetry} />
@@ -158,7 +191,7 @@ export function PlainSection(props: PlainSectionProps) {
           onMap={onMap === undefined ? undefined : () => onMap(closeRows.map((row) => row.key))}
           after={props.after}
         />
-      ) : settled && answer.places.length === 0 && !softShown ? (
+      ) : empty && answer !== null ? (
         props.empty(answer)
       ) : (
         <>
@@ -168,7 +201,7 @@ export function PlainSection(props: PlainSectionProps) {
             loading={state.search === 'loading' || state.parse === 'parsing'}
             softMisses={answer?.softMisses.length ?? 0}
             showingSoftMisses={softShown}
-            onSoftMisses={() => setSoftShown(true)}
+            onSoftMisses={showSoftMisses}
             onOpen={props.onOpen}
             onAdd={props.onAdd}
             onMap={onMap === undefined ? undefined : () => onMap(rows.map((row) => row.key))}

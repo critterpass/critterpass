@@ -1,0 +1,37 @@
+appId: app.critterpass.dev
+---
+# Premium design | device capture in Vietnamese: the key screens of the wallet, the trip and the
+# places pitch, so wrapped or clipped Vietnamese labels show in the sheets. The area subflows run
+# with LOOK `vi`, which takes only their key screens and names the shots `premium-<code>-<state>-vi`.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: trip_tomorrow
+      LANG: vi
+- runFlow:
+    file: subflows/wallet-bookings.yaml
+    env:
+      LOOK: vi
+- runFlow: subflows/to-home.yaml
+- runFlow:
+    file: subflows/wallet-money.yaml
+    env:
+      LOOK: vi
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: trip_today
+      LANG: vi
+- runFlow:
+    file: subflows/trip-on.yaml
+    env:
+      LOOK: vi
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: crew_with_code
+      LANG: vi
+- runFlow:
+    file: subflows/plan-places.yaml
+    env:
+      LOOK: vi

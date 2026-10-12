@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="position:absolute;left:50%;bottom:26px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px;border-radius:34px;background:rgba(255,255,255,.56);backdrop-filter:blur(24px) saturate(1.9);-webkit-backdrop-filter:blur(24px) saturate(1.9);box-shadow:inset 0 1px 0 rgba(255,255,255,.95),inset 0 -1px 0 rgba(255,255,255,.4),inset 0 0 0 .5px rgba(255,255,255,.6),0 0 0 .5px rgba(20,22,40,.08),0 22px 44px -14px rgba(20,22,40,.32);z-index:40;color:#1c1d24;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;">
+  <div style="height:46px;min-width:46px;padding:{{ t0.pad }};border-radius:23px;background:{{ t0.bg }};box-shadow:{{ t0.sh }};color:{{ t0.fg }};display:flex;align-items:center;justify-content:center;gap:7px;font-size:14px;font-weight:600;box-sizing:border-box;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V20h-5v-5.5h-6V20H4z"></path></svg><sc-if value="{{ t0.on }}" hint-placeholder-val="{{ false }}">Home</sc-if></div>
+  <div style="height:46px;min-width:46px;padding:{{ t1.pad }};border-radius:23px;background:{{ t1.bg }};box-shadow:{{ t1.sh }};color:{{ t1.fg }};display:flex;align-items:center;justify-content:center;gap:7px;font-size:14px;font-weight:600;box-sizing:border-box;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3.5 7.5h17v3a1.8 1.8 0 0 0 0 3.5v3h-17v-3a1.8 1.8 0 0 0 0-3.5z"></path></svg><sc-if value="{{ t1.on }}" hint-placeholder-val="{{ false }}">Trips</sc-if></div>
+  <div style="width:56px;height:56px;margin:-14px 2px 0;border-radius:28px;background:radial-gradient(circle at 35% 28%,#fff3b8 0,#ffd84a 42%,#f2b92e 100%);border:3px solid rgba(255,255,255,.95);box-shadow:inset 0 -3px 6px rgba(190,120,0,.25),0 1px 2px rgba(20,22,40,.2),0 10px 22px -6px rgba(200,140,0,.55);display:flex;align-items:center;justify-content:center;box-sizing:border-box;overflow:hidden;"><doodle-art kind="gecko" size="46" anim="none" blink="false"></doodle-art></div>
+  <div style="height:46px;min-width:46px;padding:{{ t2.pad }};border-radius:23px;background:{{ t2.bg }};box-shadow:{{ t2.sh }};color:{{ t2.fg }};display:flex;align-items:center;justify-content:center;gap:7px;font-size:14px;font-weight:600;box-sizing:border-box;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3.5" y="6" width="17" height="13" rx="3"></rect><path d="M3.5 10h17"></path></svg><sc-if value="{{ t2.on }}" hint-placeholder-val="{{ false }}">Wallet</sc-if></div>
+  <div style="height:46px;min-width:46px;padding:{{ t3.pad }};border-radius:23px;background:{{ t3.bg }};box-shadow:{{ t3.sh }};color:{{ t3.fg }};display:flex;align-items:center;justify-content:center;gap:7px;font-size:14px;font-weight:600;box-sizing:border-box;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="5.5" y="3.5" width="13" height="17" rx="2.5"></rect><circle cx="12" cy="11" r="3"></circle><path d="M9.5 16.5h5"></path></svg><sc-if value="{{ t3.on }}" hint-placeholder-val="{{ false }}">Pass</sc-if></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:120},&quot;active&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;trips&quot;,&quot;wallet&quot;,&quot;pass&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const a = this.props.active ?? 'home';
+    const t = (k) => { const on = a === k; return { on, bg: on ? 'linear-gradient(180deg,#30313b,#16171d)' : 'transparent', fg: on ? '#ffffff' : '#3d404c', sh: on ? 'inset 0 1px 0 rgba(255,255,255,.18),0 6px 14px -4px rgba(20,22,40,.4)' : 'none', pad: on ? '0 16px 0 13px' : '0' }; };
+    return { t0: t('home'), t1: t('trips'), t2: t('wallet'), t3: t('pass') };
+  }
+}
+</script>
+</body>
+</html>

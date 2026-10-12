@@ -24,7 +24,7 @@ const useStyles = makeStyles((th) => ({
   section: { gap: th.space['10'] },
 }));
 
-function noteText(kind: LivePickNote['kind'], place: string): string {
+export function noteText(kind: LivePickNote['kind'], place: string): string {
   switch (kind) {
     case 'resolving':
       return t({ id: 'setup.addMustDo.more.resolving', message: 'Getting this place ready…' });
@@ -47,17 +47,14 @@ function noteText(kind: LivePickNote['kind'], place: string): string {
   }
 }
 
-export function MorePlacesSection({
-  state,
-  note,
-  destinationName,
-  onPick,
-}: {
+export interface MorePlacesProps {
   readonly state: MorePlacesState;
   readonly note: LivePickNote | null;
   readonly destinationName: string;
   readonly onPick: (place: LivePlace) => void;
-}) {
+}
+
+export function MorePlacesSection({ state, note, destinationName, onPick }: MorePlacesProps) {
   const styles = useStyles();
   const theme = useTheme();
   if (state.kind === 'none' || (state.kind === 'done' && state.places.length === 0)) return null;

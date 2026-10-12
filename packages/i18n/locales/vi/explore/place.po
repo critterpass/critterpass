@@ -19,7 +19,7 @@ msgstr "{0} / 10"
 
 #. placeholder {0}: row.name
 #. placeholder {1}: row.destination_name
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-detail.ts
 msgid "explore.detail.shareText"
 msgstr "{0}, {1}. Đáng ghé không?"
 
@@ -157,7 +157,7 @@ msgstr "Kiểm tra lại trước khi đi"
 msgid "explore.detail.chooseDay"
 msgstr "Chọn ngày"
 
-#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.closed"
 msgstr "Đóng cửa"
 
@@ -169,7 +169,7 @@ msgstr "Cả nhóm chia {w}–{r}"
 msgid "explore.detail.why.busySeen"
 msgstr "các nhóm thấy đông từ {at} giờ"
 
-#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.entry"
 msgstr "Vé"
 
@@ -262,7 +262,7 @@ msgid "explore.detail.why.hoursUnknown"
 msgstr "chưa rõ giờ mở cửa"
 
 #: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-detail.ts
 msgid "explore.detail.hoursUnknown"
 msgstr "Chưa rõ giờ mở cửa nên mình chưa xếp được."
 
@@ -282,7 +282,7 @@ msgstr "Ảnh minh hoạ"
 msgid "explore.offers.offline"
 msgstr "Cần có mạng để xem ưu đãi."
 
-#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.open"
 msgstr "Mở cửa"
 
@@ -295,7 +295,7 @@ msgid "explore.detail.fits.other"
 msgstr "Ngày khác ›"
 
 #: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-detail.ts
 msgid "explore.detail.planTrip"
 msgstr "Lên chuyến đi ở đây"
 
@@ -333,7 +333,7 @@ msgstr "Bỏ khỏi Ý tưởng"
 msgid "explore.detail.removeAll.link"
 msgstr "Xóa khỏi Ý tưởng của cả nhóm"
 
-#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/use-remove-for-everyone.ts
 msgid "explore.detail.removeAll.done"
 msgstr "Đã xóa khỏi Ý tưởng của cả nhóm"
 
@@ -397,7 +397,7 @@ msgstr "Vẫn còn trong Ý tưởng: nhóm cũng đã lưu"
 msgid "explore.detail.suggestFor"
 msgstr "Đề xuất {weekday} · {time}"
 
-#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.takes"
 msgstr "Mất"
 
@@ -433,7 +433,7 @@ msgstr "Hoàn tác"
 msgid "explore.offers.disclosure"
 msgstr "Chúng tôi có thể nhận hoa hồng nếu bạn đặt chỗ. Điều đó không bao giờ thay đổi thứ hạng chúng tôi xếp."
 
-#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.wear"
 msgstr "Mặc"
 

@@ -19,6 +19,10 @@ msgstr ""
 msgid "web.tips.categoryPageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.critters"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.pageDescription"
 msgstr ""
@@ -43,8 +47,16 @@ msgstr "เพื่อนลงชื่อแล้ว {count} จาก 3 ค
 msgid "web.plan.days"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.days"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.headline"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.pageDescription"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
@@ -61,6 +73,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.pageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.pageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.distance"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
@@ -97,6 +117,10 @@ msgstr "{name} จองที่ไว้ให้คุณที่ {place} �
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.photoAlt"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.headline"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
@@ -247,9 +271,17 @@ msgstr "หนูรถไฟใต้ดิน รอคุณอยู่ท�
 msgid "web.pricing.firstTripBody"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.pageDescriptionNoPlace"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.eggLabel"
 msgstr "ไข่ที่กำลังขยับ"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.distanceAbout"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.ticket.admit"
@@ -282,6 +314,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lince"
 msgstr "แมวป่าลิงซ์ไอบีเรีย รอคุณอยู่ที่ {place}"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.morePlaces"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerApp"
@@ -479,6 +515,10 @@ msgstr ""
 msgid "web.plan.crewOf"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.crewOf"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.eyebrow"
 msgstr ""
@@ -530,6 +570,10 @@ msgstr "CritterPass กำลังอยู่ในช่วงทดสอบ
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.inTestingNoName"
 msgstr "CritterPass กำลังอยู่ในช่วงทดสอบ ขอคำเชิญ TestFlight จากคนที่ชวนคุณ แล้วเข้าร่วมด้วยรหัสนี้:"
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.openBody"
+msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.rssTitle"
@@ -1131,6 +1175,10 @@ msgstr ""
 msgid "web.home.mockPlanItem2"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.placesTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.onTheTrip"
 msgstr ""
@@ -1157,6 +1205,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.openCta"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.openCta"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/plan.ts
@@ -1383,6 +1435,10 @@ msgstr ""
 msgid "web.plan.solo"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.solo"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.search.label"
 msgstr "ไปที่อื่นไหม?"
@@ -1539,6 +1595,10 @@ msgstr "โหลดรายชื่อสถานที่ไม่สำเ
 msgid "web.legal.shortVersion"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.headlineNoPlace"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.surpriseBody"
 msgstr "ยังมีของอีกหลายอย่างที่เรายังไม่เปิดให้ดู คนที่อยู่ในรายชื่อจะได้เห็นก่อน"
@@ -1629,6 +1689,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.boostName"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.eyebrow"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.eyebrowWhen"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -1731,6 +1799,10 @@ msgstr ""
 msgid "web.home.mockVoteWinning"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.travelledBy"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.title"
 msgstr ""
@@ -1813,4 +1885,8 @@ msgstr "คิวของคุณ"
 
 #: ../../apps/web/src/components/site/copy/pricing.ts
 msgid "web.pricing.freeKept"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.openTitle"
 msgstr ""

@@ -49,7 +49,7 @@ struct CountdownAccessoryView: View {
         } currentValueLabel: {
             VStack(spacing: 0) {
                 Text(verbatim: value)
-                    .font(.system(size: 15, weight: .black))
+                    .font(.system(size: 15, weight: .heavy))
                     .minimumScaleFactor(0.6)
                 if let place {
                     Text(verbatim: place.uppercased())

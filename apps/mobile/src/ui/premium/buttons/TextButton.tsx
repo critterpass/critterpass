@@ -1,0 +1,52 @@
+import { PressableScale } from '../motion/PressableScale';
+import { Text } from '../text/Text';
+import type { PremiumTextTone } from '../text/Text';
+import { usePremiumTheme } from '../theme/PremiumThemeProvider';
+
+export interface TextButtonProps {
+  readonly label: string;
+  readonly onPress?: () => void;
+  readonly disabled?: boolean;
+  /** @default 'muted' */
+  readonly tone?: PremiumTextTone;
+  /** A colour that is not a named tone (a banner's action word). */
+  readonly color?: string;
+  /** Where the word sits in its column: at the start, or centred under a centred button. */
+  readonly align?: 'start' | 'center';
+  readonly testID?: string;
+}
+
+/** A bare 15/600 word ("Skip", "Not now") with a 44 pt tap target. */
+export function TextButton({
+  label,
+  onPress,
+  disabled,
+  tone = 'muted',
+  color,
+  align = 'start',
+  testID,
+}: TextButtonProps) {
+  const t = usePremiumTheme();
+  return (
+    <PressableScale
+      testID={testID}
+      onPress={onPress}
+      disabled={disabled}
+      accessibilityLabel={label}
+      style={{
+        minHeight: t.size.hit,
+        justifyContent: 'center',
+        alignSelf: align === 'center' ? 'center' : 'flex-start',
+      }}
+    >
+      <Text
+        variant="textButton"
+        numberOfLines={1}
+        tone={disabled === true ? 'placeholder' : tone}
+        {...(color === undefined || disabled === true ? {} : { color })}
+      >
+        {label}
+      </Text>
+    </PressableScale>
+  );
+}

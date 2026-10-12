@@ -83,6 +83,35 @@ export interface ChangeCardProps {
   readonly onToggle: () => void;
 }
 
+/** What one change says: the old line, the new one (or how far stops shift), and why. */
+export function changeCardWords(
+  card: ChangeCardModel,
+  locale: string,
+  tz: string,
+): { readonly before: string | null; readonly after: string; readonly reason: string | null } {
+  const before =
+    card.kind === 'change' && card.before !== null ? lineText(card.before, locale, tz) : null;
+  const shifted = card.kind === 'shifts' ? card.count : 0;
+  const maxMin = card.kind === 'shifts' ? card.maxMin : 0;
+  const movedTo = card.kind === 'change' ? (card.movedToDay ?? 0) : 0;
+  const after =
+    card.kind === 'shifts'
+      ? t({
+          id: 'planDraft.change.shifts',
+          message: plural(shifted, {
+            one: `One stop moves by up to ${maxMin} min`,
+            other: `# stops move by up to ${maxMin} min`,
+          }),
+        })
+      : card.movedToDay !== null
+        ? t({ id: 'planDraft.change.movedToDay', message: `Moved to day ${movedTo}` })
+        : card.after !== null
+          ? lineText(card.after, locale, tz)
+          : t({ id: 'planDraft.change.dropped', message: 'Taken out' });
+  const reason = card.kind === 'change' ? card.reason : null;
+  return { before, after, reason };
+}
+
 export function ChangeCard({ card, index, kept, locale, tz, onToggle }: ChangeCardProps) {
   const styles = useStyles();
   const theme = useTheme();
@@ -120,26 +149,7 @@ export function ChangeCard({ card, index, kept, locale, tz, onToggle }: ChangeCa
     transform: [{ scale: pop.value }],
   }));
 
-  const before =
-    card.kind === 'change' && card.before !== null ? lineText(card.before, locale, tz) : null;
-  const shifted = card.kind === 'shifts' ? card.count : 0;
-  const maxMin = card.kind === 'shifts' ? card.maxMin : 0;
-  const movedTo = card.kind === 'change' ? (card.movedToDay ?? 0) : 0;
-  const after =
-    card.kind === 'shifts'
-      ? t({
-          id: 'planDraft.change.shifts',
-          message: plural(shifted, {
-            one: `One stop moves by up to ${maxMin} min`,
-            other: `# stops move by up to ${maxMin} min`,
-          }),
-        })
-      : card.movedToDay !== null
-        ? t({ id: 'planDraft.change.movedToDay', message: `Moved to day ${movedTo}` })
-        : card.after !== null
-          ? lineText(card.after, locale, tz)
-          : t({ id: 'planDraft.change.dropped', message: 'Taken out' });
-  const reason = card.kind === 'change' ? card.reason : null;
+  const { before, after, reason } = changeCardWords(card, locale, tz);
   const toggleLabel = kept
     ? t({ id: 'planDraft.change.keep', message: 'Keep this change' })
     : t({ id: 'planDraft.change.skip', message: 'Leave this one as it was' });

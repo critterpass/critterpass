@@ -27,3 +27,30 @@ export function usePayoutKindLabel(): (kind: PayoutKind) => string {
     [t],
   );
 }
+
+/** The label over each payout field ("Account number", "Name the payer sees"). */
+export function usePayoutFieldLabel(): (field: string) => string {
+  const { t } = useLingui();
+  return (field: string): string => {
+    switch (field) {
+      case 'bank_name':
+        return t({ id: 'money.payout.field.bank', message: 'Bank' });
+      case 'account_name':
+        return t({ id: 'money.payout.field.accountName', message: 'Name on the account' });
+      case 'account_number':
+        return t({ id: 'money.payout.field.account', message: 'Account number' });
+      case 'swift':
+        return t({ id: 'money.payout.field.swift', message: 'SWIFT code (optional)' });
+      case 'proxy':
+        return t({ id: 'money.payout.field.mobile', message: 'Mobile number' });
+      case 'name':
+        return t({ id: 'money.payout.field.name', message: 'Name the payer sees' });
+      case 'bank_bin':
+        return t({ id: 'money.payout.field.bin', message: 'Bank code (6 digits)' });
+      case 'acquirer_id':
+        return t({ id: 'money.payout.field.acquirer', message: 'Bank id' });
+      default:
+        return t({ id: 'money.payout.field.link', message: 'Wise link' });
+    }
+  };
+}

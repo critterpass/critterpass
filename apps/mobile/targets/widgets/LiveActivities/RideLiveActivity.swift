@@ -10,7 +10,7 @@ struct RideLiveActivityWidget: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: RideActivityAttributes.self) { context in
             RideLockScreen(attributes: context.attributes, state: context.state)
-                .activityBackgroundTint(LAPalette.card)
+                .activityBackgroundTint(nil)
                 .activitySystemActionForegroundColor(LAPalette.paper)
                 .widgetURL(LADeepLink.url(route: "getting-around"))
         } dynamicIsland: { context in
@@ -19,23 +19,29 @@ struct RideLiveActivityWidget: Widget {
                 DynamicIslandExpandedRegion(.leading) {
                     RideEyebrow(state: state)
                         .padding(.leading, 4)
+                    .islandAppearance()
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     RideWait(state: state)
                         .padding(.trailing, 4)
+                    .islandAppearance()
                 }
                 DynamicIslandExpandedRegion(.bottom) {
                     RideBody(attributes: context.attributes, state: state, fareSize: 20)
                         .padding(.horizontal, 10)
+                    .islandAppearance()
                 }
             } compactLeading: {
                 Image(systemName: "car.fill")
                     .foregroundStyle(LAPalette.green)
+                    .islandAppearance()
             } compactTrailing: {
                 RideWait(state: state)
+                    .islandAppearance()
             } minimal: {
                 Image(systemName: "car.fill")
                     .foregroundStyle(LAPalette.green)
+                    .islandAppearance()
             }
             .keylineTint(LAPalette.green)
             .widgetURL(LADeepLink.url(route: "getting-around"))
@@ -102,7 +108,7 @@ struct RideBody: View {
                 HStack(alignment: .firstTextBaseline, spacing: 8) {
                     Text(verbatim: RideFare.text(
                         low: state.fareLow, high: state.fareHigh, currency: state.currency))
-                        .font(.system(size: fareSize, weight: .black).monospacedDigit())
+                        .font(.system(size: fareSize, weight: .heavy).monospacedDigit())
                         .foregroundStyle(LAPalette.paper)
                         .lineLimit(1)
                         .minimumScaleFactor(0.6)

@@ -1,0 +1,77 @@
+appId: app.critterpass.dev
+---
+# Steps back until ${MARK} shows (at most five steps): a sheet's Cancel, a full screen's ✕, the
+# paywall's close, a Pass+ page's back, a modal sheet's close, else one system back (and on iOS a
+# pull down). Nothing happens when ${MARK} already shows.
+- repeat:
+    while:
+      notVisible:
+        id: '${MARK}'
+    times: 5
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'sheet-cancel'
+          commands:
+            - tapOn:
+                id: 'sheet-cancel'
+            - waitForAnimationToEnd
+      - runFlow:
+          when:
+            visible:
+              id: 'full-screen-close'
+            notVisible:
+              id: '${MARK}'
+          commands:
+            - tapOn:
+                id: 'full-screen-close'
+            - waitForAnimationToEnd
+      - runFlow:
+          when:
+            visible:
+              id: 'paywall-close'
+            notVisible:
+              id: '${MARK}'
+          commands:
+            - tapOn:
+                id: 'paywall-close'
+            - waitForAnimationToEnd
+      - runFlow:
+          when:
+            visible:
+              id: 'drawn-page-back'
+            notVisible:
+              id: '${MARK}'
+          commands:
+            - tapOn:
+                id: 'drawn-page-back'
+            - waitForAnimationToEnd
+      - runFlow:
+          when:
+            visible:
+              id: 'modal-sheet-cancel'
+            notVisible:
+              id: '${MARK}'
+          commands:
+            - tapOn:
+                id: 'modal-sheet-cancel'
+            - waitForAnimationToEnd
+      - runFlow:
+          when:
+            notVisible:
+              id: '${MARK}'
+          commands:
+            - runFlow: back.yaml
+            - waitForAnimationToEnd
+      # A sheet with no Cancel ignores the iOS edge swipe: it is pulled down instead.
+      - runFlow:
+          when:
+            platform: iOS
+            notVisible:
+              id: '${MARK}'
+          commands:
+            - swipe:
+                start: 50%, 35%
+                end: 50%, 95%
+            - waitForAnimationToEnd

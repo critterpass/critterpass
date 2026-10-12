@@ -1,13 +1,24 @@
 /**
- * `react_message` (docs/api-contracts.md §4.2): a member puts an emoji on a message or takes it
- * back. `on` states the outcome the app showed; without it the reaction toggles. Taking one back
+ * `react_message` (docs/api-contracts.md §4.2): a member puts an emoji or a critter (`c112.cheer`,
+ * any critter of the published dex) on a message or takes it back. `on` states the outcome the app showed; without it the reaction toggles. Taking one back
  * goes through `app.remove_message_reaction` (app_user deletes nothing directly).
  */
 import { appendDomainEvent } from '@cp/db';
-import { DomainError, reactMessagePayloadSchema, type ReactMessageResult } from '@cp/domain';
+import {
+  DomainError,
+  parseCritterReaction,
+  reactMessagePayloadSchema,
+  type ReactMessageResult,
+} from '@cp/domain';
+import type pg from 'pg';
 
 import { defineCommand } from '../_framework/define-command';
 import { hintChat, requireChatWriter, visibleMessage } from './shared';
+
+async function assertCritterExists(tx: pg.PoolClient, no: number): Promise<void> {
+  const { rowCount } = await tx.query('SELECT 1 FROM critters WHERE no = $1', [no]);
+  if (rowCount === 0) throw new DomainError('VALIDATION', { reason: 'unknown_critter' });
+}
 
 export const reactMessageCommand = defineCommand({
   name: 'react_message',
@@ -31,6 +42,8 @@ export const reactMessageCommand = defineCommand({
     );
     const had = rows[0]?.exists === true;
     const on = payload.on ?? !had;
+    const critter = parseCritterReaction(payload.emoji);
+    if (on && !had && critter !== null) await assertCritterExists(tx, critter.no);
     if (on && !had) {
       await tx.query(
         'INSERT INTO message_reactions (message_id, crew_id, user_id, emoji) VALUES ($1, $2, $3, $4)',

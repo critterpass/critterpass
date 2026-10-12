@@ -16,6 +16,7 @@ import { AlbumMediaProvider } from '../grid/album-media';
 import { albumHttp } from '../upload/device-upload';
 import type { PostcardFormat } from './postcard-pair';
 import { PostcardScreen } from './postcard-screen';
+import type { PostcardLook } from './postcard-look';
 import { ReceivedView } from './received-view';
 
 const OPENED_SQL = `
@@ -25,9 +26,12 @@ const OPENED_SQL = `
 export function OpenedPostcardScreen({
   tripId,
   postcardId,
+  look,
 }: {
   readonly tripId: string;
   readonly postcardId: string | null;
+  /** The composer's look (the premium postcard passes its own). */
+  readonly look?: PostcardLook;
 }) {
   const { t } = useLingui();
   const album = useAlbum(tripId);
@@ -40,7 +44,7 @@ export function OpenedPostcardScreen({
   const [own, setOwn] = useState(false);
 
   if (opened === undefined || album.me === null || opened.created_by === album.me || own) {
-    return <PostcardScreen tripId={tripId} />;
+    return <PostcardScreen tripId={tripId} {...(look === undefined ? {} : { look })} />;
   }
   const front = album.photos.find((photo) => photo.id === opened.photo_id) ?? null;
   return (

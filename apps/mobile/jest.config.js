@@ -54,6 +54,9 @@ module.exports = {
     // comment for why a hand-rolled mock (the same class of exception as the Reanimated one above)
     // is used instead of the shipped module.
     '^expo-audio$': require.resolve('./src/motion/test-support/expo-audio-mock.ts'),
+    // The map's native view does not exist under Jest; see maplibre-mock.tsx's own comment.
+    '^@maplibre/maplibre-react-native$':
+      require.resolve('./src/motion/test-support/maplibre-mock.tsx'),
     // react-native's "exports" map only exposes "react-native/asset-registry", while the Jest preset maps
     // to the pre-exports path relative to the requesting file, which pnpm's isolated node_modules cannot
     // satisfy; point the mapper at the resolved file instead.

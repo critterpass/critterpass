@@ -108,7 +108,7 @@ msgstr ""
 
 #. placeholder {0}: '19:30'
 #. placeholder {0}: clock(locale, leg.to.startsAt, data.tz)
-#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
+#: ../../apps/mobile/src/features/bookings/getting-around/use-getting-around-screen.ts
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
 msgid "suppliers.later.at"
 msgstr ""
@@ -415,7 +415,7 @@ msgstr ""
 msgid "suppliers.fare.taxi"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
+#: ../../apps/mobile/src/features/bookings/getting-around/use-getting-around-screen.ts
 msgid "suppliers.later.openOffline"
 msgstr ""
 
@@ -610,7 +610,7 @@ msgstr ""
 msgid "suppliers.estimate.gone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
+#: ../../apps/mobile/src/features/bookings/getting-around/use-getting-around-screen.ts
 msgid "suppliers.later.openFailed"
 msgstr ""
 

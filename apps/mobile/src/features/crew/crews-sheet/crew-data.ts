@@ -31,6 +31,8 @@ export interface CrewRow {
   readonly id: string;
   readonly name: string;
   readonly art: string | null;
+  /** The pass cover key (`crews.cover`); null draws the default cover. */
+  readonly cover: string | null;
   readonly created_by: string | null;
 }
 
@@ -39,6 +41,7 @@ export interface TripHeader {
   readonly crew_id: string;
   readonly status: string;
   readonly start_date: string | null;
+  readonly end_date: string | null;
   readonly place: string | null;
 }
 
@@ -92,13 +95,13 @@ function queries(uid: string) {
   const me = quoted(uid);
   const mine = `SELECT crew_id FROM crew_members WHERE user_id = ${me} AND status = 'active'`;
   return {
-    crews: `SELECT id, name, art, created_by FROM crews
+    crews: `SELECT id, name, art, cover, created_by FROM crews
       WHERE id IN (${mine}) OR id IN (SELECT crew_id FROM invites WHERE invitee_user_id = ${me})
       ORDER BY name`,
     members: `SELECT cm.crew_id, cm.user_id, cm.role, cm.colour, cm.notify_level, u.display_name
       FROM crew_members cm LEFT JOIN users u ON u.id = cm.user_id
       WHERE cm.status = 'active' AND cm.crew_id IN (${mine}) ORDER BY cm.created_at, cm.id`,
-    trips: `SELECT t.id, t.crew_id, t.status, t.start_date, d.name AS place
+    trips: `SELECT t.id, t.crew_id, t.status, t.start_date, t.end_date, d.name AS place
       FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id
       WHERE t.crew_id IN (${mine}) AND t.status NOT IN ('cancelled', 'archived')
       ORDER BY t.start_date`,

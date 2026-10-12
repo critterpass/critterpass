@@ -5,13 +5,14 @@
  * that never expires, and a credit can be spent on any trip of the crew. Every step is written as
  * the server and is idempotent: a stale timer or a repeated job finds nothing left to do.
  */
-import { emitEvent } from '@cp/db';
-import { DomainError, type TripBoostState } from '@cp/domain';
+import { emitEvent, scheduleEvent } from '@cp/db';
+import { BILLING_QUEUES, DomainError, type TripBoostState } from '@cp/domain';
 import type pg from 'pg';
 
 import { recomputeTrip } from '../entitlements';
 import { armBoostExpiry } from './activate-boost';
 import { publishBoostState } from './boost-rt';
+import { armFtfEndingReminder } from './ftf-eligibility';
 
 export interface BoostRow {
   readonly id: string;
@@ -79,12 +80,25 @@ export async function followTripDates(tx: pg.PoolClient, tripId: string, now: Da
     if (boost.status !== 'ended') await armBoostExpiry(tx, boost.id, boost.ends_at);
     await publishBoostState(tx, ref(boost), boost.status);
   }
-  await tx.query(
+  const grants = await tx.query<{ id: string; ends_at: Date }>(
     `UPDATE ftf_grants SET ends_at = greatest(app.boost_window_end(trip_id, starts_at),
                                               starts_at + interval '1 day')
-      WHERE trip_id = $1`,
+      WHERE trip_id = $1
+      RETURNING id, ends_at`,
     [tripId],
   );
+  for (const grant of grants.rows) {
+    // The window's close and its three-days-left reminder move with the dates.
+    if (grant.ends_at > now) {
+      await scheduleEvent(tx, {
+        kind: BILLING_QUEUES.boostExpire,
+        refId: grant.id,
+        tz: 'UTC',
+        at: grant.ends_at,
+      });
+    }
+    await armFtfEndingReminder(tx, grant.id, grant.ends_at, now);
+  }
 }
 
 /** The crew's next trip a boost can go to: the soonest live one other than `fromTripId`. */
