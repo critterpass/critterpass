@@ -79,7 +79,7 @@ export function RollingAmount({ text, variant, tone = 'ink', color, testID }: Ro
   // digits mount as one batch of layout animations, and on Android a batch now and then stays at
   // opacity 0, which left a balance reading "−24 ," for "−241,666".
   const [first, setFirst] = useState<string | null>(null);
-  const entering = first !== null && first !== text ? FadeIn : undefined;
+  const fade = first !== null && first !== text ? { entering: FadeIn } : {};
   return (
     <View
       accessible
@@ -115,7 +115,7 @@ export function RollingAmount({ text, variant, tone = 'ink', color, testID }: Ro
           );
         }
         return (
-          <Animated.View key={`d${key}`} entering={entering}>
+          <Animated.View key={`d${key}`} {...fade}>
             <DigitColumn
               digit={digit}
               height={height}
