@@ -23,6 +23,11 @@ onFlowComplete:
     file: subflows/chat-guide.yaml
     env:
       LOOK: light
+# The guide leaves sheets and full-screen pages stacked: the dark pass starts from a fresh Home.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
 - runFlow:
     file: subflows/appearance.yaml
     env:
