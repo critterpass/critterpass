@@ -288,7 +288,9 @@ appId: app.critterpass.dev
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: bookings-delete-confirm
-- tapOn: '(?i)delete booking'
+# The sheet's own button: the page's DELETE under the sheet carries the same words.
+- tapOn:
+    id: 'bookings-delete-confirm-confirm'
 - extendedWaitUntil:
     visible:
       id: 'bookings-wallet-.*'
