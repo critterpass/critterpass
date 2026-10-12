@@ -13,7 +13,10 @@ import type { DraftPreview } from './preview';
 
 export interface AddLabels {
   readonly approx: string | undefined;
+  /** The current look's button, in capitals ("ADD RP 450K"). */
   readonly ctaLabel: string;
+  /** The same words as written ("Add Rp 450k"), for the premium button. */
+  readonly cta: string;
   /** "$4.74" on an even split, for the toast. */
   readonly each: string | null;
 }
@@ -42,14 +45,15 @@ export function useAddLabels(
   } else if (each !== null) {
     approx = t({ id: 'money.add.each', message: `${each} each` });
   }
-  const short = formatShort(amountMinor, draft.currency, locale);
-  const ctaLabel = upper(
-    editing
-      ? t({ id: 'money.add.save', message: 'Save' })
-      : amountMinor === 0n
-        ? t({ id: 'money.add.addEmpty', message: 'Add' })
-        : t({ id: 'money.add.add', message: `Add ${short}` }),
-    locale,
-  );
-  return { approx, ctaLabel, each };
+  // Vietnamese writes the amount out on the button ("Thêm 250.000 ₫"): its short forms ("250 N",
+  // "1,25 Tr") read as shorthand there, not as money.
+  const short = locale.startsWith('vi')
+    ? formatAmount(amountMinor, draft.currency, locale)
+    : formatShort(amountMinor, draft.currency, locale);
+  const cta = editing
+    ? t({ id: 'money.add.save', message: 'Save' })
+    : amountMinor === 0n
+      ? t({ id: 'money.add.addEmpty', message: 'Add' })
+      : t({ id: 'money.add.add', message: `Add ${short}` });
+  return { approx, ctaLabel: upper(cta, locale), cta, each };
 }

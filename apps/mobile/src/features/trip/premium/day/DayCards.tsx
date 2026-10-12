@@ -10,6 +10,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Avatar, Button, PressableScale, ring, Text, usePremiumTheme } from '@/ui/premium';
 
 import { heroCopy } from '../../day-of/day-of-copy';
+import { clockIn } from '../../leave-by/model';
 import type { DayOfProps } from '../../day-of/use-day-of';
 
 export function Readiness({ props }: { readonly props: DayOfProps }) {
@@ -19,6 +20,15 @@ export function Readiness({ props }: { readonly props: DayOfProps }) {
   const view = props.leaveBy;
   if (view === null) return null;
   const copy = heroCopy(view, props.now, props.guideName, locale);
+  // With no pickup, guide note or traffic caveat to say, the card still leads with what the
+  // leave-by is for, so it never opens on the faces alone.
+  const what = view.title ?? view.placeName;
+  const start = clockIn(view.startsAt, view.tz, locale);
+  const instructions =
+    copy.instructions ??
+    (what === null
+      ? null
+      : t({ id: 'trip.dayOf.premium.startsAt', message: `${what} starts at ${start}.` }));
   return (
     <View
       style={[
@@ -31,17 +41,15 @@ export function Readiness({ props }: { readonly props: DayOfProps }) {
       ]}
       testID={`trip-day-hero-${view.phase}`}
     >
-      {copy.instructions === null ? null : (
-        <Text variant="body" style={styles.instructions}>
-          {copy.instructions}
+      {instructions === null ? null : (
+        <Text variant="body" style={styles.instructions} testID="trip-day-instructions">
+          {instructions}
         </Text>
       )}
       <View
         style={[
           styles.ready,
-          copy.instructions === null
-            ? null
-            : { borderTopWidth: 0.5, borderTopColor: th.color.hairline },
+          instructions === null ? null : { borderTopWidth: 0.5, borderTopColor: th.color.hairline },
         ]}
       >
         <View style={styles.stack}>

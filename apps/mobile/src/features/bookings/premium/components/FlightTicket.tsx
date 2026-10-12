@@ -6,12 +6,18 @@
  * pins the light theme around it.
  */
 import { useLingui } from '@lingui/react/macro';
+import { Canvas, DashPathEffect, Path } from '@shopify/react-native-skia';
 import { StyleSheet, View } from 'react-native';
 
 import { premium } from '@cp/design-tokens';
+import { turn } from '@/features/trip';
 import { Icon, StatusTag, Text, usePremiumTheme, type StatusTone } from '@/ui/premium';
 
 import type { FlightChip, FlightView } from '../../flight-card/flight-model';
+
+/** The arc's path on its 120 × 40 canvas (the design's `M4 34 Q60 −6 116 34`). */
+// eslint-disable-next-line lingui/no-unlocalized-strings -- SVG path data, never copy.
+const ARC = 'M4 34 Q60 -6 116 34';
 
 export interface FlightTicketProps {
   readonly view: FlightView;
@@ -63,6 +69,40 @@ function StubCell(props: {
   );
 }
 
+/** Minutes from take-off to landing, or null when either time is missing or out of order. */
+function minutesBetween(from: string, to: string | null): number | null {
+  if (to === null) return null;
+  const minutes = Math.round((Date.parse(to) - Date.parse(from)) / 60_000);
+  return Number.isFinite(minutes) && minutes > 0 ? minutes : null;
+}
+
+/** The dotted arc between the airports with the plane at its top and the flight time under it. */
+function FlightArc({ minutes }: { readonly minutes: number | null }) {
+  const th = usePremiumTheme();
+  const { t } = useLingui();
+  const hours = minutes === null ? 0 : Math.floor(minutes / 60);
+  const rest = minutes === null ? 0 : minutes % 60;
+  return (
+    <View style={styles.arc} accessibilityElementsHidden importantForAccessibility="no">
+      <Canvas style={styles.arcCanvas}>
+        <Path path={ARC} style="stroke" strokeWidth={1.6} color={th.color.outlineEmpty}>
+          <DashPathEffect intervals={[3, 4]} />
+        </Path>
+      </Canvas>
+      <Text variant="headline" tone="ink" style={[styles.plane, { transform: [turn(8)] }]}>
+        ✈︎
+      </Text>
+      {minutes === null ? null : (
+        <Text variant="badge" tone="muted" style={styles.duration}>
+          {hours === 0
+            ? t({ id: 'bookings.premium.flightMinutes', message: `${rest}m` })
+            : t({ id: 'bookings.premium.flightTime', message: `${hours}h ${rest}m` })}
+        </Text>
+      )}
+    </View>
+  );
+}
+
 export function FlightTicket(props: FlightTicketProps) {
   const th = usePremiumTheme();
   const { t } = useLingui();
@@ -100,25 +140,21 @@ export function FlightTicket(props: FlightTicketProps) {
         <StatusTag label={props.statusLabel} tone={toneOf(view.chip)} />
       </View>
       <View style={styles.route}>
-        <View>
-          <Text variant="display" style={struck}>
-            {view.from}
-          </Text>
-          <Text variant="headline" style={styles.tabular}>
-            {props.departs}
-          </Text>
-        </View>
-        <Text variant="title" tone="placeholder" accessibilityElementsHidden>
-          ✈︎
+        <Text variant="display" style={struck}>
+          {view.from}
         </Text>
-        <View style={styles.end}>
-          <Text variant="display" style={struck}>
-            {view.to}
-          </Text>
-          <Text variant="headline" style={styles.tabular}>
-            {props.arrives}
-          </Text>
-        </View>
+        <FlightArc minutes={minutesBetween(view.departsAt, view.arrivesAt)} />
+        <Text variant="display" style={struck}>
+          {view.to}
+        </Text>
+      </View>
+      <View style={styles.times}>
+        <Text variant="title" style={styles.tabular}>
+          {props.departs}
+        </Text>
+        <Text variant="title" style={styles.tabular}>
+          {props.arrives}
+        </Text>
       </View>
       <View style={styles.perforation}>
         <View style={[styles.notch, styles.notchLeft, { backgroundColor: props.notch }]} />
@@ -168,12 +204,21 @@ const styles = StyleSheet.create({
   route: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    gap: 10,
     paddingTop: 14,
+    paddingHorizontal: 18,
+  },
+  times: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 6,
     paddingHorizontal: 18,
     paddingBottom: 14,
   },
-  end: { alignItems: 'flex-end' },
+  arc: { flex: 1, height: 52, alignItems: 'center' },
+  arcCanvas: { width: 120, height: 40 },
+  plane: { position: 'absolute', top: 0 },
+  duration: { position: 'absolute', top: 30 },
   tabular: { fontVariant: ['tabular-nums'] },
   perforation: { height: 24, justifyContent: 'center' },
   dash: { borderTopWidth: 2, borderStyle: 'dashed', marginHorizontal: 20 },

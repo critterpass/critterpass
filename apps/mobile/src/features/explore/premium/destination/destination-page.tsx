@@ -258,11 +258,14 @@ export function PremiumDestinationView(props: DestinationViewProps) {
             testID="explore-pitch"
           />
         </View>
-        <TextButton
-          label={t({ id: 'explore.premium.dest.solo', message: 'Plan it solo' })}
-          onPress={actions.onSolo}
-          testID="explore-solo"
-        />
+        {/* The text button hugs its label; the wrapper centres it under the pill. */}
+        <View style={{ alignSelf: 'center' }}>
+          <TextButton
+            label={t({ id: 'explore.premium.dest.solo', message: 'Plan it solo' })}
+            onPress={actions.onSolo}
+            testID="explore-solo"
+          />
+        </View>
       </View>
       {actions.mode === 'solo' ? (
         <SoloPassSheet

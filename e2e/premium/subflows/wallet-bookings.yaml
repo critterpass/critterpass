@@ -28,19 +28,16 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'bookings-open-details'
       - runFlow: wallet-detail.yaml
-- scrollUntilVisible:
-    element:
-      id: 'bookings-row-.*'
-    direction: DOWN
-    timeout: 10000
-    optional: true
+# The next booking behind it: its header brings it to the front, and the front card opens it.
 - runFlow:
     when:
       visible:
-        id: 'bookings-row-.*'
+        id: 'bookings-closed-.*'
     commands:
       - tapOn:
-          id: 'bookings-row-.*'
+          id: 'bookings-closed-.*'
+      - tapOn:
+          id: 'bookings-open-details'
       - runFlow: wallet-detail.yaml
 - runFlow:
     when:

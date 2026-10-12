@@ -23,14 +23,6 @@ const useStyles = makePremiumStyles((th) => ({
     paddingBottom: th.space.gap10,
   },
   identity: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: th.space.gap8 },
-  grabber: {
-    alignSelf: 'center',
-    width: 36,
-    height: 5,
-    borderRadius: 3,
-    marginBottom: 6,
-    backgroundColor: th.color.outlineEmpty,
-  },
 }));
 
 export function GuideTopBar({
@@ -50,7 +42,10 @@ export function GuideTopBar({
   /** Present on a shared trip: the Group / Me switch. */
   readonly onMode?: (mode: GuideThreadMode) => void;
   readonly chip: ReactNode;
-  /** Opened from the guide circle: a grabber and ✕ instead of back. */
+  /**
+   * Opened from the guide circle: ✕ instead of back. The guide still fills the screen (its modal
+   * group is a full-screen card), so the bar always clears the status bar, keyboard up or down.
+   */
   readonly asSheet: boolean;
   readonly onClose: () => void;
 }) {
@@ -58,8 +53,7 @@ export function GuideTopBar({
   const insets = useSafeAreaInsets();
   const name = guideName;
   return (
-    <View style={{ paddingTop: asSheet ? 8 : insets.top + 6 }} testID="guide-top-bar">
-      {asSheet ? <View style={styles.grabber} /> : null}
+    <View style={{ paddingTop: insets.top + 6 }} testID="guide-top-bar">
       <View style={styles.bar}>
         <GlassIconButton
           icon={asSheet ? 'close' : 'back'}

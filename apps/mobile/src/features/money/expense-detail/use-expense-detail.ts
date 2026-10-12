@@ -86,6 +86,14 @@ export function useExpenseDetail(expenseId: string, tripId: string | null = null
     fields: changedFields(edit),
     at: edit.at,
   }));
+  // Who put it in the ledger and when: the history's first line, after every change to it.
+  const created = edits.rows.find((edit) => edit.kind === 'created');
+  const addedBy = created?.editor_id ?? row?.created_by ?? null;
+  const addedAt = created?.at ?? row?.created_at ?? null;
+  const added =
+    addedBy === null || addedAt === null
+      ? null
+      : { name: memberName(ctx.members, addedBy), at: addedAt };
   const fx =
     item.crewAmountMinor === null
       ? null
@@ -134,6 +142,7 @@ export function useExpenseDetail(expenseId: string, tripId: string | null = null
     fx,
     shares,
     history,
+    added,
     canChange,
     onEdit: () => router.push(editExpenseRoute(expenseId, tripId)),
     confirmDelete,

@@ -8,7 +8,7 @@ import { useRouter } from 'expo-router';
 import { registerPlanShareSlot } from '@/features/plan';
 import { PillButton } from '@/ui/buttons/PillButton';
 
-import { communityRoutes } from './routes';
+import { communityRoutes, registerCommunityScreens } from './routes';
 
 function SharePill({ tripId }: { readonly tripId: string }) {
   const { t } = useLingui();
@@ -24,4 +24,5 @@ function SharePill({ tripId }: { readonly tripId: string }) {
   );
 }
 
+registerCommunityScreens();
 registerPlanShareSlot(SharePill);

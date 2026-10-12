@@ -265,8 +265,10 @@ export function BookingDetailPremium({ bookingId }: { readonly bookingId: string
       action={{
         key: 'options',
         label: t({ id: 'bookings.premium.options', message: 'Booking options' }),
-        sfSymbol: 'ellipsis',
-        glyph: 'more',
+        // The flight's header carries share (7.10), a stay's the options circle (7.06); both open
+        // the same options, sharing first.
+        sfSymbol: view === null ? 'ellipsis' : 'square.and.arrow.up',
+        glyph: view === null ? 'more' : 'share',
         onPress: () =>
           openBookingOptions({
             header,
