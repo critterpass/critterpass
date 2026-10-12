@@ -50,6 +50,11 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - stopApp
 - launchApp
+# A cold launch right after the stop can take a few seconds to register on iOS, and a hierarchy
+# read before then fails the flow as "App crashed or stopped" though the app is starting (no crash
+# report; its log carries on). Settling on screenshots first never reads the hierarchy.
+- waitForAnimationToEnd:
+    timeout: 8000
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry|home-screen'
