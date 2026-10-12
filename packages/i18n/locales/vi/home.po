@@ -107,6 +107,10 @@ msgstr "{guide}: {tip}"
 msgid "home.inbox.caughtUp.tokek"
 msgstr "{guideName} đang ngủ"
 
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.invitedBy"
+msgstr "{inviter} mời bạn"
+
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.editedAdd"
 msgstr "{name} đã thêm {change}"
@@ -416,10 +420,6 @@ msgstr "Mời"
 msgid "home.invite.action"
 msgstr "Mời bạn bè"
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
-msgid "home.premium.switcher.invites"
-msgstr "Lời mời đang chờ · {invites}"
-
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.body"
 msgstr "Nhóm đồng ý là mục này vào kế hoạch."
@@ -435,6 +435,14 @@ msgstr "Trong {crewName} mới có mình bạn. Rủ bạn bè vào đi."
 #: ../../apps/mobile/src/features/home/invite-friends-card.tsx
 msgid "home.invite.lineNoName"
 msgstr "Trong nhóm mới có mình bạn. Rủ bạn bè vào đi."
+
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.join"
+msgstr "Tham gia"
+
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.joinTitle"
+msgstr "Vào {crewName} nhé?"
 
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
@@ -561,6 +569,10 @@ msgstr "Điện thoại không đủ chỗ cho bản đồ"
 #: ../../apps/mobile/src/features/home/offline-line.tsx
 msgid "home.offline.noSpaceTickets"
 msgstr "Điện thoại không đủ chỗ cho vé"
+
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.notNow"
+msgstr "Để sau"
 
 #: ../../apps/mobile/src/features/home/premium/components/saved-link-note.tsx
 msgid "home.premium.savedLink.notNow"
@@ -879,6 +891,10 @@ msgstr "Chưa gửi được"
 msgid "home.premium.broke.title"
 msgstr "Chưa tải được"
 
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "crew.sheet.joinFailed"
+msgstr "Lời mời này không còn tham gia được"
+
 #: ../../apps/mobile/src/features/home/link-notice.tsx
 msgid "home.linkNotice.unknown"
 msgstr "Không mở được liên kết đó"
@@ -1080,10 +1096,18 @@ msgstr "Bạn vừa nhắc bạn ấy rồi. Thử lại sau {when}."
 msgid "home.premium.savedLink.line"
 msgstr "Bạn đã dán một link trước chuyến đi đầu tiên. Thêm vào ý tưởng của chuyến này nhé?"
 
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.joinLine"
+msgstr "Bạn sẽ thấy các chuyến đi và đoạn chat của nhóm."
+
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.joinTrip.body"
 msgstr "Bạn đã vào nhóm nhưng chưa có tên trong chuyến này. Tham gia để cùng xem lịch trình và chia chi phí."
+
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.invited"
+msgstr "Bạn được mời"
 
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 msgid "home.joinTrip.joined"

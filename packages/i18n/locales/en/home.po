@@ -107,6 +107,10 @@ msgstr "{guide}: {tip}"
 msgid "home.inbox.caughtUp.tokek"
 msgstr "{guideName}, asleep"
 
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.invitedBy"
+msgstr "{inviter} invited you"
+
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.editedAdd"
 msgstr "{name} added {change}"
@@ -416,10 +420,6 @@ msgstr "Invite"
 msgid "home.invite.action"
 msgstr "Invite friends"
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
-msgid "home.premium.switcher.invites"
-msgstr "Invites waiting · {invites}"
-
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.body"
 msgstr "It goes in when the crew says yes."
@@ -435,6 +435,14 @@ msgstr "It’s only you in {crewName} so far. Bring your friends in."
 #: ../../apps/mobile/src/features/home/invite-friends-card.tsx
 msgid "home.invite.lineNoName"
 msgstr "It’s only you in the crew so far. Bring your friends in."
+
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.join"
+msgstr "Join"
+
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.joinTitle"
+msgstr "Join {crewName}?"
 
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
@@ -561,6 +569,10 @@ msgstr "No room on the phone for the map"
 #: ../../apps/mobile/src/features/home/offline-line.tsx
 msgid "home.offline.noSpaceTickets"
 msgstr "No room on the phone for tickets"
+
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.notNow"
+msgstr "Not now"
 
 #: ../../apps/mobile/src/features/home/premium/components/saved-link-note.tsx
 msgid "home.premium.savedLink.notNow"
@@ -879,6 +891,10 @@ msgstr "That didn't go through"
 msgid "home.premium.broke.title"
 msgstr "That didn’t load"
 
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "crew.sheet.joinFailed"
+msgstr "That invite can’t be joined now"
+
 #: ../../apps/mobile/src/features/home/link-notice.tsx
 msgid "home.linkNotice.unknown"
 msgstr "That link couldn’t be opened"
@@ -1080,10 +1096,18 @@ msgstr "You nudged them recently. Try again after {when}."
 msgid "home.premium.savedLink.line"
 msgstr "You pasted a link before your first trip. Want it in this trip’s ideas?"
 
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.joinLine"
+msgstr "You’ll see its trips and its chat."
+
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.joinTrip.body"
 msgstr "You’re in the crew, not on this trip yet. Join to be in the plan and the splits."
+
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.invited"
+msgstr "You’re invited"
 
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 msgid "home.joinTrip.joined"

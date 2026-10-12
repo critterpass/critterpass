@@ -107,6 +107,10 @@ msgstr ""
 msgid "home.inbox.caughtUp.tokek"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.invitedBy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.editedAdd"
 msgstr ""
@@ -416,10 +420,6 @@ msgstr ""
 msgid "home.invite.action"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
-msgid "home.premium.switcher.invites"
-msgstr ""
-
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.body"
 msgstr ""
@@ -434,6 +434,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/invite-friends-card.tsx
 msgid "home.invite.lineNoName"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.join"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.joinTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
@@ -561,6 +569,10 @@ msgstr "Telefonda harita için yer yok"
 #: ../../apps/mobile/src/features/home/offline-line.tsx
 msgid "home.offline.noSpaceTickets"
 msgstr "Telefonda biletler için yer yok"
+
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.notNow"
+msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/components/saved-link-note.tsx
 msgid "home.premium.savedLink.notNow"
@@ -879,6 +891,10 @@ msgstr ""
 msgid "home.premium.broke.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "crew.sheet.joinFailed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/link-notice.tsx
 msgid "home.linkNotice.unknown"
 msgstr ""
@@ -1080,9 +1096,17 @@ msgstr ""
 msgid "home.premium.savedLink.line"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.joinLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.joinTrip.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.invited"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
