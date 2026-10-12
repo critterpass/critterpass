@@ -91,6 +91,12 @@ appId: app.critterpass.dev
             id: 'plan-check'
           timeout: 15000
           optional: true
+      # The guide checks the plan on open; the shot waits for its first card.
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-check-card-.*'
+          timeout: 45000
+          optional: true
       - runFlow:
           when:
             visible:
