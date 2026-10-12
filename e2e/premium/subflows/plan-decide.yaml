@@ -28,9 +28,13 @@ appId: app.critterpass.dev
           env:
             CODE: '4.05'
             NAME: showdown
-      # The account's vote is the last one needed: the poll closes and the reveal plays once.
-      - tapOn:
-          id: 'showdown-half-0'
+      # The account's vote is the last one needed: the poll closes and the reveal plays once. The
+      # vote is cast from the dock's button (a half only picks its side).
+      - runFlow:
+          file: tap.yaml
+          env:
+            ID: 'showdown-vote-0'
+            LABEL: 'Vote .*'
       - extendedWaitUntil:
           visible:
             id: 'reveal-stamp|reveal-set-up|reveal-back-home'
@@ -46,12 +50,6 @@ appId: app.critterpass.dev
                 env:
                   CODE: '4.06'
                   NAME: winner
-      - runFlow:
-          when:
-            notVisible:
-              id: 'reveal-stamp|reveal-set-up|reveal-back-home'
-          commands:
-            - takeScreenshot: premium-last-vote-without-reveal
       - tapOn:
           id: 'reveal-set-up'
           optional: true

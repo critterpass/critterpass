@@ -1,8 +1,9 @@
 appId: app.critterpass.dev
 ---
-# From the `crew_with_code` Home (a crew of one with no trip) to the trip's setup checklist: a city
-# without a guide, its guest guide and the solo pass started, which opens setup in place of a vote.
-# Then the setup captures (plan-setup.yaml, 4.08–4.21) and back to Home. Every step is conditional.
+# From the `crew_with_code` Home (a crew of one with no trip) to a solo trip's setup: a city without
+# a guide, its guest guide and the solo pass started, which opens setup's When step in place of a
+# vote (4.13), then the setup captures when the checklist shows (plan-setup.yaml) and back to Home.
+# Every step is conditional.
 - scrollUntilVisible:
     element:
       id: 'home-pitch-place'
@@ -59,17 +60,21 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'solo-start'
           optional: true
+      # A solo trip's setup opens on its first step, When, with the phone's calendar in (4.13).
       - extendedWaitUntil:
           visible:
-            id: 'setup-checklist'
+            id: 'setup-checklist|setup-when-.*'
           timeout: 60000
           optional: true
-      # Where the solo start left the app when setup didn't open (a sheet with no design pair).
       - runFlow:
           when:
-            notVisible:
-              id: 'setup-checklist'
+            visible:
+              id: 'setup-when-.*'
           commands:
-            - takeScreenshot: premium-solo-start-without-setup
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '4.13'
+                  NAME: calendar-in
 - runFlow: plan-setup.yaml
 - runFlow: plan-home.yaml
