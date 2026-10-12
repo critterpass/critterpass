@@ -93,7 +93,11 @@ async function reserveSearchCall(pool: pg.Pool, cap: number): Promise<boolean> {
   });
 }
 
-/** Our active POIs by Foursquare id: the open-data link, or the curated match. */
+/**
+ * Our active POIs by Foursquare id: the open-data link, or the curated match. Two lookups, each on
+ * its own index (the partial `pois_source_fsq_os_uidx`, then the curated links joined by POI id):
+ * one OR across the join scanned every POI past the statement timeout.
+ */
 async function poiIdsByFoursquareId(
   pool: pg.Pool,
   fsqPlaceIds: readonly string[],
@@ -101,9 +105,14 @@ async function poiIdsByFoursquareId(
   if (fsqPlaceIds.length === 0) return new Map();
   return withSystem(pool, async (tx) => {
     const { rows } = await tx.query<{ id: string; fsq_place_id: string }>(
-      `SELECT p.id, coalesce(p.source_ids->>'fsq_os', f.fsq_place_id) AS fsq_place_id
-       FROM pois p LEFT JOIN poi_foursquare_ids f ON f.poi_id = p.id
-       WHERE (p.source_ids->>'fsq_os' = ANY($1::text[]) OR f.fsq_place_id = ANY($1::text[]))
+      `SELECT p.id, p.source_ids->>'fsq_os' AS fsq_place_id
+       FROM pois p
+       WHERE p.source_ids ? 'fsq_os' AND p.source_ids->>'fsq_os' = ANY($1::text[])
+         AND p.status = 'active' AND p.merged_into_id IS NULL
+       UNION ALL
+       SELECT p.id, f.fsq_place_id
+       FROM poi_foursquare_ids f JOIN pois p ON p.id = f.poi_id
+       WHERE f.fsq_place_id = ANY($1::text[]) AND NOT (p.source_ids ? 'fsq_os')
          AND p.status = 'active' AND p.merged_into_id IS NULL`,
       [fsqPlaceIds],
     );

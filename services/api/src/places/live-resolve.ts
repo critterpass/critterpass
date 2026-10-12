@@ -59,11 +59,18 @@ async function linkedPoi(
   tx: pg.PoolClient,
   fsqPlaceId: string,
 ): Promise<{ id: string; name: string } | null> {
+  // The open-data link first, then the curated match: two index lookups, never an OR across the
+  // join (that scans every POI).
   const { rows } = await tx.query<{ id: string; name: string }>(
-    `SELECT p.id, p.name FROM pois p LEFT JOIN poi_foursquare_ids f ON f.poi_id = p.id
-     WHERE (p.source_ids->>'fsq_os' = $1 OR f.fsq_place_id = $1)
-       AND p.status = 'active' AND p.merged_into_id IS NULL
-     ORDER BY (p.source_ids->>'fsq_os' = $1) DESC NULLS LAST, p.id
+    `SELECT id, name FROM (
+       SELECT p.id, p.name, 0 AS rank FROM pois p
+       WHERE p.source_ids ? 'fsq_os' AND p.source_ids->>'fsq_os' = $1
+         AND p.status = 'active' AND p.merged_into_id IS NULL
+       UNION ALL
+       SELECT p.id, p.name, 1 AS rank FROM poi_foursquare_ids f JOIN pois p ON p.id = f.poi_id
+       WHERE f.fsq_place_id = $1 AND p.status = 'active' AND p.merged_into_id IS NULL
+     ) linked
+     ORDER BY rank, id
      LIMIT 1`,
     [fsqPlaceId],
   );
