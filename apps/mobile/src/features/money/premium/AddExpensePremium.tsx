@@ -263,7 +263,7 @@ export function AddExpensePremium(props: {
             deleteLabel={t({ id: 'money.premium.delete', message: 'Delete a digit' })}
           />
           <Button
-            label={state.labels.ctaLabel}
+            label={state.labels.cta}
             disabled={state.amountMinor === 0n || state.sent}
             loading={state.pending}
             onPress={state.submit}

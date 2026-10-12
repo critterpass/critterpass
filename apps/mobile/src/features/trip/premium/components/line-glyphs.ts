@@ -76,6 +76,7 @@ export const LINE_GLYPHS = {
   },
   food: { d: 'M7 3v7a2 2 0 0 0 4 0V3M9 12v9M16.5 3c-2.2 2-2.2 6.5 0 8.5V21', stroke: 2.1 },
   wallet: { d: 'M3.5 6.5h15a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-15zM3.5 6.5l11-3v3M16 13h2', stroke: 2 },
+  backspace: { d: 'M9 5h11v14H9l-6-7zM12.5 9.5l5 5M17.5 9.5l-5 5', stroke: 2 },
   camera: {
     d: 'M4 8h3.5L9 5.5h6L16.5 8H20v11H4zM12 10.5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',
     stroke: 2,

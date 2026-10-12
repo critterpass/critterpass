@@ -96,7 +96,13 @@ function Changes({ detail }: { readonly detail: Ready }) {
   const { t } = useLingui();
   const locale = useLocale();
   const fieldLabel = useFieldLabel();
-  if (detail.history.length === 0) return null;
+  const added = detail.added;
+  if (detail.history.length === 0 && added === null) return null;
+  const adder = added?.name ?? '';
+  const addedOn =
+    added === null
+      ? ''
+      : format.date(locale, new Date(added.at), { day: 'numeric', month: 'short' });
   return (
     <View style={{ gap: th.space.gap8, paddingHorizontal: th.space.titleGutter }}>
       <Text variant="label" tone="muted">
@@ -119,6 +125,11 @@ function Changes({ detail }: { readonly detail: Ready }) {
             </Text>
           );
         })}
+        {added === null ? null : (
+          <Text variant="caption" testID="money-detail-added">
+            {t({ id: 'money.premium.detail.addedBy', message: `${adder} added it · ${addedOn}` })}
+          </Text>
+        )}
       </View>
     </View>
   );

@@ -5,7 +5,8 @@
 import { StyleSheet, View } from 'react-native';
 import * as Haptics from 'expo-haptics';
 
-import { Icon, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { LineIcon } from '@/features/trip';
+import { PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
 export type PadKey = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '000' | '0' | 'delete';
 
@@ -51,7 +52,7 @@ export function AmountKeypad({
                 ]}
               >
                 {key === 'delete' ? (
-                  <Icon name="back" size={22} />
+                  <LineIcon name="backspace" size={24} color={th.color.ink} />
                 ) : (
                   <Text variant="title" style={styles.digit}>
                     {key}

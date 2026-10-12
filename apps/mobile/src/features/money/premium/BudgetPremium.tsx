@@ -26,6 +26,7 @@ import { KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
 import { estimateMinor, finishDeltaShown } from '../budget/estimates';
 import { useBudget, type BudgetState } from '../budget/use-budget';
 import { formatWhole } from '../format';
+import { BudgetBar } from './components/BudgetBar';
 import { BudgetCategories } from './components/BudgetCategories';
 
 type Ready = Extract<BudgetState, { kind: 'ready' }>;
@@ -40,16 +41,28 @@ function Summary({ budget }: { readonly budget: Ready }) {
   const over = planned !== null && f.spentMinor > planned ? f.spentMinor - planned : null;
   const delta = finishDeltaShown(f, budget.currency);
   const deltaText = delta === null ? '' : whole(delta < 0n ? -delta : delta);
+  // Where the forecast ends, as the difference beside it is counted, so the sentence adds up.
+  const finish = planned === null || delta === null ? '' : whole(planned - delta);
   const pace =
     delta === null
       ? null
       : delta >= 0n
-        ? t({ id: 'money.budget.under', message: `On track to finish ${deltaText} under.` })
-        : t({ id: 'money.budget.over', message: `Heading for ${deltaText} over.` });
-  const fill =
-    planned === null || planned === 0n
+        ? t({
+            id: 'money.premium.budget.paceUnder',
+            message: `At this pace you'll end around ${finish}, about ${deltaText} under.`,
+          })
+        : t({
+            id: 'money.premium.budget.paceOver',
+            message: `At this pace you'll end around ${finish}, about ${deltaText} over.`,
+          });
+  // The ink runs to the plan (or to what was spent, under it); past the plan it turns pink.
+  const inkShare =
+    planned === null || planned === 0n || f.spentMinor === 0n
       ? 0
-      : Number((f.spentMinor * 1000n) / (over === null ? planned : f.spentMinor)) / 1000;
+      : over === null
+        ? Number((f.spentMinor * 1000n) / planned) / 1000
+        : Number((planned * 1000n) / f.spentMinor) / 1000;
+  const planAt = over === null ? 1 : inkShare;
   return (
     <View
       style={[
@@ -95,17 +108,7 @@ function Summary({ budget }: { readonly budget: Ready }) {
         )}
       </View>
       {planned === null ? null : (
-        <View style={[styles.track, { backgroundColor: th.color.control }]}>
-          <View
-            style={[
-              styles.fill,
-              { width: `${Math.min(1, fill) * 100}%`, backgroundColor: th.color.ink },
-            ]}
-          />
-          {over === null ? null : (
-            <View style={[styles.fill, styles.overPart, { backgroundColor: th.accent.pink }]} />
-          )}
-        </View>
+        <BudgetBar inkShare={inkShare} planAt={planAt} over={over !== null} days={budget.days} />
       )}
       {pace === null ? null : (
         <Text variant="rowText" tone="inkSecondary" testID="money-budget-pace">
@@ -251,9 +254,6 @@ const styles = StyleSheet.create({
   flex: { flex: 1, minWidth: 0 },
   end: { alignItems: 'flex-end', gap: 4 },
   tabular: { fontVariant: ['tabular-nums'] },
-  track: { height: 14, borderRadius: 7, overflow: 'hidden', flexDirection: 'row' },
-  fill: { height: 14 },
-  overPart: { flex: 1 },
   card: { overflow: 'hidden' },
   row: {
     flexDirection: 'row',
