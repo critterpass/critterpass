@@ -3,12 +3,12 @@ import { router } from 'expo-router';
 import { NavigationContext } from 'expo-router/build/react-navigation/core/NavigationContext';
 import { NavigationRouteContext } from 'expo-router/build/react-navigation/core/NavigationProvider';
 import { useContext, useState, type ReactNode } from 'react';
-import { Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { Platform, ScrollView, StyleSheet, View, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useBackAffordance } from '@/ui/qa/back-affordance';
 
-import { PressableScale, Spinner, Text, usePremiumTheme } from '../..';
+import { PressableScale, Spinner, Text, usePremiumTheme, type PremiumTheme } from '../..';
 import { KeyboardStickyFooter } from '../keyboard/keyboard';
 import { useDirtySheetGuard, type DiscardPrompt } from './dirty-sheet';
 
@@ -33,6 +33,23 @@ export function sheetRouteOptions(detent: SheetDetent): NativeStackNavigationOpt
     contentStyle: { backgroundColor: 'transparent' },
     ...(Platform.OS === 'android' ? { sheetCornerRadius: ANDROID_SHEET_RADIUS } : {}),
   };
+}
+
+/**
+ * The sheet material a native form sheet's root draws under its content: the opaque fill with
+ * Material's corners on Android, and on iOS the tint over the system glass. For a sheet route that
+ * draws its own page instead of using `SheetScreen` (Ideas over the plan map).
+ */
+export function sheetMaterialStyle(t: PremiumTheme): ViewStyle {
+  return Platform.OS === 'android'
+    ? {
+        backgroundColor: t.material.sheet.fill,
+        borderTopLeftRadius: ANDROID_SHEET_RADIUS,
+        borderTopRightRadius: ANDROID_SHEET_RADIUS,
+      }
+    : // Sheet glass (foundations-spec §5): the system glass blurs, this tint makes it the sheet's
+      // denser material so the page behind reads as colour, not content.
+      { backgroundColor: t.material.sheet.tint };
 }
 
 /**
@@ -132,15 +149,7 @@ export function SheetScreen({
         styles.root,
         asPage
           ? { backgroundColor: t.material.sheet.fill, paddingTop: insets.top }
-          : android
-            ? {
-                backgroundColor: t.material.sheet.fill,
-                borderTopLeftRadius: ANDROID_SHEET_RADIUS,
-                borderTopRightRadius: ANDROID_SHEET_RADIUS,
-              }
-            : // Sheet glass (foundations-spec §5): the system glass blurs, this tint makes it the
-              // sheet's denser material so the page behind reads as colour, not content.
-              { backgroundColor: t.material.sheet.tint },
+          : sheetMaterialStyle(t),
       ]}
     >
       {android && !asPage ? (
