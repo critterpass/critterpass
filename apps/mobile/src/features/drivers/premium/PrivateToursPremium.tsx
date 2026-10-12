@@ -152,7 +152,7 @@ export function PrivateToursPremium({
             })}
           </Text>
         ) : null}
-        <DisclosurePremium guide={tours.plan.guide.id} />
+        <DisclosurePremium guide={tours.plan.guide.name} />
       </ScrollView>
     </PushScreen>
   );
