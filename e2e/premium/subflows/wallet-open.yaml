@@ -11,6 +11,19 @@ appId: app.critterpass.dev
       id: 'wallet-switch'
     timeout: 20000
     optional: true
+# The tab keeps the half it was left on scrolled where it was (the money half after settling up):
+# the switch sits under the title, so the page goes back to its top first.
+- runFlow:
+    when:
+      notVisible:
+        id: 'wallet-switch'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'wallet-switch'
+          direction: UP
+          timeout: 10000
+          optional: true
 - runFlow:
     file: tap.yaml
     env:
