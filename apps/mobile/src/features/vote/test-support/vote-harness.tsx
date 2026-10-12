@@ -15,6 +15,7 @@ import { LocalFirstProvider } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import type { TestLocalFirst } from '@/data/powersync/test-support/local-first-fixture';
 import { TravelDataReaderProvider } from '@/data/travel-data/client';
+import { AnalyticsProvider, type AnalyticsClient } from '@/lib/analytics';
 import { recordedReader } from '@/data/travel-data/test-support/recorded-reader';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
@@ -45,6 +46,12 @@ function offlineTravelData() {
   return reader;
 }
 
+/** PostHog is the network boundary: no flag is on and nothing is sent. */
+const analytics = new Proxy(
+  { posthog: { getFeatureFlag: () => undefined, onFeatureFlags: () => () => undefined } },
+  { get: (target, key) => (key in target ? target[key as keyof typeof target] : () => undefined) },
+) as unknown as AnalyticsClient;
+
 export function renderVote(
   ui: ReactElement,
   stack: TestLocalFirst,
@@ -55,13 +62,15 @@ export function renderVote(
     <I18nProvider i18n={i18n}>
       <SafeAreaProvider initialMetrics={METRICS}>
         <GestureHandlerRootView>
-          <LocalFirstProvider value={stack.value}>
-            <TravelDataReaderProvider value={offlineTravelData()}>
-              <VoteServicesProvider services={services}>
-                <ScreenJoltProvider>{ui}</ScreenJoltProvider>
-              </VoteServicesProvider>
-            </TravelDataReaderProvider>
-          </LocalFirstProvider>
+          <AnalyticsProvider client={analytics}>
+            <LocalFirstProvider value={stack.value}>
+              <TravelDataReaderProvider value={offlineTravelData()}>
+                <VoteServicesProvider services={services}>
+                  <ScreenJoltProvider>{ui}</ScreenJoltProvider>
+                </VoteServicesProvider>
+              </TravelDataReaderProvider>
+            </LocalFirstProvider>
+          </AnalyticsProvider>
         </GestureHandlerRootView>
       </SafeAreaProvider>
     </I18nProvider>,

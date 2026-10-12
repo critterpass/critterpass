@@ -10,7 +10,6 @@ import { requestCrewSwitcher } from './open-request';
 export function PremiumCrewsRoute() {
   useEffect(() => {
     requestCrewSwitcher();
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- a route path, never copy
     router.dismissTo('/');
   }, []);
   return null;
