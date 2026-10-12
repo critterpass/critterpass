@@ -1,7 +1,10 @@
 import type { NativeStackNavigationOptions } from 'expo-router/native-stack';
 import { router } from 'expo-router';
-import { useState, type ReactNode } from 'react';
+import { NavigationContext } from 'expo-router/build/react-navigation/core/NavigationContext';
+import { NavigationRouteContext } from 'expo-router/build/react-navigation/core/NavigationProvider';
+import { useContext, useState, type ReactNode } from 'react';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useBackAffordance } from '@/ui/qa/back-affordance';
 
@@ -30,6 +33,19 @@ export function sheetRouteOptions(detent: SheetDetent): NativeStackNavigationOpt
     contentStyle: { backgroundColor: 'transparent' },
     ...(Platform.OS === 'android' ? { sheetCornerRadius: ANDROID_SHEET_RADIUS } : {}),
   };
+}
+
+/**
+ * True when the sheet is the first screen of its stack. A native stack never presents its first
+ * screen as a sheet: a sheet route opened from another area (New poll from the crew chat) is the
+ * root of its area's stack, drawn as a whole-screen card in a see-through group. It then lays its
+ * header below the status bar on the opaque sheet material instead of relying on the system sheet.
+ */
+function useShownAsPage(): boolean {
+  const navigation = useContext(NavigationContext);
+  const route = useContext(NavigationRouteContext);
+  if (navigation === undefined || route === undefined) return false;
+  return navigation.getState().routes[0]?.key === route.key;
 }
 
 export interface SheetVerb {
@@ -85,6 +101,8 @@ export function SheetScreen({
   testID,
 }: SheetScreenProps) {
   const t = usePremiumTheme();
+  const insets = useSafeAreaInsets();
+  const asPage = useShownAsPage();
   const [busy, setBusy] = useState(false);
   // Cancel is the sheet's way back.
   useBackAffordance();
@@ -112,19 +130,30 @@ export function SheetScreen({
       testID={testID}
       style={[
         styles.root,
-        android
-          ? {
-              backgroundColor: t.material.sheet.fill,
-              borderTopLeftRadius: ANDROID_SHEET_RADIUS,
-              borderTopRightRadius: ANDROID_SHEET_RADIUS,
-            }
-          : // Sheet glass (foundations-spec §5): the system glass blurs, this tint makes it the
-            // sheet's denser material so the page behind reads as colour, not content.
-            { backgroundColor: t.material.sheet.tint },
+        asPage
+          ? { backgroundColor: t.material.sheet.fill, paddingTop: insets.top }
+          : android
+            ? {
+                backgroundColor: t.material.sheet.fill,
+                borderTopLeftRadius: ANDROID_SHEET_RADIUS,
+                borderTopRightRadius: ANDROID_SHEET_RADIUS,
+              }
+            : // Sheet glass (foundations-spec §5): the system glass blurs, this tint makes it the
+              // sheet's denser material so the page behind reads as colour, not content.
+              { backgroundColor: t.material.sheet.tint },
       ]}
     >
-      {android ? <View style={[styles.grabber, { backgroundColor: t.color.placeholder }]} /> : null}
-      <View collapsable={false} style={[styles.header, { paddingHorizontal: t.space.gutter }]}>
+      {android && !asPage ? (
+        <View style={[styles.grabber, { backgroundColor: t.color.placeholder }]} />
+      ) : null}
+      <View
+        collapsable={false}
+        style={[
+          styles.header,
+          { paddingHorizontal: t.space.gutter },
+          asPage ? styles.pageHeader : null,
+        ]}
+      >
         <PressableScale
           testID="sheet-cancel"
           accessibilityLabel={cancelLabel}
@@ -182,7 +211,10 @@ export function SheetScreen({
       {footer === undefined ? null : (
         <KeyboardStickyFooter
           openedOffset={t.space.gap8}
-          style={{ paddingHorizontal: t.space.gutter, paddingBottom: t.space.gap16 }}
+          style={{
+            paddingHorizontal: t.space.gutter,
+            paddingBottom: t.space.gap16 + (asPage ? insets.bottom : 0),
+          }}
         >
           {footer}
         </KeyboardStickyFooter>
@@ -205,6 +237,7 @@ const styles = StyleSheet.create({
     gap: 12,
     zIndex: 1,
   },
+  pageHeader: { marginTop: 0 },
   cancel: { fontWeight: '400' },
   title: { flex: 1 },
   verbSpace: { minWidth: 44 },
