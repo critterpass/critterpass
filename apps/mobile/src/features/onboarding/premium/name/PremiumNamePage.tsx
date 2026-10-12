@@ -5,7 +5,8 @@
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { View } from 'react-native';
+import { useState } from 'react';
+import { Keyboard, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Button, GuideNote, PressableScale, Text, TextField, usePremiumTheme } from '@/ui/premium';
@@ -27,8 +28,16 @@ export function PremiumNamePage() {
   const suggestions = limit ? nameSuggestions(name) : [];
   const blocked = problem === 'blocked';
   const tokek = guideFacts('tokek');
+  // What sits under the field (the shorter names, Tokek's note) stays in sight while typing.
+  const [trail, setTrail] = useState(0);
+  // The keyboard goes with the name: the quiz after it has no field.
+  const next = () => {
+    if (problem === null && name.trim() !== '') Keyboard.dismiss();
+    step.next();
+  };
   return (
     <WizardPage
+      keyboardTrail={trail}
       step={{ current: 1, total: 4 }}
       backLabel={t({ id: 'onboarding.invite.code.back', message: 'Back' })}
       onBack={() => router.back()}
@@ -36,7 +45,7 @@ export function PremiumNamePage() {
       footer={
         <Button
           label={t({ id: 'onboarding.name.next', message: 'Next' })}
-          onPress={step.next}
+          onPress={next}
           disabled={problem !== null}
           testID="onboarding-name-next"
         />
@@ -72,7 +81,7 @@ export function PremiumNamePage() {
         autoComplete="given-name"
         returnKeyType="done"
         submitBehavior="submit"
-        onSubmitEditing={step.next}
+        onSubmitEditing={next}
         error={
           blocked
             ? t({
@@ -88,42 +97,47 @@ export function PremiumNamePage() {
         }
         testID="onboarding-name-field"
       />
-      {suggestions.length > 0 ? (
-        <View style={{ gap: theme.space.gap8 }} testID="onboarding-name-suggestions">
-          <Text variant="caption" tone="muted">
-            {t({ id: 'onboarding.premium.name.try', message: 'Try' })}
-          </Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap8 }}>
-            {suggestions.map((option) => (
-              <PressableScale
-                key={option}
-                onPress={() => step.onChange(option)}
-                accessibilityRole="button"
-                accessibilityLabel={option}
-              >
-                <View
-                  style={{
-                    height: 36,
-                    paddingHorizontal: theme.space.gap14,
-                    borderRadius: 18,
-                    backgroundColor: theme.color.card,
-                    justifyContent: 'center',
-                    boxShadow: theme.shadow.raised,
-                  }}
+      <View
+        style={{ gap: theme.space.gap16 }}
+        onLayout={(event) => setTrail(event.nativeEvent.layout.height + theme.space.gap16)}
+      >
+        {suggestions.length > 0 ? (
+          <View style={{ gap: theme.space.gap8 }} testID="onboarding-name-suggestions">
+            <Text variant="caption" tone="muted">
+              {t({ id: 'onboarding.premium.name.try', message: 'Try' })}
+            </Text>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap8 }}>
+              {suggestions.map((option) => (
+                <PressableScale
+                  key={option}
+                  onPress={() => step.onChange(option)}
+                  accessibilityRole="button"
+                  accessibilityLabel={option}
                 >
-                  <Text variant="rowTextStrong">{option}</Text>
-                </View>
-              </PressableScale>
-            ))}
+                  <View
+                    style={{
+                      height: 36,
+                      paddingHorizontal: theme.space.gap14,
+                      borderRadius: 18,
+                      backgroundColor: theme.color.card,
+                      justifyContent: 'center',
+                      boxShadow: theme.shadow.raised,
+                    }}
+                  >
+                    <Text variant="rowTextStrong">{option}</Text>
+                  </View>
+                </PressableScale>
+              ))}
+            </View>
           </View>
-        </View>
-      ) : null}
-      <GuideNote
-        name={tokek.name}
-        critter={tokek.kind}
-        text={step.line}
-        testID="onboarding-name-tokek"
-      />
+        ) : null}
+        <GuideNote
+          name={tokek.name}
+          critter={tokek.kind}
+          text={step.line}
+          testID="onboarding-name-tokek"
+        />
+      </View>
     </WizardPage>
   );
 }

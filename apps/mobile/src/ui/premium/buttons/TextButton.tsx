@@ -11,6 +11,8 @@ export interface TextButtonProps {
   readonly tone?: PremiumTextTone;
   /** A colour that is not a named tone (a banner's action word). */
   readonly color?: string;
+  /** Where the word sits in its column: at the start, or centred under a centred button. */
+  readonly align?: 'start' | 'center';
   readonly testID?: string;
 }
 
@@ -21,6 +23,7 @@ export function TextButton({
   disabled,
   tone = 'muted',
   color,
+  align = 'start',
   testID,
 }: TextButtonProps) {
   const t = usePremiumTheme();
@@ -30,7 +33,11 @@ export function TextButton({
       onPress={onPress}
       disabled={disabled}
       accessibilityLabel={label}
-      style={{ minHeight: t.size.hit, justifyContent: 'center', alignSelf: 'flex-start' }}
+      style={{
+        minHeight: t.size.hit,
+        justifyContent: 'center',
+        alignSelf: align === 'center' ? 'center' : 'flex-start',
+      }}
     >
       <Text
         variant="textButton"

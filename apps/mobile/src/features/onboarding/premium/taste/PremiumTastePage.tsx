@@ -5,7 +5,8 @@
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { View } from 'react-native';
+import { useEffect } from 'react';
+import { Keyboard, View } from 'react-native';
 
 import { Button, EmptySlot, GuideNote, Tag, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 
@@ -24,6 +25,8 @@ import { QuizPhotoCard } from './QuizPhotoCard';
 const TAG_TILTS = [-4, 3, -2, 4, -3, 2];
 
 export function PremiumTastePage() {
+  // The quiz has no field: a keyboard left up by the name page goes.
+  useEffect(() => Keyboard.dismiss(), []);
   const theme = usePremiumTheme();
   const locale = useLocale();
   const step = useTasteStep();
