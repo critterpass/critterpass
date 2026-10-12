@@ -1,8 +1,9 @@
 appId: app.critterpass.dev
 ---
 # The `draft_ready` trip, light, from Home: the guide's draft (4.22; the miss card 4.23 when a
-# must-do missed), then BUILD THE PROPOSAL, SEND and "Who's in" (4.51). Sending puts the seeded
-# crew's plan out; nothing else changes. Ends on Home.
+# must-do missed), then BUILD THE PROPOSAL. The seed is a crew of one, so the builder opens on
+# its "nobody to send it to yet" page (invite or lock in alone), which leaves by its back button;
+# with crewmates it would build, SEND and show "Who's in" (4.51). Ends on Home.
 - runFlow: plan-open-hub.yaml
 - runFlow:
     when:
@@ -64,37 +65,55 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'draft-propose'
           optional: true
-      # The builder builds the proposal on open; SEND is live once it is built.
       - extendedWaitUntil:
           visible:
-            id: 'build-send'
-            enabled: true
-          timeout: 90000
-          optional: true
-      - tapOn:
-          id: 'build-send'
-          optional: true
-      - extendedWaitUntil:
-          visible:
-            id: 'sent-tracker'
-          timeout: 60000
-          optional: true
-      - tapOn:
-          id: 'sent-tracker'
-          optional: true
-      - extendedWaitUntil:
-          visible:
-            id: 'proposal-tracker'
+            id: 'build-send|proposal-alone'
           timeout: 30000
           optional: true
       - runFlow:
           when:
             visible:
-              id: 'proposal-tracker'
+              id: 'proposal-alone'
           commands:
+            - tapOn:
+                id: 'build-back'
+            - waitForAnimationToEnd
+      - runFlow:
+          when:
+            visible:
+              id: 'build-send'
+          commands:
+            # The builder builds the proposal on open; SEND is live once it is built.
+            - extendedWaitUntil:
+                visible:
+                  id: 'build-send'
+                  enabled: true
+                timeout: 90000
+                optional: true
+            - tapOn:
+                id: 'build-send'
+                optional: true
+            - extendedWaitUntil:
+                visible:
+                  id: 'sent-tracker'
+                timeout: 60000
+                optional: true
+            - tapOn:
+                id: 'sent-tracker'
+                optional: true
+            - extendedWaitUntil:
+                visible:
+                  id: 'proposal-tracker'
+                timeout: 30000
+                optional: true
             - runFlow:
-                file: shot.yaml
-                env:
-                  CODE: '4.51'
-                  NAME: whos-in
+                when:
+                  visible:
+                    id: 'proposal-tracker'
+                commands:
+                  - runFlow:
+                      file: shot.yaml
+                      env:
+                        CODE: '4.51'
+                        NAME: whos-in
 - runFlow: plan-home.yaml
