@@ -126,7 +126,7 @@ export function BalanceBars({
               </Text>
               <Bar line={line} />
               <View
-                style={{ minWidth: valueWidth, alignItems: 'flex-end' }}
+                style={{ minWidth: valueWidth, flexShrink: 0, alignItems: 'flex-end' }}
                 onLayout={(event) => {
                   const width = Math.ceil(event.nativeEvent.layout.width);
                   setValueWidth((current) => Math.max(current, width));

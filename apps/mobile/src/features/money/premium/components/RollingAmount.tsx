@@ -75,6 +75,11 @@ export function RollingAmount({ text, variant, tone = 'ink', color, testID }: Ro
   // One line box measured from the face itself, so a column is exactly one digit tall.
   const [height, setHeight] = useState(0);
   const chars = [...text];
+  // The amount the digits first showed. Only a digit added once it changed fades in: the first
+  // digits mount as one batch of layout animations, and on Android a batch now and then stays at
+  // opacity 0, which left a balance reading "−24 ," for "−241,666".
+  const [first, setFirst] = useState<string | null>(null);
+  const entering = first !== null && first !== text ? FadeIn : undefined;
   return (
     <View
       accessible
@@ -86,7 +91,10 @@ export function RollingAmount({ text, variant, tone = 'ink', color, testID }: Ro
       <Text
         variant={variant}
         style={styles.measure}
-        onLayout={(event) => setHeight(event.nativeEvent.layout.height)}
+        onLayout={(event) => {
+          setHeight(event.nativeEvent.layout.height);
+          setFirst((current) => current ?? text);
+        }}
       >
         0
       </Text>
@@ -107,7 +115,7 @@ export function RollingAmount({ text, variant, tone = 'ink', color, testID }: Ro
           );
         }
         return (
-          <Animated.View key={`d${key}`} entering={FadeIn}>
+          <Animated.View key={`d${key}`} entering={entering}>
             <DigitColumn
               digit={digit}
               height={height}
