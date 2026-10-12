@@ -120,23 +120,22 @@ export function PlanRouteLayer({
         <Layer
           id={`${id}-leg`}
           type="line"
-          filter={['!=', ['get', 'mode'], 'walk']}
+          filter={['all', ['!=', ['get', 'mode'], 'walk'], ['!=', ['get', 'mode'], 'boat']]}
+          layout={{ 'line-cap': 'round', 'line-join': 'round' }}
+          paint={{ 'line-color': ['get', 'color'], 'line-width': width }}
+        />
+        {/* Dashes take no feature data on MapLibre iOS (setting them from a feature's mode throws
+            and kills the app), so dotted legs are layers of their own with a fixed dash. */}
+        <Layer
+          id={`${id}-leg-boat`}
+          type="line"
+          filter={['==', ['get', 'mode'], 'boat']}
           layout={{ 'line-cap': 'round', 'line-join': 'round' }}
           paint={{
-            'line-color': [
-              'case',
-              ['==', ['get', 'mode'], 'boat'],
-              MAP_MARKS.boat,
-              ['get', 'color'],
-            ],
+            'line-color': MAP_MARKS.boat,
             'line-width': width,
             // A boat leg is dotted (1 on, 9 off at the design's width).
-            'line-dasharray': [
-              'case',
-              ['==', ['get', 'mode'], 'boat'],
-              ['literal', [0.2, 2]],
-              ['literal', [1, 0]],
-            ],
+            'line-dasharray': [0.2, 2],
           }}
         />
         <Layer

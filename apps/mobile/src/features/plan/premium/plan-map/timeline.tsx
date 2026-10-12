@@ -58,10 +58,17 @@ export interface TimelineProps {
 }
 
 const HOLD_MS = 350;
+/** The leg rail sits under the stop's number disc: past the time column, the gap and the card. */
+const RAIL_INSET = 24;
+
+/** The time column: 44 pt holds a 24-hour clock ("14:30"); a 12-hour one ("10:40am") needs 62. */
+function clockWidth(times: readonly (string | null | undefined)[]): number {
+  return times.some((time) => (time?.length ?? 0) > 5) ? 62 : 44;
+}
 
 const useStyles = makePremiumStyles((t) => ({
   row: { flexDirection: 'row', alignItems: 'flex-start', gap: t.space.gap8 },
-  time: { width: 44, paddingTop: 12, alignItems: 'flex-end' },
+  time: { paddingTop: 12, alignItems: 'flex-end' },
   card: {
     flex: 1,
     flexDirection: 'row',
@@ -83,7 +90,7 @@ const useStyles = makePremiumStyles((t) => ({
     justifyContent: 'center',
   },
   body: { flex: 1, gap: 2 },
-  leg: { flexDirection: 'row', alignItems: 'center', height: 26, paddingStart: 68, gap: 8 },
+  leg: { flexDirection: 'row', alignItems: 'center', height: 26, gap: 8 },
   legLine: { width: 2, height: 26, backgroundColor: t.color.progressTodo },
   slot: {
     flex: 1,
@@ -149,6 +156,7 @@ export function Timeline(props: TimelineProps) {
   const dy = useSharedValue(0);
   const lift = useSharedValue(0);
   const order = props.rows.map((row) => row.id);
+  const clock = clockWidth([...props.rows.map((row) => row.time), props.lifted?.time]);
 
   const begin = (index: number) => {
     if (props.onLift === null) return;
@@ -227,10 +235,12 @@ export function Timeline(props: TimelineProps) {
             }}
           >
             <View style={styles.row}>
-              <View style={styles.time}>
+              <View style={[styles.time, { width: clock }]}>
                 <Text
                   variant="bannerAction"
                   color={isHeld ? t.color.caret : undefined}
+                  numberOfLines={1}
+                  singleLine
                   style={{ fontVariant: ['tabular-nums'] }}
                 >
                   {isHeld ? (props.lifted?.time ?? row.time) : row.time}
@@ -258,7 +268,7 @@ export function Timeline(props: TimelineProps) {
               )}
             </View>
             {row.legAfter === null || index === props.rows.length - 1 ? null : (
-              <View style={styles.leg}>
+              <View style={[styles.leg, { paddingStart: clock + RAIL_INSET }]}>
                 <View style={styles.legLine} />
                 <Text variant="badge" tone="muted">
                   {row.legAfter}

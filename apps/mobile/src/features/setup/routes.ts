@@ -1,7 +1,8 @@
 /**
  * Trip setup's routes and the design screen ids the navigation registry knows them by: the dates
  * step (3c-3, and 3c-4 when no week fits), budget (3c-5), rooms (3c-6), must-dos (3c-7) and the
- * add-a-must-do sheet (3c-10). Pushes and inbox items link to `/trip/{id}/setup/...`, which
+ * add-a-must-do sheet (3c-10). The premium look starts setup on its checklist (4.08), the setup
+ * index, registered as `setup-checklist`. Pushes and inbox items link to `/trip/{id}/setup/...`, which
  * `app/(trip)/trip/[tripId]/setup/[...rest].tsx` forwards here.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
@@ -16,6 +17,8 @@ export const setupRoutes = {
     pathname: '/[tripId]/setup/[step]',
     params: { tripId, step: stepSlug(step) },
   }),
+  /** Setup's index: the premium checklist (4.08); the legacy look opens the step it is on. */
+  checklist: (tripId: string): Href => ({ pathname: '/[tripId]/setup', params: { tripId } }),
   addMustDo: (tripId: string): Href => ({
     pathname: '/[tripId]/setup/must-dos/add',
     params: { tripId },
@@ -42,5 +45,6 @@ export function registerSetupScreens(): void {
     '3c-6': step('rooms'),
     '3c-7': step('must_dos'),
     '3c-10': (params) => setupRoutes.addMustDo(params['tripId'] ?? ''),
+    'setup-checklist': (params) => setupRoutes.checklist(params['tripId'] ?? ''),
   });
 }

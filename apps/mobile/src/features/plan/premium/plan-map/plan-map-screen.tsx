@@ -55,7 +55,9 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
   const reduced = usePremiumReducedMotion();
   const scheme = usePremiumTheme().scheme;
   const camera = useRef<CameraRef>(null);
-  const [detent, setDetent] = useState<MapDetent>(model.empty ? 'half' : (sheet ?? 'peek'));
+  // Peek (or the link's height) until moved, an empty plan at half: read once the plan has loaded.
+  const [moved, setDetent] = useState<MapDetent | null>(null);
+  const detent: MapDetent = moved ?? (model.empty ? 'half' : (sheet ?? 'peek'));
   const [menu, setMenu] = useState<number | null>(null);
   const [stopMenu, setStopMenu] = useState<string | null>(null);
   const [sharing, setSharing] = useState(false);
@@ -103,6 +105,8 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
   );
   const checkHref = { pathname: '/[tripId]/check', params: { tripId } } as const;
   const placeName = model.destination ?? '';
+  const ideas = model.ideas.length;
+  const openIdeas = () => router.push({ pathname: '/[tripId]/ideas', params: { tripId } });
 
   const head =
     detent === 'full' ? null : (
@@ -149,10 +153,13 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
       </PremiumMapCanvas>
       {detent === 'full' ? null : (
         <TopBar
-          placeholder={planMapCopy.search(placeName, model.guide.name)}
+          placeholder={planMapCopy.search(detent === 'half' ? '' : placeName, model.guide.name)}
           guide={{ kind: guide.kind, name: guide.name }}
           labels={{ back: planMapCopy.back(), more: planMapCopy.more() }}
           chips={layer.chips}
+          {...(detent === 'half' && ideas > 0
+            ? { ideas: { count: ideas, label: planMapCopy.menu.ideas(ideas), onPress: openIdeas } }
+            : {})}
           onBack={back}
           onSearch={() => {
             if (search !== undefined) router.push(search);
@@ -174,6 +181,8 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
         ) : detent === 'full' ? (
           <TripFixRows
             tripId={tripId}
+            eyebrow={map.tripHead}
+            onShare={model.draft ? null : () => setSharing(true)}
             rows={map.tripRows}
             guideName={model.guide.name}
             check={(() => {
@@ -188,7 +197,7 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
                 : {
                     line: planMapCopy.ideasLine(model.ideas.length),
                     action: `${planMapCopy.ideas()} ›`,
-                    onPress: () => router.push({ pathname: '/[tripId]/ideas', params: { tripId } }),
+                    onPress: openIdeas,
                   }
             }
             onOpenDay={(n) => {

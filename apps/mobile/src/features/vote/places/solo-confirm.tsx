@@ -12,6 +12,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useSyncPhase } from '@/data/status/use-sync-status';
+import { usePremiumUi } from '@/lib/premium-ui';
 import { toast } from '@/motion';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
@@ -49,12 +50,13 @@ export function useSoloStart({
   const { t } = useLingui();
   const create = useCommand(createTripCommand);
   const syncPhase = useSyncPhase();
+  const premium = usePremiumUi();
   const [waiting, setWaiting] = useState<{ opId: string; tripId: string } | null>(null);
   const outcome = useOpOutcome(waiting?.opId ?? null);
 
   const open = useCallback(
     (tripId: string) => {
-      const setup = voteRoutes.tripSetup(tripId);
+      const setup = voteRoutes.tripStart(tripId, premium);
       if (setup !== undefined) {
         router.replace(setup);
         return;
@@ -66,7 +68,7 @@ export function useSoloStart({
       });
       router.back();
     },
-    [placeName, t],
+    [placeName, premium, t],
   );
 
   const refuse = useCallback(

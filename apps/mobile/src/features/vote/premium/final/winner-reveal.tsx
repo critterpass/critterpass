@@ -8,7 +8,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- style values, never copy. */
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
+import { router, Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import Animated, {
@@ -131,7 +131,7 @@ function RevealContent({
   const and = t({ id: 'vote.final.and', message: 'and' });
   const leave = () => goBackOr();
   const setUp = () => {
-    const href = poll.tripId === null ? undefined : voteRoutes.tripSetup(poll.tripId);
+    const href = poll.tripId === null ? undefined : voteRoutes.tripStart(poll.tripId, true);
     if (href === undefined) leave();
     else router.replace(href);
   };
@@ -170,6 +170,8 @@ function RevealContent({
       onClose={leave}
       testID="reveal"
     >
+      {/* The loading page before it is a pushed page with a header; the stamp has only its ✕. */}
+      <Stack.Screen options={{ headerShown: false }} />
       <View style={{ flex: 1, backgroundColor: theme.color.ground }}>
         <ScrollView
           contentContainerStyle={{

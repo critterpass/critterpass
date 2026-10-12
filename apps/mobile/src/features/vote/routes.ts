@@ -29,6 +29,9 @@ export const voteRoutes = {
     hrefFor('7g-3', { placeId }) ?? voteRoutes.place(placeId, crewId),
   /** Trip setup (another area's 3c-3), once that area has registered it. */
   tripSetup: (tripId: string): Href | undefined => hrefFor('3c-3', { tripId }),
+  /** Where a new trip's setup starts: the checklist (4.08) in the premium look, else When. */
+  tripStart: (tripId: string, premium: boolean): Href | undefined =>
+    (premium ? hrefFor('setup-checklist', { tripId }) : undefined) ?? hrefFor('3c-3', { tripId }),
 };
 
 let registered = false;

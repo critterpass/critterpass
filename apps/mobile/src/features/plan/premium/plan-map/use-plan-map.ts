@@ -15,8 +15,16 @@ import { dropResult, useReorder } from '../../day-plan/use-reorder';
 import { hubDay } from '../../hub/plan-hub';
 import { useChosenDay } from '../../trip-map/chosen-day';
 import { useDayRoute } from '../../trip-map/day-route';
-import { dateLine, dayOfTrip, stopsLine, tagLabel } from '../../trip-map/format';
-import { dayChips } from '../../trip-map/sheet-copy';
+import {
+  chipWeekday,
+  dateLine,
+  dayOfMonth,
+  dayOfTrip,
+  stopsLine,
+  tagLabel,
+  tripDates,
+} from '../../trip-map/format';
+import { countdownLine, dayChips } from '../../trip-map/sheet-copy';
 import { buildStopRows, columnClock } from '../../trip-map/stop-rows';
 import { useTripMapModel } from '../../trip-map/use-trip-map-model';
 import type { TimelineRow } from './timeline';
@@ -94,7 +102,11 @@ export function usePlanMap(tripId: string, openedDay: number | null) {
         const title = entry.theme ?? entry.area?.name ?? dayOfTrip(entry.dayNo, model.days.length);
         return {
           dayNo: entry.dayNo,
-          date,
+          // The row's 52 pt column holds "Mon 12"; the full date is read out.
+          date:
+            entry.date === null
+              ? ''
+              : `${chipWeekday(locale, entry.date)} ${dayOfMonth(entry.date)}`,
           title,
           tag: entry.tag === null ? null : { tag: entry.tag, label: tagLabel(entry.tag, true) },
           pace: entry.pace,
@@ -104,9 +116,19 @@ export function usePlanMap(tripId: string, openedDay: number | null) {
     [model.days, locale],
   );
 
+  // Over the whole trip: "The Bali Six · Oct 12–19 · 17 days to go".
+  const tripHead = [
+    model.crewName ?? model.destination ?? '',
+    tripDates(locale, model.startDate, model.endDate),
+    countdownLine(model.countdownTo) ?? '',
+  ]
+    .filter((part) => part !== '')
+    .join(' · ');
+
   return {
     data,
     model,
+    tripHead,
     day,
     dayNo,
     setDay: setChosen,
