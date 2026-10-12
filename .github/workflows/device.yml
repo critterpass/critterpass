@@ -318,6 +318,27 @@ jobs:
         if: always()
         continue-on-error: true
         run: npx --yes tsx@4 tools/scripts/perf/device-timings.ts --dir "$RUNNER_TEMP/out" --platform ios || true
+      # A simulator app that crashes leaves its report on the runner (the simulator runs on the
+      # Mac's kernel), not in Maestro's output: the app's reports and its own log lines go into the
+      # shard's artifact (crash/), so a "App crashed or stopped" step can be read afterwards.
+      - name: Keep the app's crash reports
+        if: always()
+        continue-on-error: true
+        run: |
+          dest="$RUNNER_TEMP/out/crash"
+          mkdir -p "$dest"
+          for dir in "$HOME/Library/Logs/DiagnosticReports" "$HOME/Library/Logs/DiagnosticReports/Retired"; do
+            [ -d "$dir" ] || continue
+            find "$dir" -maxdepth 1 -type f \( -name '*.ips' -o -name '*.crash' \) -mmin -180 \
+              -exec grep -il 'critterpass' {} + 2>/dev/null | while read -r report; do cp "$report" "$dest/"; done
+          done
+          udid=$(xcrun simctl list devices booted -j | jq -r '[.devices[][] | select(.name == "CritterPass CI")][0].udid // empty')
+          if [ -n "$udid" ]; then
+            xcrun simctl spawn "$udid" log show --last 3h --style compact \
+              --predicate 'process CONTAINS[c] "critterpass" OR eventMessage CONTAINS "RCTFatal" OR eventMessage CONTAINS "Unhandled JS Exception"' \
+              2>/dev/null | tail -n 20000 > "$dest/app.log" || true
+          fi
+          ls -la "$dest"
       # Maestro's command log repeats each flow's variables, and this repository is public: the
       # staging sign-in code is taken out of every text file before the shard's output is uploaded.
       - name: Keep the sign-in code out of the artifact
@@ -326,7 +347,7 @@ jobs:
           OTP_TEST_CODE: ${{ secrets.OTP_TEST_CODE }}
         run: |
           [ -n "$OTP_TEST_CODE" ] || exit 0
-          find "$RUNNER_TEMP/out" -type f \( -name '*.json' -o -name '*.log' -o -name '*.xml' -o -name '*.txt' -o -name '*.html' -o -name '*.yaml' \) \
+          find "$RUNNER_TEMP/out" -type f \( -name '*.json' -o -name '*.log' -o -name '*.xml' -o -name '*.txt' -o -name '*.html' -o -name '*.yaml' -o -name '*.ips' -o -name '*.crash' \) \
             -exec perl -pi -e 'BEGIN { $code = quotemeta($ENV{OTP_TEST_CODE}) } s/(?<![0-9A-Za-z])$code(?![0-9A-Za-z])/[redacted]/g' {} +
       - uses: actions/upload-artifact@v7
         if: always()
