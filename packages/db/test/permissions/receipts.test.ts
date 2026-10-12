@@ -55,6 +55,23 @@ describe('receipts', () => {
     ).rejects.toThrow(/permission denied/i);
   });
 
+  it('lets the retention purge delete a scan, and no member', async () => {
+    const { actors, tripId, crewId } = harness.fixture;
+    await expect(
+      withUser(harness.db.pool, actors.member, randomUUID(), (tx) =>
+        tx.query('DELETE FROM receipts WHERE user_id = $1', [actors.member]),
+      ),
+    ).rejects.toThrow(/permission denied/i);
+    const deleted = await withSystem(harness.db.pool, async (tx) => {
+      const { rows } = await tx.query<{ id: string }>(
+        'INSERT INTO receipts (user_id, trip_id, crew_id) VALUES ($1, $2, $3) RETURNING id',
+        [actors.outsider, tripId, crewId],
+      );
+      return (await tx.query('DELETE FROM receipts WHERE id = $1', [rows[0]!.id])).rowCount;
+    });
+    expect(deleted).toBe(1);
+  });
+
   it('shows a committed scan to the trip’s crew', async () => {
     const { actors, tripId } = harness.fixture;
     await withSystem(harness.db.pool, (tx) =>
