@@ -76,7 +76,7 @@ appId: app.critterpass.dev
               id: 'proposal-alone'
           commands:
             - tapOn:
-                id: 'build-back'
+                id: 'build-back|push-back'
             - waitForAnimationToEnd
       - runFlow:
           when:
