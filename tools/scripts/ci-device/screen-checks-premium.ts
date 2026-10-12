@@ -22,6 +22,9 @@ import {
  * starts partway down, not at the top of the judged rows. A frame around the whole screen shows its
  * inset from the top instead.
  */
+/** Where the page above a sheet is read from: under the screen's top edge (its rounded corners). */
+const PAGE_ABOVE_FROM = 0.02;
+
 export function isInsetSheetOverDimmedPage(
   image: RgbaImage,
   rows: readonly number[],
@@ -37,10 +40,15 @@ export function isInsetSheetOverDimmedPage(
   };
   const first = rows.findIndex((y) => onFrame(y) && atInset(y));
   const firstRow = rows[first];
-  const topRow = rows[0];
-  if (first < 0 || firstRow === undefined || topRow === undefined) return false;
-  if (firstRow - topRow < image.height * 0.02) return false;
-  const above = rowsBetween(image, LIMITS.top, firstRow / image.height, 40);
+  if (first < 0 || firstRow === undefined) return false;
+  // The sheet's top, which may sit above the judged rows: a tall sheet (the calendar sheets)
+  // starts right under the status bar. The page behind is read above it, from under the screen's
+  // top edge; a frame shows its inset all the way up instead.
+  const pageTop = Math.floor(image.height * PAGE_ABOVE_FROM);
+  let sheetTop = firstRow;
+  while (sheetTop > pageTop && onFrame(sheetTop - 1) && atInset(sheetTop - 1)) sheetTop -= 1;
+  if (sheetTop < image.height * (PAGE_ABOVE_FROM + 0.02)) return false;
+  const above = rowsBetween(image, PAGE_ABOVE_FROM, sheetTop / image.height, 40);
   const pageBehind = above.filter(
     (y) =>
       colourDistance(pixel(image, 0, y), frameColour) <= LIMITS.sameColour &&

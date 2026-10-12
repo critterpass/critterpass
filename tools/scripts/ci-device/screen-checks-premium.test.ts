@@ -86,5 +86,11 @@ describe('screen checks on the premium UI', { timeout: 60_000 }, () => {
     const framed = copy(sheet);
     paint(framed, 8, 0, 392, 160, [248, 248, 250]);
     expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
+    // A tall sheet starts right under the status bar, at the top of the rows the check judges.
+    const tall = blank(400, 860, dimmed);
+    paint(tall, 24, 8, 120, 30, [120, 120, 124]);
+    paint(tall, 8, 64, 392, 860, [248, 248, 250]);
+    for (let y = 100; y < 820; y += 24) paint(tall, 30, y, 300, y + 12, [60, 60, 70]);
+    expect(findFrame(tall, options)).toBeNull();
   });
 });
