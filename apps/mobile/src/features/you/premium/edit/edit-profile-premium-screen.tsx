@@ -127,6 +127,7 @@ export function EditProfilePremiumScreen() {
           sfSymbol: 'checkmark',
           glyph: 'check',
           primary: true,
+          text: true,
           onPress: () => {
             if (edit.canSave && !edit.saving) void edit.save();
           },

@@ -33,9 +33,9 @@ export interface ShellAction {
   readonly onPress: () => void;
   readonly testID?: string;
   /**
-   * Replaces the button with this element on iOS (a `Stack.Toolbar.View`) on a push screen. iOS 26
-   * hides a toolbar view's content from VoiceOver and UI tests, so root screens always use the
-   * system button.
+   * Replaces the button with this element: a chip the design draws in the header ("3 votes left",
+   * the plan chip). On iOS it is a `Stack.Toolbar.View` on a push screen; iOS 26 hides a toolbar
+   * view's content from VoiceOver and UI tests, so root screens always use the system button.
    */
   readonly element?: ReactElement;
   /**
@@ -95,6 +95,13 @@ export function DrawnHeaderActions({ actions }: { readonly actions: readonly She
     <View style={styles.row}>
       {actions.map((action) => {
         const testID = action.testID === undefined ? {} : { testID: action.testID };
+        if (action.element !== undefined) {
+          return (
+            <View key={action.key} {...testID}>
+              {action.element}
+            </View>
+          );
+        }
         if (action.text === true) {
           return action.primary === true ? (
             <Button

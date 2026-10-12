@@ -121,7 +121,32 @@ function Board() {
     <>
       <PushScreen
         title={t({ id: 'help.ideas.title', message: 'What’s next?' })}
-        subtitle={left}
+        action={{
+          key: 'votes-left',
+          label: left,
+          // eslint-disable-next-line lingui/no-unlocalized-strings -- an SF Symbol name, never copy.
+          sfSymbol: 'hand.thumbsup',
+          glyph: 'heart',
+          onPress: () => undefined,
+          element: (
+            <View
+              accessible
+              accessibilityLabel={left}
+              style={{
+                height: 32,
+                paddingHorizontal: th.space.gap12,
+                borderRadius: 16,
+                backgroundColor: th.accent.sun,
+                justifyContent: 'center',
+              }}
+            >
+              <Text variant="noteAction" tone="onAccent">
+                {left}
+              </Text>
+            </View>
+          ),
+          testID: 'help-ideas-votes-left',
+        }}
         backLabel={t({ id: 'help.ideas.back', message: 'Help' })}
         scroll={false}
         testID="help-ideas"

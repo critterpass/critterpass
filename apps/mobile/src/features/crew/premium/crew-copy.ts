@@ -69,6 +69,7 @@ const DAY_MS = 86_400_000;
 
 /** Midnight of a `YYYY-MM-DD` date on this phone, or null when it doesn't read as a date. */
 function localDay(date: string): Date | null {
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- an ISO time, never copy.
   const at = new Date(`${date}T00:00:00`);
   return Number.isNaN(at.getTime()) ? null : at;
 }

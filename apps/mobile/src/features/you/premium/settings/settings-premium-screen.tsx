@@ -5,7 +5,7 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
-import { Platform, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
 import { Icon, ListCard, Row, SegmentedControl, Text, Toggle, usePremiumTheme } from '@/ui/premium';
@@ -137,27 +137,24 @@ export function SettingsPremiumScreen() {
                 glyph: 'pass' as const,
                 onPress: plan.onPress,
                 testID: 'you-settings-plan',
-                ...(Platform.OS === 'ios'
-                  ? {
-                      element: (
-                        <Pressable
-                          onPress={plan.onPress}
-                          accessibilityRole="button"
-                          style={{
-                            height: 32,
-                            paddingHorizontal: 12,
-                            borderRadius: 16,
-                            backgroundColor: th.accent.sun,
-                            justifyContent: 'center',
-                          }}
-                        >
-                          <Text variant="noteAction" tone="onAccent">
-                            {`${plan.label} ›`}
-                          </Text>
-                        </Pressable>
-                      ),
-                    }
-                  : {}),
+                element: (
+                  <Pressable
+                    onPress={plan.onPress}
+                    accessibilityRole="button"
+                    accessibilityLabel={plan.label}
+                    style={{
+                      height: 32,
+                      paddingHorizontal: 12,
+                      borderRadius: 16,
+                      backgroundColor: th.accent.sun,
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Text variant="noteAction" tone="onAccent">
+                      {`${plan.label} ›`}
+                    </Text>
+                  </Pressable>
+                ),
               },
             })}
       >
