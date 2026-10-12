@@ -158,6 +158,19 @@ describe('NO_BACK_AFFORDANCE', () => {
     await unmount();
     expect(focusedBackAffordances()).toBe(before);
   });
+
+  it('does not count a glass control drawing another glyph until it becomes a back or ✕', async () => {
+    const before = focusedBackAffordances();
+    const { rerender, unmount } = await renderHook(
+      ({ active }: { active: boolean }) => useBackAffordance(active),
+      { initialProps: { active: false } },
+    );
+    expect(focusedBackAffordances()).toBe(before);
+    await rerender({ active: true });
+    expect(focusedBackAffordances()).toBe(before + (UI_QA_ENABLED ? 1 : 0));
+    await unmount();
+    expect(focusedBackAffordances()).toBe(before);
+  });
 });
 
 /* eslint-disable critterpass/no-literal-style -- the check reads raw colour strings: these are its inputs */

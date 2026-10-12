@@ -1,3 +1,5 @@
+import { useBackAffordance } from '@/ui/qa/back-affordance';
+
 import { Icon } from '../icons/Icon';
 import type { PremiumIconName } from '../icons/Icon';
 import { PressableScale } from '../motion/PressableScale';
@@ -25,6 +27,8 @@ export function GlassIconButton({
   testID,
 }: GlassIconButtonProps) {
   const t = usePremiumTheme();
+  // A glass back or ✕ is its screen's way back (the UI QA back check counts it).
+  useBackAffordance(icon === 'back' || icon === 'close');
   const side = t.size.glassNav;
   const glyph = disabled
     ? t.color.placeholder

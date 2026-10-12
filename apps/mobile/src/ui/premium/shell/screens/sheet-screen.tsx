@@ -3,6 +3,8 @@ import { router } from 'expo-router';
 import { useState, type ReactNode } from 'react';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 
+import { useBackAffordance } from '@/ui/qa/back-affordance';
+
 import { PressableScale, Spinner, Text, usePremiumTheme } from '../..';
 import { KeyboardStickyFooter } from '../keyboard/keyboard';
 import { useDirtySheetGuard, type DiscardPrompt } from './dirty-sheet';
@@ -84,6 +86,8 @@ export function SheetScreen({
 }: SheetScreenProps) {
   const t = usePremiumTheme();
   const [busy, setBusy] = useState(false);
+  // Cancel is the sheet's way back.
+  useBackAffordance();
   const guard = useDirtySheetGuard(
     dirty && discardPrompt !== undefined,
     discardPrompt ?? NO_PROMPT,

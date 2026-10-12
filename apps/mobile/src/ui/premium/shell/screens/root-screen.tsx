@@ -15,6 +15,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+
 import {
   GlassSurface,
   REDUCED_FADE_MS,
@@ -70,6 +72,9 @@ const TITLE_ROW = 52;
  * content scrolls; the screen's list must be its first child so the iOS 26 tab bar can minimise.
  */
 export function RootScreen({ title, actions = [], header, children, testID }: RootScreenProps) {
+  // No back by design: the tab bar shows, and a pushed root page (Inbox) leaves by edge swipe or
+  // system back.
+  useNoBackByDesign();
   const ordered = capActions(actions, 2);
   const mode = header ?? (Platform.OS === 'ios' ? 'native' : 'drawn');
   if (mode === 'native') {

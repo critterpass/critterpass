@@ -3,6 +3,8 @@ import type { ReactNode } from 'react';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useBackAffordance } from '@/ui/qa/back-affordance';
+
 import { GlassIconButton, Text, usePremiumTheme } from '../..';
 import {
   capActions,
@@ -66,6 +68,9 @@ export function PushScreen({
   const insets = useSafeAreaInsets();
   const actions = capActions(action === undefined ? [] : [action], 1);
   const ios = Platform.OS === 'ios';
+  // The bar's native back (iOS) or Material back arrow (Android) is the way back; a headerless
+  // page's glass back registers itself.
+  useBackAffordance(!headerless);
 
   const body = scroll ? (
     <ScrollView
