@@ -13,7 +13,10 @@ export interface CritterStickerProps {
   readonly form?: FormSpec;
   readonly seed?: number;
   readonly closedEyes?: boolean;
-  /** Bare art without the die-cut edge (silhouettes). @default true, false for a mask */
+  /**
+   * The white die-cut edge. The premium design leaves it off small critters in avatars, notes and
+   * docks and off one-colour doodles; those pass `false`. @default true, false for a mask
+   */
   readonly edge?: boolean;
   /** `mask` draws the locked silhouette in one colour. */
   readonly variant?: 'mask';
@@ -35,6 +38,7 @@ export function CritterSticker({ edge, variant, maskColor, ...props }: CritterSt
       {...props}
       {...(masked ? { variant: 'mask' as const, maskColor: maskColor ?? t.color.lockedMask } : {})}
       sticker={withEdge ? { color: t.accent.stickerEdge } : null}
+      bareByDesign={!withEdge}
     />
   );
 }
