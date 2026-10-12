@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# The crew switcher under the Home title (3.07) in ${LOOK}, closed again by a tap on the scrim
+# below it.
+- tapOn:
+    id: 'home-crew-switcher'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'crew-switcher'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'crew-switcher'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '3.07'
+            NAME: crew-switcher
+            LOOK: ${LOOK}
+      - tapOn:
+          point: '50%,93%'
+      - waitForAnimationToEnd

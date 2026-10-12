@@ -1,0 +1,133 @@
+appId: app.critterpass.dev
+---
+# The Critterdex in ${LOOK}, from Home and back to Home: the dex pushed from the passport's
+# Critterdex row (8.01), a critter's detail (8.02, the critter here now, else the first cell) and,
+# in light, the legendary calendar (8.08).
+- runFlow:
+    file: tab.yaml
+    env:
+      TAB: pass
+      LABEL: Pass
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile'
+    timeout: 15000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'you-profile-critterdex'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- tapOn:
+    id: 'you-profile-critterdex'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-list|critters-dex-empty'
+    timeout: 15000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'critters-dex'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '8.01'
+            NAME: critterdex
+            LOOK: ${LOOK}
+      - runFlow:
+          when:
+            true: ${LOOK == 'light'}
+          commands:
+            - runFlow:
+                when:
+                  visible:
+                    id: 'critters-legendary-banner'
+                commands:
+                  - tapOn:
+                      id: 'critters-legendary-banner'
+                  - extendedWaitUntil:
+                      visible:
+                        id: 'critters-legendaries'
+                      timeout: 10000
+                      optional: true
+                  - runFlow:
+                      file: shot.yaml
+                      env:
+                        CODE: '8.08'
+                        NAME: legendary-calendar
+                        LOOK: ${LOOK}
+                  - runFlow:
+                      when:
+                        visible:
+                          id: 'critters-legendaries'
+                      commands:
+                        - runFlow:
+                            file: tap.yaml
+                            env:
+                              ID: 'critters-legendaries-back'
+                              LABEL: 'Back'
+      # A critter's detail: the one here now, else the first cell of the sets.
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-here-now-.*'
+          commands:
+            - tapOn:
+                id: 'critters-here-now-.*'
+      - runFlow:
+          when:
+            notVisible:
+              id: 'critters-detail'
+          commands:
+            - scrollUntilVisible:
+                element:
+                  id: 'critters-cell-.*'
+                direction: DOWN
+                timeout: 10000
+                optional: true
+            - tapOn:
+                id: 'critters-cell-.*'
+                optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-detail'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-detail'
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '8.02'
+                  NAME: critter-detail
+                  LOOK: ${LOOK}
+            - runFlow:
+                file: tap.yaml
+                env:
+                  ID: 'critters-detail-back'
+                  LABEL: 'Back'
+# Back to the passport, so the Pass tab opens on it next time (the appearance step starts there).
+- repeat:
+    times: 3
+    while:
+      visible:
+        id: 'critters-dex|critters-detail|critters-legendaries'
+    commands:
+      - runFlow: back.yaml
+- runFlow:
+    file: tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 10000
+    optional: true

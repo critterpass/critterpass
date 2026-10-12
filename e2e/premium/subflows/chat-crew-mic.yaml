@@ -1,0 +1,38 @@
+appId: app.critterpass.dev
+---
+# The microphone with no permission (5.05): a tap on the mic asks for it, the dialog is denied,
+# and the chat offers to type instead. When the app already holds the permission the recorder
+# opens instead and is cancelled, with no shot. Nothing is recorded.
+- tapOn:
+    id: 'chat-mic'
+    optional: true
+- tapOn:
+    text: 'Don.t allow|Deny|Don.t Allow'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'chat-mic-off'
+    timeout: 5000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'chat-mic-off'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '5.05'
+            NAME: mic-off
+            LOOK: light
+      - tapOn:
+          id: 'chat-mic-type'
+          optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'chat-recorder'
+    commands:
+      - tapOn:
+          id: 'chat-recorder-cancel'
+          optional: true

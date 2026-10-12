@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# Steps back until Home shows (at most eight steps), then opens the Home tab. Sheets and pushed
+# pages the earlier steps left open are closed on the way.
+- repeat:
+    times: 8
+    while:
+      notVisible:
+        id: 'home-screen'
+    commands:
+      - runFlow: back.yaml
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-screen'
+    commands:
+      - runFlow:
+          file: tab.yaml
+          env:
+            TAB: home
+            LABEL: Home
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 10000
+    optional: true
