@@ -335,7 +335,7 @@ jobs:
           udid=$(xcrun simctl list devices booted -j | jq -r '[.devices[][] | select(.name == "CritterPass CI")][0].udid // empty')
           if [ -n "$udid" ]; then
             xcrun simctl spawn "$udid" log show --last 3h --style compact \
-              --predicate 'process CONTAINS[c] "critterpass" OR eventMessage CONTAINS "RCTFatal" OR eventMessage CONTAINS "Unhandled JS Exception"' \
+              --predicate '(process BEGINSWITH "CritterPass" AND NOT subsystem BEGINSWITH "com.apple.dt") OR subsystem == "com.facebook.react.log" OR eventMessage CONTAINS "RCTFatal"' \
               2>/dev/null | tail -n 20000 > "$dest/app.log" || true
           fi
           ls -la "$dest"
