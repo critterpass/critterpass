@@ -28,6 +28,7 @@ export function GuestDock(props: { readonly onPitch: () => void; readonly onSolo
           styles.dockFade,
           {
             height: insets.bottom + DOCK_FADE,
+            // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never copy.
             experimental_backgroundImage: `linear-gradient(180deg, ${clearOf(theme.color.ground)}, ${theme.color.ground} 46%)`,
           },
         ]}

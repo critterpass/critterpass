@@ -621,7 +621,7 @@ public enum CPPremium {
         public static let stampRoundSmall: CGFloat = 80
         public static let dayBadgeGap: CGFloat = 1
         public static let stickerBorder: CGFloat = 2.5
-        public static let guideCritter: CGFloat = 38
+        public static let guideCritter: CGFloat = 36
         public static let bannerDoodle: CGFloat = 30
         public static let emptyDisc: CGFloat = 180
         public static let emptyCritter: CGFloat = 140

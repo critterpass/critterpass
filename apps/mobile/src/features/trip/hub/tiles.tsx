@@ -40,16 +40,15 @@ const useStyles = makeStyles((th) => ({
 }));
 
 /**
- * How a hub draws its tiles, when it is not the current look: the premium hub provides its own, so
- * tiles other areas register (quests, photos) wear the same white tile as the built-in doors.
+ * How a hub draws its tiles, when it is not the current look: the premium hub provides a function
+ * that returns its own tile element, so tiles other areas register (quests, photos) wear the same
+ * white tile as the built-in doors.
  */
-export const HubTileLook = createContext<((props: { tile: HubTileData }) => ReactNode) | null>(
-  null,
-);
+export const HubTileLook = createContext<((tile: HubTileData) => ReactNode) | null>(null);
 
 export function HubTile({ tile }: { readonly tile: HubTileData }) {
-  const Look = useContext(HubTileLook);
-  if (Look !== null) return <Look tile={tile} />;
+  const look = useContext(HubTileLook);
+  if (look !== null) return look(tile);
   return <CurrentHubTile tile={tile} />;
 }
 

@@ -70,6 +70,9 @@ function Tile({ tile }: { readonly tile: HubTileData }) {
   );
 }
 
+/** The registered tiles' look: this hub's tile element for the tile's data. */
+const drawTile = (tile: HubTileData) => <Tile tile={tile} />;
+
 export interface HubTilesProps {
   readonly tiles: readonly HubTileData[];
   /** Tiles registered by other areas, already drawn. */
@@ -83,7 +86,7 @@ export function HubTiles({ tiles, extra }: HubTilesProps) {
     // Registered tiles draw through `HubTile`, which takes this hub's look from the context.
     ...extra.map((item) => ({
       key: item.key,
-      node: <HubTileLook.Provider value={Tile}>{item.node}</HubTileLook.Provider>,
+      node: <HubTileLook.Provider value={drawTile}>{item.node}</HubTileLook.Provider>,
     })),
   ];
   const rows: (typeof cells)[] = [];

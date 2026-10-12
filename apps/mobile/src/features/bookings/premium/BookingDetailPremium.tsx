@@ -267,6 +267,7 @@ export function BookingDetailPremium({ bookingId }: { readonly bookingId: string
         label: t({ id: 'bookings.premium.options', message: 'Booking options' }),
         // The flight's header carries share (7.10), a stay's the options circle (7.06); both open
         // the same options, sharing first.
+        // eslint-disable-next-line lingui/no-unlocalized-strings -- SF Symbol names, never copy.
         sfSymbol: view === null ? 'ellipsis' : 'square.and.arrow.up',
         glyph: view === null ? 'more' : 'share',
         onPress: () =>

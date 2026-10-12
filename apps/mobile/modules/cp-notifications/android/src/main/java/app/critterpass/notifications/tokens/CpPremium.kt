@@ -594,7 +594,7 @@ object CpPremium {
         val stampRoundSmall: Dp = 80.dp
         val dayBadgeGap: Dp = 1.dp
         val stickerBorder: Dp = 2.5.dp
-        val guideCritter: Dp = 38.dp
+        val guideCritter: Dp = 36.dp
         val bannerDoodle: Dp = 30.dp
         val emptyDisc: Dp = 180.dp
         val emptyCritter: Dp = 140.dp
