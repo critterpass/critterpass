@@ -36,19 +36,23 @@ import {
   ROTATE_JOIN_CODE,
   SET_CREW_NOTIFY,
 } from '../crews-sheet/crew-commands';
+import { useCrewServices } from '../crews-sheet/crew-services';
 import { crewEditRoute, crewInviteRoute, crewLeaveRoute } from '../crews-sheet/routes';
 import { onRemovalRequest, useUndoableRemoval } from '../members/undoable-removal';
 import { returnHome } from '../start-crew/crew-created';
 import { useCrewDetail } from '../settings/use-crew-detail';
-import { codeValidLine, firstName, tripStatusWord } from './crew-copy';
+import { firstName, tripDatesLine, tripStatusWord } from './crew-copy';
 import { CREST_SHAPE, crewCoverOf, passInk } from './crew-look';
 import { MemberGrid } from './components/member-grid';
+import { CrewCodeCard } from './components/crew-code-card';
 import { CrewMissing } from './crew-missing';
 
 export function CrewSettingsPremium() {
   const th = usePremiumTheme();
   const locale = useLocale();
   const toast = useToast();
+  const services = useCrewServices();
+  const [minting, setMinting] = useState(false);
   const { crewId = '' } = useLocalSearchParams<{ crewId?: string }>();
   const detail = useCrewDetail(crewId);
   const commands = useContext(LocalFirstContext)?.commands ?? null;
@@ -96,6 +100,15 @@ export function CrewSettingsPremium() {
       ? detail.me.notify_level
       : DEFAULT_CREW_NOTIFY_LEVEL;
   const code = detail.code;
+  const now = new Date();
+  const codeUrl = code === null ? null : services.inviteUrl(code.code);
+
+  // No live code: the organiser makes one here (nothing to invalidate, so no question first).
+  const mint = () => {
+    if (commands === null || minting) return;
+    setMinting(true);
+    void commands.send(ROTATE_JOIN_CODE, { crew_id: crewId }).finally(() => setMinting(false));
+  };
 
   const newCode = async () => {
     if (commands === null || !detail.canManage) return;
@@ -150,6 +163,7 @@ export function CrewSettingsPremium() {
               label: t({ id: 'crew.premium.edit', message: 'Edit' }),
               sfSymbol: 'pencil',
               glyph: 'edit' as const,
+              text: true,
               onPress: () => router.push(crewEditRoute(crewId)),
               testID: 'crew-settings-edit',
             },
@@ -188,55 +202,39 @@ export function CrewSettingsPremium() {
 
         {detail.trips.length === 0 ? null : (
           <ListCard>
-            {detail.trips.map((trip) => (
-              <Row
-                key={trip.id}
-                title={
-                  trip.place ?? t({ id: 'crew.premium.settings.tripUnnamed', message: 'A trip' })
-                }
-                trailing={
-                  <StatusTag
-                    label={tripStatusWord(trip.status)}
-                    tone={trip.status === 'in_trip' ? 'booked' : 'voteOpen'}
-                  />
-                }
-                onPress={() => router.push(`/hub/${trip.id}`)}
-                testID={`crew-settings-trip-${trip.id}`}
-              />
-            ))}
+            {detail.trips.map((trip) => {
+              const dates = tripDatesLine(trip, now, locale);
+              return (
+                <Row
+                  key={trip.id}
+                  title={
+                    trip.place ?? t({ id: 'crew.premium.settings.tripUnnamed', message: 'A trip' })
+                  }
+                  {...(dates === null ? {} : { subtitle: dates })}
+                  trailing={
+                    <StatusTag
+                      label={tripStatusWord(trip.status)}
+                      tone={trip.status === 'in_trip' ? 'booked' : 'voteOpen'}
+                    />
+                  }
+                  onPress={() => router.push(`/hub/${trip.id}`)}
+                  testID={`crew-settings-trip-${trip.id}`}
+                />
+              );
+            })}
           </ListCard>
         )}
 
-        <Card style={styles.codeCard}>
-          <View style={styles.grow}>
-            <Text variant="caption" tone="muted">
-              {[
-                t({ id: 'crew.start.codeLabel', message: 'Crew code' }),
-                codeValidLine(code?.expires_at ?? null, locale),
-              ]
-                .filter(Boolean)
-                .join(' · ')}
-            </Text>
-            <Text variant="title" style={styles.code} testID="crew-settings-code">
-              {code?.code ?? t({ id: 'crew.settings.noCode', message: 'No live code' })}
-            </Text>
-          </View>
-          <PressableScale
-            accessibilityRole="button"
-            accessibilityLabel={t({ id: 'crew.premium.share', message: 'Share' })}
-            accessibilityHint={
-              detail.canManage
-                ? t({ id: 'crew.premium.code.holdHint', message: 'Hold for a new code' })
-                : undefined
-            }
-            onPress={() => router.push(crewInviteRoute(crewId))}
-            onLongPress={detail.canManage ? () => void newCode() : undefined}
-            style={[styles.pill, { backgroundColor: th.color.control }]}
-            testID="crew-settings-rotate"
-          >
-            <Text variant="pillSmall">{t({ id: 'crew.premium.share', message: 'Share' })}</Text>
-          </PressableScale>
-        </Card>
+        <CrewCodeCard
+          code={code}
+          url={codeUrl}
+          canManage={detail.canManage}
+          minting={minting}
+          now={now}
+          onMint={mint}
+          onShare={() => router.push(crewInviteRoute(crewId))}
+          onNewCode={() => void newCode()}
+        />
 
         <Card padded style={{ gap: th.space.gap12 }}>
           <Text variant="rowText">
@@ -305,10 +303,7 @@ const styles = StyleSheet.create({
   content: { gap: 14, paddingBottom: 40 },
   head: { alignItems: 'center', gap: 4, paddingTop: 8 },
   crest: CREST_SHAPE,
-  codeCard: { flexDirection: 'row', alignItems: 'center', padding: 14, gap: 12 },
   grow: { flex: 1 },
-  code: { letterSpacing: 1.7 },
-  pill: { height: 34, borderRadius: 17, paddingHorizontal: 13, justifyContent: 'center' },
   toggleRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   leave: { height: 48, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
 });

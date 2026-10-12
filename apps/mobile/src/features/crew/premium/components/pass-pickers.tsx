@@ -5,7 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- style values, never copy. */
 import { t } from '@lingui/core/macro';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import type { CrewCover } from '@cp/domain';
 
@@ -91,7 +91,13 @@ export function CoverPicker({
 }) {
   const th = usePremiumTheme();
   return (
-    <View style={styles.covers} testID={testID}>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.covers}
+      style={styles.coverStrip}
+      testID={testID}
+    >
       {options.map((option) => {
         const on = option.cover === value;
         return (
@@ -117,7 +123,7 @@ export function CoverPicker({
           </PressableScale>
         );
       })}
-    </View>
+    </ScrollView>
   );
 }
 
@@ -150,7 +156,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  covers: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, paddingTop: 8 },
+  // One row that scrolls sideways (the Pass+ covers sit past the sixth), with room for the
+  // picked book's lift and ring.
+  coverStrip: { marginHorizontal: -8, overflow: 'visible' },
+  covers: { flexDirection: 'row', gap: 12, paddingTop: 14, paddingBottom: 6, paddingHorizontal: 8 },
   book: {
     width: 40,
     height: 52,

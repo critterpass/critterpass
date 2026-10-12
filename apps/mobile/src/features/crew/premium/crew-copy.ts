@@ -2,7 +2,7 @@
  * Lines the premium crew pages share: why a start did not go through, how an earned cover is
  * earned, the invite message, the code's expiry and a member's first name.
  */
-import { t } from '@lingui/core/macro';
+import { plural, t } from '@lingui/core/macro';
 
 import type { CrewCover } from '@cp/domain';
 
@@ -63,6 +63,55 @@ export function codeValidLine(expiresAt: string | null, locale: string): string 
   if (Number.isNaN(at.getTime())) return null;
   const date = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short' }).format(at);
   return t({ id: 'crew.premium.code.until', message: `Works until ${date}` });
+}
+
+const DAY_MS = 86_400_000;
+
+/** Midnight of a `YYYY-MM-DD` date on this phone, or null when it doesn't read as a date. */
+function localDay(date: string): Date | null {
+  const at = new Date(`${date}T00:00:00`);
+  return Number.isNaN(at.getTime()) ? null : at;
+}
+
+/** Whole days from today's midnight to the code's expiry ("7 days left"); null without an expiry. */
+export function codeDaysLeft(expiresAt: string | null, now: Date): string | null {
+  if (expiresAt === null) return null;
+  const at = new Date(expiresAt).getTime();
+  if (Number.isNaN(at)) return null;
+  const days = Math.max(0, Math.ceil((at - now.getTime()) / DAY_MS));
+  return plural(days, { one: '# day left', other: '# days left' });
+}
+
+/**
+ * A crew trip's dates for its row ("Oct 12–19", "Oct 30 – Nov 2"), with the day it is on while
+ * it runs ("Oct 12–19 · day 4 of 8"). Null with no start date.
+ */
+export function tripDatesLine(
+  trip: {
+    readonly status: string;
+    readonly start_date: string | null;
+    readonly end_date: string | null;
+  },
+  now: Date,
+  locale: string,
+): string | null {
+  const start = trip.start_date === null ? null : localDay(trip.start_date);
+  if (start === null) return null;
+  const end = trip.end_date === null ? null : localDay(trip.end_date);
+  const month = new Intl.DateTimeFormat(locale, { month: 'short' });
+  const day = new Intl.DateTimeFormat(locale, { day: 'numeric' });
+  const full = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short' });
+  const range =
+    end === null || end.getTime() === start.getTime()
+      ? full.format(start)
+      : start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()
+        ? `${month.format(start)} ${day.format(start)}–${day.format(end)}`
+        : `${full.format(start)} – ${full.format(end)}`;
+  if (trip.status !== 'in_trip' || end === null) return range;
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  const days = Math.round((end.getTime() - start.getTime()) / DAY_MS) + 1;
+  const on = Math.min(days, Math.max(1, Math.round((today - start.getTime()) / DAY_MS) + 1));
+  return t({ id: 'crew.premium.trip.dayOf', message: `${range} · day ${on} of ${days}` });
 }
 
 export function firstName(displayName: string | null): string {

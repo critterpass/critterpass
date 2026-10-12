@@ -1,18 +1,21 @@
 /**
- * Start a crew (3.08) as a full-height sheet: Cancel, "New crew", the bold Start. The crew pass
- * builds itself live above the form: the name types onto it, the sticker slaps on, the cover
- * recolours it. The field focuses on entry; Done puts the keyboard away and the pass and field
- * stay in view while the pickers scroll under the keyboard. Started, the sheet becomes the crew's
- * ticket (3.09). A typed name asks before it is thrown away.
+ * Start a crew (3.08) as a page: the glass ✕, "New crew", and "Start the crew" riding the keyboard
+ * at the bottom. The crew pass builds itself live above the form: the name types onto it, the
+ * sticker slaps on, the cover recolours it. The field focuses on entry; the pass and field stay in
+ * view while the pickers scroll under the keyboard. Started, the page becomes the crew's ticket
+ * (3.09). A typed name asks before it is thrown away.
  */
 import { t } from '@lingui/core/macro';
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { DEFAULT_CREW_COVER, type CrewCover } from '@cp/domain';
 
-import { GuideNote, Text, TextField, usePremiumTheme } from '@/ui/premium';
-import { SheetScreen } from '@/ui/premium/shell';
+import { Button, GlassIconButton, GuideNote, Text, TextField, usePremiumTheme } from '@/ui/premium';
+import { useDirtySheetGuard } from '@/ui/premium/shell';
+import { KeyboardAwareScroll, KeyboardStickyFooter } from '@/ui/premium/shell/keyboard/keyboard';
 
 import { useReferralStamps } from '../settings/use-crew-detail';
 import { useStartCrew } from '../start-crew/use-start-crew';
@@ -22,11 +25,10 @@ import { CoverPicker, StickerPicker } from './components/pass-pickers';
 import { CrewPass } from './components/crew-pass';
 import { coverLockedNote, startNote } from './crew-copy';
 
+type StartCrew = ReturnType<typeof useStartCrew<string>>;
+
 export function StartCrewSheet() {
-  const th = usePremiumTheme();
   const start = useStartCrew<string>('tokek');
-  const stamps = useReferralStamps();
-  const [lockedNote, setLockedNote] = useState<string | null>(null);
   const cover = start.cover ?? DEFAULT_CREW_COVER;
 
   if (start.step.kind === 'created') {
@@ -41,96 +43,134 @@ export function StartCrewSheet() {
     );
   }
 
+  return <StartCrewForm start={start} cover={cover} />;
+}
+
+interface StartCrewFormProps {
+  readonly start: StartCrew;
+  readonly cover: CrewCover;
+}
+
+/** The form; its leave guard goes with it once the crew is started. */
+function StartCrewForm({ start, cover }: StartCrewFormProps) {
+  const th = usePremiumTheme();
+  const stamps = useReferralStamps();
+  const [lockedNote, setLockedNote] = useState<string | null>(null);
+  const insets = useSafeAreaInsets();
+  useDirtySheetGuard(start.name.trim() !== '', {
+    title: t({ id: 'crew.premium.start.discardTitle', message: 'Drop this crew?' }),
+    message: t({ id: 'crew.premium.start.discardLine', message: 'The name you typed goes.' }),
+    discard: t({ id: 'crew.premium.start.discard', message: 'Drop it' }),
+    keep: t({ id: 'crew.premium.keepEditing', message: 'Keep editing' }),
+  });
   const note = startNote(start.step, start.refusal, start.slow);
   return (
-    <SheetScreen
-      title={t({ id: 'crew.premium.start.title', message: 'New crew' })}
-      cancelLabel={t({ id: 'crew.premium.cancel', message: 'Cancel' })}
-      verb={{
-        label: t({ id: 'crew.premium.start.verb', message: 'Start' }),
-        disabled: !start.valid || start.busy,
-        onPress: async () => {
-          await start.create();
-          return false;
-        },
-        testID: 'start-crew-create',
-      }}
-      dirty={start.name.trim() !== ''}
-      discardPrompt={{
-        title: t({ id: 'crew.premium.start.discardTitle', message: 'Drop this crew?' }),
-        message: t({ id: 'crew.premium.start.discardLine', message: 'The name you typed goes.' }),
-        discard: t({ id: 'crew.premium.start.discard', message: 'Drop it' }),
-        keep: t({ id: 'crew.premium.keepEditing', message: 'Keep editing' }),
-      }}
-      testID="start-crew"
-    >
-      <View style={styles.stage}>
-        <View
-          pointerEvents="none"
-          style={[
-            styles.wash,
-            {
-              // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never copy.
-              experimental_backgroundImage: `radial-gradient(circle at 50% 50%, ${coverWash(cover)} 0%, transparent 70%)`,
-            },
-          ]}
+    <View style={[styles.root, { backgroundColor: th.color.ground }]} testID="start-crew">
+      <View
+        style={[
+          styles.header,
+          { paddingTop: insets.top + th.space.gap6, paddingHorizontal: th.space.gutter },
+        ]}
+      >
+        <GlassIconButton
+          icon="close"
+          label={t({ id: 'crew.premium.cancel', message: 'Cancel' })}
+          onPress={() => router.back()}
+          testID="start-crew-close"
         />
-        <CrewPass
-          name={
-            start.name.trim() === ''
-              ? t({ id: 'crew.premium.start.placeholderName', message: 'Your crew' })
-              : start.name
-          }
-          cover={cover}
-          art={start.art}
-          seats={[]}
-          idle={start.name === ''}
-          testID="start-crew-pass"
-        />
+        <Text variant="navTitle" accessibilityRole="header" numberOfLines={1} style={styles.title}>
+          {t({ id: 'crew.premium.start.title', message: 'New crew' })}
+        </Text>
+        <View style={{ width: th.size.glassNav }} />
       </View>
-      <View style={[styles.form, { gap: th.space.gap8 }]}>
-        <Text variant="label" tone="muted">
-          {t({ id: 'crew.premium.start.nameLabel', message: 'Crew name' })}
-        </Text>
-        <TextField
-          accessibilityLabel={t({ id: 'crew.premium.start.nameLabel', message: 'Crew name' })}
-          value={start.name}
-          onChangeText={start.setName}
-          autoFocus
-          returnKeyType="done"
-          maxLength={start.max}
-          helper={`${String(Array.from(start.name).length)}/${String(start.max)}`}
-          testID="start-crew-name"
-        />
-        <Text variant="label" tone="muted" style={styles.section}>
-          {t({ id: 'crew.premium.start.sticker', message: 'Sticker' })}
-        </Text>
-        <StickerPicker value={start.art} onPick={start.setArt} testID="start-crew-art" />
-        <Text variant="label" tone="muted" style={styles.section}>
-          {t({ id: 'crew.premium.start.cover', message: 'Cover' })}
-        </Text>
-        <CoverPicker
-          options={coverOptions(stamps)}
-          value={cover}
-          onPick={(next) => {
-            setLockedNote(null);
-            start.setCover(next);
-          }}
-          onLocked={(locked) => setLockedNote(coverLockedNote(locked))}
-          testID="start-crew-cover"
-        />
-        {lockedNote === null && note === null ? (
-          <Text variant="caption" tone="muted" style={styles.section}>
-            {t({
-              id: 'crew.premium.start.hint',
-              message: 'Five seats wait on the pass. Tokek joins with your first trip.',
-            })}
+      <KeyboardAwareScroll
+        contentContainerStyle={{ paddingHorizontal: th.space.gutter }}
+        contentInsetAdjustmentBehavior="never"
+      >
+        <View style={styles.stage}>
+          <View
+            pointerEvents="none"
+            style={[
+              styles.wash,
+              {
+                // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never copy.
+                experimental_backgroundImage: `radial-gradient(circle at 50% 50%, ${coverWash(cover)} 0%, transparent 70%)`,
+              },
+            ]}
+          />
+          <CrewPass
+            name={
+              start.name.trim() === ''
+                ? t({ id: 'crew.premium.start.placeholderName', message: 'Your crew' })
+                : start.name
+            }
+            cover={cover}
+            art={start.art}
+            seats={[]}
+            idle={start.name === ''}
+            testID="start-crew-pass"
+          />
+        </View>
+        <View style={[styles.form, { gap: th.space.gap8 }]}>
+          <Text variant="label" tone="muted">
+            {t({ id: 'crew.premium.start.nameLabel', message: 'Crew name' })}
           </Text>
-        ) : (
-          <GuideNote name="Tokek" text={lockedNote ?? note ?? ''} testID="start-crew-note" />
-        )}
-      </View>
-    </SheetScreen>
+          <TextField
+            accessibilityLabel={t({ id: 'crew.premium.start.nameLabel', message: 'Crew name' })}
+            value={start.name}
+            onChangeText={start.setName}
+            autoFocus
+            returnKeyType="done"
+            maxLength={start.max}
+            helper={`${String(Array.from(start.name).length)}/${String(start.max)}`}
+            testID="start-crew-name"
+          />
+          <Text variant="label" tone="muted" style={styles.section}>
+            {t({ id: 'crew.premium.start.sticker', message: 'Sticker' })}
+          </Text>
+          <StickerPicker value={start.art} onPick={start.setArt} testID="start-crew-art" />
+          <Text variant="label" tone="muted" style={styles.section}>
+            {t({ id: 'crew.premium.start.cover', message: 'Cover' })}
+          </Text>
+          <CoverPicker
+            options={coverOptions(stamps)}
+            value={cover}
+            onPick={(next) => {
+              setLockedNote(null);
+              start.setCover(next);
+            }}
+            onLocked={(locked) => setLockedNote(coverLockedNote(locked))}
+            testID="start-crew-cover"
+          />
+          {lockedNote === null && note === null ? (
+            <Text variant="caption" tone="muted" style={styles.section}>
+              {t({
+                id: 'crew.premium.start.hint',
+                message: 'Five seats wait on the pass. Tokek joins with your first trip.',
+              })}
+            </Text>
+          ) : (
+            <GuideNote name="Tokek" text={lockedNote ?? note ?? ''} testID="start-crew-note" />
+          )}
+        </View>
+      </KeyboardAwareScroll>
+      <KeyboardStickyFooter
+        openedOffset={th.space.gap8}
+        style={{
+          paddingHorizontal: th.space.titleGutter,
+          paddingTop: th.space.gap8,
+          paddingBottom: insets.bottom + th.space.gap8,
+        }}
+      >
+        <Button
+          label={t({ id: 'crew.premium.start.cta', message: 'Start the crew' })}
+          disabled={!start.valid || start.busy}
+          loading={start.busy}
+          onPress={() => void start.create()}
+          testID="start-crew-create"
+        />
+      </KeyboardStickyFooter>
+    </View>
   );
 }
 
@@ -140,6 +180,9 @@ function coverWash(cover: CrewCover): string {
 }
 
 const styles = StyleSheet.create({
+  root: { flex: 1 },
+  header: { flexDirection: 'row', alignItems: 'center', paddingBottom: 8 },
+  title: { flex: 1, textAlign: 'center' },
   stage: { height: 270, alignItems: 'center', justifyContent: 'center' },
   wash: { ...StyleSheet.absoluteFill },
   form: { paddingBottom: 24 },

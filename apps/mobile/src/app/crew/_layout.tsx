@@ -18,8 +18,9 @@ import { useTheme } from '@/ui/theme';
 /**
  * The crew area. Its pages (chat, settings, the invite composer, start a crew) are pushed like any
  * other page; only the crews sheet rises over the screen that opened it. The premium UI runs a
- * native stack: starting a crew and inviting are form sheets, a member opens as a sheet sized to
- * its content, and the area keeps its own toast stack for Undo and "Copied".
+ * native stack: starting a crew is a page with a ✕ (it is often the stack's first screen, which
+ * can't present as a sheet), inviting is a form sheet, a member opens as a sheet sized to its
+ * content, and the area keeps its own toast stack for Undo and "Copied".
  */
 export default function CrewLayout() {
   const { motion } = useTheme();
@@ -34,7 +35,6 @@ export default function CrewLayout() {
               {sheetScreens('crew').map((name) => (
                 <PremiumStackScreen key={name} name={name} options={SELF_ANIMATED_SHEET} />
               ))}
-              <PremiumStackScreen name="new" options={sheetRouteOptions('full')} />
               <PremiumStackScreen name="[crewId]/invite" options={sheetRouteOptions('full')} />
               <PremiumStackScreen name="[crewId]/member/[uid]" options={sheetRouteOptions('fit')} />
             </PremiumStack>
