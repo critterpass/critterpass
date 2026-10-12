@@ -56,6 +56,23 @@ describe('screen checks on the premium UI', { timeout: 60_000 }, () => {
     expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
   });
 
+  it('judges a premium page filled by cards by the ground down its sides', () => {
+    const options = { background: BG, premiumGrounds: premiumGrounds() };
+    const ground: Rgb = [0xf5, 0xf5, 0xf7];
+    // The quiz: two big cards fill the middle, the ground shows only in the gutters.
+    const quiz = blank(400, 860, ground);
+    paint(quiz, 20, 100, 380, 470, [0xff, 0xd8, 0x4a]);
+    paint(quiz, 20, 490, 380, 860, [0x4f, 0x86, 0xff]);
+    expect(findFrame(quiz, options)).toBeNull();
+    // The same cards on the current UI's ground inside a light band: still a frame.
+    const framed = blank(400, 860, BG);
+    paint(framed, 40, 100, 360, 470, [0xff, 0xd8, 0x4a]);
+    paint(framed, 40, 490, 360, 860, [0x4f, 0x86, 0xff]);
+    paint(framed, 0, 0, 14, 860, ground);
+    paint(framed, 386, 0, 400, 860, ground);
+    expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
+  });
+
   it('allows an inset sheet over the dimmed page, and not the same inset from the top', () => {
     // The iOS 26 guide sheet, lifted by the keyboard, 8 pt in from the dimmed page.
     const options = { background: BG, premiumGrounds: premiumGrounds() };

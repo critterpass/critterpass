@@ -54,11 +54,18 @@ export function isInsetSheetOverDimmedPage(
   return sides.filter(onFrame).length >= sides.length * 0.9;
 }
 
+/** At most this share of a premium page's samples may be the current UI's ground. */
+const CURRENT_GROUND_SHARE = 0.05;
+
 /**
  * The grounds a screen is judged by: a premium scheme's grounds when the colour filling the
  * screen's middle is exactly one of them (premium screens draw the token colours; the current UI's
- * dark navy shades come within a few steps of the premium dark ones, so near is not enough),
- * otherwise the current UI's background alone, as before.
+ * dark navy shades come within a few steps of the premium dark ones, so near is not enough). A
+ * premium page whose middle is all cards (the quiz's two cards, the issued pass) shows its ground
+ * down its sides instead: when the sides are exactly a premium ground and the current UI's ground
+ * is nowhere on the screen, it is judged by that scheme. A light band round the current UI's
+ * ground still reads as a frame, since that ground shows inside the band. Otherwise the current
+ * UI's background alone, as before.
  */
 export function screenGrounds(
   image: RgbaImage,
@@ -67,9 +74,20 @@ export function screenGrounds(
 ): Grounds {
   const families = options.premiumGrounds ?? [];
   if (families.length === 0) return [options.background];
+  const exactly = (colour: Rgb) =>
+    families.find((grounds) =>
+      grounds.some((ground) => colourDistance(colour, ground) <= LIMITS.exactGround),
+    );
   const middle = commonest(rows.flatMap((y) => rowSamples(image, y, 0.15, 0.85, 30)));
-  const premium = families.find((grounds) =>
-    grounds.some((ground) => colourDistance(middle, ground) <= LIMITS.exactGround),
+  const byMiddle = exactly(middle);
+  if (byMiddle !== undefined) return byMiddle;
+  const across = rows.flatMap((y) => rowSamples(image, y, 0, 1, 60));
+  const current = across.filter(
+    (colour) => colourDistance(colour, options.background) <= LIMITS.sameColour,
   );
-  return premium ?? [options.background];
+  if (current.length > across.length * CURRENT_GROUND_SHARE) return [options.background];
+  const sides = commonest(
+    rows.flatMap((y) => [pixel(image, 0, y), pixel(image, image.width - 1, y)]),
+  );
+  return exactly(sides) ?? [options.background];
 }
