@@ -72,6 +72,19 @@ export function TripsPremiumScreen() {
     onPress: pitch,
     testID: 'trips-plus',
   };
+  // The design's search opens the place search, where a crew finds where to go next.
+  const placeSearch = homeRoutes.placeSearch();
+  const search: ShellAction | null =
+    placeSearch === undefined
+      ? null
+      : {
+          key: 'search',
+          label: t({ id: 'home.premium.trips.search', message: 'Search places' }),
+          sfSymbol: 'magnifyingglass',
+          glyph: 'search',
+          onPress: () => router.push(placeSearch),
+          testID: 'trips-search',
+        };
   const empty = trips.loaded && lists.total === 0;
   const count = lists.total;
   const comingCount = lists.coming.length;
@@ -87,7 +100,7 @@ export function TripsPremiumScreen() {
   return (
     <RootScreen
       title={t({ id: 'common.shell.tabTrips', message: 'Trips' })}
-      actions={empty ? [] : [plus]}
+      actions={empty ? [] : search === null ? [plus] : [search, plus]}
       testID="trip-list"
     >
       {({ scrollProps, largeTitle }) => (
@@ -105,6 +118,7 @@ export function TripsPremiumScreen() {
             <>
               <View style={styles.filter}>
                 <SegmentedControl<TripsFilter>
+                  hug
                   options={[
                     {
                       value: 'all',

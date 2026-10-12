@@ -1,15 +1,34 @@
 /**
- * "Plan 80%" (3.02): a control pill with a 20 pt conic ring (ink done, todo grey) round a 12 pt
- * hole in the pill's own colour.
+ * "Plan 80%" (3.02): a control pill with a 20 pt ring (ink done, todo grey, from 12 o'clock) round
+ * a 12 pt hole in the pill's own colour.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- CSS gradients and shadows, never copy. */
+/* eslint-disable lingui/no-unlocalized-strings -- SVG path data, never copy. */
 import { useLingui } from '@lingui/react/macro';
+import { Canvas, Circle, Path } from '@shopify/react-native-skia';
 import { View } from 'react-native';
 
 import { makePremiumStyles, Text, usePremiumTheme } from '@/ui/premium';
 
 const RING = 20;
 const HOLE = 12;
+const BAND = (RING - HOLE) / 2;
+const CENTRE = RING / 2;
+const RADIUS = (RING - BAND) / 2;
+
+/** The done part of the ring as an SVG arc, clockwise from 12 o'clock; null when nothing is done. */
+function ringArc(done: number): string | null {
+  const share = Math.max(0, Math.min(1, done / 100));
+  if (share === 0) return null;
+  const top = `M${CENTRE} ${CENTRE - RADIUS}`;
+  const bottom = `${CENTRE} ${CENTRE + RADIUS}`;
+  if (share === 1) {
+    return `${top}A${RADIUS} ${RADIUS} 0 1 1 ${bottom}A${RADIUS} ${RADIUS} 0 1 1 ${CENTRE} ${CENTRE - RADIUS}`;
+  }
+  const angle = share * 2 * Math.PI - Math.PI / 2;
+  const x = CENTRE + RADIUS * Math.cos(angle);
+  const y = CENTRE + RADIUS * Math.sin(angle);
+  return `${top}A${RADIUS} ${RADIUS} 0 ${share > 0.5 ? 1 : 0} 1 ${x.toFixed(3)} ${y.toFixed(3)}`;
+}
 
 const useStyles = makePremiumStyles((t) => ({
   pill: {
@@ -23,14 +42,7 @@ const useStyles = makePremiumStyles((t) => ({
     gap: t.space.gap6,
     alignSelf: 'flex-start',
   },
-  ring: {
-    width: RING,
-    height: RING,
-    borderRadius: RING / 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  hole: { width: HOLE, height: HOLE, borderRadius: HOLE / 2, backgroundColor: t.color.control },
+  ring: { width: RING, height: RING },
 }));
 
 export function PlanRingPill({
@@ -44,6 +56,7 @@ export function PlanRingPill({
   const t = usePremiumTheme();
   const { t: tr } = useLingui();
   const done = Math.max(0, Math.min(100, Math.round(percent)));
+  const arc = ringArc(done);
   return (
     <View
       style={styles.pill}
@@ -54,16 +67,19 @@ export function PlanRingPill({
         message: `plan ${done} percent done`,
       })}
     >
-      <View
-        style={[
-          styles.ring,
-          {
-            backgroundImage: `conic-gradient(${t.color.ink} 0% ${done}%, ${t.color.progressTodo} ${done}% 100%)`,
-          },
-        ]}
-      >
-        <View style={styles.hole} />
-      </View>
+      <Canvas style={styles.ring}>
+        <Circle
+          cx={CENTRE}
+          cy={CENTRE}
+          r={RADIUS}
+          style="stroke"
+          strokeWidth={BAND}
+          color={t.color.progressTodo}
+        />
+        {arc === null ? null : (
+          <Path path={arc} style="stroke" strokeWidth={BAND} color={t.color.ink} />
+        )}
+      </Canvas>
       <Text variant="buttonSmall">{tr({ id: 'home.premium.plan', message: `Plan ${done}%` })}</Text>
     </View>
   );
