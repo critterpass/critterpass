@@ -3,7 +3,8 @@
  * light or night style (following the app's appearance) over the destination's tiles, a ground
  * colour while tiles load, and whatever layers the screen puts in it (`PlanRouteLayer`,
  * `StayFlag`). The camera is the screen's: it fits what matters with `cameraPadding` for the
- * sheet's detent.
+ * sheet's detent. Once the map has drawn the tiles in view for the current look, a 1 pt marker
+ * (`{testID}-drawn`) is in the tree, so a device run photographs a map, not its ground colour.
  */
 import {
   Camera,
@@ -13,7 +14,7 @@ import {
   type LngLatBounds,
   type ViewStateChangeEvent,
 } from '@maplibre/maplibre-react-native';
-import { useMemo, type ReactNode, type RefObject } from 'react';
+import { useMemo, useState, type ReactNode, type RefObject } from 'react';
 import { StyleSheet, View, type NativeSyntheticEvent } from 'react-native';
 
 import { useRegionTiles } from '@/ui/map/region-pack';
@@ -66,6 +67,8 @@ export function PremiumMapCanvas({
   const look: MapMode = mode ?? (theme.scheme === 'dark' ? 'night' : 'light');
   const tiles = useRegionTiles(destinationSlug, localRegionUri);
   const style = useMemo(() => premiumMapStyle(look, tiles.sourceUrl), [look, tiles.sourceUrl]);
+  // The style the map last finished drawing: a new look or tile source draws again.
+  const [drawn, setDrawn] = useState<object | null>(null);
   const onRegionDidChange = (event: NativeSyntheticEvent<ViewStateChangeEvent>) => {
     const { center, zoom, bounds } = event.nativeEvent;
     onRegionChange?.({ center, zoom, bounds });
@@ -84,12 +87,19 @@ export function PremiumMapCanvas({
         touchPitch={false}
         onRegionDidChange={onRegionDidChange}
         {...(onPressMap === undefined ? {} : { onPress: () => onPressMap() })}
+        onDidFinishRenderingMapFully={() => setDrawn(style)}
       >
         <Camera ref={cameraRef} initialViewState={{ center: initialCenter, zoom: initialZoom }} />
         {children}
       </MapLibreMap>
+      {drawn === style ? (
+        <View pointerEvents="none" style={styles.marker} testID={`${testID}-drawn`} />
+      ) : null}
     </View>
   );
 }
 
-const styles = StyleSheet.create({ canvas: { flex: 1 } });
+const styles = StyleSheet.create({
+  canvas: { flex: 1 },
+  marker: { position: 'absolute', top: 0, left: 0, width: 1, height: 1 },
+});
