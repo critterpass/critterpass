@@ -65,7 +65,9 @@ export const exploreRoutes = {
   /** Screens other areas own, by design id: undefined until that area registers them. */
   pitch: (crewId: string, placeId: string): Href | undefined =>
     hrefFor('3b-3', { crewId, placeId }),
-  tripSetup: (tripId: string): Href | undefined => hrefFor('3c-3', { tripId }),
+  /** Where a new trip's setup starts: the checklist (4.08) in the premium look, else When. */
+  tripSetup: (tripId: string, premium: boolean): Href | undefined =>
+    (premium ? hrefFor('setup-checklist', { tripId }) : undefined) ?? hrefFor('3c-3', { tripId }),
   crewPlans: (placeId: string): Href | undefined => hrefFor('3o-1', { placeId }),
   profile: (): Href | undefined => hrefFor('3n-1'),
   passPlus: (): Href | undefined => hrefFor('4a-1', { entry: 'explore_sponsored' }),

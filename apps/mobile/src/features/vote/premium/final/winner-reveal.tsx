@@ -131,7 +131,7 @@ function RevealContent({
   const and = t({ id: 'vote.final.and', message: 'and' });
   const leave = () => goBackOr();
   const setUp = () => {
-    const href = poll.tripId === null ? undefined : voteRoutes.tripSetup(poll.tripId);
+    const href = poll.tripId === null ? undefined : voteRoutes.tripStart(poll.tripId, true);
     if (href === undefined) leave();
     else router.replace(href);
   };
