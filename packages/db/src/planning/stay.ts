@@ -48,7 +48,11 @@ const toStay = (row: StayRow, source: TripStay['source']): TripStay => ({
   source,
 });
 
-/** Crew stay bookings with a place, earliest first, each flagged when it covers `date`'s night. */
+/**
+ * Crew stay bookings with a place, earliest first, each flagged when it covers `date`'s night. The
+ * name match reads `pois_stay_destination_name_idx` through the areas as an array: a set-returning
+ * function in an IN list hid them from the planner, which scanned every POI instead.
+ */
 async function bookedStays(
   tx: pg.PoolClient,
   tripId: string,
@@ -58,7 +62,8 @@ async function bookedStays(
   const { rows } = await tx.query<BookedStayRow>(
     `WITH trip AS (
        SELECT coalesce($3::uuid, t.current_version_id) AS version_id, t.destination_id,
-              coalesce(t.tz, d.tz, 'UTC') AS tz
+              coalesce(t.tz, d.tz, 'UTC') AS tz,
+              ARRAY(SELECT app.trip_area_ids($1, true)) AS area_ids
          FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id
         WHERE t.id = $1
      )
@@ -78,7 +83,7 @@ async function bookedStays(
              UNION ALL
              SELECT 1, p.id, p.name, p.lat, p.lng
                FROM pois p
-              WHERE p.destination_id IN (SELECT app.trip_area_ids($1, true))
+              WHERE p.destination_id = ANY(trip.area_ids)
                 AND p.category = 'stay'
                 AND p.status = 'active'
                 AND lower(p.name) IN (lower(b.title), lower(coalesce(b.location, '')))
