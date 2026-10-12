@@ -20,18 +20,21 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
+import { useLocale } from '@/lib/i18n/use-locale';
 
 import type { BalanceViewProps } from '../../check/balance/balance-view';
 import type { GapViewProps } from '../../check/fill-gap/gap-view';
+import { barTitle } from './bar-title';
 
 const SQUARES = 8;
 
 export function PremiumBalanceView(props: BalanceViewProps) {
   const theme = usePremiumTheme();
+  const locale = useLocale();
   const offer = props.offer;
   return (
     <PushScreen
-      title={props.title}
+      title={barTitle(props.title, locale)}
       subtitle={props.onlyYou}
       backLabel={props.backLabel}
       scroll={false}

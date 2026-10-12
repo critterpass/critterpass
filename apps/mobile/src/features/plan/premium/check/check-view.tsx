@@ -18,17 +18,20 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
+import { useLocale } from '@/lib/i18n/use-locale';
 
 import type { CheckViewProps } from '../../check/check-view';
+import { barTitle } from './bar-title';
 
 export function PremiumCheckView(props: CheckViewProps) {
+  const locale = useLocale();
   const theme = usePremiumTheme();
   const insets = useSafeAreaInsets();
   const pink = theme.color.banner.error;
   return (
     <PushScreen
-      title={props.title}
-      subtitle={props.status}
+      title={barTitle(props.title, locale)}
+      subtitle={barTitle(props.status, locale)}
       backLabel={props.backLabel}
       scroll={false}
       testID="plan-check"
