@@ -95,18 +95,17 @@ appId: app.critterpass.dev
       TAB: home
       LABEL: Home
 
-# Crew settings from the crews sheet's settings link.
-- runFlow:
-    file: ../../screens/sweep/subflows/open-link.yaml
-    env:
-      URL: critterpass-dev://crew
+# Crew settings from the crew chat's title.
+- tapOn:
+    id: 'home-chat'
+    optional: true
 - extendedWaitUntil:
     visible:
-      id: 'crew-card-settings-.*'
+      id: 'chat-crew-settings'
     timeout: 10000
     optional: true
 - tapOn:
-    id: 'crew-card-settings-.*'
+    id: 'chat-crew-settings'
     optional: true
 - extendedWaitUntil:
     visible:

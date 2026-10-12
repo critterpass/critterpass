@@ -37,6 +37,7 @@ import { useOpenTrip } from '../join-trip-card';
 import { useRecordAppOpen } from '../nudge/use-record-app-open';
 import { crewChatRoute, HOME_ROUTES } from '../routes';
 import { CrewSwitcherMenu } from './crew-switcher/crew-switcher-menu';
+import { useCrewSwitcherRequest } from './crew-switcher/open-request';
 import { GlassGlyphButton } from './components/glass-glyph-button';
 import { HomeGlyph } from './components/home-glyph';
 import { HomeSyncing } from './components/home-syncing';
@@ -142,6 +143,8 @@ function HomeFrame({ view, onPick, children }: HomeFrameProps) {
     const node = anchor.current as Measurable | null;
     node?.measureInWindow((_x, y, _w, h) => setSwitcherTop(y + h));
   };
+  // The crews link (`/crew`) lands here with the switcher open.
+  useCrewSwitcherRequest(view !== null && view.status !== 'loading', openSwitcher);
   const switcherLabel = t({ id: 'home.premium.switcher.open', message: 'Switch crew' });
   const caret = (
     <HomeGlyph

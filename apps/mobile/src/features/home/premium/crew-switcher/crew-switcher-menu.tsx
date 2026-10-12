@@ -1,16 +1,18 @@
 /**
  * The crew switcher (3.07): a popover under Home's crew line, not a sheet. The page dims below the
  * anchor; each crew row shows three faces, its name and its next trip, with a check on the one
- * Home shows or a pink count of unread chat. Under them: start a crew, join with a code, and any
- * in-app invites waiting on the crews sheet. A tap outside closes it; it scales out of the anchor
- * on the Snappy spring (a fade under Reduce Motion).
+ * Home shows or a pink count of unread chat. In-app invites follow as rows of their own ("Dev
+ * invited you"), joined after a two-choice alert. Under them: start a crew and join with a code. A
+ * tap outside closes it; it scales out of the anchor on the Snappy spring (a fade under Reduce
+ * Motion).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths, never copy. */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { Modal, Pressable, View } from 'react-native';
+import { Alert, Modal, Pressable, View } from 'react-native';
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 
+import type { InviteCardView } from '@/features/crew';
 import {
   CrewStack,
   Icon,
@@ -20,6 +22,7 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
+import { confirmAlert } from '@/ui/premium/shell';
 
 import { HOME_ROUTES } from '../../routes';
 import { memberAccent } from '../components/member-colour';
@@ -143,6 +146,49 @@ function CrewLine({
   );
 }
 
+function InviteLine({
+  invite,
+  onPress,
+}: {
+  readonly invite: InviteCardView;
+  readonly onPress: () => void;
+}) {
+  const styles = useStyles();
+  const t = usePremiumTheme();
+  const { t: tr } = useLingui();
+  const inviter = invite.inviterName;
+  const sub =
+    inviter === ''
+      ? tr({ id: 'home.premium.switcher.invited', message: 'You’re invited' })
+      : tr({ id: 'home.premium.switcher.invitedBy', message: `${inviter} invited you` });
+  return (
+    <PressableScale
+      onPress={onPress}
+      accessibilityLabel={`${invite.crewName}, ${sub}`}
+      testID={`crew-switcher-invite-${invite.id}`}
+    >
+      <View style={styles.row}>
+        <View style={styles.faces}>
+          <CrewStack
+            members={[{ id: invite.id, name: inviter, color: t.accent.neutral }]}
+            max={1}
+            size={24}
+            accessibilityLabel={sub}
+          />
+        </View>
+        <View style={styles.grow}>
+          <Text variant="rowTitle" numberOfLines={1}>
+            {invite.crewName}
+          </Text>
+          <Text variant="caption" tone="muted" numberOfLines={1}>
+            {sub}
+          </Text>
+        </View>
+      </View>
+    </PressableScale>
+  );
+}
+
 export function CrewSwitcherMenu({
   visible,
   top,
@@ -158,7 +204,24 @@ export function CrewSwitcherMenu({
     onClose();
     router.push(href);
   };
-  const invites = switcher.invites;
+  const answer = async (invite: InviteCardView) => {
+    onClose();
+    const crewName = invite.crewName;
+    const joining = await confirmAlert({
+      title: t({ id: 'home.premium.switcher.joinTitle', message: `Join ${crewName}?` }),
+      message: t({
+        id: 'home.premium.switcher.joinLine',
+        message: 'You’ll see its trips and its chat.',
+      }),
+      confirm: t({ id: 'home.premium.switcher.join', message: 'Join' }),
+      cancel: t({ id: 'home.premium.switcher.notNow', message: 'Not now' }),
+      destructive: false,
+    });
+    if (!joining) return;
+    if (await switcher.join(invite)) onPick(invite.crewId);
+    else
+      Alert.alert(t({ id: 'crew.sheet.joinFailed', message: 'That invite can’t be joined now' }));
+  };
   return (
     <Modal visible={visible} transparent animationType="none" onRequestClose={onClose}>
       <Pressable
@@ -186,27 +249,12 @@ export function CrewSwitcherMenu({
             />
           </View>
         ))}
-        {invites > 0 ? (
-          <>
+        {switcher.invites.map((invite) => (
+          <View key={invite.id}>
             <View style={styles.rule} />
-            <PressableScale
-              onPress={() => go(HOME_ROUTES.crewSheet)}
-              testID="crew-switcher-invites"
-            >
-              <View style={styles.row}>
-                <View style={styles.action}>
-                  <HomeGlyph name="bell" size={16} />
-                </View>
-                <Text variant="rowTitle" style={styles.grow}>
-                  {t({
-                    id: 'home.premium.switcher.invites',
-                    message: `Invites waiting · ${invites}`,
-                  })}
-                </Text>
-              </View>
-            </PressableScale>
-          </>
-        ) : null}
+            <InviteLine invite={invite} onPress={() => void answer(invite)} />
+          </View>
+        ))}
         <View style={styles.rule} />
         <PressableScale onPress={() => go('/crew/new')} testID="home-start-crew">
           <View style={styles.row}>

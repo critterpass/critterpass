@@ -1,7 +1,7 @@
 /**
  * The crew switcher's rows: the caller's crews (members in join order), which one Home shows, the
- * unread chat per crew, and switching (queued offline, like the crews sheet). Pending in-app
- * invites stay on the crews sheet, which the menu links to.
+ * unread chat per crew, switching (queued offline, like the crews sheet) and the in-app invites
+ * waiting, answered from the menu itself (3.07 draws them as rows: "Dev invited you").
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and table names, never copy. */
 import { useContext, useMemo } from 'react';
@@ -9,11 +9,13 @@ import { useContext, useMemo } from 'react';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSessionUid } from '@/data/powersync/use-session-uid';
 import {
+  ACCEPT_INVITE,
   crewCards,
   inviteCards,
   SET_ACTIVE_CREW,
   useCrews,
   type CrewCardView,
+  type InviteCardView,
 } from '@/features/crew';
 
 import { useLiveRows } from '../../data/watch-query';
@@ -32,9 +34,11 @@ export interface SwitcherCrew extends CrewCardView {
 
 export interface CrewSwitcher {
   readonly crews: readonly SwitcherCrew[];
-  /** In-app invites waiting on the crews sheet. */
-  readonly invites: number;
+  /** In-app invites waiting, the ones not yet put off first. */
+  readonly invites: readonly InviteCardView[];
   readonly pick: (crewId: string) => void;
+  /** Joins the invite's crew; resolves whether the server took it (it needs a connection). */
+  readonly join: (invite: InviteCardView) => Promise<boolean>;
 }
 
 export function useCrewSwitcher(): CrewSwitcher {
@@ -52,9 +56,16 @@ export function useCrewSwitcher(): CrewSwitcher {
   }, [snapshot, unread.rows]);
   return {
     crews,
-    invites: inviteCards(snapshot, new Date()).length,
+    invites: inviteCards(snapshot, new Date()).sort((a, b) => Number(a.later) - Number(b.later)),
     pick: (crewId) => {
       if (localFirst !== null) void localFirst.commands.send(SET_ACTIVE_CREW, { crew_id: crewId });
+    },
+    join: async (invite) => {
+      if (localFirst === null) return false;
+      const sent = await localFirst.commands.send(ACCEPT_INVITE, { invite_id: invite.id });
+      if (sent.kind !== 'applied') return false;
+      void localFirst.commands.send(SET_ACTIVE_CREW, { crew_id: invite.crewId });
+      return true;
     },
   };
 }
