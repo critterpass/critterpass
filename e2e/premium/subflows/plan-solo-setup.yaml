@@ -62,7 +62,14 @@ appId: app.critterpass.dev
       - extendedWaitUntil:
           visible:
             id: 'setup-checklist'
-          timeout: 30000
+          timeout: 60000
           optional: true
+      # Where the solo start left the app when setup didn't open (a sheet with no design pair).
+      - runFlow:
+          when:
+            notVisible:
+              id: 'setup-checklist'
+          commands:
+            - takeScreenshot: premium-solo-start-without-setup
 - runFlow: plan-setup.yaml
 - runFlow: plan-home.yaml

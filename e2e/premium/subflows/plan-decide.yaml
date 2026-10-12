@@ -46,6 +46,12 @@ appId: app.critterpass.dev
                 env:
                   CODE: '4.06'
                   NAME: winner
+      - runFlow:
+          when:
+            notVisible:
+              id: 'reveal-stamp|reveal-set-up|reveal-back-home'
+          commands:
+            - takeScreenshot: premium-last-vote-without-reveal
       - tapOn:
           id: 'reveal-set-up'
           optional: true
