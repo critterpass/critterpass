@@ -1,14 +1,14 @@
 /**
  * The hub's "four doors" (6.01): white tiles two to a row, the door's name in muted 13/600, a
  * tilted sticker in the corner, the value large at the bottom and a muted line under it. Tiles
- * other areas register (quests) follow the built-in three in their own look.
+ * other areas register (quests, photos) wear the same tile through the hub tile look.
  */
 import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
-import type { HubTileData } from '../../hub/tiles';
+import { HubTileLook, type HubTileData } from '../../hub/tiles';
 import { IconTile } from '../components/IconTile';
 import type { LineIconName } from '../components/LineIcon';
 import { turn } from '../components/turn';
@@ -17,6 +17,8 @@ const ICON: Readonly<Record<string, LineIconName>> = {
   cal: 'calendar',
   ticket: 'card',
   wallet: 'wallet',
+  star: 'star',
+  camera: 'camera',
 };
 
 function Tile({ tile }: { readonly tile: HubTileData }) {
@@ -25,6 +27,8 @@ function Tile({ tile }: { readonly tile: HubTileData }) {
     plan: th.color.status.voteOpen,
     bookings: th.color.status.rain,
     money: th.color.status.booked,
+    quests: th.color.status.tangerine,
+    album: th.color.status.maybe,
   }[tile.key] ?? { bg: th.color.control, text: th.color.ink };
   return (
     <PressableScale
@@ -76,7 +80,11 @@ export function HubTiles({ tiles, extra }: HubTilesProps) {
   const th = usePremiumTheme();
   const cells = [
     ...tiles.map((tile) => ({ key: tile.key, node: <Tile tile={tile} /> })),
-    ...extra.map((item) => ({ key: item.key, node: <View style={styles.cell}>{item.node}</View> })),
+    // Registered tiles draw through `HubTile`, which takes this hub's look from the context.
+    ...extra.map((item) => ({
+      key: item.key,
+      node: <HubTileLook.Provider value={Tile}>{item.node}</HubTileLook.Provider>,
+    })),
   ];
   const rows: (typeof cells)[] = [];
   for (let i = 0; i < cells.length; i += 2) rows.push(cells.slice(i, i + 2));

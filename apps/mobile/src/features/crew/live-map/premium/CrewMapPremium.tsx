@@ -29,6 +29,7 @@ import { liveMapPaywall } from '../gate-slot';
 import type { LiveMapModel } from '../model';
 import { useLiveMapScreen } from '../use-live-map-screen';
 import { CrewPanel } from './CrewPanel';
+import { useDestinationCentre } from './use-destination-centre';
 import { MeetupEditorPremium } from './MeetupEditorPremium';
 
 /** Where the map opens with nothing to frame yet: the trip's own centre is not known. */
@@ -144,26 +145,40 @@ export function CrewMapPremium({ tripId }: { readonly tripId: string }) {
   const camera = useRef<CameraRef>(null);
   const m = useLiveMapScreen(tripId);
   const open = m.gate === 'open' || m.gate === 'loading';
+  const destination = useDestinationCentre(m.destinationId);
+  const framed =
+    m.meetup !== null
+      ? 'meetup'
+      : m.ownFix !== null
+        ? 'me'
+        : destination !== null
+          ? 'place'
+          : 'none';
   const center: readonly [number, number] =
     m.meetup !== null
       ? [m.meetup.lng, m.meetup.lat]
       : m.ownFix !== null
         ? [m.ownFix.lng, m.ownFix.lat]
-        : FALLBACK;
+        : (destination ?? FALLBACK);
   const sharing = m.view?.sharingCount ?? 0;
   const members = m.view?.memberCount ?? 0;
   const paywall = liveMapPaywall();
   return (
     <View style={styles.root} testID="live-map-screen">
-      <PremiumMapCanvas
-        cameraRef={camera}
-        initialCenter={[center[0], center[1]]}
-        initialZoom={14}
-        destinationSlug={m.destinationSlug}
-        ornamentBottom={360}
-      >
-        {open ? <Pins m={m} /> : null}
-      </PremiumMapCanvas>
+      {/* The map fills the screen behind the header and the crew panel. The camera only reads its
+          first centre, so the map opens again when a better one than the last arrives. */}
+      <View style={StyleSheet.absoluteFill}>
+        <PremiumMapCanvas
+          key={framed}
+          cameraRef={camera}
+          initialCenter={[center[0], center[1]]}
+          initialZoom={14}
+          destinationSlug={m.destinationSlug}
+          ornamentBottom={360}
+        >
+          {open ? <Pins m={m} /> : null}
+        </PremiumMapCanvas>
+      </View>
       {m.offline || !open ? (
         <View
           pointerEvents="none"

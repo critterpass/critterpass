@@ -6,7 +6,7 @@
 import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
 import type { ReactNode } from 'react';
-import { useSyncExternalStore } from 'react';
+import { createContext, useContext, useSyncExternalStore } from 'react';
 import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -39,7 +39,21 @@ const useStyles = makeStyles((th) => ({
   title: { flexShrink: 1 },
 }));
 
+/**
+ * How a hub draws its tiles, when it is not the current look: the premium hub provides its own, so
+ * tiles other areas register (quests, photos) wear the same white tile as the built-in doors.
+ */
+export const HubTileLook = createContext<((props: { tile: HubTileData }) => ReactNode) | null>(
+  null,
+);
+
 export function HubTile({ tile }: { readonly tile: HubTileData }) {
+  const Look = useContext(HubTileLook);
+  if (Look !== null) return <Look tile={tile} />;
+  return <CurrentHubTile tile={tile} />;
+}
+
+function CurrentHubTile({ tile }: { readonly tile: HubTileData }) {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
