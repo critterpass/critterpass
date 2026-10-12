@@ -15,6 +15,7 @@ import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 import { guideSticker } from '@/ui/avatar/guides';
 import { GuideNote, usePremiumReducedMotion, usePremiumTheme } from '@/ui/premium';
+import { BackEdge } from '@/ui/premium/shell/navigation/back-edge';
 
 import { tripCheckLine, peekCheckLine } from '../../trip-map/sheet-copy';
 import { useOpenOnDate } from '../../trip-map/chosen-day';
@@ -151,6 +152,7 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
           />
         )}
       </PremiumMapCanvas>
+      <BackEdge />
       {detent === 'full' ? null : (
         <TopBar
           placeholder={planMapCopy.search(detent === 'half' ? '' : placeName, model.guide.name)}
