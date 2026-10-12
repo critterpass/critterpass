@@ -1,8 +1,8 @@
 appId: app.critterpass.dev
 ---
 # Steps back until ${MARK} shows (at most five steps): a sheet's Cancel, a full screen's ✕, the
-# paywall's or a modal sheet's close, else one system back (and on iOS a pull down). Nothing
-# happens when ${MARK} already shows.
+# paywall's close, a Pass+ page's back, a modal sheet's close, else one system back (and on iOS a
+# pull down). Nothing happens when ${MARK} already shows.
 - repeat:
     while:
       notVisible:
@@ -36,6 +36,16 @@ appId: app.critterpass.dev
           commands:
             - tapOn:
                 id: 'paywall-close'
+            - waitForAnimationToEnd
+      - runFlow:
+          when:
+            visible:
+              id: 'drawn-page-back'
+            notVisible:
+              id: '${MARK}'
+          commands:
+            - tapOn:
+                id: 'drawn-page-back'
             - waitForAnimationToEnd
       - runFlow:
           when:
