@@ -7,9 +7,20 @@ appId: app.critterpass.dev
 # step is conditional: without the checklist nothing happens. Ends wherever drafting left it.
 - extendedWaitUntil:
     visible:
-      id: 'setup-checklist'
+      id: 'setup-checklist|setup-when-.*'
     timeout: 20000
     optional: true
+# "Set up" can open on the When step instead of the checklist: the crew's heatmap (4.10).
+- runFlow:
+    when:
+      visible:
+        id: 'setup-when-.*'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '4.10'
+            NAME: when-heatmap
 - runFlow:
     when:
       visible:
