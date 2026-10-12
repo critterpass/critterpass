@@ -411,6 +411,10 @@ msgstr "Change this part"
 msgid "drivers.add.badge.check"
 msgstr "Check it"
 
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+msgid "drivers.premium.compareNoneTitle"
+msgstr "Compare"
+
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/FindDriverParts.tsx
 msgid "drivers.find.compare"
@@ -622,6 +626,10 @@ msgstr "Find a driver"
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.find"
 msgstr "Find a driver"
+
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+msgid "drivers.premium.compareFind"
+msgstr "Find drivers"
 
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.fine"
@@ -951,6 +959,10 @@ msgstr "Nobody listed around {area} yet"
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.emptyAny"
 msgstr "Nobody listed yet"
+
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+msgid "drivers.premium.compareNone"
+msgstr "Nobody on the shortlist yet. Save two or three drivers to compare them here."
 
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.notAgain"

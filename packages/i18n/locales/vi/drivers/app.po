@@ -411,6 +411,10 @@ msgstr "Đổi phần này"
 msgid "drivers.add.badge.check"
 msgstr "Kiểm tra"
 
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+msgid "drivers.premium.compareNoneTitle"
+msgstr "So sánh"
+
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/FindDriverParts.tsx
 msgid "drivers.find.compare"
@@ -621,6 +625,10 @@ msgstr "Tìm tài xế"
 
 #: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
 msgid "drivers.leg.find"
+msgstr "Tìm tài xế"
+
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+msgid "drivers.premium.compareFind"
 msgstr "Tìm tài xế"
 
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
@@ -950,6 +958,10 @@ msgstr "Chưa có ai trên danh sách quanh {area}"
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.emptyAny"
 msgstr "Chưa có ai trên danh sách"
+
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+msgid "drivers.premium.compareNone"
+msgstr "Danh sách chọn chưa có ai. Lưu hai hoặc ba tài xế để so sánh ở đây."
 
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.notAgain"

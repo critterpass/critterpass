@@ -67,6 +67,33 @@ export function ComparePremium(props: {
       </PushScreen>
     );
   }
+  // Nobody on the shortlist: say so and lead back to the drivers, never an empty table.
+  if (drivers.length === 0) {
+    return (
+      <PushScreen
+        title={t({ id: 'drivers.premium.compareNoneTitle', message: 'Compare' })}
+        subtitle={compare.header}
+        backLabel={back}
+        testID="drivers-compare-empty"
+      >
+        <View style={[styles.failed, { padding: th.space.gutter }]}>
+          <Text variant="body" tone="muted" align="center">
+            {t({
+              id: 'drivers.premium.compareNone',
+              message:
+                'Nobody on the shortlist yet. Save two or three drivers to compare them here.',
+            })}
+          </Text>
+          <Button
+            label={t({ id: 'drivers.premium.compareFind', message: 'Find drivers' })}
+            variant="secondary"
+            onPress={compare.addAnother}
+            testID="drivers-compare-add"
+          />
+        </View>
+      </PushScreen>
+    );
+  }
   const shown = Math.max(1, Math.min(3, drivers.length));
   const room = screen - 2 * th.space.gutter - 2 * CARD_PADDING - KEY_COLUMN - shown * TABLE_GAP;
   const column = Math.max(MIN_COLUMN, Math.floor(room / shown));
