@@ -56,8 +56,11 @@ export function HubSwitch({ doors }: { readonly doors: readonly HubDoor[] }) {
     money: t({ id: 'trip.hub.door.money', message: 'Money' }),
   };
   return (
+    // Scrolls only when the chips overflow (a longer language): a row that fits doesn't bounce, so
+    // an iOS edge swipe that starts over it goes back instead of tugging the chips.
     <ScrollView
       horizontal
+      alwaysBounceHorizontal={false}
       showsHorizontalScrollIndicator={false}
       accessibilityRole="tablist"
       contentContainerStyle={[
