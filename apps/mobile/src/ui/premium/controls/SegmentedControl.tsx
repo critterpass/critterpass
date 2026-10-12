@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { useEffect, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, View, type LayoutChangeEvent } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 import { usePremiumReducedMotion } from '../motion/reduced-motion';
@@ -22,7 +22,17 @@ export interface SegmentedControlProps<Value extends string> {
   readonly onChange: (value: Value) => void;
   /** What the control chooses, for assistive tech ("Inbox filter"). */
   readonly accessibilityLabel: string;
+  /**
+   * A list filter: 34 high and as wide as its labels (each segment padded 14 a side), for a row
+   * that leaves the control its own width. Without it the control fills its parent's width.
+   */
+  readonly hug?: boolean;
   readonly testID?: string;
+}
+
+interface Frame {
+  readonly x: number;
+  readonly width: number;
 }
 
 /** The 40-high segmented control: a white thumb that slides on the Snappy spring. */
@@ -31,16 +41,21 @@ export function SegmentedControl<Value extends string>({
   value,
   onChange,
   accessibilityLabel,
+  hug = false,
   testID,
 }: SegmentedControlProps<Value>) {
   const t = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
   const [width, setWidth] = useState(0);
-  const frames = segmentFrames(
-    width,
-    t.space.segmentTrackPad,
-    options.map((o) => o.weight ?? 1),
-  );
+  // A hugging control measures each segment: its labels set the widths, not weights.
+  const [measured, setMeasured] = useState<Readonly<Record<string, Frame>>>({});
+  const frames: readonly (Frame | undefined)[] = hug
+    ? options.map((o) => measured[o.value])
+    : segmentFrames(
+        width,
+        t.space.segmentTrackPad,
+        options.map((o) => o.weight ?? 1),
+      );
   const index = Math.max(
     0,
     options.findIndex((o) => o.value === value),
@@ -67,9 +82,10 @@ export function SegmentedControl<Value extends string>({
       accessibilityLabel={accessibilityLabel}
       onLayout={(e) => setWidth(e.nativeEvent.layout.width)}
       style={{
-        minHeight: t.size.segment,
+        minHeight: hug ? t.size.pillSmall : t.size.segment,
         padding: t.space.segmentTrackPad,
-        borderRadius: t.radius.segmentOuter,
+        borderRadius: hug ? t.radius.pillSmall : t.radius.segmentOuter,
+        ...(hug ? { alignSelf: 'flex-start' as const } : {}),
         backgroundColor: t.color.segmentTrack,
         flexDirection: 'row',
       }}
@@ -81,7 +97,9 @@ export function SegmentedControl<Value extends string>({
             position: 'absolute',
             top: t.space.segmentTrackPad,
             bottom: t.space.segmentTrackPad,
-            borderRadius: t.radius.segmentInner,
+            borderRadius: hug
+              ? t.radius.pillSmall - t.space.segmentTrackPad
+              : t.radius.segmentInner,
             backgroundColor: t.color.segmentThumb,
             boxShadow: t.shadow.segmentThumb,
           },
@@ -102,12 +120,28 @@ export function SegmentedControl<Value extends string>({
               void Haptics.selectionAsync();
               onChange(option.value);
             }}
-            style={{
-              flex: option.weight ?? 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              paddingHorizontal: t.space.gap6,
-            }}
+            {...(hug
+              ? {
+                  onLayout: (e: LayoutChangeEvent) => {
+                    const { x, width: w } = e.nativeEvent.layout;
+                    setMeasured((all) => ({ ...all, [option.value]: { x, width: w } }));
+                  },
+                }
+              : {})}
+            style={
+              hug
+                ? {
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingHorizontal: t.space.rowPadH,
+                  }
+                : {
+                    flex: option.weight ?? 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingHorizontal: t.space.gap6,
+                  }
+            }
           >
             <Text variant="segment" tone={selected ? 'ink' : 'inkSecondary'} numberOfLines={1}>
               {option.label}

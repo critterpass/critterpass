@@ -138,7 +138,7 @@ export function ErrorSheet({ retry }: ErrorSheetProps) {
       >
         <View style={styles.grabber} />
         <View style={styles.pon}>
-          <CritterSticker kind="tanuki" name="Pon" size={52} pose="think" edge={false} />
+          <CritterSticker kind="tanuki" name="Pon" size={52} pose="think" />
         </View>
         <Text variant="label" color={theme.color.status.tangerine.text} style={styles.eyebrow}>
           {t({ id: 'home.premium.broke.eyebrow', message: 'On our side, not yours' })}

@@ -10,27 +10,28 @@ import type { PremiumTheme } from '../theme/theme';
 export type GuideTint = 'tokek' | 'pon';
 
 export interface GuideNoteProps {
-  /** The guide's name, in Borel above the line ("Tokek"). */
+  /** The guide's name, set in bold ahead of the line ("Tokek"). */
   readonly name: string;
   readonly text: string;
   /** The guide's critter kind (Tokek is the gecko). @default 'gecko' */
   readonly critter?: string;
   /** @default 'tokek' */
   readonly tint?: GuideTint;
-  /** Hide the name line when the note sits under the guide's own header. */
+  /** Hide the name when the note sits under the guide's own header. */
   readonly showName?: boolean;
   readonly action?: { readonly label: string; readonly onPress: () => void };
   readonly testID?: string;
 }
 
-function tintOf(t: PremiumTheme, tint: GuideTint) {
-  return tint === 'pon' ? t.color.status.tangerine : t.color.banner.guide;
+/** The speaker's disc behind the critter: Tokek's yellow, Pon's tangerine. */
+function discOf(t: PremiumTheme, tint: GuideTint): string {
+  return tint === 'pon' ? t.color.status.tangerine.bg : t.color.status.maybe.bg;
 }
 
 /**
- * A guide's note: r20 on the speaker's tint with the 38 pt critter, the name in the guide's voice,
- * the line at 13/1.35 and an optional ink action pill. Text on the tint stays dark in light and
- * cream in dark, never yellow on yellow.
+ * A guide's note: a neutral white strip (r22) with the speaker's critter in a 36 pt disc of their
+ * tint, the bold name leading the line at 13/1.35 in the secondary ink, and an optional ink action
+ * pill. The strip follows the card colour in dark mode; only the disc carries the speaker's tint.
  */
 export function GuideNote({
   name,
@@ -42,29 +43,44 @@ export function GuideNote({
   testID,
 }: GuideNoteProps) {
   const t = usePremiumTheme();
-  const colours = tintOf(t, tint);
+  const disc = t.size.guideCritter;
   return (
     <View
       testID={testID}
       style={{
-        borderRadius: t.radius.banner,
-        backgroundColor: colours.bg,
-        paddingVertical: t.space.rowPadV,
+        borderRadius: t.radius.card,
+        backgroundColor: t.color.card,
+        boxShadow: t.shadow.float,
+        paddingVertical: t.space.gap8,
         paddingStart: t.space.gap8,
-        paddingEnd: t.space.gap12,
+        paddingEnd: t.space.rowPadH,
         flexDirection: 'row',
         alignItems: 'center',
-        gap: t.space.gap8,
+        gap: t.space.gap10,
       }}
     >
-      <CritterSticker kind={critter} name={name} size={t.size.guideCritter} pose="point" />
+      <View
+        accessible={false}
+        style={{
+          width: disc,
+          height: disc,
+          borderRadius: disc / 2,
+          backgroundColor: discOf(t, tint),
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          overflow: 'hidden',
+        }}
+      >
+        <CritterSticker kind={critter} name={name} size={disc} pose="point" />
+      </View>
       <View style={{ flex: 1 }} accessible accessibilityLabel={`${name}: ${text}`}>
-        {showName ? (
-          <Text variant="guideName" tone="guideName">
-            {name}
-          </Text>
-        ) : null}
-        <Text variant="note" color={colours.text}>
+        <Text variant="note" tone="inkSecondary">
+          {showName ? (
+            <Text variant="bannerAction" tone="ink">
+              {name}
+              {'\u00a0 '}
+            </Text>
+          ) : null}
           {text}
         </Text>
       </View>

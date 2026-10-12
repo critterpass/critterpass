@@ -132,7 +132,7 @@ export const premiumSize = {
   stampRoundSmall: 80,
   dayBadgeGap: 1,
   stickerBorder: 2.5,
-  guideCritter: 38,
+  guideCritter: 36,
   bannerDoodle: 30,
   emptyDisc: 180,
   emptyCritter: 140,

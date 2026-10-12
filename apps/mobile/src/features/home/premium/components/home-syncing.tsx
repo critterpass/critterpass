@@ -80,7 +80,7 @@ export function HomeSyncing() {
       <Card radius={24} style={styles.card}>
         <View style={styles.head}>
           <View style={styles.disc}>
-            <CritterSticker kind="tanuki" name="Pon" size={36} pose="think" edge={false} />
+            <CritterSticker kind="tanuki" name="Pon" size={36} pose="think" />
           </View>
           <View style={styles.grow}>
             <Text variant="toast">

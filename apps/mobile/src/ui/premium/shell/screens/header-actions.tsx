@@ -2,7 +2,14 @@ import { Stack } from 'expo-router';
 import type { ComponentProps, ReactElement } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { GlassIconButton, IconButton, usePremiumTheme, type PremiumIconName } from '../..';
+import {
+  Button,
+  GlassIconButton,
+  GlassPill,
+  IconButton,
+  usePremiumTheme,
+  type PremiumIconName,
+} from '../..';
 
 /** An SF Symbol name (or an image) for the iOS toolbar. */
 export type ToolbarIcon = NonNullable<ComponentProps<typeof Stack.Toolbar.Button>['icon']>;
@@ -18,6 +25,11 @@ export interface ShellAction {
   readonly glyph: PremiumIconName;
   /** The ink action (`+`): at most one per screen, always the trailing one. */
   readonly primary?: boolean;
+  /**
+   * Shows the label as a text pill ("Edit", "Save", "Mark all read") instead of the glyph: a glass
+   * pill, or the ink pill when `primary`.
+   */
+  readonly text?: boolean;
   readonly onPress: () => void;
   readonly testID?: string;
   /**
@@ -61,26 +73,42 @@ export function NativeHeaderActions({ actions }: { readonly actions: readonly Sh
         ) : (
           <Stack.Toolbar.Button
             key={action.key}
-            icon={action.sfSymbol}
+            {...(action.text === true ? {} : { icon: action.sfSymbol })}
             accessibilityLabel={action.label}
             onPress={action.onPress}
             {...(action.primary === true
               ? { variant: 'prominent' as const, tintColor: color.ink, separateBackground: true }
               : {})}
-          />
+          >
+            {action.text === true ? action.label : undefined}
+          </Stack.Toolbar.Button>
         ),
       )}
     </Stack.Toolbar>
   );
 }
 
-/** The drawn header actions: 44 glass circles, the ink one last. */
+/** The drawn header actions: 44 glass circles or text pills, the ink one last. */
 export function DrawnHeaderActions({ actions }: { readonly actions: readonly ShellAction[] }) {
   const { size } = usePremiumTheme();
   return (
     <View style={styles.row}>
-      {actions.map((action) =>
-        action.primary === true ? (
+      {actions.map((action) => {
+        const testID = action.testID === undefined ? {} : { testID: action.testID };
+        if (action.text === true) {
+          return action.primary === true ? (
+            <Button
+              key={action.key}
+              label={action.label}
+              size="medium"
+              onPress={action.onPress}
+              {...testID}
+            />
+          ) : (
+            <GlassPill key={action.key} label={action.label} onPress={action.onPress} {...testID} />
+          );
+        }
+        return action.primary === true ? (
           <IconButton
             key={action.key}
             icon={action.glyph}
@@ -88,7 +116,7 @@ export function DrawnHeaderActions({ actions }: { readonly actions: readonly She
             tone="ink"
             size={size.glassNav}
             onPress={action.onPress}
-            {...(action.testID === undefined ? {} : { testID: action.testID })}
+            {...testID}
           />
         ) : (
           <GlassIconButton
@@ -96,10 +124,10 @@ export function DrawnHeaderActions({ actions }: { readonly actions: readonly She
             icon={action.glyph}
             label={action.label}
             onPress={action.onPress}
-            {...(action.testID === undefined ? {} : { testID: action.testID })}
+            {...testID}
           />
-        ),
-      )}
+        );
+      })}
     </View>
   );
 }
