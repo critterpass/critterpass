@@ -18,11 +18,11 @@ describe('asking again for a draft start with no answer', () => {
     const retry = jest.fn(() => Promise.resolve());
     await renderHook(() => useRetryStart(true, network, retry, 1000));
     expect(retry).not.toHaveBeenCalled();
-    await act(async () => {
+    await act(() => {
       jest.advanceTimersByTime(1000);
     });
     expect(retry).toHaveBeenCalledTimes(1);
-    await act(async () => {
+    await act(() => {
       jest.advanceTimersByTime(1000);
     });
     expect(retry).toHaveBeenCalledTimes(2);
@@ -32,11 +32,11 @@ describe('asking again for a draft start with no answer', () => {
     const network = createNetworkState(false);
     const retry = jest.fn(() => Promise.resolve());
     await renderHook(() => useRetryStart(true, network, retry, 1000));
-    await act(async () => {
+    await act(() => {
       jest.advanceTimersByTime(3000);
     });
     expect(retry).not.toHaveBeenCalled();
-    await act(async () => {
+    await act(() => {
       network.set(true);
     });
     expect(retry).toHaveBeenCalledTimes(1);
@@ -55,15 +55,15 @@ describe('asking again for a draft start with no answer', () => {
       ({ waiting }: { waiting: boolean }) => useRetryStart(waiting, network, retry, 1000),
       { initialProps: { waiting: true } },
     );
-    await act(async () => {
+    await act(() => {
       jest.advanceTimersByTime(3000);
     });
     expect(retry).toHaveBeenCalledTimes(1);
-    await act(async () => {
+    await act(() => {
       finish();
     });
     await hook.rerender({ waiting: false });
-    await act(async () => {
+    await act(() => {
       jest.advanceTimersByTime(5000);
       network.set(false);
       network.set(true);
