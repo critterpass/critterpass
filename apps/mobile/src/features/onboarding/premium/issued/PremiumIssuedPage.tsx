@@ -34,6 +34,7 @@ import { useHoldBack, useIssuedArrival, useIssuedPass } from '../../issued/use-i
 import { passFacts } from '../../pass-facts';
 import { PassPaper } from '../components/PassPaper';
 import { StampLanding } from '../components/StampLanding';
+import { tilt } from '../components/tilt';
 
 const ISSUED_AT_MS = 700;
 const HOME_AT_MS = 1000;
@@ -60,6 +61,10 @@ export function PremiumIssuedView({ choreography, footer }: PremiumIssuedViewPro
     // The arrival plays once per mount.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const sparkles = {
+    star: t({ id: 'onboarding.premium.issued.star', message: 'Star' }),
+    spark: t({ id: 'onboarding.premium.issued.spark', message: 'Sparkle' }),
+  };
   const passStyle = useAnimatedStyle(() => ({
     opacity: drop.value,
     transform: [{ translateY: (1 - drop.value) * -40 }],
@@ -107,6 +112,19 @@ export function PremiumIssuedView({ choreography, footer }: PremiumIssuedViewPro
         </Animated.View>
         <View style={{ marginTop: 40, flexDirection: 'row', alignItems: 'flex-end' }}>
           <CritterSticker kind={tokek.kind} name={tokek.name} size={112} pose="cheer" />
+          {/* The sparkles round Tokek (2.11): a pink star and a sun spark. */}
+          <View
+            pointerEvents="none"
+            style={{ position: 'absolute', left: 2, top: 32, transform: [{ rotate: tilt(16) }] }}
+          >
+            <CritterSticker kind="star" name={sparkles.star} size={26} />
+          </View>
+          <View
+            pointerEvents="none"
+            style={{ position: 'absolute', left: 120, top: 68, transform: [{ rotate: tilt(-10) }] }}
+          >
+            <CritterSticker kind="spark" name={sparkles.spark} size={30} />
+          </View>
         </View>
         <View style={{ gap: theme.space.gap8 }}>
           <Text variant="display" accessibilityRole="header">

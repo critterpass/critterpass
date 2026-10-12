@@ -11,7 +11,15 @@ import { Keyboard, TextInput, View } from 'react-native';
 import { homeBaseFor } from '@cp/domain';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { Button, GuideNote, Icon, RoundStamp, Text, usePremiumTheme } from '@/ui/premium';
+import {
+  Button,
+  CritterSticker,
+  GuideNote,
+  Icon,
+  RoundStamp,
+  Text,
+  usePremiumTheme,
+} from '@/ui/premium';
 
 import { airportDataset, homeWord, tokekLine } from '../../content';
 import { guideFacts } from '../../guide-faces';
@@ -74,7 +82,7 @@ export function PremiumHomePage() {
           paddingHorizontal: theme.space.fieldPadH,
         }}
       >
-        <Icon name="pin" size={18} color={theme.color.muted} />
+        <Icon name="search" size={18} color={theme.color.muted} />
         {/* Uncontrolled: the native field owns the typed text, so a busy JS thread never reorders
             letters. */}
         <TextInput
@@ -181,9 +189,14 @@ export function PremiumHomePage() {
               ink="orange"
               size={200}
               rotate={-10}
+              paper
               testID="home-stamp"
             />
           </StampLanding>
+          {/* Tokek cheers over the stamp's lower edge (2.09). */}
+          <View pointerEvents="none" style={{ position: 'absolute', right: 20, bottom: 0 }}>
+            <CritterSticker kind={tokek.kind} name={tokek.name} size={96} pose="cheer" />
+          </View>
         </View>
       )}
     </WizardPage>

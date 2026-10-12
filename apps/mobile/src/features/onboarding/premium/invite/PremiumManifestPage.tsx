@@ -138,8 +138,15 @@ export function PremiumManifestPage() {
             </View>
           ) : null}
         </ListCard>
+        {/* The stamp lands over the manifest's foot, Tokek cheering beside it (2.19). */}
         <View
-          style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginTop: -56,
+            zIndex: 3,
+          }}
         >
           <CritterSticker kind={tokek.kind} name={tokek.name} size={120} pose="cheer" />
           <StampLanding delayMs={400}>
@@ -150,15 +157,13 @@ export function PremiumManifestPage() {
               ink="pink"
               size={170}
               rotate={-12}
+              paper
               testID="invite-manifest-stamp"
             />
           </StampLanding>
         </View>
         <Text variant="guide" color={theme.color.banner.guide.text}>
           {welcome}
-        </Text>
-        <Text variant="largeTitle" accessibilityRole="header">
-          {copy.title}
         </Text>
         <Text variant="rowText" tone="muted">
           {copy.body}

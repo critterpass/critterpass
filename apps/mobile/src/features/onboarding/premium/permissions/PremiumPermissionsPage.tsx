@@ -1,6 +1,7 @@
 /**
  * 2.13 "Three things, and why": alarms and pings, location on trips, calendar, each a card with its
- * art and why; a tap asks (this page is the primer). Granted, the tile gets a mint check; refused,
+ * art and why; a tap asks (this page is the primer). Granted, the card stays as drawn (no tick: the design keeps
+ * the three asks calm, and the card still says it to assistive tech); refused,
  * the card greys out and says it will ask again on the trip, with the way to Settings. Let's go
  * and "Ask me later" both finish.
  */
@@ -12,7 +13,6 @@ import {
   Button,
   CritterSticker,
   GuideNote,
-  Icon,
   PressableScale,
   Spinner,
   Text,
@@ -111,24 +111,9 @@ function Art({ kind }: { readonly kind: (typeof KINDS)[number] }) {
 function AskCard({ kind }: { readonly kind: (typeof KINDS)[number] }) {
   const theme = usePremiumTheme();
   const ask = usePrimerToggle(kind);
-  let badge: ReactNode = null;
-  if (ask.busy) badge = <Spinner color={theme.color.ink} trackColor={theme.color.control} />;
-  else if (ask.on) {
-    badge = (
-      <View
-        style={{
-          width: 22,
-          height: 22,
-          borderRadius: 11,
-          backgroundColor: theme.signal.successCheck,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Icon name="check" size={13} color={theme.color.onAccent} />
-      </View>
-    );
-  }
+  const badge: ReactNode = ask.busy ? (
+    <Spinner color={theme.color.ink} trackColor={theme.color.control} />
+  ) : null;
   return (
     <PressableScale
       onPress={ask.refused ? ask.openSettings : ask.ask}
@@ -195,6 +180,7 @@ export function PremiumPermissionsPage() {
           <TextButton
             label={t({ id: 'permissions.primer.later', message: 'Ask me later' })}
             onPress={step.finish}
+            align="center"
             testID="primer-later"
           />
         </>

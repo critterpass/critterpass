@@ -6,23 +6,42 @@ import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 export type StampInk = 'pink' | 'green' | 'orange';
 
 export interface RoundStampProps {
-  /** The big word or code ("ISSUED", "SIN"). */
+  /** The big word or code ("ISSUED", "SIN"), inked in capitals. */
   readonly word: string;
   /** Small spaced lines above and below ("CRITTERPASS", "26 SEP"). */
   readonly top?: string;
   readonly bottom?: string;
   /** @default 'pink' */
   readonly ink?: StampInk;
-  /** 96 for an issued stamp, 80 for a port code. @default 96 */
+  /** 96 for an issued stamp, 80 for a port code; the moments go up to 200. @default 96 */
   readonly size?: number;
   /** Degrees. @default −12 */
   readonly rotate?: number;
+  /** Stamped on white paper (a landing moment) instead of straight onto the page. */
+  readonly paper?: boolean;
   readonly testID?: string;
 }
 
+/** Heavy capitals run about 0.62 em wide: the word shrinks to fit inside the ring. */
+const CAP_WIDTH_EM = 0.62;
+
 /**
- * A round passport stamp: an outer ring and a hairline inner ring, 8/800 spaced lines around a
- * 20/800 word (18/800 for a lone code), tilted. Stamps are ink on paper in both modes.
+ * The stamp's measures from its size (the design's 84, 122, 170 and 200 stamps): the inked ring,
+ * the small spaced lines and the big word, which fits its letters inside the ring.
+ */
+export function roundStampMeasures(side: number, word: string) {
+  const large = side >= 150;
+  const ring = large ? Math.round(side * 0.06 * 2) / 2 : side >= 80 ? 8 : 6;
+  const small = large ? 10.5 : side >= 110 ? 9 : 8;
+  const cap = side * (side < 100 ? 0.29 : 0.215);
+  const letters = Math.max(1, Array.from(word).length);
+  const fit = (side * 0.8) / (letters * CAP_WIDTH_EM);
+  return { ring, small, word: Math.round(Math.min(cap, fit) * 2) / 2 };
+}
+
+/**
+ * A round passport stamp: a solid inked ring, small spaced capitals around a big word that fits
+ * the ring, tilted. Stamps are ink on paper in both modes.
  */
 export function RoundStamp({
   word,
@@ -31,14 +50,19 @@ export function RoundStamp({
   ink = 'pink',
   size,
   rotate,
+  paper = false,
   testID,
 }: RoundStampProps) {
   const t = usePremiumTheme();
   const colours = t.stamp[ink];
   const side = size ?? t.size.stampRound;
-  const small = side < t.size.stampRound;
-  const innerAt = small ? t.size.stampInnerAtSmall : t.size.stampInnerAt;
-  const lone = top === undefined && bottom === undefined;
+  const caps = word.toLocaleUpperCase();
+  const measures = roundStampMeasures(side, caps);
+  const smallStyle = {
+    fontSize: measures.small,
+    lineHeight: measures.small * 1.25,
+    letterSpacing: measures.small * 0.18,
+  };
   return (
     <View
       testID={testID}
@@ -49,35 +73,35 @@ export function RoundStamp({
         width: side,
         height: side,
         borderRadius: side / 2,
-        borderWidth: small ? t.size.stampRingOuterSmall : t.size.stampRingOuter,
+        borderWidth: measures.ring,
         borderColor: colours.ring,
         alignItems: 'center',
         justifyContent: 'center',
+        gap: 2,
+        ...(paper ? { backgroundColor: t.accent.stickerEdge } : {}),
         transform: [{ rotate: `${String(rotate ?? t.tilt.stampRound)}deg` }],
       }}
     >
-      <View
-        pointerEvents="none"
-        style={{
-          position: 'absolute',
-          width: side - innerAt * 2,
-          height: side - innerAt * 2,
-          borderRadius: side / 2 - innerAt,
-          borderWidth: t.size.stampRingInner,
-          borderColor: colours.ring,
-        }}
-      />
       {top === undefined ? null : (
-        <Text variant="stampSmall" color={colours.text}>
-          {top}
+        <Text variant="stampSmall" color={colours.text} style={smallStyle} numberOfLines={1}>
+          {top.toLocaleUpperCase()}
         </Text>
       )}
-      <Text variant={lone ? 'stampCode' : 'stampWord'} color={colours.text}>
-        {word}
+      <Text
+        variant="stampWord"
+        color={colours.text}
+        numberOfLines={1}
+        style={{
+          fontSize: measures.word,
+          lineHeight: measures.word * 1.1,
+          letterSpacing: -measures.word * 0.02,
+        }}
+      >
+        {caps}
       </Text>
       {bottom === undefined ? null : (
-        <Text variant="stampSmall" color={colours.text}>
-          {bottom}
+        <Text variant="stampSmall" color={colours.text} style={smallStyle} numberOfLines={1}>
+          {bottom.toLocaleUpperCase()}
         </Text>
       )}
     </View>

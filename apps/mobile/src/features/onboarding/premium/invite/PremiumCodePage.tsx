@@ -88,7 +88,23 @@ export function PremiumCodePage() {
                 }}
               />
             </View>
-          ) : null}
+          ) : (
+            // Where the system paste control is missing (Android), the design's floating pill
+            // reads the clipboard only when tapped.
+            <View style={{ position: 'absolute', right: theme.space.gutter, bottom: 5 }}>
+              <Button
+                label={t({ id: 'onboarding.premium.code.pasteLink', message: 'Paste a link' })}
+                variant="floating"
+                size="small"
+                onPress={() => {
+                  void Clipboard.getStringAsync().then((text) => {
+                    if (text !== '') entry.onPaste(text);
+                  });
+                }}
+                testID="invite-code-paste"
+              />
+            </View>
+          )}
         </View>
       }
       testID="invite-code-screen"
@@ -115,6 +131,7 @@ export function PremiumCodePage() {
                   message: `Wrong crew? Ask ${inviter} for a new code`,
                 })}
                 onPress={entry.clear}
+                align="center"
                 testID="invite-code-wrong-crew"
               />
             </View>
