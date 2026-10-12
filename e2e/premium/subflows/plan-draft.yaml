@@ -75,9 +75,8 @@ appId: app.critterpass.dev
             visible:
               id: 'proposal-alone'
           commands:
-            - tapOn:
-                id: 'build-back|push-back'
-            - waitForAnimationToEnd
+            # The premium page's back is the native bar's (no id): one step back.
+            - runFlow: back.yaml
       - runFlow:
           when:
             visible:

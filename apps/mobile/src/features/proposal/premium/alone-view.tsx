@@ -49,6 +49,7 @@ export function PremiumAloneView(props: AloneViewProps) {
       testID="proposal-alone"
     >
       <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{
           paddingHorizontal: th.space.titleGutter,
           paddingTop: th.space.gap16,

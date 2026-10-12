@@ -42,6 +42,7 @@ export function PremiumBuilderView(props: BuilderViewProps) {
       testID="proposal-build"
     >
       <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{
           paddingHorizontal: th.space.gutter,
           paddingTop: th.space.gap12,
