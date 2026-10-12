@@ -18,12 +18,26 @@ appId: app.critterpass.dev
     visible:
       id: 'home-header-chat'
     timeout: 60000
-- tapOn:
-    id: 'home-header-chat'
-- extendedWaitUntil:
-    visible:
-      id: 'chat-composer'
-    timeout: 20000
+# The reveal can land over Home after the check above (it waits on sync), and Home's header stays
+# in the view tree under it on Android: BACK HOME closes it, and the tap is tried again.
+- retry:
+    maxRetries: 2
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'reveal-back-home'
+          commands:
+            - tapOn:
+                id: 'reveal-back-home'
+            - waitForAnimationToEnd:
+                timeout: 5000
+      - tapOn:
+          id: 'home-header-chat'
+      - extendedWaitUntil:
+          visible:
+            id: 'chat-composer'
+          timeout: 20000
 - scrollUntilVisible:
     element:
       id: 'proposal-card-open-.*'

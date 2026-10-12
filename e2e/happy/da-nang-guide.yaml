@@ -121,7 +121,7 @@ appId: app.critterpass.dev
 - tapOn: '(?i)đà nẵng, 0 votes'
 - extendedWaitUntil:
     visible:
-      text: '(?i)đà nẵng, 1 votes, your vote'
+      text: '(?i)đà nẵng, 1 vote, your vote'
     timeout: 15000
 - retry:
     maxRetries: 2
