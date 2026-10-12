@@ -56,6 +56,8 @@ export function PlanMapSheet({
   const t = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
   const full = sheetHeight('full', height);
+  // Plain numbers for the drag worklet: it runs on the UI thread, where JS helpers can't be called.
+  const lowest = sheetHeight('peek', height) * 0.8;
   const visible = useSharedValue(sheetHeight(detent, height));
   const start = useSharedValue(0);
 
@@ -84,7 +86,7 @@ export function PlanMapSheet({
     .onUpdate((event) => {
       'worklet';
       const next = start.value - event.translationY;
-      visible.set(Math.max(sheetHeight('peek', height) * 0.8, Math.min(full, next)));
+      visible.set(Math.max(lowest, Math.min(full, next)));
     })
     .onEnd((event) => {
       'worklet';
