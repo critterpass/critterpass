@@ -114,12 +114,12 @@ msgstr "{count, plural, other {# going}}"
 msgid "setup.manual.dayA11y"
 msgstr "{dayName}, {state}"
 
-#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-msgid "setup.premium.checklist.title"
-msgstr "{destination} setup"
-
 #: ../../apps/mobile/src/features/setup/shell/setup-shell.tsx
 msgid "setup.shell.back"
+msgstr "{destination} setup"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.checklist.title"
 msgstr "{destination} setup"
 
 #: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
@@ -378,12 +378,12 @@ msgstr "Booked"
 msgid "setup.premium.manual.brush"
 msgstr "Brush"
 
-#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-msgid "setup.premium.row.budget"
-msgstr "Budget"
-
 #: ../../apps/mobile/src/features/setup/shell/stepper.tsx
 msgid "setup.stepper.budget"
+msgstr "Budget"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.row.budget"
 msgstr "Budget"
 
 #: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
@@ -431,16 +431,16 @@ msgstr "Cheapest"
 msgid "setup.when.picker.clear"
 msgstr "Clear"
 
+#: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
+#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
+msgid "setup.sheet.close"
+msgstr "Close"
+
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
 msgid "setup.premium.calendar.close"
-msgstr "Close"
-
-#: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
-#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
-msgid "setup.sheet.close"
 msgstr "Close"
 
 #: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
@@ -747,16 +747,16 @@ msgstr "Most I’d spend, each"
 msgid "setup.queued.step"
 msgstr "Moving setup along"
 
+#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
+msgid "setup.stepper.mustDos"
+msgstr "Must-dos"
+
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
 msgid "setup.mustDos.title"
 msgstr "Must-dos"
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.row.mustDos"
-msgstr "Must-dos"
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.mustDos"
 msgstr "Must-dos"
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
@@ -935,12 +935,12 @@ msgstr "Room {0}"
 msgid "setup.premium.rooms.tileEach"
 msgstr "Room {0}, each"
 
-#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-msgid "setup.premium.row.rooms"
-msgstr "Rooms"
-
 #: ../../apps/mobile/src/features/setup/shell/stepper.tsx
 msgid "setup.stepper.rooms"
+msgstr "Rooms"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.row.rooms"
 msgstr "Rooms"
 
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx

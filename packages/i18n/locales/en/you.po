@@ -200,13 +200,13 @@ msgstr "Always gets through"
 msgid "you.settings.app"
 msgstr "App"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.appIcon"
+msgstr "App icon"
+
 #: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
 msgid "you.premium.appIcon"
-msgstr "App icon"
-
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
-msgid "you.settings.appIcon"
 msgstr "App icon"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
@@ -295,12 +295,12 @@ msgstr "Change avatar"
 msgid "you.premium.pings.hideTextLine"
 msgstr "Chat and guide pushes only say something new is waiting."
 
-#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
-msgid "you.premium.chatty.chatty"
-msgstr "Chatty"
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.chatty"
+msgstr "Chatty"
+
+#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
+msgid "you.premium.chatty.chatty"
 msgstr "Chatty"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
@@ -770,12 +770,12 @@ msgstr "Initials"
 msgid "you.avatar.tab.initials"
 msgstr "Initials"
 
-#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
-msgid "you.premium.inviteFriends"
-msgstr "Invite friends"
-
 #: ../../apps/mobile/src/features/you/settings/widgets-row.ts
 msgid "you.settings.inviteFriends"
+msgstr "Invite friends"
+
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
+msgid "you.premium.inviteFriends"
 msgstr "Invite friends"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
@@ -859,12 +859,12 @@ msgstr "Leave it closed"
 msgid "you.edit.discardTitle"
 msgstr "Leave without saving?"
 
-#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
-msgid "you.premium.pings.alwaysAlarm"
-msgstr "Leave-by alarms"
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.leaveByAlarms"
+msgstr "Leave-by alarms"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.alwaysAlarm"
 msgstr "Leave-by alarms"
 
 #: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
@@ -1005,12 +1005,12 @@ msgstr "No trips yet"
 msgid "you.delete.tripAlone"
 msgstr "Nobody else is on {name}, so it closes with you."
 
-#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
-msgid "you.premium.chatty.normal"
-msgstr "Normal"
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.normal"
+msgstr "Normal"
+
+#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
+msgid "you.premium.chatty.normal"
 msgstr "Normal"
 
 #. placeholder {0}: until ?? ''
@@ -1018,12 +1018,12 @@ msgstr "Normal"
 msgid "you.closed.body"
 msgstr "Nothing is erased until {0}. Sign in before then and your pass, critters and crews come back as they were."
 
-#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
-msgid "you.premium.pings.title"
-msgstr "Notifications"
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.notifications"
+msgstr "Notifications"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.title"
 msgstr "Notifications"
 
 #: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
@@ -1033,10 +1033,6 @@ msgstr "Notifications are off, so alarms, SOS and votes cannot reach you."
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
 msgid "you.pings.notificationsOff"
 msgstr "Notifications are off, so nothing reaches your lock screen."
-
-#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
-msgid "you.pings.quietOff"
-msgstr "Off"
 
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
 msgid "you.settings.musicOff"
@@ -1052,12 +1048,16 @@ msgstr "Off"
 msgid "you.settings.location.off"
 msgstr "Off"
 
-#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
-msgid "trip.offline.storageTitle"
-msgstr "Offline"
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.quietOff"
+msgstr "Off"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offline"
+msgstr "Offline"
+
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.storageTitle"
 msgstr "Offline"
 
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
@@ -1234,12 +1234,12 @@ msgstr "Profile"
 msgid "you.edit.back"
 msgstr "Profile"
 
-#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
-msgid "you.premium.chatty.quiet"
-msgstr "Quiet"
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.quiet"
+msgstr "Quiet"
+
+#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
+msgid "you.premium.chatty.quiet"
 msgstr "Quiet"
 
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
@@ -1367,18 +1367,6 @@ msgstr "Send feedback"
 msgid "you.premium.pings.sent"
 msgstr "Sent"
 
-#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
-msgid "trip.offline.backToSettings"
-msgstr "Settings"
-
-#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
-msgid "you.pings.back"
-msgstr "Settings"
-
-#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
-msgid "you.premium.pings.openSettings"
-msgstr "Settings"
-
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.back"
 msgstr "Settings"
@@ -1391,6 +1379,18 @@ msgstr "Settings"
 #: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.settings"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.backToSettings"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.back"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.openSettings"
 msgstr "Settings"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
@@ -1464,13 +1464,13 @@ msgid "you.signOut.unsavedLine"
 msgstr "Signing out erases it from this phone, and there is no way to sign back in. Save it with your phone number first and nothing is lost."
 
 #. placeholder {0}: model.sinceYear
-#: ../../apps/mobile/src/features/you/premium/profile/passport-card.tsx
-msgid "you.premium.since"
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.since"
 msgstr "SINCE {0}"
 
 #. placeholder {0}: model.sinceYear
-#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
-msgid "you.profile.since"
+#: ../../apps/mobile/src/features/you/premium/profile/passport-card.tsx
+msgid "you.premium.since"
 msgstr "SINCE {0}"
 
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts

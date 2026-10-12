@@ -246,6 +246,10 @@ msgstr ""
 msgid "onboarding.phone.back"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/premium/splash/splash-collage.tsx
+msgid "onboarding.premium.splash.batur"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.beach.short"
 msgstr ""
@@ -274,6 +278,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSavePage.tsx
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.terms"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/premium/splash/splash-collage.tsx
+msgid "onboarding.premium.splash.camera"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/invited/invite-problem-copy.ts
@@ -557,7 +565,7 @@ msgstr ""
 msgid "onboarding.quiz.evenings.right.line"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/premium/splash/PremiumSplashPage.tsx
+#: ../../apps/mobile/src/features/onboarding/premium/splash/splash-collage.tsx
 msgid "onboarding.premium.splash.note"
 msgstr ""
 
@@ -943,12 +951,20 @@ msgstr ""
 msgid "onboarding.splash.coverMark"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
+msgid "onboarding.premium.code.pasteLink"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/premium/paste-offer/PremiumPasteOffer.tsx
 msgid "onboarding.premium.paste.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/invited/use-code-entry.ts
 msgid "onboarding.invite.code.pastedFrom"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/premium/splash/splash-collage.tsx
+msgid "onboarding.premium.splash.penida"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
@@ -979,6 +995,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/invite/InviteRanOut.tsx
 msgid "onboarding.premium.ranOut.ownCrewSub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/premium/splash/splash-collage.tsx
+msgid "onboarding.premium.splash.plane"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
@@ -1136,6 +1156,10 @@ msgstr ""
 msgid "onboarding.tag.wellness"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
+msgid "onboarding.premium.issued.spark"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.splurge.short"
 msgstr ""
@@ -1143,6 +1167,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/home/PremiumHomePage.tsx
 msgid "onboarding.home.stampNo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
+msgid "onboarding.premium.issued.star"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/paste-offer/PremiumPasteOffer.tsx

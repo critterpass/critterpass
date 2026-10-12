@@ -165,15 +165,15 @@ msgstr ""
 msgid "safety.action.call"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
-msgid "safety.premium.call"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.callGeneral"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
+msgid "safety.premium.call"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
@@ -198,15 +198,15 @@ msgstr ""
 msgid "safety.send.cancel"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/premium/PhraseBig.tsx
-msgid "safety.premium.close"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.close"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/premium/PhraseBig.tsx
+msgid "safety.premium.close"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/show-it.tsx
@@ -291,13 +291,13 @@ msgstr ""
 msgid "safety.sos.goingDone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
-msgid "safety.premium.helpTitle"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.back.help"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
+msgid "safety.premium.helpTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
@@ -462,12 +462,12 @@ msgstr ""
 msgid "safety.push.open"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-msgid "safety.premium.sosLoading"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 msgid "safety.pending.openTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
+msgid "safety.premium.sosLoading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx

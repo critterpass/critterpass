@@ -24,6 +24,12 @@ msgstr "{0, plural, one {# past booking} other {# past bookings}}"
 msgid "bookings.candidate.split"
 msgstr "{0, plural, one {Split # way} other {Split # ways}}"
 
+#. placeholder {0}: props.booking.title
+#. placeholder {1}: props.meta
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletStack.tsx
+msgid "bookings.premium.bringToFront"
+msgstr "{0}, {1}. Bring to the front"
+
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.copyAddressA11y"
 msgstr "{address}, copy the address"
@@ -31,6 +37,10 @@ msgstr "{address}, copy the address"
 #: ../../apps/mobile/src/features/bookings/detail/use-booking-detail.ts
 msgid "bookings.detail.paidBy"
 msgstr "{amount} · paid by {payer}"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/OfflineBadge.tsx
+msgid "bookings.premium.offlineCountLong"
+msgstr "{count, plural, one {# booking opens with no signal} other {# bookings open with no signal}}"
 
 #: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
 msgid "bookings.offline.a11y"
@@ -56,6 +66,10 @@ msgstr "{count, plural, one {Found # booking in your inbox that wasn't here yet.
 msgid "bookings.heldMail.title"
 msgstr "{count, plural, one {Mail is waiting} other {# emails are waiting}}"
 
+#: ../../apps/mobile/src/features/bookings/premium/components/OfflineBadge.tsx
+msgid "bookings.premium.offlineCount"
+msgstr "{count} offline"
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 #: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.lockedLine"
@@ -64,6 +78,10 @@ msgstr "{guideName} checks your inbox for new confirmations every morning with P
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 msgid "bookings.mailbox.perk"
 msgstr "{guideName} finds new bookings in your inbox every morning"
+
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxPromise"
+msgstr "{guideName} finds new bookings in your inbox every morning. Read-only, confirmations only."
 
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
 #: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
@@ -90,9 +108,17 @@ msgstr "{guideName} pings you when boarding opens."
 msgid "bookings.detail.reminder"
 msgstr "{guideName} reminds you the day before it runs out."
 
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightTicket.tsx
+msgid "bookings.premium.flightTime"
+msgstr "{hours}h {rest}m"
+
 #: ../../apps/mobile/src/features/bookings/stack/deck-meta.ts
 msgid "bookings.card.nights"
 msgstr "{nights, plural, one {# night} other {# nights}}"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightTicket.tsx
+msgid "bookings.premium.flightMinutes"
+msgstr "{rest}m"
 
 #: ../../apps/mobile/src/features/bookings/candidates/candidate-line.ts
 msgid "bookings.candidate.seats"
@@ -382,6 +408,10 @@ msgstr "Car hire"
 msgid "bookings.form.checkOut"
 msgstr "Check-out day"
 
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxChecked"
+msgstr "Checked {checked}"
+
 #: ../../apps/mobile/src/features/bookings/premium/BoardingPassPremium.tsx
 msgid "bookings.pass.close"
 msgstr "Close"
@@ -392,9 +422,12 @@ msgstr "Close"
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
-#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.soon"
 msgstr "Coming soon — forward confirmations meanwhile."
+
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxSoon"
+msgstr "Coming soon. Forward confirmations meanwhile."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
@@ -406,17 +439,23 @@ msgstr "Confirmation code"
 msgid "bookings.form.ref"
 msgstr "Confirmation code"
 
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.connect"
+msgstr "Connect"
+
 #. placeholder {0}: providerName(provider)
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
-#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.connect"
 msgstr "Connect {0}"
 
 #. placeholder {0}: providerName(status.connection.provider)
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
-#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.connected"
 msgstr "Connected · {0}"
+
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxConnected"
+msgstr "Connected · {name}"
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.connectingTitle"
@@ -572,6 +611,10 @@ msgstr "Faster next time: forward the email."
 msgid "bookings.mailbox.title"
 msgstr "Find bookings in my email"
 
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxWaiting"
+msgstr "First check tomorrow morning"
+
 #: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.premium.missingAirport"
 msgstr "Fix the airport to save"
@@ -708,7 +751,6 @@ msgstr "I can also check your inbox for new confirmations every morning."
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 #: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
-#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.footnote"
 msgstr "I check for new confirmations every morning. You can switch that off in Settings."
 
@@ -848,10 +890,6 @@ msgstr "Needs signal"
 msgid "bookings.date.next"
 msgstr "Next month"
 
-#: ../../apps/mobile/src/features/bookings/premium/components/NextUpCard.tsx
-msgid "bookings.premium.nextUp"
-msgstr "Next up · {when}"
-
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.deniedLine"
 msgstr "No access was given. Forwarding still works."
@@ -892,6 +930,10 @@ msgstr "Not in the wallet"
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 msgid "bookings.missing.title"
 msgstr "Not in the wallet"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
+msgid "bookings.premium.passPending"
+msgstr "Not issued yet. Forward it once you check in."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
@@ -1077,12 +1119,15 @@ msgstr "Price"
 msgid "bookings.paste.read"
 msgstr "Read it"
 
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxReadOnly"
+msgstr "Read-only sign-in"
+
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
 msgid "bookings.mailboxRow.connected"
 msgstr "Read-only, confirmations only · {provider}"
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
-#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.promise"
 msgstr "Read-only, confirmations only. I look at senders and subjects around your trip dates and open only the bookings."
 
@@ -1124,14 +1169,14 @@ msgstr "Rides show up here for the places on your plan."
 msgid "bookings.detail.room"
 msgstr "Room"
 
-#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
-msgid "bookings.insurance.save"
-msgstr "Save"
-
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 #: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.save"
+msgstr "Save"
+
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.insurance.save"
 msgstr "Save"
 
 #: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
@@ -1223,7 +1268,7 @@ msgid "bookings.premium.seat"
 msgstr "Seat {0}"
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
-#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/MailboxSheetFrame.tsx
 msgid "bookings.mailbox.seePass"
 msgstr "See Pass+"
 
@@ -1245,7 +1290,7 @@ msgstr "Shared with the crew"
 msgid "bookings.mailbox.surface"
 msgstr "Show finds to the crew"
 
-#: ../../apps/mobile/src/features/bookings/premium/components/NextUpCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletStack.tsx
 msgid "bookings.premium.showPass"
 msgstr "Show the pass"
 
@@ -1472,6 +1517,7 @@ msgid "suppliers.rides.whyEstimate"
 msgstr "Why this estimate"
 
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+#: ../../apps/mobile/src/features/bookings/premium/components/MailboxSheetFrame.tsx
 msgid "bookings.mailboxRow.locked"
 msgstr "With Pass+"
 

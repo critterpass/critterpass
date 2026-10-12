@@ -1141,13 +1141,13 @@ msgstr "Chia {0} phần"
 msgid "monetize.card.split"
 msgstr "chia {ways} phần"
 
-#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
-msgid "monetize.premium.boost.split"
-msgstr "Chia {ways} phần"
-
 #: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.split"
+msgstr "Chia {ways} phần"
+
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
+msgid "monetize.premium.boost.split"
 msgstr "Chia {ways} phần"
 
 #: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx

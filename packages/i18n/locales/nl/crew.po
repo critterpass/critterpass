@@ -57,6 +57,10 @@ msgstr ""
 msgid "crew.sheet.inDays"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.code.daysLeft"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.premium.header.typingMany"
 msgstr ""
@@ -107,6 +111,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
 msgid "crew.sheet.voteFinalLeader"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.trip.dayOf"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
@@ -374,8 +382,8 @@ msgstr ""
 msgid "chat.header.fallbackTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/components/crew-code-card.tsx
 #: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
 #: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
 #: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.codeLabel"
@@ -563,7 +571,7 @@ msgstr ""
 msgid "chat.premium.welcome.hello"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-code-card.tsx
 msgid "crew.premium.code.holdHint"
 msgstr ""
 
@@ -862,6 +870,7 @@ msgstr ""
 msgid "crew.premium.cover.navy"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/components/crew-code-card.tsx
 #: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
 #: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
@@ -885,7 +894,7 @@ msgstr ""
 msgid "chat.premium.newMessages"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-code-card.tsx
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
 msgid "crew.settings.noCode"
 msgstr ""
@@ -1210,7 +1219,7 @@ msgstr ""
 msgid "chat.premium.starter.budget"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-code-card.tsx
 msgid "crew.premium.share"
 msgstr ""
 
@@ -1236,10 +1245,6 @@ msgstr ""
 msgid "crew.referral.stamped"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
-msgid "crew.premium.start.verb"
-msgstr ""
-
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.title"
 msgstr ""
@@ -1250,6 +1255,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.create"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.cta"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx

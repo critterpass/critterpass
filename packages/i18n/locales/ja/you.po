@@ -200,13 +200,13 @@ msgstr ""
 msgid "you.settings.app"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.appIcon"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
 msgid "you.premium.appIcon"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
-msgid "you.settings.appIcon"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
@@ -295,12 +295,12 @@ msgstr ""
 msgid "you.premium.pings.hideTextLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
-msgid "you.premium.chatty.chatty"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.chatty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
+msgid "you.premium.chatty.chatty"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
@@ -770,12 +770,12 @@ msgstr ""
 msgid "you.avatar.tab.initials"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
-msgid "you.premium.inviteFriends"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/settings/widgets-row.ts
 msgid "you.settings.inviteFriends"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
+msgid "you.premium.inviteFriends"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
@@ -859,12 +859,12 @@ msgstr ""
 msgid "you.edit.discardTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
-msgid "you.premium.pings.alwaysAlarm"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.leaveByAlarms"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.alwaysAlarm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
@@ -1005,12 +1005,12 @@ msgstr ""
 msgid "you.delete.tripAlone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
-msgid "you.premium.chatty.normal"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.normal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
+msgid "you.premium.chatty.normal"
 msgstr ""
 
 #. placeholder {0}: until ?? ''
@@ -1018,12 +1018,12 @@ msgstr ""
 msgid "you.closed.body"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
-msgid "you.premium.pings.title"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.notifications"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
@@ -1032,10 +1032,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
 msgid "you.pings.notificationsOff"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
-msgid "you.pings.quietOff"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
@@ -1052,12 +1048,16 @@ msgstr ""
 msgid "you.settings.location.off"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
-msgid "trip.offline.storageTitle"
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.quietOff"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.storageTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
@@ -1234,12 +1234,12 @@ msgstr ""
 msgid "you.edit.back"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
-msgid "you.premium.chatty.quiet"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.quiet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
+msgid "you.premium.chatty.quiet"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
@@ -1367,18 +1367,6 @@ msgstr ""
 msgid "you.premium.pings.sent"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
-msgid "trip.offline.backToSettings"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
-msgid "you.pings.back"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
-msgid "you.premium.pings.openSettings"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.back"
 msgstr ""
@@ -1391,6 +1379,18 @@ msgstr ""
 #: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.settings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.backToSettings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.openSettings"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
@@ -1464,13 +1464,13 @@ msgid "you.signOut.unsavedLine"
 msgstr ""
 
 #. placeholder {0}: model.sinceYear
-#: ../../apps/mobile/src/features/you/premium/profile/passport-card.tsx
-msgid "you.premium.since"
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.since"
 msgstr ""
 
 #. placeholder {0}: model.sinceYear
-#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
-msgid "you.profile.since"
+#: ../../apps/mobile/src/features/you/premium/profile/passport-card.tsx
+msgid "you.premium.since"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts

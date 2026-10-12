@@ -45,12 +45,12 @@ msgstr ""
 msgid "home.premium.going"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
-msgid "home.premium.crewLine"
-msgstr ""
-
 #: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
 msgid "home.premium.switcher.members"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
+msgid "home.premium.crewLineNoTrip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/format.ts
@@ -280,6 +280,10 @@ msgstr ""
 msgid "home.inbox.crew"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
+msgid "home.premium.chat"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.crew"
@@ -379,11 +383,11 @@ msgid "home.header.greetingAnon"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
-msgid "home.premium.title"
+msgid "home.premium.greeting"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
-msgid "home.premium.backLabel"
+#: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
+msgid "home.premium.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
@@ -714,6 +718,10 @@ msgstr ""
 msgid "home.widgets.howTo.ios.pick"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
+msgid "home.premium.trips.search"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/premium/recovery/lost-link-screen.tsx
 msgid "home.premium.lost.trips"
 msgstr ""
@@ -810,7 +818,6 @@ msgstr ""
 msgid "home.premium.noTrip.body"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.premium.noTrip.cta"

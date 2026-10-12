@@ -114,12 +114,12 @@ msgstr "{count, plural, other {# người đi}}"
 msgid "setup.manual.dayA11y"
 msgstr "{dayName}, {state}"
 
-#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-msgid "setup.premium.checklist.title"
-msgstr "Chuẩn bị {destination}"
-
 #: ../../apps/mobile/src/features/setup/shell/setup-shell.tsx
 msgid "setup.shell.back"
+msgstr "Chuẩn bị {destination}"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.checklist.title"
 msgstr "Chuẩn bị {destination}"
 
 #: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
@@ -378,13 +378,13 @@ msgstr "Đã đặt"
 msgid "setup.premium.manual.brush"
 msgstr "Cọ"
 
-#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-msgid "setup.premium.row.budget"
-msgstr "Ngân sách"
-
 #: ../../apps/mobile/src/features/setup/shell/stepper.tsx
 msgid "setup.stepper.budget"
 msgstr "Chi phí"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.row.budget"
+msgstr "Ngân sách"
 
 #: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
 msgid "setup.way.bus"
@@ -431,16 +431,16 @@ msgstr "Rẻ nhất"
 msgid "setup.when.picker.clear"
 msgstr "Xoá"
 
+#: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
+#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
+msgid "setup.sheet.close"
+msgstr "Đóng"
+
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
 msgid "setup.premium.calendar.close"
-msgstr "Đóng"
-
-#: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
-#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
-msgid "setup.sheet.close"
 msgstr "Đóng"
 
 #: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
@@ -747,6 +747,10 @@ msgstr "Mỗi người tôi chi tối đa"
 msgid "setup.queued.step"
 msgstr "Chuyển bước chuẩn bị"
 
+#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
+msgid "setup.stepper.mustDos"
+msgstr "Phải làm"
+
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
 msgid "setup.mustDos.title"
 msgstr "Việc phải làm"
@@ -754,10 +758,6 @@ msgstr "Việc phải làm"
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.row.mustDos"
 msgstr "Việc phải làm"
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.mustDos"
-msgstr "Phải làm"
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 msgid "setup.calendar.unavailable"
@@ -935,12 +935,12 @@ msgstr "Phòng {0}"
 msgid "setup.premium.rooms.tileEach"
 msgstr "Phòng {0}, mỗi người"
 
-#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-msgid "setup.premium.row.rooms"
-msgstr "Phòng"
-
 #: ../../apps/mobile/src/features/setup/shell/stepper.tsx
 msgid "setup.stepper.rooms"
+msgstr "Phòng"
+
+#: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
+msgid "setup.premium.row.rooms"
 msgstr "Phòng"
 
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-premium-view.tsx

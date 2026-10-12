@@ -311,14 +311,14 @@ msgstr ""
 msgid "vote.premium.newPoll.ask"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/premium/components/screen-states.tsx
-#: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
-msgid "vote.premium.back"
-msgstr ""
-
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
 #: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
 msgid "vote.guest.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/components/screen-states.tsx
+#: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
+msgid "vote.premium.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/final/reveal-footer.tsx
@@ -458,7 +458,7 @@ msgstr ""
 msgid "vote.premium.guest.fromHome"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
+#: ../../apps/mobile/src/features/vote/premium/places/guest-dock.tsx
 msgid "vote.premium.guest.solo"
 msgstr ""
 
@@ -660,7 +660,7 @@ msgid "vote.pitch.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
-#: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
+#: ../../apps/mobile/src/features/vote/premium/places/guest-dock.tsx
 msgid "vote.guest.pitch"
 msgstr ""
 

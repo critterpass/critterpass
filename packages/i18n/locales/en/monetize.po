@@ -1141,13 +1141,13 @@ msgstr "Split {0} ways"
 msgid "monetize.card.split"
 msgstr "split {ways} ways"
 
-#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
-msgid "monetize.premium.boost.split"
-msgstr "Split {ways} ways"
-
 #: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx
 #: ../../apps/mobile/src/features/monetize/seat-cap/seat-cap-view.tsx
 msgid "monetize.seatCap.split"
+msgstr "Split {ways} ways"
+
+#: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
+msgid "monetize.premium.boost.split"
 msgstr "Split {ways} ways"
 
 #: ../../apps/mobile/src/features/monetize/premium/seat-cap-premium.tsx

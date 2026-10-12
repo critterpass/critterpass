@@ -165,15 +165,15 @@ msgstr "Call"
 msgid "safety.action.call"
 msgstr "Call"
 
-#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
-msgid "safety.premium.call"
-msgstr "Call {general}"
-
 #: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.callGeneral"
+msgstr "Call {general}"
+
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
+msgid "safety.premium.call"
 msgstr "Call {general}"
 
 #: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
@@ -198,15 +198,15 @@ msgstr "Calling and texting still work without it."
 msgid "safety.send.cancel"
 msgstr "Cancel"
 
-#: ../../apps/mobile/src/features/safety/premium/PhraseBig.tsx
-msgid "safety.premium.close"
-msgstr "Close"
-
 #: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/safety/premium/PhraseBig.tsx
+msgid "safety.premium.close"
 msgstr "Close"
 
 #: ../../apps/mobile/src/features/safety/help/show-it.tsx
@@ -291,13 +291,13 @@ msgstr "Go to {name}."
 msgid "safety.sos.goingDone"
 msgstr "Going ✓"
 
-#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
-msgid "safety.premium.helpTitle"
-msgstr "Help"
-
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.back.help"
+msgstr "Help"
+
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
+msgid "safety.premium.helpTitle"
 msgstr "Help"
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
@@ -462,12 +462,12 @@ msgstr "One more hour, once you have signal"
 msgid "safety.push.open"
 msgstr "Open"
 
-#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-msgid "safety.premium.sosLoading"
-msgstr "Opening the SOS"
-
 #: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 msgid "safety.pending.openTitle"
+msgstr "Opening the SOS"
+
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
+msgid "safety.premium.sosLoading"
 msgstr "Opening the SOS"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx

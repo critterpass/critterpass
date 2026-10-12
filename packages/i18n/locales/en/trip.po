@@ -33,6 +33,10 @@ msgstr "{guideName}'s briefing"
 msgid "trip.disruptions.late.waitingLine"
 msgstr "{title} starts {start} for you."
 
+#: ../../apps/mobile/src/features/trip/premium/day/DayCards.tsx
+msgid "trip.dayOf.premium.startsAt"
+msgstr "{what} starts at {start}."
+
 #: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
 msgid "trip.disruptions.late.waitingTitle"
 msgstr "{who}: {minutes} min late"

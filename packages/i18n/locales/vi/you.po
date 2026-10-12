@@ -200,13 +200,13 @@ msgstr "Luôn được báo"
 msgid "you.settings.app"
 msgstr "Ứng dụng"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.appIcon"
+msgstr "Biểu tượng ứng dụng"
+
 #: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
 msgid "you.premium.appIcon"
-msgstr "Biểu tượng ứng dụng"
-
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
-msgid "you.settings.appIcon"
 msgstr "Biểu tượng ứng dụng"
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
@@ -295,12 +295,12 @@ msgstr "Đổi ảnh đại diện"
 msgid "you.premium.pings.hideTextLine"
 msgstr "Thông báo chat và hướng dẫn viên chỉ báo là có tin mới đang chờ."
 
-#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
-msgid "you.premium.chatty.chatty"
-msgstr "Nói nhiều"
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.chatty"
+msgstr "Nói nhiều"
+
+#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
+msgid "you.premium.chatty.chatty"
 msgstr "Nói nhiều"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
@@ -770,12 +770,12 @@ msgstr "Chữ cái đầu"
 msgid "you.avatar.tab.initials"
 msgstr "Chữ cái đầu"
 
-#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
-msgid "you.premium.inviteFriends"
-msgstr "Mời bạn bè"
-
 #: ../../apps/mobile/src/features/you/settings/widgets-row.ts
 msgid "you.settings.inviteFriends"
+msgstr "Mời bạn bè"
+
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
+msgid "you.premium.inviteFriends"
 msgstr "Mời bạn bè"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
@@ -859,12 +859,12 @@ msgstr "Cứ để đóng"
 msgid "you.edit.discardTitle"
 msgstr "Rời đi mà không lưu?"
 
-#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
-msgid "you.premium.pings.alwaysAlarm"
-msgstr "Báo thức giờ xuất phát"
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.leaveByAlarms"
+msgstr "Báo thức giờ xuất phát"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.alwaysAlarm"
 msgstr "Báo thức giờ xuất phát"
 
 #: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
@@ -1005,12 +1005,12 @@ msgstr "Chưa có chuyến nào"
 msgid "you.delete.tripAlone"
 msgstr "Không ai khác tham gia {name}, nên chuyến này đóng cùng bạn."
 
-#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
-msgid "you.premium.chatty.normal"
-msgstr "Vừa phải"
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.normal"
+msgstr "Vừa phải"
+
+#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
+msgid "you.premium.chatty.normal"
 msgstr "Vừa phải"
 
 #. placeholder {0}: until ?? ''
@@ -1018,12 +1018,12 @@ msgstr "Vừa phải"
 msgid "you.closed.body"
 msgstr "Chưa có gì bị xoá cho đến {0}. Đăng nhập trước ngày đó thì pass, critter và các nhóm của bạn trở lại như cũ."
 
-#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
-msgid "you.premium.pings.title"
-msgstr "Thông báo"
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.notifications"
+msgstr "Thông báo"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.title"
 msgstr "Thông báo"
 
 #: ../../apps/mobile/src/features/you/android-permissions/android-permission-rows.tsx
@@ -1033,10 +1033,6 @@ msgstr "Thông báo đang tắt, nên báo thức, SOS và bình chọn không t
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
 msgid "you.pings.notificationsOff"
 msgstr "Thông báo đang tắt nên không gì hiện lên màn hình khóa của bạn."
-
-#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
-msgid "you.pings.quietOff"
-msgstr "Tắt"
 
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
 msgid "you.settings.musicOff"
@@ -1052,12 +1048,16 @@ msgstr "Tắt"
 msgid "you.settings.location.off"
 msgstr "Tắt"
 
-#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
-msgid "trip.offline.storageTitle"
-msgstr "Ngoại tuyến"
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.quietOff"
+msgstr "Tắt"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offline"
+msgstr "Ngoại tuyến"
+
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.storageTitle"
 msgstr "Ngoại tuyến"
 
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
@@ -1234,12 +1234,12 @@ msgstr "Hồ sơ"
 msgid "you.edit.back"
 msgstr "Hồ sơ"
 
-#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
-msgid "you.premium.chatty.quiet"
-msgstr "Ít nói"
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.quiet"
+msgstr "Ít nói"
+
+#: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
+msgid "you.premium.chatty.quiet"
 msgstr "Ít nói"
 
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
@@ -1367,18 +1367,6 @@ msgstr "Gửi góp ý"
 msgid "you.premium.pings.sent"
 msgstr "Đã gửi"
 
-#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
-msgid "trip.offline.backToSettings"
-msgstr "Cài đặt"
-
-#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
-msgid "you.pings.back"
-msgstr "Cài đặt"
-
-#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
-msgid "you.premium.pings.openSettings"
-msgstr "Cài đặt"
-
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.back"
 msgstr "Cài đặt"
@@ -1391,6 +1379,18 @@ msgstr "Cài đặt"
 #: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.settings"
+msgstr "Cài đặt"
+
+#: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
+msgid "trip.offline.backToSettings"
+msgstr "Cài đặt"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.pings.back"
+msgstr "Cài đặt"
+
+#: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+msgid "you.premium.pings.openSettings"
 msgstr "Cài đặt"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
@@ -1464,13 +1464,13 @@ msgid "you.signOut.unsavedLine"
 msgstr "Đăng xuất sẽ xoá pass khỏi điện thoại này và không có cách nào đăng nhập lại. Hãy lưu bằng số điện thoại trước thì không mất gì cả."
 
 #. placeholder {0}: model.sinceYear
-#: ../../apps/mobile/src/features/you/premium/profile/passport-card.tsx
-msgid "you.premium.since"
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.since"
 msgstr "TỪ {0}"
 
 #. placeholder {0}: model.sinceYear
-#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
-msgid "you.profile.since"
+#: ../../apps/mobile/src/features/you/premium/profile/passport-card.tsx
+msgid "you.premium.since"
 msgstr "TỪ {0}"
 
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts

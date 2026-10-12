@@ -57,6 +57,10 @@ msgstr "{crewName} đã sẵn sàng"
 msgid "crew.sheet.inDays"
 msgstr "{place} sau {days} ngày nữa"
 
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.code.daysLeft"
+msgstr "{days, plural, other {Còn # ngày}}"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.premium.header.typingMany"
 msgstr "{first} và những người khác đang nhập"
@@ -108,6 +112,10 @@ msgstr "{place} đã thanh toán xong · {settled} trên {settled}"
 #: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
 msgid "crew.sheet.voteFinalLeader"
 msgstr "{place} dẫn đầu vòng chung kết"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.trip.dayOf"
+msgstr "{range} · ngày {on}/{days}"
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
 msgid "crew.sheet.new"
@@ -374,8 +382,8 @@ msgstr "Nhóm"
 msgid "chat.header.fallbackTitle"
 msgstr "Chat nhóm"
 
+#: ../../apps/mobile/src/features/crew/premium/components/crew-code-card.tsx
 #: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
 #: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
 #: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.codeLabel"
@@ -563,7 +571,7 @@ msgstr "Chưa tạo pass"
 msgid "chat.premium.welcome.hello"
 msgstr "Chào cả nhóm! Mình là hướng dẫn viên ở đây. Gọi mình bằng @ là mình góp ý ngay. Bắt đầu từ đâu nhỉ?"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-code-card.tsx
 msgid "crew.premium.code.holdHint"
 msgstr "Giữ để tạo mã mới"
 
@@ -862,6 +870,7 @@ msgstr "Bìa Navy"
 msgid "crew.premium.cover.navy"
 msgstr "Bìa Navy"
 
+#: ../../apps/mobile/src/features/crew/premium/components/crew-code-card.tsx
 #: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
 #: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
@@ -885,7 +894,7 @@ msgstr "Nhóm mới: {0}"
 msgid "chat.premium.newMessages"
 msgstr "Tin nhắn mới ↓"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-code-card.tsx
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
 msgid "crew.settings.noCode"
 msgstr "Chưa có mã dùng được"
@@ -1210,7 +1219,7 @@ msgstr "Đã gửi lại."
 msgid "chat.premium.starter.budget"
 msgstr "Đặt ngân sách sơ bộ"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-code-card.tsx
 msgid "crew.premium.share"
 msgstr "Chia sẻ"
 
@@ -1236,10 +1245,6 @@ msgstr "Bìa Sky"
 msgid "crew.referral.stamped"
 msgstr "Đã đóng dấu"
 
-#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
-msgid "crew.premium.start.verb"
-msgstr "Tạo"
-
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.title"
 msgstr "Lập nhóm"
@@ -1251,6 +1256,10 @@ msgstr "Lập nhóm"
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.create"
 msgstr "Lập nhóm ngay"
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.cta"
+msgstr "Lập nhóm"
 
 #: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
 #: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx

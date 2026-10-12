@@ -24,12 +24,22 @@ msgstr ""
 msgid "bookings.candidate.split"
 msgstr ""
 
+#. placeholder {0}: props.booking.title
+#. placeholder {1}: props.meta
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletStack.tsx
+msgid "bookings.premium.bringToFront"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.copyAddressA11y"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/use-booking-detail.ts
 msgid "bookings.detail.paidBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/components/OfflineBadge.tsx
+msgid "bookings.premium.offlineCountLong"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
@@ -56,6 +66,10 @@ msgstr ""
 msgid "bookings.heldMail.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/premium/components/OfflineBadge.tsx
+msgid "bookings.premium.offlineCount"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 #: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.lockedLine"
@@ -63,6 +77,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 msgid "bookings.mailbox.perk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxPromise"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
@@ -90,8 +108,16 @@ msgstr ""
 msgid "bookings.detail.reminder"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightTicket.tsx
+msgid "bookings.premium.flightTime"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/stack/deck-meta.ts
 msgid "bookings.card.nights"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightTicket.tsx
+msgid "bookings.premium.flightMinutes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/candidates/candidate-line.ts
@@ -382,6 +408,10 @@ msgstr ""
 msgid "bookings.form.checkOut"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxChecked"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/premium/BoardingPassPremium.tsx
 msgid "bookings.pass.close"
 msgstr ""
@@ -392,8 +422,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
-#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.soon"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxSoon"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
@@ -406,16 +439,22 @@ msgstr ""
 msgid "bookings.form.ref"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.connect"
+msgstr ""
+
 #. placeholder {0}: providerName(provider)
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
-#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.connect"
 msgstr ""
 
 #. placeholder {0}: providerName(status.connection.provider)
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
-#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.connected"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxConnected"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
@@ -572,6 +611,10 @@ msgstr ""
 msgid "bookings.mailbox.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxWaiting"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.premium.missingAirport"
 msgstr ""
@@ -708,7 +751,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 #: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
-#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.footnote"
 msgstr ""
 
@@ -848,10 +890,6 @@ msgstr ""
 msgid "bookings.date.next"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/components/NextUpCard.tsx
-msgid "bookings.premium.nextUp"
-msgstr ""
-
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.deniedLine"
 msgstr ""
@@ -891,6 +929,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 msgid "bookings.missing.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
+msgid "bookings.premium.passPending"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
@@ -1077,12 +1119,15 @@ msgstr ""
 msgid "bookings.paste.read"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+msgid "bookings.premium.mailboxReadOnly"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
 msgid "bookings.mailboxRow.connected"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
-#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.promise"
 msgstr ""
 
@@ -1124,14 +1169,14 @@ msgstr ""
 msgid "bookings.detail.room"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
-msgid "bookings.insurance.save"
-msgstr ""
-
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 #: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+msgid "bookings.insurance.save"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
@@ -1223,7 +1268,7 @@ msgid "bookings.premium.seat"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
-#: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/MailboxSheetFrame.tsx
 msgid "bookings.mailbox.seePass"
 msgstr ""
 
@@ -1245,7 +1290,7 @@ msgstr ""
 msgid "bookings.mailbox.surface"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/components/NextUpCard.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/WalletStack.tsx
 msgid "bookings.premium.showPass"
 msgstr ""
 
@@ -1472,6 +1517,7 @@ msgid "suppliers.rides.whyEstimate"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+#: ../../apps/mobile/src/features/bookings/premium/components/MailboxSheetFrame.tsx
 msgid "bookings.mailboxRow.locked"
 msgstr ""
 

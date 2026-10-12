@@ -246,6 +246,10 @@ msgstr "Back"
 msgid "onboarding.phone.back"
 msgstr "Back"
 
+#: ../../apps/mobile/src/features/onboarding/premium/splash/splash-collage.tsx
+msgid "onboarding.premium.splash.batur"
+msgstr "Batur"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.beach.short"
 msgstr "Beach"
@@ -275,6 +279,10 @@ msgstr "Budget hacker"
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.terms"
 msgstr "By continuing you agree to the Terms and the Privacy Policy."
+
+#: ../../apps/mobile/src/features/onboarding/premium/splash/splash-collage.tsx
+msgid "onboarding.premium.splash.camera"
+msgstr "Camera"
 
 #: ../../apps/mobile/src/features/onboarding/invited/invite-problem-copy.ts
 msgid "onboarding.invite.problem.notFoundTitle"
@@ -557,7 +565,7 @@ msgstr "Green places"
 msgid "onboarding.quiz.evenings.right.line"
 msgstr "Herbal tea and a book in bed"
 
-#: ../../apps/mobile/src/features/onboarding/premium/splash/PremiumSplashPage.tsx
+#: ../../apps/mobile/src/features/onboarding/premium/splash/splash-collage.tsx
 msgid "onboarding.premium.splash.note"
 msgstr "Hi, I’m\n"
 "Tokek!"
@@ -944,6 +952,10 @@ msgstr "PASSPORT"
 msgid "onboarding.splash.coverMark"
 msgstr "PASSPORT · PASSEPORT"
 
+#: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
+msgid "onboarding.premium.code.pasteLink"
+msgstr "Paste a link"
+
 #: ../../apps/mobile/src/features/onboarding/premium/paste-offer/PremiumPasteOffer.tsx
 msgid "onboarding.premium.paste.line"
 msgstr "Paste it and you land straight in your crew. Nothing is read until you tap."
@@ -951,6 +963,10 @@ msgstr "Paste it and you land straight in your crew. Nothing is read until you t
 #: ../../apps/mobile/src/features/onboarding/invited/use-code-entry.ts
 msgid "onboarding.invite.code.pastedFrom"
 msgstr "Pasted from your clipboard"
+
+#: ../../apps/mobile/src/features/onboarding/premium/splash/splash-collage.tsx
+msgid "onboarding.premium.splash.penida"
+msgstr "Penida"
 
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.label"
@@ -981,6 +997,10 @@ msgstr "Pick your passport photo"
 #: ../../apps/mobile/src/features/onboarding/premium/invite/InviteRanOut.tsx
 msgid "onboarding.premium.ranOut.ownCrewSub"
 msgstr "Plan a trip of your own"
+
+#: ../../apps/mobile/src/features/onboarding/premium/splash/splash-collage.tsx
+msgid "onboarding.premium.splash.plane"
+msgstr "Plane"
 
 #: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
 msgid "onboarding.quiz.food.left.line"
@@ -1137,6 +1157,10 @@ msgstr "Spa"
 msgid "onboarding.tag.wellness"
 msgstr "Spa days"
 
+#: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
+msgid "onboarding.premium.issued.spark"
+msgstr "Sparkle"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.splurge.short"
 msgstr "Splurge"
@@ -1145,6 +1169,10 @@ msgstr "Splurge"
 #: ../../apps/mobile/src/features/onboarding/premium/home/PremiumHomePage.tsx
 msgid "onboarding.home.stampNo"
 msgstr "Stamp No. 1"
+
+#: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
+msgid "onboarding.premium.issued.star"
+msgstr "Star"
 
 #: ../../apps/mobile/src/features/onboarding/premium/paste-offer/PremiumPasteOffer.tsx
 msgid "onboarding.premium.paste.startFresh"

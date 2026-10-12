@@ -74,6 +74,10 @@ msgstr "Số tiền của {0}"
 msgid "money.premium.sharesOf"
 msgstr "Phần của {0}"
 
+#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+msgid "money.premium.detail.addedBy"
+msgstr "{adder} đã thêm · {addedOn}"
+
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 #: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
 msgid "money.budget.biggest"
@@ -345,6 +349,14 @@ msgstr "Một lần sửa khoản chi"
 msgid "money.pay.requested"
 msgstr "Đã nhắc {who} trả."
 
+#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+msgid "money.premium.budget.paceOver"
+msgstr "Cứ đà này bạn sẽ tiêu khoảng {finish}, vượt chừng {deltaText}."
+
+#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+msgid "money.premium.budget.paceUnder"
+msgstr "Cứ đà này bạn sẽ tiêu khoảng {finish}, dư chừng {deltaText}."
+
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.autoOff"
 msgstr "Tự chia tắt"
@@ -407,13 +419,13 @@ msgstr "Theo ngày"
 msgid "money.rooms.title"
 msgstr "Theo phòng"
 
-#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
-msgid "money.premium.byShare"
-msgstr "Theo phần"
-
 #: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
 #: ../../apps/mobile/src/features/money/receipt/use-review-scene.ts
 msgid "money.review.byShare"
+msgstr "Theo phần"
+
+#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+msgid "money.premium.byShare"
 msgstr "Theo phần"
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
@@ -546,6 +558,14 @@ msgstr "Ngày"
 #: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
 msgid "money.budget.day"
 msgstr "Ngày {day} / {days}"
+
+#: ../../apps/mobile/src/features/money/premium/components/BudgetBar.tsx
+msgid "money.premium.budget.lastDay"
+msgstr "Ngày {lastDay}"
+
+#: ../../apps/mobile/src/features/money/premium/components/BudgetBar.tsx
+msgid "money.premium.budget.dayOne"
+msgstr "Ngày 1"
 
 #: ../../apps/mobile/src/features/money/premium/PayoutMethodsPremium.tsx
 msgid "money.premium.payoutDefault"
@@ -740,7 +760,6 @@ msgid "money.pay.cash"
 msgstr "Đưa tận tay."
 
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
 msgid "money.budget.over"
 msgstr "Sắp vượt {deltaText}."
 
@@ -1050,7 +1069,6 @@ msgid "money.premium.offline"
 msgstr "Ngoại tuyến · có mạng lại là gửi thay đổi"
 
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
 msgid "money.budget.under"
 msgstr "Đang đúng hướng, dư {deltaText}."
 
@@ -1170,6 +1188,10 @@ msgstr "Chọn ảnh"
 msgid "money.budget.planned"
 msgstr "Dự kiến"
 
+#: ../../apps/mobile/src/features/money/premium/components/BudgetBar.tsx
+msgid "money.premium.budget.planLine"
+msgstr "Mức dự kiến"
+
 #: ../../apps/mobile/src/features/money/settle/payout-labels.ts
 msgid "money.payout.promptpay"
 msgstr "PromptPay"
@@ -1247,12 +1269,12 @@ msgstr "Lưu"
 msgid "money.add.save"
 msgstr "Lưu"
 
-#: ../../apps/mobile/src/features/money/premium/PayoutMethodsPremium.tsx
-msgid "money.premium.payoutSaved"
-msgstr "Đã lưu"
-
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.savedTitle"
+msgstr "Đã lưu"
+
+#: ../../apps/mobile/src/features/money/premium/PayoutMethodsPremium.tsx
+msgid "money.premium.payoutSaved"
 msgstr "Đã lưu"
 
 #: ../../apps/mobile/src/features/money/add-expense/use-add-expense.ts
@@ -1407,14 +1429,14 @@ msgstr "Đã chia đều. Số dư được tính lại."
 msgid "money.detail.receipt"
 msgstr "Chia từ một hoá đơn đã quét"
 
-#: ../../apps/mobile/src/features/money/premium/receipt/ScanPanels.tsx
-msgid "money.premium.splitIt"
-msgstr "Chia khoản này · {payer} đã trả"
-
 #: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.review.commit"
 msgstr "Chia luôn · {payer} trả"
+
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanPanels.tsx
+msgid "money.premium.splitIt"
+msgstr "Chia khoản này · {payer} đã trả"
 
 #: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
 msgid "money.premium.firstLine"
@@ -1648,13 +1670,13 @@ msgstr "Thử lại, hoặc tự gõ vào. Chưa có gì được thêm."
 msgid "money.pay.typeAmount"
 msgstr "Nhập {amount} trong ứng dụng ngân hàng."
 
-#: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
-msgid "money.premium.typeIt"
-msgstr "Tự nhập"
-
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeIt"
 msgstr "Tự gõ vào"
+
+#: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
+msgid "money.premium.typeIt"
+msgstr "Tự nhập"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeInstead"
@@ -1713,13 +1735,13 @@ msgstr "Khoản gì"
 msgid "money.currency.switchHint"
 msgstr "Đơn vị tiền nhóm dùng để tính"
 
-#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
-msgid "money.premium.what"
-msgstr "Khoản gì?"
-
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.namePlaceholder"
 msgstr "Món gì?"
+
+#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+msgid "money.premium.what"
+msgstr "Khoản gì?"
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx

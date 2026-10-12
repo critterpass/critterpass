@@ -33,6 +33,10 @@ msgstr "Điểm tin của {guideName}"
 msgid "trip.disruptions.late.waitingLine"
 msgstr "Với bạn, {title} vẫn bắt đầu lúc {start}."
 
+#: ../../apps/mobile/src/features/trip/premium/day/DayCards.tsx
+msgid "trip.dayOf.premium.startsAt"
+msgstr "{what} bắt đầu lúc {start}."
+
 #: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
 msgid "trip.disruptions.late.waitingTitle"
 msgstr "{who}: trễ {minutes} phút"

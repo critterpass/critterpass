@@ -1150,12 +1150,12 @@ msgstr "Tài xế riêng"
 msgid "drivers.tours.viatorLink"
 msgstr "Tài xế riêng trên Viator ↗"
 
-#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
-msgid "drivers.premium.toursTitle"
-msgstr "Tour riêng"
-
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.title"
+msgstr "Tour riêng"
+
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
+msgid "drivers.premium.toursTitle"
 msgstr "Tour riêng"
 
 #. placeholder {0}: props.driverName
@@ -1479,16 +1479,16 @@ msgstr "Chuyến đi"
 msgid "drivers.detail.trips"
 msgstr "Số chuyến với các nhóm"
 
-#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
-#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
-#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
-msgid "drivers.premium.retry"
-msgstr "Thử lại"
-
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
 msgid "drivers.load.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
+msgid "drivers.premium.retry"
 msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx

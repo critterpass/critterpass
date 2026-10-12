@@ -45,13 +45,13 @@ msgstr "{count} người đi"
 msgid "home.premium.going"
 msgstr "{count} người đi"
 
-#: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
-msgid "home.premium.crewLine"
-msgstr "{count} người trong nhóm"
-
 #: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
 msgid "home.premium.switcher.members"
 msgstr "{count} người trong nhóm"
+
+#: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
+msgid "home.premium.crewLineNoTrip"
+msgstr "{count} người trong nhóm · chưa có chuyến đi"
 
 #: ../../apps/mobile/src/features/home/format.ts
 msgid "home.age.days"
@@ -280,6 +280,10 @@ msgstr "Đếm ngược"
 msgid "home.inbox.crew"
 msgstr "Nhóm"
 
+#: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
+msgid "home.premium.chat"
+msgstr "Chat nhóm"
+
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.crew"
@@ -379,11 +383,11 @@ msgid "home.header.greetingAnon"
 msgstr "Chào bạn"
 
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
-msgid "home.premium.title"
-msgstr "Trang chủ"
+msgid "home.premium.greeting"
+msgstr "Chào {firstName}"
 
-#: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
-msgid "home.premium.backLabel"
+#: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
+msgid "home.premium.title"
 msgstr "Trang chủ"
 
 #: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
@@ -714,6 +718,10 @@ msgstr "Tìm một nơi hoặc chọn một hướng dẫn viên để bắt đ�
 msgid "home.widgets.howTo.ios.pick"
 msgstr "Tìm CritterPass rồi chọn {widget}."
 
+#: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
+msgid "home.premium.trips.search"
+msgstr "Tìm địa điểm"
+
 #: ../../apps/mobile/src/features/home/premium/recovery/lost-link-screen.tsx
 msgid "home.premium.lost.trips"
 msgstr "Tìm chuyến đi của bạn"
@@ -810,7 +818,6 @@ msgstr "Lập nhóm"
 msgid "home.premium.noTrip.body"
 msgstr "Bắt đầu bình chọn với vài nơi. Mọi người cùng quẹt, cả nhóm chốt trong vài phút."
 
-#: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.premium.noTrip.cta"

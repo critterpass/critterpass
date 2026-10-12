@@ -74,6 +74,10 @@ msgstr ""
 msgid "money.premium.sharesOf"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+msgid "money.premium.detail.addedBy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 #: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
 msgid "money.budget.biggest"
@@ -345,6 +349,14 @@ msgstr ""
 msgid "money.pay.requested"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+msgid "money.premium.budget.paceOver"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+msgid "money.premium.budget.paceUnder"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.autoOff"
 msgstr ""
@@ -407,13 +419,13 @@ msgstr ""
 msgid "money.rooms.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
-msgid "money.premium.byShare"
-msgstr ""
-
 #: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
 #: ../../apps/mobile/src/features/money/receipt/use-review-scene.ts
 msgid "money.review.byShare"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+msgid "money.premium.byShare"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
@@ -545,6 +557,14 @@ msgstr ""
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 #: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
 msgid "money.budget.day"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/premium/components/BudgetBar.tsx
+msgid "money.premium.budget.lastDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/premium/components/BudgetBar.tsx
+msgid "money.premium.budget.dayOne"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/premium/PayoutMethodsPremium.tsx
@@ -740,7 +760,6 @@ msgid "money.pay.cash"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
 msgid "money.budget.over"
 msgstr ""
 
@@ -1050,7 +1069,6 @@ msgid "money.premium.offline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
 msgid "money.budget.under"
 msgstr ""
 
@@ -1170,6 +1188,10 @@ msgstr ""
 msgid "money.budget.planned"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/premium/components/BudgetBar.tsx
+msgid "money.premium.budget.planLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/settle/payout-labels.ts
 msgid "money.payout.promptpay"
 msgstr ""
@@ -1247,12 +1269,12 @@ msgstr ""
 msgid "money.add.save"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/PayoutMethodsPremium.tsx
-msgid "money.premium.payoutSaved"
-msgstr ""
-
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.savedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/premium/PayoutMethodsPremium.tsx
+msgid "money.premium.payoutSaved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/add-expense/use-add-expense.ts
@@ -1407,13 +1429,13 @@ msgstr ""
 msgid "money.detail.receipt"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/receipt/ScanPanels.tsx
-msgid "money.premium.splitIt"
-msgstr ""
-
 #: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.review.commit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanPanels.tsx
+msgid "money.premium.splitIt"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
@@ -1648,12 +1670,12 @@ msgstr ""
 msgid "money.pay.typeAmount"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
-msgid "money.premium.typeIt"
-msgstr ""
-
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeIt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
+msgid "money.premium.typeIt"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
@@ -1713,12 +1735,12 @@ msgstr ""
 msgid "money.currency.switchHint"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
-msgid "money.premium.what"
-msgstr ""
-
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.namePlaceholder"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+msgid "money.premium.what"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx

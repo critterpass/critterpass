@@ -115,12 +115,12 @@ msgstr "Grr"
 msgid "help.feedback.topic.guideChat"
 msgstr "Chat với hướng dẫn viên"
 
-#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
-msgid "help.premium.title"
-msgstr "Trợ giúp"
-
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.back"
+msgstr "Trợ giúp"
+
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.title"
 msgstr "Trợ giúp"
 
 #: ../../apps/mobile/src/features/help/ideas/BoardView.tsx

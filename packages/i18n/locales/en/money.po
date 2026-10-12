@@ -74,6 +74,10 @@ msgstr "{0}'s amount"
 msgid "money.premium.sharesOf"
 msgstr "{0}'s shares"
 
+#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+msgid "money.premium.detail.addedBy"
+msgstr "{adder} added it · {addedOn}"
+
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 #: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
 msgid "money.budget.biggest"
@@ -345,6 +349,14 @@ msgstr "An expense edit"
 msgid "money.pay.requested"
 msgstr "Asked {who} to pay."
 
+#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+msgid "money.premium.budget.paceOver"
+msgstr "At this pace you'll end around {finish}, about {deltaText} over."
+
+#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+msgid "money.premium.budget.paceUnder"
+msgstr "At this pace you'll end around {finish}, about {deltaText} under."
+
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.autoOff"
 msgstr "Auto-split off"
@@ -407,13 +419,13 @@ msgstr "By day"
 msgid "money.rooms.title"
 msgstr "By room"
 
-#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
-msgid "money.premium.byShare"
-msgstr "By share"
-
 #: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
 #: ../../apps/mobile/src/features/money/receipt/use-review-scene.ts
 msgid "money.review.byShare"
+msgstr "By share"
+
+#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+msgid "money.premium.byShare"
 msgstr "By share"
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
@@ -546,6 +558,14 @@ msgstr "Date"
 #: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
 msgid "money.budget.day"
 msgstr "Day {day} of {days}"
+
+#: ../../apps/mobile/src/features/money/premium/components/BudgetBar.tsx
+msgid "money.premium.budget.lastDay"
+msgstr "Day {lastDay}"
+
+#: ../../apps/mobile/src/features/money/premium/components/BudgetBar.tsx
+msgid "money.premium.budget.dayOne"
+msgstr "Day 1"
 
 #: ../../apps/mobile/src/features/money/premium/PayoutMethodsPremium.tsx
 msgid "money.premium.payoutDefault"
@@ -740,7 +760,6 @@ msgid "money.pay.cash"
 msgstr "Hand it over in person."
 
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
 msgid "money.budget.over"
 msgstr "Heading for {deltaText} over."
 
@@ -1050,7 +1069,6 @@ msgid "money.premium.offline"
 msgstr "Offline · changes send when you're back"
 
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
 msgid "money.budget.under"
 msgstr "On track to finish {deltaText} under."
 
@@ -1170,6 +1188,10 @@ msgstr "Pick a photo"
 msgid "money.budget.planned"
 msgstr "Planned"
 
+#: ../../apps/mobile/src/features/money/premium/components/BudgetBar.tsx
+msgid "money.premium.budget.planLine"
+msgstr "Planned line"
+
 #: ../../apps/mobile/src/features/money/settle/payout-labels.ts
 msgid "money.payout.promptpay"
 msgstr "PromptPay"
@@ -1247,12 +1269,12 @@ msgstr "Save"
 msgid "money.add.save"
 msgstr "Save"
 
-#: ../../apps/mobile/src/features/money/premium/PayoutMethodsPremium.tsx
-msgid "money.premium.payoutSaved"
-msgstr "Saved"
-
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.savedTitle"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/money/premium/PayoutMethodsPremium.tsx
+msgid "money.premium.payoutSaved"
 msgstr "Saved"
 
 #: ../../apps/mobile/src/features/money/add-expense/use-add-expense.ts
@@ -1407,13 +1429,13 @@ msgstr "Split evenly. Balances re-count."
 msgid "money.detail.receipt"
 msgstr "Split from a receipt scan"
 
-#: ../../apps/mobile/src/features/money/premium/receipt/ScanPanels.tsx
-msgid "money.premium.splitIt"
-msgstr "Split it · {payer} paid"
-
 #: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.review.commit"
+msgstr "Split it · {payer} paid"
+
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanPanels.tsx
+msgid "money.premium.splitIt"
 msgstr "Split it · {payer} paid"
 
 #: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
@@ -1648,12 +1670,12 @@ msgstr "Try again, or type it in. Nothing was added."
 msgid "money.pay.typeAmount"
 msgstr "Type {amount} in your bank app."
 
-#: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
-msgid "money.premium.typeIt"
-msgstr "Type it in"
-
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeIt"
+msgstr "Type it in"
+
+#: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
+msgid "money.premium.typeIt"
 msgstr "Type it in"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
@@ -1713,12 +1735,12 @@ msgstr "What"
 msgid "money.currency.switchHint"
 msgstr "What the crew counts in"
 
-#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
-msgid "money.premium.what"
-msgstr "What was it?"
-
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.namePlaceholder"
+msgstr "What was it?"
+
+#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+msgid "money.premium.what"
 msgstr "What was it?"
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx

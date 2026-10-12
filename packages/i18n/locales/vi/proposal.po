@@ -761,10 +761,6 @@ msgstr "Đã chốt. Chuyến đi bắt đầu."
 msgid "proposal.premium.tileMaybe"
 msgstr "có thể"
 
-#: ../../apps/mobile/src/features/proposal/premium/tracker-view.tsx
-msgid "proposal.premium.maybe"
-msgstr "Có thể"
-
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.maybe"
 msgstr "Có thể"
@@ -776,6 +772,10 @@ msgstr "Có thể"
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 #: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
 msgid "proposal.board.maybe"
+msgstr "Có thể"
+
+#: ../../apps/mobile/src/features/proposal/premium/tracker-view.tsx
+msgid "proposal.premium.maybe"
 msgstr "Có thể"
 
 #: ../../apps/mobile/src/features/proposal/data/reasons.ts

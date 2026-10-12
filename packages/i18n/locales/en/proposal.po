@@ -761,10 +761,6 @@ msgstr "Locked in. The trip is on."
 msgid "proposal.premium.tileMaybe"
 msgstr "maybe"
 
-#: ../../apps/mobile/src/features/proposal/premium/tracker-view.tsx
-msgid "proposal.premium.maybe"
-msgstr "Maybe"
-
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.maybe"
 msgstr "Maybe"
@@ -776,6 +772,10 @@ msgstr "Maybe"
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 #: ../../apps/mobile/src/features/proposal/premium/board-view.tsx
 msgid "proposal.board.maybe"
+msgstr "Maybe"
+
+#: ../../apps/mobile/src/features/proposal/premium/tracker-view.tsx
+msgid "proposal.premium.maybe"
 msgstr "Maybe"
 
 #: ../../apps/mobile/src/features/proposal/data/reasons.ts

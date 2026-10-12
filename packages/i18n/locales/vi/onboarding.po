@@ -246,6 +246,10 @@ msgstr "Quay lại"
 msgid "onboarding.phone.back"
 msgstr "Quay lại"
 
+#: ../../apps/mobile/src/features/onboarding/premium/splash/splash-collage.tsx
+msgid "onboarding.premium.splash.batur"
+msgstr "Batur"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.beach.short"
 msgstr "Biển"
@@ -275,6 +279,10 @@ msgstr "Cao thủ tiết kiệm"
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.terms"
 msgstr "Khi tiếp tục, bạn đồng ý với Điều khoản và Chính sách quyền riêng tư."
+
+#: ../../apps/mobile/src/features/onboarding/premium/splash/splash-collage.tsx
+msgid "onboarding.premium.splash.camera"
+msgstr "Máy ảnh"
 
 #: ../../apps/mobile/src/features/onboarding/invited/invite-problem-copy.ts
 msgid "onboarding.invite.problem.notFoundTitle"
@@ -557,9 +565,10 @@ msgstr "Mê thiên nhiên"
 msgid "onboarding.quiz.evenings.right.line"
 msgstr "Trà thảo mộc và cuốn sách trên giường"
 
-#: ../../apps/mobile/src/features/onboarding/premium/splash/PremiumSplashPage.tsx
+#: ../../apps/mobile/src/features/onboarding/premium/splash/splash-collage.tsx
 msgid "onboarding.premium.splash.note"
-msgstr "Chào, mình là\nTokek!"
+msgstr "Chào, mình là\n"
+"Tokek!"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.hiking.short"
@@ -943,6 +952,10 @@ msgstr "HỘ CHIẾU"
 msgid "onboarding.splash.coverMark"
 msgstr "PASSPORT · PASSEPORT"
 
+#: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
+msgid "onboarding.premium.code.pasteLink"
+msgstr "Dán liên kết"
+
 #: ../../apps/mobile/src/features/onboarding/premium/paste-offer/PremiumPasteOffer.tsx
 msgid "onboarding.premium.paste.line"
 msgstr "Dán vào là bạn vào thẳng nhóm. Bạn chưa chạm thì chưa đọc gì cả."
@@ -950,6 +963,10 @@ msgstr "Dán vào là bạn vào thẳng nhóm. Bạn chưa chạm thì chưa đ
 #: ../../apps/mobile/src/features/onboarding/invited/use-code-entry.ts
 msgid "onboarding.invite.code.pastedFrom"
 msgstr "Đã dán từ bộ nhớ tạm"
+
+#: ../../apps/mobile/src/features/onboarding/premium/splash/splash-collage.tsx
+msgid "onboarding.premium.splash.penida"
+msgstr "Penida"
 
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.label"
@@ -980,6 +997,10 @@ msgstr "Chọn ảnh hộ chiếu"
 #: ../../apps/mobile/src/features/onboarding/premium/invite/InviteRanOut.tsx
 msgid "onboarding.premium.ranOut.ownCrewSub"
 msgstr "Lên kế hoạch chuyến đi của riêng bạn"
+
+#: ../../apps/mobile/src/features/onboarding/premium/splash/splash-collage.tsx
+msgid "onboarding.premium.splash.plane"
+msgstr "Máy bay"
 
 #: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
 msgid "onboarding.quiz.food.left.line"
@@ -1136,6 +1157,10 @@ msgstr "Spa"
 msgid "onboarding.tag.wellness"
 msgstr "Ngày đi spa"
 
+#: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
+msgid "onboarding.premium.issued.spark"
+msgstr "Lấp lánh"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.splurge.short"
 msgstr "Chịu chi"
@@ -1144,6 +1169,10 @@ msgstr "Chịu chi"
 #: ../../apps/mobile/src/features/onboarding/premium/home/PremiumHomePage.tsx
 msgid "onboarding.home.stampNo"
 msgstr "Con dấu số 1"
+
+#: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
+msgid "onboarding.premium.issued.star"
+msgstr "Ngôi sao"
 
 #: ../../apps/mobile/src/features/onboarding/premium/paste-offer/PremiumPasteOffer.tsx
 msgid "onboarding.premium.paste.startFresh"

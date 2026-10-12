@@ -1151,12 +1151,12 @@ msgstr "Private drivers"
 msgid "drivers.tours.viatorLink"
 msgstr "Private drivers on Viator ↗"
 
-#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
-msgid "drivers.premium.toursTitle"
-msgstr "Private tours"
-
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.title"
+msgstr "Private tours"
+
+#: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
+msgid "drivers.premium.toursTitle"
 msgstr "Private tours"
 
 #. placeholder {0}: props.driverName
@@ -1480,16 +1480,16 @@ msgstr "Trip"
 msgid "drivers.detail.trips"
 msgstr "Trips with crews"
 
-#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
-#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
-#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
-msgid "drivers.premium.retry"
-msgstr "Try again"
-
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
 msgid "drivers.load.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
+msgid "drivers.premium.retry"
 msgstr "Try again"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx

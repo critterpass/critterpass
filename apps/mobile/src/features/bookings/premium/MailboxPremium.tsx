@@ -67,7 +67,7 @@ export function MailboxPremium(props: {
           key={provider}
           provider={provider}
           state="connected"
-          title={t({ id: 'bookings.mailbox.connected', message: `Connected · ${name}` })}
+          title={t({ id: 'bookings.premium.mailboxConnected', message: `Connected · ${name}` })}
           sub={
             checked === ''
               ? t({

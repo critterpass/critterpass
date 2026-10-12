@@ -57,6 +57,10 @@ msgstr "{crewName} is on"
 msgid "crew.sheet.inDays"
 msgstr "{place} in {days} days"
 
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.code.daysLeft"
+msgstr "{days, plural, one {# day left} other {# days left}}"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.premium.header.typingMany"
 msgstr "{first} and others are typing"
@@ -108,6 +112,10 @@ msgstr "{place} is settled · {settled} of {settled}"
 #: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
 msgid "crew.sheet.voteFinalLeader"
 msgstr "{place} vote in the final"
+
+#: ../../apps/mobile/src/features/crew/premium/crew-copy.ts
+msgid "crew.premium.trip.dayOf"
+msgstr "{range} · day {on} of {days}"
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
 msgid "crew.sheet.new"
@@ -374,8 +382,8 @@ msgstr "Crew"
 msgid "chat.header.fallbackTitle"
 msgstr "Crew chat"
 
+#: ../../apps/mobile/src/features/crew/premium/components/crew-code-card.tsx
 #: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
 #: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
 #: ../../apps/mobile/src/features/crew/start-crew/crew-created.tsx
 msgid "crew.start.codeLabel"
@@ -563,7 +571,7 @@ msgstr "Hasn’t made a pass yet"
 msgid "chat.premium.welcome.hello"
 msgstr "Hi all! I'm your guide in here. Mention me with @ and I'll pitch in. Where to start?"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-code-card.tsx
 msgid "crew.premium.code.holdHint"
 msgstr "Hold for a new code"
 
@@ -862,6 +870,7 @@ msgstr "Navy cover"
 msgid "crew.premium.cover.navy"
 msgstr "Navy cover"
 
+#: ../../apps/mobile/src/features/crew/premium/components/crew-code-card.tsx
 #: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
 #: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
@@ -885,7 +894,7 @@ msgstr "New crew: {0}"
 msgid "chat.premium.newMessages"
 msgstr "New messages ↓"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-code-card.tsx
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
 msgid "crew.settings.noCode"
 msgstr "No live code"
@@ -1210,7 +1219,7 @@ msgstr "Sent again."
 msgid "chat.premium.starter.budget"
 msgstr "Set a rough budget"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-code-card.tsx
 msgid "crew.premium.share"
 msgstr "Share"
 
@@ -1236,10 +1245,6 @@ msgstr "Sky cover"
 msgid "crew.referral.stamped"
 msgstr "Stamped"
 
-#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
-msgid "crew.premium.start.verb"
-msgstr "Start"
-
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.title"
 msgstr "Start a crew"
@@ -1250,6 +1255,10 @@ msgstr "Start a crew"
 
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.create"
+msgstr "Start the crew"
+
+#: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
+msgid "crew.premium.start.cta"
 msgstr "Start the crew"
 
 #: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx

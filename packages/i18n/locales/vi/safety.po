@@ -165,15 +165,15 @@ msgstr "Gọi"
 msgid "safety.action.call"
 msgstr "Gọi"
 
-#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
-msgid "safety.premium.call"
-msgstr "Gọi {general}"
-
 #: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.callGeneral"
+msgstr "Gọi {general}"
+
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
+msgid "safety.premium.call"
 msgstr "Gọi {general}"
 
 #: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
@@ -198,15 +198,15 @@ msgstr "Không có nó, bạn vẫn gọi điện và nhắn tin được."
 msgid "safety.send.cancel"
 msgstr "Huỷ"
 
-#: ../../apps/mobile/src/features/safety/premium/PhraseBig.tsx
-msgid "safety.premium.close"
-msgstr "Đóng"
-
 #: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.close"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/safety/premium/PhraseBig.tsx
+msgid "safety.premium.close"
 msgstr "Đóng"
 
 #: ../../apps/mobile/src/features/safety/help/show-it.tsx
@@ -291,13 +291,13 @@ msgstr "Tới {name}."
 msgid "safety.sos.goingDone"
 msgstr "Đang tới ✓"
 
-#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
-msgid "safety.premium.helpTitle"
-msgstr "Trợ giúp"
-
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.back.help"
+msgstr "Trợ giúp"
+
+#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
+msgid "safety.premium.helpTitle"
 msgstr "Trợ giúp"
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
@@ -462,12 +462,12 @@ msgstr "Thêm một giờ nữa, khi bạn có sóng"
 msgid "safety.push.open"
 msgstr "Mở"
 
-#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-msgid "safety.premium.sosLoading"
-msgstr "Đang mở SOS"
-
 #: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 msgid "safety.pending.openTitle"
+msgstr "Đang mở SOS"
+
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
+msgid "safety.premium.sosLoading"
 msgstr "Đang mở SOS"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx

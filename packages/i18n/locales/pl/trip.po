@@ -33,6 +33,10 @@ msgstr ""
 msgid "trip.disruptions.late.waitingLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/premium/day/DayCards.tsx
+msgid "trip.dayOf.premium.startsAt"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
 msgid "trip.disruptions.late.waitingTitle"
 msgstr ""

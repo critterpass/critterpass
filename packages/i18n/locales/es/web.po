@@ -43,12 +43,12 @@ msgstr "{count} EN LA FILA"
 msgid "web.comingSoon.joined.friendsJoined"
 msgstr "{count} DE 3 AMIGOS APUNTADOS"
 
-#: ../../apps/web/src/components/site/copy/recap.ts
-msgid "web.recap.days"
-msgstr ""
-
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.days"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.days"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/plan.ts
@@ -71,12 +71,12 @@ msgstr ""
 msgid "web.invite.draftTitle"
 msgstr ""
 
-#: ../../apps/web/src/components/site/copy/recap.ts
-msgid "web.recap.pageTitle"
-msgstr ""
-
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.pageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.pageTitle"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/recap.ts
@@ -511,12 +511,12 @@ msgstr ""
 msgid "web.referral.crewCaptain"
 msgstr ""
 
-#: ../../apps/web/src/components/site/copy/recap.ts
-msgid "web.recap.crewOf"
-msgstr ""
-
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.crewOf"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.crewOf"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/plan.ts
@@ -1203,12 +1203,12 @@ msgstr "Un correo cuando lancemos. Quizá dos. Nunca spam."
 msgid "web.pricing.boostPrice"
 msgstr ""
 
-#: ../../apps/web/src/components/site/copy/recap.ts
-msgid "web.recap.openCta"
-msgstr ""
-
 #: ../../apps/web/src/components/site/copy/locals.ts
 msgid "web.locals.openCta"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.openCta"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/plan.ts
@@ -1431,12 +1431,12 @@ msgstr ""
 msgid "web.home.chat1"
 msgstr ""
 
-#: ../../apps/web/src/components/site/copy/recap.ts
-msgid "web.recap.solo"
-msgstr ""
-
 #: ../../apps/web/src/components/site/copy/plan.ts
 msgid "web.plan.solo"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/recap.ts
+msgid "web.recap.solo"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts

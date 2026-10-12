@@ -45,13 +45,13 @@ msgstr "{count} going"
 msgid "home.premium.going"
 msgstr "{count} going"
 
-#: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
-msgid "home.premium.crewLine"
-msgstr "{count} in the crew"
-
 #: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
 msgid "home.premium.switcher.members"
 msgstr "{count} in the crew"
+
+#: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
+msgid "home.premium.crewLineNoTrip"
+msgstr "{count} in the crew · no trip yet"
 
 #: ../../apps/mobile/src/features/home/format.ts
 msgid "home.age.days"
@@ -280,6 +280,10 @@ msgstr "Countdown"
 msgid "home.inbox.crew"
 msgstr "Crew"
 
+#: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
+msgid "home.premium.chat"
+msgstr "Crew chat"
+
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.crew"
@@ -379,11 +383,11 @@ msgid "home.header.greetingAnon"
 msgstr "Hey"
 
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
-msgid "home.premium.title"
-msgstr "Home"
+msgid "home.premium.greeting"
+msgstr "Hey {firstName}"
 
-#: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
-msgid "home.premium.backLabel"
+#: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
+msgid "home.premium.title"
 msgstr "Home"
 
 #: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
@@ -714,6 +718,10 @@ msgstr "Search a place or pick a guide to start a trip. Your crew can vote on it
 msgid "home.widgets.howTo.ios.pick"
 msgstr "Search CritterPass and pick {widget}."
 
+#: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
+msgid "home.premium.trips.search"
+msgstr "Search places"
+
 #: ../../apps/mobile/src/features/home/premium/recovery/lost-link-screen.tsx
 msgid "home.premium.lost.trips"
 msgstr "Search your trips"
@@ -810,7 +818,6 @@ msgstr "Start a crew"
 msgid "home.premium.noTrip.body"
 msgstr "Start a vote with a few places. Everyone swipes, and the crew decides in minutes."
 
-#: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.premium.noTrip.cta"
