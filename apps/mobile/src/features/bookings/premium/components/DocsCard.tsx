@@ -72,8 +72,10 @@ export function DocsCard({ detail }: { readonly detail: Ready }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const { booking } = detail;
-  if (!detail.hasPass && detail.docs.length === 0) return null;
   const flight = booking.kind === 'flight';
+  // A flight of the reader's always has its pass row: saved, or waiting to be issued.
+  const passRow = detail.hasPass || (flight && booking.mine);
+  if (!passRow && detail.docs.length === 0) return null;
   return (
     <View style={{ gap: th.space.gap8 }} testID="bookings-docs">
       <View style={[styles.head, { paddingHorizontal: th.space.titleGutter + 2 }]}>
@@ -95,6 +97,20 @@ export function DocsCard({ detail }: { readonly detail: Ready }) {
           },
         ]}
       >
+        {passRow && !detail.hasPass ? (
+          <DocRow
+            title={t({ id: 'bookings.detail.pass', message: 'Boarding pass' })}
+            sub={t({
+              id: 'bookings.premium.passPending',
+              message: 'Not issued yet. Forward it once you check in.',
+            })}
+            saved={false}
+            pass
+            first
+            onPress={null}
+            testID="bookings-doc-pass-pending"
+          />
+        ) : null}
         {detail.hasPass ? (
           <DocRow
             title={
@@ -127,7 +143,7 @@ export function DocsCard({ detail }: { readonly detail: Ready }) {
                 : t({ id: 'bookings.premium.docSaved', message: 'Saved' })
             }
             saved={doc.uri !== null}
-            first={!detail.hasPass && index === 0}
+            first={!passRow && index === 0}
             onPress={doc.uri === null ? null : () => detail.onDoc(doc)}
             testID={`bookings-doc-${doc.id}`}
           />

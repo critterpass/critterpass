@@ -1,6 +1,7 @@
 /**
  * The Wallet tab, Bookings half (premium): "Wallet" with search and the ink `+`, the Bookings |
- * Money switch, then the next booking as the dark card (1.06), the rest as rows (7.02), the crew's
+ * Money switch, how many bookings open offline, then the wallet stack with the next booking in
+ * front (7.02) and the rest as rows under it, the crew's
  * finds, held mail, insurance and the past bookings. Empty, it shows the ways to fill it (7.01).
  * Search filters every booking of the trip on this phone. The `+` grows into "Add a booking".
  */
@@ -8,7 +9,7 @@ import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router, type Href } from 'expo-router';
 import { useState } from 'react';
-import { Platform, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { useFormats } from '@/lib/i18n/formats';
 import { Banner, Skeleton, TextField, usePremiumTheme } from '@/ui/premium';
@@ -22,9 +23,10 @@ import { useDeckMeta } from '../stack/deck-meta';
 import { useWalletScreen } from '../stack/use-wallet-screen';
 import { BookingListRow } from './components/BookingListRow';
 import { EmptyBookings } from './components/EmptyBookings';
-import { NextUpCard } from './components/NextUpCard';
+import { OfflineBadge } from './components/OfflineBadge';
 import { WalletExtras } from './components/WalletExtras';
 import { WalletHalfSwitch } from './components/WalletHalfSwitch';
+import { STACK_DEPTH, WalletStack } from './components/WalletStack';
 import { useAddChannels } from './use-add-channels';
 
 /** The `+` sheet's route: a native form sheet the `+` morphs into. */
@@ -57,19 +59,16 @@ export function WalletBookingsScreen() {
   const addLabel = t({ id: 'bookings.addCard', message: 'Add a booking' });
   const searchLabel = t({ id: 'bookings.premium.search', message: 'Search bookings' });
 
-  // The kit has no search glyph for the drawn (Android) header yet: there the field stays in the
-  // page instead of behind a header button.
-  const ios = Platform.OS === 'ios';
   const searchAction: ShellAction = {
     key: 'search',
     label: searchLabel,
     sfSymbol: 'magnifyingglass',
-    glyph: 'more',
+    glyph: 'search',
     onPress: () => setQuery((current) => (current === null ? '' : null)),
     testID: 'bookings-search',
   };
   const actions: ShellAction[] = [
-    ...(ios ? [searchAction] : []),
+    searchAction,
     {
       key: 'add',
       label: addLabel,
@@ -86,7 +85,8 @@ export function WalletBookingsScreen() {
   const rest = data.closed;
   const results =
     query === null || query.trim() === '' ? null : searchBookings(data.wallet.all, query);
-  const shown = results ?? rest;
+  // Searching lists every match; otherwise the stack draws the next few and the rest follow it.
+  const shown = results ?? rest.slice(open === null ? 0 : STACK_DEPTH);
   const passOf = (id: string) =>
     data.wallet.entries.get(id)?.barcode != null ? () => router.push(boardingPassRoute(id)) : null;
 
@@ -110,10 +110,10 @@ export function WalletBookingsScreen() {
           >
             {largeTitle}
             <WalletHalfSwitch current="bookings" />
-            {query === null && (ios || data.state !== 'ready') ? null : (
+            {query === null ? null : (
               <View style={{ paddingHorizontal: theme.space.gap16 }}>
                 <TextField
-                  autoFocus={ios}
+                  autoFocus
                   value={query ?? ''}
                   onChangeText={setQuery}
                   placeholder={searchLabel}
@@ -137,12 +137,20 @@ export function WalletBookingsScreen() {
             ) : (
               <>
                 {results === null && open !== null ? (
-                  <NextUpCard
-                    booking={open}
-                    when={meta(open, zoneOf(open.tz, tz))}
-                    onOpen={() => router.push(bookingRoute(open.id))}
-                    onPass={passOf(open.id)}
-                  />
+                  <>
+                    {data.wallet.offline.size === 0 ? null : (
+                      <OfflineBadge count={data.wallet.offline.size} />
+                    )}
+                    <WalletStack
+                      front={open}
+                      behind={rest}
+                      metaOf={(booking) => meta(booking, zoneOf(booking.tz, tz))}
+                      tz={zoneOf(open.tz, tz)}
+                      onPick={data.pick}
+                      onOpen={() => router.push(bookingRoute(open.id))}
+                      onPass={passOf(open.id)}
+                    />
+                  </>
                 ) : null}
                 {results === null && data.banner !== null ? (
                   <View style={{ paddingHorizontal: theme.space.gap16 }}>
