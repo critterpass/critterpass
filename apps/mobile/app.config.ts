@@ -166,6 +166,12 @@ export function androidGoogleServices(
  * 20260928-app-clip-built-behind-a-flag.md); invite pages offer it only with `links.app_clip` on.
  */
 const APP_CLIP_VARIANTS: ReadonlySet<AppVariant> = new Set(['development']);
+/**
+ * Variants whose App ID carries the Time Sensitive Notifications capability. Staging's App ID does
+ * not have it registered yet, so a staging profile can't sign the entitlement; staging pushes
+ * arrive as ordinary notifications until it is added back here.
+ */
+const TIME_SENSITIVE_VARIANTS: ReadonlySet<AppVariant> = new Set(['production']);
 const variant = VARIANTS[appVariant];
 
 export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
@@ -208,7 +214,9 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
       'keychain-access-groups': ['$(AppIdentifierPrefix)app.critterpass.shared'],
       // Flight changes, crew knocks and leave-by pings break through Focus and scheduled
       // summaries (the worker sends them with `interruption-level: time-sensitive`).
-      'com.apple.developer.usernotifications.time-sensitive': true,
+      ...(TIME_SENSITIVE_VARIANTS.has(appVariant)
+        ? { 'com.apple.developer.usernotifications.time-sensitive': true }
+        : {}),
     },
   },
   android: {
