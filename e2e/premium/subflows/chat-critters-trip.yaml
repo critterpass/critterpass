@@ -1,20 +1,12 @@
 appId: app.critterpass.dev
 ---
-# The trip's critter and memory pages in ${LOOK}, from Home and back to Home: the trip from the
-# Trips tab, then its Quests tile (crew quests, 8.07) and its Album tile (the trip journal, 8.12).
+# The trip's critter and memory pages in ${LOOK}, from Home and back to Home: the trip from Home's
+# live card (else the Trips tab), then its Quests tile (crew quests, 8.07) and its Album tile (the
+# trip journal, 8.12).
 - runFlow:
-    file: tab.yaml
+    file: trip-open-hub.yaml
     env:
-      TAB: trips
-      LABEL: Trips
-- extendedWaitUntil:
-    visible:
-      id: 'trip-list-row-.*'
-    timeout: 15000
-    optional: true
-- tapOn:
-    id: 'trip-list-row-.*'
-    optional: true
+      ZOOM: ''
 - extendedWaitUntil:
     visible:
       id: 'trip-hub'
@@ -90,7 +82,7 @@ appId: app.critterpass.dev
                 env:
                   ID: 'album-back'
                   LABEL: 'Back'
-# Back to the trip list, so the Trips tab opens on it next time.
+# Back out of the trip, so the next pass starts on Home.
 - repeat:
     times: 3
     while:
