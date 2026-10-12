@@ -1,28 +1,24 @@
 appId: app.critterpass.dev
 ---
 # Steps back until Home shows (at most eight steps), then opens the Home tab. Sheets and pushed
-# pages the earlier steps left open are closed on the way. The plan map leaves by its own back
-# button: on iOS an edge swipe over the map pans the map instead of going back.
+# pages the earlier steps left open are closed on the way. Each step is the edge swipe (the system
+# back on Android); a plan map or trip hub still showing after it then leaves by its own back
+# button, so a swipe the page didn't take shows in the log as that tap.
 - repeat:
     times: 8
     while:
       notVisible:
         id: 'home-screen'
     commands:
+      - runFlow: back.yaml
       - runFlow:
           when:
             visible:
-              id: 'plan-map-back'
+              id: 'plan-map-back|trip-hub-back'
           commands:
             - tapOn:
-                id: 'plan-map-back'
+                id: 'plan-map-back|trip-hub-back'
             - waitForAnimationToEnd
-      - runFlow:
-          when:
-            notVisible:
-              id: 'plan-map-back|home-screen'
-          commands:
-            - runFlow: back.yaml
 - runFlow:
     when:
       notVisible:
