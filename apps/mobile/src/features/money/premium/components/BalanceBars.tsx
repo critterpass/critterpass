@@ -4,7 +4,7 @@
  * from the centre on the Smooth spring and the amounts roll; a row opens that member's expenses.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -73,6 +73,9 @@ export function BalanceBars({
   const th = usePremiumTheme();
   const { t } = useLingui();
   const locale = useLocale();
+  // One amount column for every row, as wide as the widest amount (−200,000 ₫ needs more than the
+  // design's dollars), so the centre line stays straight down the card.
+  const [valueWidth, setValueWidth] = useState(VALUE_WIDTH);
   return (
     <Card
       style={{
@@ -90,7 +93,7 @@ export function BalanceBars({
         <Text
           variant="badge"
           tone="muted"
-          style={[styles.flex, { paddingEnd: VALUE_WIDTH }]}
+          style={[styles.flex, { paddingEnd: valueWidth }]}
           align="right"
         >
           {t({ id: 'money.bars.owed', message: 'Is owed' })}
@@ -122,7 +125,13 @@ export function BalanceBars({
                 {name}
               </Text>
               <Bar line={line} />
-              <View style={{ width: VALUE_WIDTH, alignItems: 'flex-end' }}>
+              <View
+                style={{ minWidth: valueWidth, alignItems: 'flex-end' }}
+                onLayout={(event) => {
+                  const width = Math.ceil(event.nativeEvent.layout.width);
+                  setValueWidth((current) => Math.max(current, width));
+                }}
+              >
                 <RollingAmount text={value} variant="rowTextStrong" color={color} />
               </View>
             </View>
