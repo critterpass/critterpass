@@ -55,6 +55,15 @@ describe('HEADER_OVERLAP', () => {
     expect(headerLayoutProblems(row, 390)).toEqual([]);
   });
 
+  it('ignores a row held wholly off the screen, as a card waiting to slide in', () => {
+    const row = new Map([
+      ['crew-caret', rect(610, 12)],
+      ['chat', rect(634, 98)],
+      ['inbox', rect(740, 44)],
+    ]);
+    expect(headerLayoutProblems(row, 402)).toEqual([]);
+  });
+
   it('measures the row once its layout settles and reports what collides', async () => {
     jest.useFakeTimers();
     const { result } = await renderHook(() => useHeaderOverlapGuard('home-header'));

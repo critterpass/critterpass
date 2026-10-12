@@ -9,6 +9,12 @@ appId: app.critterpass.dev
       visible:
         id: 'plan-map-search'
     commands:
+      # The map draws its tiles a moment after the page shows (the night look draws them anew).
+      - extendedWaitUntil:
+          visible:
+            id: 'premium-map-drawn'
+          timeout: 15000
+          optional: true
       - runFlow:
           file: shot.yaml
           env:

@@ -23,6 +23,7 @@ import {
 
 import { fitColour, PlaceThumb } from '@/features/explore';
 import { crewColour } from '@/features/vote';
+import { sheetMaterialStyle } from '@/ui/premium/shell';
 import { useBackAffordance } from '@/ui/qa/back-affordance';
 import { ideaIcon } from '../../ideas/idea-icon';
 import {
@@ -62,7 +63,7 @@ export function IdeasSheet({ tripId }: { readonly tripId: string }) {
         : draftBodyText(ideas.length);
 
   return (
-    <View style={{ flex: 1 }} testID="ideas-sheet">
+    <View style={[{ flex: 1 }, sheetMaterialStyle(theme)]} testID="ideas-sheet">
       <ScrollView
         contentContainerStyle={{
           paddingHorizontal: theme.space.gap16,

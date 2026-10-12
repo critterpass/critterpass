@@ -61,6 +61,12 @@ export function headerLayoutProblems(
   windowWidth: number,
 ): string[] {
   const entries = [...rects].filter(([, rect]) => rect.width > 0 && rect.height > 0);
+  // A row with no control inside the window is on a screen that is not showing (a stack card held
+  // a screen's width to the side before it slides in): nothing of it is drawn, so nothing is wrong.
+  const onScreen = entries.some(
+    ([, rect]) => rect.x + rect.width > TOUCH_PT && rect.x < windowWidth - TOUCH_PT,
+  );
+  if (!onScreen) return [];
   const problems: string[] = [];
   entries.forEach(([id, rect], index) => {
     for (const [other, otherRect] of entries.slice(index + 1)) {

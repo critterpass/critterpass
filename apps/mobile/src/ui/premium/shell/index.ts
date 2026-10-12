@@ -30,7 +30,7 @@ export { PushScreen } from './screens/push-screen';
 export type { PushScreenProps } from './screens/push-screen';
 export { RootScreen } from './screens/root-screen';
 export type { RootScreenProps, RootScrollBindings, RootScrollProps } from './screens/root-screen';
-export { SheetScreen, sheetRouteOptions } from './screens/sheet-screen';
+export { SheetScreen, sheetMaterialStyle, sheetRouteOptions } from './screens/sheet-screen';
 export type { SheetDetent, SheetScreenProps, SheetVerb } from './screens/sheet-screen';
 export { PlusSheetMorph } from './zoom/plus-sheet-morph';
 export type { MorphRect, PlusSheetMorphProps } from './zoom/plus-sheet-morph';

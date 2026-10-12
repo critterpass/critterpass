@@ -27,8 +27,7 @@ import { useProposalTrip } from '../data/trip';
 import { ProposalLoading } from '../proposal-loading';
 import { eachPrice, failedLine, tripDates } from '../labels';
 import { proposalRoutes } from '../routes';
-import { AloneView } from './alone-view';
-import { BuilderView } from './builder-view';
+import { blockedReason } from './blocked-reason';
 import {
   configOf,
   DEFAULT_CONFIG,
@@ -38,15 +37,21 @@ import {
   sendPlan,
 } from './model';
 import { proposalIdOf, toWire, type BuilderConfig } from './model';
-import { ReplyBySheet } from './reply-by-sheet';
-import { SendProgress } from './send-progress';
+import { LEGACY_VIEWS, type BuilderViews } from './views';
 
 const STAYS_SQL = `SELECT id, title, free_cancel_until FROM bookings
   WHERE trip_id = ? AND type = 'stay' AND status = 'booked' AND deleted_at IS NULL
   ORDER BY starts_at`;
 const BUILDABLE = new Set(['draft_review', 'proposed']);
 
-export function BuilderScreen({ tripId }: { readonly tripId: string }) {
+export function BuilderScreen({
+  tripId,
+  views = LEGACY_VIEWS,
+}: {
+  readonly tripId: string;
+  readonly views?: BuilderViews;
+}) {
+  const { Builder, Alone, Sent, ReplyBy } = views;
   useTripStreams(tripId);
   const trip = useProposalTrip(tripId);
   const proposal = useCurrentProposal(tripId);
@@ -96,7 +101,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
     sentId ?? (proposal !== null && proposal.status !== 'building' ? proposal.id : null);
   if (trip !== null && outId !== null) {
     return (
-      <SendProgress
+      <Sent
         guide={trip.guide}
         format={proposal?.format ?? config.format}
         destination={trip.destination}
@@ -140,7 +145,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
       });
     };
     return (
-      <AloneView
+      <Alone
         guide={trip.guide}
         destination={trip.destination}
         dates={tripDates(locale, trip.startDate, trip.endDate)}
@@ -211,7 +216,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
 
   return (
     <>
-      <BuilderView
+      <Builder
         locale={locale}
         guideName={guideName}
         guide={trip.guide}
@@ -264,7 +269,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
         onSend={() => void onSend()}
       />
       {picking ? (
-        <ReplyBySheet
+        <ReplyBy
           locale={locale}
           choices={replyByChoices(facts)}
           fallback={fallback}
@@ -279,22 +284,4 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
       ) : null}
     </>
   );
-}
-
-function blockedReason(plan: ReturnType<typeof sendPlan>): string | null {
-  if (plan.kind !== 'blocked') return null;
-  switch (plan.reason) {
-    case 'no_recipients':
-      return t({
-        id: 'proposal.build.noRecipients',
-        message: 'Invite someone to the crew first. There’s nobody to send it to yet.',
-      });
-    case 'offline_build':
-      return t({
-        id: 'proposal.build.offline',
-        message: 'You’re offline. The guide needs a connection to rewrite the versions.',
-      });
-    case 'sent':
-      return t({ id: 'proposal.build.alreadySent', message: 'This proposal is already out.' });
-  }
 }
