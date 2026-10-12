@@ -33,14 +33,22 @@ function param(params: Readonly<Record<string, string>>, ...keys: string[]): str
   return '';
 }
 
-registerScreens({
-  '3o-1': (params) =>
-    communityRoutes.browse(
-      param(params, 'placeId', 'destinationId', 'destination'),
-      param(params, 'tripId') || null,
-    ),
-  '3o-2': (params) =>
-    communityRoutes.plan(param(params, 'sharedPlanId', 'id'), param(params, 'tripId') || null),
-  '3o-3': (params) => communityRoutes.rate(param(params, 'tripId')),
-  '3o-4': (params) => communityRoutes.publish(param(params, 'tripId')),
-});
+/**
+ * Joins community's screens to the navigation registry. The root layout's register calls this at
+ * launch: with Metro's inline requires, a registration left at this module's top level would wait
+ * until something first reads `communityRoutes`, and the destination guide's Crew plans row (which
+ * asks the registry) would stay hidden until then.
+ */
+export function registerCommunityScreens(): void {
+  registerScreens({
+    '3o-1': (params) =>
+      communityRoutes.browse(
+        param(params, 'placeId', 'destinationId', 'destination'),
+        param(params, 'tripId') || null,
+      ),
+    '3o-2': (params) =>
+      communityRoutes.plan(param(params, 'sharedPlanId', 'id'), param(params, 'tripId') || null),
+    '3o-3': (params) => communityRoutes.rate(param(params, 'tripId')),
+    '3o-4': (params) => communityRoutes.publish(param(params, 'tripId')),
+  });
+}

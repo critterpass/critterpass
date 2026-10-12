@@ -8,10 +8,11 @@
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Linking, ScrollView, View } from 'react-native';
+import { Linking, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
+import { Doodle } from '@/features/explore';
 import { DEFAULT_GUIDE_ID, guideSticker } from '@/ui/avatar/guides';
 import { MediaLayer } from '@/ui/media/MediaLayer';
 import {
@@ -31,6 +32,7 @@ import { useGuestBrief } from '../../places/brief-stream';
 import { useCityGuide } from '../../places/guest-guide-page';
 import { voteRoutes } from '../../routes';
 import { useGuestFacts } from './guest-facts';
+import { GuestDock } from './guest-dock';
 import { SoloSheet } from './solo-sheet';
 
 const HERO = 340;
@@ -67,16 +69,31 @@ export function GuestGuide({
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.ground }} testID="guest-page">
       <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 110 }}>
-        <View style={{ height: HERO, overflow: 'hidden', backgroundColor: theme.accent.sun }}>
-          <MediaLayer
-            media={photo}
-            surface="accent"
-            accent={theme.accent.sun}
-            creditAt="bottom"
-            creditInset={OVERLAP + theme.space.gap8}
-            dots={false}
-            testID="guest-photo"
-          />
+        <View
+          style={{
+            height: HERO,
+            overflow: 'hidden',
+            backgroundColor: photo === null ? theme.color.banner.guide.bg : theme.color.control,
+          }}
+        >
+          {photo === null ? (
+            // No licensed photo of the place yet: a drawn cover on the guide's paper, not a flat
+            // colour block.
+            <View style={styles.cover} testID="guest-cover">
+              <Doodle name="temple" size={150} accent={theme.accent.sun} />
+            </View>
+          ) : (
+            <MediaLayer
+              media={photo}
+              surface="accent"
+              accent={theme.accent.sun}
+              tone="colour"
+              creditAt="bottom"
+              creditInset={OVERLAP + theme.space.gap8}
+              dots={false}
+              testID="guest-photo"
+            />
+          )}
         </View>
         <View
           style={{
@@ -266,34 +283,7 @@ export function GuestGuide({
           testID="guest-save"
         />
       </View>
-      {place === null ? null : (
-        <View
-          style={{
-            position: 'absolute',
-            left: theme.space.gap16,
-            right: theme.space.gap16,
-            bottom: insets.bottom + theme.space.gap12,
-            flexDirection: 'row',
-            gap: theme.space.gap8,
-          }}
-        >
-          <View style={{ flex: 1.5 }}>
-            <Button
-              label={t({ id: 'vote.guest.pitch', message: 'Pitch to the crew' })}
-              onPress={pitch}
-              testID="guest-pitch"
-            />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Button
-              label={t({ id: 'vote.premium.guest.solo', message: 'Go solo' })}
-              variant="secondary"
-              onPress={() => setSolo(true)}
-              testID="guest-solo"
-            />
-          </View>
-        </View>
-      )}
+      {place === null ? null : <GuestDock onPitch={pitch} onSolo={() => setSolo(true)} />}
       {solo && place !== null ? (
         <SoloSheet
           placeId={placeId}
@@ -306,3 +296,7 @@ export function GuestGuide({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  cover: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: OVERLAP },
+});
