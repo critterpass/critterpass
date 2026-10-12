@@ -82,7 +82,12 @@ function Cover() {
             }}
           />
         </View>
-        <Text variant="badge" color={theme.accent.sun} style={{ letterSpacing: 2.6 }}>
+        <Text
+          variant="badge"
+          color={theme.accent.sun}
+          style={{ letterSpacing: 2.6 }}
+          numberOfLines={1}
+        >
           {t({ id: 'onboarding.splash.coverMark', message: 'PASSPORT · PASSEPORT' })}
         </Text>
       </View>

@@ -161,7 +161,16 @@ export function WinnerStamp({ top, word, bottom, guide, play, onLanded }: Winner
               borderColor: ink.ring,
             }}
           />
-          <Text variant="tier" color={ink.text} align="center" numberOfLines={2}>
+          {/* A long crew name takes the ring's two lines, then steps down to fit whole. */}
+          <Text
+            variant="tier"
+            color={ink.text}
+            align="center"
+            numberOfLines={2}
+            singleLine={false}
+            adjustsFontSizeToFit
+            minimumFontScale={0.7}
+          >
             {top}
           </Text>
           <Text

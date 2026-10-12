@@ -85,7 +85,7 @@ export function VisaCard({
       <View style={styles.grid}>
         {fields.map(([label, value]) => (
           <View key={label} style={styles.field}>
-            <Text variant="badge" color={PAPER_MUTED} style={styles.fieldLabel}>
+            <Text variant="badge" color={PAPER_MUTED} style={styles.fieldLabel} numberOfLines={1}>
               {label}
             </Text>
             <Text variant="rowTextStrong" color={PAPER_INK} numberOfLines={1}>

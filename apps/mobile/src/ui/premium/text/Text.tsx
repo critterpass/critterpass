@@ -36,6 +36,9 @@ export interface PremiumTextProps extends Omit<RNTextProps, 'allowFontScaling'> 
 }
 
 /** Labels set inside a control (button, pill, segment, tag, badge): one line by design. */
+/** The smallest a one-line label shrinks to before it is cut. */
+const LABEL_FIT_FLOOR = 0.75;
+
 const ONE_LINE_VARIANTS: ReadonlySet<PremiumTypeName> = new Set<PremiumTypeName>([
   'button',
   'buttonSmall',
@@ -106,9 +109,18 @@ export function Text({
   const { plainGuideText, fontScale } = useThemeSettings();
   const token = theme.type[variant];
   const font = premiumFont(token, locale, plainGuideText);
+  // A one-line label held to one line steps its size down to fit whole (a longer language, a
+  // narrow pill or segment), as the system's controls do, instead of losing its end.
+  const fit =
+    rest.numberOfLines === 1 &&
+    ONE_LINE_VARIANTS.has(variant) &&
+    rest.adjustsFontSizeToFit === undefined
+      ? { adjustsFontSizeToFit: true, minimumFontScale: LABEL_FIT_FLOOR }
+      : {};
 
   return (
     <RNText
+      {...fit}
       {...rest}
       allowFontScaling
       maxFontSizeMultiplier={token.maxScale}

@@ -41,6 +41,7 @@ export function TextButton({
     >
       <Text
         variant="textButton"
+        numberOfLines={1}
         tone={disabled === true ? 'placeholder' : tone}
         {...(color === undefined || disabled === true ? {} : { color })}
       >

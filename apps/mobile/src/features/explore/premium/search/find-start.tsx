@@ -104,7 +104,7 @@ export function FindTiles({ tiles }: { readonly tiles: readonly FindTile[] }) {
           <Text variant="rowTextStrong" numberOfLines={2}>
             {tile.title}
           </Text>
-          <Text variant="badge" tone="inkSecondary" numberOfLines={2}>
+          <Text variant="badge" tone="inkSecondary" numberOfLines={3} singleLine={false}>
             {tile.line}
           </Text>
         </PressableScale>
