@@ -324,10 +324,15 @@ appId: app.critterpass.dev
                         CODE: '7.29'
                         NAME: target-keyboard
                         LOOK: ${LOOK}
+                  # Saving closes the keyboard itself; hiding it again would be a system back
+                  # on Android and leave the budget page.
                   - tapOn:
                       id: 'money-budget-save'
                       optional: true
-                  - hideKeyboard:
+                  - extendedWaitUntil:
+                      visible:
+                        id: 'money-budget-summary'
+                      timeout: 10000
                       optional: true
                   - runFlow:
                       file: shot.yaml
