@@ -36,8 +36,22 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'bookings-closed-.*'
-      - tapOn:
-          id: 'bookings-open-details'
+      - waitForAnimationToEnd
+      # The picked card comes to the front (open it), or opens its detail straight away.
+      - runFlow:
+          when:
+            notVisible:
+              id: 'bookings-detail'
+          commands:
+            - scrollUntilVisible:
+                element:
+                  id: 'bookings-open-details'
+                direction: UP
+                timeout: 10000
+                optional: true
+            - tapOn:
+                id: 'bookings-open-details'
+                optional: true
       - runFlow: wallet-detail.yaml
 - runFlow:
     when:
