@@ -20,6 +20,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { GalleryKind, GalleryRow, GalleryTier } from './gallery-rows';
+import { useWidgetCopy } from './widget-copy';
 
 export interface WidgetGalleryViewProps {
   readonly rows: readonly GalleryRow[];
@@ -104,39 +105,7 @@ export function WidgetGalleryView(props: WidgetGalleryViewProps) {
   const theme = useTheme();
   const { collapse, collapsed, onScroll } = useLargeTitleCollapse();
 
-  const copy: Record<GalleryKind, { readonly title: string; readonly line: string }> = {
-    countdown: {
-      title: t({ id: 'home.widgets.countdown', message: 'Countdown' }),
-      line: t({ id: 'home.widgets.countdownLine', message: 'Small · home and lock screen' }),
-    },
-    vote: {
-      title: t({ id: 'home.widgets.vote', message: 'The vote' }),
-      line: t({ id: 'home.widgets.voteLine', message: 'Medium · tap to vote' }),
-    },
-    today: {
-      title: t({ id: 'home.widgets.today', message: 'Today' }),
-      line: t({ id: 'home.widgets.todayLine', message: 'Large · the day’s plan and weather' }),
-    },
-    balances: {
-      title: t({ id: 'home.widgets.balances', message: 'Balances' }),
-      line: t({ id: 'home.widgets.balancesLine', message: 'Small · who owes who, and a nudge' }),
-    },
-    crew: {
-      title: t({ id: 'home.widgets.crew', message: 'Crew, live' }),
-      line: t({
-        id: 'home.widgets.crewLine',
-        message: 'Small or medium · everyone near the meet-up',
-      }),
-    },
-    next_flight: {
-      title: t({ id: 'home.widgets.nextFlight', message: 'Next flight' }),
-      line: t({ id: 'home.widgets.nextFlightLine', message: 'Small · gate, seat, boarding time' }),
-    },
-    critterdex: {
-      title: t({ id: 'home.widgets.critterdex', message: 'Critterdex' }),
-      line: t({ id: 'home.widgets.critterdexLine', message: 'Small · the critters you’ve met' }),
-    },
-  };
+  const copy = useWidgetCopy();
   const tiers: Record<
     GalleryTier,
     { readonly word: string; readonly bg: string; readonly fg: string }

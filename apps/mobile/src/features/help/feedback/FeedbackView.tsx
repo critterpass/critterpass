@@ -13,7 +13,7 @@ import Animated from 'react-native-reanimated';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { patterns } from '@/motion';
-import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { DashedAddCard } from '@/ui/cards/DashedAddCard';
 import { ChoiceChip } from '@/ui/chips/ChoiceChip';
@@ -32,16 +32,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { FeedbackMode } from '../routes';
 import { FEEDBACK_MOOD_ORDER, type FeedbackDraft } from './draft';
-import { useFeedbackLabels } from './labels';
-
-/** The critter that wears each mood. */
-const MOOD_CRITTERS: Readonly<Record<FeedbackMood, GuideStickerId>> = {
-  grr: 'ajo',
-  meh: 'pon',
-  okay: 'sardi',
-  good: 'tokek',
-  love: 'paco',
-};
+import { MOOD_CRITTERS, useFeedbackLabels } from './labels';
 
 const MOOD_SIZE = 52;
 

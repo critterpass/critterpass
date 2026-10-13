@@ -5,16 +5,11 @@
  * back to once the number is verified. Also the returning user's sign-in from the splash.
  */
 import { t } from '@lingui/core/macro';
-import { getLocales } from 'expo-localization';
-import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
-import { homeBaseFor } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
-import { deviceLastUid } from '@/data/app-session/last-uid-store';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
 import { guideSticker } from '@/ui/avatar/guides';
@@ -31,23 +26,15 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { airportDataset } from '../content';
-import { markOnboardingComplete } from '../flow-controller/completion';
-import { readDraft, updateDraft } from '../flow-controller/draft-store';
-import { ONBOARDING_ROUTES } from '../flow-controller/steps';
-import { useTrackStep } from '../flow-controller/track';
 import { DeclinedMergeNote, MergeSheet } from '../save/MergeSheet';
 import { saveErrorLine } from '../save/SaveSheet';
-import { useSaveFlow } from '../save/use-save-flow';
-import { useOnboardingServices } from '../services';
 import { CountryPicker } from './CountryPicker';
 import { OtherWays } from './OtherWays';
 import { phoneProblemLine } from './phone-copy';
-import { defaultCountry, formatE164 } from './phone-number';
-import { usePhoneFlow } from './use-phone-flow';
+import { formatE164 } from './phone-number';
+import { usePhoneStep } from './use-phone-step';
 
-/** From the last digit landing to moving on (3a-8: ring at 1350 ms, auto-advance at 2150 ms). */
-export const PHONE_ADVANCE_MS = 2150;
+export { PHONE_ADVANCE_MS } from './use-phone-step';
 
 const useStyles = makeStyles((th) => ({
   scroll: { flex: 1 },
@@ -69,62 +56,13 @@ const useStyles = makeStyles((th) => ({
 }));
 
 export function PhoneScreen() {
-  const params = useLocalSearchParams<{ mode?: string }>();
-  const returning = params.mode === 'returning';
-  useTrackStep('phone', returning ? 'returning' : 'new');
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
-  const services = useOnboardingServices();
-  const flow = useSaveFlow();
-  const draft = readDraft();
-  const home = draft?.home_iata ? homeBaseFor(airportDataset(), draft.home_iata) : null;
-  const phone = usePhoneFlow(
-    {
-      auth: services.auth,
-      save: flow,
-      // Signed in to the pass this number holds: the app starts again on that account, at Home.
-      returning: returning
-        ? {
-            onSignedIn: (userId) => {
-              // The restart opens this account's data straight away, not the fresh pass's first.
-              deviceLastUid.write(userId);
-              setTimeout(() => {
-                markOnboardingComplete();
-                services.restart();
-              }, PHONE_ADVANCE_MS);
-            },
-          }
-        : undefined,
-    },
-    defaultCountry(home?.country ?? null, getLocales()[0]?.regionCode ?? null),
-  );
-  const [picking, setPicking] = useState(false);
+  const step = usePhoneStep();
+  const { returning, services, flow, phone, picking } = step;
   const { country, number, sent, waitS, code, status, problem, busy } = phone;
   const clap = useLoop('hop', { active: status === 'valid' });
-
-  // Saved (or switched) → move on.
-  useEffect(() => {
-    const state = flow.state;
-    if (state.kind === 'saved') {
-      if (returning) {
-        // No pass on this number yet: it is now this phone's account; make the pass.
-        const timer = setTimeout(() => router.replace(ONBOARDING_ROUTES.name), PHONE_ADVANCE_MS);
-        return () => clearTimeout(timer);
-      }
-      // The page that asked for a number decides what a saved pass leads to (the permissions page,
-      // or a seat in the crew that invited them): after the clap, back to it.
-      updateDraft((d) => ({ ...d, saved: true }));
-      const timer = setTimeout(() => router.back(), PHONE_ADVANCE_MS);
-      return () => clearTimeout(timer);
-    }
-    if (state.kind === 'switched') {
-      // "Use my old pass": the app starts again on that account, like a returning sign-in.
-      markOnboardingComplete();
-      services.restart();
-    }
-    return undefined;
-  }, [flow.state, returning, services]);
 
   const lundi = guideSticker('lundi');
   return (
@@ -177,7 +115,7 @@ export function PhoneScreen() {
               clearable={sent === null}
               leading={
                 <PressScale
-                  onPress={() => setPicking(true)}
+                  onPress={step.openPicker}
                   accessibilityLabel={t({
                     id: 'onboarding.phone.pickCountry',
                     message: `Country code ${formatE164(country, '')}`,
@@ -281,21 +219,10 @@ export function PhoneScreen() {
       <MergeSheet
         state={flow.state}
         onUseExisting={() => void flow.confirmSwitch()}
-        onKeepNew={() => {
-          flow.keepThisPass();
-          phone.changeNumber();
-        }}
+        onKeepNew={step.keepNew}
         onClose={flow.closeKept}
       />
-      {picking ? (
-        <CountryPicker
-          onPick={(next) => {
-            phone.setCountry(next);
-            setPicking(false);
-          }}
-          onClose={() => setPicking(false)}
-        />
-      ) : null}
+      {picking ? <CountryPicker onPick={step.pickCountry} onClose={step.closePicker} /> : null}
     </>
   );
 }

@@ -11,9 +11,9 @@ import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
 import { Icon, ListCard, Row, SegmentedControl, Text, Toggle, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { CrewChatSheet } from '../../settings/crew-chat-sheet';
 import { useSettingsModel } from '../../settings/settings-screen';
 import { playTokekTheme } from '../../settings/tokek-theme';
+import { CrewChatChoice } from './crew-chat-choice';
 
 function PremiumSettingsRow({
   row,
@@ -121,82 +121,83 @@ export function SettingsPremiumScreen() {
   );
   const plan = model.plan;
   return (
-    <>
-      <PushScreen
-        title={t({ id: 'you.profile.settings', message: 'Settings' })}
-        backLabel={t({ id: 'you.profile.backPass', message: 'Pass' })}
-        testID="you-settings"
-        {...(plan === null
-          ? {}
-          : {
-              action: {
-                key: 'plan',
-                label: plan.label,
-                // eslint-disable-next-line lingui/no-unlocalized-strings -- an SF Symbol name, never copy.
-                sfSymbol: 'star.circle',
-                glyph: 'pass' as const,
-                onPress: plan.onPress,
-                testID: 'you-settings-plan',
-                element: (
-                  <Pressable
-                    onPress={plan.onPress}
-                    accessibilityRole="button"
-                    accessibilityLabel={plan.label}
-                    style={{
-                      height: 32,
-                      paddingHorizontal: 12,
-                      borderRadius: 16,
-                      backgroundColor: th.accent.sun,
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Text variant="noteAction" tone="onAccent">
-                      {`${plan.label} ›`}
-                    </Text>
-                  </Pressable>
-                ),
-              },
-            })}
-      >
-        <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap6 }}>
-          {model.sections
-            .filter((section) => section.rows.length > 0)
-            .map((section) => (
-              <View key={section.id} style={{ gap: th.space.gap4, marginTop: th.space.gap10 }}>
-                <Text
-                  variant="caption"
-                  tone="muted"
-                  style={{ paddingHorizontal: 6 }}
-                  accessibilityRole="header"
+    <PushScreen
+      title={t({ id: 'you.profile.settings', message: 'Settings' })}
+      backLabel={t({ id: 'you.profile.backPass', message: 'Pass' })}
+      testID="you-settings"
+      {...(plan === null
+        ? {}
+        : {
+            action: {
+              key: 'plan',
+              label: plan.label,
+              // eslint-disable-next-line lingui/no-unlocalized-strings -- an SF Symbol name, never copy.
+              sfSymbol: 'star.circle',
+              glyph: 'pass' as const,
+              onPress: plan.onPress,
+              testID: 'you-settings-plan',
+              element: (
+                <Pressable
+                  onPress={plan.onPress}
+                  accessibilityRole="button"
+                  accessibilityLabel={plan.label}
+                  style={{
+                    height: 32,
+                    paddingHorizontal: 12,
+                    borderRadius: 16,
+                    backgroundColor: th.accent.sun,
+                    justifyContent: 'center',
+                  }}
                 >
-                  {section.title}
-                </Text>
-                <ListCard radius={20} testID={`you-settings-${section.id}`}>
-                  {section.rows.map((row) => (
+                  <Text variant="noteAction" tone="onAccent">
+                    {`${plan.label} ›`}
+                  </Text>
+                </Pressable>
+              ),
+            },
+          })}
+    >
+      <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap6 }}>
+        {model.sections
+          .filter((section) => section.rows.length > 0)
+          .map((section) => (
+            <View key={section.id} style={{ gap: th.space.gap4, marginTop: th.space.gap10 }}>
+              <Text
+                variant="caption"
+                tone="muted"
+                style={{ paddingHorizontal: 6 }}
+                accessibilityRole="header"
+              >
+                {section.title}
+              </Text>
+              <ListCard radius={20} testID={`you-settings-${section.id}`}>
+                {section.rows.map((row) =>
+                  row.key === 'crew-chat' && row.kind === 'value' ? (
+                    <CrewChatChoice
+                      key={row.key}
+                      title={row.title}
+                      value={row.value}
+                      selected={model.crewChat}
+                      onSelect={model.setCrewChat}
+                    />
+                  ) : (
                     <PremiumSettingsRow key={row.key} row={row} chatty={chatty} />
-                  ))}
-                </ListCard>
-              </View>
-            ))}
-          <Pressable
-            onPress={playTokekTheme}
-            accessibilityRole="button"
-            style={{ alignItems: 'center', paddingVertical: th.space.gap16 }}
-            testID="you-settings-version"
-          >
-            <Text variant="mono" tone="placeholder">
-              {model.version}
-            </Text>
-          </Pressable>
-        </View>
-      </PushScreen>
-      {model.choosingCrewChat ? (
-        <CrewChatSheet
-          selected={model.crewChat}
-          onSelect={model.setCrewChat}
-          onClose={() => model.setChoosingCrewChat(false)}
-        />
-      ) : null}
-    </>
+                  ),
+                )}
+              </ListCard>
+            </View>
+          ))}
+        <Pressable
+          onPress={playTokekTheme}
+          accessibilityRole="button"
+          style={{ alignItems: 'center', paddingVertical: th.space.gap16 }}
+          testID="you-settings-version"
+        >
+          <Text variant="mono" tone="placeholder">
+            {model.version}
+          </Text>
+        </Pressable>
+      </View>
+    </PushScreen>
   );
 }

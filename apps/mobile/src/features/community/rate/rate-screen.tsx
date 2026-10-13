@@ -5,14 +5,11 @@
  * reopens the last answer to correct it. The stack resumes where it was left. A tip moderation turned down says so gently;
  * the end card offers SHARE THE PLAN TOO.
  */
-import type { RatingCard, PlaceVerdict } from '@cp/domain';
+import type { PlaceVerdict } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 
-import { useCommand } from '@/data/commands/use-command';
-import { useCommandFeedback } from '@/motion/island-toast';
 import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
@@ -29,19 +26,9 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { dataOf, useRatingCards } from '../api';
-import { ratePlaces, type RateVerdict } from '../commands';
 import { communityRoutes } from '../routes';
-import {
-  draftFor,
-  rejectedTips,
-  resumeIndex,
-  TIP_LIMIT,
-  verdictFor,
-  withAnswers,
-} from './rate-model';
-
-const RATE_TOAST = 'community-rate';
+import { TIP_LIMIT } from './rate-model';
+import { useRateTrip } from './use-rate-trip';
 
 const useStyles = makeStyles((th) => ({
   content: { paddingHorizontal: th.size.gutter, gap: th.space['16'] },
@@ -56,41 +43,24 @@ export function RateTripScreen({ tripId }: { tripId: string }) {
   const styles = useStyles();
   const theme = useTheme();
   const router = useRouter();
-  const { state, reload } = useRatingCards(tripId);
-  const data = dataOf(state);
-  const [answers, setAnswers] = useState<ReadonlyMap<string, RateVerdict>>(new Map());
-  const cards = useMemo(() => withAnswers(data?.cards ?? [], answers), [data, answers]);
-  const [index, setIndex] = useState<number | null>(null);
-  // The verdict and tip for the card on screen; nothing is sent until Next.
-  const [picked, setPicked] = useState<PlaceVerdict | null>(null);
-  const [tip, setTip] = useState('');
-  const [waiting, setWaiting] = useState(false);
-  const { send } = useCommand(ratePlaces);
-  const { report } = useCommandFeedback();
+  const {
+    state,
+    reload,
+    data,
+    cards,
+    at,
+    current,
+    picked,
+    setPicked,
+    tip,
+    setTip,
+    waiting,
+    next,
+    back,
+    place,
+    turnedDown,
+  } = useRateTrip(tripId);
   const guide = guideSticker(null);
-
-  // Until she answers, the stack sits at the first place without a verdict.
-  const at = index ?? (data === null ? 0 : resumeIndex(data.cards));
-  const current: RatingCard | undefined = cards[at];
-  const show = (next: number) => {
-    // Going on starts clean; going back shows what was answered, to correct it.
-    const draft = draftFor(next < at ? cards[next] : undefined);
-    setPicked(draft.verdict);
-    setTip(draft.tip);
-    setIndex(next);
-  };
-  const next = () => {
-    if (current === undefined || picked === null) return;
-    const item = verdictFor(current, picked, tip);
-    setAnswers((previous) => new Map(previous).set(current.poi_id, item));
-    void send({ trip_id: tripId, verdicts: [item] }).then((result) => {
-      const outcome = report(result, { offlineCapable: true, id: RATE_TOAST });
-      setWaiting(outcome === 'queued');
-    });
-    show(at + 1);
-  };
-  const place = data?.destination_name ?? '';
-  const turnedDown = rejectedTips(cards);
 
   return (
     <Scaffold edges={['top']} testID="rate-trip">
@@ -255,7 +225,7 @@ export function RateTripScreen({ tripId }: { tripId: string }) {
           <View style={styles.center}>
             <TextLink
               label={t({ id: 'community.rate.backOne', message: 'Back one' })}
-              onPress={() => show(at - 1)}
+              onPress={back}
               testID="rate-back-one"
             />
           </View>

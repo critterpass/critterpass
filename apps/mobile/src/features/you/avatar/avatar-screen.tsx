@@ -20,6 +20,7 @@ import { sizeToken, useTheme } from '@/ui/theme';
 import { useOwnerUid } from '../data/live-rows';
 import { dropPendingEdits, putPendingEdits } from '../data/pending-edits';
 import { PENDING_ME, type PendingMe } from '../profile/pending-me';
+import type { ProfileAvatar } from '../profile/profile-model';
 import { ProfileFace } from '../profile/profile-parts';
 import { useProfile } from '../profile/use-profile';
 import { YOU_ROUTES } from '../routes';
@@ -37,7 +38,7 @@ export const setAvatarCommand = defineClientCommand<SetAvatarPayload>({
 /** The picker's preview, as large as the render draws it. */
 const PREVIEW = 112;
 
-type PhotoServices = Parameters<typeof useRealPhoto>[0]['photos'];
+export type PhotoServices = Parameters<typeof useRealPhoto>[0]['photos'];
 
 type Choice =
   | { readonly kind: 'initials' }
@@ -63,8 +64,11 @@ function tabOf(face: MemberFace): AvatarTab {
   return face.kind === 'initials' ? 'initials' : 'critter';
 }
 
-export function AvatarScreen({ photos }: { readonly photos: PhotoServices }) {
-  const theme = useTheme();
+/**
+ * The picker's state over the person's current face and what each control does; DONE records the
+ * choice (shown at once, queued offline). Both the current and premium pickers draw it.
+ */
+export function useAvatarPicker(photos: PhotoServices) {
   const uid = useOwnerUid();
   const { model } = useProfile();
   const faces = useMemberFaces();
@@ -92,73 +96,97 @@ export function AvatarScreen({ photos }: { readonly photos: PhotoServices }) {
             ? { kind: 'photo', mediaKey: choice.mediaKey }
             : { kind: 'initials' };
   const shownUri = choice?.kind === 'photo' ? choice.uri : choice === null ? currentUri : null;
-  const name = model?.name ?? '';
+  const avatar: ProfileAvatar =
+    shown.kind === 'guide'
+      ? { kind: 'guide', guide: shown.guide }
+      : shown.kind === 'form'
+        ? { kind: 'form', formId: shown.formId }
+        : { kind: 'initials' };
+  const ring =
+    choice === null
+      ? (model?.ring ?? null)
+      : shown.kind === 'form' || shown.kind === 'guide'
+        ? shown.ring
+        : null;
+
+  return {
+    name: model?.name ?? '',
+    shown,
+    avatar,
+    ring,
+    photoUri: shown.kind === 'photo' ? shownUri : null,
+    tab: tab ?? tabOf(current),
+    onTab: (next: AvatarTab) => {
+      setTab(next);
+      setChoice((picked) => choiceOnTab(next, current.kind, picked));
+    },
+    guide: shown.kind === 'guide' ? shown.guide : null,
+    onGuide: (guide: GuideAvatarId) => setChoice({ kind: 'guide', guide }),
+    forms,
+    form: shown.kind === 'form' ? shown.formId : null,
+    onForm: (key: string) =>
+      setChoice({
+        kind: 'form',
+        formId: key,
+        ring: forms.find((form) => form.key === key)?.ring ?? null,
+      }),
+    real,
+    photoPending: choice?.kind === 'photo',
+    canDone: choice !== null,
+    onDone: () => {
+      if (choice === null) return;
+      const wire = wireChoice(choice);
+      putPendingEdits<PendingMe>(PENDING_ME, {
+        avatar: {
+          kind: wire.kind,
+          form_id: wire.kind === 'critter' ? wire.form_id : null,
+          ring: choice.kind === 'form' ? choice.ring : null,
+          media_key: wire.kind === 'photo' ? wire.media_key : null,
+        },
+      });
+      const undo = () => dropPendingEdits<PendingMe>(PENDING_ME, ['avatar']);
+      void send({ avatar_id: generateUuidV7(), choice: wire }).then(
+        (result) => report(result, { offlineCapable: true }) === 'refused' && undo(),
+        undo,
+      );
+      goBackOr(YOU_ROUTES.profile);
+    },
+    onBack: () => goBackOr(YOU_ROUTES.profile),
+  };
+}
+
+export function AvatarScreen({ photos }: { readonly photos: PhotoServices }) {
+  const theme = useTheme();
+  const picker = useAvatarPicker(photos);
+  const { shown, real } = picker;
   const diameter = sizeToken(theme.size.avatar, 'sm');
 
   return (
     <>
       <AvatarView
-        name={name}
+        name={picker.name}
         preview={
           <ProfileFace
-            avatar={
-              shown.kind === 'guide'
-                ? { kind: 'guide', guide: shown.guide }
-                : shown.kind === 'form'
-                  ? { kind: 'form', formId: shown.formId }
-                  : { kind: 'initials' }
-            }
-            name={name}
-            ring={
-              choice === null
-                ? (model?.ring ?? null)
-                : shown.kind === 'form' || shown.kind === 'guide'
-                  ? shown.ring
-                  : null
-            }
-            photoUri={shown.kind === 'photo' ? shownUri : null}
+            avatar={picker.avatar}
+            name={picker.name}
+            ring={picker.ring}
+            photoUri={picker.photoUri}
             size={PREVIEW}
           />
         }
-        face={facePropsOf(shown, shown.kind === 'photo' ? shownUri : null, diameter)}
-        tab={tab ?? tabOf(current)}
-        onTab={(next) => {
-          setTab(next);
-          setChoice((picked) => choiceOnTab(next, current.kind, picked));
-        }}
-        guide={shown.kind === 'guide' ? shown.guide : null}
-        onGuide={(guide) => setChoice({ kind: 'guide', guide })}
-        forms={forms}
-        form={shown.kind === 'form' ? shown.formId : null}
-        onForm={(key) =>
-          setChoice({
-            kind: 'form',
-            formId: key,
-            ring: forms.find((form) => form.key === key)?.ring ?? null,
-          })
-        }
+        face={facePropsOf(shown, picker.photoUri, diameter)}
+        tab={picker.tab}
+        onTab={picker.onTab}
+        guide={picker.guide}
+        onGuide={picker.onGuide}
+        forms={picker.forms}
+        form={picker.form}
+        onForm={picker.onForm}
         onPhoto={photos === null ? null : real.open}
-        photoPending={choice?.kind === 'photo'}
-        canDone={choice !== null}
-        onDone={() => {
-          if (choice === null) return;
-          const wire = wireChoice(choice);
-          putPendingEdits<PendingMe>(PENDING_ME, {
-            avatar: {
-              kind: wire.kind,
-              form_id: wire.kind === 'critter' ? wire.form_id : null,
-              ring: choice.kind === 'form' ? choice.ring : null,
-              media_key: wire.kind === 'photo' ? wire.media_key : null,
-            },
-          });
-          const undo = () => dropPendingEdits<PendingMe>(PENDING_ME, ['avatar']);
-          void send({ avatar_id: generateUuidV7(), choice: wire }).then(
-            (result) => report(result, { offlineCapable: true }) === 'refused' && undo(),
-            undo,
-          );
-          goBackOr(YOU_ROUTES.profile);
-        }}
-        onBack={() => goBackOr(YOU_ROUTES.profile)}
+        photoPending={picker.photoPending}
+        canDone={picker.canDone}
+        onDone={picker.onDone}
+        onBack={picker.onBack}
       />
       {photos === null ? null : (
         <RealPhotoSheet

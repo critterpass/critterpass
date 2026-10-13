@@ -1,6 +1,6 @@
 /**
  * 2.15 / 2.16 "Got a code?": six tiles (the real code alphabet: no 0, 1, I, L, O or U), the
- * system paste control (nothing is read until it is tapped), the crew card rising when the code is
+ * "Paste a link" pill (nothing is read until it is tapped), the crew card rising when the code is
  * found, a pink shake and one line when it is wrong, and joining (the waitlist on a full trip).
  * Problems a join can't fix show in place with their one way forward.
  */
@@ -74,37 +74,22 @@ export function PremiumCodePage() {
       header={
         <View>
           <WizardHeader label="" backLabel={backLabel} onBack={() => router.back()} />
-          {Clipboard.isPasteButtonAvailable ? (
-            <View style={{ position: 'absolute', right: theme.space.gutter, bottom: 5 }}>
-              <Clipboard.ClipboardPasteButton
-                acceptedContentTypes={['url', 'plain-text']}
-                displayMode="iconAndLabel"
-                backgroundColor={theme.color.card}
-                foregroundColor={theme.color.ink}
-                cornerStyle="capsule"
-                style={{ width: 132, height: 34 }}
-                onPress={(data) => {
-                  if (data.type === 'text') entry.onPaste(data.text);
-                }}
-              />
-            </View>
-          ) : (
-            // Where the system paste control is missing (Android), the design's floating pill
-            // reads the clipboard only when tapped.
-            <View style={{ position: 'absolute', right: theme.space.gutter, bottom: 5 }}>
-              <Button
-                label={t({ id: 'onboarding.premium.code.pasteLink', message: 'Paste a link' })}
-                variant="floating"
-                size="small"
-                onPress={() => {
-                  void Clipboard.getStringAsync().then((text) => {
-                    if (text !== '') entry.onPaste(text);
-                  });
-                }}
-                testID="invite-code-paste"
-              />
-            </View>
-          )}
+          {/* The design's floating glass pill on both platforms. The system paste control
+              can't carry the design's label or glass and draws its own tinted box, so the
+              pill reads the clipboard only when tapped (iOS asks once to allow the paste). */}
+          <View style={{ position: 'absolute', right: theme.space.gutter, bottom: 5 }}>
+            <Button
+              label={t({ id: 'onboarding.premium.code.pasteLink', message: 'Paste a link' })}
+              variant="floating"
+              size="small"
+              onPress={() => {
+                void Clipboard.getStringAsync().then((text) => {
+                  if (text !== '') entry.onPaste(text);
+                });
+              }}
+              testID="invite-code-paste"
+            />
+          </View>
         </View>
       }
       testID="invite-code-screen"

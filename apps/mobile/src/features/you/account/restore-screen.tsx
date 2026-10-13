@@ -10,14 +10,11 @@ import { useCommand } from '@/data/commands/use-command';
 
 import { restoreAccountCommand } from './account-api';
 import { deviceAccountServices, type AccountServices } from './account-services';
-import { ClosedView, type ClosedProblem } from './closed-view';
+import { ClosedView, type ClosedProblem, type ClosedViewProps } from './closed-view';
 import { useAccountRead } from './use-account';
 
-export function RestoreScreen({
-  services = deviceAccountServices,
-}: {
-  readonly services?: AccountServices;
-}) {
+/** Restoring or leaving a closed account, for either look of the closed page. */
+export function useRestoreAccount(services: AccountServices): ClosedViewProps {
   const read = useAccountRead(services);
   const command = useCommand(restoreAccountCommand);
   const [busy, setBusy] = useState(false);
@@ -45,17 +42,22 @@ export function RestoreScreen({
     setBusy(false);
   };
 
-  return (
-    <ClosedView
-      mode="restore"
-      purgeAt={deletion?.purge_at ?? null}
-      closedOn={
-        deletion === null || deletion === undefined ? new Date() : new Date(deletion.requested_at)
-      }
-      busy={busy || read === null}
-      problem={problem}
-      onKeep={() => void restore()}
-      onClose={() => void leave()}
-    />
-  );
+  return {
+    mode: 'restore',
+    purgeAt: deletion?.purge_at ?? null,
+    closedOn:
+      deletion === null || deletion === undefined ? new Date() : new Date(deletion.requested_at),
+    busy: busy || read === null,
+    problem,
+    onKeep: () => void restore(),
+    onClose: () => void leave(),
+  };
+}
+
+export function RestoreScreen({
+  services = deviceAccountServices,
+}: {
+  readonly services?: AccountServices;
+}) {
+  return <ClosedView {...useRestoreAccount(services)} />;
 }

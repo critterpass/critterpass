@@ -8,16 +8,13 @@
  * missing one instead of issuing.
  */
 import { t } from '@lingui/core/macro';
-import { router, useIsFocused } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { router } from 'expo-router';
 import { Pressable, ScrollView, View } from 'react-native';
 
-import { guideFormId, guideOfForm, homeBaseFor, type TasteTag } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
-import { useAnalytics } from '@/lib/analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { AvatarPicker, guideSticker, type GuideAvatarId } from '@/ui/avatar';
+import { AvatarPicker, guideSticker } from '@/ui/avatar';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
@@ -26,20 +23,15 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { airportDataset, onboardingQuiz } from '../content';
-import { ensureDraft, updateDraft, usePassDraft } from '../flow-controller/draft-store';
 import { IssuedPage } from '../issued/IssuedScreen';
 import { OnboardingPassCard } from '../pass-view';
 import { SaveSheet } from '../save/SaveSheet';
-import { useSaveFlow } from '../save/use-save-flow';
 import { EditPassSheet } from './EditPassSheet';
 import { TravelChips } from './TravelChips';
-import { useInviteSession } from './invite-session';
-import { missingPassPart, passAskLabel } from './pass-missing';
-import { answersForTags, applyPrefill, prefillOf } from './pass-prefill';
+import { passAskLabel } from './pass-missing';
 import { PassJoinProblem } from './PassJoinProblem';
 import { HANDOFF_ROUTES } from './routes';
-import { useSeatJoin } from './use-seat-join';
+import { useInvitePassStep } from './use-invite-pass-step';
 
 const useStyles = makeStyles((th) => ({
   content: {
@@ -60,72 +52,10 @@ export function PassScreen() {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
-  const analytics = useAnalytics();
-  const session = useInviteSession();
-  const draft = usePassDraft() ?? ensureDraft();
-  const prefill = useMemo(() => prefillOf(session.preview), [session.preview]);
-  const quiz = onboardingQuiz();
-  const [selected, setSelected] = useState<TasteTag[]>(() => [...prefill.tags]);
-  const [editing, setEditing] = useState(false);
-  const [issued, setIssued] = useState(false);
-  const save = useSaveFlow();
-  // The phone page is pushed over this one: the sheet goes while it is up, and the seat is taken
-  // once this page is back in front with the pass saved.
-  const focused = useIsFocused();
-  const { joining, problem, join, giveUp } = useSeatJoin();
-  const inviter = session.preview?.inviter_first_name ?? '';
-
-  useEffect(() => {
-    // Only a home the bundled airports know is kept from the hint.
-    const home =
-      prefill.homeIata !== null && homeBaseFor(airportDataset(), prefill.homeIata) !== null
-        ? prefill.homeIata
-        : null;
-    const arrived = updateDraft((d) => applyPrefill(d, { ...prefill, homeIata: home }, quiz));
-    // Nobody has to find the pass card to be asked for what the invite did not carry.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (missingPassPart(arrived) !== null) setEditing(true);
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- an analytics event name.
-    if (prefill.givenName !== null) analytics.capture('invite_prefill_viewed', {});
-    // Prefill once per page visit.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const guide: GuideAvatarId =
-    draft.avatar?.kind === 'critter' ? (guideOfForm(draft.avatar.form_id) ?? 'tokek') : 'tokek';
-  const pickFace = (next: GuideAvatarId) =>
-    updateDraft((d) => ({ ...d, avatar: { kind: 'critter', form_id: guideFormId(next) } }));
-  const toggle = (tag: TasteTag) => {
-    const next = selected.includes(tag) ? selected.filter((x) => x !== tag) : [...selected, tag];
-    setSelected(next);
-    updateDraft((d) => ({
-      ...d,
-      answers: answersForTags(quiz, next),
-      taste_done: next.length > 0,
-    }));
-  };
-  const missing = missingPassPart(draft);
-
-  const issue = () => {
-    updateDraft((d) => ({
-      ...d,
-      avatar: d.avatar ?? { kind: 'critter', form_id: guideFormId('tokek') },
-      taste_done: true,
-      issued_at: new Date().toISOString(),
-      step: 'issued',
-    }));
-    setIssued(true);
-  };
-
-  const saved = save.state.kind === 'saved';
-  useEffect(() => {
-    // Saved with Apple, Google or a number verified on the phone page: the seat is taken next.
-    if (!issued || !saved || !focused) return;
-    updateDraft((d) => ({ ...d, saved: true }));
-    void join();
-    // Joins once the pass is saved and this page is the one in front.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [issued, saved, focused]);
+  const step = useInvitePassStep();
+  const { session, draft, prefill, inviter, selected, guide, missing, editing, issued } = step;
+  const { save, saved, focused } = step;
+  const { joining, problem, join, giveUp } = step.seat;
 
   if (problem !== null) {
     return (
@@ -208,7 +138,7 @@ export function PassScreen() {
             id: 'onboarding.invite.pass.edit',
             message: 'Change your name or home',
           })}
-          onPress={() => setEditing(true)}
+          onPress={step.openEdit}
           testID="invite-pass-card"
         >
           <OnboardingPassCard draft={draft} />
@@ -224,11 +154,11 @@ export function PassScreen() {
         <Text variant="eyebrow">
           {upper(t({ id: 'onboarding.invite.pass.face', message: '1 · Your face' }), locale)}
         </Text>
-        <AvatarPicker selected={guide} onPick={pickFace} testID="invite-pass-faces" />
+        <AvatarPicker selected={guide} onPick={step.pickFace} testID="invite-pass-faces" />
         <Text variant="eyebrow">
           {upper(t({ id: 'onboarding.invite.pass.travel', message: '2 · How you travel' }), locale)}
         </Text>
-        <TravelChips selected={selected} onToggle={toggle} />
+        <TravelChips selected={selected} onToggle={step.toggle} />
         <GuideLine
           guide="tokek"
           name={tokek.name}
@@ -254,7 +184,7 @@ export function PassScreen() {
               locale,
             )}
             tone="green"
-            onPress={issue}
+            onPress={step.issue}
             block
             testID="invite-pass-issue"
           />
@@ -262,7 +192,7 @@ export function PassScreen() {
           <PillButton
             label={upper(passAskLabel(missing), locale)}
             tone="green"
-            onPress={() => setEditing(true)}
+            onPress={step.openEdit}
             block
             testID="invite-pass-ask"
           />
@@ -278,11 +208,8 @@ export function PassScreen() {
         <EditPassSheet
           name={draft.given_name}
           homeIata={draft.home_iata}
-          onClose={() => setEditing(false)}
-          onDone={(next) => {
-            updateDraft((d) => ({ ...d, given_name: next.name, home_iata: next.homeIata }));
-            setEditing(false);
-          }}
+          onClose={step.closeEdit}
+          onDone={step.finishEdit}
         />
       ) : null}
     </Scaffold>
