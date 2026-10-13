@@ -2,7 +2,7 @@
  * A problem report's screenshot never shows the machine-readable line of the member's pass: with
  * the mask up it sits under a cover, the rest of the passport page does not.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- fixture values. */
+
 import { describe, expect, it } from '@jest/globals';
 import { screen } from '@testing-library/react-native';
 
