@@ -7,7 +7,6 @@
 import type { Href } from 'expo-router';
 
 import { registerScreens } from '@/lib/navigation/screen-registry';
-import { premiumUiThisRun } from '@/lib/premium-ui';
 
 /** The TRIPS tab's root (the trip switcher). */
 export const TRIPS_TAB: Href = '/(tabs)/trips';
@@ -20,14 +19,11 @@ export function tripHubRoute(tripId: string): Href {
 }
 
 /**
- * A trip's day-of page. The premium UI pushes it on the hub's own stack over the tabs, so it keeps
- * the hub under it and the glass back; the current UI keeps it in the TRIPS tab.
+ * A trip's day-of page, pushed on the hub's own stack over the tabs, so it keeps the hub under it
+ * and the glass back.
  */
 export function tripDayRoute(tripId: string, date: string | null): Href {
-  const params = { tripId, date: date ?? TODAY };
-  return premiumUiThisRun()
-    ? { pathname: '/(trip)/hub/[tripId]/day/[date]', params }
-    : { pathname: '/(tabs)/trips/[tripId]/day/[date]', params };
+  return { pathname: '/(trip)/hub/[tripId]/day/[date]', params: { tripId, date: date ?? TODAY } };
 }
 
 export function tripOfflineRoute(tripId: string): Href {

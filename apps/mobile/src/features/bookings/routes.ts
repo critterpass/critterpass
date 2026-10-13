@@ -7,7 +7,6 @@ import type { Href } from 'expo-router';
 import { Platform } from 'react-native';
 
 import { registerScreens } from '@/lib/navigation/screen-registry';
-import { premiumUiThisRun } from '@/lib/premium-ui';
 
 export const BOOKINGS_ROUTES = {
   wallet: '/wallet/bookings',
@@ -38,18 +37,18 @@ export function addByHandRoute(
   return { pathname: '/wallet/bookings/edit/[id]', params: { id: 'new', ...prefill } };
 }
 
-/** The current UI's boarding pass: a rise over everything in the `(modal)` group. */
+/** The boarding pass as a rise over everything in the `(modal)` group. */
 export function modalBoardingPassRoute(id: string): Href {
   return { pathname: '/bookings/pass/[id]', params: { id } };
 }
 
 /**
- * The boarding pass (7.11). The premium UI on iOS shows it from the wallet's own stack as a native
- * full-screen modal, which UIKit presents over the tab bar; Android draws a nested stack's modal
- * inside the tab, so there (and in the current UI) it rises over everything from `(modal)`.
+ * The boarding pass (7.11). iOS shows it from the wallet's own stack as a native full-screen modal,
+ * which UIKit presents over the tab bar; Android draws a nested stack's modal inside the tab, so
+ * there it rises over everything from `(modal)`.
  */
 export function boardingPassRoute(id: string): Href {
-  return premiumUiThisRun() && Platform.OS === 'ios'
+  return Platform.OS === 'ios'
     ? { pathname: '/wallet/bookings/pass/[id]', params: { id } }
     : modalBoardingPassRoute(id);
 }

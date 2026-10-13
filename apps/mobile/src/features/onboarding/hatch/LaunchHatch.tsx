@@ -9,8 +9,6 @@ import { markSplashRevealed } from './launch-state';
 export interface LaunchHatchProps {
   /** True once the root layout hides the native launch screen. */
   readonly revealed: boolean;
-  /** Ignored: the premium launch plays the beat. */
-  readonly play?: boolean;
 }
 
 /** Mounted once at the app root, beside the other overlay hosts. Draws nothing. */

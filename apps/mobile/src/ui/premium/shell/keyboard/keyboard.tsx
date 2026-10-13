@@ -16,6 +16,7 @@ import type * as KeyboardControllerModule from 'react-native-keyboard-controller
 import {
   Keyboard,
   Platform,
+  TurboModuleRegistry,
   ScrollView,
   View,
   type ScrollViewProps,
@@ -29,7 +30,10 @@ import {
   type SharedValue,
 } from 'react-native-reanimated';
 
-import { keyboardControllerReady } from '@/lib/premium-ui';
+/** Whether the build carries the keyboard controller's native module. */
+function keyboardControllerReady(): boolean {
+  return TurboModuleRegistry.get('KeyboardController') != null;
+}
 
 type KeyboardController = typeof KeyboardControllerModule;
 
