@@ -15,7 +15,7 @@ export function PasteFlow({
       sending={paste.sending}
       error={paste.error}
       readClipboard={paste.readClipboard}
-      onSend={paste.send}
+      onSend={(body) => void paste.send(body)}
       onClose={onDone}
     />
   );
