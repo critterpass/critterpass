@@ -6,13 +6,23 @@
 import { REPORT_REASONS, type ReportReason } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import * as Haptics from 'expo-haptics';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { ScrollView, View, useWindowDimensions } from 'react-native';
 
 import { shortName } from '@/lib/people/member-name';
-import { Avatar, Button, Icon, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import {
+  Avatar,
+  Button,
+  Icon,
+  PressableScale,
+  Text,
+  usePremiumTheme,
+  useToast,
+} from '@/ui/premium';
 
 import { reasonLabel } from '../../chat/components/report-reasons';
+import type { ChatMessage } from '../../chat/data/rows';
+import type { useMessageActions } from '../../chat/data/use-message-actions';
 import type { ReactionGroup } from '../../chat/data/use-reactions';
 import { ChatSheet } from './chat-sheets';
 import { ReactionFace } from './reaction-chips';
@@ -56,6 +66,38 @@ export function WhoReactedSheet({
         ))}
       </ScrollView>
     </ChatSheet>
+  );
+}
+
+/** Sends a report (and the mute with it), then says it went, or that it did not. */
+export function useReportMessage(
+  actions: Pick<ReturnType<typeof useMessageActions>, 'report' | 'mute'>,
+) {
+  const toast = useToast();
+  return useCallback(
+    (message: ChatMessage, reason: ReportReason, mute: boolean) => {
+      void actions.report(message, reason).then((result) => {
+        toast.show(
+          result.kind === 'rejected'
+            ? {
+                kind: 'error',
+                message: t({
+                  id: 'chat.premium.report.failed',
+                  message: 'That report didn’t go through. Try again?',
+                }),
+              }
+            : {
+                kind: 'done',
+                message: t({
+                  id: 'chat.premium.report.done',
+                  message: 'Reported. Thanks for telling us.',
+                }),
+              },
+        );
+      });
+      if (mute && message.senderId !== null) void actions.mute(message.senderId, true);
+    },
+    [actions, toast],
   );
 }
 

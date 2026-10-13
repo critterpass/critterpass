@@ -19,7 +19,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useSessionUid } from '@/data/powersync/use-session-uid';
 import { useSyncPhase } from '@/data/status/use-sync-status';
-import { usePremiumTheme, useToast } from '@/ui/premium';
+import { usePremiumTheme } from '@/ui/premium';
 
 import { critterRoute } from '@/features/critters';
 import { crewInviteRoute } from '../../crews-sheet/routes';
@@ -43,6 +43,8 @@ import { ChatOverlays, type ChatOverlay } from './chat-overlays';
 import { voicePlayback } from '../../chat/media/voice-playback';
 import { chatComposerHint } from '../../chat/slots';
 import { ChatWelcome, GuideTypingBubble } from './chat-panels';
+import { PendingUploads } from './pending-uploads';
+import { useReportMessage } from './who-reacted-sheet';
 import { chatStarters } from './chat-starters';
 import './cards/register';
 import { PremiumMessageList } from './message-list';
@@ -73,7 +75,7 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
   const markSeen = useMarkRead(crewId, info.lastReadSeq);
   const offline = useSyncPhase() === 'offline';
   const reactions = useReactions(crewId, me, timeline.window);
-  const toast = useToast();
+  const report = useReportMessage(actions);
   const pins = usePins(crewId);
   const readBy = useReadReceipts(crewId, me);
   const left = useLeftChat(crewId);
@@ -216,6 +218,12 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
             {offline && timeline.messages.some((message) => message.status === 'sending') ? (
               <OfflineMarker />
             ) : null}
+            <PendingUploads
+              items={media.uploads}
+              online={!offline}
+              onRetry={media.retryUpload}
+              onDiscard={media.discardUpload}
+            />
             {guideReplying ? <GuideTypingBubble guideName={guideName} /> : null}
             <GuideLiveLine crewId={crewId} />
           </>
@@ -276,28 +284,7 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
         colourOf={colourOf}
         menuFor={menuFor}
         onReact={(messageId, reaction) => void toggleReaction(messageId, reaction)}
-        onReport={(message, reason, mute) => {
-          void actions.report(message, reason).then((result) => {
-            if (result.kind === 'rejected') {
-              toast.show({
-                kind: 'error',
-                message: t({
-                  id: 'chat.premium.report.failed',
-                  message: 'That report didn’t go through. Try again?',
-                }),
-              });
-              return;
-            }
-            toast.show({
-              kind: 'done',
-              message: t({
-                id: 'chat.premium.report.done',
-                message: 'Reported. Thanks for telling us.',
-              }),
-            });
-          });
-          if (mute && message.senderId !== null) void actions.mute(message.senderId, true);
-        }}
+        onReport={report}
         media={media}
         onTypeInstead={() => input.current?.focus()}
       />

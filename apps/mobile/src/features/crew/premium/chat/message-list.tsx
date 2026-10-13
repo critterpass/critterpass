@@ -14,9 +14,14 @@ import {
   type NativeScrollEvent,
   type NativeSyntheticEvent,
 } from 'react-native';
-import Animated, { FadeInDown, FadeOut } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
-import { makePremiumStyles } from '@/ui/premium';
+import {
+  enterTransition,
+  exitTransition,
+  makePremiumStyles,
+  usePremiumReducedMotion,
+} from '@/ui/premium';
 
 import type { ChatMessage } from '../../chat/data/rows';
 import type { TimelineRow } from '../../chat/components/timeline-rows';
@@ -84,6 +89,7 @@ export function PremiumMessageList({
   onSeenLatest,
 }: PremiumMessageListProps) {
   const styles = useStyles();
+  const reduced = usePremiumReducedMotion();
   const list = useRef<FlashListRef<TimelineRow>>(null);
   const [atBottom, setAtBottom] = useState(true);
   const [seen, setSeen] = useState(0);
@@ -169,8 +175,8 @@ export function PremiumMessageList({
       />
       {atBottom ? null : (
         <Animated.View
-          entering={FadeInDown}
-          exiting={FadeOut}
+          entering={enterTransition(reduced)}
+          exiting={exitTransition(reduced)}
           style={[styles.pill, { bottom: bottomInset + 16 }]}
         >
           <NewMessagesPill
