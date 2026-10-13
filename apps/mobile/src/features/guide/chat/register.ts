@@ -12,7 +12,7 @@ import { createElement } from 'react';
 import { registerChatComposerHint, registerPremiumChatCard } from '@/features/crew';
 import { registerScreens } from '@/lib/navigation/screen-registry';
 
-import { GuideChatHint } from '../crew-mention/guide-chat-hint';
+import { PremiumGuideChatHint } from '../premium/crew/crew-hint';
 import { PremiumOfferCard } from '../premium/offer/offer-card';
 import { devicePhraseAudio } from '../phrases/device-phrase-audio';
 import { providePhraseAudio } from '../phrases/phrase-audio';
@@ -105,7 +105,7 @@ registerPremiumChatCard('guide_offer', {
 registerChatComposerHint(({ crewId }) =>
   createElement(GuideServicesProvider, {
     services: deviceGuideServices,
-    children: createElement(GuideChatHint, { crewId }),
+    children: createElement(PremiumGuideChatHint, { crewId }),
   }),
 );
 
