@@ -49,8 +49,8 @@ export function useAddChannels(context: WalletContext) {
     scanState: scan.state,
     forward,
     scan: () => void scan.scan(),
-    paste: () => router.push({ pathname: BOOKINGS_ROUTES.add, params: { start: 'paste' } }),
-    mailbox: () => router.push({ pathname: BOOKINGS_ROUTES.add, params: { start: 'mailbox' } }),
+    paste: () => router.push(BOOKINGS_ROUTES.paste),
+    mailbox: () => router.push(BOOKINGS_ROUTES.mailbox),
     byHand: () => router.push(addByHandRoute()),
   };
 }

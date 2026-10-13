@@ -46,13 +46,11 @@ export function WalletExtras({ data }: { readonly data: WalletScreenData }) {
             heldMailCodeSent
               ? {
                   label: t({ id: 'bookings.heldMail.enter', message: 'Enter the code' }),
-                  onPress: () =>
-                    router.push({ pathname: BOOKINGS_ROUTES.add, params: { start: 'link' } }),
+                  onPress: () => router.push(BOOKINGS_ROUTES.linkCode),
                 }
               : {
                   label: t({ id: 'bookings.heldMail.paste', message: 'Paste the email' }),
-                  onPress: () =>
-                    router.push({ pathname: BOOKINGS_ROUTES.add, params: { start: 'paste' } }),
+                  onPress: () => router.push(BOOKINGS_ROUTES.paste),
                 }
           }
           testID="bookings-held-mail"

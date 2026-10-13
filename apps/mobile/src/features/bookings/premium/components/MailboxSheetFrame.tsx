@@ -1,60 +1,25 @@
 /**
- * The mailbox sheet's frame (7.05): the native page sheet on iOS; on Android a sheet over a scrim
- * that keeps clear of the status bar. And the "With Pass+" badge under its actions.
+ * The mailbox sheet's frame (7.05) inside its native form sheet route: the sheet material under
+ * the content, below the system grabber on iOS and with a drawn grabber on Android. And the
+ * "With Pass+" badge under its actions.
  */
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
-import { Modal, Platform, Pressable, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Platform, StyleSheet, View } from 'react-native';
 
 import { PressableScale, Text, usePremiumTheme, type PremiumTheme } from '@/ui/premium';
+import { sheetMaterialStyle } from '@/ui/premium/shell';
 
-/** The sheet frame: the native page sheet on iOS, a sheet over a scrim on Android. */
-export function MailboxSheetFrame(props: {
-  readonly onClose: () => void;
-  readonly children: ReactNode;
-}) {
+/** The sheet's surface: the native sheet draws the grabber and the swipe down on iOS. */
+export function MailboxSheetFrame(props: { readonly children: ReactNode }) {
   const th = usePremiumTheme();
-  const insets = useSafeAreaInsets();
-  const ios = Platform.OS === 'ios';
-  const sheet = (
-    <View
-      style={[
-        styles.sheet,
-        { backgroundColor: th.material.sheet.fill },
-        ios
-          ? styles.fill
-          : {
-              marginTop: insets.top + th.space.gap16,
-              borderTopLeftRadius: th.radius.sheet,
-              borderTopRightRadius: th.radius.sheet,
-              boxShadow: th.materialShadow.sheet,
-            },
-      ]}
-    >
-      <View style={[styles.grabber, { backgroundColor: th.color.outlineEmpty }]} />
+  return (
+    <View style={[styles.fill, styles.sheet, sheetMaterialStyle(th)]} testID="bookings-mailbox">
+      {Platform.OS === 'android' ? (
+        <View style={[styles.grabber, { backgroundColor: th.color.outlineEmpty }]} />
+      ) : null}
       {props.children}
     </View>
-  );
-  return (
-    <Modal
-      visible
-      transparent={!ios}
-      statusBarTranslucent
-      animationType="slide"
-      presentationStyle={ios ? 'pageSheet' : 'overFullScreen'}
-      onRequestClose={props.onClose}
-      testID="bookings-mailbox"
-    >
-      {ios ? (
-        sheet
-      ) : (
-        <View style={[styles.fill, { backgroundColor: th.color.scrim }]}>
-          <Pressable style={styles.fill} onPress={props.onClose} accessible={false} />
-          {sheet}
-        </View>
-      )}
-    </Modal>
   );
 }
 
@@ -86,7 +51,15 @@ export function MailboxPassBadge(props: {
 
 const styles = StyleSheet.create({
   fill: { flex: 1 },
-  sheet: { paddingTop: 12, flexShrink: 1 },
-  grabber: { width: 36, height: 5, borderRadius: 3, alignSelf: 'center', marginBottom: 14 },
+  // Clears the system grabber on iOS (it draws over the sheet's top band).
+  sheet: { paddingTop: 24 },
+  grabber: {
+    width: 36,
+    height: 5,
+    borderRadius: 3,
+    alignSelf: 'center',
+    marginTop: -16,
+    marginBottom: 14,
+  },
   badge: { height: 26, paddingHorizontal: 10, borderRadius: 13, justifyContent: 'center' },
 });

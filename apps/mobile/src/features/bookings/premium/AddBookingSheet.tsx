@@ -1,7 +1,8 @@
 /**
  * "Add a booking" (1.06): the sheet the wallet's `+` grows into. One choice, so half height and no
  * verb: forward an email (copies the crew's address), scan a ticket, or add one by hand. Nothing
- * is typed here, so it closes without asking.
+ * is typed here, so it closes without asking. It is the native form sheet alone: no drawn morph
+ * runs before or after it.
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
@@ -13,6 +14,8 @@ import { SheetScreen } from '@/ui/premium/shell';
 
 import { useWalletContext } from '../data/use-wallet-context';
 import { useWalletGuide, WalletGuideProvider } from '../data/wallet-guide';
+import { BOOKINGS_ROUTES } from '../routes';
+import { leaveSheetThen } from './sheet-handoff';
 import { useAddChannels } from './use-add-channels';
 
 function Tile(props: {
@@ -63,11 +66,10 @@ function Body() {
   const context = useWalletContext();
   const guide = useWalletGuide();
   const channels = useAddChannels(context);
-  // A choice leaves the sheet first, so the next screen or the scanner opens over the wallet.
-  const then = (action: () => void) => () => {
-    router.back();
-    action();
-  };
+  // A choice lowers the sheet first, then the next page pushes over the wallet. Scanning opens
+  // the add page with the scanner up, so what was read shows there as it arrives.
+  const then = (action: () => void) => () => leaveSheetThen(action);
+  const scan = () => router.push({ pathname: BOOKINGS_ROUTES.add, params: { start: 'scan' } });
   return (
     <View style={{ gap: th.space.gap16, paddingBottom: th.space.gap16 }}>
       <View style={{ flexDirection: 'row', gap: th.space.gap10 }}>
@@ -86,7 +88,7 @@ function Body() {
           color={th.color.status.voteOpen.text}
           label={t({ id: 'bookings.premium.scanATicket', message: 'Scan a ticket' })}
           tilt={5}
-          onPress={then(channels.scan)}
+          onPress={then(scan)}
           testID="bookings-add-scan"
         />
         <Tile

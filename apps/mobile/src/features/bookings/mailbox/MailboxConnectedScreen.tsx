@@ -43,8 +43,35 @@ export function MailboxConnectedView({
   const styles = useStyles();
   const theme = useTheme();
   const { t } = useLingui();
+  const copy = useMailboxOutcomeCopy();
+  return (
+    <Scaffold variant="dark" testID={`bookings-mailbox-${outcome}`}>
+      <View style={styles.content}>
+        <Text variant="h1" accessibilityRole="header">
+          {copy[outcome].title}
+        </Text>
+        <Text variant="body" color={theme.semantic.text.secondary}>
+          {copy[outcome].line}
+        </Text>
+      </View>
+      {/* The page sits in the Wallet tab: the footer stands above the tab bar and its guide button. */}
+      <KeyboardFooter testID="bookings-mailbox-footer">
+        <PillButton
+          label={t({ id: 'bookings.mailboxDone.back', message: 'Back to bookings' })}
+          onPress={onDone}
+          disabled={outcome === 'connecting'}
+          testID="bookings-mailbox-back"
+        />
+      </KeyboardFooter>
+    </Scaffold>
+  );
+}
+
+/** What the return page says for each outcome, for either UI. */
+export function useMailboxOutcomeCopy(): Record<MailboxOutcome, { title: string; line: string }> {
+  const { t } = useLingui();
   const { name: guideName } = useWalletGuide();
-  const copy: Record<MailboxOutcome, { title: string; line: string }> = {
+  return {
     connecting: {
       title: t({ id: 'bookings.mailboxDone.connectingTitle', message: 'Connecting…' }),
       line: t({
@@ -75,31 +102,10 @@ export function MailboxConnectedView({
       }),
     },
   };
-  return (
-    <Scaffold variant="dark" testID={`bookings-mailbox-${outcome}`}>
-      <View style={styles.content}>
-        <Text variant="h1" accessibilityRole="header">
-          {copy[outcome].title}
-        </Text>
-        <Text variant="body" color={theme.semantic.text.secondary}>
-          {copy[outcome].line}
-        </Text>
-      </View>
-      {/* The page sits in the Wallet tab: the footer stands above the tab bar and its guide button. */}
-      <KeyboardFooter testID="bookings-mailbox-footer">
-        <PillButton
-          label={t({ id: 'bookings.mailboxDone.back', message: 'Back to bookings' })}
-          onPress={onDone}
-          disabled={outcome === 'connecting'}
-          testID="bookings-mailbox-back"
-        />
-      </KeyboardFooter>
-    </Scaffold>
-  );
 }
 
-export function MailboxConnectedScreen({ result }: { readonly result: MailboxReturn }) {
-  const walletTrip = useWalletContext().trip?.id ?? null;
+/** Finishes a sign-in that came back authorised; says how it went. */
+export function useMailboxConnect(result: MailboxReturn): MailboxOutcome {
   const { send } = useCommand(connectMailboxCommand);
   const [outcome, setOutcome] = useState<MailboxOutcome>(
     result.kind === 'authorized' ? 'connecting' : result.kind,
@@ -113,6 +119,12 @@ export function MailboxConnectedScreen({ result }: { readonly result: MailboxRet
       () => setOutcome('failed'),
     );
   }, [result, send]);
+  return outcome;
+}
+
+export function MailboxConnectedScreen({ result }: { readonly result: MailboxReturn }) {
+  const walletTrip = useWalletContext().trip?.id ?? null;
+  const outcome = useMailboxConnect(result);
   return (
     <WalletGuideProvider tripId={walletTrip}>
       <MailboxConnectedView

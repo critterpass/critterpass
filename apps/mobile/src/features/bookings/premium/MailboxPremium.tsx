@@ -7,6 +7,7 @@
  */
 import type { MailboxProvider } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
+import { router } from 'expo-router';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -15,9 +16,10 @@ import { Button, Text, TextButton, Toggle, usePremiumTheme } from '@/ui/premium'
 import { confirmAlert } from '@/ui/premium/shell';
 
 import { useMailboxActions } from '../add/use-mailbox-actions';
-import { useWalletGuide } from '../data/wallet-guide';
+import { useWalletContext } from '../data/use-wallet-context';
+import { useWalletGuide, WalletGuideProvider } from '../data/wallet-guide';
 import { clock } from '../format';
-import type { MailboxStatus } from '../mailbox/use-mailbox';
+import { useMailbox, type MailboxStatus } from '../mailbox/use-mailbox';
 import { MailboxProviderCard } from './components/MailboxProviderCard';
 import { MailboxPassBadge, MailboxSheetFrame } from './components/MailboxSheetFrame';
 
@@ -132,7 +134,7 @@ export function MailboxPremium(props: {
     );
   };
   return (
-    <MailboxSheetFrame onClose={props.onClose}>
+    <MailboxSheetFrame>
       <ScrollView
         contentContainerStyle={{
           paddingHorizontal: th.space.gutter,
@@ -237,6 +239,24 @@ export function MailboxPremium(props: {
         ) : null}
       </ScrollView>
     </MailboxSheetFrame>
+  );
+}
+
+/** The mailbox sheet route: the wallet's crew, its mailbox and the guide that checks it. */
+export function MailboxSheetPremium() {
+  const context = useWalletContext();
+  const mailbox = useMailbox(context.passPlus);
+  return (
+    <WalletGuideProvider tripId={context.trip?.id ?? null}>
+      <MailboxPremium
+        status={mailbox.status}
+        address={context.inboundAddress}
+        onChanged={mailbox.reload}
+        onClose={() => {
+          if (router.canGoBack()) router.back();
+        }}
+      />
+    </WalletGuideProvider>
   );
 }
 
