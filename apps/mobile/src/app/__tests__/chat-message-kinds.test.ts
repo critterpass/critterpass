@@ -18,6 +18,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 import { chatCard } from '@/features/crew/chat/cards/registry';
+import { premiumCard } from '@/features/crew/premium/chat/cards/registry';
 import '@/features/crew/chat/media/register';
 import '@/features/guide/chat/register';
 import '@/features/monetize/register';
@@ -117,7 +118,10 @@ describe('chat message kinds the server writes', () => {
     expect(kinds).toContain('expense');
     for (const kind of kinds) expect(MESSAGE_TYPES).toContain(kind);
     const missing = [...kinds].filter(
-      (kind) => !DRAWN_BY_THE_CHAT.has(kind) && chatCard(kind) === undefined,
+      (kind) =>
+        !DRAWN_BY_THE_CHAT.has(kind) &&
+        chatCard(kind) === undefined &&
+        premiumCard(kind) === undefined,
     );
     expect(missing).toEqual([]);
   });
