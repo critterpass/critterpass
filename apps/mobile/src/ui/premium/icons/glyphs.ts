@@ -58,6 +58,11 @@ export const PREMIUM_GLYPHS = {
     d: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7',
     stroke: 2,
   },
+  // The system paste glyph's shape (a clipboard), for the kit's paste pill.
+  paste: {
+    d: 'M9 3.5h6v3H9zM7.5 5H6a1.5 1.5 0 0 0-1.5 1.5v12.5A1.5 1.5 0 0 0 6 20.5h12a1.5 1.5 0 0 0 1.5-1.5V6.5A1.5 1.5 0 0 0 18 5h-1.5',
+    stroke: 2,
+  },
   more: { d: `${circle(5, 12, 2)}${circle(12, 12, 2)}${circle(19, 12, 2)}`, stroke: 0, fill: true },
   home: { d: 'M4 10.5 12 4l8 6.5V20h-5v-5.5h-6V20H4z', stroke: 1.9 },
   ticket: {

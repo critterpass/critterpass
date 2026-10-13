@@ -4,6 +4,8 @@ export { Button, buttonLook } from './buttons/Button';
 export type { ButtonProps, ButtonSize, ButtonVariant } from './buttons/Button';
 export { IconButton } from './buttons/IconButton';
 export type { IconButtonProps, IconButtonTone } from './buttons/IconButton';
+export { PasteButton } from './buttons/PasteButton';
+export type { PasteButtonProps } from './buttons/PasteButton';
 export { TextButton } from './buttons/TextButton';
 export type { TextButtonProps } from './buttons/TextButton';
 export { Spinner } from './feedback/Spinner';
