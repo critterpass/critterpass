@@ -151,6 +151,7 @@ export function PremiumDexScene(props: DexViewProps) {
           {props.exploreAtHome === null ? null : (
             <ExploreAtHome on={props.exploreAtHome} onChange={props.onExploreAtHome} />
           )}
+          {props.shelf ?? null}
         </>
       )}
     </View>

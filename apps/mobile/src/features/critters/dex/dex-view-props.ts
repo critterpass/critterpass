@@ -27,6 +27,8 @@ export interface DexViewProps {
   readonly onOpenLegendaries: () => void;
   /** NEAR ME's map of the trip's critter spots, above the matching sets. */
   readonly nearMap?: ReactNode;
+  /** The earned stickers' shelf, under the cards and above the sets. */
+  readonly shelf?: ReactNode;
   /**
    * A critter that has just been added to the pass: the list scrolls to its set and outlines the
    * row for a moment, then calls `onLandedShown`.
