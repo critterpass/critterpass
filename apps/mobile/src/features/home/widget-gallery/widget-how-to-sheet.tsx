@@ -2,12 +2,13 @@
  * How to add a widget by hand, shown when "+" cannot do it: iOS has no way to add one from an
  * app, and some Android launchers refuse the request.
  */
-import { useLingui } from '@lingui/react/macro';
-import { Platform, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
 import { makeStyles } from '@/ui/theme';
+
+import { useHowToSteps } from './widget-copy';
 
 export interface WidgetHowToSheetProps {
   /** The widget's name as the gallery shows it. */
@@ -20,33 +21,8 @@ const useStyles = makeStyles((t) => ({
 }));
 
 export function WidgetHowToSheet({ widget, onClose }: WidgetHowToSheetProps) {
-  const { t } = useLingui();
   const styles = useStyles();
-  const title = t({ id: 'home.widgets.howTo.title', message: 'Add it from your home screen' });
-  const steps =
-    Platform.OS === 'ios'
-      ? [
-          t({
-            id: 'home.widgets.howTo.ios.hold',
-            message: 'Touch and hold an empty spot on your home screen.',
-          }),
-          t({ id: 'home.widgets.howTo.ios.edit', message: 'Tap Edit, then Add Widget.' }),
-          t({
-            id: 'home.widgets.howTo.ios.pick',
-            message: `Search CritterPass and pick ${widget}.`,
-          }),
-        ]
-      : [
-          t({
-            id: 'home.widgets.howTo.android.hold',
-            message: 'Touch and hold an empty spot on your home screen.',
-          }),
-          t({ id: 'home.widgets.howTo.android.widgets', message: 'Tap Widgets.' }),
-          t({
-            id: 'home.widgets.howTo.android.pick',
-            message: `Find CritterPass and drag ${widget} into place.`,
-          }),
-        ];
+  const { title, steps } = useHowToSteps(widget);
   return (
     <Sheet
       detents={['fit']}

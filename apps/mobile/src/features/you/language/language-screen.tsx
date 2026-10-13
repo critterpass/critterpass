@@ -27,15 +27,22 @@ import { LanguageView } from './language-view';
 
 const LANGUAGE_TOAST = 'you-language';
 
-export function LanguageScreen({
-  switchTo = (code: string) => setLocale(code),
-  deviceLanguages = getLocales().map((locale) => locale.languageTag),
-  now = () => new Date(),
-}: {
+export interface LanguageScreenProps {
   readonly switchTo?: (code: string) => Promise<void>;
   readonly deviceLanguages?: readonly string[];
   readonly now?: () => Date;
-}) {
+}
+
+/**
+ * The page's state and what each choice does: the languages (featured and the rest), the money
+ * display and the formats, each change applied at once and queued to the server. Both the current
+ * and premium pages draw it.
+ */
+export function useLanguageModel({
+  switchTo = (code: string) => setLocale(code),
+  deviceLanguages = getLocales().map((locale) => locale.languageTag),
+  now = () => new Date(),
+}: LanguageScreenProps = {}) {
   const current = useLocale();
   const [switching, setSwitching] = useState<string | null>(null);
   const [showMore, setShowMore] = useState(false);
@@ -83,6 +90,51 @@ export function LanguageScreen({
     void send({ patch: { home_currency_override: code } }).catch(() => undefined);
   };
 
+  return {
+    current,
+    switching,
+    showMore,
+    setShowMore,
+    picking,
+    setPicking,
+    formatting,
+    setFormatting,
+    formats,
+    time,
+    display,
+    featured,
+    more,
+    lines,
+    pick,
+    setMode,
+    setTime,
+    setDistance,
+    setHome,
+  };
+}
+
+export function LanguageScreen(props: LanguageScreenProps) {
+  const {
+    current,
+    switching,
+    showMore,
+    setShowMore,
+    picking,
+    setPicking,
+    formatting,
+    setFormatting,
+    formats,
+    time,
+    display,
+    featured,
+    more,
+    lines,
+    pick,
+    setMode,
+    setTime,
+    setDistance,
+    setHome,
+  } = useLanguageModel(props);
   return (
     <>
       <LanguageView

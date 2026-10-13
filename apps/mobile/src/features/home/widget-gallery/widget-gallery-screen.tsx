@@ -4,7 +4,6 @@
  * and otherwise shows how to add it by hand. The list is read again when the app comes back (the
  * launcher's own dialog, or the home screen, is where a widget gets added).
  */
-import { useLingui } from '@lingui/react/macro';
 import { useEffect, useState } from 'react';
 import { AppState } from 'react-native';
 
@@ -13,14 +12,19 @@ import { installedWidgetsPayload } from './installed-widgets';
 import { sessionSnapshotFetch } from './use-widget-sync';
 import { WidgetGalleryView } from './widget-gallery-view';
 import { WidgetHowToSheet } from './widget-how-to-sheet';
+import { useWidgetCopy } from './widget-copy';
 import { installedWidgetPorts, widgetPinPort } from './widget-ports';
 
 export interface WidgetGalleryScreenProps {
   readonly onBack: () => void;
 }
 
-export function WidgetGalleryScreen({ onBack }: WidgetGalleryScreenProps) {
-  const { t } = useLingui();
+/**
+ * The gallery's rows, the countdown's days and what "+" does (ask the launcher, or say how); both
+ * the current and premium galleries draw it.
+ */
+export function useWidgetGallery() {
+  const copy = useWidgetCopy();
   const [installed, setInstalled] = useState<readonly string[]>([]);
   const [days, setDays] = useState<number | null>(null);
   const [howTo, setHowTo] = useState<GalleryKind | null>(null);
@@ -48,28 +52,30 @@ export function WidgetGalleryScreen({ onBack }: WidgetGalleryScreenProps) {
     };
   }, []);
 
-  const names: Record<GalleryKind, string> = {
-    countdown: t({ id: 'home.widgets.countdown', message: 'Countdown' }),
-    vote: t({ id: 'home.widgets.vote', message: 'The vote' }),
-    today: t({ id: 'home.widgets.today', message: 'Today' }),
-    balances: t({ id: 'home.widgets.balances', message: 'Balances' }),
-    crew: t({ id: 'home.widgets.crew', message: 'Crew, live' }),
-    next_flight: t({ id: 'home.widgets.nextFlight', message: 'Next flight' }),
-    critterdex: t({ id: 'home.widgets.critterdex', message: 'Critterdex' }),
+  return {
+    rows: galleryRows(installed),
+    countdownDays: days,
+    /** The widget whose by-hand steps are open, by its gallery name. */
+    howTo: howTo === null ? null : copy[howTo].title,
+    closeHowTo: () => setHowTo(null),
+    add: (kind: GalleryKind) => {
+      if (addWidget(kind, widgetPinPort()) === 'how_to') setHowTo(kind);
+    },
   };
+}
 
+export function WidgetGalleryScreen({ onBack }: WidgetGalleryScreenProps) {
+  const gallery = useWidgetGallery();
   return (
     <>
       <WidgetGalleryView
-        rows={galleryRows(installed)}
-        countdownDays={days}
-        onAdd={(kind) => {
-          if (addWidget(kind, widgetPinPort()) === 'how_to') setHowTo(kind);
-        }}
+        rows={gallery.rows}
+        countdownDays={gallery.countdownDays}
+        onAdd={gallery.add}
         onBack={onBack}
       />
-      {howTo === null ? null : (
-        <WidgetHowToSheet widget={names[howTo]} onClose={() => setHowTo(null)} />
+      {gallery.howTo === null ? null : (
+        <WidgetHowToSheet widget={gallery.howTo} onClose={gallery.closeHowTo} />
       )}
     </>
   );
