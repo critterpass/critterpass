@@ -85,9 +85,10 @@ export const ExpenseRow = memo(function ExpenseRow({
             </Text>
           </PrivateContent>
         </View>
-        <PrivateContent>
+        <PrivateContent style={styles.amountBox}>
           <Text
             variant="rowTitle"
+            numberOfLines={1}
             style={[styles.amount, item.pending === 'delete' ? styles.struck : null]}
           >
             {amount}
@@ -100,7 +101,8 @@ export const ExpenseRow = memo(function ExpenseRow({
 
 const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', minHeight: 44 },
-  body: { flex: 1 },
+  body: { flex: 1, minWidth: 0 },
+  amountBox: { flexShrink: 0 },
   amount: { fontVariant: ['tabular-nums'] },
   struck: { textDecorationLine: 'line-through' },
 });
