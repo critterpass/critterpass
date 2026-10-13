@@ -21,12 +21,12 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'dev-tools-entry'
 # Slow: a fast swipe on iOS flings the list past the row before it is read.
+# The entry sits about forty cards down the Developer tools list.
 - scrollUntilVisible:
     element:
       id: 'dev-nav-live-activities'
     direction: DOWN
-    timeout: 20000
-    speed: 20
+    timeout: 90000
 - waitForAnimationToEnd
 - tapOn:
     id: 'dev-nav-live-activities'

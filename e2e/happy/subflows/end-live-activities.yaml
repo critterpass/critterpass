@@ -29,12 +29,12 @@ appId: app.critterpass.dev
           timeout: 30000
       - tapOn:
           id: 'dev-tools-entry'
+      # The entry sits about forty cards down the Developer tools list.
       - scrollUntilVisible:
           element:
             id: 'dev-nav-live-activities'
           direction: DOWN
-          timeout: 20000
-          speed: 20
+          timeout: 90000
       - waitForAnimationToEnd
       - tapOn:
           id: 'dev-nav-live-activities'
