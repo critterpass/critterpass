@@ -8,10 +8,17 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - evalScript: "${http.post('http://127.0.0.1:7788/type', { body: ITEM }).status}"
+      # The field itself must hold the whole text: the keyboard's suggestion strip shows the
+      # finished word while the last chunk is still on its way, and Enter then adds it cut short.
       - extendedWaitUntil:
           visible:
+            id: 'trip-day-pack-input'
             text: ${ITEM}
           timeout: 30000
+      # The field draws the last key before the app's own state has it: Enter at once saves the
+      # item one letter short ("SUNSCREE"). Let the screen settle first.
+      - waitForAnimationToEnd:
+          timeout: 3000
 - runFlow:
     when:
       platform: iOS

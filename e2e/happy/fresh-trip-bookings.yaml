@@ -1,21 +1,19 @@
 appId: app.critterpass.dev
 ---
-# Release gate: a brand-new traveller's bookings on a trip that is on today, with no demo world
-# (subflows/trip-under-way.yaml). The wallet starts empty with the three ways in. The morning
-# flight (9G 956, Ho Chi Minh City 07:05 to Đà Nẵng 08:30, today) and a two-night stay go in by
-# pasting their confirmations, which the guide reads into candidates headed READY TO ADD; Add a
-# booking shows the crew's forward address whole. The flight home and a cable car ride are typed
-# in by hand. The morning flight reads 07:05 → 08:30 (the airports' own time) in its details, in
-# the stack or under past bookings once it landed more than six hours ago; the stay shows its
-# dates and price in đồng; the flight home shows when it leaves and lands; the trip hub counts
-# all four. Deleting the cable car ride takes it out of the wallet at once, with nothing left
-# behind and no error, and the hub counts three.
+# Release gate: a traveller's bookings on a trip that is on today, started as `solo_today` (a crew
+# of one, nothing booked yet; its long name makes a long forward address). The wallet starts empty
+# with the three ways in. The morning flight (9G 956, Ho Chi Minh City 07:05 to Đà Nẵng 08:30,
+# today) and a two-night stay go in by pasting their confirmations, which the guide reads into
+# candidates headed READY TO ADD; Add a booking shows the crew's forward address whole. The flight
+# home and a cable car ride are typed in by hand. The morning flight reads 07:05 → 08:30 (the
+# airports' own time) in its details, in the stack or under past bookings once it landed more than
+# six hours ago; the stay shows its dates and price in đồng; the flight home shows when it leaves
+# and lands; the trip hub counts all four. Deleting the cable car ride takes it out of the wallet at
+# once, with nothing left behind and no error, and the hub counts three.
 - runFlow:
-    file: subflows/trip-under-way.yaml
+    file: ../_shared/start-as.yaml
     env:
-      SHOTS: bookings
-      # A long crew name makes a long forward address.
-      CREW_NAME: 'The head still didnt look so goo'
+      SCENARIO: solo_today
 - runFlow: subflows/wait-for-trip-start.yaml
 - extendedWaitUntil:
     visible:

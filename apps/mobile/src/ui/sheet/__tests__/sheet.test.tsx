@@ -20,7 +20,13 @@ import { useMotionMode } from '../../../motion/motion-mode';
 import { Scaffold } from '../../surface/Scaffold';
 import { presenterProgress, resetPresenterForTests } from '../presenter';
 import { RiseModal } from '../RiseModal';
-import { detentHeights, fitContentShrinks, Sheet, sheetFootClearance } from '../Sheet';
+import {
+  detentHeights,
+  fitContentShrinks,
+  nextFitHeight,
+  Sheet,
+  sheetFootClearance,
+} from '../Sheet';
 import { SheetScrollView } from '../SheetScrollView';
 import { resolveRelease } from '../use-modal-presentation';
 
@@ -107,6 +113,21 @@ describe('detentHeights', () => {
   it('clamps fit to large and drops duplicates', () => {
     expect(detentHeights(['fit'], 800, 1200)).toEqual([696]);
     expect(detentHeights(['fit', 'medium'], 800, 400)).toEqual([400]);
+  });
+});
+
+describe('nextFitHeight', () => {
+  it('takes the first measurement and any real change in the content', () => {
+    expect(nextFitHeight(null, 412.38)).toBe(412.38);
+    expect(nextFitHeight(412.38, 440)).toBe(440);
+    expect(nextFitHeight(440, 412.38)).toBe(412.38);
+  });
+
+  it('keeps the fit when a new panel height only re-rounds the same content', () => {
+    // One device pixel at 2.625x, either way: re-laying the panel out must not ask again.
+    expect(nextFitHeight(412.38, 412.76)).toBeNull();
+    expect(nextFitHeight(412.76, 412.38)).toBeNull();
+    expect(nextFitHeight(412.38, 412.38)).toBeNull();
   });
 });
 

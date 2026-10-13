@@ -1,16 +1,16 @@
 appId: app.critterpass.dev
 ---
-# Release gate: a brand-new traveller's trip day, with no demo world (subflows/trip-under-way.yaml:
-# a trip to Đà Nẵng that started today). The TRIPS tab opens the hub on day 1 of 3 with the next
+# Release gate: a traveller's trip day, started as `solo_today` (a crew of one on a trip to Đà Nẵng
+# that started today, nothing booked yet). The TRIPS tab opens the hub on day 1 of 3 with the next
 # thing and the tiles; the next thing opens the day-of screen with the day's timeline, where the
 # traveller says I'M UP when there is an early start, adds "Sunscreen" to the pack list and ticks
 # it. The screen is still there after the app goes to the background and comes back, the tick
 # survives a relaunch, and the hub's morning briefing settles (ready, or nothing today) instead of
 # staying on "writing".
 - runFlow:
-    file: subflows/trip-under-way.yaml
+    file: ../_shared/start-as.yaml
     env:
-      SHOTS: day
+      SCENARIO: solo_today
 - runFlow: subflows/wait-for-trip-start.yaml
 - extendedWaitUntil:
     visible:

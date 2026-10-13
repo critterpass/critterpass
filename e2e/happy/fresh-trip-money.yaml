@@ -1,17 +1,17 @@
 appId: app.critterpass.dev
 ---
-# Release gate: a brand-new traveller's money in đồng on a trip that is on today, with no demo
-# world (subflows/trip-under-way.yaml). The wallet settles in VND; a ₫350,000 lunch and a
-# ₫1,250,000 dinner typed on the keypad, each under its own name, land in LATEST and in what the
-# crew of one has spent (₫1,600,000), and a ₫9,000,000 hotel takes the total to eight digits
-# (₫10,600,000) without it leaving the screen; the history lists all three, whole and grouped,
-# never in dollars; a new expense's detail lists no changes; the budget page, with its way back,
-# counts them against the budget locked in setup on day 1 of 3; and the trip hub's MONEY tile
+# Release gate: a traveller's money in đồng on a trip that is on today, started as `solo_today` (a
+# crew of one, the budget locked in setup, nothing spent yet). The wallet settles in VND; a ₫350,000
+# lunch and a ₫1,250,000 dinner typed on the keypad, each under its own name, land in LATEST and in
+# what the crew of one has spent (₫1,600,000), and a ₫9,000,000 hotel takes the total to eight
+# digits (₫10,600,000) without it leaving the screen; the history lists all three, whole and
+# grouped, never in dollars; a new expense's detail lists no changes; the budget page, with its way
+# back, counts them against the budget locked in setup on day 1 of 3; and the trip hub's MONEY tile
 # agrees.
 - runFlow:
-    file: subflows/trip-under-way.yaml
+    file: ../_shared/start-as.yaml
     env:
-      SHOTS: money
+      SCENARIO: solo_today
 - extendedWaitUntil:
     visible:
       id: 'tab-wallet'

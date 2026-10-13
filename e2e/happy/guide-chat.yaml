@@ -1,18 +1,17 @@
 appId: app.critterpass.dev
 ---
-# Happy path: ask the guide a question on staging and get a streamed answer. The guide button
-# opens the sheet (3j-1) over Home, the question goes to the turn route, and the answer types in.
+# Happy path: ask the guide a question on staging and get a streamed answer. The guide button opens
+# the sheet (3j-1) over Home, the question goes to the turn route, and the answer types in.
 #
-# Data: a fresh account onboards, then the staging demo seed gives it a confirmed Bali trip with
-# Tokek as its guide. Needs the staging api's guide model key (the turn route is not mounted
-# without one) and a free meter with answers left (a fresh account starts at 0 of 30).
+# Data: a new account starts as the staging demo world (`everyday`), which gives it a confirmed Bali
+# trip with Tokek as its guide. Needs the staging api's guide model key (the turn route is not
+# mounted without one) and a free meter with answers left (a fresh account starts at 0 of 30).
 - launchApp:
     clearState: true
-- runFlow: ../home/subflows/onboard.yaml
 - runFlow:
-    file: ../_shared/seed-demo.yaml
+    file: ../_shared/start-as.yaml
     env:
-      SEED: dev-seed-demo
+      SCENARIO: everyday
 - tapOn:
     id: 'guide-fab'
 # The sheet's root id isn't in iOS's accessibility tree; its composer is.

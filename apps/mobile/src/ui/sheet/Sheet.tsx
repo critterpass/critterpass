@@ -46,6 +46,18 @@ export function fitContentShrinks(fitHeight: number | null, screenHeight: number
 }
 
 /**
+ * The fit a new content measurement asks for, or `null` to keep the current one. Laying the panel
+ * out at a new height moves its top edge, and pixel rounding then measures the same content a
+ * fraction of a point taller or shorter, which would ask for yet another height: a sheet that
+ * re-renders on every frame. Moves under one point are that rounding, never a real change in the
+ * content (a line of text or the keyboard's padding is far more).
+ */
+export function nextFitHeight(current: number | null, measured: number): number | null {
+  if (current !== null && Math.abs(measured - current) < 1) return null;
+  return measured;
+}
+
+/**
  * How much of its foot a sheet's content keeps clear: the home indicator, or the keyboard while it
  * is up. The sheet runs to the bottom edge of the screen. iOS gives the keyboard's height from that
  * edge; Android gives it from the top of the navigation bar, so there the bar's inset is added, or
@@ -233,7 +245,8 @@ export function Sheet({
                     if (!fitOnly) return;
                     const measured =
                       event.nativeEvent.layout.height + GRABBER_ZONE_HEIGHT + headerHeight;
-                    if (measured !== fitHeight) setFitHeight(measured);
+                    const next = nextFitHeight(fitHeight, measured);
+                    if (next !== null) setFitHeight(next);
                   }}
                 >
                   {children}

@@ -1,14 +1,14 @@
 appId: app.critterpass.dev
 ---
-# From a fresh account to DRAFT MY TRIP: the staging demo world's `vote_final` scenario (Kyoto
-# against Lisbon, 2–2, the account's ballot the last one), a vote for Kyoto, SET UP on the reveal
-# as organiser, then every setup step: the dates locked (subflows/setup-when.yaml), the budget
-# locked, the rooms (a stay picked and its rooms locked, or the even split accepted), one must-do
-# added, and DRAFT MY TRIP, which starts the guide's draft on the drafting screen (3c-8).
+# From a new account to DRAFT MY TRIP, started as the staging demo world's `vote_final` scenario
+# (Kyoto against Lisbon, 2–2, the account's ballot the last one), a vote for Kyoto, SET UP on the
+# reveal as organiser, then every setup step: the dates locked (subflows/setup-when.yaml), the
+# budget locked, the rooms (a stay picked and its rooms locked, or the even split accepted), one
+# must-do added, and DRAFT MY TRIP, which starts the guide's draft on the drafting screen (3c-8).
 - runFlow:
-    file: fresh-account.yaml
+    file: ../../_shared/start-as.yaml
     env:
-      SEED: dev-seed-demo-vote-final
+      SCENARIO: vote_final
 - extendedWaitUntil:
     visible:
       id: 'final-split-open'

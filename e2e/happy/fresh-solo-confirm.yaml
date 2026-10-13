@@ -1,27 +1,13 @@
 appId: app.critterpass.dev
 ---
-# Release gate: a crew of one confirms its trip, no demo world. A fresh account starts its own
-# crew, pitches one place and locks it in, sets the trip up, and the guide drafts it. With nobody
-# to send it to, BUILD THE PROPOSAL offers LOCK IT IN (or INVITE FRIENDS FIRST); locking confirms
-# the trip, and Home shows it counting down.
-- runFlow: subflows/fresh-account.yaml
-- openLink: critterpass-dev://crew/new
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-name'
-    timeout: 15000
-- tapOn:
-    id: 'start-crew-name'
-- inputText: 'Crew Of One'
-# START THE CREW rides on top of the keyboard.
-- tapOn:
-    id: 'start-crew-create'
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-done'
-    timeout: 20000
-- tapOn:
-    id: 'start-crew-done'
+# Release gate: a crew of one confirms its trip, no demo world. A new account starts as
+# `crew_with_code` (a crew of one), pitches one place and locks it in, sets the trip up, and the
+# guide drafts it. With nobody to send it to, BUILD THE PROPOSAL offers LOCK IT IN (or INVITE
+# FRIENDS FIRST); locking confirms the trip, and Home shows it counting down.
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: crew_with_code
 - runFlow:
     file: subflows/pitch-place.yaml
     env:
