@@ -18,6 +18,7 @@ const SHEET_SCREENS = {
   explore: ['why-sponsored'],
   '(trip)': ['lock-screen-offer'],
   '(trip)/[tripId]': ['add/[placeId]', 'search/link', 'check/gap', 'drivers/pick', 'drivers/share'],
+  '(trip)/hub/[tripId]': ['alarm'],
   '(trip)/[tripId]/draft': ['change-day', 'last-redraft'],
   '(trip)/[tripId]/setup': ['must-dos/add', 'ask/[askId]'],
 } as const satisfies Record<string, readonly string[]>;

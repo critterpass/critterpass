@@ -135,24 +135,31 @@ export function Text({
         align === undefined ? null : { textAlign: align },
         style,
       ]}
-      onTextLayout={(event) => {
-        const text = UI_QA_ENABLED ? plainText(rest.children) : null;
-        if (text !== null) {
-          const oneLine = singleLine ?? ONE_LINE_VARIANTS.has(variant);
-          const problems = textLayoutProblems({
-            lines: event.nativeEvent.lines,
-            text,
-            // A caller's line limit makes its ellipsis intended, except on a control label: a
-            // button or pill that cuts its own label is clipped, whatever the limit says.
-            truncationIsBug: rest.numberOfLines === undefined || oneLine,
-            lineLimited: rest.numberOfLines !== undefined,
-            // Larger text sizes wrap labels by design (Dynamic Type).
-            singleLine: oneLine && fontScale <= 1,
-          });
-          for (const code of problems) reportUiQa(code, rest.testID ?? text.slice(0, 40), variant);
-        }
-        onTextLayout?.(event);
-      }}
+      // Only where something reads it: line metrics sent to JS on every layout cost a bridge trip
+      // per text (keyboard, sheet detents, list scroll), so store builds skip them.
+      onTextLayout={
+        UI_QA_ENABLED || onTextLayout !== undefined
+          ? (event) => {
+              const text = UI_QA_ENABLED ? plainText(rest.children) : null;
+              if (text !== null) {
+                const oneLine = singleLine ?? ONE_LINE_VARIANTS.has(variant);
+                const problems = textLayoutProblems({
+                  lines: event.nativeEvent.lines,
+                  text,
+                  // A caller's line limit makes its ellipsis intended, except on a control label: a
+                  // button or pill that cuts its own label is clipped, whatever the limit says.
+                  truncationIsBug: rest.numberOfLines === undefined || oneLine,
+                  lineLimited: rest.numberOfLines !== undefined,
+                  // Larger text sizes wrap labels by design (Dynamic Type).
+                  singleLine: oneLine && fontScale <= 1,
+                });
+                for (const code of problems)
+                  reportUiQa(code, rest.testID ?? text.slice(0, 40), variant);
+              }
+              onTextLayout?.(event);
+            }
+          : undefined
+      }
     />
   );
 }

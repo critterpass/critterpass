@@ -18,6 +18,8 @@ const circle = (cx: number, cy: number, r: number) =>
 export const PREMIUM_GLYPHS = {
   back: { d: 'M15 6l-6 6 6 6', stroke: 2.4 },
   forward: { d: 'M9 6l6 6-6 6', stroke: 2.6 },
+  // The picker chevron (⌄) after a chip's value: tapping it opens the choices.
+  down: { d: 'M6 9.5l6 6 6-6', stroke: 2.4 },
   close: { d: 'M6 6l12 12M18 6 6 18', stroke: 2.4 },
   plus: { d: 'M12 5v14M5 12h14', stroke: 2.6 },
   minus: { d: 'M5 12h14', stroke: 2.6 },

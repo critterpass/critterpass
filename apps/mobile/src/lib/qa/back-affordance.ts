@@ -1,5 +1,5 @@
 import { router, useNavigationContainerRef, usePathname, useSegments } from 'expo-router';
-import { useIsRouteFocused } from 'expo-router/build/react-navigation/core/useIsFocused';
+import { useIsRouteFocused } from '@/lib/navigation/router-internals';
 import { useEffect } from 'react';
 
 import { reportUiQa, UI_QA_ENABLED } from './ui-qa';

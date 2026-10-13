@@ -33,6 +33,8 @@ export interface ButtonProps {
   readonly loading?: boolean;
   readonly loadingLabel?: string;
   readonly icon?: PremiumIconName;
+  /** A ⌄ after the label: the pill opens a picker (the currency chip). */
+  readonly chevron?: boolean;
   readonly accessibilityHint?: string;
   readonly testID?: string;
 }
@@ -73,7 +75,16 @@ export function buttonLook(
   if (state.disabled) return { box: { backgroundColor: c.controlDisabled }, text: c.placeholder };
   switch (variant) {
     case 'primary':
-      if (state.pressed) return { box: { backgroundColor: c.inkPressed }, text: c.onInk };
+      // The pressed pill keeps its shadow: the press scale already says it is pressed.
+      if (state.pressed) {
+        return {
+          box: {
+            backgroundColor: c.inkPressed,
+            ...(size === 'large' ? { boxShadow: t.shadow.ink } : {}),
+          },
+          text: c.onInk,
+        };
+      }
       if (size === 'large') {
         return {
           box: {
@@ -111,6 +122,7 @@ export function Button({
   loading = false,
   loadingLabel,
   icon,
+  chevron = false,
   accessibilityHint,
   testID,
 }: ButtonProps) {
@@ -131,7 +143,8 @@ export function Button({
       style={box.alignSelf === 'stretch' ? { alignSelf: 'stretch' } : { alignSelf: 'flex-start' }}
     >
       {({ pressed }) => {
-        const look = buttonLook(t, loading ? 'primary' : variant, size, {
+        // Loading keeps the variant's own fill; only the spinner says it is busy.
+        const look = buttonLook(t, variant, size, {
           pressed: pressed && !loading,
           disabled,
         });
@@ -155,6 +168,9 @@ export function Button({
             <Text variant={TYPE_FOR_SIZE[size]} color={look.text} numberOfLines={1}>
               {shown}
             </Text>
+            {chevron && !loading ? (
+              <Icon name="down" size={t.size.glyph} color={look.text} />
+            ) : null}
           </View>
         );
       }}

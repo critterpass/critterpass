@@ -32,9 +32,13 @@ export const REDUCED_FADE: WithTimingConfig = {
   reduceMotion: ReduceMotion.Never,
 };
 
-/** In-screen reflow (chips wrapping, rows inserting or leaving) on the Smooth spring. */
+/**
+ * In-screen reflow (chips wrapping, rows inserting or leaving) on the Smooth spring. Under Reduce
+ * Motion nothing slides: rows take their new place at once and only their entering and exiting
+ * fade.
+ */
 export function layoutTransition(reduced: boolean) {
-  if (reduced) return LinearTransition.duration(REDUCED_FADE_MS);
+  if (reduced) return LinearTransition.duration(0);
   const { stiffness, damping, mass } = premium.spring.smooth;
   return LinearTransition.springify().stiffness(stiffness).damping(damping).mass(mass);
 }

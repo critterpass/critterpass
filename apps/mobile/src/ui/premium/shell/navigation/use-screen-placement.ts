@@ -6,7 +6,7 @@
  */
 import { useContext, type ContextType } from 'react';
 import { NavigationContext, NavigationRouteContext } from 'expo-router/react-navigation';
-import { ScreenPresentationContext } from 'expo-router/build/react-navigation/native-stack/utils/ScreenPresentationContext';
+import { ScreenPresentationContext } from '@/lib/navigation/router-internals';
 
 import {
   screenPlacement,

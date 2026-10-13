@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { View, type LayoutChangeEvent } from 'react-native';
 import type { DimensionValue, StyleProp, ViewStyle } from 'react-native';
 import Animated, {
   cancelAnimation,
@@ -41,7 +41,8 @@ export function Skeleton({ width = '100%', height, radius, tone = 'bar', style }
     if (!shimmer) return undefined;
     sweep.set(
       withRepeat(
-        withTiming(1, { duration: t.motion.shimmerSweepMs, easing: Easing.inOut(Easing.quad) }),
+        // A shimmer moves at one speed: easing in and out reads as a pulse, not light passing.
+        withTiming(1, { duration: t.motion.shimmerSweepMs, easing: Easing.linear }),
         -1,
         false,
       ),
@@ -63,7 +64,10 @@ export function Skeleton({ width = '100%', height, radius, tone = 'bar', style }
     <View
       accessible={false}
       importantForAccessibility="no-hide-descendants"
-      onLayout={(e) => setMeasured(e.nativeEvent.layout.width)}
+      // Only a shimmering block needs its width (for the band's sweep).
+      {...(shimmer
+        ? { onLayout: (e: LayoutChangeEvent) => setMeasured(e.nativeEvent.layout.width) }
+        : {})}
       style={[
         {
           width,

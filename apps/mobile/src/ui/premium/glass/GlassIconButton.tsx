@@ -4,7 +4,7 @@ import { Icon } from '../icons/Icon';
 import type { PremiumIconName } from '../icons/Icon';
 import { PressableScale } from '../motion/PressableScale';
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
-import { GlassSurface } from './GlassSurface';
+import { GlassSurface, NATIVE_GLASS } from './GlassSurface';
 
 export interface GlassIconButtonProps {
   readonly icon: PremiumIconName;
@@ -41,6 +41,8 @@ export function GlassIconButton({
       onPress={onPress}
       disabled={disabled}
       accessibilityLabel={label}
+      // Interactive Liquid Glass reacts to the touch itself; a scale on top doubles it.
+      {...(NATIVE_GLASS ? { pressedScale: 1 } : {})}
     >
       <GlassSurface
         kind={kind}
