@@ -196,7 +196,8 @@ export function PremiumCodePage() {
               gap: theme.space.gap6,
             }}
           >
-            <Text variant="mono" tone="muted">
+            {/* Clear of the guide sticker that hangs over the card's top right. */}
+            <Text variant="mono" tone="muted" numberOfLines={1} style={{ paddingEnd: 72 }}>
               {t({ id: 'onboarding.invite.code.found', message: `Found it · ${inviter}’s crew` })}
             </Text>
             <Text variant="largeTitle" numberOfLines={2}>
@@ -209,14 +210,16 @@ export function PremiumCodePage() {
                   <View
                     key={chip}
                     style={{
-                      height: 26,
+                      minHeight: 26,
                       paddingHorizontal: 10,
                       borderRadius: 13,
                       backgroundColor: theme.color.control,
                       justifyContent: 'center',
                     }}
                   >
-                    <Text variant="caption">{chip}</Text>
+                    <Text variant="caption" numberOfLines={1}>
+                      {chip}
+                    </Text>
                   </View>
                 ))}
             </View>

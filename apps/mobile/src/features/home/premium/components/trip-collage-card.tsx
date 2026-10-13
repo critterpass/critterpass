@@ -30,21 +30,23 @@ import { PlanRingPill } from './plan-ring-pill';
 import { Polaroid } from './polaroid';
 
 const useStyles = makePremiumStyles((t) => ({
+  // At least the collage's height; larger type grows the card and the "going" row stays under
+  // the words instead of over them.
   card: {
-    height: 256,
+    minHeight: 256,
     borderRadius: 30,
     backgroundColor: t.color.card,
     boxShadow: '0 2px 4px rgba(20,22,40,.05), 0 18px 40px rgba(20,22,40,.09)',
     padding: t.space.gutter,
     paddingTop: 18,
+    paddingBottom: 18,
   },
   text: { width: '58%', gap: t.space.gap8, zIndex: 2 },
   hero: { lineHeight: 63 },
   pills: { flexDirection: 'row', flexWrap: 'wrap', gap: t.space.gap6 },
   going: {
-    position: 'absolute',
-    start: t.space.gutter,
-    bottom: 18,
+    marginTop: 'auto',
+    paddingTop: t.space.gap8,
     flexDirection: 'row',
     alignItems: 'center',
     gap: t.space.gap8,

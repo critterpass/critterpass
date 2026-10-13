@@ -3,10 +3,10 @@
  * Pass+ and worn-critter stickers, the three counts over a dashed rule, and the machine line.
  */
 import { useLingui } from '@lingui/react/macro';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
-import { PrivateContent } from '@/features/help/shake/PrivateContent';
-import { Tag, Text, TierLabel, usePremiumTheme } from '@/ui/premium';
+import { PrivateContent } from '@/features/help';
+import { hitSlopFor, PressableScale, Tag, Text, TierLabel, usePremiumTheme } from '@/ui/premium';
 
 import { statLabel } from '../../profile/profile-copy';
 import type { ProfileModel } from '../../profile/profile-model';
@@ -69,7 +69,9 @@ export function PassportCard({ model, photoUri, onPassPlus }: PassportCardProps)
           <Text
             variant="largeTitle"
             color={PASS_PAPER.ink}
-            numberOfLines={1}
+            numberOfLines={2}
+            adjustsFontSizeToFit
+            minimumFontScale={0.6}
             accessibilityRole="header"
             testID="you-profile-name"
           >
@@ -82,15 +84,18 @@ export function PassportCard({ model, photoUri, onPassPlus }: PassportCardProps)
           )}
           <View style={{ flexDirection: 'row', gap: th.space.gap6, marginTop: th.space.gap4 }}>
             {model.passPlus ? (
-              <Pressable
+              <PressableScale
                 onPress={onPassPlus}
                 disabled={onPassPlus === undefined}
                 accessibilityRole="button"
+                // eslint-disable-next-line lingui/no-unlocalized-strings -- the Pass+ brand mark, never copy.
+                accessibilityLabel="Pass+"
+                hitSlop={hitSlopFor(52, 24)}
                 testID="you-profile-pass-plus"
               >
                 {/* eslint-disable-next-line lingui/no-unlocalized-strings -- the Pass+ brand mark, never copy. */}
                 <Tag label="Pass+" color={th.accent.sun} rotate={-3} />
-              </Pressable>
+              </PressableScale>
             ) : null}
             {model.ring === null ? null : <TierLabel tier={model.ring} />}
           </View>
