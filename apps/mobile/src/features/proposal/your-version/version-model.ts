@@ -3,7 +3,7 @@ import type { Hype } from '../data/proposal';
 import type { Saving } from '../data/savings';
 import type { Pick } from '../data/picks';
 import type { ReactNode } from 'react';
-import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
+import type { GuideStickerId as GuideId } from '@/ui/premium/stickers/guides';
 
 export function reactionWords(kind: string): string {
   switch (kind) {

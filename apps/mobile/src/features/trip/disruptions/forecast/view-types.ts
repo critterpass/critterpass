@@ -1,5 +1,5 @@
 import type { ForecastModel, WatchEntry } from './model';
-import type { GuideStickerId } from '@/ui/avatar/guides';
+import type { GuideStickerId } from '@/ui/premium/stickers/guides';
 
 export interface ForecastViewProps {
   readonly state: 'loading' | 'ready';

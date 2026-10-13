@@ -8,7 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Card,
   Icon,

@@ -1,9 +1,9 @@
 import type { ComponentType } from 'react';
 
 import type { ProposalFormat } from '@cp/domain';
-import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
+import type { GuideStickerId as GuideId } from '@/ui/premium/stickers/guides';
 import type { BuilderConfig } from './model';
-import { type GuideStickerId } from '@/ui/avatar/guides';
+import { type GuideStickerId } from '@/ui/premium/stickers/guides';
 import type { CrewPerson } from '../data/trip';
 import type { ProposalVersion } from '../data/proposal';
 

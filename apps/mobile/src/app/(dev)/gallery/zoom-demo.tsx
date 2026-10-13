@@ -2,7 +2,7 @@ import { Pressable, ScrollView } from 'react-native';
 
 import { useMotionMode } from '@/motion/motion-mode';
 import { makeStyles, Scaffold, Stack, Text, useTheme } from '@/ui';
-import { useSharedSource, zoomTo } from '@/ui/transitions/use-shared-source';
+import { useSharedSource, zoomTo } from '@/ui/premium/shell/zoom/use-shared-source';
 
 export const __CP_DEV_ROUTE__ = true;
 

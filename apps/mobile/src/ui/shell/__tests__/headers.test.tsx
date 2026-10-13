@@ -22,7 +22,7 @@ import '../shell.fixtures';
 
 // `<Sticker>` rasterises through Skia's JSI/GPU host, which Jest cannot run (its own suite covers
 // the real pipeline against canvaskit-wasm); here it is a plain view.
-jest.mock('../../sticker/Sticker', () => {
+jest.mock('../../premium/stickers/art/Sticker', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports -- jest.mock factories cannot close over module-scope imports
   const RN = require('react-native') as typeof ReactNativeModule;
   return { Sticker: ({ kind }: { kind: string }) => <RN.View testID={`sticker-${kind}`} /> };

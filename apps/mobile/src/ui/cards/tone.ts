@@ -1,6 +1,6 @@
 import type { GuideId } from '@/lib/navigation/active-guide';
 
-import { guideSticker } from '../avatar/guides';
+import { guideSticker } from '../premium/stickers/guides';
 import type { SurfaceTone } from '../surface/Scaffold';
 import type { Theme } from '../theme';
 

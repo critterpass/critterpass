@@ -6,7 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
-import { isGuideStickerId } from '@/ui/avatar/guides';
+import { isGuideStickerId } from '@/ui/premium/stickers/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 import { redraftQuota, type RedraftQuota } from './quota';

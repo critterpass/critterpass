@@ -10,9 +10,9 @@ import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { useLoop } from '@/motion';
-import { lockedStickerLabel } from '@/ui/sticker/a11y';
-import { SilhouetteSlot } from '@/ui/sticker/SilhouetteSlot';
-import { Sticker } from '@/ui/sticker/Sticker';
+import { lockedStickerLabel } from '@/ui/premium/stickers/art/a11y';
+import { SilhouetteSlot } from '@/ui/premium/stickers/art/SilhouetteSlot';
+import { Sticker } from '@/ui/premium/stickers/art/Sticker';
 
 import { unknownName } from '../critters-copy';
 import { artKind } from '../art-kind';

@@ -6,7 +6,7 @@
 import { StyleSheet, View } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
 
-import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideStickerId } from '@/ui/premium/stickers/guides';
 import { CritterSticker, Text, usePremiumReducedMotion, usePremiumTheme } from '@/ui/premium';
 
 export function PremiumTrailerSlide(props: {

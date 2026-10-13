@@ -5,12 +5,12 @@ import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 
-import { guideSticker } from '../avatar/guides';
+import { guideSticker } from '../premium/stickers/guides';
 import { CountdownCard } from '../cards/CountdownCard';
 import { InfoPill } from '../chips/InfoPill';
 import { registerFixture } from '../gallery/registry';
 import { Stack } from '../layout/Stack';
-import { Sticker } from '../sticker/Sticker';
+import { Sticker } from '../premium/stickers/art/Sticker';
 import type { TextVariant } from './Text';
 import { Text } from './Text';
 

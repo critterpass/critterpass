@@ -14,12 +14,12 @@ import { router } from 'expo-router';
 import { useWindowDimensions, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { Card } from '@/ui/cards/Card';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
-import { Sticker } from '@/ui/sticker/Sticker';
+import { Sticker } from '@/ui/premium/stickers/art/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 

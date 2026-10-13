@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { useDraw } from '@/motion/patterns/draw';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 
-import { Sticker } from '../sticker/Sticker';
-import type { StickerProps } from '../sticker/Sticker';
+import { Sticker } from '../premium/stickers/art/Sticker';
+import type { StickerProps } from '../premium/stickers/art/Sticker';
 import { useBlink } from './use-blink';
 
 /** docs/design-system.md §3.1 `draw`: 1500 ms for creatures, 700 ms for icons. */

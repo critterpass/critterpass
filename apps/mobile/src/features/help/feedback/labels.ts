@@ -2,7 +2,7 @@
 import { useLingui } from '@lingui/react/macro';
 import type { FeedbackCategory, FeedbackMood } from '@cp/domain';
 
-import type { GuideStickerId } from '@/ui/avatar/guides';
+import type { GuideStickerId } from '@/ui/premium/stickers/guides';
 
 /** The critter that wears each mood. */
 export const MOOD_CRITTERS: Readonly<Record<FeedbackMood, GuideStickerId>> = {

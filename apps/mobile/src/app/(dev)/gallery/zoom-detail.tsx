@@ -2,7 +2,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { Pressable } from 'react-native';
 
 import { Scaffold, Stack, Text } from '@/ui';
-import { SharedTarget } from '@/ui/transitions/SharedGrow';
+import { SharedTarget } from '@/ui/premium/shell/zoom/shared-grow';
 
 export const __CP_DEV_ROUTE__ = true;
 

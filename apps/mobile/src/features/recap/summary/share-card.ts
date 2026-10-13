@@ -16,14 +16,14 @@ import type * as SharingModule from 'expo-sharing';
 import { bundledTypeface } from '@/ui/share-image/bundled-typefaces';
 import type { ShareActionsDeps } from '@/lib/share-image/share-actions';
 import { SHARE_SIZE, type ShareFormat } from '@/ui/share-image/ShareSheet';
-import { renderStickerImage } from '@/ui/sticker/export-png';
-import { getDefaultSkiaEngine } from '@/ui/sticker/Sticker';
+import { renderStickerImage } from '@/ui/premium/stickers/art/export-png';
+import { getDefaultSkiaEngine } from '@/ui/premium/stickers/art/Sticker';
 
 import type { TileCopy } from './summary-copy';
 import type { DistanceUnit } from '@cp/i18n';
 import { useMemo, type ReactNode } from 'react';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { headerEyebrow, headerTitle, tileCopy } from './summary-copy';
 import type { SummaryModel } from './summary-model';

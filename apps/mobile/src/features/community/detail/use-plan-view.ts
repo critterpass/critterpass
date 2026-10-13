@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useCommandFeedback } from '@/motion/island-toast';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { dataOf, useGuideNote, useTripSharedPlan } from '../api';
 import { reportContent, saveSharedPlan, unsaveSharedPlan } from '../commands';

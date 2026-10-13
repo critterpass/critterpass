@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 import type { GuideId } from '@/lib/navigation/active-guide';
 
-import { guideColour } from '../avatar/guides';
+import { guideColour } from '../premium/stickers/guides';
 import { Row } from '../layout/Row';
 import { useSurfaceTone } from '../surface/Scaffold';
 import { Text } from '../text/Text';

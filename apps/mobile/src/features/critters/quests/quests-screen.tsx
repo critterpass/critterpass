@@ -12,8 +12,8 @@ import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 import { feedback, toast, useMotionMode } from '@/motion';
-import { guideSticker } from '@/ui/avatar/guides';
-import { Sticker } from '@/ui/sticker/Sticker';
+import { guideSticker } from '@/ui/premium/stickers/guides';
+import { Sticker } from '@/ui/premium/stickers/art/Sticker';
 
 import { signupQuestCommand } from './commands';
 import { useLiveRows } from './live-rows';

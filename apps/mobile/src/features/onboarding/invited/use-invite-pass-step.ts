@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { guideFormId, guideOfForm, homeBaseFor, type TasteTag } from '@cp/domain';
 
 import { useAnalytics } from '@/lib/analytics';
-import type { GuideAvatarId } from '@/ui/avatar/guides';
+import type { GuideAvatarId } from '@/ui/premium/stickers/guides';
 
 import { airportDataset, onboardingQuiz } from '../content';
 import { ensureDraft, updateDraft, usePassDraft } from '../flow-controller/draft-store';

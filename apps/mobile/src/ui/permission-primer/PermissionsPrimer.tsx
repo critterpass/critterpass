@@ -14,10 +14,10 @@ import {
 
 import { PillButton } from '../buttons/PillButton';
 import { TextLink } from '../buttons/TextLink';
-import { guideSticker } from '../avatar/guides';
+import { guideSticker } from '../premium/stickers/guides';
 import { type GuideId, GuideLine } from '../people/GuideLine';
 import { BackEyebrow } from '../shell/BackEyebrow';
-import { Sticker } from '../sticker/Sticker';
+import { Sticker } from '../premium/stickers/art/Sticker';
 import { Scaffold } from '../surface/Scaffold';
 import { Text } from '../text/Text';
 import { useTheme } from '../theme';

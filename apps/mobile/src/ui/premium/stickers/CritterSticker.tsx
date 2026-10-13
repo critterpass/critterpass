@@ -1,6 +1,6 @@
 import type { FormSpec, Pose } from '@cp/critter-art';
 
-import { Sticker } from '@/ui/sticker/Sticker';
+import { Sticker } from '@/ui/premium/stickers/art/Sticker';
 
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 

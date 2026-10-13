@@ -2,7 +2,7 @@ jest.unmock('expo-router');
 
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { act, render } from '@testing-library/react-native';
+import { act } from '@testing-library/react-native';
 import { afterEach, beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Stack } from 'expo-router/js-stack';
 import { useEffect } from 'react';
@@ -14,12 +14,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { tokens } from '@cp/design-tokens';
 
-import { ThemeProvider } from '../../../lib/theme';
-import { useMotionMode } from '../../../motion/motion-mode';
-import { resetMotionModeForTests } from '../../../motion/test-support/reset-motion-mode';
-import { Burst } from '../Burst';
-import { Fold } from '../Fold';
-import { SharedGrowHost, SharedTarget } from '../SharedGrow';
+import { ThemeProvider } from '../../../../../lib/theme';
+import { SharedGrowHost, SharedTarget } from '../shared-grow';
 import type { Rect } from '../use-shared-source';
 import {
   planUnzoom,
@@ -97,10 +93,9 @@ beforeAll(() => {
   i18n.loadAndActivate({ locale: 'en', messages: {} });
 });
 
-beforeEach(async () => {
+beforeEach(() => {
   sharedGrowStore.resetForTests();
   captured.card = undefined;
-  await resetMotionModeForTests();
 });
 
 afterEach(() => {
@@ -181,42 +176,5 @@ describe('shared grow', () => {
     const plan = await unzoom('kyoto', DETAIL);
     expect(plan).toEqual({ kind: 'unfade' });
     expect(sharedGrowStore.active).toHaveLength(0);
-  });
-});
-
-async function setMotion(mode: 'reduced') {
-  const probe = { set: (_: 'reduced') => {} };
-  function Probe() {
-    const [, setMode] = useMotionMode();
-    useEffect(() => {
-      probe.set = setMode;
-    });
-    return null;
-  }
-  const rendered = await render(<Probe />);
-  await act(() => probe.set(mode));
-  await rendered.unmount();
-}
-
-describe('Burst, Fold', () => {
-  it('bursts in with a cream flash, without it under reduced motion', async () => {
-    const full = await render(<Burst>{<Text>won</Text>}</Burst>);
-    expect(full.getByTestId('burst-flash', HIDDEN)).toBeTruthy();
-    await full.unmount();
-
-    await setMotion('reduced');
-    const reduced = await render(<Burst>{<Text>won</Text>}</Burst>);
-    expect(reduced.queryByTestId('burst-flash', HIDDEN)).toBeNull();
-  });
-
-  it('folds out and reports when it has left', async () => {
-    const onLeft = jest.fn();
-    const screenFold = await render(<Fold onLeft={onLeft}>{<Text>draft</Text>}</Fold>);
-    await screenFold.rerender(
-      <Fold leaving onLeft={onLeft}>
-        {<Text>draft</Text>}
-      </Fold>,
-    );
-    expect(onLeft).toHaveBeenCalledTimes(1);
   });
 });

@@ -16,7 +16,7 @@ import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
 import { feedback, toast } from '@/motion';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { createProposalCommand, lockInPlanCommand, sendProposalCommand } from '../data/commands';
 import { instantDate, instantDateTime } from '../data/format';

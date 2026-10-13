@@ -16,7 +16,7 @@ import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion';
 import { useCommandFeedback } from '@/motion/island-toast';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { draftBackLabel } from './draft-copy';
 import { restoreDraftVersionCommand } from '../data/commands';

@@ -19,7 +19,7 @@ import { useNow } from '@/lib/time/use-now';
 import { goBackOr } from '@/lib/navigation/back';
 import { toast } from '@/motion';
 import { useCommandFeedback } from '@/motion/island-toast';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { BOOKINGS_ROUTES, pickPolicy, useInsurancePolicies } from '@/features/bookings';
 import { HELP_ROUTES } from '@/features/help';

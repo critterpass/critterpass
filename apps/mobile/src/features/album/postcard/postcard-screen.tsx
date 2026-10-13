@@ -20,7 +20,7 @@ import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
 import { useCommandFeedback } from '@/motion/island-toast';
 import { LoadingCritter } from '@/ui/premium';
-import { guideIdOr } from '@/ui/avatar/guides';
+import { guideIdOr } from '@/ui/premium/stickers/guides';
 
 import {
   createPostcardCommand,

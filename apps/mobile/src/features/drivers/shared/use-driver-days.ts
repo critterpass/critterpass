@@ -10,7 +10,7 @@ import { useMemo } from 'react';
 import { dayItems } from '@/data/plan/plan-model';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { seatHeldSql } from '@/data/trips/seat-sql';
-import { isGuideStickerId } from '@/ui/avatar/guides';
+import { isGuideStickerId } from '@/ui/premium/stickers/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 import { gapStopsOf } from './gap-stops';

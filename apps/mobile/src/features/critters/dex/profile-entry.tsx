@@ -2,10 +2,10 @@
 import { t } from '@lingui/core/macro';
 import { Pressable } from 'react-native';
 
-import { guideSticker, type GuideAvatarId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideAvatarId } from '@/ui/premium/stickers/guides';
 import { Avatar } from '@/ui/people/Avatar';
 import { useMemberFace } from '@/ui/people/member-face';
-import { Sticker } from '@/ui/sticker/Sticker';
+import { Sticker } from '@/ui/premium/stickers/art/Sticker';
 import { touchSlop } from '@/ui/theme';
 
 export interface DexProfileEntry {

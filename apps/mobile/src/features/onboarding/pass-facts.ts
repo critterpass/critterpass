@@ -16,7 +16,7 @@ import {
 } from '@cp/domain';
 import { format, upper } from '@cp/i18n';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { airportDataset, onboardingQuiz } from './content';
 import { tagWords } from './taste/tag-labels';

@@ -1,7 +1,7 @@
 // The sticker's pixels come from native Skia, which Jest lacks; its own suite renders them with
 // CanvasKit. Here it keeps the same accessible element (size, role, label) so the audit sees what
 // VoiceOver sees around every sticker.
-jest.mock('../sticker/Sticker', () => {
+jest.mock('../premium/stickers/art/Sticker', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports -- jest.mock factories cannot close over module-scope imports
   const RN = require('react-native') as typeof ReactNativeModule;
   // eslint-disable-next-line @typescript-eslint/no-require-imports -- jest.mock factories cannot close over module-scope imports

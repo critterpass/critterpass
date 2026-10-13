@@ -6,8 +6,8 @@ import type { SkiaEngine } from '@cp/critter-art/skia';
 import CanvasKitInit from 'canvaskit-wasm';
 import type { CanvasKit, EmbindEnumEntity } from 'canvaskit-wasm';
 
-import { DiskLruCache, MemoryLruCache, StickerCache } from '../sticker/cache';
-import type { StickerDiskFs } from '../sticker/cache';
+import { DiskLruCache, MemoryLruCache, StickerCache } from '../cache';
+import type { StickerDiskFs } from '../cache';
 
 /**
  * A real CanvasKit (WASM Skia) engine for suites that render `<Sticker>`: the sticker renderer's

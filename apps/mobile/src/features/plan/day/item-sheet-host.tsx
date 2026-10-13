@@ -24,7 +24,7 @@ import type { EditOutcome, PlanEditorEvents } from '@/data/plan/use-plan-editor'
 import type { TripPlan } from '@/data/plan/use-trip-plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { usePremiumTheme } from '@/ui/premium';
 
 import { useResolveClash } from '../overlay/data/use-personal-plan';

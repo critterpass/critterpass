@@ -7,7 +7,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import { TRIP_SETUP_STEPS, type TripSetupStep } from '@cp/domain';
 
-import { isGuideStickerId } from '@/ui/avatar/guides';
+import { isGuideStickerId } from '@/ui/premium/stickers/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 import { useLiveRows } from './rows';

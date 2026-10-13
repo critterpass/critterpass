@@ -3,9 +3,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { runOnJS, useFrameCallback, useSharedValue, withTiming } from 'react-native-reanimated';
 
-import type { DexCell } from '@/ui/sticker/dex';
-import { DEX_CELLS, HERO_CELLS } from '@/ui/sticker/dex';
-import { getDefaultSkiaCache, Sticker } from '@/ui/sticker/Sticker';
+import type { DexCell } from '@/ui/premium/stickers/art/dex';
+import { DEX_CELLS, HERO_CELLS } from '@/ui/premium/stickers/art/dex';
+import { getDefaultSkiaCache, Sticker } from '@/ui/premium/stickers/art/Sticker';
 import { Scaffold, Text } from '@/ui';
 import { PillButton } from '@/ui/buttons/PillButton';
 

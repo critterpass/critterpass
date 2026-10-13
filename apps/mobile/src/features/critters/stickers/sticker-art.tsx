@@ -4,8 +4,8 @@
  */
 import { View } from 'react-native';
 
-import { guideSticker } from '@/ui/avatar/guides';
-import { Sticker } from '@/ui/sticker/Sticker';
+import { guideSticker } from '@/ui/premium/stickers/guides';
+import { Sticker } from '@/ui/premium/stickers/art/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 

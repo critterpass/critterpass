@@ -11,8 +11,8 @@ import { Platform, Pressable, View, type StyleProp, type ViewStyle } from 'react
 
 // The grow engine is shared infrastructure that both UIs mount at the root; only its source and
 // target hooks are used here.
-import { SharedTarget } from '@/ui/transitions/SharedGrow';
-import { useSharedSource, zoomTo } from '@/ui/transitions/use-shared-source';
+import { SharedTarget } from '@/ui/premium/shell/zoom/shared-grow';
+import { useSharedSource, zoomTo } from '@/ui/premium/shell/zoom/use-shared-source';
 
 import { usePremiumReducedMotion } from '../..';
 

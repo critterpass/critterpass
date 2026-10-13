@@ -9,7 +9,7 @@ import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { OfflinePill, usePremiumTheme } from '@/ui/premium';
 import { KeyboardAwareScroll } from '@/ui/premium/shell';
 

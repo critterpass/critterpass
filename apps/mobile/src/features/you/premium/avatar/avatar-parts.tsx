@@ -8,7 +8,7 @@ import type { ReactNode } from 'react';
 import { Image, ScrollView, View } from 'react-native';
 
 import { FormSticker } from '@/features/critters';
-import { GUIDE_AVATAR_IDS, guideSticker, type GuideAvatarId } from '@/ui/avatar/guides';
+import { GUIDE_AVATAR_IDS, guideSticker, type GuideAvatarId } from '@/ui/premium/stickers/guides';
 import { CritterSticker, PressableScale, Text, ring, usePremiumTheme } from '@/ui/premium';
 
 import type { MemberFace } from '../../avatar/member-face';

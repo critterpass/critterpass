@@ -14,7 +14,7 @@ import { useRealPhoto } from '@/features/onboarding';
 import { goBackOr } from '@/lib/navigation/back';
 import { requestWithPrimer } from '@/lib/permissions';
 import { useCommandFeedback } from '@/motion/island-toast';
-import type { GuideAvatarId } from '@/ui/avatar/guides';
+import type { GuideAvatarId } from '@/ui/premium/stickers/guides';
 
 import { useOwnerUid } from '../data/live-rows';
 import { dropPendingEdits, putPendingEdits } from '../data/pending-edits';

@@ -28,7 +28,7 @@ import {
   useToast,
 } from '@/ui/premium';
 import { confirmAlert, PushScreen } from '@/ui/premium/shell';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import {
   LEAVE_CREW,

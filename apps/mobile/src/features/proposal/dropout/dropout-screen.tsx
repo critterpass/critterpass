@@ -13,7 +13,7 @@ import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { resolveDropoutCommand, setKeepInChatCommand } from '../data/commands';
 import { useFindProposalTrip, useProposal } from '../data/proposal';
@@ -23,7 +23,7 @@ import { ProposalLoading } from '../proposal-loading';
 import { dropoutReplyLine, dropoutShare } from '../labels';
 import { proposalRoutes } from '../routes';
 import { changeRows, shareChange, type DropoutOp, type MemberResplit } from './model';
-import { type GuideStickerId } from '@/ui/avatar/guides';
+import { type GuideStickerId } from '@/ui/premium/stickers/guides';
 import type { ChangeRow } from './model';
 
 const DROPOUT_SQL = `SELECT ops, members, resolved_at, created_at FROM trip_dropouts

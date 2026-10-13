@@ -11,7 +11,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { format } from '@cp/i18n';
 
 import { displayWithHome, useMoneyDisplay } from '@/data/money';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   CritterSticker,

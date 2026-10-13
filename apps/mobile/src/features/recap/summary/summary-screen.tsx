@@ -15,7 +15,7 @@ import { useSyncPhase } from '@/data/status/use-sync-status';
 import { goBackOr } from '@/lib/navigation/back';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
-import { guideSticker, isGuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, isGuideStickerId } from '@/ui/premium/stickers/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { PremiumSessionWaiting } from '@/ui/premium';
 

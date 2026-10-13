@@ -16,7 +16,7 @@ import {
   submitPrivateReasonCommand,
 } from '../data/commands';
 import { followUpAt, parseOptions, type FollowUp } from './options';
-import { type GuideStickerId } from '@/ui/avatar/guides';
+import { type GuideStickerId } from '@/ui/premium/stickers/guides';
 import type { PrivateOption } from './options';
 
 function laterDone(later: FollowUp): string {

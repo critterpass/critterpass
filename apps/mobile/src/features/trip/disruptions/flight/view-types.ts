@@ -1,5 +1,5 @@
 import type { FlightModel } from './model';
-import type { GuideStickerId } from '@/ui/avatar/guides';
+import type { GuideStickerId } from '@/ui/premium/stickers/guides';
 import type { DisruptionAction } from '@cp/domain';
 
 export interface FlightViewProps {

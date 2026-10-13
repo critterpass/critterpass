@@ -25,7 +25,7 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 
 import { useCrewServices } from '../crews-sheet/crew-services';

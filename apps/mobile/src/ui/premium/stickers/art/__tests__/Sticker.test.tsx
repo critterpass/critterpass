@@ -1,4 +1,4 @@
-jest.unmock('@/ui/sticker/Sticker');
+jest.unmock('@/ui/premium/stickers/art/Sticker');
 
 import path from 'node:path';
 import { TextDecoder, TextEncoder } from 'node:util';
@@ -16,7 +16,7 @@ import { DiskLruCache, MemoryLruCache, StickerCache } from '../cache';
 import type { StickerDiskFs } from '../cache';
 import { tokens } from '@cp/design-tokens';
 
-import { setUiQaSink } from '../../../lib/qa/ui-qa';
+import { setUiQaSink } from '../../../../../lib/qa/ui-qa';
 import { DEFAULT_STICKER_EDGE, resolveStickerEdge, Sticker } from '../Sticker';
 
 // canvaskit-wasm's Emscripten glue decodes some internal strings as "utf-16le"; jest-expo's
@@ -45,6 +45,7 @@ jest.mock('@shopify/react-native-skia', () => {
 // class, see above): under Jest there is no UI runtime to fire per-frame callbacks, so this test
 // drives frames itself by mutating `drawProgress.value` and calling RNTL's `rerender`.
 jest.mock('react-native-reanimated', () => ({
+  ...jest.requireActual<Record<string, unknown>>('react-native-reanimated'),
   useFrameCallback: () => ({ setActive: () => {} }),
 }));
 

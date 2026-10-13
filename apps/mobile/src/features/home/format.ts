@@ -7,7 +7,7 @@ import { t } from '@lingui/core/macro';
 
 import { format } from '@cp/i18n';
 
-import { guideColour, isGuideStickerId } from '@/ui/avatar/guides';
+import { guideColour, isGuideStickerId } from '@/ui/premium/stickers/guides';
 import { guideCardTone, type CardTone } from '@/ui/cards/tone';
 import type { GuideId } from '@/ui/people/GuideLine';
 

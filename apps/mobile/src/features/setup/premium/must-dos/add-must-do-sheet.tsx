@@ -11,7 +11,7 @@ import { View } from 'react-native';
 
 import { crewColour } from '@/features/vote';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Avatar,
   GuideNote,

@@ -2,7 +2,7 @@
  * The trip's guide as the trip day shows it: its id (Tokek by default), its name, its card tone
  * and its colour (the destination wordmark, the alarm tint).
  */
-import { guideColour, guideIdOr, guideSticker } from '@/ui/avatar/guides';
+import { guideColour, guideIdOr, guideSticker } from '@/ui/premium/stickers/guides';
 import { guideCardTone, type CardTone } from '@/ui/cards/tone';
 import type { GuideId } from '@/ui/people/GuideLine';
 

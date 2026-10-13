@@ -6,7 +6,7 @@
  */
 import { router } from 'expo-router';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { registerChatMapTarget } from '../chat/slots';
 import { GUIDE_IMAGE_PT, renderGuidePng } from './map/guide-image';

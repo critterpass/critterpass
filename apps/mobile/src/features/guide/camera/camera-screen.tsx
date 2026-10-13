@@ -27,7 +27,7 @@ import { useSyncPhase } from '@/data/status/use-sync-status';
 import { goBackOr } from '@/lib/navigation/back';
 import { usePermission } from '@/lib/permissions';
 import { hrefFor } from '@/lib/navigation/screen-registry';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { CritterSticker, PremiumSessionWaiting } from '@/ui/premium';
 
 import { guideAvatarId } from '../chat/data/guide-avatar';

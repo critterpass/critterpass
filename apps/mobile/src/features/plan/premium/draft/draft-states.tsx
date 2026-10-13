@@ -10,7 +10,7 @@ import { View } from 'react-native';
 import { format } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { Button, EmptyState, LoadingCritter, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';

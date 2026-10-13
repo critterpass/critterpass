@@ -1,5 +1,5 @@
 import type { LateModel } from './model';
-import type { GuideStickerId } from '@/ui/avatar/guides';
+import type { GuideStickerId } from '@/ui/premium/stickers/guides';
 import type { LateOptionKind } from '@cp/domain';
 import type { ReactNode } from 'react';
 

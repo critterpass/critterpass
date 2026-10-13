@@ -6,7 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { registerFixture } from '../gallery/registry';
 import { Text } from '../text/Text';
 import { GuideLine } from '../people/GuideLine';
-import { Sticker } from '../sticker/Sticker';
+import { Sticker } from '../premium/stickers/art/Sticker';
 import { ConfirmSheet } from './ConfirmSheet';
 import { EmptyState } from './EmptyState';
 import { ErrorSheet } from './ErrorSheet';

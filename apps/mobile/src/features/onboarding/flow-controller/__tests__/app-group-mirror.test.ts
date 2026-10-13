@@ -1,11 +1,11 @@
 jest.unmock('@shopify/react-native-skia');
-jest.unmock('@/ui/sticker/Sticker');
+jest.unmock('@/ui/premium/stickers/art/Sticker');
 
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 
 import type { SkiaEngine } from '@cp/critter-art/skia';
 
-import { createCanvasKitEngine } from '../../test-support/canvaskit-engine';
+import { createCanvasKitEngine } from '../../../../ui/premium/stickers/art/test-support/canvaskit-engine';
 import { mirrorPhotoAvatar, mirrorStickerAvatar, SELF_AVATAR_KEY } from '../app-group-mirror';
 
 let engine: SkiaEngine;

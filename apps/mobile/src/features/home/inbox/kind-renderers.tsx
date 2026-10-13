@@ -11,7 +11,7 @@ import { HELP_INBOX_KIND, IDEAS_INBOX_KIND, INBOX_KIND, type InboxAction } from 
 
 import type { CardTone } from '@/ui/cards/tone';
 import type { DoodleName } from '@/ui/icons/generated';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { guideOr } from '../format';
 import type { InboxItem } from './inbox-data';

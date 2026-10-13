@@ -17,7 +17,7 @@ import { format } from '@cp/i18n';
 import { useCommand } from '@/data/commands/use-command';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { CritterSticker, Icon, ListCard, StatusTag, Text, usePremiumTheme } from '@/ui/premium';
 import { confirmAlert, PushScreen } from '@/ui/premium/shell';
 

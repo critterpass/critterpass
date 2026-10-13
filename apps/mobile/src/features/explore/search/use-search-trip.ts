@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 
 import { useLiveRows } from '@/data/plan/live-rows';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
-import { guideIdOr, guideSticker } from '@/ui/avatar/guides';
+import { guideIdOr, guideSticker } from '@/ui/premium/stickers/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 import { weekdayOfDate } from './weekday-names';

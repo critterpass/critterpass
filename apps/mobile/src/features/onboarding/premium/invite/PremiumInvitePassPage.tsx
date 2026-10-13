@@ -13,7 +13,7 @@ import { ScrollView, View } from 'react-native';
 import { upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_AVATAR_IDS, guideSticker } from '@/ui/avatar/guides';
+import { GUIDE_AVATAR_IDS, guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   CritterSticker,

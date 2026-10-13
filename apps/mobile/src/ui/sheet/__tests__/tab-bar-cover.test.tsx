@@ -28,7 +28,7 @@ import { resetTabBarCoverForTests, useTabBarCovered } from '../tab-bar-cover';
 import { fireEvent, renderRouter, screen } from 'expo-router/testing-library';
 
 // `<Sticker>` rasterises critter art through Skia's JSI/GPU host, which Jest cannot run.
-jest.mock('../../sticker/Sticker', () => {
+jest.mock('../../premium/stickers/art/Sticker', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports -- jest.mock factories cannot close over module-scope imports
   const RN = require('react-native') as typeof ReactNativeModule;
   return { Sticker: ({ kind }: { kind: string }) => <RN.View testID={`sticker-${kind}`} /> };

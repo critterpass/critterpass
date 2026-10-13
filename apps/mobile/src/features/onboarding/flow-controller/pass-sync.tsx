@@ -14,9 +14,12 @@ import { defineClientCommand } from '@/data/commands/summaries';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { watchRows } from '@/data/status/watch-rows';
 import { AccountClosedGate } from '@/features/you';
-import { mirrorStickerAvatar, type AppGroupImageWriter } from '@/ui/avatar/app-group-mirror';
-import { guideSticker } from '@/ui/avatar/guides';
-import { getDefaultSkiaEngine } from '@/ui/sticker/Sticker';
+import {
+  mirrorStickerAvatar,
+  type AppGroupImageWriter,
+} from '@/features/onboarding/flow-controller/app-group-mirror';
+import { guideSticker } from '@/ui/premium/stickers/guides';
+import { getDefaultSkiaEngine } from '@/ui/premium/stickers/art/Sticker';
 import { msg } from '@lingui/core/macro';
 
 import { readDraft, readPassSync, updateDraft, updatePassSync, usePassDraft } from './draft-store';

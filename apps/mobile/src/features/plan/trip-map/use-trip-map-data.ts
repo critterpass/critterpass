@@ -14,7 +14,7 @@ import { usePendingReviews, type PendingReview } from '@/data/plan/use-pending-r
 import { useEnsurePlanDays } from '@/data/plan/use-plan-days';
 import { useTripPlan, type TripPlan } from '@/data/plan/use-trip-plan';
 import { useRegionPack } from '@/data/places/useRegionPack';
-import { guideIdOr, guideSticker } from '@/ui/avatar/guides';
+import { guideIdOr, guideSticker } from '@/ui/premium/stickers/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 import { DESTINATION_PLACES_SQL, PLACES_TABLES } from '../day/queries';

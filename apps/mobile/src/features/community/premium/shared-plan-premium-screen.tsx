@@ -6,7 +6,7 @@ import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { Button, EmptyState, LoadingCritter, Skeleton, Text, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 

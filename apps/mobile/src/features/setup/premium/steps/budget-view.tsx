@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { TextInput, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { Button, Card, IconButton, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 
 import {

@@ -10,7 +10,7 @@ import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   CritterSticker,
   Icon,

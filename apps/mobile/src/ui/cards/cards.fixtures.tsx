@@ -5,7 +5,7 @@ import { registerFixture } from '../gallery/registry';
 import { Icon } from '../icons/Icon';
 import { Stack } from '../layout/Stack';
 import { PressScale } from '../press/PressScale';
-import { Sticker } from '../sticker/Sticker';
+import { Sticker } from '../premium/stickers/art/Sticker';
 import { Text } from '../text/Text';
 import { makeStyles, useTheme } from '../theme';
 import { ActionCard } from './ActionCard';

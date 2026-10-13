@@ -6,7 +6,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
-import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideStickerId } from '@/ui/premium/stickers/guides';
 import { Button, Card, CritterSticker, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 
 import { useSuggestions, type SuggestionRow } from '../tracker/use-suggestions';

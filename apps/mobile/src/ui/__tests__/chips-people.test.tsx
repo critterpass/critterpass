@@ -1,4 +1,4 @@
-jest.unmock('@/ui/sticker/Sticker');
+jest.unmock('@/ui/premium/stickers/art/Sticker');
 
 import { act, renderHook, screen } from '@testing-library/react-native';
 import { afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';
@@ -21,7 +21,7 @@ import { LiveSticker } from '../people/LiveSticker';
 import { BLINK_CLOSED_MS, BLINK_MIN_GAP_MS, useBlink } from '../people/use-blink';
 import { EmptyState } from '../states/EmptyState';
 import { SurfaceToneProvider } from '../surface/Scaffold';
-import { createCanvasKitEngine, createMemoryStickerCache } from '../test-support/canvaskit-engine';
+import { createCanvasKitEngine, createMemoryStickerCache } from '../premium/stickers/art/test-support/canvaskit-engine';
 import { renderUi } from '../../lib/test-support/render-ui';
 
 let engine: SkiaEngine;

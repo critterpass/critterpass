@@ -3,10 +3,10 @@ import { View } from 'react-native';
 import type { Tier } from '../chips/TierLabel';
 import { Avatar as MemberAvatar, type AvatarSize } from '../people/Avatar';
 import { CritterAvatar } from '../people/CritterAvatar';
-import { Sticker } from '../sticker/Sticker';
+import { Sticker } from '../premium/stickers/art/Sticker';
 import { Text } from '../text/Text';
 import { makeStyles, sizeToken, useTheme } from '../theme';
-import { guideSticker, type GuideAvatarId } from './guides';
+import { guideSticker, type GuideAvatarId } from '../premium/stickers/guides';
 import { PhotoAvatar } from './PhotoAvatar';
 
 /** Moderation of a photo avatar; critter and initials avatars are always `approved`. */

@@ -9,8 +9,8 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { HereNowForms } from '@/ui/critters/HereNowForms';
 import { tierWord } from '@/ui/critters/tier';
 import { PressScale } from '@/ui/press/PressScale';
-import { SilhouetteSlot } from '@/ui/sticker/SilhouetteSlot';
-import { Sticker } from '@/ui/sticker/Sticker';
+import { SilhouetteSlot } from '@/ui/premium/stickers/art/SilhouetteSlot';
+import { Sticker } from '@/ui/premium/stickers/art/Sticker';
 import { tokens } from '@cp/design-tokens';
 
 import { unknownName } from '../critters-copy';

@@ -6,7 +6,7 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 
 import { HOME_FALLBACK } from '@/lib/navigation/back';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { Button, EmptyState } from '@/ui/premium';
 
 import { usePlanLink } from '../link/plan-link';

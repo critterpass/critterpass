@@ -10,7 +10,7 @@ import { advanceDraft, guideFormId, guideOfForm, type PassDraft } from '@cp/doma
 
 import { requestWithPrimer } from '@/lib/permissions';
 import { feedback } from '@/motion/feedback';
-import { GUIDE_AVATAR_IDS, guideSticker, type GuideAvatarId } from '@/ui/avatar/guides';
+import { GUIDE_AVATAR_IDS, guideSticker, type GuideAvatarId } from '@/ui/premium/stickers/guides';
 
 import { ensureDraft, updateDraft, usePassDraft } from '../flow-controller/draft-store';
 import { routeForStep } from '../flow-controller/steps';

@@ -12,7 +12,7 @@ import { TextInput, View } from 'react-native';
 
 import { STOPS_SQL, STOPS_TABLES, type StopRow } from '@/data/areas/area-queries';
 import { useCommand } from '@/data/commands/use-command';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   Card,

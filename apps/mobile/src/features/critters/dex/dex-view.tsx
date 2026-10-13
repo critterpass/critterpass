@@ -10,7 +10,7 @@ import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useActiveGuide } from '@/lib/navigation/active-guide';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { DexHeader } from '@/ui/critters/DexHeader';
 import { LegendaryBanner } from '@/ui/critters/LegendaryBanner';
 import { SearchField } from '@/ui/inputs/SearchField';

@@ -12,7 +12,7 @@ import type { Href } from 'expo-router';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import type { ChatMessage } from '@/features/crew';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { useProposal } from './data/proposal';
 import { useLiveRows } from './data/rows';

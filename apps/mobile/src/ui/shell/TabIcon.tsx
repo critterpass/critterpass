@@ -12,7 +12,7 @@ import { tokens } from '@cp/design-tokens';
 import { bezierEasing } from '@/motion/easing';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 
-import { Sticker } from '../sticker/Sticker';
+import { Sticker } from '../premium/stickers/art/Sticker';
 
 import type { TabIconKind } from './tab-icon-art';
 import { tabIconArt } from './tab-icon-art';

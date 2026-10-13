@@ -16,7 +16,7 @@ import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { CritterSticker, PremiumSessionWaiting } from '@/ui/premium';
 
 import { guideAvatarId } from '../chat/data/guide-avatar';

@@ -6,7 +6,7 @@
  */
 import type { SkiaEngine } from '@cp/critter-art/skia';
 
-import { renderStickerPng } from '../sticker/export-png';
+import { renderStickerPng } from '../../../ui/premium/stickers/art/export-png';
 
 /** The App Group writer (cp-app-group `writeImage`): key under `assets/`, PNG as base64. */
 export type AppGroupImageWriter = (key: string, pngBase64: string) => void;

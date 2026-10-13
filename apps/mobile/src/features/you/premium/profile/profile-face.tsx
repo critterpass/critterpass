@@ -6,7 +6,7 @@
 import { Image, View } from 'react-native';
 
 import { FormSticker } from '@/features/critters';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { CritterSticker, ring, Text, usePremiumTheme } from '@/ui/premium';
 
 import type { AvatarRing, ProfileAvatar } from '../../profile/profile-model';

@@ -10,7 +10,7 @@ import { t } from '@lingui/core/macro';
 import { StyleSheet, View } from 'react-native';
 
 import { OverlaySheet } from '@/features/plan';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   CritterSticker,

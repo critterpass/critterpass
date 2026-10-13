@@ -1,9 +1,9 @@
 import { View } from 'react-native';
 
-import { Sticker } from '../sticker/Sticker';
+import { Sticker } from '../premium/stickers/art/Sticker';
 import { PressScale } from '../press/PressScale';
 import { makeStyles, useTheme } from '../theme';
-import { GUIDE_AVATAR_IDS, guideSticker, type GuideAvatarId } from './guides';
+import { GUIDE_AVATAR_IDS, guideSticker, type GuideAvatarId } from '../premium/stickers/guides';
 
 export interface AvatarPickerProps {
   readonly selected: GuideAvatarId | null;

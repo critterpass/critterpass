@@ -5,7 +5,7 @@ import { registerFixture } from '../gallery/registry';
 import { Row } from '../layout/Row';
 import { Stack } from '../layout/Stack';
 import { PillButton } from '../buttons/PillButton';
-import { Sticker } from '../sticker/Sticker';
+import { Sticker } from '../premium/stickers/art/Sticker';
 import { SurfaceToneProvider } from '../surface/Scaffold';
 import { makeStyles } from '../theme';
 import { Avatar } from './Avatar';

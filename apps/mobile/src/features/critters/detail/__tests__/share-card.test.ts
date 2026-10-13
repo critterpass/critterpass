@@ -49,11 +49,11 @@ jest.mock('@/ui/share-image/bundled-typefaces', () => ({
   bundledTypeface: (face: string) => Promise.resolve({ bundled: face }),
 }));
 
-jest.mock('@/ui/sticker/export-png', () => ({
+jest.mock('@/ui/premium/stickers/art/export-png', () => ({
   renderStickerImage: () => ({ width: () => 520, height: () => 520 }),
 }));
 
-jest.mock('@/ui/sticker/Sticker', () => ({ getDefaultSkiaEngine: () => ({}) }));
+jest.mock('@/ui/premium/stickers/art/Sticker', () => ({ getDefaultSkiaEngine: () => ({}) }));
 
 const CARD = {
   kind: 'langur',

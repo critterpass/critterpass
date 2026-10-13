@@ -3,7 +3,7 @@ import { Animated } from 'react-native';
 
 import { tokens } from '@cp/design-tokens';
 
-import { useMotionMode } from '@/motion/motion-mode';
+import { usePremiumReducedMotion } from '../../motion/reduced-motion';
 
 /** The drawn sticker; one drawn just now fades in briefly unless motion is reduced. */
 export function StickerImage({
@@ -15,8 +15,8 @@ export function StickerImage({
   readonly size: number;
   readonly fade: boolean;
 }) {
-  const [motionMode] = useMotionMode();
-  const animate = fade && motionMode === 'full';
+  const reduced = usePremiumReducedMotion();
+  const animate = fade && !reduced;
   const [opacity] = useState(() => new Animated.Value(animate ? 0 : 1));
   useEffect(() => {
     if (!animate) return undefined;

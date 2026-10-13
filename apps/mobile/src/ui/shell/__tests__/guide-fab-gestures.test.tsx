@@ -17,7 +17,7 @@ import { GuideFab, guideFabGestures } from '../GuideFab';
 import { act, renderRouter } from 'expo-router/testing-library';
 
 // Skia cannot rasterise under Jest; the sticker suite covers the real pipeline.
-jest.mock('../../sticker/Sticker', () => {
+jest.mock('../../premium/stickers/art/Sticker', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports -- jest.mock factories cannot close over module-scope imports
   const RN = require('react-native') as typeof ReactNativeModule;
   return { Sticker: () => <RN.View /> };

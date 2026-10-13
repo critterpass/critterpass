@@ -14,7 +14,7 @@ import { upper } from '@cp/i18n';
 import { useCommand } from '@/data/commands/use-command';
 import { impact } from '@/motion/feedback';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { dayDate } from '../day/format';
 import { useDayEditing } from '../day/use-day-editing';

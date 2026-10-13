@@ -11,7 +11,7 @@ import { useMemo, useRef, useState } from 'react';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { GuideNote, usePremiumReducedMotion, usePremiumTheme } from '@/ui/premium';
 import { BackEdge } from '@/ui/premium/shell/navigation/back-edge';
 

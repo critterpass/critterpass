@@ -5,7 +5,7 @@
  * server's; nothing here decides progress.
  */
 import { crewLevel, toLocalWallTime, type CrewLevel } from '@cp/domain';
-import { guideIdOr, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideIdOr, type GuideStickerId } from '@/ui/premium/stickers/guides';
 import type { BefriendPlace } from './use-befriend-spot';
 import type { RevealMode } from './server-clock';
 

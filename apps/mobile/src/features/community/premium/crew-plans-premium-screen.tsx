@@ -11,7 +11,7 @@ import { ScrollView, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   Card,

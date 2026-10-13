@@ -96,7 +96,7 @@ import { toastQueue } from '@/motion/island-toast';
 import { TouchQuietRoot } from '@/lib/interaction/touch-quiet';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
-import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
+import { SharedGrowHost } from '@/ui/premium/shell/zoom/shared-grow';
 import { renderPremiumSessionWaiting } from '@/ui/premium';
 import { PremiumRoot } from '@/ui/premium/shell/navigation/premium-root';
 import { PrimerSheetHost } from '@/ui/permission-primer';

@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import type { ComponentRef, ReactNode } from 'react';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import Animated, {
+  Easing,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -12,8 +13,6 @@ import Animated, {
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { tokens } from '@cp/design-tokens';
-
-import { bezierEasing } from '@/motion/easing';
 
 import type { ActiveZoom, Rect } from './use-shared-source';
 import {
@@ -29,8 +28,10 @@ import {
   ZOOM_RADIUS_TO,
 } from './use-shared-source';
 
-const standard = bezierEasing(tokens.motion.easing.standard);
-const back = bezierEasing(tokens.motion.easing.back);
+const curve = ([x1, y1, x2, y2]: readonly number[]) =>
+  Easing.bezier(x1 ?? 0, y1 ?? 0, x2 ?? 1, y2 ?? 1);
+const standard = curve(tokens.motion.easing.standard);
+const back = curve(tokens.motion.easing.back);
 const HOP_PT = tokens.space['12'];
 /** A destination that never measures itself still gets a grow: to the full window. */
 const TARGET_TIMEOUT_MS = tokens.motion.duration.base;

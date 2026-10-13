@@ -7,7 +7,7 @@ import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { Avatar, CritterSticker, Text, makePremiumStyles, usePremiumTheme } from '@/ui/premium';
 
 const useStyles = makePremiumStyles((th) => ({

@@ -8,7 +8,7 @@
 import { t } from '@lingui/core/macro';
 import { Image, ScrollView, View } from 'react-native';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   GuideNote,

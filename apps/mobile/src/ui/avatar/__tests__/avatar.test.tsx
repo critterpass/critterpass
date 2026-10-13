@@ -13,7 +13,7 @@ import { applyGuideRows } from '@/lib/navigation/active-guide';
 import { renderUi } from '../../../lib/test-support/render-ui';
 import { UserAvatar, visibleAvatar, type AvatarView } from '../Avatar';
 import { AvatarPicker } from '../AvatarPicker';
-import { GUIDE_AVATAR_IDS, guideIdOr, guideSticker, isGuideStickerId } from '../guides';
+import { GUIDE_AVATAR_IDS, guideIdOr, guideSticker, isGuideStickerId } from '../../premium/stickers/guides';
 import { PhotoAvatar } from '../PhotoAvatar';
 
 const pending: AvatarView = {

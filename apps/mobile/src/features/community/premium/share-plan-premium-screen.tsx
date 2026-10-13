@@ -9,7 +9,7 @@ import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { useCommand } from '@/data/commands/use-command';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   EmptyState,

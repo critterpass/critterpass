@@ -14,7 +14,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { hrefFor } from '@/lib/navigation/screen-registry';
-import { guideColour } from '@/ui/avatar/guides';
+import { guideColour } from '@/ui/premium/stickers/guides';
 
 import { guideAvatarId } from './guide-avatar';
 

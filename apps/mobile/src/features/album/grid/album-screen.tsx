@@ -15,7 +15,7 @@ import { readUrl } from '@/features/crew';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
 import { useCommandFeedback } from '@/motion/island-toast';
-import { guideIdOr, guideSticker } from '@/ui/avatar/guides';
+import { guideIdOr, guideSticker } from '@/ui/premium/stickers/guides';
 
 import { requestAlbumExportCommand, tagSelfInPhotoCommand } from '../commands';
 import { albumExportState, useAlbumExportRow } from '../data/album-export';

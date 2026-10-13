@@ -6,7 +6,7 @@ import { tokens } from '@cp/design-tokens';
 import { registerFixture } from '../gallery/registry';
 import { Icon } from '../icons/Icon';
 import { Stack } from '../layout/Stack';
-import { Sticker } from '../sticker/Sticker';
+import { Sticker } from '../premium/stickers/art/Sticker';
 import { GiftCard } from './GiftCard';
 import { mrzLine } from '../../lib/documents/mrz';
 import { PaperChrome } from './PaperChrome';

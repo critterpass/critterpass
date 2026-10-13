@@ -15,7 +15,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { music } from '@/motion';
 import { useNoBackByDesign } from '@/lib/qa/back-affordance';
-import { guidesOfSameCountry } from '@/ui/avatar/guides';
+import { guidesOfSameCountry } from '@/ui/premium/stickers/guides';
 
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { type FormRow } from '../data/queries';

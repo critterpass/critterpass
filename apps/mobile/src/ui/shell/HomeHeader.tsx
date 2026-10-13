@@ -18,7 +18,7 @@ import { Avatar } from '../people/Avatar';
 import { PressScale } from '../press/PressScale';
 import { useHeaderOverlapGuard } from '../../lib/qa/header-overlap';
 import { Stack } from '../layout/Stack';
-import { Sticker } from '../sticker/Sticker';
+import { Sticker } from '../premium/stickers/art/Sticker';
 import { Text } from '../text/Text';
 import { degrees, makeStyles, MIN_TOUCH_TARGET, sizeToken, useTheme } from '../theme';
 import { ShellBadge } from './TabBar';

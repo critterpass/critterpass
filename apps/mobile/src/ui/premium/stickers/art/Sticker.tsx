@@ -9,8 +9,8 @@ import type { Blend, FormSpec, Pose, RenderSpec, StickerSpec, Variant } from '@c
 import type { SkiaEngine } from '@cp/critter-art/skia';
 import { tokens } from '@cp/design-tokens';
 
-import { PressScale } from '../press/PressScale';
-import { reportUiQa, UI_QA_ENABLED } from '../../lib/qa/ui-qa';
+import { hitSlopFor, PressableScale } from '../../motion/PressableScale';
+import { reportUiQa, UI_QA_ENABLED } from '../../../../lib/qa/ui-qa';
 
 import { stickerLabel, stickerPoseLabel } from './a11y';
 import { nearestBucket } from './bucket';
@@ -240,13 +240,15 @@ export function Sticker(props: StickerProps): React.JSX.Element {
   if (onPress) {
     return (
       <View ref={place} onLayout={onLayout}>
-        <PressScale
+        <PressableScale
           onPress={onPress}
+          accessibilityRole="button"
           accessibilityLabel={label}
+          hitSlop={hitSlopFor(size, size)}
           style={{ width: size, height: size, minWidth: size, minHeight: size }}
         >
           {art}
-        </PressScale>
+        </PressableScale>
       </View>
     );
   }

@@ -21,7 +21,7 @@ import { dayRoute, saidLateRoute, useDayReading } from '@/features/plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useNow } from '@/lib/time/use-now';
 import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { alarmPort } from '../alarm/alarm-port';
 import type { AlarmSheetKind } from '../alarm/view-types';

@@ -10,7 +10,7 @@ import { goBackOr } from '@/lib/navigation/back';
 import { useActiveGuide } from '@/lib/navigation/active-guide';
 import { useFeedbackPrefs } from '@/motion/feedback/prefs';
 import { music, musicEngine } from '@/motion/music';
-import { guidesOfSameCountry } from '@/ui/avatar/guides';
+import { guidesOfSameCountry } from '@/ui/premium/stickers/guides';
 
 import { YOU_ROUTES } from '../routes';
 import { type SoundHandlers, type SoundValues } from './sound-props';

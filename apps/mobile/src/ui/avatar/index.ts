@@ -15,5 +15,5 @@ export {
   type GuideAvatarId,
   type GuideStickerId,
   type GuideStickerInfo,
-} from './guides';
+} from '../premium/stickers/guides';
 export { PhotoAvatar, type PhotoAvatarProps } from './PhotoAvatar';

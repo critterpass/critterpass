@@ -7,7 +7,7 @@ import { tokens } from '@cp/design-tokens';
 import { useState, type ReactNode } from 'react';
 import { View } from 'react-native';
 
-import { Sticker } from '../../sticker/Sticker';
+import { Sticker } from '../../premium/stickers/art/Sticker';
 import { DayChips, type DayChip } from '../day-chips';
 import { FilterChipRow } from '../filter-chip-row';
 import { HourBars } from '../hour-bars';

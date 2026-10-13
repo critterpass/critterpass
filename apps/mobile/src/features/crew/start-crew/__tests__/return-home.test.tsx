@@ -22,7 +22,7 @@ import { returnHome } from '../return-home';
 // Imported last: see ui/shell/__tests__/tab-bar.test.tsx for why.
 import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';
 
-jest.mock('@/ui/sticker/Sticker', () => {
+jest.mock('@/ui/premium/stickers/art/Sticker', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports -- jest.mock factories cannot close over module-scope imports
   const RN = require('react-native') as typeof ReactNativeModule;
   return { Sticker: ({ kind }: { kind: string }) => <RN.View testID={`sticker-${kind}`} /> };

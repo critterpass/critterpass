@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor } from '@/lib/navigation/screen-registry';
-import { guideIdOr } from '@/ui/avatar/guides';
+import { guideIdOr } from '@/ui/premium/stickers/guides';
 
 import { useAlbum } from '../data/use-album';
 import { AlbumMediaProvider } from '../grid/album-media';

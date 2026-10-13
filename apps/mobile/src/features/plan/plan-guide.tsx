@@ -10,7 +10,7 @@ import { useContext, useEffect, useState } from 'react';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useGuideRowsRevision } from '@/lib/navigation/active-guide';
-import { guideSticker, type GuideStickerInfo } from '@/ui/avatar/guides';
+import { guideSticker, type GuideStickerInfo } from '@/ui/premium/stickers/guides';
 
 const GUIDE_SQL = `SELECT g.slug FROM trips t JOIN guides g ON g.id = t.guide_id WHERE t.id = ?`;
 

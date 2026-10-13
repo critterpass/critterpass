@@ -13,8 +13,8 @@ import { impact } from '@/motion/feedback';
 import { useLongPress } from '@/motion/gestures/long-press';
 import { usePress } from '@/motion/gestures/press';
 
-import { guideSticker } from '../avatar/guides';
-import { Sticker } from '../sticker/Sticker';
+import { guideSticker } from '../premium/stickers/guides';
+import { Sticker } from '../premium/stickers/art/Sticker';
 import { makeStyles, sizeToken } from '../theme';
 
 /** Guide chat sheet (tap) and Help hub (long-press); routes owned by the guide and help areas. */

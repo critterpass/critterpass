@@ -9,7 +9,7 @@ import { format, type DistanceUnit } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 import {

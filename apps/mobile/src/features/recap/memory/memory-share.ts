@@ -11,8 +11,8 @@ import type * as RNSkiaModule from '@shopify/react-native-skia';
 
 import { bundledTypeface } from '@/ui/share-image/bundled-typefaces';
 import { SHARE_SIZE, type ShareFormat } from '@/ui/share-image/ShareSheet';
-import { renderStickerImage } from '@/ui/sticker/export-png';
-import { getDefaultSkiaEngine } from '@/ui/sticker/Sticker';
+import { renderStickerImage } from '@/ui/premium/stickers/art/export-png';
+import { getDefaultSkiaEngine } from '@/ui/premium/stickers/art/Sticker';
 
 import type { SignatureStroke } from '../signature/stroke';
 import { resolveMemberStyle } from '@cp/design-tokens';

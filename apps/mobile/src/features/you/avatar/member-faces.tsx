@@ -20,10 +20,10 @@ import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { FormSticker } from '@/features/critters';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import type { AvatarSize } from '@/ui/people/Avatar';
 import { MemberFaceProvider, type MemberFaceResolver } from '@/ui/people/member-face';
-import { Sticker } from '@/ui/sticker/Sticker';
+import { Sticker } from '@/ui/premium/stickers/art/Sticker';
 import { sizeToken, useTheme } from '@/ui/theme';
 
 import { dropPendingEdits, usePendingEdits } from '../data/pending-edits';

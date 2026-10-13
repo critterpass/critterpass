@@ -31,7 +31,7 @@ import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-librar
 
 // `<Sticker>` rasterises critter art through Skia's JSI/GPU host, which Jest cannot run; its own
 // suite covers the real pipeline against canvaskit-wasm. Here it is a plain view carrying its props.
-jest.mock('../../sticker/Sticker', () => {
+jest.mock('../../premium/stickers/art/Sticker', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports -- jest.mock factories cannot close over module-scope imports
   const RN = require('react-native') as typeof ReactNativeModule;
   return {

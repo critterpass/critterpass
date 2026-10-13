@@ -15,10 +15,10 @@ import { View } from 'react-native';
 import { useActiveGuide, useGuideRowsRevision } from '@/lib/navigation/active-guide';
 import { goBackOr } from '@/lib/navigation/back';
 
-import { guideSticker } from '../avatar/guides';
+import { guideSticker } from '../premium/stickers/guides';
 import { PillButton } from '../buttons/PillButton';
 import { BackEyebrow } from '../shell/BackEyebrow';
-import { Sticker } from '../sticker/Sticker';
+import { Sticker } from '../premium/stickers/art/Sticker';
 import { Scaffold } from '../surface/Scaffold';
 import { makeStyles } from '../theme';
 import { EmptyState } from './EmptyState';

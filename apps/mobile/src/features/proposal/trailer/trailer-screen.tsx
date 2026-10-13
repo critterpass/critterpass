@@ -26,7 +26,7 @@ import { proposalRoutes } from '../routes';
 import { reactionWords } from '../your-version/version-model';
 import { slidesInPlanOrder } from './slide-order';
 import { replyPanelAfter, storyHeld } from './story-hold';
-import { type GuideStickerId } from '@/ui/avatar/guides';
+import { type GuideStickerId } from '@/ui/premium/stickers/guides';
 
 /** Replies that fit any slide: none of them assumes what time a stop is. */
 const QUICK: readonly ProposalReaction[] = ['okay_wow', 'fire', 'im_in'];

@@ -10,7 +10,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import type { CrewCover } from '@cp/domain';
 
 import { Card, CritterSticker, Icon, PressableScale, ring, usePremiumTheme } from '@/ui/premium';
-import { GUIDE_AVATAR_IDS, guideSticker } from '@/ui/avatar/guides';
+import { GUIDE_AVATAR_IDS, guideSticker } from '@/ui/premium/stickers/guides';
 
 import type { CoverOption } from '../crew-look';
 
