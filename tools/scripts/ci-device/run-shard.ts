@@ -34,9 +34,11 @@ import { flowScreenshotNames, planCopies, type FlowScreens } from '../capture-fl
 import { failOnUiQa, pullUiQaLog, recordFlowUiQa, scanUiQa, type UiQaReport } from '../ui-qa-scan';
 import { adb, captureFailure, relaunchApp, startRunnerActions } from './device-state';
 import { recordFlowMeasurements } from './encode-totals';
+import { flowMinutes } from './flow-durations';
 import {
   attemptResult,
   flowOutcome,
+  flowLimitMinutes,
   flowTimeoutMinutes,
   junitFailure,
   keepFirstFailure,
@@ -131,6 +133,10 @@ function runAttempt(options: ShardOptions, flow: string, slug: string, envArgs: 
   const recorder = options.video
     ? startScreenRecorder(options.platform, options.device, path.join(options.out, 'videos', slug))
     : undefined;
+  const limit = flowLimitMinutes(
+    options.flowTimeoutMinutes,
+    flowMinutes(path.relative(REPO_ROOT, flow)),
+  );
   const started = Date.now();
   const ended = spawnSync(
     MAESTRO,
@@ -143,14 +149,13 @@ function runAttempt(options: ShardOptions, flow: string, slug: string, envArgs: 
       cwd: dir,
       stdio: 'inherit',
       env: { ...process.env, MAESTRO_DRIVER_STARTUP_TIMEOUT: '360000' },
-      timeout: options.flowTimeoutMinutes * 60_000,
+      timeout: limit * 60_000,
     },
   );
   recorder?.stop();
   const seconds = Math.round((Date.now() - started) / 1000);
   const result = attemptResult(ended);
-  if (result === 'timed out')
-    writeFileSync(junit, timedOutJunit(slug, seconds, options.flowTimeoutMinutes));
+  if (result === 'timed out') writeFileSync(junit, timedOutJunit(slug, seconds, limit));
   if (result !== 'passed') captureFailure(options.platform, options.device, options.out, slug);
   return { result, seconds, junit };
 }

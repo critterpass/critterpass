@@ -65,7 +65,7 @@ on:
         options: [none, sweep, happy]
         default: none
       flow_timeout:
-        description: Minutes one flow may run before it is stopped and reported as timed out; empty is 90
+        description: Minutes one flow may run before it is stopped and reported as timed out; empty is 90, or 20 for the happy preset
         type: string
         default: ''
       hierarchy:
@@ -118,6 +118,7 @@ jobs:
       appearance: ${{ steps.settings.outputs.appearance }}
       preset: ${{ steps.settings.outputs.preset }}
       video: ${{ steps.settings.outputs.video }}
+      flow_timeout: ${{ steps.settings.outputs.flow_timeout }}
       js_commit: ${{ steps.settings.outputs.js_commit }}
       ios_url: ${{ steps.ios_build.outputs.url }}
       android_url: ${{ steps.android_build.outputs.url }}
@@ -143,6 +144,7 @@ jobs:
           IN_SHARDS: ${{ inputs.shards }}
           IN_APPEARANCE: ${{ inputs.appearance }}
           IN_PRESET: ${{ inputs.preset }}
+          IN_FLOW_TIMEOUT: ${{ inputs.flow_timeout }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           # A scheduled run has no build_url input. While no Android e2e-test build matches the
           # native fingerprint, this repo variable names the APK it installs (e2e/README.md).
@@ -150,7 +152,7 @@ jobs:
         run: |
           # iOS shards share a handful of macOS runners; Android shards run on Linux (KVM) runners,
           # so everything that isn't iOS-specific runs on Android.
-          ios_flows='' ios_shards=''
+          ios_flows='' ios_shards='' flow_timeout=''
           if [ "$EVENT" = pull_request ]; then
             # A labelled pull request runs the three default journeys (plan-shards.ts DEFAULT_FLOWS)
             # on Android, one a shard, pass/fail only.
@@ -166,7 +168,7 @@ jobs:
             ios_flows='e2e/screens/sweep/!(labs-*)-en.yaml' ios_shards=1
           else
             platform=$IN_PLATFORM flows=$IN_FLOWS mode=$IN_MODE pr=$IN_PR build_url=$IN_BUILD_URL
-            shards=$IN_SHARDS appearance=$IN_APPEARANCE preset=$IN_PRESET
+            shards=$IN_SHARDS appearance=$IN_APPEARANCE preset=$IN_PRESET flow_timeout=$IN_FLOW_TIMEOUT
           fi
           if [ "$EVENT" = schedule ] && [ -n "$SCHEDULED_ANDROID_BUILD_URL" ]; then
             build_url=$SCHEDULED_ANDROID_BUILD_URL
@@ -183,11 +185,19 @@ jobs:
           fi
           video=false
           if [ "$preset" = happy ]; then
-            # Flows are independent and each onboards its own account: ten Android shards, balanced
-            # by recorded flow time (plan-shards.ts); iOS keeps the shards input.
-            [ -z "$flows" ] && flows='e2e/happy/*.yaml'
+            # Flows are independent and each onboards its own account: every e2e/happy flow on
+            # sixteen Android shards, balanced by recorded flow time (plan-shards.ts), so the run
+            # takes about as long as its longest journey. iOS runs only the journeys whose behaviour
+            # is iOS's own (e2e/happy/ios-gate.txt) on the shards input.
+            if [ -z "$flows" ]; then
+              flows='e2e/happy/*.yaml'
+              ios_flows=$(grep -v '^[[:space:]]*#' e2e/happy/ios-gate.txt | grep -v '^[[:space:]]*$' | tr '\n' ' ')
+            fi
             mode=flows video=true
-            ios_shards=$shards shards=10
+            ios_shards=$shards shards=16
+            # Fail fast: twenty minutes a flow unless the dispatch asks otherwise (a journey that is
+            # long by design gets half again its recorded median, flow-attempts.ts).
+            [ -z "$flow_timeout" ] && flow_timeout=20
             # Without a pull request the report goes to the "Release gate" issue.
             [ -z "$pr" ] && pr=nightly
           fi
@@ -202,7 +212,7 @@ jobs:
             echo "android=$([ "$platform" != ios ] && echo true || echo false)"
             echo "mode=$mode"; echo "pr=$pr"; echo "appearance=$appearance"; echo "shards=$shards"
             echo "ios_shards=$ios_shards"
-            echo "preset=$preset"; echo "video=$video"
+            echo "preset=$preset"; echo "video=$video"; echo "flow_timeout=$flow_timeout"
             echo "js_commit=$(git rev-parse --short=12 HEAD)"
             echo "flows<<EOF"; echo "$flows"; echo "EOF"
             echo "ios_flows<<EOF"; echo "$ios_flows"; echo "EOF"
@@ -310,7 +320,7 @@ jobs:
           APPEARANCE: ${{ needs.prepare.outputs.appearance }}
           RECORD_VIDEO: ${{ needs.prepare.outputs.video }}
           # A failed flow runs once more; one past this many minutes is stopped (flow-attempts.ts).
-          FLOW_TIMEOUT_MINUTES: ${{ inputs.flow_timeout }}
+          FLOW_TIMEOUT_MINUTES: ${{ needs.prepare.outputs.flow_timeout }}
         run: tools/scripts/ci-device/ios-device.sh "$BUILD_URL" "$RUNNER_TEMP/bundles/ios" "$RUNNER_TEMP/out" "$FLOWS"
       # Launch and first-screen timings from Maestro's own command log, into the shard's artifact
       # (perf/device-timings.json) and the job summary. Recorded only: it never fails a shard.
@@ -404,7 +414,7 @@ jobs:
           APPEARANCE: ${{ needs.prepare.outputs.appearance }}
           RECORD_VIDEO: ${{ needs.prepare.outputs.video }}
           # A failed flow runs once more; one past this many minutes is stopped (flow-attempts.ts).
-          FLOW_TIMEOUT_MINUTES: ${{ inputs.flow_timeout }}
+          FLOW_TIMEOUT_MINUTES: ${{ needs.prepare.outputs.flow_timeout }}
           # View hierarchies for the accessibility scan: an artifact only, never a failure.
           SAVE_HIERARCHY: ${{ inputs.hierarchy == true || needs.prepare.outputs.video == 'true' }}
         with:

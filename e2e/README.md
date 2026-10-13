@@ -34,7 +34,7 @@ x86_64 Google APIs image). No local simulator is involved.
 | `build_url`  | Artifact URL(s) to install instead of the fingerprint-matched e2e-test build: `.tar.gz` for iOS, `.apk` for Android, space-separated for both.       |
 | `shards`     | Parallel shards per platform (default 3).                                                                                                            |
 | `appearance` | `light` or `dark`.                                                                                                                                    |
-| `flow_timeout` | Minutes one flow may run before it is stopped and reported as timed out (default 90).                                                              |
+| `flow_timeout` | Minutes one flow may run before it is stopped and reported as timed out (default 90; 20 for `happy`).                                             |
 | `preset`     | `sweep` runs the UI sweep (below) in `compare` mode; with `pr` empty the images go to the "Nightly UI sweep" issue. `happy` runs the release gate (below). |
 
 Every shard uploads an artifact `device-<platform>-shard-<n>` with JUnit reports, Maestro's logs
@@ -147,8 +147,10 @@ flaky flow stays visible. The first run's JUnit report, Maestro output, failure 
 video are kept under `first-failure/` in the shard's artifact. A second failure fails the shard.
 
 A flow that runs longer than 90 minutes (three times the longest median the release gate has
-recorded) is stopped and reported as **timed out**; it is not run again. Pass
-`-f flow_timeout=<minutes>` to a dispatch for a tighter or looser limit.
+recorded; 20 minutes in the `happy` preset) is stopped and reported as **timed out**; it is not run
+again. A journey whose recorded median (`tools/scripts/ci-device/flow-durations.ts`) is long by
+design gets half again that median when it is above the limit. Pass `-f flow_timeout=<minutes>` to
+a dispatch for a tighter or looser limit.
 
 ### Runner actions (push fixtures, network)
 
@@ -384,8 +386,11 @@ the report (`tools/scripts/ci-device/release-gate.ts`): per flow and platform, p
 an inline GIF preview, a link to the MP4 and, when it failed, Maestro's failing step with the screen
 at that moment, plus the app's `[ui-qa]` reports. The media goes to the private repository's
 `screenshots` branch (the newest 30 runs are kept) and the report to one comment on the open
-"Release gate" issue, and to the job summary. Android runs on ten shards (flows are independent);
-iOS uses the `shards` input.
+"Release gate" issue, and to the job summary. Android runs every `e2e/happy` flow on sixteen
+shards (flows are independent), about as long as the longest journey. iOS runs only the journeys
+whose behaviour is iOS's own, listed in `e2e/happy/ios-gate.txt` (launch and sign-in, the keyboard
+and composers, form sheets, the reveal, a Live Activity), on the `shards` input. A fresh-install
+flow listed in `FIRST_IN_SHARD` (`tools/scripts/ci-device/plan-shards.ts`) runs first in its shard.
 
 It runs daily on main (Android) and on demand. **Before submitting a build to TestFlight**, run it
 on both platforms with the new builds:

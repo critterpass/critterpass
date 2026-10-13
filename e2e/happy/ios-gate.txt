@@ -1,0 +1,17 @@
+# The release gate's iOS set (device.yml `happy` preset): the journeys whose behaviour is iOS's own,
+# each short and passing on the gate's iPhone 17. Every e2e/happy flow runs on Android.
+#
+# Launch from a fresh install and sign-in (the keychain is cleared first).
+e2e/happy/onboarding.yaml
+# The chat composer on the keyboard, and a sheet over the chat.
+e2e/happy/chat.yaml
+# A form sheet: the add-expense keypad and its details sheet.
+e2e/happy/money.yaml
+# Pasting a confirmation into the add-booking sheet, and the wallet stack.
+e2e/happy/bookings.yaml
+# Guide chat: the guide's sheet and its composer.
+e2e/happy/guide-chat.yaml
+# Sheets that rise over Home (the pitch sheet) and the vote's full-screen reveal.
+e2e/happy/vote.yaml
+# A Live Activity on the lock screen and in the Dynamic Island.
+e2e/trip/live-activities/lock-screen-ios.yaml
