@@ -14,7 +14,7 @@ import { goBackOr } from '@/lib/navigation/back';
 import { feedback } from '@/motion';
 import { toast, useCommandFeedback } from '@/motion/island-toast';
 
-import { MONEY_FALLBACK } from '../components/screen-states';
+import { MONEY_FALLBACK } from '../routes';
 import { selectTrip } from '../data/selected-trip';
 import { formatAmount } from '../format';
 import { MONEY_ROUTES } from '../routes';

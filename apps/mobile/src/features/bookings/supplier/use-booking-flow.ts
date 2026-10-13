@@ -18,12 +18,12 @@ import { currentAppEnvironment } from '@/data/app-session/endpoints';
 import { useCommand } from '@/data/commands/use-command';
 
 import { useLiveRows } from '../data/live-rows';
-import type { BookingSheetProps, BookingStep, TravellerDetails } from './BookingSheet';
+import type { BookingSheetProps, BookingStep, TravellerDetails } from './booking-flow-model';
 import { useSupplierCopy } from './copy';
 import { deviceSupplierApi, type SupplierApi } from './data/api';
 import { bookActivityCommand, holdActivityCommand, releaseHoldCommand } from './data/commands';
 import { usePartnerLink } from './data/use-partner-link';
-import { paymentPageUrl, type PaymentResult } from './PaymentWebView';
+import { paymentPageUrl, type PaymentResult } from './payment-page';
 import { clockOption } from '@/lib/i18n/formats';
 
 const VIATOR_ON = { viator_booking: true, agoda_demand: false, klook_activity_api: false };

@@ -4,25 +4,22 @@
  * truthfully (only the original booker gets Confirm & pay; nobody is told seats moved before the
  * new booking is confirmed).
  */
-jest.mock('expo-router', () => ({
-  useIsFocused: () => true,
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => false },
-}));
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { fireEvent, render, screen } from '@testing-library/react-native';
-import type { ReactElement, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
-import { STORM_SCENES } from '../dev/storm-scenes';
+import { StormReady } from '../../../premium/day-change/StormPremium';
 import { optionTitle, weekdayName } from '../copy';
 import { stormModel, type StormOptionData } from '../model';
-import { StormView } from '../storm-view';
+import { STORM_FIXTURES } from '../test-support/storm-fixtures';
+import type { StormViewProps } from '../view-types';
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -41,26 +38,17 @@ async function show(node: ReactNode) {
     </I18nProvider>,
   );
 }
-const scene = (name: string) => show((STORM_SCENES[name] as () => ReactNode)());
-type ViewProps = Parameters<typeof StormView>[0];
-/** A scene's StormView props (the scene wraps the view to read the guide's words). */
-const propsOf = (name: string): ViewProps => {
-  const scene = (
-    STORM_SCENES[name] as () => ReactElement<{
-      children: (title: string, line: string) => ReactElement<ViewProps>;
-    }>
-  )();
-  return scene.props.children('Rough seas Friday', 'Saturday is flat calm.').props;
-};
+const propsOf = (name: string): StormViewProps => (STORM_FIXTURES[name] as () => StormViewProps)();
+const scene = (name: string) => show(<StormReady props={propsOf(name)} />);
 
 describe('storm screen', () => {
   it('shows the numbers, the options and the count, and sends the option picked', async () => {
     const onVote = jest.fn();
-    await show(<StormView {...propsOf('3k-8')} onVote={onVote} />);
-    expect(screen.getByText('ROUGH SEAS FRIDAY')).toBeTruthy();
-    expect(screen.getByText('WAVES 2.5M')).toBeTruthy();
-    expect(screen.getByText('SWAP FRIDAY AND SATURDAY')).toBeTruthy();
-    expect(screen.getByText('4 of 6 said swap friday and saturday.')).toBeTruthy();
+    await show(<StormReady props={{ ...propsOf('3k-8'), onVote }} />);
+    expect(screen.getByText('Rough seas Friday')).toBeTruthy();
+    expect(screen.getByText(/waves 2\.5\s?m/iu)).toBeTruthy();
+    expect(screen.getByText(/^swap friday and saturday$/iu)).toBeTruthy();
+    expect(screen.getByTestId('storm-tally').props.children).toMatch(/4 of 6/u);
     await fireEvent.press(screen.getByTestId('storm-option-skip'));
     await fireEvent.press(screen.getByTestId('storm-vote'));
     expect(onVote).toHaveBeenCalledWith('skip');
@@ -68,7 +56,7 @@ describe('storm screen', () => {
 
   it('does not send the same vote twice, and offers no vote to a member not on it', async () => {
     const onVote = jest.fn();
-    await show(<StormView {...propsOf('3k-8-voted')} onVote={onVote} />);
+    await show(<StormReady props={{ ...propsOf('3k-8-voted'), onVote }} />);
     await fireEvent.press(screen.getByTestId('storm-vote'));
     expect(onVote).not.toHaveBeenCalled();
     await scene('3k-8-not-voting');

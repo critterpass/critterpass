@@ -22,7 +22,7 @@ import { guideName, guideOr } from '../../hub/guide';
 import { tripDayRoute, TRIPS_TAB } from '../../hub/routes';
 import { chooseLateOptionCommand } from '../commands';
 import { lateLines } from './copy';
-import type { LateViewProps } from './late-view';
+import type { LateViewProps } from './view-types';
 import { lateModel, type LateRowData } from './model';
 
 const LATE_SQL = `SELECT id, trip_id, kind, status, title, summary, affected, facts, options,

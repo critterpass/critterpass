@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { Button } from '@/ui/premium';
 
-import type { SosViewProps } from '../sos/sos-view';
+import type { SosViewProps } from '../sos/view-types';
 
 export function SosActions({ props }: { readonly props: SosViewProps }) {
   const { t } = useLingui();

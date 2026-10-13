@@ -10,7 +10,7 @@ import {
   LAB_UID,
   labBooking,
   labSegment,
-} from '../dev/lab-fixtures';
+} from '../test-support/lab-fixtures';
 import {
   nightsOf,
   parseIdList,

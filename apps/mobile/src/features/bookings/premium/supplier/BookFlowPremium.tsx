@@ -20,9 +20,9 @@ import {
 } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
 
-import { detailsComplete, type TravellerDetails } from '../../supplier/BookingSheet';
+import { detailsComplete, type TravellerDetails } from '../../supplier/booking-flow-model';
 import type { SupplierApi } from '../../supplier/data/api';
-import { parsePaymentMessage } from '../../supplier/PaymentWebView';
+import { parsePaymentMessage } from '../../supplier/payment-page';
 import { useBookingFlow, type BookParams } from '../../supplier/use-booking-flow';
 import { ErrorLine, HoldChip } from './SupplierParts';
 

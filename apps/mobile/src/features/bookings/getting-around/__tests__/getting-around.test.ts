@@ -10,7 +10,7 @@ import type { RideQuoteResult, SupplierCopy } from '@cp/domain';
 import type { MessageDescriptor } from '@lingui/core';
 import { renderSupplierCopyEn } from '@cp/domain';
 
-import { KYOTO_TAXI_ESTIMATE } from '../../supplier/dev/fare-fixtures';
+import { KYOTO_TAXI_ESTIMATE } from '../../supplier/test-support/fare-fixtures';
 import { chooseLeg, journeyProgress, nextTransfer, todaysStops, type PlanStop } from '../model';
 import { driverPhrase } from '../phrase';
 import { rideCard } from '../ride-card';

@@ -9,7 +9,7 @@ import { t } from '@lingui/core/macro';
 import type { SavedDay } from '../bundle/bundle-manager';
 import type { DayItemRow } from '../hub/data/queries';
 import { clockIn } from '../leave-by/model';
-import type { StillWorksLine } from './still-works-list';
+import type { StillWorksLine } from './view-types';
 
 export function stillWorksLines(input: {
   readonly day: SavedDay | null;

@@ -10,7 +10,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Icon, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
 
-import { formatCheckedDate } from '../../getting-around/EstimateSheet';
+import { formatCheckedDate } from '../../getting-around/checked-date';
 import { parseEstimateOption } from '../../getting-around/routes';
 
 export function EstimatePremium({ raw }: { readonly raw: string | undefined }) {

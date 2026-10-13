@@ -23,7 +23,7 @@ import { walletHref } from '../../hub/hub-links';
 import { TRIPS_TAB } from '../../hub/routes';
 import { castStormBallotCommand, holdStormSeatsCommand } from '../commands';
 import { stormModel, type BallotRowData, type PollRowData, type StormRowData } from './model';
-import type { StormViewProps } from './storm-view';
+import type { StormViewProps } from './view-types';
 
 const STORM_SQL = `SELECT d.id, d.trip_id, d.status, d.cause, d.title, d.summary, d.facts, d.options,
     d.source_snapshot, d.chosen_option_id, d.i18n

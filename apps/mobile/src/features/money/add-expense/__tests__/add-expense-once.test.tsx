@@ -25,17 +25,14 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { AnalyticsProvider, type AnalyticsClient } from '@/lib/analytics';
-import { pushTransition } from '@/lib/navigation/transitions';
 import { ThemeProvider } from '@/lib/theme';
-import { useMotionMode } from '@/motion/motion-mode';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { ShellTabs } from '@/ui/shell/ShellTabs';
-import { useTheme } from '@/ui/theme';
 
 import { MoneyServicesProvider, NO_MONEY_SERVICES } from '../../data/services';
 import { ScanScreen } from '../../receipt/ScanScreen';
 import { editExpenseRoute, expenseRoute, MONEY_ROUTES } from '../../routes';
-import { AddExpenseScreen } from '../AddExpenseScreen';
+import { AddExpensePremium } from '../../premium/AddExpensePremium';
 
 // Imported last: see ui/shell/__tests__/tab-bar.test.tsx for why.
 import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';
@@ -85,11 +82,9 @@ function Root() {
 
 /** The app's stacks (the Wallet tab's and Money's pushed screens), with no receipt reader. */
 function PushStack() {
-  const { motion } = useTheme();
-  const [motionMode] = useMotionMode();
   return (
     <MoneyServicesProvider services={NO_MONEY_SERVICES}>
-      <Stack screenOptions={pushTransition(motion, motionMode !== 'full')} />
+      <Stack screenOptions={{ headerShown: false }} />
     </MoneyServicesProvider>
   );
 }
@@ -97,7 +92,13 @@ function PushStack() {
 /** The keypad's route, as the app declares it: `?edit={id}` edits that expense. */
 function AddExpenseRoute() {
   const { edit } = useLocalSearchParams<{ edit?: string }>();
-  return <AddExpenseScreen editId={typeof edit === 'string' && edit !== '' ? edit : null} />;
+  return (
+    <AddExpensePremium
+      editId={typeof edit === 'string' && edit !== '' ? edit : null}
+      prefillName={null}
+      tripId={null}
+    />
+  );
 }
 
 /** Money's two ways in, pushed as Balances pushes them. */
@@ -235,7 +236,7 @@ async function press(testID: string): Promise<void> {
 
 /** Types on the keypad once it is up. */
 async function type(...keys: string[]): Promise<void> {
-  for (const key of keys) await press(`money-add-keypad-key-${key}`);
+  for (const key of keys) await press(`money-key-${key}`);
 }
 
 /**

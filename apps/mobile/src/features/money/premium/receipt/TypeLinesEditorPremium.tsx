@@ -23,9 +23,9 @@ import {
 import { FullScreen } from '@/ui/premium/shell';
 
 import { unitsToMinor } from '../../add-expense/draft';
-import { MONEY_FALLBACK } from '../../components/screen-states';
+import { MONEY_FALLBACK } from '../../routes';
 import { formatAmount } from '../../format';
-import type { TypeLinesEditorProps } from '../../receipt/TypeLinesEditor';
+import type { TypeLinesEditorProps } from '../../receipt/view-types';
 import { AmountKeypad } from '../components/AmountKeypad';
 
 export function TypeLinesEditorPremium(props: TypeLinesEditorProps) {

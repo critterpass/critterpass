@@ -28,7 +28,7 @@ import { clock, dayDate, price as formatPrice, shortDate, zoneOf } from '../form
 import { boardingPassRoute, BOOKINGS_ROUTES, editBookingRoute } from '../routes';
 import { useTripGuide } from '../supplier/data/use-trip-guide';
 import { cancelRoute } from '../supplier/routes';
-import type { DetailDoc } from './BookingDetailView';
+import type { DetailDoc } from './view-types';
 
 export type BookingDetail = ReturnType<typeof useBookingDetail>;
 

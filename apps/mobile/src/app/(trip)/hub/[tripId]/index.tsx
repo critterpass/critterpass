@@ -1,12 +1,10 @@
-/* eslint-disable lingui/no-unlocalized-strings -- route paths, not copy. */
-import { Redirect, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
 import { TripAccessGate } from '@/features/trip/access/trip-access-gate';
 import { LocalFirstGate } from '@/features/trip/hub/local-first-gate';
 import { TRIPS_TAB } from '@/features/trip/hub/routes';
 import { TripHubPremium } from '@/features/trip/premium/hub/TripHubPremium';
 import { goBackOr } from '@/lib/navigation/back';
-import { premiumRoute } from '@/lib/premium-ui';
 
 function useTripId(): string | null {
   const { tripId } = useLocalSearchParams<{ tripId: string }>();
@@ -26,11 +24,5 @@ function TripHubOverTabs() {
   );
 }
 
-/** The current UI keeps the hub inside the Trips tab. */
-function TripHubInTab() {
-  const tripId = useTripId();
-  return <Redirect href={tripId === null ? TRIPS_TAB : `/trips/${tripId}`} />;
-}
-
 /** One trip's hub over the tabs (3k-1, 1.05, 6.01–6.03). */
-export default premiumRoute({ premium: TripHubOverTabs, legacy: TripHubInTab });
+export default TripHubOverTabs;

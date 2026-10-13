@@ -23,8 +23,8 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { FailureSheetProps } from '../../receipt/FailureSheet';
-import type { LineAssignSheetProps } from '../../receipt/LineAssignSheet';
+import type { FailureSheetProps } from '../../receipt/view-types';
+import type { LineAssignSheetProps } from '../../receipt/view-types';
 import { ScanSheet as Sheet } from './scan-sheet';
 
 export function ReceiptFailure(props: FailureSheetProps) {

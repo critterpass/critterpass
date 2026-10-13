@@ -6,6 +6,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { StyleSheet, View } from 'react-native';
 
+import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Button, Card, CrewStack, Text, usePremiumTheme, type CrewMember } from '@/ui/premium';
 
@@ -54,11 +55,13 @@ export function BalanceHero(props: {
           testID="money-currency-chip"
         />
       </View>
-      <RollingAmount
-        text={amount}
-        variant={amount.length <= 9 ? 'hero' : 'display'}
-        testID="money-hero-amount"
-      />
+      <PrivateContent>
+        <RollingAmount
+          text={amount}
+          variant={amount.length <= 9 ? 'hero' : 'display'}
+          testID="money-hero-amount"
+        />
+      </PrivateContent>
     </Card>
   );
 }

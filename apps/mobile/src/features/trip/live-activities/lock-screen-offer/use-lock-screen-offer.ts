@@ -13,7 +13,7 @@ import { goBackOr } from '@/lib/navigation/back';
 
 import { tripHubRoute } from '../../hub/routes';
 import { lockScreenBoost } from './boost-slot';
-import type { LockScreenOfferSheetProps } from './lock-screen-offer-sheet';
+import type { LockScreenOfferSheetProps } from './view-types';
 import { useOfferData } from './offer-data';
 import { clockTime, phaseFor, startsLater, type OfferPhase } from './offer-model';
 

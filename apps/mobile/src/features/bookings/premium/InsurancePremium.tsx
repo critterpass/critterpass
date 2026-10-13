@@ -8,6 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { Linking, ScrollView, StyleSheet, View } from 'react-native';
 
+import { PrivateContent } from '@/features/help';
 import { guideCritterKind, turn } from '@/features/trip';
 import { toast } from '@/motion/island-toast';
 import { Button, GuideNote, PressableScale, Text, TextField, usePremiumTheme } from '@/ui/premium';
@@ -18,7 +19,7 @@ import { useWalletGuide } from '../data/wallet-guide';
 import { useInsuranceForm } from '../insurance/use-insurance-form';
 import { KeyValueCard } from './components/KeyValueCard';
 
-function PolicyCard(props: {
+export function PolicyCard(props: {
   readonly provider: string;
   readonly policyNo: string;
   readonly onPress: () => void;
@@ -62,9 +63,11 @@ function PolicyCard(props: {
           <Text variant="badge" color={white} style={styles.fieldLabel}>
             {t({ id: 'bookings.premium.policyNoEyebrow', message: 'POLICY NO.' })}
           </Text>
-          <Text variant="mono" color={white} numberOfLines={1}>
-            {props.policyNo}
-          </Text>
+          <PrivateContent>
+            <Text variant="mono" color={white} numberOfLines={1}>
+              {props.policyNo}
+            </Text>
+          </PrivateContent>
         </View>
       </View>
     </PressableScale>

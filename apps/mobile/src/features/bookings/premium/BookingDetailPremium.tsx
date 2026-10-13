@@ -160,6 +160,7 @@ function OtherBody({ detail }: { readonly detail: Ready }) {
             label: t({ id: 'bookings.detail.ref', message: 'Confirmation code' }),
             value: booking.supplierRef ?? '',
             mono: true,
+            private: true,
           },
           {
             key: 'who',
@@ -170,6 +171,7 @@ function OtherBody({ detail }: { readonly detail: Ready }) {
             key: 'price',
             label: t({ id: 'bookings.detail.price', message: 'Price' }),
             value: detail.price ?? '',
+            private: true,
           },
           {
             key: 'room',

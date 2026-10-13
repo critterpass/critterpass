@@ -26,7 +26,7 @@ import {
 import { PushScreen } from '@/ui/premium/shell';
 
 import { useScanLine } from '../add/scan-line';
-import type { ImportChannel } from '../add/ImportTiles';
+import type { ImportChannel } from '../add/view-types';
 import { useAddBooking } from '../add/use-add-booking';
 import { useWalletGuide, WalletGuideProvider } from '../data/wallet-guide';
 import { BOOKINGS_ROUTES } from '../routes';

@@ -1,6 +1,6 @@
 /**
  * The panel's actions over the real local-first stack and command client, with the api as the
- * network boundary: a meet-up moved offline waits in the queue (the pin marked pending) and is
+ * network boundary: a meet-up moved offline waits in the queue (the card marked pending) and is
  * sent once the phone is back; pausing queues the command; PING ALL answers with the island toast.
  */
 jest.mock('@maplibre/maplibre-react-native', () => {
@@ -18,11 +18,10 @@ jest.mock('@maplibre/maplibre-react-native', () => {
 jest.mock('@/data/places/usePlaceSearch', () => ({
   usePlaceSearch: () => ({ places: [], loading: false, error: null, source: 'none' }),
 }));
-jest.mock('expo-router', () => ({
-  useIsFocused: () => true,
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn() },
-  useLocalSearchParams: jest.fn(() => ({ tripId: '0199a6f0-0000-7000-8000-00000000e001' })),
-}));
+// The map's Boost entry and plan links reach the billing module and the device database opener,
+// which Jest cannot load; the screen reads the test database through its provider.
+jest.mock('react-native-purchases', () => ({ __esModule: true, default: {} }));
+jest.mock('@/data/powersync/db', () => ({}));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
@@ -97,7 +96,7 @@ describe('meet-up changes offline', () => {
     stack.network.set(false);
     await renderLiveMap(stack, fakeServices({ answer: null }));
 
-    await fireEvent.press(await screen.findByTestId('live-move-it'));
+    await fireEvent.press(await screen.findByTestId('live-map-meetup'));
     await fireEvent.press(await screen.findByText(/^in 15 min$/i));
     await fireEvent.press(screen.getByTestId('live-meetup-confirm'));
 
@@ -105,7 +104,7 @@ describe('meet-up changes offline', () => {
       const rows = await stack!.db.getAll("SELECT 1 FROM commands WHERE cmd = 'move_meetup'");
       expect(rows).toHaveLength(1);
     });
-    expect(await screen.findByTestId('live-meetup-pending')).toBeTruthy();
+    expect(await screen.findByText('Sends when you’re back online')).toBeTruthy();
 
     api.online = true;
     stack.network.set(true);
@@ -127,7 +126,7 @@ describe('pause and ping', () => {
     stack = await openTestLocalFirst({ uid: DEV, holdUploads: true });
     await seedTrip(stack);
     await renderLiveMap(stack, fakeServices({ answer: recordedSnapshot() }));
-    await fireEvent.press(await screen.findByTestId('live-pause-chip'));
+    await fireEvent.press(await screen.findByTestId('live-map-pause'));
     await waitFor(async () => {
       const rows = await stack!.db.getAll<{ envelope: string }>(
         "SELECT envelope FROM commands WHERE cmd = 'pause_location_share'",
@@ -149,8 +148,8 @@ describe('pause and ping', () => {
       if (current !== null) shown.push(current.title);
     });
     await renderLiveMap(stack, fakeServices({ answer: recordedSnapshot() }));
-    await screen.findByText(/^meet-up · 17:00$/i);
-    await fireEvent.press(screen.getByTestId('live-ping-all'));
+    await screen.findByText('Meet-up at Campuhan Ridge');
+    await fireEvent.press(screen.getByTestId('live-map-ping'));
     await waitFor(() => expect(shown).toContain('Pinged everyone: Campuhan Ridge at 17:00.'));
     stop();
   });

@@ -8,7 +8,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { Icon, Text, usePremiumTheme } from '@/ui/premium';
 
-import { remainingLabel } from '../../supplier/HoldTimer';
+import { remainingLabel } from '../../supplier/hold-left';
 
 export function HoldChip({
   until,

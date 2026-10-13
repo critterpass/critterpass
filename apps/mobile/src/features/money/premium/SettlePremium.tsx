@@ -9,6 +9,7 @@ import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { StyleSheet, View } from 'react-native';
 
+import { PrivateContent } from '@/features/help';
 import { useWalletGuide, WalletGuideProvider } from '@/features/bookings';
 import { crewAccent, guideCritterKind, IconTile, LineIcon } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -67,7 +68,14 @@ function useStatus() {
   };
 }
 
-function PaymentCard({ settle, row }: { readonly settle: Ready; readonly row: SettleRowModel }) {
+/** One payment on Settle up (also what the privacy test renders). */
+export function PaymentCard({
+  settle,
+  row,
+}: {
+  readonly settle: Pick<Ready, 'members' | 'onRow' | 'onNudge'>;
+  readonly row: SettleRowModel;
+}) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const locale = useLocale();
@@ -101,9 +109,11 @@ function PaymentCard({ settle, row }: { readonly settle: Ready; readonly row: Se
         <LineIcon name="navigate" size={16} color={th.color.placeholder} />
         <Avatar name={to} color={crewAccent(index(row.toId))} size={28} />
         <View style={styles.flex}>
-          <Text variant="navTitle" style={styles.tabular}>
-            {amount}
-          </Text>
+          <PrivateContent>
+            <Text variant="navTitle" style={styles.tabular}>
+              {amount}
+            </Text>
+          </PrivateContent>
           <Text variant="helper" color={status.color}>
             {status.label}
           </Text>

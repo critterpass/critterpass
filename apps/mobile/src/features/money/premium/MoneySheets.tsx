@@ -10,7 +10,7 @@ import { View } from 'react-native';
 import { Icon, ListCard, Row, Spinner, Text, usePremiumTheme } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
 
-import { tripLabel } from '../balances/TripSheet';
+import { tripLabel } from '../balances/trip-label';
 import { useSettlementCurrency } from '../balances/use-settlement-currency';
 import { selectTrip, useSelectedTrip } from '../data/selected-trip';
 import { useMoneyContext } from '../data/use-money-context';

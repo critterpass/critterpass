@@ -27,7 +27,7 @@ import {
   guideLine,
   percent,
 } from '../../disruptions/forecast/copy';
-import type { ForecastViewProps } from '../../disruptions/forecast/forecast-view';
+import type { ForecastViewProps } from '../../disruptions/forecast/view-types';
 import type { WatchEntry } from '../../disruptions/forecast/model';
 import { useForecastScreen } from '../../disruptions/forecast/use-forecast-screen';
 import { LineIcon } from '../components/LineIcon';
@@ -55,7 +55,8 @@ function useStatusWord() {
   };
 }
 
-function Body({ props }: { readonly props: ForecastViewProps }) {
+/** The forecast page once its rows are read (also what the screen tests render). */
+export function ForecastReady({ props }: { readonly props: ForecastViewProps }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const locale = useLocale();
@@ -233,7 +234,7 @@ export function ForecastPremium({ tripId }: { readonly tripId: string }) {
           <Skeleton height={180} radius={th.radius.cardRow} />
         </View>
       ) : (
-        <Body props={props} />
+        <ForecastReady props={props} />
       )}
     </PushScreen>
   );

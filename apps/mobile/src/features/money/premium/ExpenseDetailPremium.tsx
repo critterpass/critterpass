@@ -80,9 +80,11 @@ function Shares({ detail }: { readonly detail: Ready }) {
                   ? t({ id: 'money.premium.payerShare', message: `${share.name} · paid` })
                   : share.name}
               </Text>
-              <Text variant="rowTextStrong" color={tone} style={styles.tabular}>
-                {value}
-              </Text>
+              <PrivateContent>
+                <Text variant="rowTextStrong" color={tone} style={styles.tabular}>
+                  {value}
+                </Text>
+              </PrivateContent>
             </View>
           );
         })}

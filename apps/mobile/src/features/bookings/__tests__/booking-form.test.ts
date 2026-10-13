@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import { toWalletBooking } from '../data/model';
-import { LAB_BOOKINGS, LAB_FLIGHT, LAB_SEGMENTS, LAB_UID } from '../dev/lab-fixtures';
+import { LAB_BOOKINGS, LAB_FLIGHT, LAB_SEGMENTS, LAB_UID } from '../test-support/lab-fixtures';
 import {
   draftOf,
   emptyDraft,

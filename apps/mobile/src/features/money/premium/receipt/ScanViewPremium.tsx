@@ -12,7 +12,7 @@ import { useWalletGuide } from '@/features/bookings';
 import { guideCritterKind } from '@/features/trip';
 import { Button, GuideNote, PREMIUM_THEMES, Text, TextButton } from '@/ui/premium';
 
-import type { ScanViewProps } from '../../receipt/ScanView';
+import type { ScanViewProps } from '../../receipt/view-types';
 import { ReceiptFailure, ReceiptReview } from './ScanPanels';
 import { ScanSheet } from './scan-sheet';
 import { ScanStagePremium } from './ScanStagePremium';

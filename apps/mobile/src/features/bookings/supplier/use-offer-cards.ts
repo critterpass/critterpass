@@ -12,7 +12,7 @@ import { currencyDigits, price as formatPrice } from '../format';
 import { useSupplierCopy } from './copy';
 import type { WireOffer } from './data/api';
 import type { PartnerLinkOutcome } from './data/partner-link';
-import type { OfferCardProps } from './OfferCard';
+import type { OfferCardProps } from './view-types';
 import { SUPPLIER_NAMES } from './suppliers';
 import { clockOption } from '@/lib/i18n/formats';
 

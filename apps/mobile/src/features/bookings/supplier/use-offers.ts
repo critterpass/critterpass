@@ -11,7 +11,7 @@ import { deviceSupplierApi, type SupplierApi, type WireOffer } from './data/api'
 import type { PartnerLinkOutcome } from './data/partner-link';
 import { usePartnerLink } from './data/use-partner-link';
 import { useTripGuide } from './data/use-trip-guide';
-import type { OffersViewProps } from './OffersView';
+import type { OffersViewProps } from './view-types';
 import { bookRoute } from './routes';
 import { ACTIVITY_LINK_PARTNERS } from './suppliers';
 import { useOfferCards } from './use-offer-cards';

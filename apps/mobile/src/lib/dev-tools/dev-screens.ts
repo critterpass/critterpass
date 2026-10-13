@@ -38,14 +38,8 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
       { testId: 'dev-nav-sticker-lab', href: '/(dev)/sticker-lab', label: 'Sticker lab' },
       { testId: 'dev-nav-gallery', href: '/(dev)/gallery', label: 'Component gallery' },
       { testId: 'dev-nav-premium-kit', href: '/(dev)/premium-kit', label: 'Premium kit' },
-      { testId: 'dev-nav-money-lab', href: '/(dev)/money-lab', label: 'Money (3i scenes)' },
       { testId: 'dev-nav-type-lab', href: '/(dev)/type-lab', label: 'Type lab (label centring)' },
       { testId: 'dev-nav-guide-lab', href: '/(dev)/guide-lab', label: 'Guide (3j, 4b scenes)' },
-      {
-        testId: 'dev-nav-bookings-lab',
-        href: '/(dev)/bookings-lab',
-        label: 'Bookings (3h scenes)',
-      },
       {
         testId: 'dev-nav-drivers-lab',
         href: '/(dev)/drivers-lab',
@@ -57,11 +51,6 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         label: 'Suppliers (3h-3, 6f-1 scenes)',
       },
       {
-        testId: 'dev-nav-drivers-directory-lab',
-        href: '/(dev)/drivers-directory-lab',
-        label: "Crews' drivers (6e, 6g scenes)",
-      },
-      {
         testId: 'dev-nav-plan-edit-lab',
         href: '/(dev)/plan-edit-lab',
         label: 'Plan editing (7b-1 stop sheets, 3g-2 scenes)',
@@ -71,17 +60,7 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         href: '/(dev)/plan-views-lab',
         label: 'Plan views (7a, 7b, export and chat card scenes)',
       },
-      {
-        testId: 'dev-nav-trip-day-lab',
-        href: '/(dev)/trip-day-lab',
-        label: 'Trip day (3k scenes)',
-      },
       { testId: 'dev-nav-go-lab', href: '/(dev)/go-lab', label: 'GO (route preview scenes)' },
-      {
-        testId: 'dev-nav-disruption-lab',
-        href: '/(dev)/disruption-lab',
-        label: 'Disruptions (3k-5, 3k-7, 3k-8, 3k-9 scenes)',
-      },
       {
         testId: 'dev-nav-critters-lab',
         href: '/(dev)/critters-lab',
@@ -119,11 +98,6 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         testId: 'dev-nav-album-lab',
         href: '/(dev)/album-lab',
         label: 'Album and postcards (3m-2, 3m-9 scenes)',
-      },
-      {
-        testId: 'dev-nav-live-map',
-        href: '/(dev)/live-map',
-        label: 'Crew live map (3g-4 scenes)',
       },
       {
         testId: 'dev-nav-setup',

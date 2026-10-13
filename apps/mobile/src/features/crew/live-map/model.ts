@@ -4,8 +4,8 @@
  */
 import type { MeetupWire } from '@cp/domain';
 
-import type { MeetupChoice } from './panel/meetup-editor';
-import type { RowModel } from './panel/member-row';
+import type { MeetupChoice } from './panel/view-types';
+import type { RowModel } from './panel/view-types';
 import type { LiveGate } from './data/use-live-fixes';
 import type { MeetupSnapshot } from './data/use-meetup-snapshot';
 import type { VisibleTrail } from './data/use-trails';
