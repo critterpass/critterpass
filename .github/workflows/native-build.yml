@@ -5,6 +5,8 @@ name: native-build
 # release.yml.
 #   gh workflow run native-build.yml -f ref=main -f profile=e2e-test -f platform=android
 #   gh workflow run native-build.yml -f ref=main -f profile=staging -f platform=ios [-f submit=true]
+#   gh workflow run native-build.yml -f ref=<built commit> -f profile=staging -f platform=ios \
+#     -f submit=true -f source_run_id=<run id>   (submit an earlier run's build without rebuilding)
 on:
   workflow_dispatch:
     inputs:
@@ -27,6 +29,11 @@ on:
         required: false
         type: boolean
         default: false
+      source_run_id:
+        description: With submit, send the build of this earlier native-build run instead of building (ref must be the commit it built)
+        required: false
+        type: string
+        default: ''
 
 run-name: native build ${{ inputs.profile }} ${{ inputs.platform }} at ${{ inputs.ref }}
 
@@ -49,4 +56,5 @@ jobs:
       profile: ${{ inputs.profile }}
       platform: ${{ inputs.platform }}
       submit: ${{ inputs.submit }}
+      source_run_id: ${{ inputs.source_run_id }}
     secrets: inherit
