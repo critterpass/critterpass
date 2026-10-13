@@ -43,6 +43,9 @@ export interface PushScreenProps {
   readonly testID?: string;
 }
 
+const goBack = () => router.back();
+const goHome = () => router.replace('/');
+
 function InlineTitle({ title, subtitle }: { readonly title: string; readonly subtitle?: string }) {
   return (
     <View style={styles.titleBlock}>
@@ -92,8 +95,10 @@ export function PushScreen({
   const nativeBack =
     control === 'back' &&
     (placement === undefined || (placement.kind === 'pushed' && placement.ownStack));
-  const drawnControl = control === 'none' || nativeBack ? null : control;
+  const drawnControl =
+    control === 'none' || nativeBack ? null : control === 'home' ? 'back' : control;
   const leadingLabel = control === 'close' ? (closeLabel ?? backLabel) : backLabel;
+  const leave = control === 'home' ? goHome : goBack;
   // The bar's native back (iOS) or Material back arrow (Android) is the way back; a drawn back or
   // ✕ registers itself.
   useBackAffordance(!headerless && nativeBack);
@@ -125,10 +130,10 @@ export function PushScreen({
             <View />
           ) : (
             <DrawnLeadingControl
-              kind={control}
+              kind={control === 'close' ? 'close' : 'back'}
               label={leadingLabel}
               overPhoto
-              onPress={() => router.back()}
+              onPress={leave}
             />
           )}
           {actions.length > 0 ? <DrawnHeaderActions actions={actions} /> : null}
@@ -163,7 +168,7 @@ export function PushScreen({
                         <DrawnLeadingControl
                           kind={drawnControl}
                           label={leadingLabel}
-                          onPress={() => router.back()}
+                          onPress={leave}
                         />
                       ),
                     }),
@@ -174,11 +179,7 @@ export function PushScreen({
         }}
       />
       {ios && drawnControl !== null ? (
-        <NativeLeadingControl
-          kind={drawnControl}
-          label={leadingLabel}
-          onPress={() => router.back()}
-        />
+        <NativeLeadingControl kind={drawnControl} label={leadingLabel} onPress={leave} />
       ) : null}
       {ios ? <NativeHeaderActions actions={actions} /> : null}
       {body}

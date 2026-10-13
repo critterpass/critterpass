@@ -64,7 +64,7 @@ describe('screenPlacement', () => {
   it('is a root on a tab’s first screen', () => {
     expect(
       screenPlacement([stack(0), { type: 'tab', index: 2 }], '(tabs)/wallet/index', undefined),
-    ).toEqual({ kind: 'root' });
+    ).toEqual({ kind: 'root', tab: true });
   });
 
   it('is pushed on its own stack, and pushed with its group when it is the group’s first page', () => {
@@ -102,9 +102,10 @@ describe('screenPlacement', () => {
     });
   });
 
-  it('is a root as the app’s first screen', () => {
-    expect(screenPlacement([stack(0), stack(0)], 'onboarding/index', undefined)).toEqual({
+  it('is an untabbed root when a cold link opened it with nothing under it', () => {
+    expect(screenPlacement([stack(0), stack(0)], 'community/[id]', undefined)).toEqual({
       kind: 'root',
+      tab: false,
     });
   });
 });

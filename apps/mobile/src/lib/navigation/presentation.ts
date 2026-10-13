@@ -68,6 +68,7 @@ const PRESENTATIONS: Readonly<Record<string, ScreenPresentation>> = {
   '(modal)/paywall/compare': DRAWN,
   // Areas.
   'crew/index': DRAWN,
+  'crew/new': COVER,
   'crew/[crewId]/invite': FULL,
   'crew/[crewId]/member/[uid]': FIT,
   'vote/new-poll': FULL,
@@ -76,6 +77,7 @@ const PRESENTATIONS: Readonly<Record<string, ScreenPresentation>> = {
   'places/search': REVEAL,
   'explore/why-sponsored': FIT,
   'you/appearance': HALF,
+  'you/past-trip': FULL,
   'money/add': REVEAL,
   'money/scan': REVEAL,
   'memory/[memoryId]': COVER,
@@ -179,12 +181,13 @@ export interface NavigatorLevel {
 
 /**
  * Where a screen sits, which decides its leading control:
- * - `root`: a tab's first screen or the app's first screen: no back, no ✕;
+ * - `root`: a tab's first screen (`tab`), or the app's first screen with nothing under it (a cold
+ *   link straight into a page): no back of its own, so a page offers the way Home;
  * - `pushed`: pushed on a stack, its own or its group's: the glass back `<`;
  * - `presented`: the first screen of a sheet or modal (its own, or its group's): ✕ or Cancel.
  */
 export type ScreenPlacement =
-  | { readonly kind: 'root' }
+  | { readonly kind: 'root'; readonly tab: boolean }
   | { readonly kind: 'pushed'; readonly ownStack: boolean }
   | {
       readonly kind: 'presented';
@@ -206,12 +209,12 @@ export function screenPlacement(
   ownPresentation: ScreenPresentation | undefined,
 ): ScreenPlacement {
   for (const [depth, level] of levels.entries()) {
-    if (level.type === 'tab') return { kind: 'root' };
+    if (level.type === 'tab') return { kind: 'root', tab: true };
     if (level.index === 0) continue;
     const presentation = depth === 0 ? ownPresentation : presentationOf(fullPath);
     if (presentation !== undefined)
       return { kind: 'presented', presentation, ownStack: depth === 0 };
     return { kind: 'pushed', ownStack: depth === 0 };
   }
-  return { kind: 'root' };
+  return { kind: 'root', tab: false };
 }

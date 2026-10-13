@@ -96,11 +96,14 @@ export function useScreenPlacement(): ScreenPlacement | undefined {
   return screenPlacement(levels, path, fromNative(own));
 }
 
-/** The leading control a screen shows by where it sits. */
-export type LeadingControl = 'back' | 'close' | 'none';
+/**
+ * The leading control a screen shows by where it sits. `home` is the back for a page a cold link
+ * opened with nothing under it: it goes to Home instead of nowhere.
+ */
+export type LeadingControl = 'back' | 'close' | 'home' | 'none';
 
 export function leadingControlFor(placement: ScreenPlacement | undefined): LeadingControl {
   if (placement === undefined) return 'back';
-  if (placement.kind === 'root') return 'none';
+  if (placement.kind === 'root') return placement.tab ? 'none' : 'home';
   return placement.kind === 'presented' ? 'close' : 'back';
 }
