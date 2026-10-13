@@ -83,6 +83,21 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - takeScreenshot: premium-5.12-walk-joined-vi
 
+# A reaction from the message menu first, while the message shows once (a reply quotes it): its
+# chip counts one.
+- longPressOn: '.*Fushimi Inari at sunrise.*'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-react-.*'
+    timeout: 10000
+- tapOn:
+    id: 'chat-react-🔥'
+- extendedWaitUntil:
+    visible:
+      text: '1 (reacted|đã thả cảm xúc)'
+    timeout: 20000
+- waitForAnimationToEnd
+
 # Reply from the message menu.
 - longPressOn: '.*Fushimi Inari at sunrise.*'
 - extendedWaitUntil:
@@ -113,20 +128,6 @@ appId: app.critterpass.dev
       id: 'chat-strip-cancel'
     timeout: 10000
 - hideKeyboard
-- waitForAnimationToEnd
-
-# A reaction from the same menu: its chip counts one.
-- longPressOn: '.*Fushimi Inari at sunrise.*'
-- extendedWaitUntil:
-    visible:
-      id: 'chat-react-.*'
-    timeout: 10000
-- tapOn:
-    id: 'chat-react-🔥'
-- extendedWaitUntil:
-    visible:
-      text: '1 (reacted|đã thả cảm xúc)'
-    timeout: 20000
 - waitForAnimationToEnd
 - takeScreenshot: premium-5.04-walk-reply-and-reaction-vi
 

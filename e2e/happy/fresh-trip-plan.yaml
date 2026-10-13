@@ -244,8 +244,9 @@ env:
     visible:
       id: 'all-days-check'
     timeout: 60000
+# The guide's note carries the id; its "See" button opens the check.
 - tapOn:
-    id: 'all-days-check'
+    text: 'See|Xem'
 - extendedWaitUntil:
     visible:
       id: 'plan-check'

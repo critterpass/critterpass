@@ -3,7 +3,52 @@ appId: app.critterpass.dev
 # Slide to board on the boarding pass. The knob sits at the start of the track and has no id of its
 # own (the track, `board-slide`, is one element), so the drag starts where the knob rests: low on
 # the screen at the left, about 87% down on the gate's phones, a little higher or lower when the
-# pass above it wraps differently. Each try runs only while the boarded egg hasn't shown.
+# pass above it wraps differently. The drag starts on the knob's left edge, off the arrow icon at
+# its centre, and runs at the pace of a thumb. Each try runs only while the boarded egg hasn't shown.
+- runFlow:
+    when:
+      notVisible:
+        id: 'board-egg'
+    commands:
+      - swipe:
+          start: 8%, 87%
+          end: 96%, 87%
+          duration: 600
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    when:
+      notVisible:
+        id: 'board-egg'
+    commands:
+      - swipe:
+          start: 8%, 84%
+          end: 96%, 84%
+          duration: 600
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    when:
+      notVisible:
+        id: 'board-egg'
+    commands:
+      - swipe:
+          start: 8%, 90%
+          end: 96%, 90%
+          duration: 600
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    when:
+      notVisible:
+        id: 'board-egg'
+    commands:
+      - swipe:
+          start: 8%, 80%
+          end: 96%, 80%
+          duration: 600
+      - waitForAnimationToEnd:
+          timeout: 3000
 - runFlow:
     when:
       notVisible:
@@ -12,39 +57,6 @@ appId: app.critterpass.dev
       - swipe:
           start: 13%, 87%
           end: 96%, 87%
-          duration: 1200
-      - waitForAnimationToEnd:
-          timeout: 3000
-- runFlow:
-    when:
-      notVisible:
-        id: 'board-egg'
-    commands:
-      - swipe:
-          start: 13%, 84%
-          end: 96%, 84%
-          duration: 1200
-      - waitForAnimationToEnd:
-          timeout: 3000
-- runFlow:
-    when:
-      notVisible:
-        id: 'board-egg'
-    commands:
-      - swipe:
-          start: 13%, 80%
-          end: 96%, 80%
-          duration: 1200
-      - waitForAnimationToEnd:
-          timeout: 3000
-- runFlow:
-    when:
-      notVisible:
-        id: 'board-egg'
-    commands:
-      - swipe:
-          start: 13%, 90%
-          end: 96%, 90%
-          duration: 1200
+          duration: 600
       - waitForAnimationToEnd:
           timeout: 3000

@@ -3,6 +3,15 @@ appId: app.critterpass.dev
 # Types ${ITEM} into the day-of pack list's focused field and adds it. Runner: Android types it
 # with `input text` (Maestro's inputText waits for the screen after every key, and on the day-of
 # screen that wait once never ended); iOS types it with inputText.
+# The field asks for the focus as it opens, which a slow emulator can drop: tap it while it shows
+# (a keyboard that covers it means it has the focus).
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-pack-field'
+    commands:
+      - tapOn:
+          id: 'trip-day-pack-field'
 - runFlow:
     when:
       platform: Android
