@@ -114,6 +114,7 @@ export function usePremiumGuideMeter(input: {
               : {
                   name: shortName(holder.display_name),
                   color: crewAccent(null, holder.join_index),
+                  ...(holderId === null ? {} : { uid: holderId }),
                 }
           }
           {...(input.crewId === null

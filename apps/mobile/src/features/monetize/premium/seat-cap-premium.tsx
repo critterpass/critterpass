@@ -133,7 +133,7 @@ export function SeatCapPremium(props: SeatCapViewProps) {
                     transform: [{ translateY: ARC[i % ARC.length] ?? 0 }],
                   }}
                 >
-                  <Avatar name={member.name} color={seatColour(th, i)} size={40} />
+                  <Avatar name={member.name} color={seatColour(th, i)} uid={member.uid} size={40} />
                   <Text variant="badge" tone="placeholder">
                     {String(i + 1)}
                   </Text>

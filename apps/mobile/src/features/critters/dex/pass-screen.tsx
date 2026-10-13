@@ -16,6 +16,7 @@ import { hatchEggCommand, setExploreAtHomeCommand } from '../data/commands';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { eggCardFor, hatchSeen, useHatchSeenVersion } from '../hatch/hatch-model';
 import { critterRoute, hatchRoute, LEGENDARIES_ROUTE, setRoute, whereRoute } from '../routes';
+import { StickerShelf } from '../stickers/sticker-shelf';
 import { NearMap } from '../where/near-map';
 import type { DexFilter } from './dex-model';
 import type { DexViewProps } from './dex-view-props';
@@ -82,6 +83,7 @@ export function PassScreen({
       onOpenCritter={(id) => router.push(critterRoute(id))}
       onOpenWhere={(formId) => router.push(whereRoute(formId))}
       nearMap={focused ? <NearMap watching={filter === 'near'} /> : null}
+      shelf={<StickerShelf />}
       onOpenLegendaries={() => router.push(LEGENDARIES_ROUTE)}
       slippedAway={slippedAway}
       onDismissSlipped={() => slippedAway !== null && dismissSlipped(slippedAway.encounterId)}

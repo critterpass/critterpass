@@ -108,7 +108,13 @@ export function SessionMapPremium() {
                   ]}
                   accessibilityLabel={title}
                 >
-                  <Avatar name={name} color={crewAccent(0)} size={40} ringed />
+                  <Avatar
+                    name={name}
+                    color={crewAccent(0)}
+                    uid={map.model?.senderUid}
+                    size={40}
+                    ringed
+                  />
                 </View>
               </Marker>
             )}

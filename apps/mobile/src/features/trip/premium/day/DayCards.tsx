@@ -72,7 +72,13 @@ export const Readiness = memo(function Readiness({ view, now, guideName, onImUp 
               ]}
             >
               <View style={person.up ? null : styles.asleep}>
-                <Avatar name={person.name} color={crewAccent(person.joinIndex)} size={28} ringed />
+                <Avatar
+                  name={person.name}
+                  color={crewAccent(person.joinIndex)}
+                  uid={person.id}
+                  size={28}
+                  ringed
+                />
               </View>
             </View>
           ))}

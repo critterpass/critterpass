@@ -64,7 +64,12 @@ export function PremiumSendProgress(props: SendProgressProps) {
                 testID={`sent-${person.uid}`}
                 variant="person"
                 leading={
-                  <Avatar name={person.name} color={crewColour(person.joinIndex)} size={32} />
+                  <Avatar
+                    name={person.name}
+                    color={crewColour(person.joinIndex)}
+                    uid={person.uid}
+                    size={32}
+                  />
                 }
                 title={person.name}
                 subtitle={

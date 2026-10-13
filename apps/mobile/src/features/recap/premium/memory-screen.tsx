@@ -52,7 +52,12 @@ function Chip({ chip }: { readonly chip: MemoryReactionChip }) {
       accessibilityLabel={reactionA11y(chip)}
       testID={`memory-reaction-${chip.key}`}
     >
-      <Avatar name={chip.name} color={chip.colour ?? RECAP_PAINT.glassOnPhoto} size={24} />
+      <Avatar
+        name={chip.name}
+        color={chip.colour ?? RECAP_PAINT.glassOnPhoto}
+        uid={chip.userId}
+        size={24}
+      />
       <Text variant="rowTextStrong" color={RECAP_PAINT.onPhoto}>
         {reactionLabel(chip)}
       </Text>

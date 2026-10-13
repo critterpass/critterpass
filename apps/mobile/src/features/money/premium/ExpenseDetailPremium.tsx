@@ -73,6 +73,7 @@ function Shares({ detail }: { readonly detail: Ready }) {
               <Avatar
                 name={share.name}
                 color={crewAccent(joinIndex.get(share.userId) ?? 0)}
+                uid={share.userId}
                 size={28}
               />
               <Text variant="rowText" color={tone} style={styles.flex} numberOfLines={1}>

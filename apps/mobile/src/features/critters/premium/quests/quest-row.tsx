@@ -199,7 +199,12 @@ export function QuestRow({
                   : { opacity: 0.35 },
               ]}
             >
-              <Avatar name={person.name} color={crewAccent(null, person.joinIndex)} size={24} />
+              <Avatar
+                name={person.name}
+                color={crewAccent(null, person.joinIndex)}
+                uid={person.userId}
+                size={24}
+              />
             </View>
           ))}
         </View>

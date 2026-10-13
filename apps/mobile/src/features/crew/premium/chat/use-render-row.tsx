@@ -43,6 +43,7 @@ export function useRenderRow(inputs: RenderRowInputs) {
           <SystemPill
             text={systemLine(message.refKind, message.refName, message.body)}
             who={message.refName ?? null}
+            uid={message.refId}
             color={colourOf(message.refId)}
           />
         );

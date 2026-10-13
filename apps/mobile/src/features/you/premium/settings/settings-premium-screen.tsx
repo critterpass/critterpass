@@ -25,6 +25,7 @@ import type { AccountServices } from '../../account/account-services';
 import { useSettingsModel } from '../../settings/use-settings-model';
 import { playTokekTheme } from '../../settings/tokek-theme';
 import { CrewChatChoice } from './crew-chat-choice';
+import { PermissionsCard } from './permissions-card';
 
 function PremiumSettingsRow({
   row,
@@ -218,6 +219,7 @@ export function SettingsPremiumScreen({
               </ListCard>
             </View>
           ))}
+        <PermissionsCard />
         <PressableScale
           onPress={playTokekTheme}
           accessibilityRole="button"

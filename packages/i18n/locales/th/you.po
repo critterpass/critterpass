@@ -207,6 +207,10 @@ msgstr ""
 msgid "you.appIcon.appearance"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.ask"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location.ask"
 msgstr ""
@@ -829,6 +833,10 @@ msgstr ""
 msgid "you.premium.appearance.light"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.limited"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.currency.mode.local"
 msgstr ""
@@ -957,6 +965,10 @@ msgstr ""
 msgid "you.pings.notificationsOff"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.off"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
 msgid "you.settings.musicOff"
 msgstr ""
@@ -981,6 +993,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
 msgid "trip.offline.storageTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.on"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
@@ -1063,6 +1079,10 @@ msgstr ""
 msgid "you.pastTrip.editTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.section.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.tab.photo"
 msgstr ""
@@ -1130,6 +1150,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.privacy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.quiet"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx

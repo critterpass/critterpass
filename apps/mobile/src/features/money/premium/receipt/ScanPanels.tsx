@@ -198,6 +198,7 @@ export function ReceiptReview(props: LineAssignSheetProps) {
                         <Avatar
                           name={member.name}
                           color={crewAccent(member.joinIndex)}
+                          uid={member.userId}
                           size={22}
                           ringed
                         />

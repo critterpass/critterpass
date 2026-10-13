@@ -16,7 +16,7 @@ import {
   type ScreenPresentation,
 } from '@/lib/navigation/presentation';
 
-import { sheetRouteOptions } from '../screens/sheet-screen';
+import { sheetDetentOptions, sheetRouteOptions } from '../screens/sheet-screen';
 
 /**
  * A screen that animates itself as a sheet (the current UI's `Sheet`, a premium page that slides
@@ -53,7 +53,7 @@ function sheetOptions(
       ? { ...sheetRouteOptions('full'), sheetAllowedDetents: GROUP_FIT_DETENTS }
       : sheetRouteOptions('fit');
   }
-  return { ...sheetRouteOptions('full'), sheetAllowedDetents: [...allowed] };
+  return sheetDetentOptions(allowed);
 }
 
 /**

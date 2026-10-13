@@ -103,6 +103,7 @@ export function LeaveCrewScreen() {
             <RadioRow
               key={member.user_id}
               name={firstName(member.display_name)}
+              uid={member.user_id}
               color={memberAccent(member.colour)}
               selected={member.user_id === chosen?.user_id}
               onPress={() => setPicked(member.user_id)}

@@ -154,6 +154,7 @@ export function PremiumCommentsCard(props: PremiumCommentsCardProps) {
                 <Avatar
                   name={author?.name ?? ''}
                   color={crewColour(author?.joinIndex ?? 0)}
+                  uid={comment.authorId}
                   size={28}
                 />
                 <View style={{ flex: 1, gap: 2 }}>

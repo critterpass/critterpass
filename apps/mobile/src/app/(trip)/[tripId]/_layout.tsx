@@ -6,7 +6,7 @@ import { isTripId } from '@/features/trip/access/trip-access';
 import { useTripAccess } from '@/features/trip/access/use-trip-access';
 import { sheetScreens } from '@/lib/navigation/sheet-routes';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
-import { sheetRouteOptions } from '@/ui/premium/shell';
+import { sheetDetentOptions, sheetRouteOptions } from '@/ui/premium/shell';
 import { SELF_ANIMATED_SHEET } from '@/ui/premium/shell/navigation/premium-root-stack';
 
 import NotFoundScreen from '../../+not-found';
@@ -42,32 +42,17 @@ export default function TripIdLayout() {
       {/* Changing the dates rises as a modal with its ✕ (4.54). */}
       <PremiumStackScreen name="settings/dates" options={{ presentation: 'modal' }} />
       {/* Add to plan rises over the map, its top still showing (4.39). */}
-      <PremiumStackScreen
-        name="add/[placeId]"
-        options={{ ...sheetRouteOptions('full'), sheetAllowedDetents: [0.79, 1] }}
-      />
+      <PremiumStackScreen name="add/[placeId]" options={sheetDetentOptions([0.79, 1])} />
       {/* Add from a link rises nearly full over Find (4.32). */}
-      <PremiumStackScreen
-        name="search/link"
-        options={{ ...sheetRouteOptions('full'), sheetAllowedDetents: [0.9, 1] }}
-      />
+      <PremiumStackScreen name="search/link" options={sheetDetentOptions([0.9, 1])} />
       {/* Filling a gap rises over the map (4.44). */}
-      <PremiumStackScreen
-        name="check/gap"
-        options={{ ...sheetRouteOptions('full'), sheetAllowedDetents: [0.62, 1] }}
-      />
+      <PremiumStackScreen name="check/gap" options={sheetDetentOptions([0.62, 1])} />
       {/* Picking a driver's days rises over Compare, its list scrolling inside (6.23). */}
-      <PremiumStackScreen
-        name="drivers/pick"
-        options={{ ...sheetRouteOptions('full'), sheetAllowedDetents: [0.6, 1] }}
-      />
+      <PremiumStackScreen name="drivers/pick" options={sheetDetentOptions([0.6, 1])} />
       {/* Share with your driver rises full over the plan's share sheet. */}
       <PremiumStackScreen name="drivers/share" options={sheetRouteOptions('full')} />
       {/* Ideas rises over the plan map, leaving its top showing (4.40). */}
-      <PremiumStackScreen
-        name="ideas/index"
-        options={{ ...sheetRouteOptions('full'), sheetAllowedDetents: [0.82, 1] }}
-      />
+      <PremiumStackScreen name="ideas/index" options={sheetDetentOptions([0.82, 1])} />
     </PremiumStack>
   );
 }

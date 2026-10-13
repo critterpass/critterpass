@@ -75,7 +75,13 @@ function Pins({ m }: { readonly m: LiveMapModel }) {
                 { boxShadow: th.shadow.sticker },
               ]}
             >
-              <Avatar name={person.name} color={crewAccent(person.joinIndex)} size={34} ringed />
+              <Avatar
+                name={person.name}
+                color={crewAccent(person.joinIndex)}
+                uid={person.uid}
+                size={34}
+                ringed
+              />
             </View>
           </Marker>
         );

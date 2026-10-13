@@ -210,7 +210,11 @@ export function ChatWelcome({
 }: {
   readonly crewName: string;
   readonly madeBy: string | null;
-  readonly members: readonly { readonly name: string; readonly color: string }[];
+  readonly members: readonly {
+    readonly name: string;
+    readonly uid: string;
+    readonly color: string;
+  }[];
   readonly guideName: string;
   readonly starters: readonly Starter[];
 }) {
@@ -231,7 +235,7 @@ export function ChatWelcome({
                 top: 35 + Math.sin(angle) * 40,
               }}
             >
-              <Avatar name={member.name} color={member.color} size={40} ringed />
+              <Avatar name={member.name} color={member.color} uid={member.uid} size={40} ringed />
             </View>
           );
         })}

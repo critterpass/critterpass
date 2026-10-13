@@ -29,10 +29,18 @@ msgstr ""
 msgid "stickers.how.settledNoPlace"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/stickers/sticker-shelf.tsx
+msgid "stickers.shelf.empty"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
 msgid "stickers.name.settled"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
 msgid "stickers.name.special"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-shelf.tsx
+msgid "stickers.shelf.title"
 msgstr ""

@@ -187,7 +187,13 @@ export const PremiumMessageRow = memo(function PremiumMessageRow(props: MessageR
       <CritterSticker kind="gecko" name={props.guideName} size={AVATAR} edge={false} />
     </View>
   ) : (
-    <Avatar name={props.senderName} color={props.senderColor} size={AVATAR} ringed />
+    <Avatar
+      name={props.senderName}
+      color={props.senderColor}
+      uid={message.senderKind === 'user' ? message.senderId : null}
+      size={AVATAR}
+      ringed
+    />
   );
 
   return (

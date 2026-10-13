@@ -207,6 +207,10 @@ msgstr "Giao diện"
 msgid "you.appIcon.appearance"
 msgstr "Giao diện"
 
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.ask"
+msgstr "Hỏi"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location.ask"
 msgstr "Hỏi"
@@ -829,6 +833,10 @@ msgstr "Chỉ chữ, số, dấu chấm và gạch dưới."
 msgid "you.premium.appearance.light"
 msgstr "Sáng"
 
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.limited"
+msgstr "Giới hạn"
+
 #: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.currency.mode.local"
 msgstr "Địa phương"
@@ -957,6 +965,10 @@ msgstr "Thông báo"
 msgid "you.pings.notificationsOff"
 msgstr "Thông báo đang tắt nên không gì hiện lên màn hình khóa của bạn."
 
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.off"
+msgstr "Tắt"
+
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
 msgid "you.settings.musicOff"
 msgstr "Tắt"
@@ -982,6 +994,10 @@ msgstr "Ngoại tuyến"
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
 msgid "trip.offline.storageTitle"
 msgstr "Ngoại tuyến"
+
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.on"
+msgstr "Bật"
 
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
 msgid "you.settings.musicOn"
@@ -1063,6 +1079,10 @@ msgstr "Quá {budget} thì phần còn lại chờ điểm tin lúc {0} của b�
 msgid "you.pastTrip.editTitle"
 msgstr "Chuyến đi cũ"
 
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.section.title"
+msgstr "Quyền truy cập"
+
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.tab.photo"
 msgstr "Ảnh"
@@ -1131,6 +1151,10 @@ msgstr "Tiếng Bồ Đào Nha"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.privacy"
 msgstr "Riêng tư"
+
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.quiet"
+msgstr "Im lặng"
 
 #: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
 msgid "you.premium.chatty.quiet"

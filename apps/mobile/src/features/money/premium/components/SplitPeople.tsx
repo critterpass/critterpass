@@ -43,7 +43,12 @@ export function SplitPeople(props: SplitPeopleProps) {
               testID={`money-split-toggle-${member.userId}`}
             >
               <View style={[styles.person, inSplit ? null : styles.out]}>
-                <Avatar name={member.name} color={crewAccent(member.joinIndex)} size={36} />
+                <Avatar
+                  name={member.name}
+                  color={crewAccent(member.joinIndex)}
+                  uid={member.userId}
+                  size={36}
+                />
                 <Text variant="badge" tone="inkSecondary" numberOfLines={1}>
                   {member.name}
                 </Text>
@@ -93,7 +98,12 @@ export function SplitPeople(props: SplitPeopleProps) {
               index === 0 ? null : { borderTopWidth: 0.5, borderTopColor: th.color.hairline },
             ]}
           >
-            <Avatar name={member.name} color={crewAccent(member.joinIndex)} size={28} />
+            <Avatar
+              name={member.name}
+              color={crewAccent(member.joinIndex)}
+              uid={member.userId}
+              size={28}
+            />
             <View style={styles.flex}>
               <Text variant="rowTextStrong" numberOfLines={1}>
                 {member.name}

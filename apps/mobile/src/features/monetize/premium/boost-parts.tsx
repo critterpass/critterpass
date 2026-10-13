@@ -178,7 +178,7 @@ function FanSeat({
   }));
   return (
     <Animated.View style={[styles.seat, style]}>
-      <Avatar name={member.name} color={seatColour(th, index)} size={40} />
+      <Avatar name={member.name} color={seatColour(th, index)} uid={member.uid} size={40} />
       {split && share !== null ? (
         <Text variant="badge" style={styles.heavy}>
           {share}

@@ -158,7 +158,7 @@ function PremiumAddSheetView(props: AddSheetViewProps) {
         }}
       >
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.space.gap6 }}>
-          <Avatar name={name} color={crewColour(me.joinIndex)} size={24} />
+          <Avatar name={name} color={crewColour(me.joinIndex)} uid={me.uid} size={24} />
           <Text variant="caption" tone="muted">
             {t({ id: 'setup.addMustDo.as', message: `As ${name}` })}
           </Text>
