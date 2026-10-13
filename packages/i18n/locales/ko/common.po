@@ -594,12 +594,12 @@ msgstr "사진 열기"
 msgid "common.lightbox.openOf"
 msgstr "사진 열기 ({total}개 중 {position}번째)"
 
-#: ../../apps/mobile/src/ui/premium/buttons/PasteButton.tsx
-msgid "common.premium.paste.openSettings"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/states/PermissionCard.tsx
 msgid "common.permission.openSettings"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/premium/buttons/PasteButton.tsx
+msgid "common.premium.paste.openSettings"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/premium/states/SessionWaiting.tsx

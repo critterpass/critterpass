@@ -96,6 +96,10 @@ msgstr ""
 msgid "guide.premium.thinking"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-ask.tsx
+msgid "guide.premium.camera.askLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.count"
@@ -163,6 +167,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.allergies"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-ask.tsx
+msgid "guide.premium.camera.allow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
@@ -1081,6 +1089,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.shellfish"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-ask.tsx
+msgid "guide.premium.camera.askTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx

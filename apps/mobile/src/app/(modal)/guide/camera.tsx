@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 
 import { CameraScreen, type CameraScreenProps } from '@/features/guide/camera/camera-screen';
 import { threadModeOf } from '@/features/guide/chat/data/use-guide-thread';
+import { PremiumCameraAsk } from '@/features/guide/premium/camera/camera-ask';
 import { PremiumCameraScene } from '@/features/guide/premium/camera/camera-scene';
 import { usePremiumUi } from '@/lib/premium-ui';
 
@@ -23,6 +24,11 @@ function deviceRecognizer(): CameraScreenProps['recognize'] {
   };
 }
 
+/** The premium pre-permission state: the system ask fires from its button. */
+const premiumAsk: NonNullable<CameraScreenProps['renderAsk']> = (allow, asking, guideName) => (
+  <PremiumCameraAsk guideName={guideName} allow={allow} asking={asking} />
+);
+
 /**
  * Point and ask (3j-3): take a still of a menu and read it in your own language, with the crew's
  * dietary flags on the dishes. Opened from the guide sheet's TRANSLATE A MENU (`from: 'guide'`,
@@ -42,7 +48,7 @@ export default function CameraRoute() {
       mode={threadModeOf(mode) ?? null}
       fromSheet={from === 'guide'}
       recognize={recognize}
-      {...(premium ? { View: PremiumCameraScene } : {})}
+      {...(premium ? { View: PremiumCameraScene, renderAsk: premiumAsk } : {})}
     />
   );
 }

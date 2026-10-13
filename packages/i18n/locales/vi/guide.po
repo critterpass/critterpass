@@ -96,6 +96,10 @@ msgstr "{guideName} quay lại sau {0} giờ {1} phút"
 msgid "guide.premium.thinking"
 msgstr "{guideName} đang suy nghĩ"
 
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-ask.tsx
+msgid "guide.premium.camera.askLine"
+msgstr "{guideName} dùng camera để đọc thực đơn và nói lại bằng ngôn ngữ của bạn."
+
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.count"
@@ -164,6 +168,10 @@ msgstr "Hướng dẫn viên AI · câu trả lời có thể sai, hãy kiểm t
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.allergies"
 msgstr "Dị ứng"
+
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-ask.tsx
+msgid "guide.premium.camera.allow"
+msgstr "Cho phép camera"
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
@@ -1082,6 +1090,10 @@ msgstr "Chia sẻ nhãn ăn uống"
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.shellfish"
 msgstr "Hải sản có vỏ"
+
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-ask.tsx
+msgid "guide.premium.camera.askTitle"
+msgstr "Cho mình xem thực đơn nhé"
 
 #: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx

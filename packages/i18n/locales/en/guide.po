@@ -96,6 +96,10 @@ msgstr "{guideName} is back in {0}h {1}m"
 msgid "guide.premium.thinking"
 msgstr "{guideName} is thinking"
 
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-ask.tsx
+msgid "guide.premium.camera.askLine"
+msgstr "{guideName} uses the camera to read a menu and put it in your words."
+
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.count"
@@ -164,6 +168,10 @@ msgstr "AI guide · answers can be wrong, check what matters"
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.allergies"
 msgstr "Allergies"
+
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-ask.tsx
+msgid "guide.premium.camera.allow"
+msgstr "Allow camera"
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
@@ -1082,6 +1090,10 @@ msgstr "Sharing food flags"
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.shellfish"
 msgstr "Shellfish"
+
+#: ../../apps/mobile/src/features/guide/premium/camera/camera-ask.tsx
+msgid "guide.premium.camera.askTitle"
+msgstr "Show me the menu"
 
 #: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx

@@ -15,6 +15,7 @@ import {
   useRef,
   useState,
   type ComponentType,
+  type ReactNode,
 } from 'react';
 import { Image, StyleSheet } from 'react-native';
 
@@ -93,6 +94,8 @@ export interface CameraScreenProps {
   readonly recognize: ((uri: string) => Promise<RecognisedStill>) | null;
   /** The view that draws the camera (the premium one takes the same props). */
   readonly View?: ComponentType<CameraViewProps>;
+  /** The look's own pre-permission state; without it the camera asks once the screen is up. */
+  readonly renderAsk?: (allow: () => void, asking: boolean, guideName: string) => ReactNode;
 }
 
 export function CameraScreen(props: CameraScreenProps) {
@@ -110,6 +113,7 @@ function OpenCameraScreen({
   fromSheet = false,
   View = CameraView,
   recognize,
+  renderAsk,
 }: CameraScreenProps) {
   const { t, i18n } = useLingui();
   const names = useLanguageNames();
@@ -236,7 +240,17 @@ function OpenCameraScreen({
       state={state}
       camera={
         camera === null || state.issue === 'no_camera' || state.issue === 'camera_denied' ? null : (
-          <MenuCamera camera={camera} onCapture={onCapture} onFailed={onFailed} />
+          <MenuCamera
+            camera={camera}
+            onCapture={onCapture}
+            onFailed={onFailed}
+            {...(renderAsk === undefined
+              ? {}
+              : {
+                  renderAsk: (allow: () => void, asking: boolean) =>
+                    renderAsk(allow, asking, context.guideName),
+                })}
+          />
         )
       }
       still={

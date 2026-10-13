@@ -594,12 +594,12 @@ msgstr ""
 msgid "common.lightbox.openOf"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/premium/buttons/PasteButton.tsx
-msgid "common.premium.paste.openSettings"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/states/PermissionCard.tsx
 msgid "common.permission.openSettings"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/premium/buttons/PasteButton.tsx
+msgid "common.premium.paste.openSettings"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/premium/states/SessionWaiting.tsx
