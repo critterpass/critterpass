@@ -39,8 +39,8 @@ export interface ShellAction {
    */
   readonly element?: ReactElement;
   /**
-   * The ink `+` opens a sheet: on a native root screen it grows into the sheet (1.06) before
-   * `onPress` presents the sheet route.
+   * The ink `+` opens a sheet. On a drawn root screen (`PlusSheetMorph`) it grows into the sheet
+   * (1.06); on the native iOS bar the form sheet's own rise plays instead.
    */
   readonly morph?: boolean;
 }
