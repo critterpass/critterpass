@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { premiumScanPanel } from '@/features/money/premium/receipt/ScanPanels';
+import { PREMIUM_SCAN_LOOK } from '@/features/money/premium/receipt/scan-look';
 import { ScanScreen } from '@/features/money/receipt/ScanScreen';
 import { tripParam } from '@/features/money/routes';
 import { usePremiumUi } from '@/lib/premium-ui';
@@ -12,7 +12,7 @@ export default function ScanRoute() {
   return (
     <ScanScreen
       tripId={tripParam(trip, tripId)}
-      {...(premium ? { panelFor: premiumScanPanel } : {})}
+      {...(premium ? { look: PREMIUM_SCAN_LOOK } : {})}
     />
   );
 }

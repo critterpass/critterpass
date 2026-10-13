@@ -34,6 +34,13 @@ export interface SweepLine {
   readonly tone: 'read' | 'locked' | 'grey';
 }
 
+/** The sweep's colours in another look: the line and its glow, a read line, an unreadable one. */
+export interface SweepTint {
+  readonly sweep: string;
+  readonly read: string;
+  readonly grey: string;
+}
+
 const useStyles = makeStyles((t) => ({
   sweep: {
     position: 'absolute',
@@ -54,16 +61,20 @@ function Highlight({
   line,
   progress,
   reduced,
+  tint,
 }: {
   readonly line: SweepLine;
   readonly progress: SharedValue<number>;
   readonly reduced: boolean;
+  readonly tint: SweepTint | undefined;
 }) {
   const styles = useStyles();
   const theme = useTheme();
   const [x, y, w, h] = line.box;
   const colour =
-    line.tone === 'grey' ? theme.semantic.text.tertiary : theme.semantic.action.primary;
+    line.tone === 'grey'
+      ? (tint?.grey ?? theme.semantic.text.tertiary)
+      : (tint?.read ?? theme.semantic.action.primary);
   const style = useAnimatedStyle(() => ({
     opacity: reduced || line.tone !== 'read' || progress.value >= y ? 0.55 : 0,
   }));
@@ -90,12 +101,14 @@ export function ScanSweep({
   sweeping,
   stutter = false,
   children,
+  tint,
   testID,
 }: {
   readonly lines: readonly SweepLine[];
   readonly sweeping: boolean;
   readonly stutter?: boolean;
   readonly children: ReactNode;
+  readonly tint?: SweepTint;
   readonly testID?: string;
 }) {
   const styles = useStyles();
@@ -132,9 +145,15 @@ export function ScanSweep({
       {children}
       <View style={StyleSheet.absoluteFill} pointerEvents="none">
         {lines.map((line) => (
-          <Highlight key={line.id} line={line} progress={progress} reduced={reduced} />
+          <Highlight key={line.id} line={line} progress={progress} reduced={reduced} tint={tint} />
         ))}
-        <Animated.View style={[styles.sweep, sweepStyle]} />
+        <Animated.View
+          style={[
+            styles.sweep,
+            tint === undefined ? null : { backgroundColor: tint.sweep, shadowColor: tint.sweep },
+            sweepStyle,
+          ]}
+        />
       </View>
     </View>
   );

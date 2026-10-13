@@ -36,7 +36,8 @@ import { ShellTabs } from '@/ui/shell/ShellTabs';
 
 import { MoneyServicesProvider, NO_MONEY_SERVICES, type MoneyServices } from '../../data/services';
 import { MONEY_ROUTES } from '../../routes';
-import { ScanScreen } from '../ScanScreen';
+import { PREMIUM_SCAN_LOOK } from '../../premium/receipt/scan-look';
+import { ScanScreen, type ScanLook } from '../ScanScreen';
 import { useWaitedTooLong } from '../use-scan';
 
 // Imported last: see ui/shell/__tests__/tab-bar.test.tsx for why.
@@ -50,6 +51,8 @@ let stack: TestLocalFirst | null = null;
 let posted: PostReceiptBody[] = [];
 let commits: unknown[] = [];
 let services: MoneyServices;
+/** The look the scan route wears (the app's own when unset). */
+let look: ScanLook | null = null;
 
 function current(): TestLocalFirst {
   if (stack === null) throw new Error('the local database is not open');
@@ -247,7 +250,7 @@ async function openScan(answer: 'applied' | 'unreachable', using: MoneyServices)
       '(tabs)/index': () => <Text>home</Text>,
       '(tabs)/wallet/_layout': () => <Stack screenOptions={{ headerShown: false }} />,
       '(tabs)/wallet/money/index': Money,
-      'money/scan': () => <ScanScreen />,
+      'money/scan': () => <ScanScreen {...(look === null ? {} : { look })} />,
       'money/add': () => <View testID="money-add" />,
     },
     { initialUrl: MONEY_ROUTES.balances },
@@ -284,6 +287,7 @@ afterEach(async () => {
   stack = null;
   posted = [];
   commits = [];
+  look = null;
 });
 
 describe('a scanned receipt', () => {
@@ -343,6 +347,20 @@ describe('a scanned receipt', () => {
     expect(commits).toHaveLength(1);
     expect(commits[0]).toMatchObject({ path: '/v1/cmd/commit_receipt' });
     expect(screen.getByTestId('money-home')).toBeTruthy();
+  });
+
+  it('opens who had it over the premium review, and comes back to the review', async () => {
+    look = PREMIUM_SCAN_LOOK;
+    const app = await scanAPhoto();
+    await parseLands('parsed');
+    await until(() => screen.queryByTestId('money-scan-review') !== null);
+
+    await press('money-review-line-l0');
+    await until(() => screen.queryByTestId('money-member-picker') !== null);
+    await press('money-member-done');
+    await until(() => screen.queryByTestId('money-member-picker') === null);
+    expect(app.getPathname()).toBe(MONEY_ROUTES.scan);
+    expect(screen.getByTestId('money-review-commit')).toBeTruthy();
   });
 
   it('says what to do when the split cannot reach the server, and keeps the review', async () => {
