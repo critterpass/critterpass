@@ -60,7 +60,9 @@ appId: app.critterpass.dev
       NAME: 'Lunch'
       SHOT: money-add-details-keyboard
 - takeScreenshot: money-add-lunch
-- assertVisible: '(?i)lunch'
+# iOS reads the details row as one label (the name and its category): the name is matched
+# within it.
+- assertVisible: '(?i).*lunch.*'
 - assertVisible: '.*350,000.*'
 - assertNotVisible: '.*\$.*'
 - tapOn:
