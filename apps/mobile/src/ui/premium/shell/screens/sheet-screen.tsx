@@ -40,6 +40,20 @@ export function sheetRouteOptions(detent: SheetDetent): NativeStackNavigationOpt
 }
 
 /**
+ * A layout's options for a sheet that stops at more than one height (4.39 rises to 0.79 with the
+ * page's top still showing, then drags to full). Android's native sheet lays its content out at
+ * the tallest stop and shows the smaller one by sliding it down, so a footer pinned to the bottom
+ * sat under the screen's edge: there it opens at the first stop only.
+ */
+export function sheetDetentOptions(detents: readonly number[]): NativeStackNavigationOptions {
+  const first = detents[0] ?? 1;
+  return {
+    ...sheetRouteOptions('full'),
+    sheetAllowedDetents: Platform.OS === 'android' ? [first] : [...detents],
+  };
+}
+
+/**
  * The sheet material a native form sheet's root draws under its content: the opaque fill with
  * Material's corners on Android, and on iOS the tint over the system glass. For a sheet route that
  * draws its own page instead of using `SheetScreen` (Ideas over the plan map).

@@ -41,7 +41,12 @@ export { PushScreen } from './screens/push-screen';
 export type { PushScreenProps } from './screens/push-screen';
 export { RootScreen } from './screens/root-screen';
 export type { RootScreenProps, RootScrollBindings, RootScrollProps } from './screens/root-screen';
-export { SheetScreen, sheetMaterialStyle, sheetRouteOptions } from './screens/sheet-screen';
+export {
+  SheetScreen,
+  sheetDetentOptions,
+  sheetMaterialStyle,
+  sheetRouteOptions,
+} from './screens/sheet-screen';
 export type { SheetDetent, SheetScreenProps, SheetVerb } from './screens/sheet-screen';
 export { DatabaseWait, SessionDatabaseProvider, SessionGate } from './session-gate';
 export type { DatabaseWaitProps, SessionGateProps } from './session-gate';
