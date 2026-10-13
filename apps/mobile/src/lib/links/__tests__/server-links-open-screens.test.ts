@@ -90,10 +90,11 @@ describe('links the server sends', () => {
   it.each(FORMER_APP_LINK_SAMPLES.map((sample) => [sample.former, sample.current] as const))(
     'a link sent earlier still opens its screen: %s',
     async (former, current) => {
-      // Written as it was, the path has no screen: a builder that returned it would fail above.
-      expect(screenOf(former)).toBeNull();
+      // Written as it was, the path does not open today's screen (it has none, or, like the hub's
+      // day page, it is an in-app push the rewrite steps past): reading it is what brings it there.
       const screen = screenOf(current);
       expect(screen).not.toBeNull();
+      expect(screenOf(former)).not.toBe(screen);
       expect(screenOf(pressed(former))).toBe(screen);
       expect(screenOf(await tapped(former))).toBe(screen);
     },
