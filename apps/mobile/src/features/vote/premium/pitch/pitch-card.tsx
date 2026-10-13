@@ -108,7 +108,7 @@ export function PremiumPitchCard(props: {
               style={styles.sticker}
             />
           ) : (
-            <Animated.View entering={reduced ? undefined : ZoomIn.springify()}>
+            <Animated.View {...(reduced ? {} : { entering: ZoomIn.springify() })}>
               <CritterSticker kind={guide.kind} name={guide.name} size={72} />
             </Animated.View>
           )}

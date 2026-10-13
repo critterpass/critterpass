@@ -10,12 +10,12 @@ import { nativeCpCalendarModule } from '../../../../../../modules/cp-calendar/sr
 
 const writer = calendarWriter(nativeCpCalendarModule);
 
-interface DayParams {
-  readonly tripId: string;
-  readonly day: string;
-  readonly date?: string;
-  readonly item?: string;
-}
+type DayParams = {
+  tripId: string;
+  day: string;
+  date?: string;
+  item?: string;
+};
 
 /**
  * One day of the trip plan (`/{tripId}/day/{n}`): the day plan (7b-1).

@@ -6,8 +6,7 @@ import { t } from '@lingui/core/macro';
 import { useDeferredValue, useMemo, useState } from 'react';
 import { View } from 'react-native';
 
-import { regionName } from '@/features/onboarding';
-import { countryList } from '@/features/onboarding/phone/phone-number';
+import { countryList, regionName } from '@/features/onboarding';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { ListCard, Row, TextField } from '@/ui/premium';
 

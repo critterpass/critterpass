@@ -34,7 +34,11 @@ export function PremiumAddressScreen() {
   const th = usePremiumTheme();
   const form = useAddressScreen();
   const savedCountry = form.savedCountry;
-  const field = (key: keyof AddressDraft, label: string, extra: Partial<TextInputProps> = {}) => (
+  const field = (
+    key: keyof AddressDraft,
+    label: string,
+    extra: Partial<Omit<TextInputProps, 'accessibilityLabel'>> = {},
+  ) => (
     <View style={{ gap: 6 }}>
       <Text variant="label" tone="muted" style={{ marginLeft: 6 }}>
         {label}

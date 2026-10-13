@@ -7,7 +7,7 @@ import { router } from 'expo-router';
 import { View } from 'react-native';
 
 import { Button, EmptyState } from '@/ui/premium';
-import { PushScreen } from '@/ui/premium/shell';
+import { PushScreen } from '@/ui/premium/shell/screens/push-screen';
 
 const HOME_ROUTE = '/';
 

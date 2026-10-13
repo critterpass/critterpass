@@ -74,7 +74,9 @@ export function PitchSheet({ crewId, placeId }: PitchSheetProps) {
     crewId,
     placeId,
     sticker: (guide) => <Sticker kind={guide.kind} name={guide.name} size={72} />,
-    fly: (sticker) => flyToBoard(card, sticker),
+    fly: async (sticker) => {
+      await flyToBoard(card, sticker);
+    },
   });
   const { search, state, picked, searching, people, retry, pick } = sheet;
   const asked = search.query;

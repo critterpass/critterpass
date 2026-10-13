@@ -203,7 +203,7 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
                   ? SlideOutRight.springify()
                   : FadeOut
             }
-            layout={reduced ? undefined : LinearTransition.springify()}
+            {...(reduced ? {} : { layout: LinearTransition.springify() })}
           >
             <CandidateCard
               view={view}

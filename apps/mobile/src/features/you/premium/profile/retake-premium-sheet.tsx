@@ -10,13 +10,15 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
-import { tokekLine } from '@/features/onboarding/content';
-import { guideFacts } from '@/features/onboarding/guide-faces';
-import { QuizPhotoCard } from '@/features/onboarding/premium/taste/QuizPhotoCard';
-import { cardArt } from '@/features/onboarding/taste/card-art';
-import { quizCardWords } from '@/features/onboarding/taste/quiz-copy';
-import { tagWords } from '@/features/onboarding/taste/tag-labels';
-import { useTasteQuiz } from '@/features/onboarding/taste/use-taste-quiz';
+import {
+  QuizPhotoCard,
+  cardArt,
+  guideFacts,
+  quizCardWords,
+  tagWords,
+  tokekLine,
+  useTasteQuiz,
+} from '@/features/onboarding';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { EmptySlot, Tag, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';

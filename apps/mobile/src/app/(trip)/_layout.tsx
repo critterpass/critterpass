@@ -11,7 +11,6 @@ import { FULL_SCREEN_ROUTE_OPTIONS, sheetRouteOptions } from '@/ui/premium/shell
 import { PremiumGroupErrorBoundary } from '@/features/home/premium/recovery/premium-error-boundary';
 import { SessionGate } from '@/ui/states/SessionGate';
 
-/* eslint-disable lingui/no-unlocalized-strings -- route names, never copy. */
 const FULL_SCREENS = [
   'proposal/[id]/board',
   'proposal/[id]/trailer',
@@ -19,7 +18,6 @@ const FULL_SCREENS = [
   'recap/[tripId]/story',
   'encounter/[id]',
 ] as const;
-/* eslint-enable lingui/no-unlocalized-strings */
 
 // A trip screen that fails is contained here: the tabs and the pages under it stay as they were.
 export { PremiumGroupErrorBoundary as ErrorBoundary };
