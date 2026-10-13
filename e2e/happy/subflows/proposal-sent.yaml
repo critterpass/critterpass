@@ -1,31 +1,13 @@
 appId: app.critterpass.dev
 ---
-# Two brand-new accounts on one phone, up to a sent proposal: the organiser starts a crew and keeps
-# its code; a second new account joins with it; the organiser locks one place in, runs setup, waits
-# for the guide's draft, builds the proposal and sends it. Ends on "It's on its way" as the
-# organiser (account 0); the friend is account 1.
-- runFlow: fresh-account.yaml
-- openLink: critterpass-dev://crew/new
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-name'
-    timeout: 15000
-- tapOn:
-    id: 'start-crew-name'
-- inputText: 'Proposal Crew'
-# START THE CREW rides on top of the keyboard.
-- tapOn:
-    id: 'start-crew-create'
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-code'
-    timeout: 30000
-- copyTextFrom:
-    id: 'start-crew-code'
-# iOS copies the spoken label ("Crew code E 2 X …"): the code is its last six characters.
-- evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
-- tapOn:
-    id: 'start-crew-done'
+# Two new accounts on one phone, up to a sent proposal: the organiser starts as `draft_ready` (a
+# crew of one whose Đà Nẵng trip has its plan waiting in draft review) and keeps the crew's code; a
+# second new account joins with it; the organiser opens the draft from Home, builds the proposal
+# and sends it. Ends on "It's on its way" as the organiser (account 0); the friend is account 1.
+- runFlow:
+    file: ../../_shared/start-as.yaml
+    env:
+      SCENARIO: draft_ready
 
 # The friend: a second new account on this phone joins the crew with its code.
 - runFlow:
@@ -73,45 +55,30 @@ appId: app.critterpass.dev
       id: 'invite-code-screen'
     timeout: 30000
 
-# The organiser again (kept first): one place locked in, then setup to the guide's draft.
+# The organiser again (kept first).
 - runFlow:
     file: ../../proposal/subflows/switch-account.yaml
     env:
       TARGET: 'dev-accounts-switch-0'
+# With someone to send it to, the trip's step on Home is "send the plan": its button opens the
+# draft.
 - extendedWaitUntil:
     visible:
-      id: 'dev-tools-entry'
+      id: 'home-turn-send_plan'
     timeout: 60000
-- runFlow:
-    file: pitch-place.yaml
-    env:
-      QUERY: 'lisbon'
-- openLink: critterpass-dev://
 - scrollUntilVisible:
     element:
-      id: 'board-lock-in'
-    timeout: 30000
+      id: 'home-turn-button'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
     centerElement: true
-- waitForAnimationToEnd
 - tapOn:
-    id: 'board-lock-in'
+    id: 'home-turn-button'
 - extendedWaitUntil:
     visible:
-      id: 'reveal-set-up'
-    timeout: 60000
-- waitForAnimationToEnd
-- tapOn:
-    id: 'reveal-set-up'
-- extendedWaitUntil:
-    visible:
-      id: 'setup-step-when'
-    timeout: 20000
-- runFlow: ../../proposal/subflows/setup-to-draft.yaml
-# The draft job (outline, every day, checks) takes a few minutes on staging.
-- extendedWaitUntil:
-    visible:
-      id: 'draft-review'
-    timeout: 600000
+      id: 'draft-review|draft-propose'
+    timeout: 30000
 
 # BUILD THE PROPOSAL, then SEND to the one friend.
 - scrollUntilVisible:

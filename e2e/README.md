@@ -351,37 +351,54 @@ scenario (with its database test) when no existing one holds the state it needs.
 ## Release gate (happy paths)
 
 `e2e/happy/` holds one flow per user journey, each run end to end against **staging** with real
-sessions and data: every flow starts from a fresh install, onboards its own account through the
-api (`subflows/fresh-account.yaml`), takes a staging demo seed scenario when it needs a crew
-(`e2e/_shared/seed-demo.yaml`) and drives the rest through the app's real commands, asserting the
-journey's outcomes (the message sent and answered, the vote closed, the expense settled), not just
+sessions and data. Three walk a new user's whole way in, from a fresh install through the real
+screens: `fresh-home-trip` (first run → first trip), `fresh-join-code` (joining by code) and
+`fresh-trip-under-way` (a trip from the crew to the day it is on); `onboarding` covers the
+onboarding screens themselves. Every other flow starts from a seed scenario at the state it tests
+(`e2e/_shared/start-as.yaml`: the demo world's `everyday`, `inbox`, `caught_up`, `vote`,
+`vote_final`, or a crew's own `crew_with_code`, `draft_ready`, `draft_today`, `solo_today`,
+`solo_tomorrow`), so the onboarding → crew → vote → setup → draft walk runs once per journey and
+not once per flow. Friends a flow needs on the phone still join through the real screens. Each
+flow drives the rest through the app's real commands, asserting the journey's outcomes (the message sent and answered, the vote closed, the expense settled), not just
 that screens render. Nothing is mocked: the draft, the redraft and reading a pasted booking run on
 staging's AI, so those flows allow a few minutes for them.
 
-| Flow             | Journey                                                                          |
-| ---------------- | -------------------------------------------------------------------------------- |
-| `onboarding`     | fresh account → pass issued → Home, and the session survives a relaunch          |
-| `home-inbox`     | Home's countdown, plan progress, tip and bell → inbox → answer a card → undo     |
-| `chat`           | crew chat: send a message, a crewmate replies                                    |
-| `vote`           | pitch a place → board → vote → go to the final → vote → reveal                   |
-| `setup`          | from the reveal: dates → budget → rooms → must-dos → DRAFT MY TRIP               |
-| `drafting`       | setup, then the draft ready → private review → change a day → keep               |
-| `money`          | add an expense → balances → settle up (request, then confirm it arrived)         |
-| `bookings`       | paste a confirmation → candidate → ADD → wallet stack → the flight's details     |
-| `suppliers`      | activity cards → OPEN KLOOK → click recorded → the partner redirect              |
-| `fresh-wallet`   | no seed: crew of one → Money in VND → BOOKINGS/MONEY → forward address → SAVE    |
-| `fresh-join-code` | no seed: a second new account → splash "Got a code?" → JOIN → the pass asks for name and home → ISSUE → manifest |
-| `fresh-join-code-vi` | the same friend, reading the app in Vietnamese from the splash on |
-| `critters`       | fresh account → PASS Critterdex synced → FOUND empty → a set page → Explore at home kept after a relaunch |
-| `fresh-setup-vnd` | no seed: crew of one from Ho Chi Minh City (VND) → Đà Nẵng locked in → dates from tomorrow, 3 days → budget in ₫ locks first time → rooms |
-| `fresh-join-under-way` | no seed, four accounts: a trip from today confirmed → one joins with the crew code → on the trip (plan, split three ways); one who joined before the lock and never answered → JOIN THE TRIP on Home |
-| `fresh-trip-under-way` | no seed: crew of one from Ho Chi Minh City → Đà Nẵng from today, 3 days, budget in ₫ → draft → LOCK IT IN alone → Home and the TRIPS hub show the trip as on |
-| `fresh-uncurated-draft` | no seed: crew of one → Đà Lạt (open-data places only) two weeks out, 3 days, one typed must-do → the draft names a stop on every day → CHANGE A DAY redrafts day 2 → KEEP IT → Explore shows picks for Đà Lạt |
-| `fresh-trip-bookings` | on that trip: paste the flight and a stay → READY TO ADD → the forward address → a flight and an activity typed in by hand → wallet, details in airport time, hub count → delete leaves no card |
-| `fresh-trip-money` | on that trip: three typed expenses in ₫ → SPENT SO FAR, LATEST, history, detail, the budget on day 1 of 3 |
-| `fresh-trip-day` | on that trip: hub on day 1 of 3 → day-of screen (tomorrow's, then back to today) → pack list → background and reopen → relaunch → the briefing settles |
-| `fresh-trip-landing` | no seed: a trip from tomorrow, its flight today typed in by hand → I LANDED → Home turns to the trip being on |
-| `fresh-trip-plan` | on that trip: PLAN opens the trip map → day 1's plan → search → Add to plan → ADD → the stop moved to day 2 (all days shows it) → a place saved with ♡ in Ideas → the plan check → after a relaunch day 2 still has the stop |
+| Flow | Start | Journey |
+| --- | --- | --- |
+| `onboarding` | fresh install | name → avatar → taste → home → pass issued → Home, and the session survives a relaunch |
+| `fresh-home-trip` | fresh install | a crew under a long name → PITCH A PLACE → Home and the TRIPS hub with a trip still voting, in English and Vietnamese |
+| `fresh-join-code` | fresh install, twice | the organiser starts a crew → a second new account → splash "Got a code?" → JOIN → name and home → ISSUE → manifest |
+| `fresh-trip-under-way` | fresh install | crew of one from Ho Chi Minh City → Đà Nẵng from today, 3 days, budget in ₫ → draft → LOCK IT IN alone → Home and the TRIPS hub show the trip as on |
+| `home-inbox` | `inbox` | Home's countdown, plan progress, tip and bell → inbox → answer a card → undo |
+| `chat` | `everyday` | crew chat: send a message, a crewmate replies |
+| `guide-chat` | `everyday` | the guide sheet → a question → the streamed answer |
+| `vote` | `vote` | pitch a place → board → vote → go to the final → vote → reveal |
+| `setup` | `vote_final` | from the reveal: dates → budget → rooms → must-dos → DRAFT MY TRIP |
+| `drafting` | `vote_final` | setup, then the draft ready → private review → change a day → keep |
+| `money`, `by-share` | `caught_up` | add an expense → balances → settle up; an expense split by share |
+| `bookings` | `caught_up` | paste a confirmation → candidate → ADD → wallet stack → the flight's details |
+| `suppliers` | `caught_up` | activity cards → OPEN KLOOK → click recorded → the partner redirect |
+| `trip-day` | `caught_up` | hub → day-of → pack list tick → relaunch → offline card |
+| `critters` | `crew_with_code` | PASS Critterdex synced → FOUND empty → a set page → Explore at home kept after a relaunch |
+| `fresh-chat` | `crew_with_code` | a pitch and an expense post their cards → a text and a voice note in the chat |
+| `fresh-crew-chat-walk` | `crew_with_code` | the organiser's first message and a pitch → a friend joins in Vietnamese and reads, reacts, mentions → an expense card |
+| `fresh-guide-chat-walk` | `crew_with_code` | the guide chat in Vietnamese, then in English after a restart |
+| `fresh-join-code-vi` | `crew_with_code` | the friend of `fresh-join-code`, reading the app in Vietnamese from the splash on |
+| `da-nang-guide` | `crew_with_code` | Đà Nẵng pitched by Chà Vá → vote → final → setup → the guide sheet is Chà Vá's |
+| `fresh-setup` | `crew_with_code` | one place locked in → dates marked free by hand → locked → budget |
+| `fresh-setup-vnd` | `crew_with_code` | Đà Nẵng locked in → dates from tomorrow, 3 days → budget in ₫ locks first time → rooms |
+| `fresh-solo-confirm` | `crew_with_code` | one place → setup → the guide's draft → LOCK IT IN alone → Home counts down |
+| `fresh-wallet` | `crew_with_code` | a solo trip to Hội An → Money in VND → BOOKINGS/MONEY → forward address → an expense → SAVE |
+| `fresh-uncurated-draft` | `crew_with_code` | Đà Lạt (open-data places only) two weeks out, one typed must-do → a stop on every day → CHANGE A DAY → KEEP IT → Explore picks |
+| `fresh-proposal` | `draft_ready` | a friend joins → BUILD THE PROPOSAL → SEND → the friend boards from chat → the organiser locks in |
+| `fresh-dropout` | `draft_ready` | the same proposal → the friend boards, then drops out → APPLY CHANGES → locked alone |
+| `fresh-join-under-way` | `draft_today` | a friend boards → locked → a newcomer joins the trip under way (plan, ₫ split three ways); one who joined during the proposal → JOIN THE TRIP |
+| `fresh-trip-bookings` | `solo_today` | paste the flight and a stay → READY TO ADD → the forward address → a flight and an activity by hand → wallet, details in airport time, hub count → delete leaves no card |
+| `fresh-trip-money` | `solo_today` | three typed expenses in ₫ → SPENT SO FAR, LATEST, history, detail, the budget on day 1 of 3 |
+| `fresh-trip-day` | `solo_today` | hub on day 1 of 3 → day-of screen → pack list → background and reopen → relaunch → the briefing settles |
+| `fresh-trip-plan` | `solo_today` | PLAN → day 1's plan → search → ADD → moved to day 2 → a place saved in Ideas → the plan check → relaunch keeps it |
+| `fresh-critters` | `solo_today` | PASS → the egg → arriving hatches it → the critter and quest screens |
+| `fresh-trip-landing` | `solo_tomorrow` | its flight today typed in by hand → I LANDED → Home turns to the trip being on |
 
 The `happy` preset records every flow on video (`screenrecord` in three-minute segments on Android,
 `simctl io recordVideo` on iOS; `tools/scripts/ci-device/screen-video.ts`) and the publish job builds
@@ -409,13 +426,14 @@ some of the flows.
 
 ### Adding a flow
 
-1. Add `e2e/happy/<journey>.yaml`: start with `subflows/fresh-account.yaml` (with `SEED` set to a
-   `dev-seed-demo…` button when the journey needs the demo crew), reuse the area's own subflows,
+1. Add `e2e/happy/<journey>.yaml`: start with `../_shared/start-as.yaml` and the seed scenario
+   at the state the journey tests (a fresh install only when the way in is the journey), reuse
+   the area's own subflows,
    and assert each step's outcome with `extendedWaitUntil` on what the api's answer puts on screen.
    Name the file after the journey; the report shows that name.
-2. When the journey needs data no seed scenario makes (a trip mid-setup, a ready plan), add the
-   step to the demo seed (`services/api/src/dev/`, with its db test) and its button to the app's
-   Developer tools, or reach it through the app as `drafting.yaml` does.
+2. When the journey needs a state no seed scenario makes, add a start scenario
+   (`services/api/src/dev/scenarios.ts`, with its db test, and `DEMO_SCENARIOS` in the app), or
+   reach it through the app as `drafting.yaml` does.
 3. Run it: `gh workflow run device.yml -f preset=happy -f platform=android -f flows=e2e/happy/<journey>.yaml`.
 4. Add it to the table above.
 

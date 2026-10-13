@@ -1,19 +1,17 @@
 appId: app.critterpass.dev
 ---
-# A crew's first day in its chat, two brand-new accounts on one phone and no demo world. The
-# organiser (English) starts a crew, finds the empty chat, types the first message the moment the
-# field takes focus, and pitches a place so the crew's vote posts its card. A friend (Vietnamese)
-# joins with the crew code and reads the chat: the join line, a reply, a reaction, a mention, a long
-# message, one with Vietnamese diacritics (typed on iOS: the Android driver types ASCII only), the
-# keyboard opening and closing under the newest message, scrolling back and jumping to the latest,
-# and the attach menu. The organiser then logs an expense and opens its card from the chat.
-# Home is picked by its three-letter code: the shortest search for iPhone's typing to get through.
+# A crew's first day in its chat, two new accounts on one phone and no demo world. The organiser
+# (English) starts as `crew_with_code` (a crew of one), finds the empty chat, types the first
+# message the moment the field takes focus, and pitches a place so the crew's vote posts its card. A
+# friend (Vietnamese) joins with the crew code and reads the chat: the join line, a reply, a
+# reaction, a mention, a long message, one with Vietnamese diacritics (typed on iOS: the Android
+# driver types ASCII only), the keyboard opening and closing under the newest message, scrolling
+# back and jumping to the latest, and the attach menu. The organiser then logs an expense and opens
+# its card from the chat.
 - runFlow:
-    file: subflows/crew-with-code.yaml
+    file: ../_shared/start-as.yaml
     env:
-      CREW: 'Chat Walk Crew'
-      HOME_IATA: SIN
-      HOME_QUERY: 'SIN'
+      SCENARIO: crew_with_code
 - openLink:
     link: critterpass-dev://
     optional: true

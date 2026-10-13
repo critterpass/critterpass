@@ -7,17 +7,18 @@ env:
   ADD_QUERY: 'cafe'
   SAVE_QUERY: 'Han Market'
 ---
-# Release gate: a brand-new traveller plans on her own trip, with no demo world
-# (subflows/trip-under-way.yaml: a trip to Đà Nẵng that started today). PLAN opens the trip map;
-# day 1 at half opens the day plan; its add bar searches "cafe" and takes the first row it can
-# add, Add to plan says where it goes and ADD puts it on the day, named by its place. Its sheet
-# moves it to day 2, and all days shows it there. A place page's ♡ saves another place, and Ideas lists it. The plan check opens.
-# After a relaunch, day 2's plan still shows the moved stop. Every outcome is the server's answer on
-# screen: the stop and the idea are found by the names the app showed when they were picked.
+# Release gate: a traveller plans on her own trip, started as `solo_today` (a crew of one on a trip
+# to Đà Nẵng that started today, with a plan of curated places). PLAN opens the trip map; day 1 at
+# half opens the day plan; its add bar searches "cafe" and takes the first row it can add, Add to
+# plan says where it goes and ADD puts it on the day, named by its place. Its sheet moves it to day
+# 2, and all days shows it there. A place page's ♡ saves another place, and Ideas lists it. The plan
+# check opens. After a relaunch, day 2's plan still shows the moved stop. Every outcome is the
+# server's answer on screen: the stop and the idea are found by the names the app showed when they
+# were picked.
 - runFlow:
-    file: subflows/trip-under-way.yaml
+    file: ../_shared/start-as.yaml
     env:
-      SHOTS: plan
+      SCENARIO: solo_today
 - openLink:
     link: critterpass-dev://
     optional: true

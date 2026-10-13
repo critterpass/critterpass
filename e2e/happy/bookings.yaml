@@ -1,14 +1,14 @@
 appId: app.critterpass.dev
 ---
-# Release gate: adding a booking by pasting its confirmation. A fresh account takes the staging
+# Release gate: adding a booking by pasting its confirmation. A new account starts with the staging
 # demo crew's Bali trip; the pasted flight confirmation goes to the api, the guide reads it into a
-# candidate, ADD files it, the wallet stack shows the flight card, and its details show the reference. A pasted
-# confirmation carries no boarding pass barcode (the pass comes from scanning it at check-in), so
-# the card offers no pass.
+# candidate, ADD files it, the wallet stack shows the flight card, and its details show the
+# reference. A pasted confirmation carries no boarding pass barcode (the pass comes from scanning it
+# at check-in), so the card offers no pass.
 - runFlow:
-    file: subflows/fresh-account.yaml
+    file: ../_shared/start-as.yaml
     env:
-      SEED: dev-seed-demo-caught-up
+      SCENARIO: caught_up
 # The Wallet tab opens on Money; Bookings opens by its link.
 - openLink: critterpass-dev://wallet/bookings/add
 - extendedWaitUntil:

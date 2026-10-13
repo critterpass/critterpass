@@ -1,37 +1,16 @@
 appId: app.critterpass.dev
 ---
-# Release gate: a Vietnamese crew's first trip, with no demo world. A fresh account whose home is
-# Ho Chi Minh City starts a crew (which settles in VND), pitches Đà Nẵng and locks it in, and sets
-# the trip up the way the first real crew did: starting tomorrow, three days long, picked by hand
-# on the dates step. The budget step then prices and steps in đồng, LOOKS GOOD locks first time
-# (no retry, no skip) and setup moves on.
+# Release gate: a Vietnamese crew's first trip, with no demo world. A new account whose home is Ho
+# Chi Minh City starts as `crew_with_code` (a crew of one, which settles in VND), pitches Đà Nẵng
+# and locks it in, and sets the trip up the way the first real crew did: starting tomorrow, three
+# days long, picked by hand on the dates step. The budget step then prices and steps in đồng, LOOKS
+# GOOD locks first time (no retry, no skip) and setup moves on.
 #
 # Data: staging with the Đà Nẵng destination.
 - runFlow:
-    file: subflows/fresh-account.yaml
+    file: ../_shared/start-as.yaml
     env:
-      HOME_IATA: SGN
-      HOME_QUERY: 'Ho Chi'
-- runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
-    env:
-      URL: critterpass-dev://crew/new
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-name'
-    timeout: 15000
-- tapOn:
-    id: 'start-crew-name'
-- inputText: 'Da Nang crew'
-# START THE CREW rides on top of the keyboard.
-- tapOn:
-    id: 'start-crew-create'
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-done'
-    timeout: 30000
-- tapOn:
-    id: 'start-crew-done'
+      SCENARIO: crew_with_code
 - extendedWaitUntil:
     visible:
       id: 'home-no-trip'

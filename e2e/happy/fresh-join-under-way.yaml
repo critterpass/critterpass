@@ -1,7 +1,8 @@
 appId: app.critterpass.dev
 ---
-# Release gate: a friend joins a trip that is already under way. Four brand-new accounts on one
-# phone, no demo world. The organiser starts a crew and a trip to Da Nang whose first day is today;
+# Release gate: a friend joins a trip that is already under way. Four new accounts on one phone,
+# no demo world. The organiser starts as `draft_today` (a crew of one whose Đà Nẵng trip, first day
+# today, has its plan waiting in draft review);
 # one friend joins with the crew code before the proposal, boards it, and the organiser locks the
 # crew in. Then another new account joins with the same crew code: the trip is confirmed and, from
 # noon in Da Nang, under way. Their Home, trip hub, plan and crew chat are captured, the organiser
@@ -9,31 +10,12 @@ appId: app.critterpass.dev
 # once the trip has started. The newcomer is on the trip: the plan opens and the expense is theirs
 # to share. A fourth account joins earlier, while the proposal is out, and never answers it: after
 # the lock their Home has the JOIN THE TRIP card, and the tap puts them on the trip.
-# Today on the trip's clock (Da Nang, UTC+7): the id of its cell in the week picker and the lock
-# button that names it.
-- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); output.joinPickDate = d.toISOString().slice(0, 10); output.lockToday = '(?i)lock \\S+ ' + d.getUTCDate() + '\\D.*'; output.afterNoon = d.getUTCHours() >= 12}
-- runFlow: subflows/fresh-account.yaml
-- openLink: critterpass-dev://crew/new
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-name'
-    timeout: 15000
-- tapOn:
-    id: 'start-crew-name'
-- inputText: 'Da Nang Crew'
-# START THE CREW rides on top of the keyboard.
-- tapOn:
-    id: 'start-crew-create'
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-code'
-    timeout: 30000
-- copyTextFrom:
-    id: 'start-crew-code'
-# iOS copies the spoken label ("Crew code E 2 X …"): the code is its last six characters.
-- evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
-- tapOn:
-    id: 'start-crew-done'
+# Whether it is past noon on the trip's clock (Da Nang, UTC+7), when the trip turns under way.
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); output.afterNoon = d.getUTCHours() >= 12}
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: draft_today
 
 # The friend: a second new account on this phone joins the crew with its code.
 # The switch goes through Developer tools from a cold start; a tap that lands mid-launch is
@@ -85,7 +67,7 @@ appId: app.critterpass.dev
       id: 'invite-code-screen'
     timeout: 30000
 
-# The organiser again (kept first): one place locked in, then setup to the guide's draft.
+# The organiser again (kept first).
 - retry:
     maxRetries: 1
     commands:
@@ -93,66 +75,25 @@ appId: app.critterpass.dev
           file: ../proposal/subflows/switch-account.yaml
           env:
             TARGET: 'dev-accounts-switch-0'
+# With someone to send it to, the trip's step on Home is "send the plan": its button opens the
+# draft.
 - extendedWaitUntil:
     visible:
-      id: 'dev-tools-entry'
+      id: 'home-turn-send_plan'
     timeout: 60000
-- runFlow:
-    file: subflows/pitch-place.yaml
-    env:
-      QUERY: 'da nang'
-- openLink: critterpass-dev://
 - scrollUntilVisible:
     element:
-      id: 'board-lock-in'
-    timeout: 30000
+      id: 'home-turn-button'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
     centerElement: true
-- waitForAnimationToEnd
 - tapOn:
-    id: 'board-lock-in'
+    id: 'home-turn-button'
 - extendedWaitUntil:
     visible:
-      id: 'reveal-set-up'
-    timeout: 60000
-- waitForAnimationToEnd
-- tapOn:
-    id: 'reveal-set-up'
-- extendedWaitUntil:
-    visible:
-      id: 'setup-step-when'
-    timeout: 20000
-# The dates: a week that starts today, picked by hand (the crew's best window aims at the place's
-# season, weeks away). The sheet opens on the month of that window, which can be a later one:
-# pick-days.yaml turns it to today's month and taps today and the day six after by their dates.
-# The lock button names the week, which proves the taps.
-- extendedWaitUntil:
-    visible:
-      id: 'when-pick-week'
+      id: 'draft-review|draft-propose'
     timeout: 30000
-- tapOn:
-    id: 'when-pick-week'
-- runFlow:
-    file: subflows/pick-days.yaml
-    env:
-      PICK_DATE: ${output.joinPickDate}
-      PICK_DAYS: 7
-- waitForAnimationToEnd
-- takeScreenshot: en-join-under-way-dates-from-today
-- assertVisible: ${output.lockToday}
-- tapOn:
-    id: 'picker-lock'
-- extendedWaitUntil:
-    visible:
-      id: 'budget-lock'
-    timeout: 30000
-# The rest of setup (budget skipped, rooms, one must-do, DRAFT MY TRIP): the shared steps skip
-# their own dates step once the budget step is up.
-- runFlow: ../proposal/subflows/setup-to-draft.yaml
-# The draft job (outline, every day, checks) takes a few minutes on staging.
-- extendedWaitUntil:
-    visible:
-      id: 'draft-review'
-    timeout: 600000
 
 # BUILD THE PROPOSAL, then SEND to the one friend.
 - scrollUntilVisible:
@@ -586,16 +527,16 @@ appId: app.critterpass.dev
     visible:
       id: 'money-add-keypad'
     timeout: 10000
-# 9 then the 000 key: S$90.00, each key by its id (a digit's text also matches the amount's own
-# digits).
+# 9 then the 000 key: ₫9,000 (the crew settles in đồng), each key by its id (a digit's text also
+# matches the amount's own digits).
 - tapOn:
     id: 'money-add-keypad-key-9'
 - tapOn:
     id: 'money-add-keypad-key-000'
-# EVENLY splits between everyone on the trip: PAID BY shows each of them, and S$90 three ways
-# reads "S$ 30.00 each" (two people would read 45.00, four 22.50).
+# EVENLY splits between everyone on the trip: PAID BY shows each of them, and ₫9,000 three ways
+# reads "₫3,000 each" (two people would read 4,500, four 2,250).
 - extendedWaitUntil:
-    visible: '.*30\.00 each.*'
+    visible: '.*3,000 each.*'
     timeout: 20000
     optional: true
 - waitForAnimationToEnd
@@ -612,7 +553,7 @@ appId: app.critterpass.dev
 - evalScript: ${output.threeWays = false}
 - runFlow:
     when:
-      visible: '.*30\.00 each.*'
+      visible: '.*3,000 each.*'
     commands:
       - evalScript: ${output.threeWays = true}
 - tapOn:

@@ -1,19 +1,23 @@
 appId: app.critterpass.dev
 ---
-# Release gate: a trip to a destination our editors have not curated, with no demo world. A fresh
-# account from Ho Chi Minh City starts a crew of one, pitches Đà Lạt and locks it in, sets the
-# trip up two weeks out for three days with one must-do typed by hand, and has the guide draft it
-# (subflows/trip-under-way.yaml, stopped on the private review). Đà Lạt has open-data places only,
-# so the draft is built from its machine picks: every day of the review names a stop (no day
-# reads "Nothing booked, on purpose"). CHANGE A DAY redrafts day 2 for a reason and KEEP IT puts
-# the new day in the draft, still with a stop on every day. The destination's Explore page then
+# Release gate: a trip to a destination our editors have not curated, with no demo world. A new
+# account from Ho Chi Minh City starts as `crew_with_code` (a crew of one), pitches Đà Lạt and locks
+# it in, sets the trip up two weeks out for three days with one must-do typed by hand, and has the
+# guide draft it (subflows/trip-under-way.yaml, stopped on the private review). Đà Lạt has open-data
+# places only, so the draft is built from its machine picks: every day of the review names a stop
+# (no day reads "Nothing booked, on purpose"). CHANGE A DAY redrafts day 2 for a reason and KEEP IT
+# puts the new day in the draft, still with a stop on every day. The destination's Explore page then
 # shows picks for it. Staging's AI drafts and redrafts, so both waits allow a few minutes.
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: crew_with_code
 - runFlow:
     file: subflows/trip-under-way.yaml
     env:
+      FROM_HOME: 'yes'
       SHOTS: uncurated
       START_OFFSET_DAYS: 14
-      CREW_NAME: 'Da Lat crew'
       DESTINATION_QUERY: 'da lat'
       MUST_DO: 'Banh can for breakfast'
       STOP_AT_DRAFT: 'yes'

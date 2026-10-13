@@ -1,24 +1,16 @@
 appId: app.critterpass.dev
 ---
-# Critters and quests as a brand-new traveller meets them, no demo world: a fresh account (home
-# Ho Chi Minh City) allows location on the way in, starts a crew of one, locks a Đà Nẵng trip in
-# for today → today+2, and then walks everything the app says about critters and quests, in the
-# order a traveller meets it. Every state is captured; the few assertions are the ones the journey
-# cannot go on without.
+# Critters and quests as a first-time traveller meets them, no demo world: a new account (home
+# Ho Chi Minh City, location allowed as the runner grants it) starts as `solo_today`, a crew of one
+# on a Đà Nẵng trip that is on today → today+2, and then walks everything the app says about
+# critters and quests, in the order a traveller meets it. Every state is captured; the few
+# assertions are the ones the journey cannot go on without.
 #
-# Data: staging with the Đà Nẵng destination and its critter set. The trip goes under way at the
-# first lifecycle sweep after noon in Vietnam, so a run before noon there stops at the wait.
-- runFlow: subflows/fresh-install.yaml
+# Data: staging with the Đà Nẵng destination and its critter set.
 - runFlow:
-    file: subflows/fresh-critters-onboard.yaml
+    file: ../_shared/start-as.yaml
     env:
-      HOME_IATA: SGN
-      HOME_QUERY: 'Ho Chi'
-- extendedWaitUntil:
-    visible:
-      id: 'dev-tools-entry'
-    timeout: 30000
-# Before any trip: what the PASS tab shows a traveller with nothing yet.
+      SCENARIO: solo_today
 - tapOn:
     id: 'tab-pass'
 - extendedWaitUntil:
@@ -26,21 +18,7 @@ appId: app.critterpass.dev
       id: 'critters-dex-header'
     timeout: 60000
 - waitForAnimationToEnd
-- takeScreenshot: fresh-critters-05-pass-no-trip
-- tapOn:
-    id: 'tab-home'
-- runFlow: subflows/fresh-critters-trip.yaml
-- waitForAnimationToEnd
-- takeScreenshot: fresh-critters-06-home-locked
-# Right after locking in: is there an egg anywhere yet?
-- tapOn:
-    id: 'tab-pass'
-- extendedWaitUntil:
-    visible:
-      id: 'critters-dex-header'
-    timeout: 30000
-- waitForAnimationToEnd
-- takeScreenshot: fresh-critters-07-pass-after-lock
+- takeScreenshot: fresh-critters-07-pass-on-trip
 # The egg card follows the trip: it shows once the worker's sweep (every ten minutes) has moved
 # the trip towards its start.
 - extendedWaitUntil:

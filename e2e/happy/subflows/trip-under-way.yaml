@@ -7,39 +7,47 @@ appId: app.critterpass.dev
 # ends on the screen the lock leaves the traveller on. ${SHOTS} prefixes the screenshots;
 # ${START_OFFSET_DAYS} (optional) starts the trip that many days from today instead, and
 # ${CREW_NAME} (optional) names the crew. The crew's join code is left in ${output.crewCode}.
+# ${FROM_HOME} 'yes' starts on Home with the crew already made (`_shared/start-as.yaml` with
+# `crew_with_code`) instead of a new account.
 # ${DESTINATION_QUERY} (optional) is what is typed to find the place to pitch (Đà Nẵng when unset)
 # and ${MUST_DO} (optional) the must-do typed in; ${STOP_AT_DRAFT} set to 'yes' ends the flow on
 # the private draft review instead of locking the plan in.
+# A new account and its crew, unless the flow started as `crew_with_code` (${FROM_HOME} 'yes'),
+# which leaves the code in ${output.crewCode} itself.
 - runFlow:
-    file: fresh-account.yaml
-    env:
-      HOME_IATA: SGN
-      HOME_QUERY: 'Ho Chi'
-- runFlow:
-    file: ../../screens/sweep/subflows/open-link.yaml
-    env:
-      URL: critterpass-dev://crew/new
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-name'
-    timeout: 15000
-- tapOn:
-    id: 'start-crew-name'
-- inputText: ${typeof CREW_NAME === 'undefined' || CREW_NAME === '' ? 'Da Nang crew' :CREW_NAME}
-- hideKeyboard
-- tapOn:
-    id: 'start-crew-create'
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-done'
-    timeout: 30000
-# The crew's join code, for flows that bring a second account onto the trip (iOS copies the spoken
-# label, "Crew code E 2 X …": the code is its last six characters).
-- copyTextFrom:
-    id: 'start-crew-code'
-- evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
-- tapOn:
-    id: 'start-crew-done'
+    when:
+      true: ${typeof FROM_HOME === 'undefined' || FROM_HOME !== 'yes'}
+    commands:
+      - runFlow:
+          file: fresh-account.yaml
+          env:
+            HOME_IATA: SGN
+            HOME_QUERY: 'Ho Chi'
+      - runFlow:
+          file: ../../screens/sweep/subflows/open-link.yaml
+          env:
+            URL: critterpass-dev://crew/new
+      - extendedWaitUntil:
+          visible:
+            id: 'start-crew-name'
+          timeout: 15000
+      - tapOn:
+          id: 'start-crew-name'
+      - inputText: ${typeof CREW_NAME === 'undefined' || CREW_NAME === '' ? 'Da Nang crew' :CREW_NAME}
+      - hideKeyboard
+      - tapOn:
+          id: 'start-crew-create'
+      - extendedWaitUntil:
+          visible:
+            id: 'start-crew-done'
+          timeout: 30000
+      # The crew's join code, for flows that bring a second account onto the trip (iOS copies the
+      # spoken label, "Crew code E 2 X …": the code is its last six characters).
+      - copyTextFrom:
+          id: 'start-crew-code'
+      - evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
+      - tapOn:
+          id: 'start-crew-done'
 - extendedWaitUntil:
     visible:
       id: 'home-no-trip'
