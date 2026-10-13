@@ -8,12 +8,12 @@ msgstr ""
 "Language: nl\n"
 
 #. placeholder {0}: shown(item.amountMinor, item.currency)
-#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.costEach"
 msgstr ""
 
 #. placeholder {0}: shown(item.amountMinor, item.currency)
-#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.costGroup"
 msgstr ""
 
@@ -60,11 +60,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.hoursMinutes"
-msgstr ""
-
-#. placeholder {0}: clock(locale, value)
-#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
-msgid "plan.day.time.pick"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/late-entry.tsx
@@ -115,27 +110,18 @@ msgstr ""
 msgid "plan.edit.addedOne"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
-msgid "plan.day.item.booking"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.edit.undoLate"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.changeConfirm"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
-msgid "plan.day.item.cost"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.unavailableToast"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.item.dayChip"
 msgstr ""
@@ -144,74 +130,28 @@ msgstr ""
 msgid "plan.edit.daysReordered"
 msgstr ""
 
-#. placeholder {0}: at(checkIn.leftAt)
-#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
-msgid "plan.day.stop.doneAt"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/day/stop-check-in.ts
 msgid "plan.day.stop.queued.done"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
-msgid "plan.day.stop.done"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
-msgid "plan.day.time.earlier"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
-msgid "plan.day.time.ends"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
-msgid "plan.day.item.everyone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.fitsDay"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.costFree"
-msgstr ""
-
-#. placeholder {0}: at(checkIn.arrivedAt)
-#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
-msgid "plan.day.stop.hereSince"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
-msgid "plan.day.item.placeDetail"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
-msgid "plan.day.stop.here"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.day.proposedLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.removeLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.removeLineSolo"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
-msgid "plan.day.item.justYou"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
-msgid "plan.day.time.later"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
-msgid "plan.day.item.moveTo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
@@ -231,12 +171,8 @@ msgstr ""
 msgid "plan.day.reason.moved"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.costUnknown"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
-msgid "plan.day.item.notes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
@@ -255,10 +191,6 @@ msgstr ""
 msgid "plan.retime.onDay"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
-msgid "plan.day.item.maps"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.lockedLine"
 msgstr ""
@@ -267,17 +199,13 @@ msgstr ""
 msgid "plan.day.mustDoLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.removeConfirm"
 msgstr ""
 
 #. placeholder {0}: item.title
-#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.removeTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
-msgid "plan.day.item.remove"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
@@ -292,10 +220,6 @@ msgstr ""
 msgid "plan.day.late.label"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
-msgid "plan.day.item.save"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.edit.see"
 msgstr ""
@@ -304,27 +228,11 @@ msgstr ""
 msgid "plan.day.proposedToast"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
-msgid "plan.day.item.skip"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
-msgid "plan.day.stop.skip"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
-msgid "plan.day.item.skipSolo"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
-msgid "plan.day.stop.skipSolo"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
 msgid "plan.day.skippedToast"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.lockedLine"
 msgstr ""
 
@@ -332,26 +240,8 @@ msgstr ""
 msgid "plan.day.conflictSomeone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.pinnedLine"
-msgstr ""
-
-#. placeholder {0}: clock(locale, useStart)
-#: ../../apps/mobile/src/features/plan/day/sheet-foot.tsx
-msgid "plan.day.item.useStart"
-msgstr ""
-
-#. placeholder {0}: clock(locale, early.start)
-#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
-msgid "plan.day.stop.startNow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
-msgid "plan.day.time.starts"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
-msgid "plan.day.item.suggest"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
@@ -382,11 +272,11 @@ msgstr ""
 msgid "plan.day.mustDoToast"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.bookedLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.memberLine"
 msgstr ""
 
@@ -402,20 +292,16 @@ msgstr ""
 msgid "plan.day.conflictLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.lockedTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.bookedTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.pinnedTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
-msgid "plan.day.item.bookingLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
@@ -434,19 +320,7 @@ msgstr ""
 msgid "plan.edit.undone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
-msgid "plan.day.item.suggestionLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
-msgid "plan.day.item.when"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
-msgid "plan.day.item.who"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+#: ../../apps/mobile/src/features/plan/day/item-words.ts
 msgid "plan.day.item.mustDoMineLine"
 msgstr ""
 

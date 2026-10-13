@@ -15,7 +15,6 @@ msgstr ""
 msgid "album.upload.failed"
 msgstr "{failed, plural, other {# foto tidak dimuat naik.}}"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
 #: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.noteLeft"
 msgstr "Tinggal {left} aksara"
@@ -49,7 +48,6 @@ msgid "album.upload.progress"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.byline"
 msgstr "{uploader} · {time}"
 
@@ -57,12 +55,10 @@ msgstr "{uploader} · {time}"
 msgid "album.upload.waiting"
 msgstr "{waiting, plural, other {# foto menunggu sambungan. Ia akan dimuat naik sendiri.}}"
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.upload"
 msgstr "+ Muat naik"
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
@@ -86,15 +82,11 @@ msgstr "Satu foto keluar dari kegemaran"
 msgid "album.queued.report"
 msgstr "Satu foto dilaporkan"
 
-#: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
-msgid "album.tile.pick"
-msgstr "Kegemaran, daripada {uploaderName}"
-
 #: ../../apps/mobile/src/features/album/inbox-renderers.ts
 msgid "album.inbox.received.plain"
 msgstr "Poskad untuk anda"
 
-#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+#: ../../apps/mobile/src/features/album/premium/received-scene.tsx
 msgid "album.received.title"
 msgstr "Poskad untuk anda"
 
@@ -111,16 +103,13 @@ msgid "album.inbox.address.body"
 msgstr "Tambah alamat. Hanya pencetak yang nampak, kru anda tidak pernah."
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.meOff"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.empty.add"
 msgstr "Tambah foto"
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.empty.line"
 msgstr "Tambah foto perjalanan dan seluruh kru dapat melihatnya. Foto sahaja, tiada video. Percuma, selamanya."
@@ -138,16 +127,10 @@ msgstr ""
 msgid "album.premium.all"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
-msgid "album.all"
-msgstr "Semua · {total}"
-
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.sent"
 msgstr "Di pencetak"
 
-#: ../../apps/mobile/src/features/album/grid/album-missing.tsx
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.back"
 msgstr "Kembali"
@@ -156,12 +139,10 @@ msgstr "Kembali"
 msgid "album.premium.missing.back"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.best"
 msgstr "Terbaik · {picks}"
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.byPerson"
 msgstr "Ikut orang"
@@ -174,16 +155,10 @@ msgstr ""
 msgid "album.queued.postcardEdit"
 msgstr "Perubahan pada poskad anda"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.countryPick"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
-msgid "album.postcard.front"
-msgstr "Pilih foto"
-
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.city"
 msgstr "Bandar"
@@ -209,7 +184,6 @@ msgid "album.image.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.failed"
 msgstr ""
 
@@ -241,12 +215,10 @@ msgstr "Poskad tidak dapat disimpan"
 msgid "album.postcard.sendFailed"
 msgstr "Tidak dapat dihantar. Cuba lagi"
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export.failed"
 msgstr "Tidak dapat dimampatkan. Cuba lagi"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.countryLabel"
 msgstr ""
@@ -273,27 +245,22 @@ msgid "album.day.themed"
 msgstr "Hari {day} · {theme}"
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.delete"
 msgstr "Padam"
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.delete.confirm"
 msgstr "Padam"
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.delete.title"
 msgstr "Padam foto ini?"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
-#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
+#: ../../apps/mobile/src/features/album/premium/received-scene.tsx
 msgid "album.postcard.close"
 msgstr "Selesai"
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export"
 msgstr "Muat turun semua"
@@ -302,12 +269,10 @@ msgstr "Muat turun semua"
 msgid "album.premium.postcard.editNote"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.line2"
 msgstr "Unit, tingkat (pilihan)"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.why"
 msgstr "Untuk poskad bercetak daripada kru anda. Hanya pencetak yang nampak; kru dan pemandu tidak pernah."
@@ -316,7 +281,7 @@ msgstr "Untuk poskad bercetak daripada kru anda. Hanya pencetak yang nampak; kru
 msgid "album.premium.postcard.format"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+#: ../../apps/mobile/src/features/album/premium/received-scene.tsx
 msgid "album.received.from"
 msgstr "Daripada {sender}"
 
@@ -328,22 +293,16 @@ msgstr ""
 msgid "album.premium.postcard.greetings"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
-msgid "album.postcard.greetings"
-msgstr "Salam dari"
-
 #: ../../apps/mobile/src/features/album/premium/route-missing.tsx
 msgid "album.premium.missing.homeAction"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.curating"
 msgstr "Saya sedang menyemak foto. Kegemaran saya tiba di sini tidak lama lagi."
 
-#: ../../apps/mobile/src/features/album/people/who-sheet.tsx
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
+#: ../../apps/mobile/src/features/album/premium/who-sheet.tsx
 msgid "album.who.me"
 msgstr "Saya ada dalam ini"
 
@@ -352,17 +311,14 @@ msgid "album.mail.status.shipped"
 msgstr "Dalam pos"
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.who"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.gone.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.delete.line"
 msgstr "Ia keluar dari album untuk seluruh kru, bersama kegemaran dan tagnya."
 
@@ -379,7 +335,6 @@ msgid "album.postcard.eyebrow"
 msgstr "Kad terakhir"
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.loading"
 msgstr ""
 
@@ -387,12 +342,10 @@ msgstr ""
 msgid "album.postcard.loading"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.mail"
 msgstr "Poskan yang sebenar kepada setiap seorang"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.name"
 msgstr "Nama pada kad"
@@ -421,36 +374,30 @@ msgstr "Perlu isyarat untuk memampatkan album"
 msgid "album.day.undated"
 msgstr "Tiada tarikh"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
 #: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.noPhoto"
 msgstr "Tiada foto"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
 #: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.noPhotos"
 msgstr "Belum ada foto dalam album, jadi bahagian depan guna warna pemandu."
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.empty.title"
 msgstr "Belum ada foto"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.offlineLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.solo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+#: ../../apps/mobile/src/features/album/premium/who-sheet.tsx
 msgid "album.who.nobody"
 msgstr "Belum ada yang kata mereka dalam foto ini."
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.people.none"
 msgstr ""
@@ -460,7 +407,6 @@ msgid "album.premium.missing.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
-#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
 msgid "album.upload.dismiss"
 msgstr ""
 
@@ -473,29 +419,21 @@ msgid "album.inbox.received.body"
 msgstr "Buka dan baca bahagian belakang."
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.gone.open"
 msgstr ""
-
-#: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
-msgid "album.tile.hint"
-msgstr "Membuka foto. Tekan lama untuk melihat siapa dalam foto"
 
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.queued"
 msgstr "Ditempah"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.mailing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.report.line"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.passPlus"
 msgstr "Pass+"
@@ -504,18 +442,11 @@ msgstr "Pass+"
 msgid "album.postcard.photoCaption"
 msgstr "foto · {uploader}"
 
-#: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
-msgid "album.tile.photo"
-msgstr "Foto daripada {uploaderName}"
-
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/hub-tile.tsx
-#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.title"
 msgstr "Foto"
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.pickOff"
 msgstr ""
 
@@ -524,11 +455,9 @@ msgid "album.premium.postcard.pickPhoto"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.pickOn"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.format.classic"
 msgstr "Poskad"
@@ -537,12 +466,10 @@ msgstr "Poskad"
 msgid "album.postcard.kept"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.postal"
 msgstr "Poskod"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.format.square"
 msgstr "Poster"
@@ -559,42 +486,30 @@ msgstr "Poskad bercetak"
 msgid "album.postcard.passPlusOnly"
 msgstr "Poskad bercetak datang dengan Pass+"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
-msgid "album.postcard.backLabel"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.removeConfirm"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.remove"
 msgstr "Buang alamat saya"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.removeTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.report"
 msgstr "Laporkan"
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.report.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.save"
 msgstr "Simpan"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.save"
 msgstr "Simpan alamat"
@@ -623,12 +538,11 @@ msgstr "Hantar ke rumah"
 msgid "album.postcard.open"
 msgstr "Hantar ke rumah"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.send"
 msgstr "Hantar kepada kru"
 
-#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+#: ../../apps/mobile/src/features/album/premium/received-scene.tsx
 msgid "album.received.own"
 msgstr "Hantar poskad anda"
 
@@ -641,26 +555,21 @@ msgid "album.postcard.sentBefore"
 msgstr "Dihantar kepada kru. Hantar lagi bila-bila masa"
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.share"
 msgstr "Kongsi"
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.segments"
 msgstr "Tunjuk"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.region"
 msgstr "Negeri atau wilayah (pilihan)"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.postcard.format.story"
 msgstr "Story 9:16"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.line1"
 msgstr "Jalan dan nombor"
@@ -668,10 +577,6 @@ msgstr "Jalan dan nombor"
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.delete"
 msgstr "Mengeluarkan foto dari album"
-
-#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
-msgid "album.postcard.noteEmpty"
-msgstr "Ketik untuk menulis nota…"
 
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.reported"
@@ -681,12 +586,10 @@ msgstr "Terima kasih. Pasukan kami akan menyemaknya."
 msgid "album.tile.crew"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
 #: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.photoTitle"
 msgstr "Bahagian depan"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
 #: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.noteTitle"
 msgstr "Nota"
@@ -709,7 +612,6 @@ msgid "album.premium.missing.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.gone.title"
 msgstr ""
 
@@ -721,7 +623,6 @@ msgstr "Perjalanan ini sudah ada poskad bercetaknya"
 msgid "album.address.long"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.back"
 msgstr ""
@@ -731,7 +632,6 @@ msgid "album.premium.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
-#: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.retry"
 msgstr ""
 
@@ -740,16 +640,13 @@ msgid "album.upload.pickFailedLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
-#: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
 msgid "album.upload.retry"
 msgstr "Cuba semula yang gagal"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
 #: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.noteDone"
 msgstr "Guna nota ini"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-sheets.tsx
 #: ../../apps/mobile/src/features/album/premium/postcard-sheets.tsx
 msgid "album.postcard.photoOption"
 msgstr "Guna foto ini"
@@ -758,15 +655,10 @@ msgstr "Guna foto ini"
 msgid "album.mail.missing"
 msgstr "Kami minta mereka tambah alamat. Kad mereka dihantar sebaik mereka berbuat begitu"
 
-#: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+#: ../../apps/mobile/src/features/album/premium/who-sheet.tsx
 msgid "album.who.title"
 msgstr "Siapa dalam foto"
 
-#: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
-msgid "album.postcard.back"
-msgstr "Tulis nota"
-
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.savedIn"
 msgstr ""
@@ -779,12 +671,10 @@ msgstr "Anda ada dalam foto"
 msgid "album.queued.untag"
 msgstr "Anda tiada dalam foto"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.title"
 msgstr "Alamat anda"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 #: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.removeLine"
 msgstr ""
@@ -805,7 +695,6 @@ msgstr "Poskad bercetak anda dalam pos"
 msgid "album.inbox.mailing.failed"
 msgstr "Poskad bercetak anda tidak dapat dibuat. Hantaran perjalanan ini kosong semula."
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export.open"
 msgstr ""
@@ -814,7 +703,6 @@ msgstr ""
 msgid "album.export.started"
 msgstr ""
 
-#: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.export.asking"
 msgstr "Memampatkan album…"

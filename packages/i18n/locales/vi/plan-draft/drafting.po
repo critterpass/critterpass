@@ -7,15 +7,15 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.title"
 msgstr "{days, plural, other {{guideName} đang lên nháp # ngày của bạn}}"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.offline"
 msgstr "{days, plural, other {Có sóng lại là mình bắt tay vào # ngày của bạn ngay.}}"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.failedTitle"
 msgstr "{guideName} chưa làm xong"
 
@@ -63,10 +63,6 @@ msgstr "Đang xem giờ mở cửa"
 msgid "planDraft.working.season"
 msgstr "Đang xem mùa"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.leave"
-msgstr "Để sau quay lại"
-
 #: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
 msgid "planDraft.dayCard"
 msgstr "Ngày {n} · {theme}"
@@ -75,11 +71,7 @@ msgstr "Ngày {n} · {theme}"
 msgid "planDraft.dayCard.outlined"
 msgstr "Ngày {n} · đã phác xong"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.again"
-msgstr "Lên nháp lại"
-
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.stoppedTitle"
 msgstr "Đã dừng bản nháp"
 
@@ -87,7 +79,7 @@ msgstr "Đã dừng bản nháp"
 msgid "planDraft.step.food"
 msgstr "Đang tìm đồ ăn {dietary} cho {name}"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.blocked"
 msgstr "Mình chưa bắt đầu được. Xong phần chuẩn bị rồi thử lại nhé."
 
@@ -99,19 +91,19 @@ msgstr "Mình không mở được sổ tay. Thử lại nhé."
 msgid "planDraft.fail.places"
 msgstr "Mình chưa biết đủ chỗ ở đó."
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.noDates"
 msgstr "Chốt ngày trước đã, rồi mình lên nháp."
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.failed"
 msgstr "Chưa ai thấy và chưa tốn gì. Để mình thử lại nhé?"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.stopped"
 msgstr "Chưa ai thấy. Muốn lúc nào thì bắt đầu lại."
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.blockedTitle"
 msgstr "Chưa sẵn sàng"
 
@@ -135,11 +127,7 @@ msgstr "Đang chỉnh nhịp đi"
 msgid "planDraft.fail.setup"
 msgstr "Phần chuẩn bị chưa xong."
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.cancel"
-msgstr "Dừng lên nháp"
-
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.slow"
 msgstr "Lâu hơn thường lệ. Bạn cứ rời đi: xong mình sẽ báo."
 
@@ -147,15 +135,11 @@ msgstr "Lâu hơn thường lệ. Bạn cứ rời đi: xong mình sẽ báo."
 msgid "planDraft.fail.other"
 msgstr "Bước này chưa ổn."
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.line"
 msgstr "Mất vài phút. Bạn cứ rời đi: xong mình sẽ báo, và bạn xem trước mọi người."
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.retry"
-msgstr "Thử lại"
-
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.offlineTitle"
 msgstr "Đang chờ sóng"
 

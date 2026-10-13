@@ -15,10 +15,6 @@ msgstr "{a} leaves about {minutes} min too little to get to or from {b}."
 msgid "plan.review.collision.overlap"
 msgstr "{a} would run into {b}. Untick it, or move one of them on the day first."
 
-#: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
-msgid "plan.review.bookingsMoved"
-msgstr "{bookingsMoved, plural, one {booking moved} other {bookings moved}}"
-
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.title.dropout"
 msgstr "{count, plural, one {# change after a dropout} other {# changes after a dropout}}"
@@ -128,19 +124,15 @@ msgstr "ADD THEM NOW"
 msgid "plan.review.why.after"
 msgstr "after {afterName}"
 
-#: ../../apps/mobile/src/features/plan/review/changes-review-view.tsx
-msgid "plan.review.personal"
-msgstr "Apply to my plan only"
-
 #: ../../apps/mobile/src/features/plan/review/notification-actions.tsx
 msgid "plan.push.approve"
 msgstr "Approve"
 
-#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
 msgid "plan.card.state.approved"
 msgstr "Approved"
 
-#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
 msgid "plan.card.state.applying"
 msgstr "Approved"
 
@@ -155,10 +147,6 @@ msgstr "as it opens"
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.askCrew"
 msgstr "Ask the crew first"
-
-#: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
-msgid "plan.review.money.billion"
-msgstr "B"
 
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.back"
@@ -189,10 +177,6 @@ msgstr "Done. It’s in your plan."
 msgid "plan.card.driver"
 msgstr "Driver"
 
-#: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
-msgid "plan.review.each"
-msgstr "each"
-
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.summary.calm"
 msgstr "Everything lands in a gap. Nothing booked and nobody’s must-do moved."
@@ -205,21 +189,13 @@ msgstr "Ideas"
 msgid "plan.review.why.gap"
 msgstr "in a free gap"
 
-#: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
-msgid "plan.review.money.thousand"
-msgstr "K"
-
-#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
 msgid "plan.card.state.rejected"
 msgstr "Kept as is"
 
 #: ../../apps/mobile/src/features/plan/review/register-chat-card.ts
 msgid "plan.card.loading"
 msgstr "Loading the plan change"
-
-#: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
-msgid "plan.review.money.million"
-msgstr "M"
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.reason.rain"
@@ -237,21 +213,13 @@ msgstr "moved to a quieter hour"
 msgid "plan.review.reason.closed"
 msgstr "moved to when it’s open"
 
-#: ../../apps/mobile/src/features/plan/review/needs-you-list.tsx
-msgid "plan.review.needsYou"
-msgstr "NEEDS YOU"
-
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.left.noDay"
 msgstr "No day takes it yet"
 
-#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
 msgid "plan.card.state.draft"
 msgstr "Not sent"
-
-#: ../../apps/mobile/src/features/plan/review/changes-review-view.tsx
-msgid "plan.review.no"
-msgstr "Not this"
 
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.no"
@@ -285,7 +253,7 @@ msgstr "Only fits if a stop moves"
 msgid "plan.review.onlyYou"
 msgstr "ONLY YOU SEE THIS"
 
-#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
 msgid "plan.card.state.stale"
 msgstr "Out of date"
 
@@ -309,13 +277,9 @@ msgstr "Put it in my plan"
 msgid "plan.review.putInNow"
 msgstr "PUT IT IN THE PLAN NOW"
 
-#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
 msgid "plan.card.state.expired"
 msgstr "Ran out"
-
-#: ../../apps/mobile/src/features/plan/review/needs-you-list.tsx
-msgid "plan.review.see"
-msgstr "SEE"
 
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.seeDay"
@@ -369,15 +333,11 @@ msgstr "The supplier won’t move that booking, so this can’t go in."
 msgid "plan.review.notice.expired"
 msgstr "The vote ran out, so the plan stays as it was."
 
-#: ../../apps/mobile/src/features/plan/review/changes-review-view.tsx
-msgid "plan.review.missing"
-msgstr "This change isn’t on your phone yet. It shows up once it syncs."
-
 #: ../../apps/mobile/src/features/plan/review/changes-review-screen.tsx
 msgid "plan.edit.undo"
 msgstr "UNDO"
 
-#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
 msgid "plan.card.state.voting"
 msgstr "Voting"
 
@@ -388,10 +348,6 @@ msgstr "was {time}"
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.dry"
 msgstr "while it’s dry"
-
-#: ../../apps/mobile/src/features/plan/review/changes-review-view.tsx
-msgid "plan.review.yes"
-msgstr "Yes"
 
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.yes"

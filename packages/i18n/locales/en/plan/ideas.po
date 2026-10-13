@@ -73,33 +73,13 @@ msgstr "A place taken off Ideas"
 msgid "plan.placing.foot"
 msgstr "About ten seconds. Leave if you like, {guideName} will ping you."
 
-#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
-msgid "plan.ideas.action.add"
-msgstr "Add to a day"
-
-#: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
-msgid "plan.ideas.more"
-msgstr "Add to a day, or remove"
-
-#: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
-msgid "plan.ideas.addToDay"
-msgstr "Add to a day…"
-
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.inPlan"
 msgstr "Already in the plan · {dayLabel}"
 
-#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
-msgid "plan.ideas.inPlanLine"
-msgstr "Already in the plan on {day}."
-
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.placing.backToIdeas"
 msgstr "Back to Ideas"
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
-msgid "plan.ideas.dropOnADay"
-msgstr "DROP ON A DAY"
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.findPlaces"
@@ -109,18 +89,6 @@ msgstr "Find places to save"
 msgid "plan.ideas.fitPending"
 msgstr "Fits will update with signal"
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
-msgid "plan.ideas.title"
-msgstr "IDEAS"
-
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-view.tsx
-msgid "plan.placing.eyebrow"
-msgstr "IDEAS"
-
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-view.tsx
-msgid "plan.placing.leave"
-msgstr "Keep browsing"
-
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.needsYouSplit"
 msgstr "Leaving the split one for you"
@@ -128,14 +96,6 @@ msgstr "Leaving the split one for you"
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.needsYouPending"
 msgstr "Leaving what needs you for you"
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
-msgid "plan.ideas.mapPill"
-msgstr "Map"
-
-#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
-msgid "plan.ideas.action.move"
-msgstr "Move it to another day"
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeNone"
@@ -156,22 +116,6 @@ msgstr "Nothing left over"
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.bodyEmpty"
 msgstr "Nothing saved for this trip yet."
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
-msgid "plan.ideas.placeThem.a11y"
-msgstr "Place them for me"
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
-msgid "plan.ideas.placeThem"
-msgstr "PLACE THEM FOR ME"
-
-#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
-msgid "plan.ideas.action.removeAll"
-msgstr "Remove for everyone"
-
-#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
-msgid "plan.ideas.action.remove"
-msgstr "Remove from my saved"
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.removedAll"
@@ -196,10 +140,6 @@ msgstr "Save places from search, paste a link from TikTok or Maps, or swipe toge
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.beforePlanAny"
 msgstr "The plan isn’t shared yet. They go onto days once it is."
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
-msgid "plan.ideas.backTo"
-msgstr "Trip"
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeFailedLine"

@@ -15,10 +15,6 @@ msgstr ""
 msgid "places.inView"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/places/cluster-bubble.tsx
-msgid "places.cluster"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.names.two"
 msgstr ""
@@ -107,40 +103,12 @@ msgstr ""
 msgid "places.add"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/places/places-header.tsx
-msgid "places.chip.all"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-header.tsx
-msgid "places.back"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.group.beaches"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
-msgid "places.peek.browse"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
-msgid "places.peek.trip"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
-msgid "places.failed.line"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/use-carousel-entries.ts
-msgid "places.card.closedToday"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.plan.day"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
-msgid "places.peek.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
@@ -151,20 +119,8 @@ msgstr ""
 msgid "places.weekday.fri"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
-msgid "places.hidden.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/swipe-row.tsx
-msgid "places.swipe.hide"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.row.inPlanNoDay"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-header.tsx
-msgid "places.chip.plan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
@@ -177,14 +133,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.label.inPlan"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-header.tsx
-msgid "places.list"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-header.tsx
-msgid "places.map"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
@@ -219,48 +167,12 @@ msgstr ""
 msgid "places.group.nightlife"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
-msgid "places.empty.noneTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
-msgid "places.peek.none"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
-msgid "places.mapOffline.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
-msgid "places.empty.planTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
-msgid "places.empty.noneLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
-msgid "places.empty.savedTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/use-carousel-entries.ts
-msgid "places.card.openToday"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.weekday.sat"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/places/swipe-row.tsx
-msgid "places.swipe.save"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.label.saved"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-header.tsx
-msgid "places.chip.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
@@ -271,41 +183,12 @@ msgstr ""
 msgid "places.group.saved"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/places/places-header.tsx
-msgid "places.searchHere"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-header.tsx
-msgid "places.search"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.group.shopping"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
-msgid "places.hidden.show"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.hidden.showA11y"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
-msgid "places.peek.showAll"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
-msgid "places.empty.showAll"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
-#: ../../apps/mobile/src/features/explore/places/places-header.tsx
-msgid "places.showList"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-header.tsx
-msgid "places.showMap"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
@@ -324,36 +207,16 @@ msgstr ""
 msgid "places.weekday.sun"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
-msgid "places.empty.savedLine"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.hint.swipe"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
-msgid "places.empty.planLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.group.temples"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
-msgid "places.mapOffline.line"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
-msgid "places.failed.title"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.weekday.thu"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
-msgid "places.failed.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
@@ -370,12 +233,4 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.group.wellness"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
-msgid "places.hidden.none"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
-msgid "places.peek.noneHint"
 msgstr ""

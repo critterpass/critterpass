@@ -8,20 +8,8 @@ msgstr ""
 "Language: vi\n"
 
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.bodyWrite"
-msgstr "{count, plural, other {Thêm # mục của bạn một lần, hoặc đăng ký để lịch tự cập nhật mỗi khi nhóm thay đổi.}}"
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.written"
 msgstr "{written, plural, other {Đã thêm # mục vào lịch của bạn.}}"
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.write"
-msgstr "Thêm vào lịch của tôi"
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.copy"
-msgstr "Sao chép liên kết"
 
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.denied"
@@ -36,21 +24,5 @@ msgid "plan.export.needsSignal"
 msgstr "Tạo liên kết cần có sóng. Thử lại khi có mạng nhé."
 
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.title"
-msgstr "Đưa kế hoạch vào lịch của bạn"
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.bodySubscribe"
-msgstr "Đăng ký để lịch tự cập nhật mỗi khi nhóm thay đổi, chỉ với các mục của bạn."
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.subscribe"
-msgstr "Đăng ký vào lịch của tôi"
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.revoked"
 msgstr "Liên kết đã tắt. Các lịch đã đăng ký sẽ ngừng cập nhật."
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.revoke"
-msgstr "Tắt liên kết"

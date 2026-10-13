@@ -7,10 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
-#: ../../apps/mobile/src/features/plan/add/who-going.tsx
-msgid "plan.add.who.some"
-msgstr "{count} người đi ›"
-
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.dayHeader.free"
 msgstr "{dayLabel} · NGÀY TRỐNG"
@@ -87,10 +83,6 @@ msgstr "Ngày di chuyển"
 msgid "plan.add.why.driveAbout"
 msgstr "Khoảng {minutes} phút đi xe"
 
-#: ../../apps/mobile/src/features/plan/add/add-block.tsx
-msgid "plan.add.nearby.add"
-msgstr "Thêm luôn"
-
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.add"
 msgstr "THÊM VÀO {dayLabel} · {time}"
@@ -98,10 +90,6 @@ msgstr "THÊM VÀO {dayLabel} · {time}"
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.addAnyway"
 msgstr "VẪN THÊM VÀO {dayLabel}"
-
-#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
-msgid "plan.add.eyebrow"
-msgstr "THÊM VÀO LỊCH TRÌNH"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.line.inPlan"
@@ -156,25 +144,9 @@ msgstr "Khô ráo {from}–{to}"
 msgid "plan.add.why.dryMornings"
 msgstr "Buổi sáng khô ráo vào {month}"
 
-#: ../../apps/mobile/src/features/plan/add/who-going.tsx
-msgid "plan.add.who.everyone"
-msgstr "Mọi người ›"
-
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.waiting"
 msgstr "ĐANG TÌM GIỜ HỢP NHẤT…"
-
-#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
-msgid "plan.add.saveLater"
-msgstr "Để dành sau"
-
-#: ../../apps/mobile/src/features/plan/add/who-going.tsx
-msgid "plan.add.who.justYou"
-msgstr "Chỉ mình bạn"
-
-#: ../../apps/mobile/src/features/plan/add/add-block.tsx
-msgid "plan.add.nearby.drop"
-msgstr "Bỏ ra"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.move"
@@ -244,15 +216,6 @@ msgstr "Đã lưu vào Ý tưởng, cả nhóm đều thấy. Có người xếp
 msgid "plan.add.seeIdeas"
 msgstr "XEM Ý TƯỞNG"
 
-#. placeholder {0}: props.useStart.time
-#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
-msgid "plan.add.useStart"
-msgstr "Bắt đầu lúc {0}"
-
-#: ../../apps/mobile/src/features/plan/add/add-block.tsx
-msgid "plan.add.time.a11y"
-msgstr "Bắt đầu {time}. Đổi giờ"
-
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.suggest"
 msgstr "ĐỀ XUẤT CHO {dayLabel} · {time}"
@@ -272,10 +235,6 @@ msgstr "Kế hoạch chưa được chia sẻ. Lưu vào Ý tưởng, khi có k�
 #: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
 msgid "plan.add.why.meal"
 msgstr "Xếp vào giờ ăn"
-
-#: ../../apps/mobile/src/features/plan/add/who-going.tsx
-msgid "plan.add.who.title"
-msgstr "AI ĐI"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.title"

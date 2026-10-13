@@ -12,86 +12,21 @@ msgstr ""
 msgid "setup.budget.stayNights"
 msgstr "{0, plural, one {# {kind} night} other {# {kind} nights}}"
 
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.member.counted"
-msgstr "{set} of {of} maxes are in."
-
-#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
-msgid "setup.budget.card.waiting"
-msgstr "{set} of {of} set"
-
 #: ../../apps/mobile/src/features/setup/budget/fx-preview.ts
 msgid "setup.budget.member.approx"
 msgstr "≈ {amount} in {to}"
-
-#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
-msgid "setup.budget.card.underCounted"
-msgstr "✓ Under {set} of {of} maxes"
-
-#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
-msgid "setup.budget.card.underAll"
-msgstr "✓ Under all {set} maxes"
-
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
-msgid "setup.budget.infeasible.shorter"
-msgstr "A shorter trip"
-
-#: ../../apps/mobile/src/features/setup/budget/own-max-row.tsx
-msgid "setup.budget.own.add"
-msgstr "Add yours"
 
 #: ../../apps/mobile/src/features/setup/budget/labels.ts
 msgid "setup.budget.stay.apartment"
 msgstr "apartment"
 
-#: ../../apps/mobile/src/features/setup/budget/own-max-row.tsx
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.member.change"
-msgstr "change"
-
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
-msgid "setup.budget.infeasible.dates"
-msgstr "Cheaper dates"
-
-#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
-msgid "setup.budget.card.captionWaiting"
-msgstr "dots appear from four maxes"
-
-#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
-msgid "setup.budget.card.caption"
-msgstr "each dot is someone’s max"
-
-#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
-msgid "setup.budget.card.captionSmallCrew"
-msgstr "every max stays private"
-
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+#: ../../apps/mobile/src/features/setup/budget/budget-props.ts
 msgid "setup.budget.line"
 msgstr "Everyone set a private max. Nobody sees anyone else’s number, including {guide}."
 
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+#: ../../apps/mobile/src/features/setup/budget/budget-props.ts
 msgid "setup.budget.lineWaiting"
 msgstr "Everyone sets a private max. The band shows once four are in."
-
-#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
-msgid "setup.budget.bars.flights"
-msgstr "Flights"
-
-#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
-msgid "setup.budget.bars.missingLine"
-msgstr "Flights and stays for these dates aren’t priced yet, so the range above is sized from the length of the trip. The split shows once prices are in."
-
-#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
-msgid "setup.budget.bars.noFlights"
-msgstr "Flights for these dates aren’t priced yet. This covers the stay, food and fun."
-
-#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
-msgid "setup.budget.bars.food"
-msgstr "Food"
-
-#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
-msgid "setup.budget.bars.fun"
-msgstr "Fun"
 
 #: ../../apps/mobile/src/features/setup/budget/labels.ts
 msgid "setup.budget.stay.guesthouse"
@@ -105,165 +40,38 @@ msgstr "hostel"
 msgid "setup.budget.stay.hotel"
 msgstr "hotel"
 
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.member.keep"
-msgstr "Keep it as it is"
-
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.member.loading"
-msgstr "Loading"
-
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+#: ../../apps/mobile/src/features/setup/budget/budget-props.ts
 msgid "setup.budget.lock.offline"
 msgstr "Locking needs signal. Your pick stays here."
 
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
-msgid "setup.budget.cta"
-msgstr "Looks good"
-
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
-msgid "setup.budget.infeasible.hostels"
-msgstr "Mix in hostels"
-
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.fit.noTarget"
-msgstr "No group target yet."
-
-#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
-msgid "setup.budget.bars.missingTitle"
-msgstr "No prices yet"
-
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
-msgid "setup.budget.infeasible.line"
-msgstr "Nobody’s named. A few ways to bring the trip within everyone’s reach:"
-
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
-msgid "setup.budget.infeasible.title"
-msgstr "One budget is below the cheapest plan"
-
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
-msgid "setup.budget.typed.labelAlone"
-msgstr "Or type an amount"
-
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
-msgid "setup.budget.typed.label"
-msgstr "Or type an amount, each"
-
-#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
-msgid "setup.budget.card.over"
-msgstr "Over someone’s max"
-
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+#: ../../apps/mobile/src/features/setup/budget/budget-props.ts
 msgid "setup.budget.lineSmallCrew"
 msgstr "Pick what feels comfy for the crew. Each max stays private, and everyone sees if your pick fits theirs."
 
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+#: ../../apps/mobile/src/features/setup/budget/budget-props.ts
 msgid "setup.budget.lineAlone"
 msgstr "Pick what feels comfy for this trip. It guides what gets suggested."
-
-#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
-msgid "setup.budget.bars.loading"
-msgstr "Pricing the trip"
-
-#. placeholder {0}: money(locale, track.stepMinor, currency)
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
-msgid "setup.budget.typed.hint"
-msgstr "Rounds to steps of {0}."
 
 #: ../../apps/mobile/src/features/setup/budget/labels.ts
 msgid "setup.budget.stay.ryokan"
 msgstr "ryokan"
 
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.member.save"
-msgstr "Save my max"
-
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.member.queued"
-msgstr "Sends when you’re back online."
-
-#: ../../apps/mobile/src/features/setup/budget/own-max-row.tsx
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.member.set"
-msgstr "Set ✓"
-
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
-msgid "setup.budget.skip"
-msgstr "Skip the budget"
-
-#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
-msgid "setup.budget.bars.stays"
-msgstr "Stays"
-
-#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
-msgid "setup.budget.card.eyebrowAlone"
-msgstr "Sweet spot"
-
-#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
-msgid "setup.budget.card.a11y"
-msgstr "Sweet spot {amount} each"
-
-#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
-msgid "setup.budget.card.a11yStatus"
-msgstr "Sweet spot {amount} each, {status}"
-
-#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
-msgid "setup.budget.card.amountA11y"
-msgstr "Sweet spot each"
-
-#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
-msgid "setup.budget.card.eyebrow"
-msgstr "Sweet spot, each"
-
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+#: ../../apps/mobile/src/features/setup/budget/budget-props.ts
 msgid "setup.budget.lock.failed"
 msgstr "That didn’t lock. Try again."
 
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+#: ../../apps/mobile/src/features/setup/budget/budget-props.ts
 msgid "setup.budget.lock.overBand"
 msgstr "That’s above someone’s max. Slide it down into the band."
 
-#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
-msgid "setup.budget.card.captionNoDots"
-msgstr "the band sits under every max"
-
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.fit.fits"
-msgstr "The group’s target fits your max."
-
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.fit.over"
-msgstr "The group’s target is over your max. You can tell the crew if you like."
-
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.member.line"
-msgstr "The most you’d spend on this trip, all in. Only you ever see it."
-
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+#: ../../apps/mobile/src/features/setup/budget/budget-props.ts
 msgid "setup.budget.lock.noRates"
 msgstr "Today’s rate for your crew’s currency isn’t in yet, so this can’t lock. Try again in a bit."
 
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+#: ../../apps/mobile/src/features/setup/budget/budget-props.ts
 msgid "setup.budget.lock.rateLimited"
 msgstr "Too many tries for now. Give it an hour."
-
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.member.everyTrip"
-msgstr "Use this for every trip"
 
 #: ../../apps/mobile/src/features/setup/budget/labels.ts
 msgid "setup.budget.stay.villa"
 msgstr "villa"
-
-#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
-msgid "setup.budget.title"
-msgstr "What feels comfy?"
-
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.member.title"
-msgstr "What’s your max?"
-
-#: ../../apps/mobile/src/features/setup/budget/own-max-row.tsx
-#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
-msgid "setup.budget.member.yourMax"
-msgstr "Your max"

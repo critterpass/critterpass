@@ -7,10 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en-XA\n"
 
-#: ../../apps/mobile/src/features/plan/add/who-going.tsx
-msgid "plan.add.who.some"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.dayHeader.free"
 msgstr ""
@@ -87,20 +83,12 @@ msgstr ""
 msgid "plan.add.why.driveAbout"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/add/add-block.tsx
-msgid "plan.add.nearby.add"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.add"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.addAnyway"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
-msgid "plan.add.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
@@ -156,24 +144,8 @@ msgstr ""
 msgid "plan.add.why.dryMornings"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/add/who-going.tsx
-msgid "plan.add.who.everyone"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.waiting"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
-msgid "plan.add.saveLater"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/add/who-going.tsx
-msgid "plan.add.who.justYou"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/add/add-block.tsx
-msgid "plan.add.nearby.drop"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
@@ -244,15 +216,6 @@ msgstr ""
 msgid "plan.add.seeIdeas"
 msgstr ""
 
-#. placeholder {0}: props.useStart.time
-#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
-msgid "plan.add.useStart"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/add/add-block.tsx
-msgid "plan.add.time.a11y"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.suggest"
 msgstr ""
@@ -271,10 +234,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
 msgid "plan.add.why.meal"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/add/who-going.tsx
-msgid "plan.add.who.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts

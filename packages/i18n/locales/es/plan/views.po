@@ -8,19 +8,7 @@ msgstr ""
 "Language: es\n"
 
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.bodyWrite"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.written"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.write"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.copy"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
@@ -36,21 +24,5 @@ msgid "plan.export.needsSignal"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.bodySubscribe"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.subscribe"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.revoked"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.revoke"
 msgstr ""
