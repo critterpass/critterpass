@@ -71,7 +71,7 @@ appId: app.critterpass.dev
             visible:
               id: 'pitch-search'
           file: ../_shared/back.yaml
-            - scrollUntilVisible:
+      - scrollUntilVisible:
           element:
             id: 'board-go-to-final'
           timeout: 20000
