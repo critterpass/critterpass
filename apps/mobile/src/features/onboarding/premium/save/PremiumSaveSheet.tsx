@@ -5,8 +5,10 @@
  * switch on offer. With `mergeOnly` the sheet shows only the merge choice and its explanation (the
  * phone page, where the number was the sign-in).
  */
+import { premium } from '@cp/design-tokens';
 import { t } from '@lingui/core/macro';
 import { Platform, Pressable, StyleSheet, View } from 'react-native';
+import Animated, { FadeIn, SlideInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -15,7 +17,9 @@ import {
   GlassSurface,
   PressableScale,
   Text,
+  REDUCED_FADE_MS,
   TextButton,
+  usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
 
@@ -230,6 +234,7 @@ function MergeChoice(props: PremiumSaveSheetProps & { readonly busy: boolean }) 
 export function PremiumSaveSheet(props: PremiumSaveSheetProps) {
   const theme = usePremiumTheme();
   const insets = useSafeAreaInsets();
+  const reduced = usePremiumReducedMotion();
   const { state, mergeOnly = false } = props;
   const merging = state.kind === 'merge' || state.kind === 'merging' || state.kind === 'kept';
   if (state.kind === 'saved' || state.kind === 'switched') return null;
@@ -239,38 +244,52 @@ export function PremiumSaveSheet(props: PremiumSaveSheetProps) {
   const onScrim = busy ? undefined : merging ? props.onKeptDone : props.onNotNow;
   return (
     <>
-      <Pressable
-        style={[StyleSheet.absoluteFill, { backgroundColor: SHEET_SCRIM }]}
-        onPress={onScrim}
-        accessibilityRole="button"
-        accessibilityLabel={t({ id: 'onboarding.save.notNow', message: 'Not now' })}
-      />
-      <GlassSurface
-        kind="sheet"
-        style={{
-          position: 'absolute',
-          left: 8,
-          right: 8,
-          bottom: 8,
-          borderRadius: theme.radius.sheet,
-          paddingHorizontal: 18,
-          paddingTop: 12,
-          paddingBottom: Math.max(insets.bottom, 22),
-        }}
-        testID={mergeOnly ? 'merge-sheet' : 'save-sheet'}
+      <Animated.View
+        entering={reduced ? FadeIn.duration(REDUCED_FADE_MS) : FadeIn}
+        style={StyleSheet.absoluteFill}
       >
-        <View
-          style={{
-            alignSelf: 'center',
-            width: 36,
-            height: 5,
-            borderRadius: 3,
-            backgroundColor: theme.color.outlineEmpty,
-            marginBottom: 14,
-          }}
+        <Pressable
+          style={[StyleSheet.absoluteFill, { backgroundColor: SHEET_SCRIM }]}
+          onPress={onScrim}
+          accessibilityRole="button"
+          accessibilityLabel={t({ id: 'onboarding.save.notNow', message: 'Not now' })}
         />
-        {merging ? <MergeChoice {...props} busy={busy} /> : <SaveChoice {...props} busy={busy} />}
-      </GlassSurface>
+      </Animated.View>
+      {/* The sheet rises on the Smooth spring; Reduce Motion fades it in. */}
+      <Animated.View
+        entering={
+          reduced
+            ? FadeIn.duration(REDUCED_FADE_MS)
+            : SlideInDown.springify()
+                .stiffness(premium.spring.smooth.stiffness)
+                .damping(premium.spring.smooth.damping)
+                .mass(premium.spring.smooth.mass)
+        }
+        style={{ position: 'absolute', left: 8, right: 8, bottom: 8 }}
+      >
+        <GlassSurface
+          kind="sheet"
+          style={{
+            borderRadius: theme.radius.sheet,
+            paddingHorizontal: 18,
+            paddingTop: 12,
+            paddingBottom: Math.max(insets.bottom, 22),
+          }}
+          testID={mergeOnly ? 'merge-sheet' : 'save-sheet'}
+        >
+          <View
+            style={{
+              alignSelf: 'center',
+              width: 36,
+              height: 5,
+              borderRadius: 3,
+              backgroundColor: theme.color.outlineEmpty,
+              marginBottom: 14,
+            }}
+          />
+          {merging ? <MergeChoice {...props} busy={busy} /> : <SaveChoice {...props} busy={busy} />}
+        </GlassSurface>
+      </Animated.View>
     </>
   );
 }
