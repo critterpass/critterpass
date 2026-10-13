@@ -117,6 +117,26 @@ describe('splitShards', () => {
     ]);
   });
 
+  it('puts a fresh-install flow first in its shard, whatever the order given', () => {
+    const minutes = () => 1;
+    const shards = splitShards(
+      [
+        'e2e/happy/da-nang-guide.yaml',
+        'e2e/happy/fresh-critters.yaml',
+        'e2e/happy/onboarding.yaml',
+      ],
+      1,
+      minutes,
+    );
+    expect(shards).toEqual([
+      [
+        'e2e/happy/onboarding.yaml',
+        'e2e/happy/da-nang-guide.yaml',
+        'e2e/happy/fresh-critters.yaml',
+      ],
+    ]);
+  });
+
   it('builds a 1-based matrix with space-separated flows', () => {
     expect(shardMatrix([['a', 'b'], ['c']])).toEqual({
       include: [

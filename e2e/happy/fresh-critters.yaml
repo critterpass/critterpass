@@ -341,3 +341,4 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-20-quests-more
+- runFlow: subflows/end-live-activities.yaml
