@@ -96,6 +96,16 @@ export function PremiumItemSheet(props: ItemDetailSheetProps) {
         : { line: clockRange(locale, item.start, item.end) })}
       closeLabel={t({ id: 'plan.premium.item.close', message: 'Close' })}
       onDismiss={actions.onClose}
+      dirty={changed && !readOnly}
+      discard={{
+        title: t({ id: 'plan.premium.item.discard', message: 'Discard this change?' }),
+        message: t({
+          id: 'plan.premium.item.discardLine',
+          message: 'The new time or day for this stop goes.',
+        }),
+        discard: t({ id: 'plan.premium.item.discardYes', message: 'Discard' }),
+        keep: t({ id: 'plan.premium.item.keep', message: 'Keep editing' }),
+      }}
       footer={
         readOnly ? undefined : (
           <>
