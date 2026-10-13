@@ -14,6 +14,7 @@ msgstr ""
 
 #. placeholder {0}: props.share.each
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/dropout-view.tsx
 msgid "proposal.dropout.each"
 msgstr ""
 
@@ -29,15 +30,18 @@ msgstr ""
 
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+#: ../../apps/mobile/src/features/proposal/premium/send-progress.tsx
 msgid "proposal.sent.writing"
 msgstr ""
 
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/version/objection-view.tsx
 msgid "proposal.objection.thinking"
 msgstr ""
 
 #. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/premium/version/version-view.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.pending"
 msgstr ""
@@ -45,6 +49,7 @@ msgstr ""
 #. placeholder {0}: props.guideName
 #. placeholder {1}: person.name
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+#: ../../apps/mobile/src/features/proposal/premium/send-progress.tsx
 msgid "proposal.sent.pendingFor"
 msgstr ""
 
@@ -60,6 +65,7 @@ msgstr ""
 
 #. placeholder {0}: props.organiserName
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/version/objection-view.tsx
 msgid "proposal.objection.sub"
 msgstr ""
 
@@ -70,11 +76,13 @@ msgstr ""
 
 #. placeholder {0}: props.destination
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.back"
 msgstr ""
 
 #. placeholder {0}: info.name
-#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+#: ../../apps/mobile/src/features/proposal/premium/trailer/trailer-view.tsx
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-view.tsx
 msgid "proposal.trailer.presents"
 msgstr ""
 
@@ -84,11 +92,13 @@ msgid "proposal.tracker.back"
 msgstr ""
 
 #. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/premium/version/version-copy.ts
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.sub"
 msgstr ""
 
 #. placeholder {0}: latest.name
+#: ../../apps/mobile/src/features/proposal/premium/version/hype.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.replied"
 msgstr ""
@@ -104,11 +114,13 @@ msgid "proposal.tracker.waiting"
 msgstr ""
 
 #. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/premium/version/version-copy.ts
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.subGroup"
 msgstr ""
 
 #. placeholder {0}: pick.title
+#: ../../apps/mobile/src/features/proposal/premium/version/picks.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/picks-list.tsx
 msgid "proposal.version.pickA11y"
 msgstr ""
@@ -126,6 +138,7 @@ msgstr ""
 
 #. placeholder {0}: person.name
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+#: ../../apps/mobile/src/features/proposal/premium/send-progress.tsx
 msgid "proposal.sent.readyFor"
 msgstr ""
 
@@ -170,6 +183,7 @@ msgid "proposal.crowd.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/alone-view.tsx
 msgid "proposal.alone.back"
 msgstr ""
 
@@ -186,10 +200,12 @@ msgid "proposal.why.plain"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.sub"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.subShared"
 msgstr ""
 
@@ -202,6 +218,7 @@ msgid "proposal.inbox.answered.out"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/dropout-view.tsx
 msgid "proposal.dropout.title"
 msgstr ""
 
@@ -218,6 +235,7 @@ msgid "proposal.inbox.answered.waitlisted"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/dropout-view.tsx
 msgid "proposal.dropout.chip"
 msgstr ""
 
@@ -229,14 +247,17 @@ msgstr ""
 msgid "proposal.dropout.reply"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/version-copy.ts
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.titleGroup"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/version-copy.ts
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/version-copy.ts
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.titlePreview"
 msgstr ""
@@ -261,6 +282,7 @@ msgstr ""
 msgid "proposal.inbox.lockedIn"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/hype.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.reacted"
 msgstr ""
@@ -291,6 +313,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.withdrawn"
+msgstr ""
+
+#. placeholder {0}: wholeMoney(locale, saved, currency)
+#: ../../apps/mobile/src/features/proposal/premium/version/share-card.tsx
+msgid "proposal.premium.share.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
@@ -330,10 +357,12 @@ msgid "proposal.inbox.received.bodyBy"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/dropout-view.tsx
 msgid "proposal.dropout.applied"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/dropout-view.tsx
 msgid "proposal.dropout.apply"
 msgstr ""
 
@@ -349,6 +378,8 @@ msgstr ""
 msgid "proposal.objection.asked"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/proposal-loading.tsx
+#: ../../apps/mobile/src/features/proposal/premium/version/version-view.tsx
 #: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
 msgid "proposal.loadingBack"
 msgstr ""
@@ -379,10 +410,12 @@ msgid "proposal.board.ticketA11y"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.noStaySub"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.stayNoCancel"
 msgstr ""
 
@@ -426,6 +459,12 @@ msgstr ""
 msgid "proposal.premium.board.close"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/trailer/trailer-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/version/objection-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/version/why-sheet.tsx
+msgid "proposal.premium.close"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.confirmed"
 msgstr ""
@@ -450,6 +489,7 @@ msgstr ""
 msgid "proposal.reason.crew"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/hype.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.title"
 msgstr ""
@@ -478,6 +518,7 @@ msgid "proposal.reason.day"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
+#: ../../apps/mobile/src/features/proposal/premium/format-tiles.tsx
 msgid "proposal.build.dearCrew"
 msgstr ""
 
@@ -490,6 +531,7 @@ msgid "proposal.seat.body"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+#: ../../apps/mobile/src/features/proposal/premium/send-progress.tsx
 msgid "proposal.sent.done"
 msgstr ""
 
@@ -506,6 +548,7 @@ msgid "proposal.inbox.answered.allIn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/dropout-view.tsx
 msgid "proposal.dropout.share"
 msgstr ""
 
@@ -525,6 +568,7 @@ msgstr ""
 
 #. placeholder {0}: instantDate(locale, props.freeCancelUntil)
 #: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/reply-by-sheet.tsx
 msgid "proposal.replyBy.whyCancel"
 msgstr ""
 
@@ -535,6 +579,7 @@ msgstr ""
 
 #. placeholder {0}: stay.freeCancelUntil
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.stayCancel"
 msgstr ""
 
@@ -555,6 +600,7 @@ msgid "proposal.board.gate"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/alone-view.tsx
 msgid "proposal.alone.soloNote"
 msgstr ""
 
@@ -568,6 +614,7 @@ msgstr ""
 
 #. placeholder {0}: instantDateTime(locale, props.fallback.toISOString())
 #: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/reply-by-sheet.tsx
 msgid "proposal.replyBy.autoAt"
 msgstr ""
 
@@ -577,15 +624,18 @@ msgstr ""
 
 #. placeholder {0}: props.organiser
 #. placeholder {1}: info.name
+#: ../../apps/mobile/src/features/proposal/premium/version/version-copy.ts
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.subPlain"
 msgstr ""
 
 #. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/premium/version/version-copy.ts
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.subPlainNoName"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/version-view.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.cant"
 msgstr ""
@@ -599,11 +649,13 @@ msgstr ""
 msgid "proposal.out.confirm"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/version-view.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.out.cta"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/version/objection-view.tsx
 msgid "proposal.objection.failed"
 msgstr ""
 
@@ -619,15 +671,18 @@ msgstr ""
 msgid "proposal.objection.laterDoneTonight"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/version-view.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.in"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+#: ../../apps/mobile/src/features/proposal/premium/trailer/trailer-view.tsx
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-view.tsx
 msgid "proposal.trailer.in"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/version/objection-view.tsx
 msgid "proposal.objection.in"
 msgstr ""
 
@@ -635,11 +690,13 @@ msgstr ""
 msgid "proposal.reaction.imIn"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/version-view.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.inAfterAll"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/version/objection-view.tsx
 msgid "proposal.objection.inAt"
 msgstr ""
 
@@ -656,14 +713,16 @@ msgid "proposal.premium.in"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/alone-view.tsx
 msgid "proposal.alone.inviteFriends"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+#: ../../apps/mobile/src/features/proposal/builder/blocked-reason.ts
 msgid "proposal.build.noRecipients"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/alone-view.tsx
 msgid "proposal.alone.inviteTitle"
 msgstr ""
 
@@ -683,29 +742,35 @@ msgstr ""
 msgid "proposal.why.taste"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/proposal-loading.tsx
 #: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
 msgid "proposal.missing.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/alone-view.tsx
 msgid "proposal.alone.inviteBody"
 msgstr ""
 
 #. placeholder {0}: props.dates
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/alone-view.tsx
 msgid "proposal.alone.inviteBodyDates"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+#: ../../apps/mobile/src/features/proposal/premium/send-progress.tsx
 msgid "proposal.sent.title"
 msgstr ""
 
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/version/objection-view.tsx
 msgid "proposal.objection.private"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/dropout-view.tsx
 msgid "proposal.dropout.keep"
 msgstr ""
 
@@ -714,6 +779,7 @@ msgid "proposal.crowd.keep"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/reply-by-sheet.tsx
 msgid "proposal.replyBy.auto"
 msgstr ""
 
@@ -721,6 +787,7 @@ msgstr ""
 msgid "proposal.card.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/proposal-loading.tsx
 #: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
 msgid "proposal.loading"
 msgstr ""
@@ -734,6 +801,7 @@ msgid "proposal.turn.lock.button"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/alone-view.tsx
 msgid "proposal.alone.lockAlone"
 msgstr ""
 
@@ -761,11 +829,13 @@ msgstr ""
 msgid "proposal.premium.tileMaybe"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/version-view.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.maybe"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+#: ../../apps/mobile/src/features/proposal/premium/trailer/trailer-view.tsx
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-view.tsx
 msgid "proposal.trailer.maybe"
 msgstr ""
 
@@ -784,6 +854,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
 msgid "proposal.turn.setup.mustDos"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/premium/trailer/trailer-player.tsx
+msgid "common.story.next"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/premium/tracker-view.tsx
@@ -812,6 +886,7 @@ msgid "proposal.objection.a11y"
 msgstr ""
 
 #. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/premium/version/version-view.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.askFirst"
 msgstr ""
@@ -821,6 +896,7 @@ msgid "proposal.objection.nothing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/dropout-view.tsx
 msgid "proposal.dropout.noChanges"
 msgstr ""
 
@@ -853,14 +929,17 @@ msgid "proposal.tracker.waitlisted"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.personalOn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.personalOne"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.personalOff"
 msgstr ""
 
@@ -876,6 +955,7 @@ msgstr ""
 msgid "proposal.card.open"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/why-sheet.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/why-sheet.tsx
 msgid "proposal.why.seeDay"
 msgstr ""
@@ -885,10 +965,12 @@ msgid "proposal.confirmed.plan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/version/objection-view.tsx
 msgid "proposal.objection.openPlan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.issues.open"
 msgstr ""
 
@@ -907,32 +989,55 @@ msgstr ""
 msgid "proposal.board.passenger"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/trailer/trailer-player.tsx
+msgid "common.story.pause"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.personal"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/trailer/trailer-player.tsx
+msgid "common.story.play"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
+#: ../../apps/mobile/src/features/proposal/premium/format-tiles.tsx
 msgid "proposal.build.postcard"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
+#: ../../apps/mobile/src/features/proposal/premium/format-tiles.tsx
 msgid "proposal.build.poster"
 msgstr ""
 
 #. placeholder {0}: p.name
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.previewAs"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/trailer/trailer-player.tsx
+msgid "common.story.previous"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/premium/version/version-view.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.back"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+#: ../../apps/mobile/src/features/proposal/premium/proposal-loading.tsx
+msgid "proposal.premium.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/premium/trailer/trailer-view.tsx
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-view.tsx
 msgid "proposal.trailer.react"
 msgstr ""
 
@@ -945,6 +1050,7 @@ msgid "proposal.turn.answer.button"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.ready"
 msgstr ""
 
@@ -957,10 +1063,12 @@ msgid "proposal.turn.lock"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.replyBy"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/reply-by-sheet.tsx
 msgid "proposal.replyBy.title"
 msgstr ""
 
@@ -999,6 +1107,7 @@ msgid "proposal.share.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/dropout-view.tsx
 msgid "proposal.dropout.applyingOffline"
 msgstr ""
 
@@ -1022,10 +1131,12 @@ msgstr ""
 msgid "proposal.turn.drafting.button"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/why-sheet.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/why-sheet.tsx
 msgid "proposal.why.seePlace"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/version-view.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.wholePlan"
 msgstr ""
@@ -1043,10 +1154,12 @@ msgid "proposal.turn.sendPlan.button"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.send"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.sendOne"
 msgstr ""
 
@@ -1055,6 +1168,7 @@ msgid "proposal.queued.send"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+#: ../../apps/mobile/src/features/proposal/premium/send-progress.tsx
 msgid "proposal.sent.stamped"
 msgstr ""
 
@@ -1080,12 +1194,18 @@ msgid "proposal.out.resplit"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.showCost"
 msgstr ""
 
 #. placeholder {0}: saving.label
+#: ../../apps/mobile/src/features/proposal/premium/version/share-card.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/share-card.tsx
 msgid "proposal.share.skip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/premium/trailer/trailer-player.tsx
+msgid "common.story.position"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
@@ -1094,6 +1214,7 @@ msgid "proposal.board.slide"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/version/objection-view.tsx
 msgid "proposal.objection.other"
 msgstr ""
 
@@ -1106,6 +1227,7 @@ msgid "proposal.dropout.waysBefore"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/builder-view.tsx
 msgid "proposal.build.noStay"
 msgstr ""
 
@@ -1125,7 +1247,8 @@ msgstr ""
 msgid "proposal.turn.setup.left"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+#: ../../apps/mobile/src/features/proposal/premium/trailer/trailer-view.tsx
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-view.tsx
 msgid "proposal.trailer.hint"
 msgstr ""
 
@@ -1142,10 +1265,12 @@ msgid "proposal.failed.refused"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/version/objection-view.tsx
 msgid "proposal.objection.cost"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/reply-by-sheet.tsx
 msgid "proposal.replyBy.whyStart"
 msgstr ""
 
@@ -1162,6 +1287,7 @@ msgid "proposal.board.outDone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/version/objection-view.tsx
 msgid "proposal.objection.dates"
 msgstr ""
 
@@ -1170,6 +1296,7 @@ msgid "proposal.objection.nothingDates"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/version/objection-view.tsx
 msgid "proposal.objection.plan"
 msgstr ""
 
@@ -1214,13 +1341,15 @@ msgid "proposal.confirmed.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/dropout-view.tsx
 msgid "proposal.dropout.keepSub"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+#: ../../apps/mobile/src/features/proposal/builder/blocked-reason.ts
 msgid "proposal.build.alreadySent"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/proposal-loading.tsx
 #: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
 msgid "proposal.missing.title"
 msgstr ""
@@ -1237,6 +1366,7 @@ msgid "proposal.board.notAFlight"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
+#: ../../apps/mobile/src/features/proposal/premium/format-tiles.tsx
 msgid "proposal.build.trailer"
 msgstr ""
 
@@ -1261,10 +1391,12 @@ msgstr ""
 
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/dropout-view.tsx
 msgid "proposal.dropout.changes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/premium/version/objection-view.tsx
 msgid "proposal.objection.title"
 msgstr ""
 
@@ -1273,6 +1405,7 @@ msgid "proposal.queued.keepInChat"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+#: ../../apps/mobile/src/features/proposal/premium/dropout-view.tsx
 msgid "proposal.dropout.back"
 msgstr ""
 
@@ -1294,6 +1427,7 @@ msgid "proposal.tracker.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+#: ../../apps/mobile/src/features/proposal/premium/send-progress.tsx
 msgid "proposal.sent.tracker"
 msgstr ""
 
@@ -1326,6 +1460,7 @@ msgstr ""
 msgid "proposal.turn.answered.maybe"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/version-view.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.saidMaybe"
 msgstr ""
@@ -1334,6 +1469,7 @@ msgstr ""
 msgid "proposal.turn.answered.out"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/version-copy.ts
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.out"
 msgstr ""
@@ -1346,6 +1482,7 @@ msgstr ""
 msgid "proposal.version.chip.in"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/version-copy.ts
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.youreIn"
 msgstr ""
@@ -1362,10 +1499,11 @@ msgstr ""
 msgid "proposal.seat.position"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+#: ../../apps/mobile/src/features/proposal/builder/blocked-reason.ts
 msgid "proposal.build.offline"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/version-copy.ts
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.waitlisted"
 msgstr ""
@@ -1415,6 +1553,7 @@ msgstr ""
 msgid "proposal.share.you"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/premium/version/share-card.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/share-card.tsx
 msgid "proposal.share.title"
 msgstr ""

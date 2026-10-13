@@ -26,6 +26,11 @@ msgstr "{0, plural, one {Spend time at one of the places on the map.} other {Spe
 msgid "critters.where.step.stay"
 msgstr "{0, plural, one {Stay about # minute there, with CritterPass open.} other {Stay about # minutes there, with CritterPass open.}}"
 
+#. placeholder {0}: item.place
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.when"
+msgstr "{0} · {date}"
+
 #. placeholder {0}: level.into
 #. placeholder {1}: level.need
 #: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
@@ -235,6 +240,7 @@ msgid "critters.legendary.any"
 msgstr "Any"
 
 #: ../../apps/mobile/src/features/critters/critters-copy.ts
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
 #: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
 #: ../../apps/mobile/src/features/critters/premium/legendary/legendary-calendar-screen.tsx
 msgid "critters.back"
@@ -248,6 +254,7 @@ msgstr "Back"
 msgid "critters.detail.classicLook"
 msgstr "Back to the classic look"
 
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
 #: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
 #: ../../apps/mobile/src/features/critters/premium/legendary/legendary-calendar-screen.tsx
 msgid "critters.premium.backToDex"
@@ -459,6 +466,14 @@ msgstr "It hatches when you land in {place}."
 msgid "critters.premium.detail.missingLine"
 msgstr "It isn't on this phone. Your Critterdex has every one you've met."
 
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.missingLine"
+msgstr "It may have been removed, or this phone hasn’t got it yet."
+
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
+msgid "critters.premium.page.missingLine"
+msgstr "It may not have synced yet. Your Critterdex has everything you’ve met."
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.legendaryBody"
 msgstr "It only comes out now, and only for those who stay. Keep still and it'll settle."
@@ -601,6 +616,10 @@ msgstr "No signal. It joins your pass once you’re back online."
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptyNearTitle"
 msgstr "Nobody lives nearby"
+
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
+msgid "critters.premium.page.missingTitle"
+msgstr "Not on this phone"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptyFoundTitle"
@@ -764,6 +783,10 @@ msgstr "This critter has wandered"
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.title"
 msgstr "This one slipped away"
+
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.missingTitle"
+msgstr "This sticker isn’t here"
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.today"

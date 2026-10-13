@@ -26,6 +26,11 @@ msgstr "{0, plural, one {Dành thời gian ở một trong các địa điểm t
 msgid "critters.where.step.stay"
 msgstr "{0, plural, other {Ở lại khoảng # phút, mở CritterPass.}}"
 
+#. placeholder {0}: item.place
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.when"
+msgstr "{0} · {date}"
+
 #. placeholder {0}: level.into
 #. placeholder {1}: level.need
 #: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
@@ -235,6 +240,7 @@ msgid "critters.legendary.any"
 msgstr "Ngày"
 
 #: ../../apps/mobile/src/features/critters/critters-copy.ts
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
 #: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
 #: ../../apps/mobile/src/features/critters/premium/legendary/legendary-calendar-screen.tsx
 msgid "critters.back"
@@ -248,6 +254,7 @@ msgstr "Quay lại"
 msgid "critters.detail.classicLook"
 msgstr "Về lại diện mạo cũ"
 
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
 #: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
 #: ../../apps/mobile/src/features/critters/premium/legendary/legendary-calendar-screen.tsx
 msgid "critters.premium.backToDex"
@@ -459,6 +466,14 @@ msgstr "Trứng sẽ nở khi bạn hạ cánh ở {place}."
 msgid "critters.premium.detail.missingLine"
 msgstr "Nó không có trên điện thoại này. Critterdex của bạn có mọi sinh vật bạn đã gặp."
 
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.missingLine"
+msgstr "Có thể nó đã bị xoá, hoặc máy này chưa tải về."
+
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
+msgid "critters.premium.page.missingLine"
+msgstr "Có thể nó chưa đồng bộ. Critterdex của bạn có mọi bạn nhỏ bạn đã gặp."
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.legendaryBody"
 msgstr "Bạn ấy chỉ xuất hiện lúc này, và chỉ với ai chịu ở lại. Đứng yên, bạn ấy sẽ lại gần."
@@ -601,6 +616,10 @@ msgstr "Không có sóng. Bạn nhỏ sẽ vào thẻ của bạn khi có mạng
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptyNearTitle"
 msgstr "Quanh đây chưa có ai"
+
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
+msgid "critters.premium.page.missingTitle"
+msgstr "Chưa có trên điện thoại này"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptyFoundTitle"
@@ -764,6 +783,10 @@ msgstr "Sinh vật này đã đi lang thang"
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.title"
 msgstr "Bạn này đã lẩn mất"
+
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.missingTitle"
+msgstr "Sticker này không có ở đây"
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.today"

@@ -10,22 +10,25 @@ msgstr ""
 #. placeholder {0}: alternative.name
 #. placeholder {1}: money(i18n.locale, alternative.delta_minor, alternative.currency)
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.cheaper"
 msgstr ""
 
 #. placeholder {0}: alternative.name
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.nearby"
+msgstr ""
+
+#. placeholder {0}: money(locale, chip.amount_minor, chip.currency)
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
+msgid "vote.pitch.chipPrice"
 msgstr ""
 
 #. placeholder {0}: money(locale, chip.amount_minor, chip.currency)
 #: ../../apps/mobile/src/features/vote/final/showdown-fact-labels.ts
 msgid "vote.showdown.each"
-msgstr ""
-
-#. placeholder {0}: money(locale, chip.amount_minor, chip.currency)
-#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
-msgid "vote.pitch.chipPrice"
 msgstr ""
 
 #. placeholder {0}: guide.name
@@ -42,6 +45,7 @@ msgstr ""
 
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.byline"
 msgstr ""
 
@@ -94,6 +98,7 @@ msgstr ""
 #. placeholder {0}: flightHours(chip.minutes)
 #. placeholder {1}: chip.origin
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.chipFlight"
 msgstr ""
 
@@ -145,7 +150,7 @@ msgstr ""
 msgid "vote.inbox.voteBody"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/board/use-pitch-sheet.ts
 msgid "vote.pitch.queuedToast"
 msgstr ""
 
@@ -157,7 +162,7 @@ msgstr ""
 msgid "vote.inbox.voteLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/board/use-pitch-sheet.ts
 msgid "vote.pitch.addedToast"
 msgstr ""
 
@@ -258,6 +263,10 @@ msgstr ""
 msgid "vote.final.tieShort"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
+msgid "vote.premium.pitch.add"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
 msgid "vote.newPoll.needsQuestion"
 msgstr ""
@@ -271,11 +280,12 @@ msgstr ""
 msgid "vote.newPoll.needsAnswers"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/board/use-pitch-sheet.ts
 msgid "vote.pitch.add"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/board/use-pitch-sheet.ts
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.onBoard"
 msgstr ""
 
@@ -340,6 +350,7 @@ msgstr ""
 
 #. placeholder {0}: chip.months.map((month) => monthShort(locale, month)).join(' · ')
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.chipBest"
 msgstr ""
 
@@ -347,11 +358,13 @@ msgstr ""
 msgid "vote.guest.best"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
 msgid "vote.premium.cancel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.errorBody"
 msgstr ""
 
@@ -414,6 +427,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
 msgid "vote.guest.direct"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
+msgid "vote.premium.pitch.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/final/tie-line.tsx
@@ -619,6 +636,7 @@ msgid "vote.search.none"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.none"
 msgstr ""
 
@@ -627,6 +645,7 @@ msgid "vote.inbox.open"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.orTry"
 msgstr ""
 
@@ -647,16 +666,17 @@ msgstr ""
 msgid "vote.inbox.pickLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
+msgid "vote.pitch.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.pitchCta"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.pitch"
-msgstr ""
-
-#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
-msgid "vote.pitch.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
@@ -686,6 +706,7 @@ msgid "vote.newPoll.post"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.chipPending"
 msgstr ""
 
@@ -703,11 +724,13 @@ msgid "vote.premium.guest.save"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.search"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 #: ../../apps/mobile/src/features/vote/premium/places/search-places.tsx
 msgid "vote.pitch.searchFailed"
 msgstr ""
@@ -717,6 +740,7 @@ msgid "vote.search.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.searching"
 msgstr ""
 
@@ -817,6 +841,7 @@ msgid "vote.reveal.setupWithOrganiser"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.errorTitle"
 msgstr ""
 
@@ -849,12 +874,13 @@ msgstr ""
 msgid "vote.guest.retryPlace"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
-msgid "vote.guest.retry"
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
+msgid "vote.pitch.retry"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
-msgid "vote.pitch.retry"
+#: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
+msgid "vote.guest.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
@@ -927,6 +953,7 @@ msgid "vote.guest.whichCrew"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.why"
 msgstr ""
 
@@ -941,6 +968,7 @@ msgid "vote.reveal.wins"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.ai"
 msgstr ""
 
@@ -978,6 +1006,7 @@ msgid "vote.search.offline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.offline"
 msgstr ""
 

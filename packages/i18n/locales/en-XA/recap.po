@@ -54,6 +54,7 @@ msgid "recap.share.stopLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.critters"
 msgstr ""
 
@@ -66,6 +67,7 @@ msgid "recap.story.cover.days"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.days"
 msgstr ""
 
@@ -132,6 +134,7 @@ msgid "recap.receipt.food"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.morePlaces"
 msgstr ""
 
@@ -188,6 +191,7 @@ msgid "recap.story.subtitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.title"
 msgstr ""
 
@@ -300,6 +304,7 @@ msgid "recap.summary.distance.about"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.distanceAbout"
 msgstr ""
 
@@ -388,6 +393,7 @@ msgid "recap.summary.writing.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.crew"
 msgstr ""
 
@@ -456,6 +462,7 @@ msgid "recap.story.theme.tokek"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.goneAction"
 msgstr ""
 
@@ -470,6 +477,7 @@ msgstr ""
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
 #: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
 #: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 #: ../../apps/mobile/src/features/recap/route-missing.tsx
 msgid "recap.link.back"
 msgstr ""
@@ -496,6 +504,7 @@ msgid "recap.memory.missing.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.missingLine"
 msgstr ""
 
@@ -592,6 +601,7 @@ msgid "recap.summary.offline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.places"
 msgstr ""
 
@@ -887,6 +897,7 @@ msgid "recap.story.stamp.detail"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.goneLine"
 msgstr ""
 
@@ -983,6 +994,7 @@ msgid "recap.award.treasurer"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.titleNoPlace"
 msgstr ""
 
@@ -997,10 +1009,12 @@ msgid "recap.memory.missing.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.gone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.missing"
 msgstr ""
 
@@ -1017,10 +1031,12 @@ msgid "recap.receipt.transit"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.eyebrowWhen"
 msgstr ""
 
@@ -1034,6 +1050,7 @@ msgid "shareImage.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.retry"
 msgstr ""
 
@@ -1069,6 +1086,7 @@ msgid "recap.summary.whereNext"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.names"
 msgstr ""
 

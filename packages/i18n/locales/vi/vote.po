@@ -10,22 +10,25 @@ msgstr ""
 #. placeholder {0}: alternative.name
 #. placeholder {1}: money(i18n.locale, alternative.delta_minor, alternative.currency)
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.cheaper"
 msgstr "{0} · rẻ hơn {1}"
 
 #. placeholder {0}: alternative.name
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.nearby"
 msgstr "{0} · gần đó"
 
 #. placeholder {0}: money(locale, chip.amount_minor, chip.currency)
-#: ../../apps/mobile/src/features/vote/final/showdown-fact-labels.ts
-msgid "vote.showdown.each"
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
+msgid "vote.pitch.chipPrice"
 msgstr "{0} mỗi người"
 
 #. placeholder {0}: money(locale, chip.amount_minor, chip.currency)
-#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
-msgid "vote.pitch.chipPrice"
+#: ../../apps/mobile/src/features/vote/final/showdown-fact-labels.ts
+msgid "vote.showdown.each"
 msgstr "{0} mỗi người"
 
 #. placeholder {0}: guide.name
@@ -42,6 +45,7 @@ msgstr "{0}/{1} đã bầu"
 
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.byline"
 msgstr "{0} giới thiệu"
 
@@ -94,6 +98,7 @@ msgstr "Bay {0} tiếng"
 #. placeholder {0}: flightHours(chip.minutes)
 #. placeholder {1}: chip.origin
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.chipFlight"
 msgstr "{0} tiếng từ {1}"
 
@@ -145,7 +150,7 @@ msgstr "{loserName} quay lại bộ bài cho lần sau"
 msgid "vote.inbox.voteBody"
 msgstr "{name} hỏi cả nhóm"
 
-#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/board/use-pitch-sheet.ts
 msgid "vote.pitch.queuedToast"
 msgstr "Đã giới thiệu {name}. Nơi này vào vòng bình chọn sau."
 
@@ -157,7 +162,7 @@ msgstr "{name} mở một cuộc bình chọn"
 msgid "vote.inbox.voteLine"
 msgstr "{name} mở một cuộc bình chọn"
 
-#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/board/use-pitch-sheet.ts
 msgid "vote.pitch.addedToast"
 msgstr "{name} đã lên bảng. {count}/{total} người đã bầu."
 
@@ -258,6 +263,10 @@ msgstr "Nếu hòa, {tiePlace} thắng: rẻ hơn {0} cho {count} người bay t
 msgid "vote.final.tieShort"
 msgstr "Nếu hòa, {tiePlace} thắng."
 
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
+msgid "vote.premium.pitch.add"
+msgstr "Thêm"
+
 #: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
 msgid "vote.newPoll.needsQuestion"
 msgstr "Thêm câu hỏi để đăng."
@@ -271,11 +280,12 @@ msgstr "Thêm lựa chọn"
 msgid "vote.newPoll.needsAnswers"
 msgstr "Thêm ít nhất hai câu trả lời."
 
-#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/board/use-pitch-sheet.ts
 msgid "vote.pitch.add"
 msgstr "Thêm vào bình chọn"
 
-#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/board/use-pitch-sheet.ts
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.onBoard"
 msgstr "Đã có trên bảng"
 
@@ -340,6 +350,7 @@ msgstr "Đẹp nhất {0}"
 
 #. placeholder {0}: chip.months.map((month) => monthShort(locale, month)).join(' · ')
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.chipBest"
 msgstr "Đẹp nhất: {0}"
 
@@ -347,11 +358,13 @@ msgstr "Đẹp nhất: {0}"
 msgid "vote.guest.best"
 msgstr "Đẹp nhất: {months}"
 
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
 msgid "vote.premium.cancel"
 msgstr "Huỷ"
 
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.errorBody"
 msgstr "Kiểm tra kết nối rồi hỏi lại nhé."
 
@@ -415,6 +428,10 @@ msgstr "Bay thẳng"
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
 msgid "vote.guest.direct"
 msgstr "Bay thẳng từ nhà"
+
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
+msgid "vote.premium.pitch.back"
+msgstr "Xong"
 
 #: ../../apps/mobile/src/features/vote/final/tie-line.tsx
 msgid "vote.final.allIn"
@@ -619,6 +636,7 @@ msgid "vote.search.none"
 msgstr "Chưa có nơi nào tên “{0}”."
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.none"
 msgstr "Chưa có nơi nào tên “{asked}”. Xem lại chính tả, hoặc thử tên nước."
 
@@ -627,6 +645,7 @@ msgid "vote.inbox.open"
 msgstr "Mở bình chọn"
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.orTry"
 msgstr "Hoặc thử"
 
@@ -647,16 +666,17 @@ msgstr "Chọn đội vào chung kết cuối"
 msgid "vote.inbox.pickLine"
 msgstr "Chọn suất cuối vào chung kết"
 
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
+msgid "vote.pitch.title"
+msgstr "Giới thiệu một nơi"
+
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.pitchCta"
 msgstr "Giới thiệu một nơi"
 
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.pitch"
-msgstr "Giới thiệu một nơi"
-
-#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
-msgid "vote.pitch.title"
 msgstr "Giới thiệu một nơi"
 
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
@@ -686,6 +706,7 @@ msgid "vote.newPoll.post"
 msgstr "Đăng bình chọn"
 
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.chipPending"
 msgstr "Đang chờ giá"
 
@@ -703,11 +724,13 @@ msgid "vote.premium.guest.save"
 msgstr "Lưu"
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.search"
 msgstr "Tìm một nơi"
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 #: ../../apps/mobile/src/features/vote/premium/places/search-places.tsx
 msgid "vote.pitch.searchFailed"
 msgstr "Tìm kiếm chưa trả lời. Thử lại sau chút nhé."
@@ -717,6 +740,7 @@ msgid "vote.search.title"
 msgstr "Tìm địa điểm"
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.searching"
 msgstr "Đang tìm địa điểm"
 
@@ -817,6 +841,7 @@ msgid "vote.reveal.setupWithOrganiser"
 msgstr "Người tổ chức sẽ lên kế hoạch tiếp."
 
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.errorTitle"
 msgstr "Lời giới thiệu chưa tới"
 
@@ -849,12 +874,13 @@ msgstr "Cuộc bình chọn này không có ở đây"
 msgid "vote.guest.retryPlace"
 msgstr "Thử lại"
 
-#: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
-msgid "vote.guest.retry"
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
+msgid "vote.pitch.retry"
 msgstr "Thử lại"
 
-#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
-msgid "vote.pitch.retry"
+#: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
+msgid "vote.guest.retry"
 msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
@@ -927,6 +953,7 @@ msgid "vote.guest.whichCrew"
 msgstr "Giới thiệu cho nhóm nào?"
 
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.why"
 msgstr "Vì sao nhóm bạn có thể mê"
 
@@ -941,6 +968,7 @@ msgid "vote.reveal.wins"
 msgstr "Thắng {0}"
 
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.ai"
 msgstr "Do AI viết"
 
@@ -978,6 +1006,7 @@ msgid "vote.search.offline"
 msgstr "Bạn đang ngoại tuyến. Có mạng lại là tìm được."
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.offline"
 msgstr "Bạn đang ngoại tuyến. Có mạng lại là tìm được."
 
