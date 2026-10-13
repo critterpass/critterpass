@@ -6,10 +6,7 @@
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import * as Clipboard from 'expo-clipboard';
-import { launchImageLibraryAsync } from 'expo-image-picker';
 import { router } from 'expo-router';
-import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -29,12 +26,7 @@ import { Text } from '@/ui/text/Text';
 import { ImportTiles } from '@/ui/trip/ImportTiles';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { driversRoute } from '../shared/routes';
-import { useDriverDays } from '../shared/use-driver-days';
-import { useDrivers } from '../shared/use-drivers';
-import { contactCard, useIntake } from './use-intake';
-
-type Mode = 'paste' | 'contact';
+import { useAddDriver, type TextReader } from './use-add-driver';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
@@ -52,11 +44,6 @@ const useStyles = makeStyles((t) => ({
   },
 }));
 
-/** The phone's text reader (the `cp-ocr` module, passed in by the route); null without one. */
-export interface TextReader {
-  recognize(uri: string): Promise<{ readonly lines: readonly { readonly text: string }[] }>;
-}
-
 export function AddDriverScreen({
   tripId,
   days,
@@ -70,40 +57,9 @@ export function AddDriverScreen({
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
-  const plan = useDriverDays(tripId);
-  const { state: drivers, refresh } = useDrivers(tripId);
-  const intake = useIntake(tripId);
-  const [mode, setMode] = useState<Mode>('paste');
-  const [text, setText] = useState('');
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const add = useAddDriver({ tripId, ocr, ...(days ? { days } : {}) });
+  const { plan, intake, mode, text, name, phone, reading, items, openCheck } = add;
   const sticker = guideSticker(plan.guide.id);
-  const reading = intake.state.kind === 'reading';
-  const openCheck = (intakeId: string) =>
-    router.push(driversRoute(tripId, 'check', { intake: intakeId, ...(days ? { days } : {}) }));
-  const read = async (
-    kind: 'text' | 'image' | 'contact',
-    body: string,
-    preset?: ReturnType<typeof contactCard>,
-  ) => {
-    const item = await intake.submit(kind, body, preset);
-    void refresh();
-    if (item !== null) openCheck(item.intakeId);
-  };
-  const screenshot = async () => {
-    const picked = await launchImageLibraryAsync({ mediaTypes: ['images'], quality: 1 });
-    const uri = picked.canceled ? null : (picked.assets[0]?.uri ?? null);
-    if (uri === null) return;
-    const result = ocr === null ? null : await ocr.recognize(uri).catch(() => null);
-    const lines = result?.lines.map((line) => line.text).join('\n') ?? '';
-    if (lines.trim() === '') {
-      router.push(driversRoute(tripId, 'check', { unread: '1', ...(days ? { days } : {}) }));
-      return;
-    }
-    await read('image', lines);
-  };
-  const items =
-    drivers.kind === 'ready' || drivers.kind === 'offline' ? (drivers.data?.intake ?? []) : [];
   return (
     <Scaffold variant="dark" testID="drivers-add">
       <ScrollView
@@ -125,26 +81,21 @@ export function AddDriverScreen({
               label: upper(t({ id: 'drivers.add.paste', message: 'Paste' }), locale),
               detail: t({ id: 'drivers.add.pasteDetail', message: 'Text or a link' }),
               color: theme.color.yellow,
-              onPress: () => {
-                setMode('paste');
-                void Clipboard.getStringAsync().then((clip) => {
-                  if (clip.trim() !== '') setText(clip);
-                });
-              },
+              onPress: add.paste,
             },
             {
               id: 'screenshot',
               label: upper(t({ id: 'drivers.add.screenshot', message: 'Screenshot' }), locale),
               detail: t({ id: 'drivers.add.screenshotDetail', message: 'Drop or pick one' }),
               color: theme.color.pink,
-              onPress: () => void screenshot(),
+              onPress: add.screenshot,
             },
             {
               id: 'contact',
               label: upper(t({ id: 'drivers.add.contact', message: 'Contact' }), locale),
               detail: t({ id: 'drivers.add.contactDetail', message: 'From WhatsApp' }),
               color: theme.color.blue,
-              onPress: () => setMode('contact'),
+              onPress: () => add.setMode('contact'),
             },
           ]}
         />
@@ -155,7 +106,7 @@ export function AddDriverScreen({
                 label={t({ id: 'drivers.add.pasteLabel', message: 'The driver’s message' })}
                 labelHidden
                 value={text}
-                onChangeText={setText}
+                onChangeText={add.setText}
                 multiline
                 maxLines={8}
                 placeholder={t({
@@ -170,10 +121,8 @@ export function AddDriverScreen({
                   tone="yellow"
                   size="sm"
                   loading={reading}
-                  disabled={text.trim().length < 8 || reading}
-                  onPress={() =>
-                    void read(/^https?:\/\//u.test(text.trim()) ? 'text' : 'text', text)
-                  }
+                  disabled={!add.canRead}
+                  onPress={add.readText}
                   testID="drivers-add-read"
                 />
               </Row>
@@ -183,7 +132,7 @@ export function AddDriverScreen({
               <TextField
                 label={t({ id: 'drivers.add.contactName', message: 'Name' })}
                 value={name}
-                onChangeText={setName}
+                onChangeText={add.setName}
                 testID="drivers-add-contact-name"
               />
               <TextField
@@ -192,7 +141,7 @@ export function AddDriverScreen({
                   message: 'WhatsApp number, with its country code',
                 })}
                 value={phone}
-                onChangeText={setPhone}
+                onChangeText={add.setPhone}
                 keyboardType="phone-pad"
                 testID="drivers-add-contact-phone"
               />
@@ -200,8 +149,8 @@ export function AddDriverScreen({
                 label={t({ id: 'drivers.add.addContact', message: 'Add him' })}
                 tone="yellow"
                 size="sm"
-                disabled={name.trim() === '' || reading}
-                onPress={() => void read('contact', `${name}\n${phone}`, contactCard(name, phone))}
+                disabled={!add.canAddContact}
+                onPress={add.addContact}
                 testID="drivers-add-contact-add"
               />
             </Stack>

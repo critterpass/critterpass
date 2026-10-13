@@ -7,6 +7,7 @@
  * they arrive. Skipping it just for her is always there.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
+import type { LateOptionKind } from '@cp/domain';
 import { useEffect, useState, type ReactNode } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
@@ -24,6 +25,7 @@ import { saidLateLines, saidPushDetail } from './copy';
 import { LateMap } from './late-map';
 import { LateView } from './late-view';
 import { saidLateModel } from './said-late-model';
+import type { LateScene } from './use-known-late';
 
 const OPEN_SQL = `SELECT id FROM disruptions
   WHERE trip_id = ? AND kind = 'running_late' AND status = 'open'
@@ -48,6 +50,8 @@ export function SaidLateScreen(props: {
   readonly minutes: number;
   /** The screen of a lateness the server has opened, by its id. */
   readonly known: (disruptionId: string) => ReactNode;
+  /** Draws the scene in place of the current view (the premium screen). */
+  readonly render?: (scene: LateScene) => ReactNode;
 }) {
   const { tripId, stableId, minutes } = props;
   const syncPhase = useSyncPhase();
@@ -74,6 +78,22 @@ export function SaidLateScreen(props: {
   const guide = guideOr(said.guideSlug);
   const base = { guide, guideName: guideName(guide, null), sending, onBack: back };
   if (stop === null) {
+    if (props.render !== undefined) {
+      return props.render({
+        props: {
+          ...base,
+          state: said.loaded ? 'missing' : 'loading',
+          model: null,
+          reason: '',
+          lateNames: [],
+          onChoose: () => undefined,
+        },
+        place: undefined,
+        fix: null,
+        offline: syncPhase === 'offline',
+        destinationSlug: said.destinationSlug,
+      });
+    }
     return (
       <LateView
         {...base}
@@ -87,6 +107,53 @@ export function SaidLateScreen(props: {
     );
   }
   const fix = getLocationEngine()?.recentFixes().at(-1) ?? null;
+  const ready = {
+    ...base,
+    state: 'ready' as const,
+    model: saidLateModel({
+      title: stop.title,
+      minutes,
+      start: stop.start,
+      to: stop.to,
+      me: said.me,
+      canPush: stop.canPush,
+    }),
+    // A push that runs into a stop that can't move says so; with a crew, who was told.
+    reason: !stop.alone ? lines.told : (stop.blocked ?? lines.pick),
+    lateNames: [],
+    details: { push: saidPushDetail(stop.title, stop.to, stop.moves), skip: lines.skip },
+    onChoose: (choice: LateOptionKind) => {
+      if (sending) return;
+      setSending(true);
+      // The push answers with the plan editor's outcome (which also says what moved, with undo).
+      const went =
+        choice === 'push'
+          ? said.push().then((outcome) => outcome !== false && !isUnavailable(outcome))
+          : said.skip();
+      void went
+        .then((ok) => {
+          if (!ok) {
+            toast.show({ id: 'late-said-failed', title: lines.failed });
+            return;
+          }
+          if (choice !== 'push') toast.show({ id: 'late-skipped', title: lines.skipped });
+          back();
+        })
+        .finally(() => setSending(false));
+    },
+  };
+  if (props.render !== undefined) {
+    return props.render({
+      props: ready,
+      place:
+        stop.place === null
+          ? undefined
+          : { id: stableId, name: stop.title, lat: stop.place.lat, lng: stop.place.lng },
+      fix,
+      offline: syncPhase === 'offline',
+      destinationSlug: said.destinationSlug,
+    });
+  }
   const map =
     stop.place === null || syncPhase === 'offline' ? null : (
       <LateMap
@@ -95,42 +162,5 @@ export function SaidLateScreen(props: {
         destinationSlug={said.destinationSlug}
       />
     );
-  return (
-    <LateView
-      {...base}
-      state="ready"
-      model={saidLateModel({
-        title: stop.title,
-        minutes,
-        start: stop.start,
-        to: stop.to,
-        me: said.me,
-        canPush: stop.canPush,
-      })}
-      // A push that runs into a stop that can't move says so; with a crew, who was told.
-      reason={!stop.alone ? lines.told : (stop.blocked ?? lines.pick)}
-      lateNames={[]}
-      map={map}
-      details={{ push: saidPushDetail(stop.title, stop.to, stop.moves), skip: lines.skip }}
-      onChoose={(choice) => {
-        if (sending) return;
-        setSending(true);
-        // The push answers with the plan editor's outcome (which also says what moved, with undo).
-        const went =
-          choice === 'push'
-            ? said.push().then((outcome) => outcome !== false && !isUnavailable(outcome))
-            : said.skip();
-        void went
-          .then((ok) => {
-            if (!ok) {
-              toast.show({ id: 'late-said-failed', title: lines.failed });
-              return;
-            }
-            if (choice !== 'push') toast.show({ id: 'late-skipped', title: lines.skipped });
-            back();
-          })
-          .finally(() => setSending(false));
-      }}
-    />
-  );
+  return <LateView {...ready} map={map} />;
 }

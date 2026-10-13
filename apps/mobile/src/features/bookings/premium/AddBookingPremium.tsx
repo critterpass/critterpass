@@ -6,7 +6,10 @@
  */
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
+import { router } from 'expo-router';
+import { useEffect } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import Animated, { FadeOut, LinearTransition, SlideOutRight } from 'react-native-reanimated';
 
 import { guideCritterKind, IconTile, turn, type LineIconName } from '@/features/trip';
 import {
@@ -14,20 +17,26 @@ import {
   Button,
   GuideNote,
   PressableScale,
+  REDUCED_FADE_MS,
   Text,
   TextButton,
+  usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { LinkCodeFlow } from '../add/LinkCodeFlow';
-import { PasteFlow } from '../add/PasteFlow';
 import { useScanLine } from '../add/scan-line';
 import type { ImportChannel } from '../add/ImportTiles';
 import { useAddBooking } from '../add/use-add-booking';
 import { useWalletGuide, WalletGuideProvider } from '../data/wallet-guide';
+import { BOOKINGS_ROUTES } from '../routes';
 import { CandidateCard } from './components/CandidateCard';
-import { MailboxPremium } from './MailboxPremium';
+
+const SHEET_ROUTES = {
+  paste: BOOKINGS_ROUTES.paste,
+  link: BOOKINGS_ROUTES.linkCode,
+  mailbox: BOOKINGS_ROUTES.mailbox,
+} as const;
 
 function Tile(props: {
   readonly icon: LineIconName;
@@ -74,6 +83,7 @@ function Tile(props: {
 function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
+  const reduced = usePremiumReducedMotion();
   const guide = useWalletGuide();
   const p = add.props;
   const scanLine = useScanLine(p.scan);
@@ -183,16 +193,28 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
       )}
       <View style={{ gap: th.space.gap10 }} testID="bookings-candidates">
         {p.candidates.map((view) => (
-          <CandidateCard
+          // Added slides out to the right, ignored fades; the list closes the gap (7.03, Smooth).
+          <Animated.View
             key={view.id}
-            view={view}
-            split={p.splits[view.id] ?? view.canSplit}
-            tz={p.tz}
-            onSplit={(next) => p.onSplit(view.id, next)}
-            onAdd={() => p.onAdd(view.id)}
-            onIgnore={() => p.onIgnore(view.id)}
-            onByHand={() => p.onByHand(view.id)}
-          />
+            exiting={
+              reduced
+                ? FadeOut.duration(REDUCED_FADE_MS)
+                : p.leaving[view.id] === 'add'
+                  ? SlideOutRight.springify()
+                  : FadeOut
+            }
+            layout={reduced ? undefined : LinearTransition.springify()}
+          >
+            <CandidateCard
+              view={view}
+              split={p.splits[view.id] ?? view.canSplit}
+              tz={p.tz}
+              onSplit={(next) => p.onSplit(view.id, next)}
+              onAdd={() => p.onAdd(view.id)}
+              onIgnore={() => p.onIgnore(view.id)}
+              onByHand={() => p.onByHand(view.id)}
+            />
+          </Animated.View>
         ))}
       </View>
       <GuideNote
@@ -235,6 +257,14 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
 export function AddBookingPremium({ start }: { readonly start?: string | undefined }) {
   const { t } = useLingui();
   const add = useAddBooking(start);
+  const { sheet, setSheet } = add;
+  // Paste, the link code and the mailbox are native form sheets over this page (a tile, a link
+  // below, or `start` from another page).
+  useEffect(() => {
+    if (sheet === null) return;
+    setSheet(null);
+    router.push(SHEET_ROUTES[sheet]);
+  }, [sheet, setSheet]);
   const back = t({ id: 'bookings.back', message: 'Bookings' });
   return (
     <WalletGuideProvider tripId={add.guideTripId}>
@@ -245,20 +275,6 @@ export function AddBookingPremium({ start }: { readonly start?: string | undefin
         testID="bookings-add"
       >
         <Body add={add} />
-        {add.sheet === 'paste' ? (
-          <PasteFlow tripId={add.tripId} onDone={() => add.setSheet(null)} />
-        ) : null}
-        {add.sheet === 'link' ? (
-          <LinkCodeFlow crewId={add.crewId} onDone={() => add.setSheet(null)} />
-        ) : null}
-        {add.sheet === 'mailbox' ? (
-          <MailboxPremium
-            status={add.mailbox.status}
-            address={add.address}
-            onChanged={add.mailbox.reload}
-            onClose={() => add.setSheet(null)}
-          />
-        ) : null}
       </PushScreen>
     </WalletGuideProvider>
   );

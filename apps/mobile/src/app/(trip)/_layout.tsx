@@ -1,3 +1,4 @@
+/* eslint-disable lingui/no-unlocalized-strings -- route names, never copy. */
 import { Stack } from 'expo-router/js-stack';
 
 import { sheetScreens } from '@/lib/navigation/sheet-routes';
@@ -6,7 +7,7 @@ import { usePremiumUi } from '@/lib/premium-ui';
 import { useMotionMode } from '@/motion/motion-mode';
 import { useTheme } from '@/ui';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
-import { SELF_ANIMATED_SHEET } from '@/ui/premium/shell/navigation/premium-root-stack';
+import { FULL_SCREEN_ROUTE_OPTIONS, sheetRouteOptions } from '@/ui/premium/shell';
 import { PremiumGroupErrorBoundary } from '@/features/home/premium/recovery/premium-error-boundary';
 import { SessionGate } from '@/ui/states/SessionGate';
 
@@ -22,14 +23,17 @@ export default function TripLayout() {
   const [motionMode] = useMotionMode();
 
   if (usePremiumUi()) {
-    // The premium UI: a native stack, so the trip hub's zoom and native sheets work from here.
+    // The premium UI: a native stack, so the trip hub's zoom and native sheets work from here. The
+    // lock-screen offer is a native form sheet over the crew map that opens it.
     return (
       <SessionGate>
         <PremiumStack>
-          {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a navigator's path, never copy. */}
           {sheetScreens('(trip)').map((name) => (
-            <PremiumStackScreen key={name} name={name} options={SELF_ANIMATED_SHEET} />
+            <PremiumStackScreen key={name} name={name} options={sheetRouteOptions('fit')} />
           ))}
+          {/* A crew SOS takes the whole screen (6.17), and so does sending one. */}
+          <PremiumStackScreen name="sos/[id]" options={FULL_SCREEN_ROUTE_OPTIONS} />
+          <PremiumStackScreen name="sos/send" options={FULL_SCREEN_ROUTE_OPTIONS} />
         </PremiumStack>
       </SessionGate>
     );
@@ -38,7 +42,6 @@ export default function TripLayout() {
     <SessionGate>
       <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
         {/* The lock-screen offer rises over the screen that opened it. */}
-        {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a navigator's path, never copy. */}
         {sheetScreens('(trip)').map((name) => (
           <Stack.Screen key={name} name={name} options={modalGroupOptions()} />
         ))}

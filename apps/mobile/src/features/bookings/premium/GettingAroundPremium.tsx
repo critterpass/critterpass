@@ -10,7 +10,7 @@ import { useRef } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { RideBackCard } from '@/features/drivers';
+import { RideBackCardPremium } from '@/features/drivers';
 import { PremiumMapCanvas, StayFlag } from '@/features/plan';
 import { IconTile } from '@/features/trip';
 import {
@@ -133,7 +133,7 @@ export function GettingAroundPremium(input: {
             gap: th.space.gap12,
           }}
         >
-          {p.tripId === null ? null : <RideBackCard tripId={p.tripId} date={p.today} />}
+          {p.tripId === null ? null : <RideBackCardPremium tripId={p.tripId} date={p.today} />}
           {p.transfer === null ? null : (
             <PressableScale
               onPress={p.transfer.onOpen}

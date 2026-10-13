@@ -78,9 +78,9 @@ export interface PickDaysViewProps {
   readonly chosen: number;
   readonly busy: 'set' | 'ask' | null;
   /** Sets him at once; null when his quote has to go to the crew first. */
-  readonly onSet: (() => void) | null;
+  readonly onSet: (() => void | Promise<void>) | null;
   /** Puts the pick to the crew as a vote; null on a trip of one. */
-  readonly onAsk: (() => void) | null;
+  readonly onAsk: (() => void | Promise<void>) | null;
 }
 
 export function PickDaysView(props: PickDaysViewProps) {
@@ -244,7 +244,7 @@ export function PickDaysView(props: PickDaysViewProps) {
               block
               disabled={chosen === 0 || props.busy !== null}
               loading={props.busy !== null}
-              onPress={submit}
+              onPress={() => void submit()}
               testID="drivers-pick-set"
             />
           )}

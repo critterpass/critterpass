@@ -77,7 +77,6 @@ export function WalletBookingsScreen() {
       primary: true,
       onPress: () => router.push(ADD_SHEET_ROUTE),
       testID: 'bookings-add',
-      morph: true,
     },
   ];
 

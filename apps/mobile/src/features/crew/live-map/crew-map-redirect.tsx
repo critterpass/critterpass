@@ -1,6 +1,7 @@
 /**
  * `/map/crew/{crewId}` (the chat's MAP pill): opens the crew map of the crew's trip that is under
- * way, or of the next one; with no trip at all, says so.
+ * way, or of the next one; with no trip at all, says so (premium: a push with the sleeping guide
+ * and the way back to the chat).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { t } from '@lingui/core/macro';
@@ -9,18 +10,64 @@ import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
+import { guideCritterKind, guideCritterName } from '@/features/trip';
+import { usePremiumUi } from '@/lib/premium-ui';
 import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { useTheme } from '@/ui';
+import { Button, EmptyState as PremiumEmptyState, usePremiumTheme } from '@/ui/premium';
+import { PushScreen } from '@/ui/premium/shell';
 
 import { quoted } from '../chat/data/rows';
+
+function noTripCopy() {
+  return {
+    title: t({ id: 'liveMap.noTrip.title', message: 'No trip on the map yet' }),
+    line: t({
+      id: 'liveMap.noTrip.line',
+      message: 'The crew map opens on the days of a trip you take together.',
+    }),
+    back: t({ id: 'liveMap.noTrip.back', message: 'Back to the chat' }),
+  };
+}
+
+function PremiumNoTrip({ loading }: { readonly loading: boolean }) {
+  const th = usePremiumTheme();
+  const copy = noTripCopy();
+  if (loading) return <View style={{ flex: 1, backgroundColor: th.color.ground }} />;
+  return (
+    <PushScreen
+      title={t({ id: 'liveMap.premium.crewMap', message: 'Crew map' })}
+      backLabel={t({ id: 'liveMap.premium.back', message: 'Back' })}
+      testID="live-no-trip"
+    >
+      <View style={{ paddingTop: 80 }}>
+        <PremiumEmptyState
+          title={copy.title}
+          line={copy.line}
+          critter={{ kind: guideCritterKind('tokek'), name: guideCritterName('tokek') }}
+          check={false}
+          action={
+            <Button
+              label={copy.back}
+              variant="secondary"
+              size="medium"
+              onPress={() => router.back()}
+            />
+          }
+        />
+      </View>
+    </PushScreen>
+  );
+}
 
 export function CrewMapRedirect() {
   const { crewId } = useLocalSearchParams<{ crewId: string }>();
   const { db } = useLocalFirst();
   const theme = useTheme();
+  const premium = usePremiumUi();
   const [trip, setTrip] = useState<string | null | undefined>(undefined);
   useEffect(() => {
     void db
@@ -34,9 +81,11 @@ export function CrewMapRedirect() {
         () => setTrip(null),
       );
   }, [db, crewId]);
+  if (trip !== null && trip !== undefined) return <Redirect href={`/map/${trip}?from=chat`} />;
+  if (premium) return <PremiumNoTrip loading={trip === undefined} />;
   if (trip === undefined)
     return <View style={{ flex: 1, backgroundColor: theme.color.map.base }} />;
-  if (trip !== null) return <Redirect href={`/map/${trip}?from=chat`} />;
+  const copy = noTripCopy();
   const guide = guideSticker('tokek');
   return (
     <View style={{ flex: 1, justifyContent: 'center', backgroundColor: theme.semantic.bg.base }}>
@@ -44,20 +93,12 @@ export function CrewMapRedirect() {
         guide="tokek"
         guideName={guide.name}
         sticker={<Sticker kind={guide.kind} name={guide.name} size={72} />}
-        title={t({ id: 'liveMap.noTrip.title', message: 'No trip on the map yet' })}
-        line={t({
-          id: 'liveMap.noTrip.line',
-          message: 'The crew map opens on the days of a trip you take together.',
-        })}
+        title={copy.title}
+        line={copy.line}
         testID="live-no-trip"
       />
       <View style={{ paddingHorizontal: theme.space['24'] }}>
-        <PillButton
-          label={t({ id: 'liveMap.noTrip.back', message: 'Back to the chat' })}
-          variant="secondary"
-          onPress={() => router.back()}
-          block
-        />
+        <PillButton label={copy.back} variant="secondary" onPress={() => router.back()} block />
       </View>
     </View>
   );

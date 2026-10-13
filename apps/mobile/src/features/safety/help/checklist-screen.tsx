@@ -4,19 +4,10 @@
  * IT, SHARE, ride quote, the guide, the ops desk). Offline it is built from synced rows and worded
  * from the app's own templates; online the guide's wording replaces them when it answers in time.
  */
-import { helpProblemSchema, type ChecklistStep, type HelpProblem } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { Linking, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { useCommand } from '@/data/commands/use-command';
-import { useTripStreams } from '@/data/powersync/use-trip-streams';
-import { pickPolicy, useInsurancePolicies, BOOKINGS_ROUTES } from '@/features/bookings';
-import { useLocale } from '@/lib/i18n/use-locale';
-import { hrefFor } from '@/lib/navigation/screen-registry';
-import { useCommandFeedback } from '@/motion/island-toast';
 import { Card } from '@/ui/cards/Card';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
@@ -28,109 +19,18 @@ import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 import { PhraseCard } from '@/ui/trip/PhraseCard';
 
-import { requestOpsClinicCallCommand, startHelpShareCommand } from '../commands';
-import { deviceHelpApi } from '../data/help-api';
-import { useSpeech } from '../data/use-speech';
-import { telUrl } from '../format';
 import { safetyRoutes } from '../routes';
 import { stepText } from './checklist-copy';
-import { useOpsDesk } from '../data/use-ops-desk';
-import {
-  checklistPhrase,
-  localChecklist,
-  readsPhraseLanguage,
-  withDesk,
-  withPhrase,
-} from './checklist-model';
 import { ShowIt } from './show-it';
-import { useHelpHub } from './use-help-hub';
-import { useStepActions, type StepAction } from './use-step-actions';
+import { useChecklistScreen } from './use-checklist-screen';
+import type { StepAction } from './use-step-actions';
 
 export function ChecklistScreen() {
   const { t, i18n } = useLingui();
   const theme = useTheme();
   const insets = useSafeAreaInsets();
-  const params = useLocalSearchParams<{ problem?: string; tripId?: string }>();
-  const parsed = helpProblemSchema.safeParse(params.problem);
-  const problem: HelpProblem = parsed.success ? parsed.data : 'hurt';
-  const asked = typeof params.tripId === 'string' && params.tripId !== '' ? params.tripId : null;
-  const hub = useHelpHub(deviceHelpApi, asked);
-  useTripStreams(hub.tripId);
-  const [server, setServer] = useState<readonly ChecklistStep[] | null>(null);
-  const [showIt, setShowIt] = useState(false);
-  const [askDesk, setAskDesk] = useState(false);
-  const policy = pickPolicy(useInsurancePolicies().policies, hub.tripId);
-  const clinic = useCommand(requestOpsClinicCallCommand);
-  const share = useCommand(startHelpShareCommand);
-  const { report } = useCommandFeedback();
-
-  useEffect(() => {
-    if (hub.tripId === null || !hub.located) return undefined;
-    let live = true;
-    void deviceHelpApi.checklist(hub.tripId, problem, hub.position).then((steps) => {
-      if (live && steps !== null) setServer(steps);
-    });
-    return () => {
-      live = false;
-    };
-  }, [hub.tripId, hub.located, hub.position, problem]);
-
-  const desk = useOpsDesk();
-  const locale = useLocale();
-  const found = checklistPhrase(hub.model, problem);
-  const phrase = found !== null && readsPhraseLanguage(locale, found.language) ? null : found;
-  const steps = withPhrase(
-    withDesk(server ?? localChecklist(hub.model, problem), desk),
-    phrase !== null || found === null,
-    // With no trip there is no crew to share a position with.
-  ).filter((step) => hub.tripId !== null || step.kind !== 'share_pin');
-  const speech = useSpeech(phrase?.text ?? null, phrase?.language ?? null);
-  const actionsFor = useStepActions({
-    model: hub.model,
-    assistancePhone: policy?.assistance_phone ?? null,
-    hasPolicy: policy !== null,
-    onShowPhrase: () => setShowIt(true),
-    onAskDesk: () => setAskDesk(true),
-    onShare: () => {
-      if (hub.tripId === null) return;
-      void share.send({ trip_id: hub.tripId, reason: 'help' }).then((result) =>
-        report(result, {
-          offlineCapable: true,
-          id: 'checklist-share',
-          done:
-            result.kind === 'queued'
-              ? t({
-                  id: 'safety.checklist.shareQueued',
-                  message: 'Your crew sees where you are the moment you have signal',
-                })
-              : t({ id: 'safety.checklist.shared', message: 'Your crew can see where you are' }),
-        }),
-      );
-    },
-    open: (target) => {
-      if (target.kind === 'tel') void Linking.openURL(telUrl(target.number));
-      else if (target.kind === 'insurance') router.push(BOOKINGS_ROUTES.insurance);
-      else {
-        const href = hrefFor(target.screen, {
-          ...(hub.tripId === null ? {} : { tripId: hub.tripId }),
-          ...target.params,
-        });
-        if (href !== undefined) router.push(href);
-      }
-    },
-  });
-
-  const titles: Readonly<Record<HelpProblem, string>> = {
-    hurt: t({ id: 'safety.help.hurt', message: 'Hurt or sick' }),
-    lost_stolen: t({ id: 'safety.help.lostStolen', message: 'Lost or stolen' }),
-    lost: t({ id: 'safety.help.imLost', message: "I'm lost" }),
-    missed_ride: t({ id: 'safety.help.missedRide', message: 'Missed a ride' }),
-  };
-  const deskText = t({
-    id: 'safety.desk.consequence',
-    message:
-      'A person on the ops desk calls the clinic with you and tells them you may come in. Your insurance details stay with you.',
-  });
+  const list = useChecklistScreen();
+  const { problem, phrase, speech, steps, showIt, setShowIt, askDesk, setAskDesk, deskText } = list;
   return (
     <Scaffold variant="dark" testID={`help-checklist-${problem}`}>
       <ScrollView
@@ -142,10 +42,10 @@ export function ChecklistScreen() {
       >
         <BackEyebrow
           label={t({ id: 'safety.back.help', message: 'Help' })}
-          fallback={safetyRoutes.help(hub.tripId ?? undefined)}
+          fallback={safetyRoutes.help(list.tripId ?? undefined)}
         />
         <Text variant="h1" accessibilityRole="header">
-          {titles[problem]}
+          {list.title}
         </Text>
         {phrase === null ? null : (
           <PhraseCard
@@ -160,7 +60,7 @@ export function ChecklistScreen() {
         )}
         <Stack gap="10">
           {steps.map((step, index) => {
-            const action: StepAction | null = actionsFor(step);
+            const action: StepAction | null = list.actionFor(step);
             return (
               <Card key={step.id} tone="raised" testID={`checklist-step-${step.kind}`}>
                 <Row gap="12" align="center">
@@ -192,38 +92,14 @@ export function ChecklistScreen() {
           onClose={() => setShowIt(false)}
         />
       ) : null}
-      {askDesk && hub.tripId !== null ? (
+      {askDesk && list.tripId !== null ? (
         <ConfirmSheet
           title={t({ id: 'safety.desk.title', message: 'Ops desk calls the clinic with you' })}
           consequences={[deskText]}
           confirmLabel={t({ id: 'safety.desk.confirm', message: 'Ask the desk' })}
           mode="button"
           onCancel={() => setAskDesk(false)}
-          onConfirm={() => {
-            setAskDesk(false);
-            if (hub.tripId === null) return;
-            const facility = hub.model.facility;
-            void clinic
-              .send({
-                trip_id: hub.tripId,
-                share_insurance: false,
-                text_shown: deskText,
-                ...(facility === null ? {} : { facility_id: facility.id }),
-              })
-              .then((result) =>
-                report(result, {
-                  offlineCapable: true,
-                  id: 'checklist-desk',
-                  done:
-                    result.kind === 'queued'
-                      ? t({
-                          id: 'safety.desk.askedQueued',
-                          message: 'The desk is asked the moment you have signal',
-                        })
-                      : t({ id: 'safety.desk.asked', message: 'The desk has been asked' }),
-                }),
-              );
-          }}
+          onConfirm={list.sendDesk}
           testID="checklist-desk-confirm"
         />
       ) : null}

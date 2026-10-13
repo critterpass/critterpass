@@ -5,17 +5,9 @@
  * budget is never shared unasked). COPY POST puts it on the clipboard: CritterPass never posts in
  * groups and never reads them.
  */
-import {
-  ASK_POST_WORDING,
-  askPostText,
-  buildAskPost,
-  type AskPostLanguage,
-  type AskSlot,
-} from '@cp/domain';
+import type { AskPostLanguage } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import * as Clipboard from 'expo-clipboard';
-import { useState } from 'react';
 import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -35,9 +27,8 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { dayMonthLabel } from '../shared/format';
-import { driversRoute, splitDays } from '../shared/routes';
-import { useDriverDays } from '../shared/use-driver-days';
+import { driversRoute } from '../shared/routes';
+import { useAskPost } from './use-ask-post';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
@@ -50,32 +41,8 @@ export function AskForMeScreen({ tripId, days }: { tripId: string; days?: string
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
-  const plan = useDriverDays(tripId);
-  const [lang, setLang] = useState<AskPostLanguage>('en');
-  const [edits, setEdits] = useState<Partial<Record<AskSlot, string>>>({});
-  const [editing, setEditing] = useState<AskSlot | null>(null);
-  const [copied, setCopied] = useState(false);
-  const wording = ASK_POST_WORDING[lang];
-  const picked = new Set(splitDays(days));
-  const legs = plan.days
-    .filter((day) => (picked.size === 0 ? day.gap !== null : picked.has(day.date)))
-    .map((day) => ({
-      date: dayMonthLabel(day.date, lang),
-      route: [plan.area, day.gap?.place ?? day.stops.at(-1)?.name ?? '', plan.area]
-        .filter((part) => part !== '')
-        .join(' → '),
-      start: day.window?.start ?? null,
-      end: day.window?.end ?? null,
-    }));
-  const values = {
-    area: plan.area,
-    party: edits.party ?? wording.party(plan.people),
-    seats: edits.seats ?? wording.seats(plan.people + 1),
-    language: edits.language ?? wording.language,
-    budget: edits.budget === undefined || edits.budget === '' ? null : edits.budget,
-    legs,
-  };
-  const segments = buildAskPost(wording, values);
+  const ask = useAskPost(tripId, days);
+  const { plan, lang, segments, editing, setEditing, copied } = ask;
   const sticker = guideSticker(plan.guide.id);
   const ink = theme.color.paper.ink;
   return (
@@ -116,10 +83,7 @@ export function AskForMeScreen({ tripId, days }: { tripId: string; days?: string
                   { value: 'id', label: 'ID' },
                 ]}
                 value={lang}
-                onChange={(next) => {
-                  setCopied(false);
-                  setLang(next);
-                }}
+                onChange={ask.setLang}
                 label={t({ id: 'drivers.ask.language', message: 'Language of the post' })}
                 testID="drivers-ask-lang"
               />
@@ -145,18 +109,14 @@ export function AskForMeScreen({ tripId, days }: { tripId: string; days?: string
             {editing === null ? null : (
               <TextField
                 label={t({ id: 'drivers.ask.edit', message: 'Change this part' })}
-                value={edits[editing] ?? (editing === 'budget' ? '' : values[editing])}
-                onChangeText={(text) => {
-                  // The post changed: what was copied is no longer what is shown.
-                  setCopied(false);
-                  setEdits((prev) => ({ ...prev, [editing]: text }));
-                }}
+                value={ask.editValue}
+                onChangeText={ask.edit}
                 onSubmitEditing={() => setEditing(null)}
                 autoFocus
                 testID="drivers-ask-edit"
               />
             )}
-            {values.budget === null && editing !== 'budget' ? (
+            {ask.canAddBudget ? (
               <TextLink
                 label={t({ id: 'drivers.ask.addBudget', message: 'Add a budget' })}
                 onPress={() => setEditing('budget')}
@@ -182,10 +142,7 @@ export function AskForMeScreen({ tripId, days }: { tripId: string; days?: string
               ? t({ id: 'drivers.ask.copied', message: 'Copied' })
               : t({ id: 'drivers.ask.copy', message: 'Copy post' })
           }
-          onPress={() => {
-            setEditing(null);
-            void Clipboard.setStringAsync(askPostText(segments)).then(() => setCopied(true));
-          }}
+          onPress={ask.copy}
           testID="drivers-ask-copy"
         />
       </KeyboardFooter>

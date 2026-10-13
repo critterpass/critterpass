@@ -19,7 +19,8 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { initialsColour, useVehicleLine } from './DriverCard';
+import { useVehicleLine } from '../shared/vehicle-line';
+import { initialsColour } from './DriverCard';
 
 const useStyles = makeStyles((t) => ({
   photo: {

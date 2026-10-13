@@ -4,12 +4,10 @@
  * trip, his number from the last driver read) so it works with no data. CALL uses the dialer (signal,
  * not data); WHATSAPP opens his chat, and WhatsApp sends it once the phone is back online.
  */
-import { telLink, whatsappLink } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { Linking, View } from 'react-native';
+import { View } from 'react-native';
 
-import { useOnline } from '@/data/places/server-name-search';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Icon } from '@/ui/icons/Icon';
@@ -19,8 +17,7 @@ import { Avatar } from '@/ui/people/Avatar';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { money } from '../shared/format';
-import { cachedDrivers, useAssignments } from '../shared/use-drivers';
+import { useRideBack } from './use-ride-back';
 
 const useStyles = makeStyles((t) => ({
   card: {
@@ -35,51 +32,14 @@ const useStyles = makeStyles((t) => ({
   },
 }));
 
-interface Agreed {
-  readonly price_minor?: string | number | null;
-  readonly currency?: string | null;
-  readonly includes?: Readonly<Record<string, string>>;
-}
-
-const parse = <T,>(raw: string | null): T | null => {
-  if (raw === null) return null;
-  try {
-    return JSON.parse(raw) as T;
-  } catch {
-    return null;
-  }
-};
-
 export function RideBackCard({ tripId, date }: { readonly tripId: string; readonly date: string }) {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
-  const online = useOnline();
-  const { rows } = useAssignments(tripId);
-  const today = rows.find((row) => row.day_date === date);
-  if (today === undefined) return null;
-  const saved = cachedDrivers(tripId);
-  const driver = saved?.drivers.find((d) => d.id === today.provider_id);
-  const name = today.name ?? driver?.name ?? '';
-  const vehicle = parse<{ model?: string; plate?: string }>(today.vehicle);
-  const agreed = parse<Agreed>(today.agreed);
-  const phone = driver?.phone ?? null;
-  const price =
-    agreed?.price_minor == null
-      ? null
-      : money(Number(agreed.price_minor), agreed.currency ?? null, locale);
-  const included = Object.entries(agreed?.includes ?? {})
-    .filter(([, value]) => value === 'yes')
-    .map(([key]) => key)
-    .join(', ');
-  const terms = [
-    price,
-    included === '' ? null : t({ id: 'drivers.offline.included', message: `${included} included` }),
-  ]
-    .filter((part): part is string => part !== null)
-    .join(', ');
-  const wa = phone === null ? null : whatsappLink(phone, '');
+  const ride = useRideBack(tripId, date);
+  if (ride === null) return null;
+  const { name, vehicle, terms, online } = ride;
   return (
     <Stack gap="12" testID="drivers-ride-back">
       <Text variant="h2" accessibilityRole="header">
@@ -91,19 +51,19 @@ export function RideBackCard({ tripId, date }: { readonly tripId: string; readon
             <Avatar name={name} joinIndex={2} size="lg" />
             <Stack gap="2" style={{ flex: 1 }}>
               <Text variant="title">
-                {upper(today.window_end === null ? name : `${name} · ${today.window_end}`, locale)}
+                {upper(ride.at === null ? name : `${name} · ${ride.at}`, locale)}
               </Text>
               {vehicle === null ? null : (
                 <Text variant="bodySm" color={theme.semantic.text.secondary}>
-                  {[vehicle.model, vehicle.plate].filter(Boolean).join(' · ')}
+                  {vehicle}
                 </Text>
               )}
             </Stack>
           </Row>
-          {today.pickup === null ? null : (
+          {ride.pickup === null ? null : (
             <Row gap="8" align="center">
               <Icon name="pin" size={18} color={theme.color.yellow} decorative />
-              <Text variant="bodySm">{today.pickup}</Text>
+              <Text variant="bodySm">{ride.pickup}</Text>
             </Row>
           )}
           <Row gap="8">
@@ -113,10 +73,8 @@ export function RideBackCard({ tripId, date }: { readonly tripId: string; readon
                 tone="green"
                 size="sm"
                 block
-                disabled={phone === null}
-                onPress={() => {
-                  if (phone !== null) void Linking.openURL(telLink(phone));
-                }}
+                disabled={ride.onCall === null}
+                onPress={() => ride.onCall?.()}
                 testID="drivers-ride-back-call"
               />
             </View>
@@ -130,10 +88,8 @@ export function RideBackCard({ tripId, date }: { readonly tripId: string; readon
                 variant="secondary"
                 size="sm"
                 block
-                disabled={wa === null}
-                onPress={() => {
-                  if (wa !== null) void Linking.openURL(wa);
-                }}
+                disabled={ride.onWhatsApp === null}
+                onPress={() => ride.onWhatsApp?.()}
                 testID="drivers-ride-back-whatsapp"
               />
             </View>

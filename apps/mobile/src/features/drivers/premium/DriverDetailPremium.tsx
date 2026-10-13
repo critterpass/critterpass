@@ -14,7 +14,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Button, LoadingCritter, Tag, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 import { confirmAlert, PushScreen } from '@/ui/premium/shell';
 
-import { useVehicleLine } from '../directory/DriverCard';
+import { useVehicleLine } from '../shared/vehicle-line';
 import { useDriverDetail, type DriverReport } from '../directory/use-driver-detail';
 
 /* eslint-disable lingui/no-unlocalized-strings -- report kinds the moderation queue takes, not copy. */

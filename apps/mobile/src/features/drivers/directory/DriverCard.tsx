@@ -16,6 +16,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { isDriverTag, TAG_LABELS } from '../rating/labels';
+import { useVehicleLine } from '../shared/vehicle-line';
 
 const useStyles = makeStyles((t) => ({
   card: {
@@ -44,18 +45,6 @@ export function initialsColour(theme: ReturnType<typeof useTheme>, id: string): 
   let sum = 0;
   for (const char of id) sum += char.charCodeAt(0);
   return palette[sum % palette.length] ?? theme.color.yellow;
-}
-
-/** `Toyota HiAce, 10 seats`, `10 seats`, `Toyota HiAce`, or nothing. */
-export function useVehicleLine(
-  driver: Pick<DriverDirectoryCard, 'vehicle' | 'seats'>,
-): string | null {
-  const { t } = useLingui();
-  const seats = driver.seats ?? driver.vehicle?.seats ?? null;
-  const model = driver.vehicle?.model ?? null;
-  if (seats === null) return model;
-  if (model === null) return t({ id: 'drivers.card.seats', message: `${seats} seats` });
-  return t({ id: 'drivers.card.car', message: `${model}, ${seats} seats` });
 }
 
 export function DriverCard({

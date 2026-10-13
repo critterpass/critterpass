@@ -19,7 +19,7 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { useVehicleLine } from '../directory/DriverCard';
+import { useVehicleLine } from '../shared/vehicle-line';
 import { useDirectory } from '../directory/use-directory';
 
 function DriverRow({
