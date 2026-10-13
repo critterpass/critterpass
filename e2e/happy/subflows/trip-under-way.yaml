@@ -97,7 +97,6 @@ appId: app.critterpass.dev
     element:
       id: 'board-lock-in'
     timeout: 30000
-    centerElement: true
 - waitForAnimationToEnd
 - tapOn:
     id: 'board-lock-in'

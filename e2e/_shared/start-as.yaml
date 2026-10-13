@@ -56,6 +56,16 @@ appId: app.critterpass.dev
     visible:
       id: 'home-screen|tab-home'
     timeout: 30000
+# A plain relaunch drops the launch argument: an in-app restart later (an account switch) would
+# read it again and start another seeded account instead of a new one.
+- stopApp
+- launchApp
+- waitForAnimationToEnd:
+    timeout: 8000
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen|tab-home|critters-hatch-later|visit-consent-decline'
+    timeout: 60000
 # A trip that has turned on can show its welcome page over Home at any later step.
 - runFlow:
     when:
@@ -66,5 +76,5 @@ appId: app.critterpass.dev
           id: 'critters-hatch-later'
 - extendedWaitUntil:
     visible:
-      id: 'home-screen'
+      id: 'home-screen|visit-consent-decline'
     timeout: 30000

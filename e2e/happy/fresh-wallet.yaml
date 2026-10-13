@@ -211,6 +211,8 @@ appId: app.critterpass.dev
     timeout: 30000
 - assertVisible:
     id: 'money-solo'
-- assertNotVisible:
+# A crew of one has nothing to settle: the button says so, turned off.
+- assertVisible:
     id: 'money-settle'
+    enabled: false
 - takeScreenshot: premium-7.17-fresh-wallet-money-solo-light

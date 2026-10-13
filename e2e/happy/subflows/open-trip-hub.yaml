@@ -17,6 +17,12 @@ appId: app.critterpass.dev
           id: 'critters-hatch-later'
 - extendedWaitUntil:
     visible:
+      id: 'trip-list-row-.*|trip-hub|visit-consent-decline'
+    timeout: 30000
+# A trip that is on asks once to remember the places visited: not now.
+- runFlow: dismiss-visit-offer.yaml
+- extendedWaitUntil:
+    visible:
       id: 'trip-list-row-.*|trip-hub'
     timeout: 30000
 - runFlow:
