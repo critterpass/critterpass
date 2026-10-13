@@ -15,13 +15,13 @@ import {
   Text,
   usePremiumReducedMotion,
   usePremiumTheme,
+  popIn,
 } from '@/ui/premium';
 
 import type { GotAwayCardProps } from '../../../story/story-card-views';
 import type { StampCardProps } from '../../../story/story-card-views';
 import { CardFrame, FormSticker } from './card-frame';
 import { useClockReached } from './use-clock';
-import { popIn } from '../../entrances';
 
 export function PremiumGotAwayCard(props: GotAwayCardProps) {
   const th = usePremiumTheme();

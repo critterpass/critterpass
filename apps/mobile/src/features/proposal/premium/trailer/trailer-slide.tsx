@@ -7,8 +7,13 @@ import { StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { guideSticker, type GuideStickerId } from '@/ui/premium/stickers/guides';
-import { CritterSticker, Text, usePremiumReducedMotion, usePremiumTheme } from '@/ui/premium';
-import { popIn } from '../entrances';
+import {
+  CritterSticker,
+  Text,
+  usePremiumReducedMotion,
+  usePremiumTheme,
+  popIn,
+} from '@/ui/premium';
 
 export function PremiumTrailerSlide(props: {
   readonly guide: GuideStickerId;

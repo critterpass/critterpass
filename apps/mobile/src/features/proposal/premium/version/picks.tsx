@@ -14,10 +14,10 @@ import {
   Text,
   usePremiumReducedMotion,
   usePremiumTheme,
+  riseIn,
 } from '@/ui/premium';
 
 import type { PicksListProps } from '../../your-version/version-model';
-import { riseIn } from '../entrances';
 
 /** One crew colour per row, in turn, so the list reads like the version's colour cards. */
 const DOTS = ['pink', 'sun', 'mint', 'sky', 'tangerine'] as const;

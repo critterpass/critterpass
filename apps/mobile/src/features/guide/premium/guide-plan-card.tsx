@@ -21,11 +21,11 @@ import {
   makePremiumStyles,
   usePremiumReducedMotion,
   usePremiumTheme,
+  riseIn,
 } from '@/ui/premium';
 
 import { costLine, outcomeOf } from '../chat/data/use-plan-card';
 import { usePlanCard, type PlanSwap } from '../chat/data/use-plan-card';
-import { riseIn } from './entrances';
 
 const useStyles = makePremiumStyles((th) => ({
   card: {

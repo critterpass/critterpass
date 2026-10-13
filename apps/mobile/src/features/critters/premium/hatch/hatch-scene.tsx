@@ -20,6 +20,7 @@ import {
   TextButton,
   usePremiumReducedMotion,
   usePremiumTheme,
+  riseIn,
 } from '@/ui/premium';
 
 import { artKind } from '../../art-kind';
@@ -36,7 +37,6 @@ import type { HatchViewProps } from '../../hatch/hatch-model';
 import { Confetti, Rays } from '../components/celebration';
 import { Hop } from '../components/loops';
 import { HATCH_PAINT } from '../components/scrims';
-import { riseIn } from '../entrances';
 
 /** When the halves part and the critter is shown (the egg's crack). */
 const REVEAL_MS = 900;

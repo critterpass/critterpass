@@ -18,12 +18,12 @@ import {
   GlassPill,
   Text,
   usePremiumReducedMotion,
+  riseIn,
 } from '@/ui/premium';
 
 import type { TrailerViewProps } from '../../trailer/trailer-screen';
 import { TrailerPlayer } from './trailer-player';
 import { PremiumTrailerSlide } from './trailer-slide';
-import { riseIn } from '../entrances';
 
 /** Room the foot takes over a slide: the buttons, and the replies when open. */
 const FOOT = 200;

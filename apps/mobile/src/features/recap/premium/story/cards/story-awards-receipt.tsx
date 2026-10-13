@@ -17,13 +17,13 @@ import {
   makePremiumStyles,
   usePremiumReducedMotion,
   usePremiumTheme,
+  popIn,
 } from '@/ui/premium';
 
 import { restingAngle, type AwardsCardProps } from '../../../story/story-card-views';
 import type { ReceiptCardProps } from '../../../story/story-card-views';
 import { CardFrame } from './card-frame';
 import { useClockReached } from './use-clock';
-import { popIn } from '../../entrances';
 
 const RECEIPT_TILT = -2;
 const STAMP_TILT = -14;
