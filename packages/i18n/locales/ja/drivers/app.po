@@ -7,7 +7,7 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: ja\n"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.lastKnown"
 msgstr ""
 
@@ -37,11 +37,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
 msgid "drivers.replied.perDay"
 msgstr ""
-
-#. placeholder {0}: leg.name
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.assigned"
-msgstr "{0}がこの日運転"
 
 #. placeholder {0}: dayLabel(long.date, locale)
 #. placeholder {1}: hoursFigure(long.hours, locale)
@@ -172,11 +167,6 @@ msgstr "{name}の番号、車、ナンバー"
 msgid "drivers.pick.quote"
 msgstr ""
 
-#. placeholder {0}: gap.km
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.dayOut"
-msgstr "{place}は約{0}km離れていて、長い1日です。配車アプリはそこではほとんど待たず、迎えにも来ません。ほとんどのクルーは1日ドライバーを頼みます。"
-
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.price.car"
 msgstr ""
@@ -257,7 +247,7 @@ msgstr "共有したドライバーのメッセージ"
 msgid "drivers.share.entry"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.body"
 msgstr ""
 
@@ -346,7 +336,7 @@ msgstr "プライベートツアーを予約"
 msgid "drivers.premium.browse"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.private"
 msgstr ""
 
@@ -359,6 +349,7 @@ msgid "drivers.offline.note"
 msgstr "電話は通信データではなく電波を使います。メッセージはオンラインに戻ると送信されます。"
 
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.premium.cancel"
 msgstr ""
@@ -426,7 +417,7 @@ msgstr "連絡先"
 msgid "drivers.ask.copied"
 msgstr "コピーしました"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.copy"
 msgstr ""
 
@@ -491,7 +482,7 @@ msgstr ""
 msgid "drivers.directory.dayTrips"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.days"
 msgstr ""
 
@@ -512,7 +503,7 @@ msgstr ""
 msgid "drivers.check.area"
 msgstr "ドライバー · {0}"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.nameLabel"
 msgstr ""
 
@@ -573,10 +564,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.title"
-msgstr "ドライバーを探す"
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.find"
 msgstr "ドライバーを探す"
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
@@ -645,7 +632,7 @@ msgstr ""
 msgid "drivers.check.priceAskWords"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet.tsx
+#: ../../apps/mobile/src/features/drivers/share/use-driver-share.ts
 msgid "drivers.share.message"
 msgstr ""
 
@@ -746,11 +733,11 @@ msgstr "投稿の言語"
 msgid "drivers.premium.pickDiscardTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quote"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quoteAnyone"
 msgstr ""
 
@@ -758,11 +745,11 @@ msgstr ""
 msgid "drivers.compare.licence"
 msgstr "免許"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.copied"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.expires"
 msgstr ""
 
@@ -794,7 +781,7 @@ msgstr "プライベートカーを検索中"
 msgid "drivers.verdict.loved"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.create"
 msgstr ""
 
@@ -802,7 +789,7 @@ msgstr ""
 msgid "drivers.invite.making"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.needsSignal"
 msgstr ""
 
@@ -825,10 +812,6 @@ msgstr "名前"
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.line.name"
 msgstr "名前"
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.title"
-msgstr "ここでドライバーが必要?"
 
 #: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
@@ -862,10 +845,6 @@ msgstr ""
 msgid "drivers.compare.askPriceHint"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.noRide"
-msgstr "移動手段なし"
-
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.shortlistOffline"
 msgstr ""
@@ -894,11 +873,7 @@ msgstr ""
 msgid "drivers.compare.notIncl"
 msgstr "別途"
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.notNow"
-msgstr "今はいい"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.notOpened"
 msgstr ""
 
@@ -1015,7 +990,7 @@ msgstr ""
 msgid "drivers.replied.pick"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.noDays"
 msgstr ""
 
@@ -1084,7 +1059,7 @@ msgstr ""
 msgid "drivers.report.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revoke"
 msgstr ""
 
@@ -1120,7 +1095,7 @@ msgstr "スクショ"
 msgid "drivers.premium.see"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.whatsapp"
 msgstr ""
 
@@ -1136,11 +1111,11 @@ msgstr ""
 msgid "drivers.premium.setVerb"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.titleAnyone"
 msgstr ""
 
@@ -1198,7 +1173,7 @@ msgstr "予約済み"
 msgid "drivers.ask.tapSlot"
 msgstr "ハイライトをタップして変更"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revokeConfirm"
 msgstr ""
 
@@ -1253,7 +1228,7 @@ msgstr ""
 msgid "drivers.add.pasteLabel"
 msgstr "ドライバーのメッセージ"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revoked"
 msgstr ""
 
@@ -1285,11 +1260,7 @@ msgstr ""
 msgid "drivers.tours.down"
 msgstr "事業者が応答していません。少ししてからもう一度。"
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.noApp"
-msgstr "ここには配車アプリがなく、この日は立ち寄り先の間がかなり離れています。ほとんどのクルーは1日ドライバーを頼みます。"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quoteHint"
 msgstr ""
 
@@ -1398,10 +1369,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.rate.missingLine"
 msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.late"
-msgstr "{place}から遅く帰る日で、夜はそこで配車アプリがほとんど拾ってくれません。夜だけドライバーを頼むのが安全な帰り方です。"
 
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.titleMine"

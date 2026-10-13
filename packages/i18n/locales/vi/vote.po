@@ -59,7 +59,6 @@ msgid "vote.reveal.consolation"
 msgstr "{0} chịu thua vui vẻ. Đang rủ chuyến sau rồi."
 
 #. placeholder {0}: option.votes
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.votes"
 msgstr "{0} phiếu"
@@ -79,10 +78,6 @@ msgstr "Bay {0} tiếng"
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.chipFlight"
 msgstr "{0} tiếng từ {1}"
-
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
-msgid "vote.poll.byline"
-msgstr "Bình chọn của {askerName}"
 
 #: ../../apps/mobile/src/features/vote/premium/places/search-places.tsx
 msgid "vote.search.localMany"
@@ -310,12 +305,10 @@ msgid "vote.premium.close"
 msgstr "Đóng"
 
 #. placeholder {0}: winner.label
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.closedWinner"
 msgstr "Đã đóng. {0} thắng."
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.closedNoWinner"
 msgstr "Đã đóng. Không ai bầu."
@@ -325,7 +318,6 @@ msgid "vote.newPoll.deadline"
 msgstr "Đóng sau"
 
 #. placeholder {0}: deadline.day
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.closesDay"
 msgstr "Đóng {0}"
@@ -336,7 +328,6 @@ msgid "vote.showdown.closesDay"
 msgstr "Đóng {0}"
 
 #. placeholder {0}: deadline.hours
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.closesHours"
 msgstr "Đóng sau {0} giờ"
@@ -453,7 +444,6 @@ msgstr "Chỉ mình bạn, {place}"
 msgid "vote.premium.keepEditing"
 msgstr "Sửa tiếp"
 
-#: ../../apps/mobile/src/features/vote/poll/chat-poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.loading"
 msgstr "Đang tải bình chọn"
@@ -475,12 +465,10 @@ msgstr "Chốt {only}"
 msgid "vote.reveal.lockedIn"
 msgstr "Đã chốt"
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.lockedInBy"
 msgstr "{lockedBy} đã chốt."
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.lockedIn"
 msgstr "Đã chốt, không cần bầu."
@@ -578,11 +566,6 @@ msgstr "Địa điểm"
 #: ../../apps/mobile/src/features/vote/register-chat-cards.ts
 msgid "vote.chat.attach"
 msgstr "Bình chọn"
-
-#. placeholder {0}: message.body
-#: ../../apps/mobile/src/features/vote/register-chat-cards.ts
-msgid "vote.chat.label"
-msgstr "Bình chọn: {0}"
 
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
 msgid "vote.premium.post"
@@ -757,7 +740,6 @@ msgstr "vs"
 msgid "vote.newPoll.never"
 msgstr "Khi mọi người đã bầu"
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.untitled"
 msgstr "Đi đâu tiếp?"
@@ -783,7 +765,6 @@ msgstr "Đi đâu tiếp? Tới lượt bạn"
 msgid "vote.pitch.why"
 msgstr "Vì sao nhóm bạn có thể mê"
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.winner"
 msgstr "thắng"
@@ -855,7 +836,6 @@ msgstr "Lời giới thiệu của bạn"
 msgid "vote.queued.poll"
 msgstr "Bình chọn của bạn"
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.yours"
 msgstr "phiếu của bạn"

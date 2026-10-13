@@ -147,10 +147,6 @@ msgstr ""
 msgid "home.premium.back.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/post-trip-card.tsx
-msgid "home.postTrip.title"
-msgstr ""
-
 #: ../../apps/mobile/src/features/home/premium/components/countdown-pill.tsx
 msgid "home.countdown.spoken"
 msgstr ""
@@ -323,8 +319,16 @@ msgstr ""
 msgid "home.premium.broke.back"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/recovery/plain-recovery.tsx
+msgid "common.shell.errorBack"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/premium/recovery/error-sheet.tsx
 msgid "home.premium.broke.home"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/premium/recovery/plain-recovery.tsx
+msgid "common.shell.errorHome"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/recovery/lost-link-screen.tsx
@@ -357,10 +361,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.premium.trips.homeTab"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/post-trip-card.tsx
-msgid "home.postTrip.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
@@ -601,7 +601,6 @@ msgstr ""
 msgid "home.inbox.planChange.open"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/post-trip-card.tsx
 #: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
 msgid "home.postTrip.open"
 msgstr ""
@@ -750,6 +749,10 @@ msgstr ""
 msgid "home.premium.broke.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/recovery/plain-recovery.tsx
+msgid "common.shell.errorTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
 msgid "crew.sheet.joinFailed"
 msgstr ""
@@ -850,7 +853,6 @@ msgstr ""
 msgid "home.widgets.howTo.android.hold"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/post-trip-card.tsx
 #: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
 msgid "home.postTrip.fallback"
 msgstr ""
@@ -865,6 +867,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/recovery/error-sheet.tsx
 msgid "home.premium.broke.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/premium/recovery/plain-recovery.tsx
+msgid "common.shell.errorRetry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/inbox/earlier-row.tsx

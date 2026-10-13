@@ -22,6 +22,7 @@ import {
   Text,
   TextButton,
   usePremiumReducedMotion,
+  popIn,
 } from '@/ui/premium';
 import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
@@ -31,7 +32,6 @@ import type { MemoryReactionChip } from '../memory/memory-model';
 import { useMemoryScreen, type MemoryScreenState } from '../memory/use-memory-screen';
 import { PremiumMemoryShare, PremiumReactionSheet } from './memory-sheets';
 import { RECAP_PAINT } from './recap-paint';
-import { popIn } from './entrances';
 
 // eslint-disable-next-line lingui/no-unlocalized-strings -- SQL, never copy.
 const MEMORY_TRIP_SQL = 'SELECT trip_id FROM memories WHERE id = ?';

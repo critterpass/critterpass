@@ -7,10 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: pl\n"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.lastKnown"
-msgstr ""
-
 #. placeholder {0}: props.dayCount
 #. placeholder {1}: money(total)
 #. placeholder {2}: money(total)
@@ -45,31 +41,11 @@ msgstr ""
 msgid "drivers.share.entry"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.body"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.private"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.copy"
-msgstr ""
-
 #: ../../apps/mobile/src/features/drivers/share/share-text.ts
 msgid "drivers.share.dayNo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.days"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.nameLabel"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet.tsx
+#: ../../apps/mobile/src/features/drivers/share/use-driver-share.ts
 msgid "drivers.share.message"
 msgstr ""
 
@@ -85,34 +61,6 @@ msgstr ""
 msgid "drivers.replied.tellBody"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.quote"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.quoteAnyone"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.copied"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.expires"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.create"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.needsSignal"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.notOpened"
-msgstr ""
-
 #. placeholder {0}: money(reply.overtime_per_hour_minor)
 #. placeholder {1}: reply.included_hours
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
@@ -123,43 +71,11 @@ msgstr ""
 msgid "drivers.replied.pick"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.noDays"
-msgstr ""
-
 #. placeholder {0}: props.driverName
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
 msgid "drivers.replied.quote"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.revoke"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.whatsapp"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.titleAnyone"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.revokeConfirm"
-msgstr ""
-
 #: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
 msgid "drivers.replied.tell"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.revoked"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.quoteHint"
 msgstr ""

@@ -22,6 +22,7 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
   type PremiumTheme,
+  popIn,
 } from '@/ui/premium';
 
 import { directionsUrl } from '../../quests/befriend-spot';
@@ -30,7 +31,6 @@ import type { BefriendPlace } from '../../quests/use-befriend-spot';
 import type { RevealMode } from '../../quests/use-reward-reveal';
 import { CritterSilhouette } from '../components/critter-silhouette';
 import { doubleRing, layered, ring } from '../components/scrims';
-import { popIn } from '../entrances';
 
 const DOODLE: Record<QuestIcon, DoodleName> = {
   sun: 'star',

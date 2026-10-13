@@ -684,7 +684,6 @@ msgstr "Giữ ở mức {cap} người"
 msgid "proposal.replyBy.auto"
 msgstr "Để hướng dẫn viên chọn"
 
-#: ../../apps/mobile/src/features/proposal/chat-card.tsx
 #: ../../apps/mobile/src/features/proposal/premium/chat-card.tsx
 msgid "proposal.card.loading"
 msgstr "Đang tải đề xuất"
@@ -1215,10 +1214,6 @@ msgstr "Vé này giữ chỗ của bạn trong chuyến đi, không phải vé m
 #: ../../apps/mobile/src/features/proposal/premium/format-tiles.tsx
 msgid "proposal.build.trailer"
 msgstr "Trailer"
-
-#: ../../apps/mobile/src/features/proposal/chat-card.tsx
-msgid "proposal.card.a11y"
-msgstr "Đề xuất chuyến đi"
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx

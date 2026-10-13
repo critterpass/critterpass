@@ -11,10 +11,6 @@ msgstr ""
 msgid "chat.queued.message"
 msgstr "“{preview}” gửi vào nhóm chat"
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.guideAuthor"
-msgstr "{author} · hướng dẫn viên AI"
-
 #. placeholder {0}: planChange(body, locale)
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.planEditAdded"
@@ -78,10 +74,6 @@ msgstr "{name} đã lưu một nơi vào Ý tưởng"
 msgid "chat.system.rejoinAsked"
 msgstr "{name} muốn quay lại nhóm"
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.spoken"
-msgstr "{who}, {time}: {text}"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.sticker"
 msgstr "Một nhãn dán gửi vào nhóm"
@@ -98,29 +90,13 @@ msgstr "Đang xin quay lại nhóm"
 msgid "chat.report.harassment"
 msgstr "Bắt nạt hoặc quấy rối"
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.delete"
-msgstr "Xoá"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.delete"
 msgstr "Xoá một tin nhắn"
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.failed"
-msgstr "Chưa gửi được"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.edit"
 msgstr "Sửa một tin nhắn"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.edited"
-msgstr "đã sửa"
-
-#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
-msgid "chat.card.unknown.action"
-msgstr "Cập nhật app"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.hate"
@@ -133,18 +109,6 @@ msgstr "chào!"
 #: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
 msgid "chat.sticker.caption.think"
 msgstr "hmm"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.actions"
-msgstr "Tuỳ chọn tin nhắn"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.deleted"
-msgstr "Tin nhắn đã bị xoá"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.moreActions"
-msgstr "Thêm tuỳ chọn"
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.mute"
@@ -170,21 +134,9 @@ msgstr "Biểu cảm {emoji}"
 msgid "chat.queued.removeChat"
 msgstr "Đang xoá một cuộc trò chuyện nhóm"
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.action.reply"
-msgstr "Trả lời"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.report"
 msgstr "Báo cáo một tin nhắn"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.retry"
-msgstr "Thử lại"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.sending"
-msgstr "Đang gửi"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.sexual"
@@ -234,10 +186,6 @@ msgstr "Chuyến đi đã được chốt"
 msgid "chat.system.planVoteRanOut"
 msgstr "Hết giờ bình chọn. Kế hoạch giữ nguyên."
 
-#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
-msgid "chat.card.unknown.title"
-msgstr "Tin nhắn này cần CritterPass bản mới hơn"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.unmute"
 msgstr "Bật lại tiếng một bạn trong nhóm"
@@ -245,10 +193,6 @@ msgstr "Bật lại tiếng một bạn trong nhóm"
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.unpin"
 msgstr "Đang bỏ ghim tin nhắn"
-
-#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
-msgid "chat.card.unknown.line"
-msgstr "Cập nhật app để xem ở đây."
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.violence"
@@ -261,10 +205,6 @@ msgstr "Tin nhắn thoại, {length}"
 #: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
 msgid "chat.sticker.caption.cheer"
 msgstr "có nha"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.you"
-msgstr "Bạn"
 
 #: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
 msgid "chat.sticker.caption.sleep"

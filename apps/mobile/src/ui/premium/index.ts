@@ -28,6 +28,7 @@ export { NumberRoll, rollSlots } from './motion/NumberRoll';
 export type { NumberRollProps, RollSlot } from './motion/NumberRoll';
 export { StampMoment } from './motion/StampMoment';
 export type { StampMomentProps } from './motion/StampMoment';
+export { popIn, riseIn } from './motion/entrances';
 export { SwipeDeck } from './motion/SwipeDeck';
 export type { SwipeDeckHandle, SwipeDeckProps } from './motion/SwipeDeck';
 export { swipeVerdict } from './motion/swipe-verdict';

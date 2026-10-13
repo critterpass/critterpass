@@ -7,7 +7,7 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: es\n"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.lastKnown"
 msgstr ""
 
@@ -37,11 +37,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
 msgid "drivers.replied.perDay"
 msgstr ""
-
-#. placeholder {0}: leg.name
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.assigned"
-msgstr "{0} conduce este día"
 
 #. placeholder {0}: dayLabel(long.date, locale)
 #. placeholder {1}: hoursFigure(long.hours, locale)
@@ -172,11 +167,6 @@ msgstr "Número, coche y matrícula de {name}"
 msgid "drivers.pick.quote"
 msgstr ""
 
-#. placeholder {0}: gap.km
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.dayOut"
-msgstr "{place} está a unos {0} km y el día es largo. Las apps de transporte casi nunca esperan ni recogen allí. La mayoría de grupos contrata un conductor para el día."
-
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.price.car"
 msgstr ""
@@ -257,7 +247,7 @@ msgstr "Un mensaje de conductor que compartiste"
 msgid "drivers.share.entry"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.body"
 msgstr ""
 
@@ -346,7 +336,7 @@ msgstr "Reservar un tour privado"
 msgid "drivers.premium.browse"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.private"
 msgstr ""
 
@@ -359,6 +349,7 @@ msgid "drivers.offline.note"
 msgstr "Las llamadas usan cobertura, no datos. El mensaje se envía cuando vuelvas a tener conexión."
 
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.premium.cancel"
 msgstr ""
@@ -426,7 +417,7 @@ msgstr "Contacto"
 msgid "drivers.ask.copied"
 msgstr "Copiado"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.copy"
 msgstr ""
 
@@ -491,7 +482,7 @@ msgstr ""
 msgid "drivers.directory.dayTrips"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.days"
 msgstr ""
 
@@ -512,7 +503,7 @@ msgstr ""
 msgid "drivers.check.area"
 msgstr "Conductor · {0}"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.nameLabel"
 msgstr ""
 
@@ -573,10 +564,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.title"
-msgstr "Buscar conductor"
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.find"
 msgstr "Buscar conductor"
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
@@ -645,7 +632,7 @@ msgstr ""
 msgid "drivers.check.priceAskWords"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet.tsx
+#: ../../apps/mobile/src/features/drivers/share/use-driver-share.ts
 msgid "drivers.share.message"
 msgstr ""
 
@@ -746,11 +733,11 @@ msgstr "Idioma del post"
 msgid "drivers.premium.pickDiscardTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quote"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quoteAnyone"
 msgstr ""
 
@@ -758,11 +745,11 @@ msgstr ""
 msgid "drivers.compare.licence"
 msgstr "Licencia"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.copied"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.expires"
 msgstr ""
 
@@ -794,7 +781,7 @@ msgstr "Buscando coches privados"
 msgid "drivers.verdict.loved"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.create"
 msgstr ""
 
@@ -802,7 +789,7 @@ msgstr ""
 msgid "drivers.invite.making"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.needsSignal"
 msgstr ""
 
@@ -825,10 +812,6 @@ msgstr "Nombre"
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.line.name"
 msgstr "Nombre"
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.title"
-msgstr "¿Un conductor aquí?"
 
 #: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
@@ -862,10 +845,6 @@ msgstr ""
 msgid "drivers.compare.askPriceHint"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.noRide"
-msgstr "Sin transporte"
-
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.shortlistOffline"
 msgstr ""
@@ -894,11 +873,7 @@ msgstr ""
 msgid "drivers.compare.notIncl"
 msgstr "No incl."
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.notNow"
-msgstr "Ahora no"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.notOpened"
 msgstr ""
 
@@ -1015,7 +990,7 @@ msgstr ""
 msgid "drivers.replied.pick"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.noDays"
 msgstr ""
 
@@ -1084,7 +1059,7 @@ msgstr ""
 msgid "drivers.report.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revoke"
 msgstr ""
 
@@ -1120,7 +1095,7 @@ msgstr "Captura"
 msgid "drivers.premium.see"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.whatsapp"
 msgstr ""
 
@@ -1136,11 +1111,11 @@ msgstr ""
 msgid "drivers.premium.setVerb"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.titleAnyone"
 msgstr ""
 
@@ -1198,7 +1173,7 @@ msgstr "Ocupado"
 msgid "drivers.ask.tapSlot"
 msgstr "Toca un resaltado para cambiarlo"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revokeConfirm"
 msgstr ""
 
@@ -1253,7 +1228,7 @@ msgstr ""
 msgid "drivers.add.pasteLabel"
 msgstr "El mensaje del conductor"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revoked"
 msgstr ""
 
@@ -1285,11 +1260,7 @@ msgstr ""
 msgid "drivers.tours.down"
 msgstr "Los proveedores no responden ahora. Prueba en un rato."
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.noApp"
-msgstr "Aquí no hay app de transporte y este día tiene distancias reales entre paradas. La mayoría de grupos contrata un conductor para el día."
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quoteHint"
 msgstr ""
 
@@ -1398,10 +1369,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.rate.missingLine"
 msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.late"
-msgstr "Volvéis tarde de {place}, y las apps de transporte casi no recogen allí de noche. Un conductor para la tarde es la vuelta segura."
 
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.titleMine"

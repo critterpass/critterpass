@@ -2,6 +2,9 @@ import { View } from 'react-native';
 
 import type { PremiumTypeName } from '@cp/design-tokens';
 
+import { formerMemberLabel } from '@/lib/people/member-name';
+
+import { Icon } from '../icons/Icon';
 import { Text } from '../text/Text';
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 
@@ -29,16 +32,20 @@ export function initialOf(name: string): string {
   return first.toLocaleUpperCase();
 }
 
-/** A round crew-colour avatar with the person's initial in the on-accent ink. */
+/**
+ * A round crew-colour avatar with the person's initial in the on-accent ink; a person with no name
+ * left (an erased account) shows the people glyph and reads "Former member".
+ */
 export function Avatar({ name, color, size, ringed = false, testID }: AvatarProps) {
   const t = usePremiumTheme();
   const side = size ?? t.size.avatar;
+  const initial = initialOf(name);
   return (
     <View
       testID={testID}
       accessible
       accessibilityRole="image"
-      accessibilityLabel={name}
+      accessibilityLabel={initial === '' ? formerMemberLabel() : name}
       style={{
         width: side,
         height: side,
@@ -49,13 +56,17 @@ export function Avatar({ name, color, size, ringed = false, testID }: AvatarProp
         ...(ringed ? { borderWidth: t.size.stackBorder, borderColor: t.color.stackBorder } : {}),
       }}
     >
-      <Text
-        variant={initialVariant(side, t.size.avatarLarge, t.size.avatarSmall)}
-        tone="onAccent"
-        accessible={false}
-      >
-        {initialOf(name)}
-      </Text>
+      {initial === '' ? (
+        <Icon name="people" size={Math.round(side * 0.5)} color={t.color.onAccent} />
+      ) : (
+        <Text
+          variant={initialVariant(side, t.size.avatarLarge, t.size.avatarSmall)}
+          tone="onAccent"
+          accessible={false}
+        >
+          {initial}
+        </Text>
+      )}
     </View>
   );
 }

@@ -147,10 +147,6 @@ msgstr "{place} · home again"
 msgid "home.premium.back.title"
 msgstr "{place} is a memory now"
 
-#: ../../apps/mobile/src/features/home/post-trip-card.tsx
-msgid "home.postTrip.title"
-msgstr "{place} recap"
-
 #: ../../apps/mobile/src/features/home/premium/components/countdown-pill.tsx
 msgid "home.countdown.spoken"
 msgstr "{spoken} to {place}"
@@ -323,8 +319,16 @@ msgstr "Free"
 msgid "home.premium.broke.back"
 msgstr "Go back"
 
+#: ../../apps/mobile/src/features/home/premium/recovery/plain-recovery.tsx
+msgid "common.shell.errorBack"
+msgstr "Go back"
+
 #: ../../apps/mobile/src/features/home/premium/recovery/error-sheet.tsx
 msgid "home.premium.broke.home"
+msgstr "Go home"
+
+#: ../../apps/mobile/src/features/home/premium/recovery/plain-recovery.tsx
+msgid "common.shell.errorHome"
 msgstr "Go home"
 
 #: ../../apps/mobile/src/features/home/premium/recovery/lost-link-screen.tsx
@@ -358,10 +362,6 @@ msgstr "Home"
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.premium.trips.homeTab"
 msgstr "Home again"
-
-#: ../../apps/mobile/src/features/home/post-trip-card.tsx
-msgid "home.postTrip.eyebrow"
-msgstr "How'd it go?"
 
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
@@ -601,7 +601,6 @@ msgstr "Search your trips"
 msgid "home.inbox.planChange.open"
 msgstr "See the change"
 
-#: ../../apps/mobile/src/features/home/post-trip-card.tsx
 #: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
 msgid "home.postTrip.open"
 msgstr "See the recap"
@@ -750,6 +749,10 @@ msgstr "That didn't go through"
 msgid "home.premium.broke.title"
 msgstr "That didn’t load"
 
+#: ../../apps/mobile/src/features/home/premium/recovery/plain-recovery.tsx
+msgid "common.shell.errorTitle"
+msgstr "That didn’t load"
+
 #: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
 msgid "crew.sheet.joinFailed"
 msgstr "That invite can’t be joined now"
@@ -850,7 +853,6 @@ msgstr "Touch and hold an empty spot on your home screen."
 msgid "home.widgets.howTo.android.hold"
 msgstr "Touch and hold an empty spot on your home screen."
 
-#: ../../apps/mobile/src/features/home/post-trip-card.tsx
 #: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
 msgid "home.postTrip.fallback"
 msgstr "Trip"
@@ -865,6 +867,10 @@ msgstr "Trips start with a crew. Start one, or join the one a friend made."
 
 #: ../../apps/mobile/src/features/home/premium/recovery/error-sheet.tsx
 msgid "home.premium.broke.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/home/premium/recovery/plain-recovery.tsx
+msgid "common.shell.errorRetry"
 msgstr "Try again"
 
 #: ../../apps/mobile/src/features/home/premium/inbox/earlier-row.tsx

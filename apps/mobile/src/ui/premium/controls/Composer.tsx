@@ -18,10 +18,13 @@ export interface ComposerProps extends Omit<
   readonly add?: { readonly onPress: () => void; readonly label: string };
 }
 
+/** Lines the field grows to before it scrolls inside: a pasted essay never outgrows the screen. */
+const MAX_LINES = 5;
+
 /**
  * The message composer shell: white r28 h56 pill with a 40 control `+`, the field (15 pt) and a 44
- * ink send. It holds no message state: the screen owns the draft, so nothing typed is lost when a
- * send fails.
+ * ink send. The field grows to five lines, then scrolls; `+` and send stay on its last line. It
+ * holds no message state: the screen owns the draft, so nothing typed is lost when a send fails.
  */
 export const Composer = forwardRef<ComponentRef<typeof TextInput>, ComposerProps>(function Composer(
   { accessibilityLabel, onSend, canSend, sendLabel, add, ...input },
@@ -29,6 +32,9 @@ export const Composer = forwardRef<ComponentRef<typeof TextInput>, ComposerProps
 ) {
   const t = usePremiumTheme();
   const body = t.type.body;
+  const lineHeight = Math.ceil(body.size * 1.35);
+  // The pill's own inset around the 44 send keeps it 56 tall on one line.
+  const inset = (t.size.composer - t.size.composerSend) / 2;
   return (
     <View
       style={{
@@ -37,14 +43,23 @@ export const Composer = forwardRef<ComponentRef<typeof TextInput>, ComposerProps
         backgroundColor: t.color.card,
         boxShadow: t.scheme === 'dark' ? t.shadow.raised : undefined,
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         gap: t.space.gap10,
         paddingStart: t.space.gap8,
         paddingEnd: t.space.gap6,
+        paddingVertical: inset,
       }}
     >
       {add === undefined ? null : (
-        <IconButton icon="plus" tone="control" label={add.label} onPress={add.onPress} />
+        <View style={{ marginBottom: (t.size.composerSend - t.size.composerPlus) / 2 }}>
+          <IconButton
+            icon="plus"
+            tone="control"
+            size={t.size.composerPlus}
+            label={add.label}
+            onPress={add.onPress}
+          />
+        </View>
       )}
       <TextInput
         ref={ref}
@@ -59,8 +74,13 @@ export const Composer = forwardRef<ComponentRef<typeof TextInput>, ComposerProps
         style={{
           flex: 1,
           fontSize: body.size,
+          lineHeight,
           color: t.color.ink,
-          paddingVertical: t.space.rowPadV,
+          // One line sits centred on the send; more lines grow upwards from it.
+          minHeight: t.size.composerSend,
+          maxHeight: lineHeight * MAX_LINES + 2 * t.space.rowPadV,
+          paddingVertical: (t.size.composerSend - lineHeight) / 2,
+          textAlignVertical: 'center',
           ...(add === undefined ? { paddingStart: t.space.gap8 } : {}),
         }}
       />

@@ -22,6 +22,7 @@ import {
   Text,
   usePremiumReducedMotion,
   usePremiumTheme,
+  popIn,
 } from '@/ui/premium';
 
 import { pitchShowsAiLabel, type PitchState } from '../../data/use-pitch-stream';
@@ -29,7 +30,6 @@ import type { Person } from '../../data/use-people';
 import { FadeSection } from '../../board/fade-section';
 import { flightHours, guideOr, money, monthShort } from '../../format';
 import { crewOf } from '../components/crew';
-import { popIn } from '../entrances';
 
 function useChipText(): (chip: PitchChip) => string {
   const { t, i18n } = useLingui();

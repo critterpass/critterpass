@@ -15,13 +15,13 @@ import {
   makePremiumStyles,
   usePremiumReducedMotion,
   usePremiumTheme,
+  riseIn,
 } from '@/ui/premium';
 
 import type { CrittersCardProps } from '../../../story/story-card-views';
 import { stopTimes, type RouteCardProps } from '../../../story/story-card-views';
 import { CardFrame, FormSticker } from './card-frame';
 import { useClockReached } from './use-clock';
-import { riseIn } from '../../entrances';
 
 const useStyles = makePremiumStyles((th) => ({
   grid: {

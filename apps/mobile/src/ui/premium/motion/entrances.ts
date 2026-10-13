@@ -1,7 +1,7 @@
 /**
  * Entrances on the three premium springs, never the library's defaults: a pop from 0.9 while it
  * fades in (Snappy for menus, Lively for stamps and rewards), a short rise for rows and cards, and
- * the 150 ms fade under Reduce Motion. The premium kit carries no builder for these yet.
+ * the 150 ms fade under Reduce Motion.
  */
 import { premium, type PremiumSpringName } from '@cp/design-tokens';
 import {
@@ -12,7 +12,7 @@ import {
   type EntryExitAnimationFunction,
 } from 'react-native-reanimated';
 
-import { REDUCED_FADE, REDUCED_FADE_MS, SPRINGS } from '@/ui/premium';
+import { REDUCED_FADE, REDUCED_FADE_MS, SPRINGS } from './springs';
 
 /** Pops in from 0.9 on `spring` while it fades in; fades under Reduce Motion. */
 export function popIn(reduced: boolean, spring: PremiumSpringName = 'snappy') {

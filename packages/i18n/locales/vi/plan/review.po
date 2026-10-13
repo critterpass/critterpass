@@ -108,10 +108,6 @@ msgstr "{sign}{mins} PHÚT LÁI XE"
 msgid "plan.review.suggestedBy"
 msgstr "{who} đã đề xuất thay đổi này."
 
-#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
-msgid "plan.card.tally"
-msgstr "{yes}/{needed} người đã đồng ý"
-
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.aStop"
 msgstr "một điểm dừng"
@@ -193,10 +189,6 @@ msgstr "vào một khoảng trống"
 msgid "plan.card.state.rejected"
 msgstr "Giữ nguyên"
 
-#: ../../apps/mobile/src/features/plan/review/register-chat-card.ts
-msgid "plan.card.loading"
-msgstr "Đang tải thay đổi kế hoạch"
-
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.reason.rain"
 msgstr "dời để tránh mưa"
@@ -220,10 +212,6 @@ msgstr "Chưa có ngày nào hợp"
 #: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
 msgid "plan.card.state.draft"
 msgstr "Chưa gửi"
-
-#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
-msgid "plan.card.no"
-msgstr "Không"
 
 #: ../../apps/mobile/src/features/plan/review/notification-actions.tsx
 msgid "plan.push.reject"
@@ -257,14 +245,6 @@ msgstr "CHỈ MÌNH BẠN THẤY"
 msgid "plan.card.state.stale"
 msgstr "Đã cũ"
 
-#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
-msgid "plan.card.eyebrow"
-msgstr "Thay đổi kế hoạch"
-
-#: ../../apps/mobile/src/features/plan/review/register-chat-card.ts
-msgid "plan.card.label"
-msgstr "Thay đổi kế hoạch"
-
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.backCheck"
 msgstr "Kiểm tra lịch trình"
@@ -284,10 +264,6 @@ msgstr "Hết hạn"
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.seeDay"
 msgstr "Xem {day}"
-
-#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
-msgid "plan.card.open"
-msgstr "Xem các thay đổi"
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.notice.needsSignal"
@@ -348,10 +324,6 @@ msgstr "trước là {time}"
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.dry"
 msgstr "lúc trời khô ráo"
-
-#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
-msgid "plan.card.yes"
-msgstr "Đồng ý"
 
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.youSaidNo"

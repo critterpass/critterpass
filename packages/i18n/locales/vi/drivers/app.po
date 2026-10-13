@@ -7,7 +7,7 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.lastKnown"
 msgstr " · lần cuối biết được"
 
@@ -37,11 +37,6 @@ msgstr "{0, plural, one {# mẹo, ghim vào các ngày · không bình chọn} o
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
 msgid "drivers.replied.perDay"
 msgstr "{0} mỗi ngày · {1} mỗi người"
-
-#. placeholder {0}: leg.name
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.assigned"
-msgstr "{0} lái ngày này"
 
 #. placeholder {0}: dayLabel(long.date, locale)
 #. placeholder {1}: hoursFigure(long.hours, locale)
@@ -172,11 +167,6 @@ msgstr "Số điện thoại, xe và biển số của {name}"
 msgid "drivers.pick.quote"
 msgstr "Báo giá của {name}"
 
-#. placeholder {0}: gap.km
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.dayOut"
-msgstr "{place} cách khoảng {0} km và ngày khá dài. Ứng dụng gọi xe hiếm khi chờ hay đón ở đó. Hầu hết các nhóm thuê tài xế cả ngày."
-
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.price.car"
 msgstr "{price} mỗi xe"
@@ -257,7 +247,7 @@ msgstr "Một tin nhắn tài xế bạn đã chia sẻ"
 msgid "drivers.share.entry"
 msgstr "Tài xế hoặc hướng dẫn viên"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.body"
 msgstr "Một trang gồm những ngày bạn chọn. Không cần đăng nhập. Chỉ có tên, không có ngân sách, không có chat."
 
@@ -346,7 +336,7 @@ msgstr "Đặt tour riêng"
 msgid "drivers.premium.browse"
 msgstr "Xem"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.private"
 msgstr "Ngân sách, chat, họ"
 
@@ -359,6 +349,7 @@ msgid "drivers.offline.note"
 msgstr "Cuộc gọi dùng sóng, không dùng dữ liệu. Tin nhắn sẽ gửi khi bạn có mạng lại."
 
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.premium.cancel"
 msgstr "Huỷ"
@@ -426,7 +417,7 @@ msgstr "Liên hệ"
 msgid "drivers.ask.copied"
 msgstr "Đã sao chép"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.copy"
 msgstr "Sao chép"
 
@@ -491,7 +482,7 @@ msgstr "Ngày {dayNo}"
 msgid "drivers.directory.dayTrips"
 msgstr "Đi trong ngày"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.days"
 msgstr "Các ngày"
 
@@ -512,7 +503,7 @@ msgstr "Tài xế"
 msgid "drivers.check.area"
 msgstr "Tài xế · {0}"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.nameLabel"
 msgstr "Tên của tài xế hoặc hướng dẫn viên"
 
@@ -573,10 +564,6 @@ msgstr "Tìm tài xế"
 
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.title"
-msgstr "Tìm tài xế"
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.find"
 msgstr "Tìm tài xế"
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
@@ -645,7 +632,7 @@ msgstr "Chụp ảnh đẹp"
 msgid "drivers.check.priceAskWords"
 msgstr "Tài xế viết: “{ask}”"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet.tsx
+#: ../../apps/mobile/src/features/drivers/share/use-driver-share.ts
 msgid "drivers.share.message"
 msgstr "Đây là những ngày tụi mình cần anh/chị, kèm giờ và điểm đón: {url}"
 
@@ -750,11 +737,11 @@ msgstr "Ngôn ngữ bài đăng"
 msgid "drivers.premium.pickDiscardTitle"
 msgstr "Rời đi mà chưa chọn {name}?"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quote"
 msgstr "Cho {name} gửi báo giá"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quoteAnyone"
 msgstr "Cho họ gửi báo giá"
 
@@ -762,11 +749,11 @@ msgstr "Cho họ gửi báo giá"
 msgid "drivers.compare.licence"
 msgstr "Giấy phép"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.copied"
 msgstr "Đã sao chép liên kết."
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.expires"
 msgstr "Liên kết hết hạn"
 
@@ -798,7 +785,7 @@ msgstr "Đang tìm xe riêng"
 msgid "drivers.verdict.loved"
 msgstr "Rất thích"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.create"
 msgstr "Tạo liên kết"
 
@@ -806,7 +793,7 @@ msgstr "Tạo liên kết"
 msgid "drivers.invite.making"
 msgstr "Đang tạo liên kết cho anh ấy…"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.needsSignal"
 msgstr "Cần có sóng để tạo liên kết. Thử lại khi bạn có mạng nhé."
 
@@ -829,10 +816,6 @@ msgstr "Tên"
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.line.name"
 msgstr "Tên"
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.title"
-msgstr "Cần tài xế ở đây?"
 
 #: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
@@ -866,10 +849,6 @@ msgstr "Chưa có tài xế nào"
 msgid "drivers.compare.askPriceHint"
 msgstr "Chưa có một giá cụ thể. Hỏi tài xế qua WhatsApp"
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.noRide"
-msgstr "Không có xe"
-
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.shortlistOffline"
 msgstr "Mất sóng: danh sách chọn sẽ hiện khi bạn có mạng lại."
@@ -898,11 +877,7 @@ msgstr "Chưa xác nhận"
 msgid "drivers.compare.notIncl"
 msgstr "Chưa gồm"
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.notNow"
-msgstr "Để sau"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.notOpened"
 msgstr "Chưa mở"
 
@@ -1019,7 +994,7 @@ msgstr "Chọn {0}"
 msgid "drivers.replied.pick"
 msgstr "Chọn {driverName} với giá này"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.noDays"
 msgstr "Chọn ít nhất một ngày"
 
@@ -1088,7 +1063,7 @@ msgstr "Báo cáo mẹo này"
 msgid "drivers.report.title"
 msgstr "Báo cáo mục này?"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revoke"
 msgstr "Thu hồi liên kết"
 
@@ -1124,7 +1099,7 @@ msgstr "Ảnh màn hình"
 msgid "drivers.premium.see"
 msgstr "Xem"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.whatsapp"
 msgstr "Gửi qua WhatsApp"
 
@@ -1140,11 +1115,11 @@ msgstr "Đã gửi cho cả nhóm"
 msgid "drivers.premium.setVerb"
 msgstr "Đặt"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.title"
 msgstr "Chia sẻ với {name}"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.titleAnyone"
 msgstr "Chia sẻ với tài xế của bạn"
 
@@ -1202,7 +1177,7 @@ msgstr "Đã đặt"
 msgid "drivers.ask.tapSlot"
 msgstr "Chạm phần tô sáng để đổi"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revokeConfirm"
 msgstr "Chạm lần nữa để thu hồi"
 
@@ -1257,7 +1232,7 @@ msgstr "Những ngày bạn đã đánh dấu sẽ không được giữ."
 msgid "drivers.add.pasteLabel"
 msgstr "Tin nhắn của tài xế"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revoked"
 msgstr "Liên kết đã tắt. Trang cũng hiện điều đó ngay."
 
@@ -1289,11 +1264,7 @@ msgstr "Kế hoạch vừa thay đổi. Xem lại các ngày rồi thử lại."
 msgid "drivers.tours.down"
 msgstr "Nhà cung cấp chưa phản hồi. Thử lại sau ít phút."
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.noApp"
-msgstr "Ở đây không có ứng dụng gọi xe, và ngày này các điểm cách nhau khá xa. Hầu hết các nhóm thuê tài xế cả ngày."
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quoteHint"
 msgstr "Họ cũng có thể gợi ý thay đổi và mẹo"
 
@@ -1402,10 +1373,6 @@ msgstr "Bạn đã nhắc anh ấy một lần rồi."
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.rate.missingLine"
 msgstr "Bạn có thể đánh giá các tài xế mà nhóm đã đi cùng trong chuyến này."
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.late"
-msgstr "Cả nhóm về muộn từ {place}, và ứng dụng gọi xe hiếm khi đón ở đó vào ban đêm. Thuê tài xế buổi tối là cách về an toàn."
 
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.titleMine"

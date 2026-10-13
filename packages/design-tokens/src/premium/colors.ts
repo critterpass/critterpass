@@ -235,7 +235,8 @@ export const premiumDark: PremiumPalette = {
   segmentThumb: '#3d404c',
   toggleOn: '#34c77b',
   toggleOff: 'rgba(120,120,128,.32)',
-  toggleKnob: '#1c1d24',
+  // White in dark too, as iOS draws it: a dark knob all but vanishes on the off track.
+  toggleKnob: '#ffffff',
   caret: '#4f86ff',
   onAccent: '#17142a',
   onInk: '#15161b',

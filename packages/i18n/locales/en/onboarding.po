@@ -12,11 +12,6 @@ msgstr ""
 msgid "onboarding.invite.ticket.membersIn"
 msgstr "{0, plural, one {{listed} is in.} other {{listed} are in.}}"
 
-#. placeholder {0}: movingCrews.length
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.movingCount"
-msgstr "{0, plural, one {# crew from this phone comes with you.} other {# crews from this phone come with you.}}"
-
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
 msgid "onboarding.invite.code.alreadyIn"
 msgstr "{count} already in. {guideName} is guiding."
@@ -34,17 +29,14 @@ msgid "onboarding.home.hoursAway"
 msgstr "{hours} h away"
 
 #: ../../apps/mobile/src/features/onboarding/save/merge-copy.ts
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.bodyFor"
 msgstr "{identity} is saved to a pass you made before. Switch to it to pick up where you left off."
 
 #: ../../apps/mobile/src/features/onboarding/save/merge-copy.ts
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.keptBody"
 msgstr "{identity} stays with your old pass, and this phone keeps the new one. To save the new pass, use a different sign-in."
 
 #: ../../apps/mobile/src/features/onboarding/save/merge-copy.ts
-#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
 msgid "onboarding.merge.declinedLine"
 msgstr "{identity} stays with your old pass. Use another sign-in to save this one."
 
@@ -253,7 +245,6 @@ msgstr "Budget hacker"
 
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.terms"
 msgstr "By continuing you agree to the Terms and the Privacy Policy."
 
@@ -332,13 +323,11 @@ msgstr "Coffee stops"
 
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.apple"
 msgstr "Continue with Apple"
 
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.google"
 msgstr "Continue with Google"
 
@@ -350,7 +339,6 @@ msgstr "Copied a crew link?"
 msgid "onboarding.premium.home.locateNoFix"
 msgstr "Couldn’t find you just now. Search for your town instead."
 
-#: ../../apps/mobile/src/features/onboarding/phone/CountryPicker.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/CountryListPage.tsx
 msgid "onboarding.phone.country"
 msgstr "Country"
@@ -505,7 +493,6 @@ msgid "onboarding.invite.code.title"
 msgstr "Got a code?"
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.keptDone"
 msgstr "Got it"
 
@@ -601,7 +588,6 @@ msgid "onboarding.premium.manifest.justNow"
 msgstr "just now"
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.title"
 msgstr "Keep it safe"
 
@@ -610,13 +596,10 @@ msgid "onboarding.premium.paste.keep"
 msgstr "Keep this link for your first trip"
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.keepNew"
 msgstr "Keep this new pass"
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
 msgid "onboarding.merge.keptTitle"
 msgstr "Keeping the new pass"
 
@@ -765,7 +748,6 @@ msgid "onboarding.save.error.network"
 msgstr "No signal right now. Your pass is safe on this phone; try again in a moment."
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.notNow"
 msgstr "Not now"
 
@@ -789,10 +771,6 @@ msgstr "Off. I’ll ask on your trip, or turn it on in Settings."
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.history"
 msgstr "Old stories"
-
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.existing"
-msgstr "On that pass"
 
 #: ../../apps/mobile/src/features/onboarding/premium/taste/PremiumTastePage.tsx
 msgid "onboarding.taste.onYourPass"
@@ -918,10 +896,6 @@ msgstr "Same café, same corner table"
 msgid "onboarding.issued.save"
 msgstr "Save my pass"
 
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
-msgid "onboarding.save.eyebrow"
-msgstr "Save your pass"
-
 #: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
 msgid "onboarding.saved"
 msgstr "Saved ✓"
@@ -942,7 +916,6 @@ msgstr "Say no to any of them. I’ll ask again when it actually matters."
 msgid "onboarding.premium.code.scan"
 msgstr "Scan QR"
 
-#: ../../apps/mobile/src/features/onboarding/phone/CountryPicker.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/CountryListPage.tsx
 msgid "onboarding.phone.countrySearch"
 msgstr "Search countries"
@@ -970,10 +943,6 @@ msgstr "Shopping bags"
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.shopping.short"
 msgstr "Shops"
-
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.eyebrow"
-msgstr "Sign in"
 
 #: ../../apps/mobile/src/features/onboarding/premium/splash/WelcomeBack.tsx
 msgid "onboarding.premium.welcomeBack.signIn"
@@ -1020,7 +989,6 @@ msgid "onboarding.phone.body"
 msgstr "So your pass survives a lost phone. One account for every crew, trip and critter."
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.body"
 msgstr "So your pass, critters and crews survive a lost phone. We never post anything for you."
 
@@ -1374,19 +1342,15 @@ msgid "onboarding.premium.home.locate"
 msgstr "Use my location"
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.useOld"
 msgstr "Use my old pass"
 
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
 msgid "onboarding.merge.switchBack"
 msgstr "Use my old pass instead"
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.phone"
 msgstr "Use my phone number"
 
@@ -1460,8 +1424,6 @@ msgid "onboarding.invite.ticket.you"
 msgstr "You"
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
 msgid "onboarding.merge.title"
 msgstr "You already have a pass"
 

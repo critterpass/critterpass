@@ -7,7 +7,7 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: ms\n"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.lastKnown"
 msgstr ""
 
@@ -37,11 +37,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
 msgid "drivers.replied.perDay"
 msgstr ""
-
-#. placeholder {0}: leg.name
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.assigned"
-msgstr "{0} memandu hari ini"
 
 #. placeholder {0}: dayLabel(long.date, locale)
 #. placeholder {1}: hoursFigure(long.hours, locale)
@@ -172,11 +167,6 @@ msgstr "Nombor, kereta dan plat {name}"
 msgid "drivers.pick.quote"
 msgstr ""
 
-#. placeholder {0}: gap.km
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.dayOut"
-msgstr "{place} kira-kira {0} km jauhnya dan harinya panjang. Aplikasi e-hailing jarang menunggu atau mengambil di sana. Kebanyakan krew mengupah pemandu sehari."
-
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.price.car"
 msgstr ""
@@ -257,7 +247,7 @@ msgstr "Mesej pemandu yang anda kongsi"
 msgid "drivers.share.entry"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.body"
 msgstr ""
 
@@ -346,7 +336,7 @@ msgstr "Tempah lawatan persendirian"
 msgid "drivers.premium.browse"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.private"
 msgstr ""
 
@@ -359,6 +349,7 @@ msgid "drivers.offline.note"
 msgstr "Panggilan guna isyarat, bukan data. Mesej dihantar bila anda kembali dalam talian."
 
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.premium.cancel"
 msgstr ""
@@ -426,7 +417,7 @@ msgstr "Kenalan"
 msgid "drivers.ask.copied"
 msgstr "Disalin"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.copy"
 msgstr ""
 
@@ -491,7 +482,7 @@ msgstr ""
 msgid "drivers.directory.dayTrips"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.days"
 msgstr ""
 
@@ -512,7 +503,7 @@ msgstr ""
 msgid "drivers.check.area"
 msgstr "Pemandu · {0}"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.nameLabel"
 msgstr ""
 
@@ -573,10 +564,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.title"
-msgstr "Cari pemandu"
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.find"
 msgstr "Cari pemandu"
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
@@ -645,7 +632,7 @@ msgstr ""
 msgid "drivers.check.priceAskWords"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet.tsx
+#: ../../apps/mobile/src/features/drivers/share/use-driver-share.ts
 msgid "drivers.share.message"
 msgstr ""
 
@@ -746,11 +733,11 @@ msgstr "Bahasa hantaran"
 msgid "drivers.premium.pickDiscardTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quote"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quoteAnyone"
 msgstr ""
 
@@ -758,11 +745,11 @@ msgstr ""
 msgid "drivers.compare.licence"
 msgstr "Lesen"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.copied"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.expires"
 msgstr ""
 
@@ -794,7 +781,7 @@ msgstr "Mencari kereta persendirian"
 msgid "drivers.verdict.loved"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.create"
 msgstr ""
 
@@ -802,7 +789,7 @@ msgstr ""
 msgid "drivers.invite.making"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.needsSignal"
 msgstr ""
 
@@ -825,10 +812,6 @@ msgstr "Nama"
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.line.name"
 msgstr "Nama"
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.title"
-msgstr "Perlu pemandu di sini?"
 
 #: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
@@ -862,10 +845,6 @@ msgstr ""
 msgid "drivers.compare.askPriceHint"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.noRide"
-msgstr "Tiada kenderaan"
-
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.shortlistOffline"
 msgstr ""
@@ -894,11 +873,7 @@ msgstr ""
 msgid "drivers.compare.notIncl"
 msgstr "Tidak termasuk"
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.notNow"
-msgstr "Bukan sekarang"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.notOpened"
 msgstr ""
 
@@ -1015,7 +990,7 @@ msgstr ""
 msgid "drivers.replied.pick"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.noDays"
 msgstr ""
 
@@ -1084,7 +1059,7 @@ msgstr ""
 msgid "drivers.report.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revoke"
 msgstr ""
 
@@ -1120,7 +1095,7 @@ msgstr "Tangkapan skrin"
 msgid "drivers.premium.see"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.whatsapp"
 msgstr ""
 
@@ -1136,11 +1111,11 @@ msgstr ""
 msgid "drivers.premium.setVerb"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.titleAnyone"
 msgstr ""
 
@@ -1198,7 +1173,7 @@ msgstr "Diambil"
 msgid "drivers.ask.tapSlot"
 msgstr "Ketik bahagian yang diserlahkan untuk mengubahnya"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revokeConfirm"
 msgstr ""
 
@@ -1253,7 +1228,7 @@ msgstr ""
 msgid "drivers.add.pasteLabel"
 msgstr "Mesej pemandu"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revoked"
 msgstr ""
 
@@ -1285,11 +1260,7 @@ msgstr ""
 msgid "drivers.tours.down"
 msgstr "Pembekal tidak menjawab sekarang. Cuba lagi sebentar lagi."
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.noApp"
-msgstr "Tiada aplikasi e-hailing di sini, dan hari ini jarak antara hentian memang jauh. Kebanyakan krew mengupah pemandu sehari."
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quoteHint"
 msgstr ""
 
@@ -1398,10 +1369,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.rate.missingLine"
 msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.late"
-msgstr "Anda pulang lewat dari {place}, dan aplikasi e-hailing jarang mengambil di sana waktu malam. Pemandu untuk petang itu ialah cara pulang yang selamat."
 
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.titleMine"

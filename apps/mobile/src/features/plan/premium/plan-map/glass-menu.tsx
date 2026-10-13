@@ -17,9 +17,9 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
   type PremiumIconName,
+  popIn,
 } from '@/ui/premium';
 import { useShellExtras } from '@/ui/premium/shell/shell-theme';
-import { popIn } from '../entrances';
 
 export interface GlassMenuItem {
   readonly key: string;

@@ -62,10 +62,6 @@ msgstr "{hours} h"
 msgid "plan.retime.hoursMinutes"
 msgstr "{hours} h {rest}"
 
-#: ../../apps/mobile/src/features/plan/day/late-entry.tsx
-msgid "plan.day.late.minutes"
-msgstr "{minutes} min"
-
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.backEarlierBy"
 msgstr "{moved, plural, one {# later stop moves {by} earlier.} other {# later stops move {by} earlier.}}"
@@ -215,10 +211,6 @@ msgstr "Removed from {from}"
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.edit.removed"
 msgstr "Removed from the plan"
-
-#: ../../apps/mobile/src/features/plan/day/late-entry.tsx
-msgid "plan.day.late.label"
-msgstr "Running late?"
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.edit.see"

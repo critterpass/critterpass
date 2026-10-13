@@ -75,7 +75,7 @@ export function PremiumTabs({
         <NativeTabs
           minimizeBehavior="onScrollDown"
           tintColor={color.ink}
-          iconColor={{ default: color.muted, selected: color.ink }}
+          iconColor={{ default: color.inkSecondary, selected: color.ink }}
           indicatorColor={color.control}
           {...(Platform.OS === 'android' ? { backgroundColor: color.card } : {})}
           labelVisibilityMode="labeled"

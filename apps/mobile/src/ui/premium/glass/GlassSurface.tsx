@@ -23,7 +23,7 @@ export interface GlassSurfaceProps {
 }
 
 /** Liquid Glass ships with iOS 26 (the app's minimum); read once, it never changes at runtime. */
-const NATIVE_GLASS = Platform.OS === 'ios' && isLiquidGlassAvailable();
+export const NATIVE_GLASS = Platform.OS === 'ios' && isLiquidGlassAvailable();
 
 /**
  * The premium glass material. On iOS it is the system Liquid Glass (`GlassView`), which supplies

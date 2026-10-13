@@ -28,6 +28,11 @@ export interface PushScreenProps {
    * it on clear glass. The zoom target of a card uses this (zoom glitches under a header).
    */
   readonly headerless?: boolean;
+  /**
+   * The title as a large title under the bar (Settle up, 7.24): the glass back with the page it
+   * returns to named beside it, then the title, left-aligned, on both platforms.
+   */
+  readonly largeTitle?: boolean;
   /** The label the back button speaks. */
   readonly backLabel: string;
   /** The label the ✕ speaks when the page is the first screen of a sheet or modal ("Close"). */
@@ -81,6 +86,7 @@ export function PushScreen({
   subtitle,
   action,
   headerless = false,
+  largeTitle = false,
   backLabel,
   closeLabel,
   leading = 'auto',
@@ -106,7 +112,7 @@ export function PushScreen({
   const leave = control === 'home' ? goHome : goBack;
   // The bar's native back is the way back, and so is the shell's back or ✕ as a native toolbar
   // item on iOS; a drawn back or ✕ registers itself.
-  useBackAffordance(!headerless && ios && (nativeBack || drawnControl !== null));
+  useBackAffordance(!headerless && !largeTitle && ios && (nativeBack || drawnControl !== null));
 
   const ink = t.color.ink;
   const nativeOptions = useMemo(
@@ -167,6 +173,58 @@ export function PushScreen({
     );
   }
 
+  if (largeTitle && !headerless) {
+    return (
+      <View testID={testID} style={[styles.root, { backgroundColor: t.color.ground }]}>
+        <Stack.Screen options={drawnOptions} />
+        <View
+          style={[
+            styles.largeBar,
+            {
+              marginTop: insets.top + t.space.gap6,
+              minHeight: t.size.glassNav,
+              paddingHorizontal: t.space.gutter,
+              gap: t.space.gap12,
+            },
+          ]}
+        >
+          {control === 'none' ? null : (
+            <DrawnLeadingControl
+              kind={control === 'close' ? 'close' : 'back'}
+              label={leadingLabel}
+              onPress={leave}
+            />
+          )}
+          {control === 'back' || control === 'home' ? (
+            <Text variant="rowText" tone="muted" numberOfLines={1} style={styles.grow}>
+              {backLabel}
+            </Text>
+          ) : (
+            <View style={styles.grow} />
+          )}
+          {actions.length > 0 ? <DrawnHeaderActions actions={actions} /> : null}
+        </View>
+        <View
+          style={{
+            paddingHorizontal: t.space.gutter,
+            paddingTop: t.space.gap12,
+            paddingBottom: t.space.gap6,
+          }}
+        >
+          <Text variant="largeTitle" accessibilityRole="header" singleLine={false}>
+            {title}
+          </Text>
+          {subtitle === undefined ? null : (
+            <Text variant="rowText" tone="muted" singleLine={false}>
+              {subtitle}
+            </Text>
+          )}
+        </View>
+        {body}
+      </View>
+    );
+  }
+
   if (!ios) {
     return (
       <View testID={testID} style={[styles.root, { backgroundColor: t.color.ground }]}>
@@ -213,6 +271,8 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   titleBlock: { alignItems: 'center', maxWidth: 240, flexShrink: 1 },
   drawnBar: { flexDirection: 'row', alignItems: 'center' },
+  largeBar: { flexDirection: 'row', alignItems: 'center' },
+  grow: { flex: 1 },
   // Equal sides keep the title centred whatever the action's width.
   side: { flex: 1, flexDirection: 'row' },
   sideEnd: { justifyContent: 'flex-end' },

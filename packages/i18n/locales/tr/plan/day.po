@@ -62,10 +62,6 @@ msgstr ""
 msgid "plan.retime.hoursMinutes"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/late-entry.tsx
-msgid "plan.day.late.minutes"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.backEarlierBy"
 msgstr ""
@@ -214,10 +210,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.edit.removed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/late-entry.tsx
-msgid "plan.day.late.label"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts

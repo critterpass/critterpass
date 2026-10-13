@@ -12,11 +12,6 @@ msgstr ""
 msgid "onboarding.invite.ticket.membersIn"
 msgstr ""
 
-#. placeholder {0}: movingCrews.length
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.movingCount"
-msgstr ""
-
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
 msgid "onboarding.invite.code.alreadyIn"
 msgstr ""
@@ -34,17 +29,14 @@ msgid "onboarding.home.hoursAway"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/save/merge-copy.ts
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.bodyFor"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/save/merge-copy.ts
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.keptBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/save/merge-copy.ts
-#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
 msgid "onboarding.merge.declinedLine"
 msgstr ""
 
@@ -253,7 +245,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.terms"
 msgstr ""
 
@@ -332,13 +323,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.apple"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.google"
 msgstr ""
 
@@ -350,7 +339,6 @@ msgstr ""
 msgid "onboarding.premium.home.locateNoFix"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/phone/CountryPicker.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/CountryListPage.tsx
 msgid "onboarding.phone.country"
 msgstr ""
@@ -505,7 +493,6 @@ msgid "onboarding.invite.code.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.keptDone"
 msgstr ""
 
@@ -600,7 +587,6 @@ msgid "onboarding.premium.manifest.justNow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.title"
 msgstr ""
 
@@ -609,13 +595,10 @@ msgid "onboarding.premium.paste.keep"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.keepNew"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
 msgid "onboarding.merge.keptTitle"
 msgstr ""
 
@@ -764,7 +747,6 @@ msgid "onboarding.save.error.network"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.notNow"
 msgstr ""
 
@@ -787,10 +769,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.history"
-msgstr ""
-
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.existing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/taste/PremiumTastePage.tsx
@@ -917,10 +895,6 @@ msgstr ""
 msgid "onboarding.issued.save"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
-msgid "onboarding.save.eyebrow"
-msgstr ""
-
 #: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
 msgid "onboarding.saved"
 msgstr ""
@@ -941,7 +915,6 @@ msgstr ""
 msgid "onboarding.premium.code.scan"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/phone/CountryPicker.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/CountryListPage.tsx
 msgid "onboarding.phone.countrySearch"
 msgstr ""
@@ -968,10 +941,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.shopping.short"
-msgstr ""
-
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/splash/WelcomeBack.tsx
@@ -1019,7 +988,6 @@ msgid "onboarding.phone.body"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.body"
 msgstr ""
 
@@ -1373,19 +1341,15 @@ msgid "onboarding.premium.home.locate"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.useOld"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
 msgid "onboarding.merge.switchBack"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.phone"
 msgstr ""
 
@@ -1458,8 +1422,6 @@ msgid "onboarding.invite.ticket.you"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
 msgid "onboarding.merge.title"
 msgstr ""
 

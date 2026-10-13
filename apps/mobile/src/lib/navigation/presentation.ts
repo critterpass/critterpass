@@ -82,6 +82,8 @@ const PRESENTATIONS: Readonly<Record<string, ScreenPresentation>> = {
   'money/scan': REVEAL,
   'memory/[memoryId]': FULL,
   '(trip)/lock-screen-offer': FIT,
+  // The leave-by alarm's permission sheet over the day page.
+  '(trip)/hub/[tripId]/alarm': FIT,
   '(trip)/sos/[id]': REVEAL,
   '(trip)/sos/send': REVEAL,
   '(trip)/proposal/[id]/board': REVEAL,

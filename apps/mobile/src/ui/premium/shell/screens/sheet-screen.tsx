@@ -165,16 +165,19 @@ export function SheetScreen({
             asPage ? styles.pageHeader : null,
           ]}
         >
-          <PressableScale
-            testID="sheet-cancel"
-            accessibilityLabel={cancelLabel}
-            onPress={() => router.back()}
-            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-          >
-            <Text variant="button" style={styles.cancel}>
-              {cancelLabel}
-            </Text>
-          </PressableScale>
+          {/* Equal sides keep the title centred whatever the words' widths ("Hủy" / "Lưu"). */}
+          <View style={styles.side}>
+            <PressableScale
+              testID="sheet-cancel"
+              accessibilityLabel={cancelLabel}
+              onPress={() => router.back()}
+              hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+            >
+              <Text variant="button" style={styles.cancel}>
+                {cancelLabel}
+              </Text>
+            </PressableScale>
+          </View>
           <View style={styles.title}>
             {title === undefined ? null : (
               <Text variant="button" accessibilityRole="header" numberOfLines={1} align="center">
@@ -187,23 +190,32 @@ export function SheetScreen({
               </Text>
             )}
           </View>
-          {verb === undefined ? (
-            <View style={styles.verbSpace} />
-          ) : busy ? (
-            <Spinner color={t.color.ink} trackColor={t.color.hairline} />
-          ) : (
-            <PressableScale
-              testID={verb.testID ?? 'sheet-verb'}
-              accessibilityLabel={verb.label}
-              disabled={verb.disabled === true}
-              onPress={() => void runVerb()}
-              hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-            >
-              <Text variant="button" tone={verb.disabled === true ? 'placeholder' : 'ink'}>
-                {verb.label}
-              </Text>
-            </PressableScale>
-          )}
+          <View style={[styles.side, styles.sideEnd]}>
+            {verb === undefined ? null : (
+              <PressableScale
+                testID={verb.testID ?? 'sheet-verb'}
+                accessibilityLabel={verb.label}
+                accessibilityState={{ busy }}
+                disabled={verb.disabled === true || busy}
+                onPress={() => void runVerb()}
+                hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+              >
+                {/* The word keeps its width while the spinner stands in for it. */}
+                <Text
+                  variant="button"
+                  tone={verb.disabled === true ? 'placeholder' : 'ink'}
+                  style={busy ? styles.hidden : null}
+                >
+                  {verb.label}
+                </Text>
+                {busy ? (
+                  <View style={styles.spinner}>
+                    <Spinner color={t.color.ink} trackColor={t.color.hairline} />
+                  </View>
+                ) : null}
+              </PressableScale>
+            )}
+          </View>
         </View>
         <View collapsable={false} style={styles.body}>
           {scroll ? (
@@ -256,8 +268,11 @@ const styles = StyleSheet.create({
   },
   pageHeader: { marginTop: 0 },
   cancel: { fontWeight: '400' },
-  title: { flex: 1 },
-  verbSpace: { minWidth: 44 },
+  side: { flex: 1, flexDirection: 'row' },
+  sideEnd: { justifyContent: 'flex-end' },
+  title: { flexShrink: 1, maxWidth: '60%' },
+  hidden: { opacity: 0 },
+  spinner: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center' },
   body: { flex: 1, overflow: 'hidden' },
   scroll: { flex: 1 },
 });

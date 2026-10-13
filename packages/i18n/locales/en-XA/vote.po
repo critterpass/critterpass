@@ -59,7 +59,6 @@ msgid "vote.reveal.consolation"
 msgstr ""
 
 #. placeholder {0}: option.votes
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.votes"
 msgstr ""
@@ -78,10 +77,6 @@ msgstr ""
 #. placeholder {1}: chip.origin
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.chipFlight"
-msgstr ""
-
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
-msgid "vote.poll.byline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/places/search-places.tsx
@@ -310,12 +305,10 @@ msgid "vote.premium.close"
 msgstr ""
 
 #. placeholder {0}: winner.label
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.closedWinner"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.closedNoWinner"
 msgstr ""
@@ -325,7 +318,6 @@ msgid "vote.newPoll.deadline"
 msgstr ""
 
 #. placeholder {0}: deadline.day
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.closesDay"
 msgstr ""
@@ -336,7 +328,6 @@ msgid "vote.showdown.closesDay"
 msgstr ""
 
 #. placeholder {0}: deadline.hours
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.closesHours"
 msgstr ""
@@ -453,7 +444,6 @@ msgstr ""
 msgid "vote.premium.keepEditing"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/poll/chat-poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.loading"
 msgstr ""
@@ -475,12 +465,10 @@ msgstr ""
 msgid "vote.reveal.lockedIn"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.lockedInBy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.lockedIn"
 msgstr ""
@@ -577,11 +565,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/register-chat-cards.ts
 msgid "vote.chat.attach"
-msgstr ""
-
-#. placeholder {0}: message.body
-#: ../../apps/mobile/src/features/vote/register-chat-cards.ts
-msgid "vote.chat.label"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
@@ -757,7 +740,6 @@ msgstr ""
 msgid "vote.newPoll.never"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.untitled"
 msgstr ""
@@ -783,7 +765,6 @@ msgstr ""
 msgid "vote.pitch.why"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.winner"
 msgstr ""
@@ -855,7 +836,6 @@ msgstr ""
 msgid "vote.queued.poll"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.yours"
 msgstr ""

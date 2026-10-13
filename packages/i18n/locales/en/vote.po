@@ -59,7 +59,6 @@ msgid "vote.reveal.consolation"
 msgstr "{0} took it well. Already pitching the next trip."
 
 #. placeholder {0}: option.votes
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.votes"
 msgstr "{0} votes"
@@ -79,10 +78,6 @@ msgstr "{0}h flight"
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.chipFlight"
 msgstr "{0}h from {1}"
-
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
-msgid "vote.poll.byline"
-msgstr "{askerName}'s poll"
 
 #: ../../apps/mobile/src/features/vote/premium/places/search-places.tsx
 msgid "vote.search.localMany"
@@ -310,12 +305,10 @@ msgid "vote.premium.close"
 msgstr "Close"
 
 #. placeholder {0}: winner.label
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.closedWinner"
 msgstr "Closed. {0} won."
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.closedNoWinner"
 msgstr "Closed. Nobody voted."
@@ -325,7 +318,6 @@ msgid "vote.newPoll.deadline"
 msgstr "Closes"
 
 #. placeholder {0}: deadline.day
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.closesDay"
 msgstr "Closes {0}"
@@ -336,7 +328,6 @@ msgid "vote.showdown.closesDay"
 msgstr "Closes {0}"
 
 #. placeholder {0}: deadline.hours
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.closesHours"
 msgstr "Closes in {0}h"
@@ -453,7 +444,6 @@ msgstr "Just you, {place}"
 msgid "vote.premium.keepEditing"
 msgstr "Keep editing"
 
-#: ../../apps/mobile/src/features/vote/poll/chat-poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.loading"
 msgstr "Loading the poll"
@@ -475,12 +465,10 @@ msgstr "Lock in {only}"
 msgid "vote.reveal.lockedIn"
 msgstr "Locked in"
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.lockedInBy"
 msgstr "Locked in by {lockedBy}."
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.lockedIn"
 msgstr "Locked in, no vote needed."
@@ -578,11 +566,6 @@ msgstr "Places"
 #: ../../apps/mobile/src/features/vote/register-chat-cards.ts
 msgid "vote.chat.attach"
 msgstr "Poll"
-
-#. placeholder {0}: message.body
-#: ../../apps/mobile/src/features/vote/register-chat-cards.ts
-msgid "vote.chat.label"
-msgstr "Poll: {0}"
 
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
 msgid "vote.premium.post"
@@ -757,7 +740,6 @@ msgstr "vs"
 msgid "vote.newPoll.never"
 msgstr "When all vote"
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.untitled"
 msgstr "Where next?"
@@ -783,7 +765,6 @@ msgstr "Where next? Your vote"
 msgid "vote.pitch.why"
 msgstr "Why your crew might bite"
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.winner"
 msgstr "winner"
@@ -855,7 +836,6 @@ msgstr "Your pitch"
 msgid "vote.queued.poll"
 msgstr "Your poll"
 
-#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.yours"
 msgstr "your vote"

@@ -72,17 +72,9 @@ msgstr "Đang tìm vị trí của bạn…"
 msgid "go.preview.routing"
 msgstr "Đang lấy tuyến đường…"
 
-#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
-msgid "go.button.label"
-msgstr "Đi"
-
 #: ../../apps/mobile/src/features/go/go-screen.tsx
 msgid "go.preview.eyebrow"
 msgstr "ĐI"
-
-#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
-msgid "go.button.labelTo"
-msgstr "Đi · {detail}"
 
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
 msgid "go.settings.googleMaps"
@@ -131,10 +123,6 @@ msgstr "Mở Grab với điểm đến đã điền sẵn"
 #: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.ride"
 msgstr "Gọi xe"
-
-#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
-msgid "go.button.hint"
-msgstr "Hiện tuyến đường từ chỗ bạn, rồi chỉ đường trong ứng dụng bản đồ"
 
 #: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx
 msgid "go.preview.startApple"

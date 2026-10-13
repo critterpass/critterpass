@@ -329,6 +329,10 @@ msgstr "Đang làm lại bản tổng kết"
 msgid "recap.receipt.cheapest"
 msgstr "Ngày rẻ nhất"
 
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.clear"
+msgstr ""
+
 #: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
 msgid "recap.premium.story.close"
 msgstr "Đóng câu chuyện"
@@ -570,6 +574,10 @@ msgstr "Trang sau"
 msgid "recap.summary.offline"
 msgstr "Mất sóng"
 
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.empty"
+msgstr ""
+
 #: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.places"
 msgstr "Trên đường đi"
@@ -734,6 +742,10 @@ msgstr "Chia sẻ tổng kết"
 msgid "recap.story.shareCard"
 msgstr "Chia sẻ trang này"
 
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.hint"
+msgstr ""
+
 #: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
 msgid "recap.signature.save"
 msgstr "Ký tên"
@@ -745,6 +757,18 @@ msgstr "Ký tên"
 #: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
 msgid "recap.signature.title"
 msgstr "Ký vào con dấu của nhóm"
+
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.typeName"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.pad"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.signed"
+msgstr ""
 
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.open"
