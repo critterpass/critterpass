@@ -3,10 +3,11 @@
  * to leave (or the first or next stop); the card rising over it says the pickup and who is up yet
  * (the not-up wear a dashed ring), with "I'm up" and how the alarm will ring. Then running late,
  * Go, the pack list, the day's stops, and the ways on (the day plan, offline, tomorrow, today).
- * Every tap queues, so the page works the same with no signal.
+ * Every tap queues, so the page works the same with no signal. The page scrolls the pack field
+ * above the keyboard, and the sections re-render only when their own rows change.
  */
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -19,7 +20,7 @@ import {
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
-import { PushScreen } from '@/ui/premium/shell';
+import { KeyboardAwareScroll, PushScreen } from '@/ui/premium/shell';
 
 import { heroCopy } from '../../day-of/day-of-copy';
 import { useDayOf, type DayOfProps } from '../../day-of/use-day-of';
@@ -62,8 +63,9 @@ export function DayOfReady({ props }: { readonly props: DayOfProps }) {
               words: false,
             };
   return (
-    <ScrollView
+    <KeyboardAwareScroll
       contentInsetAdjustmentBehavior="never"
+      bottomOffset={th.space.gap16}
       contentContainerStyle={{ paddingBottom: insets.bottom + 40, gap: th.space.gap16 }}
     >
       <DayHero
@@ -75,11 +77,19 @@ export function DayOfReady({ props }: { readonly props: DayOfProps }) {
         big={hero.big}
         {...(hero.spoken === undefined ? {} : { spoken: hero.spoken })}
         words={hero.words}
+        countdown={view}
+        now={props.now}
+        guideName={props.guideName}
       />
       <View style={[styles.rise, { paddingHorizontal: th.space.gutter, gap: th.space.gap10 }]}>
         {props.offline ? <OfflinePill /> : null}
         {view !== null ? (
-          <Readiness props={props} />
+          <Readiness
+            view={view}
+            now={props.now}
+            guideName={props.guideName}
+            onImUp={props.onImUp}
+          />
         ) : lead !== null && lead.kind !== 'done' ? (
           <View
             style={[
@@ -163,12 +173,13 @@ export function DayOfReady({ props }: { readonly props: DayOfProps }) {
         onAdd={props.onAddPack}
         onRemove={props.onRemovePack}
       />
-      <Stops props={props} />
-      <View style={styles.links}>
+      <Stops timeline={props.timeline} />
+      <View style={[styles.links, { paddingHorizontal: th.space.gutter }]}>
         {props.onDayPlan === undefined ? null : (
           <TextButton
             label={t({ id: 'trip.dayOf.toDayPlan', message: 'See the day plan' })}
             onPress={props.onDayPlan}
+            align="center"
             testID="trip-day-plan"
           />
         )}
@@ -176,6 +187,7 @@ export function DayOfReady({ props }: { readonly props: DayOfProps }) {
           <TextButton
             label={t({ id: 'trip.dayOf.toTomorrow', message: 'See tomorrow' })}
             onPress={props.onTomorrow}
+            align="center"
             testID="trip-day-tomorrow"
           />
         )}
@@ -183,6 +195,7 @@ export function DayOfReady({ props }: { readonly props: DayOfProps }) {
           <TextButton
             label={t({ id: 'trip.dayOf.toToday', message: 'Back to today' })}
             onPress={props.onToday}
+            align="center"
             testID="trip-day-today"
           />
         )}
@@ -190,11 +203,12 @@ export function DayOfReady({ props }: { readonly props: DayOfProps }) {
           <TextButton
             label={t({ id: 'trip.dayOf.toOffline', message: 'What works with no signal' })}
             onPress={props.onOffline}
+            align="center"
             testID="trip-day-offline"
           />
         )}
       </View>
-    </ScrollView>
+    </KeyboardAwareScroll>
   );
 }
 
