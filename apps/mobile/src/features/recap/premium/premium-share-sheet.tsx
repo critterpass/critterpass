@@ -22,7 +22,7 @@ import {
   saveToPhotos,
   shareViaSystemSheet,
   type ShareActionsDeps,
-} from '@/ui/share-image/share-actions';
+} from '@/lib/share-image/share-actions';
 import { SHARE_SIZE, type ShareFormat } from '@/ui/share-image/ShareSheet';
 
 type Drawn =

@@ -30,7 +30,7 @@ import { markTouch, resetTouchForTests } from '@/lib/interaction/touch-quiet';
 import { setCeremonyPending } from '@/lib/location/visits/use-rested-on-trip-surface';
 
 import { resetTabBarCoverForTests, useTabBarCover } from '../../sheet/tab-bar-cover';
-import { renderUi } from '../../test-support/render';
+import { renderUi } from '../../../lib/test-support/render-ui';
 import { VisitConsentHost } from '../VisitConsentHost';
 import { VisitConsentRow } from '../VisitConsentSheet';
 

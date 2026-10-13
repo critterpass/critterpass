@@ -3,7 +3,7 @@
  * width and the controls beside it do not jump.
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('../../test-support/skia-double'));
+jest.mock('@shopify/react-native-skia', () => require('../../../lib/test-support/skia-double'));
 jest.mock('expo-router', () => ({ useIsFocused: () => true }));
 
 import { describe, expect, it, jest } from '@jest/globals';
@@ -12,7 +12,7 @@ import { StyleSheet } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 
 import { PillButton } from '../PillButton';
-import { renderUi } from '../../test-support/render';
+import { renderUi } from '../../../lib/test-support/render-ui';
 
 describe('loading pill', () => {
   it('keeps its label laid out at zero opacity, so a small pill keeps its width', async () => {

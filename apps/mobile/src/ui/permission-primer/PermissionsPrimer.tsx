@@ -21,7 +21,7 @@ import { Sticker } from '../sticker/Sticker';
 import { Scaffold } from '../surface/Scaffold';
 import { Text } from '../text/Text';
 import { useTheme } from '../theme';
-import { primerCopy, statusLine } from './copy';
+import { primerCopy, statusLine } from '../../lib/permissions/primer-copy';
 import { DeniedRow } from './DeniedRow';
 import { demoFor } from './demos';
 import { PrimerCard } from './PrimerCard';

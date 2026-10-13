@@ -11,7 +11,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { isCovered, whileMasked } from '@/features/help/shake/test-support/masked';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
-import { renderUi } from '@/ui/test-support/render';
+import { renderUi } from '@/lib/test-support/render-ui';
 
 import type { ChatMessage } from '@/features/crew/chat/data/rows';
 import { PremiumMessageRow, type MessageRowProps } from '@/features/crew/premium/chat/message-row';

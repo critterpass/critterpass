@@ -8,7 +8,7 @@ import { PillButton } from '../buttons/PillButton';
 import { Sheet } from '../sheet/Sheet';
 import { Text } from '../text/Text';
 import { BackgroundLocationDisclosure } from './BackgroundLocationDisclosure';
-import { primerCopy } from './copy';
+import { primerCopy } from '../../lib/permissions/primer-copy';
 import { demoFor } from './demos';
 
 export interface PrimerSheetProps {

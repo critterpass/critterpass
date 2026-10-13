@@ -6,7 +6,7 @@
 import { View } from 'react-native';
 import type { ReactNode } from 'react';
 
-export * from '../../test-support/skia-double';
+export * from '../../../lib/test-support/skia-double';
 
 function filter(kind: string) {
   function SkiaFilter({ children, ...props }: { children?: ReactNode; [prop: string]: unknown }) {

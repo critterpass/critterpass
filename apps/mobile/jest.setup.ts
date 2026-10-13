@@ -14,7 +14,7 @@ let mockResetRouter: (() => void) | undefined;
 /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return --
    jest.mock factories cannot close over module-scope imports; each double's header says why the
    real module cannot run under Jest. */
-jest.mock('@shopify/react-native-skia', () => require('./src/ui/test-support/skia-double'));
+jest.mock('@shopify/react-native-skia', () => require('./src/lib/test-support/skia-double'));
 jest.mock('./src/ui/sticker/Sticker', () => require('./src/ui/avatar/test-support/sticker-double'));
 /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return */
 jest.mock('expo-router', () => {

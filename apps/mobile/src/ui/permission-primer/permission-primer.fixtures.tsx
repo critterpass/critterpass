@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { registerFixture } from '../gallery/registry';
 import { BackgroundLocationDisclosure } from './BackgroundLocationDisclosure';
-import { exactAlarmOffLine, primerCopy, statusLine } from './copy';
+import { exactAlarmOffLine, primerCopy, statusLine } from '../../lib/permissions/primer-copy';
 import { DeniedRow } from './DeniedRow';
 import { CalendarFitDemo, CameraDemo, CritterPingDemo, LeaveByDemo, MicDemo } from './demos';
 import { PermissionsSection } from './PermissionsSection';

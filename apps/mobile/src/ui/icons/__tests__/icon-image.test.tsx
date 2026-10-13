@@ -55,7 +55,7 @@ import { act, render, screen } from '@testing-library/react-native';
 
 import { tokens } from '@cp/design-tokens';
 
-import { renderUi } from '../../test-support/render';
+import { renderUi } from '../../../lib/test-support/render-ui';
 import { Icon } from '../Icon';
 import { resetIconImagesForTests } from '../icon-image';
 

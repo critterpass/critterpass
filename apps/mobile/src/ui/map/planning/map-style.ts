@@ -3,4 +3,4 @@
  * there is one, the destination's published region pack when it has one, the world tiles
  * otherwise (`../region-pack`).
  */
-export { regionMapStyle as planningMapStyle, regionTilesUrl } from '../region-pack';
+export { regionMapStyle as planningMapStyle, regionTilesUrl } from '../../../lib/maps/region-pack';

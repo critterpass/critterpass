@@ -12,7 +12,7 @@ import { Composer, composerMicGestures } from '../chat/Composer';
 import { DayRow, dayRowGestures } from '../plan/DayRow';
 import { MovableBlock, movableBlockGestures } from '../plan/TimelineBlock';
 import { StoryPlayer, storyPlayerGestures } from '../story/StoryPlayer';
-import { renderUi } from '../test-support/render';
+import { renderUi } from '../../lib/test-support/render-ui';
 import { MIN_TOUCH_TARGET } from '../theme';
 
 /** The components build declarative `Gesture.*()` objects; the lookup also covers the hook kind. */

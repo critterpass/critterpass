@@ -8,7 +8,7 @@ import { tokens } from '@cp/design-tokens';
 
 import { renderWithI18n } from '../../i18n/testing';
 import { PillButton } from '../../../ui/buttons/PillButton';
-import { renderUi } from '../../../ui/test-support/render';
+import { renderUi } from '../../test-support/render-ui';
 import { ThemeProvider } from '../../theme';
 import { AUTO_FIT_WRAP_LINES } from '../../../ui/text/auto-fit';
 import { Text } from '../../../ui/text/Text';

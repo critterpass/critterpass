@@ -38,7 +38,7 @@ import {
   type MemberRow,
   type TripRow,
 } from './queries';
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName } from '@/lib/people/member-name';
 
 export interface WalletMember {
   readonly userId: string;

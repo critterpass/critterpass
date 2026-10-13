@@ -11,7 +11,7 @@ import { tierWord, type Tier } from '@/ui/critters/tier';
 import { CpMap, type MapPlace } from '@/ui/map/CpMap';
 
 import { mapFraming } from './where-model';
-import { plainTilesUrl, useRegionTiles } from '@/ui/map/region-pack';
+import { plainTilesUrl, useRegionTiles } from '@/lib/maps/region-pack';
 import { RegionPackNotice } from '@/ui/map/RegionPackNotice';
 
 /** A phone-wide map inside the page gutters, for framing (the narrowest phones are about this). */

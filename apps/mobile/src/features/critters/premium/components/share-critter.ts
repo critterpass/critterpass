@@ -4,7 +4,7 @@
  */
 import type { FormSpec } from '@cp/critter-art';
 
-import { shareViaSystemSheet } from '@/ui/share-image/share-actions';
+import { shareViaSystemSheet } from '@/lib/share-image/share-actions';
 
 import { shareAlt, shareLine } from '../../detail/detail-copy';
 import { deviceShareDeps, renderCritterCard } from '../../detail/share-card';

@@ -6,7 +6,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 
 import { PayMethodChips } from '../money/PayMethodChips';
 import { SettleRow } from '../money/SettleRow';
-import { renderUi } from '../test-support/render';
+import { renderUi } from '../../lib/test-support/render-ui';
 import { EmergencyTiles } from '../trip/EmergencyTiles';
 import { PhraseCard } from '../trip/PhraseCard';
 

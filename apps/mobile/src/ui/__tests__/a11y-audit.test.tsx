@@ -37,7 +37,7 @@ import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { allFixtures } from '../gallery/registry';
 import type { Fixture } from '../gallery/types';
 import { loadFixtureFiles } from '../test-support/load-fixtures';
-import { renderUi } from '../test-support/render';
+import { renderUi } from '../../lib/test-support/render-ui';
 import { Text as UiText } from '../text/Text';
 import { MIN_TOUCH_TARGET } from '../theme';
 

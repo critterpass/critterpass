@@ -12,9 +12,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { toastQueue } from '@/motion';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
-import { renderUi } from '@/ui/test-support/render';
+import { renderUi } from '@/lib/test-support/render-ui';
 
-import type { ShareActionsDeps } from '../share-actions';
+import type { ShareActionsDeps } from '../../../lib/share-image/share-actions';
 import { ShareSheet, type ShareFormat } from '../ShareSheet';
 
 const METRICS = {

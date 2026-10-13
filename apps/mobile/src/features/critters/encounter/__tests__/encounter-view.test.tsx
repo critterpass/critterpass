@@ -13,7 +13,7 @@ jest.mock('@shopify/react-native-skia', () => {
     addCircle: () => path,
   };
   return {
-    ...jest.requireActual<object>('@/ui/test-support/skia-double'),
+    ...jest.requireActual<object>('@/lib/test-support/skia-double'),
     Skia: { Path: { Make: () => path } },
   };
 });

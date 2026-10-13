@@ -7,7 +7,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';
 
-import { renderUi } from '@/ui/test-support/render';
+import { renderUi } from '@/lib/test-support/render-ui';
 
 import { PlaceCard } from '../place-card';
 import { PlaceRow } from '../place-row';

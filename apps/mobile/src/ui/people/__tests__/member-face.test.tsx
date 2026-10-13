@@ -8,7 +8,7 @@ import { screen } from '@testing-library/react-native';
 import type { ReactElement } from 'react';
 import { View } from 'react-native';
 
-import { renderUi } from '../../test-support/render';
+import { renderUi } from '../../../lib/test-support/render-ui';
 import { Avatar } from '../Avatar';
 import { AvatarStack } from '../AvatarStack';
 import { MemberFaceProvider, type MemberFaceResolver } from '../member-face';

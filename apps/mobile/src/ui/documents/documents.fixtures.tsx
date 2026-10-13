@@ -8,7 +8,7 @@ import { Icon } from '../icons/Icon';
 import { Stack } from '../layout/Stack';
 import { Sticker } from '../sticker/Sticker';
 import { GiftCard } from './GiftCard';
-import { mrzLine } from './mrz';
+import { mrzLine } from '../../lib/documents/mrz';
 import { PaperChrome } from './PaperChrome';
 import { PassportCover } from './PassportCover';
 import { PassportPage } from './PassportPage';

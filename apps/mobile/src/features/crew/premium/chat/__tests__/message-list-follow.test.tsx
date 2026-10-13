@@ -9,7 +9,7 @@ import { act, fireEvent, screen } from '@testing-library/react-native';
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { Text } from 'react-native';
 
-import { renderUi } from '@/ui/test-support/render';
+import { renderUi } from '@/lib/test-support/render-ui';
 
 import type { TimelineRow } from '../../../chat/components/timeline-rows';
 import { scrollToEndCalls } from '../../../chat/test-support/flash-list-double';

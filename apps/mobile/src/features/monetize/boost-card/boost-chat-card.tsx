@@ -16,7 +16,7 @@ import { useLiveRows } from '@/data/plan/live-rows';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import type { ChatCardProps } from '@/features/crew';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName } from '@/lib/people/member-name';
 
 import { PERKS_SQL, PERKS_TABLES, perkFromRow, type PerkRow } from '../data/billing-rows';
 import { useOwnerUid } from '../data/use-billing';

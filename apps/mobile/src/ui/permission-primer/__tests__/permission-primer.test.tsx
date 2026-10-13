@@ -17,7 +17,7 @@ import {
 
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
-import { renderUi } from '../../test-support/render';
+import { renderUi } from '../../../lib/test-support/render-ui';
 import { PermissionsPrimer } from '../PermissionsPrimer';
 import { PermissionsSection } from '../PermissionsSection';
 import { PrimerSheetHost } from '../PrimerSheetHost';

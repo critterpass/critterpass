@@ -8,7 +8,7 @@ import { tokens } from '@cp/design-tokens';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { GiftCard, formatGiftCode } from '../documents/GiftCard';
-import { mrzLine, toMrz } from '../documents/mrz';
+import { mrzLine, toMrz } from '../../lib/documents/mrz';
 import { PassportPage } from '../documents/PassportPage';
 import { Receipt, zigzagPath } from '../documents/Receipt';
 import { appendPoint, SignatureLayer } from '../documents/SignatureLayer';
@@ -17,7 +17,7 @@ import { Ticket } from '../documents/Ticket';
 import { Visa } from '../documents/Visa';
 import { fixturesFor, listComponents } from '../gallery/registry';
 import { Icon } from '../icons/Icon';
-import { renderUi } from '../test-support/render';
+import { renderUi } from '../../lib/test-support/render-ui';
 
 import '../documents/documents.fixtures';
 

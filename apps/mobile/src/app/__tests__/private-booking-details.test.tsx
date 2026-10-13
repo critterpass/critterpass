@@ -16,7 +16,7 @@ import { KeyValueCard } from '@/features/bookings/premium/components/KeyValueCar
 import { PolicyCard } from '@/features/bookings/premium/InsurancePremium';
 import { isCovered, whileMasked } from '@/features/help/shake/test-support/masked';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
-import { renderUi } from '@/ui/test-support/render';
+import { renderUi } from '@/lib/test-support/render-ui';
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },

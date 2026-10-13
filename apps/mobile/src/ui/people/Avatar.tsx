@@ -11,7 +11,7 @@ import { useLoop } from '@/motion/use-loop';
 import { useSurfaceTone } from '../surface/Scaffold';
 import { Text } from '../text/Text';
 import { useMemberFace } from './member-face';
-import { formerMemberLabel, isFormerMember } from './member-name';
+import { formerMemberLabel, isFormerMember } from '@/lib/people/member-name';
 import type { TextVariant } from '../text/Text';
 import { makeStyles, sizeToken, useTheme } from '../theme';
 

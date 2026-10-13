@@ -18,7 +18,7 @@ import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { saveToPhotos, shareViaSystemSheet, type ShareActionsDeps } from './share-actions';
+import { saveToPhotos, shareViaSystemSheet, type ShareActionsDeps } from '../../lib/share-image/share-actions';
 
 export type ShareFormat = 'post' | 'story';
 

@@ -17,7 +17,7 @@ import { QuestCard } from '../critters/QuestCard';
 import { StickerShelf } from '../critters/StickerShelf';
 import { WanderFootprints } from '../critters/WanderFootprints';
 import { fixturesFor } from '../gallery/registry';
-import { renderUi } from '../test-support/render';
+import { renderUi } from '../../lib/test-support/render-ui';
 
 import '../critters/critters.fixtures';
 

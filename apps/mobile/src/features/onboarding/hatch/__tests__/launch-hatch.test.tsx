@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it } from '@jest/globals';
 import { screen } from '@testing-library/react-native';
 import { Text } from 'react-native';
 
-import { renderUi } from '@/ui/test-support/render';
+import { renderUi } from '@/lib/test-support/render-ui';
 
 import { LaunchHatch } from '../LaunchHatch';
 import { resetLaunchStateForTests, useSplashRevealed } from '../launch-state';

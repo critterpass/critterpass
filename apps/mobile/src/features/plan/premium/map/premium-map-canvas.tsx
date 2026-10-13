@@ -18,7 +18,7 @@ import {
 import { useMemo, useState, type ReactNode, type RefObject } from 'react';
 import { StyleSheet, View, type NativeSyntheticEvent } from 'react-native';
 
-import { useRegionTiles, WORLD_SOURCE_URL } from '@/ui/map/region-pack';
+import { useRegionTiles, WORLD_SOURCE_URL } from '@/lib/maps/region-pack';
 import { usePremiumTheme } from '@/ui/premium';
 
 import { MAP_PALETTES, type MapMode } from './palette';

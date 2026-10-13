@@ -6,7 +6,7 @@ import { useProducts } from '@/data/billing';
 import { useLiveRows } from '@/data/plan/live-rows';
 import type { SeatLimitPresenterProps } from '@/features/crew';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName } from '@/lib/people/member-name';
 
 import { sharePreview } from '../boost/boost-model';
 import { SEATED_SQL, SEATED_TABLES, type SeatedRow } from '../data/billing-rows';

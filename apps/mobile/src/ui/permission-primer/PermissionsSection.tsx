@@ -10,7 +10,7 @@ import {
 } from '@/lib/permissions';
 
 import { SettingsGroup, type SettingsRow } from '../inputs/SettingsGroup';
-import { exactAlarmOffLine, liveActivitiesOffLine, primerCopy, statusLine } from './copy';
+import { exactAlarmOffLine, liveActivitiesOffLine, primerCopy, statusLine } from '../../lib/permissions/primer-copy';
 
 /** Every kind the Settings section lists; speech rides with the microphone. */
 /* eslint-disable lingui/no-unlocalized-strings -- permission kind ids, not copy */

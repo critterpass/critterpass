@@ -10,7 +10,7 @@ import { tokens } from '@cp/design-tokens';
 
 import { applyGuideRows } from '@/lib/navigation/active-guide';
 
-import { renderUi } from '../../test-support/render';
+import { renderUi } from '../../../lib/test-support/render-ui';
 import { UserAvatar, visibleAvatar, type AvatarView } from '../Avatar';
 import { AvatarPicker } from '../AvatarPicker';
 import { GUIDE_AVATAR_IDS, guideIdOr, guideSticker, isGuideStickerId } from '../guides';

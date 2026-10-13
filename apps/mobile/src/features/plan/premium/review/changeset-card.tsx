@@ -22,7 +22,7 @@ import {
   usePremiumTheme,
   type StatusTone,
 } from '@/ui/premium';
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName } from '@/lib/people/member-name';
 
 import { planRoutes } from '../../overview/routes';
 import { changeTitle, stateWord } from '../../review/chat-card-title';

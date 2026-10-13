@@ -11,7 +11,7 @@ import { tokens } from '@cp/design-tokens';
 import { FOOTER_FADE_PT, KeyboardFooter } from '../layout/KeyboardFooter';
 import { KeyboardScrollView } from '../layout/KeyboardScrollView';
 import { Scaffold } from '../surface/Scaffold';
-import { renderUi } from '../test-support/render';
+import { renderUi } from '../../lib/test-support/render-ui';
 
 const HOME_INDICATOR = 34;
 const METRICS = {

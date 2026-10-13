@@ -6,7 +6,7 @@
  */
 import { useEffect, useState } from 'react';
 
-import { useStoryClock } from '@/ui/story/story-clock';
+import { useStoryClock } from '@/lib/story/story-clock';
 
 /** How short of its end a card holds for its voice, and so the breath after the line. */
 export const VOICE_WAIT_LEAD_MS = 250;

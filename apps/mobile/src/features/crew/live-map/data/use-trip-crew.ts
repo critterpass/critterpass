@@ -14,7 +14,7 @@ import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { watchRows } from '@/data/status/watch-rows';
 
 import { quoted } from '../../chat/data/rows';
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName } from '@/lib/people/member-name';
 
 export interface CrewMate {
   readonly uid: string;

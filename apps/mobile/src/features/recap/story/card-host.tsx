@@ -1,7 +1,7 @@
 /** One story card on screen: its recorded voice while it is up, and the hold for a line still speaking. */
 import { useEffect, useState, type RefObject } from 'react';
 import { View } from 'react-native';
-import { useStoryClock } from '@/ui/story/story-clock';
+import { useStoryClock } from '@/lib/story/story-clock';
 import { type CardView } from './share-card-image';
 import type { StoryCardSpec } from './story-cards';
 import { useNarration, type VoiceUrlLoader } from './use-narration';

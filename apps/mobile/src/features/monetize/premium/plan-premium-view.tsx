@@ -6,7 +6,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { StyleSheet, View } from 'react-native';
 
-import { mrzLine } from '@/ui/documents/mrz';
+import { mrzLine } from '@/lib/documents/mrz';
 import {
   Button,
   Card,

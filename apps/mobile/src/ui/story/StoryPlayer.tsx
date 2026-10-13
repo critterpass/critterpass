@@ -20,7 +20,7 @@ import type { StoryProgress } from '@/motion/patterns/story-progress';
 import { Stack } from '../layout/Stack';
 import { Text } from '../text/Text';
 import { makeStyles } from '../theme';
-import { StoryClockContext, type StoryClock } from './story-clock';
+import { StoryClockContext, type StoryClock } from '../../lib/story/story-clock';
 import { ProgressBar } from './story-progress-bar';
 
 const PUSH_IN_SCALE = 1.08;

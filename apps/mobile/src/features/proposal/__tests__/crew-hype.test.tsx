@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react-native';
 import { describe, expect, it } from '@jest/globals';
 
-import { renderUi } from '@/ui/test-support/render';
+import { renderUi } from '@/lib/test-support/render-ui';
 
 import { PremiumHypeBar } from '../premium/version/hype';
 import { crewInPct } from '../your-version/version-model';

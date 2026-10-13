@@ -7,7 +7,7 @@
 jest.mock('@shopify/react-native-skia', () => {
   const path = { moveTo: () => path, lineTo: () => path, close: () => path };
   return {
-    ...jest.requireActual<object>('@/ui/test-support/skia-double'),
+    ...jest.requireActual<object>('@/lib/test-support/skia-double'),
     Skia: { Path: { Make: () => path } },
   };
 });

@@ -7,7 +7,7 @@ import { ChatRichCard } from '../chat/ChatRichCard';
 import { Composer } from '../chat/Composer';
 import { ReactionFloats } from '../chat/ReactionFloats';
 import { StoryPlayer } from '../story/StoryPlayer';
-import { renderUi } from '../test-support/render';
+import { renderUi } from '../../lib/test-support/render-ui';
 
 const run = (node: ReturnType<typeof screen.getByRole>, actionName: string) =>
   fireEvent(node, 'accessibilityAction', { nativeEvent: { actionName } });

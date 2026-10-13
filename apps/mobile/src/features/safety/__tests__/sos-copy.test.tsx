@@ -12,7 +12,7 @@ import { screen } from '@testing-library/react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
-import { renderUi } from '@/ui/test-support/render';
+import { renderUi } from '@/lib/test-support/render-ui';
 
 import { buildSosModel, type SosRow } from '../sos/sos-model';
 import { SosReady } from '../premium/SosPremium';

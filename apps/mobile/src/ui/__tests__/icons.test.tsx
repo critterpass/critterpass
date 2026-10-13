@@ -17,7 +17,7 @@ import { DOODLE_A11Y } from '../icons/labels';
 import { barsPath, dotGridPath, parseDotLayer, ringsPath, wedgesPath } from '../textures/geometry';
 import { Halftone } from '../textures/halftone';
 import { TEXTURE } from '../textures/texture-tokens';
-import { renderUi } from '../test-support/render';
+import { renderUi } from '../../lib/test-support/render-ui';
 
 import '../icons/icons.fixtures';
 import '../textures/textures.fixtures';

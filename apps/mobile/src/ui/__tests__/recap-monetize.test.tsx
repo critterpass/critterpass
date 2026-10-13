@@ -9,7 +9,7 @@ import { ComparisonTable } from '../monetize/ComparisonTable';
 import { PlanRadioRows } from '../monetize/PlanRadioRows';
 import { RouteRider } from '../recap/RouteRider';
 import { setUiQaSink } from '../../lib/qa/ui-qa';
-import { renderUi } from '../test-support/render';
+import { renderUi } from '../../lib/test-support/render-ui';
 
 const run = (node: ReturnType<typeof screen.getByRole>, actionName: string) =>
   fireEvent(node, 'accessibilityAction', { nativeEvent: { actionName } });

@@ -8,7 +8,7 @@ import { View } from 'react-native';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 
 import { Float } from '@/features/critters';
-import { useStoryClock } from '@/ui/story/story-clock';
+import { useStoryClock } from '@/lib/story/story-clock';
 import {
   CritterSticker,
   Text,

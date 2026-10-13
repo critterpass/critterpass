@@ -3,7 +3,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { screen } from '@testing-library/react-native';
 
-import { renderUi } from '../../test-support/render';
+import { renderUi } from '../../../lib/test-support/render-ui';
 import { Avatar } from '../Avatar';
 
 describe('a former member’s avatar', () => {

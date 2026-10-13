@@ -8,7 +8,7 @@ import { defineClientCommand } from '@/data/commands/summaries';
 import { useCommand } from '@/data/commands/use-command';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName } from '@/lib/people/member-name';
 
 import { shareText } from '../boost-card/boost-card-model';
 import { closePurchaseModals } from '../close-modals';

@@ -9,7 +9,7 @@ import { screen } from '@testing-library/react-native';
 import { isCovered, whileMasked } from '@/features/help/shake/test-support/masked';
 import type { ProfileModel } from '@/features/you/profile/profile-model';
 import { PassportCard } from '@/features/you/premium/profile/passport-card';
-import { renderUi } from '@/ui/test-support/render';
+import { renderUi } from '@/lib/test-support/render-ui';
 
 const MODEL: ProfileModel = {
   name: 'Khánh',

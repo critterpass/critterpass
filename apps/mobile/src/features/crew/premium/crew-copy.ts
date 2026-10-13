@@ -6,7 +6,7 @@ import { plural, t } from '@lingui/core/macro';
 
 import type { CrewCover } from '@cp/domain';
 
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName } from '@/lib/people/member-name';
 
 import type { StartStep } from '../start-crew/use-start-crew';
 

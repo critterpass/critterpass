@@ -11,7 +11,7 @@ import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { useQuietLiveRows } from '@/data/powersync/live-rows';
 
 import { reactMessageCommand } from './chat-commands';
-import { memberName } from '@/ui/people/member-name';
+import { memberName } from '@/lib/people/member-name';
 
 export interface ReactionGroup {
   readonly emoji: string;

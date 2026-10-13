@@ -12,7 +12,7 @@ import type { GuideId } from '@/ui/people/GuideLine';
 import { redraftQuota, type RedraftQuota } from './quota';
 import { useLiveRows } from './rows';
 import type { Person, SetupNow } from './version';
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName } from '@/lib/people/member-name';
 
 export interface DraftTrip {
   readonly tripId: string;

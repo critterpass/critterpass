@@ -20,7 +20,7 @@ import { ChoiceChip } from '../../chips/ChoiceChip';
 import { FilterChip } from '../../chips/FilterChip';
 import { Segmented } from '../../inputs/Segmented';
 import { Toggle } from '../../inputs/Toggle';
-import { renderUi } from '../../test-support/render';
+import { renderUi } from '../../../lib/test-support/render-ui';
 
 const haptic = fireHaptic as jest.MockedFunction<typeof fireHaptic>;
 const fired = () => haptic.mock.calls.map(([cue]) => cue);

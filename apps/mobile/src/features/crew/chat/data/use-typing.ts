@@ -6,7 +6,7 @@
 import { useMemo } from 'react';
 
 import { useTyping } from '@/data/realtime/use-typing';
-import { formerMemberLabel } from '@/ui/people/member-name';
+import { formerMemberLabel } from '@/lib/people/member-name';
 
 export interface ChatTyping {
   readonly names: readonly string[];

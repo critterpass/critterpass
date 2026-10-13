@@ -9,7 +9,7 @@ import { useLiveRows } from '../data/live-rows';
 import type { SosModel } from '../sos/sos-model';
 import { useSos } from '../sos/use-sos';
 import { mapCentre, straightLine, type Point } from './walking-route';
-import { plainTilesUrl, useRegionTiles } from '@/ui/map/region-pack';
+import { plainTilesUrl, useRegionTiles } from '@/lib/maps/region-pack';
 
 const SLUG_SQL = `
   SELECT d.slug, d.name, t.destination_id FROM trips t JOIN destinations d ON d.id = t.destination_id

@@ -4,7 +4,7 @@
  */
 jest.mock('expo-router', () => ({ useIsFocused: () => true }));
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
+jest.mock('@shopify/react-native-skia', () => require('@/lib/test-support/skia-double'));
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';
@@ -12,7 +12,7 @@ import { StyleSheet } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 
 import { IconButton } from '../../buttons/IconButton';
-import { renderUi } from '../../test-support/render';
+import { renderUi } from '../../../lib/test-support/render-ui';
 import { MIN_TOUCH_TARGET } from '../../theme';
 import { PressScale } from '../PressScale';
 

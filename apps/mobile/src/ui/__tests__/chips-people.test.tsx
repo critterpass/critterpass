@@ -22,7 +22,7 @@ import { BLINK_CLOSED_MS, BLINK_MIN_GAP_MS, useBlink } from '../people/use-blink
 import { EmptyState } from '../states/EmptyState';
 import { SurfaceToneProvider } from '../surface/Scaffold';
 import { createCanvasKitEngine, createMemoryStickerCache } from '../test-support/canvaskit-engine';
-import { renderUi } from '../test-support/render';
+import { renderUi } from '../../lib/test-support/render-ui';
 
 let engine: SkiaEngine;
 beforeAll(async () => {

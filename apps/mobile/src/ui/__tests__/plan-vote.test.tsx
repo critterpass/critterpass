@@ -5,7 +5,7 @@ import { tokens } from '@cp/design-tokens';
 
 import { DayRow } from '../plan/DayRow';
 import { DayTimeline } from '../plan/DayTimeline';
-import { renderUi } from '../test-support/render';
+import { renderUi } from '../../lib/test-support/render-ui';
 import { IdeaVoteBox } from '../vote/IdeaVoteBox';
 
 const act = (node: ReturnType<typeof screen.getByRole>, actionName: string) =>

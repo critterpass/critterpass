@@ -9,7 +9,7 @@ import { screen } from '@testing-library/react-native';
 import { newPassDraft } from '@cp/domain';
 
 import { isCovered, whileMasked } from '@/features/help/shake/test-support/masked';
-import { renderUi } from '@/ui/test-support/render';
+import { renderUi } from '@/lib/test-support/render-ui';
 
 import { passFacts } from '@/features/onboarding/pass-facts';
 import { PassPaper } from '@/features/onboarding/premium/components/PassPaper';

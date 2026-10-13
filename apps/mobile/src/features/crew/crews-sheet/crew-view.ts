@@ -5,7 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- row discriminants and dates, never copy. */
 import type { CrewsSnapshot, InviteRow, TripHeader } from './crew-data';
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName } from '@/lib/people/member-name';
 
 export interface CrewCardView {
   readonly id: string;

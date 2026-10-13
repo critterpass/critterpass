@@ -3,7 +3,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 import type { ReactElement } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { renderUi } from '../../test-support/render';
+import { renderUi } from '../../../lib/test-support/render-ui';
 import { VisitConsentSheet, VisitDetectionSettings } from '../VisitConsentSheet';
 
 const METRICS = {

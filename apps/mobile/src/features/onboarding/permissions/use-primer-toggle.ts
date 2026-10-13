@@ -13,7 +13,7 @@ import {
   type PermissionKind,
 } from '@/lib/permissions';
 import { feedback } from '@/motion/feedback';
-import { primerCopy, statusLine } from '@/ui/permission-primer/copy';
+import { primerCopy, statusLine } from '@/lib/permissions/primer-copy';
 
 export function usePrimerToggle(kind: PermissionKind) {
   const { report } = usePermission(kind);

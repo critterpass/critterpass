@@ -17,7 +17,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { mrzLine } from '@/ui/documents/mrz';
+import { mrzLine } from '@/lib/documents/mrz';
 import {
   CritterSticker,
   Icon,

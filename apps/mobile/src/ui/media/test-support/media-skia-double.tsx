@@ -6,7 +6,7 @@
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
-export * from '../../test-support/skia-double';
+export * from '../../../lib/test-support/skia-double';
 
 export function ColorMatrix(props: { readonly matrix: readonly number[]; children?: ReactNode }) {
   return <View testID="skia-color-matrix" accessible={false} {...{ skiaProps: props }} />;

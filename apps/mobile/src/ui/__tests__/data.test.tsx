@@ -13,7 +13,7 @@ import { Donut } from '../data/Donut';
 import { MonthBars } from '../data/MonthBars';
 import { PollBars } from '../data/PollBars';
 import { ProgressRing } from '../data/ProgressRing';
-import { renderUi } from '../test-support/render';
+import { renderUi } from '../../lib/test-support/render-ui';
 
 beforeEach(async () => {
   await resetMotionModeForTests();

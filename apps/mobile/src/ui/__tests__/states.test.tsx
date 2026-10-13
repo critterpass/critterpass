@@ -9,7 +9,7 @@ import { LockedTeaser } from '../states/LockedTeaser';
 import { PermissionCard } from '../states/PermissionCard';
 import { Skeleton, SLOW_LOADING_MS } from '../states/Skeleton';
 import { relativeAge, StaleCaption } from '../states/StaleCaption';
-import { renderUi } from '../test-support/render';
+import { renderUi } from '../../lib/test-support/render-ui';
 
 const activate = (element: Parameters<typeof fireEvent>[0]) =>
   fireEvent(element, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });

@@ -8,7 +8,7 @@ export {
   primerCopy,
   statusLine,
   type PrimerCopy,
-} from './copy';
+} from '../../lib/permissions/primer-copy';
 export { DeniedRow, type DeniedRowProps } from './DeniedRow';
 export {
   CalendarFitDemo,

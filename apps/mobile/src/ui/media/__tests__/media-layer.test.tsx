@@ -11,7 +11,7 @@ import { fireEvent, screen } from '@testing-library/react-native';
 import { creditFor } from '@/lib/media/credit-line';
 import type { MediaView } from '@/lib/media/variants';
 
-import { renderUi } from '../../test-support/render';
+import { renderUi } from '../../../lib/test-support/render-ui';
 import { duotoneMatrix, treatmentFor } from '../duotone';
 import { MediaLayer } from '../MediaLayer';
 import { downloads, reset, seed } from '../test-support/memory-file-system';

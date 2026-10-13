@@ -17,7 +17,7 @@ import type { CameraRef } from '@maplibre/maplibre-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { noticeBottom, RegionPackNotice } from '../RegionPackNotice';
-import { useRegionTiles } from '../region-pack';
+import { useRegionTiles } from '../../../lib/maps/region-pack';
 import { makeStyles } from '../../theme';
 import { planningMapStyle } from './map-style';
 import { StayMarker } from './stay-marker';

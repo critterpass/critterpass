@@ -17,7 +17,7 @@ import { getDefaultSkiaEngine } from '@/ui/sticker/Sticker';
 import type { SignatureStroke } from '../signature/stroke';
 import { resolveMemberStyle } from '@cp/design-tokens';
 import { useMemo } from 'react';
-import { memberName } from '@/ui/people/member-name';
+import { memberName } from '@/lib/people/member-name';
 import { fetchStroke } from '../signature/stroke-store';
 import { deviceShareDeps } from '../summary/share-card';
 import type { MemorySigner } from './use-memory';

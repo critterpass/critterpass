@@ -14,7 +14,7 @@ import type * as MediaLibraryModule from 'expo-media-library';
 import type * as SharingModule from 'expo-sharing';
 
 import { bundledTypeface } from '@/ui/share-image/bundled-typefaces';
-import type { ShareActionsDeps } from '@/ui/share-image/share-actions';
+import type { ShareActionsDeps } from '@/lib/share-image/share-actions';
 import { SHARE_SIZE, type ShareFormat } from '@/ui/share-image/ShareSheet';
 import { renderStickerImage } from '@/ui/sticker/export-png';
 import { getDefaultSkiaEngine } from '@/ui/sticker/Sticker';

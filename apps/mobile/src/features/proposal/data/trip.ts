@@ -6,7 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { isGuideStickerId, type GuideStickerId as GuideId } from '@/ui/avatar/guides';
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName } from '@/lib/people/member-name';
 
 import { useLiveRows } from './rows';
 

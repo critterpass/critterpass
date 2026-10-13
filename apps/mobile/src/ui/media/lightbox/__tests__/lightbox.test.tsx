@@ -5,7 +5,7 @@ import { Gesture, State } from 'react-native-gesture-handler';
 import { fireGestureHandler, getByGestureTestId } from 'react-native-gesture-handler/jest-utils';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { renderUi } from '../../../test-support/render';
+import { renderUi } from '../../../../lib/test-support/render-ui';
 import { Lightbox } from '../Lightbox';
 import type { LightboxItem } from '@/lib/media/viewer/lightbox-model';
 import { zoomPageGestures } from '@/lib/media/viewer/zoom-page';

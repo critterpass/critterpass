@@ -14,7 +14,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import type { MockAudioPlayer } from '@/motion/test-support/expo-audio-mock';
-import { renderUi } from '@/ui/test-support/render';
+import { renderUi } from '@/lib/test-support/render-ui';
 
 import type { CardSharer } from '../share-card-image';
 import type { StoryCardSpec } from '../story-cards';

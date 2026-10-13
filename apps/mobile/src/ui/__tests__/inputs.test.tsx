@@ -21,7 +21,7 @@ import { SlideToConfirm } from '../inputs/SlideToConfirm';
 import { Slider } from '../inputs/Slider';
 import { TextField } from '../inputs/TextField';
 import { Toggle } from '../inputs/Toggle';
-import { renderUi } from '../test-support/render';
+import { renderUi } from '../../lib/test-support/render-ui';
 
 const action = (actionName: string) => ({ nativeEvent: { actionName } });
 const activate = (element: Parameters<typeof fireEvent>[0]) =>

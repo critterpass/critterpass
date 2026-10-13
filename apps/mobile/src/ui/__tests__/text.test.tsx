@@ -9,7 +9,7 @@ import { tokens } from '@cp/design-tokens';
 import { renderWithI18n } from '../../lib/i18n/testing';
 import { LABEL_MIN_SCALE, LABEL_SHRINK_STEP, PillButton } from '../buttons/PillButton';
 import { setUiQaSink } from '../../lib/qa/ui-qa';
-import { renderUi } from '../test-support/render';
+import { renderUi } from '../../lib/test-support/render-ui';
 import { ThemeProvider } from '../../lib/theme';
 import { fixturesFor, listComponents } from '../gallery/registry';
 import { estimateLineCount, fitFontSize, isOverflowing } from '../text/auto-fit';

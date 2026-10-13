@@ -9,7 +9,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { screen } from '@testing-library/react-native';
 import { StyleSheet } from 'react-native';
 
-import { renderUi } from '@/ui/test-support/render';
+import { renderUi } from '@/lib/test-support/render-ui';
 
 import { PlaceHeroPhoto } from '../premium/place/place-hero-photo';
 import { isGenericPhoto, photosByPlace } from '../place-photo';
