@@ -141,8 +141,8 @@ env:
     timeout: 8000
 - tapOn:
     id: 'plan-add-confirm'
-# ADD closes the sheet onto the search it came from, which may close too: back only while the
-# search is still up, never past the day plan.
+# ADD closes the sheet onto the search it came from, which may close too: back only until the
+# day plan shows, never past it (iOS has no back button: the subflow swipes from the edge).
 - waitForAnimationToEnd:
     timeout: 5000
 - extendedWaitUntil:
@@ -151,11 +151,11 @@ env:
     timeout: 15000
 - repeat:
     while:
-      visible:
-        id: 'search-screen'
+      notVisible:
+        id: 'day-plan'
     times: 3
     commands:
-      - back
+      - runFlow: ../onboarding/subflows/back.yaml
       - waitForAnimationToEnd:
           timeout: 3000
 - extendedWaitUntil:
@@ -244,7 +244,7 @@ env:
       visible:
         id: 'plan-item-sheet'
     commands:
-      - back
+      - runFlow: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'day-plan'
@@ -325,7 +325,7 @@ env:
         id: 'day-plan'
     times: 4
     commands:
-      - back
+      - runFlow: ../onboarding/subflows/back.yaml
       - waitForAnimationToEnd:
           timeout: 3000
 # ALL DAYS sits at the head of the day, above wherever the last step left it scrolled.
@@ -395,7 +395,7 @@ env:
         id: 'tab-trips'
     times: 4
     commands:
-      - back
+      - runFlow: ../onboarding/subflows/back.yaml
       - waitForAnimationToEnd:
           timeout: 3000
 - tapOn:
