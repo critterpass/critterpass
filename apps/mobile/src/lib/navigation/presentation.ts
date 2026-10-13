@@ -37,45 +37,66 @@ const REVEAL: ScreenPresentation = { kind: 'cover', fade: true };
 const DRAWN: ScreenPresentation = { kind: 'drawn' };
 const sheet = (...detents: number[]): ScreenPresentation => ({ kind: 'sheet', detents });
 
-/** Every premium sheet and modal route a person can open from another area. */
+/**
+ * Every premium sheet and modal route a person can open from another area. Covers that an area
+ * layout gives `FULL_SCREEN_ROUTE_OPTIONS` (a fade, no gesture) are `REVEAL` here, so the root
+ * presents them the same way.
+ */
 const PRESENTATIONS: Readonly<Record<string, ScreenPresentation>> = {
-  // The `(modal)` group: covers, the guide thread as a page sheet, and the screens that still
-  // draw themselves.
+  // The `(modal)` group: covers, the guide thread as a page sheet, the supplier sheets, and the
+  // screens that still draw themselves.
   '(modal)/guide/[threadId]': MODAL,
   '(modal)/guide/dietary': COVER,
   '(modal)/guide/phrase': COVER,
   '(modal)/guide/camera': COVER,
   '(modal)/guide/voice': COVER,
-  '(modal)/guide/practice': DRAWN,
+  '(modal)/guide/practice': COVER,
   '(modal)/bookings/pass/[id]': COVER,
   '(modal)/hatch/[tripId]': REVEAL,
+  '(modal)/sticker/[stickerId]': FIT,
+  '(modal)/supplier/offer': FULL,
+  '(modal)/supplier/book': FULL,
+  '(modal)/supplier/draft': FULL,
+  '(modal)/supplier/messages': FULL,
+  '(modal)/supplier/cancel': FIT,
+  '(modal)/supplier/estimate': FIT,
+  '(modal)/supplier/log-ride': FIT,
   '(modal)/boost/[tripId]': DRAWN,
   '(modal)/boost/stamped': DRAWN,
   '(modal)/paywall/index': DRAWN,
   '(modal)/paywall/welcome': DRAWN,
   '(modal)/paywall/compare': DRAWN,
-  '(modal)/sticker/[stickerId]': DRAWN,
   // Areas.
   'crew/index': DRAWN,
   'crew/[crewId]/invite': FULL,
   'crew/[crewId]/member/[uid]': FIT,
   'vote/new-poll': FULL,
-  'vote/pitch': DRAWN,
+  'vote/pitch': FULL,
   'vote/[pollId]/reveal': REVEAL,
-  'places/search': COVER,
-  'explore/why-sponsored': DRAWN,
+  'places/search': REVEAL,
+  'explore/why-sponsored': FIT,
   'you/appearance': HALF,
-  '(trip)/lock-screen-offer': DRAWN,
+  'money/add': REVEAL,
+  'money/scan': REVEAL,
+  'memory/[memoryId]': COVER,
+  '(trip)/lock-screen-offer': FIT,
+  '(trip)/sos/[id]': REVEAL,
+  '(trip)/sos/send': REVEAL,
+  '(trip)/proposal/[id]/board': REVEAL,
+  '(trip)/proposal/[id]/trailer': REVEAL,
+  '(trip)/album/[tripId]/[photoId]': REVEAL,
+  '(trip)/recap/[tripId]/story': REVEAL,
+  '(trip)/encounter/[id]': REVEAL,
   '(trip)/[tripId]/add/[placeId]': sheet(0.79, 1),
   '(trip)/[tripId]/search/link': sheet(0.9, 1),
   '(trip)/[tripId]/check/gap': sheet(0.62, 1),
+  '(trip)/[tripId]/drivers/pick': sheet(0.6, 1),
   '(trip)/[tripId]/ideas/index': sheet(0.82, 1),
   '(trip)/[tripId]/settings/dates': MODAL,
-  '(trip)/[tripId]/drivers/pick': DRAWN,
-  '(trip)/[tripId]/draft/change-day': DRAWN,
-  '(trip)/[tripId]/draft/last-redraft': DRAWN,
-  '(trip)/[tripId]/setup/must-dos/add': DRAWN,
-  '(trip)/[tripId]/setup/ask/[askId]': DRAWN,
+  '(trip)/[tripId]/draft/change-day': FULL,
+  '(trip)/[tripId]/draft/last-redraft': FIT,
+  '(trip)/[tripId]/setup/must-dos/add': FULL,
+  '(trip)/[tripId]/setup/ask/[askId]': FIT,
 };
 
 /** Every listed route path (each names a route file under `app/`). */

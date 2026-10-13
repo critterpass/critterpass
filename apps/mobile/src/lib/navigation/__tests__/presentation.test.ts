@@ -22,7 +22,7 @@ describe('premium presentations', () => {
   });
 
   it('treats an unlisted (modal) screen as one that draws itself, and pages as pushes', () => {
-    expect(presentationOf('(modal)/supplier/offer')).toEqual({ kind: 'drawn' });
+    expect(presentationOf('(modal)/not-listed/yet')).toEqual({ kind: 'drawn' });
     expect(presentationOf('(modal)')).toEqual({ kind: 'drawn' });
     expect(presentationOf('vote/[pollId]/index')).toBeUndefined();
     expect(presentationOf('vote/new-poll')).toEqual(SHEET);
