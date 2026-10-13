@@ -209,6 +209,12 @@ appId: app.critterpass.dev
     visible:
       id: 'money-hero'
     timeout: 30000
+# The hero rolls up to the whole amount spent.
+- extendedWaitUntil:
+    visible:
+      id: 'money-hero-amount'
+      text: '.*63,000.*'
+    timeout: 15000
 - assertVisible:
     id: 'money-solo'
 # A crew of one has nothing to settle: the button says so, turned off.
