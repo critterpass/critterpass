@@ -11,8 +11,6 @@ import { useState, type ComponentType } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { goBackOr } from '@/lib/navigation/back';
 import { toast } from '@/motion/island-toast';
-import { Sheet } from '@/ui/sheet/Sheet';
-import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
 
 import {
   createSavedListCommand,
@@ -22,31 +20,24 @@ import {
   savePlaceCommand,
   unsavePlaceCommand,
 } from '../commands';
-import { RegionPackCard } from '../components/region-pack-card';
-import {
-  SavedView,
-  type ListChoice,
-  type ListEditor,
-  type SavedViewProps,
-} from '../components/saved-view';
+import { RegionPackCard } from '../premium/components/region-pack-card';
+
 import { exploreRoutes } from '../routes';
 import { ALL_LISTS, groupByDestination, listSummaries, type SavedRow } from '../saved-model';
 import { SavedPlansSlot } from '../saved-plans-slot';
 import { useSaved } from '../saved-queries';
+import type { ReactNode } from 'react';
+import { type ListSummary, type SavedGroups } from '../saved-model';
 
 export interface SavedScreenProps {
-  /** The drawing: the current page by default, the premium one in the premium look. */
-  readonly View?: ComponentType<SavedViewProps>;
-  /**
-   * Asks before deleting a list, resolving true to delete; the current look asks in its own sheet
-   * when absent.
-   */
-  readonly confirmDelete?: (name: string) => Promise<boolean>;
+  /** The drawing of the saved hub. */
+  readonly View: ComponentType<SavedViewProps>;
+  /** Asks before deleting a list, resolving true to delete. */
+  readonly confirmDelete: (name: string) => Promise<boolean>;
 }
 
-export function SavedScreen({ View = SavedView, confirmDelete }: SavedScreenProps = {}) {
+export function SavedScreen({ View, confirmDelete }: SavedScreenProps) {
   const { rows, lists, loaded, settled } = useSaved();
-  const [deleting, setDeleting] = useState(false);
   const save = useCommand(savePlaceCommand);
   const [choice, setChoice] = useState<ListChoice>(ALL_LISTS);
   const [editing, setEditing] = useState(false);
@@ -108,7 +99,6 @@ export function SavedScreen({ View = SavedView, confirmDelete }: SavedScreenProp
     );
   };
 
-  const deletingName = chosenList?.name ?? '';
   const view = (
     <View
       loading={!loaded}
@@ -160,10 +150,6 @@ export function SavedScreen({ View = SavedView, confirmDelete }: SavedScreenProp
       onRenameList={() => setEditor({ kind: 'rename', name: shown ?? '', taken: false })}
       onDeleteList={() => {
         if (chosenList === undefined) return;
-        if (confirmDelete === undefined) {
-          setDeleting(true);
-          return;
-        }
         void confirmDelete(chosenList.name).then((yes) => {
           if (!yes) return;
           void remove.send({ list_id: chosenList.id });
@@ -187,35 +173,52 @@ export function SavedScreen({ View = SavedView, confirmDelete }: SavedScreenProp
       plans={<SavedPlansSlot />}
     />
   );
-  return (
-    <>
-      {view}
-      {deleting && chosenList !== undefined ? (
-        <Sheet
-          detents={['fit']}
-          onDismiss={() => setDeleting(false)}
-          testID="explore-saved-delete-sheet"
-        >
-          <ConfirmSheet
-            mode="button"
-            title={t({
-              id: 'explore.saved.deleteTitle',
-              message: `Delete the list "${deletingName}"?`,
-            })}
-            consequences={[
-              t({ id: 'explore.saved.deleteKeeps', message: 'Its places stay in Saved.' }),
-            ]}
-            confirmLabel={t({ id: 'explore.saved.deleteList', message: 'Delete list' })}
-            onConfirm={() => {
-              setDeleting(false);
-              void remove.send({ list_id: chosenList.id });
-              setChoice(ALL_LISTS);
-            }}
-            onCancel={() => setDeleting(false)}
-            testID="explore-saved-delete-confirm"
-          />
-        </Sheet>
-      ) : null}
-    </>
-  );
+  return view;
 }
+
+/** Which list is shown: every list (`ALL_LISTS`), the default one (null) or a named one. */
+export type ListChoice = string | null;
+
+export interface SavedViewProps {
+  /** The saved rows have not been read yet: neither the rows nor "nothing saved" is known. */
+  readonly loading?: boolean | undefined;
+  /** Places only the api knows are still being read: their count is not said yet. */
+  readonly settling?: boolean | undefined;
+  readonly lists: readonly ListSummary[];
+  readonly total: number;
+  readonly choice: ListChoice;
+  readonly onChoose: (choice: ListChoice) => void;
+  readonly groups: SavedGroups;
+  readonly editing: boolean;
+  readonly onToggleEditing: () => void;
+  /** The row whose "move to" lists are open. */
+  readonly movingId: string | null;
+  readonly onMove: (row: SavedRow) => void;
+  readonly onMoveTo: (row: SavedRow, list: string | null) => void;
+  readonly onRemove: (row: SavedRow) => void;
+  readonly onOpen: (row: SavedRow) => void;
+  readonly editor: ListEditor;
+  readonly onNewList: () => void;
+  readonly onRenameList: () => void;
+  readonly onDeleteList: () => void;
+  readonly onEditorChange: (name: string) => void;
+  readonly onEditorSubmit: () => void;
+  readonly onEditorCancel: () => void;
+  readonly onBack: () => void;
+  /** Opens Explore to find something to save; absent while that screen is not in the app. */
+  readonly onExplore?: (() => void) | undefined;
+  /** The offline pack of a saved destination. */
+  readonly renderPack: (destination: {
+    readonly id: string;
+    readonly slug: string;
+    readonly name: string;
+  }) => ReactNode;
+  readonly plans?: ReactNode;
+}
+
+export type ListEditor = {
+  readonly kind: 'new' | 'rename';
+  readonly name: string;
+  /** The viewer already has a list with this name. */
+  readonly taken: boolean;
+} | null;

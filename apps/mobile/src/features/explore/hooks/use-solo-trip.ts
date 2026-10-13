@@ -10,7 +10,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useSyncPhase } from '@/data/status/use-sync-status';
-import { usePremiumUi } from '@/lib/premium-ui';
 import { toast } from '@/motion';
 
 import { createTripCommand } from '../commands';
@@ -31,13 +30,12 @@ export function useSoloTrip(input: {
   const { placeId, placeName, crewId } = input;
   const create = useCommand(createTripCommand);
   const syncPhase = useSyncPhase();
-  const premium = usePremiumUi();
   const [waiting, setWaiting] = useState<{ opId: string; tripId: string } | null>(null);
   const outcome = useOpOutcome(waiting?.opId ?? null);
 
   const open = useCallback(
     (tripId: string) => {
-      const setup = exploreRoutes.tripSetup(tripId, premium);
+      const setup = exploreRoutes.tripSetup(tripId);
       if (setup !== undefined) {
         router.replace(setup);
         return;
@@ -49,7 +47,7 @@ export function useSoloTrip(input: {
       });
       router.back();
     },
-    [placeName, premium, t],
+    [placeName, t],
   );
 
   const refuse = useCallback(

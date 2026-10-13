@@ -5,6 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- toast ids and place kinds, never copy. */
 import { format } from '@cp/i18n';
+import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useMemo, useState, type ComponentType } from 'react';
 
@@ -18,13 +19,10 @@ import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
-import { EmptyState } from '@/ui/states/EmptyState';
-import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
-import { Sheet } from '@/ui/sheet/Sheet';
-import { BackEyebrow } from '@/ui/shell/BackEyebrow';
-import { Scaffold } from '@/ui/surface/Scaffold';
+import { confirmAlert } from '@/ui/premium/shell';
 
-import { RegionPackCard } from '../components/region-pack-card';
+import { ExploreMissingPage } from '../premium/components/missing-page';
+import { RegionPackCard } from '../premium/components/region-pack-card';
 import { useExploreStream } from '../data/use-explore-stream';
 import { estimateText, guideFor, noonUtc, poiSubject } from '../format';
 import { useLocalPicks } from '../queries';
@@ -32,10 +30,13 @@ import { exploreRoutes } from '../routes';
 import { weekdayOfDate } from '../search/weekday-names';
 import { PICKS_SHOWN } from '../sponsored-model';
 import { areaAction, organiserFirstName, pickerDays } from './area-model';
-import { AreaView, type AreaViewProps } from './area-view';
 import * as copy from './copy';
-import { DayPickerSheet } from './day-picker-sheet';
+import { PremiumDayPickerSheet } from '../premium/day-trips/day-picker-sheet';
 import { travelLine } from '@/data/areas/travel-line';
+import type { ReactNode } from 'react';
+import { type DestHeroProps } from '../screens/destination-view-props';
+import { type PickCard } from '../screens/destination-view-props';
+import type { AreaAction } from './area-model';
 
 export interface AreaScreenProps {
   readonly tripId: string;
@@ -46,10 +47,10 @@ export interface AreaScreenProps {
 export function AreaScreen({
   tripId,
   destinationId,
-  View = AreaView,
+  View,
 }: AreaScreenProps & {
-  /** How the page is drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<AreaViewProps>;
+  /** How the page is drawn; the logic stays here. */
+  readonly View: ComponentType<AreaViewProps>;
 }) {
   const locale = useLocale();
   const plan = useTripPlan(tripId, { version: 'draft-or-current' });
@@ -58,7 +59,6 @@ export function AreaScreen({
   const setArea = useCommand(setDayAreaCommand);
   const clearArea = useCommand(clearDayAreaCommand);
   const [picking, setPicking] = useState(false);
-  const [removing, setRemoving] = useState(false);
   const [chosen, setChosen] = useState<number | null>(null);
 
   const link = useMemo(() => {
@@ -101,15 +101,14 @@ export function AreaScreen({
 
   if (areas.loaded && plan.loaded && (!areas.on || name === '')) {
     return (
-      <Scaffold testID="day-trip-missing">
-        <BackEyebrow label={copy.backLabel()} onPress={back} testID="day-trip-back" />
-        <EmptyState
-          guide={guide.id}
-          guideName={guide.name}
-          title={copy.refusalLine('not_a_day_trip', guide.name)}
-          line={copy.sourcesLine()}
-        />
-      </Scaffold>
+      <ExploreMissingPage
+        backLabel={copy.backLabel()}
+        title={copy.refusalLine('not_a_day_trip', guide.name)}
+        line={copy.sourcesLine()}
+        onBack={back}
+        testID="day-trip-missing"
+        backTestID="day-trip-back"
+      />
     );
   }
 
@@ -159,12 +158,25 @@ export function AreaScreen({
       .send({ trip_id: tripId, base_version: base, day_no: onDay.dayNo })
       .then((sent) => {
         const outcome = dayAreaOutcome(sent);
-        setRemoving(false);
         if (!outcome.ok) refused(copy.refusalLine(outcome.refusal, guide.name));
         else toast.show({ id: 'day-trip-removed', title: copy.removedToast(onDay.dayNo, city) });
       });
   };
 
+  // Taking the day trip off asks first: the day goes back to the city and its stops move.
+  const askToRemove = async () => {
+    if (onDay === null) return;
+    const moving = plan.state.items.filter(
+      (item) => item.day_no === onDay.dayNo && item.poi_id != null && item.booking_id == null,
+    ).length;
+    const yes = await confirmAlert({
+      title: copy.removeTitle(name),
+      message: [copy.removeBackLine(onDay.dayNo, city), copy.movesLine(moving)].join('\n'),
+      confirm: copy.removeConfirm(),
+      cancel: t({ id: 'common.confirm.cancel', message: 'Cancel' }),
+    });
+    if (yes) remove();
+  };
   return (
     <>
       <View
@@ -206,16 +218,15 @@ export function AreaScreen({
         onDayDate={onDay?.date == null ? null : dateOf(onDay.date)}
         onAdd={() => setPicking(true)}
         onChangeDay={() => setPicking(true)}
-        onRemove={() => setRemoving(true)}
+        onRemove={() => void askToRemove()}
       />
       {picking ? (
-        <DayPickerSheet
+        <PremiumDayPickerSheet
           areaName={name}
           chips={days.map((day) => ({
             dayNo: day.dayNo,
             weekday: weekdayOfDate(day.date) ?? '',
             dateLabel: day.date === null ? undefined : String(Number(day.date.slice(8, 10))),
-            color: guide.colour,
             accessibilityLabel: day.date === null ? copy.onDayTag(day.dayNo) : dateOf(day.date),
           }))}
           days={days}
@@ -229,31 +240,33 @@ export function AreaScreen({
           }}
         />
       ) : null}
-      {removing && onDay !== null ? (
-        <Sheet
-          detents={['fit']}
-          onDismiss={() => setRemoving(false)}
-          testID="day-trip-remove-sheet"
-        >
-          <ConfirmSheet
-            mode="button"
-            title={copy.removeTitle(name)}
-            consequences={[
-              copy.removeBackLine(onDay.dayNo, city),
-              copy.movesLine(
-                plan.state.items.filter(
-                  (item) =>
-                    item.day_no === onDay.dayNo && item.poi_id != null && item.booking_id == null,
-                ).length,
-              ),
-            ]}
-            confirmLabel={copy.removeConfirm()}
-            onConfirm={remove}
-            onCancel={() => setRemoving(false)}
-            testID="day-trip-remove-confirm"
-          />
-        </Sheet>
-      ) : null}
     </>
   );
+}
+
+export interface AreaViewProps {
+  readonly hero: Omit<
+    DestHeroProps,
+    'trailing' | 'saved' | 'onToggleSave' | 'chips' | 'guideArt' | 'bottomRoom'
+  >;
+  /** "about 3 h 30 by train each way"; null when the link is gone. */
+  readonly travel: string | null;
+  /** "Full day", before casing. */
+  readonly length: string | null;
+  /** "about $140 each". */
+  readonly cost: string | null;
+  readonly note: string | null;
+  readonly offline: boolean;
+  readonly picks: readonly PickCard[];
+  /** The places have not landed yet (and the read has answered). */
+  readonly placesComing: boolean;
+  readonly onOpenPick?: ((pick: PickCard) => void) | undefined;
+  /** The area's map for offline, offered before the day comes. */
+  readonly pack?: ReactNode;
+  readonly action: AreaAction;
+  /** The date of the day it is on, already worded. */
+  readonly onDayDate: string | null;
+  readonly onAdd: () => void;
+  readonly onChangeDay: () => void;
+  readonly onRemove: () => void;
 }

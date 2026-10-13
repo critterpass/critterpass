@@ -34,14 +34,14 @@ import { useSavings } from '../data/savings';
 import { useProposalTrip } from '../data/trip';
 import { useHasWishes } from '../data/wishes';
 import { ObjectionSheet } from '../objection/objection-host';
-import type { ObjectionSheetViewProps } from '../objection/objection-sheet';
+import type { ObjectionSheetViewProps } from '../objection/objection-host';
 import { ProposalLoading } from '../proposal-loading';
 import { answerChip, stopWhen, tripLine, versionChip } from '../labels';
 import { proposalRoutes } from '../routes';
-import { HypeBar, type HypeBarProps } from './hype-bar';
-import { ShareCard, type ShareCardProps } from './share-card';
-import { WhySheet, type WhySheetProps } from './why-sheet';
-import { YourVersionView, type YourVersionViewProps } from './your-version-view';
+import { type HypeBarProps } from './version-model';
+import { type ShareCardProps } from './version-model';
+import { type WhySheetProps } from './version-model';
+import { type YourVersionViewProps } from './version-model';
 
 /** How the version and the sheets it opens are drawn; every read and command stays here. */
 export interface YourVersionLook {
@@ -51,13 +51,6 @@ export interface YourVersionLook {
   readonly WhySheet: ComponentType<WhySheetProps>;
   readonly Objection: ComponentType<ObjectionSheetViewProps>;
 }
-
-const CURRENT_LOOK: Omit<YourVersionLook, 'Objection'> = {
-  View: YourVersionView,
-  ShareCard,
-  HypeBar,
-  WhySheet,
-};
 
 /* eslint-disable lingui/no-unlocalized-strings -- design screen ids, never copy. */
 /** The place's own page, for a stop that has a place on file. */
@@ -85,10 +78,9 @@ function opener(href: Href | undefined, close: () => void): (() => void) | undef
 export function YourVersionScreen(props: {
   readonly proposalId: string;
   readonly as?: string;
-  /** @default the current look */
-  readonly look?: YourVersionLook;
+  readonly look: YourVersionLook;
 }) {
-  const look = props.look ?? CURRENT_LOOK;
+  const { look } = props;
   const proposal = useProposal(props.proposalId);
   useFindProposalTrip(proposal);
   const tripId = proposal?.tripId ?? null;
@@ -257,7 +249,7 @@ export function YourVersionScreen(props: {
       )}
       {asking ? (
         <ObjectionSheet
-          {...(props.look === undefined ? {} : { View: props.look.Objection })}
+          View={look.Objection}
           proposalId={props.proposalId}
           guide={trip.guide}
           guideName={guideName}

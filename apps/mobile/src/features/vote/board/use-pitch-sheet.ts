@@ -1,5 +1,5 @@
 /**
- * What the pitch sheet does, for both looks: the place search (cleared once a place is picked),
+ * What the pitch sheet does: the place search (cleared once a place is picked),
  * the picked place's streamed pitch, whether it is already on the open board, and "Add to the
  * vote": the candidate command, the toast (queued while a final is on, else the board's count),
  * an optional flight onto the board, then back.
@@ -31,11 +31,9 @@ export interface PitchSheetInput {
   readonly placeId?: string | undefined;
   /** The guide's sticker the toast shows. */
   readonly sticker: (guide: { readonly kind: string; readonly name: string }) => ReactNode;
-  /** Flies the card onto the board before the sheet goes (the current look). */
-  readonly fly?: (sticker: ReactNode) => Promise<void>;
 }
 
-export function usePitchSheet({ crewId, placeId, sticker: stickerFor, fly }: PitchSheetInput) {
+export function usePitchSheet({ crewId, placeId, sticker: stickerFor }: PitchSheetInput) {
   const { t } = useLingui();
   const me = useMyUid();
   const people = usePeople(crewId);
@@ -94,7 +92,6 @@ export function usePitchSheet({ crewId, placeId, sticker: stickerFor, fly }: Pit
           message: `${name}'s on the board. ${count} of ${total} have voted.`,
         }),
       });
-      if (fly !== undefined) await fly(sticker);
     }
     goBackOr();
   };
@@ -117,4 +114,9 @@ export function usePitchSheet({ crewId, placeId, sticker: stickerFor, fly }: Pit
       ? t({ id: 'vote.pitch.onBoard', message: 'Already on the board' })
       : t({ id: 'vote.pitch.add', message: 'Add to the vote' }),
   };
+}
+
+export interface PitchSheetProps {
+  readonly crewId: string;
+  readonly placeId?: string | undefined;
 }

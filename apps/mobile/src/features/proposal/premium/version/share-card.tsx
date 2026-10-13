@@ -9,7 +9,7 @@ import { StyleSheet, View } from 'react-native';
 import { Card, NumberRoll, Text, Toggle, usePremiumTheme } from '@/ui/premium';
 
 import { wholeMoney } from '../../data/format';
-import { shareWith, type ShareCardProps } from '../../your-version/share-card';
+import { shareWith, type ShareCardProps } from '../../your-version/version-model';
 
 export function PremiumShareCard(props: ShareCardProps) {
   const theme = usePremiumTheme();

@@ -23,21 +23,21 @@ import { useProposalTrip } from '../data/trip';
 import { ProposalLoading } from '../proposal-loading';
 import { stopWhen, tripLine } from '../labels';
 import { proposalRoutes } from '../routes';
-import { reactionWords } from '../your-version/hype-bar';
+import { reactionWords } from '../your-version/version-model';
 import { slidesInPlanOrder } from './slide-order';
 import { replyPanelAfter, storyHeld } from './story-hold';
-import { TrailerView, type TrailerViewProps } from './trailer-view';
+import { type GuideStickerId } from '@/ui/avatar/guides';
 
 /** Replies that fit any slide: none of them assumes what time a stop is. */
 const QUICK: readonly ProposalReaction[] = ['okay_wow', 'fire', 'im_in'];
 
 export function TrailerScreen({
   proposalId,
-  View: Look = TrailerView,
+  View: Look,
 }: {
   readonly proposalId: string;
-  /** How the trailer is drawn; the reads and the reactions stay here. @default the current look */
-  readonly View?: ComponentType<TrailerViewProps>;
+  /** How the trailer is drawn; the reads and the reactions stay here. */
+  readonly View: ComponentType<TrailerViewProps>;
 }) {
   const proposal = useProposal(proposalId);
   useFindProposalTrip(proposal);
@@ -100,4 +100,35 @@ export function TrailerScreen({
       onVersion={() => router.replace(proposalRoutes.open(proposalId))}
     />
   );
+}
+
+export interface TrailerSlideData {
+  readonly id: string;
+  /** What assistive tech reads for the slide. */
+  readonly label: string;
+  /** "Day 2 · 06:00" for a slide about a plan stop. */
+  readonly eyebrow: string | null;
+  readonly headline: string;
+  readonly body: string;
+}
+
+export interface TrailerViewProps {
+  readonly guide: GuideStickerId;
+  /** "Lisbon · Nov 5–11". */
+  readonly line: string;
+  /** The story holds (the quick replies are open). */
+  readonly held: boolean;
+  readonly slides: readonly TrailerSlideData[];
+  readonly reactions: readonly {
+    readonly id: string;
+    readonly author: string;
+    readonly text: string;
+  }[];
+  /** The quick replies while their panel is open; null when it is closed. */
+  readonly quick: readonly { readonly kind: ProposalReaction; readonly label: string }[] | null;
+  readonly onToggleQuick: () => void;
+  readonly onReact: (kind: ProposalReaction) => void;
+  readonly onIn: () => void;
+  /** To the member's version: ✕, Maybe and the end of the story. */
+  readonly onVersion: () => void;
 }

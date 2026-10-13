@@ -1,5 +1,5 @@
 /**
- * Crew can't agree's data and actions (7e-3), shared by both looks of the page: the stances live
+ * Crew can't agree's data and actions (7e-3): the stances live
  * from the synced rows, so another phone's stance shows as soon as it syncs; the guide's two ways
  * from the api, worked out again whenever a stance changes; and SUGGEST or "Put it to a vote"
  * posting a decision vote to crew chat.
@@ -40,7 +40,10 @@ import {
   type DecisionPost,
   type SplitOptionView,
 } from './split-model';
-import type { SplitViewProps } from './split-view';
+
+import type { ReactNode } from 'react';
+import type { StackMember } from '@/ui/people/AvatarStack';
+import type { GuideFacts } from '../format';
 
 const optionsCache = new Map<string, { savedAt: string; body: unknown }>();
 
@@ -210,4 +213,40 @@ export function useSplit({
       onClear: () => void clear.send({ trip_id: tripId, poi_id: placeId }),
     },
   };
+}
+
+export interface SplitNote {
+  readonly member: StackMember;
+  readonly note: string;
+}
+
+export interface SplitViewProps {
+  readonly name: string;
+  readonly meta: readonly string[];
+  readonly splitLabel: string;
+  readonly guide: GuideFacts;
+  readonly want: readonly StackMember[];
+  readonly ratherNot: readonly StackMember[];
+  readonly silent: string | null;
+  readonly wantNotes: readonly SplitNote[];
+  readonly ratherNotNotes: readonly SplitNote[];
+  readonly picker: ReactNode;
+  readonly options: readonly {
+    readonly title: string;
+    readonly body: string;
+    readonly tags: readonly string[];
+  }[];
+  /** What the guide says when it has no ways to offer (loading, offline, none). */
+  readonly optionsNote: string | null;
+  readonly chosen: number;
+  readonly onChoose: (index: number) => void;
+  readonly suggest: { readonly label: string; readonly onPress: () => void } | null;
+  readonly vote: { readonly label: string; readonly onPress: () => void } | null;
+  readonly posting: boolean;
+  /**
+   * The one live button once a way is in crew chat, or when there is no way to post: it opens the
+   * chat, and SUGGEST and the vote link are not drawn, so nothing is posted twice.
+   */
+  readonly chat?: { readonly label: string; readonly onPress: () => void } | undefined;
+  readonly onBack: () => void;
 }

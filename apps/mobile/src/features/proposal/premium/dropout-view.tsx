@@ -12,7 +12,7 @@ import { crewColour } from '@/features/vote';
 import { Button, Card, CrewStack, ListCard, Text, Toggle, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import type { DropoutViewProps } from '../dropout/dropout-view';
+import type { DropoutViewProps } from '../dropout/dropout-screen';
 
 export function PremiumDropoutView(props: DropoutViewProps) {
   const theme = usePremiumTheme();

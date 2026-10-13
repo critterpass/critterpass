@@ -8,7 +8,7 @@ import { Pressable, View } from 'react-native';
 
 import { PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
-import type { BrowseTile } from '../../search/browse-grid';
+import type { BrowseTile } from '../../search/browse-tiles';
 import { Doodle, type DoodleName } from '../components/doodle';
 import { Eyebrow, SectionLabel } from '../components/labels';
 import type { FindGap } from './use-find-start';

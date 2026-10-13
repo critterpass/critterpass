@@ -23,7 +23,7 @@ import {
 import { PushScreen } from '@/ui/premium/shell';
 
 import { categoryLabel } from '../../category';
-import type { SavedViewProps } from '../../components/saved-view';
+import type { SavedViewProps } from '../../screens/saved-screen';
 import { guideFor } from '../../format';
 import { ALL_LISTS, type SavedRow } from '../../saved-model';
 import { placeIcon } from '../../search/place-icons';

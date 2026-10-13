@@ -29,7 +29,7 @@ import {
   postBlocker,
   type PollDeadline,
   type PollDraft,
-} from '../../poll/create-poll-sheet';
+} from '../../poll/poll-draft';
 
 const ROW = 50;
 

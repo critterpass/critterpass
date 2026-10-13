@@ -14,16 +14,17 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
-import { TextLink } from '@/ui/buttons/TextLink';
+import { TextButton } from '@/ui/premium';
 
 import { seatBoost } from '../crowd/boost-slot';
-import { CrowdSheet } from '../crowd/crowd-sheet';
+import { PremiumCrowdSheet } from '../premium/crowd-sheet';
 import { lockProposalCommand } from '../data/commands';
 import { fixesLine, useFixesToMake } from '../data/known-issues';
 import { useFindProposalTrip, useProposal } from '../data/proposal';
 import { useLiveRows } from '../data/rows';
 import { useProposalTrip } from '../data/trip';
-import { ProposalConfirm } from '../confirm-sheet';
+import { askToLock } from '../premium/proposal-alerts';
+import { PremiumConfirmedCard, PremiumSuggestions } from '../premium/tracker-cards';
 import { ProposalLoading } from '../proposal-loading';
 import {
   failedLine,
@@ -38,10 +39,9 @@ import {
   tripLine,
 } from '../labels';
 import { proposalRoutes } from '../routes';
-import { ConfirmedCard } from './confirmed-card';
 import { lockState, publicStatus, tally } from './model';
-import { Suggestions } from './suggestions';
-import { TrackerView, type TrackerViewProps } from './tracker-view';
+import type { ReactNode } from 'react';
+import type { PublicStatus, Tally } from './model';
 
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 const DROPOUTS_SQL = 'SELECT user_id FROM trip_dropouts WHERE trip_id = ? AND resolved_at IS NULL';
@@ -50,11 +50,11 @@ const CAP_SQL = 'SELECT seat_cap FROM trip_entitlements WHERE trip_id = ?';
 
 export function TrackerScreen({
   proposalId,
-  View = TrackerView,
+  View,
 }: {
   readonly proposalId: string;
-  /** How the tracker is drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<TrackerViewProps>;
+  /** How the tracker is drawn; the logic stays here. */
+  readonly View: ComponentType<TrackerViewProps>;
 }) {
   const proposal = useProposal(proposalId);
   useFindProposalTrip(proposal);
@@ -63,7 +63,6 @@ export function TrackerScreen({
   const trip = useProposalTrip(tripId);
   const locale = useLocale();
   const lock = useCommand(lockProposalCommand);
-  const [asking, setAsking] = useState(false);
   const [crowd, setCrowd] = useState(false);
   const dropouts = useLiveRows<{ user_id: string }>(
     DROPOUTS_SQL,
@@ -104,7 +103,6 @@ export function TrackerScreen({
   const waiting = trip.people.filter((p) => p.rsvp === 'waitlisted');
   const boost = seatBoost();
   const onLock = async () => {
-    setAsking(false);
     const result = await lock.send({ proposal_id: proposal.id });
     if (result.kind === 'applied') {
       // The locked-in card ("The trip is on") is the confirmation: no toast over its header.
@@ -117,6 +115,14 @@ export function TrackerScreen({
         title: t({ id: 'proposal.lock.failed', message: 'Couldn’t lock it in' }),
         subtitle: failedLine(result),
       });
+    }
+  };
+  // LOCK IT IN asks first: the maybes go on the waitlist and whoever didn't answer is out.
+  const askFirst = async () => {
+    if (state.kind !== 'ready' && state.kind !== 'alone') return;
+    const consequences = [...lockConsequences(state), ...(lockIssues === null ? [] : [lockIssues])];
+    if (await askToLock(lockTitle(state.kind === 'alone'), consequences, lockConfirmLabel())) {
+      void onLock();
     }
   };
   return (
@@ -138,7 +144,7 @@ export function TrackerScreen({
         }))}
         waiting={
           waiting.length === 0 ? null : (
-            <TextLink
+            <TextButton
               label={t({
                 id: 'proposal.tracker.waiting',
                 message: `${waiting.length} waiting for a seat`,
@@ -151,7 +157,7 @@ export function TrackerScreen({
         tally={counts}
         confirmed={
           state.kind === 'locked' ? (
-            <ConfirmedCard
+            <PremiumConfirmedCard
               guide={trip.guide}
               going={counts.in}
               tripLine={tripLine(locale, trip.destination, trip.startDate, trip.endDate)}
@@ -160,28 +166,18 @@ export function TrackerScreen({
           ) : null
         }
         suggestions={
-          status === 'sent' ? <Suggestions proposalId={proposal.id} guide={trip.guide} /> : null
+          status === 'sent' ? (
+            <PremiumSuggestions proposalId={proposal.id} guide={trip.guide} />
+          ) : null
         }
         lockLabel={copy.label}
         lockNote={copy.note}
         locking={lock.pending}
         onBack={() => goBackOr()}
-        onLock={() => setAsking(true)}
+        onLock={() => void askFirst()}
       />
-      {asking && (state.kind === 'ready' || state.kind === 'alone') ? (
-        <ProposalConfirm
-          title={lockTitle(state.kind === 'alone')}
-          consequences={[...lockConsequences(state), ...(lockIssues === null ? [] : [lockIssues])]}
-          fit
-          confirmLabel={lockConfirmLabel()}
-          mode="button"
-          onConfirm={() => void onLock()}
-          onCancel={() => setAsking(false)}
-          testID="tracker-lock-confirm"
-        />
-      ) : null}
       {crowd ? (
-        <CrowdSheet
+        <PremiumCrowdSheet
           destination={trip.destination}
           cap={cap ?? trip.people.length - waiting.length}
           seated={trip.people.filter((p) => p.rsvp !== 'waitlisted' && p.rsvp !== 'out')}
@@ -192,4 +188,32 @@ export function TrackerScreen({
       ) : null}
     </>
   );
+}
+
+export interface TrackerRow {
+  readonly uid: string;
+  readonly name: string;
+  readonly joinIndex: number;
+  readonly status: PublicStatus;
+  readonly line: string;
+  /** Opens the row's follow-up (a dropout's change list). */
+  readonly onPress?: () => void;
+}
+
+export interface TrackerViewProps {
+  readonly back: string;
+  readonly chip: string | null;
+  readonly rows: readonly TrackerRow[];
+  readonly tally: Tally;
+  readonly suggestions: ReactNode;
+  /** The crowd link when someone waits for a seat (4f-1). */
+  readonly waiting?: ReactNode;
+  /** The locked-in card, once the trip is confirmed. */
+  readonly confirmed?: ReactNode;
+  /** The lock button's label, or null when locking isn't offered. */
+  readonly lockLabel: string | null;
+  readonly lockNote: string | null;
+  readonly locking: boolean;
+  readonly onBack: () => void;
+  readonly onLock: () => void;
 }

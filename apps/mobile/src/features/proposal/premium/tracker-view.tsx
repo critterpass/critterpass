@@ -22,7 +22,7 @@ import {
 import { PushScreen } from '@/ui/premium/shell';
 
 import type { PublicStatus } from '../tracker/model';
-import type { TrackerViewProps } from '../tracker/tracker-view';
+import type { TrackerViewProps } from '../tracker/tracker-screen';
 
 export function PremiumTrackerView(props: TrackerViewProps) {
   const theme = usePremiumTheme();
@@ -132,7 +132,7 @@ export function PremiumTrackerView(props: TrackerViewProps) {
         {props.waiting ?? null}
         {props.confirmed ?? null}
       </ScrollView>
-      {props.lockLabel === null ? null : (
+      {props.lockLabel === null && props.lockNote === null ? null : (
         <View
           style={{
             paddingHorizontal: theme.space.titleGutter,
@@ -145,12 +145,14 @@ export function PremiumTrackerView(props: TrackerViewProps) {
               {props.lockNote}
             </Text>
           )}
-          <Button
-            label={props.lockLabel}
-            onPress={props.onLock}
-            loading={props.locking}
-            testID="tracker-lock"
-          />
+          {props.lockLabel === null ? null : (
+            <Button
+              label={props.lockLabel}
+              onPress={props.onLock}
+              loading={props.locking}
+              testID="tracker-lock"
+            />
+          )}
         </View>
       )}
     </PushScreen>

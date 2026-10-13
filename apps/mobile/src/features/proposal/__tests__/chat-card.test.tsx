@@ -20,7 +20,7 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
-import { ProposalMessageCard } from '../chat-card';
+import { PremiumProposalCard } from '../premium/chat-card';
 import { proposalRoutes } from '../routes';
 
 const CREW = '0192f000-0000-7000-8000-00000000c1e0';
@@ -111,7 +111,7 @@ function renderCard(s: TestLocalFirst) {
     <I18nProvider i18n={i18n}>
       <GestureHandlerRootView>
         <LocalFirstProvider value={s.value}>
-          <ProposalMessageCard message={message} mine={false} />
+          <PremiumProposalCard message={message} />
         </LocalFirstProvider>
       </GestureHandlerRootView>
     </I18nProvider>,

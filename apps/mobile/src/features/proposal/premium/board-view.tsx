@@ -28,7 +28,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { BoardViewProps } from '../board/board-view';
+import type { BoardViewProps } from '../board/board-screen';
 
 const TRACK = 68;
 const THUMB = 56;

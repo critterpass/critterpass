@@ -6,13 +6,12 @@ jest.mock('expo-file-system', () => require('@/ui/media/test-support/memory-file
 
 import type { MediaAsset } from '@cp/domain';
 import { describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, screen } from '@testing-library/react-native';
+import { screen } from '@testing-library/react-native';
 import { StyleSheet } from 'react-native';
 
 import { renderUi } from '@/ui/test-support/render';
 
 import { heroCaptionInset, PlacePhoto } from '../components/place-hero-photo';
-import { SwipeCardUnder, type SwipeCardFace } from '../components/swipe-card';
 import { guideFor } from '../format';
 import { isGenericPhoto, photosByPlace } from '../place-photo';
 
@@ -68,53 +67,6 @@ describe('a place card photo', () => {
     expect(isGenericPhoto(generic)).toBe(true);
     expect(isGenericPhoto(own)).toBe(false);
     expect(isGenericPhoto(null)).toBe(false);
-  });
-});
-
-const face = (photo: MediaAsset | null): SwipeCardFace => ({
-  poiId: PLACE,
-  name: 'My Khe Beach',
-  category: 'beach',
-  meta: 'Beach · 10 min from the stay',
-  note: null,
-  social: null,
-  photo,
-});
-
-async function renderCard(photo: MediaAsset | null) {
-  await renderUi(<SwipeCardUnder face={face(photo)} guide={guideFor('chava')} />);
-  const layer = screen.queryByTestId('explore-swipe-photo', { includeHiddenElements: true });
-  if (layer !== null) {
-    await fireEvent(layer, 'layout', {
-      nativeEvent: { layout: { x: 0, y: 0, width: 340, height: 360 } },
-    });
-  }
-  return layer;
-}
-
-describe('the swipe card', () => {
-  it("draws the category's doodle when the place has no photo", async () => {
-    expect(await renderCard(null)).toBeNull();
-    expect(
-      screen.queryByTestId('explore-photo-generic', { includeHiddenElements: true }),
-    ).toBeNull();
-  });
-
-  it("shows the place's own photo with the credit its licence asks for", async () => {
-    expect(await renderCard(own)).not.toBeNull();
-    expect(
-      screen.getByTestId('explore-swipe-photo-credit', { includeHiddenElements: true }),
-    ).toHaveTextContent(own.credit);
-    expect(
-      screen.queryByTestId('explore-photo-generic', { includeHiddenElements: true }),
-    ).toBeNull();
-  });
-
-  it('says a generic photo is not this place', async () => {
-    expect(await renderCard(generic)).not.toBeNull();
-    expect(
-      screen.getByTestId('explore-photo-generic', { includeHiddenElements: true }),
-    ).toHaveTextContent('Not this place');
   });
 });
 

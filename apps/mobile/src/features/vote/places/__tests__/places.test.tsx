@@ -1,17 +1,16 @@
 /**
  * Place search and the guest guide's page over the real local-first stack, with the api's answers
- * replayed at the network seam: a country nobody guides is headed NO LIVE GUIDE YET with the guest
- * line, a live-guide place opens its destination page and a guest place the guest page, nothing
- * found asks for the place, offline says so; the guest page draws the place facts, the locals as
- * hints and the brief with its sources, saves the place, pitches to the only crew, lets the user
- * pick among crews, and starts a solo trip after the confirm.
+ * replayed at the network seam: a country nobody guides gets the guest guide's line, a live-guide
+ * place opens its destination page and a guest place the guest page, nothing found asks for the
+ * place, offline says so; the guest page draws the place facts and the brief with its sources,
+ * saves the place, pitches to the only crew, lets the user pick among crews, and starts a solo trip
+ * after the confirm.
  */
 // Loops are timing, not layout: the tests see their resting frame.
 jest.mock('@/motion/use-loop', () => ({ useLoop: () => ({}) }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { act, fireEvent, screen } from '@testing-library/react-native';
-import { BackHandler } from 'react-native';
+import { act, fireEvent, screen, within } from '@testing-library/react-native';
 import { router } from 'expo-router';
 
 import { toastQueue } from '@/motion';
@@ -30,8 +29,9 @@ import {
   moroccoResults,
   replayServices,
 } from '../../test-support/replay-services';
-import { GuestGuidePage, fxLine } from '../guest-guide-page';
-import { SearchSheet } from '../search-sheet';
+import { GuestGuide as GuestGuidePage } from '../../premium/places/guest-guide';
+import { SearchPlaces as SearchSheet } from '../../premium/places/search-places';
+import { fxLine } from '../city-guide';
 
 const SECOND_CREW = '0192f000-0000-7000-8000-00000000c1e1';
 let stack: TestLocalFirst | null = null;
@@ -63,13 +63,11 @@ describe('place search', () => {
     expect(screen.getByTestId('place-search-idle')).toBeTruthy();
     await type('morocc');
     await until(() => screen.queryByTestId(`place-result-${MARRAKECH}`) !== null);
-    expect(screen.getByTestId('place-search-unguided')).toHaveTextContent(
-      'MOROCCONO LIVE GUIDE YET',
-    );
     expect(
-      screen.getByText("Nobody guides Morocco yet, so I'll cover it. The locals still turn up."),
+      within(screen.getByTestId('place-search-unguided')).getByLabelText(
+        /: Nobody guides Morocco yet, so I'll cover it\. The locals still turn up\.$/,
+      ),
     ).toBeTruthy();
-    expect(screen.getAllByText('Morocco · 1 local to find')).toHaveLength(2);
     await fireEvent.press(screen.getByTestId(`place-result-${MARRAKECH}`));
     expect(router.push).toHaveBeenCalledWith(voteRoutes.place(MARRAKECH, CREW));
   });
@@ -122,22 +120,20 @@ describe('place search', () => {
 });
 
 describe('guest guide page', () => {
-  it('draws the place facts, the locals as hints and the brief with its sources', async () => {
+  it('draws the place facts and the brief with its sources', async () => {
     const s = await open();
     await renderVote(
       <GuestGuidePage placeId={MARRAKECH} crewId={CREW} />,
       s,
       replayServices({ brief: marrakechBriefFrames }),
     );
-    await until(() => screen.queryByTestId('guest-brief') !== null, 15_000);
-    expect(screen.getByTestId('guest-facts')).toHaveTextContent(
-      '1 STOP FROM HOME10 MAD ≈ $1BEST: MAR · OCT',
+    await until(
+      () => screen.queryByText('Marrakech is one of the imperial cities of Morocco.') !== null,
     );
-    expect(screen.getByText('0/3 · FOUND BY BEING THERE')).toBeTruthy();
-    expect(screen.getByText('WHAT TOKEK KNOWS SO FAR')).toBeTruthy();
-    expect(screen.getAllByText('en.wikivoyage.org')).toHaveLength(2);
-    await fireEvent.press(screen.getByTestId('guest-local-1'));
-    expect(toastQueue.getCurrent()?.title).toBe('Sleeps in the dunes by day.');
+    const facts = within(screen.getByTestId('guest-facts'));
+    expect(facts.getByText('10 MAD ≈ $1')).toBeTruthy();
+    const notes = within(screen.getByTestId('guest-notes'));
+    expect(notes.getAllByText('en.wikivoyage.org').length).toBeGreaterThan(0);
   });
 
   it('saves the place and pitches it to the crew it was opened from', async () => {
@@ -149,7 +145,7 @@ describe('guest guide page', () => {
     );
     await until(() => screen.queryByTestId('guest-pitch') !== null, 15_000);
     await fireEvent.press(screen.getByTestId('guest-save'));
-    await until(() => screen.queryByText('♥ SAVED') !== null);
+    await until(() => screen.queryByLabelText('♥ Saved') !== null);
     expect(await queued(s, 'save_place')).toEqual([{ place_id: MARRAKECH }]);
     await fireEvent.press(screen.getByTestId('guest-pitch'));
     expect(router.push).toHaveBeenCalledWith(voteRoutes.pitch(CREW, MARRAKECH));
@@ -170,8 +166,8 @@ describe('guest guide page', () => {
     );
     await until(() => screen.queryByTestId('guest-pitch') !== null, 15_000);
     await fireEvent.press(screen.getByTestId('guest-pitch'));
-    await until(() => screen.queryByTestId(`crew-pick-${SECOND_CREW}`) !== null);
-    await fireEvent.press(screen.getByTestId(`crew-pick-${SECOND_CREW}`));
+    await until(() => screen.queryByTestId(`guest-crew-${SECOND_CREW}`) !== null);
+    await fireEvent.press(screen.getByTestId(`guest-crew-${SECOND_CREW}`));
     expect(router.push).toHaveBeenCalledWith(voteRoutes.pitch(SECOND_CREW, MARRAKECH));
   });
 
@@ -183,7 +179,9 @@ describe('guest guide page', () => {
     );
     await until(() => screen.queryByTestId('guest-solo') !== null, 15_000);
     await fireEvent.press(screen.getByTestId('guest-solo'));
-    expect(screen.getByTestId('solo-confirm')).toHaveTextContent(/JUST YOU, MARRAKECH/u);
+    expect(
+      within(screen.getByTestId('solo-confirm')).getByText('Just you, Marrakech'),
+    ).toBeTruthy();
     await fireEvent.press(screen.getByTestId('solo-start'));
     let sent = await queued(s, 'create_trip');
     for (let tries = 0; sent.length === 0 && tries < 50; tries += 1) {
@@ -237,14 +235,8 @@ describe('guest guide page', () => {
   });
 });
 
-describe('guest page back', () => {
-  it('goes back from the solo confirm to the actions, by its control and by Android back', async () => {
-    const handlers: Parameters<typeof BackHandler.addEventListener>[1][] = [];
-    const listen = BackHandler.addEventListener.bind(BackHandler);
-    jest.spyOn(BackHandler, 'addEventListener').mockImplementation((event, handler) => {
-      handlers.push(handler);
-      return listen(event, handler);
-    });
+describe('guest page solo confirm', () => {
+  it('puts the confirm away with Not now and stays on the page', async () => {
     const s = await open();
     await renderVote(
       <GuestGuidePage placeId={MARRAKECH} crewId={undefined} />,
@@ -252,25 +244,13 @@ describe('guest page back', () => {
       replayServices({ brief: marrakechBriefFrames }),
     );
     await until(() => screen.queryByTestId('guest-solo') !== null, 15_000);
-
     await fireEvent.press(screen.getByTestId('guest-solo'));
     expect(screen.getByTestId('solo-confirm')).toBeTruthy();
-    await fireEvent.press(screen.getByTestId('guest-back'));
-    expect(screen.queryByTestId('solo-confirm')).toBeNull();
-    expect(screen.getByTestId('guest-solo')).toBeTruthy();
-
-    await fireEvent.press(screen.getByTestId('guest-solo'));
-    let consumed: boolean | null | undefined = false;
-    await act(() => {
-      consumed = handlers[handlers.length - 1]?.({} as never);
-    });
-    expect(consumed).toBe(true);
+    await fireEvent.press(screen.getByTestId('solo-cancel'));
     expect(screen.queryByTestId('solo-confirm')).toBeNull();
     expect(screen.getByTestId('guest-pitch')).toBeTruthy();
     expect(router.back).not.toHaveBeenCalled();
-
-    await fireEvent.press(screen.getByTestId('guest-back'));
-    expect(router.back).toHaveBeenCalledTimes(1);
+    expect(await queued(s, 'create_trip')).toEqual([]);
   });
 });
 

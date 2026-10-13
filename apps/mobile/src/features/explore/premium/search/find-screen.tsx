@@ -13,9 +13,9 @@ import { guideSticker } from '@/ui/avatar/guides';
 import { OfflinePill, usePremiumTheme } from '@/ui/premium';
 import { KeyboardAwareScroll } from '@/ui/premium/shell';
 
-import { BROWSE_TILES } from '../../search/browse-grid';
+import { BROWSE_TILES } from '../../search/browse-tiles';
 import { swipeBody, swipeTitle } from '../../trip-explore/copy';
-import { plainExamples } from '../../search/typed-examples';
+import { plainExamples } from '../../search/plain-examples';
 import {
   useSearchController,
   type SearchControllerProps,

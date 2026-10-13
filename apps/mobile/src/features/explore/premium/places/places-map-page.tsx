@@ -32,7 +32,7 @@ import {
 import { BackEdge } from '@/ui/premium/shell/navigation/back-edge';
 
 import { labelSubtitle } from '../../places/places-copy';
-import type { PlacesMapViewProps } from '../../places/places-map-view';
+import type { PlacesMapViewProps } from '../../places/places-map-screen';
 import { PlaceCards, nearestToPicked } from './place-cards';
 import { PlaceDots } from './places-dots';
 import { PlacesChips } from './places-chips';

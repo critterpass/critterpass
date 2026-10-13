@@ -17,7 +17,7 @@ import {
 } from '@/ui/premium';
 import { useShellExtras } from '@/ui/premium/shell/shell-theme';
 
-import { useSoloStart } from '../../places/solo-confirm';
+import { useSoloStart } from '../../places/use-solo-start';
 
 export interface SoloPassSheetProps {
   readonly placeName: string;

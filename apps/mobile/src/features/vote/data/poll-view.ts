@@ -209,3 +209,10 @@ export function pollView(
     tieBreak: parseTie(result['tie']),
   };
 }
+
+/** "3–1": the winner's count, then the best of the rest. */
+export function pollScore(poll: PollView): string {
+  const winner = poll.options.find((option) => option.winner);
+  const rest = Math.max(0, ...poll.options.filter((o) => !o.winner).map((o) => o.votes));
+  return `${winner?.votes ?? 0}–${rest}`;
+}
