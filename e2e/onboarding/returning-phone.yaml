@@ -12,7 +12,7 @@ appId: app.critterpass.dev
     id: 'onboarding-photo-next'
 - extendedWaitUntil:
     visible:
-      id: 'taste-card-left'
+      id: 'quiz-card-left'
     timeout: 20000
 - repeat:
     times: 6
@@ -54,10 +54,10 @@ appId: app.critterpass.dev
 - inputText: '${OTP_TEST_CODE}'
 - extendedWaitUntil:
     visible:
-      id: 'permissions-primer-later'
+      id: 'primer-later'
     timeout: 20000
 - tapOn:
-    id: 'permissions-primer-later'
+    id: 'primer-later'
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'

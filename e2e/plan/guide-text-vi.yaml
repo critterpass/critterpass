@@ -73,7 +73,7 @@ appId: app.critterpass.dev
 
 # Vietnamese: switched in the running app (kept in memory: it survives links, not a relaunch).
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://
 - extendedWaitUntil:
@@ -94,7 +94,7 @@ appId: app.critterpass.dev
     timeout: 60000
     optional: true
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://trips
 - extendedWaitUntil:

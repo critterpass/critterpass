@@ -13,7 +13,7 @@ appId: app.critterpass.dev
     env:
       SCENE: '3n-1-profile'
       ROOT: 'you-profile'
-- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 - runFlow:
     file: subflows/lab-scene.yaml
     env:

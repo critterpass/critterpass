@@ -5,7 +5,7 @@ appId: app.critterpass.dev
 # Ends on Home with the trip confirmed. Steps borrowed from fresh-setup-vnd.yaml and
 # fresh-solo-confirm.yaml until the shared fresh-trip-under-way flow lands.
 - runFlow:
-    file: ../../screens/sweep/subflows/open-link.yaml
+    file: ../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://crew/new
 - extendedWaitUntil:

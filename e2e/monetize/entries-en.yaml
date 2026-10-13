@@ -39,8 +39,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-4d-1-free-real
-- runFlow: ../screens/sweep/subflows/back.yaml
-- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
+- runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'you-profile-get-pass-plus'

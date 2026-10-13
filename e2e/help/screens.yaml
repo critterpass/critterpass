@@ -72,7 +72,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: en-3p-2-picked
-- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'help-lab-feedback-empty'

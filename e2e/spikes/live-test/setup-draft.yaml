@@ -62,12 +62,12 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - takeScreenshot: setup-draft-04-photo
 - tapOn:
-    id: 'onboarding-photo-guides-ajo'
+    id: 'avatar-ajo'
 - tapOn:
     id: 'onboarding-photo-next'
 - extendedWaitUntil:
     visible:
-      id: 'taste-card-left'
+      id: 'quiz-card-left'
     timeout: 10000
     optional: true
 - runFlow:
@@ -79,7 +79,7 @@ appId: app.critterpass.dev
           id: 'onboarding-photo-next'
 - extendedWaitUntil:
     visible:
-      id: 'taste-card-left'
+      id: 'quiz-card-left'
     timeout: 20000
 - waitForAnimationToEnd
 - takeScreenshot: setup-draft-05-taste
@@ -90,7 +90,7 @@ appId: app.critterpass.dev
     times: 9
     commands:
       - tapOn:
-          id: 'taste-card-right'
+          id: 'quiz-card-right'
       - waitForAnimationToEnd
 - takeScreenshot: setup-draft-06-taste-done
 - tapOn:
@@ -141,12 +141,12 @@ appId: app.critterpass.dev
 - back
 - extendedWaitUntil:
     visible:
-      id: 'permissions-primer-later'
+      id: 'primer-later'
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: setup-draft-12-permissions
 - tapOn:
-    id: 'permissions-primer-later'
+    id: 'primer-later'
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
@@ -1045,7 +1045,7 @@ appId: app.critterpass.dev
 
 # A second crew, started the long way, to read the page it ends on: its code and the share button.
 - runFlow:
-    file: ../../screens/sweep/subflows/open-link.yaml
+    file: ../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://crew/new
 - extendedWaitUntil:

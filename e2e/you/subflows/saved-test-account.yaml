@@ -39,7 +39,7 @@ appId: app.critterpass.dev
 # A brand-new person: a pass, a crew, then the pass saved with the phone number.
 - runFlow: ../../home/subflows/onboard.yaml
 - runFlow:
-    file: ../../screens/sweep/subflows/open-link.yaml
+    file: ../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://crew/new
 - extendedWaitUntil:
@@ -59,7 +59,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'start-crew-done'
 - runFlow:
-    file: ../../screens/sweep/subflows/open-link.yaml
+    file: ../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://onboarding/save
 - extendedWaitUntil:

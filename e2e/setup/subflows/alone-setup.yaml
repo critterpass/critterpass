@@ -27,7 +27,7 @@ appId: app.critterpass.dev
             id: 'dev-tools-entry'
           timeout: 30000
 - runFlow:
-    file: ../../screens/sweep/subflows/open-link.yaml
+    file: ../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://crew/new
 - extendedWaitUntil:
@@ -241,7 +241,7 @@ appId: app.critterpass.dev
 # Crew chat: the place she locked in, with no vote drawn.
 # Home by its link: the draft sits several screens deep, and the system back does nothing on iPhone.
 - runFlow:
-    file: ../../screens/sweep/subflows/open-link.yaml
+    file: ../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://
 - extendedWaitUntil:

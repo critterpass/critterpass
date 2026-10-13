@@ -14,7 +14,7 @@ appId: app.critterpass.dev
       SCENE: '3n-3-edit'
       ROOT: 'you-edit'
 - takeScreenshot: en-3n-3-edit
-- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
@@ -39,8 +39,8 @@ appId: app.critterpass.dev
       SCENE: '3n-4-photo'
       ROOT: 'you-avatar'
       SHOT: en-3n-4-photo
-- runFlow: ../screens/sweep/subflows/back.yaml
-- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
+- runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'onboarding-open'

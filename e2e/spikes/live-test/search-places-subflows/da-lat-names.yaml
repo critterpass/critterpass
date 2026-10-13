@@ -51,7 +51,7 @@ appId: app.critterpass.dev
 - back
 - waitForAnimationToEnd
 - runFlow:
-    file: ../../../screens/sweep/subflows/open-link.yaml
+    file: ../../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://crew/new
 - extendedWaitUntil:
@@ -232,7 +232,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 # The destination's page: its picks, and one of them opened.
 - runFlow:
-    file: ../../../screens/sweep/subflows/open-link.yaml
+    file: ../../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://explore/vn-da-lat
 - extendedWaitUntil:

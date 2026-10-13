@@ -6,18 +6,21 @@ appId: app.critterpass.dev
 - runFlow: subflows/fresh-install.yaml
 - runFlow: ../onboarding/subflows/through-name.yaml
 - tapOn:
-    id: 'onboarding-photo-guides-ajo'
+    id: 'avatar-ajo'
 - tapOn:
     id: 'onboarding-photo-next'
 - extendedWaitUntil:
     visible:
-      id: 'taste-card-left'
+      id: 'quiz-card-left'
     timeout: 10000
 - repeat:
-    times: 6
+    while:
+      notVisible:
+        id: 'taste-done'
+    times: 9
     commands:
       - tapOn:
-          id: 'taste-card-right'
+          id: 'quiz-card-right'
       - waitForAnimationToEnd
 - tapOn:
     id: 'taste-done'
@@ -62,23 +65,35 @@ appId: app.critterpass.dev
 - assertVisible: '.*WINSTON.*'
 - tapOn:
     id: 'onboarding-issued-save'
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - tapOn:
-          id: 'save-not-now'
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - back
+# The save sheet (a form sheet on both platforms): not now, then the permission asks, later.
 - extendedWaitUntil:
     visible:
-      id: 'permissions-primer-later'
+      id: 'save-not-now'
     timeout: 10000
+- waitForAnimationToEnd
 - tapOn:
-    id: 'permissions-primer-later'
+    id: 'save-not-now'
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'onboarding-issued-next'
+    commands:
+      - tapOn:
+          id: 'onboarding-issued-next'
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer'
+    timeout: 10000
+- repeat:
+    while:
+      visible:
+        id: 'primer-later'
+    times: 4
+    commands:
+      - tapOn:
+          id: 'primer-later'
+      - waitForAnimationToEnd
 # Home, with no crew yet: start one or join with a code.
 - extendedWaitUntil:
     visible:

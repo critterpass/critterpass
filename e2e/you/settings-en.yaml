@@ -21,9 +21,9 @@ appId: app.critterpass.dev
     direction: DOWN
     timeout: 15000
 - takeScreenshot: en-3n-1-long-crews
-- runFlow: ../screens/sweep/subflows/back.yaml
-- runFlow: ../screens/sweep/subflows/back.yaml
-- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
+- runFlow: ../_shared/back.yaml
+- runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'onboarding-open'

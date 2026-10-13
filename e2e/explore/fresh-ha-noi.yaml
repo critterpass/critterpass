@@ -19,7 +19,7 @@ appId: app.critterpass.dev
       id: 'home-guide-.*'
     timeout: 60000
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://explore
 - extendedWaitUntil:

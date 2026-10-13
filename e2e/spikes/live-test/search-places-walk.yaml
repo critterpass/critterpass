@@ -421,7 +421,7 @@ appId: app.critterpass.dev
 - takeScreenshot: search-places-24-explore-picks-and-kinds
 # Đà Lạt's page: a curated set with must-sees.
 - runFlow:
-    file: ../../screens/sweep/subflows/open-link.yaml
+    file: ../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://explore/vn-da-lat
 - extendedWaitUntil:
@@ -441,7 +441,7 @@ appId: app.critterpass.dev
 - takeScreenshot: search-places-26-da-lat-picks
 # Busan runs on automatic picks, with no curated set.
 - runFlow:
-    file: ../../screens/sweep/subflows/open-link.yaml
+    file: ../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://explore/kr-busan
 - extendedWaitUntil:
@@ -488,7 +488,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - runFlow: ../../onboarding/subflows/back.yaml
 - runFlow:
-    file: ../../screens/sweep/subflows/open-link.yaml
+    file: ../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://explore/vn-da-lat
 - extendedWaitUntil:
@@ -506,7 +506,7 @@ appId: app.critterpass.dev
     timeout: 6000
 - takeScreenshot: search-places-27-vi-da-lat-picks
 - runFlow:
-    file: ../../screens/sweep/subflows/open-link.yaml
+    file: ../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://explore/kr-busan
 - extendedWaitUntil:

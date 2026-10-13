@@ -38,24 +38,24 @@ appId: app.critterpass.dev
     id: 'onboarding-photo-next'
 - extendedWaitUntil:
     visible:
-      id: 'taste-card-left'
+      id: 'quiz-card-left'
     timeout: 10000
 # Street cart, then one neighbourhood: the designed "3 OF 6" with two tags on the pass.
 - tapOn:
-    id: 'taste-card-left'
+    id: 'quiz-card-left'
 - waitForAnimationToEnd
 - tapOn:
-    id: 'taste-card-right'
+    id: 'quiz-card-right'
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3a-4-this-or-that
 - tapOn:
-    id: 'taste-card-left'
+    id: 'quiz-card-left'
 - waitForAnimationToEnd
 - tapOn:
-    id: 'taste-card-left'
+    id: 'quiz-card-left'
 - waitForAnimationToEnd
 - tapOn:
-    id: 'taste-card-right'
+    id: 'quiz-card-right'
 - waitForAnimationToEnd
 # The stamped tags pile up by the sixth question; in longer languages Skip sits below the fold.
 # The last pick's cards are still settling, so wait before looking for it.

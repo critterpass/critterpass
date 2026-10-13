@@ -11,7 +11,7 @@ appId: app.critterpass.dev
     id: 'onboarding-photo-next'
 - extendedWaitUntil:
     visible:
-      id: 'taste-card-left'
+      id: 'quiz-card-left'
     timeout: 10000
 - repeat:
     times: 6
@@ -62,7 +62,7 @@ appId: app.critterpass.dev
 
 # The account this flow just made is erased, leaving the number free.
 - tapOn:
-    id: 'permissions-primer-later'
+    id: 'primer-later'
 - extendedWaitUntil:
     visible:
       id: 'home-screen'

@@ -10,7 +10,7 @@ appId: app.critterpass.dev
       SCENE: '3n-1-profile'
       ROOT: 'you-profile'
 - takeScreenshot: ${LANG}-3n-1-profile
-- runFlow: ../../screens/sweep/subflows/back.yaml
+- runFlow: ../../_shared/back.yaml
 - scrollUntilVisible:
     element:
       id: 'you-lab-3n-1-fresh'
@@ -26,7 +26,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: ${LANG}-3n-1-fresh
-- runFlow: ../../screens/sweep/subflows/back.yaml
+- runFlow: ../../_shared/back.yaml
 - scrollUntilVisible:
     element:
       id: 'you-lab-3n-2-settings'
@@ -44,7 +44,7 @@ appId: app.critterpass.dev
 - takeScreenshot: ${LANG}-3n-2-settings
 # Signing out (a saved pass, then the warning an unsaved one gets), deleting the account (3n-9, the
 # hold of 3n-10) and the closed page (3n-11: just closed, then signed back in to restore).
-- runFlow: ../../screens/sweep/subflows/back.yaml
+- runFlow: ../../_shared/back.yaml
 - runFlow:
     file: lab-scene.yaml
     env:

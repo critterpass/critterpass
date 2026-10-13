@@ -10,14 +10,14 @@ appId: app.critterpass.dev
 - evalScript: "${output.homeQuery = typeof HOME_QUERY === 'undefined' || HOME_QUERY === '' ? 'Sing' : HOME_QUERY}"
 - runFlow: ../../onboarding/subflows/through-name.yaml
 - tapOn:
-    id: 'onboarding-photo-guides-ajo'
+    id: 'avatar-ajo'
 - tapOn:
     id: 'onboarding-photo-next'
 # On a busy simulator the photo page can still be settling when these land, and the taps are
 # dropped (the page stays, any guide works): THAT'S ME is tapped again when it is still there.
 - extendedWaitUntil:
     visible:
-      id: 'taste-card-left'
+      id: 'quiz-card-left'
     timeout: 10000
     optional: true
 - runFlow:
@@ -29,7 +29,7 @@ appId: app.critterpass.dev
           id: 'onboarding-photo-next'
 - extendedWaitUntil:
     visible:
-      id: 'taste-card-left'
+      id: 'quiz-card-left'
     timeout: 20000
 # Six picks show DONE; a tap the slow simulator drops just means one more pick.
 - repeat:
@@ -39,7 +39,7 @@ appId: app.critterpass.dev
     times: 9
     commands:
       - tapOn:
-          id: 'taste-card-right'
+          id: 'quiz-card-right'
       - waitForAnimationToEnd
 - tapOn:
     id: 'taste-done'

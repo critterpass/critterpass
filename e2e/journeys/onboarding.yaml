@@ -7,18 +7,18 @@ appId: app.critterpass.dev
 - runFlow: subflows/fresh-install.yaml
 - runFlow: ../onboarding/subflows/through-name.yaml
 - tapOn:
-    id: 'onboarding-photo-guides-ajo'
+    id: 'avatar-ajo'
 - tapOn:
     id: 'onboarding-photo-next'
 - extendedWaitUntil:
     visible:
-      id: 'taste-card-left'
+      id: 'quiz-card-left'
     timeout: 10000
 - repeat:
     times: 6
     commands:
       - tapOn:
-          id: 'taste-card-right'
+          id: 'quiz-card-right'
       - waitForAnimationToEnd
 - tapOn:
     id: 'taste-done'
@@ -77,10 +77,10 @@ appId: app.critterpass.dev
       - back
 - extendedWaitUntil:
     visible:
-      id: 'permissions-primer-later'
+      id: 'primer-later'
     timeout: 10000
 - tapOn:
-    id: 'permissions-primer-later'
+    id: 'primer-later'
 # Home, with no crew yet: start one or join with a code.
 - extendedWaitUntil:
     visible:

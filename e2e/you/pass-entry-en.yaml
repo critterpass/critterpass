@@ -13,7 +13,7 @@ appId: app.critterpass.dev
     env:
       SCENE: '3l-2-profile-entry'
       SHOT: en-3l-2-profile-entry
-- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 - tapOn:
     id: 'critters-lab-3l-2-profile-entry-initial'
 - extendedWaitUntil:
@@ -23,9 +23,9 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3l-2-profile-entry-initial
-- runFlow: ../screens/sweep/subflows/back.yaml
-- runFlow: ../screens/sweep/subflows/back.yaml
-- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
+- runFlow: ../_shared/back.yaml
+- runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'onboarding-open'

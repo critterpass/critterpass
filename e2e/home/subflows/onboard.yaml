@@ -8,14 +8,14 @@ appId: app.critterpass.dev
 - evalScript: "${output.homeQuery = typeof HOME_QUERY === 'undefined' || HOME_QUERY === '' ? 'Sing' : HOME_QUERY}"
 - runFlow: ../../onboarding/subflows/through-name.yaml
 - tapOn:
-    id: 'onboarding-photo-guides-ajo'
+    id: 'avatar-ajo'
 - tapOn:
     id: 'onboarding-photo-next'
 # On a busy simulator the photo page can still be settling when these land, and the taps are
 # dropped (the page stays, any guide works): THAT'S ME is tapped again when it is still there.
 - extendedWaitUntil:
     visible:
-      id: 'taste-card-left'
+      id: 'quiz-card-left'
     timeout: 10000
     optional: true
 - runFlow:
@@ -27,7 +27,7 @@ appId: app.critterpass.dev
           id: 'onboarding-photo-next'
 - extendedWaitUntil:
     visible:
-      id: 'taste-card-left'
+      id: 'quiz-card-left'
     timeout: 20000
 # Six picks show DONE; a tap the slow simulator drops just means one more pick.
 - repeat:
@@ -37,7 +37,7 @@ appId: app.critterpass.dev
     times: 9
     commands:
       - tapOn:
-          id: 'taste-card-right'
+          id: 'quiz-card-right'
       - waitForAnimationToEnd
 - tapOn:
     id: 'taste-done'
@@ -88,28 +88,33 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'onboarding-issued-save'
-# Android closes the save sheet with back.
-# On iOS the sheet is still rising right after the tap: "Not now" is tapped where it comes to
-# rest, not where it was on the way up.
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - extendedWaitUntil:
-          visible:
-            id: 'save-not-now'
-          timeout: 10000
-      - waitForAnimationToEnd
-      - tapOn:
-          id: 'save-not-now'
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - back
+# The save sheet (a form sheet on both platforms): not now.
 - extendedWaitUntil:
     visible:
-      id: 'permissions-primer-later'
+      id: 'save-not-now'
     timeout: 10000
+- waitForAnimationToEnd
 - tapOn:
-    id: 'permissions-primer-later'
+    id: 'save-not-now'
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'onboarding-issued-next'
+    commands:
+      - tapOn:
+          id: 'onboarding-issued-next'
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer'
+    timeout: 10000
+# One primer per permission the phone still has to ask for.
+- repeat:
+    while:
+      visible:
+        id: 'primer-later'
+    times: 4
+    commands:
+      - tapOn:
+          id: 'primer-later'
+      - waitForAnimationToEnd

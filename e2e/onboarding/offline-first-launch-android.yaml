@@ -14,7 +14,7 @@ onFlowComplete:
     id: 'onboarding-photo-next'
 - extendedWaitUntil:
     visible:
-      id: 'taste-card-left'
+      id: 'quiz-card-left'
     timeout: 10000
 - repeat:
     times: 6

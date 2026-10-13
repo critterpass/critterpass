@@ -7,7 +7,7 @@ appId: app.critterpass.dev
 # then the sheet closes with the "didn't go through" toast, so the last frame asserts nothing.
 - runFlow: ../happy/subflows/fresh-account.yaml
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://crew/new
 - extendedWaitUntil:

@@ -108,9 +108,9 @@ appId: app.critterpass.dev
     timeout: 6000
 - takeScreenshot: en-3n-8-real-both
 # Back on the Wallet, the expense row and the hero show the home amount.
-- runFlow: ../screens/sweep/subflows/back.yaml
-- runFlow: ../screens/sweep/subflows/back.yaml
-- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
+- runFlow: ../_shared/back.yaml
+- runFlow: ../_shared/back.yaml
 - tapOn:
     id: 'tab-wallet'
 - extendedWaitUntil:

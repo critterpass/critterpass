@@ -11,7 +11,7 @@ appId: app.critterpass.dev
       HOME_IATA: SGN
       HOME_QUERY: 'Ho Chi'
 - runFlow:
-    file: ../../../screens/sweep/subflows/open-link.yaml
+    file: ../../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://crew/new
 - extendedWaitUntil:

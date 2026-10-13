@@ -10,7 +10,7 @@ appId: app.critterpass.dev
 - runFlow: ../../home/subflows/onboard.yaml
 # Home shows its header ("HEY {NAME} ›") once the account has a crew: start one, nothing else.
 - runFlow:
-    file: ../../screens/sweep/subflows/open-link.yaml
+    file: ../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://crew/new
 - extendedWaitUntil:

@@ -1,0 +1,18 @@
+appId: app.critterpass.dev
+---
+# Back to Home, whatever screen or sheet the last steps ended on: sheets are cancelled and screens
+# stepped back (see home-back-to.yaml), then the Home tab is opened.
+- runFlow:
+    file: back-to.yaml
+    env:
+      MARK: home-screen
+- runFlow:
+    file: tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 15000
+    optional: true

@@ -170,7 +170,7 @@ appId: app.critterpass.dev
 # Explore's front page lists the guides' destinations (Kyoto now marked saved), and the saved hub
 # holds the destination and the place saved above.
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://explore
 - extendedWaitUntil:

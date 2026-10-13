@@ -129,7 +129,7 @@ appId: app.critterpass.dev
 # A trip that is not this account's: a real onboarding, then its link.
 - runFlow: ../../happy/subflows/fresh-account.yaml
 - runFlow:
-    file: ../../screens/sweep/subflows/open-link.yaml
+    file: ../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://trips/0190f0a0-0000-7000-8000-00000000dead
 - extendedWaitUntil:

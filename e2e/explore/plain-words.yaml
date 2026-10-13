@@ -27,7 +27,7 @@ appId: app.critterpass.dev
       id: 'chip-exclude_days'
     timeout: 5000
 - takeScreenshot: en-7d-2-chip-removed
-- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 - runFlow:
     file: subflows/search-lab-open.yaml
     env: { LOCALE: vi }

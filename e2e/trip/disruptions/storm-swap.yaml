@@ -6,7 +6,7 @@ appId: app.critterpass.dev
 # `<lang>-3k-8-<state>` so compare mode pairs each with its render.
 - runFlow: ../../happy/subflows/fresh-account.yaml
 - runFlow:
-    file: ../../screens/sweep/subflows/open-link.yaml
+    file: ../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://storm/0190f0a0-0000-7000-8000-00000000dead
 - extendedWaitUntil:

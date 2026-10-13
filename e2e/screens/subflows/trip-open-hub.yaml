@@ -1,0 +1,65 @@
+appId: app.critterpass.dev
+---
+# From any tab root to the trip hub: Home's trip card (the live card on a trip day, the next-up card
+# before it), else the Trips tab's row. A trip's welcome page that rises over Home is passed first.
+# ${ZOOM} names the screenshot taken right after the tap, while the card still grows into the hub
+# (empty: none).
+- runFlow:
+    file: ../../_shared/tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'
+- extendedWaitUntil:
+    visible:
+      id: 'home-(in-trip|next-up)'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'home-(in-trip|next-up)'
+    commands:
+      - tapOn:
+          id: 'home-(in-trip|next-up)'
+      - runFlow:
+          when:
+            true: ${ZOOM != ''}
+          commands:
+            - takeScreenshot: ${ZOOM}
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-hub'
+    commands:
+      - runFlow:
+          file: ../../_shared/tab.yaml
+          env:
+            TAB: trips
+            LABEL: Trips
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-list-row-.*'
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'trip-list-row-.*'
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'

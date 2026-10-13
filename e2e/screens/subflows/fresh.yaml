@@ -1,0 +1,18 @@
+appId: app.critterpass.dev
+---
+# A cleared install on the premium splash: the premium UI is switched on from the current splash's
+# "Developer tools" entry, then the app relaunches onto the premium splash (2.01).
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - clearKeychain
+- launchApp:
+    clearState: true
+# A link dialog an earlier flow left open covers the first screen.
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- runFlow: ../../_shared/premium-ui.yaml

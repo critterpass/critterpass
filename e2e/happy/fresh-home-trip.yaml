@@ -8,7 +8,7 @@ appId: app.critterpass.dev
 # screens are captured again in Vietnamese.
 - runFlow: subflows/fresh-account.yaml
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://crew/new
 - extendedWaitUntil:

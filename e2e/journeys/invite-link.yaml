@@ -71,7 +71,7 @@ appId: app.critterpass.dev
       id: 'invite-manifest-newcomer'
     timeout: 90000
 - assertNotVisible:
-    id: 'permissions-primer-later'
+    id: 'primer-later'
 - waitForAnimationToEnd
 - takeScreenshot: en-journey-invite-link-manifest
 

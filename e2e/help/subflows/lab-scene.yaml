@@ -16,7 +16,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: ${SHOT}
-- runFlow: ../../screens/sweep/subflows/back.yaml
+- runFlow: ../../_shared/back.yaml
 # The list is longer than a screen, so the row just opened is what shows on the way back.
 - extendedWaitUntil:
     visible:

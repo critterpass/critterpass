@@ -73,7 +73,7 @@ appId: app.critterpass.dev
     timeout: 10000
 # Language and currency › FORMATS: the 24-hour clock and miles. Settings opens again at the top: a
 # row scrolled back up can sit under the sticky header, where a tap misses it.
-- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 - tapOn:
     id: 'you-profile-settings'
 - scrollUntilVisible:
@@ -110,9 +110,9 @@ appId: app.critterpass.dev
     timeout: 4000
 - takeScreenshot: en-3n-8-formats
 # Back to Home: the chat's times now read on the 24-hour clock.
-- runFlow: ../screens/sweep/subflows/back.yaml
-- runFlow: ../screens/sweep/subflows/back.yaml
-- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
+- runFlow: ../_shared/back.yaml
+- runFlow: ../_shared/back.yaml
 - tapOn:
     id: 'tab-home'
 - extendedWaitUntil:

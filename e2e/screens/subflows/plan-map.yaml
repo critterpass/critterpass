@@ -1,0 +1,139 @@
+appId: app.critterpass.dev
+---
+# The plan on one map in ${LOOK}, from Home: peek (4.25), the places layer's chips (4.34), one day
+# at half (4.26; 1.11 in dark), a stop's menu (4.29), the whole trip at full (4.27) and a problem
+# chip's fix in place (4.43). Light only: the chips, the stop menu, full and the fix. Ends on Home.
+- runFlow: plan-open-map.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'plan-map-search'
+    commands:
+      # The map draws its tiles a moment after the page shows (the night look draws them anew).
+      - extendedWaitUntil:
+          visible:
+            id: 'premium-map-drawn'
+          timeout: 15000
+          optional: true
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '4.25'
+            NAME: peek
+      # The saved-places chip turns the places layer on over the same map.
+      - runFlow:
+          when:
+            true: ${LOOK == 'light'}
+          commands:
+            - runFlow:
+                when:
+                  visible:
+                    id: 'plan-map-chip-saved'
+                commands:
+                  - tapOn:
+                      id: 'plan-map-chip-saved'
+                  - runFlow:
+                      file: shot.yaml
+                      env:
+                        CODE: '4.34'
+                        NAME: places-layer
+                  - tapOn:
+                      id: 'plan-map-chip-saved'
+                      optional: true
+      # Peek to half: the sheet is dragged up by its head.
+      - swipe:
+          start: 50%, 82%
+          end: 50%, 45%
+          duration: 600
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-add-bar'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '4.26'
+            NAME: day-half
+      - runFlow:
+          when:
+            true: ${LOOK == 'dark'}
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '1.11'
+                  NAME: day-plan-night
+      - runFlow:
+          when:
+            true: ${LOOK == 'light'}
+          commands:
+            # A stop's ⋯ opens its menu; back closes it.
+            - runFlow:
+                when:
+                  visible:
+                    id: 'stop-menu-.*'
+                commands:
+                  - tapOn:
+                      id: 'stop-menu-.*'
+                      index: 0
+                  - extendedWaitUntil:
+                      visible:
+                        id: 'stop-menu'
+                      timeout: 10000
+                      optional: true
+                  - runFlow:
+                      when:
+                        visible:
+                          id: 'stop-menu'
+                      commands:
+                        - runFlow:
+                            file: shot.yaml
+                            env:
+                              CODE: '4.29'
+                              NAME: stop-menu
+                  - runFlow:
+                      when:
+                        visible:
+                          id: 'stop-menu'
+                      commands:
+                        - runFlow: ../../_shared/back.yaml
+            # Half to full: the whole trip, its problems as chips.
+            - swipe:
+                start: 50%, 45%
+                end: 50%, 6%
+                duration: 600
+            - extendedWaitUntil:
+                visible:
+                  id: 'trip-day-[0-9]+'
+                timeout: 10000
+                optional: true
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '4.27'
+                  NAME: whole-trip
+            # The ink "to fix" chip opens the first problem's fix where it is.
+            - runFlow:
+                when:
+                  visible:
+                    id: 'trip-fix-count'
+                commands:
+                  - tapOn:
+                      id: 'trip-fix-count'
+                  - extendedWaitUntil:
+                      visible:
+                        id: 'trip-fix-.*'
+                      timeout: 10000
+                      optional: true
+                  - runFlow:
+                      when:
+                        visible:
+                          id: 'trip-fix-.*'
+                      commands:
+                        - runFlow:
+                            file: shot.yaml
+                            env:
+                              CODE: '4.43'
+                              NAME: fix-in-place
+- runFlow: plan-home.yaml
