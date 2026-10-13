@@ -102,6 +102,8 @@ export type { BannerProps, BannerTone, OfflinePillProps } from './feedback/Banne
 export { Toast, toastText } from './feedback/Toast';
 export type { ToastProps, ToastSpec } from './feedback/Toast';
 export { ToastHost, useToast } from './feedback/ToastHost';
+export { ExternalToasts } from './feedback/external-toasts';
+export type { ExternalToast, ExternalToastSource } from './feedback/external-toasts';
 export type { ToastHostProps } from './feedback/ToastHost';
 export { EmptyState } from './states/EmptyState';
 export type { EmptyStateProps } from './states/EmptyState';

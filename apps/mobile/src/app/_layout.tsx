@@ -102,12 +102,12 @@ import { usePremiumUi } from '@/lib/premium-ui';
 import { ThemeProvider } from '@/lib/theme';
 import { feedback } from '@/motion/feedback';
 import { useMotionMode } from '@/motion/motion-mode';
-import { IslandToast } from '@/motion/island-toast';
+import { IslandToast, toastQueue } from '@/motion/island-toast';
 import { TouchQuietRoot } from '@/lib/interaction/touch-quiet';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
-import { PremiumThemeProvider } from '@/ui/premium';
+import { ExternalToasts, PremiumThemeProvider, ToastHost } from '@/ui/premium';
 import { PremiumKeyboardProvider } from '@/ui/premium/shell';
 import { PremiumRootStack } from '@/ui/premium/shell/navigation/premium-root-stack';
 import { Text, useTheme } from '@/ui';
@@ -232,7 +232,11 @@ function RootNavigator() {
       <PremiumThemeProvider>
         <PremiumKeyboardProvider>
           <SessionDatabaseProvider value={databaseOpen}>
-            <PremiumRootStack />
+            {/* Toasts queued outside the premium screens show as premium toasts. */}
+            <ToastHost>
+              <PremiumRootStack />
+              <ExternalToasts source={toastQueue} />
+            </ToastHost>
           </SessionDatabaseProvider>
         </PremiumKeyboardProvider>
       </PremiumThemeProvider>
@@ -254,16 +258,17 @@ function RootNavigator() {
 }
 
 /**
- * Over the app as the native launch screen goes: the premium launch (its stamp on the first launch
- * only, nothing on later cold starts), or the current UI's hatch. The hatch records the reveal
- * either way, for the screens that wait for it.
+ * Over the app: the premium launch (its stamp on the first launch only) or the current UI's hatch,
+ * which records the launch screen's reveal either way; and the current UI's island toast, whose
+ * queue the premium UI shows as premium toasts instead.
  */
-function LaunchOverlay({ revealed }: { readonly revealed: boolean }) {
+function LaunchAndIsland({ revealed }: { readonly revealed: boolean }) {
   const premium = usePremiumUi();
   return (
     <>
       {premium ? <PremiumLaunch revealed={revealed} /> : null}
       <LaunchHatch revealed={revealed} play={!premium} />
+      {premium ? null : <IslandToast Text={Text} onTitleLayout={reportTruncatedToastTitle} />}
     </>
   );
 }
@@ -334,10 +339,9 @@ export default function RootLayout() {
                     <OverlayHost />
                     <PrimerSheetHost />
                     <SharedGrowHost />
-                    <IslandToast Text={Text} onTitleLayout={reportTruncatedToastTitle} />
                     <DevToolsShake />
                     <ShakeToReport />
-                    <LaunchOverlay revealed={prewarmed && linksReady} />
+                    <LaunchAndIsland revealed={prewarmed && linksReady} />
                   </ScreenJoltProvider>
                 </MemberFacesRoot>
               </TravelDataReaderProvider>

@@ -14,7 +14,13 @@ import type { PremiumTheme } from '../theme/theme';
  * `error` the pink-tinted "!" toast; `person` a white toast with a 40 avatar and two lines.
  */
 export type ToastSpec =
-  | { readonly kind: 'done'; readonly message: string; readonly undo?: () => void }
+  | {
+      readonly kind: 'done';
+      readonly message: string;
+      readonly undo?: () => void;
+      /** The pill's word when the action is no undo ("Open"). @default "Undo" */
+      readonly actionLabel?: string;
+    }
   | {
       readonly kind: 'critter';
       readonly message: string;
@@ -41,12 +47,14 @@ function UndoPill({
   theme,
   ink,
   onPress,
+  actionLabel,
 }: {
   theme: PremiumTheme;
   ink: boolean;
   onPress: () => void;
+  actionLabel?: string | undefined;
 }) {
-  const label = t({ id: 'common.toast.undo', message: 'Undo' });
+  const label = actionLabel ?? t({ id: 'common.toast.undo', message: 'Undo' });
   return (
     <PressableScale onPress={onPress} accessibilityLabel={label}>
       <View
@@ -118,7 +126,7 @@ export function Toast({ spec, onDone, testID }: ToastProps) {
             {spec.message}
           </Text>
           {spec.undo === undefined ? null : (
-            <UndoPill theme={theme} ink onPress={undo(spec.undo)} />
+            <UndoPill theme={theme} ink onPress={undo(spec.undo)} actionLabel={spec.actionLabel} />
           )}
         </View>
       );
