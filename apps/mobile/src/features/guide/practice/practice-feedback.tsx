@@ -12,7 +12,7 @@ import { PermissionCard } from '@/ui/states/PermissionCard';
 
 import type { PracticeIssue, PracticeState } from './practice-model';
 
-function useIssueLine(issue: PracticeIssue | null, guideName: string): string | null {
+export function useIssueLine(issue: PracticeIssue | null, guideName: string): string | null {
   const { t } = useLingui();
   switch (issue) {
     case null:
