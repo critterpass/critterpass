@@ -11,6 +11,7 @@ import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { Float } from '@/features/critters';
 import { guideSticker } from '@/ui/avatar/guides';
 import {
   Button,
@@ -259,9 +260,9 @@ export function PremiumRecapScene(props: SummaryViewProps) {
               {headerTitle(model)}
             </Text>
           </View>
-          <View style={{ transform: [{ rotate: `${GUIDE_TILT}deg` }] }}>
+          <Float ms={4600} style={{ transform: [{ rotate: `${GUIDE_TILT}deg` }] }}>
             <CritterSticker kind={art.kind} name={props.guideName} size={78} pose="cheer" />
-          </View>
+          </Float>
         </View>
         {props.offline ? (
           <OfflinePill label={t({ id: 'recap.summary.offline', message: 'No signal' })} />
