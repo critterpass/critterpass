@@ -13,6 +13,7 @@ import { Button, PressableScale, Text, TextField, makePremiumStyles } from '@/ui
 import { AlbumImage } from '../grid/album-image';
 import type { NoteSheetProps, PhotoSheetProps, PostcardLook } from '../postcard/postcard-look';
 import { PremiumPostcardScene } from './postcard-scene';
+import { PremiumReceivedScene } from './received-scene';
 import { PremiumSheet } from './premium-sheet';
 
 const THUMB = 96;
@@ -112,4 +113,5 @@ export const PREMIUM_POSTCARD_LOOK: PostcardLook = {
   View: PremiumPostcardScene,
   Note: PremiumNoteSheet,
   Photo: PremiumPhotoSheet,
+  Received: PremiumReceivedScene,
 };

@@ -16,36 +16,23 @@ import { estimateLeg } from '@/data/legs/day-legs';
 import type { DayItem } from '@/data/plan/plan-model';
 import { impact } from '@/motion/feedback';
 import { toast } from '@/motion/island-toast';
-import { makeStyles } from '@/ui/theme';
+import { usePremiumTheme } from '@/ui/premium';
 
 import { refusalLine } from '../day-plan/refusal';
 import type { Travel } from '../day-plan/reschedule';
 import { useDayEditing } from '../day/use-day-editing';
 import { tripPlanRoutes } from '../hub/routes';
 import { setChosenDay } from '../trip-map/chosen-day';
-import { ShareSheet, type ShareSheetProps } from '../trip-map/share-sheet';
-import { useTripMapModel } from '../trip-map/use-trip-map-model';
-import { AllDaysView, type AllDaysViewProps } from './all-days-view';
 import {
-  MovePreview,
-  MoveStopSheet,
+  type ShareSheetProps,
+  type AllDaysViewProps,
   type MovePreviewProps,
   type MoveStopSheetProps,
-} from './move-preview';
+} from './all-days-props';
+import { useTripMapModel } from '../trip-map/use-trip-map-model';
 import { planMove, useCrossDayDrag, type MovePlan } from './use-cross-day-drag';
 
 const GHOST = 22;
-
-const useStyles = makeStyles((t) => ({
-  ghost: {
-    position: 'absolute',
-    width: GHOST,
-    height: GHOST,
-    borderRadius: GHOST / 2,
-    borderWidth: 2,
-    borderColor: t.color.paper.bright,
-  },
-}));
 
 /** Straight-line minutes between two stops (the preview is "about" until the legs land). */
 const travel: Travel = (from, to) =>
@@ -56,23 +43,22 @@ const travel: Travel = (from, to) =>
 export function AllDaysScreen({
   tripId,
   from,
-  View: DaysView = AllDaysView,
-  sheets = {},
+  View: DaysView,
+  sheets,
 }: {
   readonly tripId: string;
   readonly from: number | null;
-  /** How the grid is drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<AllDaysViewProps>;
-  /** The move sheets drawn in another look. @default the current look's */
-  readonly sheets?: {
-    readonly Move?: ComponentType<MoveStopSheetProps>;
-    readonly Preview?: ComponentType<MovePreviewProps>;
-    readonly Share?: ComponentType<ShareSheetProps>;
+  /** How the grid is drawn; the logic is the same in every look. */
+  readonly View: ComponentType<AllDaysViewProps>;
+  /** The move sheets and the share sheet. */
+  readonly sheets: {
+    readonly Move: ComponentType<MoveStopSheetProps>;
+    readonly Preview: ComponentType<MovePreviewProps>;
+    readonly Share: ComponentType<ShareSheetProps>;
   };
 }) {
-  const Move = sheets.Move ?? MoveStopSheet;
-  const Preview = sheets.Preview ?? MovePreview;
-  const Share = sheets.Share ?? ShareSheet;
+  const { Move, Preview, Share } = sheets;
+  const theme = usePremiumTheme();
   const { data, model } = useTripMapModel(tripId);
   const editor = useDayEditing(data.plan);
   const gettingThere = useGettingThere(data.plan.trip?.destination_id ?? null, data.plan.uid);
@@ -82,7 +68,6 @@ export function AllDaysScreen({
   const [sharing, setSharing] = useState(false);
   const [preview, setPreview] = useState<{ stop: DayItem; plan: MovePlan } | null>(null);
   const [pointer, setPointer] = useState<{ x: number; y: number } | null>(null);
-  const styles = useStyles();
   if (!data.loaded) return null;
   const menuStopDay = model.days.find((day) => day.dayNo === menuDay);
   const heldColor = model.days.find((day) => day.dayNo === drag.held?.from)?.color ?? 'transparent';
@@ -139,10 +124,17 @@ export function AllDaysScreen({
       {drag.held === null || pointer === null ? null : (
         <View
           pointerEvents="none"
-          style={[
-            styles.ghost,
-            { left: pointer.x - GHOST / 2, top: pointer.y - GHOST / 2, backgroundColor: heldColor },
-          ]}
+          style={{
+            position: 'absolute',
+            width: GHOST,
+            height: GHOST,
+            borderRadius: GHOST / 2,
+            borderWidth: 2,
+            borderColor: theme.accent.stickerEdge,
+            left: pointer.x - GHOST / 2,
+            top: pointer.y - GHOST / 2,
+            backgroundColor: heldColor,
+          }}
           testID="all-days-held"
         />
       )}

@@ -17,8 +17,8 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { CrittersCardProps } from '../../../cards/critters-card';
-import { stopTimes, type RouteCardProps } from '../../../cards/route-card';
+import type { CrittersCardProps } from '../../../story/story-card-views';
+import { stopTimes, type RouteCardProps } from '../../../story/story-card-views';
 import { CardFrame, FormSticker } from './card-frame';
 import { useClockReached } from './use-clock';
 

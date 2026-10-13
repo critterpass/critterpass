@@ -7,10 +7,10 @@
 /* eslint-disable lingui/no-unlocalized-strings -- content types, never copy. */
 import { useCallback, useState } from 'react';
 
-import type { AttachChoice } from './attach-menu';
+import type { AttachChoice } from './attach-entries';
 import { useChatMedia } from './media-services';
 import { useUploadQueue, type UploadFile } from './use-upload-queue';
-import { useVoiceRecorder, type FinishedNote } from './voice-recorder';
+import { useVoiceRecorder, type FinishedNote } from './use-voice-recorder';
 
 export interface MediaReply {
   /** The message being replied to: a photo or voice note sent now is a reply to it. */

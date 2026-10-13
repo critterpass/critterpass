@@ -6,7 +6,7 @@
  * computed here.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- trait keys, wire values and date parsing, never copy. */
-import { splitStays, type PricedStay } from '@cp/cost-engine';
+import { splitStays, type PricedStay, currencyExponent, isKnownCurrency } from '@cp/cost-engine';
 import type { PlanRoomWire } from '@cp/domain';
 
 import { money } from '../budget/model';
@@ -271,4 +271,9 @@ export function estimateOf(
     text: from === to ? from : `${from}–${to}`,
     quotedIn: crew.currency !== null && low.currency !== crew.currency ? low.currency : null,
   };
+}
+
+/** Decimal places of `currency` (2 when unknown). */
+export function fractionDigits(currency: string): number {
+  return isKnownCurrency(currency) ? currencyExponent(currency) : 2;
 }

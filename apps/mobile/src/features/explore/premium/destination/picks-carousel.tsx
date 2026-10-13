@@ -7,7 +7,7 @@ import { ScrollView, View } from 'react-native';
 
 import { PressableScale, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 
-import type { DestinationViewProps } from '../../components/destination-view';
+import type { DestinationViewProps } from '../../screens/destination-view-props';
 import { placeIcon } from '../../search/place-icons';
 import { Doodle } from '../components/doodle';
 

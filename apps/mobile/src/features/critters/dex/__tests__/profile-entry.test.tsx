@@ -21,7 +21,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { MIN_TOUCH_TARGET } from '@/ui/theme';
 
-import { labDexInput } from '../../dev/dex-fixtures';
+import { labDexInput } from '../../test-support/dex-fixtures';
 import { buildDex } from '../dex-model';
 import { DexView, type DexProfileEntry } from '../dex-view';
 

@@ -3,7 +3,7 @@
  * ground sheet over it: its kind and who saved it, its name and how far it is from the stay, the
  * fact tiles, when it fits (with the day's hour bars), the guide's tip, Know before you go, Next
  * nearby and If you like this. The dock keeps Add (at the slot it names) and the guide in reach.
- * Every tap and read comes from `usePlaceDetail`, shared with the current look.
+ * Every tap and read comes from `usePlaceDetail`.
  */
 import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
@@ -23,7 +23,6 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { PlacePhoto } from '../../components/place-hero-photo';
 import { dayTitle } from '../../place-detail/model';
 import { usePlaceDetail, type PlaceDetailInput } from '../../place-detail/use-place-detail';
 import { placeIcon } from '../../search/place-icons';
@@ -31,6 +30,8 @@ import { kindWord } from '../../search/search-rows';
 import { SectionLabel } from '../components/labels';
 import { PlaceResultRow } from '../components/place-result-row';
 import { FactTilesRow, KnowBeforeCard, NearbyRow, WhenItFitsCard } from './place-sections';
+import { PlaceHeroPhoto } from './place-hero-photo';
+import { PremiumRemoveForEveryone } from './remove-for-everyone';
 
 const HERO = 330;
 const OVERLAP = 34;
@@ -52,12 +53,11 @@ export function PlacePage(props: PlaceDetailInput) {
     <View style={{ flex: 1, backgroundColor: theme.color.ground }} testID="place-detail">
       <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 110 }}>
         <View style={{ height: HERO, overflow: 'hidden' }}>
-          <PlacePhoto
+          <PlaceHeroPhoto
             photo={view.photo}
             heroUrl={view.heroUrl}
             heroCredit={view.heroCredit}
             category={view.category}
-            accent={view.guide.colour}
             captionInset={OVERLAP + theme.space.gap8}
           />
         </View>
@@ -136,6 +136,12 @@ export function PlacePage(props: PlaceDetailInput) {
             />
           )}
           <KnowBeforeCard lines={further.context?.know ?? []} />
+          <PremiumRemoveForEveryone
+            tripId={props.tripId ?? null}
+            placeId={further.placeId}
+            name={further.name}
+            organiser={further.organiser}
+          />
           <NearbyRow
             places={further.context?.nearby ?? []}
             onPlace={further.onPlace}

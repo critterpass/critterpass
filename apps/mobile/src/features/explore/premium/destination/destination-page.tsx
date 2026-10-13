@@ -2,8 +2,8 @@
  * A destination's guide page (4.04): the hero in the guide's colour with clear-glass back and ♥,
  * "Guide: Pon", the name, the guide's tagline and the guide waving; the year's crowds and the best
  * month (a month taps open its prices); the guide's first-timer picks; the crews' plans; and the
- * foot: Pitch to the crew (or pick a crew) and Plan it solo (4.07). States and words follow the
- * same container as the current look.
+ * foot: Pitch to the crew (or pick a crew) and Plan it solo (4.07). States and words come from
+ * the destination screen's container.
  */
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
@@ -26,7 +26,7 @@ import {
 } from '@/ui/premium';
 import { SoloPassSheet } from '@/features/vote';
 
-import type { DestinationViewProps } from '../../components/destination-view';
+import type { DestinationViewProps } from '../../screens/destination-view-props';
 import { Doodle } from '../components/doodle';
 import { MonthCard } from './month-card';
 import { PicksCarousel } from './picks-carousel';

@@ -29,9 +29,8 @@ import { PushScreen } from '@/ui/premium/shell';
 
 import { estimateMinor, estimateMoney, overBudgetMinor, wholeMoney } from '../../draft/data/format';
 import { counterLine } from '../../draft/data/quota-copy';
-import { dayDetail } from '../../draft/review/draft-day-row';
-import type { DraftReviewViewProps } from '../../draft/review/draft-review-view';
-import { changeWord } from '../../draft/review/stale-banner';
+import { dayDetail, changeWord } from '../../draft/review/review-words';
+import type { DraftReviewViewProps } from '../../draft/review/draft-review-props';
 import { dayColours } from '../map';
 import { DraftCoverage, faces } from './draft-coverage';
 

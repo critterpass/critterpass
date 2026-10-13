@@ -1,5 +1,5 @@
 /**
- * The place page's data and actions (7e-1, 7e-2), shared by both looks of the page: the place from
+ * The place page's data and actions (7e-1, 7e-2): the place from
  * the device (so a saved destination's places open offline), and inside a trip when it fits, its
  * fact tiles, what is nearby and similar and where the crew stands, from the api. ADD opens Add to
  * plan (7f-1) at the slot it names.
@@ -37,9 +37,11 @@ import {
   savedByLabel,
   splitCountLabel,
 } from './model';
-import type { PlaceDetailViewProps } from './place-detail-view';
+
 import { areaFromAddress, sellsTickets } from './place-facts';
 import { useIdeaSave } from './use-idea-save';
+
+import type { PlaceDetailViewProps } from './place-detail-props';
 
 export interface PlaceDetailInput {
   readonly placeId: string;

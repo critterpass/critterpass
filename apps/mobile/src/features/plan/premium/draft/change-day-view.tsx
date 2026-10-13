@@ -13,7 +13,7 @@ import { CritterSticker, Text, TextField, usePremiumTheme } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
 
 import { weekday } from '../../draft/data/format';
-import type { ChangeDayViewProps } from '../../draft/redraft/change-day-view';
+import type { ChangeDayViewProps } from '../../draft/redraft/change-day-props';
 import { DayChips } from '../plan-map/day-chips';
 import { PremiumDaySummary, PremiumReasonChips } from './change-day-parts';
 

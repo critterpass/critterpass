@@ -12,7 +12,7 @@ import type { TripPlan } from '@/data/plan/use-trip-plan';
 
 import { retime } from '../day-plan/reschedule';
 import { travelMinutes } from '../day/fit-check';
-import type { ChangePreview } from '../day/item-detail-sheet';
+import type { ChangePreview } from '../day/item-sheet-look';
 import { retimePreview } from '../day/retime-copy';
 import { clockOf, FALLBACK_START_MIN } from './add-model';
 

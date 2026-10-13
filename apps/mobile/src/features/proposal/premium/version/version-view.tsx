@@ -14,7 +14,7 @@ import { guideSticker } from '@/ui/avatar/guides';
 import { Button, Card, LoadingCritter, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import type { YourVersionViewProps } from '../../your-version/your-version-view';
+import type { YourVersionViewProps } from '../../your-version/version-model';
 import { PremiumPicksList } from './picks';
 import { versionAnsweredLine, versionSubLine, versionTitle } from './version-copy';
 

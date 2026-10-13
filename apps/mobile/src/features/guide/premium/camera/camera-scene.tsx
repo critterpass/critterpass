@@ -21,7 +21,7 @@ import {
 } from '@/ui/premium';
 import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
-import type { CameraViewProps } from '../../camera/camera-view';
+import type { CameraViewProps } from '../../camera/camera-view-props';
 import { useIssueLine } from '../../camera/menu-issue-line';
 import { menuStickers, showsFlags } from '../../camera/menu-scan';
 import { MENU_PAINT } from '../guide-paint';

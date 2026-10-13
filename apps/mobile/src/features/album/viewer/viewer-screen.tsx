@@ -13,9 +13,6 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { goBackOr } from '@/lib/navigation/back';
 import { feedback } from '@/motion';
-import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
-import { ScreenLoading } from '@/ui/states/ScreenLoading';
-import { ScreenMissing } from '@/ui/states/ScreenMissing';
 
 import {
   deletePhotoCommand,
@@ -29,12 +26,12 @@ import { AlbumMediaProvider } from '../grid/album-media';
 import { albumRoutes } from '../routes';
 import { albumHttp } from '../upload/device-upload';
 import { savePhoto, sharePhoto, type DeviceActionOutcome } from './device-actions';
-import { PhotoViewer, type PhotoViewerProps } from './photo-viewer';
 import { useViewerUrls } from './use-viewer-urls';
+import type { ViewerUrls } from './use-viewer-urls';
 
 const NOTICE_MS = 4000;
 
-/** How the viewer is drawn: the current look by default, or a premium one. */
+/** How the viewer is drawn. */
 export interface ViewerLook {
   readonly Viewer: ComponentType<PhotoViewerProps>;
   /** Asks before a delete or a report (the system alert); true goes ahead. */
@@ -47,7 +44,7 @@ export interface ViewerLook {
 export interface ViewerScreenProps {
   readonly tripId: string;
   readonly photoId: string;
-  readonly look?: ViewerLook;
+  readonly look: ViewerLook;
 }
 
 export function ViewerScreen(props: ViewerScreenProps) {
@@ -67,9 +64,6 @@ function Viewer({ tripId, photoId, look }: ViewerScreenProps) {
   const remove = useCommand(deletePhotoCommand);
   const report = useCommand(reportPhotoCommand);
   const [busy, setBusy] = useState<'save' | 'share' | null>(null);
-  const [asking, setAsking] = useState<{ kind: 'delete' | 'report'; photo: AlbumPhoto } | null>(
-    null,
-  );
   const [notice, setNotice] = useState<string | null>(null);
   const noticeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(
@@ -88,41 +82,12 @@ function Viewer({ tripId, photoId, look }: ViewerScreenProps) {
   const photos = useMemo(() => sortPhotos(album.photos), [album.photos]);
   const pictures = useViewerUrls(photos);
   const albumHref = albumRoutes.album(tripId);
-  const backLabel = t({ id: 'album.title', message: 'Photos' });
   // Decided once, when the album has loaded: the photo asked for is there, or it has left.
   const [found, setFound] = useState<boolean | null>(null);
   if (album.loaded && found === null) setFound(photos.some((photo) => photo.id === photoId));
 
-  if (found === null) {
-    if (look !== undefined) return look.loading();
-    return (
-      <ScreenLoading
-        backLabel={backLabel}
-        fallback={albumHref}
-        label={t({ id: 'album.viewer.loading', message: 'Loading the photo' })}
-        testID="album-viewer-loading"
-      />
-    );
-  }
-  if (!found || photos.length === 0) {
-    if (look !== undefined) return look.missing(() => router.replace(albumHref));
-    return (
-      <ScreenMissing
-        backLabel={backLabel}
-        fallback={albumHref}
-        title={t({ id: 'album.viewer.gone.title', message: 'This photo is gone' })}
-        line={t({
-          id: 'album.viewer.gone.line',
-          message: 'It is no longer in the album. Whoever added it may have taken it down.',
-        })}
-        action={{
-          label: t({ id: 'album.viewer.gone.open', message: 'Open the album' }),
-          onPress: () => router.replace(albumHref),
-        }}
-        testID="album-viewer-missing"
-      />
-    );
-  }
+  if (found === null) return look.loading();
+  if (!found || photos.length === 0) return look.missing(() => router.replace(albumHref));
 
   const nameOf = (uid: string) =>
     album.people.find((person) => person.id === uid)?.name ||
@@ -172,12 +137,8 @@ function Viewer({ tripId, photoId, look }: ViewerScreenProps) {
     void remove.send({ photo_id: photo.id });
     goBackOr(albumHref);
   };
-  // The premium look asks with the system alert; the current one with its confirm sheet.
+  // Asks with the system alert first.
   const askFirst = (kind: 'delete' | 'report', photo: AlbumPhoto) => {
-    if (look === undefined) {
-      setAsking({ kind, photo });
-      return;
-    }
     void look.ask(kind).then((yes) => {
       if (!yes) return;
       if (kind === 'delete') onDelete(photo);
@@ -185,48 +146,7 @@ function Viewer({ tripId, photoId, look }: ViewerScreenProps) {
     });
   };
 
-  const overlay =
-    asking === null ? null : asking.kind === 'delete' ? (
-      <ConfirmSheet
-        title={t({ id: 'album.delete.title', message: 'Delete this photo?' })}
-        consequences={[
-          t({
-            id: 'album.delete.line',
-            message: 'It leaves the album for the whole crew, and its picks and tags go with it.',
-          }),
-        ]}
-        confirmLabel={t({ id: 'album.delete.confirm', message: 'Delete' })}
-        mode="button"
-        onConfirm={() => {
-          const photo = asking.photo;
-          setAsking(null);
-          onDelete(photo);
-        }}
-        onCancel={() => setAsking(null)}
-        testID="album-delete-confirm"
-      />
-    ) : (
-      <ConfirmSheet
-        title={t({ id: 'album.report.title', message: 'Report this photo?' })}
-        consequences={[
-          t({
-            id: 'album.report.line',
-            message: 'Our team looks at it. The crew is not told who reported it.',
-          }),
-        ]}
-        confirmLabel={t({ id: 'album.viewer.report', message: 'Report' })}
-        mode="button"
-        onConfirm={() => {
-          const photo = asking.photo;
-          setAsking(null);
-          void onReport(photo);
-        }}
-        onCancel={() => setAsking(null)}
-        testID="album-report-confirm"
-      />
-    );
-
-  const Drawn = look?.Viewer ?? PhotoViewer;
+  const Drawn = look.Viewer;
   return (
     <Drawn
       photos={photos}
@@ -241,7 +161,7 @@ function Viewer({ tripId, photoId, look }: ViewerScreenProps) {
       isMeIn={(id) => album.tags.some((row) => row.photoId === id && row.userId === album.me)}
       busy={busy}
       notice={notice}
-      overlay={overlay}
+      overlay={null}
       onClose={() => goBackOr(albumHref)}
       onRetryPicture={pictures.retry}
       onPick={(photo, picked) => {
@@ -258,4 +178,29 @@ function Viewer({ tripId, photoId, look }: ViewerScreenProps) {
       onDelete={(photo) => askFirst('delete', photo)}
     />
   );
+}
+
+export interface PhotoViewerProps {
+  readonly photos: readonly AlbumPhoto[];
+  readonly startId: string;
+  readonly urls: ViewerUrls;
+  readonly me: string | null;
+  readonly organiser: boolean;
+  readonly nameOf: (uid: string) => string;
+  /** The names of the travellers who said they are in the photo. */
+  readonly namesIn: (photoId: string) => readonly string[];
+  readonly isMeIn: (photoId: string) => boolean;
+  readonly busy: 'save' | 'share' | null;
+  /** What the last action did ("Saved to Photos"), said in the bar: a toast would sit under the viewer. */
+  readonly notice: string | null;
+  /** Sheets the actions open (confirm a delete or a report), over the whole viewer. */
+  readonly overlay?: ReactNode;
+  readonly onClose: () => void;
+  readonly onRetryPicture: () => void;
+  readonly onPick: (photo: AlbumPhoto, picked: boolean) => void;
+  readonly onMeIn: (photo: AlbumPhoto, on: boolean) => void;
+  readonly onSave: (photo: AlbumPhoto) => void;
+  readonly onShare: (photo: AlbumPhoto) => void;
+  readonly onReport: (photo: AlbumPhoto) => void;
+  readonly onDelete: (photo: AlbumPhoto) => void;
 }

@@ -25,7 +25,7 @@ import { SheetScreen } from '@/ui/premium/shell';
 
 import { clock } from '../../draft/data/format';
 import type { ReviewDay } from '../../draft/data/version';
-import { reasonLabel } from '../../draft/redraft/reason-chips';
+import { reasonLabel } from '../../draft/redraft/redraft-words';
 import { draftLoadingLabel } from '../../draft/review/draft-copy';
 import { draftRoutes } from '../../draft/routes';
 

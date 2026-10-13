@@ -8,7 +8,6 @@ import {
   PremiumMoveStopSheet,
 } from '@/features/plan/premium/all-days/move-sheets';
 import { PremiumPlanShareSheet } from '@/features/plan/premium/share/plan-share-sheet';
-import { usePremiumUi } from '@/lib/premium-ui';
 
 import { nativeCpCalendarModule } from '../../../../../modules/cp-calendar/src/CpCalendarModule';
 
@@ -22,13 +21,13 @@ const PREMIUM_SHEETS = {
 /** All days (7b-3): `/{tripId}/plan/days?from={n}`, the day it was opened from. */
 export default function AllDaysRoute() {
   const { tripId, from } = useLocalSearchParams<{ tripId: string; from?: string }>();
-  const premium = usePremiumUi();
   return (
     <CalendarWriterProvider value={writer}>
       <AllDaysScreen
         tripId={tripId ?? ''}
         from={from === undefined ? null : Number(from)}
-        {...(premium ? { View: PremiumAllDaysView, sheets: PREMIUM_SHEETS } : {})}
+        View={PremiumAllDaysView}
+        sheets={PREMIUM_SHEETS}
       />
     </CalendarWriterProvider>
   );

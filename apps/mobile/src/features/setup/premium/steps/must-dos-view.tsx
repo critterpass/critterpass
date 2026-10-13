@@ -24,7 +24,7 @@ import {
 } from '@/ui/premium';
 
 import { summaryLine } from '../../must-dos/lines';
-import type { MustDosViewProps } from '../../must-dos/must-dos-view';
+import type { MustDosViewProps } from '../../must-dos/must-dos-props';
 import { MustDoCard } from './must-do-card';
 import { ChecklistPill, StepHeadline, StepPage } from './step-parts';
 

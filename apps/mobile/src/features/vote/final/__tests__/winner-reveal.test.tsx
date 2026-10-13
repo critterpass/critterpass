@@ -10,6 +10,7 @@ jest.mock('expo-router', () => ({
   useIsFocused: () => true,
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: jest.fn(() => true) },
   useLocalSearchParams: jest.fn(() => ({})),
+  Stack: Object.assign(() => null, { Screen: () => null }),
 }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
@@ -38,7 +39,7 @@ import {
   settleMotion,
   until,
 } from '../../test-support/vote-harness';
-import { WinnerRevealScreen } from '../winner-reveal';
+import { PremiumWinnerRevealScreen } from '../../premium/final/winner-reveal';
 
 let stack: TestLocalFirst | null = null;
 
@@ -86,7 +87,7 @@ describe('winner reveal', () => {
     await renderVote(<Reveal me={s.uid} />, s);
     // Who organises loads after the result: the set-up button replaces the "organiser sets it up" line.
     await until(() => screen.queryByTestId('reveal-set-up') !== null);
-    expect(screen.getByText('WINS 2–1')).toBeTruthy();
+    expect(screen.getByTestId('reveal-score')).toHaveTextContent('WINS 2–1');
     expect(screen.queryByTestId('reveal-lost')).toBeNull();
     await until(() => screen.queryByTestId('reveal-stamp') !== null);
     // The reveal files the command from a mount effect and the queue write is asynchronous: the
@@ -135,7 +136,7 @@ describe('winner reveal', () => {
     );
   });
 
-  it('draws the result as designed: the score, the tally in each place colour, the sleeping guide', async () => {
+  it('draws the result: the score, the tally for each place, the losing guide', async () => {
     const s = await open();
     await seedClosed(
       s,
@@ -148,30 +149,23 @@ describe('winner reveal', () => {
     );
     await renderVote(<Reveal me={s.uid} />, s);
     await until(() => screen.queryByTestId('reveal-set-up') !== null);
-    expect(screen.getByTestId('reveal-voted')).toHaveTextContent('3 OF 3 VOTED');
+    expect(screen.getByText('Final · 3 of 3 voted')).toBeTruthy();
     expect(screen.getByTestId('reveal-name')).toHaveTextContent('KYOTO');
     expect(screen.getByTestId('reveal-score')).toHaveTextContent('WINS 2–1');
-    expect(screen.getByTestId('reveal-tally').props.accessibilityLabel).toBe(
-      'Kyoto. Wins 2–1; Kyoto, 2 votes; Lisbon, 1 vote',
-    );
+    expect(screen.getByLabelText('Kyoto. Wins 2–1; Kyoto, 2 votes; Lisbon, 1 vote')).toBeTruthy();
     expect(screen.getByTestId('reveal-consolation')).toHaveTextContent(
       'Tokek took it well. Already pitching the next trip.',
     );
-    expect(screen.getByText('Lisbon goes back in the deck for next time')).toBeTruthy();
-    // Full motion: the rays turn behind the guide.
-    expect(screen.getByTestId('reveal-rays')).toBeTruthy();
   });
 
-  it('shows the finished result, with no burst flash, under reduced motion', async () => {
+  it('shows the finished result under reduced motion', async () => {
     const s = await open();
     await seedClosed(s, [{ userId: MAYA, optionId: OPT_KYOTO }], MAYA);
     await setReducedMotion();
     await renderVote(<Reveal me={s.uid} />, s);
     await until(() => screen.queryByTestId('reveal-missed') !== null);
-    expect(screen.getByTestId('reveal-rays')).toBeTruthy();
     expect(screen.getByTestId('reveal-name')).toHaveTextContent('KYOTO');
     expect(screen.getByTestId('reveal-score')).toHaveTextContent('WINS 1–0');
-    expect(screen.queryByTestId('reveal-burst-flash')).toBeNull();
   });
 
   it('does not open a reveal already seen on another device', async () => {
@@ -185,8 +179,8 @@ describe('winner reveal', () => {
   it('opens a reveal seen before as the finished result, with a way out and no second mark', async () => {
     const s = await open();
     await seedClosed(s, [{ userId: MAYA, optionId: OPT_KYOTO }], MAYA, '2026-10-02T10:00:00Z');
-    await renderVote(<WinnerRevealScreen pollId={POLL} />, s);
-    await until(() => screen.queryByTestId('winner-reveal') !== null);
+    await renderVote(<PremiumWinnerRevealScreen pollId={POLL} />, s);
+    await until(() => screen.queryByTestId('reveal') !== null);
     await settleMotion();
     expect(router.back).not.toHaveBeenCalled();
     expect(screen.getByTestId('reveal-name')).toHaveTextContent('KYOTO');
@@ -195,10 +189,10 @@ describe('winner reveal', () => {
 
   it('says so, with a way back, when the poll is not on this phone', async () => {
     const s = await open();
-    await renderVote(<WinnerRevealScreen pollId="poll-nowhere" />, s);
+    await renderVote(<PremiumWinnerRevealScreen pollId="poll-nowhere" />, s);
     await until(() => screen.queryByTestId('reveal-missing') !== null);
     expect(screen.getByTestId('reveal-missing-back')).toBeTruthy();
-    expect(screen.queryByTestId('winner-reveal')).toBeNull();
+    expect(screen.queryByTestId('reveal')).toBeNull();
   });
 
   it('opens a pending reveal from Home once', async () => {

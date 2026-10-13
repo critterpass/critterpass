@@ -15,12 +15,11 @@ import { OverlaySheet } from '@/features/plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Button, SegmentedControl, Text, usePremiumTheme } from '@/ui/premium';
 
-import { markWord } from '../../calendar/manual-day-face';
-import { monthCount, monthGrid, type ManualMark } from '../../calendar/manual-days';
+import { markWord, monthCount, monthGrid, type ManualMark } from '../../calendar/manual-days';
 import type { ManualDaysViewProps } from '../../calendar/manual-days-sheet';
 import { useManualPaint } from '../../calendar/use-manual-paint';
 import { monthLabel } from '../../when/copy';
-import { weeksOfDates } from '../../when/day-grid';
+import { weeksOfDates } from './day-grid';
 import { MonthGrid } from './month-grid';
 
 const BRUSHES: readonly ManualMark[] = ['free', 'busy', 'maybe'];

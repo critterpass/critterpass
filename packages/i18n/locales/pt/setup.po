@@ -101,8 +101,8 @@ msgstr ""
 msgid "setup.premium.rooms.firstGo"
 msgstr ""
 
-#. placeholder {0}: model.guideName
-#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/setup/premium/steps/window-option-card.tsx
 msgid "setup.premium.when.option.pick"
 msgstr ""
 
@@ -114,16 +114,8 @@ msgstr ""
 msgid "setup.manual.dayA11y"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/shell/setup-shell.tsx
-msgid "setup.shell.back"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.checklist.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
-msgid "setup.tag.won"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
@@ -166,10 +158,6 @@ msgstr ""
 msgid "setup.mustDos.readyLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
-msgid "setup.tag.doneA11y"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.thingsLeft"
 msgstr ""
@@ -190,16 +178,8 @@ msgstr ""
 msgid "setup.rooms.a11y.person"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-msgid "setup.status.here"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
 msgid "setup.ask.privacy"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-msgid "setup.status.away"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
@@ -354,7 +334,6 @@ msgid "setup.premium.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.home"
 msgstr ""
 
@@ -384,10 +363,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
 msgid "setup.premium.manual.brush"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.budget"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
@@ -451,7 +426,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
-#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.sheet.close"
 msgstr "Fechar"
 
@@ -627,10 +601,6 @@ msgstr ""
 msgid "setup.premium.chip.ground"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-msgid "setup.back.home"
-msgstr "Início"
-
 #: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
 msgid "setup.way.pick"
 msgstr ""
@@ -660,7 +630,6 @@ msgid "setup.premium.chip.snore"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.line"
 msgstr ""
 
@@ -707,8 +676,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 #: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
 #: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.loading"
 msgstr ""
 
@@ -779,10 +746,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.step"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.mustDos"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
@@ -977,10 +940,6 @@ msgstr ""
 msgid "setup.premium.rooms.tileEach"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.rooms"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.row.rooms"
 msgstr ""
@@ -1064,7 +1023,6 @@ msgid "setup.premium.pill.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.voteOpen.line"
 msgstr ""
 
@@ -1118,14 +1076,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
 msgid "setup.premium.budget.stays"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.a11y"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.a11yDone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
@@ -1218,7 +1168,6 @@ msgid "setup.premium.route.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.voteOpen.title"
 msgstr ""
 
@@ -1230,12 +1179,7 @@ msgstr ""
 msgid "setup.calendar.device"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-msgid "setup.status.stepRefused"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.title"
 msgstr ""
 
@@ -1279,10 +1223,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
 msgid "setup.mustDos.line"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.when"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
@@ -1332,7 +1272,6 @@ msgid "setup.when.locked.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
-#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.sheet.notYours"
 msgstr "Você não faz parte da preparação desta viagem, então não há nada a fazer aqui."
 

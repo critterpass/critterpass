@@ -22,7 +22,7 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import type { BuilderViewProps } from '../builder/builder-view';
+import type { BuilderViewProps } from '../builder/views';
 import { FormatTiles } from './format-tiles';
 
 export function PremiumBuilderView(props: BuilderViewProps) {

@@ -16,7 +16,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { useIssueLine } from '../../practice/practice-feedback';
+import { useIssueLine } from '../../practice/practice-issue-line';
 import type { PracticeState } from '../../practice/practice-model';
 
 export function PremiumPracticeFeedback(props: {

@@ -25,12 +25,12 @@ import { useSetupServices } from '../data/services';
 import { useSetupHints } from '../data/use-setup-channel';
 import type { StepProps } from '../shell/frame';
 import {
-  BudgetView,
   EMPTY_PICK,
   type BudgetPick,
   type BudgetViewProps,
   type LockState,
-} from './budget-view';
+  type PrivateMaxViewProps,
+} from './budget-props';
 import { useBudgetInputs } from './data/use-budget-inputs';
 import { saveOwnMax, useOwnMax } from './data/private-max';
 import { datesLabel } from './labels';
@@ -45,8 +45,6 @@ import {
   trackOf,
   type AggregateRow,
 } from './model';
-import { OwnMaxRow } from './own-max-row';
-import { PrivateMaxView, type PrivateMaxViewProps } from './private-max-view';
 
 const HOME_SQL = 'SELECT home_currency FROM users WHERE id = ?';
 
@@ -71,24 +69,14 @@ export function lockOutcome(
   return { kind: 'failed' };
 }
 
-/** The pieces a look of the budget step draws; the current look's by default. */
+/** The pieces the budget step draws. */
 export interface BudgetLook {
   readonly Budget: ComponentType<BudgetViewProps>;
   readonly PrivateMax: ComponentType<PrivateMaxViewProps>;
   readonly OwnMax: ComponentType<{ readonly set: boolean; readonly onChange: () => void }>;
 }
 
-const CURRENT_LOOK: BudgetLook = {
-  Budget: BudgetView,
-  PrivateMax: PrivateMaxView,
-  OwnMax: OwnMaxRow,
-};
-
-export function BudgetStep({
-  trip,
-  shell,
-  look = CURRENT_LOOK,
-}: StepProps & { readonly look?: BudgetLook }) {
+export function BudgetStep({ trip, shell, look }: StepProps & { readonly look: BudgetLook }) {
   const { Budget, PrivateMax, OwnMax } = look;
   const locale = useLocale();
   const { db } = useLocalFirst();

@@ -75,7 +75,7 @@ export function EditCrewScreen() {
         kind: 'done',
         message: t({ id: 'crew.premium.edit.saved', message: 'Pass updated' }),
       });
-      router.back();
+      guard.leave(() => router.back());
     });
 
   return (

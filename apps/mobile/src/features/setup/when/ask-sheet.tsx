@@ -11,29 +11,12 @@ import type { AskAnswer } from '@cp/domain';
 
 import { useCommand } from '@/data/commands/use-command';
 import { goBackOr } from '@/lib/navigation/back';
-import { InlineAction } from '@/ui/buttons/InlineAction';
-import { PillButton } from '@/ui/buttons/PillButton';
-import { TextField } from '@/ui/inputs/TextField';
-import { Stack } from '@/ui/layout/Stack';
-import { Sheet } from '@/ui/sheet/Sheet';
-import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
-import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
 
 import { answerAvailabilityAskCommand } from '../data/commands';
 import { useSetupTrip, type SetupTrip } from '../data/setup-trip';
 import { useMe } from '../data/use-me';
 import { setupRoutes } from '../routes';
-import { GuideNote, guideName } from '../shell/guide-note';
-import { SetupSheetWaiting } from '../shell/sheet-waiting';
-
-const FREED: AskAnswer = 'freed';
-// eslint-disable-next-line lingui/no-unlocalized-strings -- a wire value, never copy.
-const NOT_MOVABLE: AskAnswer = 'not_movable';
-
-const useStyles = makeStyles((th) => ({
-  body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'], gap: th.space['12'] },
-}));
+import type { SheetWaitingProps } from '../shell/frame';
 
 export interface AskSheetViewProps {
   readonly place: string;
@@ -46,106 +29,24 @@ export interface AskSheetViewProps {
   readonly onDismiss: () => void;
 }
 
-export function AskSheetView({
-  place,
-  guide,
-  organiser,
-  sent,
-  busy,
-  onAnswer,
-  onWords,
-  onDismiss,
-}: AskSheetViewProps) {
-  const styles = useStyles();
-  const theme = useTheme();
-  const [words, setWords] = useState('');
-  const title = t({ id: 'setup.ask.title', message: 'About your maybe days' });
-  const name = guideName(guide);
-  return (
-    <Sheet detents={['fit']} onDismiss={onDismiss} accessibilityLabel={title} testID="ask-sheet">
-      <SheetScrollView keyboardShouldPersistTaps="handled">
-        <Stack style={styles.body}>
-          <Text variant="h2" accessibilityRole="header">
-            {title}
-          </Text>
-          {sent ? (
-            <GuideNote
-              guide={guide}
-              line={t({
-                id: 'setup.ask.thanks',
-                message: `Thanks. I’ll only tell ${organiser} whether the week works.`,
-              })}
-            />
-          ) : (
-            <>
-              <GuideNote
-                guide={guide}
-                line={t({
-                  id: 'setup.ask.line',
-                  message: `Quick one: your maybe block is the only thing between the crew and ${place}. Could you free it?`,
-                })}
-              />
-              <Text variant="bodySm" color={theme.semantic.text.secondary}>
-                {t({
-                  id: 'setup.ask.privacy',
-                  message: `${organiser} only hears whether the week works. Never what the block is.`,
-                })}
-              </Text>
-              <PillButton
-                label={t({ id: 'setup.ask.freed', message: 'Freed it' })}
-                tone="green"
-                loading={busy}
-                onPress={() => onAnswer(FREED)}
-                testID="ask-freed"
-              />
-              <PillButton
-                label={t({ id: 'setup.ask.notMovable', message: 'Can’t move it' })}
-                variant="secondary"
-                disabled={busy}
-                onPress={() => onAnswer(NOT_MOVABLE)}
-                testID="ask-not-movable"
-              />
-              <TextField
-                label={t({ id: 'setup.ask.words', message: `Or tell ${name} in your words` })}
-                value={words}
-                onChangeText={(next) => setWords(next.slice(0, 500))}
-                testID="ask-words"
-              />
-              {/* Always there, so the field reads as something to send; live once there are words. */}
-              <InlineAction
-                label={t({ id: 'setup.ask.send', message: 'Send' })}
-                onPress={() => onWords(words.trim())}
-                disabled={busy || words.trim() === ''}
-                testID="ask-send"
-              />
-            </>
-          )}
-        </Stack>
-      </SheetScrollView>
-    </Sheet>
-  );
-}
-
 /** How the ask sheet is drawn; the trip read and the answer command stay here. */
 export interface AskSheetLook {
   readonly View: ComponentType<AskSheetViewProps>;
-  readonly Waiting: typeof SetupSheetWaiting;
+  readonly Waiting: ComponentType<SheetWaitingProps>;
 }
-
-const CURRENT_LOOK: AskSheetLook = { View: AskSheetView, Waiting: SetupSheetWaiting };
 
 /** The ask sheet over the dates step (`/{tripId}/setup/ask/{askId}`), for its one target. */
 export function AskSheet({
   trip,
   askId,
   answered = false,
-  look = CURRENT_LOOK,
+  look,
 }: {
   readonly trip: SetupTrip;
   readonly askId: string;
   /** The push's quick reply already sent the answer. */
   readonly answered?: boolean;
-  readonly look?: AskSheetLook;
+  readonly look: AskSheetLook;
 }) {
   const { View } = look;
   const answer = useCommand(answerAvailabilityAskCommand);
@@ -175,12 +76,12 @@ export function AskSheetScreen({
   tripId,
   askId,
   answered,
-  look = CURRENT_LOOK,
+  look,
 }: {
   readonly tripId: string;
   readonly askId: string;
   readonly answered: boolean;
-  readonly look?: AskSheetLook;
+  readonly look: AskSheetLook;
 }) {
   const { Waiting } = look;
   const me = useMe();

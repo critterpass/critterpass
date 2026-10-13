@@ -5,7 +5,15 @@
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { useCallback, useMemo, useRef, useState, type ComponentRef } from 'react';
+import {
+  createElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ComponentRef,
+} from 'react';
 import { Keyboard, View, type TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -32,6 +40,8 @@ import { ChatBottom } from './chat-bottom';
 import { OfflineMarker } from './chat-chips';
 import { CHAT_HEADER_HEIGHT, ChatHeader, type HeaderLine } from './chat-header';
 import { ChatOverlays, type ChatOverlay } from './chat-overlays';
+import { voicePlayback } from '../../chat/media/voice-playback';
+import { chatComposerHint } from '../../chat/slots';
 import { ChatWelcome, GuideTypingBubble } from './chat-panels';
 import { chatStarters } from './chat-starters';
 import './cards/register';
@@ -44,7 +54,15 @@ import { useRenderRow } from './use-render-row';
 
 const NO_GROUPS = [] as const;
 
+/** The guide's live line (its streamed reply, a spent meter), when the guide area registered one. */
+function GuideLiveLine({ crewId }: { readonly crewId: string }) {
+  const hint = chatComposerHint();
+  return hint === null ? null : createElement(hint, { crewId });
+}
+
 export function CrewChatView({ crewId }: { readonly crewId: string }) {
+  // A note still playing stops with the chat.
+  useEffect(() => () => voicePlayback.stop(), []);
   const th = usePremiumTheme();
   const insets = useSafeAreaInsets();
   const me = useSessionUid();
@@ -198,6 +216,7 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
               <OfflineMarker />
             ) : null}
             {guideReplying ? <GuideTypingBubble guideName={guideName} /> : null}
+            <GuideLiveLine crewId={crewId} />
           </>
         }
         onLoadOlder={timeline.loadOlder}

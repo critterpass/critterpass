@@ -9,6 +9,7 @@
  */
 jest.mock('@/motion/use-loop', () => ({ useLoop: () => ({}) }));
 jest.mock('expo-router', () => ({
+  Stack: Object.assign(() => null, { Screen: () => null }),
   useIsFocused: () => true,
   router: {
     push: jest.fn(),
@@ -31,7 +32,7 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { music } from '@/motion/music';
 
-import { MAYA, RECAP, recapRow, TRIP } from '../../dev/recap-fixtures';
+import { MAYA, RECAP, recapRow, TRIP } from '../../test-support/recap-fixtures';
 import {
   fakeRealtime,
   queued,
@@ -44,6 +45,7 @@ import {
   until,
 } from '../../test-support/recap-harness';
 import { RecapStoryScreen } from '../story-screen';
+import { PREMIUM_STORY_LOOK } from '../../premium/story/story-parts';
 import { storySession } from '../story-session';
 
 let stack: TestLocalFirst | null = null;
@@ -98,7 +100,9 @@ describe('recap story', () => {
   it('records the open once, and counts the end once before settling into the page', async () => {
     const s = await open();
     const analytics = recordingAnalytics();
-    await renderRecap(<RecapStoryScreen tripId={TRIP} />, s, { analytics: analytics.client });
+    await renderRecap(<RecapStoryScreen look={PREMIUM_STORY_LOOK} tripId={TRIP} />, s, {
+      analytics: analytics.client,
+    });
     await until(() => screen.queryByTestId('recap-card-cover') !== null);
     expect(player()).toBeTruthy();
     await untilQueued(s, 'record_recap_view', 1);
@@ -130,7 +134,9 @@ describe('recap story', () => {
   it('closed early, stops playing by itself but is not counted as watched to the end', async () => {
     const s = await open();
     const analytics = recordingAnalytics();
-    await renderRecap(<RecapStoryScreen tripId={TRIP} />, s, { analytics: analytics.client });
+    await renderRecap(<RecapStoryScreen look={PREMIUM_STORY_LOOK} tripId={TRIP} />, s, {
+      analytics: analytics.client,
+    });
     await until(() => screen.queryByTestId('recap-card-cover') !== null);
     await fireEvent.press(screen.getByTestId('recap-story-close'));
     await untilQueued(s, 'record_recap_view', 2);
@@ -149,7 +155,7 @@ describe('recap story', () => {
 
   it('closes a replay back to the recap page underneath, leaving one page on the stack', async () => {
     const s = await open();
-    await renderRecap(<RecapStoryScreen tripId={TRIP} replay />, s);
+    await renderRecap(<RecapStoryScreen look={PREMIUM_STORY_LOOK} tripId={TRIP} replay />, s);
     await until(() => screen.queryByTestId('recap-card-cover') !== null);
     await fireEvent.press(screen.getByTestId('recap-story-close'));
     expect(router.back).toHaveBeenCalledTimes(1);
@@ -159,10 +165,10 @@ describe('recap story', () => {
   it('says the story is not ready, with a way to the recap page, when there is no recap yet', async () => {
     stack = await openTestLocalFirst({ holdUploads: true });
     await seedTrip(stack);
-    await renderRecap(<RecapStoryScreen tripId={TRIP} />, stack);
+    await renderRecap(<RecapStoryScreen look={PREMIUM_STORY_LOOK} tripId={TRIP} />, stack);
     await until(() => screen.queryByTestId('recap-story-missing') !== null);
     expect(screen.getByTestId('recap-story-missing-back')).toBeTruthy();
-    await fireEvent.press(screen.getByText('OPEN THE RECAP'));
+    await fireEvent.press(screen.getByText('Open the recap'));
     expect(router.replace).toHaveBeenLastCalledWith({
       pathname: '/recap/[tripId]',
       params: { tripId: TRIP },
@@ -173,7 +179,7 @@ describe('recap story', () => {
     const s = await open();
     const start = jest.spyOn(music, 'crossfadeTo');
     const stop = jest.spyOn(music, 'stop');
-    await renderRecap(<RecapStoryScreen tripId={TRIP} />, s);
+    await renderRecap(<RecapStoryScreen look={PREMIUM_STORY_LOOK} tripId={TRIP} />, s);
     await until(() => screen.queryByTestId('recap-card-cover') !== null);
     expect(start).toHaveBeenCalled();
     start.mockClear();
@@ -194,7 +200,9 @@ describe('recap story', () => {
   it("writes a crewmate's signature on the stamp as it arrives on the recap's channel", async () => {
     const s = await open();
     const realtime = fakeRealtime();
-    await renderRecap(<RecapStoryScreen tripId={TRIP} />, s, { realtime: realtime.client });
+    await renderRecap(<RecapStoryScreen look={PREMIUM_STORY_LOOK} tripId={TRIP} />, s, {
+      realtime: realtime.client,
+    });
     await until(() => realtime.subscribed(`recap:${RECAP}`));
     await skipTo('recap-card-stamp');
     expect(screen.queryByTestId(`recap-signature-${MAYA}`)).toBeNull();
@@ -205,12 +213,13 @@ describe('recap story', () => {
       signed_at: '2026-10-05T01:00:00Z',
     });
     await until(() => screen.queryByLabelText('Maya') !== null);
-    expect(screen.getByTestId(`recap-signature-${MAYA}`)).toHaveTextContent('Maya');
+    // The avatar's initial, then the name.
+    expect(screen.getByTestId(`recap-signature-${MAYA}`)).toHaveTextContent('MMaya');
   });
 
   it('queues the MVP vote for the award picked on the awards card', async () => {
     const s = await open();
-    await renderRecap(<RecapStoryScreen tripId={TRIP} />, s);
+    await renderRecap(<RecapStoryScreen look={PREMIUM_STORY_LOOK} tripId={TRIP} />, s);
     await until(() => screen.queryByTestId('recap-card-cover') !== null);
     await skipTo('recap-card-awards');
     await fireEvent.press(screen.getByTestId('recap-story-vote'));

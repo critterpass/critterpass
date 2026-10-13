@@ -8,7 +8,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { screen } from '@testing-library/react-native';
 
 import { renderScreen } from '../../voice/test-support/screen-harness';
-import { CAMERA_SCENES, MENU_LINES, MENU_READING } from '../dev/lab-scenes-camera';
+import { CAMERA_SCENES, MENU_LINES, MENU_READING } from '../test-support/camera-fixtures';
 import { menuStickers, showsFlags, type MenuLine, type MenuReading } from '../menu-scan';
 import {
   createMenuScanController,

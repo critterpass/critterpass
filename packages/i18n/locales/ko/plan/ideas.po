@@ -71,32 +71,12 @@ msgstr ""
 msgid "plan.placing.foot"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
-msgid "plan.ideas.action.add"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
-msgid "plan.ideas.more"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
-msgid "plan.ideas.addToDay"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.inPlan"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
-msgid "plan.ideas.inPlanLine"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.placing.backToIdeas"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
-msgid "plan.ideas.dropOnADay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
@@ -107,32 +87,12 @@ msgstr ""
 msgid "plan.ideas.fitPending"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
-msgid "plan.ideas.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-view.tsx
-msgid "plan.placing.eyebrow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-view.tsx
-msgid "plan.placing.leave"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.needsYouSplit"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.needsYouPending"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
-msgid "plan.ideas.mapPill"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
-msgid "plan.ideas.action.move"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
@@ -153,22 +113,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.bodyEmpty"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
-msgid "plan.ideas.placeThem.a11y"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
-msgid "plan.ideas.placeThem"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
-msgid "plan.ideas.action.removeAll"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
-msgid "plan.ideas.action.remove"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
@@ -193,10 +137,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.beforePlanAny"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
-msgid "plan.ideas.backTo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts

@@ -24,8 +24,8 @@ import {
 import { sheetMaterialStyle } from '@/ui/premium/shell';
 
 import { typedLink } from '../../search/clipboard';
-import type { LinkPasteProps } from '../../search/link-paste';
-import type { PickOneSheetProps } from '../../search/pick-one-sheet';
+import type { LinkPasteProps } from '../../search/link-screen';
+import type { PickOneSheetProps } from '../../search/link-screen';
 import { placeIcon } from '../../search/place-icons';
 import { PlaceResultRow } from '../components/place-result-row';
 

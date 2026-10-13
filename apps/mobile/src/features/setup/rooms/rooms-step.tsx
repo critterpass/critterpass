@@ -7,7 +7,7 @@
  * straight on to the must-dos; the step stays in the stepper to open later.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- chip keys, step names and notice keys, never copy. */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ComponentType } from 'react';
 
 import { isSkippable } from '@cp/domain';
 
@@ -26,11 +26,21 @@ import { useCrewMoney } from '../data/crew-money';
 import { useRefusedCommand } from '../data/use-refused-command';
 import type { StepProps } from '../shell/frame';
 import type { RoomChipKey } from './copy';
-import { estimateOf, moveGuest, perPersonPrice, roomsPayload, type PlanStay } from './model';
-import { fractionDigits } from './price-line';
+import {
+  estimateOf,
+  moveGuest,
+  perPersonPrice,
+  roomsPayload,
+  type PlanStay,
+  fractionDigits,
+} from './model';
 import { useRoomsData } from './rooms-data';
-import { RoomsView, type RoomsModel, type RoomsNotice } from './rooms-view';
-import type { StayOption } from './stay-picker';
+import {
+  type RoomsModel,
+  type RoomsNotice,
+  type RoomsViewProps,
+  type StayOption,
+} from './rooms-props';
 
 /**
  * Trips already taken past an empty rooms step in this session: a move the server refuses brings
@@ -67,10 +77,10 @@ export function toggleChip(chips: readonly RoomChipKey[], chip: RoomChipKey): Ro
 export function RoomsStep({
   trip,
   shell,
-  View = RoomsView,
+  View,
 }: StepProps & {
-  /** The look the step is drawn in (the premium rooms pages pass theirs). */
-  readonly View?: typeof RoomsView;
+  /** The look the step is drawn in. */
+  readonly View: ComponentType<RoomsViewProps>;
 }) {
   const locale = useLocale();
   const data = useRoomsData(trip.tripId, trip.me);

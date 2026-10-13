@@ -99,3 +99,13 @@ export function chipName(chip: RoomChipKey): string {
       return t({ id: 'setup.rooms.chip.dontCare', message: 'Don’t care' });
   }
 }
+
+/* eslint-disable lingui/no-unlocalized-strings -- chip keys, never copy. */
+export const ROOM_CHIP_KEYS: readonly RoomChipKey[] = [
+  'early_bird',
+  'night_owl',
+  'light_sleeper',
+  'snorer',
+  'dont_care',
+];
+/* eslint-enable lingui/no-unlocalized-strings */

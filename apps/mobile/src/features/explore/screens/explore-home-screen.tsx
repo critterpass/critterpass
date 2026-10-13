@@ -10,19 +10,19 @@ import { useMemo, type ComponentType } from 'react';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { goBackOr } from '@/lib/navigation/back';
 
-import { ExploreHomeView, type ExploreHomeViewProps } from '../components/explore-home-view';
 import { useOfflinePackFiles } from '../data/use-offline-pack';
 import { destinationCards } from '../home-model';
 import { useGuideDestinations } from '../queries';
 import { exploreRoutes } from '../routes';
 import { useSaved } from '../saved-queries';
+import type { DestinationCard } from '../home-model';
 
 export function ExploreHomeScreen({
-  View = ExploreHomeView,
+  View,
 }: {
-  /** The drawing: the current page by default, the premium one in the premium look. */
-  readonly View?: ComponentType<ExploreHomeViewProps>;
-} = {}) {
+  /** The drawing of Explore's front page. */
+  readonly View: ComponentType<ExploreHomeViewProps>;
+}) {
   const destinations = useGuideDestinations();
   const saved = useSaved();
   const focused = useIsFocused();
@@ -51,4 +51,17 @@ export function ExploreHomeScreen({
       onSearch={search === undefined ? undefined : () => router.push(search)}
     />
   );
+}
+
+export interface ExploreHomeViewProps {
+  readonly cards: readonly DestinationCard[];
+  /** The catalogue has not reached this phone yet. */
+  readonly loading: boolean;
+  readonly offline: boolean;
+  readonly savedCount: number;
+  readonly onBack: () => void;
+  readonly onOpen: (card: DestinationCard) => void;
+  readonly onSaved: () => void;
+  /** Opens the search for any place; absent while that screen is not in the app. */
+  readonly onSearch?: (() => void) | undefined;
 }

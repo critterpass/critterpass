@@ -10,9 +10,9 @@ import { fireEvent, screen } from '@testing-library/react-native';
 
 import { parseGuideFrames } from '../../chat/data/guide-frames';
 import { renderScreen } from '../../voice/test-support/screen-harness';
-import { CAMERA_SCENES, MENU_LINES, MENU_READING } from '../dev/lab-scenes-camera';
+import { CAMERA_SCENES, MENU_LINES, MENU_READING } from '../test-support/camera-fixtures';
 import { languagePair } from '../menu-language';
-import { MenuOrderCard } from '../menu-order-card';
+import { PremiumOrderCard as MenuOrderCard } from '../../premium/camera/order-card';
 import { createMenuReadingFold } from '../menu-reading';
 import {
   changeOrder,

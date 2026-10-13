@@ -7,7 +7,7 @@
  * and signed read URLs) the album shares with chat.
  */
 export { registerChatCard, type ChatCardProps, type ChatCardRenderer } from './chat/cards/registry';
-export { registerAttachEntry, type AttachEntry } from './chat/media/attach-menu';
+export { registerAttachEntry, type AttachEntry } from './chat/media/attach-entries';
 export type { MediaHttp, PickedPhoto } from './chat/media/media-services';
 export { readUrl, useReadUrl } from './chat/media/read-urls';
 export { uploadAttachment, type UploadInput, type UploadOutcome } from './chat/media/upload';

@@ -23,7 +23,8 @@ import {
 
 import { shareCardImage, type CardView } from '../../story/share-card-image';
 import { presents, storyHint } from '../../story/story-copy';
-import { CardHost, type StoryViewProps } from '../../story/story-view';
+import { CardHost } from '../../story/card-host';
+import { type StoryViewProps } from '../../story/story-look';
 import { useAppActive } from '../../story/use-app-active';
 import { PremiumStoryPlayer } from './story-player';
 

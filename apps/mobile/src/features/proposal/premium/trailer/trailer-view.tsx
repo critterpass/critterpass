@@ -20,7 +20,7 @@ import {
   usePremiumReducedMotion,
 } from '@/ui/premium';
 
-import type { TrailerViewProps } from '../../trailer/trailer-view';
+import type { TrailerViewProps } from '../../trailer/trailer-screen';
 import { TrailerPlayer } from './trailer-player';
 import { PremiumTrailerSlide } from './trailer-slide';
 

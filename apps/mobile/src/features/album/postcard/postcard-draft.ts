@@ -10,7 +10,7 @@ import {
 } from '@cp/domain';
 
 import type { AlbumPhoto } from '../data/album-model';
-import type { PostcardFormat } from './postcard-pair';
+import type { PostcardFormat } from './postcard-look';
 
 export interface PostcardDraft {
   readonly format: PostcardFormat;

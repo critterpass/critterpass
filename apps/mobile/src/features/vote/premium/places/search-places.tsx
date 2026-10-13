@@ -33,7 +33,7 @@ import { KeyboardStickyFooter } from '@/ui/premium/shell';
 import { useDestinationSearch, type PlaceResult } from '../../data/use-destination-search';
 import { requestPlaceCommand } from '../../data/vote-commands';
 import { guideOr } from '../../format';
-import { unguidedCountry } from '../../places/search-sheet';
+import { unguidedCountry } from '../../data/use-destination-search';
 import { voteRoutes } from '../../routes';
 
 function ResultName({ name, typed }: { readonly name: string; readonly typed: string }) {

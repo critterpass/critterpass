@@ -19,76 +19,6 @@ msgstr ""
 msgid "plan.dayPlan.refused.untimed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day-plan/add-bar.tsx
-msgid "plan.dayPlan.add"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
-msgid "plan.dayPlan.allDays"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/back-label.ts
-msgid "plan.dayPlan.backPlain"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
-msgid "plan.dayPlan.goneBack"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/day-pill.tsx
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
-msgid "plan.dayPlan.dayTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/back-label.ts
-msgid "plan.dayPlan.backDraft"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/stop-timeline.tsx
-msgid "plan.dayPlan.moveDown"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/stop-timeline.tsx
-msgid "plan.dayPlan.moveUp"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
-msgid "plan.dayPlan.empty"
-msgstr ""
-
-#. placeholder {0}: idea.minutes
-#: ../../apps/mobile/src/features/plan/day-plan/day-map-view.tsx
-msgid "plan.dayPlan.onTheWay"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/mini-map.tsx
-msgid "plan.dayPlan.openMap"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/day-map-view.tsx
-msgid "plan.dayPlan.pickDay"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/day-pill.tsx
-msgid "plan.dayPlan.pickDayHint"
-msgstr ""
-
-#. placeholder {0}: rainIssue.params.from
-#. placeholder {1}: rainIssue.params.to
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-screen.tsx
-msgid "plan.dayPlan.rain"
-msgstr ""
-
-#. placeholder {0}: clock(locale, rainWindow.start)
-#. placeholder {1}: clock(locale, rainWindow.end)
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-screen.tsx
-msgid "plan.dayPlan.rainForecast"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
-msgid "plan.dayPlan.share"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
 msgid "plan.dayPlan.refused.runsInto"
 msgstr ""
@@ -101,31 +31,6 @@ msgstr ""
 msgid "plan.dayPlan.refused.mustDo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
-msgid "plan.dayPlan.goneBody"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
-msgid "plan.dayPlan.gone"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
 msgid "plan.dayPlan.refused.readOnly"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/back-label.ts
-msgid "plan.dayPlan.backToday"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
-msgid "plan.dayPlan.toDayOf"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/back-label.ts
-#: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
-msgid "plan.dayPlan.back"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
-msgid "plan.dayPlan.draft"
 msgstr ""

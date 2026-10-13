@@ -13,10 +13,15 @@ import { GuideNote, StatusTag, Text, Toggle, usePremiumTheme } from '@/ui/premiu
 
 import { money } from '../../budget/model';
 import { dayRange } from '../../data/date-range';
-import { fractionDigits } from '../../rooms/price-line';
+import {
+  fractionDigits,
+  stayDates,
+  traitsOf,
+  type PerPerson,
+  type RoomsPlan,
+} from '../../rooms/model';
 import type { SetupMember } from '../../data/setup-trip';
 import { organiserLine, stayName } from '../../rooms/copy';
-import { stayDates, traitsOf, type PerPerson, type RoomsPlan } from '../../rooms/model';
 import { RoomList } from './room-list';
 
 export function OrganiserPlan(props: {

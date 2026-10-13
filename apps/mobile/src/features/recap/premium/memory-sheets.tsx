@@ -17,8 +17,8 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { useMemoryShare, type MemoryShareSheetProps } from '../memory/memory-share-sheet';
-import { MEMORY_EMOJI, MEMORY_LINE_MAX, type ReactionSheetProps } from '../memory/reaction-sheet';
+import { useMemoryShare, type MemoryShareSheetProps } from '../memory/memory-share';
+import { MEMORY_EMOJI, MEMORY_LINE_MAX, type ReactionSheetProps } from '../memory/memory-model';
 import { PremiumShareSheet } from './premium-share-sheet';
 
 const useStyles = makePremiumStyles((th) => ({

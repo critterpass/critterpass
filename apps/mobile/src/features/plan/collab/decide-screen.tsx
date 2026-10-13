@@ -12,18 +12,14 @@ import { parsePlanAnchor } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
 import { useCommand } from '@/data/commands/use-command';
-import { useTyping } from '@/data/realtime/use-typing';
 import { impact } from '@/motion/feedback';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/avatar/guides';
-import { Composer } from '@/ui/chat/Composer';
-import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
 
 import { dayDate } from '../day/format';
 import { useDayEditing } from '../day/use-day-editing';
-import { CommentThread } from './comment-thread';
 import { buildDecision, type Anchor } from './decision-model';
-import { DecideView, type DecideViewProps } from './decide-view';
+import { type DecideViewProps } from './decide-props';
 import {
   BALLOTS_SQL,
   BALLOTS_TABLES,
@@ -36,14 +32,14 @@ import {
   type PollRow,
 } from './queries';
 import { useComments } from './use-comments';
-import { optionAnchor, PRESENCE_NAMESPACE, usePlanPresence } from './use-presence';
+import { optionAnchor, usePlanPresence } from './use-presence';
 import { applyChangesetCommand, castDecisionBallotCommand } from '@/data/plan/commands';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { dayItems } from '@/data/plan/plan-model';
 import { addOp, removeOp } from '@/data/plan/plan-ops';
 import { type PlanMember, useTripPlan } from '@/data/plan/use-trip-plan';
 
-/** A thread drawn with its own composer (the premium look). */
+/** A thread drawn with its own composer. */
 export interface DecideThreadProps {
   readonly tripId: string;
   readonly uid: string | null;
@@ -66,10 +62,10 @@ export function DecideScreen({
 }: {
   readonly tripId: string;
   readonly pollId: string;
-  /** Another look: its view, and a thread that brings its own composer. */
-  readonly look?: DecideLook;
+  /** The look: its view, and a thread that brings its own composer. */
+  readonly look: DecideLook;
 }) {
-  const View = look?.View ?? DecideView;
+  const { View, Thread } = look;
   const { t } = useLingui();
   const locale = useLocale();
   const plan = useTripPlan(tripId);
@@ -80,9 +76,7 @@ export function DecideScreen({
   const comments = useComments(tripId, plan.uid);
   const vote = useCommand(castDecisionBallotCommand);
   const applySet = useCommand(applyChangesetCommand);
-  const typing = useTyping(PRESENCE_NAMESPACE, tripId);
   const [focus, setFocus] = useState<string | null>(null);
-  const [draft, setDraft] = useState('');
   const [voteTokens, setVoteTokens] = useState<ReadonlyMap<string, number>>(new Map());
   const row = poll.rows[0] ?? null;
   const decision =
@@ -202,12 +196,11 @@ export function DecideScreen({
     onApply: canPutOnPlan ? putOnPlan : null,
   };
 
-  if (look !== undefined && focused !== null) {
-    const Thread = look.Thread;
-    return (
-      <View
-        {...shared}
-        thread={
+  return (
+    <View
+      {...shared}
+      thread={
+        focused === null ? null : (
           <Thread
             tripId={tripId}
             uid={plan.uid}
@@ -217,54 +210,9 @@ export function DecideScreen({
             anchors={anchors}
             target={{ kind: 'option', id: focused.id }}
           />
-        }
-        composer={null}
-      />
-    );
-  }
-  return (
-    <View
-      {...shared}
-      thread={
-        focused === null ? null : (
-          <CommentThread
-            title={focused.title}
-            comments={comments.thread(anchors)}
-            members={plan.members}
-            uid={plan.uid}
-            typing={typing.typing}
-            guide={guideSticker(plan.trip?.guide_slug)}
-            kept={comments.kept}
-            now={comments.now}
-            onPlusOne={(id, on) => void comments.plusOne(id, on)}
-            onKeep={comments.keep}
-            onUndo={(id) => void comments.undo(id)}
-          />
         )
       }
-      composer={
-        focused === null || decision?.phase === 'closed' ? null : (
-          <KeyboardFooter>
-            <Composer
-              value={draft}
-              onChangeText={(text) => {
-                setDraft(text);
-                typing.notifyTyping();
-              }}
-              onSend={() => {
-                const body = draft;
-                setDraft('');
-                void comments.addComment({ kind: 'option', id: focused.id }, body);
-              }}
-              placeholder={t({
-                id: 'plan.collab.composer',
-                message: `Say something about ${focused.title}`,
-              })}
-              testID="plan-comment-composer"
-            />
-          </KeyboardFooter>
-        )
-      }
+      composer={null}
     />
   );
 }

@@ -74,6 +74,11 @@ export const MMKV_STORES: readonly MmkvStore[] = [
   { id: 'cp-onboarding', cleared: true, why: 'the pass draft: name, photo, guide, tastes' },
   { id: 'cp-planning-switch', cleared: true, why: 'the plan hub setting' },
   { id: 'cp-permissions', cleared: true, why: 'when each primer was declined; OS grants stay' },
+  {
+    id: 'cp-paste-hint',
+    cleared: true,
+    why: 'whether the allow-paste hint was shown on this install',
+  },
   { id: 'cp-permissions-mirror', cleared: true, why: 'what was last reported to the server' },
   { id: 'cp-realtime', cleared: true, why: 'chat channel positions of the old account' },
   {

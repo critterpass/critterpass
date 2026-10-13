@@ -17,7 +17,7 @@ import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
 import { guideSticker, isGuideStickerId } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
-import { SessionWaiting } from '@/ui/states/SessionWaiting';
+import { PremiumSessionWaiting } from '@/ui/premium';
 
 import { retryRecapCommand } from '../commands';
 import { recapRoutes } from '../routes';
@@ -26,8 +26,9 @@ import { storySession } from '../story/story-session';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { useRecapSummary } from '../data/use-recap-summary';
 import { useRecapLinkActions } from '../link/use-recap-link';
-import { RecapShare, type RecapShareProps } from './share-choice-sheet';
-import { SummaryView, type SummaryViewProps } from './summary-view';
+import type { DistanceUnit } from '@cp/i18n';
+import type { SummaryModel } from './summary-model';
+import type { RecapLinkActions } from '../link/use-recap-link';
 
 const UNIT_SQL = 'SELECT distance_unit FROM user_settings WHERE user_id = ?';
 
@@ -152,17 +153,49 @@ function RecapSummary({
 export function RecapSummaryScreen({
   tripId,
   ended = false,
-  View = SummaryView,
-  Share = RecapShare,
+  View,
+  Share,
 }: {
   readonly tripId: string;
   readonly ended?: boolean;
-  /** The view that draws the page (the premium one takes the same props). */
-  readonly View?: ComponentType<SummaryViewProps>;
-  /** The share sheet (the premium one takes the same props). */
-  readonly Share?: ComponentType<RecapShareProps>;
+  /** The view that draws the page. */
+  readonly View: ComponentType<SummaryViewProps>;
+  /** The share sheet. */
+  readonly Share: ComponentType<RecapShareProps>;
 }) {
   const localFirst = useContext(LocalFirstContext);
-  if (localFirst === null) return <SessionWaiting testID="recap-waiting" />;
+  if (localFirst === null) return <PremiumSessionWaiting testID="recap-waiting" />;
   return <RecapSummary tripId={tripId} ended={ended} View={View} Share={Share} />;
+}
+
+export interface SummaryViewProps {
+  readonly model: SummaryModel;
+  readonly guide: GuideId;
+  readonly guideName: string;
+  readonly unit: DistanceUnit;
+  readonly offline: boolean;
+  readonly retrying: boolean;
+  readonly onRetry: () => void;
+  readonly onShare: () => void;
+  readonly onWhereNext: () => void;
+  /** Back to where the traveller came from (Home or the trip hub). */
+  readonly onBack: () => void;
+  /** Opens this trip's critter from the forms card. */
+  readonly onGotAway?: (() => void) | undefined;
+  /** Plays the story again; absent while there is none to play. */
+  readonly onWatch?: (() => void) | undefined;
+  /** Opens Rate the trip; undefined until that screen exists. */
+  readonly onRate?: (() => void) | undefined;
+  /** Opens the crew's album; absent when the album has no screen here. */
+  readonly onPhotos?: (() => void) | undefined;
+  /** Opens the postcard composer. */
+  readonly onPostcard?: (() => void) | undefined;
+}
+
+export interface RecapShareProps {
+  readonly model: SummaryModel;
+  readonly guide: GuideId;
+  readonly unit: DistanceUnit;
+  readonly link: RecapLinkActions;
+  readonly onClose: () => void;
 }

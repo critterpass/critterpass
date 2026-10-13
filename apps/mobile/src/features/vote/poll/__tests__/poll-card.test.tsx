@@ -4,8 +4,24 @@
  * a poll that forbids changes keeps the first answer; a closed poll shows its result; the new-poll
  * sheet queues `create_poll` only for a postable draft.
  */
+// The shared animation stand-in has no interpolation: here it is the UI runtime's own, and the
+// premium toggle settles on its end values.
+jest.mock('react-native-reanimated', () => {
+  const settled = (_value: number, _input: number[], output: unknown[]) => output.at(-1);
+  jest
+    .requireActual<{ registerUIRuntimeFunctions: (fns: unknown[]) => void }>(
+      '@/motion/test-support/ui-runtime',
+    )
+    .registerUIRuntimeFunctions([settled]);
+  return {
+    ...jest.requireActual<Record<string, unknown>>('@/motion/test-support/reanimated-mock'),
+    interpolate: settled,
+    interpolateColor: settled,
+    getUseOfValueInStyleWarning: () => undefined,
+  };
+});
 
-import { afterEach, describe, expect, it, type jest } from '@jest/globals';
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';
 import { router } from 'expo-router';
 
@@ -15,8 +31,9 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
-import { ChatPollCard } from '../chat-poll-card';
-import { CreatePollSheet, postableOptions, postBlocker } from '../create-poll-sheet';
+import { PremiumChatPollCard } from '../../premium/poll/poll-card';
+import { NewPollSheet } from '../../premium/poll/new-poll-sheet';
+import { postableOptions, postBlocker } from '../poll-draft';
 import {
   CREW,
   JORDAN,
@@ -82,9 +99,9 @@ describe('chat poll card', () => {
       ],
       ballots: [{ userId: MAYA, optionId: TACOS }],
     });
-    await renderVote(<ChatPollCard message={message} mine={false} />, s);
+    await renderVote(<PremiumChatPollCard message={message} />, s);
     await until(() => screen.queryByTestId('poll-option-1') !== null);
-    expect(screen.getByText("Maya's poll")).toBeTruthy();
+    expect(screen.getByText(/^Maya · 1 of \d+$/u)).toBeTruthy();
     expect(count(0)).toContain('1 votes');
 
     await fireEvent.press(screen.getByTestId('poll-option-0'));
@@ -111,7 +128,7 @@ describe('chat poll card', () => {
       ],
       ballots: [{ userId: s.uid, optionId: TACOS }],
     });
-    await renderVote(<ChatPollCard message={message} mine={false} />, s);
+    await renderVote(<PremiumChatPollCard message={message} />, s);
     await until(() => screen.queryByTestId('poll-option-1') !== null);
     await fireEvent.press(screen.getByTestId('poll-option-1'));
     await until(() => count(1).includes('your vote'));
@@ -139,7 +156,7 @@ describe('chat poll card', () => {
         { userId: JORDAN, optionId: RAMEN },
       ],
     });
-    await renderVote(<ChatPollCard message={message} mine={false} />, s);
+    await renderVote(<PremiumChatPollCard message={message} />, s);
     await until(() => screen.queryByTestId('poll-result-line') !== null);
     expect(screen.getByText('Closed. Ramen won.')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('poll-option-0'));
@@ -158,9 +175,9 @@ describe('chat poll card', () => {
       ],
       ballots: [],
     });
-    await renderVote(<ChatPollCard message={message} mine={false} />, s);
+    await renderVote(<PremiumChatPollCard message={message} />, s);
     await until(() => screen.queryByTestId('poll-result-line') !== null);
-    expect(screen.getByTestId('poll-result-line')).toHaveTextContent(/Locked in/u);
+    expect(screen.getByText(/^Locked in/u)).toBeTruthy();
     expect(screen.queryByText(/won/u)).toBeNull();
     expect(screen.getByLabelText('Ramen, winner')).toBeTruthy();
     expect(screen.queryByTestId('poll-option-1')).toBeNull();
@@ -192,7 +209,8 @@ describe('new poll sheet', () => {
 
     const s = await open();
     const now = new Date('2026-10-01T00:00:00Z');
-    await renderVote(<CreatePollSheet crewId={CREW} now={() => now} />, s);
+    const clock = jest.spyOn(Date, 'now').mockReturnValue(now.getTime());
+    await renderVote(<NewPollSheet crewId={CREW} />, s);
     await fireEvent.changeText(screen.getByTestId('new-poll-question'), 'Spa on day 3?');
     await fireEvent.changeText(screen.getByTestId('new-poll-option-0'), 'Yes');
     await fireEvent.changeText(screen.getByTestId('new-poll-option-1'), 'No');
@@ -212,5 +230,6 @@ describe('new poll sheet', () => {
       allow_change: true,
       closes_at: '2026-10-02T00:00:00.000Z',
     });
+    clock.mockRestore();
   });
 });

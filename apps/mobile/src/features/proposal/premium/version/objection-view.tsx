@@ -25,8 +25,8 @@ import {
 import { wholeMoney } from '../../data/format';
 import type { Saving } from '../../data/savings';
 import { laterLabel, nothingLine } from '../../objection/objection-copy';
-import type { ObjectionSheetViewProps } from '../../objection/objection-sheet';
-import { shareWith } from '../../your-version/share-card';
+import type { ObjectionSheetViewProps } from '../../objection/objection-host';
+import { shareWith } from '../../your-version/version-model';
 import { PremiumShareCard } from './share-card';
 
 function reasons(): readonly { id: PrivateReason; label: string; icon: PremiumIconName }[] {

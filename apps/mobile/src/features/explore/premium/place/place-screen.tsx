@@ -11,7 +11,7 @@ import { PushScreen } from '@/ui/premium/shell';
 
 import { usePlaceRow } from '../../place-detail/remote-place';
 import { useTripFacts } from '../../place-queries';
-import type { PlaceScreenProps } from '../../screens/place-screen';
+
 import { PlacePage } from './place-page';
 
 const goBack = () => goBackOr();
@@ -79,4 +79,11 @@ export function PremiumPlaceScreen(props: PlaceScreenProps) {
       </View>
     </PushScreen>
   );
+}
+
+export interface PlaceScreenProps {
+  readonly placeId: string;
+  /** The destination the place was opened from, so its places sync before the row is known. */
+  readonly destinationId?: string | undefined;
+  readonly tripId?: string | undefined;
 }

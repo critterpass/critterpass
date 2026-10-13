@@ -1,17 +1,27 @@
 /**
- * The dates step's view: the best week as a band, its pill, spoken cells and lock; no week
- * fitting everyone with the options, the guide's pick and a CTA that follows the selection; the
- * ask's progress on its card; a member's view without organiser actions; and the own-calendar row
- * through each of its states.
+ * The dates step's page: the best week on the heat calendar, its spoken cells and lock; no week
+ * fitting everyone with the options, the guide's pick and a CTA that follows the selection; a
+ * member's view without organiser actions; and locked dates.
  */
+// The app's own database module loads the native driver; these tests run on the test stack.
+jest.mock('@/data/powersync/db', () => ({}));
+jest.mock('expo-router', () => ({
+  useIsFocused: () => true,
+  // The premium pages declare their native header through the stack's screen.
+  Stack: Object.assign(() => null, { Screen: () => null }),
+  usePathname: () => '/',
+  useLocalSearchParams: () => ({}),
+  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
+}));
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';
 
-import { DEV, kyotoTrip, sceneFrame } from '../../scenes/fixtures';
+import { DEV, kyotoTrip, sceneFrame } from '../../test-support/setup-fixtures';
 import { renderSetup } from '../../test-support/setup-harness';
-import { ASK, FULL, PARTIAL, whenModel } from '../fixtures';
-import { WhenView, type WhenActions, type WhenModel } from '../when-view';
+import { ASK, FULL, PARTIAL, whenModel } from '../../test-support/when-fixtures';
+import { PremiumWhenView as WhenView } from '../../premium/steps/when-view';
+import { type WhenActions, type WhenModel } from '../when-props';
 
 function actions(): WhenActions & Record<string, jest.Mock> {
   return {
@@ -43,18 +53,13 @@ const noFit = (extra: Partial<WhenModel> = {}) =>
 describe('dates step view', () => {
   it('shows the week everyone can make, reads each day as a count and locks it', async () => {
     const handlers = await show(whenModel({}));
-    expect(screen.getByText('WHEN CAN EVERYONE GO?')).toBeTruthy();
+    expect(screen.getByText('When can everyone go?')).toBeTruthy();
     expect(screen.getByText('From five synced calendars. Dev hasn’t connected yet.')).toBeTruthy();
-    // The best week's ends say so; every day in it is selected, the rest are not.
-    expect(screen.getByLabelText('April 2, first day, 6 of 6 free')).toBeTruthy();
-    expect(screen.getByLabelText('April 9, last day, 6 of 6 free')).toBeTruthy();
-    expect(screen.getByLabelText('April 5, 6 of 6 free').props.accessibilityState).toEqual({
-      selected: true,
-    });
-    expect(screen.getByLabelText('April 27, 1 of 6 free').props.accessibilityState).toEqual({
-      selected: false,
-    });
-    expect(screen.getByTestId('heatmap-window')).toBeTruthy();
+    // The best week is named on the calendar; each day reads as its count.
+    expect(screen.getByText('Apr 2 – 9 · all 6 free')).toBeTruthy();
+    expect(screen.getByLabelText('5: 6/6')).toBeTruthy();
+    expect(screen.getByLabelText('27: 1/6')).toBeTruthy();
+    expect(screen.getByTestId('when-heatmap')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('when-cta'));
     expect(handlers.onLock).toHaveBeenCalledWith('2027-04-02', '2027-04-09');
   });
@@ -66,12 +71,15 @@ describe('dates step view', () => {
 
   it('offers the ways out when no week fits, with the guide’s pick selected', async () => {
     const handlers = await show(noFit());
-    expect(screen.getByText('NO WEEK FITS ALL SIX')).toBeTruthy();
-    expect(screen.getByText('ASK DEV FIRST')).toBeTruthy();
+    expect(screen.getByText('No week fits all six')).toBeTruthy();
+    expect(screen.getByText('Ask Dev first')).toBeTruthy();
     expect(
       screen.getByText('Dev can’t make all of it and would miss Inari and Arashiyama.'),
     ).toBeTruthy();
-    expect(screen.getByText("PON'S PICK")).toBeTruthy();
+    expect(screen.getByText("Pon's pick")).toBeTruthy();
+    expect(screen.getByTestId('window-option-ask_first').props.accessibilityState).toMatchObject({
+      checked: true,
+    });
     await fireEvent.press(screen.getByTestId('when-cta'));
     expect(handlers.onAsk).toHaveBeenCalledWith(ASK);
     await fireEvent.press(screen.getByTestId('window-option-full_crew'));
@@ -112,18 +120,18 @@ describe('dates step view', () => {
     const handlers = await show(whenModel({ ...LOCKED, canChange: true }));
     expect(screen.getByTestId('setup-when-locked')).toBeTruthy();
     expect(screen.queryByTestId('when-cta')).toBeNull();
-    expect(screen.getByLabelText('April 2, first day, 6 of 6 free')).toBeTruthy();
-    await fireEvent.press(screen.getByTestId('when-change-dates'));
+    expect(screen.getByText('The dates are set')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('when-change'));
     expect(handlers.onPickWeek).toHaveBeenCalled();
   });
 
   it('gives no way to change locked dates to a member, or once setup has closed', async () => {
     await show(whenModel({ ...LOCKED, canChange: true, me: DEV }), actions(), DEV);
     expect(screen.getByTestId('setup-when-locked')).toBeTruthy();
-    expect(screen.queryByTestId('when-change-dates')).toBeNull();
+    expect(screen.queryByTestId('when-change')).toBeNull();
     await screen.unmount();
     await show(whenModel({ ...LOCKED, canChange: false }));
-    expect(screen.queryByTestId('when-change-dates')).toBeNull();
+    expect(screen.queryByTestId('when-change')).toBeNull();
   });
 
   it('draws nothing to act on until the step’s rows are read', async () => {

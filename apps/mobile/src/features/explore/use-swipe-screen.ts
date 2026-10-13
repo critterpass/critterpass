@@ -1,5 +1,5 @@
 /**
- * Swipe together's data and actions, shared by both looks of the screen: joins the trip's open
+ * Swipe together's data and actions: joins the trip's open
  * session (or starts one), deals the deck the guide ranked with each place's own photo, sends each
  * swipe, and stamps a match when enough of the crew said yes. Every yes saves the place to the
  * trip's Ideas under the swiper's name at once; a match adds everyone else who said yes (an
@@ -18,7 +18,6 @@ import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion';
 import { goBackOr } from '@/lib/navigation/back';
 
-import type { SwipeStage, SwipeViewProps } from './components/swipe-view';
 import { guideFor, noonUtc } from './format';
 import { usePlacePhotos } from './hooks/use-place-photos';
 import { deckWait } from './deck-wait';
@@ -30,6 +29,8 @@ import { useTripCrew } from './place-queries';
 import { socialPill, swipeMeta } from './swipe-copy';
 import { deckState, nextMatch, othersYes, whyLines } from './swipe-model';
 import { matchOutcome, type MatchOutcome } from './trip-explore/swipe-outcome';
+
+import type { SwipeStage, SwipeViewProps } from './swipe-view-props';
 
 export interface SwipeScreenProps {
   readonly tripId: string;

@@ -9,7 +9,7 @@ import { StyleSheet, View } from 'react-native';
 import { OverlaySheet } from '@/features/plan';
 import { Button, GuideNote, Text } from '@/ui/premium';
 
-import type { WhySheetProps } from '../../your-version/why-sheet';
+import type { WhySheetProps } from '../../your-version/version-model';
 
 export function PremiumWhySheet(props: WhySheetProps) {
   const { pick, when, reason, onPlace, onDay, onDismiss } = props;

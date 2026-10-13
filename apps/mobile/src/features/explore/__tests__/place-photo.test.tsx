@@ -6,14 +6,12 @@ jest.mock('expo-file-system', () => require('@/ui/media/test-support/memory-file
 
 import type { MediaAsset } from '@cp/domain';
 import { describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, screen } from '@testing-library/react-native';
+import { screen } from '@testing-library/react-native';
 import { StyleSheet } from 'react-native';
 
 import { renderUi } from '@/ui/test-support/render';
 
-import { heroCaptionInset, PlacePhoto } from '../components/place-hero-photo';
-import { SwipeCardUnder, type SwipeCardFace } from '../components/swipe-card';
-import { guideFor } from '../format';
+import { PlaceHeroPhoto } from '../premium/place/place-hero-photo';
 import { isGenericPhoto, photosByPlace } from '../place-photo';
 
 const PLACE = '01a0f303-4a14-7992-8b18-b6debcf1c27f';
@@ -71,55 +69,7 @@ describe('a place card photo', () => {
   });
 });
 
-const face = (photo: MediaAsset | null): SwipeCardFace => ({
-  poiId: PLACE,
-  name: 'My Khe Beach',
-  category: 'beach',
-  meta: 'Beach · 10 min from the stay',
-  note: null,
-  social: null,
-  photo,
-});
-
-async function renderCard(photo: MediaAsset | null) {
-  await renderUi(<SwipeCardUnder face={face(photo)} guide={guideFor('chava')} />);
-  const layer = screen.queryByTestId('explore-swipe-photo', { includeHiddenElements: true });
-  if (layer !== null) {
-    await fireEvent(layer, 'layout', {
-      nativeEvent: { layout: { x: 0, y: 0, width: 340, height: 360 } },
-    });
-  }
-  return layer;
-}
-
-describe('the swipe card', () => {
-  it("draws the category's doodle when the place has no photo", async () => {
-    expect(await renderCard(null)).toBeNull();
-    expect(
-      screen.queryByTestId('explore-photo-generic', { includeHiddenElements: true }),
-    ).toBeNull();
-  });
-
-  it("shows the place's own photo with the credit its licence asks for", async () => {
-    expect(await renderCard(own)).not.toBeNull();
-    expect(
-      screen.getByTestId('explore-swipe-photo-credit', { includeHiddenElements: true }),
-    ).toHaveTextContent(own.credit);
-    expect(
-      screen.queryByTestId('explore-photo-generic', { includeHiddenElements: true }),
-    ).toBeNull();
-  });
-
-  it('says a generic photo is not this place', async () => {
-    expect(await renderCard(generic)).not.toBeNull();
-    expect(
-      screen.getByTestId('explore-photo-generic', { includeHiddenElements: true }),
-    ).toHaveTextContent('Not this place');
-  });
-});
-
 describe("a place page's hero caption", () => {
-  const ACCENT = guideFor('chava').colour;
   type Positioned = { bottom?: number; top?: number; flexDirection?: string };
   const styleOf = (node: { props: { style?: unknown } }): Positioned =>
     StyleSheet.flatten(node.props.style as object) ?? {};
@@ -132,27 +82,20 @@ describe("a place page's hero caption", () => {
     return styleOf(node).bottom;
   };
 
-  it('sits above the sheet, and above the chips a page draws on the photo', () => {
-    expect(heroCaptionInset()).toBe(38);
-    expect(heroCaptionInset(36)).toBe(74);
-  });
-
   it('puts the credit at the bottom inset, never at the top of the photo', async () => {
-    await renderUi(<PlacePhoto photo={own} category="beach" accent={ACCENT} captionInset={74} />);
+    await renderUi(<PlaceHeroPhoto photo={own} category="beach" captionInset={74} />);
     expect(bottomOf('explore-place-hero-credit')).toBe(74);
   });
 
   it('gives the generic label the line above a credit, so the two never overlap', async () => {
     const both = { ...generic, attribution_required: true };
-    await renderUi(<PlacePhoto photo={both} category="beach" accent={ACCENT} captionInset={74} />);
+    await renderUi(<PlaceHeroPhoto photo={both} category="beach" captionInset={74} />);
     expect(bottomOf('explore-place-hero-credit')).toBe(74);
     expect(bottomOf('explore-photo-generic')).toBe(96);
   });
 
   it('keeps a generic label without a credit on the caption line itself', async () => {
-    await renderUi(
-      <PlacePhoto photo={generic} category="beach" accent={ACCENT} captionInset={38} />,
-    );
+    await renderUi(<PlaceHeroPhoto photo={generic} category="beach" captionInset={38} />);
     expect(bottomOf('explore-photo-generic')).toBe(38);
   });
 });

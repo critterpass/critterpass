@@ -4,10 +4,10 @@ import { StyleSheet, View } from 'react-native';
 import { Button, LoadingCritter, Text } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
 
-import type { AddMustDoLook } from '../../must-dos/add-must-do-sheet';
+import type { SheetWaitingProps } from '../../shell/frame';
 
 /** Before the trip is read: the sheet with the guide waiting; with no part in the setup, why. */
-export function PremiumWaiting(props: Parameters<AddMustDoLook['Waiting']>[0]) {
+export function PremiumWaiting(props: SheetWaitingProps) {
   const { t } = useLingui();
   return (
     <SheetScreen

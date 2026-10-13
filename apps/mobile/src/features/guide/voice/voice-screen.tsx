@@ -17,10 +17,9 @@ import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
 import { guideSticker } from '@/ui/avatar/guides';
-import { SessionWaiting } from '@/ui/states/SessionWaiting';
-import { Sticker } from '@/ui/sticker/Sticker';
+import { CritterSticker, PremiumSessionWaiting } from '@/ui/premium';
 
-import { guideAvatarId } from '../chat/components/guide-header';
+import { guideAvatarId } from '../chat/data/guide-avatar';
 import { GuideStreamError } from '../chat/data/guide-frames';
 import { queueQuestion } from '../chat/data/guide-question-queue';
 import { streamGuide } from '../chat/data/guide-stream';
@@ -38,11 +37,14 @@ import {
   withVoiceConsent,
   type VoiceConsentGuard,
 } from './voice-consent';
-import { VoiceGate, type VoiceConsentViewProps } from './voice-consent-view';
+import { VoiceGate, type VoiceConsentViewProps } from './voice-gate';
 import { useVoiceTarget, voiceTurnRequest } from './voice-target';
 import { VOICE_IDLE, type VoiceState } from './voice-turn';
-import { VOICE_STICKER_SIZE } from './voice-stage';
-import { VoiceView, type VoiceViewProps } from './voice-view';
+
+import type { ReactNode } from 'react';
+import type { SharedValue } from 'react-native-reanimated';
+import { type VoiceGroupSend } from './voice-swaps';
+import { type VoiceSwap } from './voice-swaps';
 
 /** The speech module as the screen uses it; the route adapts the native module to this. */
 export interface VoiceSpeech {
@@ -91,16 +93,16 @@ export interface VoiceScreenProps {
   readonly speech: VoiceSpeech | null;
   /** Start listening as the screen opens (the guide sheet's microphone was held, not tapped). */
   readonly talkOnOpen?: boolean;
-  /** The view that draws voice mode (the premium one takes the same props). */
-  readonly View?: ComponentType<VoiceViewProps>;
+  /** The view that draws voice mode. */
+  readonly View: ComponentType<VoiceViewProps>;
   /** The view that asks for the voice consent first. */
-  readonly Consent?: ComponentType<VoiceConsentViewProps>;
+  readonly Consent: ComponentType<VoiceConsentViewProps>;
 }
 
 export function VoiceScreen(props: VoiceScreenProps) {
   const localFirst = useContext(LocalFirstContext);
   return localFirst === null ? (
-    <SessionWaiting testID="guide-voice-waiting" />
+    <PremiumSessionWaiting testID="guide-voice-waiting" />
   ) : (
     <ConsentedVoiceScreen {...props} />
   );
@@ -115,9 +117,9 @@ function ConsentedVoiceScreen(props: VoiceScreenProps) {
     <VoiceGate
       status={consent.status}
       guideName={context.guideName}
-      sticker={<Sticker kind={sticker.kind} name={sticker.name} size={96} />}
+      sticker={<CritterSticker kind={sticker.kind} name={sticker.name} size={96} />}
       guideKind={sticker.kind}
-      {...(props.Consent === undefined ? {} : { Consent: props.Consent })}
+      Consent={props.Consent}
       onAgree={consent.agree}
       onType={() => router.back()}
     >
@@ -132,7 +134,7 @@ function OpenVoiceScreen({
   speech,
   talkOnOpen = false,
   consent,
-  View = VoiceView,
+  View,
 }: VoiceScreenProps & { readonly consent: VoiceConsentGuard }) {
   const { i18n } = useLingui();
   const { context, target } = useVoiceTarget(tripId, given);
@@ -226,7 +228,7 @@ function OpenVoiceScreen({
       guideName={context.guideName}
       guideKind={sticker.kind}
       shared={mode === 'group'}
-      sticker={<Sticker kind={sticker.kind} name={sticker.name} size={VOICE_STICKER_SIZE} />}
+      sticker={<CritterSticker kind={sticker.kind} name={sticker.name} size={VOICE_STICKER_SIZE} />}
       state={state}
       level={level}
       swaps={offered.swaps}
@@ -248,3 +250,29 @@ function OpenVoiceScreen({
     />
   );
 }
+
+export interface VoiceViewProps {
+  readonly guideName: string;
+  /** The crew sees this conversation (group mode); otherwise it is the asker's own. */
+  readonly shared: boolean;
+  readonly sticker: ReactNode;
+  /** The guide's critter kind, for a view that draws the guide itself. */
+  readonly guideKind?: string;
+  readonly state: VoiceState;
+  readonly level: SharedValue<number>;
+  /** The changes the guide offered in this turn. */
+  readonly swaps: readonly VoiceSwap[];
+  /** What each share moves by for change sets with several changes ("+$22"). */
+  readonly costs: readonly string[];
+  /** Null when there is nothing to send to the group. */
+  readonly group: VoiceGroupSend | null;
+  readonly onTalk: () => void;
+  readonly onSend: () => void;
+  readonly onInterrupt: () => void;
+  /** Back to the guide sheet: the ✕, and "Type instead" where talking cannot start. */
+  readonly onType: () => void;
+  readonly onOpenSettings?: () => void;
+}
+
+/** The guide's sticker on the stage: it nearly fills the disc, as in the render. */
+export const VOICE_STICKER_SIZE = 144;

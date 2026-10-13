@@ -10,7 +10,22 @@ jest.mock('expo-device', () => ({ isDevice: true }));
 jest.mock('react-native-nitro-modules', () => ({
   NitroModules: { hasHybridObject: () => true },
 }));
+// The ring and the rays build Skia paths; the Jest double draws nothing, so a path is a recorder.
+jest.mock('@shopify/react-native-skia', () => {
+  const path = {
+    moveTo: () => path,
+    lineTo: () => path,
+    close: () => path,
+    addArc: () => path,
+    addCircle: () => path,
+  };
+  return {
+    ...jest.requireActual<object>('@/ui/test-support/skia-double'),
+    Skia: { Path: { Make: () => path } },
+  };
+});
 jest.mock('expo-router', () => ({
+  Stack: Object.assign(() => null, { Screen: () => null }),
   useIsFocused: () => true,
   // No navigator around the screen: it counts as presented after the short fallback wait.
   useNavigation: () => undefined,
@@ -54,7 +69,7 @@ import {
   TOKEK_RARE,
   TRIP,
 } from '../../test-support/seed-critters';
-import { EncounterScreen } from '../encounter-screen';
+import { PremiumEncounterScreen } from '../../premium/encounter/encounter-screen';
 import { CAMERA_START_TIMEOUT_MS, resetVisionCameraForTests } from '../live-camera';
 
 configure({ asyncUtilTimeout: 5000 });
@@ -138,7 +153,7 @@ async function renderScreen(stack: TestLocalFirst) {
         <GestureHandlerRootView>
           <LocalFirstProvider value={stack.value}>
             <ScreenJoltProvider>
-              <EncounterScreen tz="Asia/Makassar" />
+              <PremiumEncounterScreen tz="Asia/Makassar" />
             </ScreenJoltProvider>
           </LocalFirstProvider>
         </GestureHandlerRootView>
@@ -154,10 +169,10 @@ describe('encounter screen', () => {
     await seedCritters(stack.db, stack.uid);
     setEncounterEngine(engineAt(SNAPSHOT));
     await renderScreen(stack);
-    await waitFor(() => expect(screen.getByTestId('critters-encounter-scene')).toBeTruthy());
+    await waitFor(() => expect(screen.getByTestId('critters-encounter-accruing')).toBeTruthy());
     expect(screen.queryByTestId('critters-encounter-nothing')).toBeNull();
     // Tokek is the place's guide, so its name is public; the form's row adds it once loaded.
-    await waitFor(() => expect(screen.getByText('TOKEK IS HERE')).toBeTruthy());
+    await waitFor(() => expect(screen.getByText('Tokek is here')).toBeTruthy());
   });
 
   it('shows the scene even when the form has not reached this phone', async () => {
@@ -182,8 +197,8 @@ describe('encounter screen', () => {
       }),
     );
     await renderScreen(stack);
-    await waitFor(() => expect(screen.getByTestId('critters-encounter-scene')).toBeTruthy());
-    expect(screen.getByText('SOMEONE IS HERE')).toBeTruthy();
+    await waitFor(() => expect(screen.getByTestId('critters-encounter-accruing')).toBeTruthy());
+    expect(screen.getByText('Someone is here')).toBeTruthy();
   });
 
   it('leaves the live scene by its back control, with the encounter still running', async () => {
@@ -193,8 +208,8 @@ describe('encounter screen', () => {
     const dismiss = jest.fn();
     setEncounterEngine(engineAt(SNAPSHOT, dismiss));
     await renderScreen(stack);
-    await waitFor(() => expect(screen.getByTestId('critters-encounter-leave')).toBeTruthy());
-    await fireEvent.press(screen.getByTestId('critters-encounter-leave'));
+    await waitFor(() => expect(screen.getByTestId('full-screen-close')).toBeTruthy());
+    await fireEvent.press(screen.getByTestId('full-screen-close'));
     expect(router.back).toHaveBeenCalledTimes(1);
     expect(dismiss).not.toHaveBeenCalled();
   });
@@ -205,13 +220,13 @@ describe('encounter screen', () => {
     await seedCritters(stack.db, stack.uid);
     setEncounterEngine(engineAt({ ...SNAPSHOT, phase: 'befriended' }));
     await renderScreen(stack);
-    await waitFor(() => expect(screen.getByTestId('critters-befriended-share')).toBeTruthy());
-    await fireEvent.press(screen.getByTestId('critters-befriended-share'));
+    await waitFor(() => expect(screen.getByTestId('critters-encounter-share')).toBeTruthy());
+    await fireEvent.press(screen.getByTestId('critters-encounter-share'));
     expect(router.push).toHaveBeenLastCalledWith({
       pathname: '/crew/[crewId]/chat',
       params: { crewId: CREW },
     });
-    await fireEvent.press(screen.getByTestId('critters-befriended-add'));
+    await fireEvent.press(screen.getByTestId('critters-encounter-add'));
     // Down to the tabs under the encounter, then the pass with the critter that landed.
     expect(router.dismissTo).toHaveBeenCalledWith('/(tabs)');
     expect(router.navigate).toHaveBeenLastCalledWith({
@@ -267,8 +282,8 @@ describe('encounter screen', () => {
       ]);
       setEncounterEngine(engineAt(SNAPSHOT));
       await renderScreen(stack);
-      await waitFor(() => expect(screen.getByTestId('critters-encounter-scene')).toBeTruthy());
-      await waitFor(() => expect(screen.getByText('TOKEK IS HERE')).toBeTruthy());
+      await waitFor(() => expect(screen.getByTestId('critters-encounter-accruing')).toBeTruthy());
+      await waitFor(() => expect(screen.getByText('Tokek is here')).toBeTruthy());
     }
 
     const settle = { timeout: CAMERA_START_TIMEOUT_MS + 2000 };
@@ -279,7 +294,7 @@ describe('encounter screen', () => {
       await waitFor(() => expect(held).toBe(1));
       await waitFor(() => expect(held).toBe(0), settle);
       expect(previews).toBe(0);
-      expect(screen.getByTestId('critters-encounter-scene')).toBeTruthy();
+      expect(screen.getByTestId('critters-encounter-accruing')).toBeTruthy();
       expect(screen.getAllByLabelText(/tokek/iu).length).toBeGreaterThan(0);
     });
 
@@ -301,7 +316,7 @@ describe('encounter screen', () => {
       await waitFor(() => expect(previews).toBeGreaterThan(0), settle);
       await waitFor(() => expect(held).toBe(0), settle);
       expect(screen.queryByTestId('camera-preview')).toBeNull();
-      expect(screen.getByTestId('critters-encounter-scene')).toBeTruthy();
+      expect(screen.getByTestId('critters-encounter-accruing')).toBeTruthy();
       expect(screen.getAllByLabelText(/tokek/iu).length).toBeGreaterThan(0);
     });
   });

@@ -24,14 +24,14 @@ import {
 
 import { dayRange } from '../../data/date-range';
 import { memberLine, stayName } from '../../rooms/copy';
-import type { RoomsView } from '../../rooms/rooms-view';
+import type { RoomsViewProps } from '../../rooms/rooms-props';
 import { StepHeadline, StepPage } from '../steps/step-parts';
 import { MemberRoom } from './member-room';
 import { OrganiserPlan } from './organiser-plan';
 import { useNoticeText } from './notice-text';
 import { RoomsEditor } from './rooms-editor';
 
-export const RoomsPremiumView: typeof RoomsView = ({ trip, model, actions }) => {
+export const RoomsPremiumView = ({ trip, model, actions }: RoomsViewProps) => {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const locale = useLocale();

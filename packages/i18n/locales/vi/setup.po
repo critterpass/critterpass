@@ -101,8 +101,8 @@ msgstr "{0}–{1} mỗi người, ước tính"
 msgid "setup.premium.rooms.firstGo"
 msgstr "Bản xếp đầu tiên của {0}"
 
-#. placeholder {0}: model.guideName
-#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/setup/premium/steps/window-option-card.tsx
 msgid "setup.premium.when.option.pick"
 msgstr "{0} chọn"
 
@@ -114,17 +114,9 @@ msgstr "{count, plural, other {# người đi}}"
 msgid "setup.manual.dayA11y"
 msgstr "{dayName}, {state}"
 
-#: ../../apps/mobile/src/features/setup/shell/setup-shell.tsx
-msgid "setup.shell.back"
-msgstr "Chuẩn bị {destination}"
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.checklist.title"
 msgstr "Chuẩn bị {destination}"
-
-#: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
-msgid "setup.tag.won"
-msgstr "{destination} thắng {won}–{next}"
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.line.freeDays"
@@ -166,10 +158,6 @@ msgstr "{guideName} soạn lại khi phần còn lại có đủ"
 msgid "setup.mustDos.readyLine"
 msgstr "Bản nháp của {guideName} đã sẵn sàng."
 
-#: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
-msgid "setup.tag.doneA11y"
-msgstr "{label}, xong"
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.thingsLeft"
 msgstr "{left, plural, one {Bạn còn một việc} other {Bạn còn # việc}}"
@@ -190,17 +178,9 @@ msgstr "{name} ơi, đến {place} mà thiếu điều gì thì chưa trọn?"
 msgid "setup.rooms.a11y.person"
 msgstr "{name}. Chạm để chuyển sang phòng khác."
 
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-msgid "setup.status.here"
-msgstr "{organiser} đang chuẩn bị chuyến đi."
-
 #: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
 msgid "setup.ask.privacy"
 msgstr "{organiser} chỉ biết tuần đó có ổn không. Không bao giờ biết đó là việc gì."
-
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-msgid "setup.status.away"
-msgstr "{organiser} lo phần chuẩn bị. Phần của bạn ở bên dưới."
 
 #: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
 msgid "setup.addMustDo.header"
@@ -354,7 +334,6 @@ msgid "setup.premium.back"
 msgstr "Quay lại"
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.home"
 msgstr "Về trang chủ"
 
@@ -385,10 +364,6 @@ msgstr "Đã đặt"
 #: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
 msgid "setup.premium.manual.brush"
 msgstr "Cọ"
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.budget"
-msgstr "Chi phí"
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.row.budget"
@@ -451,7 +426,6 @@ msgstr "Xoá"
 
 #: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
-#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.sheet.close"
 msgstr "Đóng"
 
@@ -627,10 +601,6 @@ msgstr "Google Calendar"
 msgid "setup.premium.chip.ground"
 msgstr "Tầng trệt"
 
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-msgid "setup.back.home"
-msgstr "Trang chủ"
-
 #: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
 msgid "setup.way.pick"
 msgstr "Bạn đến đó bằng gì?"
@@ -660,7 +630,6 @@ msgid "setup.premium.chip.snore"
 msgstr "Thú thật, mình ngáy"
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.line"
 msgstr "Chuyến đi sẽ hiện ra khi điện thoại đồng bộ xong. Thử lại sau chút nhé."
 
@@ -707,8 +676,6 @@ msgstr "Đang tải"
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 #: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
 #: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.loading"
 msgstr "Đang tải phần chuẩn bị"
 
@@ -780,10 +747,6 @@ msgstr "Mỗi người tôi chi tối đa"
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.step"
 msgstr "Chuyển bước chuẩn bị"
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.mustDos"
-msgstr "Phải làm"
 
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
 msgid "setup.mustDos.title"
@@ -977,10 +940,6 @@ msgstr "Phòng {0}"
 msgid "setup.premium.rooms.tileEach"
 msgstr "Phòng {0}, mỗi người"
 
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.rooms"
-msgstr "Phòng"
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.row.rooms"
 msgstr "Phòng"
@@ -1064,7 +1023,6 @@ msgid "setup.premium.pill.eyebrow"
 msgstr "Danh sách chuẩn bị · {position}/{total}"
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.voteOpen.line"
 msgstr "Cả nhóm chọn xong nơi đi thì mới thiết lập được. Hoàn tất bình chọn ở trang chủ nhé."
 
@@ -1119,14 +1077,6 @@ msgstr "Đã gắn sao"
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
 msgid "setup.premium.budget.stays"
 msgstr "Chỗ ở"
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.a11y"
-msgstr "Bước {n}, {title}"
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.a11yDone"
-msgstr "Bước {n}, {title}, xong"
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.line.budgetLocked"
@@ -1218,7 +1168,6 @@ msgid "setup.premium.route.line"
 msgstr "Chuyến đi có {totalNights} đêm để xếp."
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.voteOpen.title"
 msgstr "Bình chọn chưa xong"
 
@@ -1230,12 +1179,7 @@ msgstr "Sau đó thứ tự nào cũng được"
 msgid "setup.calendar.device"
 msgstr "Lịch trên điện thoại này"
 
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-msgid "setup.status.stepRefused"
-msgstr "Bước này chưa xong cho cả nhóm, nên phần thiết lập vẫn ở đây."
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.title"
 msgstr "Chuyến đi chưa có ở đây"
 
@@ -1280,10 +1224,6 @@ msgstr "Những gì nhóm thấy"
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
 msgid "setup.mustDos.line"
 msgstr "Những điều thiếu thì chuyến đi chưa trọn. Mỗi người tối đa năm việc."
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.when"
-msgstr "Khi nào"
 
 #: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
 msgid "setup.when.title"
@@ -1332,7 +1272,6 @@ msgid "setup.when.locked.line"
 msgstr "Bạn sẽ đi {range}."
 
 #: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
-#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.sheet.notYours"
 msgstr "Bạn không tham gia phần chuẩn bị của chuyến này nên không có gì cần làm ở đây."
 

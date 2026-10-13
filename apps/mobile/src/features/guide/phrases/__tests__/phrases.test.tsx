@@ -37,7 +37,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { renderWithI18n } from '@/lib/i18n/testing';
 
 import { PhraseAudioContext, prefetchPhraseAudio, type PhraseAudioServices } from '../phrase-audio';
-import { PhraseCard, PhraseCardView, showModeHref } from '../phrase-card';
+import { PremiumPhraseCardView as PhraseCardView } from '../../premium/practice/phrase-card-view';
+import { PhraseCard, showModeHref } from '../phrase-card';
 import { usePhrasePlayer } from '../use-phrase-player';
 
 const KEY = 'phrase_audio/u1/villa.mp3';
@@ -122,6 +123,7 @@ describe('the phrase card', () => {
         gloss="Please take us to Villa Kayu Manis, Sayan road, Ubud."
         eyebrow="Show this to Made"
         audioKey={audioKey}
+        View={PhraseCardView}
       />
     </GestureHandlerRootView>
   );
@@ -129,7 +131,7 @@ describe('the phrase card', () => {
   it("reads a card without recorded audio in the phone's voice, and opens SHOW mode", async () => {
     await renderWithI18n(card(null));
     expect(screen.getByText("Read in your phone's voice")).toBeTruthy();
-    await fireEvent.press(screen.getByLabelText('Read aloud'));
+    await fireEvent.press(screen.getByLabelText('Play it out loud'));
     expect(mockSpeak).toHaveBeenCalledWith(
       'Tolong ke Villa Kayu Manis, Jalan Raya Sayan, Ubud.',
       expect.objectContaining({ language: 'id' }),
@@ -149,7 +151,7 @@ describe('the phrase card', () => {
     mockSpeechInstalled = false;
     try {
       await renderWithI18n(card(null));
-      expect(screen.queryByLabelText('Read aloud')).toBeNull();
+      expect(screen.queryByLabelText('Play it out loud')).toBeNull();
       expect(screen.queryByText("Read in your phone's voice")).toBeNull();
     } finally {
       mockSpeechInstalled = true;
@@ -163,7 +165,7 @@ describe('the phrase card', () => {
         {card(KEY)}
       </PhraseAudioContext.Provider>,
     );
-    await fireEvent.press(screen.getByLabelText('Read aloud'));
+    await fireEvent.press(screen.getByLabelText('Play it out loud'));
     expect(device.played).toHaveLength(1);
   });
 });

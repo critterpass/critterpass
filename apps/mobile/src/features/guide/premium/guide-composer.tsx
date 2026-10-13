@@ -21,7 +21,7 @@ import {
 import { useKeyboardFrame } from '@/ui/premium/shell';
 
 import { Doodle, type DoodleName } from '@/features/crew';
-import type { QuickAction } from '../chat/components/guide-sheet-view';
+import type { QuickAction } from '../chat/data/use-guide-sheet';
 import type { MeterComposer } from './use-premium-guide-meter';
 
 const DOODLES: Readonly<Record<string, DoodleName>> = {

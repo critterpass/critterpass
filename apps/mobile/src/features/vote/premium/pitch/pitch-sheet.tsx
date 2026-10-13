@@ -20,7 +20,7 @@ import {
 } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
 
-import type { PitchSheetProps } from '../../board/pitch-sheet';
+import type { PitchSheetProps } from '../../board/use-pitch-sheet';
 import { usePitchSheet } from '../../board/use-pitch-sheet';
 import { money } from '../../format';
 import { PremiumPitchCard } from './pitch-card';

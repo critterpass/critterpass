@@ -20,7 +20,7 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import type { ChangesReviewViewProps } from '../../review/changes-review-view';
+import type { ChangesReviewViewProps } from '../../review/changes-review-props';
 
 export function PremiumChangesView(props: ChangesReviewViewProps) {
   const theme = usePremiumTheme();

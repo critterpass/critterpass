@@ -19,8 +19,8 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { restingAngle, type AwardsCardProps } from '../../../cards/awards-card';
-import type { ReceiptCardProps } from '../../../cards/receipt-card';
+import { restingAngle, type AwardsCardProps } from '../../../story/story-card-views';
+import type { ReceiptCardProps } from '../../../story/story-card-views';
 import { CardFrame } from './card-frame';
 import { useClockReached } from './use-clock';
 

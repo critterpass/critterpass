@@ -29,9 +29,9 @@ import {
 import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 
 import { chipLabel, type ChipWords } from '../../search/chip-words';
-import { closeLine, droppedWords } from '../../search/plain-close';
+import { closeLine, droppedWords } from '../../search/no-results-words';
 import { chipKey } from '../../search/plain-filters';
-import type { PlainRow } from '../../search/plain-results';
+import type { PlainRow } from '../../search/use-plain-section';
 import { PlaceResultRow } from '../components/place-result-row';
 
 const CHIP_HEIGHT = 30;

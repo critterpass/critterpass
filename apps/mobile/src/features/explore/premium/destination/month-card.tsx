@@ -10,7 +10,7 @@ import { displayWithHome, useMoneyDisplay } from '@/data/money';
 import { formatSeen } from '@/data/travel-data/freshness';
 import { Card, PressableScale, Skeleton, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 
-import type { DestinationViewProps } from '../../components/destination-view';
+import type { DestinationViewProps } from '../../screens/destination-view-props';
 import { estimateText, monthName } from '../../format';
 
 type Months = NonNullable<DestinationViewProps['months']>;

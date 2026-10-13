@@ -5,6 +5,16 @@
  * as it was left.
  */
 
+// The app's own database module loads the native driver; these tests run on the test stack.
+jest.mock('@/data/powersync/db', () => ({}));
+jest.mock('expo-router', () => ({
+  // The premium sheets declare their native header through the stack's screen.
+  Stack: Object.assign(() => null, { Screen: () => null }),
+  usePathname: () => '/',
+  useLocalSearchParams: () => ({}),
+  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
+}));
+
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
@@ -24,6 +34,8 @@ import { AnalyticsProvider, type AnalyticsClient } from '@/lib/analytics';
 import { SetupServicesProvider, type SetupServices } from '../../data/services';
 import { CalendarConnectSheet } from '../calendar-connect-sheet';
 import { ManualDaysSheet } from '../manual-days-sheet';
+import { PremiumCalendarConnectView } from '../../premium/calendar/connect-sheet';
+import { PremiumManualDaysView } from '../../premium/calendar/manual-days-sheet';
 import { posthogFlagKey } from '@cp/domain';
 
 const TRIP = '0199a6f0-0000-7000-8000-00000000c001';
@@ -95,13 +107,26 @@ async function mount(ui: ReactElement, flags: Record<string, boolean> = {}) {
 describe('calendar connect sheet', () => {
   it('shows the Google row only while its flag is on', async () => {
     const off = await mount(
-      <CalendarConnectSheet tripId={TRIP} onDismiss={noop} onMarkByHand={noop} />,
+      <CalendarConnectSheet
+        tripId={TRIP}
+        onDismiss={noop}
+        onMarkByHand={noop}
+        View={PremiumCalendarConnectView}
+      />,
     );
     expect(screen.queryByTestId('calendar-provider-google')).toBeNull();
     await off.unmount();
-    await mount(<CalendarConnectSheet tripId={TRIP} onDismiss={noop} onMarkByHand={noop} />, {
-      'calendar.oauth_google': true,
-    });
+    await mount(
+      <CalendarConnectSheet
+        tripId={TRIP}
+        onDismiss={noop}
+        onMarkByHand={noop}
+        View={PremiumCalendarConnectView}
+      />,
+      {
+        'calendar.oauth_google': true,
+      },
+    );
     expect(await screen.findByTestId('calendar-provider-google')).toBeTruthy();
     expect(screen.queryByTestId('calendar-provider-microsoft')).toBeNull();
     // No device calendar reader in this build: by hand only.
@@ -112,7 +137,14 @@ describe('calendar connect sheet', () => {
 describe('marking days by hand', () => {
   it('paints days with the chosen tool and saves the marks as manual days', async () => {
     const done = jest.fn();
-    await mount(<ManualDaysSheet tripId={TRIP} onDismiss={done} tz="Asia/Tokyo" />);
+    await mount(
+      <ManualDaysSheet
+        tripId={TRIP}
+        onDismiss={done}
+        tz="Asia/Tokyo"
+        View={PremiumManualDaysView}
+      />,
+    );
     const day = await screen.findByTestId('manual-day-2026-10-05');
     await fireEvent.press(day);
     await fireEvent.press(screen.getByTestId('manual-tool-busy'));
@@ -123,7 +155,7 @@ describe('marking days by hand', () => {
     expect(screen.getByLabelText('October 6, Busy')).toBeTruthy();
     expect(screen.getByLabelText('October 7, Not marked')).toBeTruthy();
     // Days before today cannot be marked.
-    expect(screen.queryByTestId('manual-day-2026-10-01')).toBeNull();
+    expect(screen.getByTestId('manual-day-2026-10-01')).toBeDisabled();
     await fireEvent.press(screen.getByTestId('manual-days-save'));
     await waitFor(() => expect(done).toHaveBeenCalled());
 
@@ -147,7 +179,14 @@ describe('marking days by hand', () => {
   });
 
   it('reopens as left, and clears a day taken back', async () => {
-    await mount(<ManualDaysSheet tripId={TRIP} onDismiss={noop} tz="Asia/Tokyo" />);
+    await mount(
+      <ManualDaysSheet
+        tripId={TRIP}
+        onDismiss={noop}
+        tz="Asia/Tokyo"
+        View={PremiumManualDaysView}
+      />,
+    );
     await fireEvent.press(await screen.findByTestId('manual-day-2026-10-05'));
     await fireEvent.press(screen.getByTestId('manual-days-save'));
     await waitFor(async () =>
@@ -155,7 +194,14 @@ describe('marking days by hand', () => {
     );
     await screen.unmount();
 
-    await mount(<ManualDaysSheet tripId={TRIP} onDismiss={noop} tz="Asia/Tokyo" />);
+    await mount(
+      <ManualDaysSheet
+        tripId={TRIP}
+        onDismiss={noop}
+        tz="Asia/Tokyo"
+        View={PremiumManualDaysView}
+      />,
+    );
     await waitFor(() => expect(screen.getByLabelText('October 5, Free')).toBeTruthy());
     await fireEvent.press(screen.getByTestId('manual-day-2026-10-05'));
     expect(screen.getByLabelText('October 5, Not marked')).toBeTruthy();

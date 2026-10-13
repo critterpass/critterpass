@@ -28,8 +28,8 @@ import {
 import { useDestinationSlug } from '../../data/use-destination-slug';
 import { useMyUid } from '../../data/use-my-uid';
 import { useMyCrews, usePlaceSave } from '../../data/use-place-save';
-import { useGuestBrief } from '../../places/brief-stream';
-import { useCityGuide } from '../../places/guest-guide-page';
+import { useGuestBrief } from '../../places/use-guest-brief';
+import { useCityGuide } from '../../places/city-guide';
 import { voteRoutes } from '../../routes';
 import { useGuestFacts } from './guest-facts';
 import { GuestDock } from './guest-dock';

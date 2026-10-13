@@ -25,9 +25,8 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { changeCardWords } from '../../draft/redraft/change-card';
-import { metricWords } from '../../draft/redraft/metric-chips';
-import type { RedraftDiffViewProps } from '../../draft/redraft/redraft-diff-view';
+import { changeCardWords, metricWords } from '../../draft/redraft/redraft-words';
+import type { RedraftDiffViewProps } from '../../draft/redraft/redraft-props';
 
 export function PremiumRedraftView(props: RedraftDiffViewProps) {
   const theme = usePremiumTheme();

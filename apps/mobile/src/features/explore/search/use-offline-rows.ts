@@ -1,5 +1,5 @@
 /**
- * The phone's places for what was typed with no signal (7i-2), worded for both looks of search:
+ * The phone's places for what was typed with no signal (7i-2), worded for search:
  * walking minutes from you (or from where the search was opened), "open, as of" from the last
  * sync, and whether the crew saved it.
  */
@@ -12,7 +12,7 @@ import { useSyncStatus } from '@/data/status/use-sync-status';
 
 import { useMyPosition } from '../hooks/use-my-position';
 import { openBySyncedHours, walkMinutes, type LatLng } from './offline-model';
-import type { OfflineRow } from './offline-results';
+
 import type { SearchTrip } from './use-search-trip';
 
 export function useOfflineRows(search: TripPlaceSearch, trip: SearchTrip, from: LatLng | null) {
@@ -49,4 +49,13 @@ export function useOfflineRows(search: TripPlaceSearch, trip: SearchTrip, from: 
     };
   });
   return { rows, photos, syncedOn };
+}
+
+export interface OfflineRow {
+  readonly key: string;
+  readonly title: string;
+  readonly category: string | null;
+  /** "4 min walk · open, as of Oct 11". */
+  readonly meta: string | undefined;
+  readonly saved: boolean;
 }

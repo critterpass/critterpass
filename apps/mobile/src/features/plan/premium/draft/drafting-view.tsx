@@ -27,7 +27,7 @@ import {
 } from '@/ui/premium';
 
 import { VISIBLE_STEP_IDS, type StepRow } from '../../draft/data/job';
-import { lineFor, titleFor, type DraftingViewProps } from '../../draft/drafting/drafting-view';
+import { lineFor, titleFor, type DraftingViewProps } from '../../draft/drafting/drafting-props';
 import { dayCardLabel, failLine, stepLine } from '../../draft/drafting/step-copy';
 import { draftingBackLabel } from '../../draft/review/draft-copy';
 import { dayColours } from '../map';

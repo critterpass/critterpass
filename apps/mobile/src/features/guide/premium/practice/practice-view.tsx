@@ -25,7 +25,7 @@ import {
 import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
 import type { PracticePhrase } from '../../practice/practice-model';
-import type { PracticeViewProps } from '../../practice/practice-view';
+import type { PracticeViewProps } from '../../practice/practice-screen';
 import { PremiumPracticeFeedback } from './practice-feedback';
 
 function PhraseList(props: {
