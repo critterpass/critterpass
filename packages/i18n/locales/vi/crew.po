@@ -11,6 +11,11 @@ msgstr ""
 msgid "chat.premium.edited"
 msgstr "(đã sửa)"
 
+#. placeholder {0}: members.length
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.settings.count"
+msgstr "{0, plural, other {# thành viên}}"
+
 #. placeholder {0}: line.count
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.premium.header.people"
@@ -20,11 +25,6 @@ msgstr "{0, plural, other {# người}}"
 #: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
 msgid "chat.premium.upload.photos"
 msgstr "{0, plural, other {# ảnh}}"
-
-#. placeholder {0}: members.length
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
-msgid "crew.premium.settings.count"
-msgstr "{0} thành viên"
 
 #. placeholder {0}: tray.met
 #. placeholder {1}: tray.total
@@ -132,7 +132,7 @@ msgstr "Một người bạn"
 msgid "crew.waitlist.offerTitle"
 msgstr "Vừa có chỗ trống đi {place}"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.settings.tripUnnamed"
 msgstr "Một chuyến đi"
 
@@ -390,7 +390,7 @@ msgstr "Đang sửa"
 msgid "crew.premium.edit.note"
 msgstr "Mọi người sẽ thấy pass mới, cả những lời mời bạn đã gửi cũng được cập nhật."
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.notify.all"
 msgstr "Tất cả"
 
@@ -502,7 +502,7 @@ msgstr "Xuống tin mới nhất"
 msgid "crew.premium.member.keep"
 msgstr "Giữ {name}"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.keepChat"
 msgstr "Vẫn đọc chat nếu tôi rời nhóm"
 
@@ -570,7 +570,7 @@ msgstr "Gặp thêm ở {0}"
 msgid "crew.premium.members"
 msgstr "Thành viên · {0}"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.settings.notifyMentions"
 msgstr "Khi được nhắc tên"
 
@@ -655,11 +655,11 @@ msgstr "Chưa gặp: tìm nó ở đâu"
 msgid "crew.seatLimit.notNow"
 msgstr "Để sau"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.notify.off"
 msgstr "Không gì cả"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.settings.notify"
 msgstr "Thông báo"
 

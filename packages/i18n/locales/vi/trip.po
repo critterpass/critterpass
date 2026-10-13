@@ -110,10 +110,6 @@ msgstr "Boost {trip}"
 msgid "trip.lockScreen.offer.boostPrice"
 msgstr "Boost {trip} · {0}"
 
-#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
-msgid "common.confirm.cancel"
-msgstr "Hủy"
-
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
 msgid "trip.lockScreen.cancel"
 msgstr "Huỷ"
@@ -121,6 +117,10 @@ msgstr "Huỷ"
 #: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
 msgid "trip.hub.premium.keep"
 msgstr "Huỷ"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "common.confirm.cancel"
+msgstr "Hủy"
 
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
 msgid "trip.lockScreen.asking"
@@ -174,12 +174,12 @@ msgstr "Ổn"
 msgid "trip.dayOf.premium.go"
 msgstr "Đi"
 
-#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
-msgid "trip.alarm.sheet.notificationOk"
-msgstr "Đã hiểu"
-
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
 msgid "trip.lockScreen.done"
+msgstr "Đã hiểu"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.notificationOk"
 msgstr "Đã hiểu"
 
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx

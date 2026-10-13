@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#. placeholder {0}: projection.photos.length
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
+msgid "community.publish.photos"
+msgstr "{0, plural, other {# ảnh}}"
+
 #. placeholder {0}: at + 1
 #. placeholder {1}: cards.length
 #: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
@@ -18,11 +23,6 @@ msgstr "{0} / {1}"
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 msgid "community.consent.waiting"
 msgstr "{0}/{1} người đã đồng ý. Kế hoạch chỉ được chia sẻ khi cả nhóm đồng ý."
-
-#. placeholder {0}: projection.photos.length
-#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
-msgid "community.publish.photos"
-msgstr "{0} ảnh"
 
 #. placeholder {0}: plan.saves_count
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
@@ -55,6 +55,10 @@ msgstr "{days, plural, other {# ngày}}"
 msgid "community.note.withBest"
 msgstr "{days} Riêng ngày {best} đã đáng rồi."
 
+#: ../../apps/mobile/src/features/community/premium/plan-days-premium.tsx
+msgid "community.detail.moreDays"
+msgstr "{hidden, plural, other {+ # ngày nữa}}"
+
 #: ../../apps/mobile/src/features/community/detail/use-take-plan.ts
 msgid "community.detail.copied"
 msgstr "{name} đang xếp {places} địa điểm vào bản nháp của bạn. Chỉ bạn thấy được."
@@ -78,10 +82,6 @@ msgstr "{photos} ảnh đẹp nhất"
 #: ../../apps/mobile/src/features/community/copy.ts
 msgid "community.title.generated"
 msgstr "{place}: {what}"
-
-#: ../../apps/mobile/src/features/community/premium/plan-days-premium.tsx
-msgid "community.detail.moreDays"
-msgstr "+ {hidden} ngày nữa"
 
 #: ../../apps/mobile/src/features/community/premium/plan-days-premium.tsx
 msgid "community.detail.addsOne"

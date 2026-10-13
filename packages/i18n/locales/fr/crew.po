@@ -11,6 +11,11 @@ msgstr ""
 msgid "chat.premium.edited"
 msgstr ""
 
+#. placeholder {0}: members.length
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.settings.count"
+msgstr ""
+
 #. placeholder {0}: line.count
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.premium.header.people"
@@ -19,11 +24,6 @@ msgstr ""
 #. placeholder {0}: item.files.length
 #: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
 msgid "chat.premium.upload.photos"
-msgstr ""
-
-#. placeholder {0}: members.length
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
-msgid "crew.premium.settings.count"
 msgstr ""
 
 #. placeholder {0}: tray.met
@@ -132,7 +132,7 @@ msgstr ""
 msgid "crew.waitlist.offerTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.settings.tripUnnamed"
 msgstr ""
 
@@ -390,7 +390,7 @@ msgstr ""
 msgid "crew.premium.edit.note"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.notify.all"
 msgstr ""
 
@@ -502,7 +502,7 @@ msgstr ""
 msgid "crew.premium.member.keep"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.keepChat"
 msgstr ""
 
@@ -570,7 +570,7 @@ msgstr ""
 msgid "crew.premium.members"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.settings.notifyMentions"
 msgstr ""
 
@@ -655,11 +655,11 @@ msgstr ""
 msgid "crew.seatLimit.notNow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.notify.off"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.settings.notify"
 msgstr ""
 

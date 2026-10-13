@@ -78,7 +78,7 @@ msgstr "{home} · theo sân bay nhà"
 
 #: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.ideasToVote"
-msgstr "{ideas} ý tưởng đang chờ bình chọn"
+msgstr "{ideas, plural, other {# ý tưởng đang chờ bình chọn}}"
 
 #: ../../apps/mobile/src/features/you/language/currency-model.ts
 msgid "you.settings.languageHome"
@@ -429,6 +429,14 @@ msgstr "Xoá tài khoản của bạn?"
 msgid "you.closed.departures"
 msgstr "DEPARTURES · DÉPARTS"
 
+#: ../../apps/mobile/src/features/you/premium/components/page-sheet.tsx
+msgid "you.premium.edit.discard"
+msgstr "Bỏ"
+
+#: ../../apps/mobile/src/features/you/premium/components/page-sheet.tsx
+msgid "you.premium.edit.discardTitle"
+msgstr "Bỏ thay đổi này?"
+
 #: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.formats.distance"
 msgstr "Khoảng cách"
@@ -727,6 +735,10 @@ msgstr "Tiếng Nhật"
 msgid "you.premium.keepEditing"
 msgstr "Sửa tiếp"
 
+#: ../../apps/mobile/src/features/you/premium/components/page-sheet.tsx
+msgid "you.premium.edit.keepEditing"
+msgstr "Sửa tiếp"
+
 #: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 msgid "you.premium.retake.keep"
 msgstr "Làm tiếp"
@@ -907,6 +919,10 @@ msgstr "Không có dấu chấm ở đầu hay cuối, và không hai dấu li�
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "onboarding.photo.real.offline"
 msgstr "Không có sóng để tải ảnh lên"
+
+#: ../../apps/mobile/src/features/you/premium/history/stamps-premium-view.tsx
+msgid "you.premium.stamps.emptyTitle"
+msgstr "Chưa có con dấu nào"
 
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
 msgid "trip.offline.nothingSaved"
@@ -1606,6 +1622,10 @@ msgstr "Chưa khôi phục được tài khoản. Kiểm tra kết nối rồi t
 msgid "you.closed.restoreTitle"
 msgstr "Mừng bạn trở lại"
 
+#: ../../apps/mobile/src/features/you/premium/components/page-sheet.tsx
+msgid "you.premium.edit.discardLine"
+msgstr "Những gì bạn vừa sửa ở đây sẽ mất."
+
 #: ../../apps/mobile/src/features/you/premium/history/past-trip-premium-view.tsx
 msgid "you.pastTrip.when"
 msgstr "Khi nào"
@@ -1671,6 +1691,10 @@ msgstr "Chữ cái đầu của bạn theo màu của từng hội."
 #: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
 msgid "you.profile.noTrips"
 msgstr "Chuyến đầu tiên sẽ tự đóng dấu ở đây khi bạn hạ cánh."
+
+#: ../../apps/mobile/src/features/you/premium/history/stamps-premium-view.tsx
+msgid "you.premium.stamps.emptyLine"
+msgstr "Chuyến đi đầu tiên sẽ đóng dấu lên hộ chiếu của bạn."
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.guide"

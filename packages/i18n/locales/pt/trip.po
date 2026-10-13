@@ -110,16 +110,16 @@ msgstr ""
 msgid "trip.lockScreen.offer.boostPrice"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
-msgid "common.confirm.cancel"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
 msgid "trip.lockScreen.cancel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
 msgid "trip.hub.premium.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "common.confirm.cancel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
@@ -174,12 +174,12 @@ msgstr ""
 msgid "trip.dayOf.premium.go"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
-msgid "trip.alarm.sheet.notificationOk"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
 msgid "trip.lockScreen.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.notificationOk"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx

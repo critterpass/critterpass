@@ -17,6 +17,11 @@ msgstr ""
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, one {# voto} other {# votos}}"
 
+#. placeholder {0}: hub.ideasToVote
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.suggestCaption"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footerEmail"
 msgstr "Uma pessoa responde por email em dois dias."
@@ -391,11 +396,6 @@ msgstr "Em análise"
 #: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.vote"
 msgstr "Votar ▲"
-
-#. placeholder {0}: hub.ideasToVote
-#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
-msgid "help.premium.suggestCaption"
-msgstr ""
 
 #. placeholder {0}: idea.title
 #: ../../apps/mobile/src/features/help/ideas/use-idea-board.ts

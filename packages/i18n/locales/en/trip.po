@@ -110,16 +110,16 @@ msgstr "Boost {trip}"
 msgid "trip.lockScreen.offer.boostPrice"
 msgstr "Boost {trip} · {0}"
 
-#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
-msgid "common.confirm.cancel"
-msgstr "Cancel"
-
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
 msgid "trip.lockScreen.cancel"
 msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
 msgid "trip.hub.premium.keep"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "common.confirm.cancel"
 msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
@@ -174,12 +174,12 @@ msgstr "Go"
 msgid "trip.dayOf.premium.go"
 msgstr "Go"
 
-#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
-msgid "trip.alarm.sheet.notificationOk"
-msgstr "Got it"
-
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
 msgid "trip.lockScreen.done"
+msgstr "Got it"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.notificationOk"
 msgstr "Got it"
 
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx

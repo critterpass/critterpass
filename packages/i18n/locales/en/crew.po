@@ -11,6 +11,11 @@ msgstr ""
 msgid "chat.premium.edited"
 msgstr "(edited)"
 
+#. placeholder {0}: members.length
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.settings.count"
+msgstr "{0, plural, one {# member} other {# members}}"
+
 #. placeholder {0}: line.count
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.premium.header.people"
@@ -20,11 +25,6 @@ msgstr "{0, plural, one {# person} other {# people}}"
 #: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
 msgid "chat.premium.upload.photos"
 msgstr "{0, plural, one {Photo} other {# photos}}"
-
-#. placeholder {0}: members.length
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
-msgid "crew.premium.settings.count"
-msgstr "{0} members"
 
 #. placeholder {0}: tray.met
 #. placeholder {1}: tray.total
@@ -132,7 +132,7 @@ msgstr "A friend"
 msgid "crew.waitlist.offerTitle"
 msgstr "A seat opened on {place}"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.settings.tripUnnamed"
 msgstr "A trip"
 
@@ -390,7 +390,7 @@ msgstr "Editing"
 msgid "crew.premium.edit.note"
 msgstr "Everyone sees the new pass, and invites you’ve already sent update too."
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.notify.all"
 msgstr "Everything"
 
@@ -502,7 +502,7 @@ msgstr "Jump to latest"
 msgid "crew.premium.member.keep"
 msgstr "Keep {name}"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.keepChat"
 msgstr "Keep chat if I leave"
 
@@ -570,7 +570,7 @@ msgstr "Meet more in {0}"
 msgid "crew.premium.members"
 msgstr "Members · {0}"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.settings.notifyMentions"
 msgstr "Mentions"
 
@@ -655,11 +655,11 @@ msgstr "Not met yet: where to find it"
 msgid "crew.seatLimit.notNow"
 msgstr "Not now"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.notify.off"
 msgstr "Nothing"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.settings.notify"
 msgstr "Notifications"
 

@@ -17,6 +17,11 @@ msgstr "{0, plural, one {# vote left} other {# votes left}}"
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, one {# vote} other {# votes}}"
 
+#. placeholder {0}: hub.ideasToVote
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.suggestCaption"
+msgstr "{0, plural, one {Vote on # idea} other {Vote on # ideas}}"
+
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footerEmail"
 msgstr "A human replies by email within two days."
@@ -391,11 +396,6 @@ msgstr "Under review"
 #: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.vote"
 msgstr "Vote ▲"
-
-#. placeholder {0}: hub.ideasToVote
-#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
-msgid "help.premium.suggestCaption"
-msgstr "Vote on {0} ideas"
 
 #. placeholder {0}: idea.title
 #: ../../apps/mobile/src/features/help/ideas/use-idea-board.ts

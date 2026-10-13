@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: projection.photos.length
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
+msgid "community.publish.photos"
+msgstr "{0, plural, one {# photo} other {# photos}}"
+
 #. placeholder {0}: at + 1
 #. placeholder {1}: cards.length
 #: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
@@ -18,11 +23,6 @@ msgstr "{0} of {1}"
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 msgid "community.consent.waiting"
 msgstr "{0} of {1} in. It goes out when everyone agrees."
-
-#. placeholder {0}: projection.photos.length
-#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
-msgid "community.publish.photos"
-msgstr "{0} photos"
 
 #. placeholder {0}: plan.saves_count
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
@@ -55,6 +55,10 @@ msgstr "{days, plural, one {# day} other {# days}}"
 msgid "community.note.withBest"
 msgstr "{days} Day {best} alone is worth it."
 
+#: ../../apps/mobile/src/features/community/premium/plan-days-premium.tsx
+msgid "community.detail.moreDays"
+msgstr "{hidden, plural, one {+ # more day} other {+ # more days}}"
+
 #: ../../apps/mobile/src/features/community/detail/use-take-plan.ts
 msgid "community.detail.copied"
 msgstr "{name} is fitting {places} places into your draft. Only you can see it."
@@ -78,10 +82,6 @@ msgstr "{photos} best photos"
 #: ../../apps/mobile/src/features/community/copy.ts
 msgid "community.title.generated"
 msgstr "{place}: {what}"
-
-#: ../../apps/mobile/src/features/community/premium/plan-days-premium.tsx
-msgid "community.detail.moreDays"
-msgstr "+ {hidden} more days"
 
 #: ../../apps/mobile/src/features/community/premium/plan-days-premium.tsx
 msgid "community.detail.addsOne"

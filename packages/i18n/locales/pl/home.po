@@ -39,7 +39,7 @@ msgstr ""
 msgid "home.premium.going"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-rows.tsx
 msgid "home.premium.switcher.members"
 msgstr ""
 
@@ -75,6 +75,10 @@ msgstr ""
 msgid "home.joinTrip.titleNow"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
+msgid "home.premium.back.eyebrow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.guideDid"
 msgstr ""
@@ -95,7 +99,7 @@ msgstr ""
 msgid "home.inbox.tip"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-rows.tsx
 msgid "home.premium.switcher.invitedBy"
 msgstr ""
 
@@ -347,8 +351,8 @@ msgstr ""
 msgid "home.premium.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
-msgid "home.premium.back.eyebrow"
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
+msgid "home.premium.inbox.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
@@ -453,7 +457,7 @@ msgstr ""
 msgid "home.premium.nextUpOn"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-rows.tsx
 msgid "home.premium.switcher.next"
 msgstr ""
 
@@ -939,7 +943,7 @@ msgstr ""
 msgid "home.joinTrip.body"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-rows.tsx
 msgid "home.premium.switcher.invited"
 msgstr ""
 
