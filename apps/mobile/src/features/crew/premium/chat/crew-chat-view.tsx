@@ -196,6 +196,7 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
           madeBy={firstName(info.members[0]?.name)}
           members={info.members.map((member, index) => ({
             name: member.name ?? '',
+            uid: member.uid,
             color: crewAccent(member.colour, index),
           }))}
           guideName={guideName}

@@ -154,6 +154,7 @@ export function PremiumInboxCard({
             <Avatar
               name={item.actorName || item.crewName}
               color={memberAccent(theme, SLOTS[item.actorJoinIndex % SLOTS.length])}
+              uid={item.actorId}
               size={THUMB}
             />
           ) : (

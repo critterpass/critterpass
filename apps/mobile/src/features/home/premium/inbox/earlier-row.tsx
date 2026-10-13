@@ -62,6 +62,7 @@ export function PremiumEarlierRow({ item, renderer, ctx, onUndo, onOpen }: Premi
       <Avatar
         name={item.actorName}
         color={memberAccent(theme, SLOTS[item.actorJoinIndex % SLOTS.length])}
+        uid={item.actorId}
         size={32}
       />
     );

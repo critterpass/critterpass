@@ -32,7 +32,7 @@ export type ToastSpec =
       readonly kind: 'person';
       readonly title: string;
       readonly subtitle?: string;
-      readonly person: { readonly name: string; readonly color: string };
+      readonly person: { readonly name: string; readonly color: string; readonly uid?: string };
     };
 
 /** What the toast says, for the screen reader announcement. */
@@ -196,7 +196,12 @@ export function Toast({ spec, onDone, testID }: ToastProps) {
             paddingEnd: theme.space.gap16,
           }}
         >
-          <Avatar name={spec.person.name} color={spec.person.color} size={theme.size.avatarLarge} />
+          <Avatar
+            name={spec.person.name}
+            color={spec.person.color}
+            uid={spec.person.uid}
+            size={theme.size.avatarLarge}
+          />
           <View style={{ flex: 1 }}>
             <Text variant="rowTextStrong">{spec.title}</Text>
             {spec.subtitle === undefined ? null : (

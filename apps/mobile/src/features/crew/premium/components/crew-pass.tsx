@@ -147,7 +147,7 @@ export function CrewPass({
           <View style={styles.seats}>
             {filled.map((seat) => (
               <View key={seat.id} style={[styles.seat, { borderColor: look.fill }]}>
-                <Avatar name={seat.name} color={seat.color} size={18} />
+                <Avatar name={seat.name} color={seat.color} uid={seat.id} size={18} />
               </View>
             ))}
             {Array.from({ length: open }, (_, i) => (
@@ -165,7 +165,7 @@ export function CrewPass({
           </Text>
           <View style={styles.seats}>
             {filled.map((seat) => (
-              <Avatar key={seat.id} name={seat.name} color={seat.color} size={24} />
+              <Avatar key={seat.id} name={seat.name} color={seat.color} uid={seat.id} size={24} />
             ))}
           </View>
         </View>

@@ -19,6 +19,7 @@ import {
 /** A person to pick: avatar, name, reason, and the radio (ink dot when picked). */
 export function RadioRow({
   name,
+  uid,
   color,
   line,
   selected,
@@ -27,6 +28,8 @@ export function RadioRow({
   testID,
 }: {
   readonly name: string;
+  /** The member's user id, for their face. */
+  readonly uid?: string;
   readonly color: string;
   readonly line?: string;
   readonly selected: boolean;
@@ -45,7 +48,7 @@ export function RadioRow({
       testID={testID}
       style={[styles.radioRow, { paddingHorizontal: th.space.rowPadH }, quiet && { opacity: 0.55 }]}
     >
-      <Avatar name={name} color={color} size={36} />
+      <Avatar name={name} color={color} uid={uid} size={36} />
       <View style={styles.grow}>
         <Text variant="rowTitle">{name}</Text>
         {line === undefined ? null : (

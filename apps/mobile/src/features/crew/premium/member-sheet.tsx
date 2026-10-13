@@ -115,7 +115,7 @@ export function MemberSheet() {
       testID="crew-member-sheet"
     >
       <View style={styles.identity}>
-        <Avatar name={name} color={memberAccent(member?.colour)} size={76} />
+        <Avatar name={name} color={memberAccent(member?.colour)} uid={member?.user_id} size={76} />
         <Text variant="title" accessibilityRole="header">
           {self ? t({ id: 'crew.members.you', message: 'You' }) : name}
         </Text>

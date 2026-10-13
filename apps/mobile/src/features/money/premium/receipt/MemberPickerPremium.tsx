@@ -93,6 +93,7 @@ export function MemberPickerPremium({
                   <Avatar
                     name={member.name}
                     color={crewAccent(member.joinIndex)}
+                    uid={member.userId}
                     size={52}
                     ringed
                   />

@@ -57,7 +57,7 @@ export function WhoReactedSheet({
               paddingVertical: th.space.gap8,
             }}
           >
-            <Avatar name={row.name ?? ''} color={colourOf(row.uid)} size={32} />
+            <Avatar name={row.name ?? ''} color={colourOf(row.uid)} uid={row.uid} size={32} />
             <Text variant="rowTitle" style={{ flex: 1 }}>
               {row.name ?? t({ id: 'chat.premium.who.former', message: 'Former member' })}
             </Text>

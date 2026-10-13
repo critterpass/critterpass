@@ -178,7 +178,7 @@ export function GettingThereScreen({ tripId }: { readonly tripId: string }) {
                 }}
               >
                 {face === undefined ? null : (
-                  <Avatar name={face.name} color={face.color} size={34} />
+                  <Avatar name={face.name} color={face.color} uid={member.uid} size={34} />
                 )}
                 <View style={{ flex: 1, minWidth: 0 }}>
                   <Text variant="rowTextStrong" numberOfLines={1}>

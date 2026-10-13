@@ -197,7 +197,13 @@ export function CrewPanel({ m }: { readonly m: LiveMapModel }) {
               <View style={styles.faces}>
                 {row.people.slice(0, 2).map((p, index) => (
                   <View key={p.uid} style={index === 0 ? null : styles.overlap}>
-                    <Avatar name={p.name} color={crewAccent(p.joinIndex)} size={30} ringed />
+                    <Avatar
+                      name={p.name}
+                      color={crewAccent(p.joinIndex)}
+                      uid={p.uid}
+                      size={30}
+                      ringed
+                    />
                   </View>
                 ))}
               </View>
