@@ -8,7 +8,6 @@ import {
 import { PremiumPhraseCardView } from '@/features/guide/premium/practice/phrase-card-view';
 import { PremiumPracticeView } from '@/features/guide/premium/practice/practice-view';
 import { PremiumPracticeWaiting } from '@/features/guide/premium/practice/practice-waiting';
-import { premiumRoute } from '@/lib/premium-ui';
 
 import { getSpeech, startListening } from '../../../../modules/cp-speech';
 
@@ -41,11 +40,7 @@ function usePracticeProps(): PracticeScreenProps {
   };
 }
 
-function CurrentPracticeRoute() {
-  return <PracticeScreen {...usePracticeProps()} />;
-}
-
-function PremiumPracticeRoute() {
+export default function PracticeRoute() {
   return (
     <PracticeScreen
       {...usePracticeProps()}
@@ -55,5 +50,3 @@ function PremiumPracticeRoute() {
     />
   );
 }
-
-export default premiumRoute({ premium: PremiumPracticeRoute, legacy: CurrentPracticeRoute });

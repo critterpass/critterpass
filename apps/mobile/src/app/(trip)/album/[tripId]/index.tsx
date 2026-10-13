@@ -4,27 +4,13 @@ import { AlbumMissing } from '@/features/album/grid/album-missing';
 import { AlbumScreen } from '@/features/album/grid/album-screen';
 import { PremiumJournalScene } from '@/features/album/premium/journal-scene';
 import { PremiumUploadBanner } from '@/features/album/premium/upload-banner';
-import { premiumRoute } from '@/lib/premium-ui';
 
-function Album({ premium }: { readonly premium: boolean }) {
+/** The crew's album (3m-2), drawn as the trip journal. */
+export default function AlbumRoute() {
   const { tripId } = useLocalSearchParams<{ tripId: string }>();
   return typeof tripId === 'string' && tripId.length > 0 ? (
-    <AlbumScreen
-      tripId={tripId}
-      {...(premium ? { View: PremiumJournalScene, Banner: PremiumUploadBanner } : {})}
-    />
+    <AlbumScreen tripId={tripId} View={PremiumJournalScene} Banner={PremiumUploadBanner} />
   ) : (
     <AlbumMissing testID="album-missing" />
   );
 }
-
-function CurrentAlbumRoute() {
-  return <Album premium={false} />;
-}
-
-function PremiumAlbumRoute() {
-  return <Album premium />;
-}
-
-/** The crew's album (3m-2), the trip journal in the premium look. */
-export default premiumRoute({ premium: PremiumAlbumRoute, legacy: CurrentAlbumRoute });

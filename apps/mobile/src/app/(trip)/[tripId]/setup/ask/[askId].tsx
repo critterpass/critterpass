@@ -3,7 +3,6 @@ import { useLocalSearchParams } from 'expo-router';
 import { PremiumAskSheetView } from '@/features/setup/premium/ask/ask-sheet';
 import { PremiumWaiting } from '@/features/setup/premium/must-dos/sheet-waiting';
 import { AskSheetScreen } from '@/features/setup/when';
-import { usePremiumUi } from '@/lib/premium-ui';
 
 const PREMIUM_LOOK = { View: PremiumAskSheetView, Waiting: PremiumWaiting };
 
@@ -14,13 +13,12 @@ export default function AskRoute() {
     askId: string;
     answered?: string;
   }>();
-  const premium = usePremiumUi();
   return (
     <AskSheetScreen
       tripId={tripId}
       askId={askId}
       answered={answered !== undefined}
-      {...(premium ? { look: PREMIUM_LOOK } : {})}
+      look={PREMIUM_LOOK}
     />
   );
 }

@@ -2,7 +2,6 @@ import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 
 import { goBackOr } from '@/lib/navigation/back';
-import { usePremiumUi } from '@/lib/premium-ui';
 import { PlacesListScreen, PlacesMapScreen, type PlacesFilter } from '@/features/explore/places';
 import { PremiumPlacesListView } from '@/features/explore/premium/places/places-list-page';
 import { PremiumPlacesMapView } from '@/features/explore/premium/places/places-map-page';
@@ -40,19 +39,14 @@ function DestinationPlaces(props: {
     ...(props.tripId === undefined ? { query, onQuery: setQuery } : {}),
     onBack: () => goBackOr(),
   };
-  const premium = usePremiumUi();
   return mode === 'map' ? (
     <PlacesMapScreen
       {...shared}
       placeId={props.placeId}
       onList={() => setMode('list')}
-      {...(premium ? { View: PremiumPlacesMapView } : {})}
+      View={PremiumPlacesMapView}
     />
   ) : (
-    <PlacesListScreen
-      {...shared}
-      onMap={() => setMode('map')}
-      {...(premium ? { View: PremiumPlacesListView } : {})}
-    />
+    <PlacesListScreen {...shared} onMap={() => setMode('map')} View={PremiumPlacesListView} />
   );
 }

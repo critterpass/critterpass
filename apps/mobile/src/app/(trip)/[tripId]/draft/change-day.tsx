@@ -6,7 +6,6 @@ import {
   PremiumDraftSheetWaiting,
 } from '@/features/plan/premium/draft/change-day-parts';
 import { PremiumChangeDayView } from '@/features/plan/premium/draft/change-day-view';
-import { usePremiumUi } from '@/lib/premium-ui';
 
 const PREMIUM_LOOK = {
   View: PremiumChangeDayView,
@@ -21,14 +20,13 @@ export default function ChangeDayRoute() {
     day?: string;
     free?: string;
   }>();
-  const premium = usePremiumUi();
   const initialDay = day === undefined ? null : Number(day) || null;
   return (
     <ChangeDaySheet
       tripId={tripId}
       initialDay={initialDay}
       free={free === '1'}
-      {...(premium ? { look: PREMIUM_LOOK } : {})}
+      look={PREMIUM_LOOK}
     />
   );
 }
