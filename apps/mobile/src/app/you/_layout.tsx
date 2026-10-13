@@ -15,10 +15,12 @@ import { SessionGate } from '@/ui/states/SessionGate';
 provideAlarmCanceller(getAlarmPort());
 
 const APPEARANCE_SHEET = sheetRouteOptions('half');
+const FORM_SHEET = sheetRouteOptions('full');
 
 /**
  * The profile and its settings, pushed over the tabs from Home's header; session-only. The premium
- * UI pushes them on a native stack and shows Appearance as a half-height sheet.
+ * UI pushes them on a native stack and shows Appearance as a half-height sheet and the past-trip
+ * form as a full-height one.
  */
 export default function YouLayout() {
   const { motion } = useTheme();
@@ -30,6 +32,7 @@ export default function YouLayout() {
       {premium ? (
         <PremiumStack>
           <PremiumStackScreen name="appearance" options={APPEARANCE_SHEET} />
+          <PremiumStackScreen name="past-trip" options={FORM_SHEET} />
         </PremiumStack>
       ) : (
         <Stack screenOptions={pushTransition(motion, motionMode !== 'full')} />

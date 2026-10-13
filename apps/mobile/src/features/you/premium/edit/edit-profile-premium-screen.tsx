@@ -22,14 +22,14 @@ import { confirmAlert, PushScreen } from '@/ui/premium/shell';
 import { languageChoices } from '../../language/language-names';
 import { YOU_ROUTES } from '../../routes';
 import { nameProblemText, usernameText } from '../../edit-profile/edit-profile-copy';
-import {
-  AirportSheet,
-  LanguagesSheet,
-  NameSheet,
-  UsernameSheet,
-} from '../../edit-profile/field-sheets';
 import { airportLabel, useEditProfile } from '../../edit-profile/use-edit-profile';
 import { useAppearanceWords } from './appearance-copy';
+import {
+  AirportPremiumSheet,
+  LanguagesPremiumSheet,
+  NamePremiumSheet,
+  UsernamePremiumSheet,
+} from './field-sheets-premium';
 import { DataPage } from './data-page';
 
 /* eslint-disable lingui/no-unlocalized-strings -- routes, never copy. */
@@ -195,7 +195,7 @@ export function EditProfilePremiumScreen() {
         </View>
       </PushScreen>
       {edit.editing === 'name' && draft !== null ? (
-        <NameSheet
+        <NamePremiumSheet
           value={draft.name}
           onDone={(name) => {
             edit.setEdits((e) => ({ ...e, name }));
@@ -205,7 +205,7 @@ export function EditProfilePremiumScreen() {
         />
       ) : null}
       {edit.editing === 'username' && saved !== null && draft !== null ? (
-        <UsernameSheet
+        <UsernamePremiumSheet
           saved={saved}
           draft={draft}
           onDone={(next) => {
@@ -216,7 +216,7 @@ export function EditProfilePremiumScreen() {
         />
       ) : null}
       {edit.editing === 'home-airport' ? (
-        <AirportSheet
+        <AirportPremiumSheet
           onDone={(iata) => {
             edit.setEdits((e) => ({ ...e, homeAirport: iata }));
             edit.setEditing(null);
@@ -225,7 +225,7 @@ export function EditProfilePremiumScreen() {
         />
       ) : null}
       {edit.editing === 'languages' && draft !== null ? (
-        <LanguagesSheet
+        <LanguagesPremiumSheet
           value={draft.languages}
           choices={languageChoices(locale).map((choice) => ({
             code: choice.code,

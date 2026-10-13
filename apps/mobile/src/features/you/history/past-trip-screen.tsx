@@ -5,7 +5,7 @@
  */
 import { airportDataset } from '@cp/content/airports';
 import { useLingui } from '@lingui/react/macro';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ComponentType } from 'react';
 import { Keyboard } from 'react-native';
 
 import { regionName } from '@/features/onboarding';
@@ -21,16 +21,22 @@ import {
   type CountryOption,
 } from './past-trip-form';
 import { usePastTrips } from './past-trips';
-import { PastTripView } from './past-trip-view';
+import { PastTripView, type PastTripViewProps } from './past-trip-view';
 import { YOU_ROUTES } from '../routes';
 import { localToday } from './use-travel-history';
 
 export function PastTripScreen({
   id,
   now = () => new Date(),
+  View = PastTripView,
+  askRemove,
 }: {
   readonly id?: string;
   readonly now?: () => Date;
+  /** The page drawn over this logic (the premium UI passes its own). */
+  readonly View?: ComponentType<PastTripViewProps>;
+  /** Asks before removing in place of the confirm sheet (the premium UI's system alert). */
+  readonly askRemove?: () => Promise<boolean>;
 }) {
   const { t } = useLingui();
   const locale = useLocale();
@@ -67,7 +73,7 @@ export function PastTripScreen({
   const open = monthsOpen(shownYear, today);
   return (
     <>
-      <PastTripView
+      <View
         editing={existing !== undefined}
         query={query ?? country?.name ?? ''}
         onQuery={setQuery}
@@ -96,7 +102,17 @@ export function PastTripScreen({
         {...(existing === undefined
           ? {}
           : {
-              onRemove: () => setRemoving(true),
+              onRemove: () => {
+                if (askRemove === undefined) {
+                  setRemoving(true);
+                  return;
+                }
+                void askRemove().then((yes) => {
+                  if (!yes) return;
+                  pastTrips.remove(existing.id);
+                  goBackOr(YOU_ROUTES.stamps);
+                });
+              },
             })}
         onBack={() => goBackOr(YOU_ROUTES.stamps)}
       />
