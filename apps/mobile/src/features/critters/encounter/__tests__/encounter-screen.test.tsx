@@ -12,6 +12,8 @@ jest.mock('react-native-nitro-modules', () => ({
 }));
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
+  // No navigator around the screen: it counts as presented after the short fallback wait.
+  useNavigation: () => undefined,
   router: {
     push: jest.fn(),
     replace: jest.fn(),
