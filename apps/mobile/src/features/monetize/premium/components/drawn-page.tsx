@@ -1,32 +1,24 @@
 /**
- * A light page drawn by the screen itself, for routes presented see-through in the `(modal)`
- * group: the ground fills the screen, the page slides in on Smooth (a fade under Reduce Motion),
- * a glass back circle (or ✕) sits top-left and the title is centred, as the push screen type
- * draws it.
+ * A light page with a footer that sticks to the bottom (what's in each plan, pushed inside the
+ * paywall cover): the ground fills the screen, a glass back circle (or ✕) sits top-left and the
+ * title is centred, as the push screen type draws it. The native stack runs the push and its edge
+ * swipe; the leading control follows where the page sits (`<` pushed, ✕ as a sheet's first page,
+ * the way Home after a cold link).
  */
 import { router } from 'expo-router';
-import { useEffect, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  withTiming,
-} from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import {
-  GlassIconButton,
-  REDUCED_FADE,
-  SPRINGS,
-  Text,
-  usePremiumReducedMotion,
-  usePremiumTheme,
-} from '@/ui/premium';
+import { GlassIconButton, Text, usePremiumTheme } from '@/ui/premium';
+import { leadingControlFor, useScreenPlacement } from '@/ui/premium/shell';
+
+const goBack = () => router.back();
+const goHome = () => router.replace('/');
 
 export interface DrawnPageProps {
   readonly backLabel: string;
-  /** `close` for a one-job page (✕), `back` for a push. */
+  /** `close` for a one-job page (✕), `back` for a push; by default where the page sits. */
   readonly leading?: 'back' | 'close';
   readonly onBack?: () => void;
   readonly title?: string;
@@ -39,7 +31,7 @@ export interface DrawnPageProps {
 
 export function DrawnPage({
   backLabel,
-  leading = 'back',
+  leading,
   onBack,
   title,
   subtitle,
@@ -49,18 +41,12 @@ export function DrawnPage({
 }: DrawnPageProps) {
   const t = usePremiumTheme();
   const insets = useSafeAreaInsets();
-  const reduced = usePremiumReducedMotion();
-  const shown = useSharedValue(0);
-  useEffect(() => {
-    shown.set(reduced ? withTiming(1, REDUCED_FADE) : withSpring(1, SPRINGS.smooth));
-  }, [reduced, shown]);
-  const page = useAnimatedStyle(() => ({
-    opacity: reduced ? shown.value : 1,
-    transform: [{ translateX: reduced ? 0 : 60 * (1 - shown.value) }],
-  }));
+  const placed = leadingControlFor(useScreenPlacement());
+  const control = leading ?? (placed === 'close' ? 'close' : 'back');
+  const leave = onBack ?? (placed === 'home' ? goHome : goBack);
   const top = insets.top + t.space.gap6;
   return (
-    <Animated.View style={[styles.root, { backgroundColor: t.color.ground }, page]} testID={testID}>
+    <View style={[styles.root, { backgroundColor: t.color.ground }]} testID={testID}>
       <ScrollView
         contentContainerStyle={{
           paddingTop: top + t.size.glassNav + t.space.gap12,
@@ -88,10 +74,10 @@ export function DrawnPage({
         pointerEvents="box-none"
       >
         <GlassIconButton
-          icon={leading}
+          icon={control}
           label={backLabel}
           kind="nav"
-          onPress={onBack ?? (() => router.back())}
+          onPress={leave}
           testID="drawn-page-back"
         />
         <View style={styles.titles} pointerEvents="none">
@@ -108,7 +94,7 @@ export function DrawnPage({
         </View>
         <View style={{ width: t.size.glassNav }} />
       </View>
-    </Animated.View>
+    </View>
   );
 }
 

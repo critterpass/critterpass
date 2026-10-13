@@ -80,6 +80,8 @@ export interface SheetVerb {
 export interface SheetScreenProps {
   /** The centred title, when the sheet has one. */
   readonly title?: string;
+  /** The muted line under the title (the crew and dates a sheet is about). */
+  readonly subtitle?: string;
   /** The left word ("Cancel"). */
   readonly cancelLabel: string;
   readonly verb?: SheetVerb;
@@ -108,6 +110,7 @@ export interface SheetScreenProps {
  */
 export function SheetScreen({
   title,
+  subtitle,
   cancelLabel,
   verb,
   dirty = false,
@@ -177,6 +180,11 @@ export function SheetScreen({
           {title === undefined ? null : (
             <Text variant="button" accessibilityRole="header" numberOfLines={1} align="center">
               {title}
+            </Text>
+          )}
+          {subtitle === undefined ? null : (
+            <Text variant="caption" tone="muted" numberOfLines={1} align="center">
+              {subtitle}
             </Text>
           )}
         </View>

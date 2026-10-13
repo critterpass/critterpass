@@ -27,6 +27,12 @@ describe('premium presentations', () => {
     expect(presentationOf('vote/[pollId]/index')).toBeUndefined();
     expect(presentationOf('vote/new-poll')).toEqual(SHEET);
   });
+
+  it('pushes what is in each plan inside the paywall cover', () => {
+    expect(presentationOf('(modal)/paywall/index')).toEqual({ kind: 'cover' });
+    expect(presentationOf('(modal)/paywall/compare')).toBeUndefined();
+    expect(presentationOf('(modal)/boost/[tripId]')).toEqual(SHEET);
+  });
 });
 
 describe('openedPath', () => {

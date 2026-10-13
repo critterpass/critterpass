@@ -43,8 +43,8 @@ const sheet = (...detents: number[]): ScreenPresentation => ({ kind: 'sheet', de
  * presents them the same way.
  */
 const PRESENTATIONS: Readonly<Record<string, ScreenPresentation>> = {
-  // The `(modal)` group: covers, the guide thread as a page sheet, the supplier sheets, and the
-  // screens that still draw themselves.
+  // The `(modal)` group: covers, the guide thread as a page sheet and the supplier and boost
+  // sheets.
   '(modal)/guide/[threadId]': MODAL,
   '(modal)/guide/dietary': COVER,
   '(modal)/guide/phrase': COVER,
@@ -61,11 +61,10 @@ const PRESENTATIONS: Readonly<Record<string, ScreenPresentation>> = {
   '(modal)/supplier/cancel': FIT,
   '(modal)/supplier/estimate': FIT,
   '(modal)/supplier/log-ride': FIT,
-  '(modal)/boost/[tripId]': DRAWN,
-  '(modal)/boost/stamped': DRAWN,
-  '(modal)/paywall/index': DRAWN,
-  '(modal)/paywall/welcome': DRAWN,
-  '(modal)/paywall/compare': DRAWN,
+  '(modal)/boost/[tripId]': FULL,
+  '(modal)/boost/stamped': COVER,
+  '(modal)/paywall/index': COVER,
+  '(modal)/paywall/welcome': COVER,
   // Areas.
   'crew/index': DRAWN,
   'crew/new': COVER,
@@ -107,10 +106,17 @@ export const PRESENTED_ROUTES: readonly string[] = Object.keys(PRESENTATIONS);
 /** Children of `(modal)` not listed above are the current UI's self-animated sheets. */
 const MODAL_GROUP = '(modal)';
 
+/**
+ * `(modal)` pages pushed inside the cover that opens them (what's in each plan, over the
+ * paywall): a push with `<`, never a presentation of their own.
+ */
+const PUSHED_IN_MODAL: ReadonlySet<string> = new Set(['(modal)/paywall/compare']);
+
 /** The premium presentation of a route by its path under `app/`; undefined for a pushed page. */
 export function presentationOf(path: string): ScreenPresentation | undefined {
   const listed = PRESENTATIONS[path];
   if (listed !== undefined) return listed;
+  if (PUSHED_IN_MODAL.has(path)) return undefined;
   // The bare group: opened before its first screen is known.
   return path === MODAL_GROUP || path.startsWith(`${MODAL_GROUP}/`) ? DRAWN : undefined;
 }

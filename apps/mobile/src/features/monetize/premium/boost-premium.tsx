@@ -1,5 +1,5 @@
 /**
- * Boost a trip · who pays (9.12) as a sheet over the page that opened it: the entry stamp, the
+ * Boost a trip · who pays (9.12) as a full-height native sheet over the page that opened it: the entry stamp, the
  * perks, this trip or every trip all year, who pays (with the crew fanned out when it splits) and
  * the one button. The store's own sheet takes the payment (9.13). When a crewmate is paying right
  * now, the "someone's already boosting" alert (9.22) says so, and "Tell me when it's done" asks to
@@ -13,6 +13,7 @@ import { View } from 'react-native';
 
 import { goBackOr } from '@/lib/navigation/back';
 import { Button, SegmentedControl, Text, usePremiumTheme, useToast } from '@/ui/premium';
+import { SheetScreen } from '@/ui/premium/shell';
 
 import { useClosedCopy } from '../boost/closed-copy';
 import { useBoostScreen } from '../boost/use-boost-screen';
@@ -20,7 +21,6 @@ import { useBillingRows } from '../data/use-billing-rows';
 import { perkLines } from '../perks/perk-copy';
 import { EntryStampCard, OptionRow, SplitFan } from './boost-parts';
 import { BoostLockAlert } from './boost-lock-alert';
-import { ModalSheet } from './components/modal-sheet';
 import { PerkChip } from './components/perk-chip';
 import { PurchaseFooter } from './components/purchase-footer';
 
@@ -65,9 +65,8 @@ export function BoostPremium() {
 
   return (
     <>
-      <ModalSheet
+      <SheetScreen
         cancelLabel={t({ id: 'monetize.premium.cancel', message: 'Cancel' })}
-        onCancel={close}
         title={t({ id: 'monetize.boost.title', message: `Boost ${destination}` })}
         {...(props.crew === ''
           ? {}
@@ -208,7 +207,7 @@ export function BoostPremium() {
             </>
           ) : null}
         </View>
-      </ModalSheet>
+      </SheetScreen>
       <BoostLockAlert
         visible={phase === 'locked' && !alertSeen}
         name={model.lockedBy ?? ''}
