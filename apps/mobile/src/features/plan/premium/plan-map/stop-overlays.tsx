@@ -30,12 +30,14 @@ export function StopOverlays(props: {
   readonly tripId: string;
   readonly map: ReturnType<typeof usePlanMap>;
   readonly stopId: string;
+  /** Opens straight on the stop's details instead of its menu (a link that named the stop). */
+  readonly openDetails?: boolean;
   readonly onClose: () => void;
 }) {
   const { map, tripId } = props;
   const { model, data, day } = map;
   const guideActions = useGuideActions();
-  const [details, setDetails] = useState(false);
+  const [details, setDetails] = useState(props.openDetails === true);
   const stop = day?.items.find((item) => item.stableId === props.stopId) ?? null;
   if (stop === null || day === null) return null;
   const row = map.rows.find((entry) => entry.id === stop.stableId);

@@ -25,23 +25,10 @@ const useStyles = makeStyles((t) => ({
   body: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['24'], gap: t.space['12'] },
 }));
 
-export function ShareSheet({
-  plan,
-  days,
-  onClose,
-}: {
-  readonly plan: TripPlan;
-  /** The plan's days as the screen shows them. */
-  readonly days: readonly TripDay[];
-  readonly onClose: () => void;
-}) {
-  const { t } = useLingui();
+/** The plan's events of mine for the calendar export, as both looks of the share sheet read them. */
+export function useMyPlanEvents(plan: TripPlan) {
   const locale = useLocale();
-  const styles = useStyles();
-  const writer = useCalendarWriter();
-  const [calendar, setCalendar] = useState(false);
-  const tripId = plan.trip?.id ?? '';
-  const events = useMemo(
+  return useMemo(
     () =>
       myEvents(
         toPlanItems(plan.itemRows, locale, plan.places),
@@ -50,6 +37,36 @@ export function ShareSheet({
       ),
     [plan.itemRows, plan.places, plan.uid, plan.trip?.tz, locale],
   );
+}
+
+/** The plan, day by day, as the text "Send the plan" hands to the phone's share sheet. */
+export function sharePlanText(plan: TripPlan, days: readonly TripDay[], locale: string): void {
+  const message = planShareText({
+    locale,
+    destination: plan.trip?.destination_name ?? null,
+    startDate: plan.trip?.start_date ?? null,
+    endDate: plan.trip?.end_date ?? null,
+    days,
+  });
+  // The person may close the phone's share sheet without sending: nothing to report.
+  void Share.share({ message }).catch(() => undefined);
+}
+
+export interface ShareSheetProps {
+  readonly plan: TripPlan;
+  /** The plan's days as the screen shows them. */
+  readonly days: readonly TripDay[];
+  readonly onClose: () => void;
+}
+
+export function ShareSheet({ plan, days, onClose }: ShareSheetProps) {
+  const { t } = useLingui();
+  const locale = useLocale();
+  const styles = useStyles();
+  const writer = useCalendarWriter();
+  const [calendar, setCalendar] = useState(false);
+  const tripId = plan.trip?.id ?? '';
+  const events = useMyPlanEvents(plan);
   if (calendar) {
     return <ExportSheet tripId={tripId} events={events} writer={writer} onClose={onClose} />;
   }
@@ -64,17 +81,7 @@ export function ShareSheet({
         <PillButton
           label={t({ id: 'plan.tripMap.sendPlan', message: 'Send the plan' })}
           block
-          onPress={() => {
-            const message = planShareText({
-              locale,
-              destination: plan.trip?.destination_name ?? null,
-              startDate: plan.trip?.start_date ?? null,
-              endDate: plan.trip?.end_date ?? null,
-              days,
-            });
-            // The person may close the phone's share sheet without sending: nothing to report.
-            void Share.share({ message }).catch(() => undefined);
-          }}
+          onPress={() => sharePlanText(plan, days, locale)}
           testID="plan-share-send"
         />
         <PlanShareSlot tripId={tripId} />

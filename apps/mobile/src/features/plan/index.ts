@@ -4,6 +4,7 @@ export { useTripPlan, type PlanMember, type TripPlan } from '@/data/plan/use-tri
 export {
   PlanShareSlot,
   registerPlanShareSlot,
+  registerPremiumPlanShareSlot,
   type PlanShareSlotProps,
 } from './overview/share-slot';
 export { planRoutes } from './overview/routes';
