@@ -10,6 +10,7 @@
  */
 import { crypto as dbCrypto } from '@cp/db';
 import {
+  calledByName,
   effectiveInviteStatus,
   isOpenInvite,
   previewShowsInviteeName,
@@ -53,11 +54,6 @@ async function personalInvite(ctx: LinkProviderContext): Promise<PersonalRow | n
   return rows[0] ?? null;
 }
 
-function firstName(name: string): string | null {
-  const first = name.trim().split(/\s+/)[0];
-  return first !== undefined && first.length > 0 ? first : null;
-}
-
 export function createInviteLinkProvider(
   keyring: dbCrypto.FieldEncryptionKeyring | null,
 ): LinkProvider {
@@ -67,7 +63,7 @@ export function createInviteLinkProvider(
       return null;
     }
     if (row.name_enc === null || keyring === null) return null;
-    return firstName(decryptField(row.name_enc, keyring));
+    return calledByName(decryptField(row.name_enc, keyring));
   };
 
   return {

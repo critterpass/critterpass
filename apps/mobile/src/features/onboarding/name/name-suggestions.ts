@@ -6,7 +6,7 @@
  */
 import { GIVEN_NAME_MAX, givenNameLength } from '@cp/domain';
 
-import { familyNameFirst, nameWords } from '@/lib/people/name-order';
+import { familyNameFirst, nameWords } from '@cp/domain';
 
 export function nameSuggestions(name: string): string[] {
   const words = nameWords(name);
