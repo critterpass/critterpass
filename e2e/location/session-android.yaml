@@ -8,8 +8,6 @@ appId: app.critterpass.dev
     permissions:
       location: allow
       notifications: allow
-# On the premium UI (the only one the flows drive).
-- runFlow: ../_shared/premium-ui.yaml
 - setLocation:
     latitude: -8.5096
     longitude: 115.2638

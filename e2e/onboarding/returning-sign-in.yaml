@@ -4,8 +4,6 @@ appId: app.critterpass.dev
 # needs the api's test phone number; without it the flow checks the returning sign-in page.
 - launchApp:
     clearState: true
-# On the premium UI (the only one the flows drive).
-- runFlow: ../_shared/premium-ui.yaml
 - extendedWaitUntil:
     visible:
       id: 'onboarding-sign-in'

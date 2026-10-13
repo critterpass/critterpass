@@ -16,13 +16,6 @@ appId: app.critterpass.dev
       visible: 'Open'
     commands:
       - tapOn: 'Open'
-# On the premium UI (the only one the flows drive), then its splash.
-- runFlow: ../../_shared/premium-ui.yaml
-- runFlow:
-    when:
-      visible: 'Open'
-    commands:
-      - tapOn: 'Open'
 # The iOS paste offer can cover a cleared install's splash.
 - runFlow:
     when:

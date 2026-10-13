@@ -6,13 +6,7 @@ covers (links, location, permissions, notifications, Live Activities, offline re
 `subflows/` and `_shared/` hold pieces other flows run, and `spikes/` holds the native-surface spikes
 outside the suite. Flows named `*-ios.yaml` or `*-android.yaml` run on that platform only.
 
-### The premium UI step
-
-`_shared/premium-ui.yaml` makes sure the phone shows the premium UI: `_shared/start-as.yaml` and
-`happy/subflows/fresh-install.yaml` end with it, and so do the area flows that clear the install
-themselves. While the app still has Developer tools' "Premium UI on here" switch, the step taps it
-and relaunches; once the switch is gone the step only relaunches (and should then be deleted with
-its callers). A build without the premium native modules fails the step.
+### Shared helpers
 
 Shared helpers in `_shared/`: `tap.yaml` (an id, or the label when an iOS 26 toolbar or tab bar item
 has no id in the hierarchy), `tab.yaml` (the system tab bar), `back.yaml` (one step back: the edge

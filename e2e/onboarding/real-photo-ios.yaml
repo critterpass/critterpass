@@ -5,8 +5,6 @@ appId: app.critterpass.dev
 # says the photo waits for its check.
 - launchApp:
     clearState: true
-# On the premium UI (the only one the flows drive).
-- runFlow: ../_shared/premium-ui.yaml
 - runFlow: ../happy/subflows/through-name.yaml
 - tapOn:
     id: 'onboarding-photo-real'

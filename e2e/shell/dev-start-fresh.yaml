@@ -37,7 +37,7 @@ appId: app.critterpass.dev
 - takeScreenshot: shell-start-fresh-1-old-account-crew
 
 # Developer tools → Start fresh opens the confirm sheet; nothing is wiped yet.
-- runFlow: ../home/subflows/open-dev-tools.yaml
+- runFlow: ../_shared/open-dev-tools.yaml
 - scrollUntilVisible:
     element:
       id: 'dev-nav-start-fresh'

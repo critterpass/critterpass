@@ -5,8 +5,6 @@ appId: app.critterpass.dev
 # Wallet's expense row and balances gain the home amount.
 - launchApp:
     clearState: true
-# On the premium UI (the only one the flows drive).
-- runFlow: ../_shared/premium-ui.yaml
 - runFlow:
     when:
       visible: 'Open'

@@ -15,4 +15,3 @@ appId: app.critterpass.dev
       visible: 'Open'
     commands:
       - tapOn: 'Open'
-- runFlow: ../../_shared/premium-ui.yaml

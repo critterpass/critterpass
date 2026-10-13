@@ -63,17 +63,13 @@ appId: app.critterpass.dev
       id: 'issued-stamp'
     timeout: 10000
 - assertVisible: '.*WINSTON.*'
-# The pass's stamp lands first; a tap during it can be dropped, so the save is tapped again while
-# its sheet has not risen.
-- retry:
-    maxRetries: 2
-    commands:
-      - tapOn:
-          id: 'onboarding-issued-save'
-      - extendedWaitUntil:
-          visible:
-            id: 'save-not-now'
-          timeout: 15000
+- tapOn:
+    id: 'onboarding-issued-save'
+# The save sheet (a form sheet on both platforms): not now.
+- extendedWaitUntil:
+    visible:
+      id: 'save-not-now'
+    timeout: 15000
 - waitForAnimationToEnd
 - tapOn:
     id: 'save-not-now'

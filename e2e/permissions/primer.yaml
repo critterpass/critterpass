@@ -1,47 +1,44 @@
 appId: app.critterpass.dev
 ---
-# 3a-9 primer: every toggle starts off, the OS prompt appears only after a toggle is flipped on,
-# a grant keeps the toggle on, a refusal snaps it back and offers Settings.
+# The permissions page (2.13): every ask starts off, the OS prompt appears only after a card is
+# tapped, a grant turns the card on, a refusal leaves it off and says how to turn it on later.
 - launchApp:
     clearState: true
     permissions:
       notifications: unset
       location: unset
-# On the premium UI (the only one the flows drive).
-- runFlow: ../_shared/premium-ui.yaml
 - runFlow:
     file: subflows/open-dev-screen.yaml
     env:
       SCREEN: permissions-primer
       READY: permissions-primer
 - assertVisible:
-    id: 'primer-notifications-toggle'
+    id: 'primer-notifications'
     checked: false
 - assertVisible:
-    id: 'primer-location-toggle'
+    id: 'primer-location'
     checked: false
 - assertVisible:
-    id: 'primer-calendar-toggle'
+    id: 'primer-calendar'
     checked: false
 - tapOn:
-    id: 'primer-notifications-toggle'
+    id: 'primer-notifications'
 - tapOn:
     text: 'Allow'
     optional: false
 - extendedWaitUntil:
     visible:
-      id: 'primer-notifications-toggle'
+      id: 'primer-notifications'
       checked: true
     timeout: 10000
 - tapOn:
-    id: 'primer-location-toggle'
+    id: 'primer-location'
 - tapOn:
     text: 'Don.t Allow'
 - extendedWaitUntil:
-    visible:
-      id: 'primer-location-denied'
+    visible: '.*Off\. I.ll ask on your trip.*'
     timeout: 10000
 - assertVisible:
-    id: 'primer-location-toggle'
+    id: 'primer-location'
     checked: false
-- takeScreenshot: primer-denied-location
+- takeScreenshot: premium-2.13-primer-denied-location-light

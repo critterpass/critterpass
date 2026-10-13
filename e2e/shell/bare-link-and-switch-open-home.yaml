@@ -21,7 +21,7 @@ appId: app.critterpass.dev
     id: 'tab-pass'
 - waitForAnimationToEnd:
     timeout: 5000
-- runFlow: ../home/subflows/open-dev-tools.yaml
+- runFlow: ../_shared/open-dev-tools.yaml
 - scrollUntilVisible:
     element:
       id: 'dev-nav-accounts'
