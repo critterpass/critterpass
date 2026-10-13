@@ -10,7 +10,7 @@ import { useState, type ReactNode } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { goBackOr } from '@/lib/navigation/back';
 import { toast } from '@/motion';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { useOpenDestinationPoll } from '../data/use-board';
 import { useDestinationSearch } from '../data/use-destination-search';

@@ -10,7 +10,7 @@ import { useLingui } from '@lingui/react/macro';
 import { StyleSheet, View } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   Card,

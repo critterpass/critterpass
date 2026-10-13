@@ -13,7 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { Doodle } from '@/features/explore';
-import { DEFAULT_GUIDE_ID, guideSticker } from '@/ui/avatar/guides';
+import { DEFAULT_GUIDE_ID, guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   CritterSticker,

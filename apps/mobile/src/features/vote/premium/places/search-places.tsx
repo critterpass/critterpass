@@ -15,7 +15,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { useGuidesPerCity } from '@/data/guides';
 import { regionName } from '@/features/onboarding';
 import { toast } from '@/motion';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   CritterSticker,

@@ -1,5 +1,5 @@
 import { DESTINATION_GUIDE_TABLES, destinationGuideSql, useGuidesPerCity } from '@/data/guides';
-import { isGuideStickerId } from '@/ui/avatar/guides';
+import { isGuideStickerId } from '@/ui/premium/stickers/guides';
 import { useLiveRows } from '../data/live-rows';
 import { type GuestPlace } from './use-guest-brief';
 

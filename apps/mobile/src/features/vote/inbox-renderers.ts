@@ -9,7 +9,7 @@ import { msg } from '@lingui/core/macro';
 import { POLL_INBOX_KIND, type InboxAction } from '@cp/domain';
 
 import { registerInboxRenderer, type InboxItem } from '@/features/home';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { guideOr } from './format';
 
