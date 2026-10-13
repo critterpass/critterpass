@@ -7,46 +7,31 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: ko\n"
 
-#: ../../apps/mobile/src/features/safety/help/help-view.tsx
-msgid "safety.help.phraseGloss"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.active"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
-#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.eta"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/help-hero.tsx
-msgid "safety.help.whereUnknown"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
 msgid "safety.sos.onIt"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.away"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
-#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.distance"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.awayMiles"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
-#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.distanceMiles"
 msgstr ""
 
@@ -54,7 +39,6 @@ msgstr ""
 msgid "safety.sos.stepSent"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/help-view.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.open24"
 msgstr ""
@@ -64,17 +48,11 @@ msgid "safety.sos.knowsQueued"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.safeTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.theyAreSafe"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
-msgid "safety.sos.safe"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/sos/use-sos-screen.ts
@@ -83,13 +61,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
-#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.live"
 msgstr ""
 
@@ -113,13 +88,11 @@ msgstr ""
 msgid "safety.push.extendShare"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.extend"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.words"
 msgstr ""
 
@@ -129,10 +102,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
 msgid "safety.action.addPolicy"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
-msgid "safety.sosAccess.allow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/service-label.ts
@@ -147,7 +116,6 @@ msgstr ""
 msgid "safety.action.askDesk"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/premium/ChecklistPremium.tsx
 msgid "safety.desk.confirm"
 msgstr ""
@@ -174,19 +142,16 @@ msgstr ""
 msgid "safety.action.call"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
-#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
-msgid "safety.sos.callGeneral"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.premium.call"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
+msgid "safety.sos.callGeneral"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
 msgid "safety.sos.callName"
 msgstr ""
 
@@ -198,31 +163,23 @@ msgstr ""
 msgid "safety.help.calling"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.deniedLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/ChecklistPremium.tsx
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.cancel"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
-#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
-msgid "safety.sos.close"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/PhraseBig.tsx
 msgid "safety.premium.close"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/show-it.tsx
-msgid "safety.showIt.close"
+#: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
+#: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
+#: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
+msgid "safety.sos.close"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/service-label.ts
@@ -230,7 +187,6 @@ msgid "safety.service.coastGuard"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.seen"
 msgstr ""
 
@@ -239,38 +195,25 @@ msgstr ""
 msgid "safety.premium.crewSees"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/help-hero.tsx
-msgid "safety.help.sharing"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/help/help-view.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.help.disclaimer"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/consent-sheet.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.consent.done"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/help-view.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.limitedLabel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 msgid "safety.premium.sendFallbackLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
-msgid "safety.sos.falseAlarm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/service-label.ts
@@ -289,7 +232,6 @@ msgstr ""
 msgid "safety.step.rideQuote"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/help-view.tsx
 #: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.go"
@@ -304,20 +246,13 @@ msgid "safety.step.facility"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.goingDone"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
-msgid "safety.back.help"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.premium.helpTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/help-view.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.centre"
 msgstr ""
@@ -326,7 +261,6 @@ msgstr ""
 msgid "safety.premium.holdToSend"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/help-view.tsx
 #: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.hurt"
@@ -341,7 +275,6 @@ msgid "safety.push.coming"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.imGoing"
 msgstr ""
 
@@ -349,14 +282,12 @@ msgstr ""
 msgid "safety.preset.lost"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/help-view.tsx
 #: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.imLost"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.imOk"
 msgstr ""
 
@@ -372,10 +303,6 @@ msgstr ""
 msgid "safety.step.embassy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
-msgid "safety.sosAccess.dnd"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.stepInsurance"
 msgstr ""
@@ -388,25 +315,14 @@ msgstr ""
 msgid "safety.help.insurer"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
-msgid "safety.pending.sentLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
-msgid "safety.pending.openLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/help/consent-sheet.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.consent.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/help-view.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.limited"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/help-view.tsx
 #: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.lostStolen"
@@ -416,7 +332,6 @@ msgstr ""
 msgid "safety.queued.message"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/help-view.tsx
 #: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.missedRide"
@@ -426,53 +341,32 @@ msgstr ""
 msgid "safety.premium.needHand"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/help-hero.tsx
-msgid "safety.help.title"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/sos/use-sos-send.ts
 msgid "safety.preset.ride"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
-msgid "safety.map.needsHelp"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/help/help-view.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.noFacility"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/help-view.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.noInsurance"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.noAnswer"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.youAlone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.nobody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.stepSentNobody"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
-msgid "safety.sosAccess.notifications"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/sos/alert-access-rows.tsx
-msgid "safety.sosAccess.fullScreen"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
@@ -483,15 +377,10 @@ msgstr ""
 msgid "safety.push.open"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
-msgid "safety.pending.openTitle"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 msgid "safety.premium.sosLoading"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/premium/ChecklistPremium.tsx
 msgid "safety.desk.title"
 msgstr ""
@@ -525,27 +414,22 @@ msgid "safety.step.police"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.seeOnMap"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.againTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.sendNow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.action"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.countdown"
 msgstr ""
 
@@ -553,16 +437,10 @@ msgstr ""
 msgid "safety.sos.stepSending"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
-msgid "safety.pending.sentTitle"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.sending"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.settings"
 msgstr ""
@@ -571,22 +449,18 @@ msgstr ""
 msgid "safety.action.share"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.start"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.denied"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/consent-sheet.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.consent.toggle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/consent-sheet.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.consent.toggleCrew"
 msgstr ""
@@ -615,10 +489,6 @@ msgstr ""
 msgid "safety.action.showIt"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/help-view.tsx
-msgid "safety.help.showIt"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.phrase"
 msgstr ""
@@ -627,25 +497,18 @@ msgstr ""
 msgid "safety.premium.showThis"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
-msgid "safety.send.slide"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 msgid "safety.premium.sosChip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.at"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.sentAt"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/help-view.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.sos"
 msgstr ""
@@ -655,7 +518,6 @@ msgid "safety.queued.sos"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.title"
 msgstr ""
 
@@ -667,10 +529,6 @@ msgstr ""
 msgid "safety.sms.body"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
-msgid "safety.share.starting"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.stayPut"
 msgstr ""
@@ -679,7 +537,6 @@ msgstr ""
 msgid "safety.push.stopShare"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.stop"
 msgstr ""
@@ -701,7 +558,6 @@ msgid "safety.queued.resolve"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.youSafeTitle"
 msgstr ""
 
@@ -714,7 +570,6 @@ msgid "safety.desk.askedQueued"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
-#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.straight"
 msgstr ""
 
@@ -722,13 +577,11 @@ msgstr ""
 msgid "safety.step.opsClinic"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/consent-sheet.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.consent.control"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
-#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.ended"
 msgstr ""
 
@@ -736,17 +589,11 @@ msgstr ""
 msgid "safety.service.touristPolice"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
-msgid "safety.share.until"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
-#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.waiting"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
-#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.directions"
 msgstr ""
 
@@ -755,11 +602,6 @@ msgstr ""
 msgid "safety.premium.youreOn"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/help/help-hero.tsx
-msgid "safety.help.where"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.activeCrew"
 msgstr ""
@@ -773,7 +615,6 @@ msgid "safety.sos.resolvedQueued"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.youTitle"
 msgstr ""
 
@@ -801,12 +642,7 @@ msgstr ""
 msgid "safety.premium.sendFailed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
-msgid "safety.send.failed"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.staleQuestion"
 msgstr ""
 
@@ -815,6 +651,5 @@ msgid "safety.premium.sosGoing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.againLine"
 msgstr ""

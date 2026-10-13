@@ -7,70 +7,17 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: tr\n"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.opened"
-msgstr "{driverName} bağlantıyı açtı · {openedOn}"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.lovedValue"
-msgstr "{rated} gruptan {loved}"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.loved"
-msgstr "{voters} kişiden {lovedCount} bayıldı"
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-msgid "drivers.invite.intro"
-msgstr "Karar {name} için. Kendi telefonundan onaylayana kadar hakkında hiçbir şey herkese açık değil ve istediği zaman kaldırabilir."
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.trips"
-msgstr "{trips} yolculuk"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.sevenPlus"
-msgstr "7+ koltuk"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.tipBy"
-msgstr "{crewSize} kişilik bir grup · {tipMonth}"
-
 #: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "Önce WhatsApp numarasını yolculuğa ekle ya da zaten listede."
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-msgid "drivers.invite.bahasa"
-msgstr "Endonezce de ekle"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.shortlist"
-msgstr "Kısa listeye ekle"
 
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.shortlist"
 msgstr "Yolculuğa şoför ekleniyor"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
-msgid "drivers.rate.saved"
-msgstr "Cevap kaydedildi"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.cancel"
-msgstr "Daveti iptal et"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
-msgid "drivers.ours.cancelTitle"
-msgstr ""
-
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.cancel"
 msgstr "Davet iptal ediliyor"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.rerate"
-msgstr "Cevabımı değiştir"
 
 #: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.shortlistFailed"
@@ -84,57 +31,13 @@ msgstr "Bağlantı oluşturulamadı. Tekrar dene."
 msgid "drivers.rate.failed"
 msgstr "Cevap kaydedilemedi. Tekrar dene."
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.loved"
-msgstr "Gruplar bayıldı"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.back"
-msgstr "Grupların şoförleri"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
-msgid "drivers.rate.day"
-msgstr "{day}. gün"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.dayTrips"
-msgstr "Günübirlik geziler"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.role"
-msgstr "Şoför"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.directory"
-msgstr "Diğer grupların bayıldığı şoförler"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.title"
-msgstr "Gruplarımızın şoförleri"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.intro"
-msgstr "Bu grubun şoförleri. Onaylamayanları sadece siz {crew} kişi görürsünüz."
-
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.tag.fairPrice"
 msgstr "Uygun fiyat"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.back"
-msgstr "Şoför bul"
-
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.fine"
 msgstr "İdare eder"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.back"
-msgstr "Ulaşım"
 
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.tag.goodEnglish"
@@ -148,30 +51,6 @@ msgstr "Harika fotoğraflar"
 msgid "drivers.detail.firstLine"
 msgstr "Merhaba {first}, seni CritterPass'te buldum. Grubumuzu taşımaya müsait misin?"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.noChase"
-msgstr "Peşine düşmeyeceğim. Senden bir hatırlatma yeter."
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-msgid "drivers.invite.title"
-msgstr "{name} listelenmeye davet et"
-
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
-msgid "drivers.rate.invite"
-msgstr "{name} listelenmeye davet et"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.cancelled"
-msgstr "Davet iptal edildi. Hiçbir şey listelenmedi."
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.sent"
-msgstr "Davet WhatsApp'tan gönderildi · {sentOn}"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.invite"
-msgstr "Listelenmeye davet et"
-
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.invite"
 msgstr "Şoför davet ediliyor"
@@ -180,37 +59,9 @@ msgstr "Şoför davet ediliyor"
 msgid "drivers.tag.knewTheSpots"
 msgstr "Yerleri biliyordu"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.listed"
-msgstr "Listede"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.since"
-msgstr "Listede"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.loading"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
-msgid "drivers.ours.loading"
-msgstr ""
-
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.loved"
 msgstr "Bayıldım"
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-msgid "drivers.invite.making"
-msgstr "Bağlantı hazırlanıyor…"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.message"
-msgstr "WhatsApp'tan yaz"
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-msgid "drivers.invite.messageLabel"
-msgstr "Şoförüne mesaj"
 
 #: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
@@ -220,41 +71,9 @@ msgstr "Bağlantı için sinyal gerekiyor."
 msgid "drivers.tag.newCar"
 msgstr "Yeni araba"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.emptyLineNone"
-msgstr "Hiçbir grup buraya listelenmek isteyen bir şoför getirmedi."
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.emptyLine"
-msgstr "Hiçbir grup buraya listelenmek isteyen bir şoför getirmedi. {widenTo} için şoförler var."
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.emptyTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.empty"
-msgstr "{area} çevresinde henüz kimse yok"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.emptyAny"
-msgstr "Henüz kimse yok"
-
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.notAgain"
 msgstr "Bir daha asla"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.notClaimed"
-msgstr "Onaylanmadı"
-
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
-msgid "drivers.rate.missingTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.nudge"
-msgstr "Hatırlat"
 
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.nudge"
@@ -268,151 +87,33 @@ msgstr "Çevrimdışı. {time} tarihli liste."
 msgid "drivers.tag.onTime"
 msgstr "Dakik"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.shortlisted"
-msgstr "Yolculuğunda"
-
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
-msgid "drivers.rate.tip"
-msgstr "Sonraki gruba bir ipucu"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.tip"
-msgstr "Bir gruptan ipucu"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.intro"
-msgstr "Sadece listelenmek isteyen şoförler. Puanlar onlarla yolculuk yapan gruplardan."
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-msgid "drivers.invite.open"
-msgstr "WhatsApp'ta aç"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.title"
-msgstr "Şoförlerimiz"
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 #: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.back"
 msgstr "Şoförlerimiz"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
-msgid "drivers.report.line"
-msgstr "Ekibimiz inceler. Kimin bildirdiğini kimse görmez."
 
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.tag.patient"
 msgstr "Sabırlı"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.paused"
-msgstr "Duraklatıldı"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.rate"
-msgstr "Puanla"
-
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
-msgid "drivers.rate.title"
-msgstr "Şoförünü puanla"
-
 #: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.notEligible"
 msgstr "Puanlama yolculuktan sonra, telefonu doğrulanmış üyelere açılır."
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
-msgid "drivers.report.confirm"
-msgstr "Bildir"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.report"
-msgstr "Bu profili bildir"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.reportTip"
-msgstr "Bu ipucunu bildir"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
-msgid "drivers.report.title"
-msgstr "Bunu bildir?"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.emptyLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.own"
-msgstr "Kendi profilini yönetiyor"
 
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.tag.safeDriver"
 msgstr "Güvenli sürüş"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
-msgid "drivers.rate.save"
-msgstr "Cevabı kaydet"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.widen"
-msgstr "{widenTo} da göster"
-
 #: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.reported"
 msgstr "Teşekkürler. İnceleyeceğiz."
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.expired"
-msgstr "Bağlantı kapandı. Hiçbir şey listelenmedi."
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-msgid "drivers.invite.expires"
-msgstr "Bağlantı {expiresOn} tarihine kadar çalışır. Sonra kapanır ve hiçbir şey listelenmez."
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.until"
-msgstr "Bağlantı {untilOn} tarihine kadar çalışır. Sonra kapanır ve hiçbir şey listelenmez."
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
-msgid "drivers.ours.cancelLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-msgid "drivers.invite.message"
-msgstr "Mesaj · sen gönderirsin"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
-msgid "drivers.detail.unavailable"
-msgstr "Bu profil şu an görünmüyor. Duraklatmış olabilir."
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.trips"
-msgstr "Gruplarla yolculuk"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.waiting"
-msgstr "Onayını bekliyor"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.priceNote"
-msgstr "Gruplara söylediği. CritterPass fiyatı değil."
 
 #: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "Ona zaten bir kez hatırlattın."
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
-msgid "drivers.rate.missingLine"
-msgstr ""
-
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.rate"
 msgstr "Şoför hakkındaki cevabın"
-
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
-msgid "drivers.rate.intro"
-msgstr "Grubunun puanı ve etiketleri, listedeyse {name} profilinde görünür. Senin hakkında hiçbir şey görünmez."
 
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.report"

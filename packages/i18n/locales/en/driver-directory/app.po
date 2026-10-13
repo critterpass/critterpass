@@ -7,70 +7,17 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.opened"
-msgstr "{driverName} opened the link · {openedOn}"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.lovedValue"
-msgstr "{loved} of {rated}"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.loved"
-msgstr "{lovedCount} of {voters} loved it"
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-msgid "drivers.invite.intro"
-msgstr "{name} decides. Nothing about him is public until he confirms on his own phone, and he can take it down anytime."
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.trips"
-msgstr "{trips} trips"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.sevenPlus"
-msgstr "7+ seats"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.tipBy"
-msgstr "A crew of {crewSize} · {tipMonth}"
-
 #: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "Add his WhatsApp number to the trip first, or he is already listed."
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-msgid "drivers.invite.bahasa"
-msgstr "Add it in Bahasa too"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.shortlist"
-msgstr "Add to shortlist"
 
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.shortlist"
 msgstr "Adding a driver to the trip"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
-msgid "drivers.rate.saved"
-msgstr "Answer saved"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.cancel"
-msgstr "Cancel invite"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
-msgid "drivers.ours.cancelTitle"
-msgstr "Cancel this invite?"
-
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.cancel"
 msgstr "Cancelling the invite"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.rerate"
-msgstr "Change my answer"
 
 #: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.shortlistFailed"
@@ -84,57 +31,13 @@ msgstr "Couldn't make his link. Try again."
 msgid "drivers.rate.failed"
 msgstr "Couldn't save your answer. Try again."
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.loved"
-msgstr "Crews loved it"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.back"
-msgstr "Crews' drivers"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
-msgid "drivers.rate.day"
-msgstr "Day {day}"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.dayTrips"
-msgstr "Day trips"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.role"
-msgstr "Driver"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.directory"
-msgstr "Drivers other crews loved"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.title"
-msgstr "Drivers our crews used"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.intro"
-msgstr "Drivers this crew used. The ones who haven't confirmed are only visible to you {crew}."
-
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.tag.fairPrice"
 msgstr "Fair price"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.back"
-msgstr "Find a driver"
-
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.fine"
 msgstr "Fine"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.back"
-msgstr "Getting around"
 
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.tag.goodEnglish"
@@ -148,30 +51,6 @@ msgstr "Great photos"
 msgid "drivers.detail.firstLine"
 msgstr "Hi {first}, I found you on CritterPass. Are you free to drive our group?"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.noChase"
-msgstr "I won't chase him. One nudge from you is plenty."
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-msgid "drivers.invite.title"
-msgstr "Invite {name} to be listed"
-
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
-msgid "drivers.rate.invite"
-msgstr "Invite {name} to be listed"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.cancelled"
-msgstr "Invite cancelled. Nothing was listed."
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.sent"
-msgstr "Invite sent on WhatsApp · {sentOn}"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.invite"
-msgstr "Invite to be listed"
-
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.invite"
 msgstr "Inviting your driver"
@@ -180,37 +59,9 @@ msgstr "Inviting your driver"
 msgid "drivers.tag.knewTheSpots"
 msgstr "Knew the spots"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.listed"
-msgstr "Listed"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.since"
-msgstr "Listed since"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.loading"
-msgstr "Loading the drivers"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
-msgid "drivers.ours.loading"
-msgstr "Loading your drivers"
-
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.loved"
 msgstr "Loved it"
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-msgid "drivers.invite.making"
-msgstr "Making his link…"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.message"
-msgstr "Message on WhatsApp"
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-msgid "drivers.invite.messageLabel"
-msgstr "Message to your driver"
 
 #: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
@@ -220,41 +71,9 @@ msgstr "Needs signal to make his link."
 msgid "drivers.tag.newCar"
 msgstr "New car"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.emptyLineNone"
-msgstr "No crew has brought back a driver here who asked to be listed."
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.emptyLine"
-msgstr "No crew has brought back a driver here who asked to be listed. Listed drivers cover {widenTo}."
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.emptyTitle"
-msgstr "No drivers yet"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.empty"
-msgstr "Nobody listed around {area} yet"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.emptyAny"
-msgstr "Nobody listed yet"
-
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.notAgain"
 msgstr "Not again"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.notClaimed"
-msgstr "Not claimed"
-
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
-msgid "drivers.rate.missingTitle"
-msgstr "Not one of this trip’s drivers"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.nudge"
-msgstr "Nudge"
 
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.nudge"
@@ -268,151 +87,33 @@ msgstr "Offline. The list from {time}."
 msgid "drivers.tag.onTime"
 msgstr "On time"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.shortlisted"
-msgstr "On your trip"
-
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
-msgid "drivers.rate.tip"
-msgstr "One tip for the next crew"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.tip"
-msgstr "One tip from a crew"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.intro"
-msgstr "Only drivers who asked to be listed. Ratings come from crews who rode with them."
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-msgid "drivers.invite.open"
-msgstr "Open in WhatsApp"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.title"
-msgstr "Our drivers"
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 #: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.back"
 msgstr "Our drivers"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
-msgid "drivers.report.line"
-msgstr "Our team reviews it. Nobody sees who reported it."
 
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.tag.patient"
 msgstr "Patient"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.paused"
-msgstr "Paused"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.rate"
-msgstr "Rate him"
-
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
-msgid "drivers.rate.title"
-msgstr "Rate your driver"
-
 #: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.notEligible"
 msgstr "Rating opens after the trip, for members with a verified phone."
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
-msgid "drivers.report.confirm"
-msgstr "Report"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.report"
-msgstr "Report this listing"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.reportTip"
-msgstr "Report this tip"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
-msgid "drivers.report.title"
-msgstr "Report this?"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.emptyLine"
-msgstr "Ride with someone on this trip and they land here for the crew."
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.own"
-msgstr "Runs his own listing"
 
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.tag.safeDriver"
 msgstr "Safe driver"
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
-msgid "drivers.rate.save"
-msgstr "Save our answer"
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.widen"
-msgstr "Show {widenTo} too"
-
 #: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.reported"
 msgstr "Thanks. We will take a look."
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.expired"
-msgstr "The link switched off. Nothing was listed."
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-msgid "drivers.invite.expires"
-msgstr "The link works until {expiresOn}. After that it switches off and nothing is listed."
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.until"
-msgstr "The link works until {untilOn}. After that it switches off and nothing is listed."
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
-msgid "drivers.ours.cancelLine"
-msgstr "The link you sent stops working at once."
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
-msgid "drivers.invite.message"
-msgstr "The message · you send it"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
-msgid "drivers.detail.unavailable"
-msgstr "This driver's listing isn't available right now. He may have paused it."
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.trips"
-msgstr "Trips with crews"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
-msgid "drivers.ours.waiting"
-msgstr "Waiting for him to confirm"
-
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.priceNote"
-msgstr "What he tells crews. Not a CritterPass price."
 
 #: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "You already nudged him once."
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
-msgid "drivers.rate.missingLine"
-msgstr "You can rate the drivers this crew rode with on this trip."
-
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.rate"
 msgstr "Your answer about your driver"
-
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
-msgid "drivers.rate.intro"
-msgstr "Your crew's rating and tags go on {name}'s listing if he's listed. Nothing about you does."
 
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.report"

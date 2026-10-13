@@ -23,10 +23,6 @@ msgstr "{guideName} đang gọi {who} dậy"
 msgid "trip.dayOf.rings"
 msgstr "{guideName} sẽ gọi {who} dậy lúc {alarm}"
 
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.personal"
-msgstr "{label}, chỉ mình bạn"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.stillAsleep"
 msgstr "{sleepers, plural, other {{who} vẫn đang ngủ.}}"
@@ -43,14 +39,6 @@ msgstr "{up}/{total} người đã dậy"
 msgid "trip.dayOf.ringSpoken"
 msgstr "Còn {value}"
 
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.add"
-msgstr "+ Thêm"
-
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.addLabel"
-msgstr "Thêm vào đồ mang theo"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.inApp"
 msgstr "Báo thức đang tắt trên điện thoại này. Chỉ reo trong ứng dụng khi ứng dụng đang mở."
@@ -58,10 +46,6 @@ msgstr "Báo thức đang tắt trên điện thoại này. Chỉ reo trong ứn
 #: ../../apps/mobile/src/features/trip/leave-by/commands.ts
 msgid "trip.dayOf.queued.notUp"
 msgstr "Ngủ tiếp"
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
-msgid "trip.dayOf.toToday"
-msgstr "Về hôm nay"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.beAtAirportBy"
@@ -71,33 +55,9 @@ msgstr "Có mặt ở sân bay trước"
 msgid "trip.dayOf.beThereBy"
 msgstr "Có mặt trước"
 
-#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
-msgid "trip.dayOf.doneTitle"
-msgstr "Xong hôm nay"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.allUpDetail"
 msgstr "Mọi người dậy hết rồi. Gặp nhau ở cổng nhé."
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
-msgid "trip.dayOf.firstUp"
-msgstr "Việc đầu tiên"
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
-msgid "trip.dayOf.forecastLink"
-msgstr "Dự báo và những gì đang theo dõi"
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
-msgid "trip.dayOf.freeDayTitle"
-msgstr "Ngày tự do"
-
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.placeholder"
-msgstr "Đèn đội đầu"
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
-msgid "trip.dayOf.imUp"
-msgstr "Mình dậy rồi"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.ringLate"
@@ -115,37 +75,13 @@ msgstr "Đã qua giờ xuất phát"
 msgid "trip.alarm.note.askAction"
 msgstr "Chuyển thành báo thức"
 
-#: ../../apps/mobile/src/features/trip/day-of/timeline.tsx
-msgid "trip.dayOf.next"
-msgstr "Tiếp theo"
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
-msgid "trip.dayOf.nextUp"
-msgstr "Tiếp theo"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.soloNotUp"
 msgstr "Chưa dậy"
 
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.empty"
-msgstr "Chưa có gì trong danh sách."
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
-msgid "trip.dayOf.freeDay"
-msgstr "Hôm nay không có lịch. Một ngày tự do."
-
-#: ../../apps/mobile/src/features/trip/day-of/timeline.tsx
-msgid "trip.dayOf.now"
-msgstr "Bây giờ"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.onTheWay"
 msgstr "Đang trên đường"
-
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.title"
-msgstr "Mang theo"
 
 #: ../../apps/mobile/src/features/trip/leave-by/commands.ts
 msgid "trip.dayOf.queued.added"
@@ -167,14 +103,6 @@ msgstr "Xe đón dự kiến {pickupTime}"
 msgid "trip.dayOf.item"
 msgstr "Lịch trình"
 
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.remove"
-msgstr "Bỏ {label}"
-
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.removed"
-msgstr "Đã bỏ {name}"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.exactAction"
 msgstr "Reo đúng phút"
@@ -183,21 +111,9 @@ msgstr "Reo đúng phút"
 msgid "trip.dayOf.queued.late"
 msgstr "Trễ {minutes} phút"
 
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
-msgid "trip.dayOf.toDayPlan"
-msgstr "Xem kế hoạch ngày"
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
-msgid "trip.dayOf.toTomorrow"
-msgstr "Xem ngày mai"
-
 #: ../../apps/mobile/src/features/trip/leave-by/commands.ts
 msgid "trip.dayOf.queued.snooze"
 msgstr "Đã báo lại báo thức giờ xuất phát"
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
-msgid "trip.dayOf.done"
-msgstr "Hết lịch hôm nay rồi."
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.knocked"
@@ -227,25 +143,13 @@ msgstr "Chưa tính thời gian di chuyển."
 msgid "trip.dayOf.noTravelAirport"
 msgstr "Chưa tính thời gian di chuyển ra sân bay."
 
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
-msgid "trip.dayOf.back"
-msgstr "Chuyến đi"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.deniedAction"
 msgstr "Bật báo thức"
 
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.undo"
-msgstr "Hoàn tác"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.soloUpDetail"
 msgstr "Dậy rồi. Đi đúng giờ nhé."
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
-msgid "trip.dayOf.toOffline"
-msgstr "Những gì dùng được khi mất sóng"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.whyAction"
@@ -262,10 +166,6 @@ msgstr "bạn"
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.notification"
 msgstr "Bạn sẽ nhận thông báo lúc {at}, không phải báo thức."
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
-msgid "trip.dayOf.notYours"
-msgstr "Bạn không đi chặng này. Cứ ngủ tiếp."
 
 #: ../../apps/mobile/src/features/trip/leave-by/commands.ts
 msgid "trip.dayOf.queued.up"

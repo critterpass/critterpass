@@ -23,10 +23,6 @@ msgstr "{guideName} is ringing {who}"
 msgid "trip.dayOf.rings"
 msgstr "{guideName} rings {who} at {alarm}"
 
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.personal"
-msgstr "{label}, just you"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.stillAsleep"
 msgstr "{sleepers, plural, one {{who} is still asleep.} other {{who} are still asleep.}}"
@@ -43,14 +39,6 @@ msgstr "{up} of {total} are up"
 msgid "trip.dayOf.ringSpoken"
 msgstr "{value} to go"
 
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.add"
-msgstr "+ Add"
-
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.addLabel"
-msgstr "Add to pack"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.inApp"
 msgstr "Alarms are off on this phone. It rings here only while the app is open."
@@ -58,10 +46,6 @@ msgstr "Alarms are off on this phone. It rings here only while the app is open."
 #: ../../apps/mobile/src/features/trip/leave-by/commands.ts
 msgid "trip.dayOf.queued.notUp"
 msgstr "Back to sleep"
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
-msgid "trip.dayOf.toToday"
-msgstr "Back to today"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.beAtAirportBy"
@@ -71,33 +55,9 @@ msgstr "Be at the airport by"
 msgid "trip.dayOf.beThereBy"
 msgstr "Be there by"
 
-#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
-msgid "trip.dayOf.doneTitle"
-msgstr "Day done"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.allUpDetail"
 msgstr "Everyone is up. See you out front."
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
-msgid "trip.dayOf.firstUp"
-msgstr "First up"
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
-msgid "trip.dayOf.forecastLink"
-msgstr "Forecast and what we’re watching"
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
-msgid "trip.dayOf.freeDayTitle"
-msgstr "Free day"
-
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.placeholder"
-msgstr "Headlamp"
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
-msgid "trip.dayOf.imUp"
-msgstr "I'm up"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.ringLate"
@@ -115,37 +75,13 @@ msgstr "Leave-by time has passed"
 msgid "trip.alarm.note.askAction"
 msgstr "Make it an alarm"
 
-#: ../../apps/mobile/src/features/trip/day-of/timeline.tsx
-msgid "trip.dayOf.next"
-msgstr "Next"
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
-msgid "trip.dayOf.nextUp"
-msgstr "Next up"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.soloNotUp"
 msgstr "Not up yet"
 
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.empty"
-msgstr "Nothing on the list yet."
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
-msgid "trip.dayOf.freeDay"
-msgstr "Nothing planned today. A free day."
-
-#: ../../apps/mobile/src/features/trip/day-of/timeline.tsx
-msgid "trip.dayOf.now"
-msgstr "Now"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.onTheWay"
 msgstr "On the way"
-
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.title"
-msgstr "Pack"
 
 #: ../../apps/mobile/src/features/trip/leave-by/commands.ts
 msgid "trip.dayOf.queued.added"
@@ -167,14 +103,6 @@ msgstr "Pickup ETA {pickupTime}"
 msgid "trip.dayOf.item"
 msgstr "Plan"
 
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.remove"
-msgstr "Remove {label}"
-
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.removed"
-msgstr "Removed {name}"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.exactAction"
 msgstr "Ring on the minute"
@@ -183,21 +111,9 @@ msgstr "Ring on the minute"
 msgid "trip.dayOf.queued.late"
 msgstr "Running {minutes} min late"
 
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
-msgid "trip.dayOf.toDayPlan"
-msgstr "See the day plan"
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
-msgid "trip.dayOf.toTomorrow"
-msgstr "See tomorrow"
-
 #: ../../apps/mobile/src/features/trip/leave-by/commands.ts
 msgid "trip.dayOf.queued.snooze"
 msgstr "Snoozed the leave-by alarm"
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-hero.tsx
-msgid "trip.dayOf.done"
-msgstr "That's everything on today's plan."
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.knocked"
@@ -227,25 +143,13 @@ msgstr "Travel time isn't included."
 msgid "trip.dayOf.noTravelAirport"
 msgstr "Travel time to the airport isn't included."
 
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
-msgid "trip.dayOf.back"
-msgstr "Trip"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.deniedAction"
 msgstr "Turn alarms on"
 
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.undo"
-msgstr "Undo"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.soloUpDetail"
 msgstr "Up and ready. Leave on time."
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
-msgid "trip.dayOf.toOffline"
-msgstr "What works with no signal"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.whyAction"
@@ -262,10 +166,6 @@ msgstr "you"
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.notification"
 msgstr "You'll get a notification at {at}, not an alarm."
-
-#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
-msgid "trip.dayOf.notYours"
-msgstr "You're not on this one. Sleep in."
 
 #: ../../apps/mobile/src/features/trip/leave-by/commands.ts
 msgid "trip.dayOf.queued.up"
