@@ -429,9 +429,17 @@ msgstr "Bay thẳng"
 msgid "vote.guest.direct"
 msgstr "Bay thẳng từ nhà"
 
+#: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
+msgid "vote.premium.discard"
+msgstr "Bỏ"
+
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.premium.pitch.back"
 msgstr "Xong"
+
+#: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
+msgid "vote.premium.newPoll.discardTitle"
+msgstr "Bỏ cuộc bình chọn này?"
 
 #: ../../apps/mobile/src/features/vote/final/tie-line.tsx
 msgid "vote.final.allIn"
@@ -534,6 +542,10 @@ msgstr "Chỉ mình bạn, {place}"
 #: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
 msgid "vote.solo.title"
 msgstr "Chỉ mình bạn, {placeName}"
+
+#: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
+msgid "vote.premium.keepEditing"
+msgstr "Sửa tiếp"
 
 #: ../../apps/mobile/src/features/vote/poll/chat-poll-card.tsx
 msgid "vote.poll.loading"
@@ -844,6 +856,10 @@ msgstr "Người tổ chức sẽ lên kế hoạch tiếp."
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.errorTitle"
 msgstr "Lời giới thiệu chưa tới"
+
+#: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
+msgid "vote.premium.newPoll.discardLine"
+msgstr "Câu hỏi và các lựa chọn bạn đã gõ sẽ không được giữ lại."
 
 #: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
 #: ../../apps/mobile/src/features/vote/premium/final/winner-reveal.tsx

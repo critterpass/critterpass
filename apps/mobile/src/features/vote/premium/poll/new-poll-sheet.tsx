@@ -82,6 +82,15 @@ export function NewPollSheet({ crewId }: { readonly crewId: string }) {
         testID: 'new-poll-post',
       }}
       dirty={dirty}
+      discardPrompt={{
+        title: t({ id: 'vote.premium.newPoll.discardTitle', message: 'Drop this poll?' }),
+        message: t({
+          id: 'vote.premium.newPoll.discardLine',
+          message: 'The question and answers you typed are not kept.',
+        }),
+        discard: t({ id: 'vote.premium.discard', message: 'Discard' }),
+        keep: t({ id: 'vote.premium.keepEditing', message: 'Keep editing' }),
+      }}
       testID="new-poll"
     >
       <View style={{ paddingHorizontal: theme.space.gap16, gap: theme.space.gap16 }}>

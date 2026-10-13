@@ -429,9 +429,17 @@ msgstr "Direct"
 msgid "vote.guest.direct"
 msgstr "Direct from home"
 
+#: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
+msgid "vote.premium.discard"
+msgstr "Discard"
+
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.premium.pitch.back"
 msgstr "Done"
+
+#: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
+msgid "vote.premium.newPoll.discardTitle"
+msgstr "Drop this poll?"
 
 #: ../../apps/mobile/src/features/vote/final/tie-line.tsx
 msgid "vote.final.allIn"
@@ -534,6 +542,10 @@ msgstr "Just you, {place}"
 #: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
 msgid "vote.solo.title"
 msgstr "Just you, {placeName}"
+
+#: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
+msgid "vote.premium.keepEditing"
+msgstr "Keep editing"
 
 #: ../../apps/mobile/src/features/vote/poll/chat-poll-card.tsx
 msgid "vote.poll.loading"
@@ -844,6 +856,10 @@ msgstr "The organiser sets it up next."
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.errorTitle"
 msgstr "The pitch didn't come through"
+
+#: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
+msgid "vote.premium.newPoll.discardLine"
+msgstr "The question and answers you typed are not kept."
 
 #: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
 #: ../../apps/mobile/src/features/vote/premium/final/winner-reveal.tsx

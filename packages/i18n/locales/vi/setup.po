@@ -493,6 +493,10 @@ msgstr "Ngày 1 chờ người đến cuối cùng, để không ai lỡ bữa t
 msgid "setup.premium.rooms.discard"
 msgstr "Bỏ"
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.discard"
+msgstr "Bỏ"
+
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
 msgid "setup.premium.rooms.discardTitle"
 msgstr "Bỏ các thay đổi này?"
@@ -512,6 +516,10 @@ msgstr "Soạn với những gì đã có"
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
 msgid "setup.mustDos.draftWithout"
 msgstr "Lên nháp mà không cần việc nào"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.ask.discardTitle"
+msgstr "Bỏ những gì bạn đã viết?"
 
 #: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
 msgid "setup.premium.rooms.estimate"
@@ -670,6 +678,10 @@ msgstr "Chỉ một điểm dừng"
 
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
 msgid "setup.premium.rooms.keep"
+msgstr "Sửa tiếp"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.keepEditing"
 msgstr "Sửa tiếp"
 
 #: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
@@ -1395,3 +1407,7 @@ msgstr "Chỗ ở bạn chọn"
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.budgetDefault"
 msgstr "Mức trần quen thuộc"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.ask.discardLine"
+msgstr "Lời bạn viết sẽ không được gửi tới {name}."

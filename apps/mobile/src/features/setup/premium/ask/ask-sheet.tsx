@@ -33,6 +33,16 @@ export function PremiumAskSheetView(props: AskSheetViewProps) {
           ? t({ id: 'setup.sheet.close', message: 'Close' })
           : t({ id: 'setup.premium.cancel', message: 'Cancel' })
       }
+      dirty={!sent && words.trim() !== ''}
+      discardPrompt={{
+        title: t({ id: 'setup.premium.ask.discardTitle', message: 'Drop what you wrote?' }),
+        message: t({
+          id: 'setup.premium.ask.discardLine',
+          message: `Your words aren’t sent to ${name}.`,
+        }),
+        discard: t({ id: 'setup.premium.discard', message: 'Discard' }),
+        keep: t({ id: 'setup.premium.keepEditing', message: 'Keep editing' }),
+      }}
       testID="ask-sheet"
     >
       <View style={[styles.body, { paddingHorizontal: theme.space.gutter }]}>

@@ -493,6 +493,10 @@ msgstr ""
 msgid "setup.premium.rooms.discard"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.discard"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
 msgid "setup.premium.rooms.discardTitle"
 msgstr ""
@@ -511,6 +515,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
 msgid "setup.mustDos.draftWithout"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.ask.discardTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
@@ -670,6 +678,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
 msgid "setup.premium.rooms.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.keepEditing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
@@ -1394,4 +1406,8 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.budgetDefault"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.ask.discardLine"
 msgstr ""

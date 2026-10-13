@@ -493,6 +493,10 @@ msgstr "Day 1 waits for the last arrival, so nobody misses the first dinner."
 msgid "setup.premium.rooms.discard"
 msgstr "Discard"
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.discard"
+msgstr "Discard"
+
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
 msgid "setup.premium.rooms.discardTitle"
 msgstr "Discard these moves?"
@@ -512,6 +516,10 @@ msgstr "Draft with what we have"
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
 msgid "setup.mustDos.draftWithout"
 msgstr "Draft without one"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.ask.discardTitle"
+msgstr "Drop what you wrote?"
 
 #: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
 msgid "setup.premium.rooms.estimate"
@@ -670,6 +678,10 @@ msgstr "Just one stop"
 
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
 msgid "setup.premium.rooms.keep"
+msgstr "Keep editing"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.keepEditing"
 msgstr "Keep editing"
 
 #: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
@@ -1395,3 +1407,7 @@ msgstr "Your stay pick"
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.budgetDefault"
 msgstr "Your usual max"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.ask.discardLine"
+msgstr "Your words aren’t sent to {name}."

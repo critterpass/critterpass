@@ -429,8 +429,16 @@ msgstr ""
 msgid "vote.guest.direct"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
+msgid "vote.premium.discard"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.premium.pitch.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
+msgid "vote.premium.newPoll.discardTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/final/tie-line.tsx
@@ -533,6 +541,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
 msgid "vote.solo.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
+msgid "vote.premium.keepEditing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/poll/chat-poll-card.tsx
@@ -843,6 +855,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.errorTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
+msgid "vote.premium.newPoll.discardLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
