@@ -1,28 +1,14 @@
 appId: app.critterpass.dev
 ---
-# Release gate: trip setup for a brand-new crew, with no demo world. A fresh account starts its own
-# crew (just itself), pitches one place and locks it in: the place wins and SET UP opens the dates
-# step. The account marks a week of next month free by hand and saves (set_availability): the step
-# shows those days counted and a way on, the crew's window to lock or a week to pick, and locking
-# it moves setup to the budget.
-- runFlow: subflows/fresh-account.yaml
-- openLink: critterpass-dev://crew/new
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-name'
-    timeout: 15000
-- tapOn:
-    id: 'start-crew-name'
-- inputText: 'Fresh Crew'
-# START THE CREW rides on top of the keyboard.
-- tapOn:
-    id: 'start-crew-create'
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-done'
-    timeout: 20000
-- tapOn:
-    id: 'start-crew-done'
+# Release gate: trip setup for a brand-new crew, with no demo world. A new account starts as
+# `crew_with_code` (a crew of just itself), pitches one place and locks it in: the place wins and
+# SET UP opens the dates step. The account marks a week of next month free by hand and saves
+# (set_availability): the step shows those days counted and a way on, the crew's window to lock or a
+# week to pick, and locking it moves setup to the budget.
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: crew_with_code
 - runFlow:
     file: subflows/pitch-place.yaml
     env:

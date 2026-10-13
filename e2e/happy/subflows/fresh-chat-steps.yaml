@@ -1,36 +1,15 @@
 appId: app.critterpass.dev
 ---
-# A brand-new account's crew chat with no demo seed, in ${LANG} (en or vi): it starts its own crew,
-# pitches a place into the crew's vote, logs an expense, then in the chat checks every card draws
-# (no "needs a newer CritterPass" card), sends a text and a voice note and plays the note.
-# The UI strings the steps tap arrive as env values in the flow's language.
+# A new account's crew chat with no demo seed, in ${LANG} (en or vi): it starts as `crew_with_code`
+# (a crew of one), pitches a place into the crew's vote, logs an expense, then in the chat checks
+# every card draws (no "needs a newer CritterPass" card), sends a text and a voice note and plays
+# the note. The UI strings the steps tap arrive as env values in the flow's language. Its own crew,
+# already made: a new account started as `crew_with_code`, in ${LANG}.
 - runFlow:
-    file: ../../screens/sweep/subflows/start.yaml
+    file: ../../_shared/start-as.yaml
     env:
+      SCENARIO: crew_with_code
       LANG: ${LANG}
-- runFlow: ../../home/subflows/onboard.yaml
-- extendedWaitUntil:
-    visible:
-      id: 'dev-tools-entry'
-    timeout: 30000
-# Its own crew.
-- openLink: critterpass-dev://crew/new
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-name'
-    timeout: 10000
-- tapOn:
-    id: 'start-crew-name'
-- inputText: 'Fresh Chat Crew'
-# START THE CREW rides on top of the keyboard.
-- tapOn:
-    id: 'start-crew-create'
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-done'
-    timeout: 20000
-- tapOn:
-    id: 'start-crew-done'
 # A vote: pitching a place starts the crew's destination vote and posts its card in the chat.
 - runFlow:
     file: pitch-place.yaml

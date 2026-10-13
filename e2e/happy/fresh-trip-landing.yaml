@@ -1,7 +1,8 @@
 appId: app.critterpass.dev
 ---
-# Release gate: landing starts the trip, with no demo world. A fresh account confirms a trip to
-# Đà Nẵng that starts tomorrow (subflows/trip-under-way.yaml) and types its flight in by hand:
+# Release gate: landing starts the trip. A new account starts as
+# `solo_tomorrow` (a crew of one whose trip to Đà Nẵng starts tomorrow, already in `pre_trip` as
+# the worker's sweep leaves it) and types its flight in by hand:
 # 9G 956, Ho Chi Minh City 00:05 to Đà Nẵng 00:35, today (the day before the first day, which
 # still counts as flying in). Just after midnight, so it has left by the time the flow looks at
 # any hour: I LANDED is only offered once the flight should have left. Home shows the trip as next
@@ -9,10 +10,9 @@ appId: app.critterpass.dev
 # traveller's own I LANDED on the flight's details does: the flight reads LANDED and Home turns to
 # the trip being on.
 - runFlow:
-    file: subflows/trip-under-way.yaml
+    file: ../_shared/start-as.yaml
     env:
-      SHOTS: landing
-      START_OFFSET_DAYS: '1'
+      SCENARIO: solo_tomorrow
 - extendedWaitUntil:
     visible:
       id: 'home-next-up'
@@ -47,13 +47,7 @@ appId: app.critterpass.dev
       DEPARTS: '00:05'
       LANDS: '00:35'
       SHOT: landing-form-flight
-# A confirmed trip turns "pre trip" on the worker's ten-minute sweep, and only a trip in that state
-# starts on a landing: give the sweep its time, then look at Home before the landing.
-- extendedWaitUntil:
-    visible:
-      id: 'landing-sweep-never-shown'
-    timeout: 660000
-    optional: true
+# Only a "pre trip" trip starts on a landing; the seed leaves it there. Home before the landing.
 - tapOn:
     id: 'tab-home'
 - extendedWaitUntil:

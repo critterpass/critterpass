@@ -1,10 +1,10 @@
 appId: app.critterpass.dev
 ---
-# A friend drops out of a real proposal, between two brand-new accounts on one phone. After the
-# organiser sends it, the friend boards, then says from their version that they can't make it after
-# all. The organiser's tracker then shows them as out, with the change list the guide worked out;
-# APPLY CHANGES resolves it and the trip is re-priced without them. With nobody else left, the
-# organiser locks the plan in alone.
+# A friend drops out of a real proposal, between two new accounts on one phone (the organiser
+# started as `draft_ready`: subflows/proposal-sent.yaml). After the organiser sends it, the friend
+# boards, then says from their version that they can't make it after all. The organiser's tracker
+# then shows them as out, with the change list the guide worked out; APPLY CHANGES resolves it and
+# the trip is re-priced without them. With nobody else left, the organiser locks the plan in alone.
 - runFlow: subflows/proposal-sent.yaml
 
 # The friend opens the proposal from crew chat, boards, then declines from their version.

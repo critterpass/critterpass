@@ -1,16 +1,16 @@
 appId: app.critterpass.dev
 ---
-# Release gate: the crew's destination vote, from a pitch to the reveal. A fresh account takes the
-# staging demo world's `vote` scenario (Bali Demo Crew's open vote, organised by the account: Kyoto
-# and Lisbon two ballots each from the crewmates, Iceland and Mexico City none). It pitches Cusco
-# (the guide's pitch streams in), the board gains it, the account votes for it, GO TO THE FINAL takes
-# the top two (the account's ballot on Cusco is dropped, so it votes again), and its ballot in the
-# 2–2 final is the last one: the vote closes and the winner is revealed with SET UP for the
-# organiser.
+# Release gate: the crew's destination vote, from a pitch to the reveal. A new account starts with
+# the staging demo world's `vote` scenario (Bali Demo Crew's open vote, organised by the account:
+# Kyoto and Lisbon two ballots each from the crewmates, Iceland and Mexico City none). It pitches
+# Cusco (the guide's pitch streams in), the board gains it, the account votes for it, GO TO THE
+# FINAL takes the top two (the account's ballot on Cusco is dropped, so it votes again), and its
+# ballot in the 2–2 final is the last one: the vote closes and the winner is revealed with SET UP
+# for the organiser.
 - runFlow:
-    file: subflows/fresh-account.yaml
+    file: ../_shared/start-as.yaml
     env:
-      SEED: dev-seed-demo-vote
+      SCENARIO: vote
 - scrollUntilVisible:
     element:
       id: 'board-pitch'

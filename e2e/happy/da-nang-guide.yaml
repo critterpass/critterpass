@@ -1,33 +1,17 @@
 appId: app.critterpass.dev
 ---
 # Release gate: a brand-new user's crew picks Đà Nẵng and meets its own guide, Chà Vá, not the
-# guest Tokek. With no demo seed, a fresh account starts a crew, pitches Đà Nẵng (Chà Vá pitches
+# guest Tokek. With no demo seed, a new account starts as
+# `crew_with_code` (a crew of one), pitches Đà Nẵng (Chà Vá pitches
 # it) and Lisbon from Home, votes for Đà Nẵng, takes the top two to the final (which closes at once:
 # the crew's only ballot is already on a finalist), sets the trip up from the reveal, and opens the
 # guide sheet: its header is Chà Vá.
 #
 # Data: staging with the Vietnam set linked to Chà Vá and the Đà Nẵng destination.
-- runFlow: subflows/fresh-account.yaml
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/start-as.yaml
     env:
-      URL: critterpass-dev://crew/new
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-name'
-    timeout: 15000
-- tapOn:
-    id: 'start-crew-name'
-- inputText: 'Company trip'
-# START THE CREW rides on top of the keyboard.
-- tapOn:
-    id: 'start-crew-create'
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-done'
-    timeout: 30000
-- tapOn:
-    id: 'start-crew-done'
+      SCENARIO: crew_with_code
 - extendedWaitUntil:
     visible:
       id: 'home-no-trip'

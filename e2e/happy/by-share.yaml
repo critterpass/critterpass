@@ -1,13 +1,13 @@
 appId: app.critterpass.dev
 ---
-# Release gate: splitting an expense by share. A fresh account takes the staging demo crew (a Bali
-# trip with four crewmates), types Rp 450.000 on the keypad and taps BY SHARE: the split switches
-# to it at the first tap, the keypad folds into CHANGE AMOUNT so every member row shows, and two
-# taps on + give the first crewmate three shares. ADD lands the expense in LATEST.
+# Release gate: splitting an expense by share. A new account starts with the staging demo crew (a
+# Bali trip with four crewmates), types Rp 450.000 on the keypad and taps BY SHARE: the split
+# switches to it at the first tap, the keypad folds into CHANGE AMOUNT so every member row shows,
+# and two taps on + give the first crewmate three shares. ADD lands the expense in LATEST.
 - runFlow:
-    file: subflows/fresh-account.yaml
+    file: ../_shared/start-as.yaml
     env:
-      SEED: dev-seed-demo-caught-up
+      SCENARIO: caught_up
 - tapOn:
     id: 'tab-wallet'
 - extendedWaitUntil:

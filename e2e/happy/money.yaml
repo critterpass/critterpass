@@ -1,14 +1,14 @@
 appId: app.critterpass.dev
 ---
-# Release gate: crew money. A fresh account takes the staging demo crew (a Bali trip with four
+# Release gate: crew money. A new account starts with the staging demo crew (a Bali trip with four
 # crewmates, no expenses yet), adds Rp 450.000 it paid, split evenly, on the keypad: the expense
 # lands in LATEST and Balances has the crew owing the account. Settle up lists who pays whom;
 # the account asks one crewmate for their share and confirms it arrived, and that payment is
 # settled.
 - runFlow:
-    file: subflows/fresh-account.yaml
+    file: ../_shared/start-as.yaml
     env:
-      SEED: dev-seed-demo-caught-up
+      SCENARIO: caught_up
 - tapOn:
     id: 'tab-wallet'
 - extendedWaitUntil:

@@ -1,6 +1,6 @@
 appId: app.critterpass.dev
 ---
-# Release gate: a brand-new account's own crew chat, no demo seed. It starts a crew, pitches a
+# Release gate: a new account's own crew chat, no demo seed. It starts as a crew of one, pitches a
 # place into the vote, logs an expense, and in the chat every card draws, a text and a voice note
 # send, and the note plays (e2e/happy/subflows/fresh-chat-steps.yaml).
 - runFlow:
