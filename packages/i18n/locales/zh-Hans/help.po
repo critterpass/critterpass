@@ -12,36 +12,19 @@ msgstr ""
 msgid "help.premium.ideas.votesLeft"
 msgstr ""
 
-#. placeholder {0}: props.votesLeft
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "help.ideas.votesLeft"
-msgstr "{0, plural, other {还剩 # 票}}"
-
 #. placeholder {0}: match.count
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, other {# 票}}"
 
-#. js-lingui-generated-id
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
-msgstr "{others, plural, other {{first} 和另外 # 人也这么想}}"
-
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "help.ideas.suggest"
-msgstr "+ 提个点子"
-
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footerEmail"
 msgstr "真人会在两天内通过邮件回复你。"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footerInbox"
 msgstr "真人会在两天内在你的收件箱回复。"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footer"
 msgstr "真人会在两天内回复你。"
@@ -50,22 +33,18 @@ msgstr "真人会在两天内回复你。"
 msgid "help.queued.unvote"
 msgstr "一次撤回的投票"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.about"
 msgstr "关于"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-parts.tsx
 msgid "help.feedback.addPhoto"
 msgstr "添加图片"
 
 #: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.askHuman"
 msgstr "问真人"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.askHuman"
 msgstr "问真人"
@@ -74,30 +53,27 @@ msgstr "问真人"
 msgid "help.premium.guideLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
-msgid "help.sent.done"
-msgstr "返回设置"
-
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.bug"
 msgstr "故障"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.ideas.building"
 msgstr "开发中"
+
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
+msgid "help.premium.suggestCancel"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.critters"
 msgstr "Critters"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.declined"
 msgstr "已婉拒"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.device"
 msgstr "设备信息"
@@ -111,8 +87,6 @@ msgid "help.premium.articleLoading"
 msgstr ""
 
 #. placeholder {0}: form.articleTitle
-#. placeholder {0}: props.articleTitle
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.fromArticle"
 msgstr "来自「{0}」"
@@ -130,11 +104,9 @@ msgid "help.feedback.topic.guideChat"
 msgstr "向导聊天"
 
 #: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.back"
 msgstr "帮助"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.feedback.back"
@@ -144,16 +116,10 @@ msgstr "帮助"
 msgid "help.premium.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.back"
 msgstr "帮助"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
-msgid "help.hub.title"
-msgstr "帮助与反馈"
-
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.centre"
@@ -167,27 +133,23 @@ msgstr ""
 msgid "help.premium.heading"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.howsItGoing"
 msgstr "感觉怎么样?"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.hq"
 msgstr "总部 · 邮寄"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.titleLabel"
 msgstr "简单几个字"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.includeDevice"
 msgstr "附上设备信息"
 
 #: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingBody"
 msgstr "下次联网时,它会随帮助中心一起更新。"
 
@@ -199,19 +161,16 @@ msgstr ""
 msgid "help.premium.feedbackKeep"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.discard"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.discardTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.ideas.open"
 msgstr "关注中"
 
@@ -223,44 +182,30 @@ msgstr "超爱"
 msgid "help.feedback.mood.meh"
 msgstr "一般"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.merged"
 msgstr "已合并"
-
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
-msgid "help.suggest.postAnyway"
-msgstr "我的不一样,照样发布"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.money"
 msgstr "钱"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.new"
 msgstr "新"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
-msgid "help.suggest.eyebrow"
-msgstr "新点子"
-
 #: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.no"
 msgstr "没有"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.none"
 msgstr "还没有点子。你的可能就是第一个。"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.noResults"
 msgstr "帮助中心里暂时没有匹配的内容。"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.noneShipped"
 msgstr "这里还没有已上线的内容。"
@@ -269,32 +214,24 @@ msgstr "这里还没有已上线的内容。"
 msgid "help.feedback.mood.okay"
 msgstr "还行"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
-msgid "help.hub.reportShake"
-msgstr "或在任意界面摇一摇手机"
-
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.other"
 msgstr "其他"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.pinned"
 msgstr "已置顶"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.title"
 msgstr "已贴到公告板"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.queued"
 msgstr "已置顶。你重新联网后会发布,届时会有真人阅读。"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.ideas.planned"
 msgstr "已计划"
 
@@ -302,60 +239,50 @@ msgstr "已计划"
 msgid "help.feedback.topic.planning"
 msgstr "规划"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.post"
 msgstr "发布 · Courrier"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.post"
 msgstr "发布"
 
-#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+#: ../../apps/mobile/src/features/help/ideas/use-idea-board.ts
 msgid "help.ideas.posted"
 msgstr "已发布在「新」下。有进展时 Tokek 会告诉你。"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.rate"
 msgstr "给应用评分"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.received"
 msgstr "已收到"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.search"
 msgstr "退款、离线地图、分摊费用…"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-parts.tsx
 msgid "help.feedback.removePhoto"
 msgstr "移除这张图片"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.titleProblem"
 msgstr "报告问题"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.report"
 msgstr "报告问题"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.title"
 msgstr "发送反馈"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.feedback"
 msgstr "发送反馈"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.send"
 msgstr "发送"
@@ -364,7 +291,6 @@ msgstr "发送"
 msgid "help.premium.sentTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.back"
 msgstr "设置"
@@ -373,49 +299,38 @@ msgstr "设置"
 msgid "help.premium.shake"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.shipped"
 msgstr "已上线"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.shippedTab"
 msgstr "已上线"
 
 #: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.english"
 msgstr "暂时显示英文"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.english"
 msgstr "暂时显示英文"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
-msgid "help.hub.guideLine"
-msgstr "哪里出问题了,或者缺了什么?告诉我,我直接转给团队。"
-
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.matchMany"
 msgstr "听起来像是其中之一。投它一票,它会来得更快。"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.matchOne"
 msgstr "听起来像这一条。投它一票,它会来得更快。"
 
 #: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.stuck"
 msgstr "还是没解决?"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.titleIdea"
 msgstr "建议新功能"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.suggest"
 msgstr "建议新功能"
@@ -424,73 +339,56 @@ msgstr "建议新功能"
 msgid "help.premium.suggest"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.title"
 msgstr "提个点子"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.rateCaption"
 msgstr "只需十秒"
 
-#. placeholder {0}: props.name
 #. placeholder {0}: sent.name
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.thanks"
 msgstr "谢谢你,{0}。每一条都有真人阅读。如果需要更多信息我们会来问你,修好后 Tokek 会告诉你。"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.thanksNoName"
 msgstr "谢谢你。每一条都有真人阅读。如果需要更多信息我们会来问你,修好后 Tokek 会告诉你。"
 
 #: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.thanks"
 msgstr "谢谢。这能帮我们改进文字。"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.tooBig"
 msgstr "这张图片太大,发不出去。试试截图吧。"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.offline"
 msgstr "重新联网后即可打开公告板。"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.articlesOffline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingTitle"
 msgstr "这篇文章还没上线"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.toHumans"
 msgstr "发给团队"
 
-#. placeholder {0}: row.teamNote
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "help.ideas.teamNote"
-msgstr "Tokek:{0}"
-
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.top"
 msgstr "热门"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.underReview"
 msgstr "审核中"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.vote"
 msgstr "投票 ▲"
 
@@ -499,61 +397,48 @@ msgstr "投票 ▲"
 msgid "help.premium.suggestCaption"
 msgstr ""
 
-#. placeholder {0}: props.ideasToVote
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
-msgid "help.hub.suggestCaption"
-msgstr "为 {0} 个点子投票"
-
 #. placeholder {0}: idea.title
-#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+#: ../../apps/mobile/src/features/help/ideas/use-idea-board.ts
 msgid "help.ideas.votedFor"
 msgstr "已投给 {0}。现在共 {count} 票。"
 
 #: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.helpful"
 msgstr "这对你有帮助吗?"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.placeholderProblem"
 msgstr "发生了什么?你本来期待什么?"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.placeholderIdea"
 msgstr "CritterPass 接下来该做什么?"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.descriptionLabel"
 msgstr "它会做什么?可选"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.feedbackCaption"
 msgstr "你喜欢什么,什么让你烦"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.placeholder"
 msgstr "你喜欢什么,什么让你烦…"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.title"
 msgstr "接下来有什么?"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.tabs"
 msgstr "哪些点子"
 
 #: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.yes"
 msgstr "有"
 
-#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+#: ../../apps/mobile/src/features/help/ideas/use-idea-board.ts
 msgid "help.ideas.outOfVotes"
 msgstr "你这个月的 {IDEA_VOTE_BUDGET} 票已经用完了。撤回一票才能改投。"
 
@@ -561,12 +446,10 @@ msgstr "你这个月的 {IDEA_VOTE_BUDGET} 票已经用完了。撤回一票才�
 msgid "help.queued.idea"
 msgstr "你给公告板的点子"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.note"
 msgstr "你的留言"
 
-#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.discardLine"
 msgstr ""

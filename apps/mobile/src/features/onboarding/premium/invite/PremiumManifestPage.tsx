@@ -153,7 +153,7 @@ export function PremiumManifestPage() {
             <RoundStamp
               // A waitlisted joiner is in the crew but next for a seat: the stamp says so.
               word={
-                manifest.waitlisted
+                joined?.waitlisted === true
                   ? copy.title
                   : t({ id: 'onboarding.premium.manifest.in', message: `${newcomer}’s in` })
               }

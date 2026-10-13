@@ -3,7 +3,7 @@
  * owe the others, the store that keeps billing Pass+ (with the way to cancel there), and plain
  * lists when the server could not say.
  */
- 
+
 import type { DeletionPreflight } from '@cp/domain';
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
@@ -94,7 +94,7 @@ describe('the delete page from the preflight', () => {
   });
 
   it('names the store that keeps billing and links to cancel there; a gift bills nobody', async () => {
-    const open = jest.spyOn(Linking, 'openURL').mockResolvedValue(true);
+    const open = jest.spyOn(Linking, 'openURL').mockResolvedValue(undefined);
     await show(BASE);
     expect(await screen.findByText(/billed by the App Store/)).toBeTruthy();
     await fireEvent.press(screen.getByTestId('you-delete-manage-subscription'));

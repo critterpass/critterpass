@@ -17,7 +17,6 @@ msgstr "{0, plural, other {{listed} đã vào.}}"
 msgid "onboarding.merge.movingCount"
 msgstr "{0, plural, other {# nhóm trên điện thoại này sẽ đi cùng bạn.}}"
 
-#: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
 msgid "onboarding.invite.code.alreadyIn"
 msgstr "{count} người đã vào. {guideName} dẫn đường."
@@ -29,15 +28,6 @@ msgstr "{crew} đã đủ người"
 #: ../../apps/mobile/src/features/onboarding/premium/invite/FullTripPanel.tsx
 msgid "onboarding.premium.full.title"
 msgstr "{crew} đã đủ {cap} người"
-
-#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
-msgid "onboarding.invite.ticket.fullLine"
-msgstr "{crew} đã đủ {cap} người. Bạn vào danh sách chờ và nhận chỗ trống kế tiếp."
-
-#. placeholder {0}: quiz.length
-#: ../../apps/mobile/src/features/onboarding/taste/TasteScreen.tsx
-msgid "onboarding.taste.counter"
-msgstr "{current} / {0}"
 
 #: ../../apps/mobile/src/features/onboarding/home/home-rows.ts
 msgid "onboarding.home.hoursAway"
@@ -62,17 +52,14 @@ msgstr "{identity} vẫn gắn với pass cũ. Đăng nhập bằng cách khác 
 msgid "onboarding.invite.problem.revokedLine"
 msgstr "{inviter} đã hủy lời mời này. Nếu nhầm, bạn ấy gửi lại cái khác được."
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumInvitePassPage.tsx
 msgid "onboarding.invite.pass.prefilled"
 msgstr "{inviter} đã điền sẵn những gì bạn ấy biết. Sửa gì cũng được."
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumInvitePassPage.tsx
 msgid "onboarding.invite.pass.lineTags"
 msgstr "{inviter} mách mình rồi. Mình chọn {picked}."
 
-#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumTicketPage.tsx
 msgid "onboarding.invite.ticket.saved"
 msgstr "{inviter} đã giữ chỗ cho bạn"
@@ -101,12 +88,10 @@ msgstr "{members}/{cap}"
 msgid "onboarding.home.minutesAway"
 msgstr "cách {minutes} phút"
 
-#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumTicketPage.tsx
 msgid "onboarding.invite.ticket.titleNamedCrew"
 msgstr "{name} ơi, {crew} rủ bạn vào"
 
-#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumTicketPage.tsx
 msgid "onboarding.invite.ticket.titleNamed"
 msgstr "{name} ơi, đi {place} thôi"
@@ -139,35 +124,22 @@ msgstr "Đã mời {waiting}, chưa vào"
 msgid "onboarding.invite.ticket.waiting"
 msgstr "{waiting} người nữa được mời, chưa vào."
 
-#: ../../apps/mobile/src/features/onboarding/invited/TravelChips.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/TravelTagChips.tsx
 msgid "onboarding.invite.pass.more"
 msgstr "+ Thêm"
 
-#: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx
-msgid "onboarding.invite.code.each"
-msgstr "~{each} mỗi người"
-
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumInvitePassPage.tsx
 msgid "onboarding.invite.pass.face"
 msgstr "1 · Gương mặt"
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
-msgid "onboarding.invite.pass.oneOfOne"
-msgstr "1/1"
-
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumInvitePassPage.tsx
 msgid "onboarding.invite.pass.travel"
 msgstr "2 · Kiểu đi của bạn"
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumInvitePassPage.tsx
 msgid "onboarding.invite.pass.issue"
 msgstr "3 · Cấp pass cho tôi"
 
-#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumTicketPage.tsx
 msgid "onboarding.invite.ticket.titleGeneric"
 msgstr "Một chỗ trong {crew}"
@@ -198,7 +170,6 @@ msgid "onboarding.home.metro"
 msgstr "Tất cả sân bay ở {0}"
 
 #: ../../apps/mobile/src/features/onboarding/premium/taste/PremiumTastePage.tsx
-#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.noTags"
 msgstr "Bỏ qua hết rồi. Các hướng dẫn viên sẽ hiểu bạn dần dần."
 
@@ -206,7 +177,6 @@ msgstr "Bỏ qua hết rồi. Các hướng dẫn viên sẽ hiểu bạn dần 
 msgid "onboarding.premium.ranOut.already"
 msgstr "Hôm nay đã nhờ rồi."
 
-#: ../../apps/mobile/src/features/onboarding/photo/PhotoScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.photo.body"
 msgstr "Hướng dẫn viên nào cũng được. Đi đường bạn sẽ có thêm nhiều gương mặt nữa."
@@ -239,7 +209,6 @@ msgstr "Hỏi mình sau"
 msgid "onboarding.premium.ranOut.asked"
 msgstr "Đã nhờ. Bạn sẽ nhận được link mới."
 
-#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/home/PremiumHomePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/InvitePassEditPage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
@@ -249,7 +218,6 @@ msgstr "Đã nhờ. Bạn sẽ nhận được link mới."
 msgid "onboarding.invite.code.back"
 msgstr "Quay lại"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/CountryListPage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.back"
@@ -283,7 +251,6 @@ msgstr "Bữa sáng là một lối sống"
 msgid "onboarding.tag.thrifty"
 msgstr "Cao thủ tiết kiệm"
 
-#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
@@ -302,12 +269,10 @@ msgstr "Không tìm thấy lời mời đó"
 msgid "onboarding.premium.ranOut.revoked"
 msgstr "Đã huỷ"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.change"
 msgstr "Đổi số"
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/InvitePassEditPage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumInvitePassPage.tsx
 msgid "onboarding.invite.pass.edit"
@@ -321,10 +286,6 @@ msgstr "Lịch dày cũng được"
 msgid "onboarding.invite.problem.notFoundLine"
 msgstr "Hỏi lại mã với người gửi, hoặc nhập lại lần nữa."
 
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
-msgid "onboarding.photo.real.library"
-msgstr "Chọn ảnh"
-
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.premium.photo.library"
 msgstr "Chọn từ Ảnh"
@@ -333,7 +294,6 @@ msgstr "Chọn từ Ảnh"
 msgid "onboarding.quiz.natureVsCity.right.label"
 msgstr "Phố lên đèn"
 
-#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/home/PremiumHomePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/InvitePassEditPage.tsx
 msgid "onboarding.home.search"
@@ -353,13 +313,11 @@ msgid "onboarding.premium.ranOut.closed"
 msgstr "Đã đóng"
 
 #. placeholder {0}: formatE164(country, number)
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.sentSms"
 msgstr "Đã gửi mã tới {0} qua SMS"
 
 #. placeholder {0}: formatE164(country, number)
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.sentWhatsapp"
 msgstr "Đã gửi mã tới {0} qua WhatsApp"
@@ -372,14 +330,12 @@ msgstr "Cà phê"
 msgid "onboarding.tag.coffee"
 msgstr "Ghé quán cà phê"
 
-#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.apple"
 msgstr "Tiếp tục với Apple"
 
-#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
@@ -400,12 +356,10 @@ msgid "onboarding.phone.country"
 msgstr "Quốc gia"
 
 #. placeholder {0}: formatE164(country, '')
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.pickCountry"
 msgstr "Mã quốc gia {0}"
 
-#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
 msgid "onboarding.invite.code.label"
 msgstr "Mã nhóm"
@@ -422,24 +376,16 @@ msgstr "Danh sách nhóm · {crew}"
 msgid "onboarding.invite.ticket.seatCrew"
 msgstr "Chỗ trong nhóm"
 
-#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
-msgid "onboarding.invite.ticket.a11y"
-msgstr "Vé nhóm {crew}: {dates}, chỗ {seat}, {each} mỗi người."
-
-#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/splash/PremiumSplashPage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/splash/WelcomeBack.tsx
-#: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.coverTitle"
 msgstr "CRITTERPASS"
 
 #: ../../apps/mobile/src/features/onboarding/pass-facts.ts
-#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.head"
 msgstr "CRITTERPASS · PASSEPORT"
 
-#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/components/CrewTicket.tsx
 msgid "onboarding.invite.ticket.head"
 msgstr "CritterPass Air · vé nhóm"
@@ -452,12 +398,10 @@ msgstr "Văn hoá"
 msgid "onboarding.tag.culture"
 msgstr "Mê văn hoá"
 
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.photo.real.lifting"
 msgstr "Đang cắt hình bạn…"
 
-#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumTicketPage.tsx
 msgid "onboarding.invite.ticket.dates"
 msgstr "Ngày đi"
@@ -467,7 +411,6 @@ msgid "onboarding.invite.ticket.datesOpen"
 msgstr "Ngày đi chờ bình chọn"
 
 #: ../../apps/mobile/src/features/onboarding/premium/splash/PremiumSplashPage.tsx
-#: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.devTools"
 msgstr "Công cụ nhà phát triển"
 
@@ -479,16 +422,10 @@ msgstr "Ý bạn là"
 msgid "onboarding.tag.sitDownDining.short"
 msgstr "Nhà hàng"
 
-#: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/InvitePassEditPage.tsx
 msgid "onboarding.invite.pass.editDone"
 msgstr "Xong"
 
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
-msgid "onboarding.photo.real.done"
-msgstr "Xong"
-
-#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumTicketPage.tsx
 msgid "onboarding.invite.ticket.each"
 msgstr "Mỗi người"
@@ -517,7 +454,6 @@ msgstr "Mã này hết chỗ rồi. Xin {inviter} mã mới nhé."
 msgid "onboarding.premium.ranOut.expired"
 msgstr "Đã hết hạn"
 
-#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/home/PremiumHomePage.tsx
 msgid "onboarding.home.body"
 msgstr "Chuyến bay và ngân sách bắt đầu từ đây. Đây cũng là con dấu đầu tiên của bạn."
@@ -526,12 +462,10 @@ msgstr "Chuyến bay và ngân sách bắt đầu từ đây. Đây cũng là co
 msgid "onboarding.quiz.natureVsCity.left.label"
 msgstr "Rừng trước đã"
 
-#: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
 msgid "onboarding.invite.code.found"
 msgstr "Thấy rồi · nhóm của {inviter}"
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumInvitePassPage.tsx
 msgid "onboarding.invite.pass.provenance"
 msgstr "Từ danh bạ của {inviter}"
@@ -540,13 +474,11 @@ msgstr "Từ danh bạ của {inviter}"
 msgid "onboarding.invite.problem.rateLimitedLine"
 msgstr "Chờ một phút rồi thử lại mã nhé."
 
-#: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/InvitePassEditPage.tsx
 msgid "onboarding.invite.pass.editName"
 msgstr "Tên"
 
 #: ../../apps/mobile/src/features/onboarding/pass-facts.ts
-#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.givenName"
 msgstr "TÊN · PRÉNOM"
 
@@ -554,16 +486,12 @@ msgstr "TÊN · PRÉNOM"
 msgid "onboarding.quiz.pace.left.label"
 msgstr "Đi đi đi"
 
-#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
-#: ../../apps/mobile/src/features/onboarding/invited/PassJoinProblem.tsx
-#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/InvitePassProblem.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumTicketPage.tsx
 msgid "onboarding.invite.pass.home"
 msgstr "Về trang chủ"
 
-#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumManifestPage.tsx
 msgid "onboarding.invite.manifest.home"
 msgstr "Về trang chủ"
@@ -572,7 +500,6 @@ msgstr "Về trang chủ"
 msgid "onboarding.save.error.cancelled"
 msgstr "Đăng nhập Google chưa xong. Thử lại, hoặc dùng cách khác nhé."
 
-#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
 msgid "onboarding.invite.code.title"
 msgstr "Có mã không?"
@@ -603,19 +530,15 @@ msgstr "Leo núi"
 msgid "onboarding.tag.history.short"
 msgstr "Lịch sử"
 
-#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
-#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/home/PremiumHomePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
 msgid "onboarding.home.stampHome"
 msgstr "Nhà"
 
 #: ../../apps/mobile/src/features/onboarding/pass-facts.ts
-#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.home"
 msgstr "NHÀ"
 
-#: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/InvitePassEditPage.tsx
 msgid "onboarding.invite.pass.editHome"
 msgstr "Sân bay nhà"
@@ -625,24 +548,17 @@ msgid "onboarding.quiz.evenings.right.label"
 msgstr "Chín giờ về nhà"
 
 #: ../../apps/mobile/src/features/onboarding/premium/taste/PremiumTastePage.tsx
-#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.summaryTitle"
 msgstr "Bạn đi du lịch thế nào"
 
 #: ../../apps/mobile/src/features/onboarding/premium/splash/PremiumSplashPage.tsx
-#: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.signIn"
 msgstr "Tôi đã có pass · Đăng nhập"
 
 #: ../../apps/mobile/src/features/onboarding/premium/splash/PremiumSplashPage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/splash/WelcomeBack.tsx
-#: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.invite"
 msgstr "Tôi có mã mời"
-
-#: ../../apps/mobile/src/features/onboarding/invited/ManifestGrid.tsx
-msgid "onboarding.invite.manifest.member"
-msgstr "đã vào"
 
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.premium.photo.cameraOnSub"
@@ -652,27 +568,22 @@ msgstr "Trong Cài đặt, rồi quay lại đây"
 msgid "onboarding.premium.paste.hint"
 msgstr "Lời mời trông như go.critterpass.app/i/… hoặc một mã sáu ký tự."
 
-#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
 msgid "onboarding.issued.stamp"
 msgstr "Đã cấp"
 
 #: ../../apps/mobile/src/features/onboarding/pass-facts.ts
-#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.issued"
 msgstr "NGÀY CẤP"
 
-#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
 msgid "onboarding.invite.code.join"
 msgstr "Vào {crew}"
 
-#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
 msgid "onboarding.invite.code.joinWaitlist"
 msgstr "Vào danh sách chờ của {crew}"
 
-#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumTicketPage.tsx
 msgid "onboarding.invite.ticket.waitlist"
 msgstr "Vào danh sách chờ"
@@ -681,17 +592,12 @@ msgstr "Vào danh sách chờ"
 msgid "onboarding.premium.full.line"
 msgstr "Vào danh sách chờ là bạn nhận chỗ trống kế tiếp, có một ngày để nhận."
 
-#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumTicketPage.tsx
 msgid "onboarding.invite.ticket.lookAround"
 msgstr "Xem thử trước đã"
 
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumManifestPage.tsx
 msgid "onboarding.premium.manifest.justNow"
-msgstr "vừa xong"
-
-#: ../../apps/mobile/src/features/onboarding/invited/ManifestGrid.tsx
-msgid "onboarding.invite.manifest.justNow"
 msgstr "vừa xong"
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
@@ -738,10 +644,6 @@ msgstr "Ngủ nướng"
 msgid "onboarding.tag.localLife"
 msgstr "Sống như thổ địa"
 
-#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
-msgid "onboarding.invite.ticket.loading"
-msgstr "Đang tải lời mời"
-
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.localLife.short"
 msgstr "Địa phương"
@@ -758,7 +660,6 @@ msgstr "Vị trí chỉ dùng cho việc này, một lần."
 msgid "onboarding.premium.ranOut.lookAround"
 msgstr "Xem qua trước đã"
 
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.photo.real.review"
 msgstr "Đẹp lắm. Cho tới khi ảnh được duyệt, cả nhóm sẽ thấy chữ cái đầu tên bạn."
@@ -771,8 +672,6 @@ msgstr "Làm pass mới"
 msgid "onboarding.premium.welcomeBack.newPassOffline"
 msgstr "Làm pass mới khi không có mạng"
 
-#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
-#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumTicketPage.tsx
 msgid "onboarding.invite.problem.startPass"
@@ -820,23 +719,15 @@ msgstr "sân bay gần nhất {0}"
 msgid "onboarding.premium.home.far"
 msgstr "Gần nhất là {0}. {farLine}"
 
-#. placeholder {0}: driveLabel(results.farMinutes)
-#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
-msgid "onboarding.home.far"
-msgstr "Sân bay gần nhất {0}. {farLine}"
-
 #: ../../apps/mobile/src/features/onboarding/premium/splash/WelcomeBack.tsx
 msgid "onboarding.premium.welcomeBack.waiting"
 msgstr "Cần có sóng. Có sóng lại là mình đăng nhập cho bạn."
 
-#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
-#: ../../apps/mobile/src/features/onboarding/name/NameScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/name/PremiumNamePage.tsx
 msgid "onboarding.name.next"
 msgstr "Tiếp"
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumInvitePassPage.tsx
 msgid "onboarding.invite.pass.next"
 msgstr "Tiếp theo bạn lưu pass bằng Apple, Google hoặc số điện thoại"
@@ -849,10 +740,6 @@ msgstr "Cú đêm"
 msgid "onboarding.tag.nightlife.short"
 msgstr "Cú đêm"
 
-#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
-msgid "onboarding.home.noResults"
-msgstr "Không có sân bay nào tên “{0}”. Thử tên thành phố hoặc mã ba chữ cái."
-
 #: ../../apps/mobile/src/features/onboarding/premium/paste-offer/PremiumPasteOffer.tsx
 msgid "onboarding.premium.paste.notInviteLine"
 msgstr "Link này không có nhóm nào. Nhập mã trong lời mời, hoặc bắt đầu mới."
@@ -860,10 +747,6 @@ msgstr "Link này không có nhóm nào. Nhập mã trong lời mời, hoặc b�
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
 msgid "onboarding.premium.code.wrong"
 msgstr "Không nhóm nào dùng mã này. Kiểm tra từng ký tự: mã không bao giờ có 0, O, 1, I, L hay U."
-
-#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
-msgid "onboarding.invite.code.wrongToast"
-msgstr "Không có nhóm nào dùng mã đó"
 
 #: ../../apps/mobile/src/features/onboarding/premium/paste-offer/PremiumPasteOffer.tsx
 msgid "onboarding.premium.paste.fresh"
@@ -873,7 +756,6 @@ msgstr "Không có link, bắt đầu mới"
 msgid "onboarding.premium.welcomeBack.noSignal"
 msgstr "KHÔNG CÓ SÓNG"
 
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.photo.real.offline"
 msgstr "Không có sóng để tải ảnh lên"
@@ -891,12 +773,7 @@ msgstr "Để sau"
 msgid "onboarding.premium.paste.removedLabel"
 msgstr "CHƯA LƯU"
 
-#: ../../apps/mobile/src/features/onboarding/invited/ManifestGrid.tsx
-msgid "onboarding.invite.manifest.notYet"
-msgstr "chưa vào"
-
 #: ../../apps/mobile/src/features/onboarding/pass-facts.ts
-#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.notYet"
 msgstr "Chưa có"
 
@@ -918,7 +795,6 @@ msgid "onboarding.merge.existing"
 msgstr "Trên pass đó"
 
 #: ../../apps/mobile/src/features/onboarding/premium/taste/PremiumTastePage.tsx
-#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.onYourPass"
 msgstr "Trên pass của bạn"
 
@@ -926,7 +802,6 @@ msgstr "Trên pass của bạn"
 msgid "onboarding.quiz.pace.right.label"
 msgstr "Một khu phố"
 
-#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
 msgid "onboarding.issued.body"
 msgstr "Mới có một con dấu. Các hướng dẫn viên sẽ giúp bạn có thêm."
@@ -935,29 +810,21 @@ msgstr "Mới có một con dấu. Các hướng dẫn viên sẽ giúp bạn c�
 msgid "onboarding.premium.photo.librarySub"
 msgstr "Chỉ ảnh bạn chọn mới được chia sẻ"
 
-#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumManifestPage.tsx
 msgid "onboarding.invite.manifest.openCrew"
 msgstr "Mở nhóm"
 
 #: ../../apps/mobile/src/features/onboarding/premium/splash/PremiumSplashPage.tsx
-#: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.open"
 msgstr "Mở pass của bạn"
 
 #: ../../apps/mobile/src/features/onboarding/premium/taste/PremiumTastePage.tsx
-#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.or"
 msgstr "hay"
 
-#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.or"
 msgstr "hoặc"
-
-#: ../../apps/mobile/src/features/onboarding/invited/ManifestGrid.tsx
-msgid "onboarding.invite.manifest.organiser"
-msgstr "người tổ chức"
 
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumManifestPage.tsx
 msgid "onboarding.premium.manifest.organiser"
@@ -967,16 +834,11 @@ msgstr "Người tổ chức"
 msgid "onboarding.tag.packedDays.short"
 msgstr "Dày lịch"
 
-#: ../../apps/mobile/src/features/onboarding/page-chrome.tsx
-msgid "onboarding.page"
-msgstr "Trang {page} / {PAGE_COUNT}"
-
 #: ../../apps/mobile/src/features/onboarding/premium/splash/WelcomeBack.tsx
 msgid "onboarding.premium.welcomeBack.passport"
 msgstr "HỘ CHIẾU"
 
 #: ../../apps/mobile/src/features/onboarding/premium/splash/PremiumSplashPage.tsx
-#: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.coverMark"
 msgstr "PASSPORT · PASSEPORT"
 
@@ -1000,7 +862,6 @@ msgstr "Đã dán từ bộ nhớ tạm"
 msgid "onboarding.premium.splash.penida"
 msgstr "Penida"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.label"
 msgstr "Điện thoại"
@@ -1013,16 +874,10 @@ msgstr "Chụp ảnh thả ga"
 msgid "onboarding.tag.photoSpots.short"
 msgstr "Ảnh"
 
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
-msgid "onboarding.photo.real.pickGuide"
-msgstr "Chọn hướng dẫn viên"
-
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.photo.real.again"
 msgstr "Chọn ảnh khác"
 
-#: ../../apps/mobile/src/features/onboarding/photo/PhotoScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.photo.title"
 msgstr "Chọn ảnh hộ chiếu"
@@ -1047,7 +902,6 @@ msgstr "Bữa tối tử tế"
 msgid "onboarding.invite.code.scannedFrom"
 msgstr "Đọc từ mã QR"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.resendIn"
 msgstr "Gửi lại sau {waitS} giây"
@@ -1060,11 +914,6 @@ msgstr "Bar sân thượng và ga tàu điện"
 msgid "onboarding.quiz.pace.right.line"
 msgstr "Cùng quán cà phê, cùng bàn góc"
 
-#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
-msgid "onboarding.taste.save"
-msgstr "Lưu"
-
-#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
 msgid "onboarding.issued.save"
 msgstr "Lưu pass của tôi"
@@ -1073,7 +922,6 @@ msgstr "Lưu pass của tôi"
 msgid "onboarding.save.eyebrow"
 msgstr "Lưu pass của bạn"
 
-#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
 msgid "onboarding.saved"
 msgstr "Đã lưu ✓"
@@ -1082,7 +930,6 @@ msgstr "Đã lưu ✓"
 msgid "onboarding.premium.paste.savedLabel"
 msgstr "ĐÃ LƯU ĐỂ DÙNG SAU"
 
-#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumManifestPage.tsx
 msgid "onboarding.invite.manifest.sayHi"
 msgstr "Chào cả nhóm một câu"
@@ -1100,22 +947,18 @@ msgstr "Quét QR"
 msgid "onboarding.phone.countrySearch"
 msgstr "Tìm quốc gia"
 
-#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumTicketPage.tsx
 msgid "onboarding.invite.ticket.seat"
 msgstr "Chỗ"
 
-#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumManifestPage.tsx
 msgid "onboarding.invite.manifest.plan"
 msgstr "Xem kế hoạch"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.resend"
 msgstr "Gửi mã mới"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.send"
 msgstr "Gửi mã"
@@ -1140,7 +983,6 @@ msgstr "Đăng nhập"
 msgid "onboarding.premium.welcomeBack.bodyOffline"
 msgstr "Đăng nhập khi có sóng, hoặc làm pass mới ngay. Đồng bộ sau cũng được."
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.returningBody"
 msgstr "Đăng nhập bằng số điện thoại, Apple ID hoặc tài khoản Google đã lưu pass của bạn."
@@ -1153,16 +995,11 @@ msgstr "Đang đăng nhập…"
 msgid "onboarding.premium.code.body"
 msgstr "Sáu chữ và số từ người mời bạn. Mã không bao giờ có 0, O, 1, I, L hay U."
 
-#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
-msgid "onboarding.invite.code.body"
-msgstr "Sáu chữ cái từ người mời bạn. Cùng một mã dùng được cho cả nhóm lẫn một chuyến đi."
-
 #: ../../apps/mobile/src/features/onboarding/invited/invite-problem-copy.ts
 msgid "onboarding.invite.problem.crewFullLine"
 msgstr "Một nhóm tối đa mười sáu người. Nhờ mọi người nhường chỗ nhé."
 
 #: ../../apps/mobile/src/features/onboarding/premium/taste/PremiumTastePage.tsx
-#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.skip"
 msgstr "Bỏ qua câu này"
 
@@ -1178,7 +1015,6 @@ msgstr "Ngủ tới mười giờ"
 msgid "onboarding.tag.lateStarts"
 msgstr "Sáng thong thả"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.body"
 msgstr "Để pass của bạn vẫn còn khi mất điện thoại. Một tài khoản cho mọi nhóm, chuyến đi và critter."
@@ -1204,7 +1040,6 @@ msgstr "Lấp lánh"
 msgid "onboarding.tag.splurge.short"
 msgstr "Chịu chi"
 
-#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/home/PremiumHomePage.tsx
 msgid "onboarding.home.stampNo"
 msgstr "Con dấu số 1"
@@ -1218,7 +1053,6 @@ msgid "onboarding.premium.paste.startFresh"
 msgstr "Bắt đầu mới"
 
 #: ../../apps/mobile/src/features/onboarding/premium/taste/PremiumTastePage.tsx
-#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.retake"
 msgstr "Làm lại"
 
@@ -1259,28 +1093,22 @@ msgid "onboarding.quiz.mornings.left.label"
 msgstr "Đỉnh núi bình minh"
 
 #: ../../apps/mobile/src/features/onboarding/pass-facts.ts
-#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.syncing"
 msgstr "ĐANG ĐỒNG BỘ"
 
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.photo.real.camera"
 msgstr "Chụp ảnh"
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
-#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumInvitePassPage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumTicketPage.tsx
 msgid "onboarding.invite.ticket.take"
 msgstr "Nhận chỗ"
 
-#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
 msgid "onboarding.issued.saveNote"
 msgstr "Mất mười giây. Không cần mật khẩu."
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumInvitePassPage.tsx
 msgid "onboarding.invite.pass.lineBlank"
 msgstr "Chạm vào những gì giống bạn. Mình sẽ lên kế hoạch theo đó."
@@ -1309,10 +1137,6 @@ msgstr "Mã không khớp. Thử lại nhé."
 msgid "onboarding.phone.expired"
 msgstr "Mã đã hết hạn. Gửi mã mới nhé."
 
-#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
-msgid "onboarding.invite.code.wrong"
-msgstr "Bọn mình không biết mã này. Kiểm tra lại từng chữ nhé."
-
 #: ../../apps/mobile/src/features/onboarding/premium/invite/InviteRanOut.tsx
 msgid "onboarding.premium.ranOut.failed"
 msgstr "Chưa gửi được. Thử lại nhé."
@@ -1330,7 +1154,6 @@ msgstr "Số này có vẻ ngắn. Kiểm tra lại rồi thử nhé."
 msgid "onboarding.premium.name.blocked"
 msgstr "Tên này không in lên pass được. Thử tên khác nhé."
 
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.photo.real.failed"
 msgstr "Ảnh đó chưa tải lên được"
@@ -1355,7 +1178,6 @@ msgstr "Đó là một link, không phải lời mời"
 msgid "onboarding.invite.problem.crewLimitTitle"
 msgstr "Bạn nhiều nhóm quá"
 
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.photo.real.limitTitle"
 msgstr "Nhiều ảnh quá rồi"
@@ -1376,7 +1198,6 @@ msgstr "Đó là video YouTube, không phải lời mời"
 msgid "onboarding.premium.paste.instagram"
 msgstr "Đó là bài Instagram, không phải lời mời"
 
-#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/home/PremiumHomePage.tsx
 msgid "onboarding.home.next"
 msgstr "Đây là nhà"
@@ -1386,11 +1207,9 @@ msgid "onboarding.premium.invite.pass.tooLong"
 msgstr "Dài quá, thẻ không in hết được. Thử ngắn hơn nhé."
 
 #: ../../apps/mobile/src/features/onboarding/premium/taste/PremiumTastePage.tsx
-#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.done"
 msgstr "Đúng là tôi"
 
-#: ../../apps/mobile/src/features/onboarding/photo/PhotoScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.photo.next"
 msgstr "Đúng là tôi"
@@ -1403,7 +1222,6 @@ msgstr "Pass chỉ in được tới đây thôi. Rút gọn lại, hoặc cứ 
 msgid "onboarding.premium.code.scanDenied"
 msgstr "Camera đang tắt với CritterPass. Nhập mã thay vào đó nhé."
 
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.photo.real.cameraDenied"
 msgstr "Camera đang tắt với CritterPass. Bạn vẫn có thể chọn ảnh."
@@ -1437,7 +1255,6 @@ msgid "onboarding.invite.problem.revokedTitle"
 msgstr "Lời mời đã bị rút lại"
 
 #: ../../apps/mobile/src/features/onboarding/premium/taste/PremiumTastePage.tsx
-#: ../../apps/mobile/src/features/onboarding/taste/TasteScreen.tsx
 msgid "onboarding.taste.title"
 msgstr "Cái này hay cái kia"
 
@@ -1457,7 +1274,6 @@ msgstr "Ba điều, và lý do"
 msgid "onboarding.tag.thrifty.short"
 msgstr "Tiết kiệm"
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumInvitePassPage.tsx
 msgid "onboarding.invite.pass.back"
 msgstr "Vé"
@@ -1480,7 +1296,6 @@ msgid "onboarding.phone.tooMany"
 msgstr "Thử quá nhiều lần. Gửi mã mới nhé."
 
 #: ../../apps/mobile/src/features/onboarding/pass-facts.ts
-#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.travelStyle"
 msgstr "PHONG CÁCH"
 
@@ -1500,39 +1315,24 @@ msgstr "Thử"
 msgid "onboarding.premium.home.nothingLine"
 msgstr "Thử tên thành phố, sân bay hoặc mã ba chữ của sân bay."
 
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.photo.real.retry"
 msgstr "Thử lại"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.retry"
 msgstr "Thử lại"
 
-#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
-#: ../../apps/mobile/src/features/onboarding/invited/PassJoinProblem.tsx
-#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/InvitePassProblem.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumTicketPage.tsx
 msgid "onboarding.invite.problem.retry"
 msgstr "Thử lại"
 
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
-msgid "onboarding.photo.real.limitLater"
-msgstr "Thử lại sau chút, hoặc chọn một hướng dẫn viên trước."
-
-#. placeholder {0}: Math.max(1, Math.ceil(state.retryAfterS / 60))
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
-msgid "onboarding.photo.real.limitMinutes"
-msgstr "Thử lại sau {0} phút, hoặc chọn một hướng dẫn viên trước."
-
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.premium.photo.cameraOn"
 msgstr "Bật camera"
 
-#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumTicketPage.tsx
 msgid "onboarding.invite.problem.typeCode"
 msgstr "Nhập mã vậy"
@@ -1546,7 +1346,6 @@ msgid "onboarding.premium.ranOut.otherCodeSub"
 msgstr "Tự nhập mã"
 
 #: ../../apps/mobile/src/features/onboarding/premium/taste/PremiumTastePage.tsx
-#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.undo"
 msgstr "Hoàn tác"
 
@@ -1558,7 +1357,6 @@ msgstr "Dậy lúc 3 giờ, lên đỉnh lúc 6 giờ"
 msgid "onboarding.tag.adventure"
 msgstr "Gì cũng chơi"
 
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.photo.real.uploading"
 msgstr "Đang tải lên"
@@ -1570,14 +1368,6 @@ msgstr "Dùng"
 #: ../../apps/mobile/src/features/onboarding/premium/invite/InviteRanOut.tsx
 msgid "onboarding.premium.ranOut.otherCode"
 msgstr "Dùng mã khác"
-
-#: ../../apps/mobile/src/features/onboarding/photo/PhotoScreen.tsx
-msgid "onboarding.photo.real"
-msgstr "Dùng ảnh thật"
-
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
-msgid "onboarding.photo.real.title"
-msgstr "Dùng ảnh thật"
 
 #: ../../apps/mobile/src/features/onboarding/premium/home/PremiumHomePage.tsx
 msgid "onboarding.premium.home.locate"
@@ -1600,7 +1390,6 @@ msgstr "Chuyển sang pass cũ"
 msgid "onboarding.save.phone"
 msgstr "Dùng số điện thoại"
 
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/photo/PremiumPhotoPage.tsx
 msgid "onboarding.photo.real.use"
 msgstr "Dùng ảnh này"
@@ -1609,7 +1398,6 @@ msgstr "Dùng ảnh này"
 msgid "onboarding.premium.ranOut.usedUp"
 msgstr "Đã dùng hết"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.code"
 msgstr "Mã xác minh"
@@ -1622,25 +1410,14 @@ msgstr "Chúng tôi chưa gửi mã tới quốc gia này được. Hãy dùng A
 msgid "onboarding.phone.verifyFailed"
 msgstr "Chưa kiểm tra được mã đó. Kiểm tra sóng rồi thử lại nhé."
 
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
-msgid "onboarding.photo.real.noSubject"
-msgstr "Không tìm thấy bạn trong ảnh này, nên ảnh được cắt tròn."
-
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
-msgid "onboarding.photo.real.body"
-msgstr "Chúng tôi cắt hình bạn như một nhãn dán, ngay trên điện thoại. Cả nhóm sẽ thấy sau khi ảnh được duyệt."
-
-#: ../../apps/mobile/src/features/onboarding/phone/OtherWays.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.neverPost"
 msgstr "Chúng tôi không bao giờ đăng gì thay bạn."
 
 #: ../../apps/mobile/src/features/onboarding/pass-facts.ts
-#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.weWillAsk"
 msgstr "Sẽ hỏi bạn"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.returningTitle"
 msgstr "Chào mừng trở lại"
@@ -1653,12 +1430,10 @@ msgstr "Chào mừng bạn trở lại"
 msgid "onboarding.invite.manifest.welcome"
 msgstr "Chào mừng {name}. Mừng là bạn tới."
 
-#: ../../apps/mobile/src/features/onboarding/name/NameScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/name/PremiumNamePage.tsx
 msgid "onboarding.name.title"
 msgstr "Hướng dẫn viên gọi bạn là gì?"
 
-#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/home/PremiumHomePage.tsx
 msgid "onboarding.home.title"
 msgstr "Nhà bạn ở đâu?"
@@ -1675,12 +1450,10 @@ msgstr "người gửi"
 msgid "onboarding.invite.ticket.eachLater"
 msgstr "Cả nhóm cùng tính"
 
-#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
 msgid "onboarding.invite.code.wrongCrew"
 msgstr "Nhầm nhóm? Xin {inviter} mã mới nhé"
 
-#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/components/CrewTicket.tsx
 msgid "onboarding.invite.ticket.you"
 msgstr "Bạn"
@@ -1715,7 +1488,6 @@ msgstr "Bạn đã ở mười nhóm rồi. Rời một nhóm là chỗ này c�
 msgid "onboarding.invite.problem.offlineTitle"
 msgstr "Bạn đang ngoại tuyến"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 msgid "onboarding.phone.title"
 msgstr "Số của bạn"
@@ -1725,15 +1497,9 @@ msgid "onboarding.merge.identity.apple"
 msgstr "Apple ID của bạn"
 
 #: ../../apps/mobile/src/features/onboarding/premium/taste/PremiumTastePage.tsx
-#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.disclosure"
 msgstr "Các nhóm của bạn sẽ thấy những thẻ này để kế hoạch hợp với mọi người. Bạn có thể ẩn chúng trong Cài đặt."
 
-#: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
-msgid "onboarding.splash.cover"
-msgstr "Hộ chiếu CritterPass của bạn"
-
-#: ../../apps/mobile/src/features/onboarding/name/NameScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/name/PremiumNamePage.tsx
 msgid "onboarding.name.label"
 msgstr "Tên của bạn"
@@ -1742,7 +1508,6 @@ msgstr "Tên của bạn"
 msgid "onboarding.merge.identity.google"
 msgstr "Tài khoản Google của bạn"
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumInvitePassPage.tsx
 msgid "onboarding.invite.pass.blank"
 msgstr "Tên và sân bay nhà của bạn, rồi bạn vào nhóm."
@@ -1759,16 +1524,6 @@ msgstr "Số điện thoại của bạn"
 msgid "permissions.primer.back"
 msgstr "Pass của bạn"
 
-#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
-msgid "onboarding.issued.title"
-msgstr "Pass của bạn\n"
-"đã sẵn sàng"
-
-#. placeholder {0}: printedName || notYet
-#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
-msgid "onboarding.pass.a11y"
-msgstr "Pass {number} của bạn: {0}, nhà {homeValue}, ngày cấp {issuedValue}, phong cách {styleValue}"
-
 #: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
 msgid "onboarding.premium.issued.title"
 msgstr "Pass của bạn đã sẵn sàng"
@@ -1778,11 +1533,9 @@ msgid "onboarding.premium.welcomeBack.body"
 msgstr "Pass của bạn đang chờ trong tài khoản. Đăng nhập để lấy lại nhé."
 
 #: ../../apps/mobile/src/features/onboarding/premium/splash/PremiumSplashPage.tsx
-#: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.tagline"
 msgstr "Tấm pass tới mọi nơi, và các thổ địa ở đó."
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumInvitePassPage.tsx
 msgid "onboarding.invite.pass.title"
 msgstr "Pass của bạn, ba chạm"
@@ -1790,7 +1543,3 @@ msgstr "Pass của bạn, ba chạm"
 #: ../../apps/mobile/src/features/onboarding/invited/invite-problem-copy.ts
 msgid "onboarding.invite.problem.offlineLine"
 msgstr "Chỗ của bạn vẫn chờ đó. Có sóng thì thử lại nhé."
-
-#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
-msgid "onboarding.photo.real.zoom"
-msgstr "Thu phóng"
