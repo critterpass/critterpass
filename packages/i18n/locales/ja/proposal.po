@@ -684,7 +684,6 @@ msgstr ""
 msgid "proposal.replyBy.auto"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/chat-card.tsx
 #: ../../apps/mobile/src/features/proposal/premium/chat-card.tsx
 msgid "proposal.card.loading"
 msgstr ""
@@ -1214,10 +1213,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/premium/format-tiles.tsx
 msgid "proposal.build.trailer"
-msgstr ""
-
-#: ../../apps/mobile/src/features/proposal/chat-card.tsx
-msgid "proposal.card.a11y"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx

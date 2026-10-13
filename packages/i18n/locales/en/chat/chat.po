@@ -11,10 +11,6 @@ msgstr ""
 msgid "chat.queued.message"
 msgstr "“{preview}” to the crew chat"
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.guideAuthor"
-msgstr "{author} · AI guide"
-
 #. placeholder {0}: planChange(body, locale)
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.planEditAdded"
@@ -78,10 +74,6 @@ msgstr "{name} saved a place to Ideas"
 msgid "chat.system.rejoinAsked"
 msgstr "{name} would like to rejoin the crew"
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.spoken"
-msgstr "{who}, {time}: {text}"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.sticker"
 msgstr "A sticker to the crew chat"
@@ -98,29 +90,13 @@ msgstr "Asking to rejoin the crew"
 msgid "chat.report.harassment"
 msgstr "Bullying or harassment"
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.delete"
-msgstr "Delete"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.delete"
 msgstr "Deleting a message"
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.failed"
-msgstr "Didn’t send"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.edit"
 msgstr "Edit to a message"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.edited"
-msgstr "edited"
-
-#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
-msgid "chat.card.unknown.action"
-msgstr "Get the update"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.hate"
@@ -133,18 +109,6 @@ msgstr "hi!"
 #: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
 msgid "chat.sticker.caption.think"
 msgstr "hmm"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.actions"
-msgstr "Message actions"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.deleted"
-msgstr "Message deleted"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.moreActions"
-msgstr "More actions"
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.mute"
@@ -170,21 +134,9 @@ msgstr "Reaction {emoji}"
 msgid "chat.queued.removeChat"
 msgstr "Removing a crew chat"
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.action.reply"
-msgstr "Reply"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.report"
 msgstr "Report of a message"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.retry"
-msgstr "Retry"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.sending"
-msgstr "Sending"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.sexual"
@@ -234,10 +186,6 @@ msgstr "The trip is locked in"
 msgid "chat.system.planVoteRanOut"
 msgstr "The vote ran out. The plan stays as it was."
 
-#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
-msgid "chat.card.unknown.title"
-msgstr "This message needs a newer CritterPass"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.unmute"
 msgstr "Unmuting a crewmate"
@@ -245,10 +193,6 @@ msgstr "Unmuting a crewmate"
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.unpin"
 msgstr "Unpinning a message"
-
-#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
-msgid "chat.card.unknown.line"
-msgstr "Update the app to see it here."
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.violence"
@@ -261,10 +205,6 @@ msgstr "Voice note, {length}"
 #: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
 msgid "chat.sticker.caption.cheer"
 msgstr "yes pls"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.you"
-msgstr "You"
 
 #: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
 msgid "chat.sticker.caption.sleep"

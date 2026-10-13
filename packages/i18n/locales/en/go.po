@@ -72,17 +72,9 @@ msgstr "Finding where you are…"
 msgid "go.preview.routing"
 msgstr "Getting the route…"
 
-#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
-msgid "go.button.label"
-msgstr "Go"
-
 #: ../../apps/mobile/src/features/go/go-screen.tsx
 msgid "go.preview.eyebrow"
 msgstr "GO"
-
-#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
-msgid "go.button.labelTo"
-msgstr "Go · {detail}"
 
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
 msgid "go.settings.googleMaps"
@@ -131,10 +123,6 @@ msgstr "Opens Grab with the drop-off filled in"
 #: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.ride"
 msgstr "Ride"
-
-#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
-msgid "go.button.hint"
-msgstr "Shows the route from where you are, then directions in your maps app"
 
 #: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx
 msgid "go.preview.startApple"

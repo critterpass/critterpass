@@ -147,10 +147,6 @@ msgstr "{place} · đã về nhà"
 msgid "home.premium.back.title"
 msgstr "{place} giờ đã là kỷ niệm"
 
-#: ../../apps/mobile/src/features/home/post-trip-card.tsx
-msgid "home.postTrip.title"
-msgstr "Nhìn lại {place}"
-
 #: ../../apps/mobile/src/features/home/premium/components/countdown-pill.tsx
 msgid "home.countdown.spoken"
 msgstr "Còn {spoken} nữa là tới {place}"
@@ -323,9 +319,17 @@ msgstr "Miễn phí"
 msgid "home.premium.broke.back"
 msgstr "Quay lại"
 
+#: ../../apps/mobile/src/features/home/premium/recovery/plain-recovery.tsx
+msgid "common.shell.errorBack"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/premium/recovery/error-sheet.tsx
 msgid "home.premium.broke.home"
 msgstr "Về trang chủ"
+
+#: ../../apps/mobile/src/features/home/premium/recovery/plain-recovery.tsx
+msgid "common.shell.errorHome"
+msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/recovery/lost-link-screen.tsx
 msgid "home.premium.lost.home"
@@ -358,10 +362,6 @@ msgstr "Trang chủ"
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.premium.trips.homeTab"
 msgstr "Đã về nhà"
-
-#: ../../apps/mobile/src/features/home/post-trip-card.tsx
-msgid "home.postTrip.eyebrow"
-msgstr "Chuyến đi thế nào?"
 
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
@@ -601,7 +601,6 @@ msgstr "Tìm chuyến đi của bạn"
 msgid "home.inbox.planChange.open"
 msgstr "Xem thay đổi"
 
-#: ../../apps/mobile/src/features/home/post-trip-card.tsx
 #: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
 msgid "home.postTrip.open"
 msgstr "Xem lại chuyến đi"
@@ -750,6 +749,10 @@ msgstr "Chưa gửi được"
 msgid "home.premium.broke.title"
 msgstr "Chưa tải được"
 
+#: ../../apps/mobile/src/features/home/premium/recovery/plain-recovery.tsx
+msgid "common.shell.errorTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
 msgid "crew.sheet.joinFailed"
 msgstr "Lời mời này không còn tham gia được"
@@ -850,7 +853,6 @@ msgstr "Chạm và giữ một chỗ trống trên màn hình chính."
 msgid "home.widgets.howTo.android.hold"
 msgstr "Chạm và giữ một chỗ trống trên màn hình chính."
 
-#: ../../apps/mobile/src/features/home/post-trip-card.tsx
 #: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
 msgid "home.postTrip.fallback"
 msgstr "Chuyến đi"
@@ -866,6 +868,10 @@ msgstr "Chuyến đi bắt đầu từ một nhóm. Tạo nhóm, hoặc vào nh�
 #: ../../apps/mobile/src/features/home/premium/recovery/error-sheet.tsx
 msgid "home.premium.broke.retry"
 msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/home/premium/recovery/plain-recovery.tsx
+msgid "common.shell.errorRetry"
+msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/inbox/earlier-row.tsx
 msgid "home.inbox.undoLabel"

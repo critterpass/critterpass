@@ -12,11 +12,6 @@ msgstr ""
 msgid "onboarding.invite.ticket.membersIn"
 msgstr "{0, plural, other {{listed} đã vào.}}"
 
-#. placeholder {0}: movingCrews.length
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.movingCount"
-msgstr "{0, plural, other {# nhóm trên điện thoại này sẽ đi cùng bạn.}}"
-
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
 msgid "onboarding.invite.code.alreadyIn"
 msgstr "{count} người đã vào. {guideName} dẫn đường."
@@ -34,17 +29,14 @@ msgid "onboarding.home.hoursAway"
 msgstr "cách {hours} giờ"
 
 #: ../../apps/mobile/src/features/onboarding/save/merge-copy.ts
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.bodyFor"
 msgstr "{identity} đã gắn với một pass bạn làm trước đây. Chuyển sang pass đó để tiếp tục từ chỗ bạn dừng lại."
 
 #: ../../apps/mobile/src/features/onboarding/save/merge-copy.ts
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.keptBody"
 msgstr "{identity} vẫn gắn với pass cũ, còn điện thoại này giữ pass mới. Muốn lưu pass mới, hãy đăng nhập bằng cách khác."
 
 #: ../../apps/mobile/src/features/onboarding/save/merge-copy.ts
-#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
 msgid "onboarding.merge.declinedLine"
 msgstr "{identity} vẫn gắn với pass cũ. Đăng nhập bằng cách khác để lưu pass này."
 
@@ -253,7 +245,6 @@ msgstr "Cao thủ tiết kiệm"
 
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.terms"
 msgstr "Khi tiếp tục, bạn đồng ý với Điều khoản và Chính sách quyền riêng tư."
 
@@ -332,13 +323,11 @@ msgstr "Ghé quán cà phê"
 
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.apple"
 msgstr "Tiếp tục với Apple"
 
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.google"
 msgstr "Tiếp tục với Google"
 
@@ -350,7 +339,6 @@ msgstr "Bạn vừa chép link nhóm?"
 msgid "onboarding.premium.home.locateNoFix"
 msgstr "Chưa tìm được vị trí của bạn. Tìm thị trấn của bạn thay vào đó nhé."
 
-#: ../../apps/mobile/src/features/onboarding/phone/CountryPicker.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/CountryListPage.tsx
 msgid "onboarding.phone.country"
 msgstr "Quốc gia"
@@ -505,7 +493,6 @@ msgid "onboarding.invite.code.title"
 msgstr "Có mã không?"
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.keptDone"
 msgstr "Đã hiểu"
 
@@ -601,7 +588,6 @@ msgid "onboarding.premium.manifest.justNow"
 msgstr "vừa xong"
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.title"
 msgstr "Giữ an toàn"
 
@@ -610,13 +596,10 @@ msgid "onboarding.premium.paste.keep"
 msgstr "Giữ link này cho chuyến đi đầu tiên"
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.keepNew"
 msgstr "Giữ pass mới này"
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
 msgid "onboarding.merge.keptTitle"
 msgstr "Giữ pass mới"
 
@@ -765,7 +748,6 @@ msgid "onboarding.save.error.network"
 msgstr "Hiện không có sóng. Pass của bạn vẫn an toàn trên điện thoại này; thử lại sau chút nhé."
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.notNow"
 msgstr "Để sau"
 
@@ -789,10 +771,6 @@ msgstr "Đang tắt. Mình sẽ hỏi lại trong chuyến đi, hoặc bạn b�
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.history"
 msgstr "Chuyện xưa"
-
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.existing"
-msgstr "Trên pass đó"
 
 #: ../../apps/mobile/src/features/onboarding/premium/taste/PremiumTastePage.tsx
 msgid "onboarding.taste.onYourPass"
@@ -918,10 +896,6 @@ msgstr "Cùng quán cà phê, cùng bàn góc"
 msgid "onboarding.issued.save"
 msgstr "Lưu pass của tôi"
 
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
-msgid "onboarding.save.eyebrow"
-msgstr "Lưu pass của bạn"
-
 #: ../../apps/mobile/src/features/onboarding/premium/issued/PremiumIssuedPage.tsx
 msgid "onboarding.saved"
 msgstr "Đã lưu ✓"
@@ -942,7 +916,6 @@ msgstr "Từ chối cái nào cũng được. Khi nào thật sự cần, mình 
 msgid "onboarding.premium.code.scan"
 msgstr "Quét QR"
 
-#: ../../apps/mobile/src/features/onboarding/phone/CountryPicker.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/phone/CountryListPage.tsx
 msgid "onboarding.phone.countrySearch"
 msgstr "Tìm quốc gia"
@@ -970,10 +943,6 @@ msgstr "Túi mua sắm"
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.shopping.short"
 msgstr "Mua sắm"
-
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.eyebrow"
-msgstr "Đăng nhập"
 
 #: ../../apps/mobile/src/features/onboarding/premium/splash/WelcomeBack.tsx
 msgid "onboarding.premium.welcomeBack.signIn"
@@ -1020,7 +989,6 @@ msgid "onboarding.phone.body"
 msgstr "Để pass của bạn vẫn còn khi mất điện thoại. Một tài khoản cho mọi nhóm, chuyến đi và critter."
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.body"
 msgstr "Để pass, critter và các nhóm của bạn vẫn còn khi mất điện thoại. Chúng tôi không bao giờ đăng gì thay bạn."
 
@@ -1374,19 +1342,15 @@ msgid "onboarding.premium.home.locate"
 msgstr "Dùng vị trí của tôi"
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.useOld"
 msgstr "Dùng pass cũ của tôi"
 
 #: ../../apps/mobile/src/features/onboarding/premium/phone/PremiumPhonePage.tsx
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
 msgid "onboarding.merge.switchBack"
 msgstr "Chuyển sang pass cũ"
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.phone"
 msgstr "Dùng số điện thoại"
 
@@ -1459,8 +1423,6 @@ msgid "onboarding.invite.ticket.you"
 msgstr "Bạn"
 
 #: ../../apps/mobile/src/features/onboarding/premium/save/PremiumSaveSheet.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
 msgid "onboarding.merge.title"
 msgstr "Bạn đã có pass rồi"
 

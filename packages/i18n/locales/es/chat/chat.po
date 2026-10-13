@@ -11,10 +11,6 @@ msgstr ""
 msgid "chat.queued.message"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.guideAuthor"
-msgstr ""
-
 #. placeholder {0}: planChange(body, locale)
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.planEditAdded"
@@ -78,10 +74,6 @@ msgstr ""
 msgid "chat.system.rejoinAsked"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.spoken"
-msgstr ""
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.sticker"
 msgstr ""
@@ -98,28 +90,12 @@ msgstr ""
 msgid "chat.report.harassment"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.delete"
-msgstr ""
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.delete"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.failed"
-msgstr ""
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.edit"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.edited"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
-msgid "chat.card.unknown.action"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
@@ -132,18 +108,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
 msgid "chat.sticker.caption.think"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.actions"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.deleted"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.moreActions"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
@@ -170,20 +134,8 @@ msgstr ""
 msgid "chat.queued.removeChat"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.action.reply"
-msgstr ""
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.report"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.retry"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.sending"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
@@ -234,20 +186,12 @@ msgstr ""
 msgid "chat.system.planVoteRanOut"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
-msgid "chat.card.unknown.title"
-msgstr ""
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.unmute"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.unpin"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
-msgid "chat.card.unknown.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
@@ -260,10 +204,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
 msgid "chat.sticker.caption.cheer"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.you"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts

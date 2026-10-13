@@ -72,16 +72,8 @@ msgstr ""
 msgid "go.preview.routing"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
-msgid "go.button.label"
-msgstr ""
-
 #: ../../apps/mobile/src/features/go/go-screen.tsx
 msgid "go.preview.eyebrow"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
-msgid "go.button.labelTo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
@@ -130,10 +122,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.ride"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
-msgid "go.button.hint"
 msgstr ""
 
 #: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx

@@ -328,6 +328,10 @@ msgstr ""
 msgid "recap.receipt.cheapest"
 msgstr ""
 
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.clear"
+msgstr ""
+
 #: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
 msgid "recap.premium.story.close"
 msgstr ""
@@ -569,6 +573,10 @@ msgstr ""
 msgid "recap.summary.offline"
 msgstr ""
 
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.empty"
+msgstr ""
+
 #: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.places"
 msgstr ""
@@ -733,6 +741,10 @@ msgstr ""
 msgid "recap.story.shareCard"
 msgstr ""
 
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.hint"
+msgstr ""
+
 #: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
 msgid "recap.signature.save"
 msgstr ""
@@ -743,6 +755,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
 msgid "recap.signature.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.typeName"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.pad"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.signed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/commands.ts

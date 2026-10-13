@@ -7,7 +7,7 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.lastKnown"
 msgstr " · last known"
 
@@ -37,11 +37,6 @@ msgstr "{0, plural, one {# tip, pinned to the days · no vote} other {# tips, pi
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
 msgid "drivers.replied.perDay"
 msgstr "{0} a day · {1} each"
-
-#. placeholder {0}: leg.name
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.assigned"
-msgstr "{0} drives this day"
 
 #. placeholder {0}: dayLabel(long.date, locale)
 #. placeholder {1}: hoursFigure(long.hours, locale)
@@ -172,11 +167,6 @@ msgstr "{name}’s number, car and plate"
 msgid "drivers.pick.quote"
 msgstr "{name}'s quote"
 
-#. placeholder {0}: gap.km
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.dayOut"
-msgstr "{place} is about {0} km out and the day is long. Ride apps rarely wait or pick up out there. Most crews hire a driver for the day."
-
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.price.car"
 msgstr "{price} a car"
@@ -257,7 +247,7 @@ msgstr "A driver message you shared"
 msgid "drivers.share.entry"
 msgstr "A driver or guide"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.body"
 msgstr "A page with the days you pick. No login. First names only, no budgets, no chat."
 
@@ -346,7 +336,7 @@ msgstr "Book a private tour"
 msgid "drivers.premium.browse"
 msgstr "Browse"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.private"
 msgstr "Budgets, chat, last names"
 
@@ -359,6 +349,7 @@ msgid "drivers.offline.note"
 msgstr "Calls use signal, not data. The message sends when you’re back online."
 
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.premium.cancel"
 msgstr "Cancel"
@@ -426,7 +417,7 @@ msgstr "Contact"
 msgid "drivers.ask.copied"
 msgstr "Copied"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.copy"
 msgstr "Copy"
 
@@ -491,7 +482,7 @@ msgstr "Day {dayNo}"
 msgid "drivers.directory.dayTrips"
 msgstr "Day trips"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.days"
 msgstr "Days"
 
@@ -512,7 +503,7 @@ msgstr "Driver"
 msgid "drivers.check.area"
 msgstr "Driver · {0}"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.nameLabel"
 msgstr "Driver or guide’s first name"
 
@@ -573,10 +564,6 @@ msgstr "Find a driver"
 
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.title"
-msgstr "Find a driver"
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.find"
 msgstr "Find a driver"
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
@@ -645,7 +632,7 @@ msgstr "Great photos"
 msgid "drivers.check.priceAskWords"
 msgstr "He wrote: “{ask}”"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet.tsx
+#: ../../apps/mobile/src/features/drivers/share/use-driver-share.ts
 msgid "drivers.share.message"
 msgstr "Here are the days we need you, with times and pickups: {url}"
 
@@ -750,11 +737,11 @@ msgstr "Language of the post"
 msgid "drivers.premium.pickDiscardTitle"
 msgstr "Leave without picking {name}?"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quote"
 msgstr "Let {name} send a quote"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quoteAnyone"
 msgstr "Let them send a quote"
 
@@ -762,11 +749,11 @@ msgstr "Let them send a quote"
 msgid "drivers.compare.licence"
 msgstr "Licence"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.copied"
 msgstr "Link copied."
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.expires"
 msgstr "Link expires"
 
@@ -798,7 +785,7 @@ msgstr "Looking for private cars"
 msgid "drivers.verdict.loved"
 msgstr "Loved it"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.create"
 msgstr "Make the link"
 
@@ -806,7 +793,7 @@ msgstr "Make the link"
 msgid "drivers.invite.making"
 msgstr "Making his link…"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.needsSignal"
 msgstr "Making the link needs signal. Try again once you’re back online."
 
@@ -829,10 +816,6 @@ msgstr "Name"
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.line.name"
 msgstr "Name"
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.title"
-msgstr "Need a driver here?"
 
 #: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
@@ -866,10 +849,6 @@ msgstr "No drivers yet"
 msgid "drivers.compare.askPriceHint"
 msgstr "No one price yet. Ask him on WhatsApp"
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.noRide"
-msgstr "No ride"
-
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.shortlistOffline"
 msgstr "No signal: your shortlist shows when you’re back online."
@@ -898,11 +877,7 @@ msgstr "Not claimed"
 msgid "drivers.compare.notIncl"
 msgstr "Not incl."
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.notNow"
-msgstr "Not now"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.notOpened"
 msgstr "Not opened yet"
 
@@ -1019,7 +994,7 @@ msgstr "Pick {0}"
 msgid "drivers.replied.pick"
 msgstr "Pick {driverName} at this price"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.noDays"
 msgstr "Pick at least one day"
 
@@ -1088,7 +1063,7 @@ msgstr "Report this tip"
 msgid "drivers.report.title"
 msgstr "Report this?"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revoke"
 msgstr "Revoke link"
 
@@ -1124,7 +1099,7 @@ msgstr "Screenshot"
 msgid "drivers.premium.see"
 msgstr "See"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.whatsapp"
 msgstr "Send on WhatsApp"
 
@@ -1140,11 +1115,11 @@ msgstr "Sent to the crew"
 msgid "drivers.premium.setVerb"
 msgstr "Set"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.title"
 msgstr "Share with {name}"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.titleAnyone"
 msgstr "Share with your driver"
 
@@ -1202,7 +1177,7 @@ msgstr "Taken"
 msgid "drivers.ask.tapSlot"
 msgstr "Tap a highlight to change it"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revokeConfirm"
 msgstr "Tap again to revoke"
 
@@ -1257,7 +1232,7 @@ msgstr "The days you ticked are not kept."
 msgid "drivers.add.pasteLabel"
 msgstr "The driver’s message"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revoked"
 msgstr "The link is off. The page shows it at once."
 
@@ -1289,11 +1264,7 @@ msgstr "The plan just changed. Check the days and try again."
 msgid "drivers.tours.down"
 msgstr "The suppliers aren’t answering right now. Try again in a bit."
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.noApp"
-msgstr "There's no ride app here, and this day has real distances between stops. Most crews hire a driver for the day."
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quoteHint"
 msgstr "They can also suggest changes and tips"
 
@@ -1402,10 +1373,6 @@ msgstr "You already nudged him once."
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.rate.missingLine"
 msgstr "You can rate the drivers this crew rode with on this trip."
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.late"
-msgstr "You come back late from {place}, and ride apps rarely pick up out there at night. A driver for the evening is the safe way back."
 
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.titleMine"

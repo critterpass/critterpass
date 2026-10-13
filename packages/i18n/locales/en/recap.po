@@ -329,6 +329,10 @@ msgstr "Building the recap again"
 msgid "recap.receipt.cheapest"
 msgstr "Cheapest day"
 
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.clear"
+msgstr "Clear"
+
 #: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
 msgid "recap.premium.story.close"
 msgstr "Close the story"
@@ -570,6 +574,10 @@ msgstr "Next slide"
 msgid "recap.summary.offline"
 msgstr "No signal"
 
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.empty"
+msgstr "Not signed"
+
 #: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.places"
 msgstr "On the trail"
@@ -734,6 +742,10 @@ msgstr "Share the recap"
 msgid "recap.story.shareCard"
 msgstr "Share this card"
 
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.hint"
+msgstr "Sign here"
+
 #: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
 msgid "recap.signature.save"
 msgstr "Sign it"
@@ -745,6 +757,18 @@ msgstr "Sign it"
 #: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
 msgid "recap.signature.title"
 msgstr "Sign the crew stamp"
+
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.typeName"
+msgstr "Sign with my name"
+
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.pad"
+msgstr "Signature pad"
+
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.signed"
+msgstr "Signed"
 
 #: ../../apps/mobile/src/features/recap/commands.ts
 msgid "recap.queued.open"

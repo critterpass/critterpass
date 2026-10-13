@@ -62,10 +62,6 @@ msgstr "{hours} giờ"
 msgid "plan.retime.hoursMinutes"
 msgstr "{hours} giờ {rest}"
 
-#: ../../apps/mobile/src/features/plan/day/late-entry.tsx
-msgid "plan.day.late.minutes"
-msgstr "{minutes} phút"
-
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.backEarlierBy"
 msgstr "{moved, plural, other {# điểm dừng sau đó dời sớm hơn {by}.}}"
@@ -215,10 +211,6 @@ msgstr "Đã bỏ khỏi {from}"
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.edit.removed"
 msgstr "Đã bỏ khỏi lịch trình"
-
-#: ../../apps/mobile/src/features/plan/day/late-entry.tsx
-msgid "plan.day.late.label"
-msgstr "Đang trễ?"
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.edit.see"

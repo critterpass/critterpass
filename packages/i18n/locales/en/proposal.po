@@ -684,7 +684,6 @@ msgstr "Keep it at {cap}"
 msgid "proposal.replyBy.auto"
 msgstr "Let the guide pick"
 
-#: ../../apps/mobile/src/features/proposal/chat-card.tsx
 #: ../../apps/mobile/src/features/proposal/premium/chat-card.tsx
 msgid "proposal.card.loading"
 msgstr "Loading the proposal"
@@ -1215,10 +1214,6 @@ msgstr "This saves your seat on the trip. It is not a flight booking."
 #: ../../apps/mobile/src/features/proposal/premium/format-tiles.tsx
 msgid "proposal.build.trailer"
 msgstr "Trailer"
-
-#: ../../apps/mobile/src/features/proposal/chat-card.tsx
-msgid "proposal.card.a11y"
-msgstr "Trip proposal"
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
