@@ -14,7 +14,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import type { SpawnPoiRow, SpawnSqlRow } from '../../data/spawn-rows';
 import { directionsUrl, distanceUnitOf, nearestBefriendSpot } from '../befriend-spot';
-import { QuestCardView } from '../quest-card-view';
+import { QuestRow as QuestCardRow } from '../../premium/quests/quest-row';
 import { buildQuestsModel, type QuestRow } from '../quests-model';
 import type { BefriendPlace } from '../use-befriend-spot';
 
@@ -157,7 +157,6 @@ const PLACE: BefriendPlace = {
   spot: { name: 'East Sea Park', lat: 16.0703, lng: 108.2457, distanceM: 1900 },
   unit: 'metric',
 };
-const GUIDE = { kind: 'chava', name: 'Chà Vá' };
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
   insets: { top: 47, left: 0, right: 0, bottom: 34 },
@@ -169,9 +168,9 @@ async function show(status: string, place: BefriendPlace) {
     <I18nProvider i18n={i18n}>
       <SafeAreaProvider initialMetrics={METRICS}>
         <GestureHandlerRootView>
-          <QuestCardView
+          <QuestCardRow
+            featured={false}
             card={befriendCard(status)}
-            guide={GUIDE}
             befriendPlace={place}
             onSignUp={() => undefined}
           />

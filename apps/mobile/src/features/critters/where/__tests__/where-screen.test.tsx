@@ -3,6 +3,11 @@
  * the steps, from the synced spawn rules; never the critter's name before it is found; a form
  * already found goes to its own page instead.
  */
+// The device session and its database open native SQLite; the local-first stack here is Node's.
+jest.mock('@/data/app-session/device-session', () => ({
+  sessionHeaders: () => Promise.resolve({}),
+}));
+jest.mock('@/data/powersync/db', () => ({}));
 // The map is a native view: its pins render without it.
 jest.mock('@maplibre/maplibre-react-native', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
@@ -17,6 +22,7 @@ jest.mock('@maplibre/maplibre-react-native', () => {
   };
 });
 jest.mock('expo-router', () => ({
+  Stack: Object.assign(() => null, { Screen: () => null }),
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => false },
 }));
 
@@ -46,7 +52,7 @@ import {
   TOKEK_RARE,
   type CritterSeedOptions,
 } from '../../test-support/seed-critters';
-import { WhereScreen } from '../where-screen';
+import { PremiumWhereScreen } from '../../premium/where/where-screen';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -89,7 +95,7 @@ async function renderWhere(formId: string, options: CritterSeedOptions = {}) {
         <GestureHandlerRootView>
           <LocalFirstProvider value={stack.value}>
             <ScreenJoltProvider>
-              <WhereScreen formId={formId} />
+              <PremiumWhereScreen formId={formId} />
             </ScreenJoltProvider>
           </LocalFirstProvider>
         </GestureHandlerRootView>

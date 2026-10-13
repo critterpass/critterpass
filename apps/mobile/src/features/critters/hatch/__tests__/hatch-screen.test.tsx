@@ -3,7 +3,16 @@
  * airport the traveller's own leg arrived at, never a crewmate's leg, and without a flight it
  * keeps just the time.
  */
+// The celebration rays build a Skia path; the Jest double draws nothing, so a path is a recorder.
+jest.mock('@shopify/react-native-skia', () => {
+  const path = { moveTo: () => path, lineTo: () => path, close: () => path };
+  return {
+    ...jest.requireActual<object>('@/ui/test-support/skia-double'),
+    Skia: { Path: { Make: () => path } },
+  };
+});
 jest.mock('expo-router', () => ({
+  Stack: Object.assign(() => null, { Screen: () => null }),
   useIsFocused: () => true,
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
 }));
@@ -27,6 +36,8 @@ import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { MAYA, seedCritters, TRIP } from '../../test-support/seed-critters';
 import { HatchScreen, MISSING_GRACE_MS } from '../hatch-screen';
+import { PremiumHatchScene } from '../../premium/hatch/hatch-scene';
+import { LoadingCritter } from '@/ui/premium';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -83,7 +94,11 @@ async function mount(stack: TestLocalFirst) {
         <GestureHandlerRootView>
           <LocalFirstProvider value={stack.value}>
             <ScreenJoltProvider>
-              <HatchScreen tripId={TRIP} />
+              <HatchScreen
+                tripId={TRIP}
+                View={PremiumHatchScene}
+                loading={<LoadingCritter label="Hatching" testID="critters-hatch-loading" />}
+              />
             </ScreenJoltProvider>
           </LocalFirstProvider>
         </GestureHandlerRootView>
@@ -116,7 +131,7 @@ describe('hatch eyebrow', () => {
   it('names the airport my own leg landed at', async () => {
     await renderHatch(true);
     await waitFor(() =>
-      expect(screen.getByText(/^DPS · \d\d:\d\d( [AP]M)? · YOU LANDED$/u)).toBeTruthy(),
+      expect(screen.getByText(/^DPS · \d\d:\d\d( [AP]M)? · You landed$/u)).toBeTruthy(),
     );
     expect(screen.queryByText(/SIN/u)).toBeNull();
   });
@@ -124,7 +139,7 @@ describe('hatch eyebrow', () => {
   it('keeps just the time without a flight', async () => {
     await renderHatch(false);
     await waitFor(() =>
-      expect(screen.getByText(/^\d\d:\d\d( [AP]M)? · YOU LANDED$/u)).toBeTruthy(),
+      expect(screen.getByText(/^\d\d:\d\d( [AP]M)? · You landed$/u)).toBeTruthy(),
     );
   });
 });

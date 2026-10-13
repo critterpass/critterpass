@@ -32,7 +32,7 @@ import {
   sayHi,
   welcome,
 } from '../../hatch/hatch-copy';
-import type { HatchViewProps } from '../../hatch/hatch-view';
+import type { HatchViewProps } from '../../hatch/hatch-model';
 import { Confetti, Rays } from '../components/celebration';
 import { Hop } from '../components/loops';
 import { HATCH_PAINT } from '../components/scrims';
