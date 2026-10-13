@@ -9,7 +9,7 @@ import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
-import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import { driverPickDetail } from '@/features/drivers';
 import { planRoutes, useChangesetActions } from '@/features/plan';
@@ -25,6 +25,7 @@ import {
 
 import { costLine, outcomeOf } from '../chat/data/use-plan-card';
 import { usePlanCard, type PlanSwap } from '../chat/data/use-plan-card';
+import { riseIn } from './entrances';
 
 const useStyles = makePremiumStyles((th) => ({
   card: {
@@ -138,7 +139,7 @@ export function PremiumGuidePlanCard({
   ];
   return (
     <Animated.View
-      entering={reduced ? FadeIn.duration(150) : FadeInDown.springify().damping(22)}
+      entering={riseIn(reduced)}
       style={styles.card}
       testID={`guide-plan-card-${model.changesetId}`}
     >

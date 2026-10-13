@@ -175,6 +175,7 @@ export function useSwipeScreen({ tripId, sessionId }: SwipeScreenProps): SwipeVi
             kind: 'deck',
             top,
             under: face(1),
+            ahead: [top, face(1), face(2)].filter((entry) => entry !== null),
             why: whyLines(state.remaining[0]?.reasons ?? []),
           };
 
@@ -196,6 +197,7 @@ export function useSwipeScreen({ tripId, sessionId }: SwipeScreenProps): SwipeVi
     done: state.done,
     total: state.total,
     matchCount: matches.length,
+    onIdeas: ideasHref === undefined ? undefined : () => router.push(ideasHref),
     offline: syncPhase === 'offline',
     stage: stage,
     whyOpen: whyOpen,

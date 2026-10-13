@@ -8,7 +8,7 @@
 import { format } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 import { Linking, View } from 'react-native';
-import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import { Doodle, crewAccent, type DoodleName } from '@/features/crew';
 import { currentFormats } from '@/lib/i18n/formats';
@@ -30,6 +30,7 @@ import type { BefriendPlace } from '../../quests/use-befriend-spot';
 import type { RevealMode } from '../../quests/use-reward-reveal';
 import { CritterSilhouette } from '../components/critter-silhouette';
 import { doubleRing, layered, ring } from '../components/scrims';
+import { popIn } from '../entrances';
 
 const DOODLE: Record<QuestIcon, DoodleName> = {
   sun: 'star',
@@ -212,9 +213,7 @@ export function QuestRow({
       )}
       <Animated.View
         key={done ? 'done' : 'open'}
-        {...(done && reveal !== undefined
-          ? { entering: reduced ? FadeIn.duration(150) : ZoomIn.springify() }
-          : {})}
+        {...(done && reveal !== undefined ? { entering: popIn(reduced, 'lively') } : {})}
       >
         <Text variant="badge" tone="muted">
           {rewardLine(card, done)}

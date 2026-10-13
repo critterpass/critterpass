@@ -10,12 +10,13 @@ import { useDraftFits } from '@/data/ideas/use-draft-fits';
 import { useTripIdeas } from '@/data/ideas/use-trip-ideas';
 import { useEnsurePlanDays } from '@/data/plan/use-plan-days';
 import { useTripPlan, type TripPlan } from '@/data/plan/use-trip-plan';
+import { shortName } from '@/lib/people/member-name';
 
 /** Who is putting the plan together, by first name; null when the crew row has not synced. */
 export function organiserName(plan: Pick<TripPlan, 'crew'>): string | null {
   const row = plan.crew.find((member) => member.role === 'organiser');
-  const first = (row?.display_name ?? '').trim().split(/\s+/u)[0] ?? '';
-  return first === '' ? null : first;
+  const name = (row?.display_name ?? '').trim();
+  return name === '' ? null : shortName(name);
 }
 
 export function useIdeasPlan(tripId: string) {

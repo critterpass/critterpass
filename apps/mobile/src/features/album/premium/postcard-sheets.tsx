@@ -79,7 +79,7 @@ export function PremiumPhotoSheet({ photos, selected, onPick, onClose }: PhotoSh
           keyExtractor={(photo) => photo.id}
           extraData={selected}
           showsHorizontalScrollIndicator={false}
-          ItemSeparatorComponent={() => <View style={{ width: 8 }} />}
+          ItemSeparatorComponent={PhotoGap}
           initialNumToRender={6}
           windowSize={5}
           renderItem={({ item }) => (
@@ -115,3 +115,8 @@ export const PREMIUM_POSTCARD_LOOK: PostcardLook = {
   Photo: PremiumPhotoSheet,
   Received: PremiumReceivedScene,
 };
+
+/** The 8 pt between photo choices, one component for every gap. */
+function PhotoGap() {
+  return <View style={{ width: 8 }} />;
+}

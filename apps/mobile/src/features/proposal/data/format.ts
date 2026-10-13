@@ -7,6 +7,7 @@
 
 import { formatNarrowCurrency } from '@cp/cost-engine';
 import { clockOption } from '@/lib/i18n/formats';
+import { shortName } from '@/lib/people/member-name';
 
 /** The currency's minor-unit digits (2 for USD, 0 for VND). */
 function minorDigitsOf(currency: string): number {
@@ -76,9 +77,9 @@ export function dayRange(locale: string, start: string, end: string): string {
   return `${format.format(from)} – ${format.format(to)}`;
 }
 
-/** The first word of a display name ("Rin" for "Rin Sato"). */
+/** The name a person is called by ("Rin" for "Rin Sato", "Hân" for "Đặng Thị Ngọc Hân"). */
 export function firstName(displayName: string | null): string {
-  return displayName?.trim().split(/\s+/u)[0] ?? '';
+  return displayName == null || displayName.trim() === '' ? '' : shortName(displayName);
 }
 
 /** "17:00": an instant on the clock of its own zone, 24-hour as the plan writes times. */

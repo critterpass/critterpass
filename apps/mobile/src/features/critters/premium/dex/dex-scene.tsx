@@ -51,7 +51,13 @@ function CountBlock({ props }: { readonly props: DexViewProps }) {
       <View
         style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}
       >
-        <Text variant="hero" style={{ fontVariant: ['tabular-nums'] }}>
+        <Text
+          variant="hero"
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.6}
+          style={{ fontVariant: ['tabular-nums'], flexShrink: 1 }}
+        >
           {String(model.found)}
           <Text variant="hero" tone="placeholder">{`/${String(model.total)}`}</Text>
         </Text>
@@ -185,7 +191,7 @@ export function PremiumDexScene(props: DexViewProps) {
           // The count block stands in for the large title (the design draws no title row).
           ListHeaderComponent={header}
           ListEmptyComponent={narrowed ? <DexEmpty filter={filter} query={query} /> : null}
-          ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+          ItemSeparatorComponent={DexGap}
           renderItem={({ item }) =>
             item.kind === 'group' ? (
               <Text variant="label" tone="muted" style={{ marginTop: 8 }}>
@@ -202,4 +208,9 @@ export function PremiumDexScene(props: DexViewProps) {
       )}
     </View>
   );
+}
+
+/** The 8 pt between dex rows, one component for every row. */
+function DexGap() {
+  return <View style={{ height: 8 }} />;
 }

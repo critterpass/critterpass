@@ -40,8 +40,14 @@ export function PremiumBalanceView(props: BalanceViewProps) {
       scroll={false}
       testID="plan-balance"
     >
-      <ScrollView contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}>
-        <Text variant="body" tone="muted" style={{ paddingHorizontal: theme.space.gap8 }}>
+      <ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: theme.space.gutter,
+          paddingVertical: theme.space.gap16,
+          gap: theme.space.gap12,
+        }}
+      >
+        <Text variant="body" tone="muted">
           {props.summary}
         </Text>
         {props.loading ? <LoadingCritter label={props.title} /> : null}
@@ -149,7 +155,13 @@ export function PremiumGapView(props: GapViewProps) {
   const { t } = useLingui();
   return (
     <View style={[{ flex: 1 }, sheetMaterialStyle(theme)]} testID="plan-gap">
-      <ScrollView contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}>
+      <ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: theme.space.gutter,
+          paddingVertical: theme.space.gap16,
+          gap: theme.space.gap12,
+        }}
+      >
         <Text variant="badge" color={theme.color.status.rain.text}>
           {props.window.toLocaleUpperCase()}
         </Text>

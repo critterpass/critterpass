@@ -8,6 +8,7 @@ import { t } from '@lingui/core/macro';
 import { memo, useRef, type ReactNode, type ComponentRef } from 'react';
 import { View } from 'react-native';
 
+import { shortName } from '@/lib/people/member-name';
 import {
   Avatar,
   CritterSticker,
@@ -265,7 +266,7 @@ function ReplyQuote({
       }}
     >
       <Text variant="captionMuted" color={color} style={{ fontWeight: '700' }} numberOfLines={1}>
-        {message.senderName ?? ''}
+        {shortName(message.senderName)}
       </Text>
       <Text
         variant="captionMuted"

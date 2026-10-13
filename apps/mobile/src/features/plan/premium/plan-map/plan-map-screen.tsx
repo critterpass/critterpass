@@ -172,6 +172,7 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
         height={height}
         head={head}
         bodyBottom={detent === 'half' ? 90 : 0}
+        fitFull={map.tripRows.length <= 2}
         accessibilityLabel={placeName}
       >
         {model.empty ? (

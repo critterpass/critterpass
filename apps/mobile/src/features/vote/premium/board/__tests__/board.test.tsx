@@ -6,7 +6,7 @@
  * the first pitch.
  */
 import { afterEach, describe, expect, it, type jest } from '@jest/globals';
-import { fireEvent, screen } from '@testing-library/react-native';
+import { act, fireEvent, screen } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import type { ReactElement } from 'react';
 
@@ -17,6 +17,9 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { ToastHost } from '@/ui/premium';
 
+import { openedReveals } from '../../../data/opened-reveals';
+import { useRevealOnOpen } from '../../../data/use-final';
+import { useMyUid } from '../../../data/use-my-uid';
 import { usePoll } from '../../../data/use-poll';
 import {
   BALI,
@@ -66,6 +69,7 @@ const APPLIED: Answer = { status: 200, body: { status: 'applied', result: {} } }
 
 afterEach(async () => {
   (router.push as jest.Mock).mockClear();
+  openedReveals.clear();
   await stack?.close();
   if (stack) removeDir(stack.dir);
   stack = null;
@@ -74,6 +78,11 @@ afterEach(async () => {
 function Board({ me }: { readonly me: string }) {
   const { poll } = usePoll(POLL, me);
   return poll === null ? null : <DestinationBoard poll={poll} me={me} />;
+}
+
+function HomeGate() {
+  useRevealOnOpen(useMyUid());
+  return null;
 }
 
 const withToasts = (ui: ReactElement) => <ToastHost bottomOffset={0}>{ui}</ToastHost>;
@@ -188,6 +197,49 @@ describe('premium destination board', () => {
       pathname: '/vote/[pollId]/reveal',
       params: { pollId: POLL },
     });
+  });
+
+  it('opens the reveal once when the closed poll syncs onto Home before the lock-in answers', async () => {
+    let reply: (answer: Answer) => void = () => undefined;
+    stack = await openTestLocalFirst({
+      holdUploads: true,
+      transport: {
+        postJson: () =>
+          new Promise<Answer>((resolve) => {
+            reply = resolve;
+          }),
+      },
+    });
+    const s = stack;
+    await seedCrew(s);
+    await seedBoard(s, s.uid, 1);
+    await renderVote(
+      <>
+        <Board me={s.uid} />
+        <HomeGate />
+      </>,
+      s,
+    );
+    await until(() => screen.queryByTestId('board-lock-in') !== null);
+    await fireEvent.press(screen.getByTestId('board-lock-in'));
+    // The close lands through sync while the lock-in is still waiting for its answer.
+    await s.db.execute(
+      "UPDATE polls SET status = 'closed', closed_at = '2026-10-02T00:00:00Z' WHERE id = ?",
+      [POLL],
+    );
+    await s.db.execute(
+      `INSERT INTO poll_reveals (id, poll_id, user_id, seen_at, created_at)
+       VALUES ('rv-lock', ?, ?, NULL, '2026-10-02T00:00:00Z')`,
+      [POLL, s.uid],
+    );
+    await until(() => (router.push as jest.Mock).mock.calls.length > 0);
+    await act(async () => {
+      reply(APPLIED);
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    });
+    expect((router.push as jest.Mock).mock.calls).toEqual([
+      [{ pathname: '/vote/[pollId]/reveal', params: { pollId: POLL } }],
+    ]);
   });
 
   it('offers a member no lock-in on a single place', async () => {
