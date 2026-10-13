@@ -75,12 +75,18 @@ export function RadioRow({
 /** Flaps stay dark in both modes (the board is art, like a boarding pass). */
 const FLAP = premium.modes.light.color;
 
-/** The crew code as six split-flap tiles (dark halves, a hairline seam). */
+/**
+ * The crew code as six split-flap tiles (dark halves, a hairline seam), read out as the code. With
+ * `copyHint` the tiles are the copy button's accessible element, so the code stays reachable by id
+ * (iOS hides the children of an accessible button).
+ */
 export function SplitFlapCode({
   code,
+  copyHint,
   testID,
 }: {
   readonly code: string | null;
+  readonly copyHint?: string;
   readonly testID?: string;
 }) {
   const letters = Array.from((code ?? '······').slice(0, 6));
@@ -89,6 +95,9 @@ export function SplitFlapCode({
       style={styles.flaps}
       accessible
       accessibilityLabel={code ?? t({ id: 'crew.premium.codeComing', message: 'Code on its way' })}
+      {...(copyHint === undefined
+        ? {}
+        : { accessibilityRole: 'button' as const, accessibilityHint: copyHint })}
       testID={testID}
     >
       {letters.map((letter, i) => (

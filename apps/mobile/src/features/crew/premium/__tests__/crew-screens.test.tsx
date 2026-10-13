@@ -209,6 +209,8 @@ describe('start a crew', () => {
       [payload.crew_id],
     );
     await waitFor(() => expect(screen.getByTestId('start-crew-code')).toHaveTextContent(/H4RT7N/u));
+    // The code tiles are the copy button's accessible element and read out the code.
+    expect(screen.getByTestId('crew-on-code').props.accessibilityLabel).toBe('H4RT7N');
     await fireEvent.press(screen.getByTestId('start-crew-share'));
     expect(shared[0]).toContain('https://critterpass.app/i/H4RT7N');
     await fireEvent.press(screen.getByTestId('start-crew-invite'));
