@@ -36,23 +36,7 @@ appId: app.critterpass.dev
       id: 'board-slide'
     timeout: 30000
 - waitForAnimationToEnd
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - swipe:
-          from:
-            id: 'board-knob'
-          direction: RIGHT
-          duration: 1200
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - swipe:
-          start: 12%, 86%
-          end: 96%, 86%
-          duration: 1200
+- runFlow: subflows/slide-to-board.yaml
 - extendedWaitUntil:
     visible:
       id: 'board-egg'
