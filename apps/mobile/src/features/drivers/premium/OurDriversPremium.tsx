@@ -130,7 +130,8 @@ export function OurDriversPremium({ tripId }: { readonly tripId: string }) {
         {data.drivers.map((driver, index) => (
           <Animated.View
             key={driver.provider_id}
-            entering={enterTransition(reduced).delay(index * 60)}
+            // The first few cards cascade; the rest arrive with the last of them.
+            entering={enterTransition(reduced).delay(Math.min(index, 6) * 40)}
           >
             <OurDriverCard
               driver={driver}
