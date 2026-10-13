@@ -24,7 +24,7 @@ Branch `fix/premium-polish-shell` (worktree `polish-shell`), with `fix/premium-p
 
 ## Changes the controller must apply (area files)
 
-1. Replace every `Clipboard.ClipboardPasteButton` on the premium path with `PasteButton`: `onboarding/premium/invite/PremiumCodePage.tsx:77` (the blue rectangle), `onboarding/premium/paste-offer/PremiumPasteOffer.tsx:225`, `explore/premium/search/find-clipboard.tsx:50`, `explore/premium/search/link-paste.tsx:74`.
+1. The start-home lane already swapped the "Got a code?" control for a drawn pill. Replace the system paste control still left on the premium path with `PasteButton`: `bookings/premium/PasteSheetPremium.tsx:43`, `onboarding/premium/paste-offer/PremiumPasteOffer.tsx:225`, `explore/premium/search/find-clipboard.tsx:50`, `explore/premium/search/link-paste.tsx:77`.
 2. Monetize `(modal)` screens still draw their own entrance (`components/drawn-page.tsx`, `components/modal-sheet.tsx`): paywall/index, paywall/compare, paywall/welcome, boost/[tripId], boost/stamped. Drop the JS slide/rise, then flip their rows in `presentation.ts` from `DRAWN` (suggest paywall/welcome/stamped `COVER`, compare pushed inside the cover, boost `FULL` sheet with `SheetScreen`).
 3. `vote/premium/poll/new-poll-sheet.tsx:84` passes `dirty` without `discardPrompt`, so the guard is off (needs both). The guard itself works with native form sheets, also group-presented (prevention propagates to the group route and `removePrevented` reaches the sheet).
 4. Premium loading under `SessionGate` (`ui/states/SessionGate.tsx`, not in my owns): add a waiting-component context in `ui/states` (default `SessionWaiting`) and provide `LoadingCritter` from the premium branch of `RootNavigator` in `_layout.tsx`.
