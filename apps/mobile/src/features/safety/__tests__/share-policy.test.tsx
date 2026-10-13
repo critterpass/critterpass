@@ -1,9 +1,27 @@
+// The app's Reanimated double has no interpolation; the switch's knob and track take their first
+// stop, run as UI-runtime functions like the double's own.
+jest.mock('react-native-reanimated', () => {
+  const runtime = jest.requireActual<{ registerUIRuntimeFunctions: (fns: unknown[]) => void }>(
+    '@/motion/test-support/ui-runtime',
+  );
+  const interpolateColor = (_value: number, _input: readonly number[], output: readonly string[]) =>
+    output[0];
+  const interpolate = (_value: number, _input: readonly number[], output: readonly number[]) =>
+    output[0];
+  runtime.registerUIRuntimeFunctions([interpolateColor, interpolate]);
+  return {
+    ...jest.requireActual<Record<string, unknown>>('react-native-reanimated'),
+    interpolateColor,
+    interpolate,
+  };
+});
+
 import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { renderUi } from '@/ui/test-support/render';
-import { ConsentSheet } from '../help/consent-sheet';
+import { HelpConsent } from '../premium/HelpParts';
 import {
   consentOf,
   markShareStopped,
@@ -37,10 +55,11 @@ describe('Help share consent', () => {
     const onAnswer = jest.fn();
     await renderUi(
       <SafeAreaProvider initialMetrics={METRICS}>
-        <ConsentSheet crewName="Bali Six" onAnswer={onAnswer} />
+        <HelpConsent crewName="Bali Six" onAnswer={onAnswer} />
       </SafeAreaProvider>,
     );
-    const toggle = screen.getByRole('switch', { name: /Share where I am with Bali Six/ });
+    const toggle = screen.getByTestId('help-consent-toggle');
+    expect(screen.getByLabelText(/Share where I am with Bali Six/u)).toBeTruthy();
     expect(toggle.props.accessibilityState).toMatchObject({ checked: false });
     await fireEvent.press(screen.getByTestId('help-consent-done'));
     await fireEvent.press(toggle);

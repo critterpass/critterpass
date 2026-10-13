@@ -1,4 +1,13 @@
-import { describe, expect, it } from '@jest/globals';
+/**
+ * What the sender of an SOS reads afterwards: alone on the trip, the local number comes first;
+ * one crewmate and a crew read as people.
+ */
+// The screen reaches the device database opener and the billing module, which Jest cannot load;
+// nothing here reads a database.
+jest.mock('@/data/powersync/db', () => ({}));
+jest.mock('react-native-purchases', () => ({ __esModule: true, default: {} }));
+
+import { describe, expect, it, jest } from '@jest/globals';
 import { screen } from '@testing-library/react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -6,7 +15,7 @@ import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { renderUi } from '@/ui/test-support/render';
 
 import { buildSosModel, type SosRow } from '../sos/sos-model';
-import { SosView } from '../sos/sos-view';
+import { SosReady } from '../premium/SosPremium';
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -40,21 +49,23 @@ async function renderSender(n: number) {
   await renderUi(
     <SafeAreaProvider initialMetrics={METRICS}>
       <ScreenJoltProvider>
-        <SosView
-          hero={{ model, words: '', message: null, distanceM: null }}
-          steps={{ guideName: 'Chà Vá', guideSticker: { kind: 'gecko', name: 'tokek' } }}
-          model={model}
-          general="115"
-          senderPhone={null}
-          busy={false}
-          onGoing={noop}
-          onCallSender={noop}
-          onCallGeneral={noop}
-          onOk={noop}
-          onSafe={noop}
-          onSendAgain={noop}
-          onClose={noop}
-          onMap={noop}
+        <SosReady
+          props={{
+            hero: { model, words: '', message: null, distanceM: null },
+            steps: { guideName: 'Chà Vá', guideSticker: { kind: 'gecko', name: 'tokek' } },
+            model,
+            general: '115',
+            senderPhone: null,
+            busy: false,
+            onGoing: noop,
+            onCallSender: noop,
+            onCallGeneral: noop,
+            onOk: noop,
+            onSafe: noop,
+            onSendAgain: noop,
+            onClose: noop,
+            onMap: noop,
+          }}
         />
       </ScreenJoltProvider>
     </SafeAreaProvider>,
