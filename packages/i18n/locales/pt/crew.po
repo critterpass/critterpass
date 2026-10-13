@@ -16,6 +16,11 @@ msgstr ""
 msgid "chat.premium.header.people"
 msgstr ""
 
+#. placeholder {0}: item.files.length
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.photos"
+msgstr ""
+
 #. placeholder {0}: members.length
 #: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
 msgid "crew.premium.settings.count"
@@ -25,11 +30,6 @@ msgstr ""
 #. placeholder {1}: tray.total
 #: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
 msgid "chat.premium.tray.count"
-msgstr ""
-
-#. placeholder {0}: group.count
-#: ../../apps/mobile/src/features/crew/premium/chat/reaction-chips.tsx
-msgid "chat.premium.reaction.a11y"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
@@ -49,6 +49,10 @@ msgid "crew.premium.code.daysLeft"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.typingTwo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.premium.header.typingMany"
 msgstr ""
 
@@ -62,6 +66,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
 msgid "chat.premium.welcome.madeBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/reaction-chips.tsx
+msgid "chat.premium.reaction.label"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
@@ -314,12 +322,20 @@ msgstr ""
 msgid "chat.premium.delete"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.delete"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
 msgid "chat.premium.delete.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
@@ -793,7 +809,6 @@ msgstr ""
 msgid "chat.premium.menu.replySticker"
 msgstr ""
 
-#. placeholder {0}: composer.replyTo.senderName ?? ''
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-bottom.tsx
 msgid "chat.premium.strip.replying"
 msgstr ""
@@ -810,12 +825,20 @@ msgstr ""
 msgid "chat.premium.report.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.report.done"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
 msgid "crew.premium.resend.action"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
@@ -845,6 +868,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
 msgid "crew.premium.invite.sendWith"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.sending"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/crew-chat-view.tsx
@@ -944,6 +971,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
 msgid "chat.premium.attach.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.report.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
@@ -1050,6 +1081,10 @@ msgstr ""
 msgid "chat.premium.attach.voice"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.voice"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
 msgid "chat.premium.composer.mic"
 msgstr ""
@@ -1060,6 +1095,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.waiting"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
