@@ -10,6 +10,7 @@ export { withDriverReply } from './replied/driver-reply';
 export { DriverShareSheetView, type DriverShareStatus } from './share/share-sheet-view';
 export { dayLabel, expiryChoices, openedLine } from './share/share-text';
 export { RideBackCard } from './offline/RideBackCard';
+export { RideBackCardPremium } from './premium/RideBackCardPremium';
 export { gapStopsOf } from './shared/gap-stops';
 export {
   driverPickDetail,
