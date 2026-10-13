@@ -11,6 +11,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 
+import { shortName } from '@/lib/people/member-name';
 import { voteRoutes } from '../routes';
 
 import { useLiveRows } from './live-rows';
@@ -57,7 +58,7 @@ export function useOrganiserName(poll: PollView | null): string | null {
     ORGANISER_TABLES,
   );
   const name = rows[0]?.display_name ?? null;
-  return name === null ? null : (name.split(' ')[0] ?? name);
+  return name === null || name.trim() === '' ? null : shortName(name);
 }
 
 /** The crew's name ("Bali Six"), once it is on this phone. */

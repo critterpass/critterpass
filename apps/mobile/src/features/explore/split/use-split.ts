@@ -15,6 +15,7 @@ import { useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { dataOf } from '@/data/travel-data/freshness';
 import { useTravelRead } from '@/data/travel-data/use-travel-read';
+import { shortName } from '@/lib/people/member-name';
 import { impact, toast } from '@/motion';
 import { goBackOr } from '@/lib/navigation/back';
 
@@ -99,7 +100,7 @@ export function useSplit({
   const said = new Set(stances.map((s) => s.userId));
   const silent = crew.map((m) => m.uid).filter((uid) => !said.has(uid));
   const mine = stances.find((s) => s.userId === me) ?? null;
-  const first = (uid: string) => member(uid).name.split(' ')[0] ?? '';
+  const first = (uid: string) => shortName(member(uid).name);
   const guide = guideFor(row?.guide_slug);
 
   const send = async (decision: DecisionPost) => {

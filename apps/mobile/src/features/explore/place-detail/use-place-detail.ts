@@ -20,6 +20,7 @@ import { goHref } from '@/features/go';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
+import { shortName } from '@/lib/people/member-name';
 import { useExploreStream } from '../data/use-explore-stream';
 import { usePlaceLive } from '../data/use-place-live';
 import { guideFor, poiSubject } from '../format';
@@ -102,7 +103,7 @@ export function usePlaceDetail({ placeId, row, profile = null, tripId, onBack }:
       ? []
       : [{ key: member.uid, name: member.name, joinIndex: member.joinIndex }];
   });
-  const firstNames = savers.map((member) => member.name.split(' ')[0] ?? member.name);
+  const firstNames = savers.map((member) => shortName(member.name));
   const stances = context?.stances ?? null;
   // The tag opens Crew can't agree; where that has nothing to open (a crew of two) it is left out.
   const splitHref =

@@ -11,6 +11,7 @@ import { useCallback } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripIdeas } from '@/data/ideas/use-trip-ideas';
+import { shortName } from '@/lib/people/member-name';
 import { toast } from '@/motion';
 
 import { useTripCrew } from '../place-queries';
@@ -40,7 +41,7 @@ export function useIdeaSave(
       void remove({ idea_id: idea.id });
       const others = othersBacking(idea.backerIds, uid, (member) => {
         const name = crew.find((entry) => entry.uid === member)?.name ?? '';
-        return name === '' ? null : (name.split(' ')[0] ?? name);
+        return name === '' ? null : shortName(name);
       });
       const first = others.first;
       const more = String(others.count - 1);

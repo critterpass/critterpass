@@ -7,6 +7,7 @@
 import type { PlanState } from '@cp/domain';
 
 import type { DayArea, TripAreas } from '@/data/areas/trip-areas-model';
+import { shortName } from '@/lib/people/member-name';
 
 export type AreaAction =
   /** The organiser may add it. */
@@ -93,6 +94,6 @@ export function organiserFirstName(
   crew: readonly { readonly role: string | null; readonly display_name: string | null }[],
 ): string | null {
   const row = crew.find((member) => member.role === 'organiser');
-  const first = (row?.display_name ?? '').trim().split(/\s+/u)[0] ?? '';
-  return first === '' ? null : first;
+  const name = (row?.display_name ?? '').trim();
+  return name === '' ? null : shortName(name);
 }

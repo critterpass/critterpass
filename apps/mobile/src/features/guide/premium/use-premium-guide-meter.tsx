@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { hrefFor } from '@/lib/navigation/screen-registry';
+import { shortName } from '@/lib/people/member-name';
 import { Text } from '@/ui/premium';
 
 import { crewAccent } from '@/features/crew';
@@ -111,7 +112,7 @@ export function usePremiumGuideMeter(input: {
             holder === undefined
               ? null
               : {
-                  name: holder.display_name?.split(' ')[0] ?? '?',
+                  name: shortName(holder.display_name),
                   color: crewAccent(null, holder.join_index),
                 }
           }
