@@ -12,6 +12,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 
 import { shortName } from '@/lib/people/member-name';
+import { openedReveals } from './opened-reveals';
 import { voteRoutes } from '../routes';
 
 import { useLiveRows } from './live-rows';
@@ -86,8 +87,7 @@ export function usePendingReveal(me: string | null): string | null {
   return rows[0]?.poll_id ?? null;
 }
 
-/** Reveals already opened in this app session, so a slow `mark_reveal_seen` never shows one twice. */
-const opened = new Set<string>();
+const opened = openedReveals;
 
 const REVEAL_SEEN_SQL = `SELECT 1 AS seen FROM poll_reveals
     WHERE poll_id = ? AND user_id = ? AND seen_at IS NOT NULL
@@ -123,10 +123,19 @@ export function useRevealOnOpen(me: string | null): void {
   const pending = usePendingReveal(me);
   const focused = useIsFocused();
   useEffect(() => {
-    if (pending === null || !focused || opened.has(pending)) return;
-    opened.add(pending);
-    router.push(voteRoutes.reveal(pending));
+    if (pending === null || !focused) return;
+    openRevealOnce(pending);
   }, [pending, focused]);
+}
+
+/**
+ * Opens a vote's reveal unless this app session already opened it. Locking a vote in opens its
+ * reveal through here too, so the closed poll syncing onto a focused Home never opens a second.
+ */
+export function openRevealOnce(pollId: string): void {
+  if (opened.has(pollId)) return;
+  opened.add(pollId);
+  router.push(voteRoutes.reveal(pollId));
 }
 
 /**
