@@ -2,7 +2,8 @@
  * The Wallet tab, Bookings half (premium): "Wallet" with search and the ink `+`, the Bookings |
  * Money switch, how many bookings open offline, then the wallet stack with the next booking in
  * front (7.02) and the rest as rows under it, the crew's
- * finds, held mail, insurance and the past bookings. Empty, it shows the ways to fill it (7.01).
+ * finds, held mail, insurance and the past bookings. Empty, it shows the ways to fill it (7.01)
+ * above the same held mail, insurance and past bookings.
  * Search filters every booking of the trip on this phone. The `+` grows into "Add a booking".
  */
 import { plural } from '@lingui/core/macro';
@@ -126,13 +127,17 @@ export function WalletBookingsScreen() {
             {data.state === 'loading' ? (
               <Loading />
             ) : data.state === 'empty' && results === null ? (
-              <EmptyBookings
-                address={channels.address}
-                onForward={channels.forward}
-                onScan={channels.scan}
-                onByHand={channels.byHand}
-                onMailbox={channels.mailbox}
-              />
+              <>
+                <EmptyBookings
+                  address={channels.address}
+                  onForward={channels.forward}
+                  onScan={channels.scan}
+                  onByHand={channels.byHand}
+                  onMailbox={channels.mailbox}
+                />
+                {/* Held mail, insurance and past bookings show with no bookings too. */}
+                <WalletExtras data={data} />
+              </>
             ) : (
               <>
                 {results === null && open !== null ? (
