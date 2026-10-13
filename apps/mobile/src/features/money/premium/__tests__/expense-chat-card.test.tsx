@@ -1,6 +1,7 @@
 /**
- * The expense card in crew chat reads the synced expense its message points at: who paid what for
- * what, how it splits, and a way into the expense; it names the viewer "You" when they paid.
+ * The expense card in crew chat reads the synced expense its message points at: who paid what, for
+ * what and how it splits, the viewer's own share, and a way into the expense; it names the viewer
+ * "You" when they paid.
  */
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
@@ -21,7 +22,7 @@ import { LocalFirstProvider } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
 import { deleteExpenseCommand } from '../../data/commands';
-import { ExpenseChatCard } from '../expense-chat-card';
+import { ExpenseChatCardPremium as ExpenseChatCard } from '../ExpenseChatCardPremium';
 
 const CREW = '0192f000-0000-7000-8000-00000000c1e0';
 const MAYA = '0192f000-0000-7000-8000-0000000000a1';
@@ -127,8 +128,10 @@ describe('expense card in crew chat', () => {
     await seedCrew(stack);
     await seedExpense(stack, { payer: MAYA, description: 'lunch', splitMode: 'equal' });
     await renderChat(<ExpenseChatCard message={message(EXPENSE)} mine={false} />, stack);
-    expect(await screen.findByText(/^Maya Tran paid .*900.* for lunch$/u)).toBeTruthy();
-    expect(screen.getByText(/^Split 3 ways · .*300.* each$/u)).toBeTruthy();
+    expect(await screen.findByText(/^Maya Tran paid .*900[^ ]*$/u)).toBeTruthy();
+    expect(screen.getByText('lunch · split 3 ways')).toBeTruthy();
+    expect(screen.getByTestId(`chat-expense-share-${EXPENSE}`)).toBeTruthy();
+    expect(screen.getByText(/^US\$300(\.00)?$/u)).toBeTruthy();
     await fireEvent.press(screen.getByTestId(`chat-expense-view-${EXPENSE}`));
     expect(router.push).toHaveBeenCalledWith({
       pathname: '/money/expense/[id]',
@@ -136,10 +139,9 @@ describe('expense card in crew chat', () => {
     });
   });
 
-  it('shows the per-head share rounded as the split does, and opens it in its own trip', async () => {
+  it('opens the expense in its own trip', async () => {
     stack = await openTestLocalFirst({ holdUploads: true });
     await seedCrew(stack);
-    // US$2.00 between three is 66.67 cents each: 67, as the keypad says, never a cut-down 66.
     await seedExpense(stack, {
       payer: MAYA,
       description: 'water',
@@ -148,7 +150,7 @@ describe('expense card in crew chat', () => {
     });
     await stack.db.execute("INSERT INTO messages (id, trip_id) VALUES ('m-1', 't-1')");
     await renderChat(<ExpenseChatCard message={message(EXPENSE)} mine={false} />, stack);
-    expect(await screen.findByText('Split 3 ways · US$0.67 each')).toBeTruthy();
+    expect(await screen.findByText('water · split 3 ways')).toBeTruthy();
     // The card knows the message's trip: Money may be showing another one.
     await waitFor(async () => {
       jest.mocked(router.push).mockClear();
@@ -174,8 +176,10 @@ describe('expense card in crew chat', () => {
     await seedCrew(stack);
     await seedExpense(stack, { payer: MAYA, description: 'taxi', splitMode: 'equal', sharers: 1 });
     await renderChat(<ExpenseChatCard message={message(EXPENSE)} mine={false} />, stack);
-    expect(await screen.findByText(/^Maya Tran paid .*900.* for taxi$/u)).toBeTruthy();
-    expect(screen.queryByText(/^Split/u)).toBeNull();
+    expect(await screen.findByText(/^Maya Tran paid .*900[^ ]*$/u)).toBeTruthy();
+    expect(screen.getByText('taxi')).toBeTruthy();
+    expect(screen.queryByText(/split/iu)).toBeNull();
+    expect(screen.queryByTestId(`chat-expense-share-${EXPENSE}`)).toBeNull();
   });
 
   it('says so when the expense was deleted', async () => {
@@ -227,7 +231,7 @@ describe('expense card in crew chat', () => {
     await renderChat(<ExpenseChatCard message={message(EXPENSE)} mine={false} />, stack);
     expect(await screen.findByTestId('chat-expense-loading-m-1')).toBeTruthy();
     await seedExpense(stack, { payer: MAYA, description: 'lunch', splitMode: 'equal' });
-    expect(await screen.findByText(/^Maya Tran paid .*900.* for lunch$/u)).toBeTruthy();
+    expect(await screen.findByText(/^Maya Tran paid .*900[^ ]*$/u)).toBeTruthy();
   });
 
   it('says it was deleted when the message points at no expense', async () => {
@@ -245,7 +249,7 @@ describe('expense card in crew chat', () => {
     await seedCrew(stack);
     await seedExpense(stack, { payer: MAYA, description: 'lunch', splitMode: 'equal' });
     await renderChat(<ExpenseChatCard message={message(EXPENSE)} mine={false} />, stack);
-    expect(await screen.findByText(/^Maya Tran paid .*900.* for lunch$/u)).toBeTruthy();
+    expect(await screen.findByText(/^Maya Tran paid .*900[^ ]*$/u)).toBeTruthy();
     // Offline: the delete waits in the queue and the synced expense is still there.
     await stack.value.commands.send(deleteExpenseCommand, { expense_id: EXPENSE });
     expect(await screen.findByText('You deleted this expense')).toBeTruthy();

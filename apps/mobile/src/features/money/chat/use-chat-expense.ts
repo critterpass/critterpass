@@ -14,7 +14,7 @@ import { useExpenseTrip } from './use-trip-synced';
 export const CHAT_EXPENSE_SQL = `SELECT e.id, e.payer_id, e.amount_minor, e.currency, e.split_mode,
     e.category, e.description, e.merchant, e.deleted_at, u.display_name AS payer_name
   FROM expenses e LEFT JOIN users u ON u.id = e.payer_id WHERE e.id = ?`;
-export const CHAT_EXPENSE_SHARES_SQL = `SELECT computed_minor FROM expense_shares
+export const CHAT_EXPENSE_SHARES_SQL = `SELECT user_id, computed_minor FROM expense_shares
   WHERE expense_id = ?`;
 export const CHAT_EXPENSE_REMOVED_SQL = `SELECT ed.editor_id, u.display_name AS editor_name
   FROM expense_edits ed LEFT JOIN users u ON u.id = ed.editor_id
@@ -56,6 +56,8 @@ export type ChatExpense =
       readonly paidBySelf: boolean;
       /** People with a share above zero. */
       readonly ways: number;
+      /** The viewer's own share, when they have one. */
+      readonly myShareMinor: bigint | null;
       /** The message's own trip, which VIEW opens the expense in. */
       readonly tripId: string | null;
     };
@@ -63,7 +65,7 @@ export type ChatExpense =
 export function useChatExpense(messageId: string, refId: string | null): ChatExpense {
   const params = refId === null ? null : [refId];
   const expense = useLiveRows<ChatExpenseRow>(CHAT_EXPENSE_SQL, params, TABLES);
-  const shares = useLiveRows<{ computed_minor: number | string | null }>(
+  const shares = useLiveRows<{ user_id: string; computed_minor: number | string | null }>(
     CHAT_EXPENSE_SHARES_SQL,
     params,
     TABLES,
@@ -94,11 +96,13 @@ export function useChatExpense(messageId: string, refId: string | null): ChatExp
     };
   }
   if (row === undefined) return { kind: 'loading' };
+  const mine = shares.rows.find((share) => share.user_id === uid);
   return {
     kind: 'ready',
     row,
     paidBySelf: row.payer_id === uid,
     ways: shares.rows.filter((share) => minor(share.computed_minor) > 0n).length,
+    myShareMinor: mine === undefined ? null : minor(mine.computed_minor),
     tripId: trip.tripId,
   };
 }
