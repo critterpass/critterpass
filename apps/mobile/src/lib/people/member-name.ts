@@ -5,7 +5,7 @@
  */
 import { t } from '@lingui/core/macro';
 
-import { familyNameFirst, nameWords } from './name-order';
+import { familyNameFirst, nameWords } from '@cp/domain';
 
 export function formerMemberLabel(): string {
   return t({ id: 'common.member.former', message: 'Former member' });

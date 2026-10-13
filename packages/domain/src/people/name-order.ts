@@ -75,3 +75,14 @@ export function familyNameFirst(words: readonly string[]): boolean {
   if (SHARED_FAMILY.has(family)) return vietnamese || middle || words.length >= 3;
   return vietnamese || middle;
 }
+
+/**
+ * The word of a full name a person is called by: the given name of a family-name-first name
+ * ("Hân" of "Đặng Thị Ngọc Hân"), the first word of a Western one ("Maya" of "Maya Tan"); null
+ * when the name holds no letters.
+ */
+export function calledByName(name: string): string | null {
+  const words = nameWords(name);
+  if (words.length === 0) return null;
+  return (familyNameFirst(words) ? words[words.length - 1] : words[0]) ?? null;
+}
