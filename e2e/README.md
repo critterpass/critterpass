@@ -376,7 +376,7 @@ staging's AI, so those flows allow a few minutes for them.
 | `drafting` | `vote_final` | setup, then the draft ready → private review → change a day → keep |
 | `money`, `by-share` | `caught_up` | add an expense → balances → settle up; an expense split by share |
 | `bookings` | `caught_up` | paste a confirmation → candidate → ADD → wallet stack → the flight's details |
-| `suppliers` | `trip_today` | Find from the plan map → a museum's tickets and tours → Open Klook → click recorded → the partner redirect |
+| `suppliers` | `caught_up` | Developer tools' supplier page → the live offer → Open Klook → click recorded → the partner redirect |
 | `trip-day` | `caught_up` | Your trips → hub → day-of → pack list tick → relaunch → offline card |
 | `critters` | `crew_with_code` | PASS → Critterdex synced → Found empty → a set page → Explore at home kept after a relaunch |
 | `fresh-chat` | `crew_with_code` | a pitch and an expense post their cards → a text and a voice note in the chat |
