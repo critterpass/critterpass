@@ -3,7 +3,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { PremiumRecapScene } from '@/features/recap/premium/recap-scene';
 import { PremiumRecapShare } from '@/features/recap/premium/recap-share';
 import { RecapSummaryScreen } from '@/features/recap/summary/summary-screen';
-import { RouteMissing } from '@/features/recap/route-missing';
+import { PremiumRouteMissing } from '@/features/album';
 
 /** The trip's recap page (3m-1), also where the recap-ready push lands (`/recap/<tripId>`). */
 export default function RecapRoute() {
@@ -16,6 +16,6 @@ export default function RecapRoute() {
       Share={PremiumRecapShare}
     />
   ) : (
-    <RouteMissing testID="recap-missing" />
+    <PremiumRouteMissing testID="recap-missing" />
   );
 }

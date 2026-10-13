@@ -19,7 +19,7 @@ import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
 import { useCommandFeedback } from '@/motion/island-toast';
-import { ScreenLoading } from '@/ui/states/ScreenLoading';
+import { LoadingCritter } from '@/ui/premium';
 import { guideIdOr } from '@/ui/avatar/guides';
 
 import {
@@ -43,8 +43,8 @@ import {
   type PostcardDraft,
   type SavedPostcard,
 } from './postcard-draft';
-import type { PostcardFormat } from './postcard-pair';
-import { CURRENT_POSTCARD_LOOK, type PostcardLook } from './postcard-look';
+import type { PostcardFormat } from './postcard-look';
+import type { PostcardLook } from './postcard-look';
 
 const SAVED_SQL = `
   SELECT id, format, photo_id, note, sent_at FROM postcards
@@ -56,10 +56,10 @@ const RECAP_SCREEN = '3m-1';
 
 export function PostcardScreen({
   tripId,
-  look = CURRENT_POSTCARD_LOOK,
+  look,
 }: {
   readonly tripId: string;
-  readonly look?: PostcardLook;
+  readonly look: PostcardLook;
 }) {
   useTripStreams(tripId);
   const { t } = useLingui();
@@ -112,9 +112,7 @@ export function PostcardScreen({
 
   if (draft === null || start === null) {
     return (
-      <ScreenLoading
-        backLabel={t({ id: 'album.postcard.backLabel', message: 'Recap' })}
-        fallback={recapHref}
+      <LoadingCritter
         label={t({ id: 'album.postcard.loading', message: 'Loading your postcard' })}
         testID="postcard-loading"
       />

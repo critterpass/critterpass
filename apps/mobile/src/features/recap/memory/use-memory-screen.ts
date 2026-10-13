@@ -20,7 +20,7 @@ import { readMediaUrl } from '../data/read-url';
 import { guideOf, whereNextHref } from '../summary/summary-screen';
 import { memoryBody, memoryTitle } from './memory-copy';
 import { memoryMoment, reactionChips } from './memory-model';
-import type { MemoryReaction } from './reaction-sheet';
+import type { MemoryReaction } from './memory-model';
 import { useMemory } from './use-memory';
 
 function useSignedUrl(mediaKey: string | null): string | null {

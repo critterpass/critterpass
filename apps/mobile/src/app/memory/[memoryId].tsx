@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
 
 import { PremiumMemoryScreen } from '@/features/recap/premium/memory-screen';
-import { RouteMissing } from '@/features/recap/route-missing';
+import { PremiumRouteMissing } from '@/features/album';
 
 function useMemoryParams() {
   const { memoryId, trip } = useLocalSearchParams<{ memoryId: string; trip?: string }>();
@@ -17,6 +17,6 @@ export default function MemoryRoute() {
   return memoryId !== '' ? (
     <PremiumMemoryScreen memoryId={memoryId} tripId={tripId} />
   ) : (
-    <RouteMissing testID="memory-missing" />
+    <PremiumRouteMissing testID="memory-missing" />
   );
 }

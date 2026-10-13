@@ -2,7 +2,7 @@ import { useLocalSearchParams } from 'expo-router';
 
 import { OpenedPostcardScreen } from '@/features/album/postcard/opened-postcard-screen';
 import { PREMIUM_POSTCARD_LOOK } from '@/features/album/premium/postcard-sheets';
-import { RouteMissing } from '@/features/recap/route-missing';
+import { PremiumRouteMissing } from '@/features/album';
 
 /** The postcard composer (3m-9), the recap's last card; an inbox item opens it on one postcard. */
 export default function RecapPostcardRoute() {
@@ -12,7 +12,7 @@ export default function RecapPostcardRoute() {
   }>();
   // A link that names no trip still lands on a page with a way out.
   if (typeof tripId !== 'string' || tripId.length === 0) {
-    return <RouteMissing testID="recap-postcard-missing" />;
+    return <PremiumRouteMissing testID="recap-postcard-missing" />;
   }
   return (
     <OpenedPostcardScreen

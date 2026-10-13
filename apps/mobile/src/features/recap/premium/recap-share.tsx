@@ -8,8 +8,8 @@ import { View } from 'react-native';
 
 import { Icon, PressableScale, Text, makePremiumStyles, usePremiumTheme } from '@/ui/premium';
 
-import { useRecapShareCard } from '../summary/share-sheet';
-import type { RecapShareProps } from '../summary/share-choice-sheet';
+import { useRecapShareCard } from '../summary/share-card';
+import type { RecapShareProps } from '../summary/summary-screen';
 import { PremiumShareSheet } from './premium-share-sheet';
 
 const useStyles = makePremiumStyles((th) => ({

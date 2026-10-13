@@ -10,11 +10,8 @@ import { PremiumSheet } from '@/features/album';
 import { SignatureLayer } from '@/ui/documents/SignatureLayer';
 import { Button, Text } from '@/ui/premium';
 
-import {
-  PAD_HEIGHT,
-  useSignatureForm,
-  type SignatureSheetProps,
-} from '../../signature/signature-sheet';
+import { PAD_HEIGHT, useSignatureForm } from '../../signature/signature-form';
+import { type SignatureSheetProps } from '../../story/story-look';
 
 export function PremiumSignatureSheet(props: SignatureSheetProps) {
   const form = useSignatureForm(props);

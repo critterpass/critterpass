@@ -17,8 +17,8 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { GotAwayCardProps } from '../../../cards/got-away-card';
-import type { StampCardProps } from '../../../cards/stamp-card';
+import type { GotAwayCardProps } from '../../../story/story-card-views';
+import type { StampCardProps } from '../../../story/story-card-views';
 import { CardFrame, FormSticker } from './card-frame';
 import { useClockReached } from './use-clock';
 

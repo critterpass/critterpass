@@ -3,6 +3,7 @@
  * sender's initial, a dashed stamp box holding the trip's guide, a postmark and address lines)
  * and its front over it (a white-framed photo, "Greetings from" and the place in big letters).
  * Tapping the front picks the photo, the back edits the note; the format sets the front's shape.
+ * A received postcard passes no handlers and is drawn read-only.
  */
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
@@ -18,7 +19,7 @@ import {
 } from '@/ui/premium';
 
 import { AlbumImage } from '../grid/album-image';
-import type { PostcardViewProps } from '../postcard/postcard-view';
+import type { PostcardViewProps } from '../postcard/postcard-look';
 
 const RATIO = { classic: 320 / 216, square: 1, story: 9 / 16 } as const;
 const BACK_TILT = 4;
@@ -66,7 +67,15 @@ const useStyles = makePremiumStyles((th) => ({
   },
 }));
 
-export function PostcardCards(props: PostcardViewProps) {
+export type PostcardCardsProps = Pick<
+  PostcardViewProps,
+  'format' | 'photoKey' | 'photoCaption' | 'place' | 'note' | 'signature' | 'guide'
+> & {
+  readonly onNote?: (() => void) | undefined;
+  readonly onPhoto?: (() => void) | undefined;
+};
+
+export function PostcardCards(props: PostcardCardsProps) {
   const th = usePremiumTheme();
   const styles = useStyles();
   const art = guideSticker(props.guide);
@@ -74,9 +83,16 @@ export function PostcardCards(props: PostcardViewProps) {
     <View testID="postcard-pair">
       <PressableScale
         style={[styles.back, { transform: [{ rotate: `${BACK_TILT}deg` }] }]}
-        onPress={props.onNote}
-        accessibilityRole="button"
-        accessibilityLabel={t({ id: 'album.premium.postcard.editNote', message: 'Edit the note' })}
+        {...(props.onNote === undefined
+          ? {}
+          : {
+              onPress: props.onNote,
+              accessibilityRole: 'button' as const,
+              accessibilityLabel: t({
+                id: 'album.premium.postcard.editNote',
+                message: 'Edit the note',
+              }),
+            })}
         testID="postcard-back"
       >
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
@@ -112,12 +128,16 @@ export function PostcardCards(props: PostcardViewProps) {
           styles.front,
           { aspectRatio: RATIO[props.format], transform: [{ rotate: `${FRONT_TILT}deg` }] },
         ]}
-        onPress={props.onPhoto}
-        accessibilityRole="button"
-        accessibilityLabel={t({
-          id: 'album.premium.postcard.pickPhoto',
-          message: 'Pick the photo',
-        })}
+        {...(props.onPhoto === undefined
+          ? {}
+          : {
+              onPress: props.onPhoto,
+              accessibilityRole: 'button' as const,
+              accessibilityLabel: t({
+                id: 'album.premium.postcard.pickPhoto',
+                message: 'Pick the photo',
+              }),
+            })}
         testID="postcard-front"
       >
         <View style={styles.photo}>

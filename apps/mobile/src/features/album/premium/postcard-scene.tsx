@@ -21,7 +21,7 @@ import {
 } from '@/ui/premium';
 
 import { postcardCardCopy } from '../postcard/postcard-card-copy';
-import type { PostcardViewProps } from '../postcard/postcard-view';
+import type { PostcardViewProps } from '../postcard/postcard-look';
 import { PostcardCards } from './postcard-cards';
 
 const useStyles = makePremiumStyles((th) => ({

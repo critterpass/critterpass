@@ -28,7 +28,7 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { recapMonth } from '../link/recap-link-screen';
+import { recapMonth } from '../link/recap-link';
 import { useRecapLinkLanding } from '../link/use-recap-link';
 import { recapRoutes } from '../routes';
 

@@ -18,7 +18,7 @@ import { renderUi } from '@/ui/test-support/render';
 
 import type { CardSharer } from '../share-card-image';
 import type { StoryCardSpec } from '../story-cards';
-import { StoryView } from '../story-view';
+import { PremiumStoryScene } from '../../premium/story/story-scene';
 import { VOICE_WAIT_MAX_MS } from '../use-voice-wait';
 
 const CARD_MS = 6000;
@@ -44,7 +44,7 @@ function view(voiceOn: boolean, held = false, shareCard?: CardSharer) {
   return (
     <SafeAreaProvider initialMetrics={METRICS}>
       <ScreenJoltProvider>
-        <StoryView
+        <PremiumStoryScene
           guide="chava"
           guideName="Chà Vá"
           subtitle="Đà Nẵng"

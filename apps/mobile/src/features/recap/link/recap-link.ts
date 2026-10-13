@@ -124,3 +124,14 @@ export async function resolveRecapLink(
     ? { kind: 'public', recap: parsed.data }
     : { kind: 'mine', tripId: own.trip_id };
 }
+
+/** "October 2026", from the month and year alone; null when the recap carries no month. */
+export function recapMonth(recap: PublicRecap, locale: string): string | null {
+  if (recap.travel_month === null) return null;
+  const date = new Date(Date.UTC(recap.travel_year ?? 2000, recap.travel_month - 1, 1));
+  return new Intl.DateTimeFormat(locale, {
+    month: 'long',
+    ...(recap.travel_year === null ? {} : { year: 'numeric' }),
+    timeZone: 'UTC',
+  }).format(date);
+}

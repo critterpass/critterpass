@@ -36,7 +36,7 @@ import {
   type AlbumSegment,
 } from '../data/album-model';
 import { dayLabel } from '../grid/album-copy';
-import type { AlbumViewProps } from '../grid/album-view';
+import type { AlbumViewProps } from '../grid/album-screen';
 import { DayPocket, type Pocket } from './day-pocket';
 
 const STICKERS = ['star', 'heart', 'pin', 'camera', 'food', 'boat'] as const;

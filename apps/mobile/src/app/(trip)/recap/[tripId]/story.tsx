@@ -1,7 +1,7 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
 
 import { PREMIUM_STORY_LOOK } from '@/features/recap/premium/story/story-parts';
-import { RouteMissing } from '@/features/recap/route-missing';
+import { PremiumRouteMissing } from '@/features/album';
 import { RecapStoryScreen } from '@/features/recap/story/story-screen';
 
 /**
@@ -16,6 +16,6 @@ export default function RecapStoryRoute() {
       <RecapStoryScreen tripId={tripId} replay={from === 'summary'} look={PREMIUM_STORY_LOOK} />
     </>
   ) : (
-    <RouteMissing testID="recap-story-missing" />
+    <PremiumRouteMissing testID="recap-story-missing" />
   );
 }
