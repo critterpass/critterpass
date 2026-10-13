@@ -1,7 +1,9 @@
 import { Stack } from 'expo-router/js-stack';
 
 import { pushTransition } from '@/lib/navigation/transitions';
+import { usePremiumUi } from '@/lib/premium-ui';
 import { useMotionMode } from '@/motion/motion-mode';
+import { PremiumStack } from '@/ui/premium/shell/navigation/premium-stack';
 import { SessionGate } from '@/ui/states/SessionGate';
 import { useTheme } from '@/ui/theme';
 
@@ -9,9 +11,14 @@ import { useTheme } from '@/ui/theme';
 export default function CommunityLayout() {
   const { motion } = useTheme();
   const [motionMode] = useMotionMode();
+  const premium = usePremiumUi();
   return (
     <SessionGate>
-      <Stack screenOptions={pushTransition(motion, motionMode !== 'full')} />
+      {premium ? (
+        <PremiumStack />
+      ) : (
+        <Stack screenOptions={pushTransition(motion, motionMode !== 'full')} />
+      )}
     </SessionGate>
   );
 }

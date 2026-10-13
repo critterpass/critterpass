@@ -28,7 +28,7 @@ const DRAFT_TRIPS_SQL = `
    LIMIT 8`;
 const DRAFT_TRIPS_TABLES = ['trips', 'trip_participants', 'destinations'];
 
-interface DraftTripRow {
+export interface DraftTripRow {
   readonly id: string;
   readonly destination: string | null;
   readonly role: string | null;
@@ -37,6 +37,16 @@ interface DraftTripRow {
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.size.gutter, paddingBottom: th.space['20'], gap: th.space['16'] },
 }));
+
+/** This person's trips still being planned, the plan's own destination first. */
+export function useDraftTrips(destinationId: string): readonly DraftTripRow[] {
+  const uid = useSessionUid();
+  return useLiveRows<DraftTripRow>(
+    DRAFT_TRIPS_SQL,
+    uid === null ? null : [uid, destinationId],
+    DRAFT_TRIPS_TABLES,
+  ).rows;
+}
 
 export interface TripPickerProps {
   readonly destinationId: string;
@@ -49,12 +59,7 @@ export interface TripPickerProps {
 export function TripPicker(props: TripPickerProps) {
   const { t } = useLingui();
   const styles = useStyles();
-  const uid = useSessionUid();
-  const trips = useLiveRows<DraftTripRow>(
-    DRAFT_TRIPS_SQL,
-    uid === null ? null : [uid, props.destinationId],
-    DRAFT_TRIPS_TABLES,
-  );
+  const rows = useDraftTrips(props.destinationId);
   const place = props.destinationName;
   const title = t({ id: 'community.picker.title', message: 'Which trip?' });
   return (
@@ -66,7 +71,7 @@ export function TripPicker(props: TripPickerProps) {
       testID="shared-plan-trip-picker"
     >
       <View style={styles.body}>
-        {trips.rows.length === 0 ? (
+        {rows.length === 0 ? (
           <SecondaryText>
             {t({
               id: 'community.picker.none',
@@ -75,7 +80,7 @@ export function TripPicker(props: TripPickerProps) {
           </SecondaryText>
         ) : (
           <SettingsGroup
-            rows={trips.rows.map((trip) => {
+            rows={rows.map((trip) => {
               const organiser = trip.role === 'organiser';
               return {
                 key: trip.id,

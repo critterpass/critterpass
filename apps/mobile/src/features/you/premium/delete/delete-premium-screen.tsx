@@ -12,9 +12,9 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Button, Card, Tag, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 import { HoldToConfirm, PushScreen } from '@/ui/premium/shell';
 
-import { ClosedView } from '../../account/closed-view';
 import { useDeleteAccount } from '../../account/delete-screen';
 import { amountText } from '../../account/preflight-parts';
+import { ClosedPremiumView } from '../closed/closed-premium-view';
 
 export function DeletePremiumScreen() {
   const th = usePremiumTheme();
@@ -26,7 +26,7 @@ export function DeletePremiumScreen() {
     return (
       <>
         <Stack.Screen options={{ gestureEnabled: false, headerShown: false }} />
-        <ClosedView
+        <ClosedPremiumView
           mode={d.closed.purgeAt === null ? 'erased' : 'closed'}
           purgeAt={d.closed.purgeAt}
           closedOn={new Date()}

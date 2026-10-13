@@ -12,9 +12,10 @@ import { useAnalytics } from '@/lib/analytics';
 
 import { useHelpArticles } from '../data/use-help-articles';
 import { articleHref, feedbackHref, HELP_ROUTES } from '../routes';
-import { ReaderView } from './ReaderView';
+import { ReaderView, type ReaderViewProps } from './ReaderView';
 
-export function ReaderScreen() {
+/** The article on screen and what its controls do, for either look of the reader. */
+export function useHelpReader(): ReaderViewProps {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const locale = useLocale();
   const analytics = useAnalytics();
@@ -27,22 +28,23 @@ export function ReaderScreen() {
         ? ('missing' as const)
         : null
       : { ...found, inEnglish: found.locale === 'en' && !locale.startsWith('en') };
-  return (
-    <ReaderView
-      article={article}
-      helpful={helpful}
-      onHelpful={(answer) => {
-        if (answer === helpful) return;
-        setHelpful(answer);
-        if (typeof slug === 'string') {
-          analytics.capture('help_article_rated', { article: slug, helpful: answer });
-        }
-      }}
-      onOpenArticle={(next) => router.push(articleHref(next))}
-      onAskHuman={() =>
-        router.push(feedbackHref({ mode: 'feedback', ...(slug ? { article: slug } : {}) }))
+  return {
+    article,
+    helpful,
+    onHelpful: (answer) => {
+      if (answer === helpful) return;
+      setHelpful(answer);
+      if (typeof slug === 'string') {
+        analytics.capture('help_article_rated', { article: slug, helpful: answer });
       }
-      onBack={() => goBackOr(HELP_ROUTES.hub)}
-    />
-  );
+    },
+    onOpenArticle: (next) => router.push(articleHref(next)),
+    onAskHuman: () =>
+      router.push(feedbackHref({ mode: 'feedback', ...(slug ? { article: slug } : {}) })),
+    onBack: () => goBackOr(HELP_ROUTES.hub),
+  };
+}
+
+export function ReaderScreen() {
+  return <ReaderView {...useHelpReader()} />;
 }

@@ -13,7 +13,7 @@ import { music, musicEngine } from '@/motion/music';
 import { guidesOfSameCountry } from '@/ui/avatar/guides';
 
 import { YOU_ROUTES } from '../routes';
-import { SoundView } from './sound-view';
+import { SoundView, type SoundHandlers, type SoundValues } from './sound-view';
 import { themeToPlay, useThemeChoice } from './theme-choice';
 
 const CARD_CROSSFADE_MS = 700;
@@ -30,7 +30,11 @@ function usePreviewThrottle(): (kind: 'music' | 'effects', level: number) => voi
   };
 }
 
-export function SoundScreen() {
+/** The sound page's values and what each control does; both the current and premium pages draw it. */
+export function useSoundModel(): {
+  readonly values: SoundValues;
+  readonly handlers: SoundHandlers;
+} {
   const prefs = useFeedbackPrefs();
   const { choice, pin, follow } = useThemeChoice();
   const { guideId } = useActiveGuide();
@@ -51,48 +55,51 @@ export function SoundScreen() {
     music.crossfadeTo(id, CARD_CROSSFADE_MS);
   };
 
-  return (
-    <SoundView
-      values={{
-        musicEnabled: prefs.musicEnabled,
-        musicVolume: prefs.musicVolume,
-        effectsVolume: prefs.effectsVolume,
-        stickers: prefs.categoryEnabled['stickers-and-stamps'],
-        critterVoices: prefs.categoryEnabled['critter-voices'],
-        quietOnTheRoad: prefs.quietOnTheRoad,
-        haptics: prefs.hapticsEnabled,
-        themes: music.availableThemes().map((theme) => theme.guideId),
-        current,
-        pinned: choice.mode === 'pinned',
-      }}
-      handlers={{
-        onMusic: (next) => {
-          prefs.setMusicEnabled(next);
-          if (!next) music.stop();
-        },
-        onMusicVolume: (next) => {
-          prefs.setMusicVolume(next);
-          if (musicEngine.playingGuideId === null) preview('music', next);
-          else musicEngine.setBaseVolume(next);
-        },
-        onEffectsVolume: (next) => {
-          prefs.setEffectsVolume(next);
-          preview('effects', next);
-        },
-        onStickers: (next) => prefs.setCategoryEnabled('stickers-and-stamps', next),
-        onCritterVoices: (next) => prefs.setCategoryEnabled('critter-voices', next),
-        onQuiet: prefs.setQuietOnTheRoad,
-        onHaptics: prefs.setHapticsEnabled,
-        onTheme: (id) => {
-          pin(id);
-          playTheme(id);
-        },
-        onFollow: () => {
-          follow();
-          if (followed !== undefined) playTheme(followed);
-        },
-        onBack: () => goBackOr(YOU_ROUTES.settings),
-      }}
-    />
-  );
+  return {
+    values: {
+      musicEnabled: prefs.musicEnabled,
+      musicVolume: prefs.musicVolume,
+      effectsVolume: prefs.effectsVolume,
+      stickers: prefs.categoryEnabled['stickers-and-stamps'],
+      critterVoices: prefs.categoryEnabled['critter-voices'],
+      quietOnTheRoad: prefs.quietOnTheRoad,
+      haptics: prefs.hapticsEnabled,
+      themes: music.availableThemes().map((theme) => theme.guideId),
+      current,
+      pinned: choice.mode === 'pinned',
+    },
+    handlers: {
+      onMusic: (next) => {
+        prefs.setMusicEnabled(next);
+        if (!next) music.stop();
+      },
+      onMusicVolume: (next) => {
+        prefs.setMusicVolume(next);
+        if (musicEngine.playingGuideId === null) preview('music', next);
+        else musicEngine.setBaseVolume(next);
+      },
+      onEffectsVolume: (next) => {
+        prefs.setEffectsVolume(next);
+        preview('effects', next);
+      },
+      onStickers: (next) => prefs.setCategoryEnabled('stickers-and-stamps', next),
+      onCritterVoices: (next) => prefs.setCategoryEnabled('critter-voices', next),
+      onQuiet: prefs.setQuietOnTheRoad,
+      onHaptics: prefs.setHapticsEnabled,
+      onTheme: (id) => {
+        pin(id);
+        playTheme(id);
+      },
+      onFollow: () => {
+        follow();
+        if (followed !== undefined) playTheme(followed);
+      },
+      onBack: () => goBackOr(YOU_ROUTES.settings),
+    },
+  };
+}
+
+export function SoundScreen() {
+  const { values, handlers } = useSoundModel();
+  return <SoundView values={values} handlers={handlers} />;
 }

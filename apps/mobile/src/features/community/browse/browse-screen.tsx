@@ -6,8 +6,6 @@
  */
 import type { SharedPlanCard } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -26,9 +24,8 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { dataOf, useSharedPlans, type BrowseFilters } from '../api';
 import { copiesLabel, costEach, crewLine, matchLabel, planTitle, ratingLabel } from '../copy';
-import { communityRoutes } from '../routes';
+import { useCrewPlans } from './use-crew-plans';
 
 const useStyles = makeStyles((th) => ({
   content: { paddingHorizontal: th.size.gutter, gap: th.space['16'] },
@@ -44,20 +41,6 @@ const useStyles = makeStyles((th) => ({
   rowHead: { flexDirection: 'row', justifyContent: 'space-between', gap: th.space['8'] },
 }));
 
-type FilterKey = 'short' | 'mid' | 'long' | 'newest' | 'rating';
-
-function filtersOf(selected: ReadonlySet<FilterKey>): BrowseFilters {
-  const days = selected.has('short')
-    ? { daysMax: 5 }
-    : selected.has('mid')
-      ? { daysMin: 6, daysMax: 8 }
-      : selected.has('long')
-        ? { daysMin: 9 }
-        : {};
-  const sort = selected.has('newest') ? 'newest' : selected.has('rating') ? 'rating' : 'match';
-  return { ...days, sort };
-}
-
 export interface CrewPlansScreenProps {
   /** The destination's id or slug. */
   readonly destination: string;
@@ -69,40 +52,10 @@ export function CrewPlansScreen({ destination, tripId }: CrewPlansScreenProps) {
   const styles = useStyles();
   const theme = useTheme();
   const insets = useSafeAreaInsets();
-  const router = useRouter();
   const locale = useLocale();
-  const [selected, setSelected] = useState<ReadonlySet<FilterKey>>(new Set());
-  const filters = useMemo(() => filtersOf(selected), [selected]);
-  const { state, reload } = useSharedPlans(destination, tripId, filters);
-  const page = dataOf(state);
+  const { state, reload, page, plans, pick, rest, open, chips, selected, toggle, clear } =
+    useCrewPlans(destination, tripId);
   const guide = guideSticker(null);
-  const toggle = (key: FilterKey, group: readonly FilterKey[]) =>
-    setSelected((current) => {
-      const next = new Set([...current].filter((one) => !group.includes(one)));
-      if (!current.has(key)) next.add(key);
-      return next;
-    });
-  const days: readonly FilterKey[] = ['short', 'mid', 'long'];
-  const sorts: readonly FilterKey[] = ['newest', 'rating'];
-  const chips: readonly { key: FilterKey; label: string; group: readonly FilterKey[] }[] = [
-    {
-      key: 'short',
-      label: t({ id: 'community.filter.short', message: 'Up to 5 days' }),
-      group: days,
-    },
-    { key: 'mid', label: t({ id: 'community.filter.mid', message: '6–8 days' }), group: days },
-    { key: 'long', label: t({ id: 'community.filter.long', message: '9+ days' }), group: days },
-    { key: 'newest', label: t({ id: 'community.filter.newest', message: 'Newest' }), group: sorts },
-    {
-      key: 'rating',
-      label: t({ id: 'community.filter.rating', message: 'Top rated' }),
-      group: sorts,
-    },
-  ];
-  const plans = page?.plans ?? [];
-  const pick = plans.find((plan) => plan.id === page?.pick_id) ?? null;
-  const rest = plans.filter((plan) => plan.id !== pick?.id);
-  const open = (plan: SharedPlanCard) => router.push(communityRoutes.plan(plan.id, tripId));
 
   return (
     <Scaffold testID="crew-plans">
@@ -200,7 +153,7 @@ export function CrewPlansScreen({ destination, tripId }: CrewPlansScreenProps) {
               })}
               action={{
                 label: t({ id: 'community.browse.clear', message: 'Clear filters' }),
-                onPress: () => setSelected(new Set()),
+                onPress: clear,
               }}
               testID="crew-plans-no-results"
             />
