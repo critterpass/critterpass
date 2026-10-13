@@ -13,6 +13,14 @@ export type {
   KeyboardStickyFooterProps,
 } from './keyboard/keyboard';
 export { PremiumStack, PremiumStackScreen } from './navigation/premium-stack';
+export type { PremiumStackProps } from './navigation/premium-stack';
+export {
+  presentationOptions,
+  presentedScreenOptions,
+  SELF_ANIMATED_SHEET,
+} from './navigation/presentation-options';
+export { leadingControlFor, useScreenPlacement } from './navigation/use-screen-placement';
+export type { LeadingControl } from './navigation/use-screen-placement';
 export { GUIDE_TRIGGER_ROUTE, PREMIUM_TABS, PremiumTabs } from './navigation/premium-tabs';
 export type { PremiumTabsProps } from './navigation/premium-tabs';
 export { useGuideActions } from './navigation/guide-circle';

@@ -1,8 +1,6 @@
 import type { NativeStackNavigationOptions } from 'expo-router/native-stack';
 import { router } from 'expo-router';
-import { NavigationContext } from 'expo-router/build/react-navigation/core/NavigationContext';
-import { NavigationRouteContext } from 'expo-router/build/react-navigation/core/NavigationProvider';
-import { useContext, useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Platform, ScrollView, StyleSheet, View, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -10,6 +8,7 @@ import { useBackAffordance } from '@/ui/qa/back-affordance';
 
 import { PressableScale, Spinner, Text, usePremiumTheme, type PremiumTheme } from '../..';
 import { KeyboardStickyFooter } from '../keyboard/keyboard';
+import { useScreenPlacement } from '../navigation/use-screen-placement';
 import { useDirtySheetGuard, type DiscardPrompt } from './dirty-sheet';
 
 /** Half height for one choice, full height for a form, or as tall as the content. */
@@ -53,16 +52,17 @@ export function sheetMaterialStyle(t: PremiumTheme): ViewStyle {
 }
 
 /**
- * True when the sheet is the first screen of its stack. A native stack never presents its first
- * screen as a sheet: a sheet route opened from another area (New poll from the crew chat) is the
- * root of its area's stack, drawn as a whole-screen card in a see-through group. It then lays its
- * header below the status bar on the opaque sheet material instead of relying on the system sheet.
+ * True when the sheet shows as a page instead of a native sheet: the first screen of a stack whose
+ * group was not presented as a sheet (a see-through card, a pushed group), and on Android a group
+ * presented as a sheet, which rises as a page there (the native sheet can't hold a stack). It then
+ * lays its header below the status bar on the opaque sheet material. Outside a navigator (tests,
+ * the gallery) it is a sheet.
  */
 function useShownAsPage(): boolean {
-  const navigation = useContext(NavigationContext);
-  const route = useContext(NavigationRouteContext);
-  if (navigation === undefined || route === undefined) return false;
-  return navigation.getState().routes[0]?.key === route.key;
+  const placement = useScreenPlacement();
+  if (placement === undefined) return false;
+  if (placement.kind !== 'presented' || placement.presentation.kind !== 'sheet') return true;
+  return !placement.ownStack && Platform.OS !== 'ios';
 }
 
 export interface SheetVerb {
