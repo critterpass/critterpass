@@ -892,7 +892,7 @@ msgstr "Tỷ giá 1 {from} = {rate} {to} ngày {on}"
 msgid "money.scan.reading"
 msgstr "Đang đọc từng dòng…"
 
-#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/SettleRemindFooter.tsx
 msgid "money.settle.remind"
 msgstr "Nhắc mọi người"
 
@@ -900,7 +900,7 @@ msgstr "Nhắc mọi người"
 msgid "money.settle.reminded"
 msgstr "Đã nhắc mọi người còn nợ."
 
-#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/SettleRemindFooter.tsx
 msgid "money.premium.remindOffline"
 msgstr "Lời nhắc sẽ gửi khi bạn có mạng lại."
 

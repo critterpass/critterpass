@@ -71,8 +71,9 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
     );
   }
   const p = rate.props;
-  const name = p.name;
-  const called = shortName(name);
+  // The card shows his full name; the lines about him use the name he goes by.
+  const fullName = p.name;
+  const name = shortName(fullName);
   // The footer clears the home indicator while the keyboard is down and sits a gap above it up.
   const footerPad = Math.max(insets.bottom, th.space.gap12);
   const days = p.days
@@ -102,9 +103,9 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
             },
           ]}
         >
-          <Avatar name={name} color={crewAccent(5)} size={62} ringed />
+          <Avatar name={fullName} color={crewAccent(5)} size={62} ringed />
           <Text variant="headline" color={th.color.onAccent}>
-            {name}
+            {fullName}
           </Text>
           {days === '' ? null : (
             <Text variant="badge" color={th.color.onAccent}>
@@ -113,12 +114,12 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
           )}
         </View>
         <Text variant="largeTitle" accessibilityRole="header">
-          {t({ id: 'drivers.premium.howWas', message: `How was ${called}?` })}
+          {t({ id: 'drivers.premium.howWas', message: `How was ${name}?` })}
         </Text>
         <Text variant="rowText" tone="muted">
           {t({
             id: 'drivers.rate.intro',
-            message: `Your crew's rating and tags go on ${called}'s listing if he's listed. Nothing about you does.`,
+            message: `Your crew's rating and tags go on ${name}'s listing if he's listed. Nothing about you does.`,
           })}
         </Text>
         <View style={styles.verdicts} accessibilityRole="radiogroup">
@@ -159,7 +160,7 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
         />
         {p.onInvite === null ? null : (
           <TextButton
-            label={t({ id: 'drivers.rate.invite', message: `Invite ${called} to be listed` })}
+            label={t({ id: 'drivers.rate.invite', message: `Invite ${name} to be listed` })}
             onPress={p.onInvite}
             testID="drivers-rate-invite"
           />

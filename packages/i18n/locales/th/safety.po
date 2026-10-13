@@ -104,6 +104,10 @@ msgstr ""
 msgid "safety.action.addPolicy"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/premium/SosAlertAccess.tsx
+msgid "safety.sosAccess.allow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/help/service-label.ts
 msgid "safety.service.ambulance"
 msgstr ""
@@ -303,6 +307,10 @@ msgstr ""
 msgid "safety.step.embassy"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/premium/SosAlertAccess.tsx
+msgid "safety.sosAccess.dnd"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.stepInsurance"
 msgstr ""
@@ -367,6 +375,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.stepSentNobody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/premium/SosAlertAccess.tsx
+msgid "safety.sosAccess.notifications"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/premium/SosAlertAccess.tsx
+msgid "safety.sosAccess.fullScreen"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
