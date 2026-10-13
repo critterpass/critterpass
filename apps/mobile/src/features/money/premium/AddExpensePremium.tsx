@@ -16,6 +16,7 @@ import { goBackOr } from '@/lib/navigation/back';
 import {
   Button,
   EmptyState,
+  hitSlopFor,
   PressableScale,
   SegmentedControl,
   Skeleton,
@@ -40,6 +41,9 @@ import { SplitPeople } from './components/SplitPeople';
 
 type Open = 'currency' | 'category' | 'day' | null;
 
+/** The currency symbol and the category tag are smaller than a finger: reach 44 pt around them. */
+const SMALL_TARGET = hitSlopFor(28, 28);
+
 export function AddExpensePremium(props: {
   readonly editId: string | null;
   readonly prefillName: string | null;
@@ -54,7 +58,8 @@ export function AddExpensePremium(props: {
   const [open, setOpen] = useState<Open>(null);
   const { draft, ctx } = state;
   const closeLabel = t({ id: 'money.premium.close', message: 'Close' });
-  const dirty = draft.digits !== '' || draft.description.trim() !== '';
+  // Any change from where the draft started asks first: payer, split, category and day too.
+  const dirty = state.dirty;
   const close = () => {
     if (!dirty) {
       goBackOr(MONEY_FALLBACK);
@@ -142,6 +147,7 @@ export function AddExpensePremium(props: {
             <View style={styles.amountRow}>
               <PressableScale
                 onPress={() => toggle('currency')}
+                hitSlop={SMALL_TARGET}
                 accessibilityRole="button"
                 accessibilityLabel={t({
                   id: 'money.premium.currency',
@@ -198,6 +204,7 @@ export function AddExpensePremium(props: {
             </View>
             <PressableScale
               onPress={() => toggle('category')}
+              hitSlop={SMALL_TARGET}
               accessibilityRole="button"
               testID="money-add-category"
             >

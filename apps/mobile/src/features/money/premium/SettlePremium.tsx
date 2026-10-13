@@ -7,7 +7,7 @@
  */
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { PrivateContent } from '@/features/help';
 import { useWalletGuide, WalletGuideProvider } from '@/features/bookings';
@@ -30,6 +30,7 @@ import type { SettleRowModel } from '../settle/model';
 import { usePayoutKindLabel } from '../settle/payout-labels';
 import { useSettle, type SettleState } from '../settle/use-settle';
 import { SettledSquare } from './components/SettledSquare';
+import { SettleRemindFooter } from './components/SettleRemindFooter';
 
 type Ready = Extract<SettleState, { kind: 'ready' }>;
 
@@ -87,7 +88,6 @@ export function PaymentCard({
   return (
     <PressableScale
       onPress={() => settle.onRow(row)}
-      pressedScale={0.98}
       accessibilityRole="button"
       accessibilityLabel={t({
         id: 'money.premium.paymentLabel',
@@ -207,23 +207,6 @@ function Open({ settle }: { readonly settle: Ready }) {
           </Text>
         </View>
       ) : null}
-      <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap8 }}>
-        <Button
-          label={t({ id: 'money.settle.remind', message: 'Remind everyone' })}
-          disabled={!settle.canRemind || settle.offline}
-          loading={settle.reminding}
-          onPress={settle.onRemind}
-          testID="money-settle-remind"
-        />
-        {settle.offline ? (
-          <Text variant="caption" tone="muted" align="center">
-            {t({
-              id: 'money.premium.remindOffline',
-              message: 'Reminders go out when you’re back online.',
-            })}
-          </Text>
-        ) : null}
-      </View>
     </View>
   );
 }
@@ -236,8 +219,8 @@ export function SettlePremium({ tripId = null }: { readonly tripId?: string | nu
   const backLabel = t({ id: 'money.back', message: 'Money' });
   return (
     <WalletGuideProvider tripId={settle.kind === 'ready' ? settle.tripId : null}>
-      <PushScreen title={title} backLabel={backLabel} testID="money-settle">
-        <View style={styles.body}>
+      <PushScreen title={title} backLabel={backLabel} scroll={false} testID="money-settle">
+        <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={styles.body}>
           {settle.kind === 'loading' ? (
             <View style={{ padding: th.space.gutter, gap: th.space.gap10 }}>
               <Skeleton height={62} radius={th.radius.card} />
@@ -261,7 +244,10 @@ export function SettlePremium({ tripId = null }: { readonly tripId?: string | nu
           ) : (
             <Open settle={settle} />
           )}
-        </View>
+        </ScrollView>
+        {settle.kind === 'ready' && settle.rows.length > 0 ? (
+          <SettleRemindFooter settle={settle} />
+        ) : null}
       </PushScreen>
     </WalletGuideProvider>
   );
