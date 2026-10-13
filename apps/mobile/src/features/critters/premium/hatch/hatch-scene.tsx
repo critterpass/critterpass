@@ -8,7 +8,7 @@ import { t } from '@lingui/core/macro';
 import { Stack } from 'expo-router';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -36,6 +36,7 @@ import type { HatchViewProps } from '../../hatch/hatch-model';
 import { Confetti, Rays } from '../components/celebration';
 import { Hop } from '../components/loops';
 import { HATCH_PAINT } from '../components/scrims';
+import { riseIn } from '../entrances';
 
 /** When the halves part and the critter is shown (the egg's crack). */
 const REVEAL_MS = 900;
@@ -89,8 +90,7 @@ export function PremiumHatchScene(props: HatchViewProps) {
     // The ceremony runs once per mount.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const entering = (delay: number) =>
-    reduced ? FadeIn.duration(150) : FadeInDown.springify().damping(16).delay(delay);
+  const entering = (delay: number) => riseIn(reduced, 'smooth', delay);
   const name = props.name ?? '';
   const tag =
     props.no === null

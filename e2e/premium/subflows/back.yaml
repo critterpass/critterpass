@@ -1,4 +1,0 @@
-appId: app.critterpass.dev
----
-# One step back: the edge swipe on iOS, the system back on Android.
-- runFlow: ../../screens/sweep/subflows/back.yaml

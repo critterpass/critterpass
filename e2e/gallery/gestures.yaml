@@ -8,7 +8,7 @@ appId: app.critterpass.dev
 # Composer mic: a tap starts recording; a hold records only while held (so it stops on release),
 # and a hold longer than a tap never counts as one.
 - runFlow:
-    file: ../screens/subflows/open-gallery-component.yaml
+    file: subflows/open-gallery-component.yaml
     env:
       COMPONENT: 'Composer'
 - tapOn: 'Record a voice message'
@@ -26,7 +26,7 @@ appId: app.critterpass.dev
 # playing story above it moves on by itself): a tap in the middle steps on, a tap on the start
 # third steps back, and a hold steps nowhere.
 - runFlow:
-    file: ../screens/subflows/open-gallery-component.yaml
+    file: subflows/open-gallery-component.yaml
     env:
       COMPONENT: 'StoryPlayer'
 - scrollUntilVisible:
@@ -51,7 +51,7 @@ appId: app.critterpass.dev
 
 # Day row: a tap opens the day; a drag reorders it without opening it.
 - runFlow:
-    file: ../screens/subflows/open-gallery-component.yaml
+    file: subflows/open-gallery-component.yaml
     env:
       COMPONENT: 'DayRow'
 - tapOn: 'Day 2, Tue, Ubud centre.*'
@@ -90,7 +90,7 @@ appId: app.critterpass.dev
 # points above the drawn block, selects it for the stepper, and a drag from the block moves it
 # later. The tap is placed relative to the block so it holds on any screen size.
 - runFlow:
-    file: ../screens/subflows/open-gallery-component.yaml
+    file: subflows/open-gallery-component.yaml
     env:
       COMPONENT: 'DayTimeline'
 - tapOn:

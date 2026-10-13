@@ -11,13 +11,13 @@ appId: app.critterpass.dev
     file: ../happy/subflows/crew-with-code.yaml
     env:
       CREW: 'The Bali Six'
-- runFlow: ../screens/sweep/subflows/home.yaml
-- extendedWaitUntil:
-    visible:
-      id: 'home-header-profile'
-    timeout: 30000
-- tapOn:
-    id: 'home-header-profile'
+- runFlow: ../_shared/to-home.yaml
+# The profile is the PASS tab.
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: pass
+      LABEL: Pass
 - extendedWaitUntil:
     visible:
       id: 'you-profile-settings'

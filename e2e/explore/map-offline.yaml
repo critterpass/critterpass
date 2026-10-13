@@ -8,10 +8,10 @@ appId: app.critterpass.dev
 # downloading to draw offline. Airplane mode is switched by Maestro on Android only, so the offline
 # half runs there.
 - runFlow:
-    file: ../screens/sweep/subflows/start.yaml
+    file: ../happy/subflows/fresh-install.yaml
     env:
       LANG: en
-- runFlow: ../home/subflows/onboard.yaml
+- runFlow: ../happy/subflows/onboard.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-guide-pon'

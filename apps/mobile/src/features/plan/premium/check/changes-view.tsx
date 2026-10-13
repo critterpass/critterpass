@@ -35,7 +35,13 @@ export function PremiumChangesView(props: ChangesReviewViewProps) {
       scroll={false}
       testID="plan-review"
     >
-      <ScrollView contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}>
+      <ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: theme.space.gutter,
+          paddingVertical: theme.space.gap16,
+          gap: theme.space.gap12,
+        }}
+      >
         {props.state === 'loading' ? (
           <LoadingCritter
             label={t({ id: 'plan.premium.review.loading', message: 'Reading the changes' })}
@@ -49,14 +55,10 @@ export function PremiumChangesView(props: ChangesReviewViewProps) {
           </Text>
         ) : (
           <>
-            <Text
-              variant="display"
-              accessibilityRole="header"
-              style={{ paddingHorizontal: theme.space.gap8 }}
-            >
+            <Text variant="display" accessibilityRole="header">
               {props.title}
             </Text>
-            <Text variant="body" tone="muted" style={{ paddingHorizontal: theme.space.gap8 }}>
+            <Text variant="body" tone="muted">
               {props.summary}
             </Text>
             {props.notice === null ? null : (

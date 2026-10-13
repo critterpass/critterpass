@@ -607,6 +607,14 @@ msgstr "Ngày {n}, soạn lại"
 msgid "plan.premium.draft.missed"
 msgstr "Không vừa"
 
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.discardYes"
+msgstr "Bỏ"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.discard"
+msgstr "Bỏ thay đổi này?"
+
 #. placeholder {0}: at(checkIn.leftAt)
 #: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
 msgid "plan.day.stop.doneAt"
@@ -636,12 +644,12 @@ msgstr "mỗi người"
 msgid "plan.day.time.earlier"
 msgstr "Sớm hơn 15 phút"
 
-#: ../../apps/mobile/src/features/plan/premium/draft/version-history-sheet.tsx
-msgid "planDraft.history.title"
-msgstr "Các bản nháp trước"
-
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
 msgid "planDraft.review.history"
+msgstr "Các bản nháp trước"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/version-history-sheet.tsx
+msgid "planDraft.history.title"
 msgstr "Các bản nháp trước"
 
 #: ../../apps/mobile/src/features/plan/premium/stop/time-rows.tsx
@@ -788,6 +796,10 @@ msgstr "Xem tiếp"
 #: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
 msgid "plan.premium.drafting.keep"
 msgstr "Soạn tiếp"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.keep"
+msgstr "Tiếp tục sửa"
 
 #: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
 msgid "plan.collab.keep"
@@ -1386,6 +1398,10 @@ msgstr "Nhóm đã bỏ mục này khỏi kế hoạch. Giữ riêng cho bạn h
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
 msgid "planDraft.empty.failedTitle"
 msgstr "Bản nháp chưa xong"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.discardLine"
+msgstr "Giờ hoặc ngày mới của điểm dừng này sẽ mất."
 
 #: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
 msgid "plan.dates.plan"

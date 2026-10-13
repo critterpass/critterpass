@@ -1,0 +1,25 @@
+appId: app.critterpass.dev
+---
+# Opens Add an expense from the wallet's Money half: the empty state's own button while nothing is
+# spent, else the header's + (a toolbar item on iOS 26, reached by its label). Ends on the keypad.
+- runFlow:
+    when:
+      visible:
+        id: 'money-empty-add'
+    commands:
+      - tapOn:
+          id: 'money-empty-add'
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-keypad'
+    commands:
+      - runFlow:
+          file: ../../_shared/tap.yaml
+          env:
+            ID: 'money-add'
+            LABEL: 'Add an expense|Thêm khoản chi'
+- extendedWaitUntil:
+    visible:
+      id: 'money-keypad'
+    timeout: 10000

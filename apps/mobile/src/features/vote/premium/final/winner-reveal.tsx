@@ -214,12 +214,14 @@ function RevealContent({
                     position: 'absolute',
                     top: sticker.top,
                     ...('start' in sticker ? { start: sticker.start } : { end: sticker.end }),
-                    transform: [{ rotate: `${sticker.rotate}deg` }],
                   },
                   riseStyle,
                 ]}
               >
-                <CritterSticker kind={sticker.kind} name={sticker.kind} size={sticker.size} />
+                {/* The tilt sits inside: the rise's own transform would replace it. */}
+                <View style={{ transform: [{ rotate: `${sticker.rotate}deg` }] }}>
+                  <CritterSticker kind={sticker.kind} name={sticker.kind} size={sticker.size} />
+                </View>
               </Animated.View>
             ))}
           </View>

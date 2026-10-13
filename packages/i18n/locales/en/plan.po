@@ -607,6 +607,14 @@ msgstr "Day {n}, redrafted"
 msgid "plan.premium.draft.missed"
 msgstr "Didn’t fit"
 
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.discardYes"
+msgstr "Discard"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.discard"
+msgstr "Discard this change?"
+
 #. placeholder {0}: at(checkIn.leftAt)
 #: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
 msgid "plan.day.stop.doneAt"
@@ -636,12 +644,12 @@ msgstr "each"
 msgid "plan.day.time.earlier"
 msgstr "Earlier by 15 minutes"
 
-#: ../../apps/mobile/src/features/plan/premium/draft/version-history-sheet.tsx
-msgid "planDraft.history.title"
-msgstr "Earlier drafts"
-
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
 msgid "planDraft.review.history"
+msgstr "Earlier drafts"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/version-history-sheet.tsx
+msgid "planDraft.history.title"
 msgstr "Earlier drafts"
 
 #: ../../apps/mobile/src/features/plan/premium/stop/time-rows.tsx
@@ -788,6 +796,10 @@ msgstr "Keep browsing"
 #: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
 msgid "plan.premium.drafting.keep"
 msgstr "Keep drafting"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.keep"
+msgstr "Keep editing"
 
 #: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
 msgid "plan.collab.keep"
@@ -1386,6 +1398,10 @@ msgstr "The crew took it out of their plan. Keep it just for you, or let it go?"
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
 msgid "planDraft.empty.failedTitle"
 msgstr "The draft didn’t finish"
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.discardLine"
+msgstr "The new time or day for this stop goes."
 
 #: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
 msgid "plan.dates.plan"

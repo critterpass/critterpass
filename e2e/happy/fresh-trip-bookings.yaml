@@ -15,41 +15,36 @@ appId: app.critterpass.dev
     env:
       SCENARIO: solo_today
 - runFlow: subflows/wait-for-trip-start.yaml
-- extendedWaitUntil:
-    visible:
-      id: 'tab-wallet'
-    timeout: 60000
-- tapOn:
-    id: 'tab-wallet'
-- extendedWaitUntil:
-    visible:
-      id: 'money-balances'
-    timeout: 60000
-- tapOn: 'BOOKINGS'
+- runFlow:
+    file: subflows/open-wallet.yaml
+    env:
+      HALF: bookings
 - extendedWaitUntil:
     visible:
       id: 'bookings-wallet-empty'
     timeout: 30000
 - waitForAnimationToEnd
-- takeScreenshot: bookings-wallet-empty
+- takeScreenshot: premium-7-bookings-wallet-empty
 # Today and the day after tomorrow in Vietnam, and whether the flight landed over six hours ago.
 - evalScript: ${var now = new Date(Date.now() + 7 * 3600000); output.day = now.toISOString().slice(0, 10); output.nextDay = new Date(now.getTime() + 86400000).toISOString().slice(0, 10); output.lastDay = new Date(now.getTime() + 2 * 86400000).toISOString().slice(0, 10); output.flightPast = now.getUTCHours() * 60 + now.getUTCMinutes() >= 14 * 60 + 30}
 - evalScript: ${output.paste = 'Flight booking confirmed. Booking reference K7Q2PX. Passenger WINSTON. Flight 9G 956 from Ho Chi Minh City (SGN) to Da Nang (DAD) on ' + output.day + ', departs 07:05, arrives 08:30.'}
 - evalScript: ${output.pasteEnd = '.*arrives 08:30.*'}
-# The empty wallet's PASTE tile opens Add a booking on its paste sheet.
-- tapOn: 'PASTE.*'
+# Add a booking's Paste row opens its paste sheet.
+- runFlow: subflows/open-add-booking.yaml
+- tapOn:
+    id: 'bookings-add-paste'
 - extendedWaitUntil:
     visible:
       id: 'bookings-paste-field'
     timeout: 15000
 - waitForAnimationToEnd
-- takeScreenshot: bookings-paste-sheet
+- takeScreenshot: premium-7-bookings-paste-sheet
 - runFlow: subflows/paste-booking.yaml
 - assertVisible: '.*9G ?956.*'
 - assertVisible: '(?i)ready to add.*'
 - assertNotVisible: '(?i)found in your crew.*'
 - waitForAnimationToEnd
-- takeScreenshot: bookings-flight-candidate
+- takeScreenshot: premium-7-bookings-flight-candidate
 - tapOn:
     id: 'bookings-candidate-.*-add'
 - extendedWaitUntil:
@@ -59,20 +54,21 @@ appId: app.critterpass.dev
 # The crew's forward address, on the staging mail domain: the crew's part and the domain each
 # on a line of their own, and a tap on it copies.
 - assertVisible:
-    id: 'bookings-address'
+    id: 'bookings-add-forward'
 - assertVisible: '.*@in\.staging\.critterpass\.app.*'
 - assertVisible:
-    id: 'bookings-address-copy'
+    id: 'bookings-add-copy'
 - waitForAnimationToEnd
-- takeScreenshot: bookings-add
+- takeScreenshot: premium-7-bookings-add
 # The stay.
 - evalScript: ${output.paste = 'Hotel booking confirmed. Sala Danang Beach Hotel, 36 Lam Hoanh, Da Nang. Confirmation number 4821907. Guest WINSTON. Check-in ' + output.day + ' from 14:00, check-out ' + output.lastDay + ' until 12:00. Total VND 2,400,000.'}
 - evalScript: ${output.pasteEnd = '.*Total VND 2,400,000.*'}
-- tapOn: 'PASTE.*'
+- tapOn:
+    id: 'bookings-add-paste'
 - runFlow: subflows/paste-booking.yaml
 - assertVisible: '(?i).*sala danang.*'
 - waitForAnimationToEnd
-- takeScreenshot: bookings-stay-candidate
+- takeScreenshot: premium-7-bookings-stay-candidate
 - tapOn:
     id: 'bookings-candidate-.*-add'
 - extendedWaitUntil:
@@ -96,27 +92,7 @@ appId: app.critterpass.dev
 # A cable car ride tomorrow, typed in by hand. On Android the card is centred, clear of the tab
 # bar's guide button over the foot of the page; on iOS the page ends with it above the tab bar,
 # where it can't be centred.
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - scrollUntilVisible:
-          element:
-            id: 'bookings-add'
-          direction: DOWN
-          timeout: 15000
-          centerElement: true
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - scrollUntilVisible:
-          element:
-            id: 'bookings-add'
-          direction: DOWN
-          timeout: 15000
-- tapOn:
-    id: 'bookings-add'
+- runFlow: subflows/open-add-booking.yaml
 - scrollUntilVisible:
     element:
       id: 'bookings-add-by-hand'
@@ -128,7 +104,7 @@ appId: app.critterpass.dev
     id: 'bookings-add-by-hand'
 - extendedWaitUntil:
     visible:
-      id: 'bookings-form-add'
+      id: 'bookings-form'
     timeout: 15000
 - tapOn:
     id: 'bookings-form-kind-activity'
@@ -149,7 +125,7 @@ appId: app.critterpass.dev
     id: 'bookings-form-time'
 - inputText: '09:00'
 - waitForAnimationToEnd
-- takeScreenshot: bookings-form-activity
+- takeScreenshot: premium-7-bookings-form-activity
 - tapOn:
     id: 'bookings-form-save'
 # The wallet: the stay, the ride and the flight home are in the stack, in đồng.
@@ -162,7 +138,7 @@ appId: app.critterpass.dev
     visible: '(?i).*ba na cable car.*'
     timeout: 10000
 - waitForAnimationToEnd
-- takeScreenshot: bookings-wallet
+- takeScreenshot: premium-7-bookings-wallet
 - assertVisible: '(?i).*sala danang.*'
 - assertVisible: '.*9G ?957.*'
 - assertNotVisible: '.*\$.*'
@@ -173,7 +149,7 @@ appId: app.critterpass.dev
       true: ${output.flightPast != true}
     commands:
       - assertVisible:
-          id: 'bookings-flight'
+          id: 'bookings-next-up'
       - assertVisible: '07:05'
       - assertVisible: '08:30'
 - runFlow:
@@ -200,11 +176,11 @@ appId: app.critterpass.dev
             id: 'bookings-detail'
           timeout: 15000
       - waitForAnimationToEnd
-      - takeScreenshot: bookings-flight-detail
+      - takeScreenshot: premium-7-bookings-flight-detail
       - assertVisible: '.*K7Q2PX.*'
       - assertVisible: '.*07:05.*08:30.*'
-      - runFlow: ../onboarding/subflows/back.yaml
-      - runFlow: ../onboarding/subflows/back.yaml
+      - runFlow: ../_shared/back.yaml
+      - runFlow: ../_shared/back.yaml
       - extendedWaitUntil:
           visible:
             id: 'bookings-stack'
@@ -213,12 +189,12 @@ appId: app.critterpass.dev
 - tapOn: '.*9G ?957.*'
 - extendedWaitUntil:
     visible:
-      id: 'bookings-flight'
+      id: 'bookings-next-up'
     timeout: 15000
 - assertVisible: '19:40'
 - assertVisible: '21:05'
 - waitForAnimationToEnd
-- takeScreenshot: bookings-wallet-flight-home
+- takeScreenshot: premium-7-bookings-wallet-flight-home
 # The stay's details.
 - tapOn: '(?i).*sala danang.*'
 - waitForAnimationToEnd
@@ -229,17 +205,12 @@ appId: app.critterpass.dev
       id: 'bookings-detail'
     timeout: 15000
 - waitForAnimationToEnd
-- takeScreenshot: bookings-stay-detail
+- takeScreenshot: premium-7-bookings-stay-detail
 - assertVisible: '.*4821907.*'
 - assertVisible: '.*₫ ?2,400,000.*'
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 # The trip hub counts the bookings, and the plan and the day show them.
-- tapOn:
-    id: 'tab-trips'
-- extendedWaitUntil:
-    visible:
-      id: 'trip-hub-header-.*'
-    timeout: 30000
+- runFlow: subflows/open-trip-hub.yaml
 - runFlow: subflows/answer-visit-offer.yaml
 - scrollUntilVisible:
     element:
@@ -248,30 +219,34 @@ appId: app.critterpass.dev
     timeout: 10000
     centerElement: true
 - waitForAnimationToEnd
-- takeScreenshot: bookings-hub
+- takeScreenshot: premium-7-bookings-hub
 - assertVisible:
     id: 'trip-hub-tile-bookings'
     text: '(?i).*4 saved.*'
 - tapOn:
-    id: 'trip-hub-tile-plan'
+    id: 'trip-hub-door-plan|trip-hub-tile-plan'
 - extendedWaitUntil:
     visible:
       id: 'trip-map|day-plan'
     timeout: 30000
 - waitForAnimationToEnd:
     timeout: 10000
-- takeScreenshot: bookings-plan
+- takeScreenshot: premium-7-bookings-plan
 - runFlow: subflows/leave-plan.yaml
 - runFlow: subflows/dismiss-visit-offer.yaml
 # Deleting the cable car ride: it leaves the wallet at once, with no card left behind.
-- tapOn:
-    id: 'tab-wallet'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: wallet
+      LABEL: Wallet
 - runFlow:
     when:
       notVisible:
         id: 'bookings-wallet-.*'
     commands:
-      - tapOn: 'BOOKINGS'
+      - tapOn:
+          id: 'wallet-switch-bookings'
 - extendedWaitUntil:
     visible: '(?i).*ba na cable car.*'
     timeout: 30000
@@ -286,32 +261,29 @@ appId: app.critterpass.dev
 - assertVisible: '(?i).*ba na cable car.*'
 - scrollUntilVisible:
     element:
-      id: 'bookings-detail-delete'
+      id: 'bookings-delete'
     direction: DOWN
     timeout: 15000
     visibilityPercentage: 100
     centerElement: true
 - waitForAnimationToEnd
 - tapOn:
-    id: 'bookings-detail-delete'
+    id: 'bookings-delete'
+# A system alert asks first.
 - extendedWaitUntil:
-    visible:
-      id: 'bookings-delete-confirm'
+    visible: 'Delete this booking\?'
     timeout: 10000
 - waitForAnimationToEnd
-- takeScreenshot: bookings-delete-confirm
-# The sheet's own button: the page's DELETE under the sheet carries the same words.
-- tapOn:
-    id: 'bookings-delete-confirm-confirm'
+- takeScreenshot: premium-7.15-delete-confirm-light
+- tapOn: '(?i)delete booking'
 - extendedWaitUntil:
     visible:
       id: 'bookings-wallet-.*'
     timeout: 20000
 - assertNotVisible: '(?i).*ba na cable car.*'
 - waitForAnimationToEnd
-- takeScreenshot: bookings-after-delete
-- tapOn:
-    id: 'tab-trips'
+- takeScreenshot: premium-7-bookings-after-delete
+- runFlow: subflows/open-trip-hub.yaml
 - scrollUntilVisible:
     element:
       id: 'trip-hub-tile-bookings'
@@ -323,8 +295,11 @@ appId: app.critterpass.dev
       id: 'trip-hub-tile-bookings'
       text: '(?i).*3 saved.*'
     timeout: 30000
-- tapOn:
-    id: 'tab-wallet'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: wallet
+      LABEL: Wallet
 - extendedWaitUntil:
     visible:
       id: 'bookings-wallet-.*'
@@ -332,4 +307,4 @@ appId: app.critterpass.dev
 - assertNotVisible: '(?i).*ba na cable car.*'
 - assertNotVisible: '(?i).*(didn.t go through|not in the wallet).*'
 - waitForAnimationToEnd
-- takeScreenshot: bookings-after-delete-settled
+- takeScreenshot: premium-7-bookings-after-delete-settled

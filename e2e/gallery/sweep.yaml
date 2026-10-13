@@ -4,7 +4,7 @@ appId: app.critterpass.dev
 # (`CP_WRITE_SWEEP=1 pnpm --filter @cp/mobile test -- gallery-sweep`); do not edit by hand.
 # Every component page, reached through "Developer tools" (never `openLink`).
 # en
-- runFlow: ../screens/subflows/open-gallery.yaml
+- runFlow: subflows/open-gallery.yaml
 - tapOn:
     id: 'gallery-freeze-on'
 - tapOn:
@@ -1149,7 +1149,7 @@ appId: app.critterpass.dev
     timeout: 2000
 - takeScreenshot: sweep-en-WatchRow
 # vi
-- runFlow: ../screens/subflows/open-gallery.yaml
+- runFlow: subflows/open-gallery.yaml
 - tapOn:
     id: 'gallery-freeze-on'
 - tapOn:

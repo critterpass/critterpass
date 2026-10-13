@@ -11,10 +11,10 @@ appId: app.critterpass.dev
 
 # The friend: a second new account on this phone joins the crew with its code.
 - runFlow:
-    file: ../../proposal/subflows/switch-account.yaml
+    file: switch-account.yaml
     env:
       TARGET: 'dev-accounts-new'
-- runFlow: ../../home/subflows/onboard.yaml
+- runFlow: onboard.yaml
 # Onboarding may finish on another tab; Home has JOIN WITH A CODE.
 - openLink:
     link: critterpass-dev://
@@ -34,9 +34,10 @@ appId: app.critterpass.dev
     visible:
       id: 'invite-code-boxes'
     timeout: 15000
-- tapOn:
-    id: 'invite-code-boxes'
-- inputText: ${output.crewCode}
+- runFlow:
+    file: type-crew-code.yaml
+    env:
+      CODE: ${output.crewCode}
 # Once the code is found the keyboard makes way: the crew card shows whole, with JOIN under it.
 - extendedWaitUntil:
     visible:
@@ -47,7 +48,7 @@ appId: app.critterpass.dev
       id: 'invite-code-join'
     timeout: 20000
 - waitForAnimationToEnd
-- takeScreenshot: en-3a-11-code-found
+- takeScreenshot: premium-2.15-code-found-light
 - tapOn:
     id: 'invite-code-join'
 - extendedWaitUntil:
@@ -57,24 +58,15 @@ appId: app.critterpass.dev
 
 # The organiser again (kept first).
 - runFlow:
-    file: ../../proposal/subflows/switch-account.yaml
+    file: switch-account.yaml
     env:
       TARGET: 'dev-accounts-switch-0'
 # With someone to send it to, the trip's step on Home is "send the plan": its button opens the
 # draft.
-- extendedWaitUntil:
-    visible:
-      id: 'home-turn-send_plan'
-    timeout: 60000
-- scrollUntilVisible:
-    element:
-      id: 'home-turn-button'
-    direction: DOWN
-    timeout: 15000
-    visibilityPercentage: 100
-    centerElement: true
-- tapOn:
-    id: 'home-turn-button'
+- runFlow:
+    file: hub-turn.yaml
+    env:
+      BUTTON: 'Send the plan'
 - extendedWaitUntil:
     visible:
       id: 'draft-review|draft-propose'
@@ -104,7 +96,7 @@ appId: app.critterpass.dev
       id: 'build-preview-.*'
     timeout: 180000
 - waitForAnimationToEnd
-- takeScreenshot: en-3f-1-build
+- takeScreenshot: premium-4.52-build-light
 - tapOn:
     id: 'build-send'
 - extendedWaitUntil:
@@ -116,4 +108,4 @@ appId: app.critterpass.dev
     visible:
       text: '(?i).*version is ready|.*wrote the group version.*'
     timeout: 300000
-- takeScreenshot: en-3f-1-sent
+- takeScreenshot: premium-4.51-sent-light

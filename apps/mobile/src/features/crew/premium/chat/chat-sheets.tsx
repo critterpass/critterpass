@@ -1,8 +1,9 @@
 /** The chat's bottom glass sheets: the "+" sheet and the microphone-off sheet (5.05). */
 import { t } from '@lingui/core/macro';
-import type { ReactNode } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
-import Animated, { FadeIn, FadeOut, SlideInDown, SlideOutDown } from 'react-native-reanimated';
+import { useEffect, type ReactNode } from 'react';
+import { BackHandler, Pressable, StyleSheet, View } from 'react-native';
+import { GestureDetector } from 'react-native-gesture-handler';
+import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -13,11 +14,13 @@ import {
   PressableScale,
   Text,
   makePremiumStyles,
+  exitTransition,
   usePremiumReducedMotion,
   usePremiumTheme,
   type PremiumIconName,
 } from '@/ui/premium';
 import { CHAT_PAINT } from '../premium-paint';
+import { useChatSheetDrag } from './use-chat-sheet-drag';
 
 /** The slash across the microphone, as drawn. */
 const SLASH_TILT = -45;
@@ -39,8 +42,9 @@ const useStyles = makePremiumStyles((th) => ({
     width: 36,
     height: 5,
     borderRadius: 3,
-    backgroundColor: CHAT_PAINT.grabber,
+    backgroundColor: th.color.fieldBorder,
   },
+  grabBand: { paddingBottom: 6, marginBottom: -6 },
   sheetHead: { flexDirection: 'row', justifyContent: 'flex-end', marginTop: -4 },
   option: {
     flexDirection: 'row',
@@ -53,7 +57,10 @@ const useStyles = makePremiumStyles((th) => ({
   },
 }));
 
-/** A bottom glass sheet drawn over the chat, with a scrim; tapping the scrim closes it. */
+/**
+ * A bottom glass sheet drawn over the chat, with a scrim: it rises on the Smooth spring, and a drag
+ * down on its grabber band, a tap on the scrim or the system back puts it away.
+ */
 export function ChatSheet({
   onClose,
   children,
@@ -66,27 +73,36 @@ export function ChatSheet({
   const styles = useStyles();
   const reduced = usePremiumReducedMotion();
   const insets = useSafeAreaInsets();
+  const drag = useChatSheetDrag(onClose);
+  const { close } = drag;
+  useEffect(() => {
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      close();
+      return true;
+    });
+    return () => sub.remove();
+  }, [close]);
   return (
     <View style={StyleSheet.absoluteFill} testID={testID}>
-      <Animated.View
-        entering={FadeIn.duration(150)}
-        exiting={FadeOut.duration(150)}
-        style={StyleSheet.absoluteFill}
-      >
+      <Animated.View style={[StyleSheet.absoluteFill, drag.scrimStyle]}>
         <Pressable
           style={styles.scrim}
-          onPress={onClose}
+          onPress={close}
           accessibilityRole="button"
           accessibilityLabel={t({ id: 'chat.premium.sheet.close', message: 'Close' })}
         />
       </Animated.View>
       <Animated.View
-        entering={reduced ? FadeIn.duration(150) : SlideInDown.springify()}
-        exiting={reduced ? FadeOut.duration(150) : SlideOutDown}
-        style={[styles.sheet, { paddingBottom: Math.max(insets.bottom, 16) }]}
+        exiting={exitTransition(reduced)}
+        style={[styles.sheet, { paddingBottom: Math.max(insets.bottom, 16) }, drag.panelStyle]}
+        accessibilityViewIsModal
       >
         <GlassSurface kind="sheet" style={StyleSheet.absoluteFill} />
-        <View style={styles.grabber} />
+        <GestureDetector gesture={drag.pan}>
+          <View style={styles.grabBand}>
+            <View style={styles.grabber} />
+          </View>
+        </GestureDetector>
         {children}
       </Animated.View>
     </View>

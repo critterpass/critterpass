@@ -13,8 +13,6 @@ import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
-  Button,
-  Card,
   GlassIconButton,
   GlassPill,
   GuideNote,
@@ -36,8 +34,11 @@ import { whyWords } from '../../components/why-words';
 import { useSwipeScreen, type SwipeScreenProps } from '../../use-swipe-screen';
 import { placeIcon } from '../../search/place-icons';
 import { Doodle } from '../components/doodle';
+import { SwipeSummary } from './swipe-summary';
+import { useDeckCards } from './use-deck-cards';
 
 const FLY_MS = 450;
+const NO_CARDS: readonly SwipeCardFace[] = [];
 const HEART = '♥';
 
 function CardFace({ face }: { readonly face: SwipeCardFace }) {
@@ -113,7 +114,7 @@ export function SwipePage(props: SwipeScreenProps) {
   }, [match]);
   const vote = (face: SwipeCardFace, verdict: 'yes' | 'no') =>
     setTimeout(() => view.onSwipe(face.poiId, verdict), FLY_MS);
-  const ideas = stage.kind === 'summary' ? stage.onIdeas : undefined;
+  const cards = useDeckCards(stage.kind === 'deck' ? stage.ahead : NO_CARDS);
   return (
     <StampMoment
       landed={match !== null}
@@ -152,7 +153,7 @@ export function SwipePage(props: SwipeScreenProps) {
         </View>
         <GlassPill
           label={`${HEART} ${String(view.matchCount)}`}
-          onPress={ideas ?? (() => router.back())}
+          onPress={view.onIdeas ?? (() => router.back())}
           testID="swipe-matches"
         />
       </View>
@@ -176,9 +177,8 @@ export function SwipePage(props: SwipeScreenProps) {
           </View>
         ) : stage.kind === 'deck' ? (
           <SwipeDeck
-            key={stage.top.poiId}
             ref={deck}
-            items={stage.under === null ? [stage.top] : [stage.top, stage.under]}
+            items={cards}
             keyOf={(face) => face.poiId}
             renderCard={(face) => <CardFace face={face} />}
             inStamp={
@@ -192,25 +192,11 @@ export function SwipePage(props: SwipeScreenProps) {
             testID="swipe-deck"
           />
         ) : (
-          <Card padded style={{ marginTop: theme.space.gap16 }} testID="swipe-summary">
-            <Text variant="title">
-              {stage.ended
-                ? t({ id: 'explore.swipe.endedTitle', message: 'This session is over' })
-                : t({ id: 'explore.swipe.doneTitle', message: "That's the deck" })}
-            </Text>
-            {stage.matches.map((entry) => (
-              <Text key={entry.id} variant="rowText">
-                {`${HEART} ${entry.name}`}
-              </Text>
-            ))}
-            {stage.onIdeas === undefined ? null : (
-              <Button
-                label={t({ id: 'explore.swipe.seeIdeas', message: 'See them in Ideas' })}
-                onPress={stage.onIdeas}
-                testID="swipe-see-ideas"
-              />
-            )}
-          </Card>
+          <SwipeSummary
+            ended={stage.ended}
+            matches={stage.matches}
+            {...(stage.onIdeas === undefined ? {} : { onIdeas: stage.onIdeas })}
+          />
         )}
       </View>
       {stage.kind === 'deck' && view.whyOpen ? (

@@ -1,19 +1,31 @@
 /**
  * Reactions under a message or sticker (5.01): a white 24-high chip per reaction with its critter
  * (a cropped bust) or doodle emoji, then the count. Tapping your own toggles it; holding a chip
- * shows who reacted. A chip appears or bumps on the Snappy spring.
+ * shows who reacted. A reaction added while the message is on screen pops in from 0.6 on the
+ * Lively spring (a fade under Reduce Motion); chips already there when the row mounts just sit.
  */
 import { critters, type Pose } from '@cp/critter-art';
 import { parseCritterReaction } from '@cp/domain';
 import { t } from '@lingui/core/macro';
+import * as Haptics from 'expo-haptics';
+import { useState } from 'react';
 import { View } from 'react-native';
-import Animated, { ZoomIn } from 'react-native-reanimated';
+import Animated, {
+  FadeIn,
+  withSpring,
+  withTiming,
+  type EntryExitAnimationFunction,
+} from 'react-native-reanimated';
 
 import {
   CritterSticker,
   PressableScale,
+  REDUCED_FADE,
+  REDUCED_FADE_MS,
+  SPRINGS,
   Text,
   makePremiumStyles,
+  usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
 
@@ -33,6 +45,22 @@ export function reactionCritter(
   if (critter === undefined) return null;
   return { kind: critter.kind, name: critter.name, pose: parsed.pose as Pose };
 }
+
+/** What a screen reader says for a reaction: the critter's name, or the emoji itself. */
+export function reactionLabel(key: string): string {
+  return reactionCritter(key)?.name ?? key;
+}
+
+const popIn: EntryExitAnimationFunction = () => {
+  'worklet';
+  return {
+    initialValues: { opacity: 0, transform: [{ scale: 0.6 }] },
+    animations: {
+      opacity: withTiming(1, REDUCED_FADE),
+      transform: [{ scale: withSpring(1, SPRINGS.lively) }],
+    },
+  };
+};
 
 const BUST = 20;
 
@@ -97,33 +125,48 @@ export interface ReactionChipsProps {
 export function ReactionChips({ groups, readOnly, onToggle, onShowWho }: ReactionChipsProps) {
   const th = usePremiumTheme();
   const styles = useStyles();
+  const reduced = usePremiumReducedMotion();
+  // The reactions there when this row mounted (a recycled cell mounts often): only newer ones pop.
+  const [seen] = useState<ReadonlySet<string>>(() => new Set(groups.map((group) => group.emoji)));
   if (groups.length === 0) return null;
   return (
     <View style={styles.row}>
-      {groups.map((group) => (
-        <Animated.View key={group.emoji} entering={ZoomIn.springify()}>
-          <PressableScale
-            style={[styles.chip, group.mine ? styles.mine : null]}
-            disabled={readOnly}
-            onPress={() => onToggle(group.emoji)}
-            onLongPress={onShowWho}
-            accessibilityRole="button"
-            accessibilityLabel={t({
-              id: 'chat.premium.reaction.a11y',
-              message: `${group.count} reacted`,
-            })}
-            accessibilityHint={t({
-              id: 'chat.premium.reaction.hint',
-              message: 'Tap to react, hold to see who',
-            })}
+      {groups.map((group) => {
+        const name = reactionLabel(group.emoji);
+        const count = group.count;
+        return (
+          <Animated.View
+            key={group.emoji}
+            {...(seen.has(group.emoji)
+              ? {}
+              : { entering: reduced ? FadeIn.duration(REDUCED_FADE_MS) : popIn })}
           >
-            <ReactionFace reaction={group.emoji} />
-            <Text variant="badge" color={th.color.inkSecondary}>
-              {String(group.count)}
-            </Text>
-          </PressableScale>
-        </Animated.View>
-      ))}
+            <PressableScale
+              style={[styles.chip, group.mine ? styles.mine : null]}
+              disabled={readOnly}
+              onPress={() => {
+                void Haptics.selectionAsync();
+                onToggle(group.emoji);
+              }}
+              onLongPress={onShowWho}
+              accessibilityRole="button"
+              accessibilityLabel={t({
+                id: 'chat.premium.reaction.label',
+                message: `${name} · ${count}`,
+              })}
+              accessibilityHint={t({
+                id: 'chat.premium.reaction.hint',
+                message: 'Tap to react, hold to see who',
+              })}
+            >
+              <ReactionFace reaction={group.emoji} />
+              <Text variant="badge" color={th.color.inkSecondary}>
+                {String(group.count)}
+              </Text>
+            </PressableScale>
+          </Animated.View>
+        );
+      })}
     </View>
   );
 }

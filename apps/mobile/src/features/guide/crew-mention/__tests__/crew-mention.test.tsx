@@ -3,8 +3,11 @@
  * someone else's, never one already answered) until the saved reply syncs, a spent meter becomes
  * the hint, and an offer needs an explicit confirm before a slot is claimed.
  */
+// The app's own database module loads the native driver (the claim sheet comes from the plan
+// feature); these tests run on the test stack.
+jest.mock('@/data/powersync/db', () => ({}));
 
-import { afterEach, describe, expect, it } from '@jest/globals';
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { configure, fireEvent, renderHook, screen, waitFor } from '@testing-library/react-native';
 import type { ReactNode } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';

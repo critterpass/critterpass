@@ -43,6 +43,8 @@ import { ChatOverlays, type ChatOverlay } from './chat-overlays';
 import { voicePlayback } from '../../chat/media/voice-playback';
 import { chatComposerHint } from '../../chat/slots';
 import { ChatWelcome, GuideTypingBubble } from './chat-panels';
+import { PendingUploads } from './pending-uploads';
+import { useReportMessage } from './who-reacted-sheet';
 import { chatStarters } from './chat-starters';
 import './cards/register';
 import { PremiumMessageList } from './message-list';
@@ -73,6 +75,7 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
   const markSeen = useMarkRead(crewId, info.lastReadSeq);
   const offline = useSyncPhase() === 'offline';
   const reactions = useReactions(crewId, me, timeline.window);
+  const report = useReportMessage(actions);
   const pins = usePins(crewId);
   const readBy = useReadReceipts(crewId, me);
   const left = useLeftChat(crewId);
@@ -215,6 +218,12 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
             {offline && timeline.messages.some((message) => message.status === 'sending') ? (
               <OfflineMarker />
             ) : null}
+            <PendingUploads
+              items={media.uploads}
+              online={!offline}
+              onRetry={media.retryUpload}
+              onDiscard={media.discardUpload}
+            />
             {guideReplying ? <GuideTypingBubble guideName={guideName} /> : null}
             <GuideLiveLine crewId={crewId} />
           </>
@@ -226,6 +235,9 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
 
   return (
     <View style={{ flex: 1, backgroundColor: th.color.ground }} testID="chat-screen">
+      {/* First, so a screen reader meets back and the title before the timeline; it is drawn on top
+          by its own zIndex. */}
+      <ChatHeader crewId={crewId} crewName={info.crewName} line={headerLine} />
       <ChatBottom
         list={list}
         former={former}
@@ -263,7 +275,6 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
         onSendSticker={(sticker) => composer.sendSticker(sticker.form.formId, sticker.pose)}
         onLockedSticker={(critterId) => router.push(critterRoute(critterId))}
       />
-      <ChatHeader crewId={crewId} crewName={info.crewName} line={headerLine} />
       <ChatOverlays
         crewId={crewId}
         overlay={overlay}
@@ -273,10 +284,7 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
         colourOf={colourOf}
         menuFor={menuFor}
         onReact={(messageId, reaction) => void toggleReaction(messageId, reaction)}
-        onReport={(message, reason, mute) => {
-          void actions.report(message, reason);
-          if (mute && message.senderId !== null) void actions.mute(message.senderId, true);
-        }}
+        onReport={report}
         media={media}
         onTypeInstead={() => input.current?.focus()}
       />

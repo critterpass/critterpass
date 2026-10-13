@@ -49,7 +49,7 @@ appId: app.critterpass.dev
     when:
       notVisible:
         id: 'destination-board'
-    file: ../onboarding/subflows/back.yaml
+    file: ../_shared/back.yaml
 # Cusco is on the board with no votes; a tap votes for it.
 - scrollUntilVisible:
     element:
@@ -70,7 +70,7 @@ appId: app.critterpass.dev
           when:
             visible:
               id: 'pitch-search'
-          file: ../onboarding/subflows/back.yaml
+          file: ../_shared/back.yaml
       - scrollUntilVisible:
           element:
             id: 'board-go-to-final'
@@ -101,10 +101,10 @@ appId: app.critterpass.dev
 - assertVisible: '(?i)lisbon.*'
 - waitForAnimationToEnd
 - tapOn:
-    id: 'showdown-half-0'
+    id: 'showdown-vote-0'
 - extendedWaitUntil:
     visible:
-      id: 'winner-reveal'
+      id: 'reveal'
     timeout: 60000
 - extendedWaitUntil:
     visible:

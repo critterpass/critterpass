@@ -16,4 +16,4 @@ appId: app.critterpass.dev
     when:
       visible:
         id: 'day-plan'
-    file: ../../onboarding/subflows/back.yaml
+    file: ../../_shared/back.yaml

@@ -6,9 +6,17 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
-import { Button, Icon, Text, usePremiumTheme } from '@/ui/premium';
+import {
+  Button,
+  Icon,
+  Text,
+  enterTransition,
+  exitTransition,
+  usePremiumReducedMotion,
+  usePremiumTheme,
+} from '@/ui/premium';
 
 import type { IssueCardProps } from '../../check/check-props';
 
@@ -24,13 +32,14 @@ export function FixPanel(props: {
   readonly inset?: boolean;
 }) {
   const theme = usePremiumTheme();
+  const reduced = usePremiumReducedMotion();
   const { t } = useLingui();
   const { card } = props.fix;
   const pink = theme.color.status.voteOpen;
   return (
     <Animated.View
-      entering={FadeIn}
-      exiting={FadeOut}
+      entering={enterTransition(reduced)}
+      exiting={exitTransition(reduced)}
       testID={`trip-fix-${card.id}`}
       style={{
         marginHorizontal: props.inset === false ? 0 : theme.space.gap12,

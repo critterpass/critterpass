@@ -17,6 +17,7 @@ import { confirmAlert } from '@/ui/premium/shell';
 
 import { useIsOrganiser, usePlaces } from '../../data/use-board';
 import { useCastBallot } from '../../data/use-cast-ballot';
+import { openRevealOnce } from '../../data/use-final';
 import { usePeople } from '../../data/use-people';
 import type { PollOptionView, PollView } from '../../data/poll-view';
 import {
@@ -111,7 +112,7 @@ export function DestinationBoard({ poll, me, heading = true }: DestinationBoardP
         message: "That didn't lock in. Try again in a moment.",
       }),
     );
-    if (done) router.push(voteRoutes.reveal(poll.id));
+    if (done) openRevealOnce(poll.id);
   };
 
   const askRemove = async (option: PollOptionView) => {

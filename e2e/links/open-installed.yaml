@@ -14,7 +14,7 @@ appId: app.critterpass.dev
 
 # 1. A plan link.
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://p/abcdefghijklmnop
 - extendedWaitUntil:
@@ -27,7 +27,7 @@ appId: app.critterpass.dev
 
 # 2. A guide link.
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://g/vn-da-lat
 - extendedWaitUntil:
@@ -39,7 +39,7 @@ appId: app.critterpass.dev
 
 # 3. A locals link.
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://locals/vn-da-lat
 - extendedWaitUntil:
@@ -52,7 +52,7 @@ appId: app.critterpass.dev
 
 # 4. Invite links that lead nowhere open Home.
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://i/BAX6XA
 - extendedWaitUntil:
@@ -60,7 +60,7 @@ appId: app.critterpass.dev
       id: 'dev-tools-entry'
     timeout: 30000
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://g/vn-da-lat
 - extendedWaitUntil:

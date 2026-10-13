@@ -1,0 +1,173 @@
+appId: app.critterpass.dev
+---
+# The Pass tab and the account in ${LOOK}: the profile (9.01), editing it (9.02), Settings (9.04),
+# notification settings (6.38), Your plan (9.17) and the Pass+ page (9.10). In light only, also the
+# app icon (9.03), trips saved on this phone with a removal asked and cancelled (9.05, 9.08), help
+# and the idea board (9.06, 9.07), delete account up to "hold to delete", never held (9.09), the
+# Pass+ comparison (9.11) and boosting the trip, never bought (9.12).
+- runFlow:
+    file: ../../_shared/tab.yaml
+    env:
+      TAB: pass
+      LABEL: Pass
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile'
+    timeout: 15000
+    optional: true
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '9.01'
+      NAME: profile
+      LOOK: ${LOOK}
+
+# Edit, and from it the app icon page.
+- runFlow:
+    file: ../../_shared/tap.yaml
+    env:
+      ID: 'you-profile-edit'
+      LABEL: 'Edit|Sửa'
+- extendedWaitUntil:
+    visible:
+      id: 'you-edit-fields'
+    timeout: 10000
+    optional: true
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '9.02'
+      NAME: edit-profile
+      LOOK: ${LOOK}
+- runFlow:
+    when:
+      true: ${LOOK == 'light'}
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'you-edit-app-icon'
+          direction: DOWN
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'you-edit-app-icon'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'you-app-icon'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'you-app-icon'
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '9.03'
+                  NAME: app-icon
+                  LOOK: light
+- runFlow:
+    file: ../../_shared/back-to.yaml
+    env:
+      MARK: you-profile
+
+# Settings, and notification settings from it.
+- runFlow:
+    file: ../../_shared/tap.yaml
+    env:
+      ID: 'you-profile-settings'
+      LABEL: 'Settings'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings'
+    timeout: 10000
+    optional: true
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '9.04'
+      NAME: settings
+      LOOK: ${LOOK}
+- runFlow:
+    file: pass-settings-row.yaml
+    env:
+      ROW: pings
+      MARK: you-pings
+      CODE: '6.38'
+      NAME: notifications
+      LOOK: ${LOOK}
+- runFlow:
+    when:
+      true: ${LOOK == 'light'}
+    commands:
+      - runFlow: pass-settings-light.yaml
+
+# Your plan from the Settings header, then the Pass+ page from it.
+- scrollUntilVisible:
+    element:
+      id: 'you-settings-chattiness'
+    direction: UP
+    timeout: 10000
+    optional: true
+- runFlow:
+    file: ../../_shared/tap.yaml
+    env:
+      ID: 'you-settings-plan'
+      LABEL: '(Free plan|Pass\+).*'
+- extendedWaitUntil:
+    visible:
+      id: 'plan'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'plan'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '9.17'
+            NAME: your-plan
+            LOOK: ${LOOK}
+      - tapOn:
+          id: 'plan-upgrade'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'paywall'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'paywall'
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '9.10'
+                  NAME: pass-plus
+                  LOOK: ${LOOK}
+- runFlow:
+    when:
+      visible:
+        id: 'paywall'
+      true: ${LOOK == 'light'}
+    commands:
+      - runFlow: pass-compare-boost.yaml
+- runFlow:
+    file: ../../_shared/back-to.yaml
+    env:
+      MARK: you-settings
+- runFlow:
+    file: ../../_shared/back-to.yaml
+    env:
+      MARK: you-profile
+- runFlow:
+    file: ../../_shared/tab.yaml
+    env:
+      TAB: home
+      LABEL: Home

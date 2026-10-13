@@ -6,61 +6,19 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import {
   composePair,
-  designIdOf,
   parseCompareArgs,
   planPairs,
   premiumCodeOf,
   premiumTitles,
-  RENDERS_DIR,
-  renderTitle,
+  PREMIUM_RENDERS_DIR,
   SHEET,
   writeSheets,
 } from './compare-app-screens';
 import { CliArgsError } from './e2e-cloud';
 import { createCanvas, loadImage } from './review-canvas';
 
-describe('designIdOf', () => {
-  it('finds the screen id in a screenshot name', () => {
-    expect(designIdOf('en-3a-2-name')).toBe('3a-2');
-    expect(designIdOf('vi-3a-10-invite')).toBe('3a-10');
-    expect(designIdOf('3a-9-permissions')).toBe('3a-9');
-    expect(designIdOf('en-3a-4-summary')).toBe('3a-4');
-    expect(designIdOf('dev-tools')).toBeUndefined();
-    expect(designIdOf('home')).toBeUndefined();
-  });
-});
-
 describe('planPairs', () => {
-  const renders = ['/r/3a-1_Splash.png', '/r/3a-10_Invite.png', '/r/3a-2_Your_name.png'];
-  it('pairs by id, sorted by name, and leaves screens without a render unpaired', () => {
-    expect(
-      planPairs(['/d/en-3a-2-name.png', '/d/en-3a-1-splash.png', '/d/home.png'], renders),
-    ).toEqual([
-      {
-        name: 'en-3a-1-splash',
-        device: '/d/en-3a-1-splash.png',
-        id: '3a-1',
-        design: '/r/3a-1_Splash.png',
-      },
-      {
-        name: 'en-3a-2-name',
-        device: '/d/en-3a-2-name.png',
-        id: '3a-2',
-        design: '/r/3a-2_Your_name.png',
-      },
-      { name: 'home', device: '/d/home.png', id: undefined, design: undefined },
-    ]);
-  });
-
-  it('never matches 3a-1 to 3a-10', () => {
-    expect(planPairs(['/d/en-3a-10-invite.png'], renders)[0]?.design).toBe('/r/3a-10_Invite.png');
-  });
-
-  it('titles a render from its file name', () => {
-    expect(renderTitle('/r/3a-2_Your_name.png')).toBe('3a-2 Your name');
-  });
-
-  it('pairs premium screenshots with the premium render of their code, beside legacy ones', () => {
+  it('pairs premium screenshots with the render of their code, sorted by name', () => {
     const premium = {
       files: ['/p/3.01.png', '/p/3.10.png', '/p/10.store-3.png'],
       titles: new Map([['3.01', '3.01 Home']]),
@@ -71,18 +29,23 @@ describe('planPairs', () => {
         '/d/premium-3.01-home-light.png',
         '/d/premium-10.store-3-shot.png',
         '/d/premium-4.99-unknown.png',
-        '/d/en-3a-1-splash.png',
+        '/d/home.png',
       ],
-      renders,
       premium,
     );
-    expect(pairs.map((pair) => [pair.id, pair.design, pair.title])).toEqual([
-      ['3a-1', '/r/3a-1_Splash.png', undefined],
-      ['10.store-3', '/p/10.store-3.png', '10.store-3'],
-      ['3.01', '/p/3.01.png', '3.01 Home'],
-      ['3.10', '/p/3.10.png', '3.10'],
-      ['4.99', undefined, '4.99'],
+    expect(pairs.map((pair) => [pair.name, pair.id, pair.design, pair.title])).toEqual([
+      ['home', undefined, undefined, undefined],
+      ['premium-10.store-3-shot', '10.store-3', '/p/10.store-3.png', '10.store-3'],
+      ['premium-3.01-home-light', '3.01', '/p/3.01.png', '3.01 Home'],
+      ['premium-3.10-invite-dark', '3.10', '/p/3.10.png', '3.10'],
+      ['premium-4.99-unknown', '4.99', undefined, '4.99'],
     ]);
+  });
+
+  it('never matches 3.01 to 3.010 or a legacy screen id', () => {
+    const premium = { files: ['/p/3.01.png'], titles: new Map<string, string>() };
+    expect(planPairs(['/d/en-3a-1-splash.png'], premium)[0]?.design).toBeUndefined();
+    expect(planPairs(['/d/premium-3.010-x.png'], premium)[0]?.design).toBeUndefined();
   });
 });
 
@@ -134,13 +97,14 @@ describe('sheets', { timeout: 60_000 }, () => {
   }
 
   it('puts the design and the device side by side at the same height', async () => {
-    const design = path.join(RENDERS_DIR, '3a-2_Your_name.png');
+    const design = path.join(PREMIUM_RENDERS_DIR, '2.05.png');
     const sheet = await loadImage(
       await composePair({
-        name: 'en-3a-2-name',
-        device: devicePng('en-3a-2-name'),
-        id: '3a-2',
+        name: 'premium-2.05-name-light',
+        device: devicePng('premium-2.05-name-light'),
+        id: '2.05',
         design,
+        title: '2.05 Your name',
       }),
     );
     const designImage = await loadImage(design);
@@ -151,15 +115,19 @@ describe('sheets', { timeout: 60_000 }, () => {
   });
 
   it('writes one sheet per screenshot and an index', async () => {
-    devicePng('en-3a-1-splash');
+    devicePng('premium-2.01-splash-light');
     devicePng('home');
     const out = path.join(dir, 'sheets');
     const written = await writeSheets(dir, out);
     expect(written.map((file) => path.basename(file))).toEqual([
-      'en-3a-1-splash.png',
       'home.png',
+      'premium-2.01-splash-light.png',
       'index.png',
     ]);
-    expect(readdirSync(out).sort()).toEqual(['en-3a-1-splash.png', 'home.png', 'index.png']);
+    expect(readdirSync(out).sort()).toEqual([
+      'home.png',
+      'index.png',
+      'premium-2.01-splash-light.png',
+    ]);
   });
 });

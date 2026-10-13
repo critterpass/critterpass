@@ -1,0 +1,27 @@
+appId: app.critterpass.dev
+---
+# From "Set up" (the reveal's or the trip's), on to the dates: setup opens on its checklist (4.08),
+# or straight on the When step; from the checklist the Dates row opens When. Ends on When.
+- extendedWaitUntil:
+    visible:
+      id: 'setup-checklist|setup-when-.*'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'setup-checklist'
+      notVisible:
+        id: 'setup-when-.*'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'setup-row-dates'
+          direction: DOWN
+          timeout: 10000
+          centerElement: true
+      - tapOn:
+          id: 'setup-row-dates'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-when-.*'
+    timeout: 20000
