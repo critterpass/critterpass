@@ -31,7 +31,7 @@ import {
   type SwipeDeckHandle,
 } from '@/ui/premium';
 
-import type { SwipeCardFace } from '../../use-swipe-screen';
+import type { SwipeCardFace } from '../../swipe-view-props';
 import { whyWords } from '../../components/why-words';
 import { useSwipeScreen, type SwipeScreenProps } from '../../use-swipe-screen';
 import { placeIcon } from '../../search/place-icons';

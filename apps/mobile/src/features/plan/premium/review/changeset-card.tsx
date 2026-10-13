@@ -63,7 +63,6 @@ function ChangeCard({
     return date === null
       ? null
       : new Intl.DateTimeFormat(locale, { weekday: 'short', timeZone: 'UTC' }).format(
-           
           new Date(`${date}T12:00:00Z`),
         );
   };
