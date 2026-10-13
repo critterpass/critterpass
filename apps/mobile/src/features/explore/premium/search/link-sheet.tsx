@@ -20,6 +20,7 @@ import {
   Toggle,
   usePremiumTheme,
 } from '@/ui/premium';
+import { sheetMaterialStyle } from '@/ui/premium/shell';
 
 import { fromWhere, guideReadLine, stopLine } from '../../search/link-copy';
 import type { LinkSheetProps } from '../../search/link-sheet';
@@ -41,6 +42,8 @@ export function PremiumLinkSheet(props: LinkSheetProps) {
   const author = source?.author ?? null;
   return (
     <ScrollView
+      // The native form sheet is see-through: its material is drawn here.
+      style={[{ flex: 1 }, sheetMaterialStyle(theme)]}
       contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}
       testID="search-link-sheet"
     >
