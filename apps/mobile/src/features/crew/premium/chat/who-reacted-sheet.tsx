@@ -5,10 +5,12 @@
  */
 import { REPORT_REASONS, type ReportReason } from '@cp/domain';
 import { t } from '@lingui/core/macro';
+import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
-import { View } from 'react-native';
+import { ScrollView, View, useWindowDimensions } from 'react-native';
 
-import { Avatar, Button, Checkbox, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { shortName } from '@/lib/people/member-name';
+import { Avatar, Button, Icon, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
 import { reasonLabel } from '../../chat/components/report-reasons';
 import type { ReactionGroup } from '../../chat/data/use-reactions';
@@ -25,6 +27,7 @@ export function WhoReactedSheet({
   readonly onClose: () => void;
 }) {
   const th = usePremiumTheme();
+  const window = useWindowDimensions();
   const rows = groups.flatMap((group) =>
     group.users.map((user) => ({ ...user, reaction: group.emoji })),
   );
@@ -33,23 +36,25 @@ export function WhoReactedSheet({
       <Text variant="title" style={{ paddingVertical: th.space.gap12 }}>
         {t({ id: 'chat.premium.who.title', message: 'Reactions' })}
       </Text>
-      {rows.map((row) => (
-        <View
-          key={`${row.uid}:${row.reaction}`}
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: th.space.gap12,
-            paddingVertical: th.space.gap8,
-          }}
-        >
-          <Avatar name={row.name ?? ''} color={colourOf(row.uid)} size={32} />
-          <Text variant="rowTitle" style={{ flex: 1 }}>
-            {row.name ?? t({ id: 'chat.premium.who.former', message: 'Former member' })}
-          </Text>
-          <ReactionFace reaction={row.reaction} size={28} />
-        </View>
-      ))}
+      <ScrollView style={{ maxHeight: window.height * 0.6 }} bounces={false}>
+        {rows.map((row) => (
+          <View
+            key={`${row.uid}:${row.reaction}`}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: th.space.gap12,
+              paddingVertical: th.space.gap8,
+            }}
+          >
+            <Avatar name={row.name ?? ''} color={colourOf(row.uid)} size={32} />
+            <Text variant="rowTitle" style={{ flex: 1 }}>
+              {row.name ?? t({ id: 'chat.premium.who.former', message: 'Former member' })}
+            </Text>
+            <ReactionFace reaction={row.reaction} size={28} />
+          </View>
+        ))}
+      </ScrollView>
     </ChatSheet>
   );
 }
@@ -66,6 +71,8 @@ export function ReportSheet({
   const th = usePremiumTheme();
   const [reason, setReason] = useState<ReportReason | null>(null);
   const [mute, setMute] = useState(false);
+  const name = shortName(senderName);
+  const muteLabel = t({ id: 'chat.premium.report.mute', message: `Also mute ${name}` });
   return (
     <ChatSheet onClose={onClose} testID="chat-report">
       <Text variant="title" style={{ paddingTop: th.space.gap12 }}>
@@ -81,8 +88,12 @@ export function ReportSheet({
         <PressableScale
           key={value}
           pressedScale={1}
-          onPress={() => setReason(value)}
+          onPress={() => {
+            void Haptics.selectionAsync();
+            setReason(value);
+          }}
           accessibilityRole="radio"
+          accessibilityLabel={reasonLabel(value)}
           accessibilityState={{ selected: reason === value }}
           style={{
             flexDirection: 'row',
@@ -92,34 +103,30 @@ export function ReportSheet({
           }}
           testID={`chat-report-${value}`}
         >
-          <Checkbox
-            checked={reason === value}
-            accessibilityLabel={reasonLabel(value)}
-            onChange={() => setReason(value)}
-          />
+          <RadioMark on={reason === value} />
           <Text variant="rowText">{reasonLabel(value)}</Text>
         </PressableScale>
       ))}
-      <View
+      <PressableScale
+        pressedScale={1}
+        onPress={() => {
+          void Haptics.selectionAsync();
+          setMute((on) => !on);
+        }}
+        accessibilityRole="checkbox"
+        accessibilityLabel={muteLabel}
+        accessibilityState={{ checked: mute }}
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           gap: th.space.gap12,
           paddingVertical: th.space.gap8,
         }}
+        testID="chat-report-mute"
       >
-        <Checkbox
-          checked={mute}
-          accessibilityLabel={t({
-            id: 'chat.premium.report.mute',
-            message: `Also mute ${senderName}`,
-          })}
-          onChange={setMute}
-        />
-        <Text variant="rowText">
-          {t({ id: 'chat.premium.report.mute', message: `Also mute ${senderName}` })}
-        </Text>
-      </View>
+        <CheckMark on={mute} />
+        <Text variant="rowText">{muteLabel}</Text>
+      </PressableScale>
       <Button
         variant="destructive"
         label={t({ id: 'chat.premium.report.send', message: 'Report' })}
@@ -132,5 +139,59 @@ export function ReportSheet({
         testID="chat-report-send"
       />
     </ChatSheet>
+  );
+}
+
+/** A single choice's mark: a grey ring, an ink ring round an ink dot when picked. */
+function RadioMark({ on }: { readonly on: boolean }) {
+  const th = usePremiumTheme();
+  const side = th.size.checkbox;
+  return (
+    <View
+      style={{
+        width: side,
+        height: side,
+        borderRadius: side / 2,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: th.size.checkboxBorder,
+        borderColor: on ? th.color.ink : th.color.outlineEmpty,
+      }}
+    >
+      {on ? (
+        <View
+          style={{
+            width: side / 2,
+            height: side / 2,
+            borderRadius: side / 4,
+            backgroundColor: th.color.ink,
+          }}
+        />
+      ) : null}
+    </View>
+  );
+}
+
+/** The kit checkbox's look, drawn inside a row that is itself the control. */
+function CheckMark({ on }: { readonly on: boolean }) {
+  const th = usePremiumTheme();
+  const side = th.size.checkbox;
+  return (
+    <View
+      style={{
+        width: side,
+        height: side,
+        borderRadius: side / 2,
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...(on
+          ? { backgroundColor: th.color.ink }
+          : { borderWidth: th.size.checkboxBorder, borderColor: th.color.outlineEmpty }),
+      }}
+    >
+      {on ? (
+        <Icon name="check" size={th.size.checkboxGlyph} color={th.color.onInk} stroke={3.4} />
+      ) : null}
+    </View>
   );
 }

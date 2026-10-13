@@ -19,7 +19,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useSessionUid } from '@/data/powersync/use-session-uid';
 import { useSyncPhase } from '@/data/status/use-sync-status';
-import { usePremiumTheme } from '@/ui/premium';
+import { usePremiumTheme, useToast } from '@/ui/premium';
 
 import { critterRoute } from '@/features/critters';
 import { crewInviteRoute } from '../../crews-sheet/routes';
@@ -73,6 +73,7 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
   const markSeen = useMarkRead(crewId, info.lastReadSeq);
   const offline = useSyncPhase() === 'offline';
   const reactions = useReactions(crewId, me, timeline.window);
+  const toast = useToast();
   const pins = usePins(crewId);
   const readBy = useReadReceipts(crewId, me);
   const left = useLeftChat(crewId);
@@ -226,6 +227,9 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
 
   return (
     <View style={{ flex: 1, backgroundColor: th.color.ground }} testID="chat-screen">
+      {/* First, so a screen reader meets back and the title before the timeline; it is drawn on top
+          by its own zIndex. */}
+      <ChatHeader crewId={crewId} crewName={info.crewName} line={headerLine} />
       <ChatBottom
         list={list}
         former={former}
@@ -263,7 +267,6 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
         onSendSticker={(sticker) => composer.sendSticker(sticker.form.formId, sticker.pose)}
         onLockedSticker={(critterId) => router.push(critterRoute(critterId))}
       />
-      <ChatHeader crewId={crewId} crewName={info.crewName} line={headerLine} />
       <ChatOverlays
         crewId={crewId}
         overlay={overlay}
@@ -274,7 +277,25 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
         menuFor={menuFor}
         onReact={(messageId, reaction) => void toggleReaction(messageId, reaction)}
         onReport={(message, reason, mute) => {
-          void actions.report(message, reason);
+          void actions.report(message, reason).then((result) => {
+            if (result.kind === 'rejected') {
+              toast.show({
+                kind: 'error',
+                message: t({
+                  id: 'chat.premium.report.failed',
+                  message: 'That report didn’t go through. Try again?',
+                }),
+              });
+              return;
+            }
+            toast.show({
+              kind: 'done',
+              message: t({
+                id: 'chat.premium.report.done',
+                message: 'Reported. Thanks for telling us.',
+              }),
+            });
+          });
           if (mute && message.senderId !== null) void actions.mute(message.senderId, true);
         }}
         media={media}

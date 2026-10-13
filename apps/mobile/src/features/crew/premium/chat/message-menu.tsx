@@ -2,18 +2,29 @@
  * Holding a message (5.04) or a sticker (5.09): the chat dims behind a frost, the message lifts in
  * place (a bubble to 1.03, a sticker grows to 150), a reaction bar sits above it (five doodles and
  * "more" for a message, six critters for a sticker) and a glass menu below it. Everything comes in
- * on the Snappy spring and leaves on Smooth; Reduce Motion fades. Tapping outside closes it.
+ * on the Snappy spring from 0.9 and leaves on a fade; Reduce Motion fades. Tapping outside closes
+ * it. A message taller than 40% of the screen lifts only its top, so the menu always stays on screen.
  */
 import { critterReactionKey, DOODLE_REACTIONS } from '@cp/domain';
 import { t } from '@lingui/core/macro';
-import { useState } from 'react';
+import * as Haptics from 'expo-haptics';
+import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
-import Animated, { FadeIn, FadeOut, ZoomIn } from 'react-native-reanimated';
+import Animated, {
+  FadeIn,
+  FadeOut,
+  withSpring,
+  withTiming,
+  type EntryExitAnimationFunction,
+} from 'react-native-reanimated';
 
 import {
   GlassSurface,
   Icon,
   PressableScale,
+  REDUCED_FADE,
+  REDUCED_FADE_MS,
+  SPRINGS,
   Text,
   makePremiumStyles,
   usePremiumReducedMotion,
@@ -24,7 +35,7 @@ import {
 import type { ReactionGroup } from '../../chat/data/use-reactions';
 import { CHAT_PAINT } from '../premium-paint';
 import type { MessageAnchor } from './message-row';
-import { ReactionFace } from './reaction-chips';
+import { ReactionFace, reactionLabel } from './reaction-chips';
 
 /** The sticker bar's critters: Tokek cheering and thinking, Pon, the sardine, the puffin, Tokek asleep. */
 export const STICKER_BAR = [
@@ -45,6 +56,8 @@ export interface MenuAction {
 }
 
 const MENU_WIDTH = 250;
+/** The lifted message takes at most this share of the screen's height. */
+const PREVIEW_SHARE = 0.4;
 const BAR_HEIGHT = 54;
 const ROW = 48;
 
@@ -91,6 +104,37 @@ export interface MessageMenuProps {
   readonly onClose: () => void;
 }
 
+/** Rises from 0.9 on the Snappy spring while it fades in. */
+const popIn: EntryExitAnimationFunction = () => {
+  'worklet';
+  return {
+    initialValues: { opacity: 0, transform: [{ scale: 0.9 }] },
+    animations: {
+      opacity: withTiming(1, REDUCED_FADE),
+      transform: [{ scale: withSpring(1, SPRINGS.snappy) }],
+    },
+  };
+};
+
+/** Where the lifted message sits, and how much of it shows, so the bar and the menu fit too. */
+export function menuPlacement(input: {
+  readonly anchorY: number;
+  readonly anchorHeight: number;
+  readonly lift: number;
+  readonly menuHeight: number;
+  readonly windowHeight: number;
+}): { readonly top: number; readonly liftedHeight: number } {
+  const liftedHeight = Math.min(
+    input.anchorHeight * input.lift,
+    input.windowHeight * PREVIEW_SHARE,
+  );
+  const top = Math.max(
+    110,
+    Math.min(input.anchorY, input.windowHeight - liftedHeight - input.menuHeight - 140),
+  );
+  return { top, liftedHeight };
+}
+
 export function MessageMenu(props: MessageMenuProps) {
   const th = usePremiumTheme();
   const styles = useStyles();
@@ -99,23 +143,31 @@ export function MessageMenu(props: MessageMenuProps) {
   const [more, setMore] = useState(false);
   const { anchor } = props;
   const lift = props.sticker ? 150 / 112 : 1.03;
-  const liftedHeight = anchor.height * lift;
   const menuHeight =
     ROW * (props.actions.length + props.destructive.length) +
     (props.destructive.length > 0 ? 6 : 0);
   // Keep the bar, the lifted message and the menu on screen together.
-  const top = Math.max(110, Math.min(anchor.y, window.height - liftedHeight - menuHeight - 140));
+  const { top, liftedHeight } = menuPlacement({
+    anchorY: anchor.y,
+    anchorHeight: anchor.height,
+    lift,
+    menuHeight,
+    windowHeight: window.height,
+  });
+  useEffect(() => {
+    void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  }, []);
   const left = props.mine ? undefined : 16;
   const right = props.mine ? 16 : undefined;
   const mine = new Set(props.reactions.filter((group) => group.mine).map((group) => group.emoji));
   const choices: readonly string[] = props.sticker || more ? STICKER_BAR : DOODLE_REACTIONS;
-  const enter = reduced ? FadeIn.duration(150) : ZoomIn.springify();
+  const enter = reduced ? FadeIn.duration(REDUCED_FADE_MS) : popIn;
 
   return (
     <Animated.View
       style={StyleSheet.absoluteFill}
-      entering={FadeIn.duration(150)}
-      exiting={FadeOut.duration(150)}
+      entering={FadeIn.duration(REDUCED_FADE_MS)}
+      exiting={FadeOut.duration(REDUCED_FADE_MS)}
       testID="chat-message-menu"
     >
       <Pressable
@@ -143,10 +195,12 @@ export function MessageMenu(props: MessageMenuProps) {
               mine.has(reaction) ? { backgroundColor: CHAT_PAINT.myReaction } : null,
             ]}
             onPress={() => {
+              void Haptics.selectionAsync();
               props.onReact(reaction);
               props.onClose();
             }}
             accessibilityRole="button"
+            accessibilityLabel={reactionLabel(reaction)}
             accessibilityState={{ selected: mine.has(reaction) }}
             testID={`chat-react-${reaction}`}
           >
@@ -171,6 +225,8 @@ export function MessageMenu(props: MessageMenuProps) {
           top,
           left: props.mine ? undefined : anchor.x,
           right: props.mine ? window.width - anchor.x - anchor.width : undefined,
+          maxHeight: liftedHeight / lift,
+          overflow: 'hidden',
           transform: [{ scale: lift }],
           // eslint-disable-next-line lingui/no-unlocalized-strings -- style keywords, never copy.
           transformOrigin: props.mine ? 'top right' : 'top left',

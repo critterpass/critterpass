@@ -2,18 +2,20 @@
  * The chat's lower half (5.01, 5.06, 5.08): the timeline above, then the composer riding the
  * keyboard, and under it either the keyboard's space, the sticker tray at the keyboard's height, or
  * the home-indicator inset. The timeline shrinks with whichever is up, so the newest message stays
- * just above the composer. A member who left gets the read-only bar instead of the composer.
+ * just above the composer. A member who left gets the read-only bar instead of the composer. The
+ * keyboard's frames stay on the UI thread: the tray learns the keyboard's height once it settles.
  */
 import { t } from '@lingui/core/macro';
 import { useState, type ReactNode, type RefObject, type ComponentRef } from 'react';
 import { View, type TextInput } from 'react-native';
 import Animated, {
-  runOnJS,
   useAnimatedReaction,
   useAnimatedStyle,
+  useSharedValue,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { REDUCED_FADE, SPRINGS, makePremiumStyles, usePremiumReducedMotion } from '@/ui/premium';
@@ -81,24 +83,30 @@ export function ChatBottom({ inputRef, ...props }: ChatBottomProps) {
   const styles = useStyles();
   const insets = useSafeAreaInsets();
   const reduced = usePremiumReducedMotion();
-  const keyboard = useKeyboardFrame().height;
+  const frame = useKeyboardFrame();
+  const keyboard = frame.height;
   const [trayHeight, setTrayHeight] = useState(DEFAULT_TRAY);
+  const tray = useSharedValue(DEFAULT_TRAY);
   const { composer } = props;
-  // The tray takes the height the keyboard last had, so swapping one for the other never jumps.
+  // The tray takes the height the keyboard had once it was fully up, so swapping one for the other
+  // never jumps. Only the settled height reaches React: one render per keyboard, not per frame.
   useAnimatedReaction(
-    () => keyboard.value,
+    () => (frame.progress.get() >= 1 ? keyboard.get() : 0),
     (height, previous) => {
-      if (height > KEYBOARD_MIN && height !== previous) runOnJS(setTrayHeight)(height);
+      if (height > KEYBOARD_MIN && height !== previous && height !== tray.get()) {
+        tray.set(height);
+        scheduleOnRN(setTrayHeight, height);
+      }
     },
   );
   const open = composer.trayOpen;
   const space = useAnimatedStyle(() => {
-    const target = Math.max(keyboard.value, open ? trayHeight : insets.bottom);
-    if (keyboard.value > 0) return { height: target };
+    const target = Math.max(keyboard.get(), open ? tray.get() : insets.bottom);
+    if (keyboard.get() > 0) return { height: target };
     return {
       height: reduced ? withTiming(target, REDUCED_FADE) : withSpring(target, SPRINGS.smooth),
     };
-  }, [open, trayHeight, insets.bottom, reduced]);
+  }, [open, insets.bottom, reduced]);
 
   const strip =
     composer.editing !== null ? (
