@@ -19,7 +19,7 @@ export interface PasteButtonProps {
  * The premium paste control: a kit pill that reads the clipboard only when tapped (never before).
  * It replaces the system paste control (`ClipboardPasteButton`), whose colours React Native's view
  * layer takes for its own background: it drew a rectangle in the screen's colour around a
- * system-blue capsule. iOS may ask once whether the app can paste.
+ * system-blue capsule. iOS shows its own "Allow Paste" prompt until the person allows pasting.
  */
 export function PasteButton({
   label,
