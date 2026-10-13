@@ -9,7 +9,7 @@ import { useMemo, useState } from 'react';
 
 import { useChangeset, useChangesetActions } from '@/features/plan';
 
-import { costLine } from '../chat/components/plan-card';
+import { costLine } from '../chat/data/use-plan-card';
 import { toPlanCard, type PlanCardModel } from '../chat/data/use-plan-card';
 import { groupStatus, voiceSwaps, type VoiceProposals } from './voice-swaps';
 

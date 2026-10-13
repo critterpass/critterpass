@@ -10,7 +10,7 @@ import { View } from 'react-native';
 
 import { Skeleton, TextButton, usePremiumTheme } from '@/ui/premium';
 
-import { liveQuestionSaved, liveSettled } from '../chat/components/guide-conversation';
+import { liveQuestionSaved, liveSettled } from '../chat/data/turn-state';
 import type { WaitingQuestion } from '../chat/data/guide-question-queue';
 import type { SavedGuideMessage } from '../chat/data/use-guide-thread';
 import type { LiveTurn } from '../chat/data/use-guide-turn';

@@ -13,7 +13,7 @@ import { guideColour, guideSticker } from '@/ui/avatar/guides';
 import { TypingDots } from '@/ui/chat/TypingDots';
 import { Sticker } from '@/ui/sticker/Sticker';
 
-import { guideAvatarId } from '../chat/components/guide-header';
+import { guideAvatarId } from '../chat/data/guide-avatar';
 import { useLiveQuery } from '../chat/data/live-rows';
 import { isSpent, untilReset } from '../meter/meter-model';
 import { useGuideMeter, useMinute } from '../meter/use-guide-meter';

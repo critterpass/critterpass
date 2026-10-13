@@ -27,7 +27,7 @@ function deviceSpeech(): PracticeScreenProps['speech'] {
  * that is switched on. `lang` picks the language and `text` the phrase to start on (the card the
  * person came from).
  */
-function usePracticeProps(): PracticeScreenProps {
+function usePracticeProps(): Omit<PracticeScreenProps, 'View' | 'CardView' | 'waiting'> {
   const params = useLocalSearchParams<{ tripId?: string; lang?: string; text?: string }>();
   const speech = useMemo(() => deviceSpeech(), []);
   const given = (value: string | undefined) =>

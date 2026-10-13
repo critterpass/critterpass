@@ -23,7 +23,6 @@ import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
-import { SessionWaiting } from '@/ui/states/SessionWaiting';
 
 import { useLiveQuery } from '../chat/data/live-rows';
 import { useGuideContext } from '../chat/data/use-guide-context';
@@ -44,7 +43,7 @@ import {
   type PracticePhrase,
   type PracticeState,
 } from './practice-model';
-import { PracticeView, type PracticeViewProps } from './practice-view';
+import type { PracticeLists } from './practice-model';
 
 export const recordPhrasePracticeCommand = defineClientCommand<
   PracticeRecord & { readonly trip_id: string | null }
@@ -99,21 +98,17 @@ export interface PracticeScreenProps {
   readonly startText: string | null;
   /** Null in a build without the speech module: practice counts by "I said it" only. */
   readonly speech: Pick<VoiceSpeech, 'listen' | 'endSession'> | null;
-  /** The page's drawing; the current look unless a premium route passes its own. */
-  readonly View?: ComponentType<PracticeViewProps>;
+  /** The page's drawing. */
+  readonly View: ComponentType<PracticeViewProps>;
   /** The phrase card's drawing, with the page's. */
-  readonly CardView?: ComponentType<PhraseCardViewProps>;
-  /** Shown while the session opens; the current look's waiting page by default. */
-  readonly waiting?: ReactNode;
+  readonly CardView: ComponentType<PhraseCardViewProps>;
+  /** Shown while the session opens. */
+  readonly waiting: ReactNode;
 }
 
 export function PracticeScreen(props: PracticeScreenProps) {
   const localFirst = useContext(LocalFirstContext);
-  return localFirst === null ? (
-    (props.waiting ?? <SessionWaiting testID="guide-practice-waiting" />)
-  ) : (
-    <OpenPracticeScreen {...props} />
-  );
+  return localFirst === null ? props.waiting : <OpenPracticeScreen {...props} />;
 }
 
 function OpenPracticeScreen({
@@ -121,7 +116,7 @@ function OpenPracticeScreen({
   language,
   startText,
   speech,
-  View = PracticeView,
+  View,
   CardView,
 }: PracticeScreenProps) {
   const context = useGuideContext(tripId);
@@ -226,7 +221,7 @@ function OpenPracticeScreen({
             gloss={phrase.gloss}
             audioKey={phrase.audioKey}
             testID="guide-practice-card"
-            {...(CardView === undefined ? {} : { View: CardView })}
+            View={CardView}
           />
         )
       }
@@ -250,4 +245,30 @@ function OpenPracticeScreen({
       onOpenSettings={() => void openPermissionSettings('microphone')}
     />
   );
+}
+
+export interface PracticeViewProps {
+  readonly guideName: string;
+  readonly lists: PracticeLists;
+  /** The phrase being practised; null when the trip has no phrases yet. */
+  readonly current: PracticePhrase | null;
+  /** The current phrase's card, with its play button. */
+  readonly card: ReactNode;
+  readonly state: PracticeState;
+  /** The pronunciation check is on. */
+  readonly checking: boolean;
+  /** The check was turned on without the voice consent: the question shows under the switch. */
+  readonly consent: {
+    readonly onAgree: () => void;
+    readonly onNotNow: () => void;
+    /** The yes is on its way to the server, or waiting for a connection to go. */
+    readonly pending?: 'sending' | 'needs_connection' | null;
+  } | null;
+  readonly onChecking: (on: boolean) => void;
+  readonly onPick: (id: string) => void;
+  readonly onListen: () => void;
+  readonly onCheck: () => void;
+  readonly onSaid: () => void;
+  readonly onNext: () => void;
+  readonly onOpenSettings?: () => void;
 }

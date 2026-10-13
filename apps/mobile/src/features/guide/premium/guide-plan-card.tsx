@@ -23,7 +23,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { costLine, outcomeOf } from '../chat/components/plan-card';
+import { costLine, outcomeOf } from '../chat/data/use-plan-card';
 import { usePlanCard, type PlanSwap } from '../chat/data/use-plan-card';
 
 const useStyles = makePremiumStyles((th) => ({

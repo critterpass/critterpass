@@ -28,15 +28,13 @@ import { goBackOr } from '@/lib/navigation/back';
 import { usePermission } from '@/lib/permissions';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { guideSticker } from '@/ui/avatar/guides';
-import { SessionWaiting } from '@/ui/states/SessionWaiting';
-import { Sticker } from '@/ui/sticker/Sticker';
+import { CritterSticker, LoadingCritter } from '@/ui/premium';
 
-import { guideAvatarId } from '../chat/components/guide-header';
+import { guideAvatarId } from '../chat/data/guide-avatar';
 import { GuideStreamError } from '../chat/data/guide-frames';
 import { handToSheet } from '../chat/data/handed-question';
 import { streamGuide } from '../chat/data/guide-stream';
 import { useGuideContext } from '../chat/data/use-guide-context';
-import { CameraView, type CameraViewProps, type MenuFollowUp } from './camera-view';
 import { MenuCamera } from './menu-camera';
 import { showModeHref } from '../phrases/phrase-card';
 import { languagePair, useLanguageNames } from './menu-language';
@@ -60,6 +58,7 @@ import {
   type RecognisedStill,
 } from './menu-scan-controller';
 import { menuCameraModule } from './vision-camera';
+import type { MenuFollowUp, CameraViewProps } from './camera-view-props';
 
 /** `POST /v1/camera/menu` as an event stream: the dishes as they arrive, closed by `done`. */
 async function readMenuOnServer(
@@ -92,16 +91,20 @@ export interface CameraScreenProps {
   readonly fromSheet?: boolean;
   /** The phone's text recognition; null in a build without it. */
   readonly recognize: ((uri: string) => Promise<RecognisedStill>) | null;
-  /** The view that draws the camera (the premium one takes the same props). */
-  readonly View?: ComponentType<CameraViewProps>;
+  /** The view that draws the camera. */
+  readonly View: ComponentType<CameraViewProps>;
   /** The look's own pre-permission state; without it the camera asks once the screen is up. */
   readonly renderAsk?: (allow: () => void, asking: boolean, guideName: string) => ReactNode;
 }
 
 export function CameraScreen(props: CameraScreenProps) {
+  const { t } = useLingui();
   const localFirst = useContext(LocalFirstContext);
   return localFirst === null ? (
-    <SessionWaiting testID="guide-camera-waiting" />
+    <LoadingCritter
+      label={t({ id: 'guide.camera.waiting', message: 'Getting the camera ready' })}
+      testID="guide-camera-waiting"
+    />
   ) : (
     <OpenCameraScreen {...props} />
   );
@@ -111,7 +114,7 @@ function OpenCameraScreen({
   tripId,
   mode = null,
   fromSheet = false,
-  View = CameraView,
+  View,
   recognize,
   renderAsk,
 }: CameraScreenProps) {
@@ -236,7 +239,7 @@ function OpenCameraScreen({
   return (
     <View
       guideName={context.guideName}
-      sticker={<Sticker kind={sticker.kind} name={sticker.name} size={48} />}
+      sticker={<CritterSticker kind={sticker.kind} name={sticker.name} size={48} />}
       state={state}
       camera={
         camera === null || state.issue === 'no_camera' || state.issue === 'camera_denied' ? null : (

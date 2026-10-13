@@ -1,64 +1,21 @@
 /**
- * Guide lab scenes for phrase practice: ready with the check off ("I said it"), the check on and
- * listening, a miss with the guide's tip, a practice that went well, the voice consent asked under
- * the switch, a phrase card that offers practice (the way in from a card), the microphone refused,
- * offline, and a trip with no phrases yet.
+ * Phrase practice for the practice suites: the trip's phrases, and the premium practice page in
+ * each state (ready with the check off, listening, a miss with the guide's tip, a pass, the voice
+ * consent asked under the switch, the microphone refused, offline, and no phrases yet).
  */
-/* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+/* eslint-disable lingui/no-unlocalized-strings -- fixture values, never copy. */
 import type { ReactNode } from 'react';
 
-import { Scaffold, Stack, Text, makeStyles, useTheme } from '@/ui';
-import { BackEyebrow } from '@/ui/shell/BackEyebrow';
-
-import { PhraseCardView } from '../../phrases/phrase-card';
+import { PremiumPhraseCardView } from '../../premium/practice/phrase-card-view';
+import { PremiumPracticeView } from '../../premium/practice/practice-view';
 import {
   practiceLists,
   PRACTICE_READY,
   type PracticePhrase,
   type PracticeState,
 } from '../practice-model';
-import { PracticeView } from '../practice-view';
 
 const noop = () => undefined;
-
-const useStyles = makeStyles((t) => ({
-  card: { padding: t.size.gutter, paddingTop: t.space['12'] },
-}));
-
-/** A phrase card somewhere in the app, with the link into practice under it. */
-function CardWithPractise() {
-  const styles = useStyles();
-  const theme = useTheme();
-  return (
-    <Scaffold edges={['top', 'bottom']} style={styles.card}>
-      <Stack gap="16">
-        <BackEyebrow label="Guide lab" testID="guide-lab-card-back" />
-        <Text variant="h1" singleLine={false}>
-          A PHRASE CARD
-        </Text>
-        <Text variant="bodyLg" color={theme.semantic.text.secondary}>
-          A phrase the guide deals into a plan or an answer. Play it, show it to someone, or
-          practise saying it.
-        </Text>
-        <PhraseCardView
-          phrase="Cảm ơn nhiều"
-          lang="vi"
-          gloss="Thank you very much"
-          playerState="idle"
-          onPlay={noop}
-          onPractise={noop}
-        />
-        <PhraseCardView
-          phrase="Tính tiền giúp em"
-          lang="vi"
-          gloss="The bill, please"
-          playerState="idle"
-          onPlay={noop}
-        />
-      </Stack>
-    </Scaffold>
-  );
-}
 
 const phrase = (id: string, text: string, gloss: string): PracticePhrase => ({
   id,
@@ -94,13 +51,13 @@ function Scene({
 }) {
   const shown = phrases.find((entry) => entry.id === current) ?? null;
   return (
-    <PracticeView
+    <PremiumPracticeView
       guideName="Ngựa"
       lists={practiceLists(phrases, new Set(learned))}
       current={shown}
       card={
         shown === null ? null : (
-          <PhraseCardView
+          <PremiumPhraseCardView
             phrase={shown.text}
             lang={shown.language}
             gloss={shown.gloss}
@@ -142,7 +99,6 @@ export const PRACTICE_SCENES: Readonly<Record<string, () => ReactNode>> = {
     <Scene checking learned={['hello', 'thanks']} state={{ phase: 'ok', heard: 'Cảm ơn nhiều' }} />
   ),
   'practice-consent': () => <Scene checking consent />,
-  'practice-from-card': () => <CardWithPractise />,
   'practice-mic-denied': () => <Scene checking state={{ issue: 'mic_denied' }} />,
   'practice-offline': () => <Scene checking state={{ issue: 'offline' }} />,
   'practice-empty': () => <Scene phrases={[]} learned={[]} />,

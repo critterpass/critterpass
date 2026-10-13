@@ -7,6 +7,8 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire codes, never copy. */
 import type { GuideFrame } from './guide-frames';
+import type { SavedGuideMessage } from './use-guide-thread';
+import type { LiveTurn } from './use-guide-turn';
 
 export interface GuideUsage {
   readonly used: number;
@@ -125,4 +127,25 @@ export function failTurn(state: TurnState, code: string | null, retryable: boole
 export function sourceLabel(url: string): string {
   const host = /^[a-z]+:\/\/([^/?#]+)/iu.exec(url)?.[1] ?? url;
   return host.replace(/^www\./iu, '');
+}
+
+/** Whether the live turn is already in the saved thread (its answer synced down). */
+export function liveSettled(live: LiveTurn, messages: readonly SavedGuideMessage[]): boolean {
+  if (live.state.phase !== 'done') return false;
+  const text = live.state.text.trim();
+  return messages.some((message) => message.role === 'guide' && message.text.trim() === text);
+}
+
+/**
+ * Whether the live turn's question is already in the saved thread: a saved question with the same
+ * words that no answer follows yet. The same words asked and answered earlier are another turn,
+ * so asking a question again still shows it.
+ */
+export function liveQuestionSaved(live: LiveTurn, messages: readonly SavedGuideMessage[]): boolean {
+  for (let index = messages.length - 1; index >= 0; index -= 1) {
+    const message = messages[index];
+    if (message === undefined || message.role === 'guide') return false;
+    if (message.text === live.question) return true;
+  }
+  return false;
 }

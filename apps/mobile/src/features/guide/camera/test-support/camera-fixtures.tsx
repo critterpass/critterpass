@@ -1,20 +1,14 @@
 /**
- * Guide lab scenes for point and ask (3j-3) over a drawn menu: before a scan, reading, the menu
- * read with a clash and the crew's chips, the order card with two dishes picked, a menu read with
- * nobody's flags to check, and each way a
- * scan stops short (no camera, camera refused, no writing found, offline, questions spent, the
- * reading failed).
+ * Point and ask over a drawn menu, for the camera suites: the menu's lines and its reading, and
+ * the premium camera page in each state a scan goes through (aiming, reading, read with a clash,
+ * the order card open, read with nobody's flags, and each way a scan stops short).
  */
-/* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+/* eslint-disable lingui/no-unlocalized-strings -- fixture values, never copy. */
 import type { ReactNode } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
-import { Text, useTheme } from '@/ui';
-import { guideSticker } from '@/ui/avatar/guides';
-import { Sticker } from '@/ui/sticker/Sticker';
-import { Hatch } from '@/ui/textures/hatch';
-
-import { CameraView, type MenuFollowUp } from '../camera-view';
+import { PremiumCameraScene } from '../../premium/camera/camera-scene';
+import type { MenuFollowUp } from '../camera-view-props';
 import {
   MENU_AIMING,
   menuStickers,
@@ -27,8 +21,7 @@ import {
 
 const noop = () => undefined;
 
-export const MENU_STILL: MenuStill = { uri: 'lab://menu', width: 900, height: 720 };
-
+export const MENU_STILL: MenuStill = { uri: 'test://menu', width: 900, height: 720 };
 export const MENU_LINES: readonly MenuLine[] = [
   { id: 'l0', text: 'QUÁN BÀ NĂM', bbox: [0.2, 0.08, 0.6, 0.1] },
   { id: 'l1', text: 'Bánh xèo 45k', bbox: [0.08, 0.26, 0.84, 0.09] },
@@ -88,30 +81,6 @@ const FOLLOW_UPS: readonly MenuFollowUp[] = [
   { id: 'split', label: 'Split the bill', onPress: noop },
 ];
 
-/** The menu as a sheet of paper, each line where its box says it is. */
-function DrawnMenu() {
-  const theme = useTheme();
-  return (
-    <View style={[StyleSheet.absoluteFill, { backgroundColor: theme.color.paper.base }]}>
-      {MENU_LINES.map((line) => (
-        <View
-          key={line.id}
-          style={{
-            position: 'absolute',
-            left: `${line.bbox[0] * 100}%`,
-            top: `${line.bbox[1] * 100}%`,
-            width: `${line.bbox[2] * 100}%`,
-          }}
-        >
-          <Text variant={line.id === 'l0' ? 'title' : 'bodyLg'} color={theme.color.paper.ink}>
-            {line.text}
-          </Text>
-        </View>
-      ))}
-    </View>
-  );
-}
-
 function Scene({
   state,
   order,
@@ -119,15 +88,13 @@ function Scene({
   readonly state: Partial<MenuScanState>;
   readonly order?: MenuOrder;
 }) {
-  const theme = useTheme();
-  const sticker = guideSticker('tokek');
   return (
-    <CameraView
+    <PremiumCameraScene
       guideName="Ngựa"
-      sticker={<Sticker kind={sticker.kind} name={sticker.name} size={48} />}
+      sticker={null}
       state={{ ...MENU_AIMING, ...state }}
-      camera={<Hatch baseColor={theme.color.ink['930']} />}
-      still={<DrawnMenu />}
+      camera={null}
+      still={<View />}
       followUps={FOLLOW_UPS}
       languages={state.reading == null ? null : 'Vietnamese → English'}
       {...(order === undefined
