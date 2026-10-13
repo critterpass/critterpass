@@ -18,7 +18,6 @@ export interface SplitPeopleProps {
   readonly draft: ExpenseDraft;
   readonly members: readonly MoneyMember[];
   readonly perMember: ReadonlyMap<string, bigint> | null;
-  readonly crewCurrency: string;
   readonly onToggle: (userId: string) => void;
   readonly onStep: (userId: string, delta: 1 | -1) => void;
   readonly onFocus: (userId: string | null) => void;
@@ -101,7 +100,7 @@ export function SplitPeople(props: SplitPeopleProps) {
               </Text>
               {share === null ? null : (
                 <Text variant="captionMuted" tone="muted">
-                  {formatAmount(share, props.crewCurrency, locale)}
+                  {formatAmount(share, draft.currency, locale)}
                 </Text>
               )}
             </View>

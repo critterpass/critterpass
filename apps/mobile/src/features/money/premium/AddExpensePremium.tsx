@@ -245,7 +245,6 @@ export function AddExpensePremium(props: {
             draft={draft}
             members={members}
             perMember={sharesByMember(draft)}
-            crewCurrency={state.crewCurrency}
             onToggle={(userId) => state.dispatch({ type: 'toggle', userId })}
             onStep={(userId, delta) => state.dispatch({ type: 'weight', userId, delta })}
             onFocus={(userId) => state.dispatch({ type: 'focus', userId })}

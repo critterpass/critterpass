@@ -123,7 +123,11 @@ export function SheetScreen({
     try {
       await guard.commit(async () => {
         const close = await verb.onPress();
-        if (close !== false && router.canGoBack()) router.back();
+        if (close !== false) {
+          guard.leave(() => {
+            if (router.canGoBack()) router.back();
+          });
+        }
       });
     } finally {
       setBusy(false);
