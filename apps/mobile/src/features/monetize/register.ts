@@ -4,15 +4,14 @@
  * person taps; the paywall itself records that it was shown, with the entry it was opened from.
  * Imported once by the root layout.
  */
-import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { createElement } from 'react';
 
 import { registerMailboxPaywall } from '@/features/bookings';
 import {
-  registerChatCard,
   registerChatHeaderBadge,
   registerLiveMapPaywall,
+  registerPremiumChatCard,
   registerSeatLimitPresenter,
 } from '@/features/crew';
 import { registerHomeNotice } from '@/features/home';
@@ -38,10 +37,8 @@ registerMailboxPaywall(() => router.push(paywallHref({})));
 registerPlanChip(usePlanChip);
 // The buyer's TELL THE CREW posts a `boost_card` message, drawn as the crew's boost card.
 // eslint-disable-next-line lingui/no-unlocalized-strings -- a message type, never copy.
-registerChatCard('boost_card', {
-  Component: (props) => createElement(BoostChatCard, props),
-  estimateHeight: () => 240,
-  a11yLabel: () => t({ id: 'monetize.card.label', message: 'Trip boost' }),
+registerPremiumChatCard('boost_card', {
+  render: (message, mine) => createElement(BoostChatCard, { message, mine }),
 });
 registerChatHeaderBadge(BoostedPill);
 // A full crew at the free cap: the seventh-seat sheet in place of the plain waitlist one.

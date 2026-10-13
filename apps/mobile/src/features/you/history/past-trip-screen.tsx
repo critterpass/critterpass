@@ -4,14 +4,12 @@
  * profile show it at once, before the queue drains.
  */
 import { airportDataset } from '@cp/content/airports';
-import { useLingui } from '@lingui/react/macro';
 import { useMemo, useState, type ComponentType } from 'react';
 import { Keyboard } from 'react-native';
 
 import { regionName } from '@/features/onboarding';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
-import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
 
 import {
   draftOf,
@@ -21,26 +19,24 @@ import {
   type CountryOption,
 } from './past-trip-form';
 import { usePastTrips } from './past-trips';
-import { PastTripView, type PastTripViewProps } from './past-trip-view';
+import { type PastTripViewProps } from './past-trip-props';
 import { YOU_ROUTES } from '../routes';
 import { localToday } from './use-travel-history';
 
 export function PastTripScreen({
   id,
   now = () => new Date(),
-  View = PastTripView,
+  View,
   askRemove,
 }: {
   readonly id?: string;
   readonly now?: () => Date;
-  /** The page drawn over this logic (the premium UI passes its own). */
-  readonly View?: ComponentType<PastTripViewProps>;
-  /** Asks before removing in place of the confirm sheet (the premium UI's system alert). */
-  readonly askRemove?: () => Promise<boolean>;
+  /** The page drawn over this logic. */
+  readonly View: ComponentType<PastTripViewProps>;
+  /** Asks before removing (a system alert). */
+  readonly askRemove: () => Promise<boolean>;
 }) {
-  const { t } = useLingui();
   const locale = useLocale();
-  const [removing, setRemoving] = useState(false);
   const today = localToday(now());
   const pastTrips = usePastTrips();
   const existing = id === undefined ? undefined : pastTrips.rows.find((row) => row.id === id);
@@ -72,70 +68,44 @@ export function PastTripScreen({
 
   const open = monthsOpen(shownYear, today);
   return (
-    <>
-      <View
-        editing={existing !== undefined}
-        query={query ?? country?.name ?? ''}
-        onQuery={setQuery}
-        results={query === null ? [] : searchCountries(options, query)}
-        onCountry={(option) => {
-          setPicked(option);
-          setQuery(null);
-          Keyboard.dismiss();
-        }}
-        years={pastTripYears(today)}
-        year={shownYear}
-        onYear={(next) => {
-          setYear(next);
-          if (shownMonth !== null && !monthsOpen(next, today).has(shownMonth)) setMonth(null);
-        }}
-        monthsOpen={open}
-        month={shownMonth !== null && open.has(shownMonth) ? shownMonth : null}
-        onMonth={setMonth}
-        canSave={draft !== null && !unchanged}
-        onSave={() => {
-          if (draft === null) return;
-          if (existing !== undefined) pastTrips.remove(existing.id);
-          pastTrips.add(draft);
-          goBackOr(YOU_ROUTES.stamps);
-        }}
-        {...(existing === undefined
-          ? {}
-          : {
-              onRemove: () => {
-                if (askRemove === undefined) {
-                  setRemoving(true);
-                  return;
-                }
-                void askRemove().then((yes) => {
-                  if (!yes) return;
-                  pastTrips.remove(existing.id);
-                  goBackOr(YOU_ROUTES.stamps);
-                });
-              },
-            })}
-        onBack={() => goBackOr(YOU_ROUTES.stamps)}
-      />
-      {removing && existing !== undefined ? (
-        <ConfirmSheet
-          title={t({ id: 'you.pastTrip.removeTitle', message: 'Remove this trip?' })}
-          consequences={[
-            t({
-              id: 'you.pastTrip.removeLine',
-              message: 'Its stamp leaves your passport. You can add the trip again later.',
-            }),
-          ]}
-          confirmLabel={t({ id: 'you.pastTrip.removeConfirm', message: 'Remove' })}
-          mode="button"
-          onCancel={() => setRemoving(false)}
-          onConfirm={() => {
-            setRemoving(false);
-            pastTrips.remove(existing.id);
-            goBackOr(YOU_ROUTES.stamps);
-          }}
-          testID="you-past-trip-remove-confirm"
-        />
-      ) : null}
-    </>
+    <View
+      editing={existing !== undefined}
+      query={query ?? country?.name ?? ''}
+      onQuery={setQuery}
+      results={query === null ? [] : searchCountries(options, query)}
+      onCountry={(option) => {
+        setPicked(option);
+        setQuery(null);
+        Keyboard.dismiss();
+      }}
+      years={pastTripYears(today)}
+      year={shownYear}
+      onYear={(next) => {
+        setYear(next);
+        if (shownMonth !== null && !monthsOpen(next, today).has(shownMonth)) setMonth(null);
+      }}
+      monthsOpen={open}
+      month={shownMonth !== null && open.has(shownMonth) ? shownMonth : null}
+      onMonth={setMonth}
+      canSave={draft !== null && !unchanged}
+      onSave={() => {
+        if (draft === null) return;
+        if (existing !== undefined) pastTrips.remove(existing.id);
+        pastTrips.add(draft);
+        goBackOr(YOU_ROUTES.stamps);
+      }}
+      {...(existing === undefined
+        ? {}
+        : {
+            onRemove: () => {
+              void askRemove().then((yes) => {
+                if (!yes) return;
+                pastTrips.remove(existing.id);
+                goBackOr(YOU_ROUTES.stamps);
+              });
+            },
+          })}
+      onBack={() => goBackOr(YOU_ROUTES.stamps)}
+    />
   );
 }

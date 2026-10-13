@@ -23,7 +23,7 @@ import {
 import { confirmAlert } from '@/ui/premium/shell';
 
 import { crewLine, daysLabel, planTitle } from '../copy';
-import type { Confirming } from '../publish/take-down-confirm';
+import type { Confirming } from '../publish/take-down';
 
 export function PreviewPremium({
   data,

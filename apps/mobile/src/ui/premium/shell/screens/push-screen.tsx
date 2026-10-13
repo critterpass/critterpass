@@ -99,9 +99,9 @@ export function PushScreen({
     control === 'none' || nativeBack ? null : control === 'home' ? 'back' : control;
   const leadingLabel = control === 'close' ? (closeLabel ?? backLabel) : backLabel;
   const leave = control === 'home' ? goHome : goBack;
-  // The bar's native back (iOS) or Material back arrow (Android) is the way back; a drawn back or
-  // ✕ registers itself.
-  useBackAffordance(!headerless && nativeBack);
+  // The bar's native back (iOS) or Material back arrow (Android) is the way back, and so is the
+  // shell's back or ✕ as a native toolbar item on iOS; a drawn back or ✕ registers itself.
+  useBackAffordance(!headerless && (nativeBack || (ios && drawnControl !== null)));
 
   const body = scroll ? (
     <ScrollView

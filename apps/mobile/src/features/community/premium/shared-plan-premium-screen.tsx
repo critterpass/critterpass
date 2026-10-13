@@ -11,7 +11,6 @@ import { Button, EmptyState, LoadingCritter, Skeleton, Text, usePremiumTheme } f
 import { PushScreen } from '@/ui/premium/shell';
 
 import { dataOf, useSharedPlan } from '../api';
-import type { SharedPlanScreenProps } from '../detail/detail-screen';
 import { PlanPremiumView } from './plan-premium-view';
 
 /** The guide's sticker in the empty and loading states. */
@@ -62,6 +61,13 @@ export function PlanLoading() {
       />
     </View>
   );
+}
+
+export interface SharedPlanScreenProps {
+  readonly sharedPlanId: string;
+  readonly tripId: string | null;
+  /** Where back leads; a plan opened from a link came from Home. */
+  readonly backLabel?: string;
 }
 
 export function SharedPlanPremiumScreen({

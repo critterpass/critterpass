@@ -19,7 +19,7 @@ import {
 } from '../boost-card/boost-card-rows';
 import { TRIP_SQL, TRIP_TABLES, type TripRow } from '../data/billing-rows';
 import { useOwnerUid } from '../data/use-billing';
-import type { StampedViewProps } from './stamped-view';
+import type { StampedViewProps } from './stamped-props';
 
 const BOOST_SQL = `SELECT id, buyer_id, split_mode, starts_at, ends_at FROM trip_boosts
   WHERE trip_id = ? AND status IN ('scheduled', 'active') ORDER BY created_at DESC LIMIT 1`;

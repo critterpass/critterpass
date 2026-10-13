@@ -17,7 +17,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider } from '@/lib/theme';
 import { ShellTabs } from '@/ui/shell/ShellTabs';
 
-import { returnHome } from '../StartCrewScreen';
+import { returnHome } from '../return-home';
 
 // Imported last: see ui/shell/__tests__/tab-bar.test.tsx for why.
 import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';

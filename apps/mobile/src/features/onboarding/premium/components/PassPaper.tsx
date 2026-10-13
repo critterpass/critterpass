@@ -88,7 +88,7 @@ export function PassPaper({
           <Text variant="mono" color={PAPER_INK.label}>
             {labels.head}
           </Text>
-          <Text variant="mono" color={PAPER_INK.label}>
+          <Text variant="mono" color={PAPER_INK.label} testID="onboarding-pass-number">
             {syncing ? `${facts.number} · ${labels.syncing}` : facts.number}
           </Text>
         </View>

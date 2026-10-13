@@ -5,10 +5,9 @@
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 
-import { ListCard } from '@/ui/cards/ListCard';
+import { Banner } from '@/ui/premium';
 
 import { MONETIZE_ROUTES } from '../routes';
-import { usePlanLine } from './plan-copy';
 import type { PlanModel } from './plan-model';
 import { useBillingIssue } from './use-billing-issue';
 
@@ -17,14 +16,15 @@ export function BillingIssueBannerView(props: {
   readonly onPress: () => void;
 }) {
   const { t } = useLingui();
-  const planLine = usePlanLine();
   if (props.plan === null || !props.plan.hasIssue) return null;
   return (
-    <ListCard
-      title={t({ id: 'monetize.issue.banner', message: 'Your Pass+ payment needs a look' })}
-      subtitle={planLine(props.plan)}
-      chevron
-      onPress={props.onPress}
+    <Banner
+      tone="error"
+      text={t({ id: 'monetize.issue.banner', message: 'Your Pass+ payment needs a look' })}
+      action={{
+        label: t({ id: 'monetize.plan.fixPayment', message: 'Fix the payment' }),
+        onPress: props.onPress,
+      }}
       testID="billing-issue-banner"
     />
   );

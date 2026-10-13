@@ -10,8 +10,8 @@ import { View } from 'react-native';
 import { Avatar, Card, CrossFade, SegmentedControl, Text, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { useAvatarPicker, type PhotoServices } from '../../avatar/avatar-screen';
-import type { AvatarTab } from '../../avatar/avatar-view';
+import { useAvatarPicker, type PhotoServices } from '../../avatar/use-avatar-picker';
+import type { AvatarTab } from '../../avatar/tab-choice';
 import { PremiumProfileFace } from '../profile/profile-face';
 import { GuideDiscs, PremiumFormGrid, SmallFace } from './avatar-parts';
 import { AvatarPhotoPanel } from './avatar-photo-panel';

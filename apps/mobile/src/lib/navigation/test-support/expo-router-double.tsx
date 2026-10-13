@@ -10,6 +10,7 @@
  */
 import { jest } from '@jest/globals';
 import { useEffect, type ReactNode } from 'react';
+import { Pressable, Text } from 'react-native';
 
 type Navigate = (...args: unknown[]) => void;
 const unsubscribe = () => undefined;
@@ -74,11 +75,38 @@ function Nothing() {
   return null;
 }
 
-export const Link = Passthrough;
+/** A link pushes its href when what it wraps is pressed; its zoom source draws nothing of its own. */
+function LinkDouble({
+  href,
+  children,
+}: {
+  readonly href?: unknown;
+  readonly children?: ReactNode;
+}) {
+  return <Pressable onPress={() => router.push(href)}>{children}</Pressable>;
+}
+export const Link = Object.assign(LinkDouble, { AppleZoom: Passthrough });
 export const ThemeProvider = Passthrough;
 export const Redirect = Nothing;
 export const Slot = Nothing;
-export const Stack = Object.assign(Passthrough, { Screen: Nothing });
+/** A native toolbar item, drawn as a plain button so a test can find it by its label and press it. */
+function ToolbarButton(props: {
+  readonly accessibilityLabel?: string;
+  readonly onPress?: () => void;
+  readonly children?: ReactNode;
+}) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={props.accessibilityLabel}
+      onPress={props.onPress}
+    >
+      {typeof props.children === 'string' ? <Text>{props.children}</Text> : null}
+    </Pressable>
+  );
+}
+const Toolbar = Object.assign(Passthrough, { Button: ToolbarButton, View: Passthrough });
+export const Stack = Object.assign(Passthrough, { Screen: Nothing, Toolbar });
 export const DarkTheme = { dark: true, colors: {} };
 export const DefaultTheme = { dark: false, colors: {} };
 

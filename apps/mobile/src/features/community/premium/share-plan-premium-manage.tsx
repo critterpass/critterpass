@@ -26,8 +26,8 @@ import {
 } from '../commands';
 import { copiesLabel, ratingLabel } from '../copy';
 import { canManage } from '../publish/publish-model';
-import { useLinkCopy } from '../publish/publish-parts';
-import { linkDate, type Confirming } from '../publish/take-down-confirm';
+import { linkDate, type Confirming } from '../publish/take-down';
+import { useLinkCopy } from '../publish/use-link-copy';
 import { usePublishAction } from '../publish/use-publish-action';
 import { PreviewPremium, TogglesPremium, useConfirmTakeDown } from './share-plan-premium-parts';
 

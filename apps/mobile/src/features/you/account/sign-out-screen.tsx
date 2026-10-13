@@ -4,18 +4,18 @@ import { router } from 'expo-router';
 import { useState, type ComponentType } from 'react';
 
 import { deviceAccountServices, type AccountServices } from './account-services';
-import { SignOutView, type SignOutViewProps } from './sign-out-view';
+import { type SignOutViewProps } from './sign-out-props';
 import { usePassSaved } from './use-account';
 
 const SAVE_PASS_ROUTE = '/onboarding/save';
 
 export function SignOutScreen({
   services = deviceAccountServices,
-  View = SignOutView,
+  View,
 }: {
   readonly services?: AccountServices;
-  /** The page drawn over this logic (the premium UI passes its own). */
-  readonly View?: ComponentType<SignOutViewProps>;
+  /** The page drawn over this logic. */
+  readonly View: ComponentType<SignOutViewProps>;
 }) {
   const saved = usePassSaved(services);
   const [busy, setBusy] = useState(false);

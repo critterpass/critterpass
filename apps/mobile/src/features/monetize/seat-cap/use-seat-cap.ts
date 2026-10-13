@@ -13,7 +13,7 @@ import { SEATED_SQL, SEATED_TABLES, type SeatedRow } from '../data/billing-rows'
 import { useStore } from '../data/use-billing';
 import { useBillingRows } from '../data/use-billing-rows';
 import { boostHref } from '../routes';
-import type { SeatCapViewProps } from './seat-cap-view';
+import type { SeatCapViewProps } from './seat-cap-props';
 
 /** Stands in for the invitee in the split: they have no account yet. */
 const INVITEE = 'invitee';

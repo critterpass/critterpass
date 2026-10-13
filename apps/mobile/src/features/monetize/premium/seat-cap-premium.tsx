@@ -28,7 +28,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { SeatCapViewProps } from '../seat-cap/seat-cap-view';
+import type { SeatCapViewProps } from '../seat-cap/seat-cap-props';
 import { seatColour } from './components/crew-colours';
 import { ModalSheet } from './components/modal-sheet';
 import { MONETIZE_INK, MONETIZE_TIMING } from './monetize-palette';

@@ -9,15 +9,12 @@ import { useEffect } from 'react';
 import { Linking, Platform, View } from 'react-native';
 
 import { toast } from '@/motion/island-toast';
-import { BackEyebrow } from '@/ui/shell/BackEyebrow';
-import { Skeleton } from '@/ui/states/Skeleton';
-import { Scaffold } from '@/ui/surface/Scaffold';
-import { Text } from '@/ui/text/Text';
-import { useTheme } from '@/ui/theme';
+import { Skeleton, Text, usePremiumTheme } from '@/ui/premium';
+import { PushScreen } from '@/ui/premium/shell';
 
 import type { GoTarget } from './data/go-place';
-import { GoPreviewView } from './go-preview-view';
 import { mapsAppFor, mapsDirectionsUrl, useChosenMapsApp } from './maps-handoff';
+import { GoPremiumView } from './premium/go-premium-view';
 import type { GrabRow } from './preview-model';
 import { tripTodayHref } from './routes';
 import { useGoPreview } from './use-go-preview';
@@ -36,16 +33,22 @@ export function openGrab(grab: GrabRow): void {
 }
 
 function Missing({ loading }: { readonly loading: boolean }) {
-  const theme = useTheme();
+  const th = usePremiumTheme();
   const { t } = useLingui();
   return (
-    <Scaffold variant="dark" testID={loading ? 'go-loading' : 'go-missing'}>
-      <View style={{ padding: theme.size.gutter, gap: theme.space['20'] }}>
-        <BackEyebrow label={t({ id: 'go.preview.back', message: 'Back' })} testID="go-back" />
+    <PushScreen
+      title={t({ id: 'go.preview.eyebrow', message: 'GO' })}
+      backLabel={t({ id: 'go.preview.back', message: 'Back' })}
+      testID={loading ? 'go-loading' : 'go-missing'}
+    >
+      <View style={{ padding: th.space.gutter, gap: th.space.gap12 }}>
         {loading ? (
-          <Skeleton preset="card" repeat={2} />
+          <>
+            <Skeleton height={120} tone="block" />
+            <Skeleton height={56} tone="block" />
+          </>
         ) : (
-          <Text variant="bodyLg">
+          <Text variant="body" tone="muted" singleLine={false}>
             {t({
               id: 'go.preview.missing',
               message: 'This place isn’t on your phone yet. Try again once it has synced.',
@@ -53,7 +56,7 @@ function Missing({ loading }: { readonly loading: boolean }) {
           </Text>
         )}
       </View>
-    </Scaffold>
+    </PushScreen>
   );
 }
 
@@ -71,7 +74,7 @@ export function GoScreen({ target }: { readonly target: GoTarget | null }) {
   }, [leave, fallback]);
   if (!place) return <Missing loading={place === undefined || leave} />;
   return (
-    <GoPreviewView
+    <GoPremiumView
       place={place}
       destinationSlug={place.destinationSlug}
       state={state}

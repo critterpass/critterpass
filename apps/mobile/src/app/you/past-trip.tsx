@@ -3,7 +3,6 @@ import { useLocalSearchParams } from 'expo-router';
 
 import { PastTripScreen } from '@/features/you/history/past-trip-screen';
 import { PastTripPremiumView } from '@/features/you/premium/history/past-trip-premium-view';
-import { premiumRoute } from '@/lib/premium-ui';
 import { confirmAlert } from '@/ui/premium/shell';
 
 function useTripId(): { readonly id?: string } {
@@ -23,12 +22,6 @@ function askRemove(): Promise<boolean> {
   });
 }
 
-function PremiumPastTripRoute() {
+export default function PastTripRoute() {
   return <PastTripScreen {...useTripId()} View={PastTripPremiumView} askRemove={askRemove} />;
 }
-
-function PastTripRoute() {
-  return <PastTripScreen {...useTripId()} />;
-}
-
-export default premiumRoute({ premium: PremiumPastTripRoute, legacy: PastTripRoute });

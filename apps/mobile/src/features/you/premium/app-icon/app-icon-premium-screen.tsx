@@ -29,8 +29,8 @@ import {
 import { PushScreen } from '@/ui/premium/shell';
 
 import { APP_ICON_PREVIEWS, type AppIconLook } from '../../app-icon/app-icon-previews';
-import { useAppIconPicker } from '../../app-icon/app-icon-screen';
-import { useIconNames } from '../../app-icon/app-icon-tiles';
+import { useAppIconPicker } from '../../app-icon/use-app-icon-picker';
+import { useIconNames } from '../../app-icon/icon-names';
 import { deviceAppIcon } from '../../app-icon/device';
 import { AppIconLapseRevert } from '../../app-icon/lapse-revert';
 import type { IconChoice } from '../../app-icon/picker-model';

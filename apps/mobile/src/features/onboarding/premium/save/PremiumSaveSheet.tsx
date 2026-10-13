@@ -253,6 +253,7 @@ export function PremiumSaveSheet(props: PremiumSaveSheetProps) {
           onPress={onScrim}
           accessibilityRole="button"
           accessibilityLabel={t({ id: 'onboarding.save.notNow', message: 'Not now' })}
+          testID="save-sheet-scrim"
         />
       </Animated.View>
       {/* The sheet rises on the Smooth spring; Reduce Motion fades it in. */}

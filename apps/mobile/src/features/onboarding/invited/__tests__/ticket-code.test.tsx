@@ -19,9 +19,9 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { setOnboardingComplete } from '@/lib/links/pending';
 
-import { CodeScreen } from '../CodeScreen';
+import { PremiumCodePage } from '../../premium/invite/PremiumCodePage';
 import { inviteSession } from '../invite-session';
-import { TicketScreen } from '../TicketScreen';
+import { PremiumTicketPage } from '../../premium/invite/PremiumTicketPage';
 import {
   applied,
   CREW_ID,
@@ -34,8 +34,7 @@ import {
   UNREACHABLE,
 } from '../test-support/fast-path';
 
-const activate = (element: Parameters<typeof fireEvent>[0]) =>
-  fireEvent(element, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });
+const activate = (element: Parameters<typeof fireEvent.press>[0]) => fireEvent.press(element);
 const found = (overrides = {}) => ({ status: 'found' as const, preview: preview(overrides) });
 
 let stack: TestLocalFirst | null = null;
@@ -55,10 +54,10 @@ afterEach(async () => {
 
 describe('3a-10 invite ticket', () => {
   it('names the invitee on their open seat and sends a first-timer to the pass', async () => {
-    await renderInvited(<TicketScreen />, {
+    await renderInvited(<PremiumTicketPage />, {
       services: services(found({ invitee_first_name: 'Rin' })),
     });
-    expect(await screen.findByText('RIN, YOU’RE COMING TO BALI')).toBeTruthy();
+    expect(await screen.findByText(/^Rin, you’re coming to Bali$/iu)).toBeTruthy();
     expect(screen.getByText('Winston saved you a seat')).toBeTruthy();
     expect(screen.getByText('Winston and Maya are in. 1 more invited, not in yet.')).toBeTruthy();
     expect(screen.getByTestId('invite-ticket')).toBeTruthy();
@@ -68,7 +67,7 @@ describe('3a-10 invite ticket', () => {
   });
 
   it('sends “Just look around first” to the pass flow, or Home for someone with a pass', async () => {
-    await renderInvited(<TicketScreen />, { services: services(found()) });
+    await renderInvited(<PremiumTicketPage />, { services: services(found()) });
     await activate(await screen.findByTestId('invite-look-around'));
     expect(router.replace).toHaveBeenLastCalledWith('/onboarding');
     setOnboardingComplete(true);
@@ -77,18 +76,15 @@ describe('3a-10 invite ticket', () => {
   });
 
   it('never names anyone on a forwarded or generic link', async () => {
-    await renderInvited(<TicketScreen />, { services: services(found()) });
-    expect(await screen.findByText('A SEAT IN THE BALI SIX')).toBeTruthy();
+    await renderInvited(<PremiumTicketPage />, { services: services(found()) });
+    expect(await screen.findByText(/^A seat in The Bali Six$/iu)).toBeTruthy();
     expect(screen.queryByText(/RIN/u)).toBeNull();
   });
 
   it('offers the waitlist truthfully on a full trip', async () => {
-    await renderInvited(<TicketScreen />, { services: services(found({ seats_taken: 6 })) });
-    expect(
-      await screen.findByText(
-        'The Bali Six is full at 6. You join the waitlist and get the next free seat.',
-      ),
-    ).toBeTruthy();
+    await renderInvited(<PremiumTicketPage />, { services: services(found({ seats_taken: 6 })) });
+    expect(await screen.findByText(/^The Bali Six is full at 6$/u)).toBeTruthy();
+    expect(screen.getByText(/you get the next free seat/u)).toBeTruthy();
     expect(
       within(screen.getByTestId('invite-take-seat')).getByText(/join the waitlist/iu),
     ).toBeTruthy();
@@ -102,7 +98,7 @@ describe('3a-10 invite ticket', () => {
     ['not_found', { status: 'not_found' as const }, 'Can’t find that invite'],
     ['offline', { status: 'unavailable' as const }, 'You’re offline'],
   ])('shows the %s state in place of the ticket', async (kind, answer, title) => {
-    await renderInvited(<TicketScreen />, { services: services(answer) });
+    await renderInvited(<PremiumTicketPage />, { services: services(answer) });
     expect(await screen.findByTestId(`invite-problem-${kind}`)).toBeTruthy();
     expect(screen.getByText(new RegExp(title, 'iu'))).toBeTruthy();
     expect(screen.queryByTestId('invite-take-seat')).toBeNull();
@@ -111,11 +107,11 @@ describe('3a-10 invite ticket', () => {
   it('asks again from the offline state', async () => {
     let online = false;
     const svc = services(() => (online ? found() : { status: 'unavailable' }));
-    await renderInvited(<TicketScreen />, { services: svc });
+    await renderInvited(<PremiumTicketPage />, { services: svc });
     await screen.findByTestId('invite-problem-offline');
     online = true;
     await activate(screen.getByRole('button', { name: /try again/iu }));
-    expect(await screen.findByText('A SEAT IN THE BALI SIX')).toBeTruthy();
+    expect(await screen.findByText(/^A seat in The Bali Six$/iu)).toBeTruthy();
   });
 
   it('seats someone who already has a pass straight into the crew', async () => {
@@ -133,7 +129,7 @@ describe('3a-10 invite ticket', () => {
       }),
     });
     stack = await openTestLocalFirst({ transport: api });
-    await renderInvited(<TicketScreen />, { services: services(found()), stack });
+    await renderInvited(<PremiumTicketPage />, { services: services(found()), stack });
     await activate(await screen.findByTestId('invite-take-seat'));
     await waitFor(() => expect(router.replace).toHaveBeenCalledWith('/onboarding/invite/manifest'));
     expect(api.sent[0]?.path).toBe('/v1/cmd/accept_invite');
@@ -147,7 +143,7 @@ describe('3a-10 invite ticket', () => {
         accept_invite: rejected('STATE_INVALID', 409, { reason: 'crew_full' }),
       }),
     });
-    await renderInvited(<TicketScreen />, { services: services(found()), stack });
+    await renderInvited(<PremiumTicketPage />, { services: services(found()), stack });
     await activate(await screen.findByTestId('invite-take-seat'));
     expect(await screen.findByTestId('invite-problem-crew_full')).toBeTruthy();
   });
@@ -162,11 +158,10 @@ describe('3a-11 join with a code', () => {
     const svc = services((target) =>
       target.kind === 'invite' && target.code === 'BATH6X' ? found() : { status: 'not_found' },
     );
-    await renderInvited(<CodeScreen />, { services: svc });
+    await renderInvited(<PremiumCodePage />, { services: svc });
     await fireEvent.changeText(screen.getByTestId('invite-code-boxes'), 'bath6x');
-    expect(await screen.findByTestId('invite-found-card')).toBeTruthy();
-    expect(screen.getByText('FOUND IT · WINSTON’S CREW')).toBeTruthy();
-    expect(screen.getByText('2 already in. Tokek is guiding.')).toBeTruthy();
+    expect(await screen.findByTestId('invite-code-found')).toBeTruthy();
+    expect(screen.getByText(/^Found it · Winston’s crew$/iu)).toBeTruthy();
     await activate(screen.getByTestId('invite-code-join'));
     expect(router.push).toHaveBeenCalledWith('/onboarding/invite/pass');
   });
@@ -185,7 +180,7 @@ describe('3a-11 join with a code', () => {
     };
     const api = recordedApi({ accept_invite: [UNREACHABLE, applied(joined)] });
     stack = await openTestLocalFirst({ transport: api });
-    await renderInvited(<CodeScreen />, { services: services(found()), stack });
+    await renderInvited(<PremiumCodePage />, { services: services(found()), stack });
     await fireEvent.changeText(screen.getByTestId('invite-code-boxes'), 'BATH6X');
     await activate(await screen.findByTestId('invite-code-join'));
     expect(await screen.findByTestId('invite-problem-offline')).toBeTruthy();
@@ -197,25 +192,25 @@ describe('3a-11 join with a code', () => {
   it('asks for the crew again from the offline card, without retyping the code', async () => {
     let online = false;
     const svc = services(() => (online ? found() : { status: 'unavailable' }));
-    await renderInvited(<CodeScreen />, { services: svc });
+    await renderInvited(<PremiumCodePage />, { services: svc });
     await fireEvent.changeText(screen.getByTestId('invite-code-boxes'), 'BATH6X');
     await screen.findByTestId('invite-problem-offline');
     expect(screen.queryByTestId('invite-code-join')).toBeNull();
     online = true;
     await activate(screen.getByRole('button', { name: /try again/iu }));
-    expect(await screen.findByTestId('invite-found-card')).toBeTruthy();
+    expect(await screen.findByTestId('invite-code-found')).toBeTruthy();
     expect(screen.getByTestId('invite-code-join')).toBeTruthy();
   });
 
   it('says a wrong code is wrong', async () => {
-    await renderInvited(<CodeScreen />, { services: services({ status: 'not_found' }) });
+    await renderInvited(<PremiumCodePage />, { services: services({ status: 'not_found' }) });
     await fireEvent.changeText(screen.getByTestId('invite-code-boxes'), 'ZZZZ22');
     expect(await screen.findByTestId('invite-code-wrong')).toBeTruthy();
-    expect(screen.queryByTestId('invite-found-card')).toBeNull();
+    expect(screen.queryByTestId('invite-code-found')).toBeNull();
   });
 
   it('names the inviter when their code expired', async () => {
-    await renderInvited(<CodeScreen />, { services: services(found({ state: 'expired' })) });
+    await renderInvited(<PremiumCodePage />, { services: services(found({ state: 'expired' })) });
     await fireEvent.changeText(screen.getByTestId('invite-code-boxes'), 'BATH6X');
     expect(
       await screen.findByText('Ask Winston for a fresh link. It takes them two taps.'),
@@ -226,7 +221,7 @@ describe('3a-11 join with a code', () => {
     jest.mocked(useLocalSearchParams).mockReturnValue({
       pasted: 'https://critterpass.app/i/BATH6X/abcdefghijklmnopqrstuvabcdefghijklmnopqrstuvk1',
     });
-    await renderInvited(<CodeScreen />, { services: services(found()) });
+    await renderInvited(<PremiumCodePage />, { services: services(found()) });
     await waitFor(() =>
       expect(router.replace).toHaveBeenCalledWith({
         pathname: '/onboarding/invite/ticket',

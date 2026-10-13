@@ -11,27 +11,27 @@ msgstr ""
 msgid "go.button.airport"
 msgstr "Sân bay {city} ({iata})"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.minutes"
 msgstr "{count} phút"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.hours"
 msgstr "{hours}H{rest}"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.grabEta"
 msgstr "Xe cách khoảng {eta} phút"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.aboutMinutes"
 msgstr "~{count} phút"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.aboutHours"
 msgstr "~{hours}H{rest}"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.grabEstimateLine"
 msgstr "Ước tính theo bảng giá Grab công bố. Giá thật hiện trong Grab."
 
@@ -39,16 +39,16 @@ msgstr "Ước tính theo bảng giá Grab công bố. Giá thật hiện trong 
 msgid "go.settings.appleMaps"
 msgstr "Apple Maps"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.money.billion"
 msgstr " TỶ"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
 #: ../../apps/mobile/src/features/go/go-screen.tsx
+#: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx
 msgid "go.preview.back"
 msgstr "Quay lại"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.noFix"
 msgstr "Chưa tìm thấy vị trí của bạn. Có vị trí là đường đi hiện ngay."
 
@@ -60,15 +60,15 @@ msgstr "Không mở được ứng dụng bản đồ trên máy này."
 msgid "go.settings.mapsApp"
 msgstr "Chỉ đường bằng"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx
 msgid "go.preview.drive"
 msgstr "Lái xe"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.locating"
 msgstr "Đang tìm vị trí của bạn…"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.routing"
 msgstr "Đang lấy tuyến đường…"
 
@@ -76,7 +76,7 @@ msgstr "Đang lấy tuyến đường…"
 msgid "go.button.label"
 msgstr "Đi"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/go-screen.tsx
 msgid "go.preview.eyebrow"
 msgstr "ĐI"
 
@@ -88,47 +88,47 @@ msgstr "Đi · {detail}"
 msgid "go.settings.googleMaps"
 msgstr "Google Maps"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.grabFare"
 msgstr "Grab {fare}"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.grabEstimate"
 msgstr "Grab khoảng {fare}"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.grabHere"
 msgstr "Có Grab ở đây"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx
 msgid "go.preview.modeLabel"
 msgstr "Cách bạn đi"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.money.thousand"
 msgstr " N"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.noLocation"
 msgstr "Vị trí đang tắt nên không có đường từ chỗ bạn. Nút Bắt đầu vẫn chỉ đường."
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.money.million"
 msgstr " TR"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.straight"
 msgstr "Hiện chưa có tuyến đường bộ. Thời gian là ước tính theo đường thẳng."
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.offline"
 msgstr "Không có sóng nên không có đường đi. Nút Bắt đầu vẫn chỉ đường."
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.grabLink"
 msgstr "Mở Grab với điểm đến đã điền sẵn"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.ride"
 msgstr "Gọi xe"
 
@@ -136,11 +136,11 @@ msgstr "Gọi xe"
 msgid "go.button.hint"
 msgstr "Hiện tuyến đường từ chỗ bạn, rồi chỉ đường trong ứng dụng bản đồ"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx
 msgid "go.preview.startApple"
 msgstr "Bắt đầu trong Apple Maps"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx
 msgid "go.preview.startGoogle"
 msgstr "Bắt đầu trong Google Maps"
 
@@ -148,10 +148,10 @@ msgstr "Bắt đầu trong Google Maps"
 msgid "go.preview.missing"
 msgstr "Địa điểm này chưa có trên điện thoại. Hãy thử lại sau khi đồng bộ xong."
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx
 msgid "go.preview.retryLocate"
 msgstr "Thử lại"
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx
 msgid "go.preview.walk"
 msgstr "Đi bộ"

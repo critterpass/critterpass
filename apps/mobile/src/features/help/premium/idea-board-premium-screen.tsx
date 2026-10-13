@@ -22,9 +22,8 @@ import {
 import { PushScreen } from '@/ui/premium/shell';
 
 import type { BoardStatus } from '../ideas/board';
-import { useIdeaBoard } from '../ideas/board-screen';
-import type { BoardRow } from '../ideas/BoardView';
-import { SuggestSheet } from '../ideas/SuggestSheet';
+import { useIdeaBoard, type BoardRow } from '../ideas/use-idea-board';
+import { SuggestIdeaSheet } from './suggest-idea-sheet';
 
 function useStatusWords(): (status: BoardStatus) => { tone: StatusTone; label: string } {
   const { t } = useLingui();
@@ -207,7 +206,7 @@ function Board() {
         </View>
       </PushScreen>
       {b.suggesting ? (
-        <SuggestSheet
+        <SuggestIdeaSheet
           title={b.title}
           onTitle={b.setTitle}
           description={b.description}

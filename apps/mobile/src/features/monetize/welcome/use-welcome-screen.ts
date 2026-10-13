@@ -16,7 +16,7 @@ import { useBillingRows } from '../data/use-billing-rows';
 import { perkLines } from '../perks/perk-copy';
 import { usePlanLine } from '../plan/plan-copy';
 import { planModel } from '../plan/plan-model';
-import type { WelcomeViewProps } from './welcome-view';
+import type { WelcomeViewProps } from './welcome-props';
 
 const STAMP_DATE: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short', year: 'numeric' };
 const ICON_PICKER = '3n-5';

@@ -23,7 +23,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { EmptySlot, Tag, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
 
-import { setTasteCommand } from '../../profile/retake-sheet';
+import { setTasteCommand } from '../../profile/set-taste-command';
 
 const TAG_TILTS = [-4, 3, -2, 4, -3, 2];
 

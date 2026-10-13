@@ -8,7 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { PremiumSheet } from '@/features/album';
 import { Button, Icon, ListCard, Row, Text, usePremiumTheme } from '@/ui/premium';
 
-import { useDraftTrips, type TripPickerProps } from '../detail/trip-picker';
+import { useDraftTrips, type TripPickerProps } from '../detail/draft-trips';
 
 export function TripPickerPremium(props: TripPickerProps) {
   const th = usePremiumTheme();
