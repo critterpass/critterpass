@@ -10,7 +10,6 @@ import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
 import { crewColour } from '@/features/vote';
-import { OverlaySheet } from '@/features/plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/avatar/guides';
 import {
@@ -26,6 +25,7 @@ import {
   usePremiumTheme,
   type StatusTone,
 } from '@/ui/premium';
+import { SheetScreen } from '@/ui/premium/shell';
 
 import type { AddMustDoLook } from '../../must-dos/add-must-do-sheet';
 import type { AddSheetViewProps } from '../../must-dos/add-sheet-view';
@@ -142,134 +142,141 @@ function PremiumAddSheetView(props: AddSheetViewProps) {
   const typed = query.trim();
   const rows = addSheetRows(typed, search);
   const title = t({ id: 'setup.addMustDo.header', message: `${place} · Must-dos` });
-  const close = props.onDismiss ?? (() => undefined);
   const keep = rows.some((row) => row.kind === 'keep');
   return (
-    <OverlaySheet
-      inRoute
+    <SheetScreen
       title={title}
-      closeLabel={t({ id: 'setup.premium.calendar.close', message: 'Close' })}
-      onDismiss={close}
-      aside={
+      cancelLabel={t({ id: 'setup.premium.cancel', message: 'Cancel' })}
+      testID="add-must-do"
+    >
+      <View
+        style={{
+          paddingHorizontal: theme.space.gutter,
+          paddingTop: theme.space.gap8,
+          paddingBottom: theme.space.gap16,
+          gap: theme.space.gap12,
+        }}
+      >
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.space.gap6 }}>
           <Avatar name={name} color={crewColour(me.joinIndex)} size={24} />
           <Text variant="caption" tone="muted">
             {t({ id: 'setup.addMustDo.as', message: `As ${name}` })}
           </Text>
         </View>
-      }
-      testID="add-must-do"
-    >
-      <GuideNote
-        name={guideName}
-        critter={guide.kind}
-        text={t({
-          id: 'setup.addMustDo.prompt',
-          message: `${name}, what’s the one thing ${place} isn’t complete without?`,
-        })}
-      />
-      <TextField
-        accessibilityLabel={t({
-          id: 'setup.addMustDo.search',
-          message: 'A place or your own words',
-        })}
-        placeholder={t({ id: 'setup.addMustDo.search', message: 'A place or your own words' })}
-        value={query}
-        onChangeText={props.onQuery}
-        autoFocus
-        autoCorrect={false}
-        maxLength={MUST_DO_TITLE_MAX}
-        returnKeyType="done"
-        returnKeyLabel={t({ id: 'setup.addMustDo.returnKey', message: 'Add' })}
-        {...(typed === '' ? {} : { onSubmitEditing: props.onKeepText })}
-        testID="add-must-do-field"
-      />
-      {keep ? (
-        <ListCard>
-          <ResultRow
-            title={`“${typed}”`}
-            line={t({ id: 'setup.addMustDo.keep', message: 'Keep it just as you typed it' })}
-            onPress={props.onKeepText}
-            label={t({ id: 'setup.addMustDo.keepA11y', message: `Add “${typed}” as you typed it` })}
-            testID="add-must-do-keep"
-          />
-        </ListCard>
-      ) : null}
-      {rows.map((row, index) => {
-        switch (row.kind) {
-          case 'loading':
-            return (
-              <LoadingCritter
-                key="loading"
-                label={t({ id: 'setup.addMustDo.loading', message: 'Looking for places' })}
-              />
-            );
-          case 'found':
-            return (
-              <Text key="found" variant="label" tone="muted">
-                {t({ id: 'setup.addMustDo.found', message: `${guideName} found` })}
-              </Text>
-            );
-          case 'offline':
-            return (
-              <Text key="offline" variant="caption" tone="muted">
-                {t({
-                  id: 'setup.addMustDo.offlineSaved',
-                  message:
-                    'No signal: these are the places on your phone. Your pick sends when you’re back.',
-                })}
-              </Text>
-            );
-          case 'none':
-            return (
-              <Text key="none" variant="caption" tone="muted" testID="add-must-do-none">
-                {row.offline
-                  ? t({
-                      id: 'setup.addMustDo.offline',
-                      message:
-                        'No signal, so no new places. Keep your own words and it sends when you’re back.',
-                    })
-                  : t({
-                      id: 'setup.addMustDo.noResults',
-                      message: `No place matches that in ${place}. Keep it in your own words.`,
-                    })}
-              </Text>
-            );
-          case 'closed':
-            return (
-              <Text key="closed" variant="label" tone="muted" testID="add-must-do-closed">
-                {t({ id: 'setup.addMustDo.closed', message: 'Closed on your dates' })}
-              </Text>
-            );
-          case 'place': {
-            // The first place of a run draws the whole run in one card.
-            if (rows[index - 1]?.kind === 'place') return null;
-            const end = rows.findIndex((next, at) => at > index && next.kind !== 'place');
-            const run = rows.slice(index, end === -1 ? undefined : end);
-            return (
-              <ListCard key={row.place.id}>
-                {run.map((entry) =>
-                  entry.kind !== 'place' ? null : (
-                    <ResultRow
-                      key={entry.place.id}
-                      title={entry.place.name}
-                      line={entry.place.blurb}
-                      pill={entry.place.pill}
-                      onPress={() => props.onPickPlace(entry.place)}
-                      label={[entry.place.name, entry.place.blurb].filter(Boolean).join(', ')}
-                      testID={`add-must-do-place-${entry.place.id}`}
-                    />
-                  ),
-                )}
-              </ListCard>
-            );
+        <GuideNote
+          name={guideName}
+          critter={guide.kind}
+          text={t({
+            id: 'setup.addMustDo.prompt',
+            message: `${name}, what’s the one thing ${place} isn’t complete without?`,
+          })}
+        />
+        <TextField
+          accessibilityLabel={t({
+            id: 'setup.addMustDo.search',
+            message: 'A place or your own words',
+          })}
+          placeholder={t({ id: 'setup.addMustDo.search', message: 'A place or your own words' })}
+          value={query}
+          onChangeText={props.onQuery}
+          autoFocus
+          autoCorrect={false}
+          maxLength={MUST_DO_TITLE_MAX}
+          returnKeyType="done"
+          returnKeyLabel={t({ id: 'setup.addMustDo.returnKey', message: 'Add' })}
+          {...(typed === '' ? {} : { onSubmitEditing: props.onKeepText })}
+          testID="add-must-do-field"
+        />
+        {keep ? (
+          <ListCard>
+            <ResultRow
+              title={`“${typed}”`}
+              line={t({ id: 'setup.addMustDo.keep', message: 'Keep it just as you typed it' })}
+              onPress={props.onKeepText}
+              label={t({
+                id: 'setup.addMustDo.keepA11y',
+                message: `Add “${typed}” as you typed it`,
+              })}
+              testID="add-must-do-keep"
+            />
+          </ListCard>
+        ) : null}
+        {rows.map((row, index) => {
+          switch (row.kind) {
+            case 'loading':
+              return (
+                <LoadingCritter
+                  key="loading"
+                  label={t({ id: 'setup.addMustDo.loading', message: 'Looking for places' })}
+                />
+              );
+            case 'found':
+              return (
+                <Text key="found" variant="label" tone="muted">
+                  {t({ id: 'setup.addMustDo.found', message: `${guideName} found` })}
+                </Text>
+              );
+            case 'offline':
+              return (
+                <Text key="offline" variant="caption" tone="muted">
+                  {t({
+                    id: 'setup.addMustDo.offlineSaved',
+                    message:
+                      'No signal: these are the places on your phone. Your pick sends when you’re back.',
+                  })}
+                </Text>
+              );
+            case 'none':
+              return (
+                <Text key="none" variant="caption" tone="muted" testID="add-must-do-none">
+                  {row.offline
+                    ? t({
+                        id: 'setup.addMustDo.offline',
+                        message:
+                          'No signal, so no new places. Keep your own words and it sends when you’re back.',
+                      })
+                    : t({
+                        id: 'setup.addMustDo.noResults',
+                        message: `No place matches that in ${place}. Keep it in your own words.`,
+                      })}
+                </Text>
+              );
+            case 'closed':
+              return (
+                <Text key="closed" variant="label" tone="muted" testID="add-must-do-closed">
+                  {t({ id: 'setup.addMustDo.closed', message: 'Closed on your dates' })}
+                </Text>
+              );
+            case 'place': {
+              // The first place of a run draws the whole run in one card.
+              if (rows[index - 1]?.kind === 'place') return null;
+              const end = rows.findIndex((next, at) => at > index && next.kind !== 'place');
+              const run = rows.slice(index, end === -1 ? undefined : end);
+              return (
+                <ListCard key={row.place.id}>
+                  {run.map((entry) =>
+                    entry.kind !== 'place' ? null : (
+                      <ResultRow
+                        key={entry.place.id}
+                        title={entry.place.name}
+                        line={entry.place.blurb}
+                        pill={entry.place.pill}
+                        onPress={() => props.onPickPlace(entry.place)}
+                        label={[entry.place.name, entry.place.blurb].filter(Boolean).join(', ')}
+                        testID={`add-must-do-place-${entry.place.id}`}
+                      />
+                    ),
+                  )}
+                </ListCard>
+              );
+            }
+            case 'keep':
+              return null;
           }
-          case 'keep':
-            return null;
-        }
-      })}
-      {typed === '' ? null : props.more}
-    </OverlaySheet>
+        })}
+        {typed === '' ? null : props.more}
+      </View>
+    </SheetScreen>
   );
 }
 
