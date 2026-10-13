@@ -1,13 +1,15 @@
 /**
- * The trip menu over the real local-first stack, with the api doubled at the transport: who is
- * offered which ending (delete, call off, leave), what confirming sends, and where it lands.
+ * Ending a trip from its hub over the real local-first stack, with the api answering at its
+ * boundary: an organiser deletes a setup trip nobody else is on (and lands on the trips), calls
+ * off one someone else is on (and stays), a member leaves (and stays when the server refuses), and
+ * nothing is offered once the trip is under way or called off.
  */
-
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
+import { Pressable, Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -20,7 +22,7 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import type { SyncTransport, TransportResponse } from '@/data/powersync/transport';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
-import { TripMenu } from '../trip-menu';
+import { useTripRemoval, type TripMenuProps } from '../use-trip-removal';
 
 const ME = '0192e1a2-0000-7000-8000-0000000000aa';
 const MAYA = '0192e1a2-0000-7000-8000-0000000000bb';
@@ -31,8 +33,19 @@ const METRICS = {
   insets: { top: 47, left: 0, right: 0, bottom: 34 },
 };
 
-const activate = (element: Parameters<typeof fireEvent>[0]) =>
-  fireEvent(element, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });
+/** What the hub's menu offers, and its confirm as a button. */
+function Removal(props: TripMenuProps) {
+  const removal = useTripRemoval(props);
+  if (removal.kind !== 'ready') return <Text testID={`removal-${removal.kind}`} />;
+  return (
+    <Pressable
+      testID={`removal-${removal.removal}`}
+      onPress={() => removal.confirm(() => undefined)}
+    >
+      <Text>{removal.copy.title}</Text>
+    </Pressable>
+  );
+}
 
 function recordedApi(answers: Readonly<Record<string, TransportResponse>>) {
   const sent: { path: string; body: unknown }[] = [];
@@ -80,7 +93,7 @@ async function open(
         <GestureHandlerRootView>
           <LocalFirstProvider value={stack.value}>
             <ScreenJoltProvider>
-              <TripMenu tripId={TRIP} status={trip.status} role={trip.role} me={ME} />
+              <Removal tripId={TRIP} status={trip.status} role={trip.role} me={ME} />
             </ScreenJoltProvider>
           </LocalFirstProvider>
         </GestureHandlerRootView>
@@ -102,16 +115,15 @@ afterEach(async () => {
   stack = null;
 });
 
-describe('the trip menu', () => {
+describe('ending a trip', () => {
   it('lets an organiser delete a setup trip nobody else is on, then returns to the trips', async () => {
     const api = await open(
       { delete_trip: applied({ trip_id: TRIP, deleted: true }) },
       { status: 'setup', role: 'organiser', others: ['out'] },
     );
-    await fireEvent.press(await screen.findByTestId('trip-menu-delete'));
     expect(await screen.findByText(/^delete this trip\?$/iu)).toBeTruthy();
     expect(api.sent).toEqual([]);
-    await activate(screen.getAllByText(/^delete trip$/iu).at(-1)!);
+    await fireEvent.press(screen.getByTestId('removal-delete'));
     await waitFor(() => expect(sentCommands(api)).toEqual(['delete_trip']));
     await waitFor(() => expect(router.navigate).toHaveBeenCalledWith('/(tabs)/trips'));
   });
@@ -121,10 +133,9 @@ describe('the trip menu', () => {
       { cancel_trip: applied({ trip_id: TRIP, status: 'cancelled', cancelled: true }) },
       { status: 'setup', role: 'organiser', others: ['in'] },
     );
-    expect(await screen.findByTestId('trip-menu-cancel')).toBeTruthy();
-    expect(screen.queryByTestId('trip-menu-delete')).toBeNull();
-    await fireEvent.press(screen.getByTestId('trip-menu-cancel'));
-    await activate(screen.getAllByText(/^call off trip$/iu).at(-1)!);
+    expect(await screen.findByTestId('removal-cancel')).toBeTruthy();
+    expect(screen.queryByTestId('removal-delete')).toBeNull();
+    await fireEvent.press(screen.getByTestId('removal-cancel'));
     await waitFor(() => expect(sentCommands(api)).toEqual(['cancel_trip']));
     expect(router.navigate).not.toHaveBeenCalled();
   });
@@ -139,20 +150,19 @@ describe('the trip menu', () => {
       },
       { status: 'confirmed', role: 'member', others: [] },
     );
-    await fireEvent.press(await screen.findByTestId('trip-menu-leave'));
     expect(await screen.findByText(/^leave this trip\?$/iu)).toBeTruthy();
-    await activate(screen.getAllByText(/^leave trip$/iu).at(-1)!);
+    await fireEvent.press(screen.getByTestId('removal-leave'));
     await waitFor(() => expect(sentCommands(api)).toEqual(['leave_trip']));
-    await waitFor(() => expect(screen.queryByText(/^leave this trip\?$/iu)).toBeNull());
+    expect(screen.getByTestId('removal-leave')).toBeTruthy();
     expect(router.navigate).not.toHaveBeenCalled();
   });
 
-  it('offers nothing once the trip is under way, and a note once it is called off', async () => {
+  it('offers nothing once the trip is under way, and says so once it is called off', async () => {
     await open({}, { status: 'in_trip', role: 'organiser', others: ['in'] });
-    await waitFor(() => expect(screen.queryByTestId(/^trip-menu-/u)).toBeNull());
+    expect(await screen.findByTestId('removal-none')).toBeTruthy();
     await stack?.close();
     if (stack) removeDir(stack.dir);
     await open({}, { status: 'cancelled', role: 'member', others: [] });
-    expect(await screen.findByTestId('trip-cancelled-note')).toBeTruthy();
+    expect(await screen.findByTestId('removal-cancelled')).toBeTruthy();
   });
 });

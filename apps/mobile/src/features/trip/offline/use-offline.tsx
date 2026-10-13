@@ -43,7 +43,7 @@ import {
   rememberOfflineSends,
 } from './offline-conflicts';
 import { stillWorksLines } from './offline-copy';
-import type { OfflineViewProps } from './offline-view';
+import type { OfflineViewProps } from './view-types';
 import { cancelQueued, editQueuedMessage, queuedMessageBody, SEND_MESSAGE } from './queue-actions';
 import { QueuedItemSheet } from './queued-item-sheet';
 import { INITIAL_RECONNECT, stepReconnect, travellerActions } from './reconnect-sequence';

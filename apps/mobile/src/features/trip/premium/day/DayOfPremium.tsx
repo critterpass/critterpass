@@ -29,7 +29,8 @@ import { PackRow } from './PackRow';
 
 const LATE_STEPS = [10, 20, 30] as const;
 
-function Body({ props }: { readonly props: DayOfProps }) {
+/** The day page once its rows are read (also what the screen tests render). */
+export function DayOfReady({ props }: { readonly props: DayOfProps }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const locale = useLocale();
@@ -215,7 +216,7 @@ export function DayOfPremium({ tripId, date }: { readonly tripId: string; readon
           <Skeleton height={120} radius={th.radius.cardRow} />
         </View>
       ) : (
-        <Body props={day.props} />
+        <DayOfReady props={day.props} />
       )}
     </PushScreen>
   );
