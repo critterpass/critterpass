@@ -12,6 +12,8 @@
 // intermediate animation frames — only on the settled value and on `useFrameCallback`-driven state).
 import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
+// Reanimated re-exports the worklets runtime's own hop back to the JS thread.
+import { runOnJS } from 'react-native-worklets';
 
 import { layoutMockExports } from './reanimated-mock-layout';
 import { isWorklet, registerUIRuntimeFunctions, toUIWorklet } from './ui-runtime';
@@ -297,6 +299,7 @@ const mockExports = {
   useAnimatedReaction,
   interpolateColor,
   interpolate,
+  runOnJS,
   Extrapolation: { CLAMP: 'clamp', EXTEND: 'extend', IDENTITY: 'identity' },
   useFrameCallback,
   withTiming,

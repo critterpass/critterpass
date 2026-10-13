@@ -75,7 +75,17 @@ function Nothing() {
   return null;
 }
 
-export const Link = Passthrough;
+/** A link pushes its href when what it wraps is pressed; its zoom source draws nothing of its own. */
+function LinkDouble({
+  href,
+  children,
+}: {
+  readonly href?: unknown;
+  readonly children?: ReactNode;
+}) {
+  return <Pressable onPress={() => router.push(href)}>{children}</Pressable>;
+}
+export const Link = Object.assign(LinkDouble, { AppleZoom: Passthrough });
 export const ThemeProvider = Passthrough;
 export const Redirect = Nothing;
 export const Slot = Nothing;

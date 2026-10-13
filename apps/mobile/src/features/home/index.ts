@@ -28,4 +28,3 @@ export { homeRoutes, HOME_ROUTES } from './routes';
 export { PostTripCard } from './post-trip-card';
 export { useWidgetSync } from './widget-gallery/use-widget-sync';
 export { useCrewDirectorySync } from './widget-gallery/use-crew-directory-sync';
-export { WidgetGalleryScreen } from './widget-gallery/widget-gallery-screen';

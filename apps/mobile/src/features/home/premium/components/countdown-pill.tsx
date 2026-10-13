@@ -11,7 +11,7 @@ import { View } from 'react-native';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { makePremiumStyles, Text } from '@/ui/premium';
 
-import { spokenLeft } from '../../countdown-chip';
+import { spokenLeft } from '../../countdown';
 
 const useStyles = makePremiumStyles((t) => ({
   pill: {

@@ -9,24 +9,17 @@ import type { HomeTripInput } from '@cp/domain';
 import { settleLink } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router, type Href } from 'expo-router';
-import { createElement } from 'react';
+import { createElement, useContext } from 'react';
 import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
-import {
-  Button,
-  Card,
-  GuideNote,
-  PressableScale,
-  Text,
-  makePremiumStyles,
-  usePremiumTheme,
-} from '@/ui/premium';
+import { LocalFirstContext } from '@/data/powersync/local-first-context';
+import { WaitlistCards } from '@/features/crew';
+import { GuideNote, PressableScale, Text, makePremiumStyles, usePremiumTheme } from '@/ui/premium';
 
 import type { HomeView } from '../data/use-home-state';
 import { guideArt } from '../guide-art';
 import { dismissTipCommand } from '../home-commands';
-import { useJoinTrip } from '../join-trip-card';
 import { useOfflineLine, useOfflineLineCopy } from '../offline-line';
 import { crewInviteRoute, HOME_ROUTES, homeRoutes } from '../routes';
 import { homeVoteSlot } from '../slots';
@@ -35,6 +28,7 @@ import { BackHero } from './components/back-hero';
 import { StepCard } from './components/step-card';
 import { SavedLinkNote } from './components/saved-link-note';
 import { TripCollageCard } from './components/trip-collage-card';
+import { JoinTripNote } from './join-trip-note';
 import { WaitTile } from './components/wait-tile';
 import { useGoing } from './use-premium-home';
 
@@ -53,7 +47,6 @@ const useStyles = makePremiumStyles((t) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  join: { padding: t.space.gap16, gap: t.space.gap10 },
 }));
 
 function push(href: Href | undefined): (() => void) | undefined {
@@ -173,42 +166,6 @@ function OfflineLine({ trip, now }: { readonly trip: HomeTripInput | null; reado
   );
 }
 
-function JoinTripNote({
-  trip,
-  crewName,
-}: {
-  readonly trip: OpenTripRow;
-  readonly crewName: string;
-}) {
-  const { t } = useLingui();
-  const styles = useStyles();
-  const join = useJoinTrip(trip.id);
-  const place = trip.destination_name;
-  const title =
-    place === null
-      ? t({ id: 'home.joinTrip.titleSoon', message: `${crewName} has a trip locked in.` })
-      : t({ id: 'home.joinTrip.titleSoonPlace', message: `${crewName} is going to ${place}.` });
-  return (
-    <Card radius={22} style={styles.join} testID="home-join-trip">
-      <Text variant="headline">{title}</Text>
-      <Text variant="note" tone="muted">
-        {t({
-          id: 'home.joinTrip.body',
-          message:
-            'You’re in the crew, not on this trip yet. Join to be in the plan and the splits.',
-        })}
-      </Text>
-      <Button
-        label={t({ id: 'home.joinTrip.cta', message: 'Join the trip' })}
-        size="medium"
-        loading={join.pending}
-        onPress={join.join}
-        testID="home-join-trip-cta"
-      />
-    </Card>
-  );
-}
-
 export interface CrewSectionProps {
   readonly view: HomeView;
   readonly openTrip: OpenTripRow | null;
@@ -216,6 +173,7 @@ export interface CrewSectionProps {
 }
 
 export function CrewSection({ view, openTrip, now }: CrewSectionProps) {
+  const localFirst = useContext(LocalFirstContext);
   const { t } = useLingui();
   const styles = useStyles();
   const theme = usePremiumTheme();
@@ -244,6 +202,14 @@ export function CrewSection({ view, openTrip, now }: CrewSectionProps) {
   return (
     <View style={styles.stack} testID={`home-mode-${home.mode}`}>
       {openTrip === null ? null : <JoinTripNote trip={openTrip} crewName={crew.name} />}
+      {/* Their place in line on the crew's full trips, or a seat that opened for them. */}
+      <WaitlistCards
+        db={localFirst?.db ?? null}
+        uid={view.uid}
+        commands={localFirst?.commands ?? null}
+        now={now}
+        crewId={crew.id}
+      />
       {trip === null ? null : <TripCollageCard trip={trip} going={going} now={now} />}
       {trip === null ? null : <SavedLinkNote tripId={trip.id} />}
       <OfflineLine trip={trip} now={now} />

@@ -16,20 +16,16 @@ jest.mock('expo-constants', () => ({
 
 import { describe, expect, it, jest } from '@jest/globals';
 
-import { renderWithI18n } from '@/lib/i18n/testing';
+import { showsDevTools } from '../dev-tools';
 
-import { DevToolsEntry } from '../dev-tools-entry';
-
-describe('DevToolsEntry', () => {
-  it('shows in development builds', async () => {
+describe('the Developer tools link', () => {
+  it('shows in development builds', () => {
     mockExtra.appVariant = 'development';
-    const { queryByTestId } = await renderWithI18n(<DevToolsEntry bottom={0} />);
-    expect(queryByTestId('dev-tools-entry')).not.toBeNull();
+    expect(showsDevTools()).toBe(true);
   });
 
-  it.each(['staging', 'production'])('renders nothing in %s builds', async (variant) => {
+  it.each(['staging', 'production'])('is hidden in %s builds', (variant) => {
     mockExtra.appVariant = variant;
-    const { queryByTestId } = await renderWithI18n(<DevToolsEntry bottom={0} />);
-    expect(queryByTestId('dev-tools-entry')).toBeNull();
+    expect(showsDevTools()).toBe(false);
   });
 });

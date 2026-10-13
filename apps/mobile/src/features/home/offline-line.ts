@@ -12,10 +12,6 @@ import { useLingui } from '@lingui/react/macro';
 
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { SAVED_DAYS_SQL, savedDaysParams, type SavedDay } from '@/data/trip-day/saved-days';
-import { Icon } from '@/ui/icons/Icon';
-import { Row } from '@/ui/layout/Row';
-import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
 
 import { useLiveRows } from './data/watch-query';
 import { offlineLineFor, type OfflineLine } from './offline-readiness';
@@ -27,8 +23,6 @@ const MISSING_PLACES_SQL = `SELECT count(DISTINCT i.poi_id) AS n
   WHERE i.trip_id = ? AND i.poi_id IS NOT NULL AND p.id IS NULL`;
 const MISSING_PLACES_TABLES = ['plan_items', 'trips', 'pois'];
 const SAVED_DAYS_TABLES = ['local_private'];
-
-const useStyles = makeStyles(() => ({ text: { flexShrink: 1 } }));
 
 function parseDay(data: string): SavedDay | null {
   try {
@@ -104,39 +98,3 @@ export function useOfflineLine(trip: HomeTripInput | null, now: Date): OfflineLi
   return { held: false, line };
 }
 
-export function OfflineLineRow({
-  trip,
-  now,
-}: {
-  /** The trip whose card the line sits under; null when Home shows none. */
-  readonly trip: HomeTripInput | null;
-  readonly now: Date;
-}) {
-  const styles = useStyles();
-  const theme = useTheme();
-  const { t } = useLingui();
-  const copy = useOfflineLineCopy();
-  const { held, line } = useOfflineLine(trip, now);
-  if (held) {
-    return (
-      <Row gap="8" testID="home-sync-held">
-        <Text variant="caption" color={theme.semantic.text.secondary} style={styles.text}>
-          {t({
-            id: 'home.offline.held',
-            message: "Some changes can't be sent yet. We'll keep trying when the app is opened.",
-          })}
-        </Text>
-      </Row>
-    );
-  }
-  if (line === null) return null;
-  const ready = line.kind === 'ready';
-  return (
-    <Row gap="8" testID={ready ? 'home-offline-ready' : 'home-offline-pending'}>
-      {ready ? <Icon name="check" size={16} decorative /> : null}
-      <Text variant="caption" color={theme.semantic.text.secondary} style={styles.text}>
-        {copy(line)}
-      </Text>
-    </Row>
-  );
-}

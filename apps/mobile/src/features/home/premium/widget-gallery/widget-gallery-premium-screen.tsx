@@ -27,7 +27,7 @@ import { PushScreen } from '@/ui/premium/shell';
 
 import type { GalleryKind, GalleryTier } from '../../widget-gallery/gallery-rows';
 import { useHowToSteps, useWidgetCopy } from '../../widget-gallery/widget-copy';
-import { useWidgetGallery } from '../../widget-gallery/widget-gallery-screen';
+import { useWidgetGallery } from '../../widget-gallery/use-widget-gallery';
 import { WIDE_WIDGETS, WidgetFace } from './widget-face';
 
 const HERO_TILE = 128;

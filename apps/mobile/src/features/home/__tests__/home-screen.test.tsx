@@ -1,23 +1,14 @@
 /**
  * Home over the real local-first stack with synced rows seeded locally: every mode renders from
  * local data (first run, everyday, final vote through the registered slot, no trip, in trip, post
- * trip), the skeleton shows only on a first sync with nothing local, the countdown ticks and reads
- * as words, the bell carries the needs-you count, the tip dismisses into the queue, and every
- * control pushes its route (the destination and place search through the registry).
+ * trip), the skeleton shows only on a first sync with nothing local, the bell carries the
+ * needs-you count, a tip without a place dismisses into the queue, and every control pushes its
+ * route (the destination, the trip hub and the recap through the registry).
  */
-// Cross-fades are timing, not layout: snapshots see their settled content.
-jest.mock('../fade-in-view', () => ({
-  FadeInView: ({ children }: { children: unknown }) => children,
-}));
-// The zoom measures its source on device; here it goes straight to the push it ends with.
-jest.mock('@/ui/transitions/use-shared-source', () => ({
-  ...jest.requireActual<Record<string, unknown>>('@/ui/transitions/use-shared-source'),
-  zoomTo: jest.fn(() => Promise.resolve()),
-}));
 
 import { DomainError } from '@cp/domain';
 import { afterAll, afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, screen, waitFor } from '@testing-library/react-native';
+import { fireEvent, screen, waitFor, within } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import { Text } from 'react-native';
 
@@ -30,13 +21,16 @@ import { enqueue } from '@/data/powersync/test-support/queue-fixtures';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { registerScreens } from '@/lib/navigation/screen-registry';
 import { motionFreeze } from '@/motion/slowmo';
-import { zoomTo } from '@/ui/transitions/use-shared-source';
 
-import { HomeScreen } from '../home-screen';
+// The store SDK is a native boundary Home never calls here.
+jest.mock('react-native-purchases', () => ({ __esModule: true, default: {} }));
+
+import { HomePremiumScreen } from '../premium/home-premium-screen';
 import { registerHomeVoteSlot } from '../slots';
 import {
   BALI,
   CREW,
+  TRIP,
   queued,
   renderHome,
   seedCrew,
@@ -64,6 +58,7 @@ beforeAll(() => {
     '7g-3': (params) => `/place/${params['placeId'] ?? ''}`,
     '3b-7': '/place-search',
     '3k-1': (params) => `/trip/${params['tripId'] ?? ''}`,
+    '3m-1': (params) => `/recap/${params['tripId'] ?? ''}`,
   });
 });
 
@@ -82,6 +77,22 @@ function isoDate(at: Date): string {
   return at.toISOString().slice(0, 10);
 }
 
+const confirmedTrip = async (s: TestLocalFirst) => {
+  const target = new Date(Date.now() + 17 * DAY + 5 * 3_600_000 + 30 * 60_000);
+  await seedTrip(s, {
+    status: 'confirmed',
+    startDate: isoDate(new Date(target.getTime() + DAY)),
+    countdownTargetAt: target.toISOString(),
+  });
+};
+
+const tip = (s: TestLocalFirst, id: string, placeId: string | null) =>
+  s.db.execute(
+    `INSERT INTO home_tips (id, crew_id, kind, text, place_id, status, valid_until, created_at)
+     VALUES (?, ?, 'fare_drop', 'Flights from Singapore drop to $412.', ?, 'active', ?, ?)`,
+    [id, CREW, placeId, new Date(Date.now() + DAY).toISOString(), new Date().toISOString()],
+  );
+
 describe('modes', () => {
   it('shows the skeleton on a first sync with nothing local', async () => {
     const s = await open();
@@ -89,91 +100,42 @@ describe('modes', () => {
       OWNER_UID_KEY,
       s.uid,
     ]);
-    await renderHome(<HomeScreen />, s);
+    await renderHome(<HomePremiumScreen />, s);
     await until(() => screen.queryByTestId('home-loading') !== null);
     // Maestro flows reach the (dev) screens from here, even before the first sync.
     expect(screen.getByTestId('dev-tools-entry')).toBeTruthy();
   });
 
-  it('renders first run with the six guides and the code entry', async () => {
+  it('renders first run with starting a crew and the code entry', async () => {
     const s = await open();
     await seedMe(s);
-    await s.db.execute(
-      "INSERT INTO critter_sets (id, code, name, guide_slug, destination_id) VALUES ('cs-1', 'bali', 'Bali', 'tokek', ?)",
-      [BALI],
-    );
-    await s.db.execute("INSERT INTO destinations (id, slug, name) VALUES (?, 'bali', 'Bali')", [
-      BALI,
-    ]);
-    await renderHome(<HomeScreen />, s);
+    await renderHome(<HomePremiumScreen />, s);
     await until(() => screen.queryByTestId('home-first-run') !== null);
-    expect(screen.getByText('WELCOME, WINSTON')).toBeTruthy();
-    for (const guide of ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco']) {
-      expect(screen.getByTestId(`home-guide-${guide}`)).toBeTruthy();
-    }
     await fireEvent.press(screen.getByTestId('home-join-code'));
     expect(push).toHaveBeenCalledWith('/onboarding/invite/code');
-    await fireEvent.press(screen.getByTestId('home-guide-tokek'));
-    expect(zoomTo).toHaveBeenCalledWith('guide-cell-tokek', `/place/${BALI}`, { hop: true });
-    await fireEvent.press(screen.getByTestId('home-somewhere-else'));
-    expect(push).toHaveBeenCalledWith('/place-search');
+    await fireEvent.press(screen.getByTestId('home-start-crew'));
+    expect(push).toHaveBeenCalledWith('/crew/new');
     expect(screen.getByTestId('dev-tools-entry')).toBeTruthy();
   });
-  it('shows the Explore row on the first run and a crew Home once Explore is registered', async () => {
-    const s = await open();
-    await seedMe(s);
-    await renderHome(<HomeScreen />, s);
-    await until(() => screen.queryByTestId('home-first-run') !== null);
-    // Not registered yet: no row, rather than one that opens nothing.
-    expect(screen.queryByTestId('home-explore')).toBeNull();
-    const unregister = registerScreens({ 'explore-home': '/explore' });
-    await until(() => screen.queryByTestId('home-explore') !== null);
-    expect(screen.getByText('EXPLORE')).toBeTruthy();
-    await fireEvent.press(screen.getByTestId('home-explore'));
-    expect(push).toHaveBeenCalledWith('/explore');
-    await screen.unmount();
 
-    const crew = await open();
-    await seedCrew(crew);
-    await seedTrip(crew, { status: 'confirmed', startDate: isoDate(new Date(Date.now() + DAY)) });
-    await renderHome(<HomeScreen />, crew);
-    await until(() => screen.queryByTestId('home-mode-everyday') !== null);
-    push.mockClear();
-    await fireEvent.press(screen.getByTestId('home-explore'));
-    expect(push).toHaveBeenCalledWith('/explore');
-    unregister();
-    await s.close();
-    removeDir(s.dir);
-  });
-
-  it('renders everyday with a ticking countdown, plan progress, the bell count and the tip', async () => {
+  it('renders everyday with the next trip, plan progress, the bell count and the tip', async () => {
     const s = await open();
     await seedCrew(s);
-    const target = new Date(Date.now() + 17 * DAY + 5 * 3_600_000 + 30 * 60_000);
-    await seedTrip(s, {
-      status: 'confirmed',
-      startDate: isoDate(new Date(target.getTime() + DAY)),
-      countdownTargetAt: target.toISOString(),
-    });
+    await confirmedTrip(s);
     await seedInboxItem(s, { kind: 'nudge.received', needsYou: true });
-    await s.db.execute(
-      `INSERT INTO home_tips (id, crew_id, kind, text, place_id, status, valid_until, created_at)
-       VALUES ('tip-1', ?, 'fare_drop', 'Flights from Singapore drop to $412.', ?, 'active', ?, ?)`,
-      [CREW, BALI, new Date(Date.now() + DAY).toISOString(), new Date().toISOString()],
-    );
-    await renderHome(<HomeScreen />, s);
+    await tip(s, 'tip-1', BALI);
+    await renderHome(<HomePremiumScreen />, s);
     await until(() => screen.queryByTestId('home-mode-everyday') !== null);
-    expect(screen.getByText('BALI')).toBeTruthy();
-    expect(screen.getByText(/^17D \d\d:\d\d:\d\d$/)).toBeTruthy();
-    expect(screen.getByLabelText(/^17 days, 5 hours to Bali$/)).toBeTruthy();
-    expect(screen.getByText('PLAN 80%')).toBeTruthy();
-    await until(() => screen.queryByLabelText('Inbox, 1 new') !== null);
-    expect(screen.getByText('Flights from Singapore drop to $412.')).toBeTruthy();
+    await until(() => screen.queryByTestId('home-next-up') !== null);
+    expect(screen.getByTestId('home-plan-progress')).toBeTruthy();
+    await until(() => screen.queryByLabelText('Inbox, 1') !== null);
+    expect(screen.getByText(/Flights from Singapore drop to \$412\./)).toBeTruthy();
   });
+
   it('renders the final vote through the registered slot', async () => {
     const s = await open();
     await seedCrew(s);
-    await seedTrip(s, { status: 'voting' });
+    await seedTrip(s, { status: 'voting', destinationId: null });
     const unregister = registerHomeVoteSlot({
       useVote: (crewId) =>
         crewId === CREW
@@ -189,7 +151,7 @@ describe('modes', () => {
       Component: ({ vote }) => <Text testID="vote-slot">{vote.stage}</Text>,
     });
     try {
-      await renderHome(<HomeScreen />, s);
+      await renderHome(<HomePremiumScreen />, s);
       await until(() => screen.queryByTestId('home-mode-final_vote') !== null);
       expect(screen.getByTestId('vote-slot')).toBeTruthy();
     } finally {
@@ -216,7 +178,7 @@ describe('modes', () => {
       Component: ({ vote }) => <Text testID="vote-slot">{vote.stage}</Text>,
     });
     try {
-      await renderHome(<HomeScreen />, s);
+      await renderHome(<HomePremiumScreen />, s);
       await until(() => screen.queryByTestId('vote-slot') !== null);
       // The trip's rows land after the vote's: give them time to, and the card still stays away.
       await expect(
@@ -230,7 +192,7 @@ describe('modes', () => {
   it('renders no trip with the pitch control when nothing is planned', async () => {
     const s = await open();
     await seedCrew(s);
-    await renderHome(<HomeScreen />, s);
+    await renderHome(<HomePremiumScreen />, s);
     await until(() => screen.queryByTestId('home-no-trip') !== null);
     // Three in the crew: nothing asks them to invite friends.
     expect(screen.queryByTestId('home-invite-friends')).toBeNull();
@@ -259,7 +221,7 @@ describe('modes', () => {
     await seedCrew(s);
     await enqueue(s.db, s.uid, 'create_test_crew', {});
     await s.value.queue.flush();
-    await renderHome(<HomeScreen />, s);
+    await renderHome(<HomePremiumScreen />, s);
     await until(() => screen.queryByTestId('home-sync-held') !== null);
 
     down = false;
@@ -272,26 +234,24 @@ describe('modes', () => {
     const s = await open();
     await seedCrew(s);
     await s.db.execute('DELETE FROM crew_members WHERE user_id <> ?', [s.uid]);
-    await renderHome(<HomeScreen />, s);
+    await renderHome(<HomePremiumScreen />, s);
     await until(() => screen.queryByTestId('home-invite-friends') !== null);
-    await fireEvent.press(screen.getByTestId('home-invite-friends-open'));
+    await fireEvent.press(screen.getByLabelText(/Invite/));
     expect(push).toHaveBeenCalledWith(`/crew/${CREW}/invite`);
   });
 
-  it('keeps the inbox and "Your crews" in reach before the first crew', async () => {
+  it('keeps the inbox in reach before the first crew', async () => {
     const s = await open();
     await seedMe(s);
     await seedInboxItem(s, { kind: 'nudge.received', needsYou: true });
-    await renderHome(<HomeScreen />, s);
+    await renderHome(<HomePremiumScreen />, s);
     await until(() => screen.queryByTestId('home-first-run') !== null);
-    await until(() => screen.queryByLabelText('Inbox, 1 new') !== null);
-    await fireEvent.press(screen.getByTestId('home-your-crews'));
-    expect(push).toHaveBeenCalledWith('/crew');
-    await fireEvent.press(screen.getByTestId('home-header-inbox'));
+    await until(() => screen.queryByLabelText('Inbox, 1') !== null);
+    await fireEvent.press(screen.getByTestId('home-bell'));
     expect(push).toHaveBeenCalledWith('/inbox');
   });
 
-  it('renders the recap card for two weeks after the last day', async () => {
+  it('welcomes the crew back for two weeks after the last day, with the recap', async () => {
     const s = await open();
     await seedCrew(s);
     await seedTrip(s, {
@@ -299,10 +259,13 @@ describe('modes', () => {
       startDate: isoDate(new Date(Date.now() - 8 * DAY)),
       endDate: isoDate(new Date(Date.now() - DAY)),
     });
-    await renderHome(<HomeScreen />, s);
+    await renderHome(<HomePremiumScreen />, s);
     await until(() => screen.queryByTestId('home-mode-post_trip') !== null);
-    expect(screen.getByText('BALI RECAP')).toBeTruthy();
+    await until(() => screen.queryByTestId('home-back-recap') !== null);
+    await fireEvent.press(screen.getByTestId('home-back-recap'));
+    expect(push).toHaveBeenCalledWith(`/recap/${TRIP}`);
   });
+
   it('renders the in-trip card during the trip and opens the hub', async () => {
     const s = await open();
     await seedCrew(s);
@@ -311,27 +274,34 @@ describe('modes', () => {
       startDate: isoDate(new Date(Date.now() - 2 * DAY)),
       countdownTargetAt: new Date(Date.now() - 2 * DAY).toISOString(),
     });
-    await renderHome(<HomeScreen />, s);
+    await renderHome(<HomePremiumScreen />, s);
     await until(() => screen.queryByTestId('home-mode-in_trip') !== null);
-    await fireEvent.press(screen.getByTestId('home-in-trip'));
-    expect(push).toHaveBeenCalledWith('/trip/0192f000-0000-7000-8000-0000000000f1');
+    await until(() => screen.queryByTestId('home-in-trip') !== null);
+    // The card is a zoom link: pressing what it shows opens the hub.
+    await fireEvent.press(within(screen.getByTestId('home-in-trip')).getAllByText(/Bali/i)[0]!);
+    expect(push).toHaveBeenCalledWith(`/hub/${TRIP}`);
   });
 });
 
-describe('tip strip', () => {
-  it('queues dismiss_tip on a fling and hides the tip at once', async () => {
+describe('tips', () => {
+  it('opens the place a tip is about', async () => {
     const s = await open();
     await seedCrew(s);
-    await s.db.execute(
-      `INSERT INTO home_tips (id, crew_id, kind, text, place_id, status, valid_until, created_at)
-       VALUES ('tip-2', ?, 'crowd_dip', 'Bali is at its quietest in February.', ?, 'active', ?, ?)`,
-      [CREW, BALI, new Date(Date.now() + DAY).toISOString(), new Date().toISOString()],
-    );
-    await renderHome(<HomeScreen />, s);
+    await confirmedTrip(s);
+    await tip(s, 'tip-1', BALI);
+    await renderHome(<HomePremiumScreen />, s);
     await until(() => screen.queryByTestId('home-tip') !== null);
-    await fireEvent(screen.getByTestId('home-tip-swipe'), 'accessibilityAction', {
-      nativeEvent: { actionName: 'swipeLeft' },
-    });
+    await fireEvent.press(screen.getByLabelText('Show me'));
+    expect(push).toHaveBeenCalledWith(`/place/${BALI}`);
+  });
+
+  it('queues dismiss_tip for a tip without a place and hides it', async () => {
+    const s = await open();
+    await seedCrew(s);
+    await tip(s, 'tip-2', null);
+    await renderHome(<HomePremiumScreen />, s);
+    await until(() => screen.queryByTestId('home-tip') !== null);
+    await fireEvent.press(screen.getByLabelText('Got it'));
     await waitFor(async () =>
       expect(await queued(s, 'dismiss_tip')).toEqual([{ tip_id: 'tip-2' }]),
     );
@@ -340,37 +310,15 @@ describe('tip strip', () => {
 });
 
 describe('navigation', () => {
-  it('opens the destination, the crews sheet, the inbox and the chat', async () => {
+  it('opens the inbox and the crew chat from the header', async () => {
     const s = await open();
     await seedCrew(s);
-    const target = new Date(Date.now() + 17 * DAY + 5 * 3_600_000 + 30 * 60_000);
-    await seedTrip(s, {
-      status: 'confirmed',
-      startDate: isoDate(new Date(target.getTime() + DAY)),
-      countdownTargetAt: target.toISOString(),
-    });
-    await seedInboxItem(s, { kind: 'nudge.received', needsYou: true });
-    await s.db.execute(
-      `INSERT INTO home_tips (id, crew_id, kind, text, place_id, status, valid_until, created_at)
-       VALUES ('tip-1', ?, 'fare_drop', 'Flights from Singapore drop to $412.', ?, 'active', ?, ?)`,
-      [CREW, BALI, new Date(Date.now() + DAY).toISOString(), new Date().toISOString()],
-    );
-    await renderHome(<HomeScreen />, s);
-    await until(() => screen.queryByTestId('home-mode-everyday') !== null);
-    expect(screen.getByText('BALI')).toBeTruthy();
-    expect(screen.getByText(/^17D \d\d:\d\d:\d\d$/)).toBeTruthy();
-    expect(screen.getByLabelText(/^17 days, 5 hours to Bali$/)).toBeTruthy();
-    expect(screen.getByText('PLAN 80%')).toBeTruthy();
-    await until(() => screen.queryByLabelText('Inbox, 1 new') !== null);
-    expect(screen.getByText('Flights from Singapore drop to $412.')).toBeTruthy();
-
-    await fireEvent.press(screen.getByTestId('home-tip'));
-    expect(push).toHaveBeenCalledWith(`/place/${BALI}`);
-    await fireEvent.press(screen.getByTestId('home-header-crew'));
-    expect(push).toHaveBeenCalledWith('/crew');
-    await fireEvent.press(screen.getByTestId('home-header-inbox'));
+    await confirmedTrip(s);
+    await renderHome(<HomePremiumScreen />, s);
+    await until(() => screen.queryByTestId('home-chat') !== null);
+    await fireEvent.press(screen.getByTestId('home-bell'));
     expect(push).toHaveBeenCalledWith('/inbox');
-    await fireEvent.press(screen.getByTestId('home-header-chat'));
+    await fireEvent.press(screen.getByTestId('home-chat'));
     expect(push).toHaveBeenCalledWith(`/crew/${CREW}/chat`);
   });
 });

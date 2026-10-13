@@ -1,6 +1,6 @@
 /**
- * Layout snapshots of Home's pieces on a pinned clock, for review against 3b-2: the next-up card
- * counting down (17D 05:26:47), inside its last day, on its first day and mid-trip, and the tip.
+ * Home's next-up card on a pinned clock: the trip's day from its first midnight in the destination
+ * zone, the countdown only once the trip is locked in, and the plan pill only with progress.
  */
 
 import { describe, expect, it } from '@jest/globals';
@@ -13,8 +13,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import type { HomeTripInput } from '@cp/domain';
 
-import { NextUpCard } from '../next-up-card';
-import { registerTripTurn, type TripTurnView } from '../slots';
+import { TripCollageCard } from '../premium/components/trip-collage-card';
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -49,81 +48,46 @@ async function show(ui: ReactElement) {
   );
 }
 
-describe('next-up card', () => {
-  it('counts down in days, hours, minutes and seconds', async () => {
-    await show(<NextUpCard trip={BALI} now={() => NOW} />);
-    expect(screen.getByText('17D 05:26:47')).toBeTruthy();
-    expect(screen.getByText('NEXT UP · OCT 12')).toBeTruthy();
-    expect(screen.getByLabelText('17 days, 5 hours to Bali')).toBeTruthy();
-  });
+const card = (trip: HomeTripInput, now: Date) => (
+  <TripCollageCard trip={trip} going={[]} now={now} />
+);
 
-  it('drops the days inside the last 24 hours', async () => {
-    const lastDay = new Date(TARGET.getTime() - (3 * 3600 + 2 * 60 + 1) * 1000);
-    await show(<NextUpCard trip={BALI} now={() => lastDay} />);
-    expect(screen.getByText('03:02:01')).toBeTruthy();
+describe('next-up card', () => {
+  it('names the day it starts and counts down once the trip is locked in', async () => {
+    await show(card(BALI, NOW));
+    expect(screen.getByText('Next up · Oct 12')).toBeTruthy();
+    expect(screen.getByTestId('home-countdown')).toBeTruthy();
   });
 
   it('is the trip’s day from its first midnight, in the destination zone', async () => {
-    await show(<NextUpCard trip={BALI} now={() => new Date('2026-10-11T18:00:00Z')} />);
-    expect(screen.getByText('TODAY · DAY 1 OF 8')).toBeTruthy();
-    // No ticking chip on a trip day: the eyebrow is the card's "when".
-    expect(screen.queryByText(/\d\d:\d\d:\d\d/u)).toBeNull();
-    await show(<NextUpCard trip={BALI} now={() => new Date('2026-10-13T23:30:00Z')} />);
-    expect(screen.getByText('TODAY · DAY 3 OF 8')).toBeTruthy();
+    await show(card(BALI, new Date('2026-10-11T18:00:00Z')));
+    expect(screen.getByText('Today · Day 1 of 8')).toBeTruthy();
+    // No countdown on a trip day: the eyebrow is the card's "when".
+    expect(screen.queryByTestId('home-countdown')).toBeNull();
+    await show(card(BALI, new Date('2026-10-13T23:30:00Z')));
+    expect(screen.getByText('Today · Day 3 of 8')).toBeTruthy();
   });
 
   it('shows the plan pill once the trip has progress, and not at 0%', async () => {
-    await show(<NextUpCard trip={BALI} now={() => NOW} />);
-    expect(screen.getByText('PLAN 80%')).toBeTruthy();
-    expect(screen.getByLabelText(/plan 80 percent done/)).toBeTruthy();
-    await show(<NextUpCard trip={{ ...BALI, planProgress: 0 }} now={() => NOW} />);
+    await show(card(BALI, NOW));
+    expect(screen.getByTestId('home-plan-progress')).toBeTruthy();
+    await show(card({ ...BALI, planProgress: 0 }, NOW));
     expect(screen.queryByTestId('home-plan-progress')).toBeNull();
-    expect(screen.queryByLabelText(/percent done/)).toBeNull();
-    expect(screen.getByText('17D 05:26:47')).toBeTruthy();
+    expect(screen.getByTestId('home-countdown')).toBeTruthy();
   });
 
   it('reads "Your next trip" with no countdown before a place and dates are set', async () => {
     await show(
-      <NextUpCard
-        trip={{ ...BALI, destinationName: null, startDate: null, countdownTargetAt: null }}
-        now={() => NOW}
-      />,
+      card({ ...BALI, destinationName: null, startDate: null, countdownTargetAt: null }, NOW),
     );
-    expect(screen.getByLabelText(/^NEXT UP, YOUR NEXT TRIP/u)).toBeTruthy();
+    expect(screen.getByLabelText('Next up, Your next trip')).toBeTruthy();
     expect(screen.queryByTestId('home-countdown')).toBeNull();
-    expect(screen.getByText('NEXT UP')).toBeTruthy();
   });
 
   it('starts the countdown at the lock, not while the crew is still answering', async () => {
-    await show(<NextUpCard trip={{ ...BALI, status: 'proposed' }} now={() => NOW} />);
+    await show(card({ ...BALI, status: 'proposed' }, NOW));
     expect(screen.queryByTestId('home-countdown')).toBeNull();
-    await show(<NextUpCard trip={{ ...BALI, status: 'pre_trip' }} now={() => NOW} />);
+    await show(card({ ...BALI, status: 'pre_trip' }, NOW));
     expect(screen.getByTestId('home-countdown')).toBeTruthy();
-  });
-
-  it('says whose turn it is under the card: a line, and a button only for a step to take', async () => {
-    const waiting: TripTurnView = {
-      kind: 'plan_coming',
-      mine: false,
-      line: "Linh is still working on the plan. You'll get it here.",
-      button: null,
-      href: undefined,
-      organiser: 'Linh',
-      crewSize: 2,
-    };
-    let turn = waiting;
-    const unregister = registerTripTurn(() => turn);
-    try {
-      await show(<NextUpCard trip={{ ...BALI, status: 'draft_review' }} now={() => NOW} />);
-      expect(screen.getByTestId('home-turn-plan_coming')).toBeTruthy();
-      expect(screen.getByText(waiting.line)).toBeTruthy();
-      expect(screen.queryByTestId('home-turn-button')).toBeNull();
-      turn = { ...waiting, kind: 'answer', mine: true, button: 'Read it and answer', href: '/p' };
-      await show(<NextUpCard trip={{ ...BALI, status: 'proposed' }} now={() => NOW} />);
-      expect(screen.getByTestId('home-turn-button')).toBeTruthy();
-      expect(screen.getByText('READ IT AND ANSWER')).toBeTruthy();
-    } finally {
-      unregister();
-    }
   });
 });

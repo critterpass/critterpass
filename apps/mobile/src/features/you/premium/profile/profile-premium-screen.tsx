@@ -4,6 +4,7 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
+import { createElement } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { MONETIZE_ROUTES } from '@/features/monetize';
@@ -78,7 +79,7 @@ export function ProfilePremiumScreen() {
               <View style={{ height: th.space.gap8 }} />
               {Notice === null ? null : (
                 <View style={{ paddingHorizontal: th.space.gutter, paddingBottom: th.space.gap12 }}>
-                  <Notice />
+                  {createElement(Notice)}
                 </View>
               )}
               <PassportCard

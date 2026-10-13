@@ -6,17 +6,12 @@
  * makes the card go once the participant row syncs; a full trip leaves them on the waitlist, whose
  * card (the crews sheet's own) then stands in its place.
  */
-import { upper } from '@cp/i18n';
+
 import { useLingui } from '@lingui/react/macro';
 
 import { useCommand } from '@/data/commands/use-command';
-import { useLocale } from '@/lib/i18n/use-locale';
+
 import { toast } from '@/motion/island-toast';
-import { PillButton } from '@/ui/buttons/PillButton';
-import { Card } from '@/ui/cards/Card';
-import { Stack } from '@/ui/layout/Stack';
-import { Text } from '@/ui/text/Text';
-import { useTheme } from '@/ui/theme';
 
 import { OPEN_TRIP_SQL, OPEN_TRIP_TABLES, type OpenTripRow } from './data/home-queries';
 import { useLiveRows } from './data/watch-query';
@@ -98,55 +93,3 @@ export function useJoinTrip(tripId: string): JoinTrip {
   return { join, pending: command.pending };
 }
 
-export interface JoinTripCardProps {
-  readonly trip: OpenTripRow;
-  readonly crewName: string;
-}
-
-export function JoinTripCard({ trip, crewName }: JoinTripCardProps) {
-  const { t } = useLingui();
-  const locale = useLocale();
-  const theme = useTheme();
-  const join = useJoinTrip(trip.id);
-  const onJoin = join.join;
-  const place = trip.destination_name;
-  const underWay = trip.status === 'in_trip';
-  const title =
-    place === null
-      ? underWay
-        ? t({ id: 'home.joinTrip.titleNow', message: `${crewName} is on a trip right now.` })
-        : t({ id: 'home.joinTrip.titleSoon', message: `${crewName} has a trip locked in.` })
-      : underWay
-        ? t({
-            id: 'home.joinTrip.titleNowPlace',
-            message: `${crewName} is in ${place} right now.`,
-          })
-        : t({
-            id: 'home.joinTrip.titleSoonPlace',
-            message: `${crewName} is going to ${place}.`,
-          });
-
-  return (
-    <Card testID="home-join-trip">
-      <Stack gap="12">
-        <Text variant="h3" accessibilityRole="header">
-          {title}
-        </Text>
-        <Text variant="bodySm" color={theme.semantic.text.secondary}>
-          {t({
-            id: 'home.joinTrip.body',
-            message:
-              'You’re in the crew, not on this trip yet. Join to be in the plan and the splits.',
-          })}
-        </Text>
-        <PillButton
-          label={upper(t({ id: 'home.joinTrip.cta', message: 'Join the trip' }), locale)}
-          onPress={onJoin}
-          loading={join.pending}
-          block
-          testID="home-join-trip-cta"
-        />
-      </Stack>
-    </Card>
-  );
-}

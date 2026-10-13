@@ -10,14 +10,9 @@ import { AppState } from 'react-native';
 import { addWidget, countdownDays, galleryRows, type GalleryKind } from './gallery-rows';
 import { installedWidgetsPayload } from './installed-widgets';
 import { sessionSnapshotFetch } from './use-widget-sync';
-import { WidgetGalleryView } from './widget-gallery-view';
-import { WidgetHowToSheet } from './widget-how-to-sheet';
+
 import { useWidgetCopy } from './widget-copy';
 import { installedWidgetPorts, widgetPinPort } from './widget-ports';
-
-export interface WidgetGalleryScreenProps {
-  readonly onBack: () => void;
-}
 
 /**
  * The gallery's rows, the countdown's days and what "+" does (ask the launcher, or say how); both
@@ -64,19 +59,3 @@ export function useWidgetGallery() {
   };
 }
 
-export function WidgetGalleryScreen({ onBack }: WidgetGalleryScreenProps) {
-  const gallery = useWidgetGallery();
-  return (
-    <>
-      <WidgetGalleryView
-        rows={gallery.rows}
-        countdownDays={gallery.countdownDays}
-        onAdd={gallery.add}
-        onBack={onBack}
-      />
-      {gallery.howTo === null ? null : (
-        <WidgetHowToSheet widget={gallery.howTo} onClose={gallery.closeHowTo} />
-      )}
-    </>
-  );
-}
