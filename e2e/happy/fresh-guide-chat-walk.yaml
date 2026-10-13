@@ -1,70 +1,39 @@
 appId: app.critterpass.dev
 ---
 # A new account's guide chat on staging, no demo world (started as `crew_with_code`: a crew of one
-# and no trip), first on a Vietnamese phone and then
-# in English. Vietnamese: the greeting, a suggested question, the answer streaming in and settling,
-# the daily count under the guide's name, and a typed question (without diacritics: the Android
-# driver types ASCII only) with the keyboard up. English after a restart (the dev gallery's
-# language is never saved): the same thread, and a question whose answer uses a local word with
-# its gloss. The sheet the app was closed on comes back on that restart.
+# and no trip), first in Vietnamese and then in English. Vietnamese: the guide's four starters, a
+# starter asked, the answer streaming in and settling, and a typed question (without diacritics:
+# the Android driver types ASCII only) with the keyboard up. English (switched in Settings, then a
+# cold start): the same thread, and a question whose answer uses a local word with its gloss.
 #
 # Needs the staging api's guide model key and a free meter with answers left.
 - runFlow:
     file: ../_shared/start-as.yaml
     env:
       SCENARIO: crew_with_code
-- tapOn:
-    id: 'dev-tools-entry'
-# The gallery sits below the first screenful on a phone; slow, or iOS flings past it.
-- scrollUntilVisible:
-    element:
-      id: 'dev-nav-gallery'
-    direction: DOWN
-    timeout: 20000
-    speed: 20
-- waitForAnimationToEnd
-- tapOn:
-    id: 'dev-nav-gallery'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-locale-vi'
-    timeout: 15000
-- tapOn:
-    id: 'gallery-locale-vi'
-- runFlow: ../onboarding/subflows/back.yaml
-- waitForAnimationToEnd
+      LANG: vi
 - runFlow:
-    when:
-      notVisible:
-        id: 'guide-fab'
-    file: ../onboarding/subflows/back.yaml
-- extendedWaitUntil:
-    visible:
-      id: 'guide-fab'
-    timeout: 20000
+    file: subflows/open-guide.yaml
+    env:
+      GUIDE_LABEL: 'Hỏi .*'
 
-# Vietnamese: the greeting and its three questions.
-- tapOn:
-    id: 'guide-fab'
+# Vietnamese: the starters.
 - extendedWaitUntil:
     visible:
-      id: 'guide-composer'
-    timeout: 15000
-- extendedWaitUntil:
-    visible:
-      id: 'guide-prompt-0'
+      id: 'guide-starter-.*'
     timeout: 15000
 - waitForAnimationToEnd
-- takeScreenshot: vi-walk-guide-greeting
-# A suggested question: the dots, the answer typing in, then its saved copy and the count.
+- takeScreenshot: premium-5.13-walk-guide-starters-vi
+# A starter: the dots, the answer typing in, then its saved copy.
 - tapOn:
-    id: 'guide-prompt-0'
-- takeScreenshot: vi-walk-guide-asked
+    id: 'guide-starter-.*'
+    index: 0
+- takeScreenshot: premium-5.14-walk-guide-asked-vi
 - extendedWaitUntil:
     visible:
       id: 'guide-answer-(live|[0-9a-f-]{36})'
     timeout: 90000
-- takeScreenshot: vi-walk-guide-streaming
+- takeScreenshot: premium-5.14-walk-guide-streaming-vi
 - assertNotVisible:
     id: 'guide-error'
 - extendedWaitUntil:
@@ -74,21 +43,22 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 8000
-- takeScreenshot: vi-walk-guide-answer
+- takeScreenshot: premium-5.14-walk-guide-answer-vi
 # A typed question, the keyboard up under the composer.
 - tapOn:
     id: 'guide-composer'
 - inputText: 'Da Nang co mon gi ngon?'
 - waitForAnimationToEnd
-- takeScreenshot: vi-walk-guide-draft-keyboard
+- takeScreenshot: premium-5.14-walk-guide-draft-keyboard-vi
 - assertVisible: 'Da Nang co mon gi ngon\?'
-- tapOn: 'Gửi'
+# The composer's send carries no id: it is the button labelled Hỏi (Ask).
+- tapOn: 'Hỏi'
 - extendedWaitUntil:
     visible:
       id: 'guide-live'
     timeout: 30000
     optional: true
-- takeScreenshot: vi-walk-guide-asked-keyboard
+- takeScreenshot: premium-5.14-walk-guide-asked-keyboard-vi
 - extendedWaitUntil:
     notVisible:
       id: 'guide-live'
@@ -96,40 +66,46 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 8000
-- takeScreenshot: vi-walk-guide-answer-keyboard
+- takeScreenshot: premium-5.14-walk-guide-answer-keyboard-vi
 - assertNotVisible:
     id: 'guide-error'
 - hideKeyboard
 - waitForAnimationToEnd
-- takeScreenshot: vi-walk-guide-thread
+- takeScreenshot: premium-5.14-walk-guide-thread-vi
 
-# English: a cold start drops the gallery's language and never reopens a sheet, so the app comes
-# back on the screen under it and the guide opens from its button. The same thread (never an
-# error), and a local word's gloss.
+# English: the language switched in Settings, then a cold start; the guide opens from its circle on
+# the same thread (never an error), and a local word's gloss.
+- runFlow:
+    file: ../_shared/back-to.yaml
+    env:
+      MARK: 'home-screen'
+- runFlow:
+    file: ../_shared/switch-language.yaml
+    env:
+      LANG: en
 - stopApp
 - launchApp
 - extendedWaitUntil:
     visible:
-      id: 'guide-fab'
+      id: 'home-screen|you-language|tab-home'
     timeout: 60000
-- waitForAnimationToEnd
-- tapOn:
-    id: 'guide-fab'
-- extendedWaitUntil:
-    visible:
-      id: 'guide-composer'
-    timeout: 30000
+- runFlow:
+    file: ../_shared/to-home.yaml
+- runFlow:
+    file: subflows/open-guide.yaml
+    env:
+      GUIDE_LABEL: 'Ask .*'
 - extendedWaitUntil:
     visible:
       id: 'guide-answer-[0-9a-f-]{36}'
     timeout: 30000
 - waitForAnimationToEnd
-- takeScreenshot: en-walk-guide-thread
+- takeScreenshot: premium-5.14-walk-guide-thread-light
 - tapOn:
     id: 'guide-composer'
 - inputText: 'How do I thank a driver in Bali?'
 - assertVisible: 'How do I thank a driver in Bali\?'
-- tapOn: 'Send'
+- tapOn: 'Ask'
 - extendedWaitUntil:
     visible:
       id: 'guide-live'
@@ -144,7 +120,7 @@ appId: app.critterpass.dev
     timeout: 8000
 - assertNotVisible:
     id: 'guide-error'
-- takeScreenshot: en-walk-guide-gloss-keyboard
+- takeScreenshot: premium-5.14-walk-guide-gloss-keyboard-light
 - hideKeyboard
 - waitForAnimationToEnd
-- takeScreenshot: en-walk-guide-gloss
+- takeScreenshot: premium-5.14-walk-guide-gloss-light

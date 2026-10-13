@@ -1,0 +1,40 @@
+appId: app.critterpass.dev
+---
+# Opens Developer tools the way a tester does: back to Home (or the splash, before onboarding),
+# down to the "Developer tools" entry at its foot, and a tap. Ends on the Developer tools list.
+- runFlow:
+    file: back-to.yaml
+    env:
+      MARK: 'home-screen|onboarding-open'
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-screen|onboarding-open'
+    commands:
+      - runFlow:
+          file: tab.yaml
+          env:
+            TAB: home
+            LABEL: Home
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen|onboarding-open'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'dev-tools-entry'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-build-marker|dev-nav-.*'
+    timeout: 15000

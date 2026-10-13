@@ -13,7 +13,7 @@ appId: app.critterpass.dev
     id: 'when-pick-week'
 - evalScript: ${output.pickDate = new Date(Date.now() + 7 * 3600000 + 21 * 86400000).toISOString().slice(0, 10)}
 - runFlow:
-    file: ../../happy/subflows/pick-days.yaml
+    file: pick-days.yaml
     env:
       PICK_DATE: ${output.pickDate}
       PICK_DAYS: 7

@@ -10,7 +10,7 @@ appId: app.critterpass.dev
     env:
       SCENARIO: everyday
 - tapOn:
-    id: 'home-header-chat'
+    id: 'home-chat'
 - extendedWaitUntil:
     visible:
       id: 'chat-composer'

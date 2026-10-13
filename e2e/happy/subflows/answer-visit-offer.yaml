@@ -8,7 +8,7 @@ appId: app.critterpass.dev
 - runFlow:
     when:
       visible:
-        id: 'trip-hub-header-in'
+        id: 'trip-hub'
       notVisible:
         id: 'visit-consent-row'
     commands:

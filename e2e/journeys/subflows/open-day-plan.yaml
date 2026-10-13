@@ -2,8 +2,11 @@ appId: app.critterpass.dev
 ---
 # From any tab: TRIPS, the hub's PLAN tile, and the day plan (PLAN opens on the trip map or on the
 # day; the map's peek opens the day).
-- tapOn:
-    id: 'tab-trips'
+- runFlow:
+    file: ../../_shared/tab.yaml
+    env:
+      TAB: trips
+      LABEL: Trips
     # The hub never settles for Maestro: without a limit the tap waits minutes.
     waitToSettleTimeoutMs: 500
 - extendedWaitUntil:
@@ -13,14 +16,14 @@ appId: app.critterpass.dev
 - runFlow: pass-trip-welcome.yaml
 - scrollUntilVisible:
     element:
-      id: 'trip-hub-tile-plan'
+      id: 'trip-hub-door-plan|trip-hub-tile-plan'
     direction: DOWN
     timeout: 15000
     visibilityPercentage: 100
     # Clear of the tab bar, which takes a tap on a tile half under it.
     centerElement: true
 - tapOn:
-    id: 'trip-hub-tile-plan'
+    id: 'trip-hub-door-plan|trip-hub-tile-plan'
 - extendedWaitUntil:
     visible:
       id: 'trip-map|day-plan'

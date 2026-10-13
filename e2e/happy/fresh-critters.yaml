@@ -11,12 +11,7 @@ appId: app.critterpass.dev
     file: ../_shared/start-as.yaml
     env:
       SCENARIO: solo_today
-- tapOn:
-    id: 'tab-pass'
-- extendedWaitUntil:
-    visible:
-      id: 'critters-dex-header'
-    timeout: 60000
+- runFlow: subflows/open-critterdex.yaml
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-07-pass-on-trip
 # The egg card follows the trip: it shows once the worker's sweep (every ten minutes) has moved
@@ -179,12 +174,12 @@ appId: app.critterpass.dev
           id: 'critters-encounter-banner'
       - extendedWaitUntil:
           visible:
-            id: 'critters-encounter-scene'
+            id: 'critters-encounter-.*'
           timeout: 20000
       - waitForAnimationToEnd:
           timeout: 4000
       - takeScreenshot: fresh-critters-15-encounter
-      - runFlow: ../onboarding/subflows/back.yaml
+      - runFlow: ../_shared/back.yaml
 # The trip's quests: Home → the trip → QUESTS.
 - runFlow:
     file: ../_shared/open-link.yaml
@@ -214,7 +209,7 @@ appId: app.critterpass.dev
 # quests on, as further down.
 - extendedWaitUntil:
     visible:
-      id: 'trip-hub-header-.*|visit-consent-accept'
+      id: 'trip-hub|visit-consent-accept'
     timeout: 15000
     optional: true
 - runFlow:
@@ -232,14 +227,13 @@ appId: app.critterpass.dev
 - runFlow:
     when:
       notVisible:
-        id: 'trip-hub-header-.*'
+        id: 'trip-hub'
     commands:
       - takeScreenshot: fresh-critters-15c-home-tap-did-nothing
-      - tapOn:
-          id: 'tab-trips'
+      - runFlow: subflows/open-trip-hub.yaml
 - extendedWaitUntil:
     visible:
-      id: 'trip-hub-header-.*'
+      id: 'trip-hub'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-16-trip-hub

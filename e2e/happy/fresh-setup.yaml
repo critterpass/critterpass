@@ -22,8 +22,11 @@ appId: app.critterpass.dev
     visible:
       id: 'tab-home'
     timeout: 30000
-- tapOn:
-    id: 'tab-home'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
 - scrollUntilVisible:
     element:
       id: 'board-lock-in'
@@ -39,10 +42,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'reveal-set-up'
-- extendedWaitUntil:
-    visible:
-      id: 'setup-step-when'
-    timeout: 20000
+- runFlow: subflows/open-setup-when.yaml
 # Days by hand, whatever this phone's calendar already shared on the way in. The step re-lays
 # itself as the shared days sync, which can scroll the row away under a tap: try again then.
 - retry:

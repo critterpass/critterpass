@@ -9,7 +9,7 @@ appId: app.critterpass.dev
 - repeat:
     while:
       notVisible:
-        id: 'home-header-chat'
+        id: 'home-chat'
     times: 3
     commands:
       - runFlow:
@@ -24,13 +24,13 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             notVisible:
-              id: 'home-header-chat'
-          file: ../../onboarding/subflows/back.yaml
+              id: 'home-chat'
+          file: ../../_shared/back.yaml
       - waitForAnimationToEnd:
           timeout: 5000
 - extendedWaitUntil:
     visible:
-      id: 'home-header-chat'
+      id: 'home-chat'
     timeout: 60000
 # The reveal can land over Home after the check above (it waits on sync), and Home's header stays
 # in the view tree under it on Android: BACK HOME closes it, and the tap is tried again.
@@ -47,7 +47,7 @@ appId: app.critterpass.dev
             - waitForAnimationToEnd:
                 timeout: 5000
       - tapOn:
-          id: 'home-header-chat'
+          id: 'home-chat'
       - extendedWaitUntil:
           visible:
             id: 'chat-composer'

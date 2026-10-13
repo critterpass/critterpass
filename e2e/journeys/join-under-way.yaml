@@ -13,7 +13,7 @@ appId: app.critterpass.dev
 - runFlow: subflows/pass-trip-welcome.yaml
 # Crew settings, from the chat's header.
 - tapOn:
-    id: 'home-header-chat'
+    id: 'home-chat'
 - extendedWaitUntil:
     visible:
       id: 'chat-crew-settings'
@@ -65,22 +65,25 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - takeScreenshot: en-journey-join-under-way-friend-in-crew
 # Back out to the tab bar: settings, then the chat.
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'chat-crew-settings'
     timeout: 15000
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'tab-wallet'
     timeout: 15000
 # An expense on the trip.
-- tapOn:
-    id: 'tab-wallet'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: wallet
+      LABEL: Wallet
 - extendedWaitUntil:
     visible:
-      id: 'money-balances'
+      id: 'money-(ready|none|syncing)'
     timeout: 60000
 - runFlow: subflows/pass-trip-welcome.yaml
 - scrollUntilVisible:
@@ -94,17 +97,17 @@ appId: app.critterpass.dev
     id: 'tile-add'
 - extendedWaitUntil:
     visible:
-      id: 'money-add-keypad'
+      id: 'money-keypad'
     timeout: 10000
 - waitForAnimationToEnd
 - tapOn:
-    id: 'money-add-keypad-key-6'
+    id: 'money-key-6'
 - tapOn:
-    id: 'money-add-keypad-key-0'
+    id: 'money-key-0'
 - tapOn:
-    id: 'money-add-keypad-key-0'
+    id: 'money-key-0'
 - tapOn:
-    id: 'money-add-keypad-key-000'
+    id: 'money-key-000'
 # BY SHARE lists one row per person who holds a seat on the trip, numbered by when they joined the
 # crew. The removed crewmate was the sixth (5) and holds no seat; the friend is the next to have
 # joined (6, or 5 on a phone that no longer has the removed crewmate's row), so a row with either
@@ -131,7 +134,7 @@ appId: app.critterpass.dev
     id: 'money-add-submit'
 - extendedWaitUntil:
     visible:
-      id: 'money-balances'
+      id: 'money-(ready|none|syncing)'
     timeout: 30000
 - scrollUntilVisible:
     element:

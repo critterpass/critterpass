@@ -11,8 +11,11 @@ appId: app.critterpass.dev
     env:
       SCENARIO: everyday
 # You: the profile, from the PASS tab's face.
-- tapOn:
-    id: 'tab-pass'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: pass
+      LABEL: Pass
 - extendedWaitUntil:
     visible:
       id: 'critters-dex-profile'

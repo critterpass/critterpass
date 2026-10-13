@@ -10,10 +10,10 @@ appId: app.critterpass.dev
 
 # The friend opens it from crew chat and boards.
 - runFlow:
-    file: ../proposal/subflows/switch-account.yaml
+    file: subflows/switch-account.yaml
     env:
       TARGET: 'dev-accounts-switch-1'
-- runFlow: ../proposal/subflows/open-proposal-card.yaml
+- runFlow: subflows/open-proposal-card.yaml
 # A trailer proposal opens on its story: a quick reply, then MAYBE goes to the friend's version.
 - extendedWaitUntil:
     visible:
@@ -127,17 +127,17 @@ appId: app.critterpass.dev
     timeout: 60000
 - extendedWaitUntil:
     visible:
-      id: '(trip-map|day-plan)-day-chips-1'
+      id: 'day-chip-1'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: en-7a-1-friend-plan
 
 # The organiser locks the crew in: the trip is confirmed.
 - runFlow:
-    file: ../proposal/subflows/switch-account.yaml
+    file: subflows/switch-account.yaml
     env:
       TARGET: 'dev-accounts-switch-0'
-- runFlow: ../proposal/subflows/open-proposal-card.yaml
+- runFlow: subflows/open-proposal-card.yaml
 - extendedWaitUntil:
     visible:
       id: 'proposal-tracker'

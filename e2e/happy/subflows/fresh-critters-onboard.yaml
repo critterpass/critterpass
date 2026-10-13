@@ -8,7 +8,7 @@ appId: app.critterpass.dev
 # the nearest airports don't offer Ho Chi Minh City; a crew started from SGN settles in VND.
 - evalScript: "${output.homeIata = typeof HOME_IATA === 'undefined' || HOME_IATA === '' ? 'SIN' : HOME_IATA}"
 - evalScript: "${output.homeQuery = typeof HOME_QUERY === 'undefined' || HOME_QUERY === '' ? 'Sing' : HOME_QUERY}"
-- runFlow: ../../onboarding/subflows/through-name.yaml
+- runFlow: through-name.yaml
 - tapOn:
     id: 'avatar-ajo'
 - tapOn:

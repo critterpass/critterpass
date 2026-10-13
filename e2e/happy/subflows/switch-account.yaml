@@ -3,7 +3,7 @@ appId: app.critterpass.dev
 # Developer tools → Test accounts: ${TARGET} keeps the signed-in account and either starts a new
 # one (dev-accounts-new) or signs a kept one back in (dev-accounts-switch-<n>, in the order they
 # were kept). The app clears its local data and restarts on the new session.
-- runFlow: ../../home/subflows/open-dev-tools.yaml
+- runFlow: ../../_shared/open-dev-tools.yaml
 # The list can open scrolled down (it keeps its place): back to its top, then down to the row,
 # centred, so the tap lands on it and not on the edge of the screen.
 - scrollUntilVisible:

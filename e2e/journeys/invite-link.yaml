@@ -17,7 +17,7 @@ appId: app.critterpass.dev
 - runFlow: subflows/free-test-number.yaml
 
 # The organiser: a pass, then START A CREW on Home.
-- runFlow: ../home/subflows/onboard.yaml
+- runFlow: ../happy/subflows/onboard.yaml
 - runFlow: subflows/start-marker-crew.yaml
 - assertTrue:
     condition: ${output.crewCode.length == 6}

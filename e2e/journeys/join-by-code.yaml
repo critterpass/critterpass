@@ -23,9 +23,9 @@ appId: app.critterpass.dev
     file: ../home/subflows/pick-gallery-locale.yaml
     env:
       LOCALE: vi
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 - waitForAnimationToEnd
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'onboarding-invite-code'

@@ -1,11 +1,10 @@
 appId: app.critterpass.dev
 ---
 # Release gate: a brand-new user's first trip, with no demo seed. A fresh account starts its own
-# crew under a long name, pitches Da Nang from Home's PITCH A PLACE, and so has one trip still
-# voting with one place. Home reads the crew name whole at a legible size and shows the vote as
-# the next thing; the TRIPS tab opens that trip's hub, which asks WHERE NEXT?, keeps its tiles'
-# words whole and reads every activity as copy; VOTING goes back to the vote on Home. The same
-# screens are captured again in Vietnamese.
+# crew under a long name, pitches Da Nang from Home's Pitch a place, and so has one trip still
+# voting with one place. Home shows the crew name as its title and the vote as the next thing; the
+# TRIPS tab lists that trip and its hub says the trip is still voting, with every activity read as
+# copy; back on Home the vote is still there. The same screens are captured again in Vietnamese.
 - runFlow: subflows/fresh-account.yaml
 - runFlow:
     file: ../_shared/open-link.yaml
@@ -18,7 +17,6 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'start-crew-name'
 - inputText: 'The head still didnt look so goo'
-# START THE CREW rides on top of the keyboard.
 - tapOn:
     id: 'start-crew-create'
 - extendedWaitUntil:
@@ -32,13 +30,11 @@ appId: app.critterpass.dev
       id: 'home-no-trip'
     timeout: 30000
 - assertVisible:
-    id: 'home-header-crew-name'
+    id: 'home-crew-switcher'
 - waitForAnimationToEnd
-- takeScreenshot: en-3b-2-fresh-crew-no-trip
-# The crew's first pitch, through Home's own control.
+- takeScreenshot: premium-3.01-fresh-crew-no-trip-light
 - tapOn:
     id: 'home-pitch'
-# With no place picked yet the sheet opens on its search field, focused.
 - extendedWaitUntil:
     visible:
       id: 'pitch-search'
@@ -64,76 +60,61 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'pitch-add'
 - waitForAnimationToEnd
-# The sheet usually closes onto Home by itself; back out only if it is still open (a back from
-# Home would leave the app).
 - runFlow:
     when:
       visible:
         id: 'pitch-add'
-    file: ../onboarding/subflows/back.yaml
+    file: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'destination-board'
     timeout: 30000
-# The vote is the next thing: no "YOUR NEXT TRIP" card repeats it.
 - assertNotVisible:
     id: 'home-next-up'
 - waitForAnimationToEnd
-- takeScreenshot: en-3b-6-fresh-vote
-# The trip hub for the trip still voting.
-- tapOn:
-    id: 'tab-trips'
-- extendedWaitUntil:
-    visible:
-      id: 'trip-hub-header-planning'
-    timeout: 30000
-- assertVisible: 'WHERE NEXT\?'
-- assertVisible:
-    id: 'trip-hub-planning-cta'
+- takeScreenshot: premium-3.02-fresh-vote-light
+- runFlow: subflows/open-trip-hub.yaml
+# A trip still choosing its place: the hub's planning line says it is voting.
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-planning'
+    direction: DOWN
+    timeout: 15000
 - assertNotVisible: '.*ACTIVITY\..*'
 - assertNotVisible: '.*_ADDED.*'
 - waitForAnimationToEnd
-- takeScreenshot: en-3k-1-fresh-voting
-# VOTING opens the vote where it lives, never a blank screen.
-- tapOn:
-    id: 'trip-hub-planning-cta'
+- takeScreenshot: premium-6.01-fresh-voting-light
+- runFlow:
+    file: ../_shared/to-home.yaml
 - extendedWaitUntil:
     visible:
       id: 'destination-board'
     timeout: 20000
-# The same screens in Vietnamese: the dev gallery switches the running app's language.
-- tapOn:
-    id: 'dev-tools-entry'
+# The same screens in Vietnamese.
 - runFlow:
-    file: ../home/subflows/pick-gallery-locale.yaml
+    file: ../_shared/switch-language.yaml
     env:
-      LOCALE: vi
-- runFlow: ../onboarding/subflows/back.yaml
-- waitForAnimationToEnd
-# Back from the gallery lands on the developer tools list, one more back on Home.
+      LANG: vi
 - runFlow:
-    when:
-      visible:
-        id: 'dev-nav-gallery'
-    file: ../onboarding/subflows/back.yaml
+    file: ../_shared/to-home.yaml
 - extendedWaitUntil:
     visible:
       id: 'destination-board'
     timeout: 20000
 - waitForAnimationToEnd
-- takeScreenshot: vi-3b-6-fresh-vote
-- tapOn:
-    id: 'tab-trips'
-- extendedWaitUntil:
-    visible:
-      id: 'trip-hub-header-planning'
-    timeout: 30000
-- assertVisible: 'ĐI ĐÂU TIẾP\?'
+- takeScreenshot: premium-3.02-fresh-vote-vi
+- runFlow: subflows/open-trip-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-planning'
+    direction: DOWN
+    timeout: 15000
+- assertVisible: '.*Đang bình chọn.*'
 - assertNotVisible: '.*ACTIVITY\..*'
 - waitForAnimationToEnd
-- takeScreenshot: vi-3k-1-fresh-voting
-- tapOn:
-    id: 'trip-hub-planning-cta'
+- takeScreenshot: premium-6.01-fresh-voting-vi
+- runFlow:
+    file: ../_shared/to-home.yaml
 - extendedWaitUntil:
     visible:
       id: 'destination-board'

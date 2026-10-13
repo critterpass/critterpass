@@ -12,7 +12,7 @@ appId: app.critterpass.dev
       # finished word while the last chunk is still on its way, and Enter then adds it cut short.
       - extendedWaitUntil:
           visible:
-            id: 'trip-day-pack-input'
+            id: 'trip-day-pack-field'
             text: ${ITEM}
           timeout: 30000
       # The field draws the last key before the app's own state has it: Enter at once saves the

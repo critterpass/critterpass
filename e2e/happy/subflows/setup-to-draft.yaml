@@ -28,7 +28,7 @@ appId: app.critterpass.dev
     timeout: 15000
 - waitForAnimationToEnd
 - tapOn:
-    id: 'showdown-half-0'
+    id: 'showdown-vote-0'
 - extendedWaitUntil:
     visible:
       id: 'reveal-set-up'
@@ -36,10 +36,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'reveal-set-up'
-- extendedWaitUntil:
-    visible:
-      id: 'setup-step-when'
-    timeout: 20000
+- runFlow: open-setup-when.yaml
 - runFlow: setup-when.yaml
 - extendedWaitUntil:
     visible:
@@ -124,5 +121,5 @@ appId: app.critterpass.dev
     timeout: 30000
 - extendedWaitUntil:
     visible:
-      id: 'drafting-steps'
+      id: 'drafting-title'
     timeout: 30000

@@ -54,26 +54,38 @@ appId: app.critterpass.dev
 - assertNotVisible:
     id: 'home-header-inbox-badge'
 # The tab bar: the trip's hub, the crew's money, the pass, and Home again.
-- tapOn:
-    id: 'tab-trips'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: trips
+      LABEL: Trips
 - extendedWaitUntil:
     visible:
       id: 'trip-hub-header-.*'
     timeout: 30000
-- tapOn:
-    id: 'tab-wallet'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: wallet
+      LABEL: Wallet
 - extendedWaitUntil:
     visible:
-      id: 'money-balances'
+      id: 'money-(ready|none|syncing)'
     timeout: 30000
-- tapOn:
-    id: 'tab-pass'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: pass
+      LABEL: Pass
 - extendedWaitUntil:
     visible:
       id: 'critters-dex-profile'
     timeout: 30000
-- tapOn:
-    id: 'tab-home'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
 - extendedWaitUntil:
     visible:
       id: 'home-countdown'

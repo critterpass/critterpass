@@ -14,7 +14,7 @@ appId: app.critterpass.dev
 # Uses the test number: never at the same time as `invite-link` on another device.
 # Needs `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
 - runFlow: subflows/free-test-number.yaml
-- runFlow: ../home/subflows/onboard.yaml
+- runFlow: ../happy/subflows/onboard.yaml
 - runFlow: subflows/start-marker-crew.yaml
 
 # Sign out with an unsaved pass: the warning, and the pass saved from it.

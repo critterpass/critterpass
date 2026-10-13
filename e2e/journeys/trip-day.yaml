@@ -11,8 +11,11 @@ appId: app.critterpass.dev
     env:
       SCENARIO: trip_today
 - runFlow: subflows/pass-trip-welcome.yaml
-- tapOn:
-    id: 'tab-trips'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: trips
+      LABEL: Trips
     # The hub never settles for Maestro: without a limit the tap waits minutes.
     waitToSettleTimeoutMs: 500
 - extendedWaitUntil:
@@ -102,7 +105,7 @@ appId: app.critterpass.dev
 # today). Its details offer I LANDED once it has left; it stays in the stack until six hours after
 # it lands (then it is a past booking), so it lands an hour before now.
 - evalScript: ${var now = new Date(Date.now() + 7 * 3600000); var mins = now.getUTCHours() * 60 + now.getUTCMinutes(); var hhmm = function (m) { return ('0' + Math.floor(m / 60)).slice(-2) + ':' + ('0' + (m % 60)).slice(-2); }; output.today = now.toISOString().slice(0, 10); output.departs = hhmm(Math.max(1, mins - 120)); output.lands = hhmm(Math.max(2, mins - 60))}
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 - runFlow: subflows/open-bookings.yaml
 - runFlow:
     file: subflows/add-booking-by-hand.yaml
@@ -157,8 +160,11 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - runFlow: subflows/pass-trip-welcome.yaml
-- tapOn:
-    id: 'tab-trips'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: trips
+      LABEL: Trips
     # The hub never settles for Maestro: without a limit the tap waits minutes.
     waitToSettleTimeoutMs: 500
 - extendedWaitUntil:

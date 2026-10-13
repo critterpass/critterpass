@@ -9,7 +9,7 @@ appId: app.critterpass.dev
 # trip, and TRIPS opens its hub.
 - runFlow: subflows/fresh-install.yaml
 - runFlow:
-    file: ../home/subflows/onboard.yaml
+    file: ../happy/subflows/onboard.yaml
     env:
       HOME_IATA: SGN
       HOME_QUERY: 'Ho Chi'
@@ -94,7 +94,7 @@ appId: app.critterpass.dev
     when:
       visible:
         id: 'pitch-add'
-    file: ../onboarding/subflows/back.yaml
+    file: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'destination-board'
@@ -116,10 +116,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'reveal-set-up'
-- extendedWaitUntil:
-    visible:
-      id: 'setup-step-when'
-    timeout: 20000
+- runFlow: ../happy/subflows/open-setup-when.yaml
 
 # When: three days. The first window the sheet suggests; when the account's calendar has not come
 # in yet there is none, and the first day two weeks out and the day two after are tapped by their
@@ -393,8 +390,11 @@ appId: app.critterpass.dev
 
 # The trip's own screen: TRIPS opens its hub. The hub never settles for Maestro, so the taps here
 # wait half a second at most.
-- tapOn:
-    id: 'tab-trips'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: trips
+      LABEL: Trips
     waitToSettleTimeoutMs: 500
 - extendedWaitUntil:
     visible:

@@ -29,11 +29,14 @@ env:
       - tapOn: 'Open'
 - extendedWaitUntil:
     visible:
-      id: 'home-header-chat'
+      id: 'home-chat'
     timeout: 60000
 - runFlow: subflows/dismiss-visit-offer.yaml
-- tapOn:
-    id: 'tab-trips'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: trips
+      LABEL: Trips
 - extendedWaitUntil:
     visible:
       id: 'trip-hub-tile-plan|visit-consent-decline'
@@ -49,11 +52,11 @@ env:
           timeout: 5000
 - scrollUntilVisible:
     element:
-      id: 'trip-hub-tile-plan'
+      id: 'trip-hub-door-plan|trip-hub-tile-plan'
     direction: DOWN
     timeout: 30000
 - tapOn:
-    id: 'trip-hub-tile-plan'
+    id: 'trip-hub-door-plan|trip-hub-tile-plan'
 
 # PLAN: the trip map (or the day plan, when PLAN opens on the day). Day 1 at half opens its plan.
 - extendedWaitUntil:
@@ -156,7 +159,7 @@ env:
         id: 'day-plan'
     times: 3
     commands:
-      - runFlow: ../onboarding/subflows/back.yaml
+      - runFlow: ../_shared/back.yaml
       - waitForAnimationToEnd:
           timeout: 3000
 - extendedWaitUntil:
@@ -245,7 +248,7 @@ env:
       visible:
         id: 'plan-item-sheet'
     commands:
-      - runFlow: ../onboarding/subflows/back.yaml
+      - runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'day-plan'
@@ -326,7 +329,7 @@ env:
         id: 'day-plan'
     times: 4
     commands:
-      - runFlow: ../onboarding/subflows/back.yaml
+      - runFlow: ../_shared/back.yaml
       - waitForAnimationToEnd:
           timeout: 3000
 # ALL DAYS sits at the head of the day, above wherever the last step left it scrolled.
@@ -362,7 +365,7 @@ env:
 - takeScreenshot: plan-ideas
 
 # The plan check opens.
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'all-days'
@@ -401,18 +404,21 @@ env:
         id: 'tab-trips'
     times: 4
     commands:
-      - runFlow: ../onboarding/subflows/back.yaml
+      - runFlow: ../_shared/back.yaml
       - waitForAnimationToEnd:
           timeout: 3000
-- tapOn:
-    id: 'tab-trips'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: trips
+      LABEL: Trips
 - scrollUntilVisible:
     element:
-      id: 'trip-hub-tile-plan'
+      id: 'trip-hub-door-plan|trip-hub-tile-plan'
     direction: DOWN
     timeout: 30000
 - tapOn:
-    id: 'trip-hub-tile-plan'
+    id: 'trip-hub-door-plan|trip-hub-tile-plan'
 - extendedWaitUntil:
     visible:
       id: 'trip-map|day-plan'

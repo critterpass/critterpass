@@ -5,7 +5,7 @@ appId: app.critterpass.dev
 # airport go to the api; the pass is issued with its stamp; Home opens with no crew yet; and the
 # session survives a relaunch (the app does not start over).
 - runFlow: subflows/fresh-install.yaml
-- runFlow: ../onboarding/subflows/through-name.yaml
+- runFlow: ../happy/subflows/through-name.yaml
 - tapOn:
     id: 'avatar-ajo'
 - tapOn:

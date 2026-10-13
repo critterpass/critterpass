@@ -46,7 +46,7 @@ appId: app.critterpass.dev
     notVisible:
       id: 'bookings-candidate-.*-add'
     timeout: 20000
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'bookings-wallet-ready'
@@ -81,7 +81,7 @@ appId: app.critterpass.dev
     centerElement: true
 - waitForAnimationToEnd
 - takeScreenshot: en-journey-bookings-flight-detail
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'bookings-wallet-ready'

@@ -34,52 +34,59 @@ appId: app.critterpass.dev
     id: 'explore-solo'
 - extendedWaitUntil:
     visible:
-      id: 'explore-solo-confirm'
+      id: 'solo-confirm'
     timeout: 10000
 - tapOn:
-    id: 'explore-solo-start'
+    id: 'solo-start'
 - extendedWaitUntil:
     notVisible:
-      id: 'explore-solo-confirm'
+      id: 'solo-confirm'
     timeout: 20000
 # The Wallet tab opens on Money: the crew settles in the traveller's home currency.
-- openLink: critterpass-dev://wallet/money
+- runFlow:
+    file: ../_shared/open-link.yaml
+    env:
+      URL: critterpass-dev://wallet/money
 - extendedWaitUntil:
     visible:
-      id: 'money-balances'
+      id: 'money-(ready|none|syncing)'
     timeout: 60000
 - extendedWaitUntil:
     visible:
       text: 'VND'
       id: 'money-currency-chip'
     timeout: 30000
-- takeScreenshot: fresh-wallet-money-empty
+- takeScreenshot: premium-7.16-fresh-wallet-money-empty-light
 # BOOKINGS | MONEY swaps the halves in place and back again.
-- tapOn: 'BOOKINGS'
+- tapOn:
+    id: 'wallet-switch-bookings'
 - extendedWaitUntil:
     visible:
       id: 'bookings-wallet-.*'
     timeout: 15000
-- tapOn: 'MONEY'
+- tapOn:
+    id: 'wallet-switch-money'
 - extendedWaitUntil:
     visible:
-      id: 'money-balances'
+      id: 'money-(ready|none|syncing)'
     timeout: 15000
-- tapOn: 'BOOKINGS'
+- tapOn:
+    id: 'wallet-switch-bookings'
 - extendedWaitUntil:
     visible:
       id: 'bookings-wallet-.*'
     timeout: 15000
 # Add a booking: the forward address is on the staging mail domain, and COPY copies it.
 # An empty wallet shows the ways in as tiles; Add a booking opens by its link.
-- openLink: critterpass-dev://wallet/bookings/add
+- runFlow: subflows/open-add-booking.yaml
 - extendedWaitUntil:
     visible:
-      id: 'bookings-address'
+      id: 'bookings-add-copy'
     timeout: 30000
 # iOS reads the address with its copy hint ("…@in.staging.critterpass.app, copy the address").
 - assertVisible: '.*@in\.staging\.critterpass\.app.*'
-- tapOn: 'COPY'
+- tapOn:
+    id: 'bookings-add-copy'
 # The copy confirms with COPIED on the button (2 s) and a toast. Android shows its own clipboard
 # overlay over the app instead, which hides the app from the runner until it goes.
 - runFlow:
@@ -89,15 +96,19 @@ appId: app.critterpass.dev
       - extendedWaitUntil:
           visible: '(?i)(copied|forward any confirmation to that address\.)'
           timeout: 5000
-- takeScreenshot: fresh-wallet-forward-address
-- openLink: critterpass-dev://wallet/bookings
+- takeScreenshot: premium-7.03-fresh-wallet-forward-address-light
+- runFlow:
+    file: ../_shared/open-link.yaml
+    env:
+      URL: critterpass-dev://wallet/bookings
 # Travel insurance: SAVE sits above the tab bar and can be tapped.
 - runFlow:
     when:
       notVisible:
         id: 'bookings-wallet-.*'
     commands:
-      - tapOn: 'BOOKINGS'
+      - tapOn:
+          id: 'wallet-switch-bookings'
 - scrollUntilVisible:
     element:
       id: 'bookings-insurance-add'
@@ -120,7 +131,7 @@ appId: app.critterpass.dev
       platform: iOS
     commands:
       - hideKeyboard
-- takeScreenshot: fresh-wallet-insurance
+- takeScreenshot: premium-7.13-fresh-wallet-insurance-light
 # The tap reaches SAVE (not the tab bar over it): the policy is saved and its card shows.
 - tapOn:
     id: 'bookings-insurance-save'
@@ -132,46 +143,39 @@ appId: app.critterpass.dev
 - runFlow:
     when:
       notVisible:
-        id: 'money-balances'
+        id: 'money-(ready|none|syncing)'
     commands:
-      - tapOn: 'MONEY'
+      - tapOn:
+          id: 'wallet-switch-money'
 - extendedWaitUntil:
     visible:
-      id: 'money-balances'
+      id: 'money-(ready|none|syncing)'
     timeout: 15000
-- tapOn:
-    id: 'money-empty'
-    optional: true
-- runFlow:
-    when:
-      notVisible:
-        id: 'money-add-keypad'
-    commands:
-      - tapOn: 'ADD'
+- runFlow: subflows/open-add-expense.yaml
 - extendedWaitUntil:
     visible:
-      id: 'money-add-keypad'
+      id: 'money-keypad'
     timeout: 10000
 # The keys by their ids: a bare '0' would also match the digits of the amount above.
 - tapOn:
-    id: 'money-add-keypad-key-6'
+    id: 'money-key-6'
 - tapOn:
-    id: 'money-add-keypad-key-3'
+    id: 'money-key-3'
 - tapOn:
-    id: 'money-add-keypad-key-000'
+    id: 'money-key-000'
 - assertVisible: '.*63,000.*'
 - tapOn:
     id: 'money-add-submit'
 - extendedWaitUntil:
     visible:
-      id: 'money-latest-row'
+      id: 'money-latest'
     timeout: 30000
 - extendedWaitUntil:
     visible:
-      id: 'money-hero-solo'
+      id: 'money-hero'
     timeout: 30000
 - assertVisible:
     id: 'money-solo'
 - assertNotVisible:
     id: 'money-settle'
-- takeScreenshot: fresh-wallet-money-solo
+- takeScreenshot: premium-7.17-fresh-wallet-money-solo-light

@@ -80,7 +80,7 @@ env:
         id: 'search-screen'
     times: 3
     commands:
-      - runFlow: ../onboarding/subflows/back.yaml
+      - runFlow: ../_shared/back.yaml
       - waitForAnimationToEnd:
           timeout: 3000
 - extendedWaitUntil:
@@ -146,7 +146,7 @@ env:
     when:
       visible:
         id: 'plan-item-sheet'
-    file: ../onboarding/subflows/back.yaml
+    file: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'day-plan'
@@ -200,7 +200,7 @@ env:
         id: 'day-plan'
     times: 4
     commands:
-      - runFlow: ../onboarding/subflows/back.yaml
+      - runFlow: ../_shared/back.yaml
       - waitForAnimationToEnd:
           timeout: 3000
 # ALL DAYS sits at the head of the day, above wherever the last step left it scrolled.
@@ -236,7 +236,7 @@ env:
         id: 'tab-trips'
     times: 4
     commands:
-      - runFlow: ../onboarding/subflows/back.yaml
+      - runFlow: ../_shared/back.yaml
       - waitForAnimationToEnd:
           timeout: 3000
 # A relaunch, then the plan opens again from TRIPS: day 2 has the moved stop. The app can bring
@@ -256,7 +256,7 @@ env:
         id: 'tab-trips'
     times: 4
     commands:
-      - runFlow: ../onboarding/subflows/back.yaml
+      - runFlow: ../_shared/back.yaml
       - waitForAnimationToEnd:
           timeout: 3000
 - runFlow: subflows/open-day-plan.yaml

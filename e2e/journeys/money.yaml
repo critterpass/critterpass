@@ -11,11 +11,14 @@ appId: app.critterpass.dev
     env:
       SCENARIO: trip_today
 - runFlow: subflows/pass-trip-welcome.yaml
-- tapOn:
-    id: 'tab-wallet'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: wallet
+      LABEL: Wallet
 - extendedWaitUntil:
     visible:
-      id: 'money-balances'
+      id: 'money-(ready|none|syncing)'
     timeout: 60000
 - runFlow: subflows/pass-trip-welcome.yaml
 # The crew settles in đồng whatever the account's home is.
@@ -28,17 +31,17 @@ appId: app.critterpass.dev
 - tapOn: 'ADD'
 - extendedWaitUntil:
     visible:
-      id: 'money-add-keypad'
+      id: 'money-keypad'
     timeout: 10000
 - waitForAnimationToEnd
 - tapOn:
-    id: 'money-add-keypad-key-4'
+    id: 'money-key-4'
 - tapOn:
-    id: 'money-add-keypad-key-5'
+    id: 'money-key-5'
 - tapOn:
-    id: 'money-add-keypad-key-0'
+    id: 'money-key-0'
 - tapOn:
-    id: 'money-add-keypad-key-000'
+    id: 'money-key-000'
 - assertVisible:
     id: 'money-add-amount'
 # The split control's middle segment: BY SHARE, everyone at one share.
@@ -53,7 +56,7 @@ appId: app.critterpass.dev
 # Back on Money the new expense is the latest; its detail shows what was typed.
 - extendedWaitUntil:
     visible:
-      id: 'money-balances'
+      id: 'money-(ready|none|syncing)'
     timeout: 30000
 # The latest expense is the page's last row and rests under the tab bar: bring it up first.
 - swipe:
@@ -61,7 +64,7 @@ appId: app.critterpass.dev
     end: 50%, 30%
 - waitForAnimationToEnd
 - tapOn:
-    id: 'money-latest-row'
+    id: 'money-latest'
 - extendedWaitUntil:
     visible:
       id: 'money-detail-amount'
@@ -69,7 +72,7 @@ appId: app.critterpass.dev
 - copyTextFrom:
     id: 'money-detail-amount'
 - assertTrue: ${maestro.copiedText.replace(/[^0-9]/g, '').indexOf('450') === 0}
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 # The api took it: the crew owes the account, and there is something to settle.
 - extendedWaitUntil:
     visible:
@@ -115,7 +118,7 @@ appId: app.critterpass.dev
     when:
       notVisible:
         id: 'money-settled-progress'
-    file: ../onboarding/subflows/back.yaml
+    file: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'money-settled-progress'

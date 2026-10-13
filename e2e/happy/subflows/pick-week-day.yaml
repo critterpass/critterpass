@@ -1,56 +1,35 @@
 appId: app.critterpass.dev
 ---
-# Taps the day ${PICK_DATE} (YYYY-MM-DD) in the open day picker sheet.
+# Taps the day ${PICK_DATE} (YYYY-MM-DD) in the open "Pick your days" sheet.
 #
-# The sheet opens on the month of the suggested week, which can be another month than the day's,
-# and the dates step under the sheet has a month title of its own, which a plain text match finds
-# first. So: the month title is looked up inside the sheet (`childOf: week-picker-panel`), the
-# sheet goes back to today's month with its "Today" link (`picker-today`, shown only while another
-# month is showing), the grid (`picker-grid`) is swiped left a month at a time to the day's month
-# (a day picked is never before today), and the cell is tapped by its id (`heat-pick-<date>`,
-# which only the sheet's cells carry), never by position.
-#
-# Use it from any flow once the sheet is open; pick-days.yaml taps a first and a last day with it:
-#   - runFlow:
-#       file: ../happy/subflows/pick-week-day.yaml
-#       env:
-#         PICK_DATE: ${output.pickDate}
-- evalScript: ${var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.pickWeekMonth = '(?i)' + months[Number(PICK_DATE.slice(5, 7)) - 1] + ' ' + PICK_DATE.slice(0, 4); output.pickWeekCell = 'heat-pick-' + PICK_DATE}
+# The sheet opens on the month of the suggested week, which can be another month than the day's.
+# Its month arrows (`picker-next`, `picker-previous`) step to the day's month, and the cell is
+# tapped by its id (`picker-day-<date>`, which only the sheet's cells carry), never by position.
+- evalScript: ${output.pickWeekCell = 'picker-day-' + PICK_DATE}
 - extendedWaitUntil:
     visible:
-      id: 'picker-grid'
+      id: 'picker-day-.*'
     timeout: 10000
-- runFlow:
-    when:
-      notVisible:
-        text: ${output.pickWeekMonth}
-        childOf:
-          id: 'week-picker-panel'
-    commands:
-      - runFlow:
-          when:
-            visible:
-              id: 'picker-today'
-          commands:
-            - tapOn:
-                id: 'picker-today'
-            - waitForAnimationToEnd
+# A day picked is never before today: forward first, then back in case the sheet opened later.
 - repeat:
     while:
       notVisible:
-        text: ${output.pickWeekMonth}
-        childOf:
-          id: 'week-picker-panel'
+        id: ${output.pickWeekCell}
     times: 12
     commands:
-      - swipe:
-          from:
-            id: 'picker-grid'
-          direction: LEFT
+      - tapOn:
+          id: 'picker-next'
+          optional: true
       - waitForAnimationToEnd
-- assertVisible:
-    text: ${output.pickWeekMonth}
-    childOf:
-      id: 'week-picker-panel'
+- repeat:
+    while:
+      notVisible:
+        id: ${output.pickWeekCell}
+    times: 12
+    commands:
+      - tapOn:
+          id: 'picker-previous'
+          optional: true
+      - waitForAnimationToEnd
 - tapOn:
     id: ${output.pickWeekCell}

@@ -46,7 +46,7 @@ appId: app.critterpass.dev
                 timeout: 10000
       - tapOn:
           id: 'calendar-by-hand'
-      - runFlow: ../../happy/subflows/mark-week-by-hand.yaml
+      - runFlow: mark-week-by-hand.yaml
       # The saved days reach the crew's counts, and the organiser has a way on.
       - extendedWaitUntil:
           visible:

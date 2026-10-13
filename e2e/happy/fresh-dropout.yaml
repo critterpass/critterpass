@@ -9,10 +9,10 @@ appId: app.critterpass.dev
 
 # The friend opens the proposal from crew chat, boards, then declines from their version.
 - runFlow:
-    file: ../proposal/subflows/switch-account.yaml
+    file: subflows/switch-account.yaml
     env:
       TARGET: 'dev-accounts-switch-1'
-- runFlow: ../proposal/subflows/open-proposal-card.yaml
+- runFlow: subflows/open-proposal-card.yaml
 - extendedWaitUntil:
     visible:
       id: 'proposal-trailer|proposal-version'
@@ -84,10 +84,10 @@ appId: app.critterpass.dev
 
 # The organiser: the tracker shows the friend as out, with the re-split to look at.
 - runFlow:
-    file: ../proposal/subflows/switch-account.yaml
+    file: subflows/switch-account.yaml
     env:
       TARGET: 'dev-accounts-switch-0'
-- runFlow: ../proposal/subflows/open-proposal-card.yaml
+- runFlow: subflows/open-proposal-card.yaml
 - extendedWaitUntil:
     visible:
       id: 'proposal-tracker'
@@ -121,7 +121,7 @@ appId: app.critterpass.dev
 - takeScreenshot: en-3f-7-real-applied
 
 # What the organiser is left with: the tracker, locked in alone, then Home.
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'proposal-tracker'

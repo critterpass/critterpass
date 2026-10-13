@@ -80,7 +80,7 @@ appId: app.critterpass.dev
     when:
       visible:
         id: 'pitch-add'
-    file: ../../onboarding/subflows/back.yaml
+    file: ../../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'destination-board'
@@ -101,10 +101,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'reveal-set-up'
-- extendedWaitUntil:
-    visible:
-      id: 'setup-step-when'
-    timeout: 20000
+- runFlow: open-setup-when.yaml
 # Today in Vietnam, three days (today → today+2): the first and the last day tapped in the
 # picker's heatmap, and the lock's own label checked before it is tapped.
 - evalScript: ${var d = new Date(Date.now() + 7 * 3600000); var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.lockLabel = '(?i)lock ' + months[d.getUTCMonth()].slice(0, 3) + ' ' + d.getUTCDate() + '\\D.*'; output.pickDate = d.toISOString().slice(0, 10)}

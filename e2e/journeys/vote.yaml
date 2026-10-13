@@ -53,7 +53,7 @@ appId: app.critterpass.dev
     when:
       notVisible:
         id: 'destination-board'
-    file: ../onboarding/subflows/back.yaml
+    file: ../_shared/back.yaml
 # Stickers follow the options' order: the four seeded places, then Cusco. A tap votes for it, and
 # the sticker reads as the account's own (selected).
 - scrollUntilVisible:
@@ -78,7 +78,7 @@ appId: app.critterpass.dev
           when:
             visible:
               id: 'pitch-search'
-          file: ../onboarding/subflows/back.yaml
+          file: ../_shared/back.yaml
       - scrollUntilVisible:
           element:
             id: 'board-go-to-final'
@@ -105,17 +105,17 @@ appId: app.critterpass.dev
       id: 'showdown'
     timeout: 15000
 - assertVisible:
-    id: 'showdown-half-0'
+    id: 'showdown-vote-0'
 - assertVisible:
-    id: 'showdown-half-1'
+    id: 'showdown-vote-1'
 - waitForAnimationToEnd
 - takeScreenshot: en-journey-vote-showdown
 # The account's ballot is the last one: the vote closes and the reveal takes over.
 - tapOn:
-    id: 'showdown-half-0'
+    id: 'showdown-vote-0'
 - extendedWaitUntil:
     visible:
-      id: 'winner-reveal'
+      id: 'reveal'
     timeout: 60000
 - extendedWaitUntil:
     visible:
@@ -133,4 +133,4 @@ appId: app.critterpass.dev
       id: 'setup-title'
     timeout: 30000
 - assertNotVisible:
-    id: 'winner-reveal'
+    id: 'reveal'

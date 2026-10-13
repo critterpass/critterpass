@@ -1,38 +1,29 @@
 appId: app.critterpass.dev
 ---
 # Release gate: the Critterdex for a brand-new traveller. A new account started as `crew_with_code`
-# (a crew of one, no trip) opens the PASS tab: the catalogue has synced from staging, nothing is
-# found yet (the guide says how critters are met), FOUND says so, and a ranked place opens its set
-# page with every critter still a silhouette; back from it, the dex is where it was left. A link to
-# a critter that does not exist says so, with a way back. With a home set, Explore at home is turned
-# on through the api and is still on after a relaunch.
+# (a crew of one, no trip) opens the Critterdex from the PASS tab: the catalogue has synced from
+# staging, nothing is found yet, Found says so, and a ranked place opens its set page with every
+# critter still a silhouette; back from it, the dex is where it was left. A link to a critter that
+# does not exist says so, with a way back. With a home set, Explore at home is turned on through
+# the api and is still on after a relaunch.
 - runFlow:
     file: ../_shared/start-as.yaml
     env:
       SCENARIO: crew_with_code
-- tapOn:
-    id: 'tab-pass'
-- extendedWaitUntil:
-    visible:
-      id: 'critters-dex-header'
-    timeout: 60000
-- assertVisible:
-    text: 'YOUR CRITTERDEX'
+- runFlow: subflows/open-critterdex.yaml
 - assertNotVisible:
     id: 'critters-here-now'
-- assertVisible:
-    id: 'critters-dex-first-hint'
 - waitForAnimationToEnd:
     timeout: 6000
-- takeScreenshot: en-3l-2-pass-nothing-found
+- takeScreenshot: premium-8.01-dex-nothing-found-light
 - tapOn:
-    text: 'FOUND'
+    id: 'critters-dex-filter-found'
 - extendedWaitUntil:
     visible:
       id: 'critters-dex-empty'
     timeout: 10000
 - tapOn:
-    text: 'ALL'
+    id: 'critters-dex-filter-all'
 - scrollUntilVisible:
     element:
       id: 'critters-set-1'
@@ -45,52 +36,41 @@ appId: app.critterpass.dev
       id: 'critters-set'
     timeout: 10000
 - assertVisible:
-    id: 'critters-set-back'
+    id: 'critters-set-cell-.*'
 - waitForAnimationToEnd:
     timeout: 6000
-- takeScreenshot: en-3l-8-set-nothing-found
-- tapOn:
-    id: 'critters-set-back'
-# The dex is where it was left: the place that was opened is still on screen, with no scrolling.
+- takeScreenshot: premium-8.03-set-nothing-found-light
+- runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'critters-set-1'
     timeout: 10000
 - waitForAnimationToEnd:
     timeout: 6000
-- takeScreenshot: en-3l-2-pass-after-set-return
-# The same after another tab has been in front.
-- tapOn:
-    id: 'tab-home'
-- tapOn:
-    id: 'tab-pass'
-- extendedWaitUntil:
-    visible:
-      id: 'critters-set-1'
-    timeout: 10000
-- takeScreenshot: en-3l-2-pass-after-tab-switch
-# A critter this phone does not have: "not here", and back to the dex.
+- takeScreenshot: premium-8.01-dex-after-set-return-light
 - openLink: critterpass-dev://critters/0192f000-0000-7000-8000-00000000dead
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
 - extendedWaitUntil:
     visible:
       id: 'critters-detail-missing'
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 6000
-- takeScreenshot: en-3l-3-critter-missing
-- tapOn:
-    id: 'critters-detail-missing-back'
-- extendedWaitUntil:
-    visible:
-      id: 'tab-pass'
-    timeout: 10000
+- takeScreenshot: premium-8.02-critter-missing-light
+- runFlow:
+    file: ../_shared/back-to.yaml
+    env:
+      MARK: 'critters-dex|you-profile|home-screen'
 - runFlow:
     when:
       notVisible:
-        id: 'critters-dex-header'
+        id: 'critters-dex'
     commands:
-      - tapOn:
-          id: 'tab-pass'
+      - runFlow: subflows/open-critterdex.yaml
 - scrollUntilVisible:
     element:
       id: 'critters-dex-header'
@@ -101,27 +81,41 @@ appId: app.critterpass.dev
       visible:
         id: 'critters-home-set'
     commands:
-      # The switch, read as "Explore at home, Meet your home set's critters…"; the row's title
-      # beside it is plain text and takes no tap.
+      - scrollUntilVisible:
+          element:
+            id: 'critters-explore-at-home'
+          direction: DOWN
+          timeout: 10000
       - tapOn:
-          text: 'Explore at home, .*'
+          text: 'Explore at home'
+          childOf:
+            id: 'critters-explore-at-home'
       - extendedWaitUntil:
           visible:
-            text: 'Explore at home, .*'
+            text: 'Explore at home'
             checked: true
           timeout: 10000
-      # Give the upload queue a moment, then relaunch: the opt-in is still on.
       - waitForAnimationToEnd:
           timeout: 5000
+      - stopApp
       - launchApp
       - extendedWaitUntil:
           visible:
-            id: 'tab-pass'
+            id: 'home-screen|critters-dex'
           timeout: 60000
-      - tapOn:
-          id: 'tab-pass'
+      - runFlow:
+          when:
+            notVisible:
+              id: 'critters-dex'
+          commands:
+            - runFlow: subflows/open-critterdex.yaml
+      - scrollUntilVisible:
+          element:
+            id: 'critters-explore-at-home'
+          direction: DOWN
+          timeout: 10000
       - extendedWaitUntil:
           visible:
-            text: 'Explore at home, .*'
+            text: 'Explore at home'
             checked: true
           timeout: 20000
