@@ -5,13 +5,16 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useBackAffordance } from '@/ui/qa/back-affordance';
 
-import { GlassIconButton, Text, usePremiumTheme } from '../..';
+import { Text, usePremiumTheme } from '../..';
+import { leadingControlFor, useScreenPlacement } from '../navigation/use-screen-placement';
 import {
   capActions,
   DrawnHeaderActions,
+  DrawnLeadingControl,
   NativeHeaderActions,
-  type ShellAction,
+  NativeLeadingControl,
 } from './header-actions';
+import type { ShellAction } from './header-actions';
 
 export interface PushScreenProps {
   /** The centred inline title (19/700). */
@@ -27,6 +30,13 @@ export interface PushScreenProps {
   readonly headerless?: boolean;
   /** The label the back button speaks. */
   readonly backLabel: string;
+  /** The label the ✕ speaks when the page is the first screen of a sheet or modal ("Close"). */
+  readonly closeLabel?: string;
+  /**
+   * The leading control. `auto` (the default) follows where the page sits: pushed → glass back
+   * `<`, the first screen of a sheet or modal → ✕, a tab's first screen → none.
+   */
+  readonly leading?: 'auto' | 'back' | 'close' | 'none';
   /** Content scrolls under the bar. Off when the page brings its own list. @default true */
   readonly scroll?: boolean;
   readonly children: ReactNode;
@@ -53,6 +63,11 @@ function InlineTitle({ title, subtitle }: { readonly title: string; readonly sub
  * right action; edge swipe goes back and the tab bar is gone (pushed on the root stack). iOS uses
  * the native bar (the system glass back and toolbar); Android the Material bar with the action at
  * its end. A headerless page draws the glass circles itself over its hero.
+ *
+ * The leading control follows where the page sits (`useScreenPlacement`): pushed on its own stack
+ * it is the bar's native back; the first page of a pushed group gets the shell's glass back (the
+ * native bar has none there); the first page of a sheet or modal gets ✕ (`closeLabel`); a pushed
+ * page inside a sheet or modal gets `<` again.
  */
 export function PushScreen({
   title,
@@ -60,6 +75,8 @@ export function PushScreen({
   action,
   headerless = false,
   backLabel,
+  closeLabel,
+  leading = 'auto',
   scroll = true,
   children,
   testID,
@@ -68,9 +85,18 @@ export function PushScreen({
   const insets = useSafeAreaInsets();
   const actions = capActions(action === undefined ? [] : [action], 1);
   const ios = Platform.OS === 'ios';
-  // The bar's native back (iOS) or Material back arrow (Android) is the way back; a headerless
-  // page's glass back registers itself.
-  useBackAffordance(!headerless);
+  const placement = useScreenPlacement();
+  const control = leading === 'auto' ? leadingControlFor(placement) : leading;
+  // The native bar has its own back only for a page pushed on its own stack; the first screen of
+  // a pushed group, or of a sheet or modal, gets the shell's control instead.
+  const nativeBack =
+    control === 'back' &&
+    (placement === undefined || (placement.kind === 'pushed' && placement.ownStack));
+  const drawnControl = control === 'none' || nativeBack ? null : control;
+  const leadingLabel = control === 'close' ? (closeLabel ?? backLabel) : backLabel;
+  // The bar's native back (iOS) or Material back arrow (Android) is the way back; a drawn back or
+  // ✕ registers itself.
+  useBackAffordance(!headerless && nativeBack);
 
   const body = scroll ? (
     <ScrollView
@@ -95,13 +121,16 @@ export function PushScreen({
             { top: insets.top + t.space.gap6, paddingHorizontal: t.space.gutter },
           ]}
         >
-          <GlassIconButton
-            icon="back"
-            label={backLabel}
-            kind="clear"
-            testID="push-back"
-            onPress={() => router.back()}
-          />
+          {control === 'none' ? (
+            <View />
+          ) : (
+            <DrawnLeadingControl
+              kind={control}
+              label={leadingLabel}
+              overPhoto
+              onPress={() => router.back()}
+            />
+          )}
           {actions.length > 0 ? <DrawnHeaderActions actions={actions} /> : null}
         </View>
       </View>
@@ -121,17 +150,36 @@ export function PushScreen({
           headerTransparent: ios,
           headerShadowVisible: false,
           headerBackButtonDisplayMode: 'minimal',
+          headerBackVisible: nativeBack,
           headerTintColor: t.color.ink,
           ...(ios
             ? {}
             : {
                 headerStyle: { backgroundColor: t.color.ground },
+                ...(drawnControl === null
+                  ? {}
+                  : {
+                      headerLeft: () => (
+                        <DrawnLeadingControl
+                          kind={drawnControl}
+                          label={leadingLabel}
+                          onPress={() => router.back()}
+                        />
+                      ),
+                    }),
                 ...(actions.length > 0
                   ? { headerRight: () => <DrawnHeaderActions actions={actions} /> }
                   : {}),
               }),
         }}
       />
+      {ios && drawnControl !== null ? (
+        <NativeLeadingControl
+          kind={drawnControl}
+          label={leadingLabel}
+          onPress={() => router.back()}
+        />
+      ) : null}
       {ios ? <NativeHeaderActions actions={actions} /> : null}
       {body}
     </View>
