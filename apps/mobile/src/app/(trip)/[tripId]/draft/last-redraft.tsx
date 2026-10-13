@@ -6,6 +6,7 @@ import { LastRedraftPremium } from '@/features/monetize/premium/last-redraft-pre
 import { LastRedraftSheet, parseReasons, useLastRedraft } from '@/features/plan/draft';
 import { premiumRoute } from '@/lib/premium-ui';
 import { LoadingCritter, Text, usePremiumTheme } from '@/ui/premium';
+import { SheetScreen } from '@/ui/premium/shell';
 
 function useLastRedraftParams() {
   const params = useLocalSearchParams<{
@@ -29,31 +30,40 @@ function CurrentLastRedraftRoute() {
   return <LastRedraftSheet {...useLastRedraftParams()} />;
 }
 
-/** The last free redraft (9.18) in the premium look, sending the same held redraft. */
+/** The last free redraft (9.18) as a native sheet, sending the same held redraft. */
 function PremiumLastRedraftRoute() {
   const theme = usePremiumTheme();
   const last = useLastRedraft(useLastRedraftParams());
   return (
-    <View style={{ padding: theme.space.gutter, gap: theme.space.gap12 }}>
-      {last.trip == null ? (
-        <LoadingCritter
-          label={t({ id: 'plan.premium.draft.loading', message: 'Loading the draft' })}
-        />
-      ) : (
-        <LastRedraftPremium
-          place={last.trip.destinationName}
-          limit={last.limit}
-          boostEach={null}
-          onUse={last.use}
-          {...(last.boost === undefined ? {} : { onBoost: last.boost })}
-        />
-      )}
-      {last.problem === null ? null : (
-        <Text variant="caption" color={theme.color.destructive.text} testID="last-redraft-problem">
-          {last.problem}
-        </Text>
-      )}
-    </View>
+    <SheetScreen
+      cancelLabel={t({ id: 'plan.premium.draft.notNow', message: 'Not now' })}
+      testID="last-redraft-sheet"
+    >
+      <View style={{ padding: theme.space.gutter, gap: theme.space.gap12 }}>
+        {last.trip == null ? (
+          <LoadingCritter
+            label={t({ id: 'plan.premium.draft.loading', message: 'Loading the draft' })}
+          />
+        ) : (
+          <LastRedraftPremium
+            place={last.trip.destinationName}
+            limit={last.limit}
+            boostEach={null}
+            onUse={last.use}
+            {...(last.boost === undefined ? {} : { onBoost: last.boost })}
+          />
+        )}
+        {last.problem === null ? null : (
+          <Text
+            variant="caption"
+            color={theme.color.destructive.text}
+            testID="last-redraft-problem"
+          >
+            {last.problem}
+          </Text>
+        )}
+      </View>
+    </SheetScreen>
   );
 }
 
