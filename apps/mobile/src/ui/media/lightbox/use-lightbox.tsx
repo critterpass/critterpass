@@ -9,7 +9,7 @@ import type { StyleProp, ViewStyle } from 'react-native';
 
 import { PressScale } from '../../press/PressScale';
 import { Lightbox } from './Lightbox';
-import { indexOfKey, type LightboxItem } from './lightbox-model';
+import { indexOfKey, type LightboxItem } from '@/lib/media/viewer/lightbox-model';
 
 export interface LightboxHandle {
   readonly open: (key: string) => void;

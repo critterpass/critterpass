@@ -16,7 +16,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Lightbox } from '@/ui/media/lightbox/Lightbox';
-import { indexOfKey, type LightboxItem } from '@/ui/media/lightbox/lightbox-model';
+import { indexOfKey, type LightboxItem } from '@/lib/media/viewer/lightbox-model';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 

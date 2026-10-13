@@ -20,6 +20,9 @@ type Listener<Value> = (value: Value) => void;
 
 interface MutableValue<Value> {
   value: Value;
+  /** Reanimated 4's reader and writer, which the premium kit uses. */
+  get: () => Value;
+  set: (next: Value) => void;
   addListener: (id: number, listener: Listener<Value>) => void;
   removeListener: (id: number) => void;
 }
@@ -27,14 +30,19 @@ interface MutableValue<Value> {
 function makeMutable<Value>(initial: Value): MutableValue<Value> {
   let current = initial;
   const listeners = new Map<number, Listener<Value>>();
+  const write = (next: Value) => {
+    current = next;
+    for (const listener of listeners.values()) listener(next);
+  };
   return {
     get value() {
       return current;
     },
     set value(next) {
-      current = next;
-      for (const listener of listeners.values()) listener(next);
+      write(next);
     },
+    get: () => current,
+    set: write,
     addListener: (id, listener) => listeners.set(id, listener),
     removeListener: (id) => listeners.delete(id),
   };

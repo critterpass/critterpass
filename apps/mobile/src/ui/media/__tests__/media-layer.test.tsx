@@ -8,11 +8,12 @@ import { tokens } from '@cp/design-tokens';
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';
 
+import { creditFor } from '@/lib/media/credit-line';
 import type { MediaView } from '@/lib/media/variants';
 
 import { renderUi } from '../../test-support/render';
 import { duotoneMatrix, treatmentFor } from '../duotone';
-import { creditFor, MediaLayer } from '../MediaLayer';
+import { MediaLayer } from '../MediaLayer';
 import { downloads, reset, seed } from '../test-support/memory-file-system';
 
 const PINK = tokens.color.pink;

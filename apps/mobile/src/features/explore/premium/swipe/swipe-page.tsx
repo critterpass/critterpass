@@ -12,7 +12,6 @@ import { useEffect, useRef } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { MediaLayer } from '@/ui/media/MediaLayer';
 import {
   Button,
   Card,
@@ -22,6 +21,7 @@ import {
   IconButton,
   LoadingCritter,
   OfflinePill,
+  PhotoLayer,
   RectStamp,
   StampMoment,
   SwipeDeck,
@@ -65,13 +65,7 @@ function CardFace({ face }: { readonly face: SwipeCardFace }) {
             <Doodle name={placeIcon(face.category)} size={140} />
           </View>
         ) : (
-          <MediaLayer
-            media={face.photo}
-            surface="dark"
-            accent={theme.accent.sun}
-            dots={false}
-            creditAt="top"
-          />
+          <PhotoLayer media={face.photo} creditAt="top" />
         )}
         <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
           <View

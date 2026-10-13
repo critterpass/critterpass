@@ -25,9 +25,14 @@ import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { CloseButton } from '../../sheet/CloseButton';
 import { Text } from '../../text/Text';
 import { makeStyles, useTheme } from '../../theme';
-import { clampIndex, counterOf, linesOf, type LightboxItem } from './lightbox-model';
-import { LightboxVideo } from './lightbox-video';
-import { ZoomPage } from './zoom-page';
+import {
+  clampIndex,
+  counterOf,
+  linesOf,
+  type LightboxItem,
+} from '@/lib/media/viewer/lightbox-model';
+import { LightboxVideo } from '@/lib/media/viewer/lightbox-video';
+import { ZoomPage } from '@/lib/media/viewer/zoom-page';
 
 export interface LightboxProps {
   readonly items: readonly LightboxItem[];
@@ -210,7 +215,7 @@ export function Lightbox({
         width={width}
         height={height}
         zoomable={item.kind === 'image'}
-        reduced={reduced}
+        settleMs={settleMs}
         zoomed={active && zoomed}
         onZoomChange={setZoomed}
         testID={`${testID}-page-${at}`}

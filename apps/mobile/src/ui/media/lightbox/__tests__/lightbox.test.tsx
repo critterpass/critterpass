@@ -7,8 +7,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { renderUi } from '../../../test-support/render';
 import { Lightbox } from '../Lightbox';
-import type { LightboxItem } from '../lightbox-model';
-import { zoomPageGestures } from '../zoom-page';
+import type { LightboxItem } from '@/lib/media/viewer/lightbox-model';
+import { zoomPageGestures } from '@/lib/media/viewer/zoom-page';
 
 const ITEMS: readonly LightboxItem[] = [
   { key: 'a', kind: 'image', uri: 'https://img.test/a.jpg', credit: 'Linh Tran · Unsplash' },

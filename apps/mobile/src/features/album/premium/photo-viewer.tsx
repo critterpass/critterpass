@@ -1,6 +1,6 @@
 /**
- * One album photo full screen in the premium look (undesigned): the app's viewer underneath (swipe
- * across, pinch or double-tap to zoom, drag down to put it away) with the album's bar at its foot
+ * One album photo full screen in the premium look (undesigned): the kit's photo viewer underneath
+ * (✕ top-left, the counter, swipe across, pinch or double-tap to zoom, drag down to put it away) with the album's bar at its foot
  * on a dark fade: who took it and when, who is in it, and the actions as clear glass pills (pick,
  * "I'm in this", save, share, and delete for the uploader or an organiser, else report). A photo
  * that could not be loaded says so with another try. Deleting and reporting ask with the system
@@ -14,13 +14,13 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { Lightbox } from '@/ui/media/lightbox/Lightbox';
-import { indexOfKey, type LightboxItem } from '@/ui/media/lightbox/lightbox-model';
+import { indexOfKey, type LightboxItem } from '@/lib/media/viewer/lightbox-model';
 import {
   Button,
   EmptyState,
   GlassPill,
   LoadingCritter,
+  PhotoViewer,
   Spinner,
   Text,
   TextButton,
@@ -168,10 +168,11 @@ export function PremiumPhotoViewer(props: PhotoViewerProps) {
   // The route is a full-screen cover: black under the viewer, so its fade never shows the ground.
   return (
     <View style={styles.dark}>
-      <Lightbox
+      <PhotoViewer
         items={items}
         initialIndex={indexOfKey(items, props.startId)}
         onClose={props.onClose}
+        closeLabel={close()}
         footer={bar}
         testID="album-viewer"
       />

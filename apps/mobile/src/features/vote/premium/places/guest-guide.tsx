@@ -14,12 +14,12 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { Doodle } from '@/features/explore';
 import { DEFAULT_GUIDE_ID, guideSticker } from '@/ui/avatar/guides';
-import { MediaLayer } from '@/ui/media/MediaLayer';
 import {
   Button,
   CritterSticker,
   GlassIconButton,
   ListCard,
+  PhotoLayer,
   PressableScale,
   Text,
   usePremiumTheme,
@@ -83,14 +83,10 @@ export function GuestGuide({
               <Doodle name="temple" size={150} accent={theme.accent.sun} />
             </View>
           ) : (
-            <MediaLayer
+            <PhotoLayer
               media={photo}
-              surface="accent"
-              accent={theme.accent.sun}
-              tone="colour"
               creditAt="bottom"
               creditInset={OVERLAP + theme.space.gap8}
-              dots={false}
               testID="guest-photo"
             />
           )}

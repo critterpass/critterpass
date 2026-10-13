@@ -7,7 +7,7 @@
 import type { ReactNode } from 'react';
 import { Image, View } from 'react-native';
 
-import type { LightboxItem } from '@/ui/media/lightbox/lightbox-model';
+import type { LightboxItem } from '@/lib/media/viewer/lightbox-model';
 import { LightboxThumb, useLightbox } from '@/ui/media/lightbox/use-lightbox';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';

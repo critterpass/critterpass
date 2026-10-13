@@ -5,7 +5,6 @@
  * paged away from is always back at its full view. A page that cannot zoom (a video with its own
  * controls) takes none of these.
  */
-import { tokens } from '@cp/design-tokens';
 import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -45,8 +44,8 @@ export interface ZoomPageProps {
   readonly height: number;
   /** Off for a page with controls of its own. @default true */
   readonly zoomable?: boolean;
-  /** Reduced motion: every settle is immediate. */
-  readonly reduced: boolean;
+  /** How long a zoom takes to settle; 0 under Reduce Motion (every settle immediate). */
+  readonly settleMs: number;
   readonly onZoomChange: (zoomed: boolean) => void;
   readonly zoomed: boolean;
   readonly testID?: string;
@@ -57,7 +56,7 @@ export function ZoomPage({
   width,
   height,
   zoomable = true,
-  reduced,
+  settleMs,
   onZoomChange,
   zoomed,
   testID,
@@ -69,7 +68,6 @@ export function ZoomPage({
   const y = useSharedValue(0);
   const startX = useSharedValue(0);
   const startY = useSharedValue(0);
-  const settleMs = reduced ? 0 : tokens.motion.duration.fast;
 
   const pinch = Gesture.Pinch()
     .enabled(zoomable)

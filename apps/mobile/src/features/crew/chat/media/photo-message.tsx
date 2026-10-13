@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { Image, useWindowDimensions, View } from 'react-native';
 
 import { Lightbox } from '@/ui/media/lightbox/Lightbox';
-import { indexOfKey, type LightboxItem } from '@/ui/media/lightbox/lightbox-model';
+import { indexOfKey, type LightboxItem } from '@/lib/media/viewer/lightbox-model';
 import { PressScale } from '@/ui/press/PressScale';
 import { Stack, Text, useTheme } from '@/ui';
 import { makeStyles } from '@/ui/theme';

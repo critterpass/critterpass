@@ -19,7 +19,7 @@ import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
 import { savedMediaUri } from '@/lib/media/media-files';
-import { mediaViewItem } from '@/ui/media/lightbox/lightbox-model';
+import { mediaViewItem } from '@/lib/media/viewer/lightbox-model';
 import { useLightbox } from '@/ui/media/lightbox/use-lightbox';
 import { MediaLayer } from '@/ui/media/MediaLayer';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';

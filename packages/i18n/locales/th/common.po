@@ -17,9 +17,21 @@ msgstr ""
 
 #. placeholder {0}: counter.position
 #. placeholder {1}: counter.total
+#: ../../apps/mobile/src/ui/premium/media/photo-viewer.tsx
+msgid "common.premium.viewer.counter"
+msgstr ""
+
+#. placeholder {0}: counter.position
+#. placeholder {1}: counter.total
 #: ../../apps/mobile/src/ui/media/lightbox/Lightbox.tsx
 msgid "common.lightbox.counter"
 msgstr "{0} / {1}"
+
+#. placeholder {0}: counter.position
+#. placeholder {1}: counter.total
+#: ../../apps/mobile/src/ui/premium/media/photo-viewer.tsx
+msgid "common.premium.viewer.counterLabel"
+msgstr ""
 
 #. placeholder {0}: counter.position
 #. placeholder {1}: counter.total
@@ -615,6 +627,10 @@ msgstr ""
 msgid "common.monetize.pausedMonths"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/premium/media/photo-viewer.tsx
+msgid "common.premium.viewer.photo"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/media/lightbox/Lightbox.tsx
 msgid "common.lightbox.photo"
 msgstr "รูปภาพ"
@@ -997,6 +1013,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/vote/IdeaVoteBox.tsx
 msgid "common.vote.upvote"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/premium/media/photo-viewer.tsx
+msgid "common.premium.viewer.video"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/media/lightbox/Lightbox.tsx
