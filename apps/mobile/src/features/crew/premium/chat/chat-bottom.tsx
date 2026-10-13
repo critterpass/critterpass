@@ -20,6 +20,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { REDUCED_FADE, SPRINGS, makePremiumStyles, usePremiumReducedMotion } from '@/ui/premium';
 import { KeyboardDismissArea, useKeyboardFrame } from '@/ui/premium/shell';
+import { shortName } from '@/lib/people/member-name';
 
 import type { ChatMessage } from '../../chat/data/rows';
 import type { StickerTray as TrayData, TraySticker } from '../../chat/data/use-sticker-tray';
@@ -108,6 +109,7 @@ export function ChatBottom({ inputRef, ...props }: ChatBottomProps) {
     };
   }, [open, insets.bottom, reduced]);
 
+  const replyName = shortName(composer.replyTo?.senderName);
   const strip =
     composer.editing !== null ? (
       <ComposerStrip
@@ -119,7 +121,7 @@ export function ChatBottom({ inputRef, ...props }: ChatBottomProps) {
       <ComposerStrip
         title={t({
           id: 'chat.premium.strip.replying',
-          message: `Replying to ${composer.replyTo.senderName ?? ''}`,
+          message: `Replying to ${replyName}`,
         })}
         line={
           composer.replyTo.type === 'sticker'
