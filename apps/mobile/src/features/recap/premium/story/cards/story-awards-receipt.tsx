@@ -82,6 +82,7 @@ export function PremiumAwardsCard({ eyebrow, headline, awards }: AwardsCardProps
             <Avatar
               name={award.initial}
               color={award.mine ? th.accent.sun : th.accent.sky}
+              uid={award.userId}
               size={44}
             />
             <View style={{ flex: 1 }}>

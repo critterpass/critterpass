@@ -184,7 +184,9 @@ function HomeFrame({ view, onPick, children }: HomeFrameProps) {
               <View style={[styles.head, { marginTop: insets.top }]}>
                 {firstName === '' ? null : (
                   <View style={styles.greeting} testID="home-greeting">
-                    {me === undefined ? null : <Avatar name={me.name} color={me.color} size={20} />}
+                    {me === undefined ? null : (
+                      <Avatar name={me.name} color={me.color} uid={me.id} size={20} />
+                    )}
                     <Text variant="rowText" tone="muted" numberOfLines={1}>
                       {t({ id: 'home.premium.greeting', message: `Hey ${firstName}` })}
                     </Text>

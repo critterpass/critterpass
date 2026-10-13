@@ -65,6 +65,7 @@ export function MemberGrid({
                 <Avatar
                   name={firstName(member.display_name)}
                   color={memberAccent(member.colour)}
+                  uid={member.user_id}
                   size={42}
                 />
                 {member.role === 'organiser' ? (

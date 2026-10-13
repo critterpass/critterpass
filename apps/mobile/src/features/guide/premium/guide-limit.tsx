@@ -130,7 +130,11 @@ export function LimitCard({
   readonly onGetPass?: () => void;
   readonly onAtMidnight?: () => void;
   readonly asking: boolean;
-  readonly passHolder: { readonly name: string; readonly color: string } | null;
+  readonly passHolder: {
+    readonly name: string;
+    readonly color: string;
+    readonly uid?: string;
+  } | null;
   readonly onCrewChat?: () => void;
 }) {
   const th = usePremiumTheme();
@@ -189,7 +193,7 @@ export function LimitCard({
           accessibilityRole="button"
           testID="guide-limit-crew-chat"
         >
-          <Avatar name={passHolder.name} color={passHolder.color} size={30} />
+          <Avatar name={passHolder.name} color={passHolder.color} uid={passHolder.uid} size={30} />
           <Text variant="rowText" style={{ flex: 1 }}>
             {t({
               id: 'guide.limit.hint',

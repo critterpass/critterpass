@@ -105,9 +105,9 @@ export function PaymentCard({
           },
         ]}
       >
-        <Avatar name={from} color={crewAccent(index(row.fromId))} size={36} />
+        <Avatar name={from} color={crewAccent(index(row.fromId))} uid={row.fromId} size={36} />
         <LineIcon name="navigate" size={16} color={th.color.placeholder} />
-        <Avatar name={to} color={crewAccent(index(row.toId))} size={28} />
+        <Avatar name={to} color={crewAccent(index(row.toId))} uid={row.toId} size={28} />
         <View style={styles.flex}>
           <PrivateContent>
             <Text variant="navTitle" style={styles.tabular}>

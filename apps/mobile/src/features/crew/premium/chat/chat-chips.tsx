@@ -93,11 +93,14 @@ export function NoSignalChip() {
 export function SystemPill({
   text,
   who,
+  uid,
   color,
   onPress,
 }: {
   readonly text: string;
   readonly who: string | null;
+  /** The named member's user id, for their face. */
+  readonly uid?: string | null;
   readonly color: string;
   readonly onPress?: () => void;
 }) {
@@ -110,7 +113,7 @@ export function SystemPill({
       accessibilityRole={onPress === undefined ? 'text' : 'button'}
       accessibilityLabel={text}
     >
-      {who === null ? null : <Avatar name={who} color={color} size={20} />}
+      {who === null ? null : <Avatar name={who} color={color} uid={uid} size={20} />}
       <Text variant="captionMuted" tone="inkSecondary" numberOfLines={2}>
         {text}
       </Text>

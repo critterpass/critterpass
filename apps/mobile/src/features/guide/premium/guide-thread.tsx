@@ -19,7 +19,12 @@ import { WaitingQuestionRows } from './guide-offline';
 import { FailedTurn, WorkingCard } from './guide-turn-cards';
 import { TypingBubble } from './typing-bubble';
 
-type Author = { readonly name: string; readonly color: string } | null;
+type Author = { readonly name: string; readonly color: string; readonly uid?: string } | null;
+
+/** A known crewmate's name and colour, with their user id for their face. */
+function withUid(author: NonNullable<Author> | undefined, uid: string): Author {
+  return author === undefined ? null : { ...author, uid };
+}
 
 export interface GuideThreadProps {
   readonly slug: string;
@@ -150,7 +155,7 @@ export function GuideThread(props: GuideThreadProps) {
           message={message}
           author={
             message.role === 'user' && message.authorId !== null
-              ? (props.authors.get(message.authorId) ?? null)
+              ? withUid(props.authors.get(message.authorId), message.authorId)
               : null
           }
           slug={props.slug}

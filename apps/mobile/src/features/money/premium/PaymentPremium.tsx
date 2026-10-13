@@ -172,6 +172,7 @@ export function PaymentPremium({
           <Avatar
             name={other}
             color={crewAccent(pay.joinIndexOf(row.role === 'payer' ? row.toId : row.fromId))}
+            uid={row.role === 'payer' ? row.toId : row.fromId}
             size={56}
             ringed
           />

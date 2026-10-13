@@ -45,7 +45,12 @@ export function PayerRow(props: {
                     : styles.dim,
                 ]}
               >
-                <Avatar name={member.name} color={crewAccent(member.joinIndex)} size={36} />
+                <Avatar
+                  name={member.name}
+                  color={crewAccent(member.joinIndex)}
+                  uid={member.userId}
+                  size={36}
+                />
               </View>
             </PressableScale>
           );

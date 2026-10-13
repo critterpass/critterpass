@@ -94,7 +94,7 @@ export function SosReady({ props }: { readonly props: SosViewProps }) {
           )}
         </View>
         <View style={[styles.avatar, { boxShadow: ring(8, th.color.status.voteOpen.bg) }]}>
-          <Avatar name={name} color={crewAccent(0)} size={68} ringed />
+          <Avatar name={name} color={crewAccent(0)} uid={model.senderUid} size={68} ringed />
         </View>
         <Text variant="display" accessibilityRole="header" testID="sos-title">
           {title}

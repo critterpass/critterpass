@@ -28,7 +28,12 @@ export function PremiumWhoSheet({ inPhoto, indexOf, meIn, onMeIn, onClose }: Who
         ) : (
           inPhoto.map((person) => (
             <View key={person.id} style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-              <Avatar name={person.name} color={crewColour(indexOf(person.id))} size={32} />
+              <Avatar
+                name={person.name}
+                color={crewColour(indexOf(person.id))}
+                uid={person.id}
+                size={32}
+              />
               <Text variant="body">{person.name}</Text>
             </View>
           ))

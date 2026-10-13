@@ -116,7 +116,7 @@ export function PremiumStampCard(props: StampCardProps) {
             style={{ alignItems: 'center', gap: 2 }}
             testID={`recap-signature-${signer.userId}`}
           >
-            <Avatar name={signer.name} color={signer.color} size={36} />
+            <Avatar name={signer.name} color={signer.color} uid={signer.userId} size={36} />
             <Text variant="badge" tone="muted">
               {signer.name}
             </Text>
