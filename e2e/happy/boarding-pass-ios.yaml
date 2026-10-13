@@ -1,0 +1,17 @@
+appId: app.critterpass.dev
+---
+# iOS gate: a flight's boarding pass opens full screen with its code, the screen that turns the
+# brightness up at the gate. The bookings lab's `pass` scene draws it from the lab's fixtures, so
+# the check takes a minute and needs no account.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: ../bookings/subflows/open-lab.yaml
+- runFlow:
+    file: ../bookings/subflows/scene.yaml
+    env: { SCENE: pass, READY: bookings-pass-code, SHOT: 'ios-gate-boarding-pass' }
