@@ -8,6 +8,7 @@ import {
   attemptResult,
   DEFAULT_FLOW_TIMEOUT_MINUTES,
   flowOutcome,
+  flowLimitMinutes,
   flowTimeoutMinutes,
   keepFirstFailure,
   markPassedOnRetry,
@@ -42,6 +43,12 @@ describe('retry decision', () => {
 });
 
 describe('time limit', () => {
+  it('gives a journey that is long by design half again its median, and no less than the limit', () => {
+    expect(flowLimitMinutes(20, 3.7)).toBe(20);
+    expect(flowLimitMinutes(20, 31.1)).toBe(47);
+    expect(flowLimitMinutes(90, 31.1)).toBe(90);
+  });
+
   it('reads a process stopped at the limit as timed out, not failed', () => {
     const stopped = Object.assign(new Error('spawnSync maestro ETIMEDOUT'), { code: 'ETIMEDOUT' });
     expect(attemptResult({ status: null, error: stopped })).toBe('timed out');

@@ -30,6 +30,15 @@ export function flowTimeoutMinutes(input: string | undefined): number {
   return minutes;
 }
 
+/**
+ * The limit for one flow: the run's limit, or one and a half times the flow's recorded median when
+ * that is longer, so a tight limit (the release gate's 20 minutes) stops a stuck flow early without
+ * stopping the few journeys that wait on the worker's ten-minute sweeps by design.
+ */
+export function flowLimitMinutes(limit: number, medianMinutes: number): number {
+  return Math.max(limit, Math.ceil(medianMinutes * 1.5));
+}
+
 /** What one Maestro process ended as; Node reports a process it stopped at the limit as ETIMEDOUT. */
 export function attemptResult(ended: {
   status: number | null;
