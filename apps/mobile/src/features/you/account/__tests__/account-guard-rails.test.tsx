@@ -192,11 +192,11 @@ describe('delete account', () => {
 
   /** The ring completes through its accessible path: the screen reader's ask, answered yes. */
   function answerTheAsk(yes: boolean) {
-    jest.spyOn(AccessibilityInfo, 'isScreenReaderEnabled').mockResolvedValue(true);
     jest.spyOn(Alert, 'alert').mockImplementation((_title, _message, buttons) => {
       const button = buttons?.[yes ? 1 : 0];
       button?.onPress?.();
     });
+    return jest.spyOn(AccessibilityInfo, 'isScreenReaderEnabled').mockResolvedValue(true);
   }
 
   it('has no control that deletes on a plain tap: only the hold', async () => {
@@ -222,10 +222,10 @@ describe('delete account', () => {
     // The test stack's server is unreachable: the command comes back `unavailable`.
     const stack = await openStack();
     const svc = services();
-    answerTheAsk(true);
+    const screenReader = answerTheAsk(true);
     await show(<DeletePremiumScreen services={svc} />, stack);
     const hold = await screen.findByTestId('you-delete-hold');
-    await waitFor(() => expect(AccessibilityInfo.isScreenReaderEnabled).toHaveBeenCalled());
+    await waitFor(() => expect(screenReader).toHaveBeenCalled());
     await fireEvent.press(hold);
     await waitFor(() => expect(screen.getByTestId('you-delete-problem')).toBeTruthy());
     expect(svc.clearPhone).not.toHaveBeenCalled();
