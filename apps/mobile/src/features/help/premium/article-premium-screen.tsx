@@ -23,7 +23,7 @@ import {
 import { PushScreen } from '@/ui/premium/shell';
 
 import { helpLinkSlug, parseMarkdown, type Inline } from '../data/markdown';
-import { useHelpReader } from '../reader/reader-screen';
+import { useHelpReader } from '../reader/use-help-reader';
 
 function Inlines({
   inlines,

@@ -3,7 +3,13 @@
  * sending. A note without pictures goes straight into the offline command queue; one with pictures
  * waits in the feedback outbox until they are uploaded. Either way the sent page opens at once.
  */
-import { FEEDBACK_ATTACHMENTS_MAX, generateUuidV7, type FeedbackSource } from '@cp/domain';
+import {
+  FEEDBACK_ATTACHMENTS_MAX,
+  generateUuidV7,
+  type FeedbackCategory,
+  type FeedbackMood,
+  type FeedbackSource,
+} from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router, useLocalSearchParams, usePreventRemove, type Href } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -26,8 +32,8 @@ import {
   feedbackPayload,
   initialDraft,
   topicsFor,
+  type FeedbackDraft,
 } from './draft';
-import type { FeedbackViewProps } from './FeedbackView';
 import { saveOutboxItem } from './outbox';
 import { pickFeedbackPhotos } from './pick-photos';
 
@@ -35,6 +41,27 @@ const TOAST = 'help-feedback-send';
 
 function modeOf(value: unknown): FeedbackMode {
   return value === 'problem' || value === 'idea' ? value : 'feedback';
+}
+
+export interface FeedbackViewProps {
+  readonly mode: FeedbackMode;
+  readonly draft: FeedbackDraft;
+  readonly topics: readonly FeedbackCategory[];
+  readonly deviceLine: string;
+  readonly canSend: boolean;
+  readonly sending: boolean;
+  /** A picked file was over the size an attachment may be. */
+  readonly tooBigNote: boolean;
+  /** The article this came from ("Still stuck? Ask a human"). */
+  readonly articleTitle: string | null;
+  readonly onMood: (mood: FeedbackMood) => void;
+  readonly onTopic: (topic: FeedbackCategory) => void;
+  readonly onText: (text: string) => void;
+  readonly onAddPhoto: () => void;
+  readonly onRemovePhoto: (index: number) => void;
+  readonly onDeviceInfo: (on: boolean) => void;
+  readonly onSend: () => void;
+  readonly onBack: () => void;
 }
 
 export interface FeedbackForm extends FeedbackViewProps {

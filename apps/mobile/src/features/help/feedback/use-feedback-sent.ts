@@ -15,7 +15,6 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { useLiveRows } from '../data/live-rows';
 import { HELP_ROUTES } from '../routes';
 import { useFeedbackLabels } from './labels';
-import { SentView, type SentViewProps } from './SentView';
 
 const TICKET_SQL = 'SELECT ticket_no, sent_at FROM feedback_tickets WHERE id = ?';
 const NAME_SQL = `SELECT u.display_name AS name FROM users u
@@ -61,6 +60,14 @@ export function useFeedbackSent(): SentViewProps {
   };
 }
 
-export function SentScreen() {
-  return <SentView {...useFeedbackSent()} />;
+export interface SentViewProps {
+  /** null until the server has numbered the ticket. */
+  readonly ticketNo: number | null;
+  /** The note waits in the queue because the phone is offline. */
+  readonly queued: boolean;
+  readonly heading: string;
+  readonly note: string;
+  readonly name: string | null;
+  readonly receivedOn: string;
+  readonly onDone: () => void;
 }

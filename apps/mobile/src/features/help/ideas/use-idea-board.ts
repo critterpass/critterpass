@@ -9,10 +9,8 @@ import { generateUuidV7, IDEA_TITLE_MIN, IDEA_VOTE_BUDGET, ideaVoteMonth } from 
 import { useLingui } from '@lingui/react/macro';
 import { useMemo, useState } from 'react';
 
-import { goBackOr } from '@/lib/navigation/back';
 import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { toast } from '@/motion/island-toast';
 
 import {
   boardRows,
@@ -20,13 +18,11 @@ import {
   isVotable,
   shownCount,
   votesLeft,
+  type BoardStatus,
   type BoardTab,
   type VoteOverrides,
 } from './board';
-import { HELP_ROUTES } from '../routes';
-import { BoardView, type BoardRow } from './BoardView';
 import { submitIdeaCommand, unvoteIdeaCommand, voteIdeaCommand } from './commands';
-import { SuggestSheet } from './SuggestSheet';
 import { useBoard } from './use-board';
 import { useSimilarIdeas } from './use-similar';
 
@@ -34,11 +30,22 @@ function deviceZone(): string {
   return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
 
-/** Says one short line (the island toast, or the premium toast). */
+export interface BoardRow {
+  readonly id: string;
+  readonly title: string;
+  readonly status: BoardStatus;
+  readonly count: number;
+  readonly voted: boolean;
+  readonly votable: boolean;
+  readonly faces: readonly string[];
+  readonly teamNote: string | null;
+}
+
+/** Says one short line (a toast). */
 export type BoardNotify = (line: { readonly id: string; readonly title: string }) => void;
 
 /**
- * The idea board's state and actions, shared by the current and the premium page: the rows of a
+ * The idea board's state and actions, for the premium page: the rows of a
  * tab, votes left this month, voting (taken back when the server refuses) and suggesting.
  */
 export function useIdeaBoard(suggestOpen: boolean, notify: BoardNotify) {
@@ -175,34 +182,3 @@ export function useIdeaBoard(suggestOpen: boolean, notify: BoardNotify) {
   };
 }
 
-export function BoardScreen({ suggestOpen = false }: { readonly suggestOpen?: boolean }) {
-  const b = useIdeaBoard(suggestOpen, (line) => toast.show(line));
-  return (
-    <>
-      <BoardView
-        tab={b.tab}
-        onTab={b.setTab}
-        rows={b.rows}
-        votesLeft={b.left}
-        unavailable={b.board.unavailable}
-        loaded={b.board.loaded}
-        onVote={(id) => void b.onVote(id)}
-        onSuggest={() => b.setSuggesting(true)}
-        onBack={() => goBackOr(HELP_ROUTES.hub)}
-      />
-      {b.suggesting ? (
-        <SuggestSheet
-          title={b.title}
-          onTitle={b.setTitle}
-          description={b.description}
-          onDescription={b.setDescription}
-          matches={b.matches}
-          posting={b.posting}
-          onVote={b.voteForMatch}
-          onPost={() => void b.post()}
-          onClose={b.closeSuggest}
-        />
-      ) : null}
-    </>
-  );
-}

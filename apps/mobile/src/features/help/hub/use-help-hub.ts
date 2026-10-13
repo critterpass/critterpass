@@ -18,7 +18,8 @@ import { useHelpArticles } from '../data/use-help-articles';
 import { useHelpSearch } from '../data/use-help-search';
 import { articleHref, feedbackHref } from '../routes';
 import { shakeToReportAvailable, useShakeToReport } from '../shake/shake-pref';
-import { HubView } from './HubView';
+import type { GuideId } from '@/ui/people/GuideLine';
+import type { HelpSearchHit } from '../data/help-api';
 
 // eslint-disable-next-line lingui/no-unlocalized-strings -- a route, never copy.
 const SETTINGS_FALLBACK = '/you/settings';
@@ -59,6 +60,34 @@ export function useHelpHub(search: SearchHelp = searchHelpOnline) {
   };
 }
 
-export function HubScreen({ search = searchHelpOnline }: { readonly search?: SearchHelp }) {
-  return <HubView guide="tokek" {...useHelpHub(search)} />;
+export interface HubArticle {
+  readonly slug: string;
+  readonly title: string;
+  readonly summary: string;
+}
+
+export interface HubViewProps {
+  readonly guide: GuideId;
+  readonly articles: readonly HubArticle[];
+  /** The language has no articles yet: the English ones show under a note. */
+  readonly englishFallback: boolean;
+  /** The articles have been read (there may be none: offline with no copy kept). */
+  readonly articlesLoaded: boolean;
+  readonly query: string;
+  readonly onQuery: (text: string) => void;
+  readonly searching: boolean;
+  readonly results: readonly HelpSearchHit[];
+  /** Ideas open to votes, for "Vote on {n} ideas"; null until known. */
+  readonly ideasToVote: number | null;
+  /** How support answered this traveller's last ticket; null before their first. */
+  readonly repliesVia: 'email' | 'inbox' | null;
+  /** Whether a shake opens a problem report on this build. */
+  readonly shakeToReport: boolean;
+  readonly onBack: () => void;
+  readonly onReport: () => void;
+  readonly onFeedback: () => void;
+  readonly onSuggest: () => void;
+  readonly onRate: () => void;
+  readonly onArticle: (slug: string) => void;
+  readonly onAskHuman: () => void;
 }

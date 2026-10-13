@@ -12,7 +12,6 @@ import { useAnalytics } from '@/lib/analytics';
 
 import { useHelpArticles } from '../data/use-help-articles';
 import { articleHref, feedbackHref, HELP_ROUTES } from '../routes';
-import { ReaderView, type ReaderViewProps } from './ReaderView';
 
 /** The article on screen and what its controls do, for either look of the reader. */
 export function useHelpReader(): ReaderViewProps {
@@ -45,6 +44,21 @@ export function useHelpReader(): ReaderViewProps {
   };
 }
 
-export function ReaderScreen() {
-  return <ReaderView {...useHelpReader()} />;
+export interface ReaderArticle {
+  readonly slug: string;
+  readonly title: string;
+  readonly summary: string;
+  readonly body_md: string;
+  /** Shown in English because the app's language has no copy of it yet. */
+  readonly inEnglish: boolean;
+}
+
+export interface ReaderViewProps {
+  /** null while it loads, `missing` when the article is not on the phone. */
+  readonly article: ReaderArticle | null | 'missing';
+  readonly helpful: boolean | null;
+  readonly onHelpful: (helpful: boolean) => void;
+  readonly onOpenArticle: (slug: string) => void;
+  readonly onAskHuman: () => void;
+  readonly onBack: () => void;
 }
