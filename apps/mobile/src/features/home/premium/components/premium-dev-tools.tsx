@@ -10,7 +10,7 @@ import { Platform, Pressable, View } from 'react-native';
 
 import { Text, usePremiumTheme } from '@/ui/premium';
 
-import { showsDevTools } from '../../dev-tools-entry';
+import { showsDevTools } from '../../dev-tools';
 
 // eslint-disable-next-line lingui/no-unlocalized-strings -- a route path.
 const DEV_TOOLS_ROUTE = '/(dev)';

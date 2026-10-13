@@ -10,7 +10,7 @@ import { View } from 'react-native';
 import { Button, Card, Skeleton, Tag, Text, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import type { SignOutViewProps } from '../../account/sign-out-view';
+import type { SignOutViewProps } from '../../account/sign-out-props';
 
 function Lines({ lines }: { readonly lines: readonly string[] }) {
   return (

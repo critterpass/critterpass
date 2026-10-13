@@ -3,13 +3,10 @@
  * caller: the screen passes this account's settings, a lab scene passes fixed ones. A row whose
  * value or screen is not there (no mailbox row, no account yet) is left out, never drawn dead.
  */
-import type { Chattiness } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { View, type ViewStyle } from 'react-native';
 
 import { useMapsAppRow, type MapsApp } from '@/features/go';
 import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
-import { Segmented } from '@/ui/inputs/Segmented';
 
 import { useAccountRows, type AccountRowsState } from './account-rows';
 import { helpRows } from './help-rows';
@@ -18,10 +15,8 @@ import type { CrewChatMode } from '../ping-settings/ping-prefs';
 import type { LocationValue } from './location-row';
 import { SETTINGS_REGISTRY, SETTINGS_SECTIONS, type SettingsSectionId } from './registry';
 import type { SyncedSettings } from './synced-settings';
-import type { SettingsSection } from './settings-view';
+import type { SettingsSection } from './settings-props';
 import { inviteFriendsRow, widgetsRow } from './widgets-row';
-
-const CHATTY_TRACK: ViewStyle = { flexShrink: 1, maxWidth: '64%' };
 
 export interface SettingsValues extends SyncedSettings {
   readonly crewChat: CrewChatMode;
@@ -82,11 +77,6 @@ export function useSettingsSections(
 ): readonly SettingsSection[] {
   const { t } = useLingui();
   const mapsApp = useMapsAppRow(values.mapsApp ?? null, handlers.onMapsApp ?? (() => undefined));
-  const chattiness: readonly { value: Chattiness; label: string }[] = [
-    { value: 'quiet', label: t({ id: 'you.settings.chatty.quiet', message: 'Quiet' }) },
-    { value: 'normal', label: t({ id: 'you.settings.chatty.normal', message: 'Normal' }) },
-    { value: 'chatty', label: t({ id: 'you.settings.chatty.chatty', message: 'Chatty' }) },
-  ];
   const crewChat: Readonly<Record<CrewChatMode, string>> = {
     all: t({ id: 'you.pings.crewChat.all', message: 'Every message' }),
     mentions: t({ id: 'you.pings.crewChat.mentions', message: 'Mentions only' }),
@@ -119,18 +109,8 @@ export function useSettingsSections(
       key: 'chattiness',
       kind: 'custom',
       title: t({ id: 'you.settings.howChatty', message: 'How chatty' }),
-      // Bounded, so the title keeps its words whole beside the three options.
-      trailing: (
-        <View style={CHATTY_TRACK}>
-          <Segmented
-            segments={chattiness}
-            value={values.chattiness}
-            onChange={(next) => handlers.onSynced({ chattiness: next })}
-            label={t({ id: 'you.settings.howChatty', message: 'How chatty' })}
-            testID="you-settings-chattiness"
-          />
-        </View>
-      ),
+      // The page draws the control beside the title.
+      trailing: null,
     },
     'talk-out-loud': toggle(
       'talk-out-loud',

@@ -7,7 +7,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- filter values, route paths and SF Symbols. */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
@@ -23,7 +23,7 @@ import {
 } from '@/ui/premium';
 import { RootScreen, type ShellAction } from '@/ui/premium/shell';
 
-import type { InboxFilter } from '../../inbox/filter-tabs';
+import type { InboxFilter } from '../../inbox/inbox-filter';
 import { isExpired } from '../../inbox/inbox-data';
 import { inboxRenderer, registerHomeInboxRenderers } from '../../inbox/kind-renderers';
 import { useInbox } from '../../inbox/use-inbox';
@@ -77,7 +77,11 @@ function InboxContent({ title }: { readonly title: string }) {
     onPress: () => void actions.markAllRead(inbox.needsYou),
     testID: 'inbox-mark-all-read',
   };
-  const firstTime = inbox.loaded && inbox.total === 0;
+  // The first-time page is for an inbox that never held anything: once an item has shown, an
+  // empty inbox is Tokek asleep, even after the last card was answered and left.
+  const [held, setHeld] = useState(false);
+  if (inbox.total > 0 && !held) setHeld(true);
+  const firstTime = inbox.loaded && inbox.total === 0 && !held;
   const needs = inbox.needsYou;
   return (
     <RootScreen

@@ -11,27 +11,27 @@ msgstr ""
 msgid "go.button.airport"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.minutes"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.hours"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.grabEta"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.aboutMinutes"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.aboutHours"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.grabEstimateLine"
 msgstr ""
 
@@ -39,16 +39,16 @@ msgstr ""
 msgid "go.settings.appleMaps"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.money.billion"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
 #: ../../apps/mobile/src/features/go/go-screen.tsx
+#: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx
 msgid "go.preview.back"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.noFix"
 msgstr ""
 
@@ -60,15 +60,15 @@ msgstr ""
 msgid "go.settings.mapsApp"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx
 msgid "go.preview.drive"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.locating"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.routing"
 msgstr ""
 
@@ -76,7 +76,7 @@ msgstr ""
 msgid "go.button.label"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/go-screen.tsx
 msgid "go.preview.eyebrow"
 msgstr ""
 
@@ -88,47 +88,47 @@ msgstr ""
 msgid "go.settings.googleMaps"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.grabFare"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.grabEstimate"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.grabHere"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx
 msgid "go.preview.modeLabel"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.money.thousand"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.noLocation"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.money.million"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.straight"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.grabLink"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-card-parts.tsx
 msgid "go.preview.ride"
 msgstr ""
 
@@ -136,11 +136,11 @@ msgstr ""
 msgid "go.button.hint"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx
 msgid "go.preview.startApple"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx
 msgid "go.preview.startGoogle"
 msgstr ""
 
@@ -148,10 +148,10 @@ msgstr ""
 msgid "go.preview.missing"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx
 msgid "go.preview.retryLocate"
 msgstr ""
 
-#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/premium/go-premium-view.tsx
 msgid "go.preview.walk"
 msgstr ""

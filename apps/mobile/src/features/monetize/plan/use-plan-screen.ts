@@ -7,7 +7,7 @@ import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
 import { MONETIZE_ROUTES } from '../routes';
-import type { PlanViewProps } from './plan-view';
+import type { PlanViewProps } from './plan-props';
 import { useRecheckOnReturn } from './use-billing-issue';
 import { usePlan } from './use-plan';
 

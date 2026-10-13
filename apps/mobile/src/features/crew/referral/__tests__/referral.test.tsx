@@ -20,12 +20,11 @@ import {
   recordingServices,
   renderWithCrew,
 } from '../../crews-sheet/test-support/crew-harness';
-import { ReferralScreen } from '../ReferralScreen';
+import { ReferralPremium } from '../../premium/referral-screen';
 import { REFERRAL_TERMS_URL } from '../terms';
 
 const ME = '0192e1a2-0000-7000-8000-0000000000aa';
-const activate = (element: Parameters<typeof fireEvent>[0]) =>
-  fireEvent(element, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });
+const activate = (element: Parameters<typeof fireEvent.press>[0]) => fireEvent.press(element);
 
 let stack: TestLocalFirst | null = null;
 afterEach(async () => {
@@ -62,9 +61,10 @@ describe('invite friends', () => {
     const api = recordedApi({ mint_referral_code: applied({ code: 'R3FQ7Z' }) });
     stack = await openTestLocalFirst({ transport: api, uid: ME, holdUploads: true });
     const services = recordingServices(ME);
-    await renderWithCrew(<ReferralScreen />, stack, services);
+    await renderWithCrew(<ReferralPremium />, stack, services);
+    // The page shows the link without its scheme; sharing and copying send it whole.
     expect(await screen.findByTestId('referral-link')).toHaveTextContent(
-      'https://critterpass.app/r/R3FQ7Z',
+      'critterpass.app/r/R3FQ7Z',
     );
     expect(api.sent.filter((s) => s.path.endsWith('mint_referral_code'))).toHaveLength(1);
     await activate(screen.getByTestId('referral-share'));
@@ -83,24 +83,27 @@ describe('invite friends', () => {
       [ME],
     );
     await seedFriends(stack.db);
-    await renderWithCrew(<ReferralScreen />, stack, recordingServices(ME));
+    await renderWithCrew(<ReferralPremium />, stack, recordingServices(ME));
+    // The page shows the link without its scheme; sharing and copying send it whole.
     expect(await screen.findByTestId('referral-link')).toHaveTextContent(
-      'https://critterpass.app/r/R3FQ7Z',
+      'critterpass.app/r/R3FQ7Z',
     );
     await waitFor(() => expect(screen.getAllByTestId('referral-slot-filled')).toHaveLength(3));
     expect(screen.getAllByTestId('referral-slot-empty')).toHaveLength(2);
     const friends = screen.getByTestId('referral-friends');
-    expect(within(friends).getByText('Dev')).toBeTruthy();
-    expect(within(friends).getByText('PENDING')).toBeTruthy();
-    expect(within(friends).getByText('JOINED')).toBeTruthy();
-    expect(within(friends).getByText('STAMPED')).toBeTruthy();
-    expect(within(friends).queryByText('Sam')).toBeNull();
+    // A friend who has not made a pass yet is not named.
+    expect(within(friends).queryByText(/Dev/)).toBeNull();
+    expect(within(friends).getByText('A friend')).toBeTruthy();
+    expect(within(friends).getByText('Mai')).toBeTruthy();
+    expect(within(friends).getByText(/^JOINED$/i)).toBeTruthy();
+    expect(within(friends).getByText(/^STAMPED$/i)).toBeTruthy();
+    expect(within(friends).queryByText(/Sam/)).toBeNull();
     expect(api.sent).toEqual([]);
   });
 
   it('explains the link waits for a saved pass when it cannot be minted', async () => {
     stack = await openTestLocalFirst({ uid: ME, holdUploads: true });
-    await renderWithCrew(<ReferralScreen />, stack, recordingServices(ME));
+    await renderWithCrew(<ReferralPremium />, stack, recordingServices(ME));
     expect(await screen.findByTestId('referral-link-pending')).toBeTruthy();
   });
 });

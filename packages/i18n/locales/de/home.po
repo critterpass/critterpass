@@ -7,12 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: de\n"
 
-#. placeholder {0}: cell.place
-#. placeholder {1}: sticker.name
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.guideCell"
-msgstr ""
-
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.added"
 msgstr ""
@@ -65,21 +59,19 @@ msgstr ""
 msgid "home.age.minutes"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
-#: ../../apps/mobile/src/features/home/premium/home-sections.tsx
+#: ../../apps/mobile/src/features/home/premium/join-trip-note.tsx
 msgid "home.joinTrip.titleSoon"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
-#: ../../apps/mobile/src/features/home/premium/home-sections.tsx
+#: ../../apps/mobile/src/features/home/premium/join-trip-note.tsx
 msgid "home.joinTrip.titleSoonPlace"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+#: ../../apps/mobile/src/features/home/premium/join-trip-note.tsx
 msgid "home.joinTrip.titleNowPlace"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+#: ../../apps/mobile/src/features/home/premium/join-trip-note.tsx
 msgid "home.joinTrip.titleNow"
 msgstr ""
 
@@ -101,10 +93,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.tip"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
-msgid "home.inbox.caughtUp.tokek"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
@@ -159,7 +147,6 @@ msgstr ""
 msgid "home.postTrip.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/countdown-chip.tsx
 #: ../../apps/mobile/src/features/home/premium/components/countdown-pill.tsx
 msgid "home.countdown.spoken"
 msgstr ""
@@ -185,12 +172,10 @@ msgid "home.inbox.nudge.payment"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.add"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.addAnother"
 msgstr ""
 
@@ -202,7 +187,6 @@ msgstr ""
 msgid "home.premium.savedLink.add"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.all"
 msgstr ""
@@ -215,16 +199,8 @@ msgstr ""
 msgid "inbox.premium.caughtUp"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
-msgid "home.inbox.caughtUp.title"
-msgstr ""
-
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 msgid "inbox.premium.allow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.searchBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
@@ -240,7 +216,6 @@ msgid "inbox.premium.example.vote"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.tier.boost"
 msgstr ""
 
@@ -268,15 +243,11 @@ msgstr ""
 msgid "home.premium.switcher.close"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.nearHome"
-msgstr ""
-
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.premium.trips.coming"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+#: ../../apps/mobile/src/features/home/join-trip.ts
 msgid "home.joinTrip.failed"
 msgstr ""
 
@@ -284,7 +255,6 @@ msgstr ""
 msgid "home.widgets.countdown"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.crew"
 msgstr ""
@@ -305,11 +275,6 @@ msgstr ""
 msgid "home.premium.countdown.dayLetter"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/countdown-chip.tsx
-msgid "home.countdown.dayLetter"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/countdown-chip.tsx
 #: ../../apps/mobile/src/features/home/premium/components/countdown-pill.tsx
 msgid "home.countdown.day"
 msgstr ""
@@ -326,26 +291,16 @@ msgstr ""
 msgid "home.premium.back.recapSub"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/dev-tools-entry.tsx
 #: ../../apps/mobile/src/features/home/premium/components/premium-dev-tools.tsx
 msgid "home.devTools"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/tip-strip.tsx
-msgid "home.tip.dismiss"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.earlier"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 msgid "inbox.premium.example"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/explore-row.tsx
-msgid "home.explore.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
@@ -357,7 +312,6 @@ msgid "home.inbox.fixShippedVersion"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.tier.free"
 msgstr ""
 
@@ -381,17 +335,8 @@ msgstr ""
 msgid "home.premium.widgets.gotIt"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.guides"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/explore-row.tsx
-msgid "home.explore.body"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/home-header.tsx
-msgid "home.header.greetingAnon"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
@@ -414,7 +359,6 @@ msgstr ""
 msgid "home.postTrip.eyebrow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.title"
@@ -422,10 +366,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.premium.solo.cta"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/invite-friends-card.tsx
-msgid "home.invite.action"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
@@ -436,14 +376,6 @@ msgstr ""
 msgid "home.inbox.refusedBody"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/invite-friends-card.tsx
-msgid "home.invite.line"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/invite-friends-card.tsx
-msgid "home.invite.lineNoName"
-msgstr ""
-
 #: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
 msgid "home.premium.switcher.join"
 msgstr ""
@@ -452,12 +384,10 @@ msgstr ""
 msgid "home.premium.switcher.joinTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
-#: ../../apps/mobile/src/features/home/premium/home-sections.tsx
+#: ../../apps/mobile/src/features/home/premium/join-trip-note.tsx
 msgid "home.joinTrip.cta"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/home-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.firstRun.joinCode"
@@ -467,7 +397,7 @@ msgstr ""
 msgid "home.premium.trips.join"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+#: ../../apps/mobile/src/features/home/join-trip.ts
 msgid "home.joinTrip.offline"
 msgstr ""
 
@@ -475,27 +405,14 @@ msgstr ""
 msgid "home.widgets.todayLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
-msgid "home.noTrip.last"
-msgstr ""
-
 #: ../../apps/mobile/src/features/home/premium/components/live-trip-card.tsx
 msgid "home.premium.live.now"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/home-screen.tsx
-msgid "home.loading"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
-msgid "home.inbox.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.ideasPlaced.body"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.markAll"
 msgstr ""
@@ -520,11 +437,6 @@ msgstr ""
 msgid "home.premium.inbox.needsYou"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
-msgid "home.inbox.needsYou"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/inbox/earlier-row.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/earlier-row.tsx
 msgid "home.inbox.unreadSpoken"
 msgstr ""
@@ -533,16 +445,8 @@ msgstr ""
 msgid "home.widgets.nextFlight"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/next-up-card.tsx
-msgid "home.nextUp.eyebrowUndated"
-msgstr ""
-
 #: ../../apps/mobile/src/features/home/premium/components/trip-collage-card.tsx
 msgid "home.premium.nextUp"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/next-up-card.tsx
-msgid "home.nextUp.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/components/trip-collage-card.tsx
@@ -553,27 +457,19 @@ msgstr ""
 msgid "home.premium.switcher.next"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/today-strip.tsx
-msgid "home.today.next"
-msgstr ""
-
 #: ../../apps/mobile/src/features/home/premium/trips/empty-passport.tsx
 msgid "home.premium.trips.ponNote"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.elsewhereBody"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.noSpacePhrases"
 msgstr "Kein Platz auf dem Handy für Sprachkarten"
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.noSpaceMap"
 msgstr "Kein Platz auf dem Handy für die Karte"
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.noSpaceTickets"
 msgstr "Kein Platz auf dem Handy für Tickets"
 
@@ -589,12 +485,10 @@ msgstr ""
 msgid "inbox.premium.notNow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.crewEmpty"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.guidesEmpty"
 msgstr ""
@@ -603,35 +497,14 @@ msgstr ""
 msgid "inbox.premium.empty.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/today-strip.tsx
-msgid "home.today.done"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
-msgid "home.inbox.caughtUp.watching"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
-msgid "home.inbox.caughtUp.line"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
-msgid "home.inbox.caughtUp.awake"
-msgstr ""
-
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "inbox.premium.caughtUpLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
-msgid "home.noTrip.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "inbox.premium.settings"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/inbox/action-card.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-card.tsx
 msgid "home.inbox.action.nudge"
 msgstr ""
@@ -640,17 +513,11 @@ msgstr ""
 msgid "home.premium.broke.eyebrow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/today-strip.tsx
-msgid "home.today.open"
-msgstr ""
-
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.tier.passPlus"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.noTrip.pitch"
 msgstr ""
 
@@ -660,10 +527,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/trips/empty-passport.tsx
 msgid "home.premium.trips.emptyLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.placesLoading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/components/plan-ring-pill.tsx
@@ -676,14 +539,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/trips/trip-mini-card.tsx
 msgid "home.premium.trips.locked"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/next-up-card.tsx
-msgid "home.nextUp.planSpoken"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/next-up-card.tsx
-msgid "home.nextUp.plan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
@@ -703,11 +558,10 @@ msgid "home.premium.trips.planningTab"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.intro"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.ready"
 msgstr "Offline bereit"
 
@@ -725,14 +579,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
 msgid "home.premium.back.nextTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.search"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/home-screen.tsx
-msgid "home.firstRun.body"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
@@ -761,7 +607,6 @@ msgid "home.premium.broke.report"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.back"
 msgstr ""
 
@@ -769,7 +614,6 @@ msgstr ""
 msgid "home.premium.back.settle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.inbox.filters"
@@ -779,7 +623,6 @@ msgstr ""
 msgid "home.premium.tip.open"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.more"
 msgstr ""
@@ -808,7 +651,6 @@ msgstr ""
 msgid "home.widgets.crewLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.offline.held"
 msgstr ""
@@ -833,7 +675,6 @@ msgstr ""
 msgid "home.premium.noTrip.pitchSub"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/home-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
@@ -857,23 +698,23 @@ msgstr ""
 msgid "home.premium.noTrip.eyebrow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.phrases"
 msgstr "Sprachkarten laden noch"
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.map"
 msgstr "Die Karte lädt noch"
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.places"
 msgstr "Die Orte der Reise laden noch"
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.tickets"
 msgstr "Tickets laden noch"
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.today"
 msgstr "Die Dateien für heute laden noch"
 
@@ -921,7 +762,7 @@ msgstr ""
 msgid "home.linkNotice.unavailable"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+#: ../../apps/mobile/src/features/home/join-trip.ts
 msgid "home.joinTrip.over"
 msgstr ""
 
@@ -953,7 +794,7 @@ msgstr ""
 msgid "home.inbox.planChange.moved"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+#: ../../apps/mobile/src/features/home/join-trip.ts
 msgid "home.joinTrip.full"
 msgstr ""
 
@@ -977,7 +818,6 @@ msgstr ""
 msgid "home.inbox.nudge.invite"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/inbox/action-card.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-card.tsx
 msgid "home.inbox.closed"
 msgstr ""
@@ -986,17 +826,12 @@ msgstr ""
 msgid "home.premium.lost.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/countdown-chip.tsx
-#: ../../apps/mobile/src/features/home/premium/components/countdown-pill.tsx
-msgid "home.countdown.today"
-msgstr ""
-
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.today"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/next-up-card.tsx
-msgid "home.inTrip.eyebrowOf"
+#: ../../apps/mobile/src/features/home/premium/components/countdown-pill.tsx
+msgid "home.countdown.today"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/components/trip-collage-card.tsx
@@ -1028,7 +863,6 @@ msgstr ""
 msgid "home.premium.broke.retry"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/inbox/earlier-row.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/earlier-row.tsx
 msgid "home.inbox.undoLabel"
 msgstr ""
@@ -1037,7 +871,6 @@ msgstr ""
 msgid "home.inbox.undo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/inbox/earlier-row.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/earlier-row.tsx
 msgid "home.inbox.undoSpoken"
 msgstr ""
@@ -1066,20 +899,10 @@ msgstr ""
 msgid "home.inbox.fixShipped"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/home-screen.tsx
-msgid "home.firstRun.welcomeAnon"
-msgstr ""
-
-#. placeholder {0}: view.firstName
-#: ../../apps/mobile/src/features/home/home-screen.tsx
-msgid "home.firstRun.welcome"
-msgstr ""
-
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.premium.noTrip.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/home-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.firstRun.title"
 msgstr ""
@@ -1097,7 +920,6 @@ msgid "inbox.premium.example.replyLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.title"
 msgstr ""
 
@@ -1113,8 +935,7 @@ msgstr ""
 msgid "home.premium.switcher.joinLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
-#: ../../apps/mobile/src/features/home/premium/home-sections.tsx
+#: ../../apps/mobile/src/features/home/premium/join-trip-note.tsx
 msgid "home.joinTrip.body"
 msgstr ""
 
@@ -1122,7 +943,7 @@ msgstr ""
 msgid "home.premium.switcher.invited"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+#: ../../apps/mobile/src/features/home/join-trip.ts
 msgid "home.joinTrip.joined"
 msgstr ""
 
@@ -1138,7 +959,6 @@ msgstr ""
 msgid "home.nudge.relayLink"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/home-header.tsx
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
 msgid "home.header.yourCrews"
 msgstr ""
@@ -1151,7 +971,6 @@ msgstr ""
 msgid "home.premium.trips.emptyTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/next-up-card.tsx
 #: ../../apps/mobile/src/features/home/premium/components/trip-collage-card.tsx
 #: ../../apps/mobile/src/features/home/premium/trips/trip-mini-card.tsx
 msgid "home.nextUp.untitled"

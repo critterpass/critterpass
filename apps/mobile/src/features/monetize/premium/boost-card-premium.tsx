@@ -11,7 +11,7 @@ import { StyleSheet, View } from 'react-native';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Avatar, Button, Card, Skeleton, Text, usePremiumTheme } from '@/ui/premium';
 
-import type { BoostCardViewProps } from '../boost-card/boost-card-view';
+import type { BoostCardViewProps } from '../boost-card/boost-card-props';
 import { InkStamp } from './components/ink-stamp';
 
 const STRIP = 'repeating-linear-gradient(90deg, #ff5fa8 0 10px, #ffffff 10px 14px)';
@@ -105,7 +105,7 @@ export function BoostCardPremium(props: BoostCardViewProps) {
           </Text>
         ) : null}
         {model.viewer === 'buyer' && model.split && !model.splitPending ? (
-          <Text variant="caption" tone="muted">
+          <Text variant="caption" tone="muted" testID="boost-card-to-go">
             {model.allSquare
               ? t({ id: 'monetize.card.square', message: 'Everyone’s square' })
               : t({ id: 'monetize.card.toGo', message: `${remaining} still to go` })}
@@ -136,7 +136,7 @@ export function BoostCardPremium(props: BoostCardViewProps) {
                   onPress={props.onThanks}
                   disabled={model.thanks === 'sent'}
                   loading={props.thanking === true}
-                  testID="boost-card-thanks"
+                  testID={model.thanks === 'sent' ? 'boost-card-thanked' : 'boost-card-thanks'}
                 />
               </View>
             )}

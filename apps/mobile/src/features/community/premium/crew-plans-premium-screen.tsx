@@ -31,7 +31,6 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import type { CrewPlansScreenProps } from '../browse/browse-screen';
 import { useCrewPlans } from '../browse/use-crew-plans';
 import { copiesLabel, costEach, crewLine, matchLabel, planTitle, ratingLabel } from '../copy';
 import { CommunityChip } from './community-chip';
@@ -105,6 +104,12 @@ function PickCard({
       </Card>
     </PressableScale>
   );
+}
+
+export interface CrewPlansScreenProps {
+  /** The destination's id or slug. */
+  readonly destination: string;
+  readonly tripId: string | null;
 }
 
 export function CrewPlansPremiumScreen({ destination, tripId }: CrewPlansScreenProps) {

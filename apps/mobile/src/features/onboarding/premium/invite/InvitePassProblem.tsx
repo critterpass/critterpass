@@ -40,6 +40,7 @@ export function InvitePassProblem({
       testID="invite-pass-problem"
     >
       <View
+        testID={`invite-problem-${problemCardOf(problem)}`}
         style={{
           flex: 1,
           backgroundColor: theme.color.ground,

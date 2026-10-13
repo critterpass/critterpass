@@ -4,7 +4,7 @@ import { afterAll, describe, expect, it } from '@jest/globals';
 
 import { setLocale } from '@/lib/i18n/set-locale';
 
-import { membersLine } from '../InviteTicket';
+import { membersLine } from '../ticket-facts';
 import type { TicketModel } from '../ticket-model';
 
 function model(names: readonly string[], waiting = 0): TicketModel {

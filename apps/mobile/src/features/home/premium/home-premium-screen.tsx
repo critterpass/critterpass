@@ -8,7 +8,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and SF Symbol names, never copy. */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useContext, useRef, useState, type ComponentRef } from 'react';
+import { createElement, useContext, useRef, useState, type ComponentRef } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -30,12 +30,13 @@ import {
   useHomeState,
   type HomeView,
 } from '../data/use-home-state';
-import { useRingHaptic } from '../home-header';
+import { useRingHaptic } from '../ring-haptic';
 import { useAppBadge } from '../inbox/use-app-badge';
 import { useInboxToast } from '../inbox/use-inbox-toast';
-import { useOpenTrip } from '../join-trip-card';
+import { useOpenTrip } from '../join-trip';
 import { useRecordAppOpen } from '../nudge/use-record-app-open';
 import { crewChatRoute, HOME_ROUTES } from '../routes';
+import { homeNotice } from '../slots';
 import { CrewSwitcherMenu } from './crew-switcher/crew-switcher-menu';
 import { useCrewSwitcherRequest } from './crew-switcher/open-request';
 import { GlassGlyphButton } from './components/glass-glyph-button';
@@ -101,9 +102,24 @@ function HomeContent({ crewId = null }: HomePremiumScreenProps) {
       ) : view.home.mode === 'first_run' || view.crew === null ? (
         <FirstRunSection />
       ) : (
-        <CrewSection view={view} openTrip={openTrip} now={now} />
+        <>
+          <HomeNotice />
+          <CrewSection view={view} openTrip={openTrip} now={now} />
+        </>
       )}
     </HomeFrame>
+  );
+}
+
+/** The notice another area puts above the crew's cards (a failed Pass+ renewal), when there is one. */
+function HomeNotice() {
+  const th = usePremiumTheme();
+  const Notice = homeNotice();
+  if (Notice === null) return null;
+  return (
+    <View style={{ paddingHorizontal: th.space.gutter, paddingBottom: th.space.gap12 }}>
+      {createElement(Notice)}
+    </View>
   );
 }
 

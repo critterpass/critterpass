@@ -10,7 +10,7 @@ import { STAMPS_SQL, STAMPS_TABLES, type StampRow } from '../profile/profile-que
 import { YOU_ROUTES } from '../routes';
 import { usePastTrips } from './past-trips';
 import { orderStamps, type ProfileStamp } from './stamp-book';
-import { StampsView, type StampsViewProps } from './stamps-view';
+import { type StampsViewProps } from './stamps-props';
 import { localToday } from './use-travel-history';
 
 /* eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy. */
@@ -18,11 +18,11 @@ const RECAP_SCREEN = '3m-1';
 
 export function StampsScreen({
   now = () => new Date(),
-  View = StampsView,
+  View,
 }: {
   readonly now?: () => Date;
-  /** The page drawn over this logic (the premium UI passes its own). */
-  readonly View?: ComponentType<StampsViewProps>;
+  /** The page drawn over this logic. */
+  readonly View: ComponentType<StampsViewProps>;
 }) {
   const uid = useOwnerUid();
   const stamps = useLiveRows<StampRow>(STAMPS_SQL, uid === null ? null : [uid], STAMPS_TABLES);

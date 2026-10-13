@@ -25,7 +25,7 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { useSoundModel } from '../../sound/sound-screen';
+import { useSoundModel } from '../../sound/use-sound-model';
 import { themeStyleName } from '../../sound/theme-names';
 import { VolumeSlider } from './volume-slider';
 

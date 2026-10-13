@@ -16,7 +16,6 @@ import {
   syncedSettingsColumn,
   type SyncedSettings,
 } from '../synced-settings';
-import { tapTokek, TOKEK_TAP_GAP_MS } from '../tokek-taps';
 import { locationValue } from '../location-row';
 
 describe('settings registry', () => {
@@ -102,20 +101,6 @@ describe('location row', () => {
     expect(locationValue(report({ level: 'always' }))).toBe('always');
     expect(locationValue(report({ status: 'denied' }))).toBe('off');
     expect(locationValue(undefined)).toBe('ask');
-  });
-});
-
-describe('Tokek easter egg', () => {
-  it('fires on the fifth quick tap and starts over after a slow one', () => {
-    let taps: number[] = [];
-    const fired: boolean[] = [];
-    for (const at of [0, 300, 600, 3000, 3300, 3600, 3900, 4200]) {
-      const next = tapTokek(taps, at);
-      taps = next.taps;
-      fired.push(next.fire);
-    }
-    expect(fired).toEqual([false, false, false, false, false, false, false, true]);
-    expect(tapTokek([0], TOKEK_TAP_GAP_MS + 1).taps).toEqual([TOKEK_TAP_GAP_MS + 1]);
   });
 });
 

@@ -1,7 +1,6 @@
 import { router } from 'expo-router';
 import { ScrollView } from 'react-native';
 
-import { HELP_SCENE_NAMES } from '@/features/help/dev/lab-scenes';
 import { HELP_ROUTES } from '@/features/help/routes';
 import { Stack, Text } from '@/ui';
 import { ListCard } from '@/ui/cards/ListCard';
@@ -10,7 +9,7 @@ import { ListCard } from '@/ui/cards/ListCard';
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
 export const __CP_DEV_ROUTE__ = true;
 
-/** The help centre (3p-1…3p-3 and their states), and the real hub, for review and shots. */
+/** Shake to report, and the real help centre. */
 export default function HelpLab() {
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 64 }}>
@@ -22,7 +21,7 @@ export default function HelpLab() {
           onPress={() => router.push(HELP_ROUTES.hub)}
           testID="help-lab-live"
         />
-        {[...HELP_SCENE_NAMES, 'shake-chat'].map((name) => (
+        {['shake-report', 'shake-chat'].map((name) => (
           <ListCard
             key={name}
             title={name}

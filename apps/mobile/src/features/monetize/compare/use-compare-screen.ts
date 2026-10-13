@@ -10,7 +10,7 @@ import { openPrivacy, openTerms } from '../paywall/legal-links';
 import { usePassPurchase } from '../paywall/use-pass-purchase';
 import { compareRows } from '../perks/perk-copy';
 import { boostHref } from '../routes';
-import type { CompareViewProps } from './compare-view';
+import type { CompareViewProps } from './compare-props';
 
 const ENDED = ['post_trip', 'archived', 'cancelled'];
 

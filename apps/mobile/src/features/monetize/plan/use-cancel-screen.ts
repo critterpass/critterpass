@@ -18,7 +18,7 @@ import type { PauseMonth } from '@/ui/monetize/PauseBars';
 
 import { perkLines } from '../perks/perk-copy';
 import { MONETIZE_ROUTES } from '../routes';
-import type { CancelViewProps } from './cancel-view';
+import type { CancelViewProps } from './cancel-props';
 import { pauseResumeDate } from './plan-model';
 import { useRecheckOnReturn } from './use-billing-issue';
 import { usePlan } from './use-plan';

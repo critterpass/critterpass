@@ -39,7 +39,7 @@ import {
 import { useCrewServices } from '../crews-sheet/crew-services';
 import { crewEditRoute, crewInviteRoute, crewLeaveRoute } from '../crews-sheet/routes';
 import { onRemovalRequest, useUndoableRemoval } from '../members/undoable-removal';
-import { returnHome } from '../start-crew/crew-created';
+import { returnHome } from '../start-crew/return-home';
 import { useCrewDetail } from '../settings/use-crew-detail';
 import { firstName, tripDatesLine, tripStatusWord } from './crew-copy';
 import { CREST_SHAPE, crewCoverOf, passInk } from './crew-look';

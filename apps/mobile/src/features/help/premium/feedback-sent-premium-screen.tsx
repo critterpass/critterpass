@@ -23,7 +23,7 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { useFeedbackSent } from '../feedback/sent-screen';
+import { useFeedbackSent } from '../feedback/use-feedback-sent';
 
 const PIN = 16;
 

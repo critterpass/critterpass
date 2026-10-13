@@ -12,15 +12,22 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Button, Card, Tag, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 import { HoldToConfirm, PushScreen } from '@/ui/premium/shell';
 
-import { useDeleteAccount } from '../../account/delete-screen';
-import { amountText } from '../../account/preflight-parts';
+import type { AccountServices } from '../../account/account-services';
+import { useDeleteAccount } from '../../account/use-delete-account';
+import { amountText } from '../../account/amount-text';
 import { ClosedPremiumView } from '../closed/closed-premium-view';
+import { PreflightNotes } from './preflight-notes';
 
-export function DeletePremiumScreen() {
+export function DeletePremiumScreen({
+  services,
+}: {
+  /** The account's reads and the phone wipe; the device's own by default. */
+  readonly services?: AccountServices;
+} = {}) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const locale = useLocale();
-  const d = useDeleteAccount();
+  const d = useDeleteAccount(services);
 
   if (d.closed !== null) {
     return (
@@ -154,9 +161,11 @@ export function DeletePremiumScreen() {
               label={t({ id: 'you.premium.settleUp', message: 'Settle up' })}
               size="small"
               onPress={d.onSettle}
+              testID="you-delete-settle"
             />
           </View>
         ))}
+        {d.preflight === null ? null : <PreflightNotes preflight={d.preflight} />}
         {billing === null ? null : (
           <Text variant="caption" tone="muted" testID="you-delete-pass-plus">
             {billing}{' '}

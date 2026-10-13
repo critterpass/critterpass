@@ -7,67 +7,12 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: ko\n"
 
-#: ../../apps/mobile/src/features/you/ping-settings/ping-sample.ts
-msgid "you.pings.sample.quiet"
-msgstr ""
-
-#. placeholder {0}: prefs.budget
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.level"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-sample.ts
-msgid "you.pings.sample.steady"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-sample.ts
-msgid "you.pings.sample.chatty"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
 msgid "you.pings.action.addAll"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/ping-settings/always-note.tsx
-msgid "you.pings.always"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
-msgid "you.pings.crewChat.offLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.crewChat"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/ping-settings/use-crew-chat-modes.ts
 msgid "crew.queued.notify"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.critters"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.roundup"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.crewChat.all"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.guideTipsLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.guideTips"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/ping-settings/copy.ts
@@ -86,10 +31,6 @@ msgstr ""
 msgid "you.pings.action.later"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/ping-settings/always-note.tsx
-msgid "you.pings.alwaysLine"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
 msgid "you.pings.action.react"
 msgstr ""
@@ -100,46 +41,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
 msgid "you.pings.action.rsvpMaybe"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.crewChat.mentions"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.money"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.notificationsOff"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.crewChat.off"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.quietOff"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
-msgid "you.pings.crewChat.allLine"
-msgstr ""
-
-#. placeholder {0}: prefs.roundupTime
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.roundupLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
-msgid "you.pings.crewChat.mentionsLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.crittersLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
@@ -158,51 +59,12 @@ msgstr ""
 msgid "you.pings.action.vote3"
 msgstr ""
 
-#. placeholder {0}: prefs.roundupTime
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.overBudget"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.budget"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/ping-settings/copy.ts
 msgid "you.pings.settingsRow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.quietOffLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.budgetLabel"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.quietLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.quiet"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx
 msgid "you.pings.action.reply"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
-msgid "you.pings.roundupSheet"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.back"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
-msgid "you.pings.moneyLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/ping-settings/notification-actions.tsx

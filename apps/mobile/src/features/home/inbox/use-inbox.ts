@@ -12,7 +12,7 @@ import { openLink } from '@/lib/navigation/open-in-tabs';
 
 import { useOwnerUid } from '../data/session-rows';
 import { useMinuteClock } from '../data/use-home-state';
-import type { InboxFilter } from './filter-tabs';
+import type { InboxFilter } from './inbox-filter';
 import { EARLIER_PAGE, isExpired, splitInbox, useInboxItems, type InboxItem } from './inbox-data';
 import type { InboxRenderContext } from './kind-renderers';
 import { useAppBadge } from './use-app-badge';

@@ -29,7 +29,7 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { useHelpHub } from '../hub/hub-screen';
+import { useHelpHub } from '../hub/use-help-hub';
 
 function Tile({ glyph, color }: { readonly glyph: PremiumIconName; readonly color: string }) {
   const th = usePremiumTheme();

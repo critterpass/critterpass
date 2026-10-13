@@ -7,7 +7,7 @@
 import type { RideQuoteResult } from '@cp/domain';
 import { useState, type ReactNode } from 'react';
 
-import { GoPreviewView } from '../go-preview-view';
+import { GoPremiumView } from '../premium/go-premium-view';
 import type { GoMode } from '../maps-handoff';
 import { previewState, type PreviewInput, type RoutePreview } from '../preview-model';
 
@@ -61,7 +61,7 @@ const BASE: PreviewInput = {
 function Scene({ input }: { readonly input: Partial<PreviewInput> }) {
   const [mode, setMode] = useState<GoMode>(input.mode ?? BASE.mode);
   return (
-    <GoPreviewView
+    <GoPremiumView
       place={MARBLE}
       destinationSlug="da-nang"
       state={previewState({ ...BASE, ...input, mode })}

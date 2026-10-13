@@ -12,7 +12,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Button, ListCard, Row, Text, TextButton, TextField, usePremiumTheme } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
 
-import type { PastTripViewProps } from '../../history/past-trip-view';
+import type { PastTripViewProps } from '../../history/past-trip-props';
 
 const MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 

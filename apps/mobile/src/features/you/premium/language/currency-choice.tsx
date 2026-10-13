@@ -20,7 +20,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { searchCurrencies } from '../../language/currency-sheet';
+import { searchCurrencies } from '../../language/search-currencies';
 
 export function CurrencyChoice(props: {
   /** The home airport's currency, offered first. */

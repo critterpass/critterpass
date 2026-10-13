@@ -11,7 +11,8 @@ import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
 import { Icon, ListCard, Row, SegmentedControl, Text, Toggle, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { useSettingsModel } from '../../settings/settings-screen';
+import type { AccountServices } from '../../account/account-services';
+import { useSettingsModel } from '../../settings/use-settings-model';
 import { playTokekTheme } from '../../settings/tokek-theme';
 import { CrewChatChoice } from './crew-chat-choice';
 
@@ -32,7 +33,7 @@ function PremiumSettingsRow({
         <Row
           title={row.title}
           {...sub}
-          trailingText={row.value}
+          {...(row.value === '' ? {} : { trailingText: row.value })}
           trailing={<Icon name="forward" size={16} color={th.color.placeholder} />}
           onPress={row.disabled === true ? undefined : row.onPress}
           testID={id}
@@ -78,14 +79,28 @@ function PremiumSettingsRow({
     case 'destructive':
       return (
         <Pressable
-          onPress={row.onPress}
+          onPress={row.disabled === true ? undefined : row.onPress}
+          disabled={row.disabled === true}
           accessibilityRole="button"
+          accessibilityLabel={
+            row.subtitle === undefined ? row.title : `${row.title}, ${row.subtitle}`
+          }
+          accessibilityState={{ disabled: row.disabled === true }}
           testID={id}
           style={{ paddingVertical: th.space.rowPadVLoose, paddingHorizontal: th.space.rowPadH }}
         >
-          <Text variant="rowTitle" color={th.color.destructive.listAction}>
+          <Text
+            variant="rowTitle"
+            color={th.color.destructive.listAction}
+            style={row.disabled === true ? { opacity: 0.5 } : undefined}
+          >
             {row.title}
           </Text>
+          {row.subtitle === undefined ? null : (
+            <Text variant="caption" tone="muted">
+              {row.subtitle}
+            </Text>
+          )}
         </Pressable>
       );
     case 'custom':
@@ -100,10 +115,15 @@ function PremiumSettingsRow({
   }
 }
 
-export function SettingsPremiumScreen() {
+export function SettingsPremiumScreen({
+  services,
+}: {
+  /** The account's reads; the device's own by default. */
+  readonly services?: AccountServices;
+} = {}) {
   const th = usePremiumTheme();
   const { t } = useLingui();
-  const model = useSettingsModel();
+  const model = useSettingsModel(services);
   const chatty = (
     <View style={{ width: 180 }}>
       <SegmentedControl

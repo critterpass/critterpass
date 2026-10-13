@@ -7,12 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
-#. placeholder {0}: cell.place
-#. placeholder {1}: sticker.name
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.guideCell"
-msgstr "{0}, with {1}"
-
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.added"
 msgstr "{change} is in the plan"
@@ -65,21 +59,19 @@ msgstr "{count}h"
 msgid "home.age.minutes"
 msgstr "{count}m"
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
-#: ../../apps/mobile/src/features/home/premium/home-sections.tsx
+#: ../../apps/mobile/src/features/home/premium/join-trip-note.tsx
 msgid "home.joinTrip.titleSoon"
 msgstr "{crewName} has a trip locked in."
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
-#: ../../apps/mobile/src/features/home/premium/home-sections.tsx
+#: ../../apps/mobile/src/features/home/premium/join-trip-note.tsx
 msgid "home.joinTrip.titleSoonPlace"
 msgstr "{crewName} is going to {place}."
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+#: ../../apps/mobile/src/features/home/premium/join-trip-note.tsx
 msgid "home.joinTrip.titleNowPlace"
 msgstr "{crewName} is in {place} right now."
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+#: ../../apps/mobile/src/features/home/premium/join-trip-note.tsx
 msgid "home.joinTrip.titleNow"
 msgstr "{crewName} is on a trip right now."
 
@@ -102,10 +94,6 @@ msgstr "{guide} will nudge {name} at {at}, when they open things."
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.tip"
 msgstr "{guide}: {tip}"
-
-#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
-msgid "home.inbox.caughtUp.tokek"
-msgstr "{guideName}, asleep"
 
 #: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
 msgid "home.premium.switcher.invitedBy"
@@ -159,7 +147,6 @@ msgstr "{place} is a memory now"
 msgid "home.postTrip.title"
 msgstr "{place} recap"
 
-#: ../../apps/mobile/src/features/home/countdown-chip.tsx
 #: ../../apps/mobile/src/features/home/premium/components/countdown-pill.tsx
 msgid "home.countdown.spoken"
 msgstr "{spoken} to {place}"
@@ -185,12 +172,10 @@ msgid "home.inbox.nudge.payment"
 msgstr "A settle-up is waiting for you."
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.add"
 msgstr "Add {title}"
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.addAnother"
 msgstr "Add another {title}"
 
@@ -202,7 +187,6 @@ msgstr "Add it from your home screen"
 msgid "home.premium.savedLink.add"
 msgstr "Add to ideas"
 
-#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.all"
 msgstr "All"
@@ -215,17 +199,9 @@ msgstr "All · {count}"
 msgid "inbox.premium.caughtUp"
 msgstr "All caught up"
 
-#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
-msgid "home.inbox.caughtUp.title"
-msgstr "All caught up"
-
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 msgid "inbox.premium.allow"
 msgstr "Allow notifications"
-
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.searchBody"
-msgstr "Any city or region. A guide comes along wherever you go."
 
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.balances"
@@ -240,7 +216,6 @@ msgid "inbox.premium.example.vote"
 msgstr "Boat day closes Friday"
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.tier.boost"
 msgstr "Boost"
 
@@ -268,15 +243,11 @@ msgstr "Close"
 msgid "home.premium.switcher.close"
 msgstr "Close"
 
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.nearHome"
-msgstr "Close to home"
-
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.premium.trips.coming"
 msgstr "Coming up"
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+#: ../../apps/mobile/src/features/home/join-trip.ts
 msgid "home.joinTrip.failed"
 msgstr "Couldn’t join the trip. Try again."
 
@@ -284,7 +255,6 @@ msgstr "Couldn’t join the trip. Try again."
 msgid "home.widgets.countdown"
 msgstr "Countdown"
 
-#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.crew"
 msgstr "Crew"
@@ -305,11 +275,6 @@ msgstr "Critterdex"
 msgid "home.premium.countdown.dayLetter"
 msgstr "d"
 
-#: ../../apps/mobile/src/features/home/countdown-chip.tsx
-msgid "home.countdown.dayLetter"
-msgstr "D"
-
-#: ../../apps/mobile/src/features/home/countdown-chip.tsx
 #: ../../apps/mobile/src/features/home/premium/components/countdown-pill.tsx
 msgid "home.countdown.day"
 msgstr "Day {day}"
@@ -326,16 +291,10 @@ msgstr "Day {dayNo}"
 msgid "home.premium.back.recapSub"
 msgstr "Day 1 to the flight home"
 
-#: ../../apps/mobile/src/features/home/dev-tools-entry.tsx
 #: ../../apps/mobile/src/features/home/premium/components/premium-dev-tools.tsx
 msgid "home.devTools"
 msgstr "Developer tools"
 
-#: ../../apps/mobile/src/features/home/tip-strip.tsx
-msgid "home.tip.dismiss"
-msgstr "Dismiss tip"
-
-#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.earlier"
 msgstr "Earlier"
@@ -343,10 +302,6 @@ msgstr "Earlier"
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 msgid "inbox.premium.example"
 msgstr "Example"
-
-#: ../../apps/mobile/src/features/home/explore-row.tsx
-msgid "home.explore.title"
-msgstr "Explore"
 
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.howTo.android.pick"
@@ -357,7 +312,6 @@ msgid "home.inbox.fixShippedVersion"
 msgstr "Fixed in {version}: what you reported. Thanks for telling us."
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.tier.free"
 msgstr "Free"
 
@@ -381,18 +335,9 @@ msgstr "Got it"
 msgid "home.premium.widgets.gotIt"
 msgstr "Got it"
 
-#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.guides"
 msgstr "Guides"
-
-#: ../../apps/mobile/src/features/home/explore-row.tsx
-msgid "home.explore.body"
-msgstr "Guides, saved places and offline maps"
-
-#: ../../apps/mobile/src/features/home/home-header.tsx
-msgid "home.header.greetingAnon"
-msgstr "Hey"
 
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
 msgid "home.premium.greeting"
@@ -414,7 +359,6 @@ msgstr "Home again"
 msgid "home.postTrip.eyebrow"
 msgstr "How'd it go?"
 
-#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.title"
@@ -424,10 +368,6 @@ msgstr "Inbox"
 msgid "home.premium.solo.cta"
 msgstr "Invite"
 
-#: ../../apps/mobile/src/features/home/invite-friends-card.tsx
-msgid "home.invite.action"
-msgstr "Invite friends"
-
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.body"
 msgstr "It goes in when the crew says yes."
@@ -435,14 +375,6 @@ msgstr "It goes in when the crew says yes."
 #: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
 msgid "home.inbox.refusedBody"
 msgstr "It's back on your list."
-
-#: ../../apps/mobile/src/features/home/invite-friends-card.tsx
-msgid "home.invite.line"
-msgstr "It’s only you in {crewName} so far. Bring your friends in."
-
-#: ../../apps/mobile/src/features/home/invite-friends-card.tsx
-msgid "home.invite.lineNoName"
-msgstr "It’s only you in the crew so far. Bring your friends in."
 
 #: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
 msgid "home.premium.switcher.join"
@@ -452,12 +384,10 @@ msgstr "Join"
 msgid "home.premium.switcher.joinTitle"
 msgstr "Join {crewName}?"
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
-#: ../../apps/mobile/src/features/home/premium/home-sections.tsx
+#: ../../apps/mobile/src/features/home/premium/join-trip-note.tsx
 msgid "home.joinTrip.cta"
 msgstr "Join the trip"
 
-#: ../../apps/mobile/src/features/home/home-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.firstRun.joinCode"
@@ -467,7 +397,7 @@ msgstr "Join with a code"
 msgid "home.premium.trips.join"
 msgstr "Join with a crew code"
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+#: ../../apps/mobile/src/features/home/join-trip.ts
 msgid "home.joinTrip.offline"
 msgstr "Joining needs a connection. Try again when you’re online."
 
@@ -475,27 +405,14 @@ msgstr "Joining needs a connection. Try again when you’re online."
 msgid "home.widgets.todayLine"
 msgstr "Large · the day’s plan and weather"
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
-msgid "home.noTrip.last"
-msgstr "Last trip · {last}"
-
 #: ../../apps/mobile/src/features/home/premium/components/live-trip-card.tsx
 msgid "home.premium.live.now"
 msgstr "Live now"
-
-#: ../../apps/mobile/src/features/home/home-screen.tsx
-msgid "home.loading"
-msgstr "Loading your home"
-
-#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
-msgid "home.inbox.loading"
-msgstr "Loading your inbox"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.ideasPlaced.body"
 msgstr "Look them over before they go in the plan."
 
-#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.markAll"
 msgstr "Mark all read"
@@ -520,11 +437,6 @@ msgstr "Needs you"
 msgid "home.premium.inbox.needsYou"
 msgstr "Needs you · {needs}"
 
-#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
-msgid "home.inbox.needsYou"
-msgstr "Needs you · {needsYou}"
-
-#: ../../apps/mobile/src/features/home/inbox/earlier-row.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/earlier-row.tsx
 msgid "home.inbox.unreadSpoken"
 msgstr "New: {line}"
@@ -533,17 +445,9 @@ msgstr "New: {line}"
 msgid "home.widgets.nextFlight"
 msgstr "Next flight"
 
-#: ../../apps/mobile/src/features/home/next-up-card.tsx
-msgid "home.nextUp.eyebrowUndated"
-msgstr "Next up"
-
 #: ../../apps/mobile/src/features/home/premium/components/trip-collage-card.tsx
 msgid "home.premium.nextUp"
 msgstr "Next up"
-
-#: ../../apps/mobile/src/features/home/next-up-card.tsx
-msgid "home.nextUp.eyebrow"
-msgstr "Next up · {day}"
 
 #: ../../apps/mobile/src/features/home/premium/components/trip-collage-card.tsx
 msgid "home.premium.nextUpOn"
@@ -553,27 +457,19 @@ msgstr "Next up · {day}"
 msgid "home.premium.switcher.next"
 msgstr "Next: {next}"
 
-#: ../../apps/mobile/src/features/home/today-strip.tsx
-msgid "home.today.next"
-msgstr "Next: {time} · {name}"
-
 #: ../../apps/mobile/src/features/home/premium/trips/empty-passport.tsx
 msgid "home.premium.trips.ponNote"
 msgstr "No crew yet? I can show you around a place while you decide."
 
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.elsewhereBody"
-msgstr "No guide there yet. Tokek will cover until one moves in."
-
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.noSpacePhrases"
 msgstr "No room on the phone for phrase cards"
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.noSpaceMap"
 msgstr "No room on the phone for the map"
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.noSpaceTickets"
 msgstr "No room on the phone for tickets"
 
@@ -589,12 +485,10 @@ msgstr "Not now"
 msgid "inbox.premium.notNow"
 msgstr "Not now — I’ll check in here"
 
-#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.crewEmpty"
 msgstr "Nothing from the crew yet."
 
-#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.guidesEmpty"
 msgstr "Nothing from the guides yet."
@@ -603,35 +497,14 @@ msgstr "Nothing from the guides yet."
 msgid "inbox.premium.empty.title"
 msgstr "Nothing here yet"
 
-#: ../../apps/mobile/src/features/home/today-strip.tsx
-msgid "home.today.done"
-msgstr "Nothing more on the plan today."
-
-#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
-msgid "home.inbox.caughtUp.watching"
-msgstr "Nothing needs you right now. {guideName} will wake you if {watching} changes."
-
-#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
-msgid "home.inbox.caughtUp.line"
-msgstr "Nothing needs you right now. {guideName} will wake you when something does."
-
-#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
-msgid "home.inbox.caughtUp.awake"
-msgstr "Nothing needs you yet. Back to sleep."
-
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "inbox.premium.caughtUpLine"
 msgstr "Nothing needs you. Tokek’s having a nap."
-
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
-msgid "home.noTrip.line"
-msgstr "Nothing on the calendar yet. Pitch a place and I'll get the vote going."
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "inbox.premium.settings"
 msgstr "Notification settings"
 
-#: ../../apps/mobile/src/features/home/inbox/action-card.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-card.tsx
 msgid "home.inbox.action.nudge"
 msgstr "Nudge"
@@ -640,17 +513,11 @@ msgstr "Nudge"
 msgid "home.premium.broke.eyebrow"
 msgstr "On our side, not yours"
 
-#: ../../apps/mobile/src/features/home/today-strip.tsx
-msgid "home.today.open"
-msgstr "Open today"
-
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.tier.passPlus"
 msgstr "Pass+"
 
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.noTrip.pitch"
 msgstr "Pitch a place"
 
@@ -661,10 +528,6 @@ msgstr "Pitch a place and the vote starts."
 #: ../../apps/mobile/src/features/home/premium/trips/empty-passport.tsx
 msgid "home.premium.trips.emptyLine"
 msgstr "Pitch a place to your crew, or join a crew that already has a trip going."
-
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.placesLoading"
-msgstr "Places are still loading. Try again in a moment."
 
 #: ../../apps/mobile/src/features/home/premium/components/plan-ring-pill.tsx
 msgid "home.premium.planSpoken"
@@ -677,14 +540,6 @@ msgstr "Plan {done}%"
 #: ../../apps/mobile/src/features/home/premium/trips/trip-mini-card.tsx
 msgid "home.premium.trips.locked"
 msgstr "Plan {percent}%"
-
-#: ../../apps/mobile/src/features/home/next-up-card.tsx
-msgid "home.nextUp.planSpoken"
-msgstr "plan {progress} percent done"
-
-#: ../../apps/mobile/src/features/home/next-up-card.tsx
-msgid "home.nextUp.plan"
-msgstr "Plan {progress}%"
 
 #: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
 msgid "home.premium.back.nextCta"
@@ -703,11 +558,10 @@ msgid "home.premium.trips.planningTab"
 msgstr "Planning"
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.intro"
 msgstr "Put the trip on your home screen. Tokek keeps them up to date, even offline."
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.ready"
 msgstr "Ready offline"
 
@@ -726,14 +580,6 @@ msgstr "Review"
 #: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
 msgid "home.premium.back.nextTitle"
 msgstr "Same crew, next trip?"
-
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.search"
-msgstr "Search a place"
-
-#: ../../apps/mobile/src/features/home/home-screen.tsx
-msgid "home.firstRun.body"
-msgstr "Search a place or pick a guide to start a trip. Your crew can vote on it later."
 
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.howTo.ios.pick"
@@ -761,7 +607,6 @@ msgid "home.premium.broke.report"
 msgstr "Send a report with this screen"
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.back"
 msgstr "Settings"
 
@@ -769,7 +614,6 @@ msgstr "Settings"
 msgid "home.premium.back.settle"
 msgstr "Settle up with the crew"
 
-#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.inbox.filters"
@@ -779,7 +623,6 @@ msgstr "Show"
 msgid "home.premium.tip.open"
 msgstr "Show me"
 
-#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.more"
 msgstr "Show older"
@@ -808,7 +651,6 @@ msgstr "Small · who owes who, and a nudge"
 msgid "home.widgets.crewLine"
 msgstr "Small or medium · everyone near the meet-up"
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.offline.held"
 msgstr "Some changes can't be sent yet. We'll keep trying when the app is opened."
@@ -833,7 +675,6 @@ msgstr "Something new for you"
 msgid "home.premium.noTrip.pitchSub"
 msgstr "Somewhere you keep thinking about"
 
-#: ../../apps/mobile/src/features/home/home-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
@@ -857,23 +698,23 @@ msgstr "Step 1 of 3"
 msgid "home.premium.noTrip.eyebrow"
 msgstr "Step 1 of 3"
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.phrases"
 msgstr "Still downloading phrase cards"
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.map"
 msgstr "Still downloading the map"
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.places"
 msgstr "Still downloading the trip's places"
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.tickets"
 msgstr "Still downloading tickets"
 
-#: ../../apps/mobile/src/features/home/offline-line.tsx
+#: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.today"
 msgstr "Still downloading today's files"
 
@@ -921,7 +762,7 @@ msgstr "That link is for new travellers. You already have your pass"
 msgid "home.linkNotice.unavailable"
 msgstr "That link isn’t available any more"
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+#: ../../apps/mobile/src/features/home/join-trip.ts
 msgid "home.joinTrip.over"
 msgstr "That trip is over"
 
@@ -953,7 +794,7 @@ msgstr "The nudge didn't go through. Try again."
 msgid "home.inbox.planChange.moved"
 msgstr "The plan now has {change}"
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+#: ../../apps/mobile/src/features/home/join-trip.ts
 msgid "home.joinTrip.full"
 msgstr "The trip is full. You’re number {position} in line for a seat."
 
@@ -977,7 +818,6 @@ msgstr "They're getting ready to go."
 msgid "home.inbox.nudge.invite"
 msgstr "They're saving you a spot."
 
-#: ../../apps/mobile/src/features/home/inbox/action-card.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-card.tsx
 msgid "home.inbox.closed"
 msgstr "This one has closed."
@@ -986,18 +826,13 @@ msgstr "This one has closed."
 msgid "home.premium.lost.title"
 msgstr "This page wandered off"
 
-#: ../../apps/mobile/src/features/home/countdown-chip.tsx
-#: ../../apps/mobile/src/features/home/premium/components/countdown-pill.tsx
-msgid "home.countdown.today"
-msgstr "Today"
-
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.today"
 msgstr "Today"
 
-#: ../../apps/mobile/src/features/home/next-up-card.tsx
-msgid "home.inTrip.eyebrowOf"
-msgstr "Today · Day {dayNo} of {dayCount}"
+#: ../../apps/mobile/src/features/home/premium/components/countdown-pill.tsx
+msgid "home.countdown.today"
+msgstr "Today"
 
 #: ../../apps/mobile/src/features/home/premium/components/trip-collage-card.tsx
 msgid "home.premium.today"
@@ -1028,7 +863,6 @@ msgstr "Trips start with a crew. Start one, or join the one a friend made."
 msgid "home.premium.broke.retry"
 msgstr "Try again"
 
-#: ../../apps/mobile/src/features/home/inbox/earlier-row.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/earlier-row.tsx
 msgid "home.inbox.undoLabel"
 msgstr "Undo"
@@ -1037,7 +871,6 @@ msgstr "Undo"
 msgid "home.inbox.undo"
 msgstr "Undo"
 
-#: ../../apps/mobile/src/features/home/inbox/earlier-row.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/earlier-row.tsx
 msgid "home.inbox.undoSpoken"
 msgstr "Undo: {line}"
@@ -1066,20 +899,10 @@ msgstr "Voting"
 msgid "home.inbox.fixShipped"
 msgstr "We fixed what you reported. Thanks for telling us."
 
-#: ../../apps/mobile/src/features/home/home-screen.tsx
-msgid "home.firstRun.welcomeAnon"
-msgstr "Welcome"
-
-#. placeholder {0}: view.firstName
-#: ../../apps/mobile/src/features/home/home-screen.tsx
-msgid "home.firstRun.welcome"
-msgstr "Welcome, {0}"
-
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.premium.noTrip.title"
 msgstr "Where should the crew go?"
 
-#: ../../apps/mobile/src/features/home/home-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.firstRun.title"
 msgstr "Where to first?"
@@ -1097,7 +920,6 @@ msgid "inbox.premium.example.replyLine"
 msgstr "Who still owes an answer"
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.title"
 msgstr "Widgets"
 
@@ -1113,8 +935,7 @@ msgstr "You pasted a link before your first trip. Want it in this trip’s ideas
 msgid "home.premium.switcher.joinLine"
 msgstr "You’ll see its trips and its chat."
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
-#: ../../apps/mobile/src/features/home/premium/home-sections.tsx
+#: ../../apps/mobile/src/features/home/premium/join-trip-note.tsx
 msgid "home.joinTrip.body"
 msgstr "You’re in the crew, not on this trip yet. Join to be in the plan and the splits."
 
@@ -1122,7 +943,7 @@ msgstr "You’re in the crew, not on this trip yet. Join to be in the plan and t
 msgid "home.premium.switcher.invited"
 msgstr "You’re invited"
 
-#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+#: ../../apps/mobile/src/features/home/join-trip.ts
 msgid "home.joinTrip.joined"
 msgstr "You’re on the trip"
 
@@ -1138,7 +959,6 @@ msgstr "Your crew is saving you a spot on CritterPass."
 msgid "home.nudge.relayLink"
 msgstr "Your crew is saving you a spot on CritterPass. {url}"
 
-#: ../../apps/mobile/src/features/home/home-header.tsx
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
 msgid "home.header.yourCrews"
 msgstr "Your crews"
@@ -1151,7 +971,6 @@ msgstr "Your first stamp"
 msgid "home.premium.trips.emptyTitle"
 msgstr "Your first stamp is waiting"
 
-#: ../../apps/mobile/src/features/home/next-up-card.tsx
 #: ../../apps/mobile/src/features/home/premium/components/trip-collage-card.tsx
 #: ../../apps/mobile/src/features/home/premium/trips/trip-mini-card.tsx
 msgid "home.nextUp.untitled"

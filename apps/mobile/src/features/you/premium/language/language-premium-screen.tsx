@@ -23,8 +23,8 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { useFormatWords } from '../../language/formats-section';
-import { useLanguageModel } from '../../language/language-screen';
+import { useFormatWords } from '../../language/format-words';
+import { useLanguageModel, type LanguageScreenProps } from '../../language/use-language-model';
 import { CurrencyChoice } from './currency-choice';
 
 const TOKEK = guideSticker('tokek');
@@ -57,10 +57,10 @@ function Section(props: {
   );
 }
 
-export function LanguagePremiumScreen() {
+export function LanguagePremiumScreen(props: LanguageScreenProps = {}) {
   const th = usePremiumTheme();
   const { t } = useLingui();
-  const model = useLanguageModel();
+  const model = useLanguageModel(props);
   const words = useFormatWords();
   const { lines, display } = model;
   const shownLanguages = model.showMore ? [...model.featured, ...model.more] : model.featured;
