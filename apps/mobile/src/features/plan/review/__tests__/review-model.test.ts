@@ -5,8 +5,8 @@
  */
 import { describe, expect, it } from '@jest/globals';
 
-import { MAYA, RIN, WINSTON, BALI_MEMBERS } from '../../overview/dev/bali-plan';
-import { RAIN_BASE_ITEMS, RAIN_OPS, RAIN_POI_NAMES } from '../dev/rain-changeset';
+import { MAYA, RIN, WINSTON, BALI_MEMBERS } from '../../test-support/bali-plan';
+import { RAIN_BASE_ITEMS, RAIN_OPS, RAIN_POI_NAMES } from '../../test-support/rain-changeset';
 import {
   buildChangeCards,
   changesetState,

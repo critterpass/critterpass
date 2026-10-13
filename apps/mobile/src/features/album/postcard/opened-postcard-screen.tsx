@@ -14,10 +14,9 @@ import { guideIdOr } from '@/ui/avatar/guides';
 import { useAlbum } from '../data/use-album';
 import { AlbumMediaProvider } from '../grid/album-media';
 import { albumHttp } from '../upload/device-upload';
-import type { PostcardFormat } from './postcard-pair';
+import type { PostcardFormat } from './postcard-look';
 import { PostcardScreen } from './postcard-screen';
 import type { PostcardLook } from './postcard-look';
-import { ReceivedView } from './received-view';
 
 const OPENED_SQL = `
   SELECT format, photo_id, note, created_by FROM postcards
@@ -30,8 +29,8 @@ export function OpenedPostcardScreen({
 }: {
   readonly tripId: string;
   readonly postcardId: string | null;
-  /** The composer's look (the premium postcard passes its own). */
-  readonly look?: PostcardLook;
+  /** The composer's look. */
+  readonly look: PostcardLook;
 }) {
   const { t } = useLingui();
   const album = useAlbum(tripId);
@@ -44,12 +43,12 @@ export function OpenedPostcardScreen({
   const [own, setOwn] = useState(false);
 
   if (opened === undefined || album.me === null || opened.created_by === album.me || own) {
-    return <PostcardScreen tripId={tripId} {...(look === undefined ? {} : { look })} />;
+    return <PostcardScreen tripId={tripId} look={look} />;
   }
   const front = album.photos.find((photo) => photo.id === opened.photo_id) ?? null;
   return (
     <AlbumMediaProvider http={albumHttp}>
-      <ReceivedView
+      <look.Received
         sender={
           album.people.find((person) => person.id === opened.created_by)?.name ||
           t({ id: 'album.formerTraveller', message: 'A former traveller' })

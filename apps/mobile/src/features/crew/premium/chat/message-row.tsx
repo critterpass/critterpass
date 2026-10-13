@@ -212,6 +212,8 @@ export const PremiumMessageRow = memo(function PremiumMessageRow(props: MessageR
           <PressableScale
             onLongPress={openMenu}
             pressedScale={1}
+            // A card keeps its own buttons (play, vote, open) reachable by screen readers.
+            {...(message.type === 'text' || message.type === 'system' ? {} : { accessible: false })}
             accessibilityHint={
               props.readOnly
                 ? undefined

@@ -8,8 +8,8 @@ import { ScrollView, View } from 'react-native';
 
 import { Button, PressableScale, Text, TextButton, TextField, usePremiumTheme } from '@/ui/premium';
 
-import type { ListEditor } from '../../components/saved-list-editor';
-import type { ListChoice } from '../../components/saved-view';
+import type { ListEditor } from '../../screens/saved-screen';
+import type { ListChoice } from '../../screens/saved-screen';
 import { ALL_LISTS, type ListSummary, type SavedRow } from '../../saved-model';
 
 export function Chip(props: {

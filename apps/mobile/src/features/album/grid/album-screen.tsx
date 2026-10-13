@@ -20,26 +20,37 @@ import { guideIdOr, guideSticker } from '@/ui/avatar/guides';
 import { requestAlbumExportCommand, tagSelfInPhotoCommand } from '../commands';
 import { albumExportState, useAlbumExportRow } from '../data/album-export';
 import { useAlbum } from '../data/use-album';
-import { WhoSheet } from '../people/who-sheet';
 import { albumRoutes } from '../routes';
 import { albumHttp } from '../upload/device-upload';
 import { UploadBanner, type UploadBannerViewProps } from '../upload/upload-banner';
 import { useAlbumUpload } from '../upload/use-album-upload';
 import { AlbumMediaProvider } from './album-media';
-import { AlbumView, type AlbumViewProps } from './album-view';
+import { type ReactNode } from 'react';
+import { type GuideId } from '@/ui/people/GuideLine';
+import type { Href } from 'expo-router';
+import {
+  type AlbumPerson,
+  type AlbumPhoto,
+  type AlbumSegment,
+  type PlanDay,
+} from '../data/album-model';
+import type { AlbumExportState } from '../data/album-export';
 
 const HUB_SCREEN = '3k-1';
 
 export function AlbumScreen({
   tripId,
-  View = AlbumView,
+  View,
   Banner,
+  Who,
 }: {
   readonly tripId: string;
-  /** The view that draws the album (the premium journal takes the same props). */
-  readonly View?: ComponentType<AlbumViewProps>;
+  /** The view that draws the album (the trip journal). */
+  readonly View: ComponentType<AlbumViewProps>;
   /** The upload banner's look. */
-  readonly Banner?: ComponentType<UploadBannerViewProps>;
+  readonly Banner: ComponentType<UploadBannerViewProps>;
+  /** The long-press sheet: who's in a photo, and "I'm in this". */
+  readonly Who: ComponentType<WhoSheetProps>;
 }) {
   useTripStreams(tripId);
   const { t } = useLingui();
@@ -126,13 +137,7 @@ export function AlbumScreen({
         guide={guide}
         guideName={guideName}
         curationNote={album.curation?.note ?? null}
-        banner={
-          <UploadBanner
-            tripId={tripId}
-            onRetry={uploads.retry}
-            {...(Banner === undefined ? {} : { View: Banner })}
-          />
-        }
+        banner={<UploadBanner tripId={tripId} onRetry={uploads.retry} View={Banner} />}
         exportState={exportState}
         backFallback={hrefFor(HUB_SCREEN, { tripId }) ?? '/'}
         onUpload={uploads.pick}
@@ -141,7 +146,7 @@ export function AlbumScreen({
         onDownloadAll={() => void downloadAll()}
       />
       {who === null ? null : (
-        <WhoSheet
+        <Who
           inPhoto={album.people.filter((person) => tagged.includes(person.id))}
           indexOf={indexOf}
           meIn={album.me !== null && tagged.includes(album.me)}
@@ -151,4 +156,35 @@ export function AlbumScreen({
       )}
     </AlbumMediaProvider>
   );
+}
+
+export interface AlbumViewProps {
+  readonly loaded: boolean;
+  readonly photos: readonly AlbumPhoto[];
+  readonly people: readonly AlbumPerson[];
+  readonly tags: readonly { readonly photoId: string; readonly userId: string }[];
+  readonly days: readonly PlanDay[];
+  readonly guide: GuideId;
+  readonly guideName: string;
+  /** The guide's line over its picks; null until it has curated. */
+  readonly curationNote: string | null;
+  /** This device's uploads for the trip, over the grid. */
+  readonly banner: ReactNode;
+  readonly exportState: AlbumExportState;
+  /** Where back goes when the album was opened cold (a link, a notice). */
+  readonly backFallback: Href;
+  /** Lab scenes open on a given segment; the album itself opens on the picks when it has any. */
+  readonly initialSegment?: AlbumSegment;
+  readonly onUpload: () => void;
+  readonly onOpen: (photoId: string) => void;
+  readonly onWho: (photoId: string) => void;
+  readonly onDownloadAll: () => void;
+}
+
+export interface WhoSheetProps {
+  readonly inPhoto: readonly AlbumPerson[];
+  readonly indexOf: (uid: string) => number;
+  readonly meIn: boolean;
+  readonly onMeIn: (on: boolean) => void;
+  readonly onClose: () => void;
 }

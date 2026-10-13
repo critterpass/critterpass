@@ -56,3 +56,13 @@ export function useDestinationSearch(query: string): PlaceSearchState {
   // Until this query answers, the last answer stays on screen while it loads.
   return answer.query === q ? answer : { ...answer, status: 'loading', query: q };
 }
+
+/** The one country every result shares when none has a live guide ("MOROCCO"), else null. */
+export function unguidedCountry(results: readonly PlaceResult[]): string | null {
+  const first = results[0];
+  if (first?.country == null) return null;
+  const same = results.every(
+    (result) => result.coverage === 'guest' && result.country === first.country,
+  );
+  return same ? first.country : null;
+}

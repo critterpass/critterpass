@@ -19,7 +19,7 @@ import { toast } from '@/motion/island-toast';
 
 import { tripExploreLinks } from '../trip-explore/links';
 import { looksLikeAddress, wantsAddresses } from './address-rule';
-import type { BrowseTile } from './browse-grid';
+import type { BrowseTile } from './browse-tiles';
 import { typedLink } from './clipboard';
 import { fetchSearchPlaces } from './data/fetch-search-places';
 import { useSearchServices } from './data/search-services';

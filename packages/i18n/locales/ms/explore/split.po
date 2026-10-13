@@ -36,31 +36,18 @@ msgstr ""
 msgid "explore.split.all"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/split/split-view.tsx
-msgid "explore.split.back"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.inChat"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
-msgid "explore.split.noteLabel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.posted"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
-msgid "explore.split.noteLong"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.noWaysSaid"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/split/dev/split-scenes.tsx
 #: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.noWays"
 msgstr ""
@@ -77,14 +64,6 @@ msgstr ""
 msgid "explore.split.vote"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
-msgid "explore.split.ratherNot"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
-msgid "explore.split.say"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/split/split-model.ts
 msgid "explore.split.suggestFirst"
 msgstr ""
@@ -93,36 +72,12 @@ msgstr ""
 msgid "explore.split.suggestSecond"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
-msgid "explore.split.clear"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/split/commands.ts
 msgid "explore.split.queued.clear"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.refused"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
-msgid "explore.split.noteSeen"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/split/split-view.tsx
-msgid "explore.split.ways"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
-msgid "explore.split.update"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
-msgid "explore.split.want"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
-msgid "explore.split.where"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/split/commands.ts

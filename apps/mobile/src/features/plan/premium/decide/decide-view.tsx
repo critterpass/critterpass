@@ -13,7 +13,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Button, LoadingCritter, StatusTag, Text, usePremiumTheme } from '@/ui/premium';
 import { KeyboardAwareScroll, PushScreen } from '@/ui/premium/shell';
 
-import type { DecideViewProps } from '../../collab/decide-view';
+import type { DecideViewProps } from '../../collab/decide-props';
 import { PremiumOptionRow } from './option-row';
 
 export function PremiumDecideView(props: DecideViewProps) {

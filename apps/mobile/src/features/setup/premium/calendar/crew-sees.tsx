@@ -9,7 +9,7 @@ import { View } from 'react-native';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Card, Text, usePremiumTheme } from '@/ui/premium';
 
-import { markWord } from '../../calendar/manual-day-face';
+import { markWord } from '../../calendar/manual-days';
 import type { MyDay } from '../../calendar/use-my-days';
 import { dayRange } from '../../data/date-range';
 import { weekdayLetters } from '../../when/copy';

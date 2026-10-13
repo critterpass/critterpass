@@ -1,5 +1,5 @@
 /**
- * Add from a link's state and actions (7d-3), shared by both looks of the sheet: imports the link
+ * Add from a link's state and actions (7d-3): imports the link
  * (or, for a screenshot, picks one and reads it on the phone first), ticks, picks and saves, and
  * words the tip for the day the places share. Saving and "put them on the day" both end with what
  * happened, by name.

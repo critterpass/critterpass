@@ -9,7 +9,7 @@ import { useLingui } from '@lingui/react/macro';
 import { PremiumSheet } from '@/features/album';
 import { Icon, ListCard, Row, Text, usePremiumTheme } from '@/ui/premium';
 
-import type { ReplyBySheetProps } from '../builder/reply-by-sheet';
+import type { ReplyBySheetProps } from '../builder/views';
 import { instantDate, instantDateTime } from '../data/format';
 
 export function PremiumReplyBySheet(props: ReplyBySheetProps) {

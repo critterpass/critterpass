@@ -7,116 +7,14 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: ms\n"
 
-#. placeholder {0}: groups.unknown
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-msgid "explore.saved.unknown"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
 msgid "explore.saved.removedNamed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-msgid "explore.saved.newList"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-msgid "explore.saved.all"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
-msgid "explore.saved.cancel"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
-msgid "explore.saved.create"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-#: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
-msgid "explore.saved.deleteList"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
-msgid "explore.saved.deleteTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-msgid "explore.saved.destination"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-msgid "explore.saved.done"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-msgid "explore.saved.edit"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-msgid "explore.hero.back"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-msgid "explore.saved.explore"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
-msgid "explore.saved.deleteKeeps"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-msgid "explore.saved.move"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
-msgid "explore.saved.newName"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-msgid "explore.saved.emptyList"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-msgid "explore.saved.emptyTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-msgid "explore.saved.remove"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
 msgid "explore.saved.removed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
-msgid "explore.saved.rename"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-msgid "explore.saved.renameList"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
-msgid "explore.saved.renameName"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-msgid "explore.saved.defaultList"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-msgid "explore.saved.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-msgid "explore.saved.emptyLine"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/screens/saved-screen.tsx
 msgid "explore.saved.undo"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
-msgid "explore.saved.nameTaken"
 msgstr ""

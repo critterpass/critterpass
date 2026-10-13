@@ -14,7 +14,7 @@ import { planRoutes } from '@/features/plan/overview/routes';
 import { useMotionMode } from '@/motion/motion-mode';
 import { toast } from '@/motion/island-toast';
 
-import { AskCard, type AskCardProps } from './ask-card';
+import { type AskCardProps, type CheckViewProps } from './check-props';
 import {
   backTripLabel,
   balanceRowLabel,
@@ -28,7 +28,6 @@ import {
   fixAllLabel,
   runningNotice,
 } from './check-copy';
-import { CheckView, type CheckViewProps } from './check-view';
 import { answerMemberAskCommand } from './commands';
 import { fixAll } from './data/fixer-api';
 import { useMemberAsks } from './data/use-member-ask';
@@ -40,14 +39,14 @@ import { fixActionOf } from './use-fix';
 
 export function CheckScreen({
   tripId,
-  View: Look = CheckView,
-  Ask = AskCard,
+  View: Look,
+  Ask,
 }: {
   readonly tripId: string;
-  /** How the check is drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<CheckViewProps>;
-  /** A private ask drawn in the same look. @default the current look */
-  readonly Ask?: ComponentType<AskCardProps>;
+  /** How the check is drawn. */
+  readonly View: ComponentType<CheckViewProps>;
+  /** A private ask drawn in the same look. */
+  readonly Ask: ComponentType<AskCardProps>;
 }) {
   const {
     plan,

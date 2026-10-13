@@ -7,16 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: it\n"
 
-#. placeholder {0}: line.count
-#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
-msgid "explore.swipe.whySaved"
-msgstr ""
-
-#. placeholder {0}: rating.toFixed(1)
-#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
-msgid "explore.place.rating"
-msgstr ""
-
 #. placeholder {0}: row.name
 #. placeholder {1}: row.destination_name
 #: ../../apps/mobile/src/features/explore/place-detail/use-place-detail.ts
@@ -29,24 +19,8 @@ msgstr ""
 msgid "explore.detail.why.two"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
-msgid "explore.detail.fits.when"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
-msgid "explore.detail.fits.better"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.fromStay"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
-msgid "explore.detail.minOn"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
-msgid "explore.detail.similarMeta"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
@@ -57,44 +31,12 @@ msgstr ""
 msgid "explore.save.toast"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
-msgid "explore.crew.keenMore"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
-msgid "explore.crew.savedMore"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
-msgid "explore.crew.keen"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
-msgid "explore.crew.keenOne"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
-msgid "explore.crew.saved"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.alsoAfter"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.also"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
-msgid "explore.detail.fits.where"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/save-button.tsx
-msgid "explore.save.save"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/save-button.tsx
-msgid "explore.save.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/commands.ts
@@ -109,11 +51,6 @@ msgstr ""
 msgid "explore.profile.queued.report"
 msgstr "Un problema segnalato nel riassunto di un luogo"
 
-#. placeholder {0}: place.name
-#: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
-msgid "explore.detail.similarAdd"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.addTo"
 msgstr ""
@@ -122,36 +59,9 @@ msgstr ""
 msgid "explore.detail.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/place-profile.tsx
-msgid "explore.profile.label"
-msgstr "Riassunto IA"
-
-#. placeholder {0}: props.guide.name
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
-msgid "explore.detail.chat"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/collapsing-header.tsx
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
-msgid "explore.detail.back"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.bars.peak"
 msgstr ""
-
-#. placeholder {0}: guide.name
-#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
-msgid "explore.detail.nearbyBy"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
-msgid "explore.place.call"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/place-profile.tsx
-msgid "explore.profile.check"
-msgstr "Controlla prima di andare"
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.chooseDay"
@@ -173,28 +83,8 @@ msgstr ""
 msgid "explore.detail.tile.entry"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
-msgid "explore.hero.back"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.loading"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
-msgid "explore.place.goBack"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
-msgid "explore.swipe.whyClose"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
-msgid "explore.place.missingOffline"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
-msgid "explore.detail.similar"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
@@ -205,52 +95,8 @@ msgstr ""
 msgid "explore.detail.inDayAt"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/place-profile.tsx
-msgid "explore.profile.english"
-msgstr "In inglese finché non è scritto nella tua lingua."
-
-#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
-msgid "explore.detail.fits.inPlan"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
-msgid "explore.detail.fits.thereNot"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
-msgid "explore.detail.fits.thereCatch"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
-msgid "explore.detail.fits.there"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
-msgid "explore.swipe.whyTaste"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
-msgid "explore.detail.removeAll.body"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
-msgid "explore.place.goneLine"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.busy"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
-msgid "explore.swipe.whyNear"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
-msgid "explore.swipe.whyMustSee"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
-msgid "explore.swipe.whyNone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
@@ -261,25 +107,8 @@ msgstr ""
 msgid "explore.detail.why.hoursUnknown"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
 #: ../../apps/mobile/src/features/explore/place-detail/use-place-detail.ts
 msgid "explore.detail.hoursUnknown"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/know-before.tsx
-msgid "explore.detail.know"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
-msgid "explore.detail.nearby"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/generic-photo-label.tsx
-msgid "explore.photo.notThisPlace"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
-msgid "explore.offers.offline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
@@ -290,18 +119,8 @@ msgstr ""
 msgid "explore.detail.bars.open"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
-msgid "explore.detail.fits.other"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
 #: ../../apps/mobile/src/features/explore/place-detail/use-place-detail.ts
 msgid "explore.detail.planTrip"
-msgstr ""
-
-#. placeholder {0}: attribution.name
-#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
-msgid "explore.place.poweredBy"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
@@ -312,27 +131,6 @@ msgstr ""
 msgid "explore.detail.why.rain"
 msgstr ""
 
-#. placeholder {0}: rating.toFixed(1)
-#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
-msgid "explore.place.ratingLabel"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
-msgid "explore.detail.removeAll.confirm"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
-msgid "explore.detail.removeAll.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
-msgid "explore.detail.unsave"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
-msgid "explore.detail.removeAll.link"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/place-detail/use-remove-for-everyone.ts
 msgid "explore.detail.removeAll.done"
 msgstr ""
@@ -341,20 +139,8 @@ msgstr ""
 msgid "explore.detail.unsavedIdea"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/report-profile.tsx
-msgid "explore.profile.report"
-msgstr "Segnala un problema"
-
-#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
-msgid "explore.place.retry"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.after"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
-msgid "explore.detail.save"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
@@ -363,22 +149,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
 msgid "explore.detail.savedIdea"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
-msgid "explore.offers.open"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
-msgid "explore.offers.body"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
-msgid "explore.detail.share"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
-msgid "explore.place.failedLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
@@ -401,61 +171,17 @@ msgstr ""
 msgid "explore.detail.tile.takes"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/report-profile.tsx
-msgid "explore.profile.reported"
-msgstr "Grazie. Controlleremo questo riassunto e lo riscriveremo."
-
-#: ../../apps/mobile/src/features/explore/place-detail/report-profile.tsx
-msgid "explore.profile.reportFailed"
-msgstr "Non è andato a buon fine. Riprova tra un po’."
-
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.noPlan"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
-msgid "explore.place.failedTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
-msgid "explore.place.goneTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
-msgid "explore.offers.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
 msgid "explore.detail.undo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
-msgid "explore.offers.disclosure"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.wear"
 msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
-msgid "explore.place.website"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
-msgid "explore.place.visitorTips"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
-msgid "explore.detail.fits.eyebrow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
-msgid "explore.swipe.whyTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/place-detail/place-profile.tsx
-msgid "explore.profile.sources"
-msgstr "Scritto a partire da"
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.freeDay"

@@ -1,7 +1,7 @@
-/** The version's title and lines, true for the reader (the same words as the current look). */
+/** The version's title and lines, true for the reader. */
 import { t } from '@lingui/core/macro';
 
-import type { YourVersionViewProps } from '../../your-version/your-version-view';
+import type { YourVersionViewProps } from '../../your-version/version-model';
 
 type Reader = Pick<YourVersionViewProps, 'name' | 'preview' | 'group' | 'personalised'>;
 

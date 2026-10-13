@@ -13,7 +13,7 @@ import type { DayItem } from '@/data/plan/plan-model';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Button, Card, Text, usePremiumTheme } from '@/ui/premium';
 
-import type { MovePreviewProps, MoveStopSheetProps } from '../../all-days/move-preview';
+import type { MovePreviewProps, MoveStopSheetProps } from '../../all-days/all-days-props';
 import type { DayAfter } from '../../all-days/use-cross-day-drag';
 import { refusalLine } from '../../day-plan/refusal';
 import { lengthLabel } from '../../trip-map/format';

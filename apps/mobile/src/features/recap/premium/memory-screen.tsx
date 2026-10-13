@@ -15,6 +15,7 @@ import { goBackOr } from '@/lib/navigation/back';
 import {
   Avatar,
   Button,
+  EmptyState,
   GlassPill,
   LoadingCritter,
   RoundStamp,
@@ -153,16 +154,40 @@ function MemoryScene({ m }: { readonly m: MemoryScreenState }) {
   );
 }
 
+/** Loading the memory; once read and not on this phone, "not here" with the way Home. */
 function Loading({ loaded }: { readonly loaded: boolean }) {
+  if (!loaded) {
+    return (
+      <LoadingCritter
+        label={t({ id: 'recap.memory.loading', message: 'Loading the memory' })}
+        testID="memory-waiting"
+      />
+    );
+  }
   return (
-    <LoadingCritter
-      label={
-        loaded
-          ? t({ id: 'recap.memory.missing.title', message: 'This memory isn’t here' })
-          : t({ id: 'recap.memory.loading', message: 'Loading the memory' })
-      }
-      testID={loaded ? 'memory-missing' : 'memory-waiting'}
-    />
+    <FullScreen
+      closeLabel={t({ id: 'recap.link.back', message: 'Home' })}
+      onClose={() => goBackOr()}
+      testID="memory-missing"
+    >
+      <View style={styles.missing}>
+        <EmptyState
+          title={t({ id: 'recap.memory.missing.title', message: 'This memory isn’t here' })}
+          line={t({
+            id: 'recap.memory.missing.line',
+            message: 'It may have been removed, or the trip has not reached this phone yet.',
+          })}
+          check={false}
+          action={
+            <Button
+              label={t({ id: 'album.premium.missing.home', message: 'Go to Home' })}
+              onPress={() => goBackOr()}
+              testID="memory-missing-back"
+            />
+          }
+        />
+      </View>
+    </FullScreen>
   );
 }
 
@@ -199,6 +224,7 @@ export function PremiumMemoryScreen({
 }
 
 const styles = StyleSheet.create({
+  missing: { flex: 1, justifyContent: 'center', paddingHorizontal: 24 },
   eyebrow: { position: 'absolute', alignSelf: 'center' },
   stamp: { position: 'absolute', right: 24 },
   foot: { flex: 1, justifyContent: 'flex-end', paddingHorizontal: 24, gap: 12 },

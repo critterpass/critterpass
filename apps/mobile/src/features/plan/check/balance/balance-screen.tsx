@@ -23,16 +23,16 @@ import { useMemberAsks } from '../data/use-member-ask';
 import { weekdayName } from '../format';
 import { checkRoutes } from '../routes';
 import * as copy from './balance-copy';
-import { BalanceView, type BalanceViewProps, type BalanceOfferView } from './balance-view';
+import { type BalanceViewProps, type BalanceOfferView } from './balance-props';
 import { useBalance } from './use-balance';
 
 export function BalanceScreen({
   tripId,
-  View: Look = BalanceView,
+  View: Look,
 }: {
   readonly tripId: string;
-  /** How the balance is drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<BalanceViewProps>;
+  /** How the balance is drawn. */
+  readonly View: ComponentType<BalanceViewProps>;
 }) {
   const plan = useTripPlan(tripId);
   const guideName = usePlanGuide().name;

@@ -4,8 +4,6 @@
  * line instead), and where sending to the group stands.
  */
 import type { PlanCardModel } from '../chat/data/use-plan-card';
-import type { VoiceGroupSend } from './voice-footer';
-import type { VoiceSwap } from './voice-swap-card';
 
 export interface VoiceProposals {
   readonly swaps: readonly VoiceSwap[];
@@ -44,4 +42,19 @@ export function voiceSwaps(
 export function groupStatus(models: readonly PlanCardModel[]): VoiceGroupSend['status'] | null {
   if (models.some((model) => model.state === 'draft')) return 'open';
   return models.some((model) => model.state === 'voting') ? 'sent' : null;
+}
+
+export interface VoiceGroupSend {
+  /** `open` offers the button; `sent` says the crew has it. */
+  readonly status: 'open' | 'sent';
+  readonly busy: boolean;
+  readonly onSend: () => void;
+}
+
+export interface VoiceSwap {
+  readonly id: string;
+  readonly title: string;
+  readonly detail: string;
+  /** "+$18": what each person's share moves by, when this change alone sets it. */
+  readonly delta: string | null;
 }

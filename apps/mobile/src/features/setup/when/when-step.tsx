@@ -20,7 +20,7 @@ import { useCalendarSync } from '../calendar/use-calendar-sync';
 import { askAvailabilityCommand, lockTripDatesCommand } from '../data/commands';
 import { useSetupServices } from '../data/services';
 import type { StepProps } from '../shell/frame';
-import { guideName } from '../shell/guide-note';
+import { guideName } from '../shell/guide-name';
 import {
   crewSize,
   heatMonths,
@@ -32,17 +32,21 @@ import {
 } from './model';
 import { DEFAULT_LENGTH_DAYS, suggestFrom } from './range';
 import { useWhenData } from './use-when-data';
-import { WeekPicker, type WeekPickerProps } from './week-picker';
+import {
+  type WeekPickerProps,
+  failureLine,
+  type WhenFailure,
+  type WhenViewProps,
+} from './when-props';
 import { useUnsyncedMembers } from './use-unsynced';
-import { failureLine, WhenView, type WhenFailure, type WhenViewProps } from './when-view';
 
 type Overlay = 'calendar' | 'manual' | 'picker' | null;
 
 /** The sheets the step opens over itself, drawn in another look. */
 export interface WhenSheets {
-  readonly Connect?: ComponentType<CalendarConnectViewProps>;
-  readonly Manual?: ComponentType<ManualDaysViewProps>;
-  readonly Picker?: ComponentType<WeekPickerProps>;
+  readonly Connect: ComponentType<CalendarConnectViewProps>;
+  readonly Manual: ComponentType<ManualDaysViewProps>;
+  readonly Picker: ComponentType<WeekPickerProps>;
 }
 
 function failureOf(code: string): WhenFailure {
@@ -54,15 +58,14 @@ function failureOf(code: string): WhenFailure {
 export function WhenStep({
   trip,
   shell,
-  View = WhenView,
-  sheets = {},
+  View,
+  sheets,
 }: StepProps & {
-  /** How the step is drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<WhenViewProps>;
-  /** @default the current look's sheets */
-  readonly sheets?: WhenSheets;
+  /** How the step is drawn. */
+  readonly View: ComponentType<WhenViewProps>;
+  readonly sheets: WhenSheets;
 }) {
-  const Picker = sheets.Picker ?? WeekPicker;
+  const Picker = sheets.Picker;
   const services = useSetupServices();
   const data = useWhenData(trip.tripId);
   const calendar = useCalendarSync(trip.tripId);
@@ -177,14 +180,14 @@ export function WhenStep({
           tripId={trip.tripId}
           onDismiss={() => setOverlay(null)}
           onMarkByHand={() => setOverlay('manual')}
-          {...(sheets.Connect === undefined ? {} : { View: sheets.Connect })}
+          View={sheets.Connect}
         />
       ) : null}
       {overlay === 'manual' ? (
         <ManualDaysSheet
           tripId={trip.tripId}
           onDismiss={() => setOverlay(null)}
-          {...(sheets.Manual === undefined ? {} : { View: sheets.Manual })}
+          View={sheets.Manual}
         />
       ) : null}
       {overlay === 'picker' ? (

@@ -15,13 +15,9 @@ import {
   scheduleFollowupCommand,
   submitPrivateReasonCommand,
 } from '../data/commands';
-import {
-  ObjectionSheetView,
-  type ObjectionAnswer,
-  type ObjectionSheetProps,
-  type ObjectionSheetViewProps,
-} from './objection-sheet';
 import { followUpAt, parseOptions, type FollowUp } from './options';
+import { type GuideStickerId } from '@/ui/avatar/guides';
+import type { PrivateOption } from './options';
 
 function laterDone(later: FollowUp): string {
   switch (later.when) {
@@ -38,11 +34,11 @@ function laterDone(later: FollowUp): string {
 }
 
 export function ObjectionSheet({
-  View: Look = ObjectionSheetView,
+  View: Look,
   ...props
 }: ObjectionSheetProps & {
-  /** How the sheet is drawn; the commands stay here. @default the current look */
-  readonly View?: ComponentType<ObjectionSheetViewProps>;
+  /** How the sheet is drawn; the commands stay here. */
+  readonly View: ComponentType<ObjectionSheetViewProps>;
 }) {
   const submit = useCommand(submitPrivateReasonCommand);
   const choose = useCommand(choosePrivateOptionCommand);
@@ -93,4 +89,40 @@ export function ObjectionSheet({
       }}
     />
   );
+}
+
+export interface ObjectionSheetProps {
+  readonly proposalId: string;
+  readonly guide: GuideStickerId;
+  readonly guideName: string;
+  readonly organiserName: string;
+  readonly locale: string;
+  readonly baseMinor: number | null;
+  readonly currency: string | null;
+  readonly freeCancelLine: string | null;
+  /** When the answer is due: "ask me later" lands before it. */
+  readonly replyBy: string | null;
+  /** Opens the plan, where a stop takes a note; absent until the plan area offers it. */
+  readonly onOpenPlan?: (() => void) | undefined;
+  readonly onBoard: (optionIds: readonly string[]) => void;
+  readonly onClose: () => void;
+}
+
+export interface ObjectionAnswer {
+  readonly threadId: string;
+  readonly options: readonly PrivateOption[];
+}
+
+export interface ObjectionSheetViewProps extends Omit<ObjectionSheetProps, 'proposalId'> {
+  readonly reason: PrivateReason | null;
+  readonly answer: ObjectionAnswer | null;
+  readonly chosen: readonly string[];
+  readonly pending: boolean;
+  readonly failed: boolean;
+  readonly onReason: (reason: PrivateReason) => void;
+  readonly onToggle: (optionId: string, on: boolean) => void;
+  readonly onAskCrew: (threadId: string, optionId: string) => void;
+  /** When the guide would ask again; null offers no "ask me later". */
+  readonly later: FollowUp | null;
+  readonly onLater: () => void;
 }

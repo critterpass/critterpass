@@ -8,6 +8,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, storage ids and wire values, never copy. */
 import type { SetAvailabilityPayload } from '@cp/domain';
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
+import { t } from '@lingui/core/macro';
 
 export type ManualMark = 'free' | 'busy' | 'maybe';
 export type ManualMarks = Readonly<Record<string, ManualMark>>;
@@ -119,4 +120,19 @@ export async function saveMarks(
     'INSERT OR REPLACE INTO local_private (id, kind, data, fetched_at) VALUES (?, ?, ?, ?)',
     [MARKS_ID, MARKS_ID, JSON.stringify(marks), at.toISOString()],
   );
+}
+
+export const GLYPH: Readonly<Record<ManualMark, string>> = { free: '✓', busy: '✕', maybe: '?' };
+
+export function markWord(mark: ManualMark | undefined): string {
+  switch (mark) {
+    case 'free':
+      return t({ id: 'setup.manual.free', message: 'Free' });
+    case 'busy':
+      return t({ id: 'setup.manual.busy', message: 'Busy' });
+    case 'maybe':
+      return t({ id: 'setup.manual.maybe', message: 'Maybe' });
+    case undefined:
+      return t({ id: 'setup.manual.unmarked', message: 'Not marked' });
+  }
 }

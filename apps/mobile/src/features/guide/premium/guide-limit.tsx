@@ -18,7 +18,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { useTrailOff } from '../meter/limit-card';
+import { useTrailOff } from '../meter/use-trail-off';
 import type { GuideMeter } from '../meter/meter-model';
 import { resetClock } from '../meter/meter-model';
 import type { QueuedQuestion } from '../queued/use-queued-question';

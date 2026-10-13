@@ -211,3 +211,8 @@ export function placeCounts(places: readonly HubPlace[]): PlaceCounts {
       .sort((a, b) => b.count - a.count || a.group.localeCompare(b.group)),
   };
 }
+
+export interface HiddenEntry {
+  readonly poiId: string;
+  readonly name: string;
+}

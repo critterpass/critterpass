@@ -1,6 +1,5 @@
 /**
- * "Remove for everyone" (an organiser takes a place out of the trip's Ideas for the whole crew),
- * shared by both looks of the place page. Offered only while a crewmate's save keeps the place in
+ * "Remove for everyone" (an organiser takes a place out of the trip's Ideas for the whole crew). Offered only while a crewmate's save keeps the place in
  * Ideas; the ♡ only ever takes back the organiser's own save.
  */
 import { useLingui } from '@lingui/react/macro';

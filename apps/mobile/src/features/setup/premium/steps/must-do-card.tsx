@@ -91,7 +91,11 @@ export function MustDoCard(props: {
         {plainFit ? (
           <Icon name="check" size={18} color={theme.color.toggleOn} />
         ) : item.pill === null ? null : (
-          <StatusTag tone={PILL_TONE[item.pill.kind]} label={pillLabel(item.pill, locale)} />
+          <StatusTag
+            tone={PILL_TONE[item.pill.kind]}
+            label={pillLabel(item.pill, locale)}
+            testID={`must-do-pill-${item.id}`}
+          />
         )}
       </PressableScale>
       {open ? (

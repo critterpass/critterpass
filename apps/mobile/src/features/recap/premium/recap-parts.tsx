@@ -14,7 +14,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { SummaryViewProps } from '../summary/summary-view';
+import type { SummaryViewProps } from '../summary/summary-screen';
 
 const useStyles = makePremiumStyles((th) => ({
   next: {

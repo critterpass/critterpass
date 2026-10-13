@@ -1,30 +1,22 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { AlbumMissing } from '@/features/album/grid/album-missing';
+import { PremiumRouteMissing } from '@/features/album';
 import { AlbumScreen } from '@/features/album/grid/album-screen';
 import { PremiumJournalScene } from '@/features/album/premium/journal-scene';
 import { PremiumUploadBanner } from '@/features/album/premium/upload-banner';
-import { premiumRoute } from '@/lib/premium-ui';
+import { PremiumWhoSheet } from '@/features/album/premium/who-sheet';
 
-function Album({ premium }: { readonly premium: boolean }) {
+/** The crew's album (3m-2), drawn as the trip journal. */
+export default function AlbumRoute() {
   const { tripId } = useLocalSearchParams<{ tripId: string }>();
   return typeof tripId === 'string' && tripId.length > 0 ? (
     <AlbumScreen
       tripId={tripId}
-      {...(premium ? { View: PremiumJournalScene, Banner: PremiumUploadBanner } : {})}
+      View={PremiumJournalScene}
+      Banner={PremiumUploadBanner}
+      Who={PremiumWhoSheet}
     />
   ) : (
-    <AlbumMissing testID="album-missing" />
+    <PremiumRouteMissing testID="album-missing" />
   );
 }
-
-function CurrentAlbumRoute() {
-  return <Album premium={false} />;
-}
-
-function PremiumAlbumRoute() {
-  return <Album premium />;
-}
-
-/** The crew's album (3m-2), the trip journal in the premium look. */
-export default premiumRoute({ premium: PremiumAlbumRoute, legacy: CurrentAlbumRoute });

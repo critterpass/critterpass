@@ -19,7 +19,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { AreaViewProps } from '../../day-trips/area-view';
+import type { AreaViewProps } from '../../day-trips/area-screen';
 import * as copy from '../../day-trips/copy';
 import { PicksCarousel } from '../destination/picks-carousel';
 import { Doodle } from '../components/doodle';

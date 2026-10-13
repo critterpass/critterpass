@@ -35,7 +35,7 @@ import {
   savedGroupTitle,
   suggestsGroupTitle,
 } from '../../places/places-copy';
-import type { PlacesListViewProps } from '../../places/places-list-view';
+import type { PlacesListViewProps } from '../../places/places-list-screen';
 import type { HubPlace } from '../../places/places-model';
 import { placeGroups } from '../../places/place-groups';
 import { placeIcon } from '../../search/place-icons';

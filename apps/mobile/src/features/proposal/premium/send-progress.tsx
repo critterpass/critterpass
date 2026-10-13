@@ -21,7 +21,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { SendProgressProps } from '../builder/send-progress';
+import type { SendProgressProps } from '../builder/views';
 
 export function PremiumSendProgress(props: SendProgressProps) {
   const th = usePremiumTheme();

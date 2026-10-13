@@ -23,8 +23,8 @@ import {
 import { sheetMaterialStyle } from '@/ui/premium/shell';
 
 import { fromWhere, guideReadLine, stopLine } from '../../search/link-copy';
-import type { LinkSheetProps } from '../../search/link-sheet';
-import { couldBe } from '../../search/match-row';
+import type { LinkSheetProps } from '../../search/link-screen';
+import { couldBe } from '../../search/could-be';
 
 const THUMB_W = 72;
 const THUMB_H = 96;

@@ -8,7 +8,7 @@ import { View } from 'react-native';
 
 import { Button, CritterSticker, Text, usePremiumTheme } from '@/ui/premium';
 
-import { askLine, type AskCardProps } from '../../check/ask-card';
+import { askLine, type AskCardProps } from '../../check/check-props';
 import { usePlanGuide } from '../../plan-guide';
 
 export function PremiumAskCard(props: AskCardProps) {

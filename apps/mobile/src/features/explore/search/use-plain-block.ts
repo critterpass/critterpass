@@ -1,5 +1,5 @@
 /**
- * A plain-words question's answer, shared by both looks of search: asks the question once (keyed
+ * A plain-words question's answer: asks the question once (keyed
  * by it), words the chips from the trip, takes a way out (a wider search, a related kind, a pin)
  * and opens MAP in the places map's results mode once that is registered.
  */

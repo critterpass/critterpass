@@ -35,7 +35,7 @@ import {
   tileCopy,
   updatedBadge,
 } from '../summary/summary-copy';
-import type { SummaryViewProps } from '../summary/summary-view';
+import type { SummaryViewProps } from '../summary/summary-screen';
 import { TILE_TILTS } from './recap-paint';
 import { NextLink, NotReady } from './recap-parts';
 
@@ -79,7 +79,7 @@ function Ready(props: SummaryViewProps) {
   const gotAway = model.gotAway;
   return (
     <View style={{ gap: 16 }}>
-      <View style={styles.tiles}>
+      <View style={styles.tiles} testID="recap-tiles">
         {model.tiles.slice(0, 4).map((tile, index) => {
           const copy = tileCopy(tile, locale, unit);
           return (
@@ -152,7 +152,7 @@ function Ready(props: SummaryViewProps) {
         </PressableScale>
       )}
       {model.awards.length === 0 ? null : (
-        <View style={styles.awards}>
+        <View style={styles.awards} testID="recap-awards">
           {model.awards.slice(0, 2).map((chip) => (
             <View key={chip.id} style={styles.award} testID={`recap-award-${chip.id}`}>
               <Text variant="captionMuted" tone="muted">

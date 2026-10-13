@@ -5,40 +5,12 @@
  * itself, so the grid under it is not redrawn as bytes move; finished photos leave the queue as
  * soon as nothing else of the trip is in it.
  */
-import { useLingui } from '@lingui/react/macro';
 import { useEffect, useRef, useSyncExternalStore, type ComponentType } from 'react';
-import { View } from 'react-native';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
-import { TextLink } from '@/ui/buttons/TextLink';
-import { Row } from '@/ui/layout/Row';
-import { Text } from '@/ui/text/Text';
-import { makeStyles } from '@/ui/theme';
 
-import { uploadBanner } from '../grid/album-copy';
 import { albumUploadQueue } from './device-upload';
 import { onlyDoneLeft, sameCounts, uploadCounts, type UploadCounts } from './upload-summary';
-
-const useStyles = makeStyles((t) => ({
-  banner: {
-    borderRadius: t.radius.md,
-    backgroundColor: t.semantic.bg.raised,
-    padding: t.space['12'],
-    gap: t.space['8'],
-  },
-  track: {
-    height: t.space['6'],
-    borderRadius: t.radius.pill,
-    backgroundColor: t.semantic.bg.control,
-    overflow: 'hidden',
-    flexDirection: 'row',
-  },
-  fill: {
-    height: t.space['6'],
-    borderRadius: t.radius.pill,
-    backgroundColor: t.semantic.action.primary,
-  },
-}));
 
 export interface UploadBannerViewProps {
   readonly counts: UploadCounts;
@@ -46,59 +18,15 @@ export interface UploadBannerViewProps {
   readonly onDismiss: () => void;
 }
 
-export function UploadBannerView({ counts, onRetry, onDismiss }: UploadBannerViewProps) {
-  const { t } = useLingui();
-  const styles = useStyles();
-  const banner = uploadBanner(counts);
-  if (banner === null) return null;
-  const active = counts.uploading > 0;
-  const settledOnly = !active && counts.waiting === 0 && counts.failed === 0;
-  return (
-    <View style={styles.banner} testID="album-upload-banner">
-      <Text variant="body" singleLine={false}>
-        {banner.line}
-      </Text>
-      {active && counts.total > 1 ? (
-        <View
-          style={styles.track}
-          accessible
-          accessibilityRole="progressbar"
-          accessibilityValue={{ min: 0, max: counts.total, now: counts.total - counts.uploading }}
-          testID="album-upload-bar"
-        >
-          <View style={[styles.fill, { flex: counts.fraction }]} />
-          <View style={{ flex: 1 - counts.fraction }} />
-        </View>
-      ) : null}
-      {!active && counts.failed > 0 ? (
-        <TextLink
-          label={t({ id: 'album.upload.retry', message: 'Try the failed ones again' })}
-          onPress={onRetry}
-          testID="album-upload-retry"
-        />
-      ) : null}
-      {settledOnly ? (
-        <Row>
-          <TextLink
-            label={t({ id: 'album.upload.dismiss', message: 'OK' })}
-            onPress={onDismiss}
-            testID="album-upload-dismiss"
-          />
-        </Row>
-      ) : null}
-    </View>
-  );
-}
-
 export function UploadBanner({
   tripId,
   onRetry,
-  View: BannerView = UploadBannerView,
+  View: BannerView,
 }: {
   readonly tripId: string;
   readonly onRetry: () => void;
-  /** The look of the banner (the premium one takes the same props). */
-  readonly View?: ComponentType<UploadBannerViewProps>;
+  /** The look of the banner. */
+  readonly View: ComponentType<UploadBannerViewProps>;
 }) {
   const { commands } = useLocalFirst();
   const queue = albumUploadQueue(commands);

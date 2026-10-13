@@ -4,6 +4,7 @@
  * follows the `trip_copresence` channel, which carries counts and member ids, never a position.
  */
 jest.mock('expo-router', () => ({
+  Stack: Object.assign(() => null, { Screen: () => null }),
   useIsFocused: () => true,
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
 }));
@@ -33,7 +34,7 @@ import {
   TRIP,
   WINDOW,
 } from '../../test-support/seed-critters';
-import { LegendaryScreen } from '../legendary-screen';
+import { PremiumLegendaryScreen } from '../../premium/legendary/legendary-calendar-screen';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -84,7 +85,7 @@ async function renderCalendar() {
           <LocalFirstProvider value={stack.value}>
             <RealtimeClientContext.Provider value={realtime.client}>
               <ScreenJoltProvider>
-                <LegendaryScreen />
+                <PremiumLegendaryScreen />
               </ScreenJoltProvider>
             </RealtimeClientContext.Provider>
           </LocalFirstProvider>
@@ -100,7 +101,7 @@ describe('legendary calendar', () => {
   it('queues the reminder offline and shows it at once', async () => {
     const { stack } = await renderCalendar();
     await fireEvent.press(screen.getByTestId('critters-legendaries-remind'));
-    await waitFor(() => expect(screen.getByText('REMINDERS ON')).toBeTruthy());
+    await waitFor(() => expect(screen.getByText('Reminders on')).toBeTruthy());
     await waitFor(async () => {
       const rows = await stack.db.getAll<{ envelope: string }>(
         "SELECT envelope FROM commands WHERE cmd = 'set_legendary_reminder'",
@@ -125,9 +126,7 @@ describe('legendary calendar', () => {
         missing: [MAYA],
       }),
     );
-    await waitFor(() => expect(screen.getByText('3 OF 6 IN')).toBeTruthy());
-    // The name comes from its own read of the crew.
-    await waitFor(() => expect(screen.getByText('Still to come: Maya')).toBeTruthy());
+    await waitFor(() => expect(screen.getByText(/· 3 of 6 in$/u)).toBeTruthy());
     // A payload carrying a coordinate is not a valid count, so it changes nothing: the count the
     // screen shows stays the one it had.
     await act(() =>
@@ -139,7 +138,7 @@ describe('legendary calendar', () => {
         lat: -8.24,
       }),
     );
-    expect(screen.queryByText('5 OF 6 IN')).toBeNull();
-    expect(screen.getByText('3 OF 6 IN')).toBeTruthy();
+    expect(screen.queryByText(/· 5 of 6 in$/u)).toBeNull();
+    expect(screen.getByText(/· 3 of 6 in$/u)).toBeTruthy();
   });
 });

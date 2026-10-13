@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { ALEX, DEV, kyotoTrip, MAYA } from '../../scenes/fixtures';
+import { ALEX, DEV, kyotoTrip, MAYA } from '../../test-support/setup-fixtures';
 import { buildMustDos, type MustDoRow } from '../model';
 import { listWith, listWithout } from '../save';
 

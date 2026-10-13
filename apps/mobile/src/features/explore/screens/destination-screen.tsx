@@ -8,18 +8,13 @@ import { router } from 'expo-router';
 import { useEffect, useMemo, useState, type ComponentType } from 'react';
 import { BackHandler } from 'react-native';
 
-import { EmptyState } from '@/ui/states/EmptyState';
-import { BackEyebrow } from '@/ui/shell/BackEyebrow';
-import { Scaffold } from '@/ui/surface/Scaffold';
 import { heroAt, useDestinationMedia, useSubjectMedia } from '@/data/media/use-subject-media';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { dataOf } from '@/data/travel-data/freshness';
 import { goBackOr } from '@/lib/navigation/back';
 
-import type { ActionsMode } from '../components/destination-actions';
-import { DestinationView, type DestinationViewProps } from '../components/destination-view';
-import type { MonthPrices } from '../components/month-panel';
+import { ExploreMissingPage } from '../premium/components/missing-page';
 import { useExploreDestination } from '../data/use-explore-destination';
 import { useExploreStream } from '../data/use-explore-stream';
 import {
@@ -49,21 +44,18 @@ import {
 import { exploreRoutes } from '../routes';
 import { pickEntries, picksOrLocal, PICKS_SHOWN } from '../sponsored-model';
 
+import type { DestinationViewProps, ActionsMode, MonthPrices } from './destination-view-props';
+
 export interface DestinationScreenProps {
   /** Destination id or slug. */
   readonly destination: string;
   readonly tripId?: string | undefined;
   readonly crewId?: string | undefined;
-  /** How the page is drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<DestinationViewProps> | undefined;
+  /** How the page is drawn; the logic stays here. */
+  readonly View: ComponentType<DestinationViewProps>;
 }
 
-export function DestinationScreen({
-  destination,
-  tripId,
-  crewId,
-  View = DestinationView,
-}: DestinationScreenProps) {
+export function DestinationScreen({ destination, tripId, crewId, View }: DestinationScreenProps) {
   const { t, i18n } = useLingui();
   const locale = i18n.locale;
   const { row } = useDestinationRow(destination);
@@ -164,32 +156,26 @@ export function DestinationScreen({
   };
 
   if (name === '' && base.status === 'missing') {
-    const guest = guideFor(null);
     return (
-      <Scaffold testID="explore-destination-missing">
-        <BackEyebrow
-          label={t({ id: 'explore.hero.back', message: 'Explore' })}
-          onPress={back}
-          testID="explore-back"
-        />
-        <EmptyState
-          guide="tokek"
-          guideName={guest.name}
-          title={
-            base.reason === 'not_found'
-              ? t({ id: 'explore.missing.title', message: "That place isn't in the guide" })
-              : t({ id: 'explore.missing.offlineTitle', message: "This guide hasn't loaded yet" })
-          }
-          line={
-            base.reason === 'not_found'
-              ? t({ id: 'explore.missing.line', message: 'Try the search. I cover most places.' })
-              : t({
-                  id: 'explore.missing.offlineLine',
-                  message: "I need a connection the first time. After that I'm here offline.",
-                })
-          }
-        />
-      </Scaffold>
+      <ExploreMissingPage
+        backLabel={t({ id: 'explore.hero.back', message: 'Explore' })}
+        title={
+          base.reason === 'not_found'
+            ? t({ id: 'explore.missing.title', message: "That place isn't in the guide" })
+            : t({ id: 'explore.missing.offlineTitle', message: "This guide hasn't loaded yet" })
+        }
+        line={
+          base.reason === 'not_found'
+            ? t({ id: 'explore.missing.line', message: 'Try the search. I cover most places.' })
+            : t({
+                id: 'explore.missing.offlineLine',
+                message: "I need a connection the first time. After that I'm here offline.",
+              })
+        }
+        onBack={back}
+        testID="explore-destination-missing"
+        backTestID="explore-back"
+      />
     );
   }
 

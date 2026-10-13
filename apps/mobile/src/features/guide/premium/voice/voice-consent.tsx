@@ -9,7 +9,7 @@ import { View } from 'react-native';
 import { Button, CritterSticker, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
-import type { VoiceConsentViewProps } from '../../voice/voice-consent-view';
+import type { VoiceConsentViewProps } from '../../voice/voice-gate';
 
 export function PremiumVoiceConsent({
   guideName,

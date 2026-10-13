@@ -11,8 +11,7 @@ import { tokens } from '@cp/design-tokens';
 
 import { renderWithI18n } from '@/lib/i18n/testing';
 
-import { LimitCard, LimitComposer } from '../limit-card';
-import { MeterChip } from '../meter-chip';
+import { LimitCard, QuotaChip } from '../../premium/guide-limit';
 import { guideMeter, isSpent, untilReset, type MeterInputs } from '../meter-model';
 
 const NOW = new Date('2027-04-04T07:48:00Z');
@@ -65,19 +64,24 @@ describe('the guide meter', () => {
 });
 
 describe('the meter chip', () => {
-  it('reads the free count, the boosted guide, and nothing with Pass+', async () => {
+  it('reads what is left, the spent count, the boosted guide, and nothing with Pass+', async () => {
     await renderWithI18n(
       <>
-        <MeterChip
+        <QuotaChip
           meter={{ kind: 'free', used: 12, limit: 30, resetAt: RESET }}
           guideName="Tokek"
         />
-        <MeterChip meter={{ kind: 'boosted' }} guideName="Pon" />
-        <MeterChip meter={{ kind: 'unlimited' }} guideName="Pon" />
+        <QuotaChip
+          meter={{ kind: 'free', used: 30, limit: 30, resetAt: RESET }}
+          guideName="Tokek"
+        />
+        <QuotaChip meter={{ kind: 'boosted' }} guideName="Pon" />
+        <QuotaChip meter={{ kind: 'unlimited' }} guideName="Pon" />
       </>,
     );
-    expect(screen.getByText('12 OF 30 TODAY')).toBeTruthy();
-    expect(screen.getByText('UNLIMITED PON')).toBeTruthy();
+    expect(screen.getByText('18 left')).toBeTruthy();
+    expect(screen.getByText('30 of 30 today')).toBeTruthy();
+    expect(screen.getByText('Unlimited Pon')).toBeTruthy();
     expect(screen.queryByTestId('guide-meter-unlimited')).toBeNull();
   });
 });
@@ -90,42 +94,31 @@ describe('out of questions', () => {
       <GestureHandlerRootView>
         <LimitCard
           guideName="Pon"
-          color={tokens.guide.pon}
           used={30}
           limit={30}
-          resetAt={RESET}
-          destination="Kyoto"
           onGetPass={() => undefined}
-          onAskAtMidnight={ask}
-          passHolder={{ name: 'Maya', joinIndex: 1 }}
+          onAtMidnight={ask}
+          asking={false}
+          passHolder={{ name: 'Maya', color: tokens.guide.pon }}
           onCrewChat={crewChat}
         />
-        <LimitComposer guideName="Pon" resetAt={RESET} now={NOW} />
       </GestureHandlerRootView>,
     );
-    expect(screen.getByText('30 OF 30 TODAY')).toBeTruthy();
-    expect(screen.getByText(/Your Kyoto plan and the vote don't count/)).toBeTruthy();
-    expect(screen.getByText('Pon is back in 7h 12m')).toBeTruthy();
-    await fireEvent.press(screen.getByTestId('guide-limit-queue'));
+    expect(screen.getByText('of 30')).toBeTruthy();
+    expect(screen.getByText(/the free ones are used up/u)).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('guide-limit-midnight'));
     expect(ask).toHaveBeenCalledTimes(1);
-    await fireEvent.press(screen.getByTestId('guide-limit-hint'));
+    await fireEvent.press(screen.getByTestId('guide-limit-crew-chat'));
     expect(crewChat).toHaveBeenCalledTimes(1);
   });
 
-  it('hides GET PASS+ until the paywall exists', async () => {
+  it('hides Get Pass+ until the paywall exists, and the crewmate without one', async () => {
     await renderWithI18n(
       <GestureHandlerRootView>
-        <LimitCard
-          guideName="Pon"
-          color={tokens.guide.pon}
-          used={30}
-          limit={30}
-          resetAt={RESET}
-          destination={null}
-        />
+        <LimitCard guideName="Pon" used={30} limit={30} asking={false} passHolder={null} />
       </GestureHandlerRootView>,
     );
     expect(screen.queryByTestId('guide-limit-pass')).toBeNull();
-    expect(screen.queryByTestId('guide-limit-hint')).toBeNull();
+    expect(screen.queryByTestId('guide-limit-crew-chat')).toBeNull();
   });
 });

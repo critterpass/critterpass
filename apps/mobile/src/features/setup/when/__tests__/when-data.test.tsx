@@ -3,7 +3,12 @@
  * local-first stack: counts and options from synced rows, an ask queued on this phone showing as
  * asked at once, and "Freed it" / words queuing `answer_availability_ask` while offline.
  */
+// The app's own database module loads the native driver; these tests run on the test stack.
+jest.mock('@/data/powersync/db', () => ({}));
 jest.mock('expo-router', () => ({
+  // The premium pages declare their native header through the stack's screen.
+  Stack: Object.assign(() => null, { Screen: () => null }),
+  usePreventRemove: () => undefined,
   useIsFocused: () => true,
   router: { back: jest.fn(), canGoBack: () => true, replace: jest.fn() },
 }));
@@ -18,9 +23,13 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
-import { DEV, kyotoTrip, TRIP_ID } from '../../scenes/fixtures';
+import { DEV, kyotoTrip, TRIP_ID } from '../../test-support/setup-fixtures';
 import { renderSetup, seedKyoto } from '../../test-support/setup-harness';
+import { PremiumAskSheetView } from '../../premium/ask/ask-sheet';
+import { PremiumWaiting } from '../../premium/must-dos/sheet-waiting';
 import { AskSheet } from '../ask-sheet';
+
+const PREMIUM_LOOK = { View: PremiumAskSheetView, Waiting: PremiumWaiting };
 import { useWhenData } from '../use-when-data';
 
 // Real encrypted databases and queues: CI runners are about three times slower than a laptop.
@@ -79,7 +88,10 @@ describe('dates step data', () => {
 describe('answering the guide’s ask', () => {
   it('queues “Freed it” offline and says what the organiser will learn', async () => {
     stack = await openTestLocalFirst({ holdUploads: true });
-    await renderSetup(<AskSheet trip={kyotoTrip({ me: DEV })} askId="ask-1" />, { stack });
+    await renderSetup(
+      <AskSheet trip={kyotoTrip({ me: DEV })} askId="ask-1" look={PREMIUM_LOOK} />,
+      { stack },
+    );
     expect(
       screen.getByText('Winston only hears whether the week works. Never what the block is.'),
     ).toBeTruthy();
@@ -94,13 +106,16 @@ describe('answering the guide’s ask', () => {
       });
     });
     expect(
-      await screen.findByText('Thanks. I’ll only tell Winston whether the week works.'),
+      await screen.findByText(/Thanks\. I’ll only tell Winston whether the week works\./u),
     ).toBeTruthy();
   });
 
   it('sends a reply in words for the guide to read', async () => {
     stack = await openTestLocalFirst({ holdUploads: true });
-    await renderSetup(<AskSheet trip={kyotoTrip({ me: DEV })} askId="ask-2" />, { stack });
+    await renderSetup(
+      <AskSheet trip={kyotoTrip({ me: DEV })} askId="ask-2" look={PREMIUM_LOOK} />,
+      { stack },
+    );
     await fireEvent.changeText(screen.getByTestId('ask-words'), 'I can move it to the 12th');
     await fireEvent.press(screen.getByTestId('ask-send'));
     await waitFor(async () => {

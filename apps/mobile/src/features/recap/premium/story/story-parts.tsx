@@ -21,8 +21,8 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { MvpSheetProps } from '../../story/mvp-sheet';
-import type { StoryFooterProps } from '../../story/story-footer';
+import type { MvpSheetProps } from '../../story/story-look';
+import type { StoryFooterProps } from '../../story/story-look';
 import type { StoryAbsentProps, StoryLook } from '../../story/story-look';
 import { PremiumAwardsCard, PremiumReceiptCard } from './cards/story-awards-receipt';
 import { PremiumCoverCard } from './cards/story-cover';
@@ -168,6 +168,7 @@ export function PremiumStoryAbsent({ loaded, summaryHref, onOpenRecap }: StoryAb
           icon="back"
           label={t({ id: 'recap.story.back', message: 'Recap' })}
           onPress={() => goBackOr(summaryHref)}
+          testID="recap-story-missing-back"
         />
       </View>
       <EmptyState

@@ -2,9 +2,14 @@
  * The must-dos step and the add sheet over the real local-first stack and command client, with
  * the api as the network boundary: an offline add queues `set_must_dos` and shows at once as
  * pending; a fit the guide checked shows when its synced row carries it; a crewmate typing shows
- * as a dashed row; no screen ever says the app entered anyone into a lottery.
+ * as a dashed row; no line ever says the app entered anyone into a lottery.
  */
+// The app's own database module loads the native driver; these tests run on the test stack.
+jest.mock('@/data/powersync/db', () => ({}));
 jest.mock('expo-router', () => ({
+  // The premium pages declare their native header through the stack's screen.
+  Stack: Object.assign(() => null, { Screen: () => null }),
+  usePreventRemove: () => undefined,
   useIsFocused: () => true,
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => false },
 }));
@@ -22,17 +27,21 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
 import type { ApiRead, SetupServices } from '../../data/services';
-import { DEV, kyotoTrip, MAYA, sceneFrame, TRIP_ID, WINSTON } from '../../scenes/fixtures';
+import {
+  DEV,
+  kyotoTrip,
+  MAYA,
+  sceneFrame,
+  TRIP_ID,
+  WINSTON,
+} from '../../test-support/setup-fixtures';
 import { AddMustDoSheet } from '../add-must-do-sheet';
 import { draftStateOf, MustDosStep } from '../must-dos-step';
-import { MUST_DOS_SCENES } from '../scenes';
-import {
-  renderPlain,
-  renderWith,
-  seedKyoto,
-  seedMustDo,
-  services,
-} from '../test-support/must-dos-harness';
+import { pillLabel, summaryLine } from '../lines';
+import type { MustDoItem } from '../model';
+import { PREMIUM_ADD_MUST_DO } from '../../premium/must-dos/add-must-do-sheet';
+import { PremiumMustDosView } from '../../premium/steps/must-dos-view';
+import { renderWith, seedKyoto, seedMustDo, services } from '../test-support/must-dos-harness';
 
 const browseBody: unknown = JSON.parse(
   readFileSync(path.join(__dirname, 'fixtures', 'places-browse-kyoto.json'), 'utf8'),
@@ -46,18 +55,9 @@ afterEach(async () => {
   stack = null;
 });
 
-function textsOf(node: unknown): string[] {
-  if (typeof node === 'string') return [node];
-  if (Array.isArray(node)) return node.flatMap(textsOf);
-  if (node !== null && typeof node === 'object' && 'children' in node) {
-    return textsOf(node.children);
-  }
-  return [];
-}
-
 function step(me: string) {
   const trip = kyotoTrip({ step: 'must_dos', dates: true, me });
-  return <MustDosStep trip={trip} shell={sceneFrame(trip, 'must_dos')} />;
+  return <MustDosStep trip={trip} shell={sceneFrame(trip, 'must_dos')} View={PremiumMustDosView} />;
 }
 
 describe('adding a must-do', () => {
@@ -65,7 +65,11 @@ describe('adding a must-do', () => {
     stack = await openTestLocalFirst({ uid: DEV, holdUploads: true });
     await seedKyoto(stack);
     const api = services();
-    const view = await renderWith(stack, api.value, <AddMustDoSheet tripId={TRIP_ID} />);
+    const view = await renderWith(
+      stack,
+      api.value,
+      <AddMustDoSheet tripId={TRIP_ID} look={PREMIUM_ADD_MUST_DO} />,
+    );
     await fireEvent.changeText(await screen.findByTestId('add-must-do-field'), 'ramen crawl');
     await waitFor(() => expect(api.paths[0]).toContain('/v1/places/search?q=ramen+crawl'));
     await fireEvent.press(await screen.findByTestId('add-must-do-keep'));
@@ -134,7 +138,11 @@ describe('reading places through the api', () => {
       answer = resolve;
     });
     const api: SetupServices = { ...services().value, getJson: () => pending };
-    const sheet = await renderWith(stack, api, <AddMustDoSheet tripId={TRIP_ID} />);
+    const sheet = await renderWith(
+      stack,
+      api,
+      <AddMustDoSheet tripId={TRIP_ID} look={PREMIUM_ADD_MUST_DO} />,
+    );
     expect(await screen.findByTestId('add-must-do-field')).toBeTruthy();
     await sheet.unmount();
 
@@ -148,14 +156,25 @@ describe('reading places through the api', () => {
 });
 
 describe('lottery copy', () => {
-  it('never says anyone was entered, only that each person enters on the official site', async () => {
-    const seen: string[] = [];
-    for (const scene of MUST_DOS_SCENES) {
-      const view = await renderPlain(scene.render());
-      seen.push(...textsOf(view.toJSON()));
-      await view.unmount();
-    }
-    const copy = seen.join('\n');
+  it('never says anyone was entered, only that each person enters on the official site', () => {
+    const lottery: MustDoItem = {
+      id: 'm1',
+      title: 'Ghibli Museum',
+      sub: null,
+      owners: [],
+      fit: 'fits',
+      checked: true,
+      pill: { kind: 'lottery', closes: '2027-03-10' },
+      poiId: null,
+      pending: false,
+      mine: true,
+      primary: true,
+    };
+    const copy = [
+      summaryLine([lottery], 0) ?? '',
+      pillLabel({ kind: 'lottery', closes: '2027-03-10' }, 'en'),
+      pillLabel({ kind: 'lottery', closes: null }, 'en'),
+    ].join('\n');
     expect(copy).not.toMatch(/\bentered\b/iu);
     expect(copy).toMatch(/each of you enters on the official site/iu);
     expect(copy).toMatch(/entries close/iu);

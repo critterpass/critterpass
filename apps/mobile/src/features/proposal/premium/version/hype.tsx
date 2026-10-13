@@ -13,7 +13,7 @@ import {
   crewInPct,
   reactionWords,
   type HypeBarProps,
-} from '../../your-version/hype-bar';
+} from '../../your-version/version-model';
 
 export function PremiumHypeBar({ hype, latest, organiser = '' }: HypeBarProps) {
   const pct = crewInPct(hype);

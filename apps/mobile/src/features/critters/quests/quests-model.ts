@@ -5,6 +5,9 @@
  * server's; nothing here decides progress.
  */
 import { crewLevel, toLocalWallTime, type CrewLevel } from '@cp/domain';
+import { guideIdOr, type GuideStickerId } from '@/ui/avatar/guides';
+import type { BefriendPlace } from './use-befriend-spot';
+import type { RevealMode } from './server-clock';
 
 export interface QuestRow {
   readonly id: string;
@@ -224,4 +227,22 @@ export function buildQuestsModel(input: QuestsInput): QuestsModel {
     cards,
     live: cards.filter((card) => card.state === 'active').length,
   };
+}
+
+export function guideOfSlug(slug: string | null): GuideStickerId {
+  return guideIdOr(slug);
+}
+
+export interface QuestsViewProps {
+  readonly crewName: string;
+  readonly guide: GuideStickerId;
+  readonly model: QuestsModel;
+  readonly offline: boolean;
+  /** Quest id → how its reward shows once revealed. */
+  readonly reveals: ReadonlyMap<string, RevealMode>;
+  /** Where today's "befriend" quest can be done. */
+  readonly befriendPlace?: BefriendPlace | undefined;
+  readonly onSignUp: (questId: string) => void;
+  /** Opens phrase practice for a phrase quest; absent while practice is not offered. */
+  readonly onPractise?: ((language: string | null) => void) | undefined;
 }

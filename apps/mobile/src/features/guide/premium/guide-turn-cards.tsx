@@ -22,7 +22,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { useFailureLine } from '../chat/components/guide-states';
+import { useFailureLine } from '../chat/data/guide-failure-line';
 import { toolStepLabel } from '../chat/data/tool-steps';
 import type { TurnStep } from '../chat/data/turn-state';
 import { GuideDisc } from './guide-bubbles';

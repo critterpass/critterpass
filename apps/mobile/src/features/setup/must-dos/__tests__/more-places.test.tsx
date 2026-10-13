@@ -5,7 +5,12 @@
  * place open data does not have says it cannot be saved. Nothing from the live search is written
  * to the phone.
  */
+// The app's own database module loads the native driver; these tests run on the test stack.
+jest.mock('@/data/powersync/db', () => ({}));
 jest.mock('expo-router', () => ({
+  // The premium pages declare their native header through the stack's screen.
+  Stack: Object.assign(() => null, { Screen: () => null }),
+  usePreventRemove: () => undefined,
   useIsFocused: () => true,
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => false },
 }));
@@ -20,8 +25,9 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
 import type { ApiRead } from '../../data/services';
-import { DEV, TRIP_ID } from '../../scenes/fixtures';
+import { DEV, TRIP_ID } from '../../test-support/setup-fixtures';
 import { AddMustDoSheet } from '../add-must-do-sheet';
+import { PREMIUM_ADD_MUST_DO } from '../../premium/must-dos/add-must-do-sheet';
 import { renderWith, seedKyoto, services } from '../test-support/must-dos-harness';
 
 const OUR_POI = '0199a6f0-0000-7000-8000-0000000f0e01';
@@ -77,7 +83,11 @@ describe('More places', () => {
     stack = await openTestLocalFirst({ uid: DEV, holdUploads: true });
     await seedKyoto(stack);
     const api = services(answer);
-    await renderWith(stack, api.value, <AddMustDoSheet tripId={TRIP_ID} />);
+    await renderWith(
+      stack,
+      api.value,
+      <AddMustDoSheet tripId={TRIP_ID} look={PREMIUM_ADD_MUST_DO} />,
+    );
     await fireEvent.changeText(await screen.findByTestId('add-must-do-field'), 'kodai');
 
     expect(await screen.findByText('Powered by Foursquare')).toBeTruthy();
@@ -112,7 +122,11 @@ describe('More places', () => {
         ? { kind: 'ok', body: { results: plenty } }
         : answer(path),
     );
-    await renderWith(stack, api.value, <AddMustDoSheet tripId={TRIP_ID} />);
+    await renderWith(
+      stack,
+      api.value,
+      <AddMustDoSheet tripId={TRIP_ID} look={PREMIUM_ADD_MUST_DO} />,
+    );
     await fireEvent.changeText(await screen.findByTestId('add-must-do-field'), 'temple');
     expect(
       await screen.findByTestId('add-must-do-place-0199a6f0-0000-7000-8000-0000000f0f04'),

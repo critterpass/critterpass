@@ -31,16 +31,12 @@ msgstr ""
 msgid "setup.when.picker.length"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+#: ../../apps/mobile/src/features/setup/when/option-lines.ts
 msgid "setup.when.option.fareRise"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+#: ../../apps/mobile/src/features/setup/when/option-lines.ts
 msgid "setup.when.option.fareDrop"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/window-options.tsx
-msgid "setup.when.option.pick"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
@@ -51,135 +47,71 @@ msgstr ""
 msgid "setup.when.countWord"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+#: ../../apps/mobile/src/features/setup/when/option-lines.ts
 msgid "setup.when.option.notMovable"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+#: ../../apps/mobile/src/features/setup/when/option-lines.ts
 msgid "setup.when.option.freed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+#: ../../apps/mobile/src/features/setup/when/option-lines.ts
 msgid "setup.when.option.askLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+#: ../../apps/mobile/src/features/setup/when/option-lines.ts
 msgid "setup.when.option.partMisses"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+#: ../../apps/mobile/src/features/setup/when/option-lines.ts
 msgid "setup.when.option.partLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
-msgid "setup.ask.privacy"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.picker.chipSome"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+#: ../../apps/mobile/src/features/setup/when/option-lines.ts
 msgid "setup.when.option.partTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.windowPill"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.picker.chipAll"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+#: ../../apps/mobile/src/features/setup/when/option-lines.ts
 msgid "setup.when.option.allTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.windowPillSolo"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
-msgid "setup.when.cellA11y"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
-msgid "setup.when.cellA11yOnlyPlain"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
-msgid "setup.when.cellA11yOnly"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
-msgid "setup.when.cellA11yFirstPlain"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
-msgid "setup.when.cellA11yFirst"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
-msgid "setup.when.cellA11yLastPlain"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
-msgid "setup.when.cellA11yLast"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.free"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.tooLong"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.cta.ask"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+#: ../../apps/mobile/src/features/setup/when/option-lines.ts
 msgid "setup.when.option.askTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+#: ../../apps/mobile/src/features/setup/when/option-lines.ts
 msgid "setup.when.option.asked"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
-msgid "setup.ask.notMovable"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
 msgid "setup.when.own.change"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/when-locked.tsx
-msgid "setup.when.locked.change"
-msgstr "更改日期"
-
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.clear"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
 msgid "setup.when.own.connect"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
 msgid "setup.when.own.noneLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+#: ../../apps/mobile/src/features/setup/when/option-lines.ts
 msgid "setup.when.option.allFree"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+#: ../../apps/mobile/src/features/setup/when/option-lines.ts
 msgid "setup.when.option.allPastSeason"
 msgstr ""
 
@@ -191,40 +123,19 @@ msgstr ""
 msgid "setup.when.reason.fareDrop"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.computing"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
-msgid "setup.ask.freed"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.solo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.howLong"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.cta.lock"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.ghostLock"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+#: ../../apps/mobile/src/features/setup/when/when-props.ts
 msgid "setup.when.fail.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
 msgid "setup.when.own.byHand"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
 msgid "setup.when.own.deniedLine"
 msgstr ""
 
@@ -232,89 +143,41 @@ msgstr ""
 msgid "setup.when.pick.partial"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+#: ../../apps/mobile/src/features/setup/when/option-lines.ts
 msgid "setup.when.option.timedOut"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
 msgid "setup.when.own.denied"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.noFit.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.none"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
 msgid "setup.when.own.syncedLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
 msgid "setup.when.own.syncingLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
-msgid "setup.ask.words"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.pickOtherDays"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.pickDates"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.pickMyself"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.titleDays"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
-msgid "setup.ask.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.reading"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.howTo"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
-msgid "setup.ask.send"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/month-pager.tsx
-msgid "setup.when.monthHint"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
 msgid "setup.when.own.staleLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
 msgid "setup.when.own.syncing"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
-msgid "setup.ask.thanks"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+#: ../../apps/mobile/src/features/setup/when/when-props.ts
 msgid "setup.when.fail.generic"
 msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/when-locked.tsx
-msgid "setup.when.locked.title"
-msgstr "日期已定"
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.reason.fullCrew"
@@ -332,43 +195,27 @@ msgstr ""
 msgid "setup.when.reasonSolo.seasonPeak"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/month-pager.tsx
-msgid "setup.when.today"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+#: ../../apps/mobile/src/features/setup/when/when-props.ts
 msgid "setup.when.fail.rate"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
 msgid "setup.when.own.retry"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
 msgid "setup.when.own.errorLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.titleSolo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.reasonSolo.fareDrop"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/when-locked.tsx
-msgid "setup.when.locked.line"
-msgstr "出行时间：{range}。"
-
-#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
 msgid "setup.when.own.error"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
 msgid "setup.when.own.synced"
 msgstr ""
 
@@ -380,11 +227,11 @@ msgstr ""
 msgid "setup.when.line.pickSolo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
 msgid "setup.when.own.stale"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
 msgid "setup.when.own.none"
 msgstr ""
 

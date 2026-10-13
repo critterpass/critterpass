@@ -6,8 +6,7 @@
  */
 import { describe, expect, it } from '@jest/globals';
 
-import type { DayItem, LockKind } from '@/data/plan/plan-model';
-import { minutesOnDay } from '@/data/plan/plan-model';
+import { type DayItem, type LockKind, minutesOnDay } from '@/data/plan/plan-model';
 
 import { closeGap, outOfPlaceOn } from '../close-gap';
 

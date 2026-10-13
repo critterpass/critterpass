@@ -20,7 +20,7 @@ import {
 import { PushScreen } from '@/ui/premium/shell';
 import { useLocale } from '@/lib/i18n/use-locale';
 
-import type { CheckViewProps } from '../../check/check-view';
+import type { CheckViewProps } from '../../check/check-props';
 import { barTitle } from './bar-title';
 
 export function PremiumCheckView(props: CheckViewProps) {

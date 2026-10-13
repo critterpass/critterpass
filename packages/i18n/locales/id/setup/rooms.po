@@ -7,19 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: id\n"
 
-#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
-msgid "setup.rooms.price.each"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
-msgid "setup.rooms.price.to"
-msgstr ""
-
-#. placeholder {0}: organiser?.name ?? ''
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.waitingStay"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.line.two"
 msgstr ""
@@ -32,52 +19,8 @@ msgstr ""
 msgid "setup.rooms.line.plain"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/rooms/draggable-avatar.tsx
-msgid "setup.rooms.a11y.selected"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/draggable-avatar.tsx
-msgid "setup.rooms.a11y.person"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/stay-card.tsx
-msgid "setup.rooms.nights"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/stay-card.tsx
-msgid "setup.rooms.datesNights"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/stay-card.tsx
-msgid "setup.rooms.samePairs"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/stay-picker.tsx
-msgid "setup.rooms.estimate"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/stay-picker.tsx
-msgid "setup.rooms.estimateQuoted"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.stay.apartment"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
-msgid "setup.rooms.askSwap"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
-msgid "setup.rooms.swapSent"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
-msgid "setup.rooms.price.unequal"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.tag"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
@@ -94,14 +37,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.trait.earlyRisers"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
-msgid "setup.rooms.price.equal"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/stay-card.tsx
-msgid "setup.rooms.freeCancel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
@@ -124,28 +59,12 @@ msgstr ""
 msgid "setup.rooms.chip.snorer"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/rooms/rooms-plan.tsx
-msgid "setup.rooms.unplaced.organiser"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.chip.lightSleeper"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.trait.lightSleepers"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.notice.offline"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.lock"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/room-row.tsx
-msgid "setup.rooms.a11y.moveHere"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
@@ -156,85 +75,9 @@ msgstr ""
 msgid "setup.rooms.trait.nightOwls"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/rooms/stay-picker.tsx
-msgid "setup.rooms.noStays"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-plan.tsx
-msgid "setup.rooms.unplaced.member"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.noStaysLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.evenSplit"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
-msgid "setup.rooms.wishesMissing"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.pickStaySolo"
-msgstr "Pilih jenis penginapan yang kamu mau. Itu menentukan biaya menginapnya."
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.pickStay"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/room-row.tsx
-msgid "setup.rooms.room"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.noDates"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.noStaysTitle"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.stay.ryokan"
 msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/stay-card.tsx
-msgid "setup.rooms.separate"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.skip"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.notice.conflict"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.notice.lockFailed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-plan.tsx
-msgid "setup.rooms.full"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.notice.stayFailed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.notice.stayUnavailable"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.stayGone"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.line.solo"
-msgstr "Ini penginapanmu untuk trip ini."
 
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.traitIn.couple"
@@ -255,27 +98,3 @@ msgstr ""
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.stay.villa"
 msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.titleSolo"
-msgstr "Mau menginap di mana?"
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.soloSkip"
-msgstr "Kamu juga bisa lanjut tanpa memilih."
-
-#: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
-msgid "setup.rooms.wishes"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
-msgid "setup.rooms.price.mine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
-msgid "setup.rooms.price.solo"
-msgstr "Biaya menginapmu:"

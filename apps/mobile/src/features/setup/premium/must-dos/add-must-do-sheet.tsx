@@ -28,10 +28,10 @@ import {
 import { SheetScreen } from '@/ui/premium/shell';
 
 import type { AddMustDoLook } from '../../must-dos/add-must-do-sheet';
-import type { AddSheetViewProps } from '../../must-dos/add-sheet-view';
+import type { AddSheetViewProps } from '../../must-dos/must-dos-props';
 import { pillLabel } from '../../must-dos/lines';
 import type { FitPill } from '../../must-dos/model';
-import { noteText, type MorePlacesProps } from '../../must-dos/more-places-section';
+import { noteText, type MorePlacesProps } from '../../must-dos/more-places';
 import { addSheetRows } from '../../must-dos/result-rows';
 import { PremiumWaiting } from './sheet-waiting';
 

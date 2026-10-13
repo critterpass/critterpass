@@ -29,17 +29,11 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
       },
       { testId: 'dev-nav-accounts', href: '/(dev)/accounts', label: 'Test accounts (two people)' },
       { testId: 'dev-nav-start-fresh', href: '/(dev)/start-fresh', label: 'Start as a new user' },
-      {
-        testId: 'dev-nav-proposal-lab',
-        href: '/(dev)/proposal-lab',
-        label: 'Proposal (3f scenes)',
-      },
       { testId: 'dev-nav-motion-lab', href: '/(dev)/motion-lab', label: 'Motion lab' },
       { testId: 'dev-nav-sticker-lab', href: '/(dev)/sticker-lab', label: 'Sticker lab' },
       { testId: 'dev-nav-gallery', href: '/(dev)/gallery', label: 'Component gallery' },
       { testId: 'dev-nav-premium-kit', href: '/(dev)/premium-kit', label: 'Premium kit' },
       { testId: 'dev-nav-type-lab', href: '/(dev)/type-lab', label: 'Type lab (label centring)' },
-      { testId: 'dev-nav-guide-lab', href: '/(dev)/guide-lab', label: 'Guide (3j, 4b scenes)' },
       {
         testId: 'dev-nav-drivers-lab',
         href: '/(dev)/drivers-lab',
@@ -50,22 +44,7 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         href: '/(dev)/supplier-lab',
         label: 'Suppliers (3h-3, 6f-1 scenes)',
       },
-      {
-        testId: 'dev-nav-plan-edit-lab',
-        href: '/(dev)/plan-edit-lab',
-        label: 'Plan editing (7b-1 stop sheets, 3g-2 scenes)',
-      },
-      {
-        testId: 'dev-nav-plan-views-lab',
-        href: '/(dev)/plan-views-lab',
-        label: 'Plan views (7a, 7b, export and chat card scenes)',
-      },
       { testId: 'dev-nav-go-lab', href: '/(dev)/go-lab', label: 'GO (route preview scenes)' },
-      {
-        testId: 'dev-nav-critters-lab',
-        href: '/(dev)/critters-lab',
-        label: 'Critters (3l scenes)',
-      },
       { testId: 'dev-nav-you-lab', href: '/(dev)/you-lab', label: 'You (3n scenes)' },
       {
         testId: 'dev-nav-monetize-lab',
@@ -73,7 +52,6 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         label: 'Monetize (4b, 4d, 4e scenes)',
       },
       { testId: 'dev-nav-help-lab', href: '/(dev)/help-lab', label: 'Help (3p scenes)' },
-      { testId: 'dev-nav-recap-lab', href: '/(dev)/recap-lab', label: 'Recap (3m scenes)' },
       {
         testId: 'dev-nav-crew-plans',
         href: '/community/da-lat',
@@ -95,39 +73,9 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         label: 'Share the plan, no trip (3o-4)',
       },
       {
-        testId: 'dev-nav-album-lab',
-        href: '/(dev)/album-lab',
-        label: 'Album and postcards (3m-2, 3m-9 scenes)',
-      },
-      {
-        testId: 'dev-nav-setup',
-        href: '/(dev)/setup',
-        label: 'Trip setup (3c-3…3c-10 scenes)',
-      },
-      {
-        testId: 'dev-nav-draft',
-        href: '/(dev)/draft',
-        label: 'Drafting and redrafts (3c-8…3c-12, 4f-3 scenes)',
-      },
-      {
-        testId: 'dev-nav-explore-lab',
-        href: '/(dev)/explore-lab',
-        label: 'Explore (7c, 7e, 7g, 3b-8 scenes)',
-      },
-      {
         testId: 'dev-nav-planning-map-lab',
         href: '/(dev)/planning-map-lab',
         label: 'Planning kit (7a, 7c map, sheet and components)',
-      },
-      {
-        testId: 'dev-nav-plan-ideas-lab',
-        href: '/(dev)/plan-ideas-lab',
-        label: 'Plan ideas (7f-1, 7f-2, 7h-6, 7h-7 scenes)',
-      },
-      {
-        testId: 'dev-nav-search-lab',
-        href: '/(dev)/search-lab',
-        label: 'Search (7d, 7i-2 scenes)',
       },
     ],
   },

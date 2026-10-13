@@ -28,7 +28,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { hoursAndMinutes, nearestLine, wayOutWords } from '../../search/no-results';
+import { hoursAndMinutes, nearestLine, wayOutWords } from '../../search/no-results-words';
 import type { PlainAnswer, WayOut } from '../../search/plain-filters';
 import { Doodle, type DoodleName } from '../components/doodle';
 import { GuideDock } from '../components/guide-dock';

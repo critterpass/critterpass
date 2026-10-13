@@ -5,7 +5,7 @@
 import { plural, t } from '@lingui/core/macro';
 
 import { countWord, monthName, sentenceStart } from './copy';
-import type { WhenModel } from './when-view';
+import type { WhenModel } from './when-props';
 
 export function syncedLine(model: WhenModel): string {
   const calendars = model.synced;

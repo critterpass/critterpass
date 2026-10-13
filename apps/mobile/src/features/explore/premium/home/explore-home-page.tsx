@@ -22,7 +22,7 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import type { ExploreHomeViewProps } from '../../components/explore-home-view';
+import type { ExploreHomeViewProps } from '../../screens/explore-home-screen';
 import { SectionLabel } from '../components/labels';
 
 const COLUMNS = 2;

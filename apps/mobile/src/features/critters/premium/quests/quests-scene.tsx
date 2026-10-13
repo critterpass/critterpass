@@ -21,7 +21,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { QuestsViewProps } from '../../quests/quests-view';
+import type { QuestsViewProps } from '../../quests/quests-model';
 import { SCRIM } from '../components/scrims';
 import { QuestRow } from './quest-row';
 

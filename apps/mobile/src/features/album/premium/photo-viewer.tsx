@@ -28,7 +28,7 @@ import {
 } from '@/ui/premium';
 import { confirmAlert, FullScreen } from '@/ui/premium/shell';
 
-import type { PhotoViewerProps } from '../viewer/photo-viewer';
+import type { PhotoViewerProps } from '../viewer/viewer-screen';
 import type { ViewerLook } from '../viewer/viewer-screen';
 import { VIEWER_PAINT } from './viewer-paint';
 

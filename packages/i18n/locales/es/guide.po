@@ -14,39 +14,27 @@ msgstr ""
 
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.micDeniedBody"
 msgstr ""
 
 #. placeholder {0}: props.guideName
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.deniedBody"
 msgstr ""
 
-#. placeholder {0}: props.passHolder.name
-#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
-msgid "guide.limit.hintLabel"
-msgstr ""
-
 #. placeholder {0}: passHolder.name
-#. placeholder {0}: props.passHolder.name
-#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
 msgid "guide.limit.hint"
 msgstr ""
 
 #. placeholder {0}: meter.used
 #. placeholder {1}: meter.limit
-#: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
 msgid "guide.meter.count"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.plan.cost"
 msgstr ""
 
@@ -58,20 +46,14 @@ msgstr ""
 msgid "guide.premium.voice.me"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
-msgid "guide.voice.consentEyebrow"
-msgstr ""
-
 #: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
-#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.body"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/practice/practice-issue-line.ts
 msgid "guide.practice.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.micDeniedBody"
 msgstr ""
@@ -80,14 +62,12 @@ msgstr ""
 msgid "guide.camera.fairUse"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/use-premium-guide-meter.tsx
 msgid "guide.limit.backAtMidnight"
 msgstr ""
 
 #. placeholder {0}: left.hours
 #. placeholder {1}: left.minutes
-#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/use-premium-guide-meter.tsx
 msgid "guide.limit.backIn"
 msgstr ""
@@ -100,7 +80,6 @@ msgstr ""
 msgid "guide.premium.camera.askLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.count"
 msgstr ""
@@ -117,10 +96,6 @@ msgstr ""
 msgid "guide.camera.askWithMenu"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
-msgid "guide.limit.count"
-msgstr ""
-
 #: ../../apps/mobile/src/features/guide/premium/guide-bubbles.tsx
 msgid "guide.premium.answered"
 msgstr ""
@@ -133,7 +108,6 @@ msgstr ""
 msgid "guide.premium.ping"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.driver"
 msgstr ""
@@ -146,12 +120,10 @@ msgstr ""
 msgid "guide.practice.queued"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.anItem"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderAdd"
 msgstr ""
@@ -160,11 +132,6 @@ msgstr ""
 msgid "guide.step.cost"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
-msgid "guide.header.ai"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.allergies"
 msgstr ""
@@ -174,7 +141,6 @@ msgid "guide.premium.camera.allow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.state.speaking"
 msgstr ""
 
@@ -187,18 +153,12 @@ msgstr ""
 msgid "guide.premium.placeholder"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderAsk"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.askPlaceholder"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
-msgid "guide.limit.askAtMidnight"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/guide-turn-cards.tsx
@@ -209,13 +169,8 @@ msgstr ""
 msgid "guide.premium.knowsNoTrip"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/use-premium-guide-meter.tsx
 msgid "guide.limit.queuePlaceholder"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet-view.tsx
-msgid "guide.composer.placeholder"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/guide-offline.tsx
@@ -230,7 +185,6 @@ msgstr ""
 msgid "guide.premium.back"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderClose"
 msgstr ""
@@ -247,13 +201,11 @@ msgstr ""
 msgid "guide.quick.callCar"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
 msgid "guide.empty.promptSlow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
-#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.cancelAction"
 msgstr ""
 
@@ -261,7 +213,6 @@ msgstr ""
 msgid "guide.queued.cancel"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.checkToggle"
 msgstr ""
@@ -302,7 +253,6 @@ msgstr ""
 msgid "guide.step.balances"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.checking"
 msgstr ""
@@ -335,28 +285,14 @@ msgstr ""
 msgid "guide.premium.pingToast"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
-msgid "guide.chat.copied"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
-msgid "guide.chat.copy"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.avoidLabel"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
-msgid "guide.offer.confirm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.premium.offer.confirm"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.okSaid"
 msgstr ""
@@ -365,7 +301,6 @@ msgstr ""
 msgid "guide.dietary.dairy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.diet"
 msgstr ""
@@ -379,16 +314,13 @@ msgid "guide.premium.dietary.discard"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.done"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.check"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/phrases/show-mode.tsx
 #: ../../apps/mobile/src/features/guide/premium/phrases/phrase-show-screen.tsx
 msgid "guide.phrase.closeHint"
 msgstr ""
@@ -413,7 +345,6 @@ msgstr ""
 msgid "guide.premium.starter.rainLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-conversation.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-thread.tsx
 msgid "guide.chat.earlier"
 msgstr ""
@@ -430,7 +361,6 @@ msgstr ""
 msgid "guide.camera.lang.en"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.full"
 msgstr ""
@@ -451,13 +381,10 @@ msgstr ""
 msgid "guide.dietary.fish"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.caution"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/dietary/dev/lab-scenes-dietary.tsx
-#: ../../apps/mobile/src/features/guide/dietary/dietary-screen.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.title"
@@ -475,17 +402,14 @@ msgstr ""
 msgid "guide.camera.lang.de"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
 msgid "guide.limit.getPass"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.access"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.phrase.loading"
 msgstr ""
@@ -498,25 +422,8 @@ msgstr ""
 msgid "guide.premium.group"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
-msgid "guide.header.groupTab"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
-msgid "guide.voice.groupMode"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+#: ../../apps/mobile/src/features/guide/chat/data/use-guide-sheet.ts
 msgid "guide.header.group"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet-view.tsx
-msgid "guide.sheet.label"
-msgstr ""
-
-#. placeholder {0}: message.body
-#: ../../apps/mobile/src/features/guide/chat/register.ts
-msgid "guide.offer.label"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
@@ -531,28 +438,14 @@ msgstr ""
 msgid "guide.premium.helloName"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
-msgid "guide.chat.helpful"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.read"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
-msgid "guide.empty.greeting"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
-msgid "guide.empty.greetingNoTrip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.spiceHot"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
 msgid "guide.empty.promptCrew"
 msgstr ""
@@ -561,7 +454,7 @@ msgstr ""
 msgid "guide.camera.noDishes"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+#: ../../apps/mobile/src/features/guide/chat/data/guide-failure-line.ts
 msgid "guide.error.moderation"
 msgstr ""
 
@@ -569,19 +462,18 @@ msgstr ""
 msgid "guide.camera.noText"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+#: ../../apps/mobile/src/features/guide/chat/data/guide-failure-line.ts
 msgid "guide.error.cannotCheck"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/practice/practice-issue-line.ts
 msgid "guide.practice.heardNothing"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+#: ../../apps/mobile/src/features/guide/voice/voice-issue-line.ts
 msgid "guide.voice.heardNothing"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.heard"
 msgstr ""
@@ -590,32 +482,24 @@ msgstr ""
 msgid "guide.premium.knows"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+#: ../../apps/mobile/src/features/guide/chat/data/guide-failure-line.ts
 msgid "guide.error.unavailable"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.said"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
-msgid "guide.offline.line"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.inMany"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.inOne"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+#: ../../apps/mobile/src/features/guide/chat/data/guide-failure-line.ts
 msgid "guide.error.busy"
 msgstr ""
 
@@ -623,7 +507,6 @@ msgstr ""
 msgid "guide.premium.starter.whereLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.applied"
 msgstr ""
@@ -640,24 +523,15 @@ msgstr ""
 msgid "guide.camera.lang.ja"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
-msgid "guide.voice.justMe"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.justMe"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
-msgid "guide.header.meTab"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+#: ../../apps/mobile/src/features/guide/chat/data/use-guide-sheet.ts
 msgid "guide.header.privateTrip"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+#: ../../apps/mobile/src/features/guide/chat/data/use-guide-sheet.ts
 msgid "guide.header.private"
 msgstr ""
 
@@ -685,7 +559,6 @@ msgstr ""
 msgid "guide.camera.lang.lo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.learned"
 msgstr ""
@@ -694,35 +567,24 @@ msgstr ""
 msgid "guide.camera.leastSpicy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.consentTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.state.listening"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.listening"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+#: ../../apps/mobile/src/features/guide/voice/voice-issue-line.ts
 msgid "guide.voice.listenFailed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/practice/practice-issue-line.ts
 msgid "guide.practice.listenFailed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
-msgid "guide.help.body"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
-msgid "guide.chat.actionsHint"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
@@ -753,12 +615,10 @@ msgstr ""
 msgid "guide.premium.starter.foodLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.next"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.noCost"
 msgstr ""
@@ -768,7 +628,6 @@ msgid "guide.premium.dietary.noPeanuts"
 msgstr ""
 
 #. placeholder {0}: props.guideName
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.empty"
 msgstr ""
@@ -785,23 +644,15 @@ msgstr ""
 msgid "guide.dietary.spiceNone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
-msgid "guide.chat.notHelpful"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.dietary.notNow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.notNow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.retry"
 msgstr ""
@@ -818,13 +669,8 @@ msgstr ""
 msgid "guide.premium.ofLimit"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderLess"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
-msgid "guide.help.open"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
@@ -845,7 +691,6 @@ msgstr ""
 msgid "guide.premium.practice.opening"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.phrase.showHint"
 msgstr ""
@@ -855,21 +700,12 @@ msgid "guide.camera.orderOne"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/camera/camera-screen.tsx
-#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderFor"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
 msgid "guide.premium.passLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
-msgid "guide.limit.bodyTrip"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
-msgid "guide.limit.body"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
@@ -888,7 +724,6 @@ msgstr ""
 msgid "guide.premium.tool.phrases"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-plan-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.pending"
 msgstr ""
@@ -898,11 +733,6 @@ msgstr ""
 msgid "guide.premium.phrase.play"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
-msgid "guide.camera.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.aim"
 msgstr ""
@@ -923,14 +753,11 @@ msgstr ""
 msgid "guide.quick.practise"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
-#: ../../apps/mobile/src/features/guide/phrases/show-mode.tsx
 #: ../../apps/mobile/src/features/guide/premium/phrases/phrase-show-screen.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.phrase.practise"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.practising"
 msgstr ""
@@ -939,17 +766,12 @@ msgstr ""
 msgid "guide.step.ride"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.propose"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/guide-composer.tsx
 msgid "guide.premium.placeholderOffline"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
-msgid "guide.dietary.avoid"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
@@ -960,22 +782,18 @@ msgstr ""
 msgid "guide.queued.rate"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.retake"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.phrase.deviceVoice"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.scan"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.reading"
 msgstr ""
@@ -984,11 +802,6 @@ msgstr ""
 msgid "guide.step.plan"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
-msgid "guide.limit.resets"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.review"
 msgstr ""
@@ -1005,7 +818,6 @@ msgstr ""
 msgid "guide.queued.edit"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-screen.tsx
 msgid "guide.dietary.save"
 msgstr ""
@@ -1022,17 +834,14 @@ msgstr ""
 msgid "guide.premium.offlineSavedFor"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-screen.tsx
 msgid "guide.dietary.saved"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.say"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.again"
 msgstr ""
@@ -1041,44 +850,34 @@ msgstr ""
 msgid "guide.premium.practice.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
-msgid "guide.practice.title"
-msgstr ""
-
 #: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
 msgid "guide.step.web"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-footer.tsx
 msgid "guide.voice.sendToGroup"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-footer.tsx
-msgid "guide.voice.sentToGroup"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.sent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
+msgid "guide.voice.sentToGroup"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.sesame"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
 msgid "guide.dietary.share"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.shareToggle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
 msgid "guide.dietary.consentTitle"
 msgstr ""
@@ -1095,22 +894,18 @@ msgstr ""
 msgid "guide.premium.camera.askTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderShow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.problemFull"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.ownAllergy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.newItem"
 msgstr ""
@@ -1123,24 +918,17 @@ msgstr ""
 msgid "guide.camera.lang.es"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.spice"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/camera/camera-screen.tsx
-#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.split"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.accessLabel"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
-msgid "guide.chat.filler"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/guide-offline.tsx
@@ -1152,15 +940,10 @@ msgid "guide.premium.stop"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.interrupt"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
-msgid "guide.composer.stop"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+#: ../../apps/mobile/src/features/guide/chat/data/guide-failure-line.ts
 msgid "guide.error.stopped"
 msgstr ""
 
@@ -1168,17 +951,11 @@ msgstr ""
 msgid "guide.premium.offer.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
-msgid "guide.offer.confirmBody"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.removed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.talk"
 msgstr ""
 
@@ -1187,12 +964,10 @@ msgid "guide.premium.talk"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-consent.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
 msgid "guide.voice.consentTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.state.idle"
 msgstr ""
 
@@ -1200,27 +975,23 @@ msgstr ""
 msgid "guide.camera.lang.th"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.ok"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.problem"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.problemOffline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/use-premium-guide-meter.tsx
-#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/practice/practice-issue-line.ts
 msgid "guide.practice.checkFailed"
 msgstr ""
 
@@ -1229,23 +1000,22 @@ msgid "guide.camera.captureFailed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/use-premium-guide-meter.tsx
-#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.refused"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+#: ../../apps/mobile/src/features/guide/meter/use-trail-off.ts
 msgid "guide.limit.trailOff"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+#: ../../apps/mobile/src/features/guide/meter/use-trail-off.ts
 msgid "guide.limit.trailOff30"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+#: ../../apps/mobile/src/features/guide/chat/data/guide-failure-line.ts
 msgid "guide.error.refused"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+#: ../../apps/mobile/src/features/guide/voice/voice-issue-line.ts
 msgid "guide.voice.quota"
 msgstr ""
 
@@ -1253,16 +1023,14 @@ msgstr ""
 msgid "guide.camera.quota"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+#: ../../apps/mobile/src/features/guide/voice/voice-issue-line.ts
 msgid "guide.voice.replyFailed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.phrase.unavailable"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.deniedTitle"
 msgstr ""
@@ -1271,9 +1039,7 @@ msgstr ""
 msgid "guide.camera.noCamera"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.micDeniedTitle"
 msgstr ""
 
@@ -1281,32 +1047,26 @@ msgstr ""
 msgid "guide.camera.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.shareCaption"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
 msgid "guide.dietary.consentBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.state.thinking"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-plan-card.tsx
 msgid "guide.plan.closed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.problemExpired"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.expired"
 msgstr ""
@@ -1316,15 +1076,13 @@ msgid "guide.camera.unsupportedScript"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.textOnly"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/practice/practice-issue-line.ts
 msgid "guide.practice.noModule"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.consentBody"
 msgstr ""
@@ -1342,15 +1100,12 @@ msgstr ""
 msgid "guide.dietary.treeNuts"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-turn-cards.tsx
 msgid "guide.error.retry"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-consent.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
 msgid "guide.voice.consentYes"
 msgstr ""
 
@@ -1358,16 +1113,12 @@ msgstr ""
 msgid "guide.voice.queuedConsent"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/camera/camera-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-consent.tsx
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
 msgid "guide.voice.typeInstead"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
 msgid "guide.meter.unlimited"
 msgstr ""
@@ -1385,31 +1136,23 @@ msgstr ""
 msgid "guide.camera.lang.vi"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+#: ../../apps/mobile/src/features/guide/voice/voice-issue-line.ts
 msgid "guide.voice.noModule"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-consent.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
 msgid "guide.voice.consentNeedsConnection"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
-#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.waiting"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/question-bubble.tsx
-msgid "guide.offline.waiting"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
 msgid "guide.premium.starter.whenLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
 msgid "guide.empty.promptRain"
 msgstr ""
@@ -1423,21 +1166,17 @@ msgid "guide.premium.dietary.discardLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-consent.tsx
-#: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
 msgid "guide.voice.consentBody"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
 msgid "guide.empty.promptFood"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
 msgid "guide.empty.promptWhere"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 #: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
 msgid "guide.empty.promptWhen"
 msgstr ""
@@ -1448,10 +1187,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
 msgid "guide.premium.whoSees"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
-msgid "guide.header.modes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/guide-turn-cards.tsx
@@ -1467,27 +1202,11 @@ msgid "guide.step.phrase"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/use-premium-guide-meter.tsx
-#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.already"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
-msgid "guide.help.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
-msgid "guide.chat.ratedUp"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
-msgid "guide.chat.ratedDown"
-msgstr ""
-
 #. placeholder {0}: offer.taken
-#. placeholder {0}: props.taken
 #. placeholder {1}: offer.total
-#. placeholder {1}: props.total
-#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.mine"
 msgstr ""
@@ -1496,19 +1215,17 @@ msgstr ""
 msgid "guide.camera.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/voice/voice-view.tsx
+#: ../../apps/mobile/src/features/guide/voice/voice-issue-line.ts
 msgid "guide.voice.offlineQueued"
 msgstr ""
 
-#. placeholder {0}: props.guideName
-#: ../../apps/mobile/src/features/guide/crew-mention/guide-chat-hint.tsx
+#: ../../apps/mobile/src/features/guide/premium/crew/crew-hint.tsx
 msgid "guide.crew.spentMidnight"
 msgstr ""
 
-#. placeholder {0}: props.guideName
-#. placeholder {1}: left.hours
-#. placeholder {2}: left.minutes
-#: ../../apps/mobile/src/features/guide/crew-mention/guide-chat-hint.tsx
+#. placeholder {0}: left.hours
+#. placeholder {1}: left.minutes
+#: ../../apps/mobile/src/features/guide/premium/crew/crew-hint.tsx
 msgid "guide.crew.spent"
 msgstr ""
 
@@ -1520,13 +1237,11 @@ msgstr ""
 msgid "guide.premium.dietary.yourNotes"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/camera/menu-order-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderTitle"
 msgstr ""
 
 #. placeholder {0}: props.guideName
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.checkCaption"
 msgstr ""

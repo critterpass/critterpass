@@ -22,7 +22,8 @@ import {
 import { Bob, Ping } from '@/features/critters';
 import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
-import { useIssueLine, type VoiceViewProps } from '../../voice/voice-view';
+import { useIssueLine } from '../../voice/voice-issue-line';
+import { type VoiceViewProps } from '../../voice/voice-screen';
 import { VOICE_PAINT } from '../guide-paint';
 import { Bar } from './voice-wave';
 
