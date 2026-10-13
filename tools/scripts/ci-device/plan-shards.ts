@@ -33,6 +33,13 @@ export const DEFAULT_FLOWS: readonly string[] = [
   'e2e/happy/money.yaml',
 ];
 
+/**
+ * Flows that start from a fresh install and must never inherit another flow's simulator state:
+ * each runs first in its shard. The onboarding journey cleared the app's state right after a flow
+ * that left Live Activities running, and Maestro froze there until the time limit.
+ */
+export const FIRST_IN_SHARD: ReadonlySet<string> = new Set(['e2e/happy/onboarding.yaml']);
+
 /** Expands the `flows` input into repo-root-relative flow files, in order, for one platform. */
 export function selectFlows(input: string, platform: DevicePlatform, root: string): string[] {
   const patterns = input.split(/[\s,]+/).filter(Boolean);
@@ -67,18 +74,20 @@ export function shardMinutes(
 /**
  * Splits the flows into at most `shards` non-empty shards of about equal total time: the longest
  * flow first, each to the shard with the least time so far. A shard keeps its flows in the order
- * they were given.
+ * they were given, except that a flow in `first` (FIRST_IN_SHARD) leads its shard.
  */
 export function splitShards(
   flows: readonly string[],
   shards: number,
   minutes: (flow: string) => number = flowMinutes,
+  first: ReadonlySet<string> = FIRST_IN_SHARD,
 ): string[][] {
   const count = Math.max(1, Math.min(Math.floor(shards), flows.length));
   const out = Array.from({ length: count }, () => ({ total: 0, indexes: [] as number[] }));
   const longestFirst = flows
     .map((flow, index) => ({ index, minutes: minutes(flow) }))
     .sort((a, b) => b.minutes - a.minutes || a.index - b.index);
+  const leads = (index: number): number => (first.has(flows[index] ?? '') ? 1 : 0);
   for (const { index, minutes: length } of longestFirst) {
     const lightest = out.reduce((best, shard) => (shard.total < best.total ? shard : best));
     lightest.total += length;
@@ -86,7 +95,11 @@ export function splitShards(
   }
   return out
     .filter((shard) => shard.indexes.length > 0)
-    .map((shard) => shard.indexes.sort((a, b) => a - b).flatMap((index) => flows[index] ?? []));
+    .map((shard) =>
+      shard.indexes
+        .sort((a, b) => leads(b) - leads(a) || a - b)
+        .flatMap((index) => flows[index] ?? []),
+    );
 }
 
 export interface ShardMatrix {

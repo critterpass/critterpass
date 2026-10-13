@@ -1,0 +1,50 @@
+appId: app.critterpass.dev
+---
+# Leaves the simulator clean for the next flow on iOS: a trip that is on starts Live Activities
+# (the countdown, the critter nearby), and one still running when the next flow clears the app's
+# state froze Maestro there. Developer tools > Live Activities > END ALL ends every activity the
+# app holds, as the app ends them. Home from a cold start through a screen link (TRIPS, then the
+# HOME tab), as in fresh-setup.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - stopApp
+      - openLink: critterpass-dev://trips
+      - runFlow:
+          when:
+            visible: 'Open'
+          commands:
+            - tapOn: 'Open'
+      - extendedWaitUntil:
+          visible:
+            id: 'tab-home'
+          timeout: 30000
+      - tapOn:
+          id: 'tab-home'
+      - scrollUntilVisible:
+          element:
+            id: 'dev-tools-entry'
+          direction: DOWN
+          timeout: 30000
+      - tapOn:
+          id: 'dev-tools-entry'
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-live-activities'
+          direction: DOWN
+          timeout: 20000
+          speed: 20
+      - waitForAnimationToEnd
+      - tapOn:
+          id: 'dev-nav-live-activities'
+      - extendedWaitUntil:
+          visible:
+            id: 'dev-la-end-all'
+          timeout: 15000
+      - tapOn:
+          id: 'dev-la-end-all'
+      - extendedWaitUntil:
+          visible: 'Ended \d+'
+          timeout: 10000
+      - stopApp
