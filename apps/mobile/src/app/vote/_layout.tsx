@@ -1,4 +1,3 @@
-/* eslint-disable lingui/no-unlocalized-strings -- route names, never copy. */
 import { Stack } from 'expo-router/js-stack';
 
 import { deviceVoteServices } from '@/features/vote/data/device-vote-services';
@@ -7,8 +6,7 @@ import { sheetScreens } from '@/lib/navigation/sheet-routes';
 import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { usePremiumUi } from '@/lib/premium-ui';
 import { useMotionMode } from '@/motion/motion-mode';
-import { FULL_SCREEN_ROUTE_OPTIONS, sheetRouteOptions } from '@/ui/premium/shell';
-import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
+import { PremiumStack } from '@/ui/premium/shell/navigation/premium-stack';
 import { SessionGate } from '@/ui/states/SessionGate';
 import { useTheme } from '@/ui/theme';
 
@@ -24,11 +22,7 @@ export default function VoteLayout() {
     <VoteServicesProvider services={deviceVoteServices}>
       <SessionGate>
         {premium ? (
-          <PremiumStack>
-            <PremiumStackScreen name="new-poll" options={sheetRouteOptions('full')} />
-            <PremiumStackScreen name="pitch" options={sheetRouteOptions('full')} />
-            <PremiumStackScreen name="[pollId]/reveal" options={FULL_SCREEN_ROUTE_OPTIONS} />
-          </PremiumStack>
+          <PremiumStack navigator="vote" />
         ) : (
           <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
             {sheetScreens('vote').map((name) => (
