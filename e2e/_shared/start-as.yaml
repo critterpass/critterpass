@@ -54,5 +54,19 @@ appId: app.critterpass.dev
     id: 'start-as-ready'
 - extendedWaitUntil:
     visible:
-      id: 'tab-home'
+      id: 'home-screen|tab-home'
+    timeout: 30000
+# On the premium UI (the only one the flows drive).
+- runFlow: premium-ui.yaml
+# A trip that has turned on can show its welcome page over Home at any later step.
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
     timeout: 30000

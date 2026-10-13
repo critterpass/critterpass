@@ -1,0 +1,157 @@
+appId: app.critterpass.dev
+---
+# Getting around and drivers on this account's trip, in ${LOOK}. The supplier and drivers labs open
+# the real screens on the current trip (their "live" entries push the app's own routes): Getting
+# around (5.24), Find a driver (6.19), and in light the directory (6.25 empty, 6.20 a listed
+# driver), private tours (6.21), the card check that couldn't read it (6.22) and compare (6.23).
+- runFlow:
+    file: trip-dev-lab.yaml
+    env:
+      NAV: dev-nav-supplier-lab
+      LIST: supplier-lab-live-around
+- runFlow:
+    when:
+      visible:
+        id: 'supplier-lab-live-around'
+    commands:
+      - tapOn:
+          id: 'supplier-lab-live-around'
+      - runFlow: trip-deny.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'getting-around'
+          timeout: 30000
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'getting-around-(phrase|ride|transfer)'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '5.24'
+            NAME: getting-around
+            LOOK: ${LOOK}
+- runFlow:
+    file: trip-dev-lab.yaml
+    env:
+      NAV: dev-nav-drivers-lab
+      LIST: drivers-lab-index
+- runFlow:
+    when:
+      visible:
+        id: 'drivers-lab-index'
+    commands:
+      - tapOn:
+          id: 'drivers-lab-index'
+      - extendedWaitUntil:
+          visible:
+            id: 'drivers-find'
+          timeout: 15000
+          optional: true
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '6.19'
+            NAME: find-driver
+            LOOK: ${LOOK}
+      # The directory: empty here, or a listed driver's page when one is.
+      - runFlow:
+          when:
+            true: ${LOOK == 'light'}
+          commands:
+            - scrollUntilVisible:
+                element:
+                  id: 'drivers-find-directory'
+                direction: DOWN
+                timeout: 10000
+                optional: true
+            - runFlow:
+                when:
+                  visible:
+                    id: 'drivers-find-directory'
+                commands:
+                  - tapOn:
+                      id: 'drivers-find-directory'
+                  - extendedWaitUntil:
+                      visible:
+                        id: 'drivers-(empty|row-.*)'
+                      timeout: 15000
+                      optional: true
+                  - runFlow:
+                      when:
+                        visible:
+                          id: 'drivers-empty'
+                      file: shot.yaml
+                      env:
+                        CODE: '6.25'
+                        NAME: nobody-listed
+                        LOOK: ${LOOK}
+                  - runFlow:
+                      when:
+                        visible:
+                          id: 'drivers-row-.*'
+                      commands:
+                        - tapOn:
+                            id: 'drivers-row-.*'
+                        - extendedWaitUntil:
+                            visible:
+                              id: 'drivers-detail'
+                            timeout: 15000
+                            optional: true
+                        - runFlow:
+                            file: shot.yaml
+                            env:
+                              CODE: '6.20'
+                              NAME: driver-detail
+                              LOOK: ${LOOK}
+                        - runFlow: ../../_shared/back.yaml
+                  - runFlow: ../../_shared/back.yaml
+- runFlow:
+    when:
+      true: ${LOOK == 'light'}
+    commands:
+      - runFlow:
+          file: trip-lab-screen.yaml
+          env:
+            NAV: dev-nav-drivers-lab
+            LIST: drivers-lab-index
+            ITEM: drivers-lab-tours
+            READY: drivers-tours
+            CODE: '6.21'
+            NAME: private-tours
+            LOOK: ${LOOK}
+      - runFlow:
+          file: trip-lab-screen.yaml
+          env:
+            NAV: dev-nav-drivers-lab
+            LIST: drivers-lab-index
+            ITEM: drivers-lab-check
+            READY: drivers-(unread|check)
+            CODE: '6.22'
+            NAME: couldnt-read
+            LOOK: ${LOOK}
+      - runFlow:
+          file: trip-lab-screen.yaml
+          env:
+            NAV: dev-nav-drivers-lab
+            LIST: drivers-lab-index
+            ITEM: drivers-lab-compare
+            READY: drivers-compare.*
+            CODE: '6.23'
+            NAME: compare
+            LOOK: ${LOOK}
+# Out of the developer tools, back on Home.
+- repeat:
+    while:
+      notVisible:
+        id: 'home-screen|guide-fab|tab-home'
+    times: 5
+    commands:
+      - runFlow: ../../_shared/back.yaml
+- runFlow:
+    file: ../../_shared/tab.yaml
+    env:
+      TAB: home
+      LABEL: Home

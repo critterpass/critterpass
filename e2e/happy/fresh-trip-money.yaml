@@ -12,46 +12,31 @@ appId: app.critterpass.dev
     file: ../_shared/start-as.yaml
     env:
       SCENARIO: solo_today
+- runFlow:
+    file: subflows/open-wallet.yaml
+    env:
+      HALF: money
+# The crew counts in đồng: the hero's amount carries ₫.
 - extendedWaitUntil:
-    visible:
-      id: 'tab-wallet'
-    timeout: 60000
-- tapOn:
-    id: 'tab-wallet'
-- extendedWaitUntil:
-    visible:
-      id: 'money-balances'
-    timeout: 60000
-- extendedWaitUntil:
-    visible:
-      text: 'VND'
-      id: 'money-currency-chip'
+    visible: '.*[₫đ] ?0.*'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: money-empty
 # Lunch, ₫350,000.
-- tapOn:
-    id: 'money-empty'
-    optional: true
-- runFlow:
-    when:
-      notVisible:
-        id: 'money-add-keypad'
-    commands:
-      - tapOn: 'ADD'
+- runFlow: subflows/open-add-expense.yaml
 - extendedWaitUntil:
     visible:
-      id: 'money-add-keypad'
+      id: 'money-keypad'
     timeout: 10000
 - waitForAnimationToEnd
 - tapOn:
-    id: 'money-add-keypad-key-3'
+    id: 'money-key-3'
 - tapOn:
-    id: 'money-add-keypad-key-5'
+    id: 'money-key-5'
 - tapOn:
-    id: 'money-add-keypad-key-0'
+    id: 'money-key-0'
 - tapOn:
-    id: 'money-add-keypad-key-000'
+    id: 'money-key-000'
 - assertVisible:
     id: 'money-add-amount'
 - runFlow:
@@ -69,32 +54,34 @@ appId: app.critterpass.dev
     id: 'money-add-submit'
 - extendedWaitUntil:
     visible:
-      id: 'money-latest-row'
+      id: 'money-latest'
     timeout: 30000
 - extendedWaitUntil:
-    visible: '(?i).*₫ ?350,000 spent.*'
+    visible:
+      id: 'money-hero-amount'
+      text: '.*350,000.*'
     timeout: 90000
 - assertVisible:
-    id: 'money-hero-solo'
+    id: 'money-hero'
 - waitForAnimationToEnd
 - takeScreenshot: money-after-lunch
 # Dinner, ₫1,250,000.
-- tapOn: 'ADD'
+- runFlow: subflows/open-add-expense.yaml
 - extendedWaitUntil:
     visible:
-      id: 'money-add-keypad'
+      id: 'money-keypad'
     timeout: 10000
 - waitForAnimationToEnd
 - tapOn:
-    id: 'money-add-keypad-key-1'
+    id: 'money-key-1'
 - tapOn:
-    id: 'money-add-keypad-key-2'
+    id: 'money-key-2'
 - tapOn:
-    id: 'money-add-keypad-key-5'
+    id: 'money-key-5'
 - tapOn:
-    id: 'money-add-keypad-key-0'
+    id: 'money-key-0'
 - tapOn:
-    id: 'money-add-keypad-key-000'
+    id: 'money-key-000'
 - runFlow:
     file: subflows/type-expense-name.yaml
     env:
@@ -105,32 +92,34 @@ appId: app.critterpass.dev
     id: 'money-add-submit'
 # SPENT SO FAR and the header count both; LATEST is the dinner.
 - extendedWaitUntil:
-    visible: '(?i).*₫ ?1,600,000 spent.*'
+    visible:
+      id: 'money-hero-amount'
+      text: '.*1,600,000.*'
     timeout: 90000
 - assertVisible:
-    id: 'money-hero-solo'
+    id: 'money-hero'
 - assertVisible:
     id: 'money-solo'
 - assertVisible:
-    id: 'money-latest-row'
+    id: 'money-latest'
     text: '(?i).*dinner.*'
     optional: true
 - assertNotVisible: '.*\$.*'
 - waitForAnimationToEnd
 - takeScreenshot: money-after-dinner
 # A bigger one, ₫9,000,000 for the hotel: the total, now eight digits, still reads whole.
-- tapOn: 'ADD'
+- runFlow: subflows/open-add-expense.yaml
 - extendedWaitUntil:
     visible:
-      id: 'money-add-keypad'
+      id: 'money-keypad'
     timeout: 10000
 - waitForAnimationToEnd
 - tapOn:
-    id: 'money-add-keypad-key-9'
+    id: 'money-key-9'
 - tapOn:
-    id: 'money-add-keypad-key-000'
+    id: 'money-key-000'
 - tapOn:
-    id: 'money-add-keypad-key-000'
+    id: 'money-key-000'
 - runFlow:
     file: subflows/type-expense-name.yaml
     env:
@@ -139,7 +128,9 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'money-add-submit'
 - extendedWaitUntil:
-    visible: '(?i).*₫ ?10,600,000 spent.*'
+    visible:
+      id: 'money-hero-amount'
+      text: '.*10,600,000.*'
     timeout: 90000
 - assertVisible:
     id: 'money-hero-amount'
@@ -148,7 +139,7 @@ appId: app.critterpass.dev
 - takeScreenshot: money-after-hotel
 # Every expense in the history.
 - tapOn:
-    id: 'money-history-link'
+    id: 'money-see-all'
 - extendedWaitUntil:
     visible:
       id: 'money-history'
@@ -161,7 +152,7 @@ appId: app.critterpass.dev
 - assertNotVisible: '.*\$.*'
 # The latest one's detail: an expense nobody edited lists no changes.
 - tapOn:
-    id: 'money-history-row-.*'
+    id: 'money-history-(?!everyone|filters|nomatch|member).*'
     index: 0
 - extendedWaitUntil:
     visible:
@@ -189,17 +180,18 @@ appId: app.critterpass.dev
     notVisible: '(?i)delete this expense\?'
     timeout: 10000
 - assertNotVisible: '.*\$.*'
-- runFlow: ../onboarding/subflows/back.yaml
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
+- runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
-      id: 'money-balances'
+      id: 'money-(ready|none|syncing)'
     timeout: 15000
 # The budget: what was spent against the budget locked in setup, on day 1 of 3.
-- tapOn: 'BUDGET'
+- tapOn:
+    id: 'money-budget'
 - extendedWaitUntil:
     visible:
-      id: 'money-budget'
+      id: 'money-budget-summary|money-budget-set'
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: money-budget
@@ -207,25 +199,20 @@ appId: app.critterpass.dev
     id: 'money-budget-spent'
     text: '.*₫ ?10,600,000.*'
 # Day 1, or day 2 when the run crosses midnight in Vietnam.
-- assertVisible: '(?i)day [12] of 3'
+- assertVisible: '(?i).*day [12] of 3.*'
 - assertNotVisible:
     id: 'money-budget-none'
 - assertNotVisible: '.*\$.*'
 - scrollUntilVisible:
     element:
-      id: 'money-budget-line'
+      id: 'money-budget-pace'
     direction: DOWN
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: money-budget-lower
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 # The trip hub's MONEY tile.
-- tapOn:
-    id: 'tab-trips'
-- extendedWaitUntil:
-    visible:
-      id: 'trip-hub-header-.*'
-    timeout: 30000
+- runFlow: subflows/open-trip-hub.yaml
 - runFlow: subflows/answer-visit-offer.yaml
 # Not centred: the tiles sit near the foot of the hub, which cannot scroll them to the middle of
 # an iPhone's screen, and a centring scroll that cannot get there fails.

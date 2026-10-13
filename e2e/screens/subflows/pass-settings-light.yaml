@@ -1,0 +1,117 @@
+appId: app.critterpass.dev
+---
+# The Settings pages captured in light only, from Settings and back to it: trips saved on this
+# phone (9.05) with a removal asked and cancelled (9.08), help and the idea board (9.06, 9.07) and
+# delete account up to "hold to delete", which is never held (9.09).
+- scrollUntilVisible:
+    element:
+      id: 'you-settings-offline-trips'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'you-settings-offline-trips'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-offline-storage'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'trip-offline-storage'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '9.05'
+            NAME: offline-storage
+            LOOK: light
+      # Remove asks first; the system alert's Cancel keeps the trip.
+      - runFlow:
+          when:
+            visible:
+              id: 'offline-remove-.*'
+          commands:
+            - tapOn:
+                id: 'offline-remove-.*'
+            - waitForAnimationToEnd
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '9.08'
+                  NAME: confirm-remove
+                  LOOK: light
+            - tapOn:
+                text: 'Cancel|CANCEL'
+                optional: true
+            - waitForAnimationToEnd
+- runFlow:
+    file: ../../_shared/back-to.yaml
+    env:
+      MARK: you-settings
+
+- scrollUntilVisible:
+    element:
+      id: 'you-settings-help-centre'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'you-settings-help-centre'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'help-hub'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'help-hub'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '9.06'
+            NAME: help
+            LOOK: light
+      - scrollUntilVisible:
+          element:
+            id: 'help-hub-suggest'
+          direction: DOWN
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'help-hub-suggest'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'help-ideas'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'help-ideas'
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '9.07'
+                  NAME: idea-board
+                  LOOK: light
+- runFlow:
+    file: ../../_shared/back-to.yaml
+    env:
+      MARK: you-settings
+
+- runFlow:
+    file: pass-settings-row.yaml
+    env:
+      ROW: delete-account
+      MARK: you-delete
+      CODE: '9.09'
+      NAME: delete-account
+      LOOK: light

@@ -1,15 +1,18 @@
 appId: app.critterpass.dev
 ---
 # Release gate: crew chat. A new account starts with the staging demo crew, opens the chat from
-# Home, sees the crewmates' messages, sends one that the api accepts (it stops showing "Sending"),
-# and a crewmate answers it: reseeding while this account's message is the newest makes Maya Demo
-# reply through the api, and the reply reaches this device through sync.
+# Home, sees the crewmates' messages, sends one that the api accepts (its line turns from "Waiting
+# for signal" to "Sent …"), and a crewmate answers it: reseeding while this account's message is
+# the newest makes Maya Demo reply through the api, and the reply reaches this device through sync.
 - runFlow:
     file: ../_shared/start-as.yaml
     env:
       SCENARIO: everyday
-- tapOn:
-    id: 'home-header-chat'
+- runFlow:
+    file: ../_shared/tap.yaml
+    env:
+      ID: 'home-chat'
+      LABEL: 'Crew chat'
 - extendedWaitUntil:
     visible:
       id: 'chat-composer'
@@ -19,31 +22,34 @@ appId: app.critterpass.dev
       text: '.*Rin still has to say if they are in.*'
     timeout: 30000
 - tapOn:
-    text: 'Message.*'
+    id: 'chat-input'
 - inputText: 'landing at six'
-- tapOn: 'Send'
+- tapOn:
+    id: 'chat-send'
 - extendedWaitUntil:
     visible:
       text: '.*landing at six.*'
     timeout: 10000
 - extendedWaitUntil:
-    notVisible:
-      text: 'Sending'
+    visible:
+      text: '.*(Sent|Read by).*'
     timeout: 30000
-- takeScreenshot: en-3g-1-chat-sent
-# Back to Home (on Android the first back may only close the keyboard).
-- runFlow: ../onboarding/subflows/back.yaml
+- assertNotVisible: 'Waiting for signal'
+- takeScreenshot: premium-5.03-chat-sent-light
+# The keyboard closes on the first step back, the chat on the next.
 - runFlow:
-    when:
-      notVisible:
-        id: 'dev-tools-entry'
-    file: ../onboarding/subflows/back.yaml
+    file: ../_shared/back-to.yaml
+    env:
+      MARK: home-screen
 - runFlow:
     file: ../_shared/seed-demo.yaml
     env:
       SEED: dev-seed-demo
-- tapOn:
-    id: 'home-header-chat'
+- runFlow:
+    file: ../_shared/tap.yaml
+    env:
+      ID: 'home-chat'
+      LABEL: 'Crew chat'
 - extendedWaitUntil:
     visible:
       text: '.*Got it, see you there.*'

@@ -1,0 +1,111 @@
+appId: app.critterpass.dev
+---
+# From crew settings, as the organiser, light: editing the crew (3.13, cancelled), a member's sheet
+# (3.14), removing them up to the alert (3.15, cancelled) and leaving up to "hand it over first"
+# (3.16, stays). Nothing is changed.
+- runFlow:
+    file: ../../_shared/tap.yaml
+    env:
+      ID: 'crew-settings-edit'
+      LABEL: 'Edit'
+- extendedWaitUntil:
+    visible:
+      id: 'edit-crew'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'edit-crew'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '3.13'
+            NAME: edit-crew
+            LOOK: light
+      - runFlow:
+          file: ../../_shared/back-to.yaml
+          env:
+            MARK: crew-settings
+
+# The second member on the grid (the first can be you).
+- scrollUntilVisible:
+    element:
+      id: 'crew-settings-members'
+    direction: DOWN
+    timeout: 5000
+    optional: true
+- tapOn:
+    id: 'crew-member-.*'
+    index: 1
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'crew-member-sheet'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'crew-member-sheet'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '3.14'
+            NAME: member
+            LOOK: light
+      - runFlow:
+          when:
+            visible:
+              id: 'crew-member-remove'
+          commands:
+            - tapOn:
+                id: 'crew-member-remove'
+            - waitForAnimationToEnd
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '3.15'
+                  NAME: remove-alert
+                  LOOK: light
+            # The system alert's Cancel keeps the member.
+            - tapOn:
+                text: 'Cancel|CANCEL'
+                optional: true
+            - waitForAnimationToEnd
+      - runFlow:
+          file: ../../_shared/back-to.yaml
+          env:
+            MARK: crew-settings
+
+- scrollUntilVisible:
+    element:
+      id: 'crew-settings-leave'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'crew-settings-leave'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'crew-leave'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'crew-leave'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '3.16'
+            NAME: leave-hand-over
+            LOOK: light
+      - tapOn:
+          id: 'crew-leave-stay'
+          optional: true
+      - waitForAnimationToEnd

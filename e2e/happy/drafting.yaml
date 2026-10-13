@@ -11,8 +11,9 @@ appId: app.critterpass.dev
     visible:
       id: 'draft-review'
     timeout: 600000
+# Only the organiser sees the draft yet.
 - assertVisible:
-    id: 'draft-private'
+    id: 'draft-sub'
 - assertVisible:
     id: 'draft-day-1'
 - scrollUntilVisible:
@@ -24,10 +25,10 @@ appId: app.critterpass.dev
 # The sheet's root id isn't in iOS's accessibility tree; its day chips are.
 - extendedWaitUntil:
     visible:
-      id: 'change-day-1'
+      id: 'day-chip-1'
     timeout: 15000
 - tapOn:
-    id: 'change-day-1'
+    id: 'day-chip-1'
 - tapOn:
     id: 'redraft-reason-.*'
     index: 0
@@ -36,7 +37,7 @@ appId: app.critterpass.dev
 # The last free redraft asks first.
 - extendedWaitUntil:
     visible:
-      id: 'redraft-thinking|redraft-diff|last-redraft-use'
+      id: 'redraft-screen|last-redraft-use'
     timeout: 30000
 - runFlow:
     when:
@@ -47,7 +48,7 @@ appId: app.critterpass.dev
           id: 'last-redraft-use'
 - extendedWaitUntil:
     visible:
-      id: 'redraft-diff'
+      id: 'redraft-keep'
     timeout: 600000
 - scrollUntilVisible:
     element:

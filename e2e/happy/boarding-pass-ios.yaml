@@ -1,17 +1,38 @@
 appId: app.critterpass.dev
 ---
-# iOS gate: a flight's boarding pass opens full screen with its code, the screen that turns the
-# brightness up at the gate. The bookings lab's `pass` scene draws it from the lab's fixtures, so
-# the check takes a minute and needs no account.
-- launchApp:
-    clearState: true
+# Release gate (iOS): a flight in the wallet and its boarding pass. A new account starts on the
+# trip that is on tomorrow, with the organiser's SGN → DAD flight that morning; the Wallet's
+# Bookings half has the flight on top, its details open as a pushed screen with the flight's
+# documents, and the pass waits for its check-in scan (no seed carries a scanned barcode, so the
+# full-screen pass with its code is not reachable from a fresh account).
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: trip_tomorrow
+- runFlow:
+    file: subflows/open-wallet.yaml
+    env:
+      HALF: bookings
 - extendedWaitUntil:
     visible:
-      id: 'dev-tools-entry'
-    timeout: 60000
+      id: 'bookings-next-up'
+    timeout: 30000
+- assertVisible: '.*(SGN|DAD).*'
 - tapOn:
-    id: 'dev-tools-entry'
-- runFlow: ../bookings/subflows/open-lab.yaml
+    id: 'bookings-open-details'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-detail'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'bookings-doc-pass(-pending)?'
+    direction: DOWN
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: premium-7.10-flight-detail-light
+# Back is the screen's own chevron (an edge swipe on iOS).
 - runFlow:
-    file: ../bookings/subflows/scene.yaml
-    env: { SCENE: pass, READY: bookings-pass-code, SHOT: 'ios-gate-boarding-pass' }
+    file: ../_shared/back-to.yaml
+    env:
+      MARK: 'bookings-next-up'

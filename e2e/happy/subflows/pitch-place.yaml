@@ -30,24 +30,14 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'explore-pitch'
-      # With one crew the pitch opens at once; with more, or before the new crew has synced,
-      # the page asks which crew gets it (and says there is none until the crew arrives).
+      # With more than one crew the page asks which one.
       - runFlow:
           when:
             visible:
-              id: 'explore-pitch-no-crew'
-          commands:
-            - extendedWaitUntil:
-                visible:
-                  id: 'explore-pitch-crews'
-                timeout: 30000
-      - runFlow:
-          when:
-            visible:
-              id: 'explore-pitch-crews'
+              id: 'explore-crew-picker'
           commands:
             - tapOn:
-                id: 'explore-pitch-crew-.*'
+                id: 'explore-crew-(?!picker).*'
                 index: 0
 - runFlow:
     when:
@@ -56,17 +46,14 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'guest-pitch'
-      # Until the new crew has synced the page asks which crew to pitch to; pick it there.
       - runFlow:
           when:
             visible:
-              id: 'crew-picker'
+              id: 'guest-crew-.*'
           commands:
             - tapOn:
-                id: 'crew-pick-.*'
+                id: 'guest-crew-.*'
                 index: 0
-# The guide's pitch card, done writing: ADD TO THE VOTE turns on once the stream ends. Its quote is
-# written by the AI and sometimes left out, so the flow never waits on it.
 - extendedWaitUntil:
     visible:
       id: 'pitch-card'
@@ -78,3 +65,9 @@ appId: app.critterpass.dev
     timeout: 60000
 - tapOn:
     id: 'pitch-add'
+# The pitch sheet closes onto the place page: back to Home, where the vote shows.
+- extendedWaitUntil:
+    notVisible:
+      id: 'pitch-add'
+    timeout: 30000
+- runFlow: ../../_shared/to-home.yaml

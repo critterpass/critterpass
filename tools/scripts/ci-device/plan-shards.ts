@@ -1,7 +1,7 @@
 /**
  * Splits Maestro flows into shards for the device-run workflow's matrices.
  *
- *   tsx tools/scripts/ci-device/plan-shards.ts --platform ios --shards 3 [--flows "e2e/smoke e2e/home"]
+ *   tsx tools/scripts/ci-device/plan-shards.ts --platform ios --shards 3 [--flows "e2e/smoke e2e/happy"]
  *
  * `--flows` takes repo-root-relative files, directories or globs separated by spaces, commas or
  * newlines; empty means DEFAULT_FLOWS, the three short, stable journeys a labelled pull request runs.

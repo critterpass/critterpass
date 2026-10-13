@@ -98,7 +98,7 @@ appId: app.critterpass.dev
       visible: 'Open'
     commands:
       - tapOn: 'Open'
-- runFlow: ../home/subflows/onboard.yaml
+- runFlow: ../happy/subflows/onboard.yaml
 - openLink:
     link: critterpass-dev://
     optional: true

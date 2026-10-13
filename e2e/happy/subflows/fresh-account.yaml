@@ -5,10 +5,10 @@ appId: app.critterpass.dev
 # demo world for that scenario (e2e/_shared/seed-demo.yaml: dev-seed-demo, dev-seed-demo-inbox,
 # dev-seed-demo-caught-up, dev-seed-demo-vote, dev-seed-demo-vote-final, …).
 - runFlow: fresh-install.yaml
-- runFlow: ../../home/subflows/onboard.yaml
+- runFlow: onboard.yaml
 - extendedWaitUntil:
     visible:
-      id: 'dev-tools-entry'
+      id: 'home-screen'
     timeout: 30000
 - runFlow:
     when:

@@ -1,0 +1,33 @@
+appId: app.critterpass.dev
+---
+# Opens the Settings row `you-settings-${ROW}`, takes `premium-${CODE}-${NAME}-${LOOK}` once
+# ${MARK} shows, and comes back to Settings.
+- scrollUntilVisible:
+    element:
+      id: 'you-settings-${ROW}'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'you-settings-${ROW}'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: '${MARK}'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: '${MARK}'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: ${CODE}
+            NAME: ${NAME}
+            LOOK: ${LOOK}
+- runFlow:
+    file: ../../_shared/back-to.yaml
+    env:
+      MARK: you-settings

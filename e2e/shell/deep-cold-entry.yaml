@@ -6,7 +6,7 @@ appId: app.critterpass.dev
 #
 # A fresh account, then the inbox link with the app stopped.
 - runFlow: ../home/subflows/fresh-install.yaml
-- runFlow: ../home/subflows/onboard.yaml
+- runFlow: ../happy/subflows/onboard.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-join-code'

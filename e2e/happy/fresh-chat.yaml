@@ -7,9 +7,3 @@ appId: app.critterpass.dev
     file: subflows/fresh-chat-steps.yaml
     env:
       LANG: en
-      ADD_EXPENSE: 'ADD AN EXPENSE'
-      MESSAGE_FIELD: 'Message.*'
-      SEND: 'Send'
-      ATTACH: 'Add attachment'
-      VOICE_NOTE: 'Voice note'
-      PAUSE_VOICE: 'Pause voice note'

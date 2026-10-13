@@ -51,7 +51,7 @@ appId: app.critterpass.dev
     when:
       visible:
         id: 'pitch-add'
-    file: ../onboarding/subflows/back.yaml
+    file: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'destination-board'
@@ -93,7 +93,7 @@ appId: app.critterpass.dev
     when:
       notVisible:
         id: 'destination-board'
-    file: ../onboarding/subflows/back.yaml
+    file: ../_shared/back.yaml
 # The crew's only member votes Đà Nẵng on the board. Going to the final with every ballot already
 # on a finalist closes the vote at once: the winner is revealed without a showdown.
 - scrollUntilVisible:
@@ -114,7 +114,7 @@ appId: app.critterpass.dev
           when:
             visible:
               id: 'pitch-search'
-          file: ../onboarding/subflows/back.yaml
+          file: ../_shared/back.yaml
       - scrollUntilVisible:
           element:
             id: 'board-go-to-final'
@@ -125,7 +125,7 @@ appId: app.critterpass.dev
           id: 'board-go-to-final'
       - extendedWaitUntil:
           visible:
-            id: 'winner-reveal'
+            id: 'reveal'
           timeout: 60000
 - extendedWaitUntil:
     visible:
@@ -140,7 +140,7 @@ appId: app.critterpass.dev
     when:
       notVisible:
         id: 'guide-fab'
-    file: ../onboarding/subflows/back.yaml
+    file: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'guide-fab'

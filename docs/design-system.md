@@ -1,23 +1,35 @@
 # Critterpass: design system
 
-Status: implementation contract for `packages/design-tokens`, `apps/mobile/src/ui`, `apps/mobile/src/motion`, extension targets and `apps/web`. Date 2026-09-26.
-Source analysis: `plans/reports/design-analysis-260926-1143-design-system-prototype-report.md` (DS), `...-critter-render-engine-report.md` (RE), `...-off-app-native-surfaces-report.md`, native fact-check. Product rules: [product-decisions.md](product-decisions.md).
+Status: the premium system is the app's only design system (13 Oct 2026, founder: "can drop the old UI code entirely"). The ink system (the dark ink palette, the `apps/mobile/src/ui` kit outside `ui/premium`, its transitions and the screens built on it) is removed from the app; what is left of it below is marked. Product rules: [product-decisions.md](product-decisions.md).
 
 ## 0. Where the design lives
 
 | Asset | Path |
 |---|---|
-| Design source (read-only, never modify) | `design/` (`Critterpass.dc.html`, `Critterpass Prototype.dc.html`, `doodles.js`, `critters-draw-*.js`, `critters-data.js`) |
-| Screen renders (149) | `docs/design-renders/screens/<label with non-alphanumerics → _>.png`, e.g. `3c-9_Pon_s_draft.png` |
-| Screen text + motion caption | `docs/design-renders/screens.json` (`label`, `screenText`, `caption`, `doodles`, `motion`) |
-| Page renders (site, icon, collection, store, social kit) | `docs/design-renders/pages/*.png`, text in `pages-text/` |
-| Render engine probes | `docs/design-renders/engine-probe/` |
+| Design source (read-only, never modify) | `design/premium/*.dc.html`: `CritterPass 00 Index`, `01 Foundations` … `10 Icon Splash and Store`, one file per journey part |
+| Foundations: the baseline every screen follows | [`plans/261010-1701-premium-redesign/foundations-spec.md`](../plans/261010-1701-premium-redesign/foundations-spec.md): screen grammar, colour (light and dark), type, shape and space, materials, components, motion, tab bar |
+| Journey specs | `plans/261010-1701-premium-redesign/reports/design-spec-261010-1701-part-*-report.md` |
+| Screen renders | `docs/design-renders/premium/<code>.png` (`1.01` … `9.24`), titled in `docs/design-renders/premium/screens.json` (`code`, `part`, `partName`, `label`, `file`) |
+| Kit | `apps/mobile/src/ui/premium` (theme, buttons, controls, cards, glass, shell and navigation, motion, states, stickers, text) |
+| Design \| device sheets | `e2e/screens` names each shot `premium-<code>-<state>-<look>`; `pnpm screens:compare` pairs it with the render of its code |
 
-Rule: when a screen is ambiguous, open its PNG + `screens.json` caption; the caption's MOTION line is the motion spec.
+The renders under `docs/design-renders/screens/`, `pages/` and the root `screens.json` are the removed ink system's, kept as a record; nothing pairs with them any more.
+
+Rule: when a screen is ambiguous, open its design HTML (the inline styles are the exact metrics) and its render; the foundations spec settles anything a journey spec leaves open.
+
+## 0.1 The premium system in brief
+
+- **Screen grammar** (foundations §1): root screens with a large title and the tab bar; pushes with the glass `<` back and edge swipe; sheets (native `formSheet`) with a grabber, Cancel left and the bold verb right, swipe down to dismiss (asking first when dirty); full-screen covers with ✕; two-choice alerts for destructive or blocking questions. Every screen lists its ways out.
+- **Colour and type** (foundations §2–§3): light and dark (following the phone or set in Edit profile), SF Pro, Borel for the guide's voice; values come from `usePremiumTheme()`, never hard-coded.
+- **Motion** (foundations §7): three springs (Snappy, Smooth, Lively), press scale, number roll, list entrance, stamp, confetti and cross-fade; native stack transitions, form sheets and `Link.AppleZoom`; Reduce Motion is a 150 ms cross-fade.
+- **Header actions** are glass circles or native toolbar items in the premium ink tint.
+- **Undesigned states** are built from the kit and logged in [undesigned-states.md](undesigned-states.md) (screen, state, rationale) for founder review.
 
 ---
 
 ## 1. Tokens
+
+> App screens take their values from the premium theme (`apps/mobile/src/ui/premium/theme`, foundations §2–§4). The ink palette in this section is the removed app look; the tokens package still generates the values the web, admin and native surfaces use, and the primitives parts of the premium kit share.
 
 One DTCG source in `packages/design-tokens/src/*.tokens.json` → generated TS (`apps/mobile`, `apps/web`, `apps/admin`), Swift (`targets/_shared/Tokens.swift`), Kotlin (`modules/cp-android-surfaces`), CSS vars. Never hard-code hex, size or duration in feature code.
 
@@ -171,96 +183,9 @@ Flat sticker language; rings over shadows.
 
 ---
 
-## 2. Component inventory (`apps/mobile/src/ui`)
+## 2. Components
 
-~160 families. Build primitives first; features compose them. Screen ids are examples.
-
-### 2.1 Shell and navigation
-| Component | Variants | Screens |
-|---|---|---|
-| `Scaffold` | dark / paper / colourHero / scene / map; optional halftone; status-bar style | all |
-| `TabBar` + `GuideFab` | 5 slots HOME · TRIPS · FAB · WALLET · PASS; FAB = context guide sticker; tap → guide sheet, long-press → Help; icon bounce | 17 screens |
-| `BackEyebrow` | "← SECTION" (mirrors in RTL, real icon) | pushed screens |
-| `CloseButton` | 40 pt circle; mandatory on every sheet/rise | 3m-*, 4e-1 |
-| `LargeTitle` | condensed h1, collapses on scroll | 3n-6, all |
-| `HeaderPills` | action pill; status pill (ONLY YOU SEE THIS, LIVE, NO SIGNAL, BOOSTED, countdown) | 3c-9, 3f-6 |
-| `HomeHeader` | greeting, crew switcher ▾, crew pill + badge, bell + badge | 3b-2, 3b-6 |
-| `Sheet` | detents large (.87) / medium / fit; grabber; presenter scale .93; drag-dismiss | 22 screens |
-| `RiseModal` | full-screen modal (checkout, paywall, story, slide-to-board, SOS) | 3f-5, 4e-1 |
-| `StoryPlayer` | 8 segments, 5 s, tap zones, hold-to-pause, visible pause, captions | 3f-2, 3m-3…9 |
-| `StepTabs` | 4-step wizard, done ✓ | 3c-3…3c-7 |
-| `PageDots` | "PAGE n OF 4" | 3a-2…3a-5 |
-| `IslandToast` | pill from top; sticker + 2 lines + optional OPEN; 2.8 s (6 s with action) | global |
-| `Composer` | + attach, input, mic (tap or hold-to-talk) | 3g-1, 3j-1 |
-
-### 2.2 Buttons and inputs
-| Component | Variants | Screens |
-|---|---|---|
-| `PillButton` | primary yellow / green / pink / orange / ink / cream; secondary outline; tertiary link; destructive; sheen; label flap; loading; disabled | all |
-| `SplitCtaRow` | primary + secondary / icon | 7e-1, 3l-3 |
-| `InlineAction` | choice, approve, nudge, ghost (in cards) | 3b-4, 3k-5 |
-| `IconButton` | 40–56 pt dark/cream/on-photo | 7e-1, 3h-3 |
-| `TextField` / `SearchField` | focus ring, live mirror, clear, results | 3a-2, 3b-7 |
-| `CodeBoxes` | 6-box OTP/join (drop digits, valid green, invalid shake); 4-4-4 gift code | 3a-8, 3a-11, 4d-4 |
-| `Keypad` | 3×4 incl. 000, ⌫; amount odometer; ≈ line | 3i-2 |
-| `Toggle` | squash knob; On/Off a11y value | 3a-9, 3n-2 |
-| `Segmented` | 2–4 segments, badge | 3b-4, 7d-2, 4e-1 |
-| `RadioCard` | outline + pick tag ("PON'S PICK") | 3c-4, 3k-8 |
-| `Slider` / `RangePrivateMarkers` / `SegmentBudget` | music/effects; anonymous dots + sweet spot; 10-segment ping budget | 3n-7, 3c-5, 5b-4 |
-| `SlideToConfirm` | 68 h track, critter knob; a11y action | 3f-5, 5b-3 |
-| `HoldRing` | conic fill; green/gold/pink; value-driven (touch or dwell); a11y action | 3l-4, 3l-10, 3n-10 |
-| `SettingsGroup` / `LanguageRow` | value ›, toggle, check, private, destructive | 3n-2, 3n-8 |
-
-### 2.3 Chips and badges
-`ChoiceChip` (tilt + double ring), `FilterChip`, `QuickActionChip`, `InfoPill`, `StatusChip` (BOOKED, VOTE, IN, MAYBE, UNOPENED, PLANNED, BUILDING, ENDED, FREE/BOOST/PASS+), `CountBadge`, `TierLabel` (word + glyph), `StatChipRow`, `TiltedSticker`.
-
-### 2.4 People, critters, stickers
-| Component | Variants | Screens |
-|---|---|---|
-| `Avatar` | initial / photo / critter; member colour; cut-out ring; pending bob | everywhere |
-| `AvatarStack` | overlap −7, +n | 3b-2 |
-| `CritterAvatar` | tier ring (+ glyph) | 3n-1, 3n-4 |
-| `EmptySeat` | dashed, pulsing | 3a-13, 4f-1 |
-| `Sticker` | baked bitmap by default; runtime Skia draw-on for heroes (≤ 2 concurrent); blink via 2 cached frames; locked silhouette; tier edge | everywhere |
-| `GuideLine` | sticker + Borel line in guide colour (Noto Sans Thai italic for Thai, OS italic for CJK); optional bubble | most screens |
-| `SilhouetteSlot` | grey/gold "?" breathing | 3l-2, 3l-8 |
-
-### 2.5 Cards and surfaces
-`Card`, `ListCard`, `TileGrid` (hub 2×2, help, stat), `HeroPanel` (colour + halftone + r40 bottom, sticker over edge), `CountdownCard`, `ActionCard` (slides off when handled), `SuggestionCard`, `DashedAddCard`, `CrewCard`, `EmptyState` (guide pose + title + line + action), `ChecklistProgress` (pending → ticked), `OutboxList` ("SENDS WHEN YOU'RE BACK").
-
-### 2.6 Document artefacts
-`PassportCover`, `PassportPage` (guilloche, photo, bilingual labels, MRZ decorative), `PaperChrome`, `Stamp` (round/rect/dashed pending; ink per context; slam), `Ticket` (notch, tear line, barcode; crew/flight/boost), `Visa` (Pass+ visa, Boost entry stamp), `Receipt` (zig-zag, highlighted OCR lines), `Postcard` (front/back flip), `ManifestCard`, `GiftCard`, `WalletStack` (fanned bookings), `SignatureLayer`.
-
-### 2.7 Data and numbers
-`SegmentedProgress`, `LinearBar`, `ProgressRing`, `Donut`, `MonthBars`, `HourlyCrowd`, `BalanceBars`, `DayBarsVsPlan`, `WeatherStrip`, `CalendarHeatmap`, `PollBars`, `Countdown` (dhms/hms/ms, localised units), `Odometer`, `SplitFlap`, `CountUp`, `StreamText` (reserves final box; word-buffered). Every chart has a text summary for screen readers.
-
-### 2.8 Planning, voting, collaboration
-`DayRow` (drag-reorder + move actions), `DayTimeline` (07–19 grid, 15-min snap, rain band, ghost suggestion, time stepper alt), `DiffRow` (old struck, new bold, reason, ✓/✕), `MustDoRow`, `RoomAssign`, `VoteBoard`, `SplitShowdown`, `ResultTally`, `SwipeStack` (+ buttons), `RateStack`, `LiveOptionCards` (presence cursor), `ChatMessage` (theirs/mine/guide/photo/divider; actions menu), `ChatRichCard` (poll, offer, expense, boost, settled, typing), `ReactionFloats`, `FormatPicker`, `IdeaVoteBox`, `MoodPicker`, `AttachmentThumb`.
-
-### 2.8.1 Planning kit (section 7: `ui/planning`, `ui/map/planning`, `ui/sheet/map-sheet`)
-Props-only pieces every section 7 screen composes (the reads behind them live in `data/plan`, `data/fit`, `data/ideas`, `data/checks`, `data/legs`); each shows in the planning kit lab (`(dev)/planning-map-lab`, scene `kit`, English and Vietnamese).
-
-| Component | Variants / behaviour | Screens |
-|---|---|---|
-| `MapSheet` + `MapSheetScrollView` | Non-modal, no scrim; snaps peek (7a-1 sheet top, 300 of 844 pt, scaled to the screen) / half (452 of 844) / full (the map's top strip left showing); a release settles on the nearest snap, a fling (≥ .55 pt/ms) moves one snap past where it was let go; content scrolls only at full and hands a downward drag back once at its top; content shorter than a snap caps it; Android back lowers one snap before leaving; grabber carries Expand / Collapse a11y actions; a programmatic snap takes 420 `standard`, a release settles in 340 `gesture`; reduced motion fades out, moves, fades in (200) | 7a-1…7a-3, 7c-1 |
-| `PlanningMapCanvas` | Region pack or world tiles (TextureView on Android), the stay marker (yellow diamond, bed), and the layers below; `usePlanningCamera` fits a day above the sheet, flies to a place so it sits above the cards (`padding.bottom`), opens a cluster at its split zoom | 7a, 7b, 7c |
-| `PlaceDotsLayer` | Map layers, no view per place: saved places as paper discs with the category sprite and the saver's colour badge from town zoom (11), Tokek's suggestions as small dots that gather into count bubbles until street zoom (14); size by crew relevance (0–3); a filter dims what it leaves out to 20 % (never removes it, so nothing jumps) | 7a-1, 7c-1, 7c-2 |
-| `StopRouteLayer` | Numbered stops in the day's colour joined by straight segments from the stay and back; other days at 50 %; choosing a day traces its line out from the stay (780 `extra`, ease out; instant under reduced motion) | 7a-1, 7a-2, 7b-1, 7b-2 |
-| `MapLabel` | The only label on the map: paper for a place, the day's colour for a stop; pops in 340 ms `cubic-bezier(.3, 1.5, .5, 1)` (scale .6 → 1, rise 8 pt), reduced motion fades in 240; a live `Marker` on both platforms | 7c-2, 7a-2, 7b-2 |
-| `EdgeIndicator` | "1 ← JATILUWIH": off-screen stops of the chosen day as pills on the edge they lie beyond, level with them, clear of the corners, the chips and the sheet | 7a-1, 7b-1 |
-| `DayChips` | Number over weekday, short colour underline, chosen = filled in the day's colour (or paper on Add to plan) with a ring; corner fit dot green / orange / grey; drop target: every chip dashed, the one under the drag glows yellow; > 8 days scroll | 7a-1, 7b-1, 7f-1, 7f-2 |
-| `PlaceRow`, `PlaceCard`, `PlaceThumb`, `AddButton` | Picture with category disc, name, meta, saver faces, the fit line in its tone (yellow fits, orange only if a stop moves, pink split, secondary none); card outlined when picked, yellow + | 7c-2, 7c-3, 7f-2 |
-| `TimedStop` (`TimeColumn` + `StopCard`) + `LegConnector`, `GapSlot` | Time over length; numbered disc in the day's colour, outlined when it needs a look; dashed leg line with "CAR · 1H10"; dashed free-time slot with an optional time and + | 7a-2, 7b-1, 7f-1 |
-| `TokekNote`, `PlanningDayRow`, `PaceBars`, `PlanningTag`, `MiniRouteSketch` | Guide line + one action (card form adds a plain line); whole-trip day row with tile, tag and five pace bars; status tags filled in their state colour; a day's route as plain views fitted to the card | 7a-1, 7a-3, 7b-1, 7b-3 |
-| `FilterChipRow`, `ReasonGrid`, `StanceBar`, `HourBars`, `OptionRadioCard` | Scrolling chips with counts, chosen fill, removable ×; two-up reason tiles; WANT IT (pink) / RATHER NOT (blue) bar with faces; hourly bars with the fitted slot lit green; radio cards with tags, chosen outlined yellow | 7c-1, 7d-1, 7e-1, 7e-3, 7f-1 |
-
-### 2.9 Map, trip-day, money, camera
-`MapView` (MapLibre + custom style), `MapPin` (place, selected, person, meet-up, you, car, cluster, closed road), `RouteLine`, `PlaceCarousel`, `EtaList`, `CrewRail`, `LeaveByHero`, `PackingChips`, `TimelineList`, `PhraseCard` (TTS play), `EmergencyTiles`, `SettleRow`, `PayMethodChips`, `Viewfinder`, `ScanOverlay`, `ArLabels`, `VoiceOrb` (driven by audio levels), `WatchRow`, `ImportTiles`, `ParsedBookingCard`, `SupplierCard` (verbatim supplier data + attribution + disclosure; never cached).
-
-### 2.10 Critters, recap, monetisation
-Critters: `DexHeader`, `HereNowForms`, `LegendaryBanner`, `SetGrid`, `CritterDetail`, `FormSelector`, `EncounterCard`, `WanderFootprints`, `BefriendReveal`, `MonthStrip`, `QuestCard`, `Egg`, `StickerShelf`.
-Recap: `RecapStatTiles`, `AwardsGrid`, `RouteRider`, `GotAway`, `StampSpread`, `MemoryHero`.
-Monetisation (4e family only): `VisaPaywall`, `ComparisonTable`, `PlanRadioRows`, `BillingToggle`, `PerksChecklist` (server-driven), `LimitMeter`, `SeatsRow`, `TeaserPreview`, `PauseBars`, `KeptPausedChips`.
+The ink kit's component inventory (`apps/mobile/src/ui` outside `ui/premium`: `Scaffold`, `TabBar`, `PillButton`, `Sheet`, `RiseModal` and the rest) is removed. App screens compose `apps/mobile/src/ui/premium` (foundations §6) and their area's own `premium/` pieces; a visual piece with no kit equivalent gets a premium version in the kit, never a legacy import. Native surfaces keep their own section below.
 
 ### 2.11 Native surfaces (Swift in `targets/`, Kotlin in `modules/cp-android-surfaces`)
 Live Activity + Dynamic Island (leave-by, crew, flight→pickup, critter nearby, storm, SOS, vote closing); notification content (vote poster, rich roundup); notification service (avatars, communication notifications); AlarmKit presentation; widgets (countdown S, Critterdex S, vote M interactive, Today L, balances S + NUDGE, crew (Boost), next flight (Pass+), lock-screen inline/circular/rectangular, StandBy); alternate icons (FACE default, the founder's pick of the store-assets directions; PASSPORT, STAMP Pass+, STICKER × light/dark/tinted + earned critter icons). Android: Glance widgets, Live Updates (ProgressStyle/MetricStyle), full-screen alarm Activity, pinned widget request, adaptive/themed icons via activity-alias.
@@ -268,6 +193,8 @@ Live Activity + Dynamic Island (leave-by, crew, flight→pickup, critter nearby,
 ---
 
 ## 3. Motion system (`apps/mobile/src/motion`)
+
+> App screens move by the premium motion (foundations §7) and native transitions. The engine below (the DSL, the shared idle clock, the feedback bus) still drives critters, stickers, the hatch and native surfaces; §3.3's custom JS transitions are removed (pushes, sheets and covers are native).
 
 ### 3.1 DSL → tokens
 The design's `tg-motion` DSL (`kf` segments `offset: tx ty s sx sy r o e=`) compiles to Reanimated keyframes. Transform order translate → rotate → scale; easing per segment; unmentioned props carry forward. Design loops of 6–9 s with holds are **presentation artefacts: entrances play once**. Idle loops run on one shared clock (Reanimated frame clock) so stickers breathe in phase. `motion/presets.ts` exports the presets below; a `slowmo` multiplier (1×/2×/4×) is available in debug builds.
@@ -435,7 +362,7 @@ Earcons for voice mode start/stop listening. All SFX mapped in `packages/design-
 
 ## 7. Designing undesigned states and flows (D11)
 
-Agents design these in code with existing components; founder reviews in the running app. Every screen must implement each applicable state below; add them to the screen's Maestro flow and a Storybook-style `__states__` fixture.
+Agents design these in code with the premium kit (component names in the table below are the removed ink kit's: use the kit's equivalent) and log each in [undesigned-states.md](undesigned-states.md); founder reviews in the running app. Every screen must implement each applicable state below; add them to the screen's Maestro flow and a Storybook-style `__states__` fixture.
 
 | State | Pattern | Copy voice | Components |
 |---|---|---|---|

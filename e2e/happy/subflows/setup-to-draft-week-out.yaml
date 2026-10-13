@@ -1,0 +1,156 @@
+appId: app.critterpass.dev
+---
+# From the dates step to DRAFT MY TRIP: the week, the budget skipped, the rooms (a stay picked and
+# its rooms locked, or the even split), one must-do, and DRAFT MY TRIP. When a crewmate's calendar
+# already offers a window, a week three weeks out is picked instead (the offered one may already be
+# under way, leaving no time to answer a proposal); otherwise the organiser marks days free by hand
+# first, then picks the same week.
+- runFlow:
+    when:
+      visible:
+        id: 'when-cta'
+    commands:
+      - runFlow: pick-week-three-out.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'budget-lock'
+          timeout: 30000
+- runFlow:
+    when:
+      notVisible:
+        id: 'budget-lock'
+    commands:
+      # Days by hand, whatever this phone's calendar already shared on the way in. The step re-lays
+      # itself as the shared days sync, which can scroll the row away under a tap: try again then.
+      - retry:
+          maxRetries: 3
+          commands:
+            - scrollUntilVisible:
+                element:
+                  id: 'own-calendar-action'
+                timeout: 10000
+            # The calendar row is the step's last: at the end of the scroll it stands clear of the
+            # footer. Higher up, the footer's button is drawn over it and takes the tap (LOCK).
+            - swipe:
+                start: 50%, 55%
+                end: 50%, 25%
+            - swipe:
+                start: 50%, 55%
+                end: 50%, 25%
+            - waitForAnimationToEnd
+            - tapOn:
+                id: 'own-calendar-action'
+            - extendedWaitUntil:
+                visible:
+                  id: 'calendar-by-hand'
+                timeout: 10000
+      - tapOn:
+          id: 'calendar-by-hand'
+      - runFlow: mark-week-by-hand.yaml
+      # The saved days reach the crew's counts, and the organiser has a way on.
+      - extendedWaitUntil:
+          visible:
+            id: 'when-cta|when-pick-week'
+          timeout: 60000
+      - assertNotVisible:
+          text: '(?i)nobody has shared their days yet.*'
+      # The best window offered may already be under way: the week is picked by hand instead.
+      - runFlow: pick-week-three-out.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'budget-lock'
+    timeout: 30000
+# A crew of one may skip the budget; a crew with others is offered only LOOKS GOOD, which locks the
+# sweet spot the step suggests. Setting a max has its own gate flow (e2e/happy/fresh-setup-vnd.yaml).
+# The lock is checked first, so whichever applies runs once.
+- runFlow:
+    when:
+      notVisible:
+        id: 'budget-skip'
+    commands:
+      - tapOn:
+          id: 'budget-lock'
+- runFlow:
+    when:
+      visible:
+        id: 'budget-skip'
+    commands:
+      - tapOn:
+          id: 'budget-skip'
+# Rooms. A crew that shares rooms picks the first stay and waits for the rooms the guide splits.
+# A crew of one, or a place with no stay prices, has no rooms to split: the step says the stay
+# splits evenly and LOOKS GOOD accepts that, with no stay picked. If the rooms never show for a
+# crew that needs them, LOOKS GOOD stays off and the wait for must-dos below fails.
+# A destination with no stay prices has no room plan to make: the set-up passes straight to the
+# must-dos, for a crew of any size, and the rooms steps below only run when the step shows.
+- extendedWaitUntil:
+    visible:
+      id: 'setup-rooms-lock|must-dos-add'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'setup-rooms-lock'
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'setup-rooms-stay-option-.*'
+            notVisible:
+              id: 'setup-rooms-even'
+          commands:
+            - tapOn:
+                id: 'setup-rooms-stay-option-.*'
+                index: 0
+            - extendedWaitUntil:
+                visible:
+                  id: 'setup-rooms-room-.*'
+                timeout: 30000
+                optional: true
+      - scrollUntilVisible:
+          element:
+            id: 'setup-rooms-lock'
+          timeout: 10000
+      - tapOn:
+          id: 'setup-rooms-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-add'
+    timeout: 30000
+- tapOn:
+    id: 'must-dos-add'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+- tapOn:
+    id: 'add-must-do-field'
+- inputText: 'Fushimi Inari at sunrise'
+# Kept as typed. The place search answers first (places, or none): the keep row sits under at most
+# two places, above the keyboard, and stops moving once they are in. Tapped before then, the tap
+# lands on a place that has just arrived where the keep row was.
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-place-.*|add-must-do-none'
+    timeout: 20000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'add-must-do-keep'
+# Android shows the row's title in capitals; iOS reads the row whole ("Fushimi Inari at sunrise,
+# Winston").
+- extendedWaitUntil:
+    visible:
+      text: '(?i)fushimi inari at sunrise.*'
+    timeout: 15000
+# KEEP closes the sheet and its keyboard with it; hideKeyboard with no keyboard up is a back press on
+# Android, which would leave setup.
+- scrollUntilVisible:
+    element:
+      id: 'must-dos-draft'
+    timeout: 10000
+- tapOn:
+    id: 'must-dos-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'drafting-screen'
+    timeout: 30000

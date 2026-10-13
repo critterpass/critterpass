@@ -6,6 +6,8 @@ appId: app.critterpass.dev
     clearState: true
     permissions:
       camera: unset
+# On the premium UI (the only one the flows drive).
+- runFlow: ../_shared/premium-ui.yaml
 - runFlow:
     file: subflows/open-dev-screen.yaml
     env:
