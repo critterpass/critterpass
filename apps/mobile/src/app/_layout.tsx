@@ -38,6 +38,7 @@ import {
 } from '@/data/app-session/device-session';
 import { createTravelDataReader, TravelDataReaderProvider } from '@/data/travel-data/client';
 import { DeferredLinkGate, deferredLinkPrimitives } from '@/features/launch/DeferredLinkGate';
+import { PremiumLaunch } from '@/features/launch/premium';
 import { PassSync } from '@/features/onboarding/flow-controller/pass-sync';
 import '@/features/onboarding/routes';
 import '@/features/crew/chat/register';
@@ -101,18 +102,18 @@ import { usePremiumUi } from '@/lib/premium-ui';
 import { ThemeProvider } from '@/lib/theme';
 import { feedback } from '@/motion/feedback';
 import { useMotionMode } from '@/motion/motion-mode';
-import { IslandToast } from '@/motion/island-toast';
+import { IslandToast, toastQueue } from '@/motion/island-toast';
 import { TouchQuietRoot } from '@/lib/interaction/touch-quiet';
-import { LaunchHatch } from '@/features/onboarding/hatch/LaunchHatch';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
-import { PremiumThemeProvider } from '@/ui/premium';
+import { ExternalToasts, PremiumThemeProvider, ToastHost } from '@/ui/premium';
 import { PremiumKeyboardProvider } from '@/ui/premium/shell';
 import { PremiumRootStack } from '@/ui/premium/shell/navigation/premium-root-stack';
 import { Text, useTheme } from '@/ui';
 import { PrimerSheetHost } from '@/ui/permission-primer';
 import { useNoBackAffordanceGuard } from '@/ui/qa/back-affordance';
+import { LaunchHatch } from '@/features/onboarding/hatch/LaunchHatch';
 import { reportTruncatedToastTitle } from '@/ui/qa/toast-title-check';
 import { PremiumRootErrorBoundary } from '@/features/home/premium/recovery/premium-error-boundary';
 import { SessionDatabaseProvider } from '@/ui/states/SessionGate';
@@ -231,7 +232,11 @@ function RootNavigator() {
       <PremiumThemeProvider>
         <PremiumKeyboardProvider>
           <SessionDatabaseProvider value={databaseOpen}>
-            <PremiumRootStack />
+            {/* Toasts queued outside the premium screens show as premium toasts. */}
+            <ToastHost>
+              <PremiumRootStack />
+              <ExternalToasts source={toastQueue} />
+            </ToastHost>
           </SessionDatabaseProvider>
         </PremiumKeyboardProvider>
       </PremiumThemeProvider>
@@ -249,6 +254,22 @@ function RootNavigator() {
         </Stack>
       </SessionDatabaseProvider>
     </NavigationThemeProvider>
+  );
+}
+
+/**
+ * Over the app: the premium launch (its stamp on the first launch only) or the current UI's hatch,
+ * which records the launch screen's reveal either way; and the current UI's island toast, whose
+ * queue the premium UI shows as premium toasts instead.
+ */
+function LaunchAndIsland({ revealed }: { readonly revealed: boolean }) {
+  const premium = usePremiumUi();
+  return (
+    <>
+      {premium ? <PremiumLaunch revealed={revealed} /> : null}
+      <LaunchHatch revealed={revealed} play={!premium} />
+      {premium ? null : <IslandToast Text={Text} onTitleLayout={reportTruncatedToastTitle} />}
+    </>
   );
 }
 
@@ -318,10 +339,9 @@ export default function RootLayout() {
                     <OverlayHost />
                     <PrimerSheetHost />
                     <SharedGrowHost />
-                    <IslandToast Text={Text} onTitleLayout={reportTruncatedToastTitle} />
                     <DevToolsShake />
                     <ShakeToReport />
-                    <LaunchHatch revealed={prewarmed && linksReady} />
+                    <LaunchAndIsland revealed={prewarmed && linksReady} />
                   </ScreenJoltProvider>
                 </MemberFacesRoot>
               </TravelDataReaderProvider>

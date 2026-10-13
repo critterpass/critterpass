@@ -1,0 +1,111 @@
+import { existsSync } from 'node:fs';
+import path from 'node:path';
+
+import { describe, expect, it } from '@jest/globals';
+
+import {
+  openedPath,
+  PRESENTED_ROUTES,
+  presentationOf,
+  screenPlacement,
+  type ScreenPresentation,
+} from '../presentation';
+
+const SHEET: ScreenPresentation = { kind: 'sheet', detents: [1] };
+
+describe('premium presentations', () => {
+  it('names a route file for every listed sheet and modal', () => {
+    const app = path.join(__dirname, '../../../app');
+    for (const route of PRESENTED_ROUTES) {
+      expect([route, existsSync(path.join(app, `${route}.tsx`))]).toEqual([route, true]);
+    }
+  });
+
+  it('treats an unlisted (modal) screen as one that draws itself, and pages as pushes', () => {
+    expect(presentationOf('(modal)/not-listed/yet')).toEqual({ kind: 'drawn' });
+    expect(presentationOf('(modal)')).toEqual({ kind: 'drawn' });
+    expect(presentationOf('vote/[pollId]/index')).toBeUndefined();
+    expect(presentationOf('vote/new-poll')).toEqual(SHEET);
+  });
+});
+
+describe('openedPath', () => {
+  it('follows the first screen of each nested stack', () => {
+    const route = {
+      name: '(trip)',
+      state: {
+        routes: [
+          { name: '[tripId]', state: { routes: [{ name: 'add/[placeId]' }, { name: 'x' }] } },
+        ],
+      },
+    };
+    expect(openedPath(route)).toBe('(trip)/[tripId]/add/[placeId]');
+  });
+
+  it('reads the link params before the nested navigators have rendered', () => {
+    const route = {
+      name: '(trip)',
+      params: { screen: '[tripId]', params: { screen: 'check/gap', params: { tripId: 't' } } },
+    };
+    expect(openedPath(route)).toBe('(trip)/[tripId]/check/gap');
+  });
+
+  it('prefers the child state held on the route over stale params', () => {
+    const route = { name: 'vote', params: { screen: 'new-poll' } };
+    const symbol = Symbol('CHILD_STATE');
+    Object.assign(route, { [symbol]: { routes: [{ name: '[pollId]/index' }] } });
+    expect(openedPath(route)).toBe('vote/[pollId]/index');
+  });
+});
+
+describe('screenPlacement', () => {
+  const stack = (index: number) => ({ type: 'stack', index });
+
+  it('is a root on a tab’s first screen', () => {
+    expect(
+      screenPlacement([stack(0), { type: 'tab', index: 2 }], '(tabs)/wallet/index', undefined),
+    ).toEqual({ kind: 'root', tab: true });
+  });
+
+  it('is pushed on its own stack, and pushed with its group when it is the group’s first page', () => {
+    expect(screenPlacement([stack(1), stack(1)], 'crew/[crewId]/chat', undefined)).toEqual({
+      kind: 'pushed',
+      ownStack: true,
+    });
+    expect(screenPlacement([stack(0), stack(1)], 'crew/[crewId]/chat', undefined)).toEqual({
+      kind: 'pushed',
+      ownStack: false,
+    });
+  });
+
+  it('is presented when its group was opened on it as a sheet or modal', () => {
+    expect(screenPlacement([stack(0), stack(2)], 'vote/new-poll', undefined)).toEqual({
+      kind: 'presented',
+      presentation: SHEET,
+      ownStack: false,
+    });
+    expect(
+      screenPlacement([stack(0), stack(0), stack(1)], '(trip)/[tripId]/settings/dates', undefined),
+    ).toEqual({ kind: 'presented', presentation: { kind: 'modal' }, ownStack: false });
+  });
+
+  it('reads its own presentation when its stack presented it, and is pushed again inside a sheet', () => {
+    expect(screenPlacement([stack(1)], 'you/appearance', SHEET)).toEqual({
+      kind: 'presented',
+      presentation: SHEET,
+      ownStack: true,
+    });
+    // A page pushed inside the sheet the vote group was opened on.
+    expect(screenPlacement([stack(1), stack(2)], 'vote/[pollId]/index', undefined)).toEqual({
+      kind: 'pushed',
+      ownStack: true,
+    });
+  });
+
+  it('is an untabbed root when a cold link opened it with nothing under it', () => {
+    expect(screenPlacement([stack(0), stack(0)], 'community/[id]', undefined)).toEqual({
+      kind: 'root',
+      tab: false,
+    });
+  });
+});

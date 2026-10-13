@@ -39,8 +39,8 @@ export interface ShellAction {
    */
   readonly element?: ReactElement;
   /**
-   * The ink `+` opens a sheet: on a native root screen it grows into the sheet (1.06) before
-   * `onPress` presents the sheet route.
+   * The ink `+` opens a sheet. On a drawn root screen (`PlusSheetMorph`) it grows into the sheet
+   * (1.06); on the native iOS bar the form sheet's own rise plays instead.
    */
   readonly morph?: boolean;
 }
@@ -59,7 +59,11 @@ export function capActions(actions: readonly ShellAction[], max: number): readon
   return [...actions.filter((action) => action.primary !== true), ...primary];
 }
 
-/** The native iOS 26 toolbar: glass items, the ink `+` as the prominent tinted one. */
+/**
+ * The native iOS 26 toolbar: glass items in the premium ink, the ink `+` as the prominent one.
+ * Every item carries the ink tint itself (a toolbar item otherwise takes the system blue), and
+ * none is ever `selected` (UIKit draws a selected bar item on a tinted rounded rectangle).
+ */
 export function NativeHeaderActions({ actions }: { readonly actions: readonly ShellAction[] }) {
   const { color } = usePremiumTheme();
   if (actions.length === 0) return null;
@@ -76,8 +80,10 @@ export function NativeHeaderActions({ actions }: { readonly actions: readonly Sh
             {...(action.text === true ? {} : { icon: action.sfSymbol })}
             accessibilityLabel={action.label}
             onPress={action.onPress}
+            selected={false}
+            tintColor={color.ink}
             {...(action.primary === true
-              ? { variant: 'prominent' as const, tintColor: color.ink, separateBackground: true }
+              ? { variant: 'prominent' as const, separateBackground: true }
               : {})}
           >
             {action.text === true ? action.label : undefined}
@@ -136,6 +142,54 @@ export function DrawnHeaderActions({ actions }: { readonly actions: readonly She
         );
       })}
     </View>
+  );
+}
+
+/** The leading control: the glass back `<` or the ✕ that closes a sheet or modal. */
+export type LeadingKind = 'back' | 'close';
+
+export interface LeadingControlProps {
+  readonly kind: LeadingKind;
+  /** The spoken label ("Back", "Close"). */
+  readonly label: string;
+  readonly onPress: () => void;
+}
+
+/**
+ * The leading control in the native iOS bar, where the bar has no back of its own (the first
+ * screen of a group, a modal's first screen): a system glass item in the premium ink.
+ */
+export function NativeLeadingControl({ kind, label, onPress }: LeadingControlProps) {
+  const { color } = usePremiumTheme();
+  return (
+    <Stack.Toolbar placement="left">
+      <Stack.Toolbar.Button
+        // eslint-disable-next-line lingui/no-unlocalized-strings -- SF Symbol names, never copy.
+        icon={kind === 'back' ? 'chevron.left' : 'xmark'}
+        accessibilityLabel={label}
+        onPress={onPress}
+        selected={false}
+        tintColor={color.ink}
+      />
+    </Stack.Toolbar>
+  );
+}
+
+/** The drawn leading control (Android's bar, headerless pages): a 44 glass circle. */
+export function DrawnLeadingControl({
+  kind,
+  label,
+  onPress,
+  overPhoto = false,
+}: LeadingControlProps & { readonly overPhoto?: boolean }) {
+  return (
+    <GlassIconButton
+      icon={kind}
+      label={label}
+      kind={overPhoto ? 'clear' : 'nav'}
+      testID={kind === 'back' ? 'push-back' : 'push-close'}
+      onPress={onPress}
+    />
   );
 }
 

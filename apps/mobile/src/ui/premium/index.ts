@@ -4,6 +4,8 @@ export { Button, buttonLook } from './buttons/Button';
 export type { ButtonProps, ButtonSize, ButtonVariant } from './buttons/Button';
 export { IconButton } from './buttons/IconButton';
 export type { IconButtonProps, IconButtonTone } from './buttons/IconButton';
+export { PasteButton } from './buttons/PasteButton';
+export type { PasteButtonProps } from './buttons/PasteButton';
 export { TextButton } from './buttons/TextButton';
 export type { TextButtonProps } from './buttons/TextButton';
 export { Spinner } from './feedback/Spinner';
@@ -100,6 +102,8 @@ export type { BannerProps, BannerTone, OfflinePillProps } from './feedback/Banne
 export { Toast, toastText } from './feedback/Toast';
 export type { ToastProps, ToastSpec } from './feedback/Toast';
 export { ToastHost, useToast } from './feedback/ToastHost';
+export { ExternalToasts } from './feedback/external-toasts';
+export type { ExternalToast, ExternalToastSource } from './feedback/external-toasts';
 export type { ToastHostProps } from './feedback/ToastHost';
 export { EmptyState } from './states/EmptyState';
 export type { EmptyStateProps } from './states/EmptyState';

@@ -26,7 +26,6 @@ import {
   usePremiumTheme,
 } from '../..';
 import { useGuideBand } from '../navigation/guide-band';
-import { useToolbarPlusMorph } from '../zoom/toolbar-plus-morph';
 import {
   capActions,
   DrawnHeaderActions,
@@ -100,14 +99,13 @@ interface RootScreenParts {
 
 function NativeRootScreen({ title, actions, children, testID }: RootScreenParts) {
   const t = usePremiumTheme();
-  const morphing = actions.find((action) => action.primary === true && action.morph === true);
-  const noop = useCallback(() => undefined, []);
-  const morph = useToolbarPlusMorph(morphing?.onPress ?? noop);
-  // System buttons only: a toolbar view's content is invisible to VoiceOver on iOS 26.
+  // System buttons only: a toolbar view's content is invisible to VoiceOver on iOS 26. The `+`
+  // opens its sheet straight away: the native form sheet's own rise is the motion (a drawn shape
+  // growing over it played a second sheet on top of the real one).
   const native = actions.map((action): ShellAction => {
     const button: ShellAction = { ...action };
     delete (button as { element?: unknown }).element;
-    return action.key === morphing?.key ? { ...button, onPress: morph.start } : button;
+    return button;
   });
   const options = {
     headerShown: true,
@@ -125,7 +123,6 @@ function NativeRootScreen({ title, actions, children, testID }: RootScreenParts)
       <Stack.Screen options={options} />
       <NativeHeaderActions actions={native} />
       {children({ scrollProps: { contentInsetAdjustmentBehavior: 'automatic' }, largeTitle: null })}
-      {morph.overlay}
     </View>
   );
 }
