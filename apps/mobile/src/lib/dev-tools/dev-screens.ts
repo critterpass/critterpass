@@ -87,13 +87,7 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         href: '/(dev)/critters-lab',
         label: 'Critters (3l scenes)',
       },
-      { testId: 'dev-nav-you-lab', href: '/(dev)/you-lab', label: 'You (3n scenes)' },
-      {
-        testId: 'dev-nav-monetize-lab',
-        href: '/(dev)/monetize-lab',
-        label: 'Monetize (4b, 4d, 4e scenes)',
-      },
-      { testId: 'dev-nav-help-lab', href: '/(dev)/help-lab', label: 'Help (3p scenes)' },
+      { testId: 'dev-nav-help-lab', href: '/(dev)/help-lab', label: 'Shake to report' },
       { testId: 'dev-nav-recap-lab', href: '/(dev)/recap-lab', label: 'Recap (3m scenes)' },
       {
         testId: 'dev-nav-crew-plans',

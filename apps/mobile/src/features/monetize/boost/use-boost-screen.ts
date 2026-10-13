@@ -38,7 +38,7 @@ import { useBillingRows } from '../data/use-billing-rows';
 import { openPrivacy, openTerms } from '../paywall/legal-links';
 import { stampedHref } from '../routes';
 import { boostModel, type BoostOption, type WhoPays } from './boost-model';
-import type { BoostViewProps } from './boost-view';
+import type { BoostViewProps } from './boost-props';
 
 interface CreateIntent {
   readonly intent_id: string;

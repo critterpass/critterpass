@@ -16,7 +16,6 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { sourceLocale } from '@cp/i18n';
 
 import { clearSavedNavigation } from '@/lib/navigation/restore';
-import { premiumUiThisRun } from '@/lib/premium-ui';
 import { PremiumThemeProvider } from '@/ui/premium';
 import { GroupErrorBoundary, RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
 
@@ -60,13 +59,11 @@ function PremiumRecovery({
 }
 
 export function PremiumRootErrorBoundary(props: ErrorBoundaryProps) {
-  const legacy = <RootErrorBoundary {...props} />;
-  return premiumUiThisRun() ? <PremiumRecovery retry={props.retry} fallback={legacy} /> : legacy;
+  return <PremiumRecovery retry={props.retry} fallback={<RootErrorBoundary {...props} />} />;
 }
 
 export function PremiumGroupErrorBoundary(props: ErrorBoundaryProps) {
-  const legacy = <GroupErrorBoundary {...props} />;
-  return premiumUiThisRun() ? <PremiumRecovery fallback={legacy} /> : legacy;
+  return <PremiumRecovery fallback={<GroupErrorBoundary {...props} />} />;
 }
 
 const styles = StyleSheet.create({ root: { flex: 1 } });

@@ -5,6 +5,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { Pressable, View } from 'react-native';
 
+import { PrivateContent } from '@/features/help/shake/PrivateContent';
 import { Tag, Text, TierLabel, usePremiumTheme } from '@/ui/premium';
 
 import { statLabel } from '../../profile/profile-copy';
@@ -120,15 +121,18 @@ export function PassportCard({ model, photoUri, onPassPlus }: PassportCardProps)
           testID="you-profile-stat-critters"
         />
       </View>
-      <Text
-        variant="mono"
-        color={PASS_PAPER.label}
-        numberOfLines={2}
-        accessibilityLabel={t({ id: 'you.premium.mrz', message: 'Machine-readable line' })}
-        testID="you-profile-mrz"
-      >
-        {`${model.mrz}\n${t({ id: 'you.premium.since', message: `SINCE ${model.sinceYear}` })}`}
-      </Text>
+      {/* The machine line is covered in a problem report's screenshot. */}
+      <PrivateContent>
+        <Text
+          variant="mono"
+          color={PASS_PAPER.label}
+          numberOfLines={2}
+          accessibilityLabel={t({ id: 'you.premium.mrz', message: 'Machine-readable line' })}
+          testID="you-profile-mrz"
+        >
+          {`${model.mrz}\n${t({ id: 'you.premium.since', message: `SINCE ${model.sinceYear}` })}`}
+        </Text>
+      </PrivateContent>
     </View>
   );
 }

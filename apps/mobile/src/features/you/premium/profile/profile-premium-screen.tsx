@@ -12,6 +12,7 @@ import { RootScreen } from '@/ui/premium/shell';
 
 import { useMemberFaces } from '../../avatar/member-faces';
 import { useOwnerUid } from '../../data/live-rows';
+import { profileNotice } from '../../profile/notice-slot';
 import { useProfile } from '../../profile/use-profile';
 import { crewHref, NEW_CREW_ROUTE, YOU_ROUTES } from '../../routes';
 import { PassportCard } from './passport-card';
@@ -25,6 +26,7 @@ const RETAKE_ROUTE = '/pass/retake';
 
 export function ProfilePremiumScreen() {
   const th = usePremiumTheme();
+  const Notice = profileNotice();
   const { t } = useLingui();
   const { model } = useProfile();
   const uid = useOwnerUid();
@@ -74,6 +76,11 @@ export function ProfilePremiumScreen() {
           ) : (
             <>
               <View style={{ height: th.space.gap8 }} />
+              {Notice === null ? null : (
+                <View style={{ paddingHorizontal: th.space.gutter, paddingBottom: th.space.gap12 }}>
+                  <Notice />
+                </View>
+              )}
               <PassportCard
                 model={model}
                 photoUri={photoUri}

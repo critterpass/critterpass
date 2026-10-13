@@ -23,7 +23,7 @@ import {
 import { PushScreen } from '@/ui/premium/shell';
 
 import { TRANSFER_ORGANISER } from '../crews-sheet/crew-commands';
-import { returnHome } from '../start-crew/crew-created';
+import { returnHome } from '../start-crew/return-home';
 import { useCrewDetail } from '../settings/use-crew-detail';
 import { firstName } from './crew-copy';
 import { memberAccent } from './crew-look';

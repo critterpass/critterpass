@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
 
 import { ChatLabScene } from '@/features/crew/chat/dev/lab-scene';
-import { HELP_SCENES, ShakeOver } from '@/features/help/dev/lab-scenes';
+import { ShakeOver, ShakeReportScene } from '@/features/help/dev/shake-scenes';
 import { MONEY_LAB_SCENES } from '@/features/money/dev/lab-scenes';
 import { SessionMapNoPackScene } from '@/features/safety/session-map/dev/session-map-scene';
 
@@ -12,7 +12,7 @@ export const __CP_DEV_ROUTE__ = true;
 /** Safety has no lab of its own: its scene is listed with the help centre's. */
 const SAFETY_SCENE = 'sos-map-no-pack';
 
-/** One help centre lab scene, full screen; back returns to the list. */
+/** One shake-to-report lab scene, full screen; back returns to the list. */
 export default function HelpSceneRoute() {
   const { scene } = useLocalSearchParams<{ scene: string }>();
   if (scene === SAFETY_SCENE) return <SessionMapNoPackScene />;
@@ -25,6 +25,5 @@ export default function HelpSceneRoute() {
       </ShakeOver>
     );
   }
-  const render = HELP_SCENES[typeof scene === 'string' ? scene : ''];
-  return render === undefined ? null : render();
+  return scene === 'shake-report' ? <ShakeReportScene /> : null;
 }

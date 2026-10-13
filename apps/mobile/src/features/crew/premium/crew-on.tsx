@@ -31,7 +31,7 @@ import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { useCrewServices } from '../crews-sheet/crew-services';
 import { crewInviteRoute } from '../crews-sheet/routes';
 import { qrChannelLink } from '../invite-composer/qr-path';
-import { returnHome } from '../start-crew/crew-created';
+import { returnHome } from '../start-crew/return-home';
 import { inviteMessage } from './crew-copy';
 import { passInk } from './crew-look';
 import { ShareTarget, SplitFlapCode } from './components/crew-bits';
