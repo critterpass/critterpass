@@ -4,10 +4,11 @@
  * line. Reduce Motion shows it at once.
  */
 import { StyleSheet, View } from 'react-native';
-import Animated, { ZoomIn } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
 import { CritterSticker, Text, usePremiumReducedMotion, usePremiumTheme } from '@/ui/premium';
+import { popIn } from '../entrances';
 
 export function PremiumTrailerSlide(props: {
   readonly guide: GuideStickerId;
@@ -32,10 +33,7 @@ export function PremiumTrailerSlide(props: {
           {props.eyebrow}
         </Text>
       )}
-      <Animated.View
-        key={props.headline}
-        {...(reduced ? {} : { entering: ZoomIn.springify().damping(14) })}
-      >
+      <Animated.View key={props.headline} entering={popIn(reduced, 'lively')}>
         <Text variant="display" numberOfLines={4} accessibilityRole="header">
           {props.headline}
         </Text>

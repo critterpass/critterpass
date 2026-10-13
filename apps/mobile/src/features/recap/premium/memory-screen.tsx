@@ -8,7 +8,7 @@ import { t } from '@lingui/core/macro';
 import { Stack } from 'expo-router';
 import { useContext } from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
-import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { goBackOr } from '@/lib/navigation/back';
@@ -31,6 +31,7 @@ import type { MemoryReactionChip } from '../memory/memory-model';
 import { useMemoryScreen, type MemoryScreenState } from '../memory/use-memory-screen';
 import { PremiumMemoryShare, PremiumReactionSheet } from './memory-sheets';
 import { RECAP_PAINT } from './recap-paint';
+import { popIn } from './entrances';
 
 // eslint-disable-next-line lingui/no-unlocalized-strings -- SQL, never copy.
 const MEMORY_TRIP_SQL = 'SELECT trip_id FROM memories WHERE id = ?';
@@ -45,7 +46,7 @@ function Chip({ chip }: { readonly chip: MemoryReactionChip }) {
   const reduced = usePremiumReducedMotion();
   return (
     <Animated.View
-      entering={reduced ? FadeIn.duration(150) : ZoomIn.springify()}
+      entering={popIn(reduced, 'lively')}
       style={styles.reaction}
       accessible
       accessibilityLabel={reactionA11y(chip)}

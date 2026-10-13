@@ -5,7 +5,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { StyleSheet, View } from 'react-native';
-import Animated, { FadeInDown } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import {
   ListCard,
@@ -17,6 +17,7 @@ import {
 } from '@/ui/premium';
 
 import type { PicksListProps } from '../../your-version/version-model';
+import { riseIn } from '../entrances';
 
 /** One crew colour per row, in turn, so the list reads like the version's colour cards. */
 const DOTS = ['pink', 'sun', 'mint', 'sky', 'tangerine'] as const;
@@ -32,7 +33,7 @@ export function PremiumPicksList({ picks, when, tag: tagOf, onOpen }: PicksListP
         return (
           <Animated.View
             key={pick.itemId}
-            {...(reduced ? {} : { entering: FadeInDown.delay(80 * index).springify() })}
+            {...(reduced ? {} : { entering: riseIn(false, 'smooth', 80 * index) })}
           >
             <PressableScale
               onPress={() => onOpen(pick)}

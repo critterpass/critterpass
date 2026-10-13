@@ -7,7 +7,7 @@
 import { t } from '@lingui/core/macro';
 import { Stack } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
-import Animated, { FadeInDown, FadeOut } from 'react-native-reanimated';
+import Animated, { FadeOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { guideSticker } from '@/ui/avatar/guides';
@@ -23,6 +23,7 @@ import {
 import type { TrailerViewProps } from '../../trailer/trailer-screen';
 import { TrailerPlayer } from './trailer-player';
 import { PremiumTrailerSlide } from './trailer-slide';
+import { riseIn } from '../entrances';
 
 /** Room the foot takes over a slide: the buttons, and the replies when open. */
 const FOOT = 200;
@@ -81,7 +82,7 @@ export function PremiumTrailerView(props: TrailerViewProps) {
               {floats.map((reaction) => (
                 <Animated.View
                   key={reaction.id}
-                  {...(reduced ? {} : { entering: FadeInDown.springify(), exiting: FadeOut })}
+                  {...(reduced ? {} : { entering: riseIn(false), exiting: FadeOut })}
                 >
                   <GlassPill label={`${reaction.author} · ${reaction.text}`} kind="clear" />
                 </Animated.View>

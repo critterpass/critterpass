@@ -5,7 +5,7 @@
  * and the crew who signed it.
  */
 import { View } from 'react-native';
-import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import {
   Avatar,
@@ -21,6 +21,7 @@ import type { GotAwayCardProps } from '../../../story/story-card-views';
 import type { StampCardProps } from '../../../story/story-card-views';
 import { CardFrame, FormSticker } from './card-frame';
 import { useClockReached } from './use-clock';
+import { popIn } from '../../entrances';
 
 export function PremiumGotAwayCard(props: GotAwayCardProps) {
   const th = usePremiumTheme();
@@ -97,10 +98,7 @@ export function PremiumStampCard(props: StampCardProps) {
           ))}
         </View>
         {slammed ? (
-          <Animated.View
-            entering={reduced ? FadeIn.duration(150) : ZoomIn.springify().damping(10)}
-            testID="recap-stamp"
-          >
+          <Animated.View entering={popIn(reduced, 'lively')} testID="recap-stamp">
             <RoundStamp
               word={props.place.toLocaleUpperCase()}
               top={props.top}
