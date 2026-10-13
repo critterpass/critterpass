@@ -17,7 +17,11 @@ export const SCENARIO_CREW_NAMES = {
   trip_today: 'Đà Nẵng Today',
   trip_tomorrow: 'Đà Nẵng Tomorrow',
   draft_ready: 'Đà Nẵng Draft',
+  draft_today: 'Đà Nẵng Draft Today',
   crew_with_code: 'Code Crew',
+  // Long on purpose: the crew's forward address is made from its name.
+  solo_today: 'Just me in Đà Nẵng, three days',
+  solo_tomorrow: 'Just me in Đà Nẵng from tomorrow',
 } as const;
 
 /** In join order; the first paid for the seeded ride. */

@@ -2,8 +2,9 @@
  * The start scenarios of `POST /v1/dev/seed-demo` on a real database: each builds what it says
  * for the caller (read back as the caller, under RLS), from editorial places that already exist
  * and never from places of its own; asking again builds nothing twice; a database without those
- * places leaves nothing behind; a second account joins with the answered code; and the route
- * refuses on production whatever mounted it.
+ * places leaves nothing behind; the solo trips have their budget locked and nothing spent or
+ * booked; a second account joins with the answered code; and the route refuses on production
+ * whatever mounted it.
  */
 import { withSystem, withUser } from '@cp/db';
 import { generateUuidV7 } from '@cp/domain';
@@ -17,6 +18,7 @@ import { registerInviteCommands } from '../../src/commands/invites';
 import { registerOnboardingCommands } from '../../src/commands/onboarding';
 import { registerDevRoutes } from '../../src/dev/routes';
 import { SCENARIO_CREW_NAMES, SCENARIO_CREWMATES } from '../../src/dev/scenario-crew';
+import { SOLO_BUDGET_MINOR } from '../../src/dev/scenario-solo-trip';
 import type { SeedStartResult, StartScenario } from '../../src/dev/scenarios';
 import { startJobProducer } from '../../src/jobs/producer';
 import { testInviteDeps } from '../crews/invite-fixture';
@@ -190,6 +192,20 @@ function seenBy(uid: string, seeded: SeedStartResult) {
   });
 }
 
+/** The trip's locked budget, as stored. */
+async function lockedBudget(seeded: SeedStartResult) {
+  const { rows } = await harness.pool.query<{
+    target_minor: string;
+    currency: string;
+    locked: boolean;
+  }>(
+    `SELECT target_minor::text, currency, locked_at IS NOT NULL AS locked
+       FROM budget_plans WHERE trip_id = $1`,
+    [seeded.trip_id],
+  );
+  return rows[0];
+}
+
 describe('start scenarios', { timeout: 180_000 }, () => {
   it('refuses a trip scenario where the destination has no editorial places, leaving nothing', async () => {
     const caller = await newAccount('No Places');
@@ -290,6 +306,73 @@ describe('start scenarios', { timeout: 180_000 }, () => {
     expect(seen.stops.every((stop) => stop.curation === 'editorial')).toBe(true);
     expect(seen.expenses).toHaveLength(0);
     expect((await seed(caller, 'draft_ready')).trip_id).toBe(seeded.trip_id);
+  });
+
+  it('solo_today: a crew of one on a trip that is on today, its budget locked, nothing spent or booked', async () => {
+    const caller = await newAccount('Solo Tester');
+    const seeded = await seed(caller, 'solo_today');
+    expect(seeded).toMatchObject({ scenario: 'solo_today', created: true });
+    expect(seeded.code).toMatch(/^[A-Z0-9]{6}$/);
+
+    const seen = await seenBy(caller.uid, seeded);
+    expect(seen.trip).toMatchObject({
+      status: 'in_trip',
+      start_date: localDate(0),
+      end_date: localDate(2),
+      local_currency: 'VND',
+      settlement_currency: 'VND',
+    });
+    expect(seen.trip?.current_version_id).not.toBeNull();
+    expect(seen.members).toEqual([{ display_name: 'Solo Tester', rsvp: 'in' }]);
+    expect(seen.stops).toHaveLength(4);
+    expect(seen.stops.every((stop) => stop.curation === 'editorial')).toBe(true);
+    expect(seen.expenses).toEqual([]);
+    expect(seen.bookings).toEqual([]);
+    expect(await lockedBudget(seeded)).toEqual({
+      target_minor: String(SOLO_BUDGET_MINOR),
+      currency: 'VND',
+      locked: true,
+    });
+
+    // Asked again: the same crew and trip, nothing built twice.
+    const again = await seed(caller, 'solo_today');
+    expect(again).toMatchObject({ trip_id: seeded.trip_id, code: seeded.code, created: false });
+    const crews = await harness.pool.query(
+      'SELECT 1 FROM crews WHERE created_by = $1 AND name = $2',
+      [caller.uid, SCENARIO_CREW_NAMES.solo_today],
+    );
+    expect(crews.rows).toHaveLength(1);
+  });
+
+  it('solo_tomorrow: the solo trip confirmed for tomorrow, already in pre_trip', async () => {
+    const caller = await newAccount('Solo Tomorrow');
+    const seeded = await seed(caller, 'solo_tomorrow');
+    const seen = await seenBy(caller.uid, seeded);
+    expect(seen.trip).toMatchObject({
+      status: 'pre_trip',
+      start_date: localDate(1),
+      end_date: localDate(3),
+      settlement_currency: 'VND',
+    });
+    expect(seen.members).toHaveLength(1);
+    expect(seen.expenses).toEqual([]);
+    expect(seen.bookings).toEqual([]);
+    expect((await lockedBudget(seeded))?.locked).toBe(true);
+    expect((await seed(caller, 'solo_tomorrow')).trip_id).toBe(seeded.trip_id);
+  });
+
+  it('draft_today: the crew of one in draft review, its first day today', async () => {
+    const caller = await newAccount('Draft Today');
+    const seeded = await seed(caller, 'draft_today');
+    const seen = await seenBy(caller.uid, seeded);
+    expect(seen.trip).toMatchObject({
+      status: 'draft_review',
+      start_date: localDate(0),
+      end_date: localDate(2),
+      current_version_id: null,
+    });
+    expect(seen.members).toHaveLength(1);
+    expect(seen.stops).toHaveLength(4);
   });
 
   it('crew_with_code: a crew with no trip whose code a second account joins with', async () => {

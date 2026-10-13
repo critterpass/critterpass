@@ -18,7 +18,10 @@ export const DEMO_SCENARIOS = [
   'trip_today',
   'trip_tomorrow',
   'draft_ready',
+  'draft_today',
   'crew_with_code',
+  'solo_today',
+  'solo_tomorrow',
 ] as const;
 export type DemoScenario = (typeof DEMO_SCENARIOS)[number];
 

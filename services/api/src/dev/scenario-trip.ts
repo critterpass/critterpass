@@ -305,6 +305,9 @@ async function addBookings(
   }
 }
 
+/** The steps the solo trips share (./scenario-solo-trip.ts). */
+export { createTrip, localDate, planByHand };
+
 /** Builds the scenario's trip in the caller's crew; returns its id. */
 export async function buildScenarioTrip(
   tx: pg.PoolClient,

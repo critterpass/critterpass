@@ -290,9 +290,12 @@ is a `(dev)` route; the listener is behind the same gate as the shake).
 | `trip_today`     | home Ho Chi Minh City; a crew of six settling in đồng on a locked three-day Đà Nẵng trip that is on today: a plan of editorial places, two split expenses, a stay |
 | `trip_tomorrow`  | the same trip confirmed for tomorrow, with the organiser's flight SGN → DAD that morning                                                                         |
 | `draft_ready`    | a crew of one whose Đà Nẵng trip (two weeks out) has its hand-built plan waiting in draft review; no AI ran                                                       |
+| `draft_today`    | the `draft_ready` crew and plan, with the trip's first day today: a proposal sent from it can be under way the day it is locked in                               |
 | `crew_with_code` | a crew of one with a live join code and no trip                                                                                                                  |
+| `solo_today`     | a crew of one on the Đà Nẵng trip, on today: its budget locked at ₫15,000,000, the plan locked in alone, nothing spent or booked; the crew's long name makes a long forward address |
+| `solo_tomorrow`  | that solo trip confirmed for tomorrow and already `pre_trip` (as the lifecycle sweep leaves it), so a landing starts it                                           |
 
-The four start scenarios answer the crew's join code and are built through the app's own commands
+The start scenarios answer the crew's join code and are built through the app's own commands
 (`services/api/src/dev/scenarios.ts`); each is one crew per account and asking again builds
 nothing twice. The staging api only knows a scenario once the commit that adds it is deployed
 (the release loop deploys `main`): on an older api the screen fails with "this api does not know
