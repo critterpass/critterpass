@@ -17,7 +17,7 @@ import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
 import { guideSticker, isGuideStickerId } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
-import { LoadingCritter } from '@/ui/premium';
+import { PremiumSessionWaiting } from '@/ui/premium';
 
 import { retryRecapCommand } from '../commands';
 import { recapRoutes } from '../routes';
@@ -163,16 +163,8 @@ export function RecapSummaryScreen({
   /** The share sheet. */
   readonly Share: ComponentType<RecapShareProps>;
 }) {
-  const { t } = useLingui();
   const localFirst = useContext(LocalFirstContext);
-  if (localFirst === null) {
-    return (
-      <LoadingCritter
-        label={t({ id: 'recap.summary.loading', message: 'Loading the recap' })}
-        testID="recap-waiting"
-      />
-    );
-  }
+  if (localFirst === null) return <PremiumSessionWaiting testID="recap-waiting" />;
   return <RecapSummary tripId={tripId} ended={ended} View={View} Share={Share} />;
 }
 

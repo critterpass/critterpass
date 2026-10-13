@@ -11,8 +11,7 @@ import { StyleSheet } from 'react-native';
 
 import { renderUi } from '@/ui/test-support/render';
 
-import { heroCaptionInset, PlacePhoto } from '../components/place-hero-photo';
-import { guideFor } from '../format';
+import { PlaceHeroPhoto } from '../premium/place/place-hero-photo';
 import { isGenericPhoto, photosByPlace } from '../place-photo';
 
 const PLACE = '01a0f303-4a14-7992-8b18-b6debcf1c27f';
@@ -71,7 +70,6 @@ describe('a place card photo', () => {
 });
 
 describe("a place page's hero caption", () => {
-  const ACCENT = guideFor('chava').colour;
   type Positioned = { bottom?: number; top?: number; flexDirection?: string };
   const styleOf = (node: { props: { style?: unknown } }): Positioned =>
     StyleSheet.flatten(node.props.style as object) ?? {};
@@ -84,27 +82,20 @@ describe("a place page's hero caption", () => {
     return styleOf(node).bottom;
   };
 
-  it('sits above the sheet, and above the chips a page draws on the photo', () => {
-    expect(heroCaptionInset()).toBe(38);
-    expect(heroCaptionInset(36)).toBe(74);
-  });
-
   it('puts the credit at the bottom inset, never at the top of the photo', async () => {
-    await renderUi(<PlacePhoto photo={own} category="beach" accent={ACCENT} captionInset={74} />);
+    await renderUi(<PlaceHeroPhoto photo={own} category="beach" captionInset={74} />);
     expect(bottomOf('explore-place-hero-credit')).toBe(74);
   });
 
   it('gives the generic label the line above a credit, so the two never overlap', async () => {
     const both = { ...generic, attribution_required: true };
-    await renderUi(<PlacePhoto photo={both} category="beach" accent={ACCENT} captionInset={74} />);
+    await renderUi(<PlaceHeroPhoto photo={both} category="beach" captionInset={74} />);
     expect(bottomOf('explore-place-hero-credit')).toBe(74);
     expect(bottomOf('explore-photo-generic')).toBe(96);
   });
 
   it('keeps a generic label without a credit on the caption line itself', async () => {
-    await renderUi(
-      <PlacePhoto photo={generic} category="beach" accent={ACCENT} captionInset={38} />,
-    );
+    await renderUi(<PlaceHeroPhoto photo={generic} category="beach" captionInset={38} />);
     expect(bottomOf('explore-photo-generic')).toBe(38);
   });
 });

@@ -23,7 +23,6 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { PlacePhoto } from '../../components/place-hero-photo';
 import { dayTitle } from '../../place-detail/model';
 import { usePlaceDetail, type PlaceDetailInput } from '../../place-detail/use-place-detail';
 import { placeIcon } from '../../search/place-icons';
@@ -31,6 +30,7 @@ import { kindWord } from '../../search/search-rows';
 import { SectionLabel } from '../components/labels';
 import { PlaceResultRow } from '../components/place-result-row';
 import { FactTilesRow, KnowBeforeCard, NearbyRow, WhenItFitsCard } from './place-sections';
+import { PlaceHeroPhoto } from './place-hero-photo';
 import { PremiumRemoveForEveryone } from './remove-for-everyone';
 
 const HERO = 330;
@@ -53,12 +53,11 @@ export function PlacePage(props: PlaceDetailInput) {
     <View style={{ flex: 1, backgroundColor: theme.color.ground }} testID="place-detail">
       <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 110 }}>
         <View style={{ height: HERO, overflow: 'hidden' }}>
-          <PlacePhoto
+          <PlaceHeroPhoto
             photo={view.photo}
             heroUrl={view.heroUrl}
             heroCredit={view.heroCredit}
             category={view.category}
-            accent={view.guide.colour}
             captionInset={OVERLAP + theme.space.gap8}
           />
         </View>

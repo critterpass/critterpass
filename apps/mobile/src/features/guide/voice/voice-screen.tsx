@@ -17,7 +17,7 @@ import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
 import { guideSticker } from '@/ui/avatar/guides';
-import { CritterSticker, LoadingCritter } from '@/ui/premium';
+import { CritterSticker, PremiumSessionWaiting } from '@/ui/premium';
 
 import { guideAvatarId } from '../chat/data/guide-avatar';
 import { GuideStreamError } from '../chat/data/guide-frames';
@@ -100,13 +100,9 @@ export interface VoiceScreenProps {
 }
 
 export function VoiceScreen(props: VoiceScreenProps) {
-  const { t } = useLingui();
   const localFirst = useContext(LocalFirstContext);
   return localFirst === null ? (
-    <LoadingCritter
-      label={t({ id: 'guide.voice.waiting', message: 'Getting voice mode ready' })}
-      testID="guide-voice-waiting"
-    />
+    <PremiumSessionWaiting testID="guide-voice-waiting" />
   ) : (
     <ConsentedVoiceScreen {...props} />
   );

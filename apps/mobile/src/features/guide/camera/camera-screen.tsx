@@ -28,7 +28,7 @@ import { goBackOr } from '@/lib/navigation/back';
 import { usePermission } from '@/lib/permissions';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { guideSticker } from '@/ui/avatar/guides';
-import { CritterSticker, LoadingCritter } from '@/ui/premium';
+import { CritterSticker, PremiumSessionWaiting } from '@/ui/premium';
 
 import { guideAvatarId } from '../chat/data/guide-avatar';
 import { GuideStreamError } from '../chat/data/guide-frames';
@@ -98,13 +98,9 @@ export interface CameraScreenProps {
 }
 
 export function CameraScreen(props: CameraScreenProps) {
-  const { t } = useLingui();
   const localFirst = useContext(LocalFirstContext);
   return localFirst === null ? (
-    <LoadingCritter
-      label={t({ id: 'guide.camera.waiting', message: 'Getting the camera ready' })}
-      testID="guide-camera-waiting"
-    />
+    <PremiumSessionWaiting testID="guide-camera-waiting" />
   ) : (
     <OpenCameraScreen {...props} />
   );
