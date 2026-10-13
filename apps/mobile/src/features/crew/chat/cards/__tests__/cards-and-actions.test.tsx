@@ -27,7 +27,7 @@ import {
   seedCrew,
   seedMessage,
 } from '../../test-support/chat-harness';
-import { registerChatCard } from '../registry';
+import { registerPremiumChatCard } from '../../../premium/chat/cards/registry';
 
 let stack: TestLocalFirst | null = null;
 
@@ -66,10 +66,8 @@ async function hold(body: string) {
 
 describe('card registry', () => {
   it('renders a registered card type without touching the chat', async () => {
-    const stop = registerChatCard('poll', {
-      Component: ({ message }) => <Text>{`POLL CARD ${message.body}`}</Text>,
-      estimateHeight: () => 120,
-      a11yLabel: (message) => `Poll: ${message.body}`,
+    const stop = registerPremiumChatCard('poll', {
+      render: (message) => <Text>{`POLL CARD ${message.body}`}</Text>,
     });
     try {
       await chatWith([() => ({ seq: 1, sender: MAYA, type: 'poll', body: 'spa on day 3?' })]);

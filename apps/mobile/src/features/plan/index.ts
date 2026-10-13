@@ -10,11 +10,6 @@ export {
 export { planRoutes } from './overview/routes';
 export { ChangesReviewScreen } from './review/changes-review-screen';
 export {
-  ChangesetChatCard,
-  ChangesetChatCardView,
-  type ChangesetChatCardViewProps,
-} from './review/changeset-chat-card';
-export {
   useChangeset,
   useChangesetActions,
   type ChangesetActions,

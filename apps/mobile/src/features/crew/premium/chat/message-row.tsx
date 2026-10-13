@@ -8,6 +8,8 @@ import { t } from '@lingui/core/macro';
 import { memo, useRef, type ReactNode, type ComponentRef } from 'react';
 import { View } from 'react-native';
 
+import { PrivateContent } from '@/features/help';
+
 import {
   Avatar,
   CritterSticker,
@@ -17,7 +19,6 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { chatCard, renderCard } from '../../chat/cards/registry';
 import { isStickerPose } from '../../chat/cards/sticker-caption';
 import type { ChatMessage } from '../../chat/data/rows';
 import type { ReactionGroup } from '../../chat/data/use-reactions';
@@ -144,15 +145,8 @@ export const PremiumMessageRow = memo(function PremiumMessageRow(props: MessageR
       />
     );
   } else if (message.type !== 'text' && message.type !== 'system') {
-    const card = premiumCard(message.type);
-    // A kind with no premium card yet draws its current one; a kind this build does not know
-    // draws the "needs a newer CritterPass" card.
-    body =
-      card !== undefined
-        ? card.render(message, mine)
-        : chatCard(message.type) !== undefined
-          ? renderCard(message, mine)
-          : premiumCard('unknown')?.render(message, mine);
+    // A kind this build does not know draws the "needs a newer CritterPass" card.
+    body = (premiumCard(message.type) ?? premiumCard('unknown'))?.render(message, mine);
   } else if (guide) {
     body = (
       <View style={[styles.guide, tail(false, last)]}>
@@ -221,7 +215,8 @@ export const PremiumMessageRow = memo(function PremiumMessageRow(props: MessageR
             }
           >
             <View ref={anchor} collapsable={false}>
-              {body}
+              {/* A problem report's screenshot never shows what anyone wrote; the name stays. */}
+              <PrivateContent>{body}</PrivateContent>
             </View>
           </PressableScale>
           <ReactionChips

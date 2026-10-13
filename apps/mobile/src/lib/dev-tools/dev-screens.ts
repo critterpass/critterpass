@@ -45,7 +45,6 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         label: 'Suppliers (3h-3, 6f-1 scenes)',
       },
       { testId: 'dev-nav-go-lab', href: '/(dev)/go-lab', label: 'GO (route preview scenes)' },
-      { testId: 'dev-nav-help-lab', href: '/(dev)/help-lab', label: 'Help (3p scenes)' },
       {
         testId: 'dev-nav-crew-plans',
         href: '/community/da-lat',

@@ -1,7 +1,7 @@
 /**
  * The premium chat's own cards, registered once as the chat loads. Kinds other areas own (polls,
- * expenses, plan changes, proposals, guide offers, boosts) draw through their current card until
- * those areas register a premium one with `registerPremiumChatCard`.
+ * expenses, plan changes, proposals, guide offers, boosts) register theirs with
+ * `registerPremiumChatCard`; a kind nobody registered draws the "unknown" card.
  */
 import { registerPremiumChatCard } from './registry';
 import { PhotoCard, UnknownCard, VoiceCard } from './media-cards';
