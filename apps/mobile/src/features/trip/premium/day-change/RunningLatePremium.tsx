@@ -36,15 +36,19 @@ import {
 } from '../../disruptions/late/copy';
 import { initialSelection } from '../../disruptions/late/model';
 import { SaidLateScreen } from '../../disruptions/late/said-late-screen';
-import { useKnownLate } from '../../disruptions/late/use-known-late';
+import { useKnownLate, type LateScene } from '../../disruptions/late/use-known-late';
 
 function KnownLatePremium({ id }: { readonly id: string }) {
+  return <LateScenePremium late={useKnownLate(id)} />;
+}
+
+/** One running-late scene: a lateness the server opened, or one the traveller is saying now. */
+function LateScenePremium({ late }: { readonly late: LateScene }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const locale = useLocale();
   const insets = useSafeAreaInsets();
   const camera = useRef<CameraRef>(null);
-  const late = useKnownLate(id);
   const p = late.props;
   const [picked, setPicked] = useState<LateOptionKind | null>(null);
   const lines = lateLines();
@@ -245,6 +249,7 @@ export function RunningLatePremium({ id }: { readonly id: string }) {
         stableId={said.stop}
         minutes={lateStep(said.minutes)}
         known={(open) => <KnownLatePremium id={open} />}
+        render={(scene) => <LateScenePremium late={scene} />}
       />
     );
   }

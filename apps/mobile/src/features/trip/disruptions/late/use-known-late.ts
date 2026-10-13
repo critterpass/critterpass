@@ -40,7 +40,7 @@ const GUIDE_SQL = `SELECT g.slug AS guide_slug, g.name AS guide_name, dest.slug 
 const NAMES_SQL = `SELECT u.id, coalesce(u.display_name, '') AS name FROM users u
   WHERE u.id IN (SELECT value FROM json_each(?))`;
 
-interface PlaceRow {
+export interface PlaceRow {
   readonly id: string;
   readonly name: string;
   readonly lat: number;
@@ -49,7 +49,16 @@ interface PlaceRow {
 
 export type KnownLate = ReturnType<typeof useKnownLate>;
 
-export function useKnownLate(id: string) {
+/** What a running-late screen draws: the view's props, the place, the phone's dot and the map. */
+export interface LateScene {
+  readonly props: Omit<LateViewProps, 'map'>;
+  readonly place: PlaceRow | undefined;
+  readonly fix: { readonly lat: number; readonly lng: number } | null;
+  readonly offline: boolean;
+  readonly destinationSlug: string | null;
+}
+
+export function useKnownLate(id: string): LateScene {
   const me = useOwnerUid();
   const words = useGuideText();
   const syncPhase = useSyncPhase();
