@@ -1,0 +1,30 @@
+appId: app.critterpass.dev
+---
+# iOS gate: a push opens its screen. A fresh account goes to the home screen of the phone; the
+# runner delivers the guide's nudge (e2e/notifications/fixtures/ios-guide-nudge.json, deep link
+# /inbox) with `xcrun simctl push`, and tapping the notification opens the inbox. The banner shows
+# for a few seconds; when it has gone, Notification Centre still holds it.
+- runFlow: subflows/fresh-account.yaml
+- pressKey: Home
+- evalScript: "${http.post('http://127.0.0.1:7788/push?fixture=e2e/notifications/fixtures/ios-guide-nudge.json', { body: '{}' }).status}"
+- extendedWaitUntil:
+    visible: '.*vote waiting in the inbox.*'
+    timeout: 20000
+    optional: true
+- runFlow:
+    when:
+      notVisible: '.*vote waiting in the inbox.*'
+    commands:
+      - swipe:
+          start: 25%, 0%
+          end: 25%, 70%
+          duration: 600
+      - extendedWaitUntil:
+          visible: '.*vote waiting in the inbox.*'
+          timeout: 20000
+- tapOn: '.*vote waiting in the inbox.*'
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-filters|inbox-caught-up|inbox-tokek'
+    timeout: 30000
+- takeScreenshot: ios-gate-push-inbox

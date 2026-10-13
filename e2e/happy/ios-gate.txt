@@ -15,3 +15,7 @@ e2e/happy/guide-chat.yaml
 e2e/happy/vote.yaml
 # A Live Activity on the lock screen and in the Dynamic Island.
 e2e/trip/live-activities/lock-screen-ios.yaml
+# A push delivered to the simulator opens its screen when tapped.
+e2e/happy/push-opens-inbox-ios.yaml
+# The boarding pass full screen with its code.
+e2e/happy/boarding-pass-ios.yaml
