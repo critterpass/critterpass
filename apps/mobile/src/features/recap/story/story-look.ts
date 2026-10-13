@@ -7,7 +7,7 @@ import type { ComponentType } from 'react';
 
 import type { StoryCardViews } from './story-card-views';
 import { type ReactNode } from 'react';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import { type CardSharer } from './share-card-image';
 import type { StoryCardSpec } from './story-cards';
 import { type VoiceUrlLoader } from './use-narration';

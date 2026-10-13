@@ -1,4 +1,4 @@
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import type { ChangeCard as ChangeCardModel, MetricChip } from '../data/redraft';
 
 import type { LeftOut } from '../data/left-out';

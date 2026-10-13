@@ -24,7 +24,7 @@ import type { DistanceUnit } from '@cp/i18n';
 import { useMemo, type ReactNode } from 'react';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/premium/stickers/guides';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import { headerEyebrow, headerTitle, tileCopy } from './summary-copy';
 import type { SummaryModel } from './summary-model';
 

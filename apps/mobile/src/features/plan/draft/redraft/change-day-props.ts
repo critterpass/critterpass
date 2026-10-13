@@ -1,6 +1,6 @@
 import type { RedraftReasonKey } from '@cp/domain';
 import { type ReactNode } from 'react';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import type { ReviewDay } from '../data/version';
 
 export interface ChangeDayViewProps {

@@ -5,7 +5,7 @@
 import type { ComponentType } from 'react';
 
 import type { AlbumPhoto } from '../data/album-model';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 import type { POSTCARD_FORMATS } from '@cp/domain';
 

@@ -4,7 +4,7 @@
  */
 import { guideColour, guideIdOr, guideSticker } from '@/ui/premium/stickers/guides';
 import { guideCardTone, type CardTone } from '@/ui/cards/tone';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 export function guideOr(value: string | null | undefined): GuideId {
   return guideIdOr(value);

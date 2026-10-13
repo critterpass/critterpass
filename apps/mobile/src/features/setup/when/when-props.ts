@@ -1,5 +1,5 @@
 import { t } from '@lingui/core/macro';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import type { SetupMember } from '../data/setup-trip';
 import type { ShellFrame } from '../shell/frame';
 import type { HeatMonth, WhenMode, WindowOption } from './model';

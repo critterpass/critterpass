@@ -9,7 +9,7 @@ import { useMemo } from 'react';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { guideIdOr, guideSticker } from '@/ui/premium/stickers/guides';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 import { weekdayOfDate } from './weekday-names';
 

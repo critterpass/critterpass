@@ -1,4 +1,4 @@
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import type { RedraftQuota } from '../data/quota';
 import type { ReviewModel } from '../data/version';
 import { type MissedMustDo } from './review-words';

@@ -8,7 +8,7 @@
 import { TRIP_SETUP_STEPS, type TripSetupStep } from '@cp/domain';
 
 import { isGuideStickerId } from '@/ui/premium/stickers/guides';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 import { useLiveRows } from './rows';
 import { memberFirstName } from '@/lib/people/member-name';

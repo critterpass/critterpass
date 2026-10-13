@@ -8,7 +8,7 @@ import { plural, t } from '@lingui/core/macro';
 
 import { format } from '@cp/i18n';
 
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 import { wholeMoney } from '../summary/summary-copy';
 import type { SummaryModel } from '../summary/summary-model';

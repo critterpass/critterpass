@@ -16,7 +16,7 @@ import { goBackOr } from '@/lib/navigation/back';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
 import { guideSticker, isGuideStickerId } from '@/ui/premium/stickers/guides';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import { PremiumSessionWaiting } from '@/ui/premium';
 
 import { retryRecapCommand } from '../commands';

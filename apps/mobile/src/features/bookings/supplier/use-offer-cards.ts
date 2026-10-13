@@ -6,7 +6,7 @@
 import { ALL_PARTNERS_OFF, supplierCopy, type AffiliatePartner } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 import { currencyDigits, price as formatPrice } from '../format';
 import { useSupplierCopy } from './copy';

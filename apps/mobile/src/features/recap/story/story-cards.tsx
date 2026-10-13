@@ -10,7 +10,7 @@ import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 
 import { guideSticker } from '@/ui/premium/stickers/guides';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 import {
   receiptFooter,

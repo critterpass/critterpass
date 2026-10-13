@@ -11,7 +11,7 @@ import { dayItems } from '@/data/plan/plan-model';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { seatHeldSql } from '@/data/trips/seat-sql';
 import { isGuideStickerId } from '@/ui/premium/stickers/guides';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 import { gapStopsOf } from './gap-stops';
 import { useLiveRows } from './use-live-rows';

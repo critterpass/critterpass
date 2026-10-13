@@ -3,7 +3,7 @@ import type { ComponentType } from 'react';
 
 import type { PostcardCardProps } from '@/features/album';
 import { type ReceiptLine } from '@/ui/documents/Receipt';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import type { FormRow } from '../data/recap-rows';
 import type { RouteStop } from '@/ui/recap/RouteRider';
 import { type StrokeFetch } from '../signature/stroke-store';

@@ -1,6 +1,6 @@
 import type { FareRow } from './fare-rows';
 import type { TransferBooking } from './model';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import type { ReactNode } from 'react';
 
 export interface GettingAroundViewProps {

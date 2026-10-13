@@ -7,7 +7,7 @@
 
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { isGuideStickerId } from '@/ui/premium/stickers/guides';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 import { redraftQuota, type RedraftQuota } from './quota';
 import { useLiveRows } from './rows';

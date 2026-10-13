@@ -15,7 +15,7 @@ import { useEnsurePlanDays } from '@/data/plan/use-plan-days';
 import { useTripPlan, type TripPlan } from '@/data/plan/use-trip-plan';
 import { useRegionPack } from '@/data/places/useRegionPack';
 import { guideIdOr, guideSticker } from '@/ui/premium/stickers/guides';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 import { DESTINATION_PLACES_SQL, PLACES_TABLES } from '../day/queries';
 import { POLLS_SQL, POLLS_TABLES, type OpenPollRow } from '../overview/data/plan-rows';

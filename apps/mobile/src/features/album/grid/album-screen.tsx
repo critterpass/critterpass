@@ -26,7 +26,7 @@ import { UploadBanner, type UploadBannerViewProps } from '../upload/upload-banne
 import { useAlbumUpload } from '../upload/use-album-upload';
 import { AlbumMediaProvider } from './album-media';
 import { type ReactNode } from 'react';
-import { type GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import type { Href } from 'expo-router';
 import {
   type AlbumPerson,

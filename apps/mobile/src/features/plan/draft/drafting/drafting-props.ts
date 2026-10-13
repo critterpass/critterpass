@@ -1,5 +1,5 @@
 import { plural, t } from '@lingui/core/macro';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import { type DayCard, type DraftPhase, type StepRow } from '../data/job';
 
 export interface DraftingViewProps {

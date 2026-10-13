@@ -1,5 +1,5 @@
 import type { ThreadPhase } from './thread-phase';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 export interface VendorThreadCardProps {
   readonly vendor: string;

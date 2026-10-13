@@ -9,7 +9,7 @@ import type { ComponentType } from 'react';
 
 import { searchRoutes } from './routes';
 import { kindWord, useLinkScreen } from './use-link-screen';
-import { type GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import type { LinkImportState } from './link-import-model';
 import type { ImportCandidate } from '@cp/domain';
 import { type PlaceTilePhotos } from '@/data/media/use-place-tile-photos';

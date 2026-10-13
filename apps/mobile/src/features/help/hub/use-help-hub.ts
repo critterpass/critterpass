@@ -18,7 +18,7 @@ import { useHelpArticles } from '../data/use-help-articles';
 import { useHelpSearch } from '../data/use-help-search';
 import { articleHref, feedbackHref } from '../routes';
 import { shakeToReportAvailable, useShakeToReport } from '../shake/shake-pref';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import type { HelpSearchHit } from '../data/help-api';
 
 // eslint-disable-next-line lingui/no-unlocalized-strings -- a route, never copy.

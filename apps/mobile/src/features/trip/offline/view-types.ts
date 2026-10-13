@@ -1,6 +1,6 @@
 import type { QueueChange } from './queue-actions';
 import type { RejectedCommand } from '@/data/status/use-rejected-commands';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import type { MessageDescriptor } from '@lingui/core';
 
 export interface OfflineViewProps {

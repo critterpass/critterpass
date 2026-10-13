@@ -11,7 +11,7 @@ import { format } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/premium/stickers/guides';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import { Button, EmptyState, LoadingCritter, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
