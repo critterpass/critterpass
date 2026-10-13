@@ -1,63 +1,42 @@
 /* eslint-disable lingui/no-unlocalized-strings -- route names, not copy. */
-import { Stack } from 'expo-router/js-stack';
 import { useMemo } from 'react';
 
 import { registerBookingsScreens } from '@/features/bookings/routes';
-import { WALLET_HALF_OPTIONS } from '@/features/bookings/stack/wallet-halves';
 import { deviceMoneyServices } from '@/features/money/data/device-services';
 import { MoneyServicesProvider } from '@/features/money/data/services';
 import { registerMoneyScreens } from '@/features/money/routes';
 import { LocalFirstGate } from '@/features/trip/hub/local-first-gate';
-import { pushTransition } from '@/lib/navigation/transitions';
-import { usePremiumUi } from '@/lib/premium-ui';
-import { useMotionMode } from '@/motion/motion-mode';
 import { sheetRouteOptions } from '@/ui/premium/shell';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
-import { useTheme } from '@/ui/theme';
 
 import { getOcr } from '../../../../modules/cp-ocr';
 
 registerMoneyScreens();
 registerBookingsScreens();
 
-/** The halves swap in place in the premium stack too. */
-const PREMIUM_HALF_OPTIONS = { animation: 'none', gestureEnabled: false } as const;
+/** The halves swap in place: no transition, no back swipe. */
+const HALF_OPTIONS = { animation: 'none', gestureEnabled: false } as const;
 
 export const unstable_settings = { initialRouteName: 'money/index' };
 
 /**
  * The WALLET tab: BOOKINGS | MONEY. Money's Balances opens first and the switch swaps the halves in
- * place (no transition, no back swipe); Budget pushes inside the tab (it keeps the tab bar). The bookings half registers its own screens under `bookings/`.
+ * place; Budget pushes inside the tab (it keeps the tab bar), the trip and currency pickers are
+ * native sheets. The bookings half registers its own screens under `bookings/`.
  */
 export default function WalletLayout() {
-  const { motion } = useTheme();
-  const [motionMode] = useMotionMode();
   const services = useMemo(() => deviceMoneyServices(getOcr()), []);
-  const premium = usePremiumUi();
-  // Either tab bar can show this tab before the local database is open (the premium one mounts it
-  // at launch, a cold start through a link lands on another tab a tap away); the halves read it as
+  // The tab bar mounts this tab at launch, before the local database is open; the halves read it as
   // they render, so they wait for it here.
-  if (premium) {
-    return (
-      <LocalFirstGate>
-        <MoneyServicesProvider services={services}>
-          <PremiumStack>
-            <PremiumStackScreen name="money/index" options={PREMIUM_HALF_OPTIONS} />
-            <PremiumStackScreen name="bookings" options={PREMIUM_HALF_OPTIONS} />
-            <PremiumStackScreen name="money/currency" options={sheetRouteOptions('half')} />
-            <PremiumStackScreen name="money/trip" options={sheetRouteOptions('half')} />
-          </PremiumStack>
-        </MoneyServicesProvider>
-      </LocalFirstGate>
-    );
-  }
   return (
     <LocalFirstGate>
       <MoneyServicesProvider services={services}>
-        <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
-          <Stack.Screen name="money/index" options={WALLET_HALF_OPTIONS} />
-          <Stack.Screen name="bookings" options={WALLET_HALF_OPTIONS} />
-        </Stack>
+        <PremiumStack>
+          <PremiumStackScreen name="money/index" options={HALF_OPTIONS} />
+          <PremiumStackScreen name="bookings" options={HALF_OPTIONS} />
+          <PremiumStackScreen name="money/currency" options={sheetRouteOptions('half')} />
+          <PremiumStackScreen name="money/trip" options={sheetRouteOptions('half')} />
+        </PremiumStack>
       </MoneyServicesProvider>
     </LocalFirstGate>
   );

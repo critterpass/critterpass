@@ -16,22 +16,23 @@ import { useFlag } from '@/lib/analytics/flags';
 import { goBackOr } from '@/lib/navigation/back';
 import { useCommandFeedback, type CommandFeedbackCopy } from '@/motion/island-toast';
 
-import { MONEY_FALLBACK, MoneyNoTripScreen, MoneyScreenLoading } from '../components/screen-states';
+import { MONEY_FALLBACK } from '../components/screen-states';
 import { addExpenseCommand, commitReceiptCommand } from '../data/commands';
 import { selectTrip, useSelectedTrip } from '../data/selected-trip';
 import { useMoneyServices } from '../data/services';
 import { useMoneyContext } from '../data/use-money-context';
 import { useSendOnce } from '../data/use-send-once';
 import { MONEY_ROUTES } from '../routes';
-import { MemberPicker, type MemberPickerProps } from './MemberPicker';
+import type { MemberPickerProps } from './MemberPicker';
 import { receiptView, toCommitPayload } from './review-model';
-import { ScanView, type ScanViewProps } from './ScanView';
-import { TypeLinesEditor, type TypeLinesEditorProps } from './TypeLinesEditor';
+import type { ScanViewProps } from './ScanView';
+import type { TypeLinesEditorProps } from './TypeLinesEditor';
 import { TypeLinesScreen } from './TypeLinesScreen';
 import { useReceiptQueueDrain } from './receipt-queue';
 import { useReviewScene } from './use-review-scene';
 import { useScan, useWaitedTooLong } from './use-scan';
 import { WalletGuideProvider } from '@/features/bookings';
+import { PREMIUM_SCAN_LOOK } from '../premium/receipt/scan-look';
 
 /** The receipt was already turned into its expense (an earlier SPLIT IT whose answer was lost). */
 function alreadyCommitted(result: SendResult): boolean {
@@ -42,7 +43,7 @@ function alreadyCommitted(result: SendResult): boolean {
   );
 }
 
-/** Everything the scan draws, so the same flow can wear another look. */
+/** Everything the scan draws (the premium look's pieces). */
 export interface ScanLook {
   readonly View: ComponentType<ScanViewProps>;
   readonly Picker: ComponentType<MemberPickerProps>;
@@ -51,21 +52,8 @@ export interface ScanLook {
   readonly NoTrip: ComponentType<{ readonly crew: boolean }>;
 }
 
-const SCAN_LOOK: ScanLook = {
-  View: ScanView,
-  Picker: MemberPicker,
-  TypeLinesEditor,
-  Loading: MoneyScreenLoading,
-  NoTrip: MoneyNoTripScreen,
-};
-
-export function ScanScreen({
-  tripId: routeTripId = null,
-  look = SCAN_LOOK,
-}: {
-  readonly tripId?: string | null;
-  readonly look?: ScanLook;
-}) {
+export function ScanScreen({ tripId: routeTripId = null }: { readonly tripId?: string | null }) {
+  const look = PREMIUM_SCAN_LOOK;
   const { View: SceneView, Picker, Loading, NoTrip } = look;
   const services = useMoneyServices();
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a flag key, not copy

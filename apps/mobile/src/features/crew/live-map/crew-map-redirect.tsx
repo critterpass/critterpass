@@ -1,7 +1,7 @@
 /**
  * `/map/crew/{crewId}` (the chat's MAP pill): opens the crew map of the crew's trip that is under
- * way, or of the next one; with no trip at all, says so (premium: a push with the sleeping guide
- * and the way back to the chat).
+ * way, or of the next one; with no trip at all, says so as a push with the sleeping guide and
+ * the way back to the chat.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { t } from '@lingui/core/macro';
@@ -11,13 +11,7 @@ import { View } from 'react-native';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { guideCritterKind, guideCritterName } from '@/features/trip';
-import { usePremiumUi } from '@/lib/premium-ui';
-import { guideSticker } from '@/ui/avatar/guides';
-import { PillButton } from '@/ui/buttons/PillButton';
-import { EmptyState } from '@/ui/states/EmptyState';
-import { Sticker } from '@/ui/sticker/Sticker';
-import { useTheme } from '@/ui';
-import { Button, EmptyState as PremiumEmptyState, usePremiumTheme } from '@/ui/premium';
+import { Button, EmptyState, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
 import { quoted } from '../chat/data/rows';
@@ -33,7 +27,7 @@ function noTripCopy() {
   };
 }
 
-function PremiumNoTrip({ loading }: { readonly loading: boolean }) {
+function NoTrip({ loading }: { readonly loading: boolean }) {
   const th = usePremiumTheme();
   const copy = noTripCopy();
   if (loading) return <View style={{ flex: 1, backgroundColor: th.color.ground }} />;
@@ -44,7 +38,7 @@ function PremiumNoTrip({ loading }: { readonly loading: boolean }) {
       testID="live-no-trip"
     >
       <View style={{ paddingTop: 80 }}>
-        <PremiumEmptyState
+        <EmptyState
           title={copy.title}
           line={copy.line}
           critter={{ kind: guideCritterKind('tokek'), name: guideCritterName('tokek') }}
@@ -66,8 +60,6 @@ function PremiumNoTrip({ loading }: { readonly loading: boolean }) {
 export function CrewMapRedirect() {
   const { crewId } = useLocalSearchParams<{ crewId: string }>();
   const { db } = useLocalFirst();
-  const theme = useTheme();
-  const premium = usePremiumUi();
   const [trip, setTrip] = useState<string | null | undefined>(undefined);
   useEffect(() => {
     void db
@@ -82,24 +74,5 @@ export function CrewMapRedirect() {
       );
   }, [db, crewId]);
   if (trip !== null && trip !== undefined) return <Redirect href={`/map/${trip}?from=chat`} />;
-  if (premium) return <PremiumNoTrip loading={trip === undefined} />;
-  if (trip === undefined)
-    return <View style={{ flex: 1, backgroundColor: theme.color.map.base }} />;
-  const copy = noTripCopy();
-  const guide = guideSticker('tokek');
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', backgroundColor: theme.semantic.bg.base }}>
-      <EmptyState
-        guide="tokek"
-        guideName={guide.name}
-        sticker={<Sticker kind={guide.kind} name={guide.name} size={72} />}
-        title={copy.title}
-        line={copy.line}
-        testID="live-no-trip"
-      />
-      <View style={{ paddingHorizontal: theme.space['24'] }}>
-        <PillButton label={copy.back} variant="secondary" onPress={() => router.back()} block />
-      </View>
-    </View>
-  );
+  return <NoTrip loading={trip === undefined} />;
 }
