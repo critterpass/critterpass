@@ -1,6 +1,6 @@
 # Premium design system
 
-The native redesign's tokens, kit and motion. Exact values live in [foundations-spec.md](../plans/261010-1701-premium-redesign/foundations-spec.md) and the Foundations source (`design/premium/CritterPass 01 Foundations.dc.html`); this page is the contract for using them. The legacy system ([design-system.md](design-system.md)) stays as it is for the web site, the admin console and the legacy app UI.
+The native redesign's tokens, kit and motion. Exact values live in [foundations-spec.md](../plans/261010-1701-premium-redesign/foundations-spec.md) and the Foundations source (`design/premium/CritterPass 01 Foundations.dc.html`); this page is the contract for using them. The legacy system ([design-system.md](design-system.md)) stays as it is for the web site and the admin console; the app draws only this one.
 
 ## 1. Tokens (`@cp/design-tokens`, `premium`)
 
@@ -46,7 +46,7 @@ Import from the barrel. Every control is at least 44 pt to tap, carries a label,
 Rules:
 
 - Glass is for chrome over content (headers, the tab bar, sheets, floating controls). Never put glass inside a card.
-- The kit never imports the legacy kit (`@/ui/*` outside `premium`, `@/motion`), and the legacy kit never imports the premium kit; lint enforces both (`tools/lint/boundaries.js`). The shared engines are the critter renderer (`@/ui/sticker`), the shared-element zoom (`@/ui/transitions`) and the `[ui-qa]` checks (`@/ui/qa`): premium `Text` reports truncated, word-broken and wrapped labels like the legacy `Text`, and `singleLine={false}` opts a two-line label out of the wrap check.
+- The kit is the only component library: nothing under `@/ui` lives outside `@/ui/premium`, and the kit never imports `@/motion` (it animates on its own springs); lint enforces both (`tools/lint/boundaries.js`). Non-visual helpers live in `@/lib/*`. The shared engines are the critter renderer (`@/ui/premium/stickers/art`), the shared-element zoom (`@/ui/premium/shell/zoom`) and the `[ui-qa]` checks (`@/lib/qa`): the kit's `Text` reports truncated, word-broken and wrapped labels, and `singleLine={false}` opts a two-line label out of the wrap check.
 - The kit holds no copy: screens pass translated labels.
 - The gallery `app/(dev)/premium-kit.tsx` shows every component in light and dark for device captures.
 
