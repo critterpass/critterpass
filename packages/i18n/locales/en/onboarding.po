@@ -559,6 +559,11 @@ msgstr "Invites look like go.critterpass.app/i/… or a six-character code."
 msgid "onboarding.issued.stamp"
 msgstr "Issued"
 
+#. Passport stamp word, upper case, must fit a 112 pt round stamp
+#: ../../apps/mobile/src/features/launch/premium/IssuedStamp.tsx
+msgid "launch.stamp.issued"
+msgstr "ISSUED"
+
 #: ../../apps/mobile/src/features/onboarding/pass-facts.ts
 msgid "onboarding.pass.issued"
 msgstr "ISSUED"

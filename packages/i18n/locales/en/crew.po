@@ -149,8 +149,8 @@ msgid "chat.premium.settled.title"
 msgstr "All square"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
-msgid "chat.premium.report.mute"
-msgstr "Also mute {senderName}"
+msgid "chat.premium.report.muteSender"
+msgstr "Also mute {name}"
 
 #: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
 msgid "crew.premium.invite.note"
@@ -810,8 +810,8 @@ msgid "chat.premium.menu.replySticker"
 msgstr "Reply with a sticker"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-bottom.tsx
-msgid "chat.premium.strip.replying"
-msgstr "Replying to {0}"
+msgid "chat.premium.strip.replyingTo"
+msgstr "Replying to {replyName}"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
 msgid "chat.premium.menu.report"

@@ -558,6 +558,11 @@ msgstr ""
 msgid "onboarding.issued.stamp"
 msgstr ""
 
+#. Passport stamp word, upper case, must fit a 112 pt round stamp
+#: ../../apps/mobile/src/features/launch/premium/IssuedStamp.tsx
+msgid "launch.stamp.issued"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/pass-facts.ts
 msgid "onboarding.pass.issued"
 msgstr ""

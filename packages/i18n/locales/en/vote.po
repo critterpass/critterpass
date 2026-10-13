@@ -721,8 +721,6 @@ msgstr "Two places left"
 msgid "vote.premium.showdown.vote"
 msgstr "Vote {name}"
 
-#. placeholder {0}: poll.votedCount
-#. placeholder {1}: poll.eligibleIds.length
 #: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
 msgid "vote.premium.board.status"
 msgstr "Vote open · {count} of {total} in"

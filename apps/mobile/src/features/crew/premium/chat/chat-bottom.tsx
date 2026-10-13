@@ -120,7 +120,7 @@ export function ChatBottom({ inputRef, ...props }: ChatBottomProps) {
     ) : composer.replyTo !== null ? (
       <ComposerStrip
         title={t({
-          id: 'chat.premium.strip.replying',
+          id: 'chat.premium.strip.replyingTo',
           message: `Replying to ${replyName}`,
         })}
         line={

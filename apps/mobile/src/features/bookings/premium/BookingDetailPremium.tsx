@@ -9,21 +9,15 @@ import { useLingui } from '@lingui/react/macro';
 import { Alert, StyleSheet, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import {
-  Banner,
-  Button,
-  EmptyState,
-  PremiumThemeProvider,
-  Tag,
-  Text,
-  usePremiumTheme,
-} from '@/ui/premium';
+import { Banner, EmptyState, PremiumThemeProvider, Tag, Text, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
 import { useKindLabel } from '../detail/labels';
 import { useBookingDetail, type BookingDetail } from '../detail/use-booking-detail';
 import { clock, dateTime, dayDate } from '../format';
-import { askDeleteBooking, openBookingOptions } from './booking-options';
+import { openBookingOptions } from './booking-options';
+import { ConfirmationCodeCard, useCopyCode } from './components/ConfirmationCode';
+import { DetailFoot as Foot } from './components/DetailFoot';
 import { DocsCard } from './components/DocsCard';
 import { FlightTicket } from './components/FlightTicket';
 import { KeyValueCard } from './components/KeyValueCard';
@@ -31,49 +25,6 @@ import { kindLook } from './components/kind-look';
 import { ShareCard } from './components/ShareCard';
 
 type Ready = Extract<BookingDetail, { kind: 'ready' }>;
-
-function Foot({ detail }: { readonly detail: Ready }) {
-  const th = usePremiumTheme();
-  const { t } = useLingui();
-  if (!detail.booking.mine) return null;
-  return (
-    <View style={[styles.foot, { paddingHorizontal: th.space.gutter }]}>
-      {detail.canReportLanded ? (
-        <Button
-          label={t({ id: 'bookings.detail.landed', message: 'I landed' })}
-          onPress={detail.onLanded}
-          testID="bookings-landed"
-        />
-      ) : null}
-      {detail.onSupplierCancel === null ? null : (
-        <Button
-          label={t({ id: 'bookings.detail.supplierCancel', message: 'Cancel with Viator' })}
-          variant="secondary"
-          onPress={detail.onSupplierCancel}
-          testID="bookings-supplier-cancel"
-        />
-      )}
-      <View style={styles.pair}>
-        <View style={styles.flex}>
-          <Button
-            label={t({ id: 'bookings.detail.edit', message: 'Edit' })}
-            variant="secondary"
-            onPress={detail.onEdit}
-            testID="bookings-edit"
-          />
-        </View>
-        <View style={styles.flex}>
-          <Button
-            label={t({ id: 'bookings.premium.delete', message: 'Delete' })}
-            variant="destructive"
-            onPress={() => askDeleteBooking(() => void detail.deleteIt())}
-            testID="bookings-delete"
-          />
-        </View>
-      </View>
-    </View>
-  );
-}
 
 function FlightBody({ detail }: { readonly detail: Ready }) {
   const th = usePremiumTheme();
@@ -115,6 +66,7 @@ function FlightBody({ detail }: { readonly detail: Ready }) {
           {detail.status}
         </Text>
       )}
+      <ConfirmationCodeCard code={detail.booking.supplierRef} />
       <DocsCard detail={detail} />
       <ShareCard detail={detail} />
     </>
@@ -126,6 +78,7 @@ function OtherBody({ detail }: { readonly detail: Ready }) {
   const locale = useLocale();
   const { t } = useLingui();
   const kindLabel = useKindLabel();
+  const copy = useCopyCode();
   const { booking } = detail;
   const look = kindLook(booking.kind, th.color);
   const policy = booking.cancelPolicyText ?? '';
@@ -161,6 +114,7 @@ function OtherBody({ detail }: { readonly detail: Ready }) {
             value: booking.supplierRef ?? '',
             mono: true,
             private: true,
+            onPress: () => copy(booking.supplierRef ?? ''),
           },
           {
             key: 'who',
@@ -294,7 +248,4 @@ export function BookingDetailPremium({ bookingId }: { readonly bookingId: string
 const styles = StyleSheet.create({
   body: { paddingTop: 8 },
   titleBlock: { gap: 8, alignItems: 'flex-start' },
-  foot: { gap: 10, paddingTop: 8 },
-  pair: { flexDirection: 'row', gap: 8 },
-  flex: { flex: 1 },
 });

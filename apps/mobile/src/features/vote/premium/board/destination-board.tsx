@@ -174,6 +174,8 @@ export function DestinationBoard({ poll, me, heading = true }: DestinationBoardP
   );
   const only = poll.options[0] === undefined ? '' : nameOf(poll.options[0]);
   const tokek = guideSticker('tokek');
+  const count = poll.votedCount;
+  const total = poll.eligibleIds.length;
 
   return (
     <View style={styles.stack} testID="destination-board">
@@ -181,7 +183,7 @@ export function DestinationBoard({ poll, me, heading = true }: DestinationBoardP
         title={heading}
         status={t({
           id: 'vote.premium.board.status',
-          message: `Vote open · ${poll.votedCount} of ${poll.eligibleIds.length} in`,
+          message: `Vote open · ${count} of ${total} in`,
         })}
         statusTestID="board-status"
       />

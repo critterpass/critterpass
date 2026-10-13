@@ -721,8 +721,6 @@ msgstr "Còn hai nơi"
 msgid "vote.premium.showdown.vote"
 msgstr "Bầu {name}"
 
-#. placeholder {0}: poll.votedCount
-#. placeholder {1}: poll.eligibleIds.length
 #: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
 msgid "vote.premium.board.status"
 msgstr "Đang bầu · {count}/{total}"

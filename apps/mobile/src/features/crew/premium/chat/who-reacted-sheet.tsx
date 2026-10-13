@@ -114,7 +114,7 @@ export function ReportSheet({
   const [reason, setReason] = useState<ReportReason | null>(null);
   const [mute, setMute] = useState(false);
   const name = shortName(senderName);
-  const muteLabel = t({ id: 'chat.premium.report.mute', message: `Also mute ${name}` });
+  const muteLabel = t({ id: 'chat.premium.report.muteSender', message: `Also mute ${name}` });
   return (
     <ChatSheet onClose={onClose} testID="chat-report">
       <Text variant="title" style={{ paddingTop: th.space.gap12 }}>

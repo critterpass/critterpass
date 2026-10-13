@@ -119,11 +119,8 @@ export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
             <View style={[styles.notch, styles.notchRight, { backgroundColor: th.color.ground }]} />
           </View>
           <PressableScale
-            accessibilityRole="button"
-            accessibilityLabel={t({
-              id: 'crew.premium.on.copyA11y',
-              message: 'Copy the crew code',
-            })}
+            // The code tiles below are the accessible element: they read the code and copy it.
+            accessible={false}
             onPress={copy}
             style={styles.body}
             testID="start-crew-code"
@@ -138,7 +135,11 @@ export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
                   : t({ id: 'crew.premium.on.tapToCopy', message: 'Tap to copy' })}
               </Text>
             </View>
-            <SplitFlapCode code={code} />
+            <SplitFlapCode
+              code={code}
+              copyHint={t({ id: 'crew.premium.on.copyA11y', message: 'Copy the crew code' })}
+              testID="crew-on-code"
+            />
           </PressableScale>
         </Animated.View>
         {qr && code !== null ? (
