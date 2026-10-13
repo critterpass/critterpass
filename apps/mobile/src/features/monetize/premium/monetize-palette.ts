@@ -57,7 +57,6 @@ export const MONETIZE_TIMING = {
   stampAppear: 80,
   sheetFadeIn: 240,
   sheetFadeOut: 220,
-  sheetDropOut: 260,
   inkRing: 810,
   confetti: 1500,
   lockSpin: 1400,

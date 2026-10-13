@@ -8,6 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
 import { Modal, StyleSheet, View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -40,7 +41,11 @@ function Newcomer({ name }: { readonly name: string }) {
   const th = usePremiumTheme();
   const y = useSharedValue(0);
   useEffect(() => {
-    if (reduced) return;
+    if (reduced) {
+      cancelAnimation(y);
+      y.set(0);
+      return;
+    }
     y.set(withRepeat(withTiming(-6, { duration: MONETIZE_TIMING.newcomerBob }), -1, true));
   }, [reduced, y]);
   const style = useAnimatedStyle(() => ({ transform: [{ translateY: y.value }] }));
