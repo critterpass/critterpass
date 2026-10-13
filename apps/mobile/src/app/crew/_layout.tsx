@@ -15,6 +15,9 @@ import { useTheme } from '@/ui/theme';
 
 /* eslint-disable lingui/no-unlocalized-strings -- route names, never copy. */
 
+/** Starting a crew covers the app and closes with its ✕ (3.08), so it rises rather than slides. */
+const START_CREW = { presentation: 'fullScreenModal' } as const;
+
 /**
  * The crew area. Its pages (chat, settings, the invite composer, start a crew) are pushed like any
  * other page; only the crews sheet rises over the screen that opened it. The premium UI runs a
@@ -35,6 +38,7 @@ export default function CrewLayout() {
               {sheetScreens('crew').map((name) => (
                 <PremiumStackScreen key={name} name={name} options={SELF_ANIMATED_SHEET} />
               ))}
+              <PremiumStackScreen name="new" options={START_CREW} />
               <PremiumStackScreen name="[crewId]/invite" options={sheetRouteOptions('full')} />
               <PremiumStackScreen name="[crewId]/member/[uid]" options={sheetRouteOptions('fit')} />
             </PremiumStack>
