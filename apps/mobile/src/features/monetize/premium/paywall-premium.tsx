@@ -14,7 +14,6 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { mrzLine } from '@/ui/documents/mrz';
@@ -27,6 +26,7 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
+import { useScreenInsets } from '@/ui/premium/shell';
 
 import { entryPointOf } from '../paywall/use-paywall-record';
 import { usePaywallScreen } from '../paywall/use-paywall-screen';
@@ -45,7 +45,7 @@ export function PaywallPremium() {
   const { t } = useLingui();
   const th = usePremiumTheme();
   const locale = useLocale();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   const reduced = usePremiumReducedMotion();
   const params = useLocalSearchParams<{ entry?: string }>();
   const { props, dismiss } = usePaywallScreen();

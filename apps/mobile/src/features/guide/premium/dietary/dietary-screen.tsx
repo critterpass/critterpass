@@ -9,12 +9,16 @@ import { router, Stack } from 'expo-router';
 import { useContext, useState } from 'react';
 import { Keyboard, View } from 'react-native';
 import { useAnimatedReaction } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { Button, LoadingCritter, Text, usePremiumTheme } from '@/ui/premium';
-import { FullScreen, useDirtySheetGuard, useKeyboardFrame } from '@/ui/premium/shell';
+import {
+  FullScreen,
+  useDirtySheetGuard,
+  useKeyboardFrame,
+  useScreenInsets,
+} from '@/ui/premium/shell';
 
 import type { DietaryServices } from '../../dietary/dietary-data';
 import { useDietaryForm } from '../../dietary/use-dietary-form';
@@ -39,7 +43,7 @@ export function PremiumDietaryScreen({ services }: { readonly services: DietaryS
 
 function OpenDietary({ services }: { readonly services: DietaryServices }) {
   const th = usePremiumTheme();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   const form = useDietaryForm(services);
   const [step, setStep] = useState<'consent' | 'form' | null>(null);
   const [grant, setGrant] = useState(false);

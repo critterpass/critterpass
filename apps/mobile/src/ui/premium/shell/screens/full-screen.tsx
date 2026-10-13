@@ -4,9 +4,9 @@ import { router } from 'expo-router';
 import type { NativeStackNavigationOptions } from 'expo-router/native-stack';
 import { useEffect, type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { GlassIconButton, usePremiumTheme } from '../..';
+import { useScreenInsets } from '../navigation/screen-insets';
 
 /** A layout's options for a full-screen route: it covers everything, tab bar and status bar area. */
 export const FULL_SCREEN_ROUTE_OPTIONS: NativeStackNavigationOptions = {
@@ -74,7 +74,7 @@ export function FullScreen({
   testID,
 }: FullScreenProps) {
   const t = usePremiumTheme();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   useBrightened(brighten);
   return (
     <View testID={testID} style={styles.root}>

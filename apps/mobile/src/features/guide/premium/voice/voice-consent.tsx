@@ -5,10 +5,9 @@
 import { t } from '@lingui/core/macro';
 import { Stack } from 'expo-router';
 import { View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Button, CritterSticker, Text, TextButton, usePremiumTheme } from '@/ui/premium';
-import { FullScreen } from '@/ui/premium/shell';
+import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
 import type { VoiceConsentViewProps } from '../../voice/voice-consent-view';
 
@@ -20,7 +19,7 @@ export function PremiumVoiceConsent({
   pending = null,
 }: VoiceConsentViewProps) {
   const th = usePremiumTheme();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   return (
     <FullScreen
       closeLabel={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}

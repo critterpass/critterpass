@@ -6,12 +6,12 @@
  * the way Home after a cold link).
  */
 import { router } from 'expo-router';
-import type { ReactNode } from 'react';
+import { useRef, useState, type ComponentRef, type ReactNode } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { GlassIconButton, Text, usePremiumTheme } from '@/ui/premium';
-import { leadingControlFor, useScreenPlacement } from '@/ui/premium/shell';
+import { leadingControlFor, SHEET_TOP_CLEARANCE, useScreenPlacement } from '@/ui/premium/shell';
 
 const goBack = () => router.back();
 const goHome = () => router.replace('/');
@@ -44,9 +44,19 @@ export function DrawnPage({
   const placed = leadingControlFor(useScreenPlacement());
   const control = leading ?? (placed === 'close' ? 'close' : 'back');
   const leave = onBack ?? (placed === 'home' ? goHome : goBack);
-  const top = insets.top + t.space.gap6;
+  // Pushed inside a tall sheet (the paywall's), the page starts below the window's top: it keeps
+  // only the grabber's band there instead of the status bar's inset.
+  const root = useRef<ComponentRef<typeof View>>(null);
+  const [offset, setOffset] = useState(0);
+  const topInset = offset > 0 ? Math.max(SHEET_TOP_CLEARANCE, insets.top - offset) : insets.top;
+  const top = topInset + t.space.gap6;
   return (
-    <View style={[styles.root, { backgroundColor: t.color.ground }]} testID={testID}>
+    <View
+      ref={root}
+      style={[styles.root, { backgroundColor: t.color.ground }]}
+      onLayout={() => root.current?.measureInWindow((_x, y) => setOffset(y))}
+      testID={testID}
+    >
       <ScrollView
         contentContainerStyle={{
           paddingTop: top + t.size.glassNav + t.space.gap12,

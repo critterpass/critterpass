@@ -15,7 +15,6 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { mrzLine } from '@/ui/documents/mrz';
@@ -30,6 +29,7 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
+import { useScreenInsets } from '@/ui/premium/shell';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 
 import { useWelcomeScreen } from '../welcome/use-welcome-screen';
@@ -48,7 +48,7 @@ export function WelcomePremium() {
   const { t, i18n } = useLingui();
   const th = usePremiumTheme();
   const locale = useLocale();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   const reduced = usePremiumReducedMotion();
   const props = useWelcomeScreen();
   const name = props.name.trim();

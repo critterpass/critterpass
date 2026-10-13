@@ -6,7 +6,6 @@
 import { t } from '@lingui/core/macro';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { goBackOr } from '@/lib/navigation/back';
 import {
@@ -18,7 +17,7 @@ import {
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
-import { FullScreen } from '@/ui/premium/shell';
+import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
 import { usePractiseHref } from '../../phrases/practise-link';
 import { usePhraseSpeech } from '../../phrases/use-phrase-speech';
@@ -47,7 +46,7 @@ export function PremiumPhraseShowScreen() {
   const lang = params.lang ?? 'en';
   const gloss = params.gloss ?? '';
   const th = usePremiumTheme();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   const { width } = useWindowDimensions();
   const speech = usePhraseSpeech(phrase, lang);
   const practice = usePractiseHref(

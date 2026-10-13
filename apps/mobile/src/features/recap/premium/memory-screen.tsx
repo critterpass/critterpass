@@ -9,7 +9,6 @@ import { Stack } from 'expo-router';
 import { useContext } from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { goBackOr } from '@/lib/navigation/back';
@@ -23,7 +22,7 @@ import {
   TextButton,
   usePremiumReducedMotion,
 } from '@/ui/premium';
-import { FullScreen } from '@/ui/premium/shell';
+import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
 import { useLiveRows } from '../data/live-rows';
 import { reactionA11y, reactionLabel } from '../memory/memory-copy';
@@ -60,7 +59,7 @@ function Chip({ chip }: { readonly chip: MemoryReactionChip }) {
 }
 
 function MemoryScene({ m }: { readonly m: MemoryScreenState }) {
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   const date = stampDate(m.memory.local_date);
   return (
     <FullScreen

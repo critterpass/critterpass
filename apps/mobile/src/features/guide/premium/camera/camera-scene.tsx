@@ -8,7 +8,6 @@ import { t } from '@lingui/core/macro';
 import { Stack } from 'expo-router';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
   Button,
@@ -20,7 +19,7 @@ import {
   makePremiumStyles,
   usePremiumTheme,
 } from '@/ui/premium';
-import { FullScreen } from '@/ui/premium/shell';
+import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
 import type { CameraViewProps } from '../../camera/camera-view';
 import { useIssueLine } from '../../camera/menu-issue-line';
@@ -101,7 +100,7 @@ function Corners() {
 export function PremiumCameraScene(props: CameraViewProps) {
   const th = usePremiumTheme();
   const styles = useStyles();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   const { state } = props;
   const [draft, setDraft] = useState('');
   const issue = useIssueLine(state.issue, props.guideName);

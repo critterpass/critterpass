@@ -8,7 +8,6 @@
 import { t } from '@lingui/core/macro';
 import { Stack } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
   Button,
@@ -21,7 +20,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 import { Bob, Ping } from '@/features/critters';
-import { FullScreen } from '@/ui/premium/shell';
+import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
 import { useIssueLine, type VoiceViewProps } from '../../voice/voice-view';
 import { VOICE_PAINT } from '../guide-paint';
@@ -76,7 +75,7 @@ const useStyles = makePremiumStyles((th) => ({
 export function PremiumVoiceScene(props: VoiceViewProps) {
   const th = usePremiumTheme();
   const styles = useStyles();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   const { state } = props;
   const issue = useIssueLine(state.issue, props.guideName);
   const status = {

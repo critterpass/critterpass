@@ -13,7 +13,7 @@ export default function MemoryLayout() {
   const [motionMode] = useMotionMode();
   if (usePremiumUi()) {
     // A native stack, so the memory's ✕ and the pages it opens move natively; the root presents
-    // the memory itself as a full-screen cover (`lib/navigation/presentation.ts`).
+    // the memory itself as a tall sheet that swipes down (`lib/navigation/presentation.ts`).
     return (
       <SessionGate>
         <PremiumStack navigator="memory" />

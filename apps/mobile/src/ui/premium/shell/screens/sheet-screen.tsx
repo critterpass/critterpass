@@ -8,7 +8,7 @@ import { useBackAffordance } from '@/ui/qa/back-affordance';
 
 import { PressableScale, Spinner, Text, usePremiumTheme, type PremiumTheme } from '../..';
 import { KeyboardStickyFooter } from '../keyboard/keyboard';
-import { useScreenPlacement } from '../navigation/use-screen-placement';
+import { SHEET_TOP_CLEARANCE, useShownAsSheet } from '../navigation/screen-insets';
 import { useDirtySheetGuard, type DiscardPrompt } from './dirty-sheet';
 
 /** Half height for one choice, full height for a form, or as tall as the content. */
@@ -16,8 +16,6 @@ export type SheetDetent = 'half' | 'full' | 'fit';
 
 /** Material's sheet corner on Android; iOS keeps the system's own. */
 const ANDROID_SHEET_RADIUS = 28;
-/** The band at the top of an iOS sheet that the system grabber draws in and answers taps on. */
-const GRABBER_CLEARANCE = 12;
 
 /**
  * A layout's options for a sheet route: the native form sheet with its grabber and detent. On
@@ -49,20 +47,6 @@ export function sheetMaterialStyle(t: PremiumTheme): ViewStyle {
     : // Sheet glass (foundations-spec §5): the system glass blurs, this tint makes it the sheet's
       // denser material so the page behind reads as colour, not content.
       { backgroundColor: t.material.sheet.tint };
-}
-
-/**
- * True when the sheet shows as a page instead of a native sheet: the first screen of a stack whose
- * group was not presented as a sheet (a see-through card, a pushed group), and on Android a group
- * presented as a sheet, which rises as a page there (the native sheet can't hold a stack). It then
- * lays its header below the status bar on the opaque sheet material. Outside a navigator (tests,
- * the gallery) it is a sheet.
- */
-function useShownAsPage(): boolean {
-  const placement = useScreenPlacement();
-  if (placement === undefined) return false;
-  if (placement.kind !== 'presented' || placement.presentation.kind !== 'sheet') return true;
-  return !placement.ownStack && Platform.OS !== 'ios';
 }
 
 export interface SheetVerb {
@@ -122,7 +106,9 @@ export function SheetScreen({
 }: SheetScreenProps) {
   const t = usePremiumTheme();
   const insets = useSafeAreaInsets();
-  const asPage = useShownAsPage();
+  // A page instead of a native sheet: its header then sits below the status bar on the opaque
+  // sheet material.
+  const asPage = !useShownAsSheet();
   const [busy, setBusy] = useState(false);
   // Cancel is the sheet's way back.
   useBackAffordance();
@@ -248,7 +234,7 @@ const styles = StyleSheet.create({
   // Clears the system grabber (iOS draws it over the top 20 pt of the sheet and takes taps there).
   header: {
     height: 56,
-    marginTop: Platform.OS === 'ios' ? GRABBER_CLEARANCE : 0,
+    marginTop: Platform.OS === 'ios' ? SHEET_TOP_CLEARANCE : 0,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,

@@ -28,8 +28,8 @@ describe('premium presentations', () => {
     expect(presentationOf('vote/new-poll')).toEqual(SHEET);
   });
 
-  it('pushes what is in each plan inside the paywall cover', () => {
-    expect(presentationOf('(modal)/paywall/index')).toEqual({ kind: 'cover' });
+  it('pushes what is in each plan inside the paywall sheet', () => {
+    expect(presentationOf('(modal)/paywall/index')).toEqual(SHEET);
     expect(presentationOf('(modal)/paywall/compare')).toBeUndefined();
     expect(presentationOf('(modal)/boost/[tripId]')).toEqual(SHEET);
   });

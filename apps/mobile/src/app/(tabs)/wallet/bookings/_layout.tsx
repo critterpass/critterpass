@@ -7,7 +7,7 @@ import { deviceBookingsServices } from '@/features/bookings/data/device-services
 import { pushTransition } from '@/lib/navigation/transitions';
 import { usePremiumUi } from '@/lib/premium-ui';
 import { useMotionMode } from '@/motion/motion-mode';
-import { FULL_SCREEN_ROUTE_OPTIONS, sheetRouteOptions } from '@/ui/premium/shell';
+import { sheetRouteOptions } from '@/ui/premium/shell';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
 import { useTheme } from '@/ui/theme';
 
@@ -20,7 +20,7 @@ export const unstable_settings = { initialRouteName: 'index' };
  * The BOOKINGS half of the Wallet tab: the stack, a booking, adding one and the archive push
  * inside the tab; the boarding pass rises over it as a modal route. The premium UI uses the native
  * stack: the `+` sheet, paste, the link code and the mailbox are native form sheets, and the
- * boarding pass is a native full-screen modal with its ✕.
+ * boarding pass is a tall native sheet with its ✕ that swipes down.
  */
 export default function BookingsLayout() {
   const { motion } = useTheme();
@@ -35,7 +35,7 @@ export default function BookingsLayout() {
           <PremiumStackScreen name="paste" options={sheetRouteOptions('fit')} />
           <PremiumStackScreen name="link-code" options={sheetRouteOptions('fit')} />
           <PremiumStackScreen name="mailbox" options={sheetRouteOptions('full')} />
-          <PremiumStackScreen name="pass/[id]" options={FULL_SCREEN_ROUTE_OPTIONS} />
+          <PremiumStackScreen name="pass/[id]" options={sheetRouteOptions('full')} />
         </PremiumStack>
       ) : (
         <Stack screenOptions={pushTransition(motion, motionMode !== 'full')} />

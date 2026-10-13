@@ -9,7 +9,6 @@ import { premium } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { ScrollView, Share, StyleSheet, useWindowDimensions, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { goBackOr } from '@/lib/navigation/back';
 import {
@@ -19,7 +18,7 @@ import {
   Text,
   usePremiumTheme,
 } from '@/ui/premium';
-import { FullScreen } from '@/ui/premium/shell';
+import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
 import { useBoardingPass } from '../boarding-pass/use-boarding-pass';
 import { BOOKINGS_ROUTES } from '../routes';
@@ -152,7 +151,7 @@ function PassCard({ bookingId }: { readonly bookingId: string }) {
 export function BoardingPassPremium({ bookingId }: { readonly bookingId: string }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   const pass = useBoardingPass(bookingId);
   const [bright, setBright] = useState(true);
   const share = () => {

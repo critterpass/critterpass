@@ -9,12 +9,11 @@ import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { DEFAULT_CREW_COVER, type CrewCover } from '@cp/domain';
 
 import { Button, GlassIconButton, GuideNote, Text, TextField, usePremiumTheme } from '@/ui/premium';
-import { useDirtySheetGuard } from '@/ui/premium/shell';
+import { useDirtySheetGuard, useScreenInsets } from '@/ui/premium/shell';
 import { KeyboardAwareScroll, KeyboardStickyFooter } from '@/ui/premium/shell/keyboard/keyboard';
 
 import { useReferralStamps } from '../settings/use-crew-detail';
@@ -56,7 +55,7 @@ function StartCrewForm({ start, cover }: StartCrewFormProps) {
   const th = usePremiumTheme();
   const stamps = useReferralStamps();
   const [lockedNote, setLockedNote] = useState<string | null>(null);
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   useDirtySheetGuard(start.name.trim() !== '', {
     title: t({ id: 'crew.premium.start.discardTitle', message: 'Drop this crew?' }),
     message: t({ id: 'crew.premium.start.discardLine', message: 'The name you typed goes.' }),

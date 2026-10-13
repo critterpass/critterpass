@@ -8,7 +8,6 @@ import { t } from '@lingui/core/macro';
 import { Stack } from 'expo-router';
 import { ScrollView, View } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
   Button,
@@ -23,7 +22,7 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
-import { FullScreen } from '@/ui/premium/shell';
+import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
 import type { PracticePhrase } from '../../practice/practice-model';
 import type { PracticeViewProps } from '../../practice/practice-view';
@@ -177,7 +176,7 @@ function CheckSwitch(props: PracticeViewProps) {
 export function PremiumPracticeView(props: PracticeViewProps) {
   const { state, lists, current } = props;
   const th = usePremiumTheme();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   const reduced = usePremiumReducedMotion();
   const total = lists.practising.length + lists.learned.length;
   const learned = lists.learned.length;

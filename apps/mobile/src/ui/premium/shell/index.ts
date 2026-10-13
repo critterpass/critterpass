@@ -20,6 +20,7 @@ export {
   SELF_ANIMATED_SHEET,
 } from './navigation/presentation-options';
 export { leadingControlFor, useScreenPlacement } from './navigation/use-screen-placement';
+export { SHEET_TOP_CLEARANCE, useScreenInsets, useShownAsSheet } from './navigation/screen-insets';
 export type { LeadingControl } from './navigation/use-screen-placement';
 export { GUIDE_TRIGGER_ROUTE, PREMIUM_TABS, PremiumTabs } from './navigation/premium-tabs';
 export type { PremiumTabsProps } from './navigation/premium-tabs';

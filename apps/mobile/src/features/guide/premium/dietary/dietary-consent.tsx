@@ -5,7 +5,6 @@
  */
 import { t } from '@lingui/core/macro';
 import { ScrollView, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Doodle } from '@/features/crew';
 import {
@@ -17,6 +16,7 @@ import {
   makePremiumStyles,
   usePremiumTheme,
 } from '@/ui/premium';
+import { useScreenInsets } from '@/ui/premium/shell';
 
 const useStyles = makePremiumStyles((th) => ({
   card: {
@@ -52,7 +52,7 @@ export function DietaryConsent({
 }) {
   const th = usePremiumTheme();
   const styles = useStyles();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   return (
     <View style={{ flex: 1 }} testID="guide-dietary-consent">
       <ScrollView contentContainerStyle={{ paddingTop: insets.top + 64, paddingBottom: 24 }}>

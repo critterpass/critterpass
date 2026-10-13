@@ -43,15 +43,16 @@ const sheet = (...detents: number[]): ScreenPresentation => ({ kind: 'sheet', de
  * presents them the same way.
  */
 const PRESENTATIONS: Readonly<Record<string, ScreenPresentation>> = {
-  // The `(modal)` group: covers, the guide thread as a page sheet and the supplier and boost
-  // sheets.
+  // The `(modal)` group: the guide thread as a page sheet; the guide's tools, the boarding pass,
+  // the paywall and the supplier and boost sheets as tall sheets that swipe down; the hatch and
+  // the boost's stamp as covers.
   '(modal)/guide/[threadId]': MODAL,
-  '(modal)/guide/dietary': COVER,
-  '(modal)/guide/phrase': COVER,
-  '(modal)/guide/camera': COVER,
-  '(modal)/guide/voice': COVER,
-  '(modal)/guide/practice': COVER,
-  '(modal)/bookings/pass/[id]': COVER,
+  '(modal)/guide/dietary': FULL,
+  '(modal)/guide/phrase': FULL,
+  '(modal)/guide/camera': FULL,
+  '(modal)/guide/voice': FULL,
+  '(modal)/guide/practice': FULL,
+  '(modal)/bookings/pass/[id]': FULL,
   '(modal)/hatch/[tripId]': REVEAL,
   '(modal)/sticker/[stickerId]': FIT,
   '(modal)/supplier/offer': FULL,
@@ -63,11 +64,11 @@ const PRESENTATIONS: Readonly<Record<string, ScreenPresentation>> = {
   '(modal)/supplier/log-ride': FIT,
   '(modal)/boost/[tripId]': FULL,
   '(modal)/boost/stamped': COVER,
-  '(modal)/paywall/index': COVER,
-  '(modal)/paywall/welcome': COVER,
+  '(modal)/paywall/index': FULL,
+  '(modal)/paywall/welcome': FULL,
   // Areas.
   'crew/index': DRAWN,
-  'crew/new': COVER,
+  'crew/new': FULL,
   'crew/[crewId]/invite': FULL,
   'crew/[crewId]/member/[uid]': FIT,
   'vote/new-poll': FULL,
@@ -79,7 +80,7 @@ const PRESENTATIONS: Readonly<Record<string, ScreenPresentation>> = {
   'you/past-trip': FULL,
   'money/add': REVEAL,
   'money/scan': REVEAL,
-  'memory/[memoryId]': COVER,
+  'memory/[memoryId]': FULL,
   '(trip)/lock-screen-offer': FIT,
   '(trip)/sos/[id]': REVEAL,
   '(trip)/sos/send': REVEAL,

@@ -8,10 +8,9 @@ import { DIETS, SPICE_LEVELS } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { useState, type ReactNode } from 'react';
 import { View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { SegmentedControl, Text, TextField, Toggle, usePremiumTheme } from '@/ui/premium';
-import { KeyboardAwareScroll } from '@/ui/premium/shell';
+import { KeyboardAwareScroll, useScreenInsets } from '@/ui/premium/shell';
 
 import type { DietaryProfile } from '../../dietary/dietary-data';
 import { COMMON_ALLERGENS, useDietLabels, type Allergen } from '../../dietary/dietary-labels';
@@ -43,7 +42,7 @@ export function DietaryForm({
   readonly onShareChange: (share: boolean) => void;
 }) {
   const th = usePremiumTheme();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   const labels = useDietLabels();
   const [own, setOwn] = useState('');
   const [avoidText, setAvoidText] = useState(profile.avoid.join(', '));
