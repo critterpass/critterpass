@@ -1379,7 +1379,7 @@ msgstr "Đây là nhà"
 
 #: ../../apps/mobile/src/features/onboarding/premium/invite/InvitePassEditPage.tsx
 msgid "onboarding.premium.invite.pass.tooLong"
-msgstr ""
+msgstr "Dài quá, thẻ không in hết được. Thử ngắn hơn nhé."
 
 #: ../../apps/mobile/src/features/onboarding/premium/taste/PremiumTastePage.tsx
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx

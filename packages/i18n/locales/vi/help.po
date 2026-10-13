@@ -104,11 +104,11 @@ msgstr "Thông tin thiết bị"
 
 #: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.premium.sentDone"
-msgstr ""
+msgstr "Xong"
 
 #: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.premium.articleLoading"
-msgstr ""
+msgstr "Đang tìm trang…"
 
 #. placeholder {0}: form.articleTitle
 #. placeholder {0}: props.articleTitle
@@ -197,7 +197,7 @@ msgstr "Màn hình đó sẽ được gửi cho bọn mình, phần riêng tư c
 
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.premium.feedbackKeep"
-msgstr ""
+msgstr "Viết tiếp"
 
 #: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
@@ -362,7 +362,7 @@ msgstr "Gửi"
 
 #: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.premium.sentTitle"
-msgstr ""
+msgstr "Đã gửi"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx

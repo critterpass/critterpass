@@ -118,7 +118,7 @@ msgstr "{next} sẽ tiếp quản việc tổ chức {name}."
 
 #: ../../apps/mobile/src/features/you/premium/sound/volume-slider.tsx
 msgid "common.slider.percent"
-msgstr ""
+msgstr "{percent}%"
 
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.today"
@@ -203,7 +203,7 @@ msgstr "Tất cả. Đăng nhập lại là mọi thứ trở về."
 
 #: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 msgid "onboarding.taste.noTags"
-msgstr ""
+msgstr "Bỏ qua hết rồi. Các hướng dẫn viên sẽ hiểu bạn dần dần."
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location.always"
@@ -298,11 +298,11 @@ msgstr "Chưa kiểm tra được lúc này. Lưu sẽ cho bạn biết."
 
 #: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 msgid "you.premium.retake.cancel"
-msgstr ""
+msgstr "Huỷ"
 
 #: ../../apps/mobile/src/features/you/premium/history/past-trip-premium-view.tsx
 msgid "you.premium.pastTrip.cancel"
-msgstr ""
+msgstr "Huỷ"
 
 #: ../../apps/mobile/src/features/you/premium/edit/appearance-sheet.tsx
 msgid "you.premium.cancel"
@@ -310,7 +310,7 @@ msgstr "Huỷ"
 
 #: ../../apps/mobile/src/features/you/premium/edit/field-sheets-premium.tsx
 msgid "you.premium.edit.cancel"
-msgstr ""
+msgstr "Huỷ"
 
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
 msgid "you.premium.pings.alwaysCard"
@@ -346,7 +346,7 @@ msgstr "Tiếng Trung giản thể"
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "onboarding.premium.photo.library"
-msgstr ""
+msgstr "Chọn từ Ảnh"
 
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
 #: ../../apps/mobile/src/features/you/premium/edit/field-sheets-premium.tsx
@@ -473,7 +473,7 @@ msgstr "Mã tiền tệ, ví dụ VND"
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "onboarding.photo.real.lifting"
-msgstr ""
+msgstr "Đang cắt hình bạn…"
 
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts
 msgid "you.sound.theme.chava"
@@ -817,7 +817,7 @@ msgstr "Phong cách đi của bạn"
 
 #: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 msgid "onboarding.taste.summaryTitle"
-msgstr ""
+msgstr "Phong cách đi của bạn"
 
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
 msgid "you.premium.offline.tokek"
@@ -825,7 +825,7 @@ msgstr "Mình sẽ gói ghém chuyến đi tiếp theo trong mấy ngày trướ
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "onboarding.premium.photo.cameraOnSub"
-msgstr ""
+msgstr "Trong Cài đặt, rồi quay lại đây"
 
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationParts.tsx
 msgid "you.premium.pings.inRoundup"
@@ -883,7 +883,7 @@ msgstr "Sửa tiếp"
 
 #: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 msgid "you.premium.retake.keep"
-msgstr ""
+msgstr "Làm tiếp"
 
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
 msgid "you.premium.offline.keep"
@@ -891,7 +891,7 @@ msgstr "Giữ lại"
 
 #: ../../apps/mobile/src/app/you/past-trip.tsx
 msgid "you.premium.pastTrip.keep"
-msgstr ""
+msgstr "Giữ lại"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 #: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
@@ -900,11 +900,11 @@ msgstr "Giữ tài khoản"
 
 #: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 msgid "you.premium.retake.discard"
-msgstr ""
+msgstr "Giữ câu trả lời cũ"
 
 #: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 msgid "you.premium.retake.discardTitle"
-msgstr ""
+msgstr "Giữ câu trả lời cũ của bạn?"
 
 #: ../../apps/mobile/src/features/you/language/formats-section.tsx
 msgid "you.formats.kmLong"
@@ -1101,7 +1101,7 @@ msgstr "Mới"
 
 #: ../../apps/mobile/src/features/you/premium/language/currency-choice.tsx
 msgid "you.premium.currency.none"
-msgstr ""
+msgstr "Không có loại tiền nào khớp. Thử mã ba chữ cái của nó."
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.username.dots"
@@ -1109,7 +1109,7 @@ msgstr "Không có dấu chấm ở đầu hay cuối, và không hai dấu li�
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "onboarding.photo.real.offline"
-msgstr ""
+msgstr "Không có sóng để tải ảnh lên"
 
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
 msgid "trip.offline.nothingSaved"
@@ -1212,7 +1212,7 @@ msgstr "Chỉ khi có Wi-Fi"
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "onboarding.premium.photo.librarySub"
-msgstr ""
+msgstr "Chỉ ảnh bạn chọn mới được chia sẻ"
 
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
 msgid "you.pings.crittersLine"
@@ -1300,7 +1300,7 @@ msgstr "Chọn tên người dùng"
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "onboarding.photo.real.again"
-msgstr ""
+msgstr "Chọn ảnh khác"
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
 #: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
@@ -1451,11 +1451,11 @@ msgstr "Sardi"
 
 #: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 msgid "you.premium.retake.save"
-msgstr ""
+msgstr "Lưu"
 
 #: ../../apps/mobile/src/features/you/premium/history/past-trip-premium-view.tsx
 msgid "you.premium.pastTrip.save"
-msgstr ""
+msgstr "Lưu"
 
 #: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
 msgid "you.premium.save"
@@ -1636,7 +1636,7 @@ msgstr "TỪ {0}"
 
 #: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 msgid "onboarding.taste.skip"
-msgstr ""
+msgstr "Bỏ qua câu này"
 
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts
 msgid "you.sound.theme.lundi"
@@ -1703,7 +1703,7 @@ msgstr "Lập một nhóm"
 
 #: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 msgid "onboarding.taste.retake"
-msgstr ""
+msgstr "Làm lại"
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 #: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
@@ -1733,7 +1733,7 @@ msgstr "Đề xuất tính năng"
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "onboarding.photo.real.camera"
-msgstr ""
+msgstr "Chụp ảnh"
 
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
 msgid "trip.offline.removeConfirmTitle"
@@ -1778,11 +1778,11 @@ msgstr "Tên này đã được giữ chỗ."
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "onboarding.photo.real.failed"
-msgstr ""
+msgstr "Ảnh đó chưa tải lên được"
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "onboarding.photo.real.limitTitle"
-msgstr ""
+msgstr "Nhiều ảnh quá rồi"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.name.tooLong"
@@ -1790,7 +1790,7 @@ msgstr "Dài quá, thẻ không đủ chỗ."
 
 #: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 msgid "you.premium.retake.discardLine"
-msgstr ""
+msgstr "Câu trả lời bạn vừa chọn sẽ mất, và pass của bạn giữ nguyên như cũ."
 
 #: ../../apps/mobile/src/features/you/language/language-view.tsx
 #: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
@@ -1928,15 +1928,15 @@ msgstr "Thử một tên khác nhé."
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "onboarding.photo.real.retry"
-msgstr ""
+msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "onboarding.premium.photo.cameraOn"
-msgstr ""
+msgstr "Bật camera"
 
 #: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 msgid "onboarding.taste.undo"
-msgstr ""
+msgstr "Hoàn tác"
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 #: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
@@ -1950,7 +1950,7 @@ msgstr "Trong lúc ảnh được kiểm tra, cả hội thấy chữ cái đầ
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "onboarding.photo.real.uploading"
-msgstr ""
+msgstr "Đang tải lên"
 
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
 msgid "you.avatar.usePhoto"
@@ -1958,7 +1958,7 @@ msgstr "Dùng ảnh thật"
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "onboarding.photo.real.use"
-msgstr ""
+msgstr "Dùng ảnh này"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx

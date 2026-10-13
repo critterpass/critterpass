@@ -189,7 +189,7 @@ msgstr "Lùi một bước"
 #: ../../apps/mobile/src/features/community/premium/plan-premium-view.tsx
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 msgid "common.cancel"
-msgstr ""
+msgstr "Huỷ"
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
 #: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
@@ -402,7 +402,7 @@ msgstr "Mở một lần khi có mạng, sau đó sẽ xem lại được."
 
 #: ../../apps/mobile/src/features/community/premium/shared-plan-premium-screen.tsx
 msgid "community.premium.planLoading"
-msgstr ""
+msgstr "Đang mở lịch trình…"
 
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
@@ -754,7 +754,7 @@ msgstr "Kế hoạch của nhóm đã hiện trong mục kế hoạch các nhóm
 
 #: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 msgid "community.premium.rateLive"
-msgstr ""
+msgstr "Mẹo của bạn đã hiện cho các nhóm đang lên kế hoạch đi {place}."
 
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx

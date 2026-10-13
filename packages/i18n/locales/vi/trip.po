@@ -35,7 +35,7 @@ msgstr "Với bạn, {title} vẫn bắt đầu lúc {start}."
 
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
 msgid "trip.lockScreen.eyebrow"
-msgstr ""
+msgstr "{trip} · Live Activity"
 
 #: ../../apps/mobile/src/features/trip/premium/day/DayCards.tsx
 msgid "trip.dayOf.premium.startsAt"
@@ -79,20 +79,20 @@ msgstr "Quay lại các chuyến đi"
 
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/CrewLivePreviewPremium.tsx
 msgid "trip.lockScreen.preview.boost"
-msgstr ""
+msgstr "Boost"
 
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
 msgid "trip.lockScreen.offer.boost"
-msgstr ""
+msgstr "Boost {trip}"
 
 #. placeholder {0}: boost.price
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
 msgid "trip.lockScreen.offer.boostPrice"
-msgstr ""
+msgstr "Boost {trip} · {0}"
 
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
 msgid "trip.lockScreen.cancel"
-msgstr ""
+msgstr "Huỷ"
 
 #: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
 msgid "trip.hub.premium.keep"
@@ -100,7 +100,7 @@ msgstr "Huỷ"
 
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
 msgid "trip.lockScreen.asking"
-msgstr ""
+msgstr "Đang kiểm tra"
 
 #: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
 msgid "trip.offline.premium.close"
@@ -152,7 +152,7 @@ msgstr "Đi"
 
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
 msgid "trip.lockScreen.done"
-msgstr ""
+msgstr "Đã hiểu"
 
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
 msgid "trip.dayOf.premium.packPlaceholder"
@@ -188,7 +188,7 @@ msgstr "Nó đang được gửi đi rồi."
 
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
 msgid "trip.lockScreen.offer.quiet"
-msgstr ""
+msgstr "Chỉ báo thức giờ xuất phát của riêng tôi"
 
 #: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
 msgid "trip.disruptions.late.etaStale"
@@ -200,11 +200,11 @@ msgstr "Bản đồ"
 
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/CrewLivePreviewPremium.tsx
 msgid "trip.lockScreen.preview.meetUp"
-msgstr ""
+msgstr "Điểm hẹn"
 
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/CrewLivePreviewPremium.tsx
 msgid "trip.lockScreen.preview.meetUpAt"
-msgstr ""
+msgstr "Điểm hẹn · {meetTime}"
 
 #: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
 msgid "trip.offline.editLabel"
@@ -372,7 +372,7 @@ msgstr "Các chuyến đã lưu trên máy"
 
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
 msgid "trip.lockScreen.retry"
-msgstr ""
+msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/trip/premium/hub/VisitConsentLine.tsx
 msgid "permissions.visits.accept"

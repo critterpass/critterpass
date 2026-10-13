@@ -115,7 +115,7 @@ msgstr "Chưa gửi được cho cả nhóm. Thử lại nhé."
 
 #: ../../apps/mobile/src/features/crew/live-map/crew-map-redirect.tsx
 msgid "liveMap.premium.crewMap"
-msgstr ""
+msgstr "Bản đồ nhóm"
 
 #: ../../apps/mobile/src/features/crew/live-map/copy.ts
 msgid "liveMap.status.cycling"

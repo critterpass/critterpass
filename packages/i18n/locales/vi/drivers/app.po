@@ -96,7 +96,7 @@ msgstr "{amount} một giờ"
 
 #: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.premium.pickIntro"
-msgstr ""
+msgstr "{chosen, plural, one {Chọn {name} · đã đánh dấu # ngày} other {Chọn {name} · đã đánh dấu # ngày}}"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.set"
@@ -134,7 +134,7 @@ msgstr "{driverName} đã mở liên kết · {openedOn}"
 
 #: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.premium.ask.title"
-msgstr ""
+msgstr "Bài đăng của {guide}"
 
 #: ../../apps/mobile/src/features/drivers/offline/use-ride-back.ts
 msgid "drivers.offline.included"
@@ -286,7 +286,7 @@ msgstr "Một trang gồm những ngày bạn chọn. Không cần đăng nhập
 
 #: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.premium.addPrivacy"
-msgstr ""
+msgstr "Ảnh chụp màn hình được đọc ngay trên điện thoại của bạn. Chỉ phần chữ được chia sẻ với chuyến đi."
 
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.premium.add"
@@ -352,7 +352,7 @@ msgstr "Đã lưu câu trả lời"
 
 #: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.premium.askVerb"
-msgstr ""
+msgstr "Hỏi"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CheckParts.tsx
@@ -582,7 +582,7 @@ msgstr "Các ngày"
 
 #: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.premium.discard"
-msgstr ""
+msgstr "Bỏ"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
@@ -818,7 +818,7 @@ msgstr "Đã thêm vào so sánh"
 
 #: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.premium.inviteTitle"
-msgstr ""
+msgstr "Mời {name}"
 
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
@@ -859,11 +859,11 @@ msgstr "Đúng chưa?"
 
 #: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.premium.keepInvite"
-msgstr ""
+msgstr "Giữ lại"
 
 #: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.premium.keep"
-msgstr ""
+msgstr "Chọn tiếp"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
@@ -881,7 +881,7 @@ msgstr "Ngôn ngữ bài đăng"
 
 #: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.premium.pickDiscardTitle"
-msgstr ""
+msgstr "Rời đi mà chưa chọn {name}?"
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.quote"
@@ -1371,7 +1371,7 @@ msgstr "Đã gửi cho cả nhóm"
 
 #: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.premium.setVerb"
-msgstr ""
+msgstr "Đặt"
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.title"
@@ -1388,7 +1388,7 @@ msgstr "{0} chia sẻ"
 
 #: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.premium.add.sharedBy"
-msgstr ""
+msgstr "{by} chia sẻ"
 
 #. placeholder {0}: plan.guide.name
 #. placeholder {1}: items.length
@@ -1398,7 +1398,7 @@ msgstr "Đã chia sẻ với {0} · {1}"
 
 #: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.premium.add.shared"
-msgstr ""
+msgstr "Đã chia sẻ với {guideName} · {count}"
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
@@ -1521,7 +1521,7 @@ msgstr "Cần có mạng. Thử lại khi bạn có mạng nhé."
 
 #: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.premium.pickDiscardLine"
-msgstr ""
+msgstr "Những ngày bạn đã đánh dấu sẽ không được giữ."
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx

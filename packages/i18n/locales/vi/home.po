@@ -246,7 +246,7 @@ msgstr "Boost"
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 msgid "home.premium.widgets.note"
-msgstr ""
+msgstr "Giờ đã thêm được tiện ích Boost và Pass+. Trước khi mở khoá, chúng hiện những gì sẽ được mở."
 
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.premium.noTrip.invite"
@@ -379,7 +379,7 @@ msgstr "Đã hiểu"
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 msgid "home.premium.widgets.gotIt"
-msgstr ""
+msgstr "Đã hiểu"
 
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
@@ -786,7 +786,7 @@ msgstr "Xem cũ hơn"
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 msgid "home.premium.widgets.previewHint"
-msgstr ""
+msgstr "Hiện ở màn hình chính phía trên"
 
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.nextFlightLine"

@@ -267,7 +267,7 @@ msgstr "Mọi người trong nhóm nhận được cảnh báo xuyên qua chế 
 
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 msgid "safety.premium.sendFallbackLine"
-msgstr ""
+msgstr "Mọi người trong nhóm nhận được cảnh báo xuyên qua chế độ Không làm phiền."
 
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.falseAlarm"
@@ -324,7 +324,7 @@ msgstr "Trợ giúp về ứng dụng"
 
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 msgid "safety.premium.holdToSend"
-msgstr ""
+msgstr "Giữ để gửi SOS"
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
 #: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
@@ -633,7 +633,7 @@ msgstr "Trượt để gửi SOS"
 
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 msgid "safety.premium.sosChip"
-msgstr ""
+msgstr "SOS"
 
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
@@ -799,7 +799,7 @@ msgstr "SOS của bạn chưa gửi đi được."
 
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 msgid "safety.premium.sendFailed"
-msgstr ""
+msgstr "SOS của bạn chưa gửi đi được. Giữ để thử lại, hoặc gọi {general}."
 
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.failed"
