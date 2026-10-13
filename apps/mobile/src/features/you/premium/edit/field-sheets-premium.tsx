@@ -2,7 +2,7 @@
  * The edit page's four fields as native page sheets (9.02 rows open them): name and username as
  * one field each with its live line, the home airport by search, and languages ticked in order
  * (the first is the main one). Done saves the field into the page's draft; Save in the page's
- * header keeps it.
+ * header keeps it. A sheet with a change not yet done asks before Cancel, back or a swipe drops it.
  */
 import { airportDataset } from '@cp/content/airports';
 import { hitIata, PROFILE_LANGUAGES_MAX, searchAirports, type AirportHit } from '@cp/domain';
@@ -44,6 +44,7 @@ export function NamePremiumSheet(props: {
       title={title}
       cancelLabel={words.cancel}
       onCancel={props.onClose}
+      dirty={name !== props.value}
       verb={{
         label: words.done,
         disabled: problem !== null,
@@ -87,6 +88,7 @@ export function UsernamePremiumSheet(props: {
       title={title}
       cancelLabel={words.cancel}
       onCancel={props.onClose}
+      dirty={username !== props.draft.username}
       verb={{
         label: words.done,
         disabled: bad,
@@ -183,6 +185,7 @@ export function LanguagesPremiumSheet(props: {
       title={t({ id: 'you.edit.languages', message: 'Languages' })}
       cancelLabel={words.cancel}
       onCancel={props.onClose}
+      dirty={picked.join() !== props.value.join()}
       verb={{
         label: words.done,
         onPress: () => props.onDone(picked),
