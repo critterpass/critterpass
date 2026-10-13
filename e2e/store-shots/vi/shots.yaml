@@ -1,0 +1,13 @@
+appId: app.critterpass.dev
+---
+# Store screenshots, Vietnamese: a new account takes the staging demo crew with its destination vote
+# open and walks to each screen the listing shows. Every capture is the app as it runs; the frames
+# and captions are added afterwards (tools/scripts/store-kit/compose.ts).
+- runFlow:
+    file: ../subflows/demo-account.yaml
+    env:
+      LANG: vi
+- runFlow:
+    file: ../subflows/shots.yaml
+    env:
+      LANG: vi

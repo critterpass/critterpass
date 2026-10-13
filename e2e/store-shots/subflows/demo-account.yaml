@@ -12,3 +12,13 @@ appId: app.critterpass.dev
     file: ../../_shared/seed-demo.yaml
     env:
       SEED: dev-seed-demo-vote
+# The store's language: switched in Settings, then back to Home.
+- runFlow:
+    when:
+      true: ${LANG != 'en'}
+    commands:
+      - runFlow:
+          file: ../../_shared/switch-language.yaml
+          env:
+            LANG: ${LANG}
+      - runFlow: ../../_shared/to-home.yaml
