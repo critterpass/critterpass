@@ -263,7 +263,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 10000
 - takeScreenshot: bookings-plan
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: subflows/leave-plan.yaml
 - runFlow: subflows/dismiss-visit-offer.yaml
 # Deleting the cable car ride: it leaves the wallet at once, with no card left behind.
 - tapOn:
