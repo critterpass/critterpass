@@ -22,6 +22,7 @@ import {
   launchHatchPending,
   markSplashRevealed,
   resetLaunchStateForTests,
+  useSplashRevealed,
 } from '../launch-state';
 import { BEAT_PLAN, settleMs } from '../timeline';
 
@@ -98,6 +99,28 @@ describe('which hatch a cold start plays', () => {
 });
 
 describe('the later-launch beat', () => {
+  it('stays off under the premium UI but still tells waiting screens the launch screen went', async () => {
+    coldStart({ hatched: true });
+    function Waiting() {
+      return <Text>{useSplashRevealed() ? 'revealed' : 'covered'}</Text>;
+    }
+    const view = await renderUi(
+      <>
+        <Waiting />
+        <LaunchHatch revealed={false} play={false} />
+      </>,
+    );
+    expect(screen.getByText('covered')).toBeTruthy();
+    await view.rerender(
+      <>
+        <Waiting />
+        <LaunchHatch revealed play={false} />
+      </>,
+    );
+    expect(queryBeat()).toBeNull();
+    expect(screen.getByText('revealed')).toBeTruthy();
+  });
+
   it('stays off the first launch, which the welcome screen hatches instead', async () => {
     coldStart({ hatched: false });
     await renderUi(<App revealed />);

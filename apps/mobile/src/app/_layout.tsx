@@ -38,6 +38,7 @@ import {
 } from '@/data/app-session/device-session';
 import { createTravelDataReader, TravelDataReaderProvider } from '@/data/travel-data/client';
 import { DeferredLinkGate, deferredLinkPrimitives } from '@/features/launch/DeferredLinkGate';
+import { PremiumLaunch } from '@/features/launch/premium';
 import { PassSync } from '@/features/onboarding/flow-controller/pass-sync';
 import '@/features/onboarding/routes';
 import '@/features/crew/chat/register';
@@ -103,7 +104,6 @@ import { feedback } from '@/motion/feedback';
 import { useMotionMode } from '@/motion/motion-mode';
 import { IslandToast } from '@/motion/island-toast';
 import { TouchQuietRoot } from '@/lib/interaction/touch-quiet';
-import { LaunchHatch } from '@/features/onboarding/hatch/LaunchHatch';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
@@ -113,6 +113,7 @@ import { PremiumRootStack } from '@/ui/premium/shell/navigation/premium-root-sta
 import { Text, useTheme } from '@/ui';
 import { PrimerSheetHost } from '@/ui/permission-primer';
 import { useNoBackAffordanceGuard } from '@/ui/qa/back-affordance';
+import { LaunchHatch } from '@/features/onboarding/hatch/LaunchHatch';
 import { reportTruncatedToastTitle } from '@/ui/qa/toast-title-check';
 import { PremiumRootErrorBoundary } from '@/features/home/premium/recovery/premium-error-boundary';
 import { SessionDatabaseProvider } from '@/ui/states/SessionGate';
@@ -252,6 +253,21 @@ function RootNavigator() {
   );
 }
 
+/**
+ * Over the app as the native launch screen goes: the premium launch (its stamp on the first launch
+ * only, nothing on later cold starts), or the current UI's hatch. The hatch records the reveal
+ * either way, for the screens that wait for it.
+ */
+function LaunchOverlay({ revealed }: { readonly revealed: boolean }) {
+  const premium = usePremiumUi();
+  return (
+    <>
+      {premium ? <PremiumLaunch revealed={revealed} /> : null}
+      <LaunchHatch revealed={revealed} play={!premium} />
+    </>
+  );
+}
+
 export default function RootLayout() {
   const theme = useTheme();
   const fontsReady = useFontsReady();
@@ -321,7 +337,7 @@ export default function RootLayout() {
                     <IslandToast Text={Text} onTitleLayout={reportTruncatedToastTitle} />
                     <DevToolsShake />
                     <ShakeToReport />
-                    <LaunchHatch revealed={prewarmed && linksReady} />
+                    <LaunchOverlay revealed={prewarmed && linksReady} />
                   </ScreenJoltProvider>
                 </MemberFacesRoot>
               </TravelDataReaderProvider>

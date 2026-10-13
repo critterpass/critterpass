@@ -96,12 +96,17 @@ export const firstHatchPending = () => launchHatchPending('full');
 export interface LaunchHatchProps {
   /** True once the root layout hides the native launch screen. */
   readonly revealed: boolean;
+  /**
+   * Plays the beat. Off under the premium UI, which has its own launch: the hatch then only
+   * records the reveal for the screens that wait for it. @default true
+   */
+  readonly play?: boolean;
 }
 
 /** Mounted once at the app root, beside the other overlay hosts. */
-export function LaunchHatch({ revealed }: LaunchHatchProps) {
+export function LaunchHatch({ revealed, play = true }: LaunchHatchProps) {
   const reduced = useReducedImpactMotion();
-  const [playing, setPlaying] = useState(() => launchHatchPending('beat'));
+  const [playing, setPlaying] = useState(() => play && launchHatchPending('beat'));
   useEffect(() => {
     if (revealed) markSplashRevealed();
   }, [revealed]);
