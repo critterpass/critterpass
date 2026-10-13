@@ -12,7 +12,6 @@ import { View } from 'react-native';
 import { useCommand } from '@/data/commands/use-command';
 import {
   QuizPhotoCard,
-  cardArt,
   guideFacts,
   quizCardWords,
   tagWords,
@@ -108,7 +107,7 @@ export function RetakePremiumSheet() {
                 side="left"
                 label={quizCardWords(question, 'left').label}
                 line={quizCardWords(question, 'left').line}
-                pose={cardArt(question.id, 'left').pose}
+                questionId={question.id}
                 guide={tokek}
                 flung={quiz.flinging === 'right'}
                 onPick={quiz.pick}
@@ -117,7 +116,7 @@ export function RetakePremiumSheet() {
                 side="right"
                 label={quizCardWords(question, 'right').label}
                 line={quizCardWords(question, 'right').line}
-                pose={cardArt(question.id, 'right').pose}
+                questionId={question.id}
                 guide={tokek}
                 flung={quiz.flinging === 'left'}
                 onPick={quiz.pick}

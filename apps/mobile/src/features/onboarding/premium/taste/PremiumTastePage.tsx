@@ -8,12 +8,20 @@ import { router } from 'expo-router';
 import { useEffect } from 'react';
 import { Keyboard, View } from 'react-native';
 
-import { Button, EmptySlot, GuideNote, Tag, Text, TextButton, usePremiumTheme } from '@/ui/premium';
+import {
+  Button,
+  CritterSticker,
+  EmptySlot,
+  GuideNote,
+  Tag,
+  Text,
+  TextButton,
+  usePremiumTheme,
+} from '@/ui/premium';
 
 import { tokekLine } from '../../content';
 import { guideFacts } from '../../guide-faces';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { cardArt } from '../../taste/card-art';
 import { quizCardWords } from '../../taste/quiz-copy';
 import { tagWords } from '../../taste/tag-labels';
 import { useTasteQuiz } from '../../taste/use-taste-quiz';
@@ -128,16 +136,24 @@ export function PremiumTastePage() {
         <Text variant="largeTitle" accessibilityRole="header">
           {t({ id: 'onboarding.taste.title', message: 'This or that' })}
         </Text>
-        <Text variant="guide" color={theme.color.banner.guide.text}>
-          {tokekLine(quiz.lastTrigger, locale)}
-        </Text>
+        {/* Tokek's line leads with its small doodle, pointing at the cards (2.07). */}
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.space.gap8 }}>
+          <CritterSticker kind={tokek.kind} name={tokek.name} size={34} pose="point" />
+          <Text
+            variant="guide"
+            color={theme.color.banner.guide.text}
+            style={{ flex: 1, paddingTop: theme.space.gap6 }}
+          >
+            {tokekLine(quiz.lastTrigger, locale)}
+          </Text>
+        </View>
       </View>
       <View key={question.id} style={{ gap: theme.space.gap10 }} testID="taste-quiz">
         <QuizPhotoCard
           side="left"
           label={left.label}
           line={left.line}
-          pose={cardArt(question.id, 'left').pose}
+          questionId={question.id}
           guide={tokek}
           flung={quiz.flinging === 'right'}
           onPick={quiz.pick}
@@ -168,7 +184,7 @@ export function PremiumTastePage() {
           side="right"
           label={right.label}
           line={right.line}
-          pose={cardArt(question.id, 'right').pose}
+          questionId={question.id}
           guide={tokek}
           flung={quiz.flinging === 'left'}
           onPick={quiz.pick}
