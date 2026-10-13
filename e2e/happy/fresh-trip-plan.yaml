@@ -1,113 +1,35 @@
 appId: app.critterpass.dev
 env:
-  # Curated Đà Nẵng places: the first one a search for each lets her add or save is taken, so a
-  # change in ranking or in what the guide drafted never leaves the flow without a row.
-  # A word any city answers with many rows; the first row with a + is added, and its name (read
-  # from Add to plan) is followed through the rest of the journey.
   ADD_QUERY: 'cafe'
   SAVE_QUERY: 'Han Market'
 ---
 # Release gate: a traveller plans on her own trip, started as `solo_today` (a crew of one on a trip
-# to Đà Nẵng that started today, with a plan of curated places). PLAN opens the trip map; day 1 at
-# half opens the day plan; its add bar searches "cafe" and takes the first row it can add, Add to
-# plan says where it goes and ADD puts it on the day, named by its place. Its sheet moves it to day
-# 2, and all days shows it there. A place page's ♡ saves another place, and Ideas lists it. The plan
-# check opens. After a relaunch, day 2's plan still shows the moved stop. Every outcome is the
-# server's answer on screen: the stop and the idea are found by the names the app showed when they
-# were picked.
+# to Đà Nẵng that started today, with a plan of curated places). PLAN opens the plan map (4.25);
+# day 1 opens at half with its stops (4.26); its add bar opens Find (4.30), which searches "cafe"
+# and adds the first row it can; Add to plan (4.39) says where it goes and puts it on the day,
+# named by its place. Its menu's Move opens All days (4.28), where the day's move sheet takes it to
+# day 2. A place page's ♡ saves another place, and Ideas (4.40) lists it. The plan check opens.
+# After a relaunch, day 2 still shows the moved stop. Every outcome is the server's answer on
+# screen: the stop and the idea are found by the names the app showed when they were picked.
 - runFlow:
     file: ../_shared/start-as.yaml
     env:
       SCENARIO: solo_today
-- openLink:
-    link: critterpass-dev://
-    optional: true
-- runFlow:
-    when:
-      visible: 'Open'
-    commands:
-      - tapOn: 'Open'
-- extendedWaitUntil:
-    visible:
-      id: 'home-chat'
-    timeout: 60000
 - runFlow: subflows/dismiss-visit-offer.yaml
-- runFlow:
-    file: ../_shared/tab.yaml
-    env:
-      TAB: trips
-      LABEL: Trips
-- extendedWaitUntil:
-    visible:
-      id: 'trip-hub-tile-plan|visit-consent-decline'
-    timeout: 60000
-- runFlow:
-    when:
-      visible:
-        id: 'visit-consent-decline'
-    commands:
-      - tapOn:
-          id: 'visit-consent-decline'
-      - waitForAnimationToEnd:
-          timeout: 5000
-- scrollUntilVisible:
-    element:
-      id: 'trip-hub-door-plan|trip-hub-tile-plan'
-    direction: DOWN
-    timeout: 30000
-- tapOn:
-    id: 'trip-hub-door-plan|trip-hub-tile-plan'
+- runFlow: subflows/open-plan.yaml
 
-# PLAN: the trip map (or the day plan, when PLAN opens on the day). Day 1 at half opens its plan.
-- extendedWaitUntil:
-    visible:
-      id: 'trip-map|day-plan'
-    timeout: 60000
-- runFlow:
-    when:
-      visible:
-        id: 'trip-map'
-    commands:
-      - extendedWaitUntil:
-          visible:
-            id: 'trip-map-peek'
-          timeout: 60000
-      - tapOn:
-          id: 'trip-map-day-chips-1'
-          optional: true
-      - waitForAnimationToEnd:
-          timeout: 5000
-      - takeScreenshot: plan-trip-map
-      - swipe:
-          start: 50%, 70%
-          end: 50%, 46%
-          duration: 700
-      - extendedWaitUntil:
-          visible:
-            id: 'trip-map-half'
-          timeout: 10000
-          optional: true
-      - waitForAnimationToEnd:
-          timeout: 3000
-      - takeScreenshot: plan-trip-map-day-1-half
-      - tapOn:
-          id: 'trip-map-open-day|trip-map-peek-open-day-pill'
-- extendedWaitUntil:
-    visible:
-      id: 'day-plan'
-    timeout: 30000
+# Day 1 at half: its stops on the timeline.
 - tapOn:
-    id: 'day-plan-day-chips-1'
-    optional: true
+    id: 'trip-day-1'
 - extendedWaitUntil:
     visible:
-      id: 'stop-[0-9]+'
+      id: 'timeline-stop-.*'
     timeout: 30000
-- takeScreenshot: plan-day-1
+- takeScreenshot: premium-4.26-plan-day-1-light
 
-# The add bar: search, Add to plan, ADD. The sheet's name is the place she picked.
+# The add bar: Find, the first place it can add, then Add to plan.
 - tapOn:
-    id: 'day-plan-add'
+    id: 'plan-add-bar'
 - extendedWaitUntil:
     visible:
       id: 'search-screen'
@@ -120,7 +42,12 @@ env:
       id: 'search-row-add-[0-9]+'
     timeout: 120000
 - hideKeyboard
-- takeScreenshot: plan-search
+- takeScreenshot: premium-4.30-plan-search-light
+# The add button reads "Add <name>": the stop is found by that name later.
+- copyTextFrom:
+    id: 'search-row-add-[0-9]+'
+    index: 0
+- evalScript: ${output.added = maestro.copiedText.replace(/^Add /, '').split(',')[0].trim().replace(/[.*+?^()|[\]\\]/g, '.')}
 - tapOn:
     id: 'search-row-add-[0-9]+'
     index: 0
@@ -129,34 +56,15 @@ env:
       id: 'plan-add-confirm'
       enabled: true
     timeout: 30000
-- extendedWaitUntil:
-    visible:
-      id: 'plan-add-why'
-    timeout: 15000
-    optional: true
-- copyTextFrom:
-    id: 'plan-add-name'
-- evalScript: ${output.added = maestro.copiedText.replace(/[.*+?^()|[\]\\]/g, '.')}
-- takeScreenshot: plan-add-to-plan
-- scrollUntilVisible:
-    element:
-      id: 'plan-add-confirm'
-    direction: DOWN
-    timeout: 8000
+- takeScreenshot: premium-4.39-plan-add-to-plan-light
 - tapOn:
     id: 'plan-add-confirm'
-# ADD closes the sheet onto the search it came from, which may close too: back only until the
-# day plan shows, never past it (iOS has no back button: the subflow swipes from the edge).
 - waitForAnimationToEnd:
     timeout: 5000
-- extendedWaitUntil:
-    visible:
-      id: 'day-plan|search-screen'
-    timeout: 15000
 - repeat:
     while:
       notVisible:
-        id: 'day-plan'
+        id: 'trip-map'
     times: 3
     commands:
       - runFlow: ../_shared/back.yaml
@@ -164,9 +72,8 @@ env:
           timeout: 3000
 - extendedWaitUntil:
     visible:
-      id: 'day-plan'
+      id: 'trip-map'
     timeout: 15000
-# On the day, named by its place, with its time and the way there from the stop before.
 - scrollUntilVisible:
     element:
       text: '(?iu).*${output.added}.*'
@@ -174,120 +81,72 @@ env:
     timeout: 30000
 - waitForAnimationToEnd:
     timeout: 5000
-- takeScreenshot: plan-added-on-day-1
+- takeScreenshot: premium-4.26-plan-added-on-day-1-light
 
-# Its sheet moves it to day 2.
+# Its menu's Move opens All days; day 1's move sheet takes it to day 2.
 - tapOn:
     text: '(?iu).*${output.added}.*'
     index: 0
 - extendedWaitUntil:
     visible:
-      id: 'plan-item-save'
-    timeout: 15000
-# The day pills sit under the sheet's footer until the details scroll: centred before the tap.
-- scrollUntilVisible:
-    element:
-      id: 'plan-item-move-2'
-    direction: DOWN
-    centerElement: true
-    timeout: 10000
-    optional: true
-- runFlow:
-    when:
-      visible:
-        id: 'plan-item-move-2'
-    commands:
-      - tapOn:
-          id: 'plan-item-move-2'
-# The pills are named by their dates ("Tue 6 Oct"); when the sheet's ids are not in the hierarchy
-# the second pill, day 2, is tapped by its words.
-- runFlow:
-    when:
-      notVisible:
-        id: 'plan-item-move-2'
-    commands:
-      - tapOn:
-          text: '(?i)^\w{3} \d{1,2} \w{3}$'
-          index: 1
-- waitForAnimationToEnd:
-    timeout: 3000
-# Its own time taken on day 2: the sheet offers the first start that works, and the offer goes once
-# it is taken (the footer settles after the note wraps, so a tap that lands early is tried again).
-- waitForAnimationToEnd:
-    timeout: 3000
-- repeat:
-    while:
-      visible:
-        id: 'plan-item-use-start'
-    times: 3
-    commands:
-      - tapOn:
-          id: 'plan-item-use-start'
-      - waitForAnimationToEnd:
-          timeout: 3000
-- takeScreenshot: plan-move-to-day-2
-- extendedWaitUntil:
-    visible:
-      id: 'plan-item-save'
-      enabled: true
+      id: 'stop-menu'
     timeout: 10000
 - tapOn:
-    id: 'plan-item-save'
-- extendedWaitUntil:
-    visible:
-      id: 'island-toast-message|plan-item-confirm'
-    timeout: 15000
-- runFlow:
-    when:
-      visible:
-        id: 'plan-item-confirm'
-    commands:
-      - tapOn: '(?i)change it anyway|Vẫn đổi'
-- runFlow:
-    when:
-      visible:
-        id: 'plan-item-sheet'
-    commands:
-      - runFlow: ../_shared/back.yaml
-- extendedWaitUntil:
-    visible:
-      id: 'day-plan'
-    timeout: 15000
-# All days, then day 2: the stop is on day 2.
-# ALL DAYS sits at the head of the day, above wherever the last step left it scrolled.
-- scrollUntilVisible:
-    element:
-      id: 'day-plan-all-days'
-    direction: UP
-    timeout: 15000
-- tapOn:
-    id: 'day-plan-all-days'
+    id: 'stop-menu-move'
 - extendedWaitUntil:
     visible:
       id: 'all-days'
     timeout: 20000
-- takeScreenshot: plan-all-days-moved
-# The card cuts its stop names short, so day 2's own plan reads the stop by name.
+- longPressOn:
+    id: 'all-days-card-1'
+- extendedWaitUntil:
+    visible:
+      id: 'move-stop-sheet'
+    timeout: 10000
 - tapOn:
-    id: 'all-days-card-2'
+    text: '(?iu).*${output.added}.*'
+    childOf:
+      id: 'move-stop-sheet'
 - extendedWaitUntil:
     visible:
-      id: 'day-plan'
-    timeout: 20000
-- scrollUntilVisible:
-    element:
+      id: 'move-stop-days'
+    timeout: 10000
+- tapOn:
+    id: 'day-chip-2'
+- extendedWaitUntil:
+    visible:
+      id: 'move-preview|all-days'
+    timeout: 15000
+- runFlow:
+    when:
+      visible:
+        id: 'move-preview-confirm'
+    commands:
+      - tapOn:
+          id: 'move-preview-confirm'
+- runFlow:
+    when:
+      visible:
+        id: 'move-preview-ok'
+    commands:
+      - tapOn:
+          id: 'move-preview-ok'
+- extendedWaitUntil:
+    visible:
       text: '(?iu).*${output.added}.*'
-    direction: DOWN
+      childOf:
+        id: 'all-days-card-2'
     timeout: 30000
-- takeScreenshot: plan-day-2-moved
+- takeScreenshot: premium-4.28-plan-all-days-moved-light
 
-# A place page: ♡ saves it, and Ideas lists it.
+# A place page's ♡ saves another place.
+- runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
-      id: 'day-plan'
+      id: 'trip-map'
     timeout: 15000
 - tapOn:
-    id: 'day-plan-add'
+    id: 'plan-map-search'
 - extendedWaitUntil:
     visible:
       id: 'search-screen'
@@ -300,149 +159,107 @@ env:
       id: 'search-row-[0-9]+'
     timeout: 60000
 - hideKeyboard
+# The row reads "<name>, <what and where>": its name is what Ideas lists.
+- copyTextFrom:
+    id: 'search-row-[0-9]+'
+    index: 0
+- evalScript: ${output.saved = maestro.copiedText.split(',')[0].trim().replace(/[.*+?^()|[\]\\]/g, '.')}
 - tapOn:
     id: 'search-row-[0-9]+'
     index: 0
 - extendedWaitUntil:
     visible:
-      id: 'place-detail-save|place-detail-saved'
+      id: 'place-detail-save'
     timeout: 30000
-- copyTextFrom:
-    id: 'place-detail-name'
-- evalScript: ${output.saved = maestro.copiedText.replace(/[.*+?^()|[\]\\]/g, '.')}
-- takeScreenshot: plan-place-page
+- takeScreenshot: premium-4.36-plan-place-page-light
 - runFlow:
     when:
-      visible:
+      notVisible:
         id: 'place-detail-save'
+        text: 'Saved.*'
     commands:
       - tapOn:
           id: 'place-detail-save'
 - extendedWaitUntil:
     visible:
-      id: 'place-detail-saved'
+      id: 'place-detail-save'
+      text: 'Saved.*'
     timeout: 15000
-- takeScreenshot: plan-place-saved
+- takeScreenshot: premium-4.36-plan-place-saved-light
 - repeat:
     while:
       notVisible:
-        id: 'day-plan'
+        id: 'trip-map'
     times: 4
     commands:
       - runFlow: ../_shared/back.yaml
       - waitForAnimationToEnd:
           timeout: 3000
-# ALL DAYS sits at the head of the day, above wherever the last step left it scrolled.
-- scrollUntilVisible:
-    element:
-      id: 'day-plan-all-days'
-    direction: UP
-    timeout: 15000
-- tapOn:
-    id: 'day-plan-all-days'
-# Ideas › sits at the foot, below the day cards and the getting-there estimates.
+- runFlow:
+    file: ../_shared/tap.yaml
+    env:
+      ID: 'plan-map-ideas'
+      LABEL: 'Ideas.*'
 - extendedWaitUntil:
     visible:
-      id: 'all-days'
-    timeout: 20000
-- scrollUntilVisible:
-    element:
-      id: 'all-days-ideas'
-    direction: DOWN
-    timeout: 20000
-    centerElement: true
-- tapOn:
-    id: 'all-days-ideas'
-- extendedWaitUntil:
-    visible:
-      id: 'plan-ideas-list'
+      id: 'ideas-sheet'
     timeout: 20000
 - scrollUntilVisible:
     element:
       text: '(?iu).*${output.saved}.*'
     direction: DOWN
     timeout: 30000
-- takeScreenshot: plan-ideas
+- takeScreenshot: premium-4.40-plan-ideas-light
+- runFlow:
+    file: ../_shared/back-to.yaml
+    env:
+      MARK: 'trip-map'
 
-# The plan check opens.
-- runFlow: ../_shared/back.yaml
+# The plan check, from All days.
+- runFlow:
+    file: subflows/open-plan.yaml
+- tapOn:
+    id: 'trip-day-1'
 - extendedWaitUntil:
     visible:
-      id: 'all-days'
-    timeout: 15000
-# The guide's check card on all days, back at the head of the page (scrolled to its top, so the
-# card's SEE is on screen and not just its last line): its SEE opens the plan check.
-- scrollUntilVisible:
-    element:
-      id: 'all-days-back'
-    direction: UP
-    timeout: 20000
+      id: 'timeline-stop-.*'
+    timeout: 30000
+- tapOn:
+    id: 'timeline-stop-.*'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'stop-menu'
+    timeout: 10000
+- tapOn:
+    id: 'stop-menu-move'
 - extendedWaitUntil:
     visible:
       id: 'all-days-check'
     timeout: 60000
 - tapOn:
-    text: '(?i)^see$'
+    id: 'all-days-check'
 - extendedWaitUntil:
     visible:
-      id: 'plan-check-title'
+      id: 'plan-check'
     timeout: 60000
 - waitForAnimationToEnd:
     timeout: 5000
-- takeScreenshot: plan-check
+- takeScreenshot: premium-4.43-plan-check-light
 
-# After a relaunch, day 2's plan still shows the moved stop.
-# The app reopens where she left it (the plan check): back out to the tabs, then TRIPS.
+# After a relaunch, day 2 still has the moved stop.
+- stopApp
 - launchApp
 - extendedWaitUntil:
     visible:
-      id: 'plan-check-title|tab-trips'
+      id: 'home-screen|tab-home|plan-check|trip-map|critters-hatch-later'
     timeout: 60000
-- repeat:
-    while:
-      notVisible:
-        id: 'tab-trips'
-    times: 4
-    commands:
-      - runFlow: ../_shared/back.yaml
-      - waitForAnimationToEnd:
-          timeout: 3000
-- runFlow:
-    file: ../_shared/tab.yaml
-    env:
-      TAB: trips
-      LABEL: Trips
-- scrollUntilVisible:
-    element:
-      id: 'trip-hub-door-plan|trip-hub-tile-plan'
-    direction: DOWN
-    timeout: 30000
+- runFlow: subflows/open-plan.yaml
 - tapOn:
-    id: 'trip-hub-door-plan|trip-hub-tile-plan'
-- extendedWaitUntil:
-    visible:
-      id: 'trip-map|day-plan'
-    timeout: 60000
-- runFlow:
-    when:
-      visible:
-        id: 'trip-map'
-    commands:
-      - extendedWaitUntil:
-          visible:
-            id: 'trip-map-peek'
-          timeout: 60000
-      - tapOn:
-          id: 'trip-map-peek-open-day-pill'
-- extendedWaitUntil:
-    visible:
-      id: 'day-plan'
-    timeout: 30000
-- tapOn:
-    id: 'day-plan-day-chips-2'
+    id: 'trip-day-2'
 - scrollUntilVisible:
     element:
       text: '(?iu).*${output.added}.*'
     direction: DOWN
     timeout: 30000
-- takeScreenshot: plan-day-2-after-relaunch
+- takeScreenshot: premium-4.26-plan-day-2-after-relaunch-light

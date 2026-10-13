@@ -1,28 +1,51 @@
 appId: app.critterpass.dev
 ---
-# Release gate: an activity's partner link. A new account starts with the staging demo crew (a Bali
-# trip), opens an activity's supplier cards (Viator's in-app booking is switched off, so each card
-# is a plain partner link) and taps OPEN KLOOK. The app records the click with the api first, then
+# Release gate: an activity's partner link. A new account starts on a Đà Nẵng trip that is on today,
+# finds a museum from the plan map, opens its tickets and tours from the place page (Viator's in-app
+# booking is switched off, so each card is a plain partner link) and taps Open Klook. The app records the click with the api first, then
 # opens the attribution bridge on the staging go host (`/out/{sub_id}`), which redirects to Klook
 # only once it knows the click: landing on Klook's page (or the partner redirect on the way there)
 # is the outcome.
 - runFlow:
     file: ../_shared/start-as.yaml
     env:
-      SCENARIO: caught_up
+      SCENARIO: trip_today
+- runFlow: subflows/dismiss-visit-offer.yaml
+# Find from the plan map: a museum's page offers its tickets and tours.
+- runFlow: subflows/open-plan.yaml
 - tapOn:
-    id: 'dev-tools-entry'
-- runFlow: ../suppliers/subflows/open-lab.yaml
+    id: 'plan-map-search'
 - extendedWaitUntil:
     visible:
-      text: 'Live offer on this trip'
-    timeout: 60000
+      id: 'search-screen'
+    timeout: 15000
 - tapOn:
-    id: 'supplier-lab-live-offer'
+    id: 'search-field'
+- inputText: 'museum'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-[0-9]+'
+    timeout: 60000
+- hideKeyboard
+- tapOn:
+    id: 'search-row-[0-9]+'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'place-detail'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'explore-offers-open'
+    direction: DOWN
+    timeout: 60000
+    centerElement: true
+- tapOn:
+    id: 'explore-offers-open'
 - extendedWaitUntil:
     visible:
       id: 'supplier-offer-klook'
-    timeout: 20000
+    timeout: 30000
 - assertVisible:
     id: 'supplier-disclosure'
 - tapOn:

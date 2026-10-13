@@ -22,7 +22,7 @@ appId: app.critterpass.dev
       MUST_DO: 'Banh can for breakfast'
       STOP_AT_DRAFT: 'yes'
 - assertVisible:
-    id: 'draft-private'
+    id: 'draft-sub'
 - assertVisible:
     id: 'draft-day-1'
 - scrollUntilVisible:
@@ -43,10 +43,10 @@ appId: app.critterpass.dev
 # The sheet's root id isn't in iOS's accessibility tree; its day chips are.
 - extendedWaitUntil:
     visible:
-      id: 'change-day-2'
+      id: 'day-chip-2'
     timeout: 15000
 - tapOn:
-    id: 'change-day-2'
+    id: 'day-chip-2'
 - tapOn:
     id: 'redraft-reason-.*'
     index: 0
@@ -55,7 +55,7 @@ appId: app.critterpass.dev
 # The last free redraft asks first.
 - extendedWaitUntil:
     visible:
-      id: 'redraft-thinking|redraft-diff|last-redraft-use'
+      id: 'redraft-screen|last-redraft-use'
     timeout: 30000
 - runFlow:
     when:
@@ -66,7 +66,7 @@ appId: app.critterpass.dev
           id: 'last-redraft-use'
 - extendedWaitUntil:
     visible:
-      id: 'redraft-diff'
+      id: 'redraft-keep'
     timeout: 600000
 - waitForAnimationToEnd
 - takeScreenshot: uncurated-redraft-diff
@@ -105,7 +105,7 @@ appId: app.critterpass.dev
     direction: DOWN
     timeout: 60000
 - assertVisible:
-    id: 'explore-pick-0'
+    id: 'explore-pick-.*'
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: uncurated-explore-picks

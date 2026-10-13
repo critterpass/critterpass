@@ -20,7 +20,7 @@ appId: app.critterpass.dev
 - openLink: critterpass-dev://trips
 - extendedWaitUntil:
     visible:
-      id: 'tab-home'
+      id: 'tab-home|home-screen|trip-list-row-.*|trip-list-empty|trip-hub'
     timeout: 30000
 - runFlow:
     file: ../_shared/tab.yaml
