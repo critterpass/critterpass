@@ -199,6 +199,10 @@ export function CrewSection({ view, openTrip, now }: CrewSectionProps) {
   const recapGo = recent === null ? undefined : push(homeRoutes.recap(recent.id));
   const pitchGo = push(homeRoutes.pitch(crew.id));
   const everyday = home.mode === 'everyday' || home.mode === 'final_vote';
+  const voteDrawn = everyday && vote !== null && home.vote !== null;
+  // The pitch board carries its own "+ Pitch a place"; the final and a crew with no vote use Home's.
+  const pitchHere =
+    everyday && pitchGo !== undefined && !(voteDrawn && home.vote?.stage === 'board');
   return (
     <View style={styles.stack} testID={`home-mode-${home.mode}`}>
       {openTrip === null ? null : <JoinTripNote trip={openTrip} crewName={crew.name} />}
@@ -223,10 +227,10 @@ export function CrewSection({ view, openTrip, now }: CrewSectionProps) {
           {...(pitchGo === undefined ? {} : { onNext: pitchGo })}
         />
       )}
-      {everyday && vote !== null && home.vote !== null
+      {voteDrawn && vote !== null && home.vote !== null
         ? createElement(vote.Component, { crewId: crew.id, vote: home.vote })
         : null}
-      {everyday && pitchGo !== undefined ? (
+      {pitchHere ? (
         <PressableScale
           onPress={pitchGo}
           style={styles.pitch}

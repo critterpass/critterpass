@@ -108,6 +108,10 @@ msgstr ""
 msgid "vote.solo.body"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.pickOne"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/premium/final/reveal-footer.tsx
 msgid "vote.reveal.backInDeck"
 msgstr ""
@@ -145,12 +149,24 @@ msgstr ""
 msgid "vote.showdown.count"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/premium/board/board-tile.tsx
+msgid "vote.premium.board.votes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
+msgid "vote.premium.final.count"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.lockedIn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.result"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/board-parts.tsx
+msgid "vote.premium.board.pitchPlus"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
@@ -213,6 +229,8 @@ msgid "vote.pitch.onBoard"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/final/tie-line.tsx
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+#: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 #: ../../apps/mobile/src/features/vote/premium/final/winner-reveal.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
@@ -245,6 +263,7 @@ msgstr ""
 msgid "vote.guest.back"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/premium/board/board-screen.tsx
 #: ../../apps/mobile/src/features/vote/premium/components/screen-states.tsx
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.premium.back"
@@ -252,6 +271,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/final/reveal-footer.tsx
 msgid "vote.premium.reveal.backHome"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.pickBack"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/places/guest-facts.ts
@@ -271,6 +294,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
 msgid "vote.premium.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.keep"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
@@ -343,14 +370,34 @@ msgstr ""
 msgid "vote.final.allIn"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
+msgid "vote.premium.final.status"
+msgstr ""
+
 #. placeholder {0}: poll.votedCount
 #. placeholder {1}: poll.eligibleIds.length
 #: ../../apps/mobile/src/features/vote/premium/final/winner-reveal.tsx
 msgid "vote.premium.reveal.voted"
 msgstr ""
 
+#. placeholder {0}: deadline.day
+#: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
+msgid "vote.premium.final.statusDay"
+msgstr ""
+
+#. placeholder {0}: deadline.hours
+#: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
+msgid "vote.premium.final.statusHours"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.premium.showdown.subtitle"
+msgstr ""
+
+#. placeholder {0}: nameOf(first)
+#. placeholder {1}: nameOf(second)
+#: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
+msgid "vote.premium.final.open"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
@@ -363,6 +410,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/places/guest-dock.tsx
 msgid "vote.premium.guest.solo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.goToFinal"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/places/search-places.tsx
@@ -378,6 +429,7 @@ msgstr ""
 msgid "vote.premium.search.live"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/premium/board/board-screen.tsx
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.showdown.missingLine"
 msgstr ""
@@ -387,6 +439,10 @@ msgstr ""
 #. placeholder {2}: originCity(tie.origin)
 #: ../../apps/mobile/src/features/vote/premium/final/reveal-lines.ts
 msgid "vote.reveal.tie"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.removeLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/places/solo-sheet.tsx
@@ -406,8 +462,13 @@ msgstr ""
 msgid "vote.reveal.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/premium/board/board-screen.tsx
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.showdown.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.lockIn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/final/reveal-lines.ts
@@ -451,6 +512,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/final/reveal-lines.ts
 msgid "vote.reveal.lockedNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/board-tile.tsx
+msgid "vote.premium.board.noVotes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/places/search-places.tsx
@@ -498,6 +563,10 @@ msgstr ""
 msgid "vote.pitch.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/premium/board/board-parts.tsx
+msgid "vote.premium.board.pitch"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/premium/places/guest-dock.tsx
 msgid "vote.guest.pitch"
 msgstr ""
@@ -525,6 +594,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
 msgid "vote.newPoll.question"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.remove"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
@@ -564,8 +637,16 @@ msgstr ""
 msgid "vote.solo.start"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.pickStart"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
 msgid "vote.premium.guest.reading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.removeTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
@@ -578,6 +659,22 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/places/use-solo-start.ts
 msgid "vote.solo.refused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.lockInFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/board-parts.tsx
+msgid "vote.premium.board.needsSignal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/board-parts.tsx
+msgid "vote.premium.board.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.finalFailed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
@@ -604,6 +701,10 @@ msgstr ""
 msgid "vote.reveal.missingLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.pickTwo"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
 msgid "vote.guest.error"
 msgstr ""
@@ -612,6 +713,7 @@ msgstr ""
 msgid "vote.reveal.missingTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/premium/board/board-screen.tsx
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.showdown.missingTitle"
 msgstr ""
@@ -636,10 +738,17 @@ msgstr ""
 msgid "vote.premium.showdown.vote"
 msgstr ""
 
+#. placeholder {0}: poll.votedCount
+#. placeholder {1}: poll.eligibleIds.length
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.status"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.premium.showdown.voted"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.final.vs"
 msgstr ""
@@ -655,6 +764,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/final/winner-reveal.tsx
 msgid "vote.premium.reveal.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/board-parts.tsx
+#: ../../apps/mobile/src/features/vote/premium/board/board-screen.tsx
+msgid "vote.premium.board.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/final/winner-reveal.tsx
@@ -685,6 +799,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/places/solo-sheet.tsx
 msgid "vote.premium.solo.route"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
+msgid "vote.premium.final.notVoted"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
@@ -744,6 +862,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.showdown.yours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/board/board-tile.tsx
+msgid "vote.premium.board.yours"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts

@@ -2,7 +2,7 @@
  * The destination final over the real local-first stack: the showdown states where a tie goes; a
  * vote button queues the ballot and the guide notes an underdog pick; each card counts its votes
  * and says who is still to vote; a poll is drawn only once its votes have been read; a closed poll
- * sends the showdown on to the reveal.
+ * sends the showdown on to the reveal, and one still on its board to the board.
  */
 // Loops are timing, not layout: the tests see their resting frame.
 jest.mock('@/motion/use-loop', () => ({ useLoop: () => ({}) }));
@@ -37,11 +37,14 @@ import {
 } from '../../test-support/final-fixtures';
 import {
   JORDAN,
+  KYOTO,
+  LISBON,
   MAYA,
   POLL,
   queued,
   renderVote,
   seedCrew,
+  seedPoll,
   settleMotion,
   until,
 } from '../../test-support/vote-harness';
@@ -138,5 +141,21 @@ describe('destination final', () => {
     await renderVote(<Final me={s.uid} />, s);
     await until(() => (router.replace as jest.Mock).mock.calls.length > 0);
     expect(router.replace).toHaveBeenCalledWith(voteRoutes.reveal(POLL));
+  });
+
+  it('opens the board instead for a vote still on its board', async () => {
+    const s = await open();
+    await seedPoll(s, {
+      kind: 'destination',
+      stage: 'board',
+      question: null,
+      options: [
+        { id: OPT_KYOTO, label: 'Kyoto', refId: KYOTO },
+        { id: OPT_LISBON, label: 'Lisbon', refId: LISBON },
+      ],
+    });
+    await renderVote(<Final me={s.uid} />, s);
+    await until(() => (router.replace as jest.Mock).mock.calls.length > 0);
+    expect(router.replace).toHaveBeenCalledWith(voteRoutes.board(POLL));
   });
 });
