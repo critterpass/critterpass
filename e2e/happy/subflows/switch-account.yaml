@@ -26,14 +26,23 @@ appId: app.critterpass.dev
 - tapOn:
     id: ${TARGET}
 # The app restarts on the new session; Home sends a brand-new account to onboarding. The restart
-# can come back on Developer tools with nothing under it (a back would leave the app): Home's link
-# then takes it out.
+# can come back on Developer tools or "Start as" with nothing under it (a back would leave the
+# app): Home's link, or the Start as card, then takes it out.
 - waitForAnimationToEnd:
     timeout: 5000
 - extendedWaitUntil:
     visible:
-      id: 'onboarding-open|home-screen|dev-build-marker|dev-nav-.*'
+      id: 'onboarding-open|home-screen|dev-build-marker|dev-nav-.*|start-as-ready'
     timeout: 60000
+# Or on the "Start as" page the install began on: its card opens Home.
+- runFlow:
+    when:
+      visible:
+        id: 'start-as-ready'
+    commands:
+      - tapOn:
+          id: 'start-as-ready'
+      - waitForAnimationToEnd
 - runFlow:
     when:
       notVisible:

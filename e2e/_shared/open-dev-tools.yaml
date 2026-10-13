@@ -1,21 +1,21 @@
 appId: app.critterpass.dev
 ---
-# Opens Developer tools the way a tester does: back to Home (or the splash, before onboarding),
+# Opens Developer tools the way a tester does: Home (or the splash, before onboarding),
 # down to the "Developer tools" entry at its foot, and a tap. Ends on the Developer tools list.
-- runFlow:
-    file: back-to.yaml
-    env:
-      MARK: 'home-screen|onboarding-open'
+# Home's link brings Home to the front from any screen (a run of backs can leave the app from a
+# tab's root); before onboarding it opens the splash.
 - runFlow:
     when:
       notVisible:
         id: 'home-screen|onboarding-open'
     commands:
+      - openLink:
+          link: critterpass-dev://
       - runFlow:
-          file: tab.yaml
-          env:
-            TAB: home
-            LABEL: Home
+          when:
+            visible: 'Open'
+          commands:
+            - tapOn: 'Open'
 - runFlow:
     when:
       visible:

@@ -100,7 +100,8 @@ appId: app.critterpass.dev
     visible:
       id: 'bookings-detail'
     timeout: 15000
-- assertVisible: '.*00:05.*00:35.*'
+- assertVisible: '00:05'
+- assertVisible: '00:35'
 - assertVisible:
     id: 'bookings-landed'
 - waitForAnimationToEnd

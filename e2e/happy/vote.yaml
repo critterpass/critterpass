@@ -71,14 +71,15 @@ appId: app.critterpass.dev
             visible:
               id: 'pitch-search'
           file: ../_shared/back.yaml
+      # iOS reads the button by its label only.
       - scrollUntilVisible:
           element:
-            id: 'board-go-to-final'
+            text: '(?i)go to (the )?final'
           timeout: 20000
           centerElement: true
       - waitForAnimationToEnd
       - tapOn:
-          id: 'board-go-to-final'
+          text: '(?i)go to (the )?final'
       - extendedWaitUntil:
           visible:
             id: 'final-split'

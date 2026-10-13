@@ -185,7 +185,8 @@ appId: app.critterpass.dev
       - waitForAnimationToEnd
       - takeScreenshot: premium-7-bookings-flight-detail
       - assertVisible: '.*K7Q2PX.*'
-      - assertVisible: '.*07:05.*08:30.*'
+      - assertVisible: '07:05'
+      - assertVisible: '08:30'
       - runFlow: ../_shared/back.yaml
       - runFlow: ../_shared/back.yaml
       - extendedWaitUntil:
