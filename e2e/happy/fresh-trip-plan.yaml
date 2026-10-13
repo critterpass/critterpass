@@ -366,11 +366,16 @@ env:
     visible:
       id: 'all-days'
     timeout: 15000
-# The guide's check card on all days, back at the head of the page: its SEE opens the plan check.
+# The guide's check card on all days, back at the head of the page (scrolled to its top, so the
+# card's SEE is on screen and not just its last line): its SEE opens the plan check.
 - scrollUntilVisible:
     element:
-      id: 'all-days-check'
+      id: 'all-days-back'
     direction: UP
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'all-days-check'
     timeout: 60000
 - tapOn:
     text: '(?i)^see$'
