@@ -17,6 +17,7 @@ const FULL_SCREENS = [
   'proposal/[id]/trailer',
   'album/[tripId]/[photoId]',
   'recap/[tripId]/story',
+  'encounter/[id]',
 ] as const;
 /* eslint-enable lingui/no-unlocalized-strings */
 
@@ -41,7 +42,7 @@ export default function TripLayout() {
             <PremiumStackScreen key={name} name={name} options={SELF_ANIMATED_SHEET} />
           ))}
           {/* Covers the app with their ✕ (or their own way out): the proposal landing, its
-              trailer, a photo and the recap story. */}
+              trailer, a photo, the recap story and a critter encounter. */}
           {FULL_SCREENS.map((name) => (
             <PremiumStackScreen key={name} name={name} options={FULL_SCREEN_ROUTE_OPTIONS} />
           ))}
