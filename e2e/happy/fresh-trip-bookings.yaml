@@ -131,7 +131,7 @@ appId: app.critterpass.dev
 # The wallet: the stay, the ride and the flight home are in the stack, in đồng.
 - extendedWaitUntil:
     visible:
-      id: 'bookings-stack'
+      id: 'bookings-next-up|bookings-wallet-stack|bookings-stack'
     timeout: 30000
 # A booking typed in by hand is in the wallet at once, before the server has answered.
 - extendedWaitUntil:
@@ -183,7 +183,7 @@ appId: app.critterpass.dev
       - runFlow: ../_shared/back.yaml
       - extendedWaitUntil:
           visible:
-            id: 'bookings-stack'
+            id: 'bookings-next-up|bookings-wallet-stack|bookings-stack'
           timeout: 15000
 # The flight home at the front of the stack: when it leaves and when it lands.
 - tapOn: '.*9G ?957.*'

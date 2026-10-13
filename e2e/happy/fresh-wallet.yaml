@@ -108,13 +108,30 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'wallet-switch-bookings'
+# An empty wallet has no insurance row (it shows once the wallet holds a booking): the insurance
+# page opens by its link then.
 - scrollUntilVisible:
     element:
       id: 'bookings-insurance-add'
     direction: DOWN
-    timeout: 15000
-- tapOn:
-    id: 'bookings-insurance-add'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'bookings-insurance-add'
+    commands:
+      - tapOn:
+          id: 'bookings-insurance-add'
+- runFlow:
+    when:
+      notVisible:
+        id: 'bookings-insurance-form'
+    commands:
+      - runFlow:
+          file: ../_shared/open-link.yaml
+          env:
+            URL: critterpass-dev://wallet/bookings/insurance
 - extendedWaitUntil:
     visible:
       id: 'bookings-insurance-form'

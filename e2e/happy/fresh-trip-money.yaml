@@ -152,7 +152,7 @@ appId: app.critterpass.dev
 - assertNotVisible: '.*\$.*'
 # The latest one's detail: an expense nobody edited lists no changes.
 - tapOn:
-    id: 'money-history-(?!everyone|filters|nomatch|member).*'
+    id: 'money-history-(?!everyone|filters|nomatch|member|add|search).*'
     index: 0
 - extendedWaitUntil:
     visible:

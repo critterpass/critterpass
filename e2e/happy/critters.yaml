@@ -99,16 +99,17 @@ appId: app.critterpass.dev
           timeout: 5000
       - stopApp
       - launchApp
+      # The relaunch can restore the dex: Home draws first, the restored dex a moment later.
       - extendedWaitUntil:
           visible:
             id: 'home-screen|critters-dex'
           timeout: 60000
-      - runFlow:
-          when:
-            notVisible:
-              id: 'critters-dex|critters-dex-header'
-          commands:
-            - runFlow: subflows/open-critterdex.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-dex'
+          timeout: 10000
+          optional: true
+      - runFlow: subflows/open-critterdex.yaml
       - scrollUntilVisible:
           element:
             id: 'critters-explore-at-home'

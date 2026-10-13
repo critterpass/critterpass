@@ -19,12 +19,12 @@ appId: app.critterpass.dev
     id: 'bookings-form-kind-flight'
 # The kind's tap can leave the form scrolled with the keyboard up and the flight field above the
 # fold, where a tap lands on the screen behind: each field is brought into view first.
+# Near the top of the form: it can't be centred, so the scroll only brings it in.
 - scrollUntilVisible:
     element:
       id: 'bookings-form-flight'
     direction: UP
     timeout: 10000
-    centerElement: true
 - tapOn:
     id: 'bookings-form-flight'
 - inputText: ${FLIGHT}

@@ -74,7 +74,7 @@ appId: app.critterpass.dev
 - openLink: critterpass-dev://wallet/bookings
 - extendedWaitUntil:
     visible:
-      id: 'bookings-stack'
+      id: 'bookings-next-up|bookings-wallet-stack|bookings-stack'
     timeout: 30000
 - assertVisible: '.*SQ ?938.*'
 # The open card is the flight card; with no pass scanned it offers none.

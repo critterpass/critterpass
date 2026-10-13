@@ -19,12 +19,10 @@ env:
 - runFlow: subflows/open-plan.yaml
 
 # Day 1 at half: its stops on the timeline.
-- tapOn:
-    id: 'trip-day-1'
-- extendedWaitUntil:
-    visible:
-      id: 'timeline-stop-.*'
-    timeout: 30000
+- runFlow:
+    file: subflows/open-plan-day.yaml
+    env:
+      DAY: 1
 - takeScreenshot: premium-4.26-plan-day-1-light
 
 # The add bar: Find, the first place it can add, then Add to plan.
@@ -229,12 +227,10 @@ env:
 # The plan check, from All days.
 - runFlow:
     file: subflows/open-plan.yaml
-- tapOn:
-    id: 'trip-day-1'
-- extendedWaitUntil:
-    visible:
-      id: 'timeline-stop-.*'
-    timeout: 30000
+- runFlow:
+    file: subflows/open-plan-day.yaml
+    env:
+      DAY: 1
 - tapOn:
     id: 'timeline-stop-.*'
     index: 0
@@ -266,8 +262,10 @@ env:
       id: 'home-screen|tab-home|plan-check|trip-map|critters-hatch-later'
     timeout: 60000
 - runFlow: subflows/open-plan.yaml
-- tapOn:
-    id: 'trip-day-2'
+- runFlow:
+    file: subflows/open-plan-day.yaml
+    env:
+      DAY: 2
 - scrollUntilVisible:
     element:
       text: '(?iu).*${output.added}.*'

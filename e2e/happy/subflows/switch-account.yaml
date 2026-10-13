@@ -36,3 +36,12 @@ appId: app.critterpass.dev
       visible: 'Open'
     commands:
       - tapOn: 'Open'
+# The restart can come back on Developer tools: back out to the splash (a new account) or Home.
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open|home-screen|tab-home|dev-build-marker|dev-nav-.*'
+    timeout: 60000
+- runFlow:
+    file: ../../_shared/back-to.yaml
+    env:
+      MARK: 'onboarding-open|home-screen|tab-home'
