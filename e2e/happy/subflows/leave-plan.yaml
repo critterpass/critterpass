@@ -1,0 +1,19 @@
+appId: app.critterpass.dev
+---
+# Back out of the trip's plan to the screen that opened it. The trip map takes an edge swipe on iOS
+# as a pan of the map, so its own back arrow closes it; the day plan is a pushed screen and takes
+# the platform's back.
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map-back'
+    commands:
+      - tapOn:
+          id: 'trip-map-back'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- runFlow:
+    when:
+      visible:
+        id: 'day-plan'
+    file: ../../onboarding/subflows/back.yaml

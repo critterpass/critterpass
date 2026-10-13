@@ -490,7 +490,7 @@ appId: app.critterpass.dev
             - waitForAnimationToEnd:
                 timeout: 5000
       - takeScreenshot: en-join-under-way-newcomer-plan
-      - runFlow: ../onboarding/subflows/back.yaml
+      - runFlow: subflows/leave-plan.yaml
 - tapOn:
     id: 'tab-home'
 - extendedWaitUntil:
