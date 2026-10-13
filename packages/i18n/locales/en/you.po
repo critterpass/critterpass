@@ -207,6 +207,10 @@ msgstr "Appearance"
 msgid "you.appIcon.appearance"
 msgstr "Appearance"
 
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.ask"
+msgstr "Ask"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location.ask"
 msgstr "Ask"
@@ -829,6 +833,10 @@ msgstr "Letters, numbers, dots and underscores only."
 msgid "you.premium.appearance.light"
 msgstr "Light"
 
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.limited"
+msgstr "Limited"
+
 #: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.currency.mode.local"
 msgstr "Local"
@@ -957,6 +965,10 @@ msgstr "Notifications"
 msgid "you.pings.notificationsOff"
 msgstr "Notifications are off, so nothing reaches your lock screen."
 
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.off"
+msgstr "Off"
+
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
 msgid "you.settings.musicOff"
 msgstr "Off"
@@ -982,6 +994,10 @@ msgstr "Offline"
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
 msgid "trip.offline.storageTitle"
 msgstr "Offline"
+
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.on"
+msgstr "On"
 
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
 msgid "you.settings.musicOn"
@@ -1063,6 +1079,10 @@ msgstr "Past {budget}, the rest wait for your {0} roundup."
 msgid "you.pastTrip.editTitle"
 msgstr "Past trip"
 
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.section.title"
+msgstr "Permissions"
+
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.tab.photo"
 msgstr "Photo"
@@ -1131,6 +1151,10 @@ msgstr "Portuguese"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.privacy"
 msgstr "Privacy"
+
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.quiet"
+msgstr "Quiet"
 
 #: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
 msgid "you.premium.chatty.quiet"
