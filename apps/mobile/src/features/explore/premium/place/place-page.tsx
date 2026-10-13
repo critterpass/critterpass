@@ -1,8 +1,9 @@
 /**
  * A place (4.36, 4.37): the photo to the top edge under clear-glass back, share and ♥, then the
  * ground sheet over it: its kind and who saved it, its name and how far it is from the stay, the
- * fact tiles, when it fits (with the day's hour bars), the guide's tip, Know before you go, Next
- * nearby and If you like this. The dock keeps Add (at the slot it names) and the guide in reach.
+ * fact tiles, when it fits (with the day's hour bars), the guide's tip, Know before you go,
+ * Tickets and tours (where the place sells them), Next nearby, If you like this and, under a summary
+ * the guide wrote, Report a problem. The dock keeps Add (at the slot it names) and the guide in reach.
  * Every tap and read comes from `usePlaceDetail`.
  */
 import { t } from '@lingui/core/macro';
@@ -30,6 +31,7 @@ import { kindWord } from '../../search/search-rows';
 import { SectionLabel } from '../components/labels';
 import { PlaceResultRow } from '../components/place-result-row';
 import { FactTilesRow, KnowBeforeCard, NearbyRow, WhenItFitsCard } from './place-sections';
+import { PlaceOffersCard, ReportPlaceProfile } from './place-extras';
 import { PlaceHeroPhoto } from './place-hero-photo';
 import { PremiumRemoveForEveryone } from './remove-for-everyone';
 
@@ -136,6 +138,7 @@ export function PlacePage(props: PlaceDetailInput) {
             />
           )}
           <KnowBeforeCard lines={further.context?.know ?? []} />
+          {further.offers === null ? null : <PlaceOffersCard {...further.offers} />}
           <PremiumRemoveForEveryone
             tripId={props.tripId ?? null}
             placeId={further.placeId}
@@ -175,6 +178,7 @@ export function PlacePage(props: PlaceDetailInput) {
               </ListCard>
             </View>
           )}
+          {further.profile === null ? null : <ReportPlaceProfile poiId={further.placeId} />}
         </View>
       </ScrollView>
       <View
