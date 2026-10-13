@@ -22,8 +22,7 @@ appId: app.critterpass.dev
     when:
       true: ${output.datesLocked != true}
     commands:
-      - tapOn:
-          id: 'when-pick-week'
+      - runFlow: open-day-picker.yaml
       - runFlow: pick-any-days.yaml
       - tapOn:
           id: 'picker-lock'

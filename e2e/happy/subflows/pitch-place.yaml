@@ -65,3 +65,9 @@ appId: app.critterpass.dev
     timeout: 60000
 - tapOn:
     id: 'pitch-add'
+# The pitch sheet closes onto the place page: back to Home, where the vote shows.
+- extendedWaitUntil:
+    notVisible:
+      id: 'pitch-add'
+    timeout: 30000
+- runFlow: ../../_shared/to-home.yaml

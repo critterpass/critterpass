@@ -16,10 +16,12 @@ appId: app.critterpass.dev
     file: subflows/open-wallet.yaml
     env:
       HALF: money
+# The crew counts in đồng: the hero's amount carries ₫.
 - extendedWaitUntil:
     visible:
-      text: 'VND'
-      id: 'money-currency-chip'
+      id: 'money-empty-hero|money-hero'
+      containsDescendants:
+        - text: '.*[₫đ].*'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: money-empty

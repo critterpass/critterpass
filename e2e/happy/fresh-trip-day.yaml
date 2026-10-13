@@ -20,8 +20,12 @@ appId: app.critterpass.dev
 - assertVisible: '(?i).*day [12] of 3.*'
 - assertVisible:
     id: 'trip-briefing-.*'
-- assertVisible:
-    id: 'trip-hub-(next|today)'
+# The day's entries sit under the briefing and the tiles.
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-(next|today)'
+    direction: DOWN
+    timeout: 15000
 - scrollUntilVisible:
     element:
       id: 'trip-hub-tile-money'
@@ -37,6 +41,12 @@ appId: app.critterpass.dev
       id: 'trip-hub-(next|today)'
     direction: UP
     timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-(next|today)'
+    direction: DOWN
+    timeout: 15000
+    centerElement: true
 - tapOn:
     id: 'trip-hub-(next|today)'
 - extendedWaitUntil:
@@ -161,6 +171,12 @@ appId: app.critterpass.dev
       notVisible:
         id: 'trip-day'
     commands:
+      - scrollUntilVisible:
+          element:
+            id: 'trip-hub-(next|today)'
+          direction: DOWN
+          timeout: 15000
+          centerElement: true
       - tapOn:
           id: 'trip-hub-(next|today)'
 - extendedWaitUntil:

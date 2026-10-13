@@ -86,10 +86,10 @@ appId: app.critterpass.dev
             id: 'critters-explore-at-home'
           direction: DOWN
           timeout: 10000
+      # The card's switch is the one checkable element labelled Explore at home.
       - tapOn:
           text: 'Explore at home'
-          childOf:
-            id: 'critters-explore-at-home'
+          checked: false
       - extendedWaitUntil:
           visible:
             text: 'Explore at home'

@@ -2,18 +2,14 @@ appId: app.critterpass.dev
 ---
 # Takes the trip's next step from its hub: the planning line under the tiles says whose turn it is
 # and carries one button, ${BUTTON} ("Send the plan", "Read it and answer", "Lock it in", …). The
-# line can take a sync to arrive. The GuideNote's button has no id of its own, so it is tapped by
-# its label inside the line.
+# line can take a sync to arrive. The GuideNote's button has no id of its own (and the note's id is
+# not its ancestor in Android's hierarchy), so it is tapped by its label.
 - runFlow: open-trip-hub.yaml
 - scrollUntilVisible:
     element:
       text: '${BUTTON}'
-      childOf:
-        id: 'trip-hub-planning'
     direction: DOWN
     timeout: 60000
     centerElement: true
 - tapOn:
     text: '${BUTTON}'
-    childOf:
-      id: 'trip-hub-planning'

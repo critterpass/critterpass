@@ -7,13 +7,7 @@ appId: app.critterpass.dev
 # instead of locking the wrong dates.
 # The days are tapped by pick-days.yaml (its header says how to use it from another flow).
 - evalScript: ${var d = new Date(Date.now() + 7 * 3600000 + (typeof START_OFFSET_DAYS === 'undefined' || START_OFFSET_DAYS === '' ? 0 :Number(START_OFFSET_DAYS)) * 86400000); output.lockLabel = '(?i)lock .*\\b' + d.getUTCDate() + '\\b.*'; output.pickDate = d.toISOString().slice(0, 10)}
-- scrollUntilVisible:
-    element:
-      id: 'when-pick-week'
-    timeout: 30000
-- waitForAnimationToEnd
-- tapOn:
-    id: 'when-pick-week'
+- runFlow: open-day-picker.yaml
 # The first day and the day two after, each on its own month, by its date.
 - runFlow:
     file: pick-days.yaml

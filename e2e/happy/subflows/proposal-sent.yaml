@@ -34,9 +34,10 @@ appId: app.critterpass.dev
     visible:
       id: 'invite-code-boxes'
     timeout: 15000
-- tapOn:
-    id: 'invite-code-boxes'
-- inputText: ${output.crewCode}
+- runFlow:
+    file: type-crew-code.yaml
+    env:
+      CODE: ${output.crewCode}
 # Once the code is found the keyboard makes way: the crew card shows whole, with JOIN under it.
 - extendedWaitUntil:
     visible:

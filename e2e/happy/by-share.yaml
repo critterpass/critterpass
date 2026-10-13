@@ -61,9 +61,9 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'money-split-weight-.*-up'
     index: 1
+# One member's stepper now reads three.
 - assertVisible:
-    id: 'money-split-weight-.*'
-    index: 1
+    id: 'money-split-weight-(?!.*-(up|down)$).*'
     containsDescendants:
       - text: '3'
 - waitForAnimationToEnd

@@ -104,9 +104,8 @@ env:
       id: 'move-stop-sheet'
     timeout: 10000
 - tapOn:
+    id: 'move-stop-(?!sheet$|days$).*'
     text: '(?iu).*${output.added}.*'
-    childOf:
-      id: 'move-stop-sheet'
 - extendedWaitUntil:
     visible:
       id: 'move-stop-days'
@@ -133,17 +132,29 @@ env:
           id: 'move-preview-ok'
 - extendedWaitUntil:
     visible:
-      text: '(?iu).*${output.added}.*'
-      childOf:
-        id: 'all-days-card-2'
-    timeout: 30000
+      id: 'all-days'
+    timeout: 15000
 - takeScreenshot: premium-4.28-plan-all-days-moved-light
+# Day 2 opens with the stop on it.
+- tapOn:
+    id: 'all-days-card-2'
+- scrollUntilVisible:
+    element:
+      text: '(?iu).*${output.added}.*'
+    direction: DOWN
+    timeout: 30000
 
 # A place page's ♡ saves another place.
-- runFlow: ../_shared/back.yaml
+- repeat:
+    while:
+      notVisible:
+        id: 'plan-map-search'
+    times: 3
+    commands:
+      - runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
-      id: 'trip-map'
+      id: 'plan-map-search'
     timeout: 15000
 - tapOn:
     id: 'plan-map-search'

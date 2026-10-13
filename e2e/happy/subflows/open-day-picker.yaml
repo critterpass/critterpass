@@ -1,0 +1,25 @@
+appId: app.critterpass.dev
+---
+# Opens "Pick your days" from the When step. The step first draws its loading state, which has a
+# "Pick the dates" button of its own, then lays out again once the crew's days arrive: the button
+# is tapped only after that, and once more if the sheet did not open.
+- extendedWaitUntil:
+    notVisible:
+      id: 'setup-when-loading'
+    timeout: 45000
+- waitForAnimationToEnd
+- retry:
+    maxRetries: 2
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'when-pick-week'
+          timeout: 30000
+          centerElement: true
+      - waitForAnimationToEnd
+      - tapOn:
+          id: 'when-pick-week'
+      - extendedWaitUntil:
+          visible:
+            id: 'picker-day-.*'
+          timeout: 10000

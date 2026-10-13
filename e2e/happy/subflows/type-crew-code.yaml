@@ -1,0 +1,12 @@
+appId: app.critterpass.dev
+---
+# Types the crew code ${CODE} into the open "Got a code?" boxes one character at a time: each box
+# takes one character and hands the focus on, and a string typed at once outruns it on Android.
+- tapOn:
+    id: 'invite-code-boxes'
+- inputText: ${CODE.charAt(0)}
+- inputText: ${CODE.charAt(1)}
+- inputText: ${CODE.charAt(2)}
+- inputText: ${CODE.charAt(3)}
+- inputText: ${CODE.charAt(4)}
+- inputText: ${CODE.charAt(5)}

@@ -16,6 +16,12 @@ appId: app.critterpass.dev
     id: 'trip-hub-phase'
 - assertVisible:
     id: 'trip-hub-tile-plan|trip-hub-door-plan'
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-(next|today)'
+    direction: DOWN
+    timeout: 15000
+    centerElement: true
 - tapOn:
     id: 'trip-hub-(next|today)'
 - extendedWaitUntil:

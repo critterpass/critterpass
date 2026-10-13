@@ -2,18 +2,15 @@ appId: app.critterpass.dev
 ---
 # Sets ${DAY} (YYYY-MM-DD) as the booking form's day: the trip's own days are chips
 # (`bookings-form-days-<date>`), and a day outside them is typed into the Day field
-# (`bookings-form-date`). On iOS the keyboard left up by the field typed before is put away first,
-# so the scroll reaches the day row.
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - hideKeyboard
+# (`bookings-form-date`). The keyboard left up by the field typed before is put away first: with
+# it up the form's footer sits over the Day field and takes the tap.
+- hideKeyboard
 - scrollUntilVisible:
     element:
       id: 'bookings-form-date'
     direction: DOWN
     timeout: 10000
+    visibilityPercentage: 100
     centerElement: true
 - runFlow:
     when:

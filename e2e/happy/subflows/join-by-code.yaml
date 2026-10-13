@@ -30,9 +30,10 @@ appId: app.critterpass.dev
     visible:
       id: 'invite-code-boxes'
     timeout: 15000
-- tapOn:
-    id: 'invite-code-boxes'
-- inputText: ${output.crewCode}
+- runFlow:
+    file: type-crew-code.yaml
+    env:
+      CODE: ${output.crewCode}
 - extendedWaitUntil:
     visible:
       id: 'invite-code-join'
