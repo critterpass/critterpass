@@ -3,6 +3,7 @@
  * rows with results; Return "Search"), the shake card, the four ways to reach us, the help centre's
  * articles and who replies. Offline, the articles wait and the ways to write still work.
  */
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { Pressable, View } from 'react-native';
 import Animated, {
@@ -197,7 +198,10 @@ export function HelpPremiumScreen() {
                   : {
                       subtitle: t({
                         id: 'help.premium.suggestCaption',
-                        message: `Vote on ${hub.ideasToVote} ideas`,
+                        message: plural(hub.ideasToVote, {
+                          one: 'Vote on # idea',
+                          other: 'Vote on # ideas',
+                        }),
                       }),
                     })}
                 leading={<Tile glyph="heart" color={th.accent.sun} />}

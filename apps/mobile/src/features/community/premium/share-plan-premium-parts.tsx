@@ -4,6 +4,7 @@
  * something other people see is taken down or a link switched off.
  */
 import { buildSharedPlanProjection, type SharedPlanToggles, type TripSharedPlan } from '@cp/domain';
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
@@ -80,7 +81,7 @@ export function PreviewPremium({
             tone="rain"
             label={t({
               id: 'community.publish.photos',
-              message: `${projection.photos.length} photos`,
+              message: plural(projection.photos.length, { one: '# photo', other: '# photos' }),
             })}
           />
         )}

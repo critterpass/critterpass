@@ -5,6 +5,7 @@
  * spring; with no trips the page is the empty passport. The ink `+` starts a vote in the crew.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths, filter values and SF Symbols. */
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
@@ -159,7 +160,7 @@ export function TripsPremiumScreen() {
                     <Text variant="label" tone="muted">
                       {t({
                         id: 'home.premium.trips.comingCount',
-                        message: `${comingCount} trips`,
+                        message: plural(comingCount, { one: '# trip', other: '# trips' }),
                       })}
                     </Text>
                   </View>

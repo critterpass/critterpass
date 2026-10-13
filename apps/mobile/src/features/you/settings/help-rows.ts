@@ -3,7 +3,7 @@
  * send feedback, suggest a feature (with the idea board's open count when it has any) and the
  * help centre. Rate is left out when this build has no store page to open.
  */
-import { t } from '@lingui/core/macro';
+import { plural, t } from '@lingui/core/macro';
 
 import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
 
@@ -66,7 +66,7 @@ export function helpRows(
           ? t({ id: 'you.settings.ideaLine', message: 'Tell us what you’d add' })
           : t({
               id: 'you.settings.ideasToVote',
-              message: `${ideas} ideas to vote on`,
+              message: plural(ideas, { one: '# idea to vote on', other: '# ideas to vote on' }),
             }),
       value: '',
       onPress: handlers.onIdea,
