@@ -4,11 +4,6 @@
  * clears the phone unless the server said the account is closed; the Account rows exist only when
  * the server answered; signing out and Start fresh clear the phone through the same routine.
  */
-jest.mock('expo-router', () => ({
-  useIsFocused: () => true,
-  usePathname: () => '/you/settings',
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
-}));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
@@ -23,6 +18,7 @@ import {
 } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import type { ReactElement } from 'react';
+import { AccessibilityInfo, Alert } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -37,14 +33,14 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { MMKV_STORES, startFresh, type StartFreshPorts } from '@/lib/dev-tools/start-fresh';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
-import { SettingsScreen } from '../../settings/settings-screen';
+import { DeletePremiumScreen } from '../../premium/delete/delete-premium-screen';
+import { SignOutPremiumView } from '../../premium/account/sign-out-premium-view';
+import { SettingsPremiumScreen } from '../../premium/settings/settings-premium-screen';
 import type { AccountRead } from '../account-api';
 import { AccountClosedGate } from '../account-closed-gate';
 import { isSavedPass, type AccountServices } from '../account-services';
 import { clearThisPhone, type PhonePorts } from '../clear-phone';
 import { closeAccount } from '../close-account';
-import { DeleteScreen } from '../delete-screen';
-import { DeleteView } from '../delete-view';
 import { SignOutScreen } from '../sign-out-screen';
 
 configure({ asyncUtilTimeout: 5000 });
@@ -57,6 +53,7 @@ const stacks: TestLocalFirst[] = [];
 
 afterEach(async () => {
   jest.clearAllMocks();
+  jest.restoreAllMocks();
   for (const stack of stacks.splice(0)) {
     await stack.close();
     removeDir(stack.dir);
@@ -116,7 +113,7 @@ describe('sign out', () => {
 
   it('shows an unsaved pass the warning, with saving first and signing out on purpose', async () => {
     const svc = services({ passSaved: () => Promise.resolve(false) });
-    await show(<SignOutScreen services={svc} />);
+    await show(<SignOutScreen services={svc} View={SignOutPremiumView} />);
     await waitFor(() => expect(screen.getByTestId('you-sign-out-warning')).toBeTruthy());
     // The plain confirm of a saved pass is not offered at all.
     expect(screen.queryByTestId('you-sign-out-confirm')).toBeNull();
@@ -129,7 +126,7 @@ describe('sign out', () => {
 
   it('offers nothing to confirm until it knows whether the pass is saved', async () => {
     const svc = services({ passSaved: () => new Promise<boolean>(() => undefined) });
-    await show(<SignOutScreen services={svc} />);
+    await show(<SignOutScreen services={svc} View={SignOutPremiumView} />);
     expect(screen.getByTestId('you-sign-out-loading')).toBeTruthy();
     expect(screen.queryByTestId('you-sign-out-confirm')).toBeNull();
     expect(screen.queryByTestId('you-sign-out-erase')).toBeNull();
@@ -137,14 +134,14 @@ describe('sign out', () => {
 
   it('treats a session it cannot read as unsaved', async () => {
     const svc = services({ passSaved: () => Promise.reject(new Error('no session')) });
-    await show(<SignOutScreen services={svc} />);
+    await show(<SignOutScreen services={svc} View={SignOutPremiumView} />);
     await waitFor(() => expect(screen.getByTestId('you-sign-out-warning')).toBeTruthy());
   });
 
   it('signs a saved pass out and says so when the phone could not be cleared', async () => {
     const svc = services();
     svc.clearPhone.mockResolvedValueOnce({ kind: 'incomplete' });
-    await show(<SignOutScreen services={svc} />);
+    await show(<SignOutScreen services={svc} View={SignOutPremiumView} />);
     await waitFor(() => expect(screen.getByTestId('you-sign-out-confirm')).toBeTruthy());
     await fireEvent.press(screen.getByTestId('you-sign-out-confirm'));
     await waitFor(() => expect(screen.getByTestId('you-sign-out-problem')).toBeTruthy());
@@ -193,50 +190,31 @@ describe('delete account', () => {
     expect(send.mock.calls).toEqual([[{}], [{ reason: 'too_many_pings' }]]);
   });
 
-  function deleteView(over: { online?: boolean; step?: 'review' | 'hold' } = {}) {
-    const onDelete = jest.fn();
-    const ui = (
-      <DeleteView
-        step={over.step ?? 'hold'}
-        online={over.online ?? true}
-        busy={false}
-        passPlus={false}
-        preflight={null}
-        reason={null}
-        problem={null}
-        onContinue={jest.fn()}
-        onReason={jest.fn()}
-        onDelete={onDelete}
-        onKeep={jest.fn()}
-      />
-    );
-    return { ui, onDelete };
+  /** The ring completes through its accessible path: the screen reader's ask, answered yes. */
+  function answerTheAsk(yes: boolean) {
+    jest.spyOn(AccessibilityInfo, 'isScreenReaderEnabled').mockResolvedValue(true);
+    jest.spyOn(Alert, 'alert').mockImplementation((_title, _message, buttons) => {
+      const button = buttons?.[yes ? 1 : 0];
+      button?.onPress?.();
+    });
   }
 
   it('has no control that deletes on a plain tap: only the hold', async () => {
-    const { ui, onDelete } = deleteView();
-    await show(ui);
-    for (const id of [
-      'you-delete-hold',
-      'you-delete-keep',
-      'you-delete-back',
-      'you-delete-reason-privacy',
-    ]) {
-      await fireEvent.press(screen.getByTestId(id));
-    }
-    expect(onDelete).not.toHaveBeenCalled();
-    // The review step has no hold yet at all.
-    const review = deleteView({ step: 'review' });
-    await show(review.ui);
-    expect(screen.queryByTestId('you-delete-hold')).toBeNull();
+    const stack = await openStack();
+    const svc = services();
+    await show(<DeletePremiumScreen services={svc} />, stack);
+    await fireEvent.press(await screen.findByTestId('you-delete-hold'));
+    await fireEvent.press(screen.getByTestId('you-delete-keep'));
+    expect(screen.queryByTestId('you-delete-problem')).toBeNull();
+    expect(svc.clearPhone).not.toHaveBeenCalled();
   });
 
   it('turns the hold off while offline and says why', async () => {
-    const { ui } = deleteView({ online: false });
-    await show(ui);
-    const hold = screen.getByTestId('you-delete-hold');
-    expect(hold.props.accessibilityState).toEqual({ disabled: true });
-    expect(hold.props.accessibilityActions).toEqual([]);
+    const stack = await openStack();
+    stack.network.set(false);
+    await show(<DeletePremiumScreen services={services()} />, stack);
+    const hold = await screen.findByTestId('you-delete-hold');
+    expect(hold.props.accessibilityState).toMatchObject({ disabled: true });
     expect(screen.getByTestId('you-delete-offline')).toBeTruthy();
   });
 
@@ -244,15 +222,11 @@ describe('delete account', () => {
     // The test stack's server is unreachable: the command comes back `unavailable`.
     const stack = await openStack();
     const svc = services();
-    await show(<DeleteScreen services={svc} />, stack);
-    await fireEvent.press(screen.getByTestId('you-delete-continue'));
+    answerTheAsk(true);
+    await show(<DeletePremiumScreen services={svc} />, stack);
     const hold = await screen.findByTestId('you-delete-hold');
-    // Completing the hold, through the ring's own accessible path: activate, then confirm in
-    // the sheet that asks.
-    await fireEvent(hold, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });
-    expect(svc.clearPhone).not.toHaveBeenCalled();
-    const ask = await screen.findByTestId('you-delete-confirm-ask');
-    await fireEvent.press(within(ask).getByRole('button', { name: 'Delete my account' }));
+    await waitFor(() => expect(AccessibilityInfo.isScreenReaderEnabled).toHaveBeenCalled());
+    await fireEvent.press(hold);
     await waitFor(() => expect(screen.getByTestId('you-delete-problem')).toBeTruthy());
     expect(svc.clearPhone).not.toHaveBeenCalled();
     expect(screen.queryByTestId('you-closed-closed')).toBeNull();
@@ -262,7 +236,7 @@ describe('delete account', () => {
 describe('settings account section', () => {
   it('stays visible but cannot be used, and says why, when the server cannot be reached', async () => {
     await show(
-      <SettingsScreen
+      <SettingsPremiumScreen
         services={services({ readAccount: () => Promise.resolve({ kind: 'unavailable' }) })}
       />,
       await openStack(),
@@ -271,14 +245,15 @@ describe('settings account section', () => {
     const account = within(screen.getByTestId('you-settings-account'));
     await waitFor(() => expect(account.getAllByText('Needs a connection')).toHaveLength(3));
     for (const row of ['Download my data', 'Sign out', 'Delete account']) {
-      expect(account.getByLabelText(`${row}, Needs a connection`)).toBeDisabled();
+      await fireEvent.press(account.getByLabelText(`${row}, Needs a connection`));
     }
+    expect(router.push).not.toHaveBeenCalled();
   });
 
   it('is not drawn when the session is gone', async () => {
     const read: AccountRead = { kind: 'signed_out' };
     await show(
-      <SettingsScreen services={services({ readAccount: () => Promise.resolve(read) })} />,
+      <SettingsPremiumScreen services={services({ readAccount: () => Promise.resolve(read) })} />,
       await openStack(),
     );
     await waitFor(() => expect(screen.getByTestId('you-settings-app')).toBeTruthy());
@@ -286,7 +261,7 @@ describe('settings account section', () => {
   });
 
   it('is drawn once the server has answered for the account', async () => {
-    await show(<SettingsScreen services={services()} />, await openStack());
+    await show(<SettingsPremiumScreen services={services()} />, await openStack());
     await waitFor(() => expect(screen.getByTestId('you-settings-account')).toBeTruthy());
   });
 });

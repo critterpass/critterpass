@@ -10,18 +10,16 @@ import type { AppIconBaseId } from '@cp/domain';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { goBackOr } from '@/lib/navigation/back';
 import { useCommand } from '@/data/commands/use-command';
 import { bundledAppIconKeys, nativeIconName } from '@/lib/app-icon';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
-import { YOU_ROUTES } from '../routes';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { setAppIconCommand } from './app-icon-command';
 import { APP_ICON_PREVIEWS } from './app-icon-previews';
-import { AppIconView, type AppIconProblem } from './app-icon-view';
-import { deviceAppIcon, type AppIconDevice } from './device';
-import { AppIconLapseRevert, ICON_STYLES_SQL, ICON_STYLES_TABLES } from './lapse-revert';
+import { type AppIconProblem } from './app-icon-props';
+import { type AppIconDevice } from './device';
+import { ICON_STYLES_SQL, ICON_STYLES_TABLES } from './lapse-revert';
 import {
   chooseIcon,
   iconStylesOpen,
@@ -114,18 +112,3 @@ export function useAppIconPicker(device: AppIconDevice) {
   return { model, switching, problem, choose };
 }
 
-export function AppIconScreen({ device = deviceAppIcon }: { readonly device?: AppIconDevice }) {
-  const { model, switching, problem, choose } = useAppIconPicker(device);
-  return (
-    <>
-      <AppIconLapseRevert device={device} />
-      <AppIconView
-        model={model}
-        switching={switching}
-        problem={problem}
-        onChoose={(choice) => void choose(choice)}
-        onBack={() => goBackOr(YOU_ROUTES.settings)}
-      />
-    </>
-  );
-}

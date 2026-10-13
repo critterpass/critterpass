@@ -1,7 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
 import { DEFAULT_PING_PREFS, payloadFor, prefsFromRow } from '../ping-prefs';
-import { sampleBand } from '../ping-sample';
 
 describe('ping prefs from the synced row', () => {
   it('uses the product defaults until the person has a row', () => {
@@ -75,18 +74,5 @@ describe('the patch a change sends', () => {
     expect(payloadFor({ quietTo: '08:00' }, DEFAULT_PING_PREFS)).toEqual({
       quiet: { from: '22:00', to: '08:00' },
     });
-  });
-});
-
-describe('the spoken sample', () => {
-  it('describes a quiet, a steady and a chatty day', () => {
-    expect([1, 3, 4, 7, 8, 10].map(sampleBand)).toEqual([
-      'quiet',
-      'quiet',
-      'steady',
-      'steady',
-      'chatty',
-      'chatty',
-    ]);
   });
 });

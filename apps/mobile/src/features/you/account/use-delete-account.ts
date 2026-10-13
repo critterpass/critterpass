@@ -6,7 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- result kinds, wire values and test ids, never copy. */
 import type { DeletionPreflight, DeletionReason } from '@cp/domain';
 import { router } from 'expo-router';
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { BackHandler, Linking, Platform } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
@@ -22,8 +22,8 @@ import { useDataExport } from '../export/use-data-export';
 import { requestAccountDeletionCommand, type ClosedAccount } from './account-api';
 import { deviceAccountServices, type AccountServices } from './account-services';
 import { closeAccount } from './close-account';
-import { ClosedView, type ClosedProblem } from './closed-view';
-import { DeleteView, type DeleteStep } from './delete-view';
+import { type ClosedProblem } from './closed-props';
+import { type DeleteStep } from './delete-props';
 import { useOnline } from './use-account';
 
 const PASS_PLUS_SQL = 'SELECT pass_plus FROM user_entitlements WHERE user_id = ?';
@@ -52,18 +52,8 @@ function usePreflight(services: AccountServices): DeletionPreflight | null {
   return preflight;
 }
 
-export interface DeleteScreenProps {
-  readonly services?: AccountServices;
-  readonly now?: () => Date;
-  /**
-   * Drawn with the closed page: the route turns its back gesture off here. The session has ended,
-   * so the only ways on are the page's two buttons.
-   */
-  readonly whenClosed?: ReactNode;
-}
-
 /**
- * Deleting the account, shared by the current and the premium page: what the preflight says (owed
+ * Deleting the account, for the premium page: what the preflight says (owed
  * money, the plan), closing it online, and clearing the phone once it is closed.
  */
 export function useDeleteAccount(
@@ -146,45 +136,3 @@ export function useDeleteAccount(
   };
 }
 
-export function DeleteScreen({
-  services = deviceAccountServices,
-  now = () => new Date(),
-  whenClosed = null,
-}: DeleteScreenProps) {
-  const d = useDeleteAccount(services, now);
-  const { closed } = d;
-  if (closed !== null) {
-    return (
-      <>
-        {whenClosed}
-        <ClosedView
-          mode={closed.purgeAt === null ? 'erased' : 'closed'}
-          purgeAt={closed.purgeAt}
-          closedOn={now()}
-          busy={d.busy}
-          problem={d.clearProblem}
-          onKeep={() => d.clear('sign_in')}
-          onClose={() => d.clear()}
-        />
-      </>
-    );
-  }
-  return (
-    <DeleteView
-      step={d.step}
-      online={d.online}
-      busy={d.busy}
-      passPlus={d.passPlus}
-      preflight={d.preflight}
-      onSettle={d.onSettle}
-      onManageSubscription={d.onManageSubscription}
-      download={d.download}
-      reason={d.reason}
-      problem={d.failed ? 'not_closed' : null}
-      onContinue={() => d.setStep('hold')}
-      onReason={d.setReason}
-      onDelete={d.onDelete}
-      onKeep={d.onKeep}
-    />
-  );
-}

@@ -9,11 +9,11 @@ import { useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 
 import { restoreAccountCommand } from './account-api';
-import { deviceAccountServices, type AccountServices } from './account-services';
-import { ClosedView, type ClosedProblem, type ClosedViewProps } from './closed-view';
+import { type AccountServices } from './account-services';
+import { type ClosedProblem, type ClosedViewProps } from './closed-props';
 import { useAccountRead } from './use-account';
 
-/** Restoring or leaving a closed account, for either look of the closed page. */
+/** Restoring or leaving a closed account, for the closed page. */
 export function useRestoreAccount(services: AccountServices): ClosedViewProps {
   const read = useAccountRead(services);
   const command = useCommand(restoreAccountCommand);
@@ -54,10 +54,3 @@ export function useRestoreAccount(services: AccountServices): ClosedViewProps {
   };
 }
 
-export function RestoreScreen({
-  services = deviceAccountServices,
-}: {
-  readonly services?: AccountServices;
-}) {
-  return <ClosedView {...useRestoreAccount(services)} />;
-}

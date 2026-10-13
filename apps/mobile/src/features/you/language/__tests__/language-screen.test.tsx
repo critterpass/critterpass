@@ -2,12 +2,6 @@
  * Picking a language switches the app in place: the same screen redraws in the new language with
  * no navigation, and picking the language already showing does nothing.
  */
-jest.mock('expo-router', () => ({
-  useIsFocused: () => true,
-  usePathname: () => '/you/language',
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
-}));
-
 import { shippedLocales } from '@cp/i18n';
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
@@ -29,7 +23,7 @@ import { setLocale } from '@/lib/i18n/set-locale';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { featuredLanguages, languageChoices, localLanguageName } from '../language-names';
-import { LanguageScreen } from '../language-screen';
+import { LanguagePremiumScreen } from '../../premium/language/language-premium-screen';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -112,25 +106,21 @@ describe('language', () => {
           <GestureHandlerRootView>
             <ScreenJoltProvider>
               <LocalFirstProvider value={(await openStack()).value}>
-                <LanguageScreen switchTo={switchTo} deviceLanguages={['en-SG']} />
+                <LanguagePremiumScreen switchTo={switchTo} deviceLanguages={['en-SG']} />
               </LocalFirstProvider>
             </ScreenJoltProvider>
           </GestureHandlerRootView>
         </SafeAreaProvider>
       </I18nProvider>,
     );
-    expect(screen.getByText('LANGUAGE AND CURRENCY')).toBeTruthy();
+    expect(screen.getByText('App language')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('you-language-en'));
     expect(switchTo).not.toHaveBeenCalled();
     // Vietnamese is not among the four shown first on an English phone: "N more" opens the rest.
     expect(screen.queryByTestId('you-language-vi')).toBeNull();
     await fireEvent.press(screen.getByTestId('you-language-more'));
     await fireEvent.press(screen.getByTestId('you-language-vi'));
-    await waitFor(() =>
-      expect(screen.getByTestId('you-language-title').props.children).not.toBe(
-        'Language and currency',
-      ),
-    );
+    await waitFor(() => expect(screen.queryByText('App language')).toBeNull());
     expect(switchTo).toHaveBeenCalledWith('vi');
     expect(router.push).not.toHaveBeenCalled();
     expect(router.replace).not.toHaveBeenCalled();
@@ -146,7 +136,7 @@ describe('language', () => {
           <GestureHandlerRootView>
             <ScreenJoltProvider>
               <LocalFirstProvider value={stack.value}>
-                <LanguageScreen
+                <LanguagePremiumScreen
                   deviceLanguages={['en-SG']}
                   now={() => new Date('2026-10-03T09:00:00Z')}
                 />
@@ -158,7 +148,7 @@ describe('language', () => {
     );
     await waitFor(() => expect(screen.getByText('SGD · from your home airport')).toBeTruthy());
     expect(screen.getByText(/^Rp.75,000$/u)).toBeTruthy();
-    await fireEvent.press(screen.getByText('BOTH'));
+    await fireEvent.press(screen.getByText('Both'));
     await waitFor(() => expect(screen.getByText(/^Rp.75,000 ≈ S\$\s?6\.40$/u)).toBeTruthy());
     await waitFor(async () =>
       expect(await queuedPatches(stack)).toEqual([{ price_display: 'both' }]),

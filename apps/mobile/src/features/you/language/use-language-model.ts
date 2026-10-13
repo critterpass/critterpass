@@ -19,11 +19,8 @@ import { useCommandFeedback } from '@/motion/island-toast';
 
 import { setSettingsCommand } from '../settings/use-synced-settings';
 import { currencyLines } from './currency-model';
-import { CurrencySection } from './currency-section';
-import { CurrencySheet } from './currency-sheet';
-import { FormatsSection, FormatsSheet } from './formats-section';
+
 import { featuredLanguages, languageChoices } from './language-names';
-import { LanguageView } from './language-view';
 
 const LANGUAGE_TOAST = 'you-language';
 
@@ -35,8 +32,8 @@ export interface LanguageScreenProps {
 
 /**
  * The page's state and what each choice does: the languages (featured and the rest), the money
- * display and the formats, each change applied at once and queued to the server. Both the current
- * and premium pages draw it.
+ * display and the formats, each change applied at once and queued to the server. The premium page
+ * draws it.
  */
 export function useLanguageModel({
   switchTo = (code: string) => setLocale(code),
@@ -113,71 +110,3 @@ export function useLanguageModel({
   };
 }
 
-export function LanguageScreen(props: LanguageScreenProps) {
-  const {
-    current,
-    switching,
-    showMore,
-    setShowMore,
-    picking,
-    setPicking,
-    formatting,
-    setFormatting,
-    formats,
-    time,
-    display,
-    featured,
-    more,
-    lines,
-    pick,
-    setMode,
-    setTime,
-    setDistance,
-    setHome,
-  } = useLanguageModel(props);
-  return (
-    <>
-      <LanguageView
-        featured={featured}
-        more={more}
-        showMore={showMore}
-        onShowMore={() => setShowMore(true)}
-        current={current}
-        switching={switching}
-        onPick={pick}
-      >
-        <CurrencySection
-          homeLine={lines.homeLine}
-          homeSymbol={lines.homeSymbol}
-          onHomeCurrency={() => setPicking(true)}
-          mode={display.mode}
-          onMode={setMode}
-          sample={lines.sample}
-          ratesLine={lines.ratesLine}
-        />
-        <FormatsSection
-          time={time}
-          distance={formats.distance}
-          onOpen={() => setFormatting(true)}
-        />
-      </LanguageView>
-      {picking ? (
-        <CurrencySheet
-          airportCurrency={display.airportCurrency}
-          chosen={display.homeFromAirport ? null : display.homeCurrency}
-          onPick={setHome}
-          onClose={() => setPicking(false)}
-        />
-      ) : null}
-      {formatting ? (
-        <FormatsSheet
-          time={time}
-          distance={formats.distance}
-          onTime={setTime}
-          onDistance={setDistance}
-          onClose={() => setFormatting(false)}
-        />
-      ) : null}
-    </>
-  );
-}

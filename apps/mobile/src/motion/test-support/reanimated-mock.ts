@@ -68,6 +68,45 @@ function useDerivedValue<Value>(processor: () => Value): { value: Value } {
   };
 }
 
+/**
+ * Runs the reaction for each render's prepared value, as the UI thread would once the value
+ * settles (every animation here resolves at once, so the settled value is the only one).
+ */
+function useAnimatedReaction<Value>(
+  prepare: () => Value,
+  react: (current: Value, previous: Value | null) => void,
+): void {
+  react(toUIWorklet(prepare)(), null);
+}
+
+/** Linear between the two stops around `value`, held at the ends (the clamp the app uses). */
+function interpolate(
+  value: number,
+  inputRange: readonly number[],
+  outputRange: readonly number[],
+): number {
+  const last = inputRange.length - 1;
+  if (value <= (inputRange[0] ?? 0)) return outputRange[0] ?? 0;
+  if (value >= (inputRange[last] ?? 0)) return outputRange[last] ?? 0;
+  const i = inputRange.findIndex((stop) => stop >= value);
+  const [a, b] = [inputRange[i - 1] ?? 0, inputRange[i] ?? 0];
+  const [from, to] = [outputRange[i - 1] ?? 0, outputRange[i] ?? 0];
+  return from + ((value - a) / (b - a)) * (to - from);
+}
+
+/** The colour of the nearest stop: animations resolve at once, so only the ends are ever seen. */
+function interpolateColor(
+  value: number,
+  inputRange: readonly number[],
+  outputRange: readonly string[],
+): string {
+  let nearest = 0;
+  inputRange.forEach((stop, index) => {
+    if (Math.abs(stop - value) < Math.abs((inputRange[nearest] ?? 0) - value)) nearest = index;
+  });
+  return outputRange[nearest] ?? outputRange[0] ?? 'transparent';
+}
+
 interface FrameInfo {
   timestamp: number;
   timeSincePreviousFrame: number | null;
@@ -255,6 +294,10 @@ const mockExports = {
   useAnimatedStyle,
   useAnimatedProps: useAnimatedStyle,
   useDerivedValue,
+  useAnimatedReaction,
+  interpolateColor,
+  interpolate,
+  Extrapolation: { CLAMP: 'clamp', EXTEND: 'extend', IDENTITY: 'identity' },
   useFrameCallback,
   withTiming,
   withSpring,

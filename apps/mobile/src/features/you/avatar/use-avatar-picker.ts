@@ -10,33 +10,29 @@ import { useState } from 'react';
 
 import { defineClientCommand } from '@/data/commands/summaries';
 import { useCommand } from '@/data/commands/use-command';
-import { RealPhotoSheet, useRealPhoto } from '@/features/onboarding';
+import { useRealPhoto } from '@/features/onboarding';
 import { goBackOr } from '@/lib/navigation/back';
 import { requestWithPrimer } from '@/lib/permissions';
 import { useCommandFeedback } from '@/motion/island-toast';
 import type { GuideAvatarId } from '@/ui/avatar/guides';
-import { sizeToken, useTheme } from '@/ui/theme';
 
 import { useOwnerUid } from '../data/live-rows';
 import { dropPendingEdits, putPendingEdits } from '../data/pending-edits';
 import { PENDING_ME, type PendingMe } from '../profile/pending-me';
 import type { ProfileAvatar } from '../profile/profile-model';
-import { ProfileFace } from '../profile/profile-parts';
+
 import { useProfile } from '../profile/use-profile';
 import { YOU_ROUTES } from '../routes';
-import { facePropsOf, useMemberFaces } from './member-faces';
+import { useMemberFaces } from './member-faces';
 import type { AvatarRing, MemberFace } from './member-face';
 import { useOwnedForms } from './owned-forms';
-import { AvatarView, type AvatarTab } from './avatar-view';
+import type { AvatarTab } from './tab-choice';
 import { choiceOnTab } from './tab-choice';
 
 export const setAvatarCommand = defineClientCommand<SetAvatarPayload>({
   name: 'set_avatar',
   offline: true,
 });
-
-/** The picker's preview, as large as the render draws it. */
-const PREVIEW = 112;
 
 export type PhotoServices = Parameters<typeof useRealPhoto>[0]['photos'];
 
@@ -155,50 +151,3 @@ export function useAvatarPicker(photos: PhotoServices) {
   };
 }
 
-export function AvatarScreen({ photos }: { readonly photos: PhotoServices }) {
-  const theme = useTheme();
-  const picker = useAvatarPicker(photos);
-  const { shown, real } = picker;
-  const diameter = sizeToken(theme.size.avatar, 'sm');
-
-  return (
-    <>
-      <AvatarView
-        name={picker.name}
-        preview={
-          <ProfileFace
-            avatar={picker.avatar}
-            name={picker.name}
-            ring={picker.ring}
-            photoUri={picker.photoUri}
-            size={PREVIEW}
-          />
-        }
-        face={facePropsOf(shown, picker.photoUri, diameter)}
-        tab={picker.tab}
-        onTab={picker.onTab}
-        guide={picker.guide}
-        onGuide={picker.onGuide}
-        forms={picker.forms}
-        form={picker.form}
-        onForm={picker.onForm}
-        onPhoto={photos === null ? null : real.open}
-        photoPending={picker.photoPending}
-        canDone={picker.canDone}
-        onDone={picker.onDone}
-        onBack={picker.onBack}
-      />
-      {photos === null ? null : (
-        <RealPhotoSheet
-          state={real.state}
-          onLibrary={() => void real.fromLibrary()}
-          onCamera={() => void real.fromCamera()}
-          onZoom={real.setZoom}
-          onConfirm={real.confirm}
-          onRetry={real.retry}
-          onClose={real.close}
-        />
-      )}
-    </>
-  );
-}

@@ -25,7 +25,6 @@ import { useFlag } from '@/lib/analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { mapsAppFor, useChosenMapsApp } from '@/features/go';
 import { useFeedbackPrefs } from '@/motion/feedback/prefs';
-import { PermissionsSection } from '@/ui/permission-primer/PermissionsSection';
 
 import { usePingPrefs } from '../ping-settings/use-ping-prefs';
 import { deviceAccountServices, type AccountServices } from '../account/account-services';
@@ -36,19 +35,16 @@ import { languageLine } from '../language/currency-model';
 import { nativeNameOf } from '../language/language-names';
 import { hasAlternateAppIcons } from '../app-icon/device';
 import { INVITE_FRIENDS_ROUTE, YOU_ROUTES } from '../routes';
-import { CrewChatSheet } from './crew-chat-sheet';
+
 import { usePlanChip } from './plan-chip-slot';
 import { useHelpShareConsent } from './help-share-consent';
 import { useLocationRow } from './location-row';
 import { useMusicLine } from '../sound/music-line';
 import { useSettingsSections } from './settings-sections';
-import { SettingsView } from './settings-view';
-import { playTokekTheme } from './tokek-theme';
+
 import { useSyncedSettings } from './use-synced-settings';
 
 const STICKER_SOUNDS = 'stickers-and-stamps';
-/** Location has its own row under PRIVACY (3n-2), so the permissions section leaves it out. */
-const IN_PRIVACY = ['location'] as const;
 
 /** "CRITTERPASS 1.0 (214)"; the brand is set in capitals here, as on the pass cover. */
 export function versionLine(version: string | null, build: string | null): string {
@@ -58,7 +54,7 @@ export function versionLine(version: string | null, build: string | null): strin
 }
 
 /**
- * Everything Settings shows and does, shared by the current and the premium page: the sections
+ * Everything Settings shows and does, the sections
  * (rows with their values and handlers), the plan chip, the version line and the crew-chat choice.
  */
 export function useSettingsModel(services: AccountServices = deviceAccountServices) {
@@ -159,30 +155,3 @@ export function useSettingsModel(services: AccountServices = deviceAccountServic
   };
 }
 
-export function SettingsScreen({
-  services = deviceAccountServices,
-}: {
-  readonly services?: AccountServices;
-}) {
-  const { sections, plan, version, crewChat, setCrewChat, choosingCrewChat, setChoosingCrewChat } =
-    useSettingsModel(services);
-  return (
-    <>
-      <SettingsView
-        sections={sections}
-        version={version}
-        onTokek={playTokekTheme}
-        {...(plan === null ? {} : { plan })}
-      >
-        <PermissionsSection exclude={IN_PRIVACY} testID="you-settings-permissions" />
-      </SettingsView>
-      {choosingCrewChat ? (
-        <CrewChatSheet
-          selected={crewChat}
-          onSelect={(next) => setCrewChat(next)}
-          onClose={() => setChoosingCrewChat(false)}
-        />
-      ) : null}
-    </>
-  );
-}

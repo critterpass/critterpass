@@ -13,7 +13,7 @@ import { music, musicEngine } from '@/motion/music';
 import { guidesOfSameCountry } from '@/ui/avatar/guides';
 
 import { YOU_ROUTES } from '../routes';
-import { SoundView, type SoundHandlers, type SoundValues } from './sound-view';
+import { type SoundHandlers, type SoundValues } from './sound-props';
 import { themeToPlay, useThemeChoice } from './theme-choice';
 
 const CARD_CROSSFADE_MS = 700;
@@ -30,7 +30,7 @@ function usePreviewThrottle(): (kind: 'music' | 'effects', level: number) => voi
   };
 }
 
-/** The sound page's values and what each control does; both the current and premium pages draw it. */
+/** The sound page's values and what each control does (the premium page draws it). */
 export function useSoundModel(): {
   readonly values: SoundValues;
   readonly handlers: SoundHandlers;
@@ -99,7 +99,3 @@ export function useSoundModel(): {
   };
 }
 
-export function SoundScreen() {
-  const { values, handlers } = useSoundModel();
-  return <SoundView values={values} handlers={handlers} />;
-}

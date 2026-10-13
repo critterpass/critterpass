@@ -23,7 +23,7 @@ import {
 } from '@/ui/premium';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 
-import type { ClosedViewProps } from '../../account/closed-view';
+import type { ClosedViewProps } from '../../account/closed-props';
 
 /* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
 const STAMP_DATE: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short', year: 'numeric' };

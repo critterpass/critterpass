@@ -23,11 +23,10 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { stampBottom, stampLabel } from '../../profile/profile-copy';
-import { stampTitle } from '../../profile/profile-parts';
+import { stampBottom, stampLabel, stampTitle } from '../../profile/profile-copy';
 import { stampsForYear, stampYears } from '../../history/stamp-book';
 import { stampLine } from '../../history/stamps-copy';
-import type { StampsViewProps } from '../../history/stamps-view';
+import type { StampsViewProps } from '../../history/stamps-props';
 
 const FACE = 44;
 const TILTS = [-12, 8, -6, 10, -9];
