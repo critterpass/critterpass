@@ -8,11 +8,8 @@ import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { HOME_FALLBACK } from '@/lib/navigation/back';
-import { useCommandFeedback } from '@/motion/island-toast';
-import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Card } from '@/ui/cards/Card';
@@ -26,14 +23,11 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { dataOf, useGuideNote, useTripSharedPlan } from '../api';
-import { reportContent, saveSharedPlan, unsaveSharedPlan } from '../commands';
 import { costEach, crewName, daysLabel, planTitle, ratingLabel, travelMonth } from '../copy';
-import { planReport, toastIds } from '../ids';
 import { noteLine } from './note-copy';
 import { PlanDays } from './plan-days';
 import { TripPicker } from './trip-picker';
-import { useTakePlan, type TakeTarget } from './use-take-plan';
+import { usePlanView } from './use-plan-view';
 
 const useStyles = makeStyles((th) => ({
   content: { paddingHorizontal: th.size.gutter, gap: th.space['16'] },
@@ -60,57 +54,26 @@ export function PlanView({
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const locale = useLocale();
-  const card = detail.card;
-  const [saved, setSaved] = useState(detail.saved);
   const [footerHeight, setFooterHeight] = useState(0);
-  // A plan opened outside a trip (Explore, a link) gets its trip from the picker.
-  const [picked, setPicked] = useState<TakeTarget | null>(null);
-  const [picking, setPicking] = useState(false);
-  const [reporting, setReporting] = useState(false);
-  const [reported, setReported] = useState(false);
-  const note = dataOf(useGuideNote(card.id, tripId).state);
-  const tripRead = useTripSharedPlan(tripId).state;
-  const trip = dataOf(tripRead);
-  // Whether this person copies or suggests is unknown until the trip's read answers.
-  const roleKnown = tripId === null || tripRead.status !== 'loading';
-  const target: TakeTarget | null =
-    tripId !== null ? { tripId, organiser: trip?.organiser === true } : picked;
-  const { send: save } = useCommand(saveSharedPlan);
-  const { send: unsave } = useCommand(unsaveSharedPlan);
-  const { send: sendReport } = useCommand(reportContent);
-  const { report } = useCommandFeedback();
-  const guide = guideSticker(null);
-  const taking = useTakePlan({ sharedPlanId: card.id, guideName: guide.name, onChanged });
-  const bestDay = note?.best_day ?? null;
-  const blocked = taking.busy || !roleKnown;
-
-  const toggleSave = () => {
-    const next = !saved;
-    setSaved(next);
-    void (next ? save : unsave)({ shared_plan_id: card.id }).then((result) => {
-      // Saved on the phone when offline; only a refusal puts the heart back.
-      if (report(result, { offlineCapable: true, id: toastIds.saved(card.id) }) === 'refused') {
-        setSaved(!next);
-      }
-    });
-  };
-  const take = (dayNos?: readonly number[]) => {
-    if (target === null) setPicking(true);
-    else void taking.take(target, dayNos);
-  };
-  const fileReport = () => {
-    setReporting(false);
-    setReported(true);
-    void sendReport(planReport(card.id)).then((result) => {
-      const outcome = report(result, {
-        offlineCapable: true,
-        id: toastIds.reported(card.id),
-        done: t({ id: 'community.detail.reported', message: 'Thanks. We will take a look.' }),
-      });
-      if (outcome === 'refused' || outcome === 'needs-signal') setReported(false);
-    });
-  };
-
+  const {
+    card,
+    saved,
+    note,
+    target,
+    taking,
+    bestDay,
+    blocked,
+    picking,
+    reporting,
+    reported,
+    toggleSave,
+    take,
+    fileReport,
+    pick,
+    closePicker,
+    askReport,
+    cancelReport,
+  } = usePlanView({ detail, tripId, onChanged });
   const month = travelMonth(card, locale);
   const cost = costEach(card, locale);
   return (
@@ -189,7 +152,7 @@ export function PlanView({
                 : t({ id: 'community.detail.report', message: 'Report this plan' })
             }
             disabled={reported}
-            onPress={() => setReporting(true)}
+            onPress={askReport}
             testID="shared-plan-report"
           />
         </Stack>
@@ -232,12 +195,9 @@ export function PlanView({
         <TripPicker
           destinationId={projection.destination_id}
           destinationName={projection.destination_name}
-          onPick={(next) => {
-            setPicked(next);
-            void taking.take(next);
-          }}
+          onPick={pick}
           onStart={() => void taking.startTrip(projection.destination_id)}
-          onClose={() => setPicking(false)}
+          onClose={closePicker}
         />
       ) : null}
       {reporting ? (
@@ -251,7 +211,7 @@ export function PlanView({
           ]}
           confirmLabel={t({ id: 'community.report.confirm', message: 'Report' })}
           mode="button"
-          onCancel={() => setReporting(false)}
+          onCancel={cancelReport}
           onConfirm={fileReport}
           testID="shared-plan-report-confirm"
         />
