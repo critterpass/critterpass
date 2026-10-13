@@ -2,6 +2,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 
 import { tripExploreLinks } from '@/features/explore/trip-explore/links';
 import { goBackOr } from '@/lib/navigation/back';
+import { usePremiumUi } from '@/lib/premium-ui';
 import {
   carryParams,
   parseFilter,
@@ -9,6 +10,7 @@ import {
   placesRoutes,
   resultsFrom,
 } from '@/features/explore/places';
+import { PremiumPlacesMapView } from '@/features/explore/premium/places/places-map-page';
 
 /** The trip's places map (7c-1) and a picked place (7c-2). */
 export default function TripPlacesMapRoute() {
@@ -20,6 +22,7 @@ export default function TripPlacesMapRoute() {
     chips?: string;
   }>();
   const filter = parseFilter(params.filter);
+  const premium = usePremiumUi();
   return (
     <PlacesMapScreen
       tripId={params.tripId}
@@ -30,6 +33,7 @@ export default function TripPlacesMapRoute() {
       onLeaveResults={() => router.setParams({ results: '', chips: '' })}
       onList={() => router.replace(placesRoutes.list(params.tripId, carryParams(filter, params)))}
       onBack={() => goBackOr(tripExploreLinks.hub(params.tripId))}
+      {...(premium ? { View: PremiumPlacesMapView } : {})}
     />
   );
 }

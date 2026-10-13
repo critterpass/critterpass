@@ -13,7 +13,7 @@ const writer = calendarWriter(nativeCpCalendarModule);
 
 /**
  * The trip map (7a-1…7a-3, 7i-1): `/{tripId}/plan/map?day={n}&sheet=peek|half|full`, or
- * `?date=YYYY-MM-DD` to open on the day of that date.
+ * `?date=YYYY-MM-DD` to open on the day of that date; `?item=` opens a stop's details.
  */
 function useMapParams() {
   const { tripId, day, date, sheet } = useLocalSearchParams<{
@@ -40,9 +40,10 @@ function CurrentTripMapRoute() {
 
 /** The plan on one map (4.25–4.27): the day in the sheet, the whole trip at full. */
 function PremiumPlanMapRoute() {
+  const { item } = useLocalSearchParams<{ item?: string }>();
   return (
     <CalendarWriterProvider value={writer}>
-      <PlanMapScreen {...useMapParams()} />
+      <PlanMapScreen {...useMapParams()} item={item} />
     </CalendarWriterProvider>
   );
 }

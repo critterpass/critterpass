@@ -5,7 +5,7 @@
  * is). Answers queue offline (`answer_availability_ask`).
  */
 import { t } from '@lingui/core/macro';
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
 
 import type { AskAnswer } from '@cp/domain';
 
@@ -126,17 +126,28 @@ export function AskSheetView({
   );
 }
 
+/** How the ask sheet is drawn; the trip read and the answer command stay here. */
+export interface AskSheetLook {
+  readonly View: ComponentType<AskSheetViewProps>;
+  readonly Waiting: typeof SetupSheetWaiting;
+}
+
+const CURRENT_LOOK: AskSheetLook = { View: AskSheetView, Waiting: SetupSheetWaiting };
+
 /** The ask sheet over the dates step (`/{tripId}/setup/ask/{askId}`), for its one target. */
 export function AskSheet({
   trip,
   askId,
   answered = false,
+  look = CURRENT_LOOK,
 }: {
   readonly trip: SetupTrip;
   readonly askId: string;
   /** The push's quick reply already sent the answer. */
   readonly answered?: boolean;
+  readonly look?: AskSheetLook;
 }) {
+  const { View } = look;
   const answer = useCommand(answerAvailabilityAskCommand);
   const [sent, setSent] = useState(answered);
   const organiser = trip.members.find((member) => member.organiser)?.name ?? '';
@@ -146,7 +157,7 @@ export function AskSheet({
     });
   };
   return (
-    <AskSheetView
+    <View
       place={trip.destinationName}
       guide={trip.guide}
       organiser={organiser}
@@ -164,16 +175,19 @@ export function AskSheetScreen({
   tripId,
   askId,
   answered,
+  look = CURRENT_LOOK,
 }: {
   readonly tripId: string;
   readonly askId: string;
   readonly answered: boolean;
+  readonly look?: AskSheetLook;
 }) {
+  const { Waiting } = look;
   const me = useMe();
   const trip = useSetupTrip(tripId, me);
   if (trip === undefined || trip === null) {
     return (
-      <SetupSheetWaiting
+      <Waiting
         state={trip === undefined ? 'loading' : 'missing'}
         title={t({ id: 'setup.ask.title', message: 'About your maybe days' })}
         onDismiss={() => goBackOr(setupRoutes.step(tripId, 'when'))}
@@ -181,5 +195,5 @@ export function AskSheetScreen({
       />
     );
   }
-  return <AskSheet trip={trip} askId={askId} answered={answered} />;
+  return <AskSheet trip={trip} askId={askId} answered={answered} look={look} />;
 }

@@ -8,8 +8,8 @@ import { sheetScreens } from '@/lib/navigation/sheet-routes';
 import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { usePremiumUi } from '@/lib/premium-ui';
 import { useMotionMode } from '@/motion/motion-mode';
+import { sheetRouteOptions } from '@/ui/premium/shell';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
-import { SELF_ANIMATED_SHEET } from '@/ui/premium/shell/navigation/premium-root-stack';
 import { useTheme } from '@/ui/theme';
 
 import {
@@ -24,7 +24,7 @@ const deviceCalendar = {
   readBusyDays,
 };
 
-/** Trip setup: the four steps, and the add-a-must-do and answer-an-ask sheets over them. */
+/** Trip setup: the steps, and the add-a-must-do and answer-an-ask sheets over them. */
 export default function SetupLayout() {
   const { motion } = useTheme();
   const [motionMode] = useMotionMode();
@@ -34,9 +34,9 @@ export default function SetupLayout() {
       <DeviceCalendarProvider calendar={deviceCalendar}>
         {premium ? (
           <PremiumStack>
-            {sheetScreens('(trip)/[tripId]/setup').map((name) => (
-              <PremiumStackScreen key={name} name={name} options={SELF_ANIMATED_SHEET} />
-            ))}
+            {/* Adding a must-do and the guide's ask are native form sheets. */}
+            <PremiumStackScreen name="must-dos/add" options={sheetRouteOptions('full')} />
+            <PremiumStackScreen name="ask/[askId]" options={sheetRouteOptions('fit')} />
           </PremiumStack>
         ) : (
           <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>

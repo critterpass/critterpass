@@ -10,6 +10,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- route paths, never copy. */
 import { useLingui } from '@lingui/react/macro';
 import { router, type Href } from 'expo-router';
+import type { ComponentType } from 'react';
 import { Pressable } from 'react-native';
 
 import { Stack, Text, useTheme } from '@/ui';
@@ -34,6 +35,8 @@ export interface PhraseCardProps {
   /** Offers practising this phrase out loud (never on the practice screen's own card). */
   readonly practise?: PractiseFrom;
   readonly testID?: string;
+  /** The card's drawing; the current look unless a premium screen passes its own. */
+  readonly View?: ComponentType<PhraseCardViewProps>;
 }
 
 export function showModeHref(
@@ -54,7 +57,7 @@ export function showModeHref(
   };
 }
 
-export interface PhraseCardViewProps extends Omit<PhraseCardProps, 'audioKey'> {
+export interface PhraseCardViewProps extends Omit<PhraseCardProps, 'audioKey' | 'View'> {
   /** Opens phrase practice on this phrase; absent when practice is not offered here. */
   readonly onPractise?: (() => void) | undefined;
   readonly playerState: PhrasePlayerState;
@@ -135,7 +138,7 @@ export function PhraseCardView({
   );
 }
 
-export function PhraseCard({ audioKey = null, ...props }: PhraseCardProps) {
+export function PhraseCard({ audioKey = null, View = PhraseCardView, ...props }: PhraseCardProps) {
   const practice = usePractiseHref(props.practise, props.lang, props.phrase);
   const onPractise = practice === undefined ? undefined : () => router.push(practice);
   const player = usePhrasePlayer(audioKey);
@@ -144,7 +147,7 @@ export function PhraseCard({ audioKey = null, ...props }: PhraseCardProps) {
   const unplayable = audioKey === null || player.state === 'unavailable';
   if (unplayable && speech.speak !== null) {
     return (
-      <PhraseCardView
+      <View
         {...props}
         playerState={speech.speaking ? 'playing' : 'idle'}
         onPractise={onPractise}
@@ -154,7 +157,7 @@ export function PhraseCard({ audioKey = null, ...props }: PhraseCardProps) {
     );
   }
   return (
-    <PhraseCardView
+    <View
       {...props}
       playerState={player.state}
       onPractise={onPractise}

@@ -194,6 +194,10 @@ msgstr "{name}. Chạm để chuyển sang phòng khác."
 msgid "setup.status.here"
 msgstr "{organiser} đang chuẩn bị chuyến đi."
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.privacy"
+msgstr "{organiser} chỉ biết tuần đó có ổn không. Không bao giờ biết đó là việc gì."
+
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.status.away"
 msgstr "{organiser} lo phần chuẩn bị. Phần của bạn ở bên dưới."
@@ -270,6 +274,10 @@ msgstr "Khoảng {estimate} một phòng một đêm, ước tính (tính bằng
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.memberLine"
 msgstr "Khoảng một phút. Không ai thấy con số của bạn."
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.title"
+msgstr "Về mấy ngày có thể bận"
 
 #: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
 msgid "setup.addMustDo.returnKey"
@@ -402,9 +410,19 @@ msgstr "Lịch đang bị tắt quyền"
 msgid "setup.push.notMovable"
 msgstr "Không dời được"
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.notMovable"
+msgstr "Không dời được"
+
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
 msgid "setup.premium.rooms.cancel"
 msgstr "Huỷ"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
+msgid "setup.premium.cancel"
+msgstr "Hủy"
 
 #: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
 msgid "setup.way.car"
@@ -431,6 +449,7 @@ msgstr "Rẻ nhất"
 msgid "setup.when.picker.clear"
 msgstr "Xoá"
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
 #: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.sheet.close"
@@ -439,7 +458,6 @@ msgstr "Đóng"
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
-#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
 msgid "setup.premium.calendar.close"
 msgstr "Đóng"
 
@@ -570,6 +588,10 @@ msgstr "Ngày rảnh"
 
 #: ../../apps/mobile/src/features/setup/notifications.ts
 msgid "setup.push.freed"
+msgstr "Đã dời được"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.freed"
 msgstr "Đã dời được"
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
@@ -847,6 +869,10 @@ msgstr "Mới có một điểm dừng"
 msgid "setup.calendar.promise"
 msgstr "Chỉ ngày rảnh và bận rời khỏi điện thoại. Tên sự kiện, địa điểm và người tham gia vẫn ở lại đây."
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.words"
+msgstr "Hoặc nhắn {name} bằng lời của bạn"
+
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
 msgid "setup.budget.typed.labelAlone"
 msgstr "Hoặc nhập số tiền"
@@ -906,6 +932,10 @@ msgstr "Powered by Foursquare"
 #: ../../apps/mobile/src/features/setup/premium/calendar/month-grid.tsx
 msgid "setup.premium.month.previous"
 msgstr "Tháng trước"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.line"
+msgstr "Hỏi nhanh: khoảng có thể bận của bạn là thứ duy nhất ngăn cả nhóm đến {place}. Bạn dời được không?"
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 msgid "setup.calendar.syncing"
@@ -992,6 +1022,10 @@ msgstr "Xem bản nháp"
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
 msgid "setup.mustDos.seeTrip"
 msgstr "Xem chuyến đi"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.send"
+msgstr "Gửi"
 
 #: ../../apps/mobile/src/features/setup/premium/steps/must-do-card.tsx
 msgid "setup.mustDos.row.pending"
@@ -1097,6 +1131,10 @@ msgstr "Đồng bộ"
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 msgid "setup.calendar.synced"
 msgstr "Đã đồng bộ {age}"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.thanks"
+msgstr "Cảm ơn nhé. Mình chỉ báo {organiser} tuần đó có ổn không."
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 msgid "setup.calendar.oauthFailed"

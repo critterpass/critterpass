@@ -8,7 +8,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { router, type Href } from 'expo-router';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
@@ -34,13 +34,30 @@ import { useSavings } from '../data/savings';
 import { useProposalTrip } from '../data/trip';
 import { useHasWishes } from '../data/wishes';
 import { ObjectionSheet } from '../objection/objection-host';
+import type { ObjectionSheetViewProps } from '../objection/objection-sheet';
 import { ProposalLoading } from '../proposal-loading';
 import { answerChip, stopWhen, tripLine, versionChip } from '../labels';
 import { proposalRoutes } from '../routes';
-import { HypeBar } from './hype-bar';
-import { ShareCard } from './share-card';
-import { WhySheet } from './why-sheet';
-import { YourVersionView } from './your-version-view';
+import { HypeBar, type HypeBarProps } from './hype-bar';
+import { ShareCard, type ShareCardProps } from './share-card';
+import { WhySheet, type WhySheetProps } from './why-sheet';
+import { YourVersionView, type YourVersionViewProps } from './your-version-view';
+
+/** How the version and the sheets it opens are drawn; every read and command stays here. */
+export interface YourVersionLook {
+  readonly View: ComponentType<YourVersionViewProps>;
+  readonly ShareCard: ComponentType<ShareCardProps>;
+  readonly HypeBar: ComponentType<HypeBarProps>;
+  readonly WhySheet: ComponentType<WhySheetProps>;
+  readonly Objection: ComponentType<ObjectionSheetViewProps>;
+}
+
+const CURRENT_LOOK: Omit<YourVersionLook, 'Objection'> = {
+  View: YourVersionView,
+  ShareCard,
+  HypeBar,
+  WhySheet,
+};
 
 /* eslint-disable lingui/no-unlocalized-strings -- design screen ids, never copy. */
 /** The place's own page, for a stop that has a place on file. */
@@ -65,7 +82,13 @@ function opener(href: Href | undefined, close: () => void): (() => void) | undef
   };
 }
 
-export function YourVersionScreen(props: { readonly proposalId: string; readonly as?: string }) {
+export function YourVersionScreen(props: {
+  readonly proposalId: string;
+  readonly as?: string;
+  /** @default the current look */
+  readonly look?: YourVersionLook;
+}) {
+  const look = props.look ?? CURRENT_LOOK;
   const proposal = useProposal(props.proposalId);
   useFindProposalTrip(proposal);
   const tripId = proposal?.tripId ?? null;
@@ -163,7 +186,7 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
   };
   return (
     <>
-      <YourVersionView
+      <look.View
         name={person?.name ?? ''}
         preview={preview}
         personalised={!group && hasWishes}
@@ -182,7 +205,7 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
         tag={(pick) => pickTag(pick, group ? { ...reader, hasWishes: true } : reader)}
         share={
           base === null || currency === null || !proposal.showCost ? null : (
-            <ShareCard
+            <look.ShareCard
               locale={locale}
               baseMinor={base}
               currency={currency}
@@ -195,7 +218,7 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
           )
         }
         hype={
-          <HypeBar
+          <look.HypeBar
             hype={hype}
             organiser={organiser?.name ?? ''}
             latest={
@@ -223,7 +246,7 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
         onAsk={() => setAsking(true)}
       />
       {why === null ? null : (
-        <WhySheet
+        <look.WhySheet
           pick={why}
           when={stopWhen(locale, why)}
           reason={reasonWhy(why, reader)}
@@ -234,6 +257,7 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
       )}
       {asking ? (
         <ObjectionSheet
+          {...(props.look === undefined ? {} : { View: props.look.Objection })}
           proposalId={props.proposalId}
           guide={trip.guide}
           guideName={guideName}

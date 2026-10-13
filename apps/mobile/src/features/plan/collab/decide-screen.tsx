@@ -6,7 +6,7 @@
  * editor, so a member's pick would go to the crew as a change set).
  */
 import { useLingui } from '@lingui/react/macro';
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
 
 import { parsePlanAnchor } from '@cp/domain';
 import { upper } from '@cp/i18n';
@@ -22,8 +22,8 @@ import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
 import { dayDate } from '../day/format';
 import { useDayEditing } from '../day/use-day-editing';
 import { CommentThread } from './comment-thread';
-import { buildDecision } from './decision-model';
-import { DecideView } from './decide-view';
+import { buildDecision, type Anchor } from './decision-model';
+import { DecideView, type DecideViewProps } from './decide-view';
 import {
   BALLOTS_SQL,
   BALLOTS_TABLES,
@@ -43,13 +43,33 @@ import { dayItems } from '@/data/plan/plan-model';
 import { addOp, removeOp } from '@/data/plan/plan-ops';
 import { type PlanMember, useTripPlan } from '@/data/plan/use-trip-plan';
 
+/** A thread drawn with its own composer (the premium look). */
+export interface DecideThreadProps {
+  readonly tripId: string;
+  readonly uid: string | null;
+  readonly members: readonly PlanMember[];
+  readonly guide: { readonly kind: string; readonly name: string };
+  readonly title: string;
+  readonly anchors: readonly Anchor[];
+  readonly target: { readonly kind: 'option'; readonly id: string };
+}
+
+export interface DecideLook {
+  readonly View: ComponentType<DecideViewProps>;
+  readonly Thread: ComponentType<DecideThreadProps>;
+}
+
 export function DecideScreen({
   tripId,
   pollId,
+  look,
 }: {
   readonly tripId: string;
   readonly pollId: string;
+  /** Another look: its view, and a thread that brings its own composer. */
+  readonly look?: DecideLook;
 }) {
+  const View = look?.View ?? DecideView;
   const { t } = useLingui();
   const locale = useLocale();
   const plan = useTripPlan(tripId);
@@ -164,25 +184,47 @@ export function DecideScreen({
     locale,
   );
 
+  const shared = {
+    eyebrow,
+    here: presence.here.map((member) => member.name ?? '').filter((name) => name !== ''),
+    decision,
+    members: plan.members,
+    browsing,
+    voteTokens,
+    onVote: (optionId: string) => {
+      setFocus(optionId);
+      presence.setCursor(optionAnchor(optionId));
+      if (decision?.myVote === optionId) return;
+      impact('vote');
+      setVoteTokens((current) => new Map(current).set(optionId, (current.get(optionId) ?? 0) + 1));
+      void vote.send({ poll_id: pollId, option_id: optionId });
+    },
+    onApply: canPutOnPlan ? putOnPlan : null,
+  };
+
+  if (look !== undefined && focused !== null) {
+    const Thread = look.Thread;
+    return (
+      <View
+        {...shared}
+        thread={
+          <Thread
+            tripId={tripId}
+            uid={plan.uid}
+            members={plan.members}
+            guide={guideSticker(plan.trip?.guide_slug)}
+            title={focused.title}
+            anchors={anchors}
+            target={{ kind: 'option', id: focused.id }}
+          />
+        }
+        composer={null}
+      />
+    );
+  }
   return (
-    <DecideView
-      eyebrow={eyebrow}
-      here={presence.here.map((member) => member.name ?? '').filter((name) => name !== '')}
-      decision={decision}
-      members={plan.members}
-      browsing={browsing}
-      voteTokens={voteTokens}
-      onVote={(optionId) => {
-        setFocus(optionId);
-        presence.setCursor(optionAnchor(optionId));
-        if (decision?.myVote === optionId) return;
-        impact('vote');
-        setVoteTokens((current) =>
-          new Map(current).set(optionId, (current.get(optionId) ?? 0) + 1),
-        );
-        void vote.send({ poll_id: pollId, option_id: optionId });
-      }}
-      onApply={canPutOnPlan ? putOnPlan : null}
+    <View
+      {...shared}
       thread={
         focused === null ? null : (
           <CommentThread

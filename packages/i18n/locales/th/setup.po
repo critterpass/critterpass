@@ -194,6 +194,10 @@ msgstr ""
 msgid "setup.status.here"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.privacy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.status.away"
 msgstr ""
@@ -269,6 +273,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.memberLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
@@ -402,8 +410,18 @@ msgstr ""
 msgid "setup.push.notMovable"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.notMovable"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
 msgid "setup.premium.rooms.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
+msgid "setup.premium.cancel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
@@ -431,6 +449,7 @@ msgstr ""
 msgid "setup.when.picker.clear"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
 #: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.sheet.close"
@@ -439,7 +458,6 @@ msgstr "ปิด"
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
-#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
 msgid "setup.premium.calendar.close"
 msgstr ""
 
@@ -570,6 +588,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/notifications.ts
 msgid "setup.push.freed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.freed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
@@ -847,6 +869,10 @@ msgstr ""
 msgid "setup.calendar.promise"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.words"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
 msgid "setup.budget.typed.labelAlone"
 msgstr ""
@@ -905,6 +931,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/month-grid.tsx
 msgid "setup.premium.month.previous"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
@@ -991,6 +1021,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
 msgid "setup.mustDos.seeTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.send"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/steps/must-do-card.tsx
@@ -1096,6 +1130,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 msgid "setup.calendar.synced"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.thanks"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx

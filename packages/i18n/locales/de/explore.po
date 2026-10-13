@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: de\n"
 
+#. placeholder {0}: groups.unknown
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.unknown"
+msgstr ""
+
 #. placeholder {0}: dayTitle(fits.best.date, i18n.locale)
 #. placeholder {1}: fits.best.start
 #: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
@@ -30,6 +35,12 @@ msgstr ""
 msgid "search.premium.chips.eyebrow"
 msgstr ""
 
+#. placeholder {0}: card.name
+#. placeholder {1}: card.guide.name
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.card"
+msgstr ""
+
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
 msgid "explore.picks.title"
@@ -47,6 +58,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.moves"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.savedCount"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-offline.tsx
@@ -93,6 +108,10 @@ msgstr ""
 msgid "explore.dayTrips.travel.leg"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
+msgid "explore.sponsored.paid"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/use-swipe-screen.ts
 msgid "explore.swipe.toastMatch"
 msgstr ""
@@ -111,6 +130,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-plain.tsx
 msgid "search.premium.plain.softMisses"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.newList"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/destination/month-card.tsx
@@ -182,6 +205,8 @@ msgstr ""
 #. placeholder {0}: similar.name
 #: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
 #: ../../apps/mobile/src/features/explore/premium/place/place-sections.tsx
+#: ../../apps/mobile/src/features/explore/premium/places/place-cards.tsx
+#: ../../apps/mobile/src/features/explore/premium/places/places-list-page.tsx
 #: ../../apps/mobile/src/features/explore/premium/search/find-plain.tsx
 msgid "search.premium.row.add"
 msgstr ""
@@ -219,6 +244,14 @@ msgstr ""
 msgid "explore.panel.noAirport"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.all"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.all"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-no-results.tsx
 msgid "search.none.ask"
 msgstr ""
@@ -245,6 +278,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
 #: ../../apps/mobile/src/features/explore/premium/split/split-page.tsx
 msgid "explore.premium.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
@@ -283,6 +320,11 @@ msgstr ""
 msgid "common.cancel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/saved/confirm-delete-list.ts
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.cancel"
+msgstr ""
+
 #: ../../apps/mobile/src/data/areas/travel-line.ts
 msgid "explore.dayTrips.mode.car"
 msgstr ""
@@ -299,6 +341,10 @@ msgstr ""
 msgid "search.field.clear"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
+msgid "explore.premium.sponsored.close"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/premium/search/link-paste.tsx
 msgid "search.premium.pick.close"
 msgstr ""
@@ -313,6 +359,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-names.tsx
 msgid "search.name.incomplete"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.create"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
@@ -352,8 +402,25 @@ msgstr ""
 msgid "explore.dayTrips.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/saved/confirm-delete-list.ts
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.deleteList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/saved/confirm-delete-list.ts
+msgid "explore.saved.deleteTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.listDelete"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.destination"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.done"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-names.tsx
@@ -368,8 +435,28 @@ msgstr ""
 msgid "explore.premium.dayTrips.dock"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.edit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.hero.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.explore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.findHere"
 msgstr ""
 
 #. placeholder {0}: props.guideName
@@ -377,8 +464,16 @@ msgstr ""
 msgid "explore.premium.find.placeholder"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.searchAny"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/premium/place/place-screen.tsx
 msgid "explore.place.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/data/areas/travel-line.ts
@@ -427,6 +522,15 @@ msgstr ""
 msgid "explore.category.health"
 msgstr ""
 
+#. placeholder {0}: String(n)
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.hidden"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.back"
+msgstr ""
+
 #. placeholder {0}: hero.name
 #. placeholder {0}: trip.destination
 #: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
@@ -448,6 +552,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
 msgid "explore.premium.place.ifYouLike"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.plan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
@@ -474,6 +582,10 @@ msgstr ""
 msgid "explore.dayTrips.onDateLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/saved/confirm-delete-list.ts
+msgid "explore.saved.deleteKeeps"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/premium/place/place-sections.tsx
 msgid "explore.detail.know"
 msgstr ""
@@ -486,6 +598,14 @@ msgstr ""
 msgid "search.plain.list"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.list"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
 msgid "explore.dest.loading"
 msgstr ""
@@ -496,6 +616,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-plain.tsx
 msgid "search.plain.map"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.map"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/destination/picks-carousel.tsx
@@ -514,12 +638,20 @@ msgstr ""
 msgid "search.more.eyebrow"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.move"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.move"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.museum"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.newName"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-names.tsx
@@ -588,6 +720,18 @@ msgstr ""
 msgid "search.none.leadPlain"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.emptyTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.emptyList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.failedLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-no-results.tsx
 msgid "search.none.leadMinutes"
 msgstr ""
@@ -602,6 +746,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-no-results.tsx
 msgid "search.none.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.emptyTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.savedNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.offlineBadge"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-offline.tsx
@@ -634,6 +790,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-sections.tsx
 msgid "explore.premium.place.otherDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
+msgid "explore.sponsored.passPlus"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/search/link-paste.tsx
@@ -701,6 +861,10 @@ msgstr ""
 msgid "explore.premium.split.ratherNot"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.remove"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.remove"
 msgstr ""
@@ -715,6 +879,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.unsave"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.rename"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.renameList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.renameName"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-screen.tsx
@@ -733,12 +909,41 @@ msgstr ""
 msgid "explore.premium.dest.save"
 msgstr ""
 
+#. placeholder {0}: place.name
+#: ../../apps/mobile/src/features/explore/premium/places/places-list-page.tsx
+msgid "explore.premium.places.save"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/premium/search/link-sheet.tsx
 msgid "search.link.saveToIdeas"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.offlineLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-offline.tsx
 msgid "search.offline.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.defaultList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.savedBadge"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
@@ -751,6 +956,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/search/link-sheet.tsx
 msgid "search.link.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
+msgid "explore.sponsored.seePassPlus"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
@@ -777,8 +994,20 @@ msgstr ""
 msgid "explore.premium.find.show"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.showAgain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.showAll"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-plain.tsx
 msgid "search.plain.view"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-list-page.tsx
+msgid "explore.premium.places.more"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
@@ -787,6 +1016,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-screen.tsx
 msgid "explore.place.failedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-list-page.tsx
+msgid "explore.premium.places.sponsored"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/destination/picks-carousel.tsx
@@ -805,12 +1038,20 @@ msgstr ""
 msgid "explore.category.stay"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.stay"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
 msgid "explore.trip.swipeTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.removeTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.emptyLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts
@@ -847,6 +1088,31 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.movesNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
+msgid "explore.sponsored.neutral"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.offlineTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.failedTitle"
+msgstr ""
+
+#. placeholder {0}: chips.join(' · ')
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.results"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.resultsPlain"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-offline.tsx
@@ -919,6 +1185,14 @@ msgstr ""
 msgid "search.link.retry"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.emptyLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-start.tsx
 msgid "explore.premium.find.tryAsking"
 msgstr ""
@@ -955,12 +1229,24 @@ msgstr ""
 msgid "explore.months.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.guides"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.pickerTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/search/link-paste.tsx
 msgid "search.link.pickTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
+msgid "explore.sponsored.sheetTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-list-page.tsx
+msgid "explore.sponsored.why"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
@@ -980,12 +1266,20 @@ msgstr ""
 msgid "explore.panel.you"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.nameTaken"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.firstDay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.lastDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
+msgid "explore.sponsored.contextual"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts

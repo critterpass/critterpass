@@ -6,7 +6,15 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, api paths and wire values, never copy. */
 import { msg } from '@lingui/core/macro';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ComponentType,
+  type ReactNode,
+} from 'react';
 
 import { sessionHeaders } from '@/data/app-session/device-session';
 import { defineClientCommand } from '@/data/commands/summaries';
@@ -19,7 +27,7 @@ import { SessionWaiting } from '@/ui/states/SessionWaiting';
 
 import { useLiveQuery } from '../chat/data/live-rows';
 import { useGuideContext } from '../chat/data/use-guide-context';
-import { PhraseCard } from '../phrases/phrase-card';
+import { PhraseCard, type PhraseCardViewProps } from '../phrases/phrase-card';
 import { refusalOf, useVoiceConsent, withVoiceConsent } from '../voice/voice-consent';
 import { sttToken, type VoiceSpeech } from '../voice/voice-screen';
 import {
@@ -36,7 +44,7 @@ import {
   type PracticePhrase,
   type PracticeState,
 } from './practice-model';
-import { PracticeView } from './practice-view';
+import { PracticeView, type PracticeViewProps } from './practice-view';
 
 export const recordPhrasePracticeCommand = defineClientCommand<
   PracticeRecord & { readonly trip_id: string | null }
@@ -91,18 +99,31 @@ export interface PracticeScreenProps {
   readonly startText: string | null;
   /** Null in a build without the speech module: practice counts by "I said it" only. */
   readonly speech: Pick<VoiceSpeech, 'listen' | 'endSession'> | null;
+  /** The page's drawing; the current look unless a premium route passes its own. */
+  readonly View?: ComponentType<PracticeViewProps>;
+  /** The phrase card's drawing, with the page's. */
+  readonly CardView?: ComponentType<PhraseCardViewProps>;
+  /** Shown while the session opens; the current look's waiting page by default. */
+  readonly waiting?: ReactNode;
 }
 
 export function PracticeScreen(props: PracticeScreenProps) {
   const localFirst = useContext(LocalFirstContext);
   return localFirst === null ? (
-    <SessionWaiting testID="guide-practice-waiting" />
+    (props.waiting ?? <SessionWaiting testID="guide-practice-waiting" />)
   ) : (
     <OpenPracticeScreen {...props} />
   );
 }
 
-function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScreenProps) {
+function OpenPracticeScreen({
+  tripId,
+  language,
+  startText,
+  speech,
+  View = PracticeView,
+  CardView,
+}: PracticeScreenProps) {
   const context = useGuideContext(tripId);
   const consent = useVoiceConsent();
   const syncPhase = useSyncPhase();
@@ -192,7 +213,7 @@ function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScr
   };
   if (cards === null) return null;
   return (
-    <PracticeView
+    <View
       guideName={context.guideName}
       lists={lists}
       current={phrase}
@@ -205,6 +226,7 @@ function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScr
             gloss={phrase.gloss}
             audioKey={phrase.audioKey}
             testID="guide-practice-card"
+            {...(CardView === undefined ? {} : { View: CardView })}
           />
         )
       }

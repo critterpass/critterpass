@@ -22,3 +22,24 @@ export function PlanShareSlot({ tripId }: PlanShareSlotProps) {
   const Filled = slot;
   return Filled === null ? null : <Filled tripId={tripId} />;
 }
+
+let premiumSlot: ComponentType<PlanShareSlotProps> | null = null;
+
+/** Fills the premium look's slot; returns a function that empties it again. */
+export function registerPremiumPlanShareSlot(
+  component: ComponentType<PlanShareSlotProps>,
+): () => void {
+  premiumSlot = component;
+  return () => {
+    if (premiumSlot === component) premiumSlot = null;
+  };
+}
+
+/**
+ * The premium share sheet's slot: the premium entry once one registers, else the current one so
+ * the share it offers is still there.
+ */
+export function PremiumPlanShareSlot({ tripId }: PlanShareSlotProps) {
+  const Filled = premiumSlot ?? slot;
+  return Filled === null ? null : <Filled tripId={tripId} />;
+}

@@ -10,22 +10,25 @@ msgstr ""
 #. placeholder {0}: alternative.name
 #. placeholder {1}: money(i18n.locale, alternative.delta_minor, alternative.currency)
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.cheaper"
 msgstr "{0} · {1} less"
 
 #. placeholder {0}: alternative.name
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.nearby"
 msgstr "{0} · nearby"
 
 #. placeholder {0}: money(locale, chip.amount_minor, chip.currency)
-#: ../../apps/mobile/src/features/vote/final/showdown-fact-labels.ts
-msgid "vote.showdown.each"
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
+msgid "vote.pitch.chipPrice"
 msgstr "{0} each"
 
 #. placeholder {0}: money(locale, chip.amount_minor, chip.currency)
-#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
-msgid "vote.pitch.chipPrice"
+#: ../../apps/mobile/src/features/vote/final/showdown-fact-labels.ts
+msgid "vote.showdown.each"
 msgstr "{0} each"
 
 #. placeholder {0}: guide.name
@@ -42,6 +45,7 @@ msgstr "{0} of {1} voted"
 
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.byline"
 msgstr "{0} pitches"
 
@@ -94,6 +98,7 @@ msgstr "{0}h flight"
 #. placeholder {0}: flightHours(chip.minutes)
 #. placeholder {1}: chip.origin
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.chipFlight"
 msgstr "{0}h from {1}"
 
@@ -145,7 +150,7 @@ msgstr "{loserName} goes back in the deck for next time"
 msgid "vote.inbox.voteBody"
 msgstr "{name} asked the crew"
 
-#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/board/use-pitch-sheet.ts
 msgid "vote.pitch.queuedToast"
 msgstr "{name} is pitched. It joins the vote after this one."
 
@@ -157,7 +162,7 @@ msgstr "{name} started a vote"
 msgid "vote.inbox.voteLine"
 msgstr "{name} started a vote"
 
-#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/board/use-pitch-sheet.ts
 msgid "vote.pitch.addedToast"
 msgstr "{name}'s on the board. {count} of {total} have voted."
 
@@ -258,6 +263,10 @@ msgstr "A tie goes to {tiePlace}: it's {0} cheaper for the {count} flying from {
 msgid "vote.final.tieShort"
 msgstr "A tie goes to {tiePlace}."
 
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
+msgid "vote.premium.pitch.add"
+msgstr "Add"
+
 #: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
 msgid "vote.newPoll.needsQuestion"
 msgstr "Add a question to post."
@@ -271,11 +280,12 @@ msgstr "Add an answer"
 msgid "vote.newPoll.needsAnswers"
 msgstr "Add at least two answers."
 
-#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/board/use-pitch-sheet.ts
 msgid "vote.pitch.add"
 msgstr "Add to the vote"
 
-#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/board/use-pitch-sheet.ts
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.onBoard"
 msgstr "Already on the board"
 
@@ -340,6 +350,7 @@ msgstr "Best {0}"
 
 #. placeholder {0}: chip.months.map((month) => monthShort(locale, month)).join(' · ')
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.chipBest"
 msgstr "Best: {0}"
 
@@ -347,11 +358,13 @@ msgstr "Best: {0}"
 msgid "vote.guest.best"
 msgstr "Best: {months}"
 
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
 msgid "vote.premium.cancel"
 msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.errorBody"
 msgstr "Check your connection and ask again."
 
@@ -415,6 +428,10 @@ msgstr "Direct"
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
 msgid "vote.guest.direct"
 msgstr "Direct from home"
+
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
+msgid "vote.premium.pitch.back"
+msgstr "Done"
 
 #: ../../apps/mobile/src/features/vote/final/tie-line.tsx
 msgid "vote.final.allIn"
@@ -619,6 +636,7 @@ msgid "vote.search.none"
 msgstr "Nothing called “{0}” yet."
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.none"
 msgstr "Nothing called “{asked}”. Check the spelling, or try the country."
 
@@ -627,6 +645,7 @@ msgid "vote.inbox.open"
 msgstr "Open the vote"
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.orTry"
 msgstr "Or try"
 
@@ -647,16 +666,17 @@ msgstr "Pick the last finalist"
 msgid "vote.inbox.pickLine"
 msgstr "Pick the last spot in the final"
 
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
+msgid "vote.pitch.title"
+msgstr "Pitch a place"
+
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.pitchCta"
 msgstr "Pitch a place"
 
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.pitch"
-msgstr "Pitch a place"
-
-#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
-msgid "vote.pitch.title"
 msgstr "Pitch a place"
 
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
@@ -686,6 +706,7 @@ msgid "vote.newPoll.post"
 msgstr "Post poll"
 
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.chipPending"
 msgstr "Prices pending"
 
@@ -703,11 +724,13 @@ msgid "vote.premium.guest.save"
 msgstr "Save"
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.search"
 msgstr "Search a place"
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 #: ../../apps/mobile/src/features/vote/premium/places/search-places.tsx
 msgid "vote.pitch.searchFailed"
 msgstr "Search didn't answer. Try again in a moment."
@@ -717,6 +740,7 @@ msgid "vote.search.title"
 msgstr "Search places"
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.searching"
 msgstr "Searching places"
 
@@ -817,6 +841,7 @@ msgid "vote.reveal.setupWithOrganiser"
 msgstr "The organiser sets it up next."
 
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.errorTitle"
 msgstr "The pitch didn't come through"
 
@@ -849,12 +874,13 @@ msgstr "This vote isn’t here"
 msgid "vote.guest.retryPlace"
 msgstr "Try again"
 
-#: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
-msgid "vote.guest.retry"
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
+msgid "vote.pitch.retry"
 msgstr "Try again"
 
-#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
-msgid "vote.pitch.retry"
+#: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
+msgid "vote.guest.retry"
 msgstr "Try again"
 
 #: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
@@ -927,6 +953,7 @@ msgid "vote.guest.whichCrew"
 msgstr "Which crew gets the pitch?"
 
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.why"
 msgstr "Why your crew might bite"
 
@@ -941,6 +968,7 @@ msgid "vote.reveal.wins"
 msgstr "Wins {0}"
 
 #: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.ai"
 msgstr "Written by AI"
 
@@ -978,6 +1006,7 @@ msgid "vote.search.offline"
 msgstr "You're offline. Search comes back with the connection."
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.offline"
 msgstr "You're offline. Search comes back with the connection."
 

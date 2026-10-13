@@ -18,6 +18,7 @@ import {
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
+import { sheetMaterialStyle } from '@/ui/premium/shell';
 
 import type { AddSheetViewProps } from '../../add/add-sheet-view';
 import { Doodle } from '@/features/explore';
@@ -39,7 +40,7 @@ export function PremiumAddSheetView(props: AddSheetViewProps) {
           : null;
   const chosen = props.days.find((day) => day.dayNo === props.dayNo);
   return (
-    <View style={{ flex: 1 }} testID="plan-add-sheet">
+    <View style={[{ flex: 1 }, sheetMaterialStyle(theme)]} testID="plan-add-sheet">
       <ScrollView
         contentContainerStyle={{
           paddingHorizontal: theme.space.gap16,

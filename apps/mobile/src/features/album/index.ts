@@ -5,3 +5,4 @@
 export { PostcardCard, type PostcardCardProps } from './postcard/postcard-recap-card';
 export { PremiumPostcardCard } from './premium/postcard-story-card';
 export { PremiumSheet } from './premium/premium-sheet';
+export { PremiumRouteMissing } from './premium/route-missing';

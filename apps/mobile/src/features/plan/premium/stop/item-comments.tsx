@@ -4,6 +4,7 @@
  * reply writing itself in with Keep it / Undo while it can still be undone, who is typing, and a
  * one-line composer that queues the comment. Reads, +1s and the queue are the current thread's.
  */
+import type { CommentTarget } from '@cp/domain';
 import { format, upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
@@ -25,6 +26,7 @@ import {
 } from '@/ui/premium';
 
 import { ago } from '../../collab/comment-thread';
+import type { Anchor } from '../../collab/decision-model';
 import type { ItemComments } from '../../collab/item-comments';
 import { useComments } from '../../collab/use-comments';
 import { PRESENCE_NAMESPACE } from '../../collab/use-presence';
@@ -82,7 +84,27 @@ function GuideReply(props: {
   );
 }
 
-export function PremiumItemComments({ tripId, uid, item, members, guide }: ItemCommentsProps) {
+export function PremiumItemComments({ item, ...rest }: ItemCommentsProps) {
+  const anchor = { kind: 'item', id: item.stableId } as const;
+  return <PremiumCommentsCard {...rest} title={item.title} anchors={[anchor]} target={anchor} />;
+}
+
+export interface PremiumCommentsCardProps {
+  readonly tripId: string;
+  readonly uid: string | null;
+  readonly members: ItemCommentsProps['members'];
+  readonly guide: { readonly kind: string; readonly name: string };
+  /** What the thread is on ("Kelingking viewpoint"). */
+  readonly title: string;
+  /** The comments shown: on the stop, or on a vote's option and its place. */
+  readonly anchors: readonly Anchor[];
+  /** Where a new comment goes. */
+  readonly target: CommentTarget;
+}
+
+/** One thread as a card: the stop sheet's comments, and a live decision's on its option. */
+export function PremiumCommentsCard(props: PremiumCommentsCardProps) {
+  const { tripId, uid, members, guide, title } = props;
   const theme = usePremiumTheme();
   const locale = useLocale();
   const { t } = useLingui();
@@ -90,15 +112,14 @@ export function PremiumItemComments({ tripId, uid, item, members, guide }: ItemC
   const typing = useTyping(PRESENCE_NAMESPACE, tripId);
   const [draft, setDraft] = useState('');
   const now = comments.now;
-  const thread = comments.thread([{ kind: 'item', id: item.stableId }]);
+  const thread = comments.thread(props.anchors);
   const member = (id: string) => members.find((candidate) => candidate.uid === id);
   const nameOf = (id: string) => member(id)?.name ?? '';
   const typists = typing.typing.map(nameOf).filter((name) => name !== '');
-  const title = item.title;
   const send = () => {
     const body = draft;
     setDraft('');
-    void comments.addComment({ kind: 'item', id: item.stableId }, body);
+    void comments.addComment(props.target, body);
   };
   return (
     <Card padded testID="plan-comments">

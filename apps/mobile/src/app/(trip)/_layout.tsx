@@ -11,6 +11,16 @@ import { FULL_SCREEN_ROUTE_OPTIONS, sheetRouteOptions } from '@/ui/premium/shell
 import { PremiumGroupErrorBoundary } from '@/features/home/premium/recovery/premium-error-boundary';
 import { SessionGate } from '@/ui/states/SessionGate';
 
+/* eslint-disable lingui/no-unlocalized-strings -- route names, never copy. */
+const FULL_SCREENS = [
+  'proposal/[id]/board',
+  'proposal/[id]/trailer',
+  'album/[tripId]/[photoId]',
+  'recap/[tripId]/story',
+  'encounter/[id]',
+] as const;
+/* eslint-enable lingui/no-unlocalized-strings */
+
 // A trip screen that fails is contained here: the tabs and the pages under it stay as they were.
 export { PremiumGroupErrorBoundary as ErrorBoundary };
 
@@ -34,6 +44,11 @@ export default function TripLayout() {
           {/* A crew SOS takes the whole screen (6.17), and so does sending one. */}
           <PremiumStackScreen name="sos/[id]" options={FULL_SCREEN_ROUTE_OPTIONS} />
           <PremiumStackScreen name="sos/send" options={FULL_SCREEN_ROUTE_OPTIONS} />
+          {/* Covers the app with their ✕ (or their own way out): the proposal landing, its
+              trailer, a photo, the recap story and a critter encounter. */}
+          {FULL_SCREENS.map((name) => (
+            <PremiumStackScreen key={name} name={name} options={FULL_SCREEN_ROUTE_OPTIONS} />
+          ))}
         </PremiumStack>
       </SessionGate>
     );
