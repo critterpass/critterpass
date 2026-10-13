@@ -17,12 +17,6 @@ import { runOnJS } from 'react-native-worklets';
 
 import { layoutMockExports } from './reanimated-mock-layout';
 import { isWorklet, registerUIRuntimeFunctions, toUIWorklet } from './ui-runtime';
-import {
-  Extrapolation,
-  interpolate,
-  interpolateColor,
-  useAnimatedReaction,
-} from './reanimated-interpolate';
 
 type Listener<Value> = (value: Value) => void;
 
@@ -295,10 +289,6 @@ function useAnimatedKeyboard(): typeof keyboardForTests {
 
 const mockExports = {
   default: Animated,
-  interpolate,
-  interpolateColor,
-  Extrapolation,
-  useAnimatedReaction,
   createAnimatedComponent,
   makeMutable,
   useEvent,
