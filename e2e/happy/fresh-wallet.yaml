@@ -53,10 +53,7 @@ appId: app.critterpass.dev
     timeout: 60000
 # The crew counts in đồng: the hero's amount carries ₫.
 - extendedWaitUntil:
-    visible:
-      id: 'money-empty-hero|money-hero'
-      containsDescendants:
-        - text: '.*[₫đ].*'
+    visible: '.*[₫đ] ?0.*'
     timeout: 30000
 - takeScreenshot: premium-7.16-fresh-wallet-money-empty-light
 # BOOKINGS | MONEY swaps the halves in place and back again.
