@@ -6,7 +6,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useBackAffordance } from '@/ui/qa/back-affordance';
 
-import { PressableScale, Spinner, Text, usePremiumTheme, type PremiumTheme } from '../..';
+import {
+  PressableScale,
+  Spinner,
+  Text,
+  ToastHost,
+  usePremiumTheme,
+  type PremiumTheme,
+} from '../..';
 import { KeyboardStickyFooter } from '../keyboard/keyboard';
 import { SHEET_TOP_CLEARANCE, useShownAsSheet } from '../navigation/screen-insets';
 import { useDirtySheetGuard, type DiscardPrompt } from './dirty-sheet';
@@ -145,87 +152,90 @@ export function SheetScreen({
           : sheetMaterialStyle(t),
       ]}
     >
-      {android && !asPage ? (
-        <View style={[styles.grabber, { backgroundColor: t.color.placeholder }]} />
-      ) : null}
-      <View
-        collapsable={false}
-        style={[
-          styles.header,
-          { paddingHorizontal: t.space.gutter },
-          asPage ? styles.pageHeader : null,
-        ]}
-      >
-        <PressableScale
-          testID="sheet-cancel"
-          accessibilityLabel={cancelLabel}
-          onPress={() => router.back()}
-          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+      {/* A native sheet draws above the page's toasts: its own host shows what goes wrong in it. */}
+      <ToastHost bottomOffset={0}>
+        {android && !asPage ? (
+          <View style={[styles.grabber, { backgroundColor: t.color.placeholder }]} />
+        ) : null}
+        <View
+          collapsable={false}
+          style={[
+            styles.header,
+            { paddingHorizontal: t.space.gutter },
+            asPage ? styles.pageHeader : null,
+          ]}
         >
-          <Text variant="button" style={styles.cancel}>
-            {cancelLabel}
-          </Text>
-        </PressableScale>
-        <View style={styles.title}>
-          {title === undefined ? null : (
-            <Text variant="button" accessibilityRole="header" numberOfLines={1} align="center">
-              {title}
-            </Text>
-          )}
-          {subtitle === undefined ? null : (
-            <Text variant="caption" tone="muted" numberOfLines={1} align="center">
-              {subtitle}
-            </Text>
-          )}
-        </View>
-        {verb === undefined ? (
-          <View style={styles.verbSpace} />
-        ) : busy ? (
-          <Spinner color={t.color.ink} trackColor={t.color.hairline} />
-        ) : (
           <PressableScale
-            testID={verb.testID ?? 'sheet-verb'}
-            accessibilityLabel={verb.label}
-            disabled={verb.disabled === true}
-            onPress={() => void runVerb()}
+            testID="sheet-cancel"
+            accessibilityLabel={cancelLabel}
+            onPress={() => router.back()}
             hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
           >
-            <Text variant="button" tone={verb.disabled === true ? 'placeholder' : 'ink'}>
-              {verb.label}
+            <Text variant="button" style={styles.cancel}>
+              {cancelLabel}
             </Text>
           </PressableScale>
-        )}
-      </View>
-      <View collapsable={false} style={styles.body}>
-        {scroll ? (
-          <ScrollView
-            style={styles.scroll}
-            contentContainerStyle={{
+          <View style={styles.title}>
+            {title === undefined ? null : (
+              <Text variant="button" accessibilityRole="header" numberOfLines={1} align="center">
+                {title}
+              </Text>
+            )}
+            {subtitle === undefined ? null : (
+              <Text variant="caption" tone="muted" numberOfLines={1} align="center">
+                {subtitle}
+              </Text>
+            )}
+          </View>
+          {verb === undefined ? (
+            <View style={styles.verbSpace} />
+          ) : busy ? (
+            <Spinner color={t.color.ink} trackColor={t.color.hairline} />
+          ) : (
+            <PressableScale
+              testID={verb.testID ?? 'sheet-verb'}
+              accessibilityLabel={verb.label}
+              disabled={verb.disabled === true}
+              onPress={() => void runVerb()}
+              hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+            >
+              <Text variant="button" tone={verb.disabled === true ? 'placeholder' : 'ink'}>
+                {verb.label}
+              </Text>
+            </PressableScale>
+          )}
+        </View>
+        <View collapsable={false} style={styles.body}>
+          {scroll ? (
+            <ScrollView
+              style={styles.scroll}
+              contentContainerStyle={{
+                paddingHorizontal: t.space.gutter,
+                paddingBottom: t.space.gap16,
+              }}
+              contentInsetAdjustmentBehavior="never"
+              automaticallyAdjustKeyboardInsets
+              keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
+              keyboardShouldPersistTaps="handled"
+            >
+              {children}
+            </ScrollView>
+          ) : (
+            children
+          )}
+        </View>
+        {footer === undefined ? null : (
+          <KeyboardStickyFooter
+            openedOffset={t.space.gap8}
+            style={{
               paddingHorizontal: t.space.gutter,
-              paddingBottom: t.space.gap16,
+              paddingBottom: t.space.gap16 + (asPage ? insets.bottom : 0),
             }}
-            contentInsetAdjustmentBehavior="never"
-            automaticallyAdjustKeyboardInsets
-            keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
-            keyboardShouldPersistTaps="handled"
           >
-            {children}
-          </ScrollView>
-        ) : (
-          children
+            {footer}
+          </KeyboardStickyFooter>
         )}
-      </View>
-      {footer === undefined ? null : (
-        <KeyboardStickyFooter
-          openedOffset={t.space.gap8}
-          style={{
-            paddingHorizontal: t.space.gutter,
-            paddingBottom: t.space.gap16 + (asPage ? insets.bottom : 0),
-          }}
-        >
-          {footer}
-        </KeyboardStickyFooter>
-      )}
+      </ToastHost>
     </View>
   );
 }

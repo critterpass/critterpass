@@ -5,7 +5,7 @@ import type { NativeStackNavigationOptions } from 'expo-router/native-stack';
 import { useEffect, type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { GlassIconButton, usePremiumTheme } from '../..';
+import { GlassIconButton, ToastHost, usePremiumTheme } from '../..';
 import { useScreenInsets } from '../navigation/screen-insets';
 
 /** A layout's options for a full-screen route: it covers everything, tab bar and status bar area. */
@@ -78,16 +78,19 @@ export function FullScreen({
   useBrightened(brighten);
   return (
     <View testID={testID} style={styles.root}>
-      {children}
-      <View style={[styles.close, { top: insets.top + t.space.gap6, left: t.space.gutter }]}>
-        <GlassIconButton
-          icon="close"
-          label={closeLabel}
-          kind={overPhoto ? 'clear' : 'nav'}
-          testID="full-screen-close"
-          onPress={onClose ?? (() => router.back())}
-        />
-      </View>
+      {/* A cover draws above the page's toasts, so it holds its own. */}
+      <ToastHost bottomOffset={0}>
+        {children}
+        <View style={[styles.close, { top: insets.top + t.space.gap6, left: t.space.gutter }]}>
+          <GlassIconButton
+            icon="close"
+            label={closeLabel}
+            kind={overPhoto ? 'clear' : 'nav'}
+            testID="full-screen-close"
+            onPress={onClose ?? (() => router.back())}
+          />
+        </View>
+      </ToastHost>
     </View>
   );
 }
