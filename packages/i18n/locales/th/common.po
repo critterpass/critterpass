@@ -586,6 +586,10 @@ msgstr "เปิดรูปภาพที่ {position} จาก {total}"
 msgid "common.permission.openSettings"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/premium/states/SessionWaiting.tsx
+msgid "common.premium.sessionWaiting"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/data/DayBarsVsPlan.tsx
 msgid "common.data.overPlan"
 msgstr ""

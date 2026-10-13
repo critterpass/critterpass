@@ -586,6 +586,10 @@ msgstr "Open photo {position} of {total}"
 msgid "common.permission.openSettings"
 msgstr "Open Settings"
 
+#: ../../apps/mobile/src/ui/premium/states/SessionWaiting.tsx
+msgid "common.premium.sessionWaiting"
+msgstr "Opening your trips…"
+
 #: ../../apps/mobile/src/ui/data/DayBarsVsPlan.tsx
 msgid "common.data.overPlan"
 msgstr "over plan"

@@ -14,6 +14,19 @@ const SessionDatabaseContext = createContext(false);
 
 export const SessionDatabaseProvider = SessionDatabaseContext.Provider;
 
+/** Draws the loading state the gate shows while it waits, under the gate's test id. */
+export type RenderSessionWaiting = (testID: string) => ReactNode;
+
+const renderCurrentWaiting: RenderSessionWaiting = (testID) => <SessionWaiting testID={testID} />;
+
+/**
+ * What the gate shows while the session starts: the current UI's skeleton unless the root sets
+ * another (the premium UI sets its own, so a premium route never flashes the current UI's look).
+ */
+const SessionWaitingContext = createContext<RenderSessionWaiting>(renderCurrentWaiting);
+
+export const SessionWaitingProvider = SessionWaitingContext.Provider;
+
 export interface SessionGateProps {
   /** Where a signed-out or mid-onboarding session goes instead of onboarding's first screen. */
   readonly signedOutTo?: Href;
@@ -34,9 +47,10 @@ export function SessionGate({
 }: SessionGateProps) {
   const decision = useGateDecision();
   const databaseOpen = useContext(SessionDatabaseContext);
+  const renderWaiting = useContext(SessionWaitingContext);
   const step = sessionGateStep(decision, databaseOpen, signedOutTo);
   if (step.kind === 'redirect') return <Redirect href={step.href} />;
-  if (step.kind === 'wait') return <SessionWaiting testID={testID} />;
+  if (step.kind === 'wait') return renderWaiting(testID);
   return children;
 }
 
@@ -52,5 +66,6 @@ export interface DatabaseWaitProps {
  * rendered outside a gated layout (a tab screen, a test): the loading state until it is open.
  */
 export function DatabaseWait({ open, testID = 'session-waiting', children }: DatabaseWaitProps) {
-  return open ? children : <SessionWaiting testID={testID} />;
+  const renderWaiting = useContext(SessionWaitingContext);
+  return open ? children : renderWaiting(testID);
 }

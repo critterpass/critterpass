@@ -586,6 +586,10 @@ msgstr "사진 열기 ({total}개 중 {position}번째)"
 msgid "common.permission.openSettings"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/premium/states/SessionWaiting.tsx
+msgid "common.premium.sessionWaiting"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/data/DayBarsVsPlan.tsx
 msgid "common.data.overPlan"
 msgstr ""

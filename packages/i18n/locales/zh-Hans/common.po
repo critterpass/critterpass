@@ -586,6 +586,10 @@ msgstr "打开第 {position} 张照片，共 {total} 张"
 msgid "common.permission.openSettings"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/premium/states/SessionWaiting.tsx
+msgid "common.premium.sessionWaiting"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/data/DayBarsVsPlan.tsx
 msgid "common.data.overPlan"
 msgstr ""

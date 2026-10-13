@@ -107,16 +107,15 @@ import { TouchQuietRoot } from '@/lib/interaction/touch-quiet';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
-import { ExternalToasts, PremiumThemeProvider, ToastHost } from '@/ui/premium';
-import { PremiumKeyboardProvider } from '@/ui/premium/shell';
-import { PremiumRootStack } from '@/ui/premium/shell/navigation/premium-root-stack';
+import { renderPremiumSessionWaiting } from '@/ui/premium';
+import { PremiumRoot } from '@/ui/premium/shell/navigation/premium-root';
 import { Text, useTheme } from '@/ui';
 import { PrimerSheetHost } from '@/ui/permission-primer';
 import { useNoBackAffordanceGuard } from '@/ui/qa/back-affordance';
 import { LaunchHatch } from '@/features/onboarding/hatch/LaunchHatch';
 import { reportTruncatedToastTitle } from '@/ui/qa/toast-title-check';
 import { PremiumRootErrorBoundary } from '@/features/home/premium/recovery/premium-error-boundary';
-import { SessionDatabaseProvider } from '@/ui/states/SessionGate';
+import { SessionDatabaseProvider, SessionWaitingProvider } from '@/ui/states/SessionGate';
 import { FeedbackRuntime } from '@/features/help/feedback/device-outbox';
 import { ShakeToReport } from '@/features/help/shake/ShakeListener';
 import { LocationBridge, PermissionsBridge } from '@/features/session-bridges';
@@ -226,20 +225,12 @@ function RootNavigator() {
   useScreenTracking(useAnalytics());
   usePushNotifications(cpNotifications);
   if (premium) {
-    // The one root premium theme: it sets the OS appearance and the status bar, so it lives only
-    // on the premium path; the current UI stays dark whatever the premium appearance setting says.
     return (
-      <PremiumThemeProvider>
-        <PremiumKeyboardProvider>
-          <SessionDatabaseProvider value={databaseOpen}>
-            {/* Toasts queued outside the premium screens show as premium toasts. */}
-            <ToastHost>
-              <PremiumRootStack />
-              <ExternalToasts source={toastQueue} />
-            </ToastHost>
-          </SessionDatabaseProvider>
-        </PremiumKeyboardProvider>
-      </PremiumThemeProvider>
+      <SessionDatabaseProvider value={databaseOpen}>
+        <SessionWaitingProvider value={renderPremiumSessionWaiting}>
+          <PremiumRoot toasts={toastQueue} />
+        </SessionWaitingProvider>
+      </SessionDatabaseProvider>
     );
   }
   return (

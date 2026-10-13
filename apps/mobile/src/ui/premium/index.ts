@@ -108,4 +108,5 @@ export type { ToastHostProps } from './feedback/ToastHost';
 export { EmptyState } from './states/EmptyState';
 export type { EmptyStateProps } from './states/EmptyState';
 export { LoadingCritter, Skeleton } from './states/Skeleton';
+export { PremiumSessionWaiting, renderPremiumSessionWaiting } from './states/SessionWaiting';
 export type { LoadingCritterProps, SkeletonProps } from './states/Skeleton';
