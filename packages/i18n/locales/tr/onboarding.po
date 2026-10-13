@@ -979,6 +979,10 @@ msgstr ""
 msgid "onboarding.splash.coverMark"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/premium/paste-offer/PremiumPasteOffer.tsx
+msgid "onboarding.premium.paste.paste"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumCodePage.tsx
 msgid "onboarding.premium.code.pasteLink"
 msgstr ""

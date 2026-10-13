@@ -796,6 +796,7 @@ msgstr "Other days ›"
 msgid "explore.sponsored.passPlus"
 msgstr "Pass+ and boosted trips have no sponsored picks."
 
+#: ../../apps/mobile/src/features/explore/premium/search/find-clipboard.tsx
 #: ../../apps/mobile/src/features/explore/premium/search/link-paste.tsx
 msgid "search.paste.paste"
 msgstr "Paste"

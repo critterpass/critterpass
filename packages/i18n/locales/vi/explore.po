@@ -796,6 +796,7 @@ msgstr "Ngày khác ›"
 msgid "explore.sponsored.passPlus"
 msgstr "Pass+ và các chuyến đi đã Boost không có gợi ý được tài trợ."
 
+#: ../../apps/mobile/src/features/explore/premium/search/find-clipboard.tsx
 #: ../../apps/mobile/src/features/explore/premium/search/link-paste.tsx
 msgid "search.paste.paste"
 msgstr "Dán"

@@ -1,15 +1,13 @@
 /**
  * Paste a booking (7.03's Paste tile; the sheet is undesigned, logged in docs/undesigned-states.md):
- * a native form sheet with Cancel and "Read it", the line saying what it takes, the system paste
- * control on iOS (the pasteboard is read only when the member taps it, so no paste alert) or a
- * paste button on Android, and the field. What is read lands on the add page behind it as a find.
+ * a native form sheet with Cancel and "Read it", the line saying what it takes, the kit's paste
+ * pill (the pasteboard is read only when the member taps it), and the field. What is read lands on the add page behind it as a find.
  */
 import { useLingui } from '@lingui/react/macro';
-import * as Clipboard from 'expo-clipboard';
 import { useState } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
-import { Button, Text, TextField, usePremiumTheme } from '@/ui/premium';
+import { PasteButton, Text, TextField, usePremiumTheme } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
 
 import { usePasteImport } from '../add/use-paste-import';
@@ -17,20 +15,15 @@ import { useWalletContext } from '../data/use-wallet-context';
 import { useWalletGuide, WalletGuideProvider } from '../data/wallet-guide';
 import { pasteBody } from '../paste/paste-kind';
 
-/** The system paste control's size: it draws its own label, so it needs room for it. */
-const PASTE_CONTROL = { width: 200, height: 44 } as const;
-
 function PasteBodyFields(props: {
   readonly value: string;
   readonly empty: boolean;
   readonly error: 'offline' | 'failed' | null;
   readonly onTake: (text: string) => void;
-  readonly readClipboard: () => Promise<string>;
 }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const { name: guideName } = useWalletGuide();
-  const systemPaste = Platform.OS === 'ios' && Clipboard.isPasteButtonAvailable;
   return (
     <View style={{ gap: th.space.gap12, paddingTop: th.space.gap8 }}>
       <Text variant="note" tone="inkSecondary">
@@ -39,27 +32,13 @@ function PasteBodyFields(props: {
           message: 'A confirmation code, a link from the booking site, or the whole email.',
         })}
       </Text>
-      {systemPaste ? (
-        <Clipboard.ClipboardPasteButton
-          acceptedContentTypes={['url', 'plain-text']}
-          displayMode="iconAndLabel"
-          cornerStyle="capsule"
-          backgroundColor={th.color.ink}
-          foregroundColor={th.color.onInk}
-          style={[styles.paste, PASTE_CONTROL]}
-          onPress={(data) => {
-            if (data.type === 'text') props.onTake(data.text);
-          }}
-        />
-      ) : (
-        <Button
-          label={t({ id: 'bookings.paste.fromClipboard', message: 'Paste from clipboard' })}
-          variant="control"
-          size="medium"
-          onPress={() => void props.readClipboard().then(props.onTake)}
-          testID="bookings-paste-clipboard"
-        />
-      )}
+      <PasteButton
+        label={t({ id: 'bookings.paste.fromClipboard', message: 'Paste from clipboard' })}
+        variant="control"
+        size="medium"
+        onPaste={props.onTake}
+        testID="bookings-paste-clipboard"
+      />
       <TextField
         accessibilityLabel={t({ id: 'bookings.paste.field', message: 'Link or code' })}
         placeholder={t({ id: 'bookings.paste.field', message: 'Link or code' })}
@@ -126,13 +105,7 @@ function PasteSheet() {
       }}
       testID="bookings-paste"
     >
-      <PasteBodyFields
-        value={value}
-        empty={empty}
-        error={paste.error}
-        onTake={take}
-        readClipboard={paste.readClipboard}
-      />
+      <PasteBodyFields value={value} empty={empty} error={paste.error} onTake={take} />
     </SheetScreen>
   );
 }
@@ -146,7 +119,3 @@ export function PasteSheetPremium() {
     </WalletGuideProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  paste: { alignSelf: 'center' },
-});

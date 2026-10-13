@@ -594,6 +594,10 @@ msgstr "Foto openen"
 msgid "common.lightbox.openOf"
 msgstr "Foto {position} van {total} openen"
 
+#: ../../apps/mobile/src/ui/premium/buttons/PasteButton.tsx
+msgid "common.premium.paste.openSettings"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/states/PermissionCard.tsx
 msgid "common.permission.openSettings"
 msgstr ""
@@ -968,6 +972,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.ticket"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/premium/buttons/PasteButton.tsx
+msgid "common.premium.paste.allowHint"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/data/DayBarsVsPlan.tsx
