@@ -30,7 +30,7 @@ import { useMoneyContext } from '../data/use-money-context';
 import { useTripMoney } from '../data/use-trip-money';
 import { toMajor } from '../format';
 import { editExpenseRoute } from '../routes';
-import type { DetailEdit, DetailShare } from './ExpenseDetailView';
+import type { DetailEdit, DetailShare } from './view-types';
 import { canChangeExpense, changedFields, changesOf, fxLine } from './model';
 
 export type ExpenseDetail = ReturnType<typeof useExpenseDetail>;

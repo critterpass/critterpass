@@ -16,7 +16,7 @@ import { goBackOr } from '@/lib/navigation/back';
 import { fetchDirectory, lastDirectory } from '../ours/api';
 import { driverRoutes } from '../ours/routes';
 import { driversRoute } from '../shared/routes';
-import type { DirectoryViewProps } from './DirectoryView';
+import type { DirectoryViewProps } from './view-types';
 import {
   areaChips,
   filterDirectory,

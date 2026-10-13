@@ -29,8 +29,8 @@ import { deviceSupplierApi, type SupplierApi } from './data/api';
 import { approveVendorMessageCommand, requestVendorMessageCommand } from './data/commands';
 import { useTripGuide } from './data/use-trip-guide';
 import { threadPhase } from './thread-phase';
-import type { DraftOutcome, VendorDraftCardProps } from './VendorDraftCard';
-import type { VendorThreadCardProps } from './VendorThreadCard';
+import type { DraftOutcome, VendorDraftCardProps } from './view-types';
+import type { VendorThreadCardProps } from './view-types';
 
 export interface DraftParams {
   readonly tripId: string;

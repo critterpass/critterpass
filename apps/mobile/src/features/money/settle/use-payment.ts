@@ -30,7 +30,7 @@ import { MONEY_ROUTES } from '../routes';
 import { amountPaidDigits, amountPaidMinor, isAmountPaidValid } from './amount-paid';
 import { useSettleCopy } from './command-copy';
 import { settleRows } from './model';
-import type { RevealState } from './PaymentDetail';
+import type { RevealState } from './view-types';
 
 export type PaymentState = ReturnType<typeof usePayment>;
 

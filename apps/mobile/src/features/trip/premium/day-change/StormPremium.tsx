@@ -39,7 +39,7 @@ import {
   votedLabel,
 } from '../../disruptions/storm/copy';
 import type { StormOptionId } from '../../disruptions/storm/model';
-import type { StormViewProps } from '../../disruptions/storm/storm-view';
+import type { StormViewProps } from '../../disruptions/storm/view-types';
 import { useStormScreen } from '../../disruptions/storm/use-storm-screen';
 
 function Ready({ props }: { readonly props: StormViewProps }) {

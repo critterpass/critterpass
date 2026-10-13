@@ -22,7 +22,7 @@ import { resolveSosCommand, respondSosCommand, triggerSosCommand } from '../comm
 import { deviceHelpApi } from '../data/help-api';
 import { useHelpHub } from '../help/use-help-hub';
 import { safetyRoutes } from '../routes';
-import type { SosViewProps } from './sos-view';
+import type { SosViewProps } from './view-types';
 import { senderBubble } from './sos-model';
 import { useSos } from './use-sos';
 import { useFormats } from '@/lib/i18n/formats';

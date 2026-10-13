@@ -25,7 +25,7 @@ import { useSendOnce } from '../data/use-send-once';
 import { MONEY_ROUTES } from '../routes';
 import type { MemberPickerProps } from './MemberPicker';
 import { receiptView, toCommitPayload } from './review-model';
-import type { ScanViewProps } from './ScanView';
+import type { ScanViewProps } from './view-types';
 import type { TypeLinesEditorProps } from './TypeLinesEditor';
 import { TypeLinesScreen } from './TypeLinesScreen';
 import { useReceiptQueueDrain } from './receipt-queue';

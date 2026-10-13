@@ -8,7 +8,7 @@ import {
   toCandidateView,
   travellersFor,
 } from '../candidates/candidate-model';
-import { LAB_CANDIDATES, LAB_MEMBERS, LAB_UID, labCandidate } from '../dev/lab-fixtures';
+import { LAB_CANDIDATES, LAB_MEMBERS, LAB_UID, labCandidate } from '../test-support/lab-fixtures';
 import { parseMailboxReturn } from '../mailbox/oauth';
 import { mailboxStatus } from '../mailbox/use-mailbox';
 import { pasteBody } from '../paste/paste-kind';

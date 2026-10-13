@@ -9,7 +9,7 @@ import type { GoTarget } from '@/features/go';
 import type { DayReading } from '@/features/plan';
 
 import type { AlarmAuthorization } from '../alarm/alarm-port';
-import type { AlarmSheetKind } from '../alarm/alarm-permission-sheet';
+import type { AlarmSheetKind } from '../alarm/view-types';
 import type { AlarmStatus } from '../alarm/alarm-store';
 import type { DayItemRow } from '../hub/data/queries';
 import {
@@ -19,7 +19,7 @@ import {
   type CrewMember,
   type LeaveByView,
 } from '../leave-by/model';
-import type { DayTimelineEntry } from './timeline';
+import type { DayTimelineEntry } from './view-types';
 
 /** A point this high up reads "at the top". */
 const SUMMIT_M = 1000;

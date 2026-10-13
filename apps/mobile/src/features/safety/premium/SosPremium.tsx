@@ -26,7 +26,7 @@ import { FullScreen } from '@/ui/premium/shell';
 
 import { clockTime } from '../format';
 import { useResponderLine, useSosStepText } from '../sos/sos-copy';
-import type { SosViewProps } from '../sos/sos-view';
+import type { SosViewProps } from '../sos/view-types';
 import { useSosScreen } from '../sos/use-sos-screen';
 import { SosActions } from './SosActions';
 

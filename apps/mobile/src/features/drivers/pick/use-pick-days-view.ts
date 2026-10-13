@@ -9,7 +9,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 
 import { dayLabel, hoursFigure } from '../shared/format';
 import { pickErrorText, pickTermsLine } from './pick-card';
-import type { PickDaysViewProps } from './PickDaysView';
+import type { PickDaysViewProps } from './view-types';
 import { usePickDays, type PickDaysProps } from './use-pick-days';
 
 export function usePickDaysView(props: PickDaysProps): PickDaysViewProps {

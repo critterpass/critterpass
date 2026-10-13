@@ -25,7 +25,7 @@ import {
   undoDisruptionActionCommand,
 } from '../commands';
 import { flightEyebrow, heroLines, toastLines } from './copy';
-import type { FlightViewProps } from './flight-view';
+import type { FlightViewProps } from './view-types';
 import { delayParts, flightModel, type DisruptionRowData } from './model';
 
 const DISRUPTION_SQL = `SELECT id, trip_id, kind, cause, status, version, title, summary, affected,

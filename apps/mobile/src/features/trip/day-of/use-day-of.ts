@@ -24,7 +24,7 @@ import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
 import { guideSticker } from '@/ui/avatar/guides';
 
 import { alarmPort } from '../alarm/alarm-port';
-import type { AlarmSheetKind } from '../alarm/alarm-permission-sheet';
+import type { AlarmSheetKind } from '../alarm/view-types';
 import { alarmStore, useAlarmState } from '../alarm/alarm-store';
 import {
   DAY_ITEMS_SQL,
@@ -58,7 +58,7 @@ import {
   withPlanRows,
 } from './day-of-data';
 import { dayEyebrow, forecastLabel, ringCounting } from './day-of-copy';
-import type { DayOfViewProps } from './day-of-view';
+import type { DayOfViewProps } from './view-types';
 import {
   buildPackChips,
   PENDING_PACKING_SQL,

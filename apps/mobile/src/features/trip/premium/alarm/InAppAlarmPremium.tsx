@@ -20,7 +20,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { CritterSticker, Text, TextButton, usePremiumReducedMotion } from '@/ui/premium';
 
-import type { InAppAlarmProps } from '../../alarm/in-app-alarm';
+import type { InAppAlarmProps } from '../../alarm/view-types';
 import { guideCritterKind, guideCritterName } from '../components/guide-critter';
 import { SlideToUp } from './SlideToUp';
 

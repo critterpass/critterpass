@@ -9,7 +9,7 @@ import { StyleSheet, View } from 'react-native';
 import { guideCritterKind } from '@/features/trip';
 import { Button, GuideNote, StatusTag, Text, usePremiumTheme } from '@/ui/premium';
 
-import type { OfferCardProps } from '../../supplier/OfferCard';
+import type { OfferCardProps } from '../../supplier/view-types';
 import { ErrorLine, HoldChip } from './SupplierParts';
 
 export function OfferCardPremium(props: OfferCardProps) {

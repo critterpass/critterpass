@@ -17,7 +17,7 @@ import {
   MAYA,
   RIN,
   WINSTON,
-} from '../../day-of/dev/bali-day';
+} from '../../day-of/test-support/bali-day';
 import type { AlarmBackend, AlarmMode } from '../alarm-backends';
 import type { AlarmText } from '../alarm-copy';
 import { alarmWatched, desiredAlarms, diffAlarms, dueAlarm, type HeldAlarm } from '../alarm-plan';

@@ -21,7 +21,7 @@ import {
   refreshInsurance,
   useInsurancePolicies,
 } from './insurance-data';
-import type { DocState, InsuranceDraft } from './InsuranceFormView';
+import type { DocState, InsuranceDraft } from './view-types';
 
 export function useInsuranceForm() {
   const { db } = useLocalFirst();

@@ -6,7 +6,6 @@ import { usePlaceSearch } from '@/data/places/usePlaceSearch';
 import { dataOf } from '@/data/travel-data/freshness';
 import { useLiveRows } from '@/features/bookings/data/live-rows';
 import { useWalletContext } from '@/features/bookings/data/use-wallet-context';
-import { SUPPLIER_LAB_SCENE_NAMES } from '@/features/bookings/supplier/dev/lab-scenes';
 import {
   gettingAroundRoute,
   offerRoute,
@@ -28,7 +27,7 @@ const PLACE_TABLES = ['plan_items'];
 
 /**
  * Supplier cards, booking and cancel sheets, Getting around (3h-3) and vendor messages: the live
- * screens on this account's trip first, then every designed and undesigned state as a scene.
+ * screens on this account's trip.
  */
 export default function SupplierLab() {
   const { trip } = useWalletContext();
@@ -102,17 +101,6 @@ export default function SupplierLab() {
           }}
           testID="supplier-lab-live-messages"
         />
-        {SUPPLIER_LAB_SCENE_NAMES.map((name) => (
-          <ListCard
-            key={name}
-            title={name}
-            chevron
-            onPress={() =>
-              router.push({ pathname: '/(dev)/supplier-scene', params: { scene: name } })
-            }
-            testID={`supplier-lab-${name}`}
-          />
-        ))}
       </Stack>
     </ScrollView>
   );

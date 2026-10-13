@@ -27,7 +27,7 @@ import {
   guideLine,
   percent,
 } from '../../disruptions/forecast/copy';
-import type { ForecastViewProps } from '../../disruptions/forecast/forecast-view';
+import type { ForecastViewProps } from '../../disruptions/forecast/view-types';
 import type { WatchEntry } from '../../disruptions/forecast/model';
 import { useForecastScreen } from '../../disruptions/forecast/use-forecast-screen';
 import { LineIcon } from '../components/LineIcon';

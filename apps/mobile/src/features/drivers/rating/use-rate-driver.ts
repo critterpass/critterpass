@@ -14,7 +14,7 @@ import { feedback, toast } from '@/motion';
 import { rateDriverCommand } from '../ours/commands';
 import { driverRoutes } from '../ours/routes';
 import { useOurDrivers } from '../ours/use-our-drivers';
-import type { RateDriverViewProps } from './RateDriverView';
+import type { RateDriverViewProps } from './view-types';
 
 export function useRateDriver({
   tripId,

@@ -21,4 +21,4 @@ export {
   type SavedDay,
 } from './bundle/bundle-manager';
 export { useTripDayServices } from './bundle/services';
-export type { SavedTrip } from './bundle/storage-settings';
+export type { SavedTrip } from './bundle/saved-trip';

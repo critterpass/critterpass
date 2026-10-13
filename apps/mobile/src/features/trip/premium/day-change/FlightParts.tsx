@@ -18,7 +18,7 @@ import {
   rowLine,
   sectionTitles,
 } from '../../disruptions/flight/copy';
-import type { FlightViewProps } from '../../disruptions/flight/flight-view';
+import type { FlightViewProps } from '../../disruptions/flight/view-types';
 import type { Question } from '../../disruptions/flight/model';
 
 export function FlightRows(props: {

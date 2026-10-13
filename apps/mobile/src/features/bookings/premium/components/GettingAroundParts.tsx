@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { Button, Skeleton, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 
-import type { GettingAroundViewProps } from '../../getting-around/GettingAroundView';
+import type { GettingAroundViewProps } from '../../getting-around/view-types';
 
 type Ride = NonNullable<GettingAroundViewProps['ride']>;
 

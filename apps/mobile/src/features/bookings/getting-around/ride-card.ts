@@ -12,7 +12,7 @@ import { clock, price } from '../format';
 import type { useSupplierCopy } from '../supplier/copy';
 import { rideAppName } from '../supplier/suppliers';
 import { fareRows } from './fare-rows';
-import type { GrabEstimateCardProps } from './GrabEstimateCard';
+import type { GrabEstimateCardProps } from './view-types';
 import { openRideLink } from './ride-links';
 import type { GettingAround } from './use-getting-around';
 

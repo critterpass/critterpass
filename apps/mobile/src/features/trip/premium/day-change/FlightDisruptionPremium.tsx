@@ -25,7 +25,7 @@ import {
 import { FullScreen } from '@/ui/premium/shell';
 
 import { footerLabels, rowLine, sectionTitles, stateLines } from '../../disruptions/flight/copy';
-import type { FlightViewProps } from '../../disruptions/flight/flight-view';
+import type { FlightViewProps } from '../../disruptions/flight/view-types';
 import { useFlightDisruption } from '../../disruptions/flight/use-flight-disruption';
 import { FlightRows, QuestionCard } from './FlightParts';
 

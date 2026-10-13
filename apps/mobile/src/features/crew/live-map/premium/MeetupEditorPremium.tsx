@@ -20,7 +20,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { MeetupChoice } from '../panel/meetup-editor';
+import type { MeetupChoice } from '../panel/view-types';
 
 const WHEN = [15, 30, 60] as const;
 const KEEP = 'keep';

@@ -6,7 +6,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { Button, PressableScale, Text, TextButton, Toggle, usePremiumTheme } from '@/ui/premium';
 
-import type { ShareControlsProps } from '../help/share-controls';
+import type { ShareControlsProps } from '../help/view-types';
 
 export function HelpConsent({
   crewName,

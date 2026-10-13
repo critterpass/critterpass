@@ -37,7 +37,7 @@ import { useSpeech } from '../data/use-speech';
 import { telUrl } from '../format';
 import { safetyRoutes } from '../routes';
 import { readsPhraseLanguage } from './checklist-model';
-import type { HelpViewProps } from './help-view';
+import type { HelpViewProps } from './view-types';
 import {
   markShareStopped,
   onOpen,

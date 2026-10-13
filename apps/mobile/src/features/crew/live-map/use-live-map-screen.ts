@@ -32,7 +32,7 @@ import { useTripCrew } from './data/use-trip-crew';
 import { buildLiveView } from './data/view-model';
 import { useLiveMapServices, type OwnFix } from './data/services';
 import type { LiveMapModel, Overlay } from './model';
-import type { MeetupChoice } from './panel/meetup-editor';
+import type { MeetupChoice } from './panel/view-types';
 import { pingToast } from './panel/ping-actions';
 
 const TICK_MS = 15_000;
