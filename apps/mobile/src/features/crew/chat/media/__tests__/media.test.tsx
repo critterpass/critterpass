@@ -2,8 +2,10 @@
  * Chat media on the real local-first stack, with the media api answered at the HTTP boundary by
  * recorded responses and the picker, microphone and player as device doubles: a photo queued
  * offline uploads and sends exactly once after reconnect (even when the queue runs twice, or the
- * app died between sending and clearing the upload), large files go multipart, voice notes record
- * from the mic (and a denied mic points to Settings). Playback lives in voice-message.test.
+ * app died between sending and clearing the upload), large files go multipart; in the premium chat
+ * the "+" sheet picks photos (a denied camera or a failed picker says so and the library still
+ * works), voice notes record from the mic (and a denied mic points to Settings). Playback lives in
+ * voice-message.test.
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- FlashList cannot run under Jest; see the double's header
 jest.mock('@shopify/flash-list', () => require('../../test-support/flash-list-double'));
@@ -17,7 +19,7 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
-import { CrewChat } from '../../components/chat-screen';
+import { CrewChatView } from '../../../premium/chat/crew-chat-view';
 import {
   CREW,
   MAYA,
@@ -172,35 +174,41 @@ describe('in the chat', () => {
   async function renderWithMedia(s: TestLocalFirst, media = deviceDouble(api)) {
     await renderChat(
       <ChatMediaProvider services={media}>
-        <CrewChat crewId={CREW} />
+        <CrewChatView crewId={CREW} />
       </ChatMediaProvider>,
       s,
     );
     return media;
   }
 
-  it('picks photos from the library into an upload at the foot of the chat', async () => {
+  it('picks photos from the library into an upload waiting for signal', async () => {
     const s = await open();
     await seedCrew(s);
     await seedMessage(s, { seq: 1, sender: MAYA, body: 'pics?' });
     s.network.set(false);
-    await renderWithMedia(s);
-    await fireEvent.press(await screen.findByLabelText('Add attachment'));
-    await fireEvent.press(await screen.findByText('Photo library'));
-    expect(await screen.findByText('Waiting for signal')).toBeTruthy();
-    expect(screen.getByText(/^photo$/iu)).toBeTruthy();
+    const media = await renderWithMedia(s);
+    await fireEvent.press(await screen.findByTestId('chat-attach'));
+    await fireEvent.press(await screen.findByTestId('chat-attach-library'));
+    await waitFor(() => expect(screen.queryByTestId('chat-attach-sheet')).toBeNull());
+    expect(media.picked).toEqual(['library']);
+    await waitFor(async () =>
+      expect(
+        (await listUploads(s.db)).map((item) => [item.state, item.files.map((f) => f.kind)]),
+      ).toEqual([['waiting', ['photo']]]),
+    );
+    expect(api.calls).toEqual([]);
   });
 
-  it('shows a photo sent into an empty chat on its way up, in place of the empty state', async () => {
+  it('leaves the brand-new chat’s welcome once a photo is on its way up', async () => {
     const s = await open();
     await seedCrew(s);
     s.network.set(false);
     await renderWithMedia(s);
-    expect(await screen.findByText(/^say hi to the crew$/iu)).toBeTruthy();
-    await fireEvent.press(screen.getByLabelText('Add attachment'));
-    await fireEvent.press(await screen.findByText('Photo library'));
-    expect(await screen.findByText('Waiting for signal')).toBeTruthy();
-    expect(screen.queryByText(/^say hi to the crew$/iu)).toBeNull();
+    expect(await screen.findByTestId('chat-welcome')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('chat-attach'));
+    await fireEvent.press(await screen.findByTestId('chat-attach-library'));
+    await waitFor(() => expect(screen.queryByTestId('chat-welcome')).toBeNull());
+    expect(await listUploads(s.db)).toHaveLength(1);
   });
 
   it('points a denied camera to Settings with the library as the way on', async () => {
@@ -209,11 +217,13 @@ describe('in the chat', () => {
     await seedMessage(s, { seq: 1, sender: MAYA, body: 'pics?' });
     s.network.set(false);
     const media = await renderWithMedia(s, deviceDouble(api, { camera: 'denied' }));
-    await fireEvent.press(await screen.findByLabelText('Add attachment'));
-    await fireEvent.press(await screen.findByText('Camera'));
-    expect(await screen.findByText(/^the camera is off$/iu)).toBeTruthy();
-    await fireEvent.press(screen.getByText(/^pick from the library$/iu));
+    await fireEvent.press(await screen.findByTestId('chat-attach'));
+    await fireEvent.press(await screen.findByTestId('chat-attach-camera'));
+    expect(await screen.findByText('CritterPass can’t see your photos')).toBeTruthy();
+    expect(screen.getByText('Open Settings')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('chat-attach-library'));
     await waitFor(() => expect(media.picked).toEqual(['camera', 'library']));
+    await waitFor(async () => expect(await listUploads(s.db)).toHaveLength(1));
   });
 
   it('says the photo picker failed, not that access is off, and picks on a retry', async () => {
@@ -222,13 +232,13 @@ describe('in the chat', () => {
     await seedMessage(s, { seq: 1, sender: MAYA, body: 'pics?' });
     s.network.set(false);
     const media = await renderWithMedia(s, deviceDouble(api, { library: 'fails-once' }));
-    await fireEvent.press(await screen.findByLabelText('Add attachment'));
-    await fireEvent.press(await screen.findByText('Photo library'));
-    expect(await screen.findByText('Couldn’t open your photos. Try again.')).toBeTruthy();
-    expect(screen.queryByText(/^photo access is off$/iu)).toBeNull();
-    await fireEvent.press(screen.getByText('Photo library'));
+    await fireEvent.press(await screen.findByTestId('chat-attach'));
+    await fireEvent.press(await screen.findByTestId('chat-attach-library'));
+    expect(await screen.findByText('That didn’t open. Try again?')).toBeTruthy();
+    expect(screen.queryByText('CritterPass can’t see your photos')).toBeNull();
+    await fireEvent.press(screen.getByTestId('chat-attach-library'));
     await waitFor(() => expect(media.picked).toEqual(['library', 'library']));
-    await waitFor(() => expect(screen.queryByTestId('chat-attach-failed')).toBeNull());
+    await waitFor(() => expect(screen.queryByTestId('chat-attach-sheet')).toBeNull());
     await waitFor(async () => expect(await listUploads(s.db)).toHaveLength(1));
   });
 
@@ -238,12 +248,11 @@ describe('in the chat', () => {
     await seedMessage(s, { seq: 1, sender: MAYA, body: 'say it' });
     s.network.set(false);
     await renderWithMedia(s);
-    await fireEvent(await screen.findByLabelText('Record a voice message'), 'accessibilityAction', {
-      nativeEvent: { actionName: 'activate' },
-    });
-    expect(await screen.findByText('Slide to cancel')).toBeTruthy();
-    await fireEvent.press(screen.getByText(/^send$/iu));
-    expect(await screen.findByText(/^voice note$/iu)).toBeTruthy();
+    await fireEvent.press(await screen.findByTestId('chat-mic'));
+    expect(await screen.findByTestId('chat-recorder')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('chat-recorder-send'));
+    await waitFor(() => expect(screen.queryByTestId('chat-recorder')).toBeNull());
+    await waitFor(async () => expect(await listUploads(s.db)).toHaveLength(1));
     const [item] = await listUploads(s.db);
     expect(item?.files[0]).toMatchObject({
       kind: 'voice',
@@ -253,14 +262,27 @@ describe('in the chat', () => {
     expect(item?.files[0]?.peaks?.length).toBe(48);
   });
 
-  it('shows the Settings card when the microphone is denied', async () => {
+  it('drops a hands-free voice note the member cancels', async () => {
+    const s = await open();
+    await seedCrew(s);
+    await seedMessage(s, { seq: 1, sender: MAYA, body: 'say it' });
+    s.network.set(false);
+    await renderWithMedia(s);
+    await fireEvent.press(await screen.findByTestId('chat-mic'));
+    await fireEvent.press(await screen.findByTestId('chat-recorder-cancel'));
+    await waitFor(() => expect(screen.queryByTestId('chat-recorder')).toBeNull());
+    expect(await listUploads(s.db)).toEqual([]);
+  });
+
+  it('shows the Settings sheet when the microphone is denied', async () => {
     const s = await open();
     await seedCrew(s);
     await seedMessage(s, { seq: 1, sender: MAYA, body: 'say it' });
     await renderWithMedia(s, deviceDouble(api, { mic: 'denied' }));
-    await fireEvent(await screen.findByLabelText('Record a voice message'), 'accessibilityAction', {
-      nativeEvent: { actionName: 'activate' },
-    });
-    expect(await screen.findByText(/^the microphone is off$/iu)).toBeTruthy();
+    await fireEvent.press(await screen.findByTestId('chat-mic'));
+    expect(await screen.findByText('The microphone is off')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('chat-mic-type'));
+    await waitFor(() => expect(screen.queryByTestId('chat-mic-off')).toBeNull());
+    expect(screen.queryByTestId('chat-recorder')).toBeNull();
   });
 });

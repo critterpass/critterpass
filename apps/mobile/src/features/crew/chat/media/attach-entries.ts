@@ -1,3 +1,5 @@
+
+
 /**
  * Entries other features add to the chat's "+" menu (a poll, an expense, a meet-up, a location),
  * listed under the built-in photo and voice choices by every view of the menu.
@@ -22,3 +24,5 @@ export function registerAttachEntry(entry: AttachEntry): () => void {
 export function attachEntries(): readonly AttachEntry[] {
   return [...entries.values()];
 }
+
+export type AttachChoice = 'library' | 'camera' | 'voice';

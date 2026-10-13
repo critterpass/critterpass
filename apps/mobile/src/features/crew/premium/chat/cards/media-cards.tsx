@@ -13,7 +13,7 @@ import type { ChatMessage } from '../../../chat/data/rows';
 import { useChatMedia } from '../../../chat/media/media-services';
 import { useReadUrl } from '../../../chat/media/read-urls';
 import { useVoicePlayback } from '../../../chat/media/voice-playback';
-import { bars, clock } from '../../../chat/media/voice-message';
+import { bars, clock } from '../../../chat/media/voice-note';
 import { PremiumPhotoViewer } from './photo-viewer';
 
 const PHOTO_SHARE = 0.66;

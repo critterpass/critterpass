@@ -2,15 +2,14 @@
  * Every kind of message the crew chat draws itself or through its own cards shows something, on
  * the real local-first stack, with the shapes a real crew chat holds: member text, the guide's
  * text, a member joining (an empty body; the name comes from the member the row points at), a
- * voice note and a photo as stored (the original key only, no length, no thumbnail yet). Any card
- * still loading sits in a slot of real width. The expense and proposal cards have their own tests
- * in their areas.
+ * voice note and a photo as stored (the original key only, no length, no thumbnail yet), drawn by
+ * the premium chat. The expense and proposal cards have their own tests in their areas.
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- FlashList cannot run under Jest; see the double's header
 jest.mock('@shopify/flash-list', () => require('../../test-support/flash-list-double'));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { screen, within } from '@testing-library/react-native';
+import { screen } from '@testing-library/react-native';
 import { StyleSheet } from 'react-native';
 
 import {
@@ -18,10 +17,8 @@ import {
   type TestLocalFirst,
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
-import { Skeleton } from '@/ui/states/Skeleton';
 
-import { CrewChat } from '../../components/chat-screen';
-import '../../media/register';
+import { CrewChatView } from '../../../premium/chat/crew-chat-view';
 import {
   CREW,
   LEO,
@@ -32,7 +29,6 @@ import {
 } from '../../test-support/chat-harness';
 import { deviceDouble, recordedMediaApi } from '../../test-support/media-doubles';
 import { ChatMediaProvider } from '../../media/media-services';
-import { registerChatCard } from '../registry';
 
 let stack: TestLocalFirst | null = null;
 
@@ -69,7 +65,7 @@ describe('every kind of crew chat message', () => {
     });
     await renderChat(
       <ChatMediaProvider services={deviceDouble(recordedMediaApi())}>
-        <CrewChat crewId={CREW} />
+        <CrewChatView crewId={CREW} />
       </ChatMediaProvider>,
       s,
     );
@@ -84,26 +80,5 @@ describe('every kind of crew chat message', () => {
     const { width } = StyleSheet.flatten(tile.props.style as object) as { width?: unknown };
     expect(typeof width === 'number' && width > 0).toBe(true);
     expect(screen.queryByText('This message needs a newer CritterPass')).toBeNull();
-  });
-
-  it('gives a card still loading a slot of real width, never a collapsed bubble', async () => {
-    // A card that shows the shared skeleton until its row syncs, as the poll and plan cards do.
-    const stop = registerChatCard('poll', {
-      Component: ({ message }) => <Skeleton preset="card" testID={`loading-${message.id}`} />,
-      estimateHeight: () => 120,
-      a11yLabel: () => 'Poll',
-    });
-    try {
-      stack = await openTestLocalFirst({ holdUploads: true });
-      await seedCrew(stack);
-      const id = await seedMessage(stack, { seq: 1, sender: MAYA, type: 'poll', body: '' });
-      await renderChat(<CrewChat crewId={CREW} />, stack);
-      const slot = await screen.findByTestId(`chat-card-slot-${id}`);
-      const { width } = StyleSheet.flatten(slot.props.style as object) as { width?: unknown };
-      expect(typeof width === 'number' && width > 0).toBe(true);
-      expect(within(slot).getByTestId(`loading-${id}`)).toBeTruthy();
-    } finally {
-      stop();
-    }
   });
 });

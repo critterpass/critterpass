@@ -1,5 +1,9 @@
+/**
+ * The premium timeline follows the conversation: it keeps the newest message in view while the
+ * member sits at the end, and leaves a member who started scrolling back where they are.
+ */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/flash-list', () => require('../../test-support/flash-list-double'));
+jest.mock('@shopify/flash-list', () => require('../../../chat/test-support/flash-list-double'));
 
 import { act, fireEvent, screen } from '@testing-library/react-native';
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
@@ -7,9 +11,9 @@ import { Text } from 'react-native';
 
 import { renderUi } from '@/ui/test-support/render';
 
-import { scrollToEndCalls } from '../../test-support/flash-list-double';
-import { MessageList } from '../message-list';
-import type { TimelineRow } from '../timeline-rows';
+import type { TimelineRow } from '../../../chat/components/timeline-rows';
+import { scrollToEndCalls } from '../../../chat/test-support/flash-list-double';
+import { PremiumMessageList } from '../message-list';
 
 const ROWS: TimelineRow[] = [{ kind: 'day', key: 'd-2026-10-02', day: '2026-10-02' }];
 
@@ -26,10 +30,12 @@ function scrollEvent(y: number, content: number) {
 
 async function renderList() {
   await renderUi(
-    <MessageList
+    <PremiumMessageList
       rows={ROWS}
-      today="2026-10-02"
-      renderMessage={() => <Text>message</Text>}
+      renderRow={() => <Text>message</Text>}
+      isMine={() => false}
+      topInset={0}
+      bottomInset={0}
       onLoadOlder={() => undefined}
       onSeenLatest={() => undefined}
     />,
@@ -57,7 +63,7 @@ describe('chat message list', () => {
       await fireEvent.scroll(list, scrollEvent(330, 720));
       await fireEvent(list, 'scrollBeginDrag', scrollEvent(330, 720));
     });
-    // A message settles (its "sending" line goes) before the first scroll event of the drag.
+    // A message settles (its "waiting" line goes) before the first scroll event of the drag.
     await act(async () => {
       await fireEvent(list, 'contentSizeChange', 390, 700);
     });
