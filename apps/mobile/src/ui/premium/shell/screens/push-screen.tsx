@@ -1,5 +1,5 @@
 import { router, Stack } from 'expo-router';
-import type { ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -64,13 +64,17 @@ function InlineTitle({ title, subtitle }: { readonly title: string; readonly sub
 /**
  * The push screen type (foundations-spec §1): glass back left, centred title and subtitle, one
  * right action; edge swipe goes back and the tab bar is gone (pushed on the root stack). iOS uses
- * the native bar (the system glass back and toolbar); Android the Material bar with the action at
- * its end. A headerless page draws the glass circles itself over its hero.
+ * the native bar (the system glass back and toolbar). Android draws the whole bar itself, one glass
+ * `<` (or ✕), the title and the action, since the Material bar adds its own arrow beside a drawn
+ * back. A headerless page draws the glass circles itself over its hero.
  *
  * The leading control follows where the page sits (`useScreenPlacement`): pushed on its own stack
  * it is the bar's native back; the first page of a pushed group gets the shell's glass back (the
  * native bar has none there); the first page of a sheet or modal gets ✕ (`closeLabel`); a pushed
  * page inside a sheet or modal gets `<` again.
+ *
+ * The bar's options only change with the title and the back control, so a page re-rendering (a
+ * keyboard closing, a query echo) never makes the navigator redraw its headers.
  */
 export function PushScreen({
   title,
@@ -93,20 +97,41 @@ export function PushScreen({
   // The native bar has its own back only for a page pushed on its own stack; the first screen of
   // a pushed group, or of a sheet or modal, gets the shell's control instead.
   const nativeBack =
+    ios &&
     control === 'back' &&
     (placement === undefined || (placement.kind === 'pushed' && placement.ownStack));
   const drawnControl =
     control === 'none' || nativeBack ? null : control === 'home' ? 'back' : control;
   const leadingLabel = control === 'close' ? (closeLabel ?? backLabel) : backLabel;
   const leave = control === 'home' ? goHome : goBack;
-  // The bar's native back (iOS) or Material back arrow (Android) is the way back, and so is the
-  // shell's back or ✕ as a native toolbar item on iOS; a drawn back or ✕ registers itself.
-  useBackAffordance(!headerless && (nativeBack || (ios && drawnControl !== null)));
+  // The bar's native back is the way back, and so is the shell's back or ✕ as a native toolbar
+  // item on iOS; a drawn back or ✕ registers itself.
+  useBackAffordance(!headerless && ios && (nativeBack || drawnControl !== null));
+
+  const ink = t.color.ink;
+  const nativeOptions = useMemo(
+    () => ({
+      headerShown: true,
+      title,
+      headerTitle: () => (
+        <InlineTitle title={title} {...(subtitle === undefined ? {} : { subtitle })} />
+      ),
+      headerTitleAlign: 'center' as const,
+      headerTransparent: true,
+      headerShadowVisible: false,
+      headerBackButtonDisplayMode: 'minimal' as const,
+      headerBackVisible: nativeBack,
+      headerTintColor: ink,
+    }),
+    [title, subtitle, nativeBack, ink],
+  );
+  const drawnOptions = useMemo(() => ({ headerShown: false, title }), [title]);
 
   const body = scroll ? (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
       contentContainerStyle={{ paddingBottom: t.space.gap16 }}
+      keyboardShouldPersistTaps="handled"
     >
       {children}
     </ScrollView>
@@ -117,7 +142,7 @@ export function PushScreen({
   if (headerless) {
     return (
       <View testID={testID} style={styles.root}>
-        <Stack.Screen options={{ headerShown: false, title }} />
+        <Stack.Screen options={drawnOptions} />
         {body}
         <View
           pointerEvents="box-none"
@@ -142,46 +167,43 @@ export function PushScreen({
     );
   }
 
+  if (!ios) {
+    return (
+      <View testID={testID} style={[styles.root, { backgroundColor: t.color.ground }]}>
+        <Stack.Screen options={drawnOptions} />
+        <View
+          style={[
+            styles.drawnBar,
+            {
+              marginTop: insets.top + t.space.gap6,
+              marginBottom: t.space.gap6,
+              minHeight: t.size.glassNav,
+              paddingHorizontal: t.space.gutter,
+            },
+          ]}
+        >
+          <View style={styles.side}>
+            {drawnControl === null ? null : (
+              <DrawnLeadingControl kind={drawnControl} label={leadingLabel} onPress={leave} />
+            )}
+          </View>
+          <InlineTitle title={title} {...(subtitle === undefined ? {} : { subtitle })} />
+          <View style={[styles.side, styles.sideEnd]}>
+            {actions.length > 0 ? <DrawnHeaderActions actions={actions} /> : null}
+          </View>
+        </View>
+        {body}
+      </View>
+    );
+  }
+
   return (
     <View testID={testID} style={styles.root}>
-      <Stack.Screen
-        options={{
-          headerShown: true,
-          title,
-          headerTitle: () => (
-            <InlineTitle title={title} {...(subtitle === undefined ? {} : { subtitle })} />
-          ),
-          headerTitleAlign: 'center',
-          headerTransparent: ios,
-          headerShadowVisible: false,
-          headerBackButtonDisplayMode: 'minimal',
-          headerBackVisible: nativeBack,
-          headerTintColor: t.color.ink,
-          ...(ios
-            ? {}
-            : {
-                headerStyle: { backgroundColor: t.color.ground },
-                ...(drawnControl === null
-                  ? {}
-                  : {
-                      headerLeft: () => (
-                        <DrawnLeadingControl
-                          kind={drawnControl}
-                          label={leadingLabel}
-                          onPress={leave}
-                        />
-                      ),
-                    }),
-                ...(actions.length > 0
-                  ? { headerRight: () => <DrawnHeaderActions actions={actions} /> }
-                  : {}),
-              }),
-        }}
-      />
-      {ios && drawnControl !== null ? (
+      <Stack.Screen options={nativeOptions} />
+      {drawnControl !== null ? (
         <NativeLeadingControl kind={drawnControl} label={leadingLabel} onPress={leave} />
       ) : null}
-      {ios ? <NativeHeaderActions actions={actions} /> : null}
+      <NativeHeaderActions actions={actions} />
       {body}
     </View>
   );
@@ -189,7 +211,11 @@ export function PushScreen({
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  titleBlock: { alignItems: 'center', maxWidth: 240 },
+  titleBlock: { alignItems: 'center', maxWidth: 240, flexShrink: 1 },
+  drawnBar: { flexDirection: 'row', alignItems: 'center' },
+  // Equal sides keep the title centred whatever the action's width.
+  side: { flex: 1, flexDirection: 'row' },
+  sideEnd: { justifyContent: 'flex-end' },
   floating: {
     position: 'absolute',
     left: 0,
