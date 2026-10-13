@@ -9,6 +9,7 @@ import type { OurDriver } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { StyleSheet, View } from 'react-native';
 
+import { shortName } from '@/lib/people/member-name';
 import { crewAccent } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Avatar, Button, Card, StatusTag, Text, usePremiumTheme } from '@/ui/premium';
@@ -36,7 +37,8 @@ export function OurDriverCard({ driver, index, now, busy, ...on }: OurDriverCard
   const days = driver.day_numbers
     .map((day) => t({ id: 'drivers.rate.day', message: `Day ${day}` }))
     .join(', ');
-  const driverName = driver.name;
+  // His card shows his full name; the line about him uses the name he goes by.
+  const driverName = shortName(driver.name);
   const lovedCount = driver.crew_loved;
   const voters = driver.crew_voters;
   const loved =

@@ -8,6 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { Linking } from 'react-native';
 
+import { shortName } from '@/lib/people/member-name';
 import { useCommand } from '@/data/commands/use-command';
 import { useCommandFeedback } from '@/motion/island-toast';
 
@@ -31,7 +32,7 @@ export function useOurDriversActions(reload: () => void) {
     });
     if (result.kind === 'applied') {
       const { phone_e164 } = result.result as { phone_e164: string };
-      const first = driver.name.split(' ')[0] ?? driver.name;
+      const first = shortName(driver.name);
       void Linking.openURL(
         whatsAppLink(
           phone_e164,

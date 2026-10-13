@@ -38,7 +38,7 @@ import {
   type MemberRow,
   type TripRow,
 } from './queries';
-import { memberFirstName } from '@/ui/people/member-name';
+import { shortName } from '@/lib/people/member-name';
 
 export interface WalletMember {
   readonly userId: string;
@@ -63,8 +63,9 @@ export interface WalletContext {
   readonly passPlus: boolean;
 }
 
+/** The name a person is called by ("Hân" of "Đặng Thị Ngọc Hân"), or '' with none. */
 export function firstName(name: string | null | undefined): string {
-  return name?.trim().split(/\s+/u)[0] ?? '';
+  return (name ?? '').trim() === '' ? '' : shortName(name);
 }
 
 function useTripStream(tripId: string | null): void {
@@ -131,7 +132,7 @@ export function useWalletContext(): WalletContext {
       trip,
       members: members.rows.map((row) => ({
         userId: row.user_id,
-        name: memberFirstName(row.display_name),
+        name: shortName(row.display_name),
       })),
       travellerIds: participants.rows.map((row) => row.user_id),
       inboundAddress:

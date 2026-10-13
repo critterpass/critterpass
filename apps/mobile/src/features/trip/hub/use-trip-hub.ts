@@ -11,6 +11,7 @@ import { useLingui } from '@lingui/react/macro';
 import type { Href } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 
+import { shortName } from '@/lib/people/member-name';
 import { useDestinationMedia } from '@/data/media/use-subject-media';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useNow } from '@/lib/time/use-now';
@@ -90,7 +91,13 @@ export function useTripHub(tripId: string, onSwitch: (() => void) | null) {
   // The switch is for an account with another trip to go to; with one, there is nowhere to switch.
   const switchTrip = (myTrips ?? 0) > 1 ? onSwitch : null;
   const names = useMemo(
-    () => new Map(rows.members.map((row) => [row.user_id, row.display_name ?? ''])),
+    () =>
+      new Map(
+        rows.members.map((row) => [
+          row.user_id,
+          (row.display_name ?? '').trim() === '' ? '' : shortName(row.display_name),
+        ]),
+      ),
     [rows.members],
   );
   const onAct = useBriefingActions(names);

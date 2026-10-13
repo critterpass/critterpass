@@ -10,6 +10,7 @@ import { router } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { shortName } from '@/lib/people/member-name';
 import { heroAt } from '@/data/media/use-subject-media';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
@@ -84,7 +85,7 @@ export function TripHubPremium({ tripId, onBack }: TripHubPremiumProps) {
   const loading = !hub.rows.loaded || trip === null;
   const crew = hub.rows.members.map((member, index) => ({
     id: member.user_id,
-    name: member.display_name ?? '',
+    name: (member.display_name ?? '').trim() === '' ? '' : shortName(member.display_name),
     color: crewAccent(index),
   }));
   const tile = (key: string) => hub.builtTiles.find((item) => item.key === key)?.onPress;

@@ -8,6 +8,7 @@
 import type { DisruptionAction } from '@cp/domain';
 import { useMemo, useState } from 'react';
 
+import { shortName } from '@/lib/people/member-name';
 import { useCommand } from '@/data/commands/use-command';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useGuideText } from '@/lib/i18n/guide-text';
@@ -91,7 +92,10 @@ export function useFlightDisruption({ id }: { readonly id: string }): FlightView
   const guideLabel = guideName(guide, trip?.guide_name);
   const model = useMemo(() => {
     if (row === null) return null;
-    const people = crew.map((member) => ({ id: member.user_id, name: member.name }));
+    const people = crew.map((member) => ({
+      id: member.user_id,
+      name: member.name.trim() === '' ? '' : shortName(member.name),
+    }));
     const organiser = crew.some((member) => member.user_id === me && member.role === 'organiser');
     return flightModel(row, me, people, organiser);
   }, [row, crew, me]);

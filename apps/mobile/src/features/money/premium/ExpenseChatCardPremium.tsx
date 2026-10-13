@@ -9,6 +9,7 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { View } from 'react-native';
 
+import { shortName } from '@/lib/people/member-name';
 import { homeEquivalent, useMoneyDisplay } from '@/data/money';
 import type { ChatCardProps } from '@/features/crew';
 import { IconTile } from '@/features/trip';
@@ -89,7 +90,7 @@ export function ExpenseChatCardPremium({ message }: ChatCardProps) {
   const { row, ways, myShareMinor } = state;
   const amount = formatShort(minor(row.amount_minor), row.currency, locale);
   const what = (row.description || row.merchant || '').trim();
-  const payer = row.payer_name ?? message.senderName ?? '';
+  const payer = shortName(row.payer_name ?? message.senderName);
   const paid = state.paidBySelf
     ? t({ id: 'money.chat.youPaid', message: `You paid ${amount}` })
     : t({ id: 'money.chat.paid', message: `${payer} paid ${amount}` });

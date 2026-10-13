@@ -10,6 +10,7 @@ import { generateUuidV7, toLocalWallTime } from '@cp/domain';
 import { router } from 'expo-router';
 import { useCallback, useMemo } from 'react';
 
+import { shortName } from '@/lib/people/member-name';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { goHref, useGoOffer } from '@/features/go';
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
@@ -120,7 +121,8 @@ export function useDayOf(tripId: string, date: string) {
     () =>
       memberRows.rows.map((row, index) => ({
         id: row.user_id,
-        name: row.display_name ?? '',
+        // Named as the crew calls them in "Tokek rings Hân and Dev".
+        name: (row.display_name ?? '').trim() === '' ? '' : shortName(row.display_name),
         joinIndex: index,
       })),
     [memberRows.rows],
