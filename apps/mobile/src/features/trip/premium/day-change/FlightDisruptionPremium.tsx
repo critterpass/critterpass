@@ -29,7 +29,8 @@ import type { FlightViewProps } from '../../disruptions/flight/view-types';
 import { useFlightDisruption } from '../../disruptions/flight/use-flight-disruption';
 import { FlightRows, QuestionCard } from './FlightParts';
 
-function Ready({ props }: { readonly props: FlightViewProps }) {
+/** The flight page once its disruption is read (also what the screen tests render). */
+export function FlightReady({ props }: { readonly props: FlightViewProps }) {
   const th = usePremiumTheme();
   const locale = useLocale();
   const insets = useSafeAreaInsets();
@@ -187,7 +188,7 @@ export function FlightDisruptionPremium({ id }: { readonly id: string }) {
           <EmptyState title={lines.missingTitle} line={lines.missing} />
         </View>
       ) : (
-        <Ready props={props} />
+        <FlightReady props={props} />
       )}
     </FullScreen>
   );

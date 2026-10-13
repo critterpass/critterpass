@@ -43,7 +43,7 @@ function KnownLatePremium({ id }: { readonly id: string }) {
 }
 
 /** One running-late scene: a lateness the server opened, or one the traveller is saying now. */
-function LateScenePremium({ late }: { readonly late: LateScene }) {
+export function LateScenePremium({ late }: { readonly late: LateScene }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const locale = useLocale();

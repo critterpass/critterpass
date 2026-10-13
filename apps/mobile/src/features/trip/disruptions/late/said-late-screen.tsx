@@ -22,8 +22,6 @@ import { guideName, guideOr } from '../../hub/guide';
 import { tripDayRoute } from '../../hub/routes';
 import { reportRunningLateCommand } from '../../leave-by/commands';
 import { saidLateLines, saidPushDetail } from './copy';
-import { LateMap } from './late-map';
-import { LateView } from './late-view';
 import { saidLateModel } from './said-late-model';
 import type { LateScene } from './use-known-late';
 
@@ -50,8 +48,8 @@ export function SaidLateScreen(props: {
   readonly minutes: number;
   /** The screen of a lateness the server has opened, by its id. */
   readonly known: (disruptionId: string) => ReactNode;
-  /** Draws the scene in place of the current view (the premium screen). */
-  readonly render?: (scene: LateScene) => ReactNode;
+  /** Draws the scene (the premium screen). */
+  readonly render: (scene: LateScene) => ReactNode;
 }) {
   const { tripId, stableId, minutes } = props;
   const syncPhase = useSyncPhase();
@@ -78,33 +76,20 @@ export function SaidLateScreen(props: {
   const guide = guideOr(said.guideSlug);
   const base = { guide, guideName: guideName(guide, null), sending, onBack: back };
   if (stop === null) {
-    if (props.render !== undefined) {
-      return props.render({
-        props: {
-          ...base,
-          state: said.loaded ? 'missing' : 'loading',
-          model: null,
-          reason: '',
-          lateNames: [],
-          onChoose: () => undefined,
-        },
-        place: undefined,
-        fix: null,
-        offline: syncPhase === 'offline',
-        destinationSlug: said.destinationSlug,
-      });
-    }
-    return (
-      <LateView
-        {...base}
-        state={said.loaded ? 'missing' : 'loading'}
-        model={null}
-        reason=""
-        lateNames={[]}
-        map={null}
-        onChoose={() => undefined}
-      />
-    );
+    return props.render({
+      props: {
+        ...base,
+        state: said.loaded ? 'missing' : 'loading',
+        model: null,
+        reason: '',
+        lateNames: [],
+        onChoose: () => undefined,
+      },
+      place: undefined,
+      fix: null,
+      offline: syncPhase === 'offline',
+      destinationSlug: said.destinationSlug,
+    });
   }
   const fix = getLocationEngine()?.recentFixes().at(-1) ?? null;
   const ready = {
@@ -142,25 +127,14 @@ export function SaidLateScreen(props: {
         .finally(() => setSending(false));
     },
   };
-  if (props.render !== undefined) {
-    return props.render({
-      props: ready,
-      place:
-        stop.place === null
-          ? undefined
-          : { id: stableId, name: stop.title, lat: stop.place.lat, lng: stop.place.lng },
-      fix,
-      offline: syncPhase === 'offline',
-      destinationSlug: said.destinationSlug,
-    });
-  }
-  const map =
-    stop.place === null || syncPhase === 'offline' ? null : (
-      <LateMap
-        place={{ id: stableId, name: stop.title, lat: stop.place.lat, lng: stop.place.lng }}
-        you={fix}
-        destinationSlug={said.destinationSlug}
-      />
-    );
-  return <LateView {...ready} map={map} />;
+  return props.render({
+    props: ready,
+    place:
+      stop.place === null
+        ? undefined
+        : { id: stableId, name: stop.title, lat: stop.place.lat, lng: stop.place.lng },
+    fix,
+    offline: syncPhase === 'offline',
+    destinationSlug: said.destinationSlug,
+  });
 }
