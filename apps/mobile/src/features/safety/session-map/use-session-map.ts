@@ -37,6 +37,8 @@ export interface SessionMap {
   /** The destination has no region pack yet: the map says so, by the destination's name. */
   readonly regionPackAwaited: boolean;
   readonly destinationName: string | null;
+  /** The trip's destination, whose region pack the premium map draws. */
+  readonly destinationSlug: string | null;
   /** The incident is over (or was never alerted): the map has nothing live to show. */
   readonly ended: boolean;
 }
@@ -72,6 +74,7 @@ export function useSessionMap(sosId: string | null): SessionMap {
     regionSourceUrl: plainTilesUrl(tiles),
     regionPackAwaited: tiles.awaited,
     destinationName: dest?.name ?? null,
+    destinationSlug: dest?.slug ?? null,
     ended: model !== null && model.state !== 'open',
   };
 }
