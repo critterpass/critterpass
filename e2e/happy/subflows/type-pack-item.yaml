@@ -12,6 +12,10 @@ appId: app.critterpass.dev
           visible:
             text: ${ITEM}
           timeout: 30000
+      # The field draws the last key before the app's own state has it: Enter at once saves the
+      # item one letter short ("SUNSCREE"). Let the screen settle first.
+      - waitForAnimationToEnd:
+          timeout: 3000
 - runFlow:
     when:
       platform: iOS
