@@ -95,14 +95,28 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible: '.*9G ?957.*'
     timeout: 30000
-# A cable car ride tomorrow, typed in by hand.
-- scrollUntilVisible:
-    element:
-      id: 'bookings-add'
-    direction: DOWN
-    timeout: 15000
-    # Clear of the tab bar's guide button, which sits over the foot of the page.
-    centerElement: true
+# A cable car ride tomorrow, typed in by hand. On Android the card is centred, clear of the tab
+# bar's guide button over the foot of the page; on iOS the page ends with it above the tab bar,
+# where it can't be centred.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'bookings-add'
+          direction: DOWN
+          timeout: 15000
+          centerElement: true
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'bookings-add'
+          direction: DOWN
+          timeout: 15000
 - tapOn:
     id: 'bookings-add'
 - scrollUntilVisible:

@@ -34,8 +34,9 @@ export default function WalletLayout() {
   const [motionMode] = useMotionMode();
   const services = useMemo(() => deviceMoneyServices(getOcr()), []);
   const premium = usePremiumUi();
-  // The premium tab bar mounts this tab at launch, before the local database is open; the halves
-  // read it as they render, so they wait for it here.
+  // Either tab bar can show this tab before the local database is open (the premium one mounts it
+  // at launch, a cold start through a link lands on another tab a tap away); the halves read it as
+  // they render, so they wait for it here.
   if (premium) {
     return (
       <LocalFirstGate>
@@ -51,11 +52,13 @@ export default function WalletLayout() {
     );
   }
   return (
-    <MoneyServicesProvider services={services}>
-      <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
-        <Stack.Screen name="money/index" options={WALLET_HALF_OPTIONS} />
-        <Stack.Screen name="bookings" options={WALLET_HALF_OPTIONS} />
-      </Stack>
-    </MoneyServicesProvider>
+    <LocalFirstGate>
+      <MoneyServicesProvider services={services}>
+        <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
+          <Stack.Screen name="money/index" options={WALLET_HALF_OPTIONS} />
+          <Stack.Screen name="bookings" options={WALLET_HALF_OPTIONS} />
+        </Stack>
+      </MoneyServicesProvider>
+    </LocalFirstGate>
   );
 }

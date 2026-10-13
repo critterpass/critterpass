@@ -13,6 +13,13 @@ appId: app.critterpass.dev
     visible:
       id: 'final-split-open'
     timeout: 20000
+# The card runs under the tab bar: centred, a tap on it misses the guide button.
+- scrollUntilVisible:
+    element:
+      id: 'final-split-open'
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd
 - tapOn:
     id: 'final-split-open'
 - extendedWaitUntil:
