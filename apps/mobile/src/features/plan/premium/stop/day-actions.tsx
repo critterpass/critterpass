@@ -17,12 +17,15 @@ import { Button, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 import { clock } from '../../day/format';
 import { LATE_STEPS, saidLateRoute } from '../../day/said-late';
 import { startFromNow } from '../../day/start-now';
-import { isStopOfToday, type StopDayActions } from '../../day/stop-day-actions';
+import {
+  type ClashCardProps,
+  type StopDayActionsProps,
+  isStopOfToday,
+} from '../../day/item-sheet-look';
 import { useStopCheckIn } from '../../day/stop-check-in';
-import type { ClashCard } from '../../overlay/clash-card';
 
-type DayActionsProps = Parameters<typeof StopDayActions>[0];
-type ClashProps = Parameters<typeof ClashCard>[0];
+type DayActionsProps = StopDayActionsProps;
+type ClashProps = ClashCardProps;
 
 export function PremiumDayActions({
   tripId,

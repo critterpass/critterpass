@@ -21,7 +21,7 @@ import { setupRoutes } from '../routes';
 import type { StepProps } from '../shell/frame';
 import { useMustDosData } from './data';
 import { buildMustDos, type MustDoItem } from './model';
-import { MustDosView, type MustDosViewProps } from './must-dos-view';
+import { type MustDosViewProps } from './must-dos-props';
 import { useExamplePlaces } from './examples';
 import { listWith, listWithout } from './save';
 
@@ -46,10 +46,10 @@ export function draftStateOf(trip: {
 export function MustDosStep({
   trip,
   shell,
-  View = MustDosView,
+  View,
 }: StepProps & {
-  /** How the step is drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<MustDosViewProps>;
+  /** How the step is drawn. */
+  readonly View: ComponentType<MustDosViewProps>;
 }) {
   const data = useMustDosData(trip.tripId);
   const { typing } = useTyping('trip_presence', trip.tripId);

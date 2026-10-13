@@ -4,8 +4,7 @@
  * under 15 minutes. Each row is one adjustable control for screen readers.
  */
 import { useLingui } from '@lingui/react/macro';
-import type { AccessibilityActionEvent } from 'react-native';
-import { View } from 'react-native';
+import { type AccessibilityActionEvent, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { impact } from '@/motion/feedback';

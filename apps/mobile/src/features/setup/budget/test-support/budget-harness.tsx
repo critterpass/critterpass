@@ -18,8 +18,10 @@ import { recordedReader } from '@/data/travel-data/test-support/recorded-reader'
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { SetupServicesProvider, type ApiRead, type SetupServices } from '../../data/services';
-import { kyotoTrip, sceneFrame, SCENE_NOW, TRIP_ID } from '../../scenes/fixtures';
-import { BudgetStep } from '../budget-step';
+import { kyotoTrip, sceneFrame, SCENE_NOW, TRIP_ID } from '../../test-support/setup-fixtures';
+import { PREMIUM_STEP_VIEWS } from '../../premium/steps/premium-steps';
+
+const BudgetStep = PREMIUM_STEP_VIEWS.budget;
 
 configure({ asyncUtilTimeout: 5000 });
 

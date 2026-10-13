@@ -25,13 +25,11 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { ago } from '../../collab/comment-thread';
+import { ago } from '../../collab/ago';
 import type { Anchor } from '../../collab/decision-model';
-import type { ItemComments } from '../../collab/item-comments';
+import type { ItemCommentsProps } from '../../day/item-sheet-look';
 import { useComments } from '../../collab/use-comments';
 import { PRESENCE_NAMESPACE } from '../../collab/use-presence';
-
-type ItemCommentsProps = Parameters<typeof ItemComments>[0];
 
 function GuideReply(props: {
   readonly text: string;

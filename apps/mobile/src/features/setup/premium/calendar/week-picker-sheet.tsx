@@ -22,11 +22,11 @@ import {
   sentenceStart,
   windowChipLabel,
 } from '../../when/copy';
-import { weeksOfDates, type DragHandlers } from '../../when/day-grid';
+import { weeksOfDates, type DragHandlers } from './day-grid';
 import type { HeatDay, HeatMonth } from '../../when/model';
 import { LENGTH_CHOICES, rangeLength, type DayRange, type RangePick } from '../../when/range';
 import { sameRange, useWeekPick } from '../../when/use-week-pick';
-import type { WeekPickerProps } from '../../when/week-picker';
+import type { WeekPickerProps } from '../../when/when-props';
 import { heatShare } from '../steps/heat-calendar';
 import { MonthGrid } from './month-grid';
 

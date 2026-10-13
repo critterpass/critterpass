@@ -16,7 +16,7 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
-import { DEV, MAYA, RIN, TRIP_ID } from '../../scenes/fixtures';
+import { DEV, MAYA, RIN, TRIP_ID } from '../../test-support/setup-fixtures';
 import { seedKyoto } from '../../test-support/setup-harness';
 import { useSetupTrip } from '../setup-trip';
 

@@ -11,7 +11,7 @@ import type { DaySlot } from '@/data/plan/plan-ops';
 
 import { retime, type Travel } from '../day-plan/reschedule';
 import { clock } from './format';
-import type { ChangePreview } from './item-detail-sheet';
+import type { ChangePreview } from './item-sheet-look';
 
 const QUARTER = 15;
 /** More stops than a day holds: how far the next free start is looked for. */

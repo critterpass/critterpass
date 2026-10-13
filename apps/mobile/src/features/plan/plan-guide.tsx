@@ -5,14 +5,12 @@
  * (the lab, a test) it is the default guide.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
-import type { Pose } from '@cp/critter-art';
 import { useGlobalSearchParams } from 'expo-router';
 import { useContext, useEffect, useState } from 'react';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useGuideRowsRevision } from '@/lib/navigation/active-guide';
 import { guideSticker, type GuideStickerInfo } from '@/ui/avatar/guides';
-import { Sticker } from '@/ui/sticker/Sticker';
 
 const GUIDE_SQL = `SELECT g.slug FROM trips t JOIN guides g ON g.id = t.guide_id WHERE t.id = ?`;
 
@@ -42,18 +40,4 @@ export function usePlanGuide(): GuideStickerInfo {
   }, [db, tripId]);
   useGuideRowsRevision();
   return guideSticker(read !== undefined && read.tripId === tripId ? read.slug : null);
-}
-
-/** The trip's guide as a sticker. */
-export function PlanGuideSticker({ size, pose }: { readonly size: number; readonly pose?: Pose }) {
-  const guide = usePlanGuide();
-  return (
-    <Sticker
-      kind={guide.kind}
-      name={guide.name}
-      seed={guide.seed}
-      size={size}
-      {...(pose === undefined ? {} : { pose })}
-    />
-  );
 }

@@ -22,6 +22,7 @@ import { planRoutes } from '../overview/routes';
 import { useChangeset, useChangesetActions } from './data/use-changeset';
 import type { ChangesetState } from './model/review-model';
 import { changeTitle } from './chat-card-title';
+import { stateWord } from './chat-card-title';
 
 const useStyles = makeStyles((th) => ({
   card: {
@@ -38,25 +39,6 @@ const useStyles = makeStyles((th) => ({
   },
   actions: { flexDirection: 'row', gap: th.space['8'] },
 }));
-
-export function stateWord(state: ChangesetState): string {
-  switch (state) {
-    case 'draft':
-      return t({ id: 'plan.card.state.draft', message: 'Not sent' });
-    case 'voting':
-      return t({ id: 'plan.card.state.voting', message: 'Voting' });
-    case 'approved':
-      return t({ id: 'plan.card.state.approved', message: 'Approved' });
-    case 'applying':
-      return t({ id: 'plan.card.state.applying', message: 'Approved' });
-    case 'rejected':
-      return t({ id: 'plan.card.state.rejected', message: 'Kept as is' });
-    case 'expired':
-      return t({ id: 'plan.card.state.expired', message: 'Ran out' });
-    case 'stale':
-      return t({ id: 'plan.card.state.stale', message: 'Out of date' });
-  }
-}
 
 export interface ChangesetChatCardViewProps {
   readonly title: string;

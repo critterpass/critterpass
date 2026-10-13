@@ -36,7 +36,7 @@ import { useFixPreviews } from './data/use-fix-previews';
 import { fixKindLabel, fixSummary, openByHandLabel } from './fix-copy';
 import { useFixedDays } from './fixed-days';
 import { dayTag, driveLine } from './format';
-import type { IssueCardProps } from './issue-card';
+import type { IssueCardProps } from './check-props';
 import { issueWords, kindTag } from './issue-copy';
 import { stopHref } from './stop-href';
 import { fixActionOf, useFix, type ByHand, type FixOutcome } from './use-fix';

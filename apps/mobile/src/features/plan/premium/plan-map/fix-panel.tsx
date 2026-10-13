@@ -10,7 +10,7 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { Button, Icon, Text, usePremiumTheme } from '@/ui/premium';
 
-import type { IssueCardProps } from '../../check/issue-card';
+import type { IssueCardProps } from '../../check/check-props';
 
 export interface DayFix {
   readonly card: IssueCardProps;

@@ -21,18 +21,16 @@ import { counterLine } from '../data/quota-copy';
 import { useDraftVersion } from '../data/use-draft-version';
 import { redraftBoost } from '../boost-slot';
 import { draftRoutes } from '../routes';
-import { BoostOffer } from './boost-offer';
-import { ChangeDayView, type ChangeDayViewProps } from './change-day-view';
+import type { ChangeDayViewProps } from './change-day-props';
 import { outcomeLine } from './outcome-copy';
-import { DraftSheetWaiting } from './sheet-waiting';
 import { useSendRedraft } from './use-send-redraft';
 
 export interface ChangeDaySheetProps {
   readonly tripId: string;
   readonly initialDay: number | null;
   readonly free: boolean;
-  /** How the sheet is drawn; the draft, quota and redraft stay here. @default the current look */
-  readonly look?: ChangeDayLook;
+  /** How the sheet is drawn; the draft, quota and redraft stay here. */
+  readonly look: ChangeDayLook;
 }
 
 export interface ChangeDayLook {
@@ -41,24 +39,13 @@ export interface ChangeDayLook {
   readonly Boost: ComponentType<{ readonly onBoost: (() => void) | undefined }>;
 }
 
-const CURRENT_LOOK: ChangeDayLook = {
-  View: ChangeDayView,
-  Waiting: DraftSheetWaiting,
-  Boost: BoostOffer,
-};
-
 /** The note the sheet opens with (`?note=`): what the caller already knows should change. */
 function useInitialNote(): string {
   const { note } = useLocalSearchParams<{ note?: string }>();
   return typeof note === 'string' ? note.slice(0, REDRAFT_NOTE_MAX) : '';
 }
 
-export function ChangeDaySheet({
-  tripId,
-  initialDay,
-  free,
-  look = CURRENT_LOOK,
-}: ChangeDaySheetProps) {
+export function ChangeDaySheet({ tripId, initialDay, free, look }: ChangeDaySheetProps) {
   const { View, Waiting, Boost } = look;
   const trip = useDraftTrip(tripId);
   const draft = useDraftVersion(trip);

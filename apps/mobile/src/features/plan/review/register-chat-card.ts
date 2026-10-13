@@ -7,10 +7,11 @@
 import { t } from '@lingui/core/macro';
 import { createElement } from 'react';
 
-import { registerChatCard, type ChatCardProps } from '@/features/crew';
+import { registerChatCard, registerPremiumChatCard, type ChatCardProps } from '@/features/crew';
 import { Skeleton } from '@/ui/states/Skeleton';
 
 import { useLiveRows } from '@/data/plan/live-rows';
+import { PremiumChangesetCard } from '../premium/review/changeset-card';
 import { ChangesetChatCard } from './changeset-chat-card';
 
 const TRIP_SQL = 'SELECT trip_id FROM change_sets WHERE id = ?';
@@ -36,4 +37,8 @@ registerChatCard('changeset', {
   Component: ChangesetMessageCard,
   estimateHeight: () => 180,
   a11yLabel: () => t({ id: 'plan.card.label', message: 'Plan change' }),
+});
+
+registerPremiumChatCard('changeset', {
+  render: (message) => createElement(PremiumChangesetCard, { message }),
 });

@@ -4,9 +4,7 @@ import type { RedraftReasonKey } from '@cp/domain';
 import { forgetChangeDayAsk } from '../data/change-day-ask';
 import { useDraftTrip } from '../data/draft-trip';
 import { redraftBoost } from '../boost-slot';
-import { LastRedraftView } from './last-redraft-interstitial';
 import { outcomeLine } from './outcome-copy';
-import { DraftSheetWaiting } from './sheet-waiting';
 import { useSendRedraft } from './use-send-redraft';
 
 export interface LastRedraftSheetProps {
@@ -38,24 +36,4 @@ export function useLastRedraft({ tripId, day, reasons, note, free }: LastRedraft
     use: () => void redraft.send({ day, reasons, note, free }),
     boost: boost === null ? undefined : () => boost(tripId),
   };
-}
-
-export function LastRedraftSheet(props: LastRedraftSheetProps) {
-  const last = useLastRedraft(props);
-  const { trip } = last;
-  if (trip === undefined || trip === null) {
-    return <DraftSheetWaiting tripId={props.tripId} gone={trip === null} />;
-  }
-  return (
-    <LastRedraftView
-      guide={trip.guide}
-      destination={trip.destinationName}
-      n={last.n}
-      limit={last.limit}
-      sending={last.sending}
-      problem={last.problem}
-      onUse={last.use}
-      onBoost={last.boost}
-    />
-  );
 }

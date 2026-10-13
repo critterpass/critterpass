@@ -20,7 +20,7 @@ import {
   lockLine,
   type BudgetPick,
   type BudgetViewProps,
-} from '../../budget/budget-view';
+} from '../../budget/budget-props';
 import {
   barsFor,
   currencySymbol,
@@ -28,8 +28,8 @@ import {
   snap,
   typedAmountMinor,
   widenTrack,
+  isOverBand,
 } from '../../budget/model';
-import { isOverBand } from '../../budget/sweet-spot-card';
 import { BudgetBreakdown } from './budget-breakdown';
 import { ChecklistPill, StepHeadline, StepPage } from './step-parts';
 

@@ -304,3 +304,7 @@ export function moneyAffixes(
 export function currencySymbol(_locale: string, currency: string): string {
   return narrowCurrencySymbol(currency);
 }
+
+export function isOverBand(band: BandView, target: number): boolean {
+  return band.kind === 'band' && target > band.highMinor;
+}

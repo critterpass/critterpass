@@ -6,7 +6,7 @@ import { View } from 'react-native';
 
 import { Button, Card, Text, usePremiumTheme } from '@/ui/premium';
 
-import type { ownCalendarWords } from '../../when/own-calendar-row';
+import type { ownCalendarWords } from '../../when/own-calendar';
 
 export function OwnCalendarCard({
   own,

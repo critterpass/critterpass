@@ -1,11 +1,16 @@
 /**
  * The setup wizard over the real local-first stack: the step machine from `trips.setup_step`
- * (locked steps checked, the step on screen highlighted, which chips open), the destination
- * vote's tag, the organiser's view against a member's (who runs setup, no organiser actions), and
- * the loading and missing-trip states.
+ * (locked steps checked, which steps open), the step on screen, setup shut while the vote is open,
+ * a refused step move, and locking the dates through the command client.
  */
+// The app's own database module loads the native driver; these tests run on the test stack.
+jest.mock('@/data/powersync/db', () => ({}));
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
+  // The premium pages declare their native header through the stack's screen.
+  Stack: Object.assign(() => null, { Screen: () => null }),
+  usePathname: () => '/',
+  useLocalSearchParams: () => ({}),
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
 }));
 
@@ -19,7 +24,8 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
-import { TRIP_ID } from '../scenes/fixtures';
+import { TRIP_ID } from '../test-support/setup-fixtures';
+import { PREMIUM_STEP_VIEWS } from '../premium/steps/premium-steps';
 import { SetupScreen } from '../shell/setup-screen';
 import { doneSteps, landingStep, openableSteps, shownStep, stepFromSlug } from '../shell/steps';
 import { renderSetup, seedKyoto } from '../test-support/setup-harness';
@@ -58,53 +64,39 @@ describe('setup step machine', () => {
 });
 
 describe('setup screen', () => {
-  it('shows the organiser the step setup is on, with the vote tag and the chips', async () => {
+  it('shows the organiser the step setup is on', async () => {
     stack = await openTestLocalFirst();
     await seedKyoto(stack, { as: 'organiser', step: 'when' });
-    await renderSetup(<SetupScreen tripId={TRIP_ID} step={null} />, { stack });
+    await renderSetup(<SetupScreen tripId={TRIP_ID} step={null} views={PREMIUM_STEP_VIEWS} />, {
+      stack,
+    });
 
-    expect(await screen.findByText('WHEN CAN EVERYONE GO?')).toBeTruthy();
-    expect(screen.getByLabelText('Kyoto won 4–2')).toBeTruthy();
-    expect(screen.getByLabelText('Step 1, When')).toBeTruthy();
-    expect(screen.queryByTestId('setup-member-status')).toBeNull();
+    expect(await screen.findByTestId(/^setup-when-/)).toBeTruthy();
+    expect(screen.queryByTestId('must-dos-screen')).toBeNull();
   });
 
   it('keeps setup shut while the destination vote is still open', async () => {
     stack = await openTestLocalFirst();
     await seedKyoto(stack, { as: 'organiser', step: 'when' });
     await stack.db.execute(`UPDATE trips SET status = 'voting' WHERE id = ?`, [TRIP_ID]);
-    await renderSetup(<SetupScreen tripId={TRIP_ID} step={null} />, { stack });
+    await renderSetup(<SetupScreen tripId={TRIP_ID} step={null} views={PREMIUM_STEP_VIEWS} />, {
+      stack,
+    });
 
     expect(await screen.findByTestId('setup-vote-open')).toBeTruthy();
-    expect(screen.getByText('THE VOTE ISN’T OVER YET')).toBeTruthy();
-    expect(screen.queryByText('WHEN CAN EVERYONE GO?')).toBeNull();
-  });
-
-  it('marks locked steps done and moves between them through the route', async () => {
-    stack = await openTestLocalFirst();
-    await seedKyoto(stack, { as: 'organiser', step: 'rooms' });
-    await renderSetup(<SetupScreen tripId={TRIP_ID} step="when" />, { stack });
-
-    expect(await screen.findByLabelText('Step 2, Budget, done')).toBeTruthy();
-    await fireEvent.press(screen.getByLabelText('Step 3, Rooms'));
-    expect(router.replace).toHaveBeenCalledWith({
-      pathname: '/[tripId]/setup/[step]',
-      params: { tripId: TRIP_ID, step: 'rooms' },
-    });
-    // Must-dos is not open yet: not a button.
-    expect(screen.getByTestId('setup-step-must_dos').props.accessibilityState).toEqual({
-      selected: false,
-      disabled: true,
-    });
+    expect(screen.getByText('The vote isn’t over yet')).toBeTruthy();
+    expect(screen.queryByTestId(/^setup-when-/)).toBeNull();
   });
 
   it('draws the step setup is on for a push to one not reached, then the asked one once it is', async () => {
     stack = await openTestLocalFirst();
     await seedKyoto(stack, { as: 'organiser', step: 'when' });
-    await renderSetup(<SetupScreen tripId={TRIP_ID} step="must_dos" />, { stack });
+    await renderSetup(<SetupScreen tripId={TRIP_ID} step="must_dos" views={PREMIUM_STEP_VIEWS} />, {
+      stack,
+    });
 
     // The step ahead is not drawn, so its actions cannot be tapped.
-    expect(await screen.findByText('WHEN CAN EVERYONE GO?')).toBeTruthy();
+    expect(await screen.findByTestId(/^setup-when-/)).toBeTruthy();
     expect(screen.queryByTestId('must-dos-screen')).toBeNull();
     // The push beat the sync: the trip's row arrives and the step asked for opens.
     await stack.db.execute(`UPDATE trips SET setup_step = 'must_dos' WHERE id = ?`, [TRIP_ID]);
@@ -116,7 +108,9 @@ describe('setup screen', () => {
     stack = await openTestLocalFirst();
     await seedKyoto(stack, { as: 'organiser', step: 'rooms' });
     // Rooms has nothing to decide here, so the app moves on to must-dos by itself.
-    await renderSetup(<SetupScreen tripId={TRIP_ID} step="rooms" />, { stack });
+    await renderSetup(<SetupScreen tripId={TRIP_ID} step="rooms" views={PREMIUM_STEP_VIEWS} />, {
+      stack,
+    });
     await waitFor(() =>
       expect(router.replace).toHaveBeenCalledWith({
         pathname: '/[tripId]/setup/[step]',
@@ -125,7 +119,9 @@ describe('setup screen', () => {
     );
     await screen.unmount();
     jest.mocked(router.replace).mockClear();
-    await renderSetup(<SetupScreen tripId={TRIP_ID} step="must_dos" />, { stack });
+    await renderSetup(<SetupScreen tripId={TRIP_ID} step="must_dos" views={PREMIUM_STEP_VIEWS} />, {
+      stack,
+    });
     await screen.findByTestId('must-dos-screen');
     expect(router.replace).not.toHaveBeenCalled();
     // The server then refused the move and stayed on rooms.
@@ -142,20 +138,6 @@ describe('setup screen', () => {
     );
   });
 
-  it('says why on the step it went back to, until the organiser moves again', async () => {
-    stack = await openTestLocalFirst();
-    await seedKyoto(stack, { as: 'organiser', step: 'rooms' });
-    await stack.db.execute(
-      `INSERT INTO rejected_commands (id, cmd, code, detail, rejected_at)
-       VALUES ('op-1', 'set_setup_step', 'STATE_INVALID', '{}', '2026-10-01T10:55:07Z')`,
-    );
-    await renderSetup(<SetupScreen tripId={TRIP_ID} step="rooms" />, { stack });
-    expect(await screen.findByTestId('setup-step-refused')).toBeTruthy();
-    expect(router.replace).not.toHaveBeenCalled();
-    await fireEvent.press(screen.getByLabelText('Step 2, Budget, done'));
-    await waitFor(() => expect(screen.queryByTestId('setup-step-refused')).toBeNull());
-  });
-
   it('locks the best week through the command client and says when it needs signal', async () => {
     stack = await openTestLocalFirst();
     await seedKyoto(stack, { as: 'organiser', step: 'when' });
@@ -170,7 +152,9 @@ describe('setup screen', () => {
        VALUES ('best', ?, 0, 'best', '2027-04-02', '2027-04-09', 6, 6, 'full_crew', 1)`,
       [TRIP_ID],
     );
-    await renderSetup(<SetupScreen tripId={TRIP_ID} step={null} />, { stack });
+    await renderSetup(<SetupScreen tripId={TRIP_ID} step={null} views={PREMIUM_STEP_VIEWS} />, {
+      stack,
+    });
     await fireEvent.press(await screen.findByTestId('when-cta'));
     // The api is unreachable here: an online-only lock comes back unavailable.
     expect(await screen.findByText('Locking needs signal. Try again in a moment.')).toBeTruthy();

@@ -6,7 +6,7 @@ export { DraftServicesProvider } from './data/services';
 export { parseReasons } from './data/reasons';
 export { DraftingScreen } from './drafting/drafting-screen';
 export { ChangeDaySheet } from './redraft/change-day-sheet';
-export { LastRedraftSheet, useLastRedraft } from './redraft/last-redraft-sheet';
+export { useLastRedraft } from './redraft/last-redraft-sheet';
 export { RedraftDiffScreen } from './redraft/redraft-diff-screen';
 export { DraftReviewScreen } from './review/draft-review-screen';
 export { draftRoutes, registerDraftScreens } from './routes';

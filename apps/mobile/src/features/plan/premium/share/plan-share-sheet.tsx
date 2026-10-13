@@ -11,7 +11,8 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Button } from '@/ui/premium';
 
 import { PremiumPlanShareSlot } from '../../overview/share-slot';
-import { sharePlanText, useMyPlanEvents, type ShareSheetProps } from '../../trip-map/share-sheet';
+import { sharePlanText, useMyPlanEvents } from './share-plan';
+import { type ShareSheetProps } from '../../all-days/all-days-props';
 import { useCalendarWriter } from '../../views/data/calendar-export';
 import { ExportSheet } from '../../views/export-sheet';
 import { OverlaySheet } from '../sheets/overlay-sheet';

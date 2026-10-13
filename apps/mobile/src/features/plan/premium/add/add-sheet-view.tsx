@@ -20,7 +20,7 @@ import {
 } from '@/ui/premium';
 import { sheetMaterialStyle } from '@/ui/premium/shell';
 
-import type { AddSheetViewProps } from '../../add/add-sheet-view';
+import type { AddSheetViewProps } from '../../add/add-look';
 import { Doodle } from '@/features/explore';
 import { dayColours } from '../map';
 

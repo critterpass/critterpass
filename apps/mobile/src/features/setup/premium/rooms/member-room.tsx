@@ -13,10 +13,8 @@ import { Button, CrewStack, PressableScale, StatusTag, Text, usePremiumTheme } f
 
 import { money } from '../../budget/model';
 import type { SetupMember } from '../../data/setup-trip';
-import { chipName, traitName, type RoomChipKey } from '../../rooms/copy';
-import { ROOM_CHIP_KEYS } from '../../rooms/member-tools';
-import type { PerPerson, PlanStay } from '../../rooms/model';
-import { fractionDigits } from '../../rooms/price-line';
+import { chipName, traitName, type RoomChipKey, ROOM_CHIP_KEYS } from '../../rooms/copy';
+import { type PerPerson, type PlanStay, fractionDigits } from '../../rooms/model';
 import { RoomList } from './room-list';
 
 export function MemberRoom(props: {

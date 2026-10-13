@@ -25,9 +25,8 @@ import {
 import { confirmAlert } from '@/ui/premium/shell';
 
 import { clock, clockRange } from '../../day/format';
-import { confirmWords } from '../../day/item-confirm';
-import type { ChangePreview, ItemDetailSheetProps } from '../../day/item-detail-sheet';
-import { useFactWords } from '../../day/item-facts';
+import { confirmWords, useFactWords } from '../../day/item-words';
+import type { ChangePreview, ItemDetailSheetProps } from '../../day/item-sheet-look';
 import { OverlaySheet } from '../sheets/overlay-sheet';
 import { LinkRow, Section } from './sheet-parts';
 import { TimeRows } from './time-rows';

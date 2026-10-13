@@ -15,7 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon, ListCard, Spinner, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 
-import type { PlacingViewProps } from '../../ideas/placing/placing-view';
+import type { PlacingViewProps } from '../../ideas/placing/placing-props';
 import { MAP_MARKS, PremiumMapCanvas } from '../map';
 
 const DISC = 22;

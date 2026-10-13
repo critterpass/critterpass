@@ -38,7 +38,7 @@ import {
   placedHeadline,
   sentToast,
 } from './changes-copy';
-import { ChangesReviewView, type ChangesReviewViewProps } from './changes-review-view';
+import { type ChangesReviewViewProps } from './changes-review-props';
 import { changeRows, needsYouRows } from './changes-rows';
 import {
   backCheckLabel,
@@ -48,7 +48,7 @@ import {
   summaryLine,
   voteLine,
 } from './changes-state-copy';
-import { ChangesTotals } from './changes-totals';
+import { PremiumChangesTotals } from '../premium/check/changes-totals';
 import { useChangeset, useChangesetActions } from './data/use-changeset';
 import { useReviewExtras } from './data/use-review-extras';
 import { collisionsAfter } from './model/after-fit';
@@ -72,12 +72,12 @@ const APPLIED_TOAST = 'plan-review-applied';
 export function ChangesReviewScreen({
   tripId,
   changesetId,
-  View = ChangesReviewView,
+  View,
 }: {
   readonly tripId: string;
   readonly changesetId: string;
-  /** How the set is drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<ChangesReviewViewProps>;
+  /** How the set is drawn. */
+  readonly View: ComponentType<ChangesReviewViewProps>;
 }) {
   const guideName = usePlanGuide().name;
   const locale = useLocale();
@@ -242,7 +242,7 @@ export function ChangesReviewScreen({
       })}
       totals={withDriverReply(
         row,
-        <ChangesTotals numbers={view.numbers} drivingMin={extras.drivingDeltaMin} />,
+        <PremiumChangesTotals numbers={view.numbers} drivingMin={extras.drivingDeltaMin} />,
       )}
       send={
         editable

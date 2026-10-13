@@ -17,8 +17,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { AddBlockProps } from '../../add/add-block';
-import type { WhoGoingProps } from '../../add/who-going';
+import type { AddBlockProps, WhoGoingProps } from '../../add/add-look';
 import { crewColour } from '@/features/vote';
 
 const TIME_COLUMN = 44;

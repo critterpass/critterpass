@@ -1,7 +1,7 @@
 /** What went wrong in the rooms step, in the premium look's words (the current step's lines). */
 import { useLingui } from '@lingui/react/macro';
 
-import type { RoomsNotice } from '../../rooms/rooms-view';
+import type { RoomsNotice } from '../../rooms/rooms-props';
 
 export function useNoticeText(notice: RoomsNotice): string | null {
   const { t } = useLingui();

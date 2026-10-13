@@ -13,8 +13,7 @@ import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
 import { impact, toast } from '@/motion';
-import { ScreenLoading } from '@/ui/states/ScreenLoading';
-import { ScreenMissing } from '@/ui/states/ScreenMissing';
+import { PremiumPageLoading, PremiumPageMissing } from '../../premium/draft/draft-states';
 
 import { redraftBoost } from '../boost-slot';
 import { keepRedraftCommand, revertRedraftCommand } from '../data/commands';
@@ -32,7 +31,7 @@ import { useRedraft } from '../data/use-redraft';
 import { draftBackLabel } from '../review/draft-copy';
 import { draftRoutes } from '../routes';
 import { putBackToast } from './outcome-copy';
-import { RedraftDiffView, type RedraftDiffViewProps } from './redraft-diff-view';
+import { type RedraftDiffViewProps } from './redraft-props';
 
 /** The guide's thinking beat lasts at least this long, however fast the job was. */
 export const THINKING_BEAT_MS = 900;
@@ -49,10 +48,10 @@ export function RedraftDiffScreen({
   tripId,
   redraftId,
   day,
-  View = RedraftDiffView,
+  View,
 }: RedraftDiffScreenProps & {
-  /** How the redraft is drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<RedraftDiffViewProps>;
+  /** How the redraft is drawn. */
+  readonly View: ComponentType<RedraftDiffViewProps>;
 }) {
   useTripStreams(tripId);
   const trip = useDraftTrip(tripId);
@@ -88,22 +87,10 @@ export function RedraftDiffScreen({
   const gone = useTakenOut(result?.base_version_id ?? null, result?.candidate_version_id ?? null);
   const backLabel = draftBackLabel(null);
   if (trip === null) {
-    return (
-      <ScreenMissing
-        backLabel={backLabel}
-        fallback={draftRoutes.review(tripId)}
-        testID="redraft-missing"
-      />
-    );
+    return <PremiumPageMissing backLabel={backLabel} testID="redraft-missing" />;
   }
   if (trip === undefined || !redraft.loaded) {
-    return (
-      <ScreenLoading
-        backLabel={backLabel}
-        fallback={draftRoutes.review(tripId)}
-        testID="redraft-loading"
-      />
-    );
+    return <PremiumPageLoading backLabel={backLabel} testID="redraft-loading" />;
   }
 
   const phase = leaving

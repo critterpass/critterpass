@@ -7,7 +7,7 @@ import { plural, t } from '@lingui/core/macro';
 import type { Retime } from '../day-plan/reschedule';
 import type { GapClose } from './close-gap';
 import { clock } from './format';
-import type { ChangePreview } from './item-detail-sheet';
+import type { ChangePreview } from './item-sheet-look';
 
 /** "45 min", "1 h", "1 h 30". */
 export function durationText(minutes: number): string {

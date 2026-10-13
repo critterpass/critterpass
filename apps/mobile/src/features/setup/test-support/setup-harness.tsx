@@ -17,7 +17,16 @@ import type { TestLocalFirst } from '@/data/powersync/test-support/local-first-f
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { SetupServicesProvider, type ApiRead, type SetupServices } from '../data/services';
-import { ALEX, DEV, JORDAN, MAYA, RIN, SCENE_NOW, TRIP_ID, WINSTON } from '../scenes/fixtures';
+import {
+  ALEX,
+  DEV,
+  JORDAN,
+  MAYA,
+  RIN,
+  SCENE_NOW,
+  TRIP_ID,
+  WINSTON,
+} from '../test-support/setup-fixtures';
 
 // Real encrypted databases and queues: CI runners are about three times slower than a laptop.
 configure({ asyncUtilTimeout: 15_000 });

@@ -10,24 +10,16 @@ import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/avatar/guides';
-import {
-  Button,
-  GuideNote,
-  LoadingCritter,
-  PressableScale,
-  Text,
-  TextButton,
-  usePremiumTheme,
-} from '@/ui/premium';
+import { Button, GuideNote, LoadingCritter, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 
 import { bestReasonLine, countWord, pickReasonLine, rangeLabel } from '../../when/copy';
-import { ownCalendarWords } from '../../when/own-calendar-row';
+import { ownCalendarWords } from '../../when/own-calendar';
 import { checkedLine, syncedLine } from '../../when/when-lines';
-import { failureLine, type WhenViewProps } from '../../when/when-view';
-import { optionLine, optionTitle } from '../../when/window-options';
+import { failureLine, type WhenViewProps } from '../../when/when-props';
 import { HeatCalendar } from './heat-calendar';
 import { OwnCalendarCard } from './own-calendar-card';
 import { ChecklistPill, StepHeadline, StepPage } from './step-parts';
+import { WindowOptionCard } from './window-option-card';
 
 export function PremiumWhenView({ shell, model, actions }: WhenViewProps) {
   const theme = usePremiumTheme();
@@ -172,44 +164,22 @@ export function PremiumWhenView({ shell, model, actions }: WhenViewProps) {
           title={t({ id: 'setup.when.noFit.title', message: `No week fits all ${total}` })}
           line={checkedLine(model, locale)}
         />
-        {model.options.map((option) => {
-          const on = model.isOrganiser && option.id === model.selectedId;
-          const closed = option.askState === 'not_movable' || option.askState === 'timed_out';
-          return (
-            <PressableScale
-              key={option.id}
-              onPress={model.isOrganiser ? () => actions.onSelect(option.id) : undefined}
-              disabled={!model.isOrganiser || closed}
-              accessibilityRole="radio"
-              accessibilityState={{ checked: on, disabled: closed }}
-              testID={`window-option-${option.kind}`}
-              style={{
-                borderRadius: theme.radius.cardRow,
-                backgroundColor: theme.color.card,
-                borderWidth: 2,
-                borderColor: on ? theme.color.ink : 'transparent',
-                boxShadow: theme.shadow.card,
-                paddingVertical: theme.space.gap14,
-                paddingHorizontal: theme.space.gap16,
-                gap: theme.space.gap4,
-                opacity: closed ? 0.5 : 1,
-              }}
-            >
-              <Text variant="headline">{optionTitle(locale, option, people)}</Text>
-              <Text variant="note" tone="muted">
-                {optionLine(locale, option, people)}
-              </Text>
-              {option.isPick ? (
-                <Text variant="bannerAction" color={theme.color.status.tangerine.text}>
-                  {t({
-                    id: 'setup.premium.when.option.pick',
-                    message: `${model.guideName}'s pick`,
-                  })}
-                </Text>
-              ) : null}
-            </PressableScale>
-          );
-        })}
+        {model.options.map((option) => (
+          <WindowOptionCard
+            key={option.id}
+            option={option}
+            people={people}
+            guideName={model.guideName}
+            pick={
+              model.isOrganiser
+                ? {
+                    selected: option.id === model.selectedId,
+                    onSelect: () => actions.onSelect(option.id),
+                  }
+                : null
+            }
+          />
+        ))}
         <GuideNote name={guide.name} critter={guide.kind} text={pickReasonLine(pick)} />
         {ownCard}
       </StepPage>

@@ -17,8 +17,7 @@ import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { goBackOr } from '@/lib/navigation/back';
 import { impact } from '@/motion';
 import { useCommandFeedback } from '@/motion/island-toast';
-import { ScreenLoading } from '@/ui/states/ScreenLoading';
-import { ScreenMissing } from '@/ui/states/ScreenMissing';
+import { PremiumPageLoading, PremiumPageMissing } from '../../premium/draft/draft-states';
 
 import { cancelDraftCommand, startDraftCommand } from '../data/commands';
 import { useDraftTrip } from '../data/draft-trip';
@@ -29,7 +28,7 @@ import { useRetryStart } from '../data/retry-start';
 import { useDraftJob } from '../data/use-draft-job';
 import { draftBackLabel } from '../review/draft-copy';
 import { draftRoutes } from '../routes';
-import { DraftingView, type DraftingViewProps } from './drafting-view';
+import { type DraftingViewProps } from './drafting-props';
 
 /** How long a finished job stays on screen before folding into the draft. */
 const DONE_HOLD_MS = 900;
@@ -48,11 +47,11 @@ function startFailure(detail: unknown): { reason: string | null; jobId: string |
 
 export function DraftingScreen({
   tripId,
-  View = DraftingView,
+  View,
 }: {
   readonly tripId: string;
-  /** How the wait is drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<DraftingViewProps>;
+  /** How the wait is drawn. */
+  readonly View: ComponentType<DraftingViewProps>;
 }) {
   useTripStreams(tripId);
   const trip = useDraftTrip(tripId);
@@ -143,10 +142,10 @@ export function DraftingScreen({
 
   const backLabel = draftBackLabel(null);
   if (trip === undefined) {
-    return <ScreenLoading backLabel={backLabel} fallback={parent} testID="drafting-loading" />;
+    return <PremiumPageLoading backLabel={backLabel} testID="drafting-loading" />;
   }
   if (trip === null) {
-    return <ScreenMissing backLabel={backLabel} fallback={parent} testID="drafting-missing" />;
+    return <PremiumPageMissing backLabel={backLabel} testID="drafting-missing" />;
   }
   return (
     <View

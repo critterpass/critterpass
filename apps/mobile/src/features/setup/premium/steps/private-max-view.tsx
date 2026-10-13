@@ -23,7 +23,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { PrivateMaxViewProps } from '../../budget/private-max-view';
+import type { PrivateMaxViewProps } from '../../budget/budget-props';
 import { approxIn } from '../../budget/fx-preview';
 import { currencySymbol, fractionDigits, money } from '../../budget/model';
 import { setRoomPrefsCommand } from '../../data/commands';

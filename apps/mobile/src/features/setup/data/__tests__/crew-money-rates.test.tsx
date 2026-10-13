@@ -12,7 +12,7 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
-import { TRIP_ID } from '../../scenes/fixtures';
+import { TRIP_ID } from '../../test-support/setup-fixtures';
 import { seedKyoto } from '../../test-support/setup-harness';
 import { useCrewMoney } from '../crew-money';
 

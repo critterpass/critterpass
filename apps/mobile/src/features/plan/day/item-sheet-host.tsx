@@ -14,7 +14,6 @@
 import type { PlanOp, PlanPush } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import type { ComponentType } from 'react';
 import { View } from 'react-native';
 
 import { useLiveRows } from '@/data/plan/live-rows';
@@ -26,10 +25,8 @@ import type { TripPlan } from '@/data/plan/use-trip-plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 import { guideSticker } from '@/ui/avatar/guides';
-import { useTheme } from '@/ui/theme';
+import { usePremiumTheme } from '@/ui/premium';
 
-import { ItemComments } from '../collab/item-comments';
-import { ClashCard } from '../overlay/clash-card';
 import { useResolveClash } from '../overlay/data/use-personal-plan';
 import { usePersonalLayer } from '../trip-map/personal-layer';
 import { isReadOnly } from '../trip-map/use-trip-map-data';
@@ -37,13 +34,12 @@ import { retime, type Retime, type Travel } from '../day-plan/reschedule';
 import { closeGap, outOfPlaceOn } from './close-gap';
 import { travelMinutes } from './fit-check';
 import { dayName } from './format';
-import { ItemDetailSheet, type ItemDetailSheetProps } from './item-detail-sheet';
+import { type ItemSheetLook, isStopOfToday } from './item-sheet-look';
 import { nowMinOn, pastTimePreview } from './past-time';
 import { pushedBack } from './pushed-back';
 import { gapLine, retimePreview } from './retime-copy';
 import { openInMaps, openSuggestion } from './item-sheet-links';
 import { placeRoute, reviewRoute } from './routes';
-import { isStopOfToday, StopDayActions } from './stop-day-actions';
 
 export interface ItemSheetEditor {
   readonly submit: (
@@ -62,7 +58,7 @@ export function ItemSheetHost({
   editor,
   travel,
   onClose,
-  look = {},
+  look,
 }: {
   readonly plan: TripPlan;
   readonly item: DayItem;
@@ -71,23 +67,13 @@ export function ItemSheetHost({
   /** Minutes between two stops (stored legs when the screen has them); straight-line otherwise. */
   readonly travel?: Travel;
   readonly onClose: () => void;
-  /** How the sheet and its parts are drawn; the logic is the same in every look. */
-  readonly look?: {
-    readonly Sheet?: ComponentType<ItemDetailSheetProps>;
-    readonly DayActions?: typeof StopDayActions;
-    readonly Clash?: typeof ClashCard;
-    readonly Comments?: typeof ItemComments;
-  };
+  /** How the sheet and its parts are drawn. */
+  readonly look: ItemSheetLook;
 }) {
-  const {
-    Sheet = ItemDetailSheet,
-    DayActions = StopDayActions,
-    Clash = ClashCard,
-    Comments = ItemComments,
-  } = look;
+  const { Sheet, DayActions, Clash, Comments } = look;
   const { t } = useLingui();
   const locale = useLocale();
-  const theme = useTheme();
+  const theme = usePremiumTheme();
   const tripId = plan.trip?.id ?? '';
   const tz = plan.trip?.tz ?? item.tz;
   const mustDoId = plan.itemRows.find((row) => row.stable_id === item.stableId)?.must_do_id ?? null;
@@ -216,7 +202,7 @@ export function ItemSheetHost({
         onDraft || readOnly ? null : clash === null ? (
           dayActions
         ) : (
-          <View style={{ gap: theme.space['12'] }}>
+          <View style={{ gap: theme.space.gap12 }}>
             <Clash
               clash={clash}
               label={item.title}
