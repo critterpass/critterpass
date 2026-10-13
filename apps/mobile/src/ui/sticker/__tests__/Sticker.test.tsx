@@ -16,7 +16,7 @@ import { DiskLruCache, MemoryLruCache, StickerCache } from '../cache';
 import type { StickerDiskFs } from '../cache';
 import { tokens } from '@cp/design-tokens';
 
-import { setUiQaSink } from '../../qa/ui-qa';
+import { setUiQaSink } from '../../../lib/qa/ui-qa';
 import { DEFAULT_STICKER_EDGE, resolveStickerEdge, Sticker } from '../Sticker';
 
 // canvaskit-wasm's Emscripten glue decodes some internal strings as "utf-16le"; jest-expo's

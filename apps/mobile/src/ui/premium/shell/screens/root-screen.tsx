@@ -22,7 +22,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 
 import {
   GlassSurface,

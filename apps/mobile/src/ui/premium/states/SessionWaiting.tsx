@@ -2,7 +2,7 @@ import { t } from '@lingui/core/macro';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 import { LoadingCritter } from './Skeleton';

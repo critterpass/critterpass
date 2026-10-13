@@ -10,7 +10,7 @@ import type { SkiaEngine } from '@cp/critter-art/skia';
 import { tokens } from '@cp/design-tokens';
 
 import { PressScale } from '../press/PressScale';
-import { reportUiQa, UI_QA_ENABLED } from '../qa/ui-qa';
+import { reportUiQa, UI_QA_ENABLED } from '../../lib/qa/ui-qa';
 
 import { stickerLabel, stickerPoseLabel } from './a11y';
 import { nearestBucket } from './bucket';

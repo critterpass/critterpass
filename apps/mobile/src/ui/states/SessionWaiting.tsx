@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 
-import { useNoBackByDesign } from '../qa/back-affordance';
+import { useNoBackByDesign } from '../../lib/qa/back-affordance';
 import { Scaffold } from '../surface/Scaffold';
 import { makeStyles } from '../theme';
 import { Skeleton } from './Skeleton';

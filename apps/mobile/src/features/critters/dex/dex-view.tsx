@@ -17,7 +17,7 @@ import { SearchField } from '@/ui/inputs/SearchField';
 import { SettingsGroup } from '@/ui/inputs/SettingsGroup';
 import { Stack } from '@/ui/layout/Stack';
 import { GuideLine } from '@/ui/people/GuideLine';
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { Scaffold } from '@/ui/surface/Scaffold';

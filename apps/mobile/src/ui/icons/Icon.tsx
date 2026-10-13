@@ -11,7 +11,7 @@ import { DOODLES } from './generated';
 import type { DoodleName } from './generated';
 import { cachedIconImage, iconImageKey, requestIconImage } from './icon-image';
 import { DOODLE_A11Y } from './labels';
-import { checkIconDraws } from '../qa/icon-check';
+import { checkIconDraws } from '../../lib/qa/icon-check';
 
 export interface IconProps {
   readonly name: DoodleName;

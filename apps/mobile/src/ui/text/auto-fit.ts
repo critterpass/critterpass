@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import type { LayoutChangeEvent, TextLayoutEvent, TextStyle } from 'react-native';
 
-import { hasWordBreak } from '../qa/text-layout-check';
+import { hasWordBreak } from '../../lib/qa/text-layout-check';
 
 /**
  * Flat glyph advance per em for the first-pass size estimate, for faces without measured advances

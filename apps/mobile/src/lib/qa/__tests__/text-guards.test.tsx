@@ -6,12 +6,12 @@ import type { TextStyle } from 'react-native';
 
 import { tokens } from '@cp/design-tokens';
 
-import { renderWithI18n } from '../../../lib/i18n/testing';
-import { PillButton } from '../../buttons/PillButton';
-import { renderUi } from '../../test-support/render';
-import { ThemeProvider } from '../../../lib/theme';
-import { AUTO_FIT_WRAP_LINES } from '../../text/auto-fit';
-import { Text } from '../../text/Text';
+import { renderWithI18n } from '../../i18n/testing';
+import { PillButton } from '../../../ui/buttons/PillButton';
+import { renderUi } from '../../../ui/test-support/render';
+import { ThemeProvider } from '../../theme';
+import { AUTO_FIT_WRAP_LINES } from '../../../ui/text/auto-fit';
+import { Text } from '../../../ui/text/Text';
 import { hasWordBreak, isTruncated, textLayoutProblems } from '../text-layout-check';
 import { setUiQaSink, UI_QA_ENABLED } from '../ui-qa';
 

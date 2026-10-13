@@ -3,7 +3,7 @@ import { useMemo, type ReactNode } from 'react';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { useBackAffordance } from '@/ui/qa/back-affordance';
+import { useBackAffordance } from '@/lib/qa/back-affordance';
 
 import { Text, usePremiumTheme } from '../..';
 import { leadingControlFor, useScreenPlacement } from '../navigation/use-screen-placement';

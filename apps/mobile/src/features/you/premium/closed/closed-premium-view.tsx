@@ -21,7 +21,7 @@ import {
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 
 import type { ClosedViewProps } from '../../account/closed-props';
 

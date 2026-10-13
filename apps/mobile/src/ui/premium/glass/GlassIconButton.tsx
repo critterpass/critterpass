@@ -1,4 +1,4 @@
-import { useBackAffordance } from '@/ui/qa/back-affordance';
+import { useBackAffordance } from '@/lib/qa/back-affordance';
 
 import { Icon } from '../icons/Icon';
 import type { PremiumIconName } from '../icons/Icon';

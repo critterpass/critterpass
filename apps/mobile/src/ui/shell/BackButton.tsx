@@ -5,7 +5,7 @@ import { Pressable } from 'react-native';
 import { goBackOr } from '@/lib/navigation/back';
 
 import { StraightArrow } from '../icons/StraightArrow';
-import { useBackAffordance } from '../qa/back-affordance';
+import { useBackAffordance } from '../../lib/qa/back-affordance';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '../theme';
 
 export { canGoBack } from '@/lib/navigation/back';

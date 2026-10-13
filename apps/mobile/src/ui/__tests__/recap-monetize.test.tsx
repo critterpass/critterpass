@@ -8,7 +8,7 @@ import { BillingToggle } from '../monetize/BillingToggle';
 import { ComparisonTable } from '../monetize/ComparisonTable';
 import { PlanRadioRows } from '../monetize/PlanRadioRows';
 import { RouteRider } from '../recap/RouteRider';
-import { setUiQaSink } from '../qa/ui-qa';
+import { setUiQaSink } from '../../lib/qa/ui-qa';
 import { renderUi } from '../test-support/render';
 
 const run = (node: ReturnType<typeof screen.getByRole>, actionName: string) =>

@@ -7,7 +7,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- a data URI prefix and cache keys, never copy. */
 import type * as RNSkiaModule from '@shopify/react-native-skia';
 
-import { UI_QA_ENABLED } from '../qa/ui-qa';
+import { UI_QA_ENABLED } from '../../lib/qa/ui-qa';
 import { stripesPath } from './geometry';
 
 export interface HatchImageInput {

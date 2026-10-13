@@ -4,7 +4,7 @@ import { I18nManager, Pressable, View } from 'react-native';
 
 import { goBackOr } from '@/lib/navigation/back';
 
-import { useBackAffordance } from '../qa/back-affordance';
+import { useBackAffordance } from '../../lib/qa/back-affordance';
 import { useSurfaceTone } from '../surface/Scaffold';
 import { Text } from '../text/Text';
 import { degrees, makeStyles, MIN_TOUCH_TARGET, useTheme } from '../theme';

@@ -15,7 +15,7 @@ import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { goBackOr } from '@/lib/navigation/back';
 import { useCommandFeedback } from '@/motion/island-toast';
 import { guideSticker } from '@/ui/avatar/guides';
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 
 import { telUrl } from '../format';
 import { resolveSosCommand, respondSosCommand, triggerSosCommand } from '../commands';

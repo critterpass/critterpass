@@ -14,7 +14,7 @@ import { clockOption } from '@/lib/i18n/formats';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { music } from '@/motion';
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 import { guidesOfSameCountry } from '@/ui/avatar/guides';
 
 import { useLiveRows, useOwnerUid } from '../data/live-rows';

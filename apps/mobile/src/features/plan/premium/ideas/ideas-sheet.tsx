@@ -24,7 +24,7 @@ import {
 import { fitColour, PlaceThumb } from '@/features/explore';
 import { crewColour } from '@/features/vote';
 import { sheetMaterialStyle } from '@/ui/premium/shell';
-import { useBackAffordance } from '@/ui/qa/back-affordance';
+import { useBackAffordance } from '@/lib/qa/back-affordance';
 import { ideaIcon } from '../../ideas/idea-icon';
 import {
   beforePlanBody,

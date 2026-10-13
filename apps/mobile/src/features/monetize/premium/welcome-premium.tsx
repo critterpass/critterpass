@@ -30,7 +30,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 import { useScreenInsets } from '@/ui/premium/shell';
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 
 import { useWelcomeScreen } from '../welcome/use-welcome-screen';
 import { Confetti } from './components/confetti';

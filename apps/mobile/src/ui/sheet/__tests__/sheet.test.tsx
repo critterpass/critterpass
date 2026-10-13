@@ -12,8 +12,8 @@ import { fireGestureHandler, getByGestureTestId } from 'react-native-gesture-han
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ThemeProvider } from '../../../lib/theme';
-import { focusedBackAffordances } from '../../qa/back-affordance';
-import { UI_QA_ENABLED } from '../../qa/ui-qa';
+import { focusedBackAffordances } from '../../../lib/qa/back-affordance';
+import { UI_QA_ENABLED } from '../../../lib/qa/ui-qa';
 import { ScreenJoltProvider } from '../../../motion/patterns/thud';
 import { resetMotionModeForTests } from '../../../motion/test-support/reset-motion-mode';
 import { useMotionMode } from '../../../motion/motion-mode';

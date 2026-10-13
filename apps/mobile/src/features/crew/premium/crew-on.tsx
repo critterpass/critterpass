@@ -26,7 +26,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 import { guideSticker } from '@/ui/avatar/guides';
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 
 import { useCrewServices } from '../crews-sheet/crew-services';
 import { crewInviteRoute } from '../crews-sheet/routes';

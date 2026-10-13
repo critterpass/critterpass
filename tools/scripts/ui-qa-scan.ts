@@ -14,7 +14,7 @@ import path from 'node:path';
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '../..');
 export const UI_QA_TAG = '[ui-qa]';
-/** Where the app writes its reports, inside its data container (see apps/mobile/src/ui/qa). */
+/** Where the app writes its reports, inside its data container (see apps/mobile/src/lib/qa). */
 export const UI_QA_LOG = 'Documents/ui-qa.log';
 
 export interface UiQaReport {

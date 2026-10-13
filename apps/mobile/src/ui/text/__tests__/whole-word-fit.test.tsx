@@ -7,7 +7,7 @@ import { tokens } from '@cp/design-tokens';
 
 import { renderWithI18n } from '../../../lib/i18n/testing';
 import { ThemeProvider } from '../../../lib/theme';
-import { setUiQaSink } from '../../qa/ui-qa';
+import { setUiQaSink } from '../../../lib/qa/ui-qa';
 import {
   ADVANCE_RATIO,
   AUTO_FIT_MIN_SCALE,

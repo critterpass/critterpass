@@ -11,8 +11,8 @@ import { fontFor } from '@/lib/fonts';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useThemeSettings } from '@/lib/theme';
 
-import { textLayoutProblems } from '../qa/text-layout-check';
-import { reportUiQa, UI_QA_ENABLED } from '../qa/ui-qa';
+import { textLayoutProblems } from '../../lib/qa/text-layout-check';
+import { reportUiQa, UI_QA_ENABLED } from '../../lib/qa/ui-qa';
 import type { SurfaceTone } from '../surface/Scaffold';
 import { useSurfaceTone } from '../surface/Scaffold';
 import type { Theme } from '../theme';

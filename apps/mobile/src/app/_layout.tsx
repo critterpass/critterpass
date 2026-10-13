@@ -100,7 +100,7 @@ import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
 import { renderPremiumSessionWaiting } from '@/ui/premium';
 import { PremiumRoot } from '@/ui/premium/shell/navigation/premium-root';
 import { PrimerSheetHost } from '@/ui/permission-primer';
-import { useNoBackAffordanceGuard } from '@/ui/qa/back-affordance';
+import { useNoBackAffordanceGuard } from '@/lib/qa/back-affordance';
 import { LaunchHatch } from '@/features/onboarding/hatch/LaunchHatch';
 import { PremiumRootErrorBoundary } from '@/features/home/premium/recovery/premium-error-boundary';
 import { SessionDatabaseProvider, SessionWaitingProvider } from '@/ui/states/SessionGate';

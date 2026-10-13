@@ -24,7 +24,7 @@ import {
   type SoundCueId,
 } from '@/motion';
 import { makeStyles, Scaffold, Text, useTheme } from '@/ui';
-import { reportTruncatedToastTitle } from '@/ui/qa/toast-title-check';
+import { reportTruncatedToastTitle } from '@/lib/qa/toast-title-check';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.

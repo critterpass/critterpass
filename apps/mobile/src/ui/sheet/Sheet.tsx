@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { goBackOr } from '@/lib/navigation/back';
 
-import { useBackAffordance } from '../qa/back-affordance';
+import { useBackAffordance } from '../../lib/qa/back-affordance';
 import { SurfaceToneProvider } from '../surface/Scaffold';
 import { makeStyles } from '../theme';
 import { Text } from '../text/Text';

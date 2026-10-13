@@ -16,7 +16,7 @@ import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { Row } from '../layout/Row';
 import { Avatar } from '../people/Avatar';
 import { PressScale } from '../press/PressScale';
-import { useHeaderOverlapGuard } from '../qa/header-overlap';
+import { useHeaderOverlapGuard } from '../../lib/qa/header-overlap';
 import { Stack } from '../layout/Stack';
 import { Sticker } from '../sticker/Sticker';
 import { Text } from '../text/Text';

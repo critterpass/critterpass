@@ -8,8 +8,8 @@ import type { PremiumPalette, PremiumTypeName, PremiumTypeStyle } from '@cp/desi
 import { fontFor } from '@/lib/fonts';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useThemeSettings } from '@/lib/theme';
-import { textLayoutProblems } from '@/ui/qa/text-layout-check';
-import { reportUiQa, UI_QA_ENABLED } from '@/ui/qa/ui-qa';
+import { textLayoutProblems } from '@/lib/qa/text-layout-check';
+import { reportUiQa, UI_QA_ENABLED } from '@/lib/qa/ui-qa';
 
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 

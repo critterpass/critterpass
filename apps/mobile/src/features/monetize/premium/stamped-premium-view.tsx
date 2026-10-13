@@ -20,7 +20,7 @@ import {
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 
 import type { StampedViewProps } from '../boost/stamped-props';
 import type { PerkLine } from '../perks/perk-copy';

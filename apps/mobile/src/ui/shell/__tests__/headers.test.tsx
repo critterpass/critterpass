@@ -9,8 +9,8 @@ import type { StyleProp, TextStyle } from 'react-native';
 import { tokens } from '@cp/design-tokens';
 
 import { renderWithI18n } from '../../../lib/i18n/testing';
-import { focusedBackAffordances } from '../../qa/back-affordance';
-import { UI_QA_ENABLED } from '../../qa/ui-qa';
+import { focusedBackAffordances } from '../../../lib/qa/back-affordance';
+import { UI_QA_ENABLED } from '../../../lib/qa/ui-qa';
 import { fixturesFor } from '../../gallery/registry';
 import { BackEyebrow } from '../BackEyebrow';
 import { SurfaceToneProvider } from '../../surface/Scaffold';
