@@ -30,12 +30,12 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'start-crew-done'
 - runFlow: ../../_shared/to-home.yaml
-- extendedWaitUntil:
-    visible:
-      id: 'home-header-profile'
-    timeout: 30000
-- tapOn:
-    id: 'home-header-profile'
+# The profile is the PASS tab.
+- runFlow:
+    file: ../../_shared/tab.yaml
+    env:
+      TAB: pass
+      LABEL: Pass
 - extendedWaitUntil:
     visible:
       id: 'you-profile-name'

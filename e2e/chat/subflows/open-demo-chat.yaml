@@ -12,7 +12,7 @@ appId: app.critterpass.dev
     env:
       SEED: dev-seed-demo
 - tapOn:
-    id: 'home-header-chat'
+    id: 'home-chat'
 - extendedWaitUntil:
     visible:
       id: 'chat-composer'

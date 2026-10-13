@@ -11,7 +11,7 @@ appId: app.critterpass.dev
     commands:
       - extendedWaitUntil:
           visible:
-            id: 'home-header-crew-name'
+            id: 'home-crew-switcher'
           timeout: 30000
           optional: true
       - runFlow:

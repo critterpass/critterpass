@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
 # Journey: the way to Pass+. A new account starts as the `everyday` scenario (the Bali demo crew,
-# on the free plan). Its profile opens from the PASS tab's face; Settings has the plan chip, which
+# on the free plan). The PASS tab is its profile; Settings has the plan row, which
 # opens Your plan on the free plan; SEE PASS+ rises the paywall with the Pass+ visa and its button;
 # "What's in each" opens the comparison, and closing it comes back to the paywall, which closes
 # back onto Your plan. Nothing is bought: the build's only store is the real one (RevenueCat over
@@ -10,7 +10,7 @@ appId: app.critterpass.dev
     file: ../_shared/start-as.yaml
     env:
       SCENARIO: everyday
-# You: the profile, from the PASS tab's face.
+# You: the PASS tab is the profile; Settings is its header's glass action.
 - runFlow:
     file: ../_shared/tab.yaml
     env:
@@ -18,29 +18,26 @@ appId: app.critterpass.dev
       LABEL: Pass
 - extendedWaitUntil:
     visible:
-      id: 'critters-dex-profile'
+      id: 'you-profile'
     timeout: 60000
-- tapOn:
-    id: 'critters-dex-profile'
-- extendedWaitUntil:
-    visible:
-      id: 'you-profile-settings'
-    timeout: 20000
-- tapOn:
-    id: 'you-profile-settings'
-# Settings: the plan chip in the header.
+- runFlow:
+    file: ../_shared/tap.yaml
+    env:
+      ID: 'you-profile-settings'
+      LABEL: 'Settings'
+# Settings: the plan row.
 - extendedWaitUntil:
     visible:
       id: 'you-settings-plan'
     timeout: 20000
 - waitForAnimationToEnd
-- takeScreenshot: en-journey-paywall-settings
+- takeScreenshot: premium-9.04-journey-settings-light
 - tapOn:
     id: 'you-settings-plan'
 # Your plan, on the free plan.
 - extendedWaitUntil:
     visible:
-      id: 'plan-card-free'
+      id: 'plan-free'
     timeout: 20000
 - assertVisible:
     id: 'plan-summary'
@@ -52,7 +49,7 @@ appId: app.critterpass.dev
     visibilityPercentage: 100
     centerElement: true
 - waitForAnimationToEnd
-- takeScreenshot: en-journey-paywall-your-plan
+- takeScreenshot: premium-9.17-journey-your-plan-light
 - tapOn:
     id: 'plan-upgrade'
 # The paywall: the visa and the button that would open the store's sheet (never tapped here).
@@ -65,7 +62,7 @@ appId: app.critterpass.dev
 - assertVisible:
     id: 'paywall-restore'
 - waitForAnimationToEnd
-- takeScreenshot: en-journey-paywall-paywall
+- takeScreenshot: premium-9.10-journey-paywall-light
 # What's in each: the comparison rises over the paywall (its link is in the paywall's footer).
 - tapOn:
     id: 'paywall-compare'
@@ -76,23 +73,27 @@ appId: app.critterpass.dev
 - assertVisible:
     id: 'compare-buy-pass'
 - waitForAnimationToEnd
-- takeScreenshot: en-journey-paywall-whats-in-each
+- takeScreenshot: premium-9.11-journey-whats-in-each-light
 # Back: the comparison closes onto the paywall, and the paywall onto Your plan.
-- tapOn:
-    id: 'compare-rise-close'
+- runFlow:
+    file: ../_shared/back-to.yaml
+    env:
+      MARK: 'paywall-buy'
 - extendedWaitUntil:
     notVisible:
       id: 'compare-table'
     timeout: 15000
 - assertVisible:
     id: 'paywall-buy'
-- tapOn:
-    id: 'paywall-rise-close'
+- runFlow:
+    file: ../_shared/back-to.yaml
+    env:
+      MARK: 'plan-free'
 - extendedWaitUntil:
     notVisible:
       id: 'paywall-buy'
     timeout: 15000
 - assertVisible:
-    id: 'plan-card-free'
+    id: 'plan-free'
 - waitForAnimationToEnd
-- takeScreenshot: en-journey-paywall-back-on-your-plan
+- takeScreenshot: premium-9.17-journey-back-on-your-plan-light

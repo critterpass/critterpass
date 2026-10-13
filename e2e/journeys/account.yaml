@@ -23,7 +23,7 @@ appId: app.critterpass.dev
     env:
       ROW: sign-out
 - tapOn:
-    id: 'settings-row-sign-out'
+    id: 'you-settings-sign-out'
 - extendedWaitUntil:
     visible:
       id: 'you-sign-out-warning'
@@ -59,16 +59,15 @@ appId: app.critterpass.dev
       notVisible:
         id: 'you-sign-out-confirm'
     commands:
-      - tapOn:
-          id: 'you-sign-out-back'
+      - runFlow: ../_shared/back.yaml
       - extendedWaitUntil:
           visible:
-            id: 'settings-row-sign-out'
+            id: 'you-settings-sign-out'
             enabled: true
           timeout: 30000
       - waitForAnimationToEnd
       - tapOn:
-          id: 'settings-row-sign-out'
+          id: 'you-settings-sign-out'
 - extendedWaitUntil:
     visible:
       id: 'you-sign-out-confirm'
@@ -103,7 +102,7 @@ appId: app.critterpass.dev
 - runFlow: subflows/test-number-sign-in.yaml
 - extendedWaitUntil:
     visible:
-      id: 'home-header-crew-name'
+      id: 'home-crew-switcher'
     timeout: 90000
 - extendedWaitUntil:
     visible: '(?i).*cp test sign-out.*'
@@ -119,20 +118,12 @@ appId: app.critterpass.dev
     env:
       ROW: delete-account
 - tapOn:
-    id: 'settings-row-delete-account'
+    id: 'you-settings-delete-account'
+# The delete page: what goes, then the hold to confirm.
 - extendedWaitUntil:
     visible:
-      id: 'you-delete-continue'
+      id: 'you-delete'
     timeout: 30000
-- scrollUntilVisible:
-    element:
-      id: 'you-delete-continue'
-    direction: DOWN
-    timeout: 10000
-    visibilityPercentage: 100
-    centerElement: true
-- tapOn:
-    id: 'you-delete-continue'
 - extendedWaitUntil:
     visible:
       id: 'you-delete-hold'
@@ -149,7 +140,7 @@ appId: app.critterpass.dev
     id: 'you-delete-hold'
 - extendedWaitUntil:
     visible:
-      id: 'you-closed-closed'
+      id: 'you-closed-stamp|you-closed-body'
     timeout: 60000
 - waitForAnimationToEnd
 - takeScreenshot: en-journey-account-closed
@@ -173,7 +164,7 @@ appId: app.critterpass.dev
 - runFlow: subflows/test-number-sign-in.yaml
 - extendedWaitUntil:
     visible:
-      id: 'you-closed-restore'
+      id: 'you-closed-keep'
     timeout: 90000
 - waitForAnimationToEnd
 - takeScreenshot: en-journey-account-restore-offer
@@ -181,7 +172,7 @@ appId: app.critterpass.dev
     id: 'you-closed-keep'
 - extendedWaitUntil:
     visible:
-      id: 'home-header-crew-name'
+      id: 'home-crew-switcher'
     timeout: 90000
 - extendedWaitUntil:
     visible: '(?i).*cp test sign-out.*'
