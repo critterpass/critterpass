@@ -44,6 +44,8 @@ appId: app.critterpass.dev
       id: 'trip-hub-header-.*'
     timeout: 30000
 - waitForAnimationToEnd
+# The visit offer can rise over the hub as it opens; iOS hides what is under a sheet.
+- runFlow: subflows/dismiss-visit-offer.yaml
 - takeScreenshot: under-way-hub
 - assertVisible:
     id: 'trip-hub-header-in'
