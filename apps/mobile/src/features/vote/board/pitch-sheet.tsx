@@ -8,13 +8,9 @@
  * button yet; ADD TO THE VOTE arrives with the picked place's pitch.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useRef, useState, type ComponentRef } from 'react';
+import { useRef, type ComponentRef } from 'react';
 import { View } from 'react-native';
 
-import { useCommand } from '@/data/commands/use-command';
-import { goBackOr } from '@/lib/navigation/back';
-import { toast } from '@/motion';
-import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { QuickActionChip } from '@/ui/chips/QuickActionChip';
 import { SearchField } from '@/ui/inputs/SearchField';
@@ -27,16 +23,11 @@ import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles } from '@/ui/theme';
 
-import { useOpenDestinationPoll } from '../data/use-board';
-import { useDestinationSearch, type PlaceResult } from '../data/use-destination-search';
-import { useMyUid } from '../data/use-my-uid';
-import { usePeople } from '../data/use-people';
-import { usePitchStream } from '../data/use-pitch-stream';
-import { usePoll } from '../data/use-poll';
-import { addPollCandidateCommand } from '../data/vote-commands';
-import { guideOr, money, upper } from '../format';
+import type { PlaceResult } from '../data/use-destination-search';
+import { money, upper } from '../format';
 import { flyToBoard } from './fly-to-board';
 import { PitchCard } from './pitch-stream';
+import { usePitchSheet } from './use-pitch-sheet';
 
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.size.gutter, paddingBottom: th.space['16'], gap: th.space['16'] },
@@ -78,71 +69,15 @@ function ResultRows({
 export function PitchSheet({ crewId, placeId }: PitchSheetProps) {
   const styles = useStyles();
   const { t, i18n } = useLingui();
-  const me = useMyUid();
-  const people = usePeople(crewId);
-  const [query, setQuery] = useState('');
-  const [picked, setPicked] = useState<{ id: string; name: string } | null>(
-    placeId === undefined ? null : { id: placeId, name: '' },
-  );
-  const search = useDestinationSearch(picked === null ? query : '');
-  const { state, retry } = usePitchStream(picked === null ? null : { crewId, placeId: picked.id });
-  const openPollId = useOpenDestinationPoll(crewId);
-  const { poll } = usePoll(openPollId, me);
-  const add = useCommand(addPollCandidateCommand);
   const card = useRef<ComponentRef<typeof View>>(null);
-  const name = state.sticker?.name ?? picked?.name ?? '';
-  const onBoard = poll?.options.some((option) => option.refId === picked?.id) === true;
-
-  const pick = (place: { id: string; name: string }) => {
-    setPicked(place);
-    setQuery(place.name);
-  };
-
-  const addToVote = async () => {
-    if (picked === null) return;
-    if (onBoard) {
-      goBackOr();
-      return;
-    }
-    await add.send({
-      crew_id: crewId,
-      place_id: picked.id,
-      ...(state.pitchId === null ? {} : { pitch_id: state.pitchId }),
-    });
-    const guide = guideSticker(guideOr(state.sticker?.guide));
-    const sticker = <Sticker kind={guide.kind} name={guide.name} size={72} />;
-    if (poll?.stage === 'final') {
-      toast.show({
-        // eslint-disable-next-line lingui/no-unlocalized-strings -- a toast id, never copy.
-        id: `pitch-queued-${picked.id}`,
-        sticker,
-        title: t({
-          id: 'vote.pitch.queuedToast',
-          message: `${name} is pitched. It joins the vote after this one.`,
-        }),
-      });
-    } else {
-      const total = poll?.eligibleIds.length ?? people.size;
-      const count = poll?.votedCount ?? 0;
-      toast.show({
-        // eslint-disable-next-line lingui/no-unlocalized-strings -- a toast id, never copy.
-        id: `pitch-added-${picked.id}`,
-        sticker,
-        title: t({
-          id: 'vote.pitch.addedToast',
-          message: `${name}'s on the board. ${count} of ${total} have voted.`,
-        }),
-      });
-      await flyToBoard(card, sticker);
-    }
-    goBackOr();
-  };
-
-  const searching = picked === null && query.trim().length > 0;
+  const sheet = usePitchSheet({
+    crewId,
+    placeId,
+    sticker: (guide) => <Sticker kind={guide.kind} name={guide.name} size={72} />,
+    fly: (sticker) => flyToBoard(card, sticker),
+  });
+  const { search, state, picked, searching, people, retry, pick } = sheet;
   const asked = search.query;
-  const cta = onBoard
-    ? t({ id: 'vote.pitch.onBoard', message: 'Already on the board' })
-    : t({ id: 'vote.pitch.add', message: 'Add to the vote' });
 
   return (
     <Sheet
@@ -151,11 +86,8 @@ export function PitchSheet({ crewId, placeId }: PitchSheetProps) {
       header={
         <View style={styles.field}>
           <SearchField
-            value={query}
-            onChangeText={(text) => {
-              setQuery(text);
-              setPicked(null);
-            }}
+            value={sheet.query}
+            onChangeText={sheet.setQuery}
             label={t({ id: 'vote.pitch.search', message: 'Search a place' })}
             autoFocus={placeId === undefined}
             testID="pitch-search"
@@ -240,11 +172,11 @@ export function PitchSheet({ crewId, placeId }: PitchSheetProps) {
       {picked === null ? null : (
         <View style={styles.footer}>
           <PillButton
-            label={cta}
-            onPress={() => void addToVote()}
+            label={sheet.cta}
+            onPress={() => void sheet.addToVote()}
             disabled={state.phase === 'streaming'}
-            loading={add.pending}
-            sheen={!onBoard}
+            loading={sheet.adding}
+            sheen={!sheet.onBoard}
             testID="pitch-add"
           />
         </View>

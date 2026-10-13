@@ -9,7 +9,7 @@
 import { plural, t } from '@lingui/core/macro';
 import * as Clipboard from 'expo-clipboard';
 import * as Linking from 'expo-linking';
-import { useContext, useState } from 'react';
+import { useContext, useState, type ComponentType } from 'react';
 import { View } from 'react-native';
 
 import type { CalendarFeedIssued } from '@cp/domain';
@@ -85,6 +85,11 @@ function statusText(status: ExportStatus, written: number): string | null {
     case 'subscribing':
       return null;
   }
+}
+
+/** The words a status note says, shared by both looks. */
+export function exportStatusText(status: ExportStatus, written: number): string | null {
+  return statusText(status, written);
 }
 
 export function ExportSheetView(props: ExportSheetViewProps) {
@@ -163,11 +168,14 @@ export function ExportSheet({
   events,
   writer,
   onClose,
+  View: SheetView = ExportSheetView,
 }: {
   readonly tripId: string;
   readonly events: readonly DeviceCalendarEvent[];
   readonly writer: CalendarWriter | null;
   readonly onClose: () => void;
+  /** How the sheet is drawn; the commands, writer and statuses stay here. */
+  readonly View?: ComponentType<ExportSheetViewProps>;
 }) {
   const commands = useContext(LocalFirstContext)?.commands ?? null;
   const [status, setStatus] = useState<ExportStatus>('idle');
@@ -183,7 +191,7 @@ export function ExportSheet({
   };
 
   return (
-    <ExportSheetView
+    <SheetView
       canWrite={writer !== null}
       eventCount={events.length}
       status={status}

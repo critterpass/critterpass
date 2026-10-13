@@ -19,7 +19,7 @@ import {
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
-import { PushScreen } from '@/ui/premium/shell';
+import { PushScreen, sheetMaterialStyle } from '@/ui/premium/shell';
 import { useLocale } from '@/lib/i18n/use-locale';
 
 import type { BalanceViewProps } from '../../check/balance/balance-view';
@@ -148,7 +148,7 @@ export function PremiumGapView(props: GapViewProps) {
   const insets = useSafeAreaInsets();
   const { t } = useLingui();
   return (
-    <View style={{ flex: 1 }} testID="plan-gap">
+    <View style={[{ flex: 1 }, sheetMaterialStyle(theme)]} testID="plan-gap">
       <ScrollView contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}>
         <Text variant="badge" color={theme.color.status.rain.text}>
           {props.window.toLocaleUpperCase()}

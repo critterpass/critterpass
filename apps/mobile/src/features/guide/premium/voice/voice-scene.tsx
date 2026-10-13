@@ -20,6 +20,7 @@ import {
   makePremiumStyles,
   usePremiumTheme,
 } from '@/ui/premium';
+import { Bob, Ping } from '@/features/critters';
 import { FullScreen } from '@/ui/premium/shell';
 
 import { useIssueLine, type VoiceViewProps } from '../../voice/voice-view';
@@ -138,17 +139,19 @@ export function PremiumVoiceScene(props: VoiceViewProps) {
         <View style={styles.stage}>
           {state.phase === 'listening' ? (
             <>
-              <View style={[styles.ring, { opacity: 0.5 }]} />
-              <View style={[styles.ring, { transform: [{ scale: 1.12 }], opacity: 0.25 }]} />
+              <Ping style={styles.ring} ms={2200} />
+              <Ping style={styles.ring} ms={2200} delayMs={1100} />
             </>
           ) : null}
           <View style={styles.disc}>
-            <CritterSticker
-              kind={props.guideKind ?? 'gecko'}
-              name={guide}
-              size={132}
-              pose="think"
-            />
+            <Bob>
+              <CritterSticker
+                kind={props.guideKind ?? 'gecko'}
+                name={guide}
+                size={132}
+                pose="think"
+              />
+            </Bob>
           </View>
         </View>
         <View style={styles.pill} testID={`guide-voice-status-${state.phase}`}>

@@ -48,6 +48,7 @@ msgstr "{skipped, plural, other {사진 #장은 이미 앨범에 있어서 건�
 msgid "album.upload.progress"
 msgstr "{total, plural, other {#장 중 {position}번째 업로드 중.}}"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.byline"
 msgstr "{uploader} · {time}"
@@ -109,6 +110,7 @@ msgstr "주소 추가"
 msgid "album.inbox.address.body"
 msgstr "주소를 추가하세요. 인쇄소만 보고 크루는 절대 못 봐요."
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.meOff"
 msgstr "나 추가"
@@ -123,11 +125,11 @@ msgstr "사진 추가"
 msgid "album.empty.line"
 msgstr "여행 사진을 올리면 크루 모두가 볼 수 있어요. 사진만, 동영상은 안 돼요. 언제나 무료."
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/mailing/use-address-screen.ts
 msgid "album.address.removed"
 msgstr "주소를 삭제했어요"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/mailing/use-address-screen.ts
 msgid "album.address.savedToast"
 msgstr "주소를 저장했어요"
 
@@ -146,8 +148,13 @@ msgstr "인쇄소에 있음"
 
 #: ../../apps/mobile/src/features/album/grid/album-missing.tsx
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.back"
 msgstr "뒤로"
+
+#: ../../apps/mobile/src/features/album/premium/route-missing.tsx
+msgid "album.premium.missing.back"
+msgstr ""
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
@@ -159,11 +166,16 @@ msgstr "베스트 · {picks}"
 msgid "album.byPerson"
 msgstr "사람별"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
+msgid "album.premium.viewer.cancel"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.postcardEdit"
 msgstr "엽서 수정"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.countryPick"
 msgstr "국가 선택"
 
@@ -172,8 +184,13 @@ msgid "album.postcard.front"
 msgstr "사진 고르기"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.city"
 msgstr "도시"
+
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
+msgid "album.premium.viewer.close"
+msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/premium-sheet.tsx
 msgid "recap.premium.sheet.close"
@@ -191,6 +208,7 @@ msgstr "사진을 가져오지 못했어요. 다시 해 보세요"
 msgid "album.image.failed"
 msgstr "불러오지 못했어요"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.failed"
 msgstr "이 사진을 불러오지 못했어요. 연결을 확인해 주세요."
@@ -203,7 +221,7 @@ msgstr "사진을 열 수 없어요"
 msgid "album.postcard.mailFailed"
 msgstr "인쇄를 주문하지 못했어요. 다시 해 보세요"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/mailing/use-address-screen.ts
 msgid "album.address.removeFailed"
 msgstr "삭제하지 못했어요. 다시 시도해 주세요"
 
@@ -211,7 +229,7 @@ msgstr "삭제하지 못했어요. 다시 시도해 주세요"
 msgid "album.viewer.reportFailed"
 msgstr "신고하지 못했어요. 다시 시도해 주세요"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/mailing/use-address-screen.ts
 msgid "album.address.failed"
 msgstr "저장하지 못했어요. 입력란을 확인하세요"
 
@@ -229,8 +247,13 @@ msgid "album.export.failed"
 msgstr "압축하지 못했어요. 다시 해 보세요"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.countryLabel"
 msgstr "국가"
+
+#: ../../apps/mobile/src/features/album/premium/country-sheet.tsx
+msgid "onboarding.phone.country"
+msgstr ""
 
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.saveDenied"
@@ -249,14 +272,17 @@ msgstr "{day}일차"
 msgid "album.day.themed"
 msgstr "{day}일차 · {theme}"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.delete"
 msgstr "삭제"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.delete.confirm"
 msgstr "삭제"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.delete.title"
 msgstr "이 사진을 삭제할까요?"
@@ -277,10 +303,12 @@ msgid "album.premium.postcard.editNote"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.line2"
 msgstr "동·호수, 층 (선택)"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.why"
 msgstr "크루가 보내는 인쇄 엽서용이에요. 인쇄소만 보고, 크루와 가이드는 절대 못 봐요."
 
@@ -292,6 +320,10 @@ msgstr ""
 msgid "album.received.from"
 msgstr "{sender}님이 보냄"
 
+#: ../../apps/mobile/src/features/album/premium/route-missing.tsx
+msgid "album.premium.missing.home"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
 msgid "album.premium.postcard.greetings"
 msgstr ""
@@ -300,12 +332,17 @@ msgstr ""
 msgid "album.postcard.greetings"
 msgstr "안부를 전해요,"
 
+#: ../../apps/mobile/src/features/album/premium/route-missing.tsx
+msgid "album.premium.missing.homeAction"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.curating"
 msgstr "사진을 살펴보는 중이에요. 곧 베스트가 여기에 올라와요."
 
 #: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.who.me"
 msgstr "나 여기 있어요"
@@ -314,22 +351,34 @@ msgstr "나 여기 있어요"
 msgid "album.mail.status.shipped"
 msgstr "배송 중"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.who"
 msgstr "이 사진 속 사람: {names}"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.gone.line"
 msgstr "더 이상 앨범에 없어요. 추가한 사람이 내렸을 수 있어요."
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.delete.line"
 msgstr "크루 모두의 앨범에서 사라지고, 베스트와 태그도 함께 없어져요."
+
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
+msgid "album.premium.address.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
+msgid "album.premium.viewer.keep"
+msgstr ""
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
 msgid "album.postcard.eyebrow"
 msgstr "마지막 카드"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.loading"
 msgstr "사진 불러오는 중"
@@ -344,10 +393,11 @@ msgid "album.postcard.mail"
 msgstr "모두에게 진짜 엽서 보내기"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.name"
 msgstr "카드에 쓸 이름"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/mailing/use-address-screen.ts
 msgid "album.address.needed"
 msgstr "인쇄에 필요해요"
 
@@ -355,11 +405,11 @@ msgstr "인쇄에 필요해요"
 msgid "album.postcard.mailOffline"
 msgstr "인쇄를 주문하려면 신호가 필요해요"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/mailing/use-address-screen.ts
 msgid "album.address.removeOffline"
 msgstr "주소를 삭제하려면 신호가 필요해요"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/mailing/use-address-screen.ts
 msgid "album.address.offline"
 msgstr "주소를 저장하려면 신호가 필요해요"
 
@@ -387,6 +437,7 @@ msgid "album.empty.title"
 msgstr "아직 사진이 없어요"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.offlineLine"
 msgstr "신호가 없어요. 주소가 저장됐는지 보여 줄 수 없고, 저장하려면 연결이 필요해요."
 
@@ -404,6 +455,10 @@ msgstr "아직 이 사진에 있다고 한 사람이 없어요."
 msgid "album.people.none"
 msgstr "아직 태그된 사람이 없어요. 사진을 열고 “내가 있어요”를 누르세요."
 
+#: ../../apps/mobile/src/features/album/premium/route-missing.tsx
+msgid "album.premium.missing.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
 #: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
 msgid "album.upload.dismiss"
@@ -417,6 +472,7 @@ msgstr "열기"
 msgid "album.inbox.received.body"
 msgstr "열어서 뒷면을 읽어 보세요."
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.gone.open"
 msgstr "앨범 열기"
@@ -434,6 +490,7 @@ msgstr "주문됨"
 msgid "album.postcard.mailing"
 msgstr "인쇄 주문 중…"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.report.line"
 msgstr "저희 팀이 살펴볼게요. 누가 신고했는지는 크루에게 알리지 않아요."
@@ -457,6 +514,7 @@ msgstr "{uploaderName}의 사진"
 msgid "album.title"
 msgstr "사진"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.pickOff"
 msgstr "베스트"
@@ -465,6 +523,7 @@ msgstr "베스트"
 msgid "album.premium.postcard.pickPhoto"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.pickOn"
 msgstr "베스트에 있음"
@@ -479,6 +538,7 @@ msgid "album.postcard.kept"
 msgstr "엽서를 저장했어요"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.postal"
 msgstr "우편번호"
 
@@ -504,31 +564,38 @@ msgid "album.postcard.backLabel"
 msgstr "리캡"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.removeConfirm"
 msgstr "삭제"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.remove"
 msgstr "내 주소 삭제"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.removeTitle"
 msgstr "주소를 삭제할까요?"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.report"
 msgstr "신고"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.report.title"
 msgstr "이 사진을 신고할까요?"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.save"
 msgstr "저장"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.save"
 msgstr "주소 저장"
 
@@ -539,6 +606,10 @@ msgstr "사진에 저장했어요"
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.sendLater"
 msgstr "저장했어요. 신호가 잡히면 보내세요"
+
+#: ../../apps/mobile/src/features/album/premium/country-sheet.tsx
+msgid "onboarding.phone.countrySearch"
+msgstr ""
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
 msgid "album.postcard.album"
@@ -569,6 +640,7 @@ msgstr "{names}에게 보냈어요"
 msgid "album.postcard.sentBefore"
 msgstr "크루에게 보냈어요. 언제든 다시 보낼 수 있어요"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.share"
 msgstr "공유"
@@ -579,6 +651,7 @@ msgid "album.segments"
 msgstr "보기"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.region"
 msgstr "주 또는 도 (선택)"
 
@@ -588,6 +661,7 @@ msgid "album.postcard.format.story"
 msgstr "스토리 9:16"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.line1"
 msgstr "도로명과 번지"
 
@@ -630,6 +704,11 @@ msgstr "이번 여행"
 msgid "album.tile.first"
 msgstr "크루 모두가 볼 수 있어요"
 
+#: ../../apps/mobile/src/features/album/premium/route-missing.tsx
+msgid "album.premium.missing.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.gone.title"
 msgstr "이 사진은 이제 없어요"
@@ -638,7 +717,7 @@ msgstr "이 사진은 이제 없어요"
 msgid "album.postcard.mailUsed"
 msgstr "이 여행의 인쇄 엽서는 이미 주문했어요"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/mailing/use-address-screen.ts
 msgid "album.address.long"
 msgstr "라벨에 넣기엔 너무 길어요"
 
@@ -651,6 +730,7 @@ msgstr "여행"
 msgid "album.premium.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.retry"
 msgstr "다시 시도"
@@ -687,6 +767,7 @@ msgid "album.postcard.back"
 msgstr "메시지 쓰기"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.savedIn"
 msgstr "저장된 주소가 있어요({savedCountry}). 크루가 인쇄한 엽서를 보낼 수 있어요. 크루는 주소를 볼 수 없어요. 바꾸려면 양식을 다시 작성하세요."
 
@@ -699,10 +780,12 @@ msgid "album.queued.untag"
 msgstr "사진에 내가 없어요"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.title"
 msgstr "내 주소"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.removeLine"
 msgstr "크루가 더 이상 인쇄한 엽서를 보낼 수 없어요."
 

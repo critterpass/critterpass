@@ -6,7 +6,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { router } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
@@ -22,7 +22,7 @@ import { useProposalTrip } from '../data/trip';
 import { ProposalLoading } from '../proposal-loading';
 import { dropoutReplyLine, dropoutShare } from '../labels';
 import { proposalRoutes } from '../routes';
-import { DropoutView } from './dropout-view';
+import { DropoutView, type DropoutViewProps } from './dropout-view';
 import { changeRows, shareChange, type DropoutOp, type MemberResplit } from './model';
 
 const DROPOUT_SQL = `SELECT ops, members, resolved_at, created_at FROM trip_dropouts
@@ -35,7 +35,13 @@ const APPLYING_SQL = `SELECT 1 AS queued FROM commands WHERE cmd = 'resolve_drop
 const KEEP_SQL = `SELECT cm.keep_in_chat FROM crew_members cm JOIN trips t ON t.crew_id = cm.crew_id
   WHERE t.id = ? AND cm.user_id = ?`;
 
-export function DropoutScreen(props: { readonly proposalId: string; readonly uid: string }) {
+export function DropoutScreen(props: {
+  readonly proposalId: string;
+  readonly uid: string;
+  /** How the screen is drawn; the reads and commands stay here. @default the current look */
+  readonly View?: ComponentType<DropoutViewProps>;
+}) {
+  const Look = props.View ?? DropoutView;
   const proposal = useProposal(props.proposalId);
   useFindProposalTrip(proposal);
   const tripId = proposal?.tripId ?? null;
@@ -85,7 +91,7 @@ export function DropoutScreen(props: { readonly proposalId: string; readonly uid
   const change = shareChange(parseJson<MemberResplit[]>(row.members, []), trip.me);
   const currency = trip.currency;
   return (
-    <DropoutView
+    <Look
       name={name}
       joinIndex={person?.joinIndex ?? 0}
       guide={trip.guide}

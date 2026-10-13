@@ -194,6 +194,10 @@ msgstr "{name}. Tap to move to another room."
 msgid "setup.status.here"
 msgstr "{organiser} is setting up right now."
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.privacy"
+msgstr "{organiser} only hears whether the week works. Never what the block is."
+
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.status.away"
 msgstr "{organiser} runs setup. Your part is below."
@@ -270,6 +274,10 @@ msgstr "About {estimate} a room a night, estimate in {code}"
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.memberLine"
 msgstr "About a minute. Nobody sees your numbers."
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.title"
+msgstr "About your maybe days"
 
 #: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
 msgid "setup.addMustDo.returnKey"
@@ -402,8 +410,18 @@ msgstr "Calendar access is off"
 msgid "setup.push.notMovable"
 msgstr "Can’t move it"
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.notMovable"
+msgstr "Can’t move it"
+
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
 msgid "setup.premium.rooms.cancel"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
+msgid "setup.premium.cancel"
 msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
@@ -431,6 +449,7 @@ msgstr "Cheapest"
 msgid "setup.when.picker.clear"
 msgstr "Clear"
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
 #: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.sheet.close"
@@ -439,7 +458,6 @@ msgstr "Close"
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
-#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
 msgid "setup.premium.calendar.close"
 msgstr "Close"
 
@@ -570,6 +588,10 @@ msgstr "Free days"
 
 #: ../../apps/mobile/src/features/setup/notifications.ts
 msgid "setup.push.freed"
+msgstr "Freed it"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.freed"
 msgstr "Freed it"
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
@@ -847,6 +869,10 @@ msgstr "One stop so far"
 msgid "setup.calendar.promise"
 msgstr "Only free and busy days leave your phone. Titles, places and people stay here."
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.words"
+msgstr "Or tell {name} in your words"
+
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
 msgid "setup.budget.typed.labelAlone"
 msgstr "Or type an amount"
@@ -906,6 +932,10 @@ msgstr "Powered by Foursquare"
 #: ../../apps/mobile/src/features/setup/premium/calendar/month-grid.tsx
 msgid "setup.premium.month.previous"
 msgstr "Previous month"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.line"
+msgstr "Quick one: your maybe block is the only thing between the crew and {place}. Could you free it?"
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 msgid "setup.calendar.syncing"
@@ -992,6 +1022,10 @@ msgstr "See the draft"
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
 msgid "setup.mustDos.seeTrip"
 msgstr "See the trip"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.send"
+msgstr "Send"
 
 #: ../../apps/mobile/src/features/setup/premium/steps/must-do-card.tsx
 msgid "setup.mustDos.row.pending"
@@ -1097,6 +1131,10 @@ msgstr "Sync"
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 msgid "setup.calendar.synced"
 msgstr "Synced {age}"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.thanks"
+msgstr "Thanks. I’ll only tell {organiser} whether the week works."
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 msgid "setup.calendar.oauthFailed"

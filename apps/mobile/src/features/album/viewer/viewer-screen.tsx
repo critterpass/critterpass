@@ -6,7 +6,7 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type ComponentType, type ReactNode } from 'react';
 
 import { commandOutcome } from '@/data/commands/outcome';
 import { useCommand } from '@/data/commands/use-command';
@@ -29,12 +29,28 @@ import { AlbumMediaProvider } from '../grid/album-media';
 import { albumRoutes } from '../routes';
 import { albumHttp } from '../upload/device-upload';
 import { savePhoto, sharePhoto, type DeviceActionOutcome } from './device-actions';
-import { PhotoViewer } from './photo-viewer';
+import { PhotoViewer, type PhotoViewerProps } from './photo-viewer';
 import { useViewerUrls } from './use-viewer-urls';
 
 const NOTICE_MS = 4000;
 
-export function ViewerScreen(props: { readonly tripId: string; readonly photoId: string }) {
+/** How the viewer is drawn: the current look by default, or a premium one. */
+export interface ViewerLook {
+  readonly Viewer: ComponentType<PhotoViewerProps>;
+  /** Asks before a delete or a report (the system alert); true goes ahead. */
+  readonly ask: (kind: 'delete' | 'report') => Promise<boolean>;
+  readonly loading: () => ReactNode;
+  /** The page for a photo that has left the album, with the way to the album. */
+  readonly missing: (openAlbum: () => void) => ReactNode;
+}
+
+export interface ViewerScreenProps {
+  readonly tripId: string;
+  readonly photoId: string;
+  readonly look?: ViewerLook;
+}
+
+export function ViewerScreen(props: ViewerScreenProps) {
   return (
     <AlbumMediaProvider http={albumHttp}>
       <Viewer {...props} />
@@ -42,7 +58,7 @@ export function ViewerScreen(props: { readonly tripId: string; readonly photoId:
   );
 }
 
-function Viewer({ tripId, photoId }: { readonly tripId: string; readonly photoId: string }) {
+function Viewer({ tripId, photoId, look }: ViewerScreenProps) {
   useTripStreams(tripId);
   const { t } = useLingui();
   const album = useAlbum(tripId);
@@ -78,6 +94,7 @@ function Viewer({ tripId, photoId }: { readonly tripId: string; readonly photoId
   if (album.loaded && found === null) setFound(photos.some((photo) => photo.id === photoId));
 
   if (found === null) {
+    if (look !== undefined) return look.loading();
     return (
       <ScreenLoading
         backLabel={backLabel}
@@ -88,6 +105,7 @@ function Viewer({ tripId, photoId }: { readonly tripId: string; readonly photoId
     );
   }
   if (!found || photos.length === 0) {
+    if (look !== undefined) return look.missing(() => router.replace(albumHref));
     return (
       <ScreenMissing
         backLabel={backLabel}
@@ -150,6 +168,23 @@ function Viewer({ tripId, photoId }: { readonly tripId: string; readonly photoId
     }
   }
 
+  const onDelete = (photo: AlbumPhoto) => {
+    void remove.send({ photo_id: photo.id });
+    goBackOr(albumHref);
+  };
+  // The premium look asks with the system alert; the current one with its confirm sheet.
+  const askFirst = (kind: 'delete' | 'report', photo: AlbumPhoto) => {
+    if (look === undefined) {
+      setAsking({ kind, photo });
+      return;
+    }
+    void look.ask(kind).then((yes) => {
+      if (!yes) return;
+      if (kind === 'delete') onDelete(photo);
+      else void onReport(photo);
+    });
+  };
+
   const overlay =
     asking === null ? null : asking.kind === 'delete' ? (
       <ConfirmSheet
@@ -165,8 +200,7 @@ function Viewer({ tripId, photoId }: { readonly tripId: string; readonly photoId
         onConfirm={() => {
           const photo = asking.photo;
           setAsking(null);
-          void remove.send({ photo_id: photo.id });
-          goBackOr(albumHref);
+          onDelete(photo);
         }}
         onCancel={() => setAsking(null)}
         testID="album-delete-confirm"
@@ -192,8 +226,9 @@ function Viewer({ tripId, photoId }: { readonly tripId: string; readonly photoId
       />
     );
 
+  const Drawn = look?.Viewer ?? PhotoViewer;
   return (
-    <PhotoViewer
+    <Drawn
       photos={photos}
       startId={photoId}
       urls={pictures.urls}
@@ -219,8 +254,8 @@ function Viewer({ tripId, photoId }: { readonly tripId: string; readonly photoId
       }}
       onSave={(photo) => void onDevice('save', photo)}
       onShare={(photo) => void onDevice('share', photo)}
-      onReport={(photo) => setAsking({ kind: 'report', photo })}
-      onDelete={(photo) => setAsking({ kind: 'delete', photo })}
+      onReport={(photo) => askFirst('report', photo)}
+      onDelete={(photo) => askFirst('delete', photo)}
     />
   );
 }

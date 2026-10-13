@@ -5,6 +5,10 @@ import {
   PracticeScreen,
   type PracticeScreenProps,
 } from '@/features/guide/practice/practice-screen';
+import { PremiumPhraseCardView } from '@/features/guide/premium/practice/phrase-card-view';
+import { PremiumPracticeView } from '@/features/guide/premium/practice/practice-view';
+import { PremiumPracticeWaiting } from '@/features/guide/premium/practice/practice-waiting';
+import { premiumRoute } from '@/lib/premium-ui';
 
 import { getSpeech, startListening } from '../../../../modules/cp-speech';
 
@@ -24,17 +28,32 @@ function deviceSpeech(): PracticeScreenProps['speech'] {
  * that is switched on. `lang` picks the language and `text` the phrase to start on (the card the
  * person came from).
  */
-export default function PracticeRoute() {
+function usePracticeProps(): PracticeScreenProps {
   const params = useLocalSearchParams<{ tripId?: string; lang?: string; text?: string }>();
   const speech = useMemo(() => deviceSpeech(), []);
   const given = (value: string | undefined) =>
     typeof value === 'string' && value !== '' ? value : null;
+  return {
+    tripId: given(params.tripId),
+    language: given(params.lang),
+    startText: given(params.text),
+    speech,
+  };
+}
+
+function CurrentPracticeRoute() {
+  return <PracticeScreen {...usePracticeProps()} />;
+}
+
+function PremiumPracticeRoute() {
   return (
     <PracticeScreen
-      tripId={given(params.tripId)}
-      language={given(params.lang)}
-      startText={given(params.text)}
-      speech={speech}
+      {...usePracticeProps()}
+      View={PremiumPracticeView}
+      CardView={PremiumPhraseCardView}
+      waiting={<PremiumPracticeWaiting />}
     />
   );
 }
+
+export default premiumRoute({ premium: PremiumPracticeRoute, legacy: CurrentPracticeRoute });

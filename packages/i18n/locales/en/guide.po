@@ -72,6 +72,7 @@ msgid "guide.practice.offline"
 msgstr "{guideName} can't check how it sounds offline. Say it, then tap \"I said it\"."
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.micDeniedBody"
 msgstr "{guideName} can't hear you without the microphone. Turn it on in Settings, or say it and tap \"I said it\"."
 
@@ -96,6 +97,7 @@ msgid "guide.premium.thinking"
 msgstr "{guideName} is thinking"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.count"
 msgstr "{learned} of {total} learned"
 
@@ -252,6 +254,7 @@ msgid "guide.queued.cancel"
 msgstr "Cancelling a question for midnight"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.checkToggle"
 msgstr "Check how I say it"
 
@@ -292,6 +295,7 @@ msgid "guide.step.balances"
 msgstr "Checking who owes what"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.checking"
 msgstr "Checking…"
 
@@ -301,6 +305,10 @@ msgstr "Chinese"
 
 #: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
 msgid "guide.premium.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
+msgid "guide.premium.practice.close"
 msgstr "Close"
 
 #: ../../apps/mobile/src/features/guide/premium/phrases/phrase-show-screen.tsx
@@ -341,6 +349,7 @@ msgid "guide.premium.offer.confirm"
 msgstr "Count me in · {left} left"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.okSaid"
 msgstr "Counted. On to the next one."
 
@@ -367,6 +376,7 @@ msgid "guide.voice.done"
 msgstr "Done talking"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.check"
 msgstr "Done, check it"
 
@@ -468,6 +478,7 @@ msgid "guide.dietary.access"
 msgstr "Getting around"
 
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.phrase.loading"
 msgstr "Getting the audio…"
 
@@ -563,6 +574,7 @@ msgid "guide.voice.heardNothing"
 msgstr "I didn't catch that. Somewhere quieter helps, or hold the phone closer."
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.heard"
 msgstr "I heard"
 
@@ -576,6 +588,8 @@ msgstr "I lost my train of thought. That one didn’t count."
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.said"
 msgstr "I said it"
 
@@ -664,6 +678,7 @@ msgid "guide.camera.lang.lo"
 msgstr "Lao"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.learned"
 msgstr "Learned"
 
@@ -672,6 +687,7 @@ msgid "guide.camera.leastSpicy"
 msgstr "Least spicy?"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.consentTitle"
 msgstr "Let your phone listen?"
 
@@ -681,6 +697,7 @@ msgid "guide.voice.state.listening"
 msgstr "Listening"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.listening"
 msgstr "Listening"
 
@@ -729,6 +746,7 @@ msgid "guide.premium.starter.foodLine"
 msgstr "Near tonight’s plan"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.next"
 msgstr "Next phrase"
 
@@ -743,8 +761,13 @@ msgstr "No peanuts"
 
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.empty"
 msgstr "No phrases for this trip yet. {0} adds them as the plan fills in."
+
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
+msgid "guide.premium.practice.emptyTitle"
+msgstr "No phrases yet"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.dietNone"
@@ -758,24 +781,30 @@ msgstr "None"
 msgid "guide.chat.notHelpful"
 msgstr "Not helpful"
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
+msgid "guide.dietary.notNow"
+msgstr "Not now"
+
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.notNow"
 msgstr "Not now"
 
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
-#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
-msgid "guide.dietary.notNow"
-msgstr "Not now"
-
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.retry"
 msgstr "Not quite yet. Play it again and have another go."
 
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.premium.offer.line"
 msgstr "Nothing is booked or paid yet."
+
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
+msgid "guide.premium.practice.now"
+msgstr "Now"
 
 #: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
 msgid "guide.premium.ofLimit"
@@ -791,6 +820,7 @@ msgid "guide.help.open"
 msgstr "Open Help"
 
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 msgid "chat.premium.openSettings"
 msgstr "Open Settings"
@@ -803,7 +833,12 @@ msgstr "Opening the guide…"
 msgid "guide.premium.dietary.opening"
 msgstr "Opening your food needs…"
 
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-waiting.tsx
+msgid "guide.premium.practice.opening"
+msgstr "Opening your phrases…"
+
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.phrase.showHint"
 msgstr "Opens the phrase full screen to show"
 
@@ -851,6 +886,7 @@ msgid "guide.plan.pending"
 msgstr "Plan change on its way…"
 
 #: ../../apps/mobile/src/features/guide/premium/phrases/phrase-show-screen.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.premium.phrase.play"
 msgstr "Play it out loud"
 
@@ -882,10 +918,12 @@ msgstr "Practise phrases"
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
 #: ../../apps/mobile/src/features/guide/phrases/show-mode.tsx
 #: ../../apps/mobile/src/features/guide/premium/phrases/phrase-show-screen.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.phrase.practise"
 msgstr "Practise saying it"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.practising"
 msgstr "Practising"
 
@@ -920,6 +958,7 @@ msgid "guide.camera.retake"
 msgstr "Read another menu"
 
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.phrase.deviceVoice"
 msgstr "Read in your phone's voice"
 
@@ -981,12 +1020,18 @@ msgid "guide.dietary.saved"
 msgstr "Saved. The guide plans around it."
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.say"
 msgstr "Say it"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.again"
 msgstr "Say it again"
+
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
+msgid "guide.premium.practice.title"
+msgstr "Say it out loud"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 msgid "guide.practice.title"
@@ -1144,6 +1189,7 @@ msgid "guide.camera.lang.th"
 msgstr "Thai"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.ok"
 msgstr "That came through clearly. On to the next one."
 
@@ -1200,6 +1246,7 @@ msgid "guide.voice.replyFailed"
 msgstr "The answer didn't come through, and it wasn't counted. Ask again."
 
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.phrase.unavailable"
 msgstr "The audio isn't on this phone yet. Tap the card to show it instead."
 
@@ -1266,6 +1313,7 @@ msgid "guide.practice.noModule"
 msgstr "This version of the app can't listen. Say it, then tap \"I said it\"."
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.consentBody"
 msgstr "To check a phrase, what you say can be sent to a speech service to be written down. Only the words are compared with the card."
 
@@ -1288,6 +1336,7 @@ msgid "guide.error.retry"
 msgstr "Try again"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-consent.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
 msgid "guide.voice.consentYes"
@@ -1329,6 +1378,7 @@ msgid "guide.voice.noModule"
 msgstr "Voice is not available in this version of the app. Type your question instead."
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-consent.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
 msgid "guide.voice.consentNeedsConnection"
@@ -1465,5 +1515,6 @@ msgstr "Your order"
 
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.checkCaption"
 msgstr "Your phone listens, and {0} gives one tip when it's off."

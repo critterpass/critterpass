@@ -4,10 +4,14 @@
  */
 import { useLingui } from '@lingui/react/macro';
 
+import { PremiumRouteMissing } from '../premium/route-missing';
+import { usePremiumUi } from '@/lib/premium-ui';
 import { ScreenMissing } from '@/ui/states/ScreenMissing';
 
 export function AlbumMissing({ testID }: { readonly testID: string }) {
   const { t } = useLingui();
+  const premium = usePremiumUi();
+  if (premium) return <PremiumRouteMissing testID={testID} />;
   return (
     <ScreenMissing backLabel={t({ id: 'album.address.back', message: 'Back' })} testID={testID} />
   );

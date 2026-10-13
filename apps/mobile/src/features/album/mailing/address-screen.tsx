@@ -8,14 +8,8 @@
  * the form says so while there is none.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useState } from 'react';
 
-import { useCommand } from '@/data/commands/use-command';
-import { useOnline } from '@/data/places/server-name-search';
-import { CountryPicker, regionName } from '@/features/onboarding';
-import { useLocale } from '@/lib/i18n/use-locale';
-import { goBackOr } from '@/lib/navigation/back';
-import { useCommandFeedback } from '@/motion/island-toast';
+import { CountryPicker } from '@/features/onboarding';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { ListCard } from '@/ui/cards/ListCard';
@@ -31,74 +25,14 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
-import { saveMailingAddressCommand } from '../commands';
-import {
-  addressFields,
-  addressProblems,
-  EMPTY_ADDRESS,
-  type AddressDraft,
-  type AddressProblem,
-} from './address-form';
-import { useAddressPresence } from './use-mailing';
+import type { AddressDraft } from './address-form';
+import { useAddressScreen } from './use-address-screen';
 
 export function AddressScreen() {
   const { t } = useLingui();
-  const locale = useLocale();
   const theme = useTheme();
-  const online = useOnline();
-  const { report } = useCommandFeedback();
-  const save = useCommand(saveMailingAddressCommand);
-  const [refresh, setRefresh] = useState(0);
-  const presence = useAddressPresence(refresh + (online ? 1 : 0));
-  const [draft, setDraft] = useState<AddressDraft>(EMPTY_ADDRESS);
-  /** Problems show once the traveller has tried to save, then follow the typing. */
-  const [checked, setChecked] = useState(false);
-  const [picking, setPicking] = useState(false);
-  const [removing, setRemoving] = useState(false);
-  const problems = checked ? addressProblems(draft) : {};
-  const savedCountry = presence?.country
-    ? (regionName(presence.country, locale) ?? presence.country)
-    : '';
-  const set = (key: keyof AddressDraft) => (value: string) =>
-    setDraft((d) => ({ ...d, [key]: value }));
-
-  const say = (problem: AddressProblem | undefined) =>
-    problem === 'needed'
-      ? t({ id: 'album.address.needed', message: 'Needed for the printer' })
-      : problem === 'long'
-        ? t({ id: 'album.address.long', message: 'Too long for the label' })
-        : undefined;
-
-  async function onSave() {
-    if (save.pending) return;
-    const fields = addressFields(draft);
-    if (fields === null) {
-      setChecked(true);
-      return;
-    }
-    const outcome = report(await save.send({ fields }), {
-      id: 'album-address',
-      done: t({ id: 'album.address.savedToast', message: 'Address saved' }),
-      needsSignal: t({ id: 'album.address.offline', message: 'Needs signal to save your address' }),
-      refused: t({ id: 'album.address.failed', message: "Couldn't save it. Check the fields" }),
-    });
-    if (outcome === 'done') goBackOr();
-  }
-
-  async function onRemove() {
-    setRemoving(false);
-    if (save.pending) return;
-    const outcome = report(await save.send({ fields: null }), {
-      id: 'album-address',
-      done: t({ id: 'album.address.removed', message: 'Address removed' }),
-      needsSignal: t({
-        id: 'album.address.removeOffline',
-        message: 'Needs signal to remove your address',
-      }),
-      refused: t({ id: 'album.address.removeFailed', message: "Couldn't remove it. Try again" }),
-    });
-    if (outcome === 'done') setRefresh((n) => n + 2);
-  }
+  const form = useAddressScreen();
+  const { draft, problems, say, set, online, savedCountry, setPicking, setRemoving } = form;
 
   const field = (key: keyof AddressDraft, label: string, extra: object = {}) => {
     const message = say(problems[key]);
@@ -124,7 +58,7 @@ export function AddressScreen() {
       <KeyboardScrollView>
         <Stack gap="12" padding="16">
           <SecondaryText variant="body">
-            {presence?.saved === true
+            {form.saved
               ? t({
                   id: 'album.address.savedIn',
                   message: `You have an address saved (${savedCountry}). Your crew can mail you a printed postcard. They never see the address. Fill the form again to change it.`,
@@ -160,9 +94,8 @@ export function AddressScreen() {
           {field('postal_code', t({ id: 'album.address.postal', message: 'Postcode' }))}
           <ListCard
             title={
-              draft.country === ''
-                ? t({ id: 'album.address.countryPick', message: 'Choose the country' })
-                : (regionName(draft.country, locale) ?? draft.country)
+              form.countryName ??
+              t({ id: 'album.address.countryPick', message: 'Choose the country' })
             }
             subtitle={t({ id: 'album.address.countryLabel', message: 'Country' })}
             chevron
@@ -178,11 +111,11 @@ export function AddressScreen() {
               {countryProblem}
             </Text>
           )}
-          {presence?.saved === true ? (
+          {form.saved ? (
             <TextLink
               label={t({ id: 'album.address.remove', message: 'Remove my address' })}
               onPress={() => setRemoving(true)}
-              disabled={save.pending}
+              disabled={form.pending}
               testID="album-address-remove"
             />
           ) : null}
@@ -191,22 +124,16 @@ export function AddressScreen() {
       <KeyboardFooter>
         <PillButton
           label={t({ id: 'album.address.save', message: 'Save address' })}
-          onPress={() => void onSave()}
-          loading={save.pending}
+          onPress={form.onSave}
+          loading={form.pending}
           block
           testID="album-address-save"
         />
       </KeyboardFooter>
-      {picking ? (
-        <CountryPicker
-          onPick={(code) => {
-            setDraft((d) => ({ ...d, country: code }));
-            setPicking(false);
-          }}
-          onClose={() => setPicking(false)}
-        />
+      {form.picking ? (
+        <CountryPicker onPick={form.pickCountry} onClose={() => setPicking(false)} />
       ) : null}
-      {removing ? (
+      {form.removing ? (
         <ConfirmSheet
           title={t({ id: 'album.address.removeTitle', message: 'Remove your address?' })}
           consequences={[
@@ -217,7 +144,7 @@ export function AddressScreen() {
           ]}
           confirmLabel={t({ id: 'album.address.removeConfirm', message: 'Remove' })}
           mode="button"
-          onConfirm={() => void onRemove()}
+          onConfirm={form.onRemove}
           onCancel={() => setRemoving(false)}
           testID="album-address-remove-confirm"
         />

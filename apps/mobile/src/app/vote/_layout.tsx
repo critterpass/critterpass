@@ -9,7 +9,6 @@ import { usePremiumUi } from '@/lib/premium-ui';
 import { useMotionMode } from '@/motion/motion-mode';
 import { FULL_SCREEN_ROUTE_OPTIONS, sheetRouteOptions } from '@/ui/premium/shell';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
-import { SELF_ANIMATED_SHEET } from '@/ui/premium/shell/navigation/premium-root-stack';
 import { SessionGate } from '@/ui/states/SessionGate';
 import { useTheme } from '@/ui/theme';
 
@@ -27,7 +26,7 @@ export default function VoteLayout() {
         {premium ? (
           <PremiumStack>
             <PremiumStackScreen name="new-poll" options={sheetRouteOptions('full')} />
-            <PremiumStackScreen name="pitch" options={SELF_ANIMATED_SHEET} />
+            <PremiumStackScreen name="pitch" options={sheetRouteOptions('full')} />
             <PremiumStackScreen name="[pollId]/reveal" options={FULL_SCREEN_ROUTE_OPTIONS} />
           </PremiumStack>
         ) : (

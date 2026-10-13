@@ -6,7 +6,7 @@
  */
 import { REDRAFT_NOTE_MAX, type RedraftReasonKey } from '@cp/domain';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ComponentType } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 
@@ -22,7 +22,7 @@ import { useDraftVersion } from '../data/use-draft-version';
 import { redraftBoost } from '../boost-slot';
 import { draftRoutes } from '../routes';
 import { BoostOffer } from './boost-offer';
-import { ChangeDayView } from './change-day-view';
+import { ChangeDayView, type ChangeDayViewProps } from './change-day-view';
 import { outcomeLine } from './outcome-copy';
 import { DraftSheetWaiting } from './sheet-waiting';
 import { useSendRedraft } from './use-send-redraft';
@@ -31,7 +31,21 @@ export interface ChangeDaySheetProps {
   readonly tripId: string;
   readonly initialDay: number | null;
   readonly free: boolean;
+  /** How the sheet is drawn; the draft, quota and redraft stay here. @default the current look */
+  readonly look?: ChangeDayLook;
 }
+
+export interface ChangeDayLook {
+  readonly View: ComponentType<ChangeDayViewProps>;
+  readonly Waiting: ComponentType<{ readonly tripId: string; readonly gone: boolean }>;
+  readonly Boost: ComponentType<{ readonly onBoost: (() => void) | undefined }>;
+}
+
+const CURRENT_LOOK: ChangeDayLook = {
+  View: ChangeDayView,
+  Waiting: DraftSheetWaiting,
+  Boost: BoostOffer,
+};
 
 /** The note the sheet opens with (`?note=`): what the caller already knows should change. */
 function useInitialNote(): string {
@@ -39,7 +53,13 @@ function useInitialNote(): string {
   return typeof note === 'string' ? note.slice(0, REDRAFT_NOTE_MAX) : '';
 }
 
-export function ChangeDaySheet({ tripId, initialDay, free }: ChangeDaySheetProps) {
+export function ChangeDaySheet({
+  tripId,
+  initialDay,
+  free,
+  look = CURRENT_LOOK,
+}: ChangeDaySheetProps) {
+  const { View, Waiting, Boost } = look;
   const trip = useDraftTrip(tripId);
   const draft = useDraftVersion(trip);
   const locale = useLocale();
@@ -61,12 +81,7 @@ export function ChangeDaySheet({ tripId, initialDay, free }: ChangeDaySheetProps
     forgetChangeDayAsk(tripId),
   );
   if (trip === undefined || trip === null || draft.review === null) {
-    return (
-      <DraftSheetWaiting
-        tripId={tripId}
-        gone={trip === null || (trip !== undefined && draft.loaded)}
-      />
-    );
+    return <Waiting tripId={tripId} gone={trip === null || (trip !== undefined && draft.loaded)} />;
   }
 
   const gate = redraftGate(trip.quota, free);
@@ -79,7 +94,7 @@ export function ChangeDaySheet({ tripId, initialDay, free }: ChangeDaySheetProps
     else void redraft.send(ask);
   };
   return (
-    <ChangeDayView
+    <View
       guide={trip.guide}
       destination={trip.destinationName}
       locale={locale}
@@ -101,9 +116,7 @@ export function ChangeDaySheet({ tripId, initialDay, free }: ChangeDaySheetProps
       problem={redraft.outcome === null ? null : outcomeLine(redraft.outcome)}
       counter={free ? null : counterLine(trip.quota)}
       sending={redraft.pending}
-      spent={
-        spent ? <BoostOffer onBoost={boost === null ? undefined : () => boost(tripId)} /> : null
-      }
+      spent={spent ? <Boost onBoost={boost === null ? undefined : () => boost(tripId)} /> : null}
       onSubmit={onSubmit}
     />
   );

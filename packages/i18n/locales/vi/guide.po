@@ -72,6 +72,7 @@ msgid "guide.practice.offline"
 msgstr "{guideName} chưa kiểm tra được cách phát âm khi ngoại tuyến. Bạn cứ nói, rồi chạm \"Tôi nói rồi\"."
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.micDeniedBody"
 msgstr "{guideName} không nghe được bạn khi chưa có micro. Bật trong Cài đặt, hoặc cứ nói rồi chạm \"Tôi nói rồi\"."
 
@@ -96,6 +97,7 @@ msgid "guide.premium.thinking"
 msgstr "{guideName} đang suy nghĩ"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.count"
 msgstr "Đã thuộc {learned}/{total}"
 
@@ -252,6 +254,7 @@ msgid "guide.queued.cancel"
 msgstr "Huỷ câu hỏi lúc nửa đêm"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.checkToggle"
 msgstr "Kiểm tra cách tôi nói"
 
@@ -292,6 +295,7 @@ msgid "guide.step.balances"
 msgstr "Đang xem ai nợ ai"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.checking"
 msgstr "Đang kiểm tra…"
 
@@ -301,6 +305,10 @@ msgstr "Tiếng Trung"
 
 #: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
 msgid "guide.premium.close"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
+msgid "guide.premium.practice.close"
 msgstr "Đóng"
 
 #: ../../apps/mobile/src/features/guide/premium/phrases/phrase-show-screen.tsx
@@ -341,6 +349,7 @@ msgid "guide.premium.offer.confirm"
 msgstr "Cho mình một suất · còn {left}"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.okSaid"
 msgstr "Đã tính. Sang câu tiếp theo nhé."
 
@@ -367,6 +376,7 @@ msgid "guide.voice.done"
 msgstr "Nói xong"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.check"
 msgstr "Xong, kiểm tra giúp"
 
@@ -468,6 +478,7 @@ msgid "guide.dietary.access"
 msgstr "Đi lại"
 
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.phrase.loading"
 msgstr "Đang tải âm thanh…"
 
@@ -563,6 +574,7 @@ msgid "guide.voice.heardNothing"
 msgstr "Mình chưa nghe rõ. Bạn thử ra chỗ yên tĩnh hơn hoặc đưa điện thoại lại gần nhé."
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.heard"
 msgstr "Mình nghe được"
 
@@ -576,6 +588,8 @@ msgstr "Mình lạc mất mạch suy nghĩ rồi. Câu đó không bị tính l�
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.said"
 msgstr "Tôi nói rồi"
 
@@ -664,6 +678,7 @@ msgid "guide.camera.lang.lo"
 msgstr "Tiếng Lào"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.learned"
 msgstr "Đã thuộc"
 
@@ -672,6 +687,7 @@ msgid "guide.camera.leastSpicy"
 msgstr "Món nào ít cay nhất?"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.consentTitle"
 msgstr "Cho điện thoại nghe bạn nói?"
 
@@ -681,6 +697,7 @@ msgid "guide.voice.state.listening"
 msgstr "Đang nghe"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.listening"
 msgstr "Đang nghe"
 
@@ -729,6 +746,7 @@ msgid "guide.premium.starter.foodLine"
 msgstr "Gần lịch tối nay"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.next"
 msgstr "Câu tiếp theo"
 
@@ -743,8 +761,13 @@ msgstr "Không đậu phộng"
 
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.empty"
 msgstr "Chuyến này chưa có câu nào. {0} sẽ thêm khi lịch trình đầy dần."
+
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
+msgid "guide.premium.practice.emptyTitle"
+msgstr "Chưa có câu nào"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.dietNone"
@@ -758,24 +781,30 @@ msgstr "Không cay"
 msgid "guide.chat.notHelpful"
 msgstr "Không hữu ích"
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
+msgid "guide.dietary.notNow"
+msgstr "Để sau"
+
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.notNow"
 msgstr "Để sau"
 
-#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
-#: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
-#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
-msgid "guide.dietary.notNow"
-msgstr "Để sau"
-
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.retry"
 msgstr "Chưa đúng lắm. Nghe lại rồi thử thêm lần nữa nhé."
 
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.premium.offer.line"
 msgstr "Chưa có gì được đặt hay thanh toán."
+
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
+msgid "guide.premium.practice.now"
+msgstr "Bây giờ"
 
 #: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
 msgid "guide.premium.ofLimit"
@@ -791,6 +820,7 @@ msgid "guide.help.open"
 msgstr "Mở Trợ giúp"
 
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 msgid "chat.premium.openSettings"
 msgstr "Mở Cài đặt"
@@ -803,7 +833,12 @@ msgstr "Đang mở hướng dẫn viên…"
 msgid "guide.premium.dietary.opening"
 msgstr "Đang mở nhu cầu ăn uống của bạn…"
 
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-waiting.tsx
+msgid "guide.premium.practice.opening"
+msgstr "Đang mở các câu của bạn…"
+
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.phrase.showHint"
 msgstr "Mở câu nói toàn màn hình để đưa người khác xem"
 
@@ -851,6 +886,7 @@ msgid "guide.plan.pending"
 msgstr "Thay đổi lịch trình đang tới…"
 
 #: ../../apps/mobile/src/features/guide/premium/phrases/phrase-show-screen.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.premium.phrase.play"
 msgstr "Phát thành tiếng"
 
@@ -882,10 +918,12 @@ msgstr "Luyện câu nói"
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
 #: ../../apps/mobile/src/features/guide/phrases/show-mode.tsx
 #: ../../apps/mobile/src/features/guide/premium/phrases/phrase-show-screen.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.phrase.practise"
 msgstr "Tập nói câu này"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.practising"
 msgstr "Đang luyện"
 
@@ -920,6 +958,7 @@ msgid "guide.camera.retake"
 msgstr "Đọc thực đơn khác"
 
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.phrase.deviceVoice"
 msgstr "Đọc bằng giọng của điện thoại"
 
@@ -981,12 +1020,18 @@ msgid "guide.dietary.saved"
 msgstr "Đã lưu. Hướng dẫn viên sẽ lên kế hoạch theo đó."
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.say"
 msgstr "Nói thử"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.again"
 msgstr "Nói lại"
+
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
+msgid "guide.premium.practice.title"
+msgstr "Nói thành tiếng"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
 msgid "guide.practice.title"
@@ -1144,6 +1189,7 @@ msgid "guide.camera.lang.th"
 msgstr "Tiếng Thái"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-feedback.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.ok"
 msgstr "Nghe rất rõ. Sang câu tiếp theo nhé."
 
@@ -1200,6 +1246,7 @@ msgid "guide.voice.replyFailed"
 msgstr "Câu trả lời chưa tới nơi và không bị tính lượt. Bạn hỏi lại nhé."
 
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/phrase-card-view.tsx
 msgid "guide.phrase.unavailable"
 msgstr "Âm thanh chưa có trên điện thoại này. Chạm vào thẻ để đưa người khác xem."
 
@@ -1266,6 +1313,7 @@ msgid "guide.practice.noModule"
 msgstr "Bản ứng dụng này chưa nghe được. Bạn cứ nói, rồi chạm \"Tôi nói rồi\"."
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.consentBody"
 msgstr "Để kiểm tra một câu, lời bạn nói có thể được gửi tới một dịch vụ nhận dạng giọng nói để chép thành chữ. Chỉ phần chữ được so với thẻ câu nói."
 
@@ -1288,6 +1336,7 @@ msgid "guide.error.retry"
 msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-consent.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
 msgid "guide.voice.consentYes"
@@ -1329,6 +1378,7 @@ msgid "guide.voice.noModule"
 msgstr "Bản ứng dụng này chưa có trò chuyện bằng giọng nói. Bạn gõ câu hỏi nhé."
 
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-consent.tsx
 #: ../../apps/mobile/src/features/guide/voice/voice-consent-view.tsx
 msgid "guide.voice.consentNeedsConnection"
@@ -1465,5 +1515,6 @@ msgstr "Món bạn gọi"
 
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/guide/practice/practice-view.tsx
+#: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.checkCaption"
 msgstr "Điện thoại sẽ nghe, và {0} góp một mẹo khi có từ cần chỉnh."

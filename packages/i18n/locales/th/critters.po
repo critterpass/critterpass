@@ -26,6 +26,11 @@ msgstr ""
 msgid "critters.where.step.stay"
 msgstr ""
 
+#. placeholder {0}: item.place
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.when"
+msgstr ""
+
 #. placeholder {0}: level.into
 #. placeholder {1}: level.need
 #: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
@@ -235,6 +240,7 @@ msgid "critters.legendary.any"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/critters-copy.ts
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
 #: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
 #: ../../apps/mobile/src/features/critters/premium/legendary/legendary-calendar-screen.tsx
 msgid "critters.back"
@@ -248,6 +254,7 @@ msgstr ""
 msgid "critters.detail.classicLook"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
 #: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
 #: ../../apps/mobile/src/features/critters/premium/legendary/legendary-calendar-screen.tsx
 msgid "critters.premium.backToDex"
@@ -459,6 +466,14 @@ msgstr ""
 msgid "critters.premium.detail.missingLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.missingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
+msgid "critters.premium.page.missingLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.legendaryBody"
 msgstr ""
@@ -600,6 +615,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptyNearTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
+msgid "critters.premium.page.missingTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
@@ -763,6 +782,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.missingTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts

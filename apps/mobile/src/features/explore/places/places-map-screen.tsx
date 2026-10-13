@@ -6,7 +6,7 @@
 import { toLocalWallTime } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, type ComponentType } from 'react';
 
 import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { useSyncPhase } from '@/data/status/use-sync-status';
@@ -17,7 +17,7 @@ import { guideFor } from '../format';
 import { useBrowsePhotos } from '../map-queries';
 import { withProfileTiles } from '../profile-photo';
 import type { PlacesFilter } from './places-model';
-import { PlacesMapView } from './places-map-view';
+import { PlacesMapView, type PlacesMapViewProps } from './places-map-view';
 import { forgetPlaces } from './places-resume';
 import { addToPlanHref, placeHref, searchHref, useCanAddToPlan } from './places-nav';
 import type { ResultsMode } from './routes';
@@ -39,10 +39,12 @@ export interface PlacesMapScreenProps {
   readonly onLeaveResults: () => void;
   readonly onList: () => void;
   readonly onBack: () => void;
+  /** The drawing: the current map by default, the premium one in the premium look. */
+  readonly View?: ComponentType<PlacesMapViewProps> | undefined;
 }
 
 export function PlacesMapScreen(props: PlacesMapScreenProps) {
-  const { tripId } = props;
+  const { tripId, View = PlacesMapView } = props;
   const data = usePlacesData({
     tripId,
     destination: props.destination,
@@ -77,7 +79,7 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
   const photos = useMemo(() => withProfileTiles(assets, profilePhotos), [assets, profilePhotos]);
   const resumeKey = tripId ?? props.destination ?? undefined;
   return (
-    <PlacesMapView
+    <View
       inTrip={tripId !== null}
       loaded={data.loaded}
       failed={data.failed}

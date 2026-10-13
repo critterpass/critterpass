@@ -6,7 +6,7 @@
 import type { PlaceFit } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useMemo } from 'react';
+import { useMemo, type ComponentType } from 'react';
 
 import { useInViewPlacePhotos } from '@/data/media/use-place-tile-photos';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
@@ -21,7 +21,7 @@ import { useSponsoredEvents } from '../hooks/use-sponsored-events';
 import { exploreRoutes } from '../routes';
 import type { ListKind } from '../sponsored-model';
 import { PLACES_COMMANDS } from './commands';
-import { PlacesListView } from './places-list-view';
+import { PlacesListView, type PlacesListViewProps } from './places-list-view';
 import { CATEGORY_GROUPS, isCategoryGroup, type PlacesFilter } from './places-model';
 import { useSavedOnce } from './pending-store';
 import { usePlaceFacts } from './place-facts';
@@ -50,9 +50,12 @@ export interface PlacesListScreenProps {
   readonly onLeaveResults: () => void;
   readonly onMap: () => void;
   readonly onBack: () => void;
+  /** The drawing: the current list by default, the premium one in the premium look. */
+  readonly View?: ComponentType<PlacesListViewProps> | undefined;
 }
 
 export function PlacesListScreen(props: PlacesListScreenProps) {
+  const { View = PlacesListView } = props;
   const { i18n } = useLingui();
   const { commands } = useLocalFirst();
   const { tripId, filter } = props;
@@ -127,7 +130,7 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
 
   const resumeKey = tripId ?? props.destination ?? undefined;
   return (
-    <PlacesListView
+    <View
       status={!data.loaded ? 'loading' : data.failed ? 'failed' : 'ready'}
       onRetry={data.retry}
       viewer={viewer}

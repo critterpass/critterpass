@@ -23,7 +23,7 @@ import type { Travel } from '../day-plan/reschedule';
 import { useDayEditing } from '../day/use-day-editing';
 import { tripPlanRoutes } from '../hub/routes';
 import { setChosenDay } from '../trip-map/chosen-day';
-import { ShareSheet } from '../trip-map/share-sheet';
+import { ShareSheet, type ShareSheetProps } from '../trip-map/share-sheet';
 import { useTripMapModel } from '../trip-map/use-trip-map-model';
 import { AllDaysView, type AllDaysViewProps } from './all-days-view';
 import {
@@ -67,10 +67,12 @@ export function AllDaysScreen({
   readonly sheets?: {
     readonly Move?: ComponentType<MoveStopSheetProps>;
     readonly Preview?: ComponentType<MovePreviewProps>;
+    readonly Share?: ComponentType<ShareSheetProps>;
   };
 }) {
   const Move = sheets.Move ?? MoveStopSheet;
   const Preview = sheets.Preview ?? MovePreview;
+  const Share = sheets.Share ?? ShareSheet;
   const { data, model } = useTripMapModel(tripId);
   const editor = useDayEditing(data.plan);
   const gettingThere = useGettingThere(data.plan.trip?.destination_id ?? null, data.plan.uid);
@@ -169,7 +171,7 @@ export function AllDaysScreen({
         />
       )}
       {sharing ? (
-        <ShareSheet plan={data.plan} days={model.days} onClose={() => setSharing(false)} />
+        <Share plan={data.plan} days={model.days} onClose={() => setSharing(false)} />
       ) : null}
     </>
   );

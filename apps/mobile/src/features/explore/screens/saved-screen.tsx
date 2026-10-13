@@ -6,7 +6,7 @@
 import { generateUuidV7 } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { goBackOr } from '@/lib/navigation/back';
@@ -23,13 +23,28 @@ import {
   unsavePlaceCommand,
 } from '../commands';
 import { RegionPackCard } from '../components/region-pack-card';
-import { SavedView, type ListChoice, type ListEditor } from '../components/saved-view';
+import {
+  SavedView,
+  type ListChoice,
+  type ListEditor,
+  type SavedViewProps,
+} from '../components/saved-view';
 import { exploreRoutes } from '../routes';
 import { ALL_LISTS, groupByDestination, listSummaries, type SavedRow } from '../saved-model';
 import { SavedPlansSlot } from '../saved-plans-slot';
 import { useSaved } from '../saved-queries';
 
-export function SavedScreen() {
+export interface SavedScreenProps {
+  /** The drawing: the current page by default, the premium one in the premium look. */
+  readonly View?: ComponentType<SavedViewProps>;
+  /**
+   * Asks before deleting a list, resolving true to delete; the current look asks in its own sheet
+   * when absent.
+   */
+  readonly confirmDelete?: (name: string) => Promise<boolean>;
+}
+
+export function SavedScreen({ View = SavedView, confirmDelete }: SavedScreenProps = {}) {
   const { rows, lists, loaded, settled } = useSaved();
   const [deleting, setDeleting] = useState(false);
   const save = useCommand(savePlaceCommand);
@@ -95,7 +110,7 @@ export function SavedScreen() {
 
   const deletingName = chosenList?.name ?? '';
   const view = (
-    <SavedView
+    <View
       loading={!loaded}
       settling={!settled}
       lists={summaries}
@@ -144,7 +159,16 @@ export function SavedScreen() {
       onNewList={() => setEditor({ kind: 'new', name: '', taken: false })}
       onRenameList={() => setEditor({ kind: 'rename', name: shown ?? '', taken: false })}
       onDeleteList={() => {
-        if (chosenList !== undefined) setDeleting(true);
+        if (chosenList === undefined) return;
+        if (confirmDelete === undefined) {
+          setDeleting(true);
+          return;
+        }
+        void confirmDelete(chosenList.name).then((yes) => {
+          if (!yes) return;
+          void remove.send({ list_id: chosenList.id });
+          setChoice(ALL_LISTS);
+        });
       }}
       onEditorChange={(name) =>
         setEditor((current) => (current === null ? null : { ...current, name, taken: false }))

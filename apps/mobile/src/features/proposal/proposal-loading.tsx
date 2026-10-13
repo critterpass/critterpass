@@ -2,14 +2,16 @@
  * The proposal screens before their rows can be drawn. While reading, and for a short while after a
  * read came back empty (a push or a link can open a proposal before this phone has synced it, and
  * the screen holds its trip so it arrives), a skeleton under a back control. A proposal that still
- * is not here after that wait says so, with a way out.
+ * is not here after that wait says so, with a way out. The premium look draws both from its kit.
  */
 import { t } from '@lingui/core/macro';
 import type { Href } from 'expo-router';
 
+import { usePremiumUi } from '@/lib/premium-ui';
 import { ScreenLoading } from '@/ui/states/ScreenLoading';
 import { ScreenMissing } from '@/ui/states/ScreenMissing';
 
+import { PremiumProposalLoading } from './premium/proposal-loading';
 import { useStillMissing } from './use-still-missing';
 
 export interface ProposalLoadingProps {
@@ -26,6 +28,10 @@ export function ProposalLoading({
   testID = 'proposal-loading',
 }: ProposalLoadingProps) {
   const notHere = useStillMissing(missing);
+  const premium = usePremiumUi();
+  if (premium) {
+    return <PremiumProposalLoading missing={notHere} fallback={fallback} testID={testID} />;
+  }
   const backLabel = t({ id: 'proposal.loadingBack', message: 'Back' });
   if (notHere) {
     return (

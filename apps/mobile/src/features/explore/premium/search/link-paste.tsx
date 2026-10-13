@@ -14,6 +14,7 @@ import { ScrollView, View } from 'react-native';
 import { screenCredits } from '@/data/media/use-place-tile-photos';
 import { OverlaySheet } from '@/features/plan';
 import { Button, ListCard, Text, TextButton, TextField, usePremiumTheme } from '@/ui/premium';
+import { sheetMaterialStyle } from '@/ui/premium/shell';
 
 import { typedLink } from '../../search/clipboard';
 import type { LinkPasteProps } from '../../search/link-paste';
@@ -48,6 +49,8 @@ export function PremiumLinkPaste(props: LinkPasteProps) {
   };
   return (
     <ScrollView
+      // The native form sheet is see-through: its material is drawn here.
+      style={[{ flex: 1 }, sheetMaterialStyle(theme)]}
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}
       testID="search-link-paste"

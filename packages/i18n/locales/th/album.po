@@ -48,6 +48,7 @@ msgstr "{skipped, plural, other {# รูปมีในอัลบั้มแ
 msgid "album.upload.progress"
 msgstr "{total, plural, other {กำลังอัปโหลดรูปที่ {position} จาก # รูป}}"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.byline"
 msgstr "{uploader} · {time}"
@@ -109,6 +110,7 @@ msgstr "เพิ่มที่อยู่"
 msgid "album.inbox.address.body"
 msgstr "เพิ่มที่อยู่ มีแค่โรงพิมพ์ที่เห็น ครูไม่เห็นเลย"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.meOff"
 msgstr "เพิ่มฉัน"
@@ -123,11 +125,11 @@ msgstr "เพิ่มรูป"
 msgid "album.empty.line"
 msgstr "เพิ่มรูปทริปแล้วทั้งครูจะเห็น เฉพาะรูป ไม่มีวิดีโอ ฟรีตลอด"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/mailing/use-address-screen.ts
 msgid "album.address.removed"
 msgstr "ลบที่อยู่แล้ว"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/mailing/use-address-screen.ts
 msgid "album.address.savedToast"
 msgstr "บันทึกที่อยู่แล้ว"
 
@@ -146,8 +148,13 @@ msgstr "อยู่ที่โรงพิมพ์"
 
 #: ../../apps/mobile/src/features/album/grid/album-missing.tsx
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.back"
 msgstr "กลับ"
+
+#: ../../apps/mobile/src/features/album/premium/route-missing.tsx
+msgid "album.premium.missing.back"
+msgstr ""
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
@@ -159,11 +166,16 @@ msgstr "เด็ด · {picks}"
 msgid "album.byPerson"
 msgstr "ตามคน"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
+msgid "album.premium.viewer.cancel"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.postcardEdit"
 msgstr "การแก้ไขโปสการ์ดของคุณ"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.countryPick"
 msgstr "เลือกประเทศ"
 
@@ -172,8 +184,13 @@ msgid "album.postcard.front"
 msgstr "เลือกรูป"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.city"
 msgstr "เมือง"
+
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
+msgid "album.premium.viewer.close"
+msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/premium-sheet.tsx
 msgid "recap.premium.sheet.close"
@@ -191,6 +208,7 @@ msgstr "ดึงรูปไม่ได้ ลองอีกครั้ง"
 msgid "album.image.failed"
 msgstr "โหลดไม่ได้"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.failed"
 msgstr "โหลดรูปนี้ไม่ได้ ลองเช็กการเชื่อมต่อ"
@@ -203,7 +221,7 @@ msgstr "เปิดรูปของคุณไม่ได้"
 msgid "album.postcard.mailFailed"
 msgstr "สั่งพิมพ์ไม่สำเร็จ ลองอีกครั้ง"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/mailing/use-address-screen.ts
 msgid "album.address.removeFailed"
 msgstr "ลบไม่ได้ ลองอีกครั้ง"
 
@@ -211,7 +229,7 @@ msgstr "ลบไม่ได้ ลองอีกครั้ง"
 msgid "album.viewer.reportFailed"
 msgstr "รายงานไม่ได้ ลองอีกครั้ง"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/mailing/use-address-screen.ts
 msgid "album.address.failed"
 msgstr "บันทึกไม่ได้ ตรวจช่องข้อมูลอีกครั้ง"
 
@@ -229,8 +247,13 @@ msgid "album.export.failed"
 msgstr "บีบอัดไม่สำเร็จ ลองอีกครั้ง"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.countryLabel"
 msgstr "ประเทศ"
+
+#: ../../apps/mobile/src/features/album/premium/country-sheet.tsx
+msgid "onboarding.phone.country"
+msgstr ""
 
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.saveDenied"
@@ -249,14 +272,17 @@ msgstr "วันที่ {day}"
 msgid "album.day.themed"
 msgstr "วันที่ {day} · {theme}"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.delete"
 msgstr "ลบ"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.delete.confirm"
 msgstr "ลบ"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.delete.title"
 msgstr "ลบรูปนี้ไหม"
@@ -277,10 +303,12 @@ msgid "album.premium.postcard.editNote"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.line2"
 msgstr "ห้อง ชั้น (ไม่บังคับ)"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.why"
 msgstr "สำหรับโปสการ์ดพิมพ์จากครูของคุณ มีแค่โรงพิมพ์ที่เห็น ครูและไกด์ไม่เห็นเลย"
 
@@ -292,6 +320,10 @@ msgstr ""
 msgid "album.received.from"
 msgstr "จาก {sender}"
 
+#: ../../apps/mobile/src/features/album/premium/route-missing.tsx
+msgid "album.premium.missing.home"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/premium/postcard-cards.tsx
 msgid "album.premium.postcard.greetings"
 msgstr ""
@@ -300,12 +332,17 @@ msgstr ""
 msgid "album.postcard.greetings"
 msgstr "คิดถึงจาก"
 
+#: ../../apps/mobile/src/features/album/premium/route-missing.tsx
+msgid "album.premium.missing.homeAction"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 #: ../../apps/mobile/src/features/album/premium/journal-scene.tsx
 msgid "album.curating"
 msgstr "กำลังดูรูปอยู่ รูปเด็ดของฉันจะมาเร็วๆ นี้"
 
 #: ../../apps/mobile/src/features/album/people/who-sheet.tsx
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.who.me"
 msgstr "มีฉันในรูปนี้"
@@ -314,22 +351,34 @@ msgstr "มีฉันในรูปนี้"
 msgid "album.mail.status.shipped"
 msgstr "อยู่ระหว่างส่งไปรษณีย์"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.who"
 msgstr "ในรูปนี้: {names}"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.gone.line"
 msgstr "รูปนี้ไม่อยู่ในอัลบั้มแล้ว คนที่เพิ่มอาจเอาออกไป"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.delete.line"
 msgstr "รูปจะหายจากอัลบั้มของทั้งครู พร้อมรายการเด็ดและแท็ก"
+
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
+msgid "album.premium.address.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
+msgid "album.premium.viewer.keep"
+msgstr ""
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
 msgid "album.postcard.eyebrow"
 msgstr "การ์ดใบสุดท้าย"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.loading"
 msgstr "กำลังโหลดรูป"
@@ -344,10 +393,11 @@ msgid "album.postcard.mail"
 msgstr "ส่งใบจริงให้ทุกคน"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.name"
 msgstr "ชื่อบนการ์ด"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/mailing/use-address-screen.ts
 msgid "album.address.needed"
 msgstr "โรงพิมพ์ต้องใช้"
 
@@ -355,11 +405,11 @@ msgstr "โรงพิมพ์ต้องใช้"
 msgid "album.postcard.mailOffline"
 msgstr "ต้องมีสัญญาณเพื่อสั่งพิมพ์"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/mailing/use-address-screen.ts
 msgid "album.address.removeOffline"
 msgstr "ต้องมีสัญญาณเพื่อลบที่อยู่"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/mailing/use-address-screen.ts
 msgid "album.address.offline"
 msgstr "ต้องมีสัญญาณเพื่อบันทึกที่อยู่"
 
@@ -387,6 +437,7 @@ msgid "album.empty.title"
 msgstr "ยังไม่มีรูป"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.offlineLine"
 msgstr "ไม่มีสัญญาณ ยังบอกไม่ได้ว่าบันทึกที่อยู่ไว้หรือไม่ และการบันทึกต้องเชื่อมต่อ"
 
@@ -404,6 +455,10 @@ msgstr "ยังไม่มีใครบอกว่าอยู่ในร
 msgid "album.people.none"
 msgstr "ยังไม่มีใครถูกแท็ก เปิดรูปแล้วแตะ “ฉันอยู่ในรูปนี้”"
 
+#: ../../apps/mobile/src/features/album/premium/route-missing.tsx
+msgid "album.premium.missing.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/premium/upload-banner.tsx
 #: ../../apps/mobile/src/features/album/upload/upload-banner.tsx
 msgid "album.upload.dismiss"
@@ -417,6 +472,7 @@ msgstr "เปิด"
 msgid "album.inbox.received.body"
 msgstr "เปิดแล้วอ่านด้านหลัง"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.gone.open"
 msgstr "เปิดอัลบั้ม"
@@ -434,6 +490,7 @@ msgstr "สั่งแล้ว"
 msgid "album.postcard.mailing"
 msgstr "กำลังสั่งพิมพ์…"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.report.line"
 msgstr "ทีมของเราจะตรวจดู ครูจะไม่รู้ว่าใครรายงาน"
@@ -457,6 +514,7 @@ msgstr "รูปจาก {uploaderName}"
 msgid "album.title"
 msgstr "รูปภาพ"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.pickOff"
 msgstr "เด็ด"
@@ -465,6 +523,7 @@ msgstr "เด็ด"
 msgid "album.premium.postcard.pickPhoto"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.pickOn"
 msgstr "เด็ดแล้ว"
@@ -479,6 +538,7 @@ msgid "album.postcard.kept"
 msgstr "บันทึกโปสการ์ดแล้ว"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.postal"
 msgstr "รหัสไปรษณีย์"
 
@@ -504,31 +564,38 @@ msgid "album.postcard.backLabel"
 msgstr "สรุปทริป"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.removeConfirm"
 msgstr "ลบ"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.remove"
 msgstr "ลบที่อยู่ของฉัน"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.removeTitle"
 msgstr "ลบที่อยู่ของคุณ?"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.report"
 msgstr "รายงาน"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.report.title"
 msgstr "รายงานรูปนี้?"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.save"
 msgstr "บันทึก"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.save"
 msgstr "บันทึกที่อยู่"
 
@@ -539,6 +606,10 @@ msgstr "บันทึกลงรูปภาพแล้ว"
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.sendLater"
 msgstr "บันทึกแล้ว ส่งเมื่อมีสัญญาณ"
+
+#: ../../apps/mobile/src/features/album/premium/country-sheet.tsx
+msgid "onboarding.phone.countrySearch"
+msgstr ""
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-card-copy.ts
 msgid "album.postcard.album"
@@ -569,6 +640,7 @@ msgstr "ส่งให้ {names} แล้ว"
 msgid "album.postcard.sentBefore"
 msgstr "ส่งให้ครูแล้ว ส่งซ้ำได้ทุกเมื่อ"
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.share"
 msgstr "แชร์"
@@ -579,6 +651,7 @@ msgid "album.segments"
 msgstr "แสดง"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.region"
 msgstr "รัฐหรือจังหวัด (ไม่บังคับ)"
 
@@ -588,6 +661,7 @@ msgid "album.postcard.format.story"
 msgstr "สตอรี่ 9:16"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.line1"
 msgstr "ถนนและเลขที่"
 
@@ -630,6 +704,11 @@ msgstr "ทริปนี้"
 msgid "album.tile.first"
 msgstr "ทั้งครูเห็นได้"
 
+#: ../../apps/mobile/src/features/album/premium/route-missing.tsx
+msgid "album.premium.missing.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.viewer.gone.title"
 msgstr "รูปนี้ไม่อยู่แล้ว"
@@ -638,7 +717,7 @@ msgstr "รูปนี้ไม่อยู่แล้ว"
 msgid "album.postcard.mailUsed"
 msgstr "ทริปนี้มีโปสการ์ดพิมพ์แล้ว"
 
-#: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/mailing/use-address-screen.ts
 msgid "album.address.long"
 msgstr "ยาวเกินไปสำหรับป้าย"
 
@@ -651,6 +730,7 @@ msgstr "ทริป"
 msgid "album.premium.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/premium/photo-viewer.tsx
 #: ../../apps/mobile/src/features/album/viewer/photo-viewer.tsx
 msgid "album.viewer.retry"
 msgstr "ลองอีกครั้ง"
@@ -687,6 +767,7 @@ msgid "album.postcard.back"
 msgstr "เขียนข้อความ"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.savedIn"
 msgstr "คุณมีที่อยู่บันทึกไว้ ({savedCountry}) ครูของคุณส่งโปสการ์ดพิมพ์ให้คุณได้ พวกเขาไม่เห็นที่อยู่เลย กรอกแบบฟอร์มอีกครั้งเพื่อเปลี่ยน"
 
@@ -699,10 +780,12 @@ msgid "album.queued.untag"
 msgstr "คุณไม่ได้อยู่ในรูป"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.title"
 msgstr "ที่อยู่ของคุณ"
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
+#: ../../apps/mobile/src/features/album/premium/address-screen.tsx
 msgid "album.address.removeLine"
 msgstr "ครูของคุณจะส่งโปสการ์ดพิมพ์ให้คุณไม่ได้อีก"
 

@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: groups.unknown
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.unknown"
+msgstr "{0, plural, one {# more saved place shows once its destination has been opened on this phone.} other {# more saved places show once their destinations have been opened on this phone.}}"
+
 #. placeholder {0}: dayTitle(fits.best.date, i18n.locale)
 #. placeholder {1}: fits.best.start
 #: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
@@ -30,6 +35,12 @@ msgstr "{0} of {1}"
 msgid "search.premium.chips.eyebrow"
 msgstr "{0} read it as"
 
+#. placeholder {0}: card.name
+#. placeholder {1}: card.guide.name
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.card"
+msgstr "{0}, with {1}"
+
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
 msgid "explore.picks.title"
@@ -48,6 +59,10 @@ msgstr "{count, plural, one {# place} other {# places}}"
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.moves"
 msgstr "{count, plural, one {# stop goes back to Ideas} other {# stops go back to Ideas}}"
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.savedCount"
+msgstr "{count} saved"
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-offline.tsx
 msgid "search.premium.offline.places"
@@ -93,6 +108,10 @@ msgstr "{minutes} min on"
 msgid "explore.dayTrips.travel.leg"
 msgstr "{mode} · about {length}"
 
+#: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
+msgid "explore.sponsored.paid"
+msgstr "{partner} paid for this spot in the list. It is marked SPONSORED so you can tell it from the guide's own picks."
+
 #: ../../apps/mobile/src/features/explore/use-swipe-screen.ts
 msgid "explore.swipe.toastMatch"
 msgstr "{place} is a match"
@@ -112,6 +131,10 @@ msgstr "{platform} you copied"
 #: ../../apps/mobile/src/features/explore/premium/search/find-plain.tsx
 msgid "search.premium.plain.softMisses"
 msgstr "{soft} more, louder or further"
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.newList"
+msgstr "+ New list"
 
 #: ../../apps/mobile/src/features/explore/premium/destination/month-card.tsx
 msgid "explore.panel.each"
@@ -182,6 +205,8 @@ msgstr "Add"
 #. placeholder {0}: similar.name
 #: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
 #: ../../apps/mobile/src/features/explore/premium/place/place-sections.tsx
+#: ../../apps/mobile/src/features/explore/premium/places/place-cards.tsx
+#: ../../apps/mobile/src/features/explore/premium/places/places-list-page.tsx
 #: ../../apps/mobile/src/features/explore/premium/search/find-plain.tsx
 msgid "search.premium.row.add"
 msgstr "Add {0}"
@@ -219,6 +244,14 @@ msgstr "Add to Ideas"
 msgid "explore.panel.noAirport"
 msgstr "Add your home airport to see what the flight costs from where you live."
 
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.all"
+msgstr "All"
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.all"
+msgstr "All"
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-no-results.tsx
 msgid "search.none.ask"
 msgstr "Ask"
@@ -245,6 +278,10 @@ msgstr "Ask the organiser to add it"
 #: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
 #: ../../apps/mobile/src/features/explore/premium/split/split-page.tsx
 msgid "explore.premium.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.back"
 msgstr "Back"
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
@@ -283,6 +320,11 @@ msgstr "Cancel"
 msgid "common.cancel"
 msgstr "Cancel"
 
+#: ../../apps/mobile/src/features/explore/premium/saved/confirm-delete-list.ts
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.cancel"
+msgstr "Cancel"
+
 #: ../../apps/mobile/src/data/areas/travel-line.ts
 msgid "explore.dayTrips.mode.car"
 msgstr "Car"
@@ -299,6 +341,10 @@ msgstr "Change my side"
 msgid "search.field.clear"
 msgstr "Clear"
 
+#: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
+msgid "explore.premium.sponsored.close"
+msgstr "Close"
+
 #: ../../apps/mobile/src/features/explore/premium/search/link-paste.tsx
 msgid "search.premium.pick.close"
 msgstr "Close"
@@ -314,6 +360,10 @@ msgstr "Couldn’t find it"
 #: ../../apps/mobile/src/features/explore/premium/search/find-names.tsx
 msgid "search.name.incomplete"
 msgstr "Couldn't reach more places."
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.create"
+msgstr "Create list"
 
 #: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
 #: ../../apps/mobile/src/features/explore/premium/search/find-screen.tsx
@@ -352,9 +402,26 @@ msgstr "Day trips"
 msgid "explore.dayTrips.title"
 msgstr "Day trips from {city}"
 
+#: ../../apps/mobile/src/features/explore/premium/saved/confirm-delete-list.ts
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.deleteList"
+msgstr "Delete list"
+
+#: ../../apps/mobile/src/features/explore/premium/saved/confirm-delete-list.ts
+msgid "explore.saved.deleteTitle"
+msgstr "Delete the list \"{deletingName}\"?"
+
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.listDelete"
 msgstr "Deleting a list"
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.destination"
+msgstr "Destination guide"
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.done"
+msgstr "Done"
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-names.tsx
 msgid "search.none.pin"
@@ -368,18 +435,46 @@ msgstr "Drop a pin"
 msgid "explore.premium.dayTrips.dock"
 msgstr "Each one brings its own map and places, and downloads with the trip."
 
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.edit"
+msgstr "Edit"
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.hero.back"
+msgstr "Explore"
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.explore"
+msgstr "Explore"
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.title"
+msgstr "Explore"
+
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.back"
 msgstr "Explore"
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.findHere"
+msgstr "Find a place in {place}"
 
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/explore/premium/search/find-field.tsx
 msgid "explore.premium.find.placeholder"
 msgstr "Find anything, or ask {0}"
 
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.searchAny"
+msgstr "Find anything, or ask {guide}"
+
 #: ../../apps/mobile/src/features/explore/premium/place/place-screen.tsx
 msgid "explore.place.loading"
 msgstr "Finding the place"
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.loading"
+msgstr "Finding the places"
 
 #: ../../apps/mobile/src/data/areas/travel-line.ts
 msgid "explore.dayTrips.mode.flight"
@@ -427,6 +522,15 @@ msgstr "Half day"
 msgid "explore.category.health"
 msgstr "Health"
 
+#. placeholder {0}: String(n)
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.hidden"
+msgstr "Hidden ({0})"
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.back"
+msgstr "Home"
+
 #. placeholder {0}: hero.name
 #. placeholder {0}: trip.destination
 #: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
@@ -449,6 +553,10 @@ msgstr "I’m in"
 #: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
 msgid "explore.premium.place.ifYouLike"
 msgstr "If you like this"
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.plan"
+msgstr "In the plan"
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
 msgid "explore.detail.fits.inPlan"
@@ -474,6 +582,10 @@ msgstr "It's on day {dayNo} of the plan."
 msgid "explore.dayTrips.onDateLine"
 msgstr "It's on day {dayNo}, {date}."
 
+#: ../../apps/mobile/src/features/explore/premium/saved/confirm-delete-list.ts
+msgid "explore.saved.deleteKeeps"
+msgstr "Its places stay in Saved."
+
 #: ../../apps/mobile/src/features/explore/premium/place/place-sections.tsx
 msgid "explore.detail.know"
 msgstr "Know before you go"
@@ -486,6 +598,14 @@ msgstr "Leave"
 msgid "search.plain.list"
 msgstr "List"
 
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.list"
+msgstr "List"
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.loading"
+msgstr "Loading destinations"
+
 #: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
 msgid "explore.dest.loading"
 msgstr "Loading the guide"
@@ -496,6 +616,10 @@ msgstr "Lock the dates first: a day trip takes one of the plan’s days."
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-plain.tsx
 msgid "search.plain.map"
+msgstr "Map"
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.map"
 msgstr "Map"
 
 #: ../../apps/mobile/src/features/explore/premium/destination/picks-carousel.tsx
@@ -514,6 +638,10 @@ msgstr "Match"
 msgid "search.more.eyebrow"
 msgstr "More places"
 
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.move"
+msgstr "Move"
+
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.move"
 msgstr "Moving a saved place"
@@ -521,6 +649,10 @@ msgstr "Moving a saved place"
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.museum"
 msgstr "Museum"
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.newName"
+msgstr "Name the new list"
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-names.tsx
 msgid "search.name.alike"
@@ -588,6 +720,18 @@ msgstr "Nothing found at that address"
 msgid "search.none.leadPlain"
 msgstr "Nothing here matches all of that yet."
 
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.emptyTitle"
+msgstr "Nothing here yet"
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.emptyList"
+msgstr "Nothing in this list yet"
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.failedLine"
+msgstr "Nothing is saved on this phone for here yet. Try again with a signal."
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-no-results.tsx
 msgid "search.none.leadMinutes"
 msgstr "Nothing like it within {limit} minutes."
@@ -603,6 +747,18 @@ msgstr "Nothing like that in {area}"
 #: ../../apps/mobile/src/features/explore/premium/search/find-no-results.tsx
 msgid "search.none.title"
 msgstr "Nothing like that near {area}"
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.emptyTitle"
+msgstr "Nothing saved yet"
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.savedNone"
+msgstr "Nothing saved yet"
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.offlineBadge"
+msgstr "Offline ready"
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-offline.tsx
 msgid "search.offline.count"
@@ -635,6 +791,10 @@ msgstr "Or put them on {day}"
 #: ../../apps/mobile/src/features/explore/premium/place/place-sections.tsx
 msgid "explore.premium.place.otherDays"
 msgstr "Other days ›"
+
+#: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
+msgid "explore.sponsored.passPlus"
+msgstr "Pass+ and boosted trips have no sponsored picks."
 
 #: ../../apps/mobile/src/features/explore/premium/search/link-paste.tsx
 msgid "search.paste.paste"
@@ -701,6 +861,10 @@ msgstr "Rather not"
 msgid "explore.premium.split.ratherNot"
 msgstr "Rather not"
 
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.remove"
+msgstr "Remove"
+
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.remove"
 msgstr "Remove"
@@ -716,6 +880,18 @@ msgstr "Remove the day trip"
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.unsave"
 msgstr "Removing a saved place"
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.rename"
+msgstr "Rename"
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.renameList"
+msgstr "Rename list"
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.renameName"
+msgstr "Rename this list"
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-screen.tsx
 msgid "explore.place.retry"
@@ -733,13 +909,42 @@ msgstr "Save"
 msgid "explore.premium.dest.save"
 msgstr "Save"
 
+#. placeholder {0}: place.name
+#: ../../apps/mobile/src/features/explore/premium/places/places-list-page.tsx
+msgid "explore.premium.places.save"
+msgstr "Save {0}"
+
 #: ../../apps/mobile/src/features/explore/premium/search/link-sheet.tsx
 msgid "search.link.saveToIdeas"
 msgstr "Save {chosen} to Ideas"
 
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.offlineLine"
+msgstr "Save {place} for no signal and the map works anywhere."
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-offline.tsx
 msgid "search.offline.saved"
 msgstr "Saved"
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.defaultList"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.title"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.saved"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.savedBadge"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.saved"
+msgstr "Saved places"
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
 msgid "explore.premium.detail.unsave"
@@ -752,6 +957,18 @@ msgstr "Saved. Tap to remove"
 #: ../../apps/mobile/src/features/explore/premium/search/link-sheet.tsx
 msgid "search.link.search"
 msgstr "Search"
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.search"
+msgstr "Search {place}, or ask {guide}"
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.search"
+msgstr "Search any city or country"
+
+#: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
+msgid "explore.sponsored.seePassPlus"
+msgstr "See Pass+"
 
 #: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
 msgid "explore.swipe.seeIdeas"
@@ -777,9 +994,21 @@ msgstr "Shopping"
 msgid "explore.premium.find.show"
 msgstr "Show ›"
 
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.showAgain"
+msgstr "Show again"
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.showAll"
+msgstr "Show all"
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-plain.tsx
 msgid "search.plain.view"
 msgstr "Show as"
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-list-page.tsx
+msgid "explore.premium.places.more"
+msgstr "Show more"
 
 #: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
 msgid "explore.solo.started"
@@ -788,6 +1017,10 @@ msgstr "Solo trip to {placeName} started."
 #: ../../apps/mobile/src/features/explore/premium/place/place-screen.tsx
 msgid "explore.place.failedLine"
 msgstr "Something went wrong on our side. Try again."
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-list-page.tsx
+msgid "explore.premium.places.sponsored"
+msgstr "Sponsored"
 
 #: ../../apps/mobile/src/features/explore/premium/destination/picks-carousel.tsx
 msgid "explore.premium.dest.sponsored"
@@ -805,6 +1038,10 @@ msgstr "Starting a swipe session"
 msgid "explore.category.stay"
 msgstr "Stay"
 
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.stay"
+msgstr "Stay"
+
 #: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
 msgid "explore.trip.swipeTitle"
 msgstr "Swipe together"
@@ -812,6 +1049,10 @@ msgstr "Swipe together"
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.removeTitle"
 msgstr "Take {area} off the plan?"
+
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
+msgid "explore.saved.emptyLine"
+msgstr "Tap the heart on a place or a destination and it lands here."
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.temple"
@@ -848,6 +1089,31 @@ msgstr "That's the deck"
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.movesNone"
 msgstr "The day is free: nothing moves."
+
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.empty"
+msgstr "The destinations haven't reached this phone yet. They load once it's online."
+
+#: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
+msgid "explore.sponsored.neutral"
+msgstr "The guide's picks are never ranked by what a partner pays. We may earn a commission if you book through a partner."
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.offlineTitle"
+msgstr "The map needs a signal"
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.failedTitle"
+msgstr "The places didn’t load"
+
+#. placeholder {0}: chips.join(' · ')
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.results"
+msgstr "The places for {0}"
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.resultsPlain"
+msgstr "The places from your search"
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-offline.tsx
 msgid "search.offline.works.plan"
@@ -919,6 +1185,14 @@ msgstr "Trip"
 msgid "search.link.retry"
 msgstr "Try again"
 
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
+msgid "explore.premium.places.emptyLine"
+msgstr "Try another filter, or search for a place by name."
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-start.tsx
 msgid "explore.premium.find.tryAsking"
 msgstr "Try asking"
@@ -955,6 +1229,10 @@ msgstr "When it fits"
 msgid "explore.months.title"
 msgstr "When to go"
 
+#: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
+msgid "explore.home.guides"
+msgstr "Where the guides live"
+
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.pickerTitle"
 msgstr "Which day for {area}?"
@@ -962,6 +1240,14 @@ msgstr "Which day for {area}?"
 #: ../../apps/mobile/src/features/explore/premium/search/link-paste.tsx
 msgid "search.link.pickTitle"
 msgstr "Which is “{label}”?"
+
+#: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
+msgid "explore.sponsored.sheetTitle"
+msgstr "Why am I seeing this?"
+
+#: ../../apps/mobile/src/features/explore/premium/places/places-list-page.tsx
+msgid "explore.sponsored.why"
+msgstr "Why am I seeing this?"
 
 #: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
 msgid "explore.premium.swipe.why"
@@ -980,6 +1266,10 @@ msgstr "Works with Instagram, Maps, YouTube and screenshots"
 msgid "explore.panel.you"
 msgstr "You"
 
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.nameTaken"
+msgstr "You already have a list with that name."
+
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.firstDay"
 msgstr "You arrive this day: a day trip leaves little of it."
@@ -987,6 +1277,10 @@ msgstr "You arrive this day: a day trip leaves little of it."
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.lastDay"
 msgstr "You leave this day: a day trip leaves little of it."
+
+#: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
+msgid "explore.sponsored.contextual"
+msgstr "You see it because you're looking at {place}. It isn't chosen from anything about you, and we don't track you for it."
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.offline"
