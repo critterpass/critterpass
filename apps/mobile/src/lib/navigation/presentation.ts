@@ -93,6 +93,7 @@ const PRESENTATIONS: Readonly<Record<string, ScreenPresentation>> = {
   '(trip)/[tripId]/search/link': sheet(0.9, 1),
   '(trip)/[tripId]/check/gap': sheet(0.62, 1),
   '(trip)/[tripId]/drivers/pick': sheet(0.6, 1),
+  '(trip)/[tripId]/drivers/share': FULL,
   '(trip)/[tripId]/ideas/index': sheet(0.82, 1),
   '(trip)/[tripId]/settings/dates': MODAL,
   '(trip)/[tripId]/draft/change-day': FULL,

@@ -17,6 +17,7 @@ const NATIVE_SHEETS: ReadonlySet<string> = new Set([
   'search/link',
   'check/gap',
   'drivers/pick',
+  'drivers/share',
 ]);
 
 /**
@@ -60,6 +61,8 @@ export default function TripIdLayout() {
         name="drivers/pick"
         options={{ ...sheetRouteOptions('full'), sheetAllowedDetents: [0.6, 1] }}
       />
+      {/* Share with your driver rises full over the plan's share sheet. */}
+      <PremiumStackScreen name="drivers/share" options={sheetRouteOptions('full')} />
       {/* Ideas rises over the plan map, leaving its top showing (4.40). */}
       <PremiumStackScreen
         name="ideas/index"

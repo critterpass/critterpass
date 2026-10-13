@@ -1,5 +1,5 @@
 /**
- * Share with your driver, wired: the trip's days, the crew's live link for this driver (one per
+ * Share with your driver (6i-1), wired: the trip's days, the crew's live link for this driver (one per
  * driver; a new one replaces the old), the commands, the clipboard and WhatsApp (the person sends
  * the message themselves). The open count follows the plan channel.
  */
@@ -23,18 +23,10 @@ import {
   useDriverShares,
   whatsAppUrl,
 } from './data';
-import { DriverShareSheetView, type DriverShareStatus } from './share-sheet-view';
+import type { DriverShareStatus, DriverShareView } from './share-types';
 import { dayLabel, expiryChoices, nextExpiry, openedLine } from './share-text';
 
-export function DriverShareSheet({
-  tripId,
-  initialName = '',
-  onClose,
-}: {
-  readonly tripId: string;
-  readonly initialName?: string;
-  readonly onClose: () => void;
-}) {
+export function useDriverShare(tripId: string, initialName = ''): DriverShareView {
   const { t } = useLingui();
   const locale = useLocale();
   const plan = useTripPlan(tripId);
@@ -79,73 +71,70 @@ export function DriverShareSheet({
     else setCreated(sent.result as DriverPlanShare);
   };
 
-  return (
-    <DriverShareSheetView
-      driverName={name}
-      onDriverName={live === null ? setName : null}
-      url={live?.url ?? null}
-      days={days}
-      onToggleDay={(dayNo) => {
-        const next = new Set(selected);
-        if (next.has(dayNo)) next.delete(dayNo);
-        else next.add(dayNo);
-        setPicked(next);
-        if (live !== null && next.size > 0) void update({ day_nos: [...next] });
-      }}
-      expiresLabel={expiryChoices(locale, live?.expires_at ?? null, expiryDays)}
-      onCycleExpiry={() => {
-        const next = nextExpiry(expiryDays);
-        setExpiryDays(next);
-        if (live !== null) void update({ expires_in_days: next });
-      }}
-      allowQuote={allowQuote}
-      onAllowQuote={(next) => {
-        setQuoteChoice(next);
-        if (live !== null) void update({ allow_quote: next });
-      }}
-      opened={live === null ? null : openedLine(locale, live.open_count, live.last_opened_at)}
-      stale={read.kind === 'offline'}
-      status={status}
-      onCreate={() => {
-        setStatus('creating');
-        void (async () => {
-          const sent = await commands?.send(CREATE_DRIVER_PLAN_SHARE, {
-            trip_id: tripId,
-            driver_name: name.trim(),
-            day_nos: [...selected].sort((a, b) => a - b),
-            expires_in_days: expiryDays,
-            allow_quote: allowQuote,
-          });
-          if (sent?.kind !== 'applied') {
-            setStatus('needs_signal');
-            return;
-          }
-          setCreated(sent.result as DriverPlanShare);
-          setStatus('idle');
-          refresh();
-        })();
-      }}
-      onCopy={() => {
-        if (live === null || live.url === null) return;
-        void Clipboard.setStringAsync(live.url).then(() => setStatus('copied'));
-      }}
-      onWhatsApp={() => {
-        if (live === null || live.url === null) return;
-        void Linking.openURL(whatsAppUrl(shareText(live.url))).catch(() => undefined);
-      }}
-      onRevoke={() => {
-        if (live === null) return;
-        if (status !== 'confirm_revoke') {
-          setStatus('confirm_revoke');
+  return {
+    driverName: name,
+    onDriverName: live === null ? setName : null,
+    url: live?.url ?? null,
+    days: days,
+    onToggleDay: (dayNo) => {
+      const next = new Set(selected);
+      if (next.has(dayNo)) next.delete(dayNo);
+      else next.add(dayNo);
+      setPicked(next);
+      if (live !== null && next.size > 0) void update({ day_nos: [...next] });
+    },
+    expiresLabel: expiryChoices(locale, live?.expires_at ?? null, expiryDays),
+    onCycleExpiry: () => {
+      const next = nextExpiry(expiryDays);
+      setExpiryDays(next);
+      if (live !== null) void update({ expires_in_days: next });
+    },
+    allowQuote: allowQuote,
+    onAllowQuote: (next) => {
+      setQuoteChoice(next);
+      if (live !== null) void update({ allow_quote: next });
+    },
+    opened: live === null ? null : openedLine(locale, live.open_count, live.last_opened_at),
+    stale: read.kind === 'offline',
+    status: status,
+    onCreate: () => {
+      setStatus('creating');
+      void (async () => {
+        const sent = await commands?.send(CREATE_DRIVER_PLAN_SHARE, {
+          trip_id: tripId,
+          driver_name: name.trim(),
+          day_nos: [...selected].sort((a, b) => a - b),
+          expires_in_days: expiryDays,
+          allow_quote: allowQuote,
+        });
+        if (sent?.kind !== 'applied') {
+          setStatus('needs_signal');
           return;
         }
-        void commands?.send(REVOKE_DRIVER_PLAN_SHARE, { share_id: live.id }).then(() => {
-          setCreated(null);
-          setStatus('revoked');
-          refresh();
-        });
-      }}
-      onClose={onClose}
-    />
-  );
+        setCreated(sent.result as DriverPlanShare);
+        setStatus('idle');
+        refresh();
+      })();
+    },
+    onCopy: () => {
+      if (live === null || live.url === null) return;
+      void Clipboard.setStringAsync(live.url).then(() => setStatus('copied'));
+    },
+    onWhatsApp: () => {
+      if (live === null || live.url === null) return;
+      void Linking.openURL(whatsAppUrl(shareText(live.url))).catch(() => undefined);
+    },
+    onRevoke: () => {
+      if (live === null) return;
+      if (status !== 'confirm_revoke') {
+        setStatus('confirm_revoke');
+        return;
+      }
+      void commands?.send(REVOKE_DRIVER_PLAN_SHARE, { share_id: live.id }).then(() => {
+        setCreated(null);
+        setStatus('revoked');
+        refresh();
+      });
+    },
+  };
 }

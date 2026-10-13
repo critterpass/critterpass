@@ -13,7 +13,7 @@ import { Linking } from 'react-native';
 
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { PillButton } from '@/ui/buttons/PillButton';
+import { Button } from '@/ui/premium';
 
 import { quoteTerms } from '../pick/crew-pick';
 import { useDriverShares, whatsAppUrl } from '../share/data';
@@ -116,9 +116,8 @@ export function DriverReply({ tripId, changesetId }: { tripId: string; changeset
           confirm={confirm}
         />
       ) : providerId === null || quoteTerms(reply) === null ? null : (
-        <PillButton
+        <Button
           variant="secondary"
-          block
           label={t({ id: 'drivers.replied.pick', message: `Pick ${driverName} at this price` })}
           onPress={() =>
             router.push(

@@ -1,45 +1,46 @@
 /**
- * The overview's SHARE pill slot. It stays empty until the read-only share link registers what
- * goes here, so the header never offers a share that does nothing.
+ * The plan share sheet's slot: what other areas offer beside sending the plan (the read-only share
+ * link's Share pill, a driver or guide), in the order they registered. Empty until one registers,
+ * so the sheet never offers a share that does nothing.
  */
-import type { ComponentType } from 'react';
+import { Fragment, useSyncExternalStore, type ComponentType } from 'react';
 
 export interface PlanShareSlotProps {
   readonly tripId: string;
 }
 
-let slot: ComponentType<PlanShareSlotProps> | null = null;
+let slots: readonly ComponentType<PlanShareSlotProps>[] = [];
+const listeners = new Set<() => void>();
 
-/** Fills the slot (once, at startup); returns a function that empties it again. */
-export function registerPlanShareSlot(component: ComponentType<PlanShareSlotProps>): () => void {
-  slot = component;
-  return () => {
-    if (slot === component) slot = null;
-  };
+function changed(next: readonly ComponentType<PlanShareSlotProps>[]): void {
+  slots = next;
+  for (const listener of listeners) listener();
 }
 
-export function PlanShareSlot({ tripId }: PlanShareSlotProps) {
-  const Filled = slot;
-  return Filled === null ? null : <Filled tripId={tripId} />;
-}
-
-let premiumSlot: ComponentType<PlanShareSlotProps> | null = null;
-
-/** Fills the premium look's slot; returns a function that empties it again. */
+/** Adds an entry to the slot (once, at startup); returns a function that takes it out again. */
 export function registerPremiumPlanShareSlot(
   component: ComponentType<PlanShareSlotProps>,
 ): () => void {
-  premiumSlot = component;
+  if (!slots.includes(component)) changed([...slots, component]);
+  return () => changed(slots.filter((slot) => slot !== component));
+}
+
+function subscribe(listener: () => void): () => void {
+  listeners.add(listener);
   return () => {
-    if (premiumSlot === component) premiumSlot = null;
+    listeners.delete(listener);
   };
 }
 
-/**
- * The premium share sheet's slot: the premium entry once one registers, else the current one so
- * the share it offers is still there.
- */
 export function PremiumPlanShareSlot({ tripId }: PlanShareSlotProps) {
-  const Filled = premiumSlot ?? slot;
-  return Filled === null ? null : <Filled tripId={tripId} />;
+  const entries = useSyncExternalStore(subscribe, () => slots);
+  return (
+    <>
+      {entries.map((Entry, index) => (
+        <Fragment key={index}>
+          <Entry tripId={tripId} />
+        </Fragment>
+      ))}
+    </>
+  );
 }
