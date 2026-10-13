@@ -13,7 +13,7 @@ import { WalletHalfSwitchPremium } from '@/features/bookings';
 import { Button, OfflinePill, Skeleton, Text, usePremiumTheme } from '@/ui/premium';
 import { RootScreen, type ShellAction } from '@/ui/premium/shell';
 
-import { tripLabel } from '../balances/TripSheet';
+import { tripLabel } from '../balances/trip-label';
 import {
   balancesNav,
   useBalancesScreen,

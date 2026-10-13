@@ -10,7 +10,7 @@ import { Modal, Platform, ScrollView, StyleSheet, TextInput, View } from 'react-
 
 import { Button, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 
-import type { QueuedItemSheetProps } from '../../offline/queued-item-sheet';
+import type { QueuedItemSheetProps } from '../../offline/view-types';
 import type { QueueChange } from '../../offline/queue-actions';
 
 export function QueuedSheet(props: QueuedItemSheetProps) {

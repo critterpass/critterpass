@@ -11,7 +11,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { crewAccent } from '@/features/trip';
 import { Avatar, PressableScale, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 
-import { toggleMember, type MemberPickerProps } from '../../receipt/MemberPicker';
+import { toggleMember, type MemberPickerProps } from '../../receipt/member-pick';
 
 export function MemberPickerPremium({
   title,

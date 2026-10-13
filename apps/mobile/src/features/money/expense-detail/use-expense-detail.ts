@@ -11,7 +11,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { goBackOr } from '@/lib/navigation/back';
 import { useCommandFeedback } from '@/motion/island-toast';
 
-import { MONEY_FALLBACK } from '../components/screen-states';
+import { MONEY_FALLBACK } from '../routes';
 import { deleteExpenseCommand } from '../data/commands';
 import { memberName } from '../data/context';
 import { expenseItems } from '../data/expense-items';

@@ -11,26 +11,26 @@ import { goBackOr } from '@/lib/navigation/back';
 import { useCommandFeedback } from '@/motion/island-toast';
 
 import { pressKey } from '../add-expense/draft';
-import { MONEY_FALLBACK } from '../components/screen-states';
+import { MONEY_FALLBACK } from '../routes';
 import { addExpenseCommand } from '../data/commands';
 import type { MoneyContext } from '../data/use-money-context';
-import { MemberPicker, type MemberPickerProps } from './MemberPicker';
+import type { MemberPickerProps } from './member-pick';
 import type { ParsedReceipt } from './review-model';
-import { TypeLinesEditor, type TypeLinesEditorProps } from './TypeLinesEditor';
+import type { TypeLinesEditorProps } from './view-types';
 import { prefillLines, typedPayload, typedShares, type TypedLine } from './type-lines-model';
 
 export function TypeLinesScreen({
   ctx,
   parsed,
-  Editor = TypeLinesEditor,
-  Picker = MemberPicker,
+  Editor,
+  Picker,
 }: {
   readonly ctx: MoneyContext;
   readonly parsed: ParsedReceipt | null;
   readonly receiptId: string | null;
-  /** Draws the editor and the who-had-it picker in another look. */
-  readonly Editor?: ComponentType<TypeLinesEditorProps>;
-  readonly Picker?: ComponentType<MemberPickerProps>;
+  /** The editor and the who-had-it picker the scan's look draws. */
+  readonly Editor: ComponentType<TypeLinesEditorProps>;
+  readonly Picker: ComponentType<MemberPickerProps>;
 }) {
   const { t } = useLingui();
   const { report } = useCommandFeedback();

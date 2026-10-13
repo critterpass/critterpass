@@ -30,7 +30,7 @@ import { daysBackOf } from '../add-expense/spent-day';
 import { sharesByMember, type SplitEditorMode } from '../add-expense/draft';
 import { useAddExpense } from '../add-expense/use-add-expense';
 import { CATEGORY_ORDER, useCategoryLabel } from '../components/category';
-import { MONEY_FALLBACK } from '../components/screen-states';
+import { MONEY_FALLBACK } from '../routes';
 import { formatPlain, symbolOf } from '../format';
 import { AmountKeypad } from './components/AmountKeypad';
 import { ChoiceStrip } from './components/ChoiceStrip';

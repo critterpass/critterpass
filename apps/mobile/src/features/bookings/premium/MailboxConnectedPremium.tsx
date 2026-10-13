@@ -17,7 +17,7 @@ import {
   useMailboxConnect,
   useMailboxOutcomeCopy,
   type MailboxOutcome,
-} from '../mailbox/MailboxConnectedScreen';
+} from '../mailbox/mailbox-connect';
 import type { MailboxReturn } from '../mailbox/oauth';
 import { BOOKINGS_ROUTES } from '../routes';
 

@@ -1,8 +1,7 @@
-import type { QueuedItemSheetProps } from './queued-item-sheet';
+import type { QueueChange } from './queue-actions';
 import type { RejectedCommand } from '@/data/status/use-rejected-commands';
 import type { GuideId } from '@/ui/people/GuideLine';
 import type { MessageDescriptor } from '@lingui/core';
-import type { ReactNode } from 'react';
 
 export interface OfflineViewProps {
   readonly card: OfflineCardProps;
@@ -18,8 +17,7 @@ export interface OfflineViewProps {
   readonly onOpenPlan: (() => void) | null;
   readonly onOpenSend: (opId: string) => void;
   readonly onDismissConflict: (opId: string) => void;
-  readonly sheet?: ReactNode;
-  /** The waiting write opened from the sends list, for a UI that draws its own sheet. */
+  /** The waiting write opened from the sends list. */
   readonly queued?: QueuedItemSheetProps | null;
 }
 
@@ -45,4 +43,15 @@ export interface OfflineCardProps {
   readonly line: string;
   readonly chip: SignalChip;
   readonly guide: GuideId;
+}
+
+/** One waiting write opened from the sends list: what it is, since when, and what can change. */
+export interface QueuedItemSheetProps {
+  readonly summary: MessageDescriptor;
+  readonly since: string;
+  /** A chat message's text when the write is one (it can be changed). */
+  readonly body: string | null;
+  readonly onCancel: () => Promise<QueueChange>;
+  readonly onEdit: (body: string) => Promise<QueueChange>;
+  readonly onClose: () => void;
 }

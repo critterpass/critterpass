@@ -45,7 +45,6 @@ import {
 import { stillWorksLines } from './offline-copy';
 import type { OfflineViewProps } from './view-types';
 import { cancelQueued, editQueuedMessage, queuedMessageBody, SEND_MESSAGE } from './queue-actions';
-import { QueuedItemSheet } from './queued-item-sheet';
 import { INITIAL_RECONNECT, stepReconnect, travellerActions } from './reconnect-sequence';
 
 /** "Back online" stays up while the last ticks and SENT flaps land, then the banner lifts. */
@@ -213,16 +212,5 @@ export function useOffline(
             onEdit: (body: string) => editQueuedMessage(db, open.opId, body),
             onClose: () => setOpen(null),
           },
-    sheet:
-      open === null ? null : (
-        <QueuedItemSheet
-          summary={queue.find((op) => op.opId === open.opId)?.summary ?? GONE}
-          since={clockIn(open.since, tz, locale)}
-          body={open.body}
-          onCancel={() => cancelQueued(db, open.opId)}
-          onEdit={(body) => editQueuedMessage(db, open.opId, body)}
-          onClose={() => setOpen(null)}
-        />
-      ),
   };
 }

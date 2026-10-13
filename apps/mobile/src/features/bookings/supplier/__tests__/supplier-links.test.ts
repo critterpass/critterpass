@@ -18,7 +18,7 @@ import {
   type PartnerLinkDeps,
 } from '../data/partner-link';
 import { remainingLabel } from '../HoldTimer';
-import { parsePaymentMessage } from '../PaymentWebView';
+import { parsePaymentMessage } from '../payment-page';
 
 function deps(online: SendResult, queued: SendResult = { kind: 'queued', opId: 'q' }) {
   const log: string[] = [];

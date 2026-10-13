@@ -2,6 +2,7 @@
 import { useMemo } from 'react';
 
 import { registerBookingsScreens } from '@/features/bookings/routes';
+import { WALLET_HALF_OPTIONS } from '@/features/bookings/stack/wallet-halves';
 import { deviceMoneyServices } from '@/features/money/data/device-services';
 import { MoneyServicesProvider } from '@/features/money/data/services';
 import { registerMoneyScreens } from '@/features/money/routes';
@@ -13,9 +14,6 @@ import { getOcr } from '../../../../modules/cp-ocr';
 
 registerMoneyScreens();
 registerBookingsScreens();
-
-/** The halves swap in place: no transition, no back swipe. */
-const HALF_OPTIONS = { animation: 'none', gestureEnabled: false } as const;
 
 export const unstable_settings = { initialRouteName: 'money/index' };
 
@@ -32,8 +30,8 @@ export default function WalletLayout() {
     <LocalFirstGate>
       <MoneyServicesProvider services={services}>
         <PremiumStack>
-          <PremiumStackScreen name="money/index" options={HALF_OPTIONS} />
-          <PremiumStackScreen name="bookings" options={HALF_OPTIONS} />
+          <PremiumStackScreen name="money/index" options={WALLET_HALF_OPTIONS} />
+          <PremiumStackScreen name="bookings" options={WALLET_HALF_OPTIONS} />
           <PremiumStackScreen name="money/currency" options={sheetRouteOptions('half')} />
           <PremiumStackScreen name="money/trip" options={sheetRouteOptions('half')} />
         </PremiumStack>

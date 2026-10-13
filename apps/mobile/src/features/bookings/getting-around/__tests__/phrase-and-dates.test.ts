@@ -8,7 +8,7 @@ import { setupI18n, type Messages } from '@lingui/core';
 import { loadCatalog } from '@cp/i18n';
 
 import { durationMessage } from '../duration';
-import { formatCheckedDate } from '../EstimateSheet';
+import { formatCheckedDate } from '../checked-date';
 import { glossMessage } from '../phrase';
 
 /** Placeholder names a compiled message uses (`["place"]` tokens, at any depth). */

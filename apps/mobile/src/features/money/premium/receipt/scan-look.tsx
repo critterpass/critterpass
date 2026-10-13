@@ -11,7 +11,7 @@ import { goBackOr } from '@/lib/navigation/back';
 import { EmptyState, Skeleton, usePremiumTheme } from '@/ui/premium';
 import { FullScreen } from '@/ui/premium/shell';
 
-import { MONEY_FALLBACK } from '../../components/screen-states';
+import { MONEY_FALLBACK } from '../../routes';
 import type { ScanLook } from '../../receipt/ScanScreen';
 import { MemberPickerPremium } from './MemberPickerPremium';
 import { ScanViewPremium } from './ScanViewPremium';

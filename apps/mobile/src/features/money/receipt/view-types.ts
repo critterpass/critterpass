@@ -1,3 +1,5 @@
+import type { KeypadKey } from '@/ui/inputs/Keypad';
+import type { TypedLine } from './type-lines-model';
 import type { MoneyMember } from '../data/context';
 import type { ReaderQualityIssue } from '../data/services';
 import type { SweepLine } from './ScanSweep';
@@ -68,5 +70,22 @@ export interface LineAssignSheetProps {
   readonly onLine: (lineId: string) => void;
   readonly onKeepTotal: (keep: boolean) => void;
   readonly onPayer: () => void;
+  readonly onCommit: () => void;
+}
+
+export interface TypeLinesEditorProps {
+  readonly lines: readonly TypedLine[];
+  readonly currency: string;
+  readonly totalMinor: bigint | null;
+  readonly focus: string | null;
+  readonly whoLabel: (line: TypedLine) => string;
+  readonly payerName: string;
+  readonly canCommit: boolean;
+  readonly committing: boolean;
+  readonly onFocus: (lineId: string) => void;
+  readonly onLabel: (lineId: string, label: string) => void;
+  readonly onKey: (key: KeypadKey) => void;
+  readonly onWho: (lineId: string) => void;
+  readonly onAddLine: () => void;
   readonly onCommit: () => void;
 }
