@@ -6,9 +6,11 @@
  */
 import { DRIVER_TAGS, DRIVER_VERDICTS, type DriverVerdict } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { crewAccent, turn } from '@/features/trip';
+import { shortName } from '@/lib/people/member-name';
 import {
   Avatar,
   Button,
@@ -18,7 +20,7 @@ import {
   TextField,
   usePremiumTheme,
 } from '@/ui/premium';
-import { KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
+import { KeyboardAwareScroll, KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
 
 import { TAG_LABELS, VERDICT_LABELS } from '../rating/labels';
 import { useRateDriver } from '../rating/use-rate-driver';
@@ -26,6 +28,7 @@ import { useRateDriver } from '../rating/use-rate-driver';
 export function RateDriverPremium(input: { readonly tripId: string; readonly providerId: string }) {
   const th = usePremiumTheme();
   const { t, i18n } = useLingui();
+  const insets = useSafeAreaInsets();
   const rate = useRateDriver(input);
   const back = t({ id: 'drivers.rate.back', message: 'Our drivers' });
   if (rate.kind !== 'ready') {
@@ -69,6 +72,9 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
   }
   const p = rate.props;
   const name = p.name;
+  const called = shortName(name);
+  // The footer clears the home indicator while the keyboard is down and sits a gap above it up.
+  const footerPad = Math.max(insets.bottom, th.space.gap12);
   const days = p.days
     .map((day) => t({ id: 'drivers.rate.day', message: `Day ${day}` }))
     .join(' + ');
@@ -79,10 +85,8 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
       scroll={false}
       testID="drivers-rate"
     >
-      <ScrollView
-        keyboardDismissMode="interactive"
-        keyboardShouldPersistTaps="handled"
-        contentInsetAdjustmentBehavior="automatic"
+      <KeyboardAwareScroll
+        bottomOffset={th.size.button + th.space.gap12 + th.space.gap16}
         contentContainerStyle={[
           styles.body,
           { paddingHorizontal: th.space.gutter, gap: th.space.gap14 },
@@ -109,12 +113,12 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
           )}
         </View>
         <Text variant="largeTitle" accessibilityRole="header">
-          {t({ id: 'drivers.premium.howWas', message: `How was ${name}?` })}
+          {t({ id: 'drivers.premium.howWas', message: `How was ${called}?` })}
         </Text>
         <Text variant="rowText" tone="muted">
           {t({
             id: 'drivers.rate.intro',
-            message: `Your crew's rating and tags go on ${name}'s listing if he's listed. Nothing about you does.`,
+            message: `Your crew's rating and tags go on ${called}'s listing if he's listed. Nothing about you does.`,
           })}
         </Text>
         <View style={styles.verdicts} accessibilityRole="radiogroup">
@@ -155,14 +159,14 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
         />
         {p.onInvite === null ? null : (
           <TextButton
-            label={t({ id: 'drivers.rate.invite', message: `Invite ${name} to be listed` })}
+            label={t({ id: 'drivers.rate.invite', message: `Invite ${called} to be listed` })}
             onPress={p.onInvite}
             testID="drivers-rate-invite"
           />
         )}
-      </ScrollView>
-      <KeyboardStickyFooter>
-        <View style={{ paddingHorizontal: th.space.titleGutter, paddingBottom: th.space.gap12 }}>
+      </KeyboardAwareScroll>
+      <KeyboardStickyFooter openedOffset={th.space.gap12 - footerPad}>
+        <View style={{ paddingHorizontal: th.space.titleGutter, paddingBottom: footerPad }}>
           <Button
             label={
               p.saved

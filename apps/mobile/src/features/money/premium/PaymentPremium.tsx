@@ -7,7 +7,8 @@
  */
 import type { PaymentMethod } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { amountText } from '@/data/money/amount-digits';
 import { PrivateContent } from '@/features/help';
@@ -23,7 +24,7 @@ import {
   TextField,
   usePremiumTheme,
 } from '@/ui/premium';
-import { KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
+import { KeyboardAwareScroll, KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
 
 import { formatAmountShown } from '../format';
 import { usePayoutKindLabel } from '../settle/payout-labels';
@@ -126,6 +127,9 @@ export function PaymentPremium({
   readonly tripId?: string | null;
 }) {
   const th = usePremiumTheme();
+  const insets = useSafeAreaInsets();
+  // Clears the home indicator with the keyboard down, and sits a gap above the keyboard when up.
+  const footerPad = Math.max(insets.bottom, th.space.gap12);
   const { t } = useLingui();
   const locale = useLocale();
   const pay = usePayment(id, tripId);
@@ -160,10 +164,8 @@ export function PaymentPremium({
   const amount = formatAmountShown(row.amountMinor, row.currency, locale);
   return (
     <PushScreen title={title} backLabel={title} scroll={false} testID="money-payment">
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        keyboardDismissMode="interactive"
-        keyboardShouldPersistTaps="handled"
+      <KeyboardAwareScroll
+        bottomOffset={th.size.button + th.space.gap12 + th.space.gap16}
         contentContainerStyle={{ paddingTop: 8, paddingBottom: 40, gap: th.space.gap16 }}
       >
         <View style={[styles.who, { paddingHorizontal: th.space.titleGutter }]}>
@@ -206,13 +208,13 @@ export function PaymentPremium({
           </Text>
         ) : null}
         {row.role === 'payee' ? <PaymentOwed pay={pay} /> : null}
-      </ScrollView>
+      </KeyboardAwareScroll>
       {paying ? (
-        <KeyboardStickyFooter>
+        <KeyboardStickyFooter openedOffset={th.space.gap12 - footerPad}>
           <View
             style={{
               paddingHorizontal: th.space.titleGutter,
-              paddingBottom: th.space.gap12,
+              paddingBottom: footerPad,
               gap: th.space.gap6,
             }}
           >
