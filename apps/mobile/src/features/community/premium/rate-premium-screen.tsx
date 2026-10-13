@@ -8,7 +8,8 @@
 import type { PlaceVerdict } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useRouter } from 'expo-router';
-import { ScrollView, View } from 'react-native';
+import { useState } from 'react';
+import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { guideSticker } from '@/ui/avatar/guides';
@@ -25,7 +26,7 @@ import {
   TextField,
   usePremiumTheme,
 } from '@/ui/premium';
-import { KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
+import { KeyboardAwareScroll, KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
 
 import { TIP_LIMIT } from '../rate/rate-model';
 import { useRateTrip } from '../rate/use-rate-trip';
@@ -35,6 +36,7 @@ const GECKO = guideSticker(null);
 
 export function RatePremiumScreen({ tripId }: { readonly tripId: string }) {
   const th = usePremiumTheme();
+  const [footerHeight, setFooterHeight] = useState(0);
   const { t } = useLingui();
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -62,10 +64,9 @@ export function RatePremiumScreen({ tripId }: { readonly tripId: string }) {
       scroll={false}
       testID="rate-trip"
     >
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        keyboardDismissMode="interactive"
-        keyboardShouldPersistTaps="handled"
+      {/* The focused note stays clear of the docked footer above the keys. */}
+      <KeyboardAwareScroll
+        bottomOffset={footerHeight + th.space.gap16}
         contentContainerStyle={{
           paddingHorizontal: th.space.gutter,
           paddingBottom: th.space.gap16,
@@ -202,9 +203,10 @@ export function RatePremiumScreen({ tripId }: { readonly tripId: string }) {
             testID={`rate-rejected-${card.poi_id}`}
           />
         ))}
-      </ScrollView>
+      </KeyboardAwareScroll>
       <KeyboardStickyFooter>
         <View
+          onLayout={(e) => setFooterHeight(e.nativeEvent.layout.height)}
           style={{
             paddingHorizontal: th.space.gutter,
             paddingTop: th.space.gap8,

@@ -6,8 +6,8 @@
  * with words or pictures asks before it is dropped.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useEffect } from 'react';
-import { ScrollView, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -20,7 +20,12 @@ import {
   Toggle,
   usePremiumTheme,
 } from '@/ui/premium';
-import { confirmAlert, KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
+import {
+  confirmAlert,
+  KeyboardAwareScroll,
+  KeyboardStickyFooter,
+  PushScreen,
+} from '@/ui/premium/shell';
 
 import { useFeedbackLabels } from '../feedback/labels';
 import { useFeedbackForm } from '../feedback/use-feedback-form';
@@ -28,6 +33,7 @@ import { MoodPicker, PicturesRow, TopicChips } from './feedback-premium-parts';
 
 export function FeedbackPremiumScreen() {
   const th = usePremiumTheme();
+  const [footerHeight, setFooterHeight] = useState(0);
   const { t } = useLingui();
   const insets = useSafeAreaInsets();
   const form = useFeedbackForm();
@@ -71,10 +77,9 @@ export function FeedbackPremiumScreen() {
       scroll={false}
       testID="help-feedback"
     >
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        keyboardDismissMode="interactive"
-        keyboardShouldPersistTaps="handled"
+      {/* The focused note stays clear of the docked footer above the keys. */}
+      <KeyboardAwareScroll
+        bottomOffset={footerHeight + th.space.gap16}
         contentContainerStyle={{
           paddingHorizontal: th.space.gutter,
           paddingBottom: th.space.gap16,
@@ -145,9 +150,10 @@ export function FeedbackPremiumScreen() {
             }
           />
         </ListCard>
-      </ScrollView>
+      </KeyboardAwareScroll>
       <KeyboardStickyFooter>
         <View
+          onLayout={(e) => setFooterHeight(e.nativeEvent.layout.height)}
           style={{
             paddingHorizontal: th.space.gutter,
             paddingTop: th.space.gap8,
