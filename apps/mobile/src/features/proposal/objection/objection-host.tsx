@@ -5,7 +5,7 @@
  */
 import type { PrivateReason } from '@cp/domain';
 import { t } from '@lingui/core/macro';
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { toast } from '@/motion';
@@ -19,6 +19,7 @@ import {
   ObjectionSheetView,
   type ObjectionAnswer,
   type ObjectionSheetProps,
+  type ObjectionSheetViewProps,
 } from './objection-sheet';
 import { followUpAt, parseOptions, type FollowUp } from './options';
 
@@ -36,7 +37,13 @@ function laterDone(later: FollowUp): string {
   }
 }
 
-export function ObjectionSheet(props: ObjectionSheetProps) {
+export function ObjectionSheet({
+  View: Look = ObjectionSheetView,
+  ...props
+}: ObjectionSheetProps & {
+  /** How the sheet is drawn; the commands stay here. @default the current look */
+  readonly View?: ComponentType<ObjectionSheetViewProps>;
+}) {
   const submit = useCommand(submitPrivateReasonCommand);
   const choose = useCommand(choosePrivateOptionCommand);
   const followup = useCommand(scheduleFollowupCommand);
@@ -57,7 +64,7 @@ export function ObjectionSheet(props: ObjectionSheetProps) {
   };
 
   return (
-    <ObjectionSheetView
+    <Look
       {...props}
       reason={reason}
       answer={answer}
