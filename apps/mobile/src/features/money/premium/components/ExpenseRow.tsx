@@ -7,6 +7,7 @@ import { useLingui } from '@lingui/react/macro';
 import { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { PrivateContent } from '@/features/help';
 import { homeEquivalent, useMoneyDisplay } from '@/data/money';
 import { IconTile } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -78,16 +79,20 @@ export const ExpenseRow = memo(function ExpenseRow({
           <Text variant="rowTitle" numberOfLines={2}>
             {title}
           </Text>
-          <Text variant="captionMuted" tone="muted" numberOfLines={2}>
-            {parts.join(' · ')}
-          </Text>
+          <PrivateContent>
+            <Text variant="captionMuted" tone="muted" numberOfLines={2}>
+              {parts.join(' · ')}
+            </Text>
+          </PrivateContent>
         </View>
-        <Text
-          variant="rowTitle"
-          style={[styles.amount, item.pending === 'delete' ? styles.struck : null]}
-        >
-          {amount}
-        </Text>
+        <PrivateContent>
+          <Text
+            variant="rowTitle"
+            style={[styles.amount, item.pending === 'delete' ? styles.struck : null]}
+          >
+            {amount}
+          </Text>
+        </PrivateContent>
       </View>
     </PressableScale>
   );

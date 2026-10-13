@@ -10,6 +10,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { ScrollView, Share, StyleSheet, useWindowDimensions, View } from 'react-native';
 
+import { PrivateContent } from '@/features/help';
 import { goBackOr } from '@/lib/navigation/back';
 import {
   GlassIconButton,
@@ -130,18 +131,22 @@ function PassCard({ bookingId }: { readonly bookingId: string }) {
       {stub.length === 0 ? null : <Stub fields={stub} />}
       <View style={[styles.divider, { borderColor: th.color.fieldBorder }]} />
       <View style={styles.codeWrap}>
-        <PassCode
-          payload={pass.payload}
-          size={code}
-          missing={t({
-            id: 'bookings.pass.noCode',
-            message: 'No code saved yet. It saves when this phone next has signal.',
-          })}
-        />
+        <PrivateContent>
+          <PassCode
+            payload={pass.payload}
+            size={code}
+            missing={t({
+              id: 'bookings.pass.noCode',
+              message: 'No code saved yet. It saves when this phone next has signal.',
+            })}
+          />
+        </PrivateContent>
         {booking?.supplierRef == null ? null : (
-          <Text variant="mono" tone="muted">
-            {booking.supplierRef}
-          </Text>
+          <PrivateContent>
+            <Text variant="mono" tone="muted">
+              {booking.supplierRef}
+            </Text>
+          </PrivateContent>
         )}
       </View>
     </View>

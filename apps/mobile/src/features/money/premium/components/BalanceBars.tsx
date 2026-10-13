@@ -13,6 +13,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { PrivateContent } from '@/features/help';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   Card,
@@ -132,7 +133,9 @@ export function BalanceBars({
                   setValueWidth((current) => Math.max(current, width));
                 }}
               >
-                <RollingAmount text={value} variant="rowTextStrong" color={color} />
+                <PrivateContent>
+                  <RollingAmount text={value} variant="rowTextStrong" color={color} />
+                </PrivateContent>
               </View>
             </View>
           </PressableScale>
