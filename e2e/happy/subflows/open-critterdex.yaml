@@ -1,24 +1,29 @@
 appId: app.critterpass.dev
 ---
 # Opens the Critterdex (8.01) from the PASS tab: the pass's Critterdex row pushes it. Ends on the
-# dex with its header (the catalogue synced).
+# dex with its header (the catalogue synced); a dex already open is left as it is.
 - runFlow:
-    file: ../../_shared/tab.yaml
-    env:
-      TAB: pass
-      LABEL: Pass
-- extendedWaitUntil:
-    visible:
-      id: 'you-profile'
-    timeout: 30000
-- scrollUntilVisible:
-    element:
-      id: 'you-profile-critterdex'
-    direction: DOWN
-    timeout: 15000
-- tapOn:
-    id: 'you-profile-critterdex'
-- extendedWaitUntil:
-    visible:
-      id: 'critters-dex-header'
-    timeout: 60000
+    when:
+      notVisible:
+        id: 'critters-dex|critters-dex-header'
+    commands:
+      - runFlow:
+          file: ../../_shared/tab.yaml
+          env:
+            TAB: pass
+            LABEL: Pass
+      - extendedWaitUntil:
+          visible:
+            id: 'you-profile'
+          timeout: 30000
+      - scrollUntilVisible:
+          element:
+            id: 'you-profile-critterdex'
+          direction: DOWN
+          timeout: 15000
+      - tapOn:
+          id: 'you-profile-critterdex'
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-dex-header'
+          timeout: 60000

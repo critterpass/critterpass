@@ -130,7 +130,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - takeScreenshot: premium-5.04-walk-reply-and-reaction-vi
 
-# A long message wraps; scrolled back, the jump returns to the latest.
+# A long message wraps.
 - tapOn:
     id: 'chat-input'
 - inputText: 'Landing 09:40 on VN123, taxi to the old '
@@ -146,20 +146,27 @@ appId: app.critterpass.dev
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: premium-5.01-walk-long-sent-keyboard-vi
+# Scrolled back, the jump returns to the latest; it only shows once the newest message is out of
+# view, which a chat this short reaches only on a small screen.
 - swipe:
     start: 50%, 22%
     end: 50%, 48%
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'chat-jump-latest'
+    commands:
+      - takeScreenshot: premium-5.01-walk-scrolled-back-keyboard-vi
+      - tapOn:
+          id: 'chat-jump-latest'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'chat-jump-latest'
+          timeout: 10000
 - extendedWaitUntil:
     visible:
-      id: 'chat-jump-latest'
-    timeout: 10000
-- waitForAnimationToEnd
-- takeScreenshot: premium-5.01-walk-scrolled-back-keyboard-vi
-- tapOn:
-    id: 'chat-jump-latest'
-- extendedWaitUntil:
-    notVisible:
-      id: 'chat-jump-latest'
+      text: '.*Landing 09:40.*'
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: premium-5.01-walk-back-at-latest-keyboard-vi
@@ -180,7 +187,13 @@ appId: app.critterpass.dev
       - waitForAnimationToEnd
       - takeScreenshot: premium-5.01-walk-vietnamese-sent-keyboard-vi
 
-- hideKeyboard
+# The scroll back put the keyboard away on Android, where hideKeyboard with no keyboard up would
+# press back and leave the chat.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: premium-5.01-walk-keyboard-closed-vi
 - tapOn:

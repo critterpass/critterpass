@@ -106,12 +106,9 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'trip-day-pack-add'
-- extendedWaitUntil:
-    visible:
-      id: 'trip-day-pack-field'
-    timeout: 10000
-- tapOn:
-    id: 'trip-day-pack-field'
+# The field takes the focus as it opens (the keyboard can cover it).
+- waitForAnimationToEnd:
+    timeout: 3000
 - runFlow:
     file: subflows/type-pack-item.yaml
     env:

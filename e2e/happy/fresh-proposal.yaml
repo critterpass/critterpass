@@ -75,15 +75,26 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'objection-reason-cost'
+# The guide answers with what it can move, or that nothing moves the cost for one person.
 - extendedWaitUntil:
     visible:
-      id: 'objection-later'
+      id: 'objection-later|objection-none'
     timeout: 30000
 - waitForAnimationToEnd
-- takeScreenshot: en-3f-4-not-sure
-# "Ask me on Sunday" closes the sheet (and schedules the nudge).
-- tapOn:
-    id: 'objection-later'
+- takeScreenshot: premium-4.51-not-sure-light
+- runFlow:
+    when:
+      visible:
+        id: 'objection-later'
+    commands:
+      - tapOn:
+          id: 'objection-later'
+- runFlow:
+    when:
+      visible:
+        id: 'objection-sheet|objection-none'
+    commands:
+      - runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'version-in'

@@ -68,7 +68,7 @@ appId: app.critterpass.dev
 - runFlow:
     when:
       notVisible:
-        id: 'critters-dex'
+        id: 'critters-dex|critters-dex-header'
     commands:
       - runFlow: subflows/open-critterdex.yaml
 - scrollUntilVisible:
@@ -106,7 +106,7 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             notVisible:
-              id: 'critters-dex'
+              id: 'critters-dex|critters-dex-header'
           commands:
             - runFlow: subflows/open-critterdex.yaml
       - scrollUntilVisible:
