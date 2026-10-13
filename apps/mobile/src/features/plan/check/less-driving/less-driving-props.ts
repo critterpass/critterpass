@@ -1,4 +1,4 @@
-import { type SketchPoint } from '@/ui/planning';
+import { type SketchPoint } from '@/ui/premium/planning/planning-shapes';
 
 export interface OrderRow {
   readonly key: string;

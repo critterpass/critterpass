@@ -11,7 +11,7 @@ jest.unmock('expo-router');
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { router, useLocalSearchParams } from 'expo-router';
+import { router, Slot, useLocalSearchParams } from 'expo-router';
 import { Stack } from 'expo-router/js-stack';
 import { Pressable, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -27,14 +27,14 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { AnalyticsProvider, type AnalyticsClient } from '@/lib/analytics';
 import { ThemeProvider } from '@/lib/theme';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
-import { ShellTabs } from '@/ui/shell/ShellTabs';
 
 import { MoneyServicesProvider, NO_MONEY_SERVICES } from '../../data/services';
 import { ScanScreen } from '../../receipt/ScanScreen';
 import { editExpenseRoute, expenseRoute, MONEY_ROUTES } from '../../routes';
 import { AddExpensePremium } from '../../premium/AddExpensePremium';
 
-// Imported last: see ui/shell/__tests__/tab-bar.test.tsx for why.
+// Imported last: the testing library registers its own Reanimated mock, which cannot load
+// under this app's Jest setup (jest.config.js); everything above already loaded the app's.
 import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';
 
 const MAYA = '0199a6f0-0000-7000-8000-00000000d002';
@@ -211,7 +211,7 @@ async function openApp(options: { initialUrl?: string; lunch?: boolean } = {}) {
   const app = renderRouter(
     {
       _layout: Root,
-      '(tabs)/_layout': () => <ShellTabs gated={false} />,
+      '(tabs)/_layout': () => <Slot />,
       '(tabs)/index': () => <Text>home</Text>,
       '(tabs)/wallet/_layout': PushStack,
       '(tabs)/wallet/money/index': Money,

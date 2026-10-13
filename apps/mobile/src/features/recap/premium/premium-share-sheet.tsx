@@ -23,7 +23,7 @@ import {
   shareViaSystemSheet,
   type ShareActionsDeps,
 } from '@/lib/share-image/share-actions';
-import { SHARE_SIZE, type ShareFormat } from '@/ui/share-image/ShareSheet';
+import { SHARE_SIZE, type ShareFormat } from '@/lib/share-image/share-format';
 
 type Drawn =
   | { readonly status: 'drawing' }

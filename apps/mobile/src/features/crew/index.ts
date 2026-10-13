@@ -23,7 +23,6 @@ export {
 export { WaitlistSheet } from './seat-limit/WaitlistSheet';
 export { Doodle, type DoodleName } from './premium/chat/doodle';
 export { crewAccent } from './premium/crew-colour';
-export { registerChatCard, type ChatCardRenderer } from './chat/cards/registry';
 export {
   registerPremiumChatCard,
   type ChatCardProps,

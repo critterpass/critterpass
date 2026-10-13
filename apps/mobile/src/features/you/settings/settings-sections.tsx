@@ -6,7 +6,7 @@
 import { useLingui } from '@lingui/react/macro';
 
 import { useMapsAppRow, type MapsApp } from '@/features/go';
-import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
+import type { SettingsRow } from '@/ui/premium/cards/settings-row';
 
 import { useAccountRows, type AccountRowsState } from './account-rows';
 import { helpRows } from './help-rows';

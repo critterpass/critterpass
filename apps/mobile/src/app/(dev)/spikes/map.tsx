@@ -5,8 +5,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import daNangDarkStyleJson from '../../../../../../tools/spikes/tiles/style/da-nang-dark.json';
-import { Scaffold, Text, useTheme } from '@/ui';
-import { PillButton } from '@/ui/buttons/PillButton';
+import { PillButton, Scaffold, Text, useTheme } from '@/features/dev-tools/dev-kit';
 
 // The style JSON is authored as plain JSON (tools/spikes/tiles/README.md), so its `version`
 // field is a plain `number` to TypeScript; MapLibre's `StyleSpecification` requires the literal

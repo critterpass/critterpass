@@ -1,7 +1,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- category keys and folded search words, never copy. */
 import type { PoiCategory } from '@cp/domain';
 import { t } from '@lingui/core/macro';
-import type { DoodleName } from '@/ui/icons/generated';
+import type { DoodleName } from '@/ui/premium/icons/doodles/generated';
 
 export interface BrowseTile {
   readonly key: string;

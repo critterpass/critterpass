@@ -3,7 +3,7 @@ import { getAlarmPort } from '../../../modules/cp-alarm';
 import { provideAlarmCanceller } from '@/features/you/account/device-wipe';
 import { sheetRouteOptions } from '@/ui/premium/shell';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
-import { SessionGate } from '@/ui/states/SessionGate';
+import { SessionGate } from '@/ui/premium/shell/session-gate';
 
 // Signing out and deleting the account end in a cleared phone, leave-by alarms included.
 provideAlarmCanceller(getAlarmPort());

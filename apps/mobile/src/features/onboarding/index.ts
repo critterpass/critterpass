@@ -5,7 +5,6 @@
 export { tagWords, type TagWords } from './taste/tag-labels';
 export { clearPassDraft } from './flow-controller/draft-store';
 export { regionName } from './region-names';
-export { CountryPicker } from './phone/CountryPicker';
 export { countryList } from './phone/phone-number';
 export { useTasteQuiz } from './taste/use-taste-quiz';
 export { cardArt } from './taste/card-art';

@@ -25,6 +25,6 @@ export { nudgeOutcome, useNudge, type NudgeOutcome } from './nudge/use-nudge';
 export { shareRelay } from './nudge/share-relay';
 export { sendNudgeCommand } from './home-commands';
 export { homeRoutes, HOME_ROUTES } from './routes';
-export { PostTripCard } from './post-trip-card';
 export { useWidgetSync } from './widget-gallery/use-widget-sync';
 export { useCrewDirectorySync } from './widget-gallery/use-crew-directory-sync';
+export { CrewSwitcherMenu } from './premium/crew-switcher/crew-switcher-menu';

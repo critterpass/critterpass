@@ -24,11 +24,11 @@ import {
 import { homeWithNotice } from '@/lib/links/route-map';
 import { ThemeProvider } from '@/lib/theme';
 import { toastQueue } from '@/motion/island-toast';
-import { ShellTabs } from '@/ui/shell/ShellTabs';
 
 import RootIndex from '../index';
 
-// Imported last: see ui/shell/__tests__/tab-bar.test.tsx for why.
+// Imported last: the testing library registers its own Reanimated mock, which cannot load
+// under this app's Jest setup (jest.config.js); everything above already loaded the app's.
 import { act, renderRouter, screen, waitFor } from 'expo-router/testing-library';
 
 jest.mock('@/ui/premium/stickers/art/Sticker', () => {
@@ -74,7 +74,7 @@ async function coldStart(initialUrl: string) {
     {
       _layout: TestRoot,
       index: RootIndex,
-      '(tabs)/_layout': () => <ShellTabs gated={false} />,
+      '(tabs)/_layout': () => <Slot />,
       '(tabs)/index': HomeTab,
       '(tabs)/trips': () => <Text>trips screen</Text>,
     },

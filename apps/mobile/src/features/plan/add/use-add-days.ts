@@ -13,7 +13,7 @@ import type { TripPlan } from '@/data/plan/use-trip-plan';
 import { dayName } from '@/features/plan/day/format';
 import { dayTileColour } from '@/features/plan/overview/model/day-colour';
 import { chipWeekday, dayOfMonth } from '@/features/plan/trip-map/format';
-import type { DayChip } from '@/ui/planning';
+import type { DayChip } from '@/ui/premium/planning/planning-shapes';
 
 import type { AddDay } from './add-model';
 

@@ -1,5 +1,5 @@
 import { PremiumStack } from '@/ui/premium/shell';
-import { SessionGate } from '@/ui/states/SessionGate';
+import { SessionGate } from '@/ui/premium/shell/session-gate';
 
 /**
  * Critterdex pages pushed from the PASS tab (screens owned by the critters area); session-only. A

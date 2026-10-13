@@ -154,4 +154,3 @@ export function useSettingsModel(services: AccountServices = deviceAccountServic
     setChoosingCrewChat,
   };
 }
-

@@ -97,13 +97,13 @@ import { TouchQuietRoot } from '@/lib/interaction/touch-quiet';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { SharedGrowHost } from '@/ui/premium/shell/zoom/shared-grow';
-import { renderPremiumSessionWaiting } from '@/ui/premium';
+import { PremiumThemeProvider } from '@/ui/premium';
 import { PremiumRoot } from '@/ui/premium/shell/navigation/premium-root';
-import { PrimerSheetHost } from '@/ui/permission-primer';
+import { PrimerSheetHost } from '@/features/permissions';
 import { useNoBackAffordanceGuard } from '@/lib/qa/back-affordance';
 import { LaunchHatch } from '@/features/onboarding/hatch/LaunchHatch';
 import { PremiumRootErrorBoundary } from '@/features/home/premium/recovery/premium-error-boundary';
-import { SessionDatabaseProvider, SessionWaitingProvider } from '@/ui/states/SessionGate';
+import { SessionDatabaseProvider } from '@/ui/premium/shell/session-gate';
 import { FeedbackRuntime } from '@/features/help/feedback/device-outbox';
 import { ShakeToReport } from '@/features/help/shake/ShakeListener';
 import { LocationBridge, PermissionsBridge } from '@/features/session-bridges';
@@ -187,15 +187,13 @@ function RootNavigator() {
       .then(setLaunchUrl)
       .catch(() => setLaunchUrl(null));
   }, []);
-  useNavigationPersistence({ navigationRef, build: `${BUILD}:premium`, launchUrl });
+  useNavigationPersistence({ navigationRef, build: BUILD, launchUrl });
   useNoBackAffordanceGuard();
   useScreenTracking(useAnalytics());
   usePushNotifications(cpNotifications);
   return (
     <SessionDatabaseProvider value={databaseOpen}>
-      <SessionWaitingProvider value={renderPremiumSessionWaiting}>
-        <PremiumRoot toasts={toastQueue} />
-      </SessionWaitingProvider>
+      <PremiumRoot toasts={toastQueue} />
     </SessionDatabaseProvider>
   );
 }
@@ -264,25 +262,29 @@ export default function RootLayout() {
             >
               <TravelDataReaderProvider value={travelData}>
                 <MemberFacesRoot>
-                  <ScreenJoltProvider>
-                    <TouchQuietRoot>
-                      <RootNavigator />
-                    </TouchQuietRoot>
-                    <DeferredLinkGate
-                      primitives={deferredLinks}
-                      navigate={openHref}
-                      claims={deviceLinkClaims}
-                      onReady={() => setLinksReady(true)}
-                    />
-                    <SessionBridges />
-                    <PassSync writeAppGroupImage={writeImage} />
-                    <OverlayHost />
-                    <PrimerSheetHost />
-                    <SharedGrowHost />
-                    <DevToolsShake />
-                    <ShakeToReport />
-                    <Launch revealed={prewarmed && linksReady} />
-                  </ScreenJoltProvider>
+                  {/* The one root premium theme: the navigators and the sheets the app raises
+                      by itself (permission primers, visit consent) read the same appearance. */}
+                  <PremiumThemeProvider>
+                    <ScreenJoltProvider>
+                      <TouchQuietRoot>
+                        <RootNavigator />
+                      </TouchQuietRoot>
+                      <DeferredLinkGate
+                        primitives={deferredLinks}
+                        navigate={openHref}
+                        claims={deviceLinkClaims}
+                        onReady={() => setLinksReady(true)}
+                      />
+                      <SessionBridges />
+                      <PassSync writeAppGroupImage={writeImage} />
+                      <OverlayHost />
+                      <PrimerSheetHost />
+                      <SharedGrowHost />
+                      <DevToolsShake />
+                      <ShakeToReport />
+                      <Launch revealed={prewarmed && linksReady} />
+                    </ScreenJoltProvider>
+                  </PremiumThemeProvider>
                 </MemberFacesRoot>
               </TravelDataReaderProvider>
             </AppSessionRoot>

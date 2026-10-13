@@ -34,8 +34,3 @@ export function PremiumSessionWaiting({ testID }: { readonly testID?: string }) 
 const styles = StyleSheet.create({
   root: { flex: 1, justifyContent: 'flex-end' },
 });
-
-/** The premium wait as `SessionWaitingProvider` takes it, under the gate's test id. */
-export const renderPremiumSessionWaiting = (testID: string) => (
-  <PremiumSessionWaiting testID={testID} />
-);

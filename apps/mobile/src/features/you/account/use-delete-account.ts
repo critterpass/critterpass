@@ -135,4 +135,3 @@ export function useDeleteAccount(
     onKeep: () => goBackOr(YOU_ROUTES.settings),
   };
 }
-

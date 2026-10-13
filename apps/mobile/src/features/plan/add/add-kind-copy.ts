@@ -7,7 +7,7 @@ import type { DayFit } from '@cp/domain';
 import { kindTimeOf, kindWindows, minutesOutside, type FitPlace, type KindTime } from '@cp/planner';
 import { t } from '@lingui/core/macro';
 
-import type { Reason } from '@/ui/planning';
+import type { Reason } from '@/ui/premium/planning/planning-shapes';
 
 import { reasonTiles } from './add-copy';
 

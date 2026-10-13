@@ -12,8 +12,7 @@ import {
   vendorDraftRoute,
   vendorMessagesRoute,
 } from '@/features/bookings/supplier/routes';
-import { Stack, Text } from '@/ui';
-import { ListCard } from '@/ui/cards/ListCard';
+import { ListCard, Stack, Text } from '@/features/dev-tools/dev-kit';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.

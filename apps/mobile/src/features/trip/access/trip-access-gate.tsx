@@ -6,9 +6,12 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { useContext, type ReactNode } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
-import { ScreenMissing } from '@/ui/states/ScreenMissing';
+import { goBackOr } from '@/lib/navigation/back';
+import { Button, EmptyState } from '@/ui/premium';
+import { PushScreen } from '@/ui/premium/shell';
 
 import { TRIPS_TAB } from '../hub/routes';
 import { isTripId } from './trip-access';
@@ -16,17 +19,23 @@ import { useTripAccess } from './use-trip-access';
 
 function TripMissing() {
   const { t } = useLingui();
+  const back = t({ id: 'trip.missing.back', message: 'Trips' });
   return (
-    <ScreenMissing
-      backLabel={t({ id: 'trip.missing.back', message: 'Trips' })}
-      fallback={TRIPS_TAB}
-      title={t({ id: 'trip.missing.title', message: 'This trip isn’t here' })}
-      line={t({
-        id: 'trip.missing.line',
-        message: 'It may have been deleted, or you are no longer on it.',
-      })}
-      testID="trip-missing"
-    />
+    <PushScreen title="" backLabel={back} scroll={false} testID="trip-missing">
+      <View style={styles.body}>
+        <EmptyState
+          title={t({ id: 'trip.missing.title', message: 'This trip isn’t here' })}
+          line={t({
+            id: 'trip.missing.line',
+            message: 'It may have been deleted, or you are no longer on it.',
+          })}
+          check={false}
+          action={
+            <Button label={back} onPress={() => goBackOr(TRIPS_TAB)} testID="trip-missing-back" />
+          }
+        />
+      </View>
+    </PushScreen>
   );
 }
 
@@ -44,3 +53,5 @@ export function TripAccessGate(props: {
   if (localFirst === null) return props.children;
   return <Checked tripId={props.tripId}>{props.children}</Checked>;
 }
+
+const styles = StyleSheet.create({ body: { flex: 1, justifyContent: 'center' } });

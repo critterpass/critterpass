@@ -12,8 +12,8 @@ import { kindWord } from './search-rows';
 import type { PlainState } from './use-plain-search';
 import type { SearchTrip } from './use-search-trip';
 import { t } from '@lingui/core/macro';
-import type { DoodleName } from '@/ui/icons/generated';
-import { type FitTone } from '@/ui/planning';
+import type { DoodleName } from '@/ui/premium/icons/doodles/generated';
+import { type FitTone } from '@/ui/premium/planning/planning-shapes';
 
 function metaOf(place: PlainPlace): string | undefined {
   const parts: string[] = [];

@@ -9,8 +9,8 @@
 import { tokens } from '@cp/design-tokens';
 import type * as RNSkiaModule from '@shopify/react-native-skia';
 
-import { bundledTypeface } from '@/ui/share-image/bundled-typefaces';
-import { SHARE_SIZE, type ShareFormat } from '@/ui/share-image/ShareSheet';
+import { bundledTypeface } from '@/lib/share-image/bundled-typefaces';
+import { SHARE_SIZE, type ShareFormat } from '@/lib/share-image/share-format';
 import { renderStickerImage } from '@/ui/premium/stickers/art/export-png';
 import { getDefaultSkiaEngine } from '@/ui/premium/stickers/art/Sticker';
 

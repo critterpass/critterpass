@@ -1,6 +1,6 @@
 /**
  * Extracts the prototype's hand-drawn doodle icons (design/doodles.js, read-only) into static
- * vector path data for apps/mobile/src/ui/icons/generated. The prototype draws every icon at
+ * vector path data for apps/mobile/src/ui/premium/icons/doodles/generated. The prototype draws every icon at
  * runtime on a 2D canvas (Catmull-Rom splines → tapered brush ribbons with seeded wobble, offset
  * watercolour washes); this script runs that exact code headlessly, captures the op list its
  * `<doodle-art>` element builds, and bakes each op into an SVG path string that Skia draws as-is.
@@ -23,7 +23,7 @@ import { tokens } from '../../packages/design-tokens/src/index';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const SOURCE = path.join(ROOT, 'design/doodles.js');
-const OUT_DIR = path.join(ROOT, 'apps/mobile/src/ui/icons/generated');
+const OUT_DIR = path.join(ROOT, 'apps/mobile/src/ui/premium/icons/doodles/generated');
 const INK = '@ink';
 const ACCENT = '@accent';
 /** Thinnest brush width in viewBox units (the prototype's 1.05 device px at a 48 pt icon). */

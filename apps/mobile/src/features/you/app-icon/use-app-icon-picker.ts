@@ -111,4 +111,3 @@ export function useAppIconPicker(device: AppIconDevice) {
 
   return { model, switching, problem, choose };
 }
-

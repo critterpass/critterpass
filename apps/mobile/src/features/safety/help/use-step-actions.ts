@@ -7,9 +7,10 @@
 import type { ChecklistStep } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 
-import type { ActionPillTone } from '@/ui/plan/ActionPill';
-
 import type { HubModel } from './help-model';
+
+/** The look a step's action asks for. */
+export type ActionPillTone = 'primary' | 'secondary' | 'outline' | 'success' | 'urgent' | 'paper';
 
 export type StepTarget =
   | { readonly kind: 'tel'; readonly number: string }

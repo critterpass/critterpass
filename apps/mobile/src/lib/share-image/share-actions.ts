@@ -31,9 +31,7 @@ export async function shareViaSystemSheet(
   const uri = await deps.writeTempFile(bytes, 'png');
   try {
     const available = await deps.sharing.isAvailableAsync();
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- programmer-error diagnostic, never shown to a user
     if (!available) throw new Error('shareViaSystemSheet: sharing is not available on this device');
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- a MIME type, never shown to a user
     await deps.sharing.shareAsync(uri, { dialogTitle: altText, mimeType: 'image/png' });
   } finally {
     await deps.deleteFile(uri);
@@ -44,7 +42,6 @@ export async function shareViaSystemSheet(
 export async function saveToPhotos(bytes: Uint8Array, deps: ShareActionsDeps): Promise<void> {
   const permission = await deps.mediaLibrary.requestPermissionsAsync(true);
   if (!permission.granted) {
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- programmer-error diagnostic, never shown to a user
     throw new Error('saveToPhotos: photo library add permission was not granted');
   }
   const uri = await deps.writeTempFile(bytes, 'png');

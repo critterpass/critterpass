@@ -46,8 +46,11 @@ const useStyles = makePremiumStyles((th) => ({
 }));
 
 export function PremiumSpotMap(props: {
-  readonly spots: readonly WhereSpot[];
+  /** A spot's own `unfound` tier colours its dot (NEAR ME); else every dot takes `rarity`. */
+  readonly spots: readonly (WhereSpot & { readonly unfound?: Rarity | null })[];
   readonly rarity: Rarity;
+  /** The pin label of a place where everything is found (NEAR ME). */
+  readonly foundLabel?: string;
   readonly position: { readonly lat: number; readonly lng: number } | null;
   readonly slug: string | null;
   readonly height: number;
@@ -83,9 +86,18 @@ export function PremiumSpotMap(props: {
           {props.spots.map((spot) => (
             <Marker key={spot.key} lngLat={[spot.lng, spot.lat]} anchor="center">
               <View style={styles.pin} accessible accessibilityLabel={spot.name}>
-                <View style={[styles.dot, { backgroundColor: tierAccent(th, props.rarity) }]} />
+                {spot.unfound === null ? null : (
+                  <View
+                    style={[
+                      styles.dot,
+                      { backgroundColor: tierAccent(th, spot.unfound ?? props.rarity) },
+                    ]}
+                  />
+                )}
                 <Text variant="badge" numberOfLines={1}>
-                  {spot.name}
+                  {spot.unfound === null && props.foundLabel !== undefined
+                    ? `${spot.name} · ${props.foundLabel}`
+                    : spot.name}
                 </Text>
               </View>
             </Marker>

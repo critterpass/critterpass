@@ -7,9 +7,15 @@ import {
   type CheckNowOutcome,
   type CheckNowStep,
 } from '@/lib/updates/check-now';
-import { makeStyles, Scaffold, Stack, Text, useTheme } from '@/ui';
-import { ListCard } from '@/ui/cards/ListCard';
-import { SecondaryText } from '@/ui/cards/SecondaryText';
+import {
+  ListCard,
+  makeStyles,
+  Scaffold,
+  SecondaryText,
+  Stack,
+  Text,
+  useTheme,
+} from '@/features/dev-tools/dev-kit';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.

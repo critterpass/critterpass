@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import type { KeypadKey } from '@/ui/inputs/Keypad';
+import type { KeypadKey } from '../draft';
 
 import type { ExpenseRow, FxRow, ShareRow } from '../../data/queries';
 import {

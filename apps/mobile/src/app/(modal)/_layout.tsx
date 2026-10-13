@@ -1,6 +1,6 @@
 import { PremiumGroupErrorBoundary } from '@/features/home/premium/recovery/premium-error-boundary';
 import { PremiumStack } from '@/ui/premium/shell';
-import { SessionGate } from '@/ui/states/SessionGate';
+import { SessionGate } from '@/ui/premium/shell/session-gate';
 
 // A sheet that fails is contained here: the screen that opened it stays as it was.
 export { PremiumGroupErrorBoundary as ErrorBoundary };

@@ -1,7 +1,8 @@
 /**
  * The crew chat's header (5.01): a fade from the ground colour so the newest card scrolls away under
  * it, the glass back circle, the crew name with one line under it (people and the guide, who is
- * typing, read-only, or a NO SIGNAL chip), and the glass "Map" pill. Tapping the name opens the
+ * typing, read-only, or a NO SIGNAL chip), another area's chip under it (BOOSTED), and the glass
+ * "Map" pill. Tapping the name opens the
  * crew's settings.
  */
 import { plural, t } from '@lingui/core/macro';
@@ -19,7 +20,7 @@ import {
 } from '@/ui/premium';
 
 import { CREW_ROUTES, crewSettingsRoute } from '../../crews-sheet/routes';
-import { chatMapTarget } from '../../chat/slots';
+import { ChatHeaderBadge, chatMapTarget } from '../../chat/slots';
 import { headerFade } from '../premium-paint';
 import { NoSignalChip } from './chat-chips';
 
@@ -129,6 +130,8 @@ export function ChatHeader({ crewId, crewName, line }: ChatHeaderProps) {
               {subtitle}
             </Text>
           )}
+          {/* Another area's chip under the name (BOOSTED while the trip's boost is on). */}
+          <ChatHeaderBadge crewId={crewId} />
         </PressableScale>
         <View style={styles.side}>
           {map === null ? null : (

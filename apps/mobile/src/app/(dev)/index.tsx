@@ -8,11 +8,17 @@ import { seedLiveMap, type SeededLiveMap } from '@/data/dev/seed-live-map';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { reportProblemUnderneath } from '@/features/help/shake/ShakeListener';
 import { DEV_SECTIONS } from '@/lib/dev-tools/dev-screens';
-import { makeStyles, Scaffold, Stack, Text, useTheme } from '@/ui';
-import { ListCard } from '@/ui/cards/ListCard';
-import { SecondaryText } from '@/ui/cards/SecondaryText';
 
 import { UpdatesSection } from './updates';
+import {
+  ListCard,
+  makeStyles,
+  Scaffold,
+  SecondaryText,
+  Stack,
+  Text,
+  useTheme,
+} from '@/features/dev-tools/dev-kit';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.

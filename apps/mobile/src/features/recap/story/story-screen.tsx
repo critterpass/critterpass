@@ -21,7 +21,12 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
 import { useCommandFeedback } from '@/motion/island-toast';
 import { music } from '@/motion/music';
-import { guideColour, guideIdOr, guidesOfSameCountry, guideSticker } from '@/ui/premium/stickers/guides';
+import {
+  guideColour,
+  guideIdOr,
+  guidesOfSameCountry,
+  guideSticker,
+} from '@/ui/premium/stickers/guides';
 import type { GuideId } from '@/lib/navigation/active-guide';
 import { PremiumSessionWaiting } from '@/ui/premium';
 

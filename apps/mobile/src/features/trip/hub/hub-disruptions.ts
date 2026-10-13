@@ -7,7 +7,7 @@
 import { t } from '@lingui/core/macro';
 import type { Href } from 'expo-router';
 
-import type { DoodleName } from '@/ui/icons/generated';
+import type { DoodleName } from '@/ui/premium/icons/doodles/generated';
 
 export const OPEN_DISRUPTIONS_SQL = `SELECT id, kind, title, summary, decision_poll_id, i18n
   FROM disruptions WHERE trip_id = ? AND status = 'open' ORDER BY detected_at DESC LIMIT 6`;

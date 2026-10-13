@@ -20,7 +20,6 @@ import Animated, {
 
 import { useScreenActive } from '@/lib/time/use-screen-active';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
-import { makeStyles, useTheme } from '@/ui/theme';
 
 /** The design's sweep: 3200 ms top to bottom. */
 export const SWEEP_MS = 3200;
@@ -41,21 +40,19 @@ export interface SweepTint {
   readonly grey: string;
 }
 
-const useStyles = makeStyles((t) => ({
+const styles = StyleSheet.create({
   sweep: {
     position: 'absolute',
     start: 0,
     end: 0,
-    height: t.space['4'] - 1,
-    backgroundColor: t.semantic.state.success,
-    shadowColor: t.semantic.state.success,
+    height: 3,
     shadowOpacity: 0.9,
-    shadowRadius: t.space['12'],
+    shadowRadius: 12,
     shadowOffset: { width: 0, height: 0 },
-    elevation: t.space['8'],
+    elevation: 8,
   },
-  box: { position: 'absolute', borderRadius: t.radius.xs },
-}));
+  box: { position: 'absolute', borderRadius: 4 },
+});
 
 function Highlight({
   line,
@@ -66,15 +63,10 @@ function Highlight({
   readonly line: SweepLine;
   readonly progress: SharedValue<number>;
   readonly reduced: boolean;
-  readonly tint: SweepTint | undefined;
+  readonly tint: SweepTint;
 }) {
-  const styles = useStyles();
-  const theme = useTheme();
   const [x, y, w, h] = line.box;
-  const colour =
-    line.tone === 'grey'
-      ? (tint?.grey ?? theme.semantic.text.tertiary)
-      : (tint?.read ?? theme.semantic.action.primary);
+  const colour = line.tone === 'grey' ? tint.grey : tint.read;
   const style = useAnimatedStyle(() => ({
     opacity: reduced || line.tone !== 'read' || progress.value >= y ? 0.55 : 0,
   }));
@@ -108,10 +100,9 @@ export function ScanSweep({
   readonly sweeping: boolean;
   readonly stutter?: boolean;
   readonly children: ReactNode;
-  readonly tint?: SweepTint;
+  readonly tint: SweepTint;
   readonly testID?: string;
 }) {
-  const styles = useStyles();
   const reduced = useReducedImpactMotion();
   const progress = useSharedValue(reduced ? 1 : 0);
   // The line sweeps only while the scan is the screen in front.
@@ -150,7 +141,7 @@ export function ScanSweep({
         <Animated.View
           style={[
             styles.sweep,
-            tint === undefined ? null : { backgroundColor: tint.sweep, shadowColor: tint.sweep },
+            { backgroundColor: tint.sweep, shadowColor: tint.sweep },
             sweepStyle,
           ]}
         />

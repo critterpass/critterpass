@@ -19,7 +19,6 @@ import { Keyboard, TextInput } from 'react-native';
 import { useCommand } from '@/data/commands/use-command';
 import { countryOf } from '@/lib/location';
 import { setCeremonyPending } from '@/lib/location/visits/use-rested-on-trip-surface';
-import { useTabBarCovered } from '@/ui/sheet/tab-bar-cover';
 import { isTouchQuiet } from '@/lib/interaction/touch-quiet';
 
 import { useInFront } from '../data/app-front';
@@ -75,8 +74,6 @@ export function HatchRuntime({ now = () => new Date() }: { readonly now?: () => 
 
   const unseenEgg = egg?.kind === 'unseen' ? egg.eggId : null;
   const unseenTrip = egg?.kind === 'unseen' ? egg.tripId : null;
-  // A sheet open on the screen in front: she is in the middle of something.
-  const covered = useTabBarCovered();
   const pathNow = useRef(pathname);
   useLayoutEffect(() => {
     pathNow.current = pathname;
@@ -86,7 +83,7 @@ export function HatchRuntime({ now = () => new Date() }: { readonly now?: () => 
     return () => setCeremonyPending(false);
   }, [unseenEgg]);
   useEffect(() => {
-    if (unseenEgg === null || unseenTrip === null || !active || covered || !isCalmPath(pathname)) {
+    if (unseenEgg === null || unseenTrip === null || !active || !isCalmPath(pathname)) {
       return undefined;
     }
     if (opened.current === unseenEgg) return undefined;
@@ -104,7 +101,7 @@ export function HatchRuntime({ now = () => new Date() }: { readonly now?: () => 
     };
     wait();
     return () => clearTimeout(timer);
-  }, [unseenEgg, unseenTrip, active, covered, pathname]);
+  }, [unseenEgg, unseenTrip, active, pathname]);
 
   const whole = rows.find((t) => awaitsArrival(t, now(), deviceTimeZone()));
   const wholeEgg = whole?.egg_id ?? null;

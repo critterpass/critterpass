@@ -53,4 +53,3 @@ export function useRestoreAccount(services: AccountServices): ClosedViewProps {
     onClose: () => void leave(),
   };
 }
-

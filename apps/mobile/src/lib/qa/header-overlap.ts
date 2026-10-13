@@ -3,8 +3,6 @@ import { Dimensions } from 'react-native';
 
 import { reportUiQa, UI_QA_ENABLED } from './ui-qa';
 
-/* eslint-disable lingui/no-unlocalized-strings -- report subjects, never shown to a user */
-
 /** A mounted native view: any host component's instance. */
 export interface QaMeasurable {
   measureInWindow(done: (x: number, y: number, width: number, height: number) => void): void;

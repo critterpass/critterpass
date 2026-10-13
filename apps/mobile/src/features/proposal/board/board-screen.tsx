@@ -27,7 +27,7 @@ import { tripDates, tripLine } from '../labels';
 import { proposalRoutes } from '../routes';
 import { boardOutcome, arrivalCode, type BoardOutcome } from './model';
 import { askGoingOut, showWaitlisted } from '../premium/proposal-alerts';
-import { type StackMember } from '@/ui/people/AvatarStack';
+import { type StackMember } from '@/ui/premium/planning/planning-shapes';
 import type { GuideStickerId as GuideId } from '@/ui/premium/stickers/guides';
 
 const EXTRA_SQL = `SELECT c.name AS crew_name, u.home_airport FROM trips t

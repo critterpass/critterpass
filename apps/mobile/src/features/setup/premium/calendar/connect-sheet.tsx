@@ -13,7 +13,7 @@ import { Doodle } from '@/features/explore';
 import { OverlaySheet } from '@/features/plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Button, ListCard, Text, Toggle, usePremiumTheme, type StatusTone } from '@/ui/premium';
-import { relativeAge } from '@/ui/states/StaleCaption';
+import { relativeAge } from '@/lib/time/relative-age';
 
 import type { CalendarConnectViewProps } from '../../calendar/calendar-connect-sheet';
 import { CrewSees } from './crew-sees';

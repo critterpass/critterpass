@@ -1,4 +1,4 @@
-import type { KeypadKey } from '@/ui/inputs/Keypad';
+import type { KeypadKey } from '../add-expense/draft';
 import type { TypedLine } from './type-lines-model';
 import type { MoneyMember } from '../data/context';
 import type { ReaderQualityIssue } from '../data/services';

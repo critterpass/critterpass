@@ -8,7 +8,7 @@
 import { toLocalWallTime, type FitReason } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 
-import type { HourLevel } from '@/ui/planning';
+import type { HourLevel } from '@/ui/premium/planning/planning-shapes';
 
 import type { FitBars, FitDayView, PlaceDetailContext } from './context';
 

@@ -92,4 +92,3 @@ export function useJoinTrip(tripId: string): JoinTrip {
   };
   return { join, pending: command.pending };
 }
-

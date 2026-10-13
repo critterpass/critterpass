@@ -1,7 +1,5 @@
 import { reportUiQa, UI_QA_ENABLED } from './ui-qa';
 
-/* eslint-disable lingui/no-unlocalized-strings -- colour keywords and report codes, never shown */
-
 /** One shape an icon is about to draw: its resolved paint (none when it has no colour) and opacity. */
 export interface QaIconLayer {
   readonly fill: string | undefined;

@@ -5,7 +5,7 @@
  */
 import { plural, t } from '@lingui/core/macro';
 
-import type { DayChip } from '@/ui/planning';
+import type { DayChip } from '@/ui/premium/planning/planning-shapes';
 
 import { chipWeekday, dateLine, dayOfMonth, shortDate } from './format';
 import type { TripDay } from './trip-days';

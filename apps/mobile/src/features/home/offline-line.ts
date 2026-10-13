@@ -97,4 +97,3 @@ export function useOfflineLine(trip: HomeTripInput | null, now: Date): OfflineLi
   });
   return { held: false, line };
 }
-

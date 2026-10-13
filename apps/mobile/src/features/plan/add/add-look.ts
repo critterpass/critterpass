@@ -3,8 +3,8 @@ import type { ComponentType, ReactNode } from 'react';
 
 import type { RoutePreset } from './routes';
 
-import { type DayChip, type Reason } from '@/ui/planning';
-import { type StackMember } from '@/ui/people/AvatarStack';
+import { type DayChip, type Reason } from '@/ui/premium/planning/planning-shapes';
+import { type StackMember } from '@/ui/premium/planning/planning-shapes';
 
 export interface AddSheetProps {
   readonly tripId: string;

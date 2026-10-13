@@ -4,10 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { authClient } from './auth-client';
-import { Scaffold, Stack, Text } from '@/ui';
-import { PillButton } from '@/ui/buttons/PillButton';
-import { Card } from '@/ui/cards/Card';
-import { TextField } from '@/ui/inputs/TextField';
+import { Card, PillButton, Scaffold, Stack, Text, TextField } from '@/features/dev-tools/dev-kit';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.

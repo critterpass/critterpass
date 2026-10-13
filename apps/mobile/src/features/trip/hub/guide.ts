@@ -3,7 +3,7 @@
  * and its colour (the destination wordmark, the alarm tint).
  */
 import { guideColour, guideIdOr, guideSticker } from '@/ui/premium/stickers/guides';
-import { guideCardTone, type CardTone } from '@/ui/cards/tone';
+import { guideCardTone, type CardTone } from '@/ui/premium/cards/card-tone';
 import type { GuideId } from '@/lib/navigation/active-guide';
 
 export function guideOr(value: string | null | undefined): GuideId {

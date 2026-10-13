@@ -5,7 +5,7 @@
  */
 import { t } from '@lingui/core/macro';
 
-import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
+import type { SettingsRow } from '@/ui/premium/cards/settings-row';
 
 import type { SettingsHandlers, SettingsValues } from './settings-sections';
 

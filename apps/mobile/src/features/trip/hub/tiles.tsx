@@ -1,26 +1,13 @@
 /**
  * The hub's tiles (3k-1): PLAN, BOOKINGS and MONEY from this area, plus tiles other areas register
- * (QUESTS). They sit on the render's two-column grid: four fill it 2×2, and an odd last tile keeps
- * its half width.
+ * (QUESTS, PHOTOS). The hub draws every tile in its own look (`HubTileLook`), so registered tiles
+ * wear the same tile as the built-in doors.
  */
-import { tokens } from '@cp/design-tokens';
-import { upper } from '@cp/i18n';
 import type { ReactNode } from 'react';
 import { createContext, useContext, useSyncExternalStore } from 'react';
-import { View } from 'react-native';
 
-import { useLocale } from '@/lib/i18n/use-locale';
-import { Card } from '@/ui/cards/Card';
-import type { CardTone } from '@/ui/cards/tone';
-import { Icon } from '@/ui/icons/Icon';
-import type { DoodleName } from '@/ui/icons/generated';
-import { Row } from '@/ui/layout/Row';
-import { Stack } from '@/ui/layout/Stack';
-import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
-
-/** The smallest a tile's value gets: the card hero face's own floor (h3, 20). */
-const VALUE_MIN_SIZE = tokens.type.h3.fontSizeMin ?? 20;
+import type { CardTone } from '@/ui/premium/cards/card-tone';
+import type { DoodleName } from '@/ui/premium/icons/doodles/generated';
 
 export interface HubTileData {
   readonly key: string;
@@ -32,92 +19,13 @@ export interface HubTileData {
   readonly onPress?: () => void;
 }
 
-const useStyles = makeStyles((th) => ({
-  // A row's tiles share its height, whichever caption wraps furthest.
-  tile: { flexGrow: 1, minHeight: th.space['32'] * 3 + th.space['16'] },
-  cell: { flex: 1 },
-  title: { flexShrink: 1 },
-}));
-
-/**
- * How a hub draws its tiles, when it is not the current look: the premium hub provides a function
- * that returns its own tile element, so tiles other areas register (quests, photos) wear the same
- * white tile as the built-in doors.
- */
+/** How the hub draws a tile: the premium hub provides a function returning its own tile element. */
 export const HubTileLook = createContext<((tile: HubTileData) => ReactNode) | null>(null);
 
+/** A registered tile's content, drawn in the hub's look; nothing outside a hub. */
 export function HubTile({ tile }: { readonly tile: HubTileData }) {
   const look = useContext(HubTileLook);
-  if (look !== null) return look(tile);
-  return <CurrentHubTile tile={tile} />;
-}
-
-function CurrentHubTile({ tile }: { readonly tile: HubTileData }) {
-  const styles = useStyles();
-  const theme = useTheme();
-  const locale = useLocale();
-  const ink = theme.semantic.text.onAccent;
-  return (
-    <Card
-      tone={tile.tone}
-      radius="cardBig"
-      {...(tile.onPress === undefined ? {} : { onPress: tile.onPress })}
-      accessibilityLabel={[tile.title, tile.value, tile.caption].filter(Boolean).join(', ')}
-      style={styles.tile}
-      testID={`trip-hub-tile-${tile.key}`}
-    >
-      <Stack flex={1} justify="space-between" gap="12">
-        <Row justify="space-between" align="center" gap="6">
-          {/* A longer title ("LỊCH TRÌNH") wraps beside the icon at a word break; a word too long
-              for the room shrinks rather than splitting. */}
-          <Text variant="eyebrow" color={ink} style={styles.title} autoFit>
-            {upper(tile.title, locale)}
-          </Text>
-          <Icon name={tile.icon} size={24} decorative color={ink} />
-        </Row>
-        <Stack gap="2">
-          {/* The value is one line, as designed: a longer one ("3 ĐANG MỞ", "+₫1.250.000") shrinks,
-              down to the smallest card hero size, instead of wrapping. */}
-          <Text variant="h2" color={ink} autoFit numberOfLines={1} autoFitMinSize={VALUE_MIN_SIZE}>
-            {upper(tile.value, locale)}
-          </Text>
-          {tile.caption === null ? null : (
-            <Text variant="bodySm" color={ink}>
-              {tile.caption}
-            </Text>
-          )}
-        </Stack>
-      </Stack>
-    </Card>
-  );
-}
-
-/** Tiles in rows of two; a lone last tile keeps its column's width beside an empty one. */
-export function HubTiles({
-  tiles,
-}: {
-  readonly tiles: readonly { key: string; node: ReactNode }[];
-}) {
-  const styles = useStyles();
-  const rows = tiles.reduce<{ key: string; node: ReactNode }[][]>((acc, tile, index) => {
-    if (index % 2 === 0) acc.push([tile]);
-    else acc[acc.length - 1]?.push(tile);
-    return acc;
-  }, []);
-  return (
-    <Stack gap="12" testID="trip-hub-tiles">
-      {rows.map((row) => (
-        <Row key={row.map((tile) => tile.key).join('|')} gap="12" align="stretch">
-          {row.map((tile) => (
-            <View key={tile.key} style={styles.cell}>
-              {tile.node}
-            </View>
-          ))}
-          {row.length === 1 ? <View style={styles.cell} /> : null}
-        </Row>
-      ))}
-    </Stack>
-  );
+  return look === null ? null : look(tile);
 }
 
 /** What a registered tile renders with. */

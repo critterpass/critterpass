@@ -5,8 +5,8 @@
  */
 import type { BookingDetails, BookingKind } from '@cp/domain';
 
-import type { CardTone } from '@/ui/cards/tone';
-import type { DoodleName } from '@/ui/icons/generated';
+import type { CardTone } from '@/ui/premium/cards/card-tone';
+import type { DoodleName } from '@/ui/premium/icons/doodles/generated';
 
 import { parseJson, type BookingRow, type SegmentRow } from './queries';
 

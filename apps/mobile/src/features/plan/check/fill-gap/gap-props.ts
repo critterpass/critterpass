@@ -1,4 +1,4 @@
-import { type StackMember } from '@/ui/people/AvatarStack';
+import { type StackMember } from '@/ui/premium/planning/planning-shapes';
 
 export interface GapIdeaView {
   readonly key: string;

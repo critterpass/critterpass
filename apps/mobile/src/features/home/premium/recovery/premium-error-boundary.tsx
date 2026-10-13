@@ -1,10 +1,9 @@
 /**
- * The app's error boundaries with the premium "Something broke" sheet (3.20) when this run shows
- * the premium UI, and the current recovery page otherwise. The layouts export these in place of
- * `RootErrorBoundary` / `GroupErrorBoundary`. Like those, it mounts its own gesture root, locale
- * and theme (the layout that failed may have been the one providing them) and drops the saved
- * navigation. If the sheet itself throws, the current page is shown instead, so a recovery page
- * never takes the app down. A group (the trip stack, the sheets) offers no "Try again".
+ * The app's error boundaries with the premium "Something broke" sheet (3.20). The layouts export
+ * these. Each mounts its own gesture root, locale and theme (the layout that failed may have been
+ * the one providing them) and drops the saved navigation: that state still points at the screen
+ * that threw. If the sheet itself throws, a plain page is shown instead, so a recovery page never
+ * takes the app down. A group (the trip stack, the sheets) offers no "Try again".
  */
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
@@ -17,7 +16,7 @@ import { sourceLocale } from '@cp/i18n';
 
 import { clearSavedNavigation } from '@/lib/navigation/restore';
 import { PremiumThemeProvider } from '@/ui/premium';
-import { GroupErrorBoundary, RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
+import { PlainRecovery } from './plain-recovery';
 
 import { ErrorSheet } from './error-sheet';
 
@@ -59,11 +58,11 @@ function PremiumRecovery({
 }
 
 export function PremiumRootErrorBoundary(props: ErrorBoundaryProps) {
-  return <PremiumRecovery retry={props.retry} fallback={<RootErrorBoundary {...props} />} />;
+  return <PremiumRecovery retry={props.retry} fallback={<PlainRecovery retry={props.retry} />} />;
 }
 
-export function PremiumGroupErrorBoundary(props: ErrorBoundaryProps) {
-  return <PremiumRecovery fallback={<GroupErrorBoundary {...props} />} />;
+export function PremiumGroupErrorBoundary(_props: ErrorBoundaryProps) {
+  return <PremiumRecovery fallback={<PlainRecovery />} />;
 }
 
 const styles = StyleSheet.create({ root: { flex: 1 } });

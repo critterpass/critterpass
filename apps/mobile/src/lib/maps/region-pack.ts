@@ -12,7 +12,6 @@
  *   pack exists; "it is not there" is the only answer that shows the "on its way" line, and a
  *   check that fails (offline, a server error) shows nothing and is asked again next time.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- URLs, storage keys and state names, never copy. */
 import type { StyleSpecification } from '@maplibre/maplibre-react-native';
 import { useEffect, useState } from 'react';
 import { createMMKV } from 'react-native-mmkv';

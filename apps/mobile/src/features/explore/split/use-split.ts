@@ -42,7 +42,7 @@ import {
 } from './split-model';
 
 import type { ReactNode } from 'react';
-import type { StackMember } from '@/ui/people/AvatarStack';
+import type { StackMember } from '@/ui/premium/planning/planning-shapes';
 import type { GuideFacts } from '../format';
 
 const optionsCache = new Map<string, { savedAt: string; body: unknown }>();

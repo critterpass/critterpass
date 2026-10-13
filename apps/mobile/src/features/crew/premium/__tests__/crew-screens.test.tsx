@@ -16,7 +16,7 @@ import {
   type TestLocalFirst,
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
-import { CrewSwitcherMenu } from '@/features/home/premium/crew-switcher/crew-switcher-menu';
+import { CrewSwitcherMenu } from '@/features/home';
 
 import {
   applied,

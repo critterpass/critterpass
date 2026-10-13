@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { deviceMoneyServices } from '@/features/money/data/device-services';
 import { MoneyServicesProvider } from '@/features/money/data/services';
 import { registerMoneyScreens } from '@/features/money/routes';
-import { SessionGate } from '@/ui/states/SessionGate';
+import { SessionGate } from '@/ui/premium/shell/session-gate';
 import { PremiumStack } from '@/ui/premium/shell';
 
 import { getOcr } from '../../../modules/cp-ocr';

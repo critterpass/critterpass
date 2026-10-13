@@ -10,9 +10,7 @@ import Constants from 'expo-constants';
  * `pnpm screens:capture` and the device shards read back after every Maestro flow and fail on.
  * Store builds (staging, production) never report: the gate is read once at load.
  */
-// eslint-disable-next-line lingui/no-unlocalized-strings -- a log file name, never shown to a user
 export const UI_QA_LOG_FILE = 'ui-qa.log';
-// eslint-disable-next-line lingui/no-unlocalized-strings -- a log tag, never shown to a user
 export const UI_QA_TAG = '[ui-qa]';
 
 export type UiQaCode =

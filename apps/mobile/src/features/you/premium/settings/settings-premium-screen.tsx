@@ -7,7 +7,7 @@ import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
 
-import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
+import type { SettingsRow } from '@/ui/premium/cards/settings-row';
 import { Icon, ListCard, Row, SegmentedControl, Text, Toggle, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 

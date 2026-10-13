@@ -21,10 +21,8 @@ import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { FormSticker } from '@/features/critters';
 import { guideSticker } from '@/ui/premium/stickers/guides';
-import type { AvatarSize } from '@/ui/people/Avatar';
-import { MemberFaceProvider, type MemberFaceResolver } from '@/ui/people/member-face';
+import { MemberFaceProvider, type MemberFaceResolver } from '@/ui/premium/people/member-face';
 import { Sticker } from '@/ui/premium/stickers/art/Sticker';
-import { sizeToken, useTheme } from '@/ui/theme';
 
 import { dropPendingEdits, usePendingEdits } from '../data/pending-edits';
 import {
@@ -40,6 +38,10 @@ import {
   type AvatarRow,
   type MemberFace,
 } from './member-face';
+
+/** A face's size by name, in points across. */
+export type AvatarSize = 'sm' | 'md' | 'lg' | 'xl';
+const AVATAR_DIAMETER: Readonly<Record<AvatarSize, number>> = { sm: 18, md: 26, lg: 32, xl: 44 };
 
 const EARLY_MS = 60_000;
 const VIEWER_SQL = 'SELECT value FROM local_state WHERE id = ?';
@@ -251,11 +253,10 @@ export function useMemberFaces(): {
   readonly faceOf: (uid: string) => MemberFace;
   readonly faceProps: (uid: string, size: AvatarSize) => FaceProps;
 } {
-  const theme = useTheme();
   const { store, pending } = useFaceStore();
   return {
     faceOf: (uid) => faceOf(rowOf(store, uid, pending), store.viewer),
-    faceProps: (uid, size) => resolveFace(store, uid, sizeToken(theme.size.avatar, size), pending),
+    faceProps: (uid, size) => resolveFace(store, uid, AVATAR_DIAMETER[size], pending),
   };
 }
 

@@ -14,7 +14,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 import type { DayItem } from '@/data/plan/plan-model';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PressableScale, ring, Text, usePremiumTheme } from '@/ui/premium';
-import { sketchLayout } from '@/ui/planning';
+import { sketchLayout } from '@/ui/premium/planning/planning-shapes';
 
 import type { CardRect } from '../../all-days/use-cross-day-drag';
 import { clock } from '../../day/format';

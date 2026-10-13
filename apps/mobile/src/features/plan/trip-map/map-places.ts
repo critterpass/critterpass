@@ -9,7 +9,7 @@ import { tokens } from '@cp/design-tokens';
 import { CATEGORY_ICON_KEYS, type PoiCategory } from '@cp/domain';
 
 import type { TripIdeaView } from '@/data/ideas/use-trip-ideas';
-import type { PlaceDot } from '@/ui/map/planning';
+import type { PlaceDot } from '@/ui/premium/planning/planning-shapes';
 
 export type MapFilter =
   | { readonly kind: 'none' }

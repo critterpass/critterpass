@@ -67,12 +67,10 @@ export function textLayoutProblems({
   singleLine = false,
 }: TextLayoutCheck): UiQaCode[] {
   const problems: UiQaCode[] = [];
-  /* eslint-disable lingui/no-unlocalized-strings -- report codes, never shown to a user */
   if (truncationIsBug && (cutByFit || (lineLimited && isTruncated(lines, text)))) {
     problems.push('TEXT_TRUNCATED');
   }
   if (hasWordBreak(lines)) problems.push('TEXT_WORD_BROKEN');
   if (singleLine && lines.length > 1) problems.push('TEXT_WRAPPED');
-  /* eslint-enable lingui/no-unlocalized-strings */
   return problems;
 }

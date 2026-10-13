@@ -150,4 +150,3 @@ export function useAvatarPicker(photos: PhotoServices) {
     onBack: () => goBackOr(YOU_ROUTES.profile),
   };
 }
-

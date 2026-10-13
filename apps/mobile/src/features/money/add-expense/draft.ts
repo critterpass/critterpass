@@ -11,8 +11,11 @@ import { computeExpenseShares, type Share } from '@cp/cost-engine';
 import type { ExpenseCategory, KeypadExpensePayload } from '@cp/domain';
 
 import { digitsToMinor, minorToDigits } from '@/data/money/amount-digits';
-import type { KeypadKey } from '@/ui/inputs/Keypad';
 import { categoryFromWords } from './suggest';
+
+/** A key on the amount pad. */
+export type KeypadKey =
+  '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '000' | '0' | 'delete';
 
 export type SplitEditorMode = 'equal' | 'weights' | 'fixed';
 

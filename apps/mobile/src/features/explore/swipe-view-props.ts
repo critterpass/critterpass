@@ -1,6 +1,6 @@
 /** What the swipe deck's views are given: the stage, the cards, the summary and the match stamp. */
 import { type MatchOutcome } from './trip-explore/swipe-outcome';
-import { type StackMember } from '@/ui/people/AvatarStack';
+import { type StackMember } from '@/ui/premium/planning/planning-shapes';
 import { type DeckWait } from './deck-wait';
 import type { GuideFacts } from './format';
 import type { Verdict, WhyLine } from './swipe-model';

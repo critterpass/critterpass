@@ -1,5 +1,5 @@
 import { PremiumStack } from '@/ui/premium/shell';
-import { SessionGate } from '@/ui/states/SessionGate';
+import { SessionGate } from '@/ui/premium/shell/session-gate';
 
 /**
  * A trip's year-later memory, opened by its notification; session-only. A native stack, so the

@@ -4,7 +4,7 @@ import { sheetScreens } from '@/lib/navigation/sheet-routes';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
 import { FULL_SCREEN_ROUTE_OPTIONS, sheetRouteOptions } from '@/ui/premium/shell';
 import { PremiumGroupErrorBoundary } from '@/features/home/premium/recovery/premium-error-boundary';
-import { SessionGate } from '@/ui/states/SessionGate';
+import { SessionGate } from '@/ui/premium/shell/session-gate';
 
 const FULL_SCREENS = [
   'proposal/[id]/board',

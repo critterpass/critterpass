@@ -13,7 +13,7 @@ import type { PostReceiptBody } from '@cp/domain';
 import { afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { router } from 'expo-router';
+import { router, Slot } from 'expo-router';
 import { Stack } from 'expo-router/js-stack';
 import { Pressable, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -32,14 +32,14 @@ import { ThemeProvider } from '@/lib/theme';
 import { toastQueue } from '@/motion/island-toast/queue';
 import { useMotionMode } from '@/motion/motion-mode';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
-import { ShellTabs } from '@/ui/shell/ShellTabs';
 
 import { MoneyServicesProvider, NO_MONEY_SERVICES, type MoneyServices } from '../../data/services';
 import { MONEY_ROUTES } from '../../routes';
 import { ScanScreen } from '../ScanScreen';
 import { useWaitedTooLong } from '../use-scan';
 
-// Imported last: see ui/shell/__tests__/tab-bar.test.tsx for why.
+// Imported last: the testing library registers its own Reanimated mock, which cannot load
+// under this app's Jest setup (jest.config.js); everything above already loaded the app's.
 import { act, fireEvent, renderHook, renderRouter, screen } from 'expo-router/testing-library';
 
 const MAYA = '0199a6f0-0000-7000-8000-00000000e002';
@@ -243,7 +243,7 @@ async function openScan(answer: 'applied' | 'unreachable', using: MoneyServices)
   const app = renderRouter(
     {
       _layout: Root,
-      '(tabs)/_layout': () => <ShellTabs gated={false} />,
+      '(tabs)/_layout': () => <Slot />,
       '(tabs)/index': () => <Text>home</Text>,
       '(tabs)/wallet/_layout': () => <Stack screenOptions={{ headerShown: false }} />,
       '(tabs)/wallet/money/index': Money,

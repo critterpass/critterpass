@@ -3,7 +3,7 @@ import type { PlaceMediaAsset } from '@cp/domain';
 import type { ReactNode } from 'react';
 import type { GuideFacts } from '../format';
 import type { FactTiles } from './context';
-import { type StackMember } from '@/ui/people/AvatarStack';
+import { type StackMember } from '@/ui/premium/planning/planning-shapes';
 import type { FitBars, FitDayView } from './context';
 
 export interface PlaceDetailViewProps {

@@ -4,8 +4,6 @@ import { useEffect } from 'react';
 
 import { reportUiQa, UI_QA_ENABLED } from './ui-qa';
 
-/* eslint-disable lingui/no-unlocalized-strings -- route names and report subjects, never shown */
-
 /** Long enough for a push animation and a first data render to finish. */
 export const BACK_SETTLE_MS = 2500;
 /** How long after a first miss the screen is looked at again before it is reported. */

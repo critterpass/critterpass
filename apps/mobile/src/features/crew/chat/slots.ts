@@ -4,7 +4,7 @@
  * hint row above the composer (the guide's metering hint). Until a feature registers, none of them
  * is shown.
  */
-import type { ComponentType } from 'react';
+import { createElement, type ComponentType, type ReactNode } from 'react';
 
 export type ChatMapTarget = (crewId: string) => void;
 
@@ -45,6 +45,7 @@ export function registerChatHeaderBadge(
   };
 }
 
-export function chatHeaderBadge(): ComponentType<{ readonly crewId: string }> | null {
-  return headerBadge;
+/** The registered header chip for this crew, or nothing while no area registered one. */
+export function ChatHeaderBadge({ crewId }: { readonly crewId: string }): ReactNode {
+  return headerBadge === null ? null : createElement(headerBadge, { crewId });
 }

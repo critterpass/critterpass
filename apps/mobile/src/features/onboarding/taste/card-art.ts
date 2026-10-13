@@ -5,7 +5,7 @@
  */
 import type { Pose } from '@cp/critter-art';
 
-import type { DoodleName } from '@/ui/icons/generated';
+import type { DoodleName } from '@/ui/premium/icons/doodles/generated';
 
 export interface CardArt {
   readonly doodle: DoodleName | null;

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
+import type { SettingsRow } from '@/ui/premium/cards/settings-row';
 
 export interface SettingsSection {
   readonly id: string;

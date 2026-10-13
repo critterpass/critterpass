@@ -6,7 +6,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and params, never copy. */
 import type { Href } from 'expo-router';
 
-import type { MapSheetSnap } from '@/ui/sheet/map-sheet-snap';
+/** Where the plan map's sheet rests. */
+export type MapSheetSnap = 'peek' | 'half' | 'full';
 
 export interface TripMapParams {
   /** The day the sheet opens on. */

@@ -8,7 +8,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- chip keys, never copy. */
 import { t } from '@lingui/core/macro';
 
-import type { PlanningChip } from '@/ui/planning';
+import type { PlanningChip } from '@/ui/premium/planning/planning-shapes';
 
 import { NO_FILTER, type MapFilter } from './map-places';
 import type { TripDay } from './trip-days';

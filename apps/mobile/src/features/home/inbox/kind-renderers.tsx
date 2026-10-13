@@ -9,8 +9,8 @@ import { msg, plural } from '@lingui/core/macro';
 
 import { HELP_INBOX_KIND, IDEAS_INBOX_KIND, INBOX_KIND, type InboxAction } from '@cp/domain';
 
-import type { CardTone } from '@/ui/cards/tone';
-import type { DoodleName } from '@/ui/icons/generated';
+import type { CardTone } from '@/ui/premium/cards/card-tone';
+import type { DoodleName } from '@/ui/premium/icons/doodles/generated';
 import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { guideOr } from '../format';

@@ -32,7 +32,7 @@ import {
 } from '../../dex/dex-copy';
 import { withGroups, type Item } from '../../dex/dex-groups';
 import { filterSets, setOfCritter } from '../../dex/dex-model';
-import type { DexViewProps } from '../../dex/dex-view';
+import type { DexViewProps } from '../../dex/dex-view-props';
 import { useLanded } from '../../dex/use-landed';
 import { LiveEncounterBanner } from '../../dex/encounter-banner';
 import { DexEmpty, EggCard, ExploreAtHome, SlippedCard } from './dex-extras';

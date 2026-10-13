@@ -2,7 +2,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { feedback, toast } from '@/motion';
-import { type Signature } from '@/ui/documents/SignatureLayer';
+import type { Signature } from './signature-pad';
 import { uploadStroke } from './upload';
 import type { SignatureSheetProps } from '../story/story-look';
 

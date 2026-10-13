@@ -3,7 +3,7 @@ import type { ExpenseCategory } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useCallback } from 'react';
 
-import type { DoodleName } from '@/ui/icons/generated';
+import type { DoodleName } from '@/ui/premium/icons/doodles/generated';
 
 export const CATEGORY_ORDER: readonly ExpenseCategory[] = [
   'stays',

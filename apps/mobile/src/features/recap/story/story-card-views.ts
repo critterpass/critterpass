@@ -2,11 +2,19 @@
 import type { ComponentType } from 'react';
 
 import type { PostcardCardProps } from '@/features/album';
-import { type ReceiptLine } from '@/ui/documents/Receipt';
+import type { ReceiptLine } from '../cards/receipt-line';
 import type { GuideId } from '@/lib/navigation/active-guide';
 import type { FormRow } from '../data/recap-rows';
-import type { RouteStop } from '@/ui/recap/RouteRider';
 import { type StrokeFetch } from '../signature/stroke-store';
+
+/** A stop on the recap's route ("Days 2–4", "Day 4 · 02:51"). */
+export interface RouteStop {
+  readonly id: string;
+  readonly name: string;
+  readonly dayLabel: string;
+  /** Glows (the 02:51 start). */
+  readonly highlight?: boolean;
+}
 
 export interface StoryCardViews {
   readonly Cover: ComponentType<CoverCardProps>;

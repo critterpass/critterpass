@@ -1,8 +1,8 @@
 // Skia's native renderer and the device file system do not exist under Jest; see the doubles.
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/media/test-support/media-skia-double'));
+jest.mock('@shopify/react-native-skia', () => require('@/lib/test-support/media-skia-double'));
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
-jest.mock('expo-file-system', () => require('@/ui/media/test-support/memory-file-system'));
+jest.mock('expo-file-system', () => require('@/lib/test-support/memory-file-system'));
 
 import type { MediaAsset } from '@cp/domain';
 import { describe, expect, it, jest } from '@jest/globals';

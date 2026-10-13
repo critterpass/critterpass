@@ -5,7 +5,7 @@
  */
 import { useLingui } from '@lingui/react/macro';
 
-import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
+import type { SettingsRow } from '@/ui/premium/cards/settings-row';
 
 /**
  * `ready`: the server answered for this account. `checking`: asked, not answered yet.

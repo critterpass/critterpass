@@ -1,5 +1,5 @@
 import type { StepStatus } from './progress';
-import type { DoodleName } from '@/ui/icons/generated';
+import type { DoodleName } from '@/ui/premium/icons/doodles/generated';
 
 export interface PlacingLine {
   readonly key: string;

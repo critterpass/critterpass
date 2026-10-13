@@ -16,8 +16,7 @@ export interface DevScreenSection {
 // simulators (upstream mobile-dev-inc/Maestro#2610, confirmed via a failure screenshot in an
 // earlier pass of this flow), so `e2e/**` flows tap through this list instead. Grouped in the order
 // a developer would scan them: the labs first (most-used), then the live checks, then every spike
-// screen. `grow-into-page-detail` isn't listed: it's a sub-route `grow-into-page` navigates to
-// itself.
+// screen.
 export const DEV_SECTIONS: readonly DevScreenSection[] = [
   {
     title: 'Labs',
@@ -30,10 +29,7 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
       { testId: 'dev-nav-accounts', href: '/(dev)/accounts', label: 'Test accounts (two people)' },
       { testId: 'dev-nav-start-fresh', href: '/(dev)/start-fresh', label: 'Start as a new user' },
       { testId: 'dev-nav-motion-lab', href: '/(dev)/motion-lab', label: 'Motion lab' },
-      { testId: 'dev-nav-sticker-lab', href: '/(dev)/sticker-lab', label: 'Sticker lab' },
-      { testId: 'dev-nav-gallery', href: '/(dev)/gallery', label: 'Component gallery' },
       { testId: 'dev-nav-premium-kit', href: '/(dev)/premium-kit', label: 'Premium kit' },
-      { testId: 'dev-nav-type-lab', href: '/(dev)/type-lab', label: 'Type lab (label centring)' },
       {
         testId: 'dev-nav-drivers-lab',
         href: '/(dev)/drivers-lab',
@@ -44,7 +40,6 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         href: '/(dev)/supplier-lab',
         label: 'Suppliers (3h-3, 6f-1 scenes)',
       },
-      { testId: 'dev-nav-go-lab', href: '/(dev)/go-lab', label: 'GO (route preview scenes)' },
       {
         testId: 'dev-nav-crew-plans',
         href: '/community/da-lat',
@@ -64,11 +59,6 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         testId: 'dev-nav-share-plan',
         href: '/community/publish/00000000-0000-7000-8000-000000000000',
         label: 'Share the plan, no trip (3o-4)',
-      },
-      {
-        testId: 'dev-nav-planning-map-lab',
-        href: '/(dev)/planning-map-lab',
-        label: 'Planning kit (7a, 7c map, sheet and components)',
       },
     ],
   },
@@ -101,49 +91,14 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
     title: 'Spikes',
     entries: [
       {
-        testId: 'dev-nav-spikes-app-group',
-        href: '/(dev)/spikes/app-group',
-        label: 'Spike: App group',
-      },
-      {
         testId: 'dev-nav-spikes-auth',
         href: '/(dev)/spikes/auth',
         label: 'Spike: Auth (anonymous upgrade)',
       },
       {
-        testId: 'dev-nav-spikes-critter',
-        href: '/(dev)/spikes/critter',
-        label: 'Spike: Critter draw',
-      },
-      {
-        testId: 'dev-nav-spikes-critterdex-grid',
-        href: '/(dev)/spikes/critterdex-grid',
-        label: 'Spike: Critterdex grid',
-      },
-      {
-        testId: 'dev-nav-spikes-grow-into-page',
-        href: '/(dev)/spikes/grow-into-page',
-        label: 'Spike: Grow-into-page transitions',
-      },
-      {
-        testId: 'dev-nav-spikes-live-activity',
-        href: '/(dev)/spikes/live-activity',
-        label: 'Spike: Live Activity',
-      },
-      {
-        testId: 'dev-nav-spikes-location',
-        href: '/(dev)/spikes/location',
-        label: 'Spike: Location dwell',
-      },
-      {
         testId: 'dev-nav-spikes-map',
         href: '/(dev)/spikes/map',
         label: 'Spike: Map offline (PMTiles)',
-      },
-      {
-        testId: 'dev-nav-spikes-timeline-drag',
-        href: '/(dev)/spikes/timeline-drag',
-        label: 'Spike: Timeline drag',
       },
     ],
   },

@@ -5,7 +5,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { Pressable, View } from 'react-native';
 
-import { PrivateContent } from '@/features/help/shake/PrivateContent';
+import { PrivateContent } from '@/features/help';
 import { Tag, Text, TierLabel, usePremiumTheme } from '@/ui/premium';
 
 import { statLabel } from '../../profile/profile-copy';

@@ -12,7 +12,7 @@ import { View, type LayoutChangeEvent } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Card, ring, Text, usePremiumTheme } from '@/ui/premium';
-import { sketchLayout, type SketchPoint } from '@/ui/planning';
+import { sketchLayout, type SketchPoint } from '@/ui/premium/planning/planning-shapes';
 
 import { DOT, spreadApart } from '../../check/less-driving/less-driving-props';
 import {

@@ -181,4 +181,3 @@ export function useIdeaBoard(suggestOpen: boolean, notify: BoardNotify) {
     closeSuggest,
   };
 }
-

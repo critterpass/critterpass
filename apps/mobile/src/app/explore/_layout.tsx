@@ -1,7 +1,7 @@
 import { sheetScreens } from '@/lib/navigation/sheet-routes';
 import { sheetRouteOptions } from '@/ui/premium/shell';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
-import { SessionGate } from '@/ui/states/SessionGate';
+import { SessionGate } from '@/ui/premium/shell/session-gate';
 
 /**
  * Explore pages pushed from Home, a trip or a link (screens owned by the explore area);

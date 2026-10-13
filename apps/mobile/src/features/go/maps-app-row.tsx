@@ -4,7 +4,7 @@
  */
 import { useLingui } from '@lingui/react/macro';
 
-import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
+import type { SettingsRow } from '@/ui/premium/cards/settings-row';
 import { SegmentedControl } from '@/ui/premium';
 
 import type { MapsApp } from './maps-handoff';

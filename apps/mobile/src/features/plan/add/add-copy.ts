@@ -8,7 +8,7 @@
 import type { DayFit, FitReason } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 
-import type { Reason } from '@/ui/planning';
+import type { Reason } from '@/ui/premium/planning/planning-shapes';
 
 import { clockOf } from './add-model';
 

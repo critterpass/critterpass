@@ -45,7 +45,7 @@ jest.mock('@shopify/react-native-skia', () => {
   };
 });
 
-jest.mock('@/ui/share-image/bundled-typefaces', () => ({
+jest.mock('@/lib/share-image/bundled-typefaces', () => ({
   bundledTypeface: (face: string) => Promise.resolve({ bundled: face }),
 }));
 

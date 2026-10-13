@@ -1,7 +1,7 @@
 import { deviceVoteServices } from '@/features/vote/data/device-vote-services';
 import { VoteServicesProvider } from '@/features/vote/data/vote-services';
 import { PremiumStack } from '@/ui/premium/shell/navigation/premium-stack';
-import { SessionGate } from '@/ui/states/SessionGate';
+import { SessionGate } from '@/ui/premium/shell/session-gate';
 
 /**
  * The vote area. The showdown is a pushed page with its way back; the new-poll and pitch sheets
