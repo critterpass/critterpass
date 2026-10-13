@@ -15,13 +15,14 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { useLiveRows } from '../data/live-rows';
 import { HELP_ROUTES } from '../routes';
 import { useFeedbackLabels } from './labels';
-import { SentView } from './SentView';
+import { SentView, type SentViewProps } from './SentView';
 
 const TICKET_SQL = 'SELECT ticket_no, sent_at FROM feedback_tickets WHERE id = ?';
 const NAME_SQL = `SELECT u.display_name AS name FROM users u
   JOIN local_state s ON s.id = 'owner_uid' AND s.value = u.id`;
 
-export function SentScreen() {
+/** The sent page's ticket, note and name, for either look. */
+export function useFeedbackSent(): SentViewProps {
   const params = useLocalSearchParams<{
     ticket: string;
     note?: string;
@@ -49,19 +50,17 @@ export function SentScreen() {
   ]
     .filter((part): part is string => part !== null)
     .join(' · ');
-  return (
-    <SentView
-      ticketNo={ticketNo}
-      queued={!online}
-      heading={heading}
-      note={typeof params.note === 'string' ? params.note : ''}
-      name={me.rows[0]?.name?.split(' ')[0] ?? null}
-      receivedOn={format.date(locale, sentOn, {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-      })}
-      onDone={() => goBackOr(HELP_ROUTES.hub)}
-    />
-  );
+  return {
+    ticketNo,
+    queued: !online,
+    heading,
+    note: typeof params.note === 'string' ? params.note : '',
+    name: me.rows[0]?.name?.split(' ')[0] ?? null,
+    receivedOn: format.date(locale, sentOn, { day: 'numeric', month: 'short', year: 'numeric' }),
+    onDone: () => goBackOr(HELP_ROUTES.hub),
+  };
+}
+
+export function SentScreen() {
+  return <SentView {...useFeedbackSent()} />;
 }
