@@ -10,7 +10,6 @@ import type { PremiumTypeName } from '@cp/design-tokens';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
-  FadeIn,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -38,8 +37,13 @@ export interface RollingAmountProps {
   readonly testID?: string;
 }
 
+/** How long a digit that joins the amount takes to fade in. */
+const JOIN_FADE_MS = 180;
+
 function DigitColumn(props: {
   readonly digit: number;
+  /** A digit that joined the amount after it first showed fades in; the first digits show at once. */
+  readonly joins: boolean;
   readonly height: number;
   readonly variant: PremiumTypeName;
   readonly tone: PremiumTextTone;
@@ -47,6 +51,11 @@ function DigitColumn(props: {
 }) {
   const reduced = usePremiumReducedMotion();
   const value: SharedValue<number> = useSharedValue(props.digit);
+  const opacity = useSharedValue(props.joins ? 0 : 1);
+  useEffect(() => {
+    opacity.set(withTiming(1, { duration: JOIN_FADE_MS }));
+  }, [opacity]);
+  const shown = useAnimatedStyle(() => ({ opacity: opacity.get() }));
   useEffect(() => {
     value.set(
       reduced ? withTiming(props.digit, REDUCED_FADE) : withSpring(props.digit, SPRINGS.smooth),
@@ -56,7 +65,7 @@ function DigitColumn(props: {
     transform: [{ translateY: -value.get() * props.height }],
   }));
   return (
-    <View style={{ height: props.height, overflow: 'hidden' }}>
+    <Animated.View style={[{ height: props.height, overflow: 'hidden' }, shown]}>
       <Animated.View style={style}>
         <Text
           variant={props.variant}
@@ -68,7 +77,7 @@ function DigitColumn(props: {
           {STRIP}
         </Text>
       </Animated.View>
-    </View>
+    </Animated.View>
   );
 }
 
@@ -76,11 +85,11 @@ export function RollingAmount({ text, variant, tone = 'ink', color, testID }: Ro
   // One line box measured from the face itself, so a column is exactly one digit tall.
   const [height, setHeight] = useState(0);
   const chars = [...text];
-  // The amount the digits first showed. Only a digit added once it changed fades in: the first
-  // digits mount as one batch of layout animations, and on Android a batch now and then stays at
-  // opacity 0, which left a balance reading "−24 ," for "−241,666".
+  // The amount the digits first showed. Only a digit added once it changed fades in, on its own
+  // opacity: an `entering` layout animation on Android now and then stays at opacity 0, which left
+  // a balance reading "−24 ," for "−241,666" and a spend reading "₫ ,000" for "₫63,000".
   const [first, setFirst] = useState<string | null>(null);
-  const fade = first !== null && first !== text ? { entering: FadeIn } : {};
+  const joins = first !== null && first !== text;
   return (
     <View
       accessible
@@ -117,15 +126,15 @@ export function RollingAmount({ text, variant, tone = 'ink', color, testID }: Ro
           );
         }
         return (
-          <Animated.View key={`d${key}`} {...fade}>
-            <DigitColumn
-              digit={digit}
-              height={height}
-              variant={variant}
-              tone={tone}
-              color={color}
-            />
-          </Animated.View>
+          <DigitColumn
+            key={`d${key}`}
+            digit={digit}
+            joins={joins}
+            height={height}
+            variant={variant}
+            tone={tone}
+            color={color}
+          />
         );
       })}
     </View>
