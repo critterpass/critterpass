@@ -1,12 +1,6 @@
 import { getAlarmPort } from '../../../modules/cp-alarm';
 
-import { Stack } from 'expo-router/js-stack';
-
 import { provideAlarmCanceller } from '@/features/you/account/device-wipe';
-import { pushTransition } from '@/lib/navigation/transitions';
-import { usePremiumUi } from '@/lib/premium-ui';
-import { useMotionMode } from '@/motion/motion-mode';
-import { useTheme } from '@/ui';
 import { sheetRouteOptions } from '@/ui/premium/shell';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
 import { SessionGate } from '@/ui/states/SessionGate';
@@ -18,25 +12,16 @@ const APPEARANCE_SHEET = sheetRouteOptions('half');
 const FORM_SHEET = sheetRouteOptions('full');
 
 /**
- * The profile and its settings, pushed over the tabs from Home's header; session-only. The premium
- * UI pushes them on a native stack and shows Appearance as a half-height sheet and the past-trip
- * form as a full-height one.
+ * The profile's settings, pushed over the tabs on a native stack; session-only. Appearance shows
+ * as a half-height sheet and the past-trip form as a full-height one.
  */
 export default function YouLayout() {
-  const { motion } = useTheme();
-  const [motionMode] = useMotionMode();
-  const premium = usePremiumUi();
-
   return (
     <SessionGate>
-      {premium ? (
-        <PremiumStack>
-          <PremiumStackScreen name="appearance" options={APPEARANCE_SHEET} />
-          <PremiumStackScreen name="past-trip" options={FORM_SHEET} />
-        </PremiumStack>
-      ) : (
-        <Stack screenOptions={pushTransition(motion, motionMode !== 'full')} />
-      )}
+      <PremiumStack>
+        <PremiumStackScreen name="appearance" options={APPEARANCE_SHEET} />
+        <PremiumStackScreen name="past-trip" options={FORM_SHEET} />
+      </PremiumStack>
     </SessionGate>
   );
 }
