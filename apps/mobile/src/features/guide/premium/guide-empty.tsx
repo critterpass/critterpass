@@ -40,7 +40,7 @@ const useStyles = makePremiumStyles((th) => ({
   card: {
     width: '48%',
     flexGrow: 1,
-    height: 112,
+    minHeight: 112,
     paddingVertical: 12,
     paddingHorizontal: 14,
     borderRadius: 24,
