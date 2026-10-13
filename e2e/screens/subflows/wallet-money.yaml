@@ -1,0 +1,343 @@
+appId: app.critterpass.dev
+---
+# The money half of a crew with expenses (the Đà Nẵng crew's trip), in ${LOOK}: balances (7.17),
+# adding an expense on the number pad (7.18) and settling up (7.24, 7.28 when square); in light
+# also the expense saved with its toast (1.03), its detail (7.21, 7.22 when it splits by room),
+# every expense filtered by a person (7.23), a payment (7.25 or 7.26), how people pay you (7.27,
+# left unsaved) and the budget set under what was spent (7.29). Nothing is marked paid or deleted.
+- runFlow:
+    file: wallet-open.yaml
+    env:
+      HALF: money
+      LABEL: Money
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '7.17'
+      NAME: balances
+      LOOK: ${LOOK}
+# Add an expense: 250,000 on the pad; in light it is saved (a test coffee), in dark closed unsaved.
+- runFlow:
+    file: ../../_shared/tap.yaml
+    env:
+      ID: 'money-add'
+      LABEL: 'Add an expense'
+- extendedWaitUntil:
+    visible:
+      id: 'money-keypad'
+    timeout: 15000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'money-keypad'
+    commands:
+      - tapOn:
+          id: 'money-key-2'
+      - tapOn:
+          id: 'money-key-5'
+      - tapOn:
+          id: 'money-key-0'
+      - tapOn:
+          id: 'money-key-000'
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '7.18'
+            NAME: number-pad
+            LOOK: ${LOOK}
+      - runFlow:
+          when:
+            true: ${LOOK == 'light'}
+          commands:
+            - tapOn:
+                id: 'money-add-description'
+                optional: true
+            - inputText: 'Coffee'
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '7.18'
+                  NAME: note-keyboard
+                  LOOK: ${LOOK}
+            - hideKeyboard:
+                optional: true
+            - tapOn:
+                id: 'money-add-submit'
+                optional: true
+            - extendedWaitUntil:
+                visible: 'Added .*'
+                timeout: 5000
+                optional: true
+            - takeScreenshot: premium-1.03-expense-toast-${LOOK}
+      - runFlow:
+          when:
+            visible:
+              id: 'money-keypad'
+          commands:
+            - tapOn:
+                id: 'full-screen-close'
+                optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'money-keypad'
+    commands:
+      - runFlow: ../../_shared/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'money-(ready|none|syncing)'
+    timeout: 15000
+    optional: true
+- runFlow:
+    when:
+      true: ${LOOK == 'light'}
+    commands:
+      # The latest expense, then every expense filtered to one person.
+      - scrollUntilVisible:
+          element:
+            id: 'money-latest'
+          direction: DOWN
+          timeout: 10000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'money-latest'
+          commands:
+            - tapOn:
+                id: 'money-latest'
+            - extendedWaitUntil:
+                visible:
+                  id: 'money-expense-detail'
+                timeout: 10000
+                optional: true
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '7.21'
+                  NAME: expense
+                  LOOK: ${LOOK}
+            - runFlow:
+                when:
+                  visible:
+                    id: 'money-detail-rooms'
+                file: shot.yaml
+                env:
+                  CODE: '7.22'
+                  NAME: by-room
+                  LOOK: ${LOOK}
+            - runFlow: ../../_shared/back.yaml
+      - scrollUntilVisible:
+          element:
+            id: 'money-see-all'
+          direction: DOWN
+          timeout: 10000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'money-see-all'
+          commands:
+            - tapOn:
+                id: 'money-see-all'
+            - extendedWaitUntil:
+                visible:
+                  id: 'money-history'
+                timeout: 10000
+                optional: true
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '7.23'
+                  NAME: every-expense
+                  LOOK: ${LOOK}
+            - tapOn:
+                id: 'money-history-member-.*'
+                optional: true
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '7.23'
+                  NAME: one-person
+                  LOOK: ${LOOK}
+            - runFlow: ../../_shared/back.yaml
+# Settle up: the payments, or all square.
+- scrollUntilVisible:
+    element:
+      id: 'money-settle'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'money-settle'
+    commands:
+      - tapOn:
+          id: 'money-settle'
+      - extendedWaitUntil:
+          visible:
+            id: 'money-settle-(row-.*|square)'
+          timeout: 15000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'money-settle-square'
+          file: shot.yaml
+          env:
+            CODE: '7.28'
+            NAME: all-square
+            LOOK: ${LOOK}
+      - runFlow:
+          when:
+            notVisible:
+              id: 'money-settle-square'
+          file: shot.yaml
+          env:
+            CODE: '7.24'
+            NAME: settle-up
+            LOOK: ${LOOK}
+      - runFlow:
+          when:
+            true: ${LOOK == 'light'}
+          commands:
+            # One payment: paying someone (their method), or what is owed to you (the timeline).
+            - runFlow:
+                when:
+                  visible:
+                    id: 'money-settle-row-.*'
+                commands:
+                  - tapOn:
+                      id: 'money-settle-row-.*'
+                  - extendedWaitUntil:
+                      visible:
+                        id: 'money-payment'
+                      timeout: 10000
+                      optional: true
+                  - runFlow:
+                      when:
+                        visible:
+                          id: 'money-pay-timeline'
+                      file: shot.yaml
+                      env:
+                        CODE: '7.26'
+                        NAME: owed-to-you
+                        LOOK: ${LOOK}
+                  - runFlow:
+                      when:
+                        notVisible:
+                          id: 'money-pay-timeline'
+                      file: shot.yaml
+                      env:
+                        CODE: '7.25'
+                        NAME: pay-someone
+                        LOOK: ${LOOK}
+                  - runFlow: ../../_shared/back.yaml
+            # How people pay you: a method picked and its field filled, keyboard up, not saved.
+            - scrollUntilVisible:
+                element:
+                  id: 'money-settle-kind-.*'
+                direction: DOWN
+                timeout: 5000
+                optional: true
+            - runFlow:
+                when:
+                  visible:
+                    id: 'money-settle-kind-.*'
+                commands:
+                  - tapOn:
+                      id: 'money-settle-kind-.*'
+                  - extendedWaitUntil:
+                      visible:
+                        id: 'money-payout-methods'
+                      timeout: 10000
+                      optional: true
+                  - runFlow:
+                      file: shot.yaml
+                      env:
+                        CODE: '7.27'
+                        NAME: pay-you
+                        LOOK: ${LOOK}
+                  - tapOn:
+                      id: 'money-payout-kind-.*'
+                      optional: true
+                  - tapOn:
+                      id: 'money-payout-field-.*'
+                      optional: true
+                  - runFlow:
+                      file: shot.yaml
+                      env:
+                        CODE: '7.27'
+                        NAME: fill-keyboard
+                        LOOK: ${LOOK}
+                  - hideKeyboard:
+                      optional: true
+                  - runFlow: ../../_shared/back.yaml
+      - runFlow: ../../_shared/back.yaml
+# The budget, set under what the crew has spent so it reads over (light only).
+- runFlow:
+    when:
+      true: ${LOOK == 'light'}
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'money-budget'
+          direction: DOWN
+          timeout: 10000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'money-budget'
+          commands:
+            - tapOn:
+                id: 'money-budget'
+            - extendedWaitUntil:
+                visible:
+                  id: 'money-budget-(set|save|summary)'
+                timeout: 10000
+                optional: true
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '7.29'
+                  NAME: budget
+                  LOOK: ${LOOK}
+            - runFlow:
+                when:
+                  visible:
+                    id: 'money-budget-set'
+                commands:
+                  - tapOn:
+                      id: 'money-budget-set'
+                  - extendedWaitUntil:
+                      visible:
+                        id: 'money-budget-target'
+                      timeout: 5000
+                      optional: true
+                  - inputText: '100000'
+                  - runFlow:
+                      file: shot.yaml
+                      env:
+                        CODE: '7.29'
+                        NAME: target-keyboard
+                        LOOK: ${LOOK}
+                  # Saving closes the keyboard itself; hiding it again would be a system back
+                  # on Android and leave the budget page.
+                  - tapOn:
+                      id: 'money-budget-save'
+                      optional: true
+                  - extendedWaitUntil:
+                      visible:
+                        id: 'money-budget-summary'
+                      timeout: 10000
+                      optional: true
+                  - runFlow:
+                      file: shot.yaml
+                      env:
+                        CODE: '7.29'
+                        NAME: over
+                        LOOK: ${LOOK}
+            - runFlow: ../../_shared/back.yaml

@@ -8,7 +8,7 @@
 import type { PitchChip } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { StyleSheet, View } from 'react-native';
-import Animated, { ZoomIn } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
@@ -29,6 +29,7 @@ import type { Person } from '../../data/use-people';
 import { FadeSection } from '../../board/fade-section';
 import { flightHours, guideOr, money, monthShort } from '../../format';
 import { crewOf } from '../components/crew';
+import { popIn } from '../entrances';
 
 function useChipText(): (chip: PitchChip) => string {
   const { t, i18n } = useLingui();
@@ -108,7 +109,7 @@ export function PremiumPitchCard(props: {
               style={styles.sticker}
             />
           ) : (
-            <Animated.View {...(reduced ? {} : { entering: ZoomIn.springify() })}>
+            <Animated.View {...(reduced ? {} : { entering: popIn(false, 'lively') })}>
               <CritterSticker kind={guide.kind} name={guide.name} size={72} />
             </Animated.View>
           )}

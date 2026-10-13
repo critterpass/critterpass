@@ -1,0 +1,41 @@
+appId: app.critterpass.dev
+---
+# From Home to the next trip's hub: the trip's collage card, else the Trips tab's first row.
+- scrollUntilVisible:
+    element:
+      id: 'home-next-up'
+    direction: DOWN
+    timeout: 10000
+    centerElement: true
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'home-next-up'
+    commands:
+      - tapOn:
+          id: 'home-next-up'
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-hub'
+    commands:
+      - runFlow:
+          file: ../../_shared/tab.yaml
+          env:
+            TAB: trips
+            LABEL: Trips
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-list-row-.*'
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'trip-list-row-.*'
+          index: 0
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 15000
+    optional: true

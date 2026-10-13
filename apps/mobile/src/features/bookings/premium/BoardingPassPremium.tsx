@@ -46,11 +46,12 @@ function Stub({
   );
 }
 
-function PassCard({ bookingId }: { readonly bookingId: string }) {
+type BoardingPass = ReturnType<typeof useBoardingPass>;
+
+function PassCard({ pass }: { readonly pass: BoardingPass }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const { width } = useWindowDimensions();
-  const pass = useBoardingPass(bookingId);
   const { leg, booking } = pass;
   const code = Math.min(width - 120, 220);
   const stub = [
@@ -141,6 +142,11 @@ function PassCard({ bookingId }: { readonly bookingId: string }) {
             })}
           />
         </PrivateContent>
+        {pass.passenger === null || pass.passenger === '' ? null : (
+          <Text variant="rowTextStrong" testID="bookings-pass-passenger">
+            {pass.passenger}
+          </Text>
+        )}
         {booking?.supplierRef == null ? null : (
           <PrivateContent>
             <Text variant="mono" tone="muted">
@@ -206,7 +212,7 @@ export function BoardingPassPremium({ bookingId }: { readonly bookingId: string 
         >
           {/* The pass stays light in dark mode: scanners and gate agents read it. */}
           <PremiumThemeProvider scheme="light">
-            <PassCard bookingId={bookingId} />
+            <PassCard pass={pass} />
           </PremiumThemeProvider>
           <Text variant="label" align="center" color={th.accent.paper} style={styles.soft}>
             {t({ id: 'bookings.pass.offline', message: 'Saved on this phone · works offline' })}

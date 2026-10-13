@@ -21,7 +21,7 @@ import { tripStage, type PremiumTripRow } from './trips-model';
 const useStyles = makePremiumStyles((t) => ({
   card: {
     flex: 1,
-    height: 142,
+    minHeight: 142,
     borderRadius: t.radius.cardLarge,
     backgroundColor: t.color.card,
     boxShadow: t.shadow.card,

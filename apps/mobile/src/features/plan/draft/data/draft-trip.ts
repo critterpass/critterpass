@@ -12,7 +12,7 @@ import type { GuideId } from '@/lib/navigation/active-guide';
 import { redraftQuota, type RedraftQuota } from './quota';
 import { useLiveRows } from './rows';
 import type { Person, SetupNow } from './version';
-import { memberFirstName } from '@/lib/people/member-name';
+import { memberFirstName, shortName } from '@/lib/people/member-name';
 
 export interface DraftTrip {
   readonly tripId: string;
@@ -95,7 +95,7 @@ const ME_SQL = 'SELECT value FROM local_state WHERE id = ?';
 const ME_TABLES = ['local_state'];
 
 export function firstName(displayName: string | null): string {
-  return displayName?.trim().split(/\s+/u)[0] ?? '';
+  return displayName == null || displayName.trim() === '' ? '' : shortName(displayName);
 }
 
 export function toDraftTrip(

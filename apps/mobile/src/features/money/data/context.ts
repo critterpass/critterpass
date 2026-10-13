@@ -5,7 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, never copy. */
 import type { CrewRow, MemberRow, TripRow } from './queries';
-import { memberFirstName } from '@/lib/people/member-name';
+import { shortName } from '@/lib/people/member-name';
 
 export interface MoneyMember {
   readonly userId: string;
@@ -36,8 +36,9 @@ export interface MoneyCrew {
   readonly organiser: boolean;
 }
 
+/** The name a person is called by ("Hân" of "Đặng Thị Ngọc Hân"), or '' with none. */
 export function firstName(name: string | null | undefined): string {
-  return name?.trim().split(/\s+/u)[0] ?? '';
+  return (name ?? '').trim() === '' ? '' : shortName(name);
 }
 
 export function pickCrew(crews: readonly CrewRow[], chosen: string | null): CrewRow | null {
@@ -102,7 +103,7 @@ export function tripDays(trip: Pick<TripRow, 'start_date' | 'end_date' | 'trip_l
 export function toMembers(rows: readonly MemberRow[]): MoneyMember[] {
   return rows.map((row, index) => ({
     userId: row.user_id,
-    name: memberFirstName(row.display_name),
+    name: shortName(row.display_name),
     joinIndex: index,
     active: row.status === 'active',
   }));

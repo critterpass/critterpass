@@ -30,6 +30,11 @@ export function tripOfflineRoute(tripId: string): Href {
   return { pathname: '/(trip)/hub/[tripId]/offline', params: { tripId } };
 }
 
+/** The leave-by alarm's permission sheet over a trip's day page. */
+export function alarmSheetRoute(tripId: string, kind: string, guide: string): Href {
+  return { pathname: '/(trip)/hub/[tripId]/alarm', params: { tripId, kind, guide } };
+}
+
 export function offlineStorageRoute(): Href {
   return '/(trip)/hub/offline-storage';
 }

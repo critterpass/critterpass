@@ -130,11 +130,15 @@ describe('forecast screen', () => {
     );
     await show(<ForecastReady props={propsOf('3k-7-all-clear')} />);
     expect(screen.queryByText('Plan B')).toBeNull();
+    // All clear is said above the GO and SET rows it is made of.
+    expect(screen.getByTestId('forecast-all-clear')).toBeTruthy();
+    expect(screen.getByTestId('forecast-watch-batur')).toBeTruthy();
     expect(
       screen.queryByText("I couldn't check in the last three hours. This is the last I saw."),
     ).toBeNull();
     await show(<ForecastReady props={propsOf('3k-7-no-forecast')} />);
     expect(screen.getAllByTestId('forecast-all-clear').length).toBeGreaterThan(0);
     expect(screen.queryByTestId('forecast-days')).toBeNull();
+    expect(screen.getByTestId('forecast-no-days')).toBeTruthy();
   });
 });

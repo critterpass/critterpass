@@ -112,4 +112,12 @@ describe('sheet detents', () => {
     expect(settleDetent(560, -1200, 844)).toBe('half');
     expect(settleDetent(400, -1200, 844)).toBe('peek');
   });
+
+  it('stops a short trip’s full sheet at its content, never below half and a grab', () => {
+    expect(sheetHeight('full', 844, 610)).toBe(610);
+    expect(sheetHeight('full', 844, 300)).toBe(584);
+    expect(sheetHeight('full', 844, 900)).toBe(648);
+    // Released just above half, a fitted full is still the nearer detent.
+    expect(settleDetent(575, 0, 844, 300)).toBe('full');
+  });
 });

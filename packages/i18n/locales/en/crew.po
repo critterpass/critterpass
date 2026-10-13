@@ -11,26 +11,26 @@ msgstr ""
 msgid "chat.premium.edited"
 msgstr "(edited)"
 
+#. placeholder {0}: members.length
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.settings.count"
+msgstr "{0, plural, one {# member} other {# members}}"
+
 #. placeholder {0}: line.count
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.premium.header.people"
 msgstr "{0, plural, one {# person} other {# people}}"
 
-#. placeholder {0}: members.length
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
-msgid "crew.premium.settings.count"
-msgstr "{0} members"
+#. placeholder {0}: item.files.length
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.photos"
+msgstr "{0, plural, one {Photo} other {# photos}}"
 
 #. placeholder {0}: tray.met
 #. placeholder {1}: tray.total
 #: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
 msgid "chat.premium.tray.count"
 msgstr "{0} of {1}"
-
-#. placeholder {0}: group.count
-#: ../../apps/mobile/src/features/crew/premium/chat/reaction-chips.tsx
-msgid "chat.premium.reaction.a11y"
-msgstr "{0} reacted"
 
 #: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
 msgid "crew.premium.leave.promoted"
@@ -49,6 +49,10 @@ msgid "crew.premium.code.daysLeft"
 msgstr "{days, plural, one {# day left} other {# days left}}"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.typingTwo"
+msgstr "{first} and {second} are typing"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.premium.header.typingMany"
 msgstr "{first} and others are typing"
 
@@ -63,6 +67,10 @@ msgstr "{guideName} is writing"
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
 msgid "chat.premium.welcome.madeBy"
 msgstr "{madeBy} made the crew"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/reaction-chips.tsx
+msgid "chat.premium.reaction.label"
+msgstr "{name} · {count}"
 
 #: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
 msgid "crew.premium.on.title"
@@ -124,7 +132,7 @@ msgstr "A friend"
 msgid "crew.waitlist.offerTitle"
 msgstr "A seat opened on {place}"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.settings.tripUnnamed"
 msgstr "A trip"
 
@@ -314,6 +322,10 @@ msgstr "Delete"
 msgid "chat.premium.delete"
 msgstr "Delete"
 
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.delete"
+msgstr "Delete"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
 msgid "chat.premium.delete.title"
 msgstr "Delete this message?"
@@ -321,6 +333,10 @@ msgstr "Delete this message?"
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.failed"
 msgstr "Didn't send"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.failed"
+msgstr "Didn’t send"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.failed.tooBig"
@@ -374,7 +390,7 @@ msgstr "Editing"
 msgid "crew.premium.edit.note"
 msgstr "Everyone sees the new pass, and invites you’ve already sent update too."
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.notify.all"
 msgstr "Everything"
 
@@ -486,7 +502,7 @@ msgstr "Jump to latest"
 msgid "crew.premium.member.keep"
 msgstr "Keep {name}"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.keepChat"
 msgstr "Keep chat if I leave"
 
@@ -554,7 +570,7 @@ msgstr "Meet more in {0}"
 msgid "crew.premium.members"
 msgstr "Members · {0}"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.settings.notifyMentions"
 msgstr "Mentions"
 
@@ -639,11 +655,11 @@ msgstr "Not met yet: where to find it"
 msgid "crew.seatLimit.notNow"
 msgstr "Not now"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.notify.off"
 msgstr "Nothing"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.settings.notify"
 msgstr "Notifications"
 
@@ -793,7 +809,6 @@ msgstr "Reply"
 msgid "chat.premium.menu.replySticker"
 msgstr "Reply with a sticker"
 
-#. placeholder {0}: composer.replyTo.senderName ?? ''
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-bottom.tsx
 msgid "chat.premium.strip.replying"
 msgstr "Replying to {0}"
@@ -810,12 +825,20 @@ msgstr "Report"
 msgid "chat.premium.report.title"
 msgstr "Report this message?"
 
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.report.done"
+msgstr "Reported. Thanks for telling us."
+
 #: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
 msgid "crew.premium.resend.action"
 msgstr "Resend"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.retry"
+msgstr "Retry"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.retry"
 msgstr "Retry"
 
 #: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
@@ -846,6 +869,10 @@ msgstr "Send {0}: {caption}"
 #: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
 msgid "crew.premium.invite.sendWith"
 msgstr "Send with"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.sending"
+msgstr "Sending… {percent}%"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/crew-chat-view.tsx
 msgid "chat.premium.placeholder.offline"
@@ -945,6 +972,10 @@ msgstr "That didn’t go through. Try again with signal."
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
 msgid "chat.premium.attach.failed"
 msgstr "That didn’t open. Try again?"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.report.failed"
+msgstr "That report didn’t go through. Try again?"
 
 #: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
 msgid "crew.waitlist.missed"
@@ -1050,6 +1081,10 @@ msgstr "Update the app to see it here."
 msgid "chat.premium.attach.voice"
 msgstr "Voice note"
 
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.voice"
+msgstr "Voice note"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
 msgid "chat.premium.composer.mic"
 msgstr "Voice note: hold to talk"
@@ -1060,6 +1095,10 @@ msgstr "Voting"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.waiting"
+msgstr "Waiting for signal"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.waiting"
 msgstr "Waiting for signal"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts

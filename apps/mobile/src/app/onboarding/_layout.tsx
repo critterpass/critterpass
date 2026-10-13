@@ -14,7 +14,7 @@ export default function OnboardingLayout() {
   return (
     <OnboardingServicesProvider services={deviceOnboardingServices(getSubjectLift(), getOcr())}>
       <PremiumStack>
-        <PremiumStackScreen name="issued" options={{ gestureEnabled: false }} />
+        <PremiumStackScreen name="issued" options={{ animation: 'fade', gestureEnabled: false }} />
         <PremiumStackScreen name="save" options={{ animation: 'fade', gestureEnabled: false }} />
       </PremiumStack>
     </OnboardingServicesProvider>

@@ -7,12 +7,9 @@
  * away. Reads and commands are the shared `BoardScreen`'s.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useState } from 'react';
+import { Stack } from 'expo-router';
 import { ScrollView, View } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { scheduleOnRN } from 'react-native-worklets';
 
 import { crewColour } from '@/features/vote';
 import { guideSticker } from '@/ui/premium/stickers/guides';
@@ -21,88 +18,13 @@ import {
   CritterSticker,
   CrewStack,
   GlassIconButton,
-  Icon,
-  SPRINGS,
   Text,
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
 
 import type { BoardViewProps } from '../board/board-screen';
-
-const TRACK = 68;
-const THUMB = 56;
-
-function SlideTrack(props: {
-  readonly label: string;
-  readonly onDone: () => void;
-  readonly disabled: boolean;
-}) {
-  const theme = usePremiumTheme();
-  const [width, setWidth] = useState(0);
-  const x = useSharedValue(0);
-  const end = Math.max(0, width - THUMB - 12);
-  const pan = Gesture.Pan()
-    .enabled(!props.disabled)
-    .onUpdate((event) => {
-      'worklet';
-      x.set(Math.max(0, Math.min(end, event.translationX)));
-    })
-    .onEnd(() => {
-      'worklet';
-      if (end > 0 && x.get() >= end * 0.92) {
-        x.set(end);
-        scheduleOnRN(props.onDone);
-      } else {
-        x.set(withSpring(0, SPRINGS.snappy));
-      }
-    });
-  const thumb = useAnimatedStyle(() => ({ transform: [{ translateX: x.get() }] }));
-  return (
-    <View
-      onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
-      accessible
-      accessibilityRole="button"
-      accessibilityLabel={props.label}
-      accessibilityActions={[{ name: 'activate' }]}
-      onAccessibilityAction={() => props.onDone()}
-      testID="board-slide"
-      style={{
-        height: TRACK,
-        borderRadius: TRACK / 2,
-        backgroundColor: theme.color.inkSurface,
-        padding: 6,
-        justifyContent: 'center',
-      }}
-    >
-      <Text
-        variant="button"
-        tone="onInk"
-        align="center"
-        style={{ position: 'absolute', left: 0, right: 0, opacity: 0.75 }}
-      >
-        {props.label}
-      </Text>
-      <GestureDetector gesture={pan}>
-        <Animated.View
-          style={[
-            {
-              width: THUMB,
-              height: THUMB,
-              borderRadius: THUMB / 2,
-              backgroundColor: theme.accent.sun,
-              alignItems: 'center',
-              justifyContent: 'center',
-            },
-            thumb,
-          ]}
-        >
-          <Icon name="forward" size={24} color={theme.color.onAccent} />
-        </Animated.View>
-      </GestureDetector>
-    </View>
-  );
-}
+import { SlideTrack } from './slide-track';
 
 export function PremiumBoardView(props: BoardViewProps) {
   const theme = usePremiumTheme();
@@ -120,6 +42,8 @@ export function PremiumBoardView(props: BoardViewProps) {
   );
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.ground }} testID="proposal-board">
+      {/* The board draws its own ✕ (board-close); the cover's header would add a second. */}
+      <Stack.Screen options={{ headerShown: false }} />
       <ScrollView
         contentContainerStyle={{
           paddingTop: insets.top + theme.space.gap6,

@@ -1,26 +1,42 @@
 appId: app.critterpass.dev
+# Signal comes back even when a step fails, so the next flow on this device starts online.
+onFlowComplete:
+  - runFlow:
+      when:
+        platform: Android
+      commands:
+        - setAirplaneMode: disabled
 ---
-# Screenshots of the crew chat for `pnpm screens:capture`: a fresh account onboards, takes the
-# staging demo crew (which has chat history), then walks the chat states in subflows/chat-screens.
-- launchApp:
-    clearState: true
-# A link dialog an earlier flow left open covers the first screen.
+# Premium captures for the crew chat and the guide (design part 5, and the Foundations dark chat):
+# the Bali demo crew with its chat and a trip three weeks out. Light first, every state; then dark
+# for the chat, the sticker tray, the long-press menu and the guide's answer. A capture sweep:
+# every step after the setup is conditional or optional.
 - runFlow:
-    when:
-      visible: 'Open'
-    commands:
-      - tapOn: 'Open'
-- extendedWaitUntil:
-    visible:
-      id: 'onboarding-open'
-    timeout: 60000
-- runFlow: ../home/subflows/onboard.yaml
-- runFlow:
-    file: ../_shared/seed-demo.yaml
+    file: subflows/start.yaml
     env:
-      SEED: dev-seed-demo-caught-up
+      SCENARIO: everyday
 - runFlow:
-    file: subflows/chat-screens.yaml
+    file: subflows/chat-crew.yaml
     env:
-      PREFIX: en
-      SEND: 'Send'
+      LOOK: light
+- runFlow:
+    file: subflows/chat-guide.yaml
+    env:
+      LOOK: light
+# The guide leaves sheets and full-screen pages stacked: the dark pass starts from a fresh Home.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
+- runFlow:
+    file: subflows/appearance.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/chat-crew.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/chat-guide.yaml
+    env:
+      LOOK: dark

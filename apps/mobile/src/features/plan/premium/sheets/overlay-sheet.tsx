@@ -1,19 +1,24 @@
 /**
  * A sheet a page opens over itself (not a route): the page dims, a sheet-glass panel inset 8 with
- * the sheet corner rises from the bottom with its grabber, a title and optional line, the content,
- * and a footer that stays in view under it. Tapping the dimmed page or the system back closes it.
+ * the sheet corner rises from the bottom on the Smooth spring with its grabber, a title and
+ * optional line, the content, and a footer that stays in view under it. Dragging the grabber band
+ * down, tapping the dimmed page or the system back closes it; one holding edits (`dirty`) asks
+ * before it drops them.
  * `tall` holds it near the top (the calendar sheets); otherwise it fits its content. It rides up
  * over the keyboard. A route already presented see-through over its page (`inRoute`) draws the
  * same sheet without opening a modal of its own.
  */
 import type { ReactNode } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import Animated, { FadeInDown, useAnimatedStyle } from 'react-native-reanimated';
+import { GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { GlassSurface, Text, usePremiumTheme } from '@/ui/premium';
-import { useKeyboardFrame } from '@/ui/premium/shell';
+import { useKeyboardFrame, type DiscardPrompt } from '@/ui/premium/shell';
 import { useShellExtras } from '@/ui/premium/shell/shell-theme';
+
+import { useSheetDrag } from './use-sheet-drag';
 
 const TALL_TOP = 72;
 
@@ -22,7 +27,11 @@ export interface OverlaySheetProps {
   readonly line?: string | undefined;
   /** Said by the dimmed page's button that closes the sheet. */
   readonly closeLabel: string;
+  /** Runs once the sheet has played its exit: the page unmounts it. */
   readonly onDismiss: () => void;
+  /** Edits not yet kept: the drag, the dimmed page and the system back ask `discard` first. */
+  readonly dirty?: boolean;
+  readonly discard?: DiscardPrompt;
   /** Something beside the title (a sticker). */
   readonly aside?: ReactNode;
   readonly footer?: ReactNode;
@@ -41,6 +50,11 @@ export function OverlaySheet(props: OverlaySheetProps) {
   const { scrim } = useShellExtras();
   const keyboard = useKeyboardFrame();
   const lift = useAnimatedStyle(() => ({ paddingBottom: keyboard.height.get() }));
+  const drag = useSheetDrag({
+    onDismiss: props.onDismiss,
+    dirty: props.dirty,
+    discard: props.discard,
+  });
   const body = (
     <View style={{ gap: theme.space.gap12, paddingBottom: theme.space.gap12 }}>
       {props.children}
@@ -48,15 +62,19 @@ export function OverlaySheet(props: OverlaySheetProps) {
   );
   const sheet = (
     <Animated.View style={[{ flex: 1, justifyContent: 'flex-end' }, lift]}>
-      <Pressable
-        style={[StyleSheet.absoluteFill, { backgroundColor: scrim }]}
-        onPress={props.onDismiss}
-        accessibilityRole="button"
-        accessibilityLabel={props.closeLabel}
-      />
+      <Animated.View style={[StyleSheet.absoluteFill, drag.scrimStyle]}>
+        <Pressable
+          style={[StyleSheet.absoluteFill, { backgroundColor: scrim }]}
+          onPress={drag.requestClose}
+          accessibilityRole="button"
+          accessibilityLabel={props.closeLabel}
+        />
+      </Animated.View>
       <Animated.View
-        {...(props.inRoute === true ? { entering: FadeInDown } : {})}
-        style={props.tall === true ? { flex: 1 } : { flexShrink: 1, maxHeight: '92%' }}
+        style={[
+          props.tall === true ? { flex: 1 } : { flexShrink: 1, maxHeight: '92%' },
+          drag.panelStyle,
+        ]}
       >
         <GlassSurface
           kind="sheet"
@@ -72,29 +90,35 @@ export function OverlaySheet(props: OverlaySheetProps) {
             paddingBottom: theme.space.gap16,
           }}
         >
-          <View
-            style={{
-              alignSelf: 'center',
-              width: 36,
-              height: 5,
-              borderRadius: 3,
-              backgroundColor: theme.color.fieldBorder,
-              marginBottom: 14,
-            }}
-          />
-          <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: theme.space.gap12 }}>
-            <View style={{ flex: 1, gap: 2 }}>
-              <Text variant="title" accessibilityRole="header">
-                {props.title}
-              </Text>
-              {props.line === undefined ? null : (
-                <Text variant="caption" tone="muted">
-                  {props.line}
-                </Text>
-              )}
+          <GestureDetector gesture={drag.pan}>
+            <View>
+              <View
+                style={{
+                  alignSelf: 'center',
+                  width: 36,
+                  height: 5,
+                  borderRadius: 3,
+                  backgroundColor: theme.color.fieldBorder,
+                  marginBottom: 14,
+                }}
+              />
+              <View
+                style={{ flexDirection: 'row', alignItems: 'flex-start', gap: theme.space.gap12 }}
+              >
+                <View style={{ flex: 1, gap: 2 }}>
+                  <Text variant="title" accessibilityRole="header">
+                    {props.title}
+                  </Text>
+                  {props.line === undefined ? null : (
+                    <Text variant="caption" tone="muted">
+                      {props.line}
+                    </Text>
+                  )}
+                </View>
+                {props.aside ?? null}
+              </View>
             </View>
-            {props.aside ?? null}
-          </View>
+          </GestureDetector>
           <View
             style={{ flexShrink: 1, marginTop: 14, ...(props.tall === true ? { flex: 1 } : {}) }}
           >
@@ -121,8 +145,8 @@ export function OverlaySheet(props: OverlaySheetProps) {
   );
   if (props.inRoute === true) return sheet;
   return (
-    <Modal transparent visible animationType="slide" onRequestClose={props.onDismiss}>
-      {sheet}
+    <Modal transparent visible animationType="none" onRequestClose={drag.requestClose}>
+      <GestureHandlerRootView style={{ flex: 1 }}>{sheet}</GestureHandlerRootView>
     </Modal>
   );
 }

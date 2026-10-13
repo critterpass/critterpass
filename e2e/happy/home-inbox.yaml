@@ -3,7 +3,7 @@ appId: app.critterpass.dev
 # Release gate: Home and the inbox with a crew. A new account starts as the staging demo world's
 # `inbox` scenario (Bali Demo Crew, a confirmed trip three weeks out, one needs-you card and a guide
 # change still inside its undo window). Home counts down to the trip with its plan progress, tip
-# and bell badge; the bell opens the inbox; answering the card clears NEEDS YOU; UNDO on the
+# and bell badge; the bell opens the inbox; answering the card clears Needs you; UNDO on the
 # guide's change goes through to the api.
 - runFlow:
     file: ../_shared/start-as.yaml
@@ -15,39 +15,45 @@ appId: app.critterpass.dev
     timeout: 30000
 - assertVisible:
     id: 'home-plan-progress'
-- assertVisible:
-    id: 'home-tip'
-- assertVisible:
-    id: 'home-header-inbox-badge'
-- tapOn:
-    id: 'home-header-inbox'
-- extendedWaitUntil:
-    visible:
-      text: 'NEEDS YOU · 1'
-    timeout: 15000
-- waitForAnimationToEnd
-- takeScreenshot: en-3b-4-inbox-unread-rows
-- tapOn: 'Take a look'
-- extendedWaitUntil:
-    visible:
-      text: 'NEEDS YOU · 0'
+- scrollUntilVisible:
+    element:
+      id: 'home-tip'
+    direction: DOWN
     timeout: 10000
+# The bell's label carries the count of what needs you ("Inbox, 1").
+- assertVisible:
+    id: 'home-bell'
+    text: 'Inbox, .+'
+- tapOn:
+    id: 'home-bell'
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-card-.*'
+    timeout: 15000
+- assertVisible: '(?i)needs you'
+- waitForAnimationToEnd
+- takeScreenshot: premium-3.17-inbox-needs-you-light
+- tapOn:
+    id: 'inbox-action-.*'
+    index: 0
 - extendedWaitUntil:
     visible:
       id: 'inbox-caught-up'
-    timeout: 10000
+    timeout: 15000
 - tapOn:
     id: 'inbox-undo-.*'
-# The row settles (its UNDO turns into a check) once the api has undone the change.
 - extendedWaitUntil:
     notVisible:
       id: 'inbox-undo-.*'
     timeout: 20000
-# Back on Home the bell has nothing left that needs you.
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow:
+    file: ../_shared/back-to.yaml
+    env:
+      MARK: 'home-countdown'
 - extendedWaitUntil:
     visible:
       id: 'home-countdown'
     timeout: 15000
 - assertNotVisible:
-    id: 'home-header-inbox-badge'
+    id: 'home-bell'
+    text: 'Inbox, .+'

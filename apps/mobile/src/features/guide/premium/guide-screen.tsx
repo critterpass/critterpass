@@ -6,12 +6,13 @@
 import type { GuideThreadMode } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
-import { useCallback, useContext, useRef, useState, type ComponentRef } from 'react';
+import { useCallback, useContext, useMemo, useRef, useState, type ComponentRef } from 'react';
 import { ScrollView, View, type TextInput } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncPhase } from '@/data/status/use-sync-status';
+import { shortName } from '@/lib/people/member-name';
 import { LoadingCritter, usePremiumTheme, useToast } from '@/ui/premium';
 
 import { crewAccent } from '@/features/crew';
@@ -26,6 +27,7 @@ import { GuideThread } from './guide-thread';
 import { GuideTopBar } from './guide-top-bar';
 import { OfflineToolsCard } from './guide-offline';
 import { usePremiumGuideMeter } from './use-premium-guide-meter';
+import { useFollowBottom } from './use-follow-bottom';
 
 export interface PremiumGuideProps {
   readonly tripId: string | null;
@@ -83,15 +85,22 @@ function OpenGuide({ tripId, initialMode }: PremiumGuideProps) {
     [proposalOf],
   );
   const { names } = sheet;
-  const authorOf = useCallback(
-    (authorId: string | null) => {
-      if (authorId === null || authorId === context.uid) return null;
-      const entry = names.get(authorId);
-      return entry === undefined
-        ? null
-        : { name: entry.name, color: crewAccent(null, entry.joinIndex) };
-    },
-    [names, context.uid],
+  // One author object per person, so the saved questions (memoised rows) keep their props while
+  // the live answer streams.
+  const authors = useMemo(() => {
+    const map = new Map<string, { readonly name: string; readonly color: string }>();
+    for (const [id, entry] of names) {
+      if (id === 'me' || id === context.uid) continue;
+      map.set(id, { name: shortName(entry.name), color: crewAccent(null, entry.joinIndex) });
+    }
+    return map;
+  }, [names, context.uid]);
+  const meName = names.get('me')?.name;
+  const follow = useFollowBottom(scroll);
+  const { showEarlier } = thread;
+  const onEarlier = useMemo(
+    () => (showEarlier === undefined ? undefined : follow.keepPlace(showEarlier)),
+    [showEarlier, follow],
   );
   const camera = cameraHref(trip?.tripId ?? null, sheet.mode);
   const ask = (text: string) => sheet.send(text);
@@ -121,15 +130,18 @@ function OpenGuide({ tripId, initialMode }: PremiumGuideProps) {
         contentContainerStyle={{ padding: th.space.gap16, paddingBottom: th.space.gap8 }}
         keyboardDismissMode="interactive"
         keyboardShouldPersistTaps="handled"
-        onContentSizeChange={() => scroll.current?.scrollToEnd({ animated: true })}
+        onScroll={follow.onScroll}
+        scrollEventThrottle={32}
+        onLayout={follow.onLayout}
+        onContentSizeChange={follow.onContentSizeChange}
       >
         <GuideThread
           slug={context.guideSlug}
           guideName={context.guideName}
           loading={!context.ready || thread.loading}
           messages={thread.messages}
-          {...(thread.showEarlier === undefined ? {} : { onEarlier: thread.showEarlier })}
-          authorOf={authorOf}
+          {...(onEarlier === undefined ? {} : { onEarlier })}
+          authors={authors}
           live={turn.live}
           waiting={turn.queued}
           renderProposal={renderProposal}
@@ -165,7 +177,7 @@ function OpenGuide({ tripId, initialMode }: PremiumGuideProps) {
             <GuideEmpty
               slug={context.guideSlug}
               guideName={context.guideName}
-              firstName={names.get('me')?.name.split(' ')[0] ?? null}
+              firstName={meName === undefined ? null : shortName(meName)}
               hasTrip={trip !== null}
               starters={starters}
               allowance={meter.allowance}

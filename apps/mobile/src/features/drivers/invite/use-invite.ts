@@ -15,6 +15,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useEffect, useRef, useState } from 'react';
 import { Linking } from 'react-native';
 
+import { shortName } from '@/lib/people/member-name';
 import { useCommand } from '@/data/commands/use-command';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
@@ -73,14 +74,14 @@ export function useInvite(tripId: string, providerId: string) {
   }, [invite, providerId, t, tripId]);
 
   const driver = data?.drivers.find((row) => row.provider_id === providerId);
-  const first = driver === undefined ? '' : (driver.name.split(' ')[0] ?? driver.name);
+  const first = driver === undefined ? '' : shortName(driver.name);
   const input: DriverInviteMessageInput | null =
     link === null || driver === undefined
       ? null
       : {
           driverName: first,
           // The message is English for the driver, whatever the app's language.
-          senderName: (myName ?? '').split(' ')[0] || 'one of your passengers',
+          senderName: (myName ?? '').trim() === '' ? 'one of your passengers' : shortName(myName),
           crewSize: data?.crew_size ?? 1,
           places: '',
           dates: '',

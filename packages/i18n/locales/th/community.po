@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: th\n"
 
+#. placeholder {0}: projection.photos.length
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
+msgid "community.publish.photos"
+msgstr ""
+
 #. placeholder {0}: at + 1
 #. placeholder {1}: cards.length
 #: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
@@ -17,11 +22,6 @@ msgstr ""
 #. placeholder {1}: face.total
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 msgid "community.consent.waiting"
-msgstr ""
-
-#. placeholder {0}: projection.photos.length
-#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
-msgid "community.publish.photos"
 msgstr ""
 
 #. placeholder {0}: plan.saves_count
@@ -55,6 +55,10 @@ msgstr ""
 msgid "community.note.withBest"
 msgstr ""
 
+#: ../../apps/mobile/src/features/community/premium/plan-days-premium.tsx
+msgid "community.detail.moreDays"
+msgstr ""
+
 #: ../../apps/mobile/src/features/community/detail/use-take-plan.ts
 msgid "community.detail.copied"
 msgstr ""
@@ -77,10 +81,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/community/copy.ts
 msgid "community.title.generated"
-msgstr ""
-
-#: ../../apps/mobile/src/features/community/premium/plan-days-premium.tsx
-msgid "community.detail.moreDays"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/premium/plan-days-premium.tsx

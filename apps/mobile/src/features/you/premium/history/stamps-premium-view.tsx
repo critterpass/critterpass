@@ -10,6 +10,7 @@ import Animated from 'react-native-reanimated';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   Button,
+  EmptyState,
   Icon,
   layoutTransition,
   ListCard,
@@ -78,7 +79,17 @@ export function StampsPremiumView(props: StampsViewProps) {
           <View testID="you-stamps-loading">
             <Skeleton height={220} radius={th.radius.card} />
           </View>
-        ) : shown.length === 0 ? null : (
+        ) : shown.length === 0 ? (
+          <EmptyState
+            title={t({ id: 'you.premium.stamps.emptyTitle', message: 'No stamps yet' })}
+            line={t({
+              id: 'you.premium.stamps.emptyLine',
+              message: 'Your first trip stamps your pass.',
+            })}
+            check={false}
+            testID="you-stamps-empty"
+          />
+        ) : (
           <Animated.View layout={layoutTransition(reduced)}>
             <ListCard radius={20}>
               {shown.map((stamp, index) => {

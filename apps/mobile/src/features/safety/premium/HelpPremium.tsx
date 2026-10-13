@@ -18,6 +18,7 @@ import { serviceLabel } from '../help/service-label';
 import { useHelpScreen } from '../help/use-help-screen';
 import { HelpConsent, HelpPhrase, HelpShare } from './HelpParts';
 import { PhraseBig } from './PhraseBig';
+import { SosAlertAccess } from './SosAlertAccess';
 
 const PROBLEM_ICON: Readonly<Record<HelpProblem, LineIconName>> = {
   hurt: 'shield',
@@ -224,6 +225,7 @@ export function HelpPremium() {
             testID="help-sos"
           />
         )}
+        {props.onSos === null ? null : <SosAlertAccess />}
         {props.insurer === null ? (
           <TextButton
             label={t({ id: 'safety.help.noInsurance', message: 'No insurance on file · add' })}

@@ -11,26 +11,26 @@ msgstr ""
 msgid "chat.premium.edited"
 msgstr "(đã sửa)"
 
+#. placeholder {0}: members.length
+#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+msgid "crew.premium.settings.count"
+msgstr "{0, plural, other {# thành viên}}"
+
 #. placeholder {0}: line.count
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.premium.header.people"
 msgstr "{0, plural, other {# người}}"
 
-#. placeholder {0}: members.length
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
-msgid "crew.premium.settings.count"
-msgstr "{0} thành viên"
+#. placeholder {0}: item.files.length
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.photos"
+msgstr "{0, plural, other {# ảnh}}"
 
 #. placeholder {0}: tray.met
 #. placeholder {1}: tray.total
 #: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
 msgid "chat.premium.tray.count"
 msgstr "{0} trên {1}"
-
-#. placeholder {0}: group.count
-#: ../../apps/mobile/src/features/crew/premium/chat/reaction-chips.tsx
-msgid "chat.premium.reaction.a11y"
-msgstr "{0} đã thả cảm xúc"
 
 #: ../../apps/mobile/src/features/crew/premium/leave-crew-screen.tsx
 msgid "crew.premium.leave.promoted"
@@ -49,6 +49,10 @@ msgid "crew.premium.code.daysLeft"
 msgstr "{days, plural, other {Còn # ngày}}"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
+msgid "chat.premium.header.typingTwo"
+msgstr "{first} và {second} đang nhập"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.premium.header.typingMany"
 msgstr "{first} và những người khác đang nhập"
 
@@ -63,6 +67,10 @@ msgstr "{guideName} đang viết"
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
 msgid "chat.premium.welcome.madeBy"
 msgstr "{madeBy} đã lập nhóm"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/reaction-chips.tsx
+msgid "chat.premium.reaction.label"
+msgstr "{name} · {count}"
 
 #: ../../apps/mobile/src/features/crew/premium/crew-on.tsx
 msgid "crew.premium.on.title"
@@ -124,7 +132,7 @@ msgstr "Một người bạn"
 msgid "crew.waitlist.offerTitle"
 msgstr "Vừa có chỗ trống đi {place}"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.settings.tripUnnamed"
 msgstr "Một chuyến đi"
 
@@ -314,12 +322,20 @@ msgstr "Xoá"
 msgid "chat.premium.delete"
 msgstr "Xoá"
 
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.delete"
+msgstr "Xóa"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
 msgid "chat.premium.delete.title"
 msgstr "Xoá tin nhắn này?"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.failed"
+msgstr "Chưa gửi được"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.failed"
 msgstr "Chưa gửi được"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
@@ -374,7 +390,7 @@ msgstr "Đang sửa"
 msgid "crew.premium.edit.note"
 msgstr "Mọi người sẽ thấy pass mới, cả những lời mời bạn đã gửi cũng được cập nhật."
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.notify.all"
 msgstr "Tất cả"
 
@@ -486,7 +502,7 @@ msgstr "Xuống tin mới nhất"
 msgid "crew.premium.member.keep"
 msgstr "Giữ {name}"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.keepChat"
 msgstr "Vẫn đọc chat nếu tôi rời nhóm"
 
@@ -554,7 +570,7 @@ msgstr "Gặp thêm ở {0}"
 msgid "crew.premium.members"
 msgstr "Thành viên · {0}"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.settings.notifyMentions"
 msgstr "Khi được nhắc tên"
 
@@ -639,11 +655,11 @@ msgstr "Chưa gặp: tìm nó ở đâu"
 msgid "crew.seatLimit.notNow"
 msgstr "Để sau"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.notify.off"
 msgstr "Không gì cả"
 
-#: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.settings.notify"
 msgstr "Thông báo"
 
@@ -793,7 +809,6 @@ msgstr "Trả lời"
 msgid "chat.premium.menu.replySticker"
 msgstr "Trả lời bằng nhãn dán"
 
-#. placeholder {0}: composer.replyTo.senderName ?? ''
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-bottom.tsx
 msgid "chat.premium.strip.replying"
 msgstr "Đang trả lời {0}"
@@ -810,12 +825,20 @@ msgstr "Báo cáo"
 msgid "chat.premium.report.title"
 msgstr "Báo cáo tin nhắn này?"
 
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.report.done"
+msgstr "Đã báo cáo. Cảm ơn bạn đã cho chúng tôi biết."
+
 #: ../../apps/mobile/src/features/crew/premium/components/resend-card.tsx
 msgid "crew.premium.resend.action"
 msgstr "Gửi lại"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.retry"
 msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
@@ -846,6 +869,10 @@ msgstr "Gửi {0}: {caption}"
 #: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
 msgid "crew.premium.invite.sendWith"
 msgstr "Gửi qua"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.sending"
+msgstr "Đang gửi… {percent}%"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/crew-chat-view.tsx
 msgid "chat.premium.placeholder.offline"
@@ -945,6 +972,10 @@ msgstr "Chưa được. Thử lại khi có sóng nhé."
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-sheets.tsx
 msgid "chat.premium.attach.failed"
 msgstr "Chưa mở được. Thử lại nhé?"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
+msgid "chat.premium.report.failed"
+msgstr "Báo cáo chưa gửi được. Thử lại nhé?"
 
 #: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
 msgid "crew.waitlist.missed"
@@ -1050,6 +1081,10 @@ msgstr "Cập nhật app để xem ở đây."
 msgid "chat.premium.attach.voice"
 msgstr "Tin nhắn thoại"
 
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.voice"
+msgstr "Tin nhắn thoại"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/composer-bar.tsx
 msgid "chat.premium.composer.mic"
 msgstr "Tin nhắn thoại: giữ để nói"
@@ -1060,6 +1095,10 @@ msgstr "Đang bình chọn"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.waiting"
+msgstr "Đang chờ sóng"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
+msgid "chat.premium.upload.waiting"
 msgstr "Đang chờ sóng"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts

@@ -15,6 +15,7 @@ import { PremiumThemeProvider, PressableScale, Text, usePremiumTheme } from '@/u
 import type { WalletBooking } from '../../data/model';
 import { useChipLabel } from '../../flight-card/labels';
 import { flightView } from '../../flight-card/flight-model';
+import { gateChanged } from '../../flight-card/gate-memory';
 import { clock, dayDate } from '../../format';
 import { FlightTicket } from './FlightTicket';
 import { kindLook } from './kind-look';
@@ -87,6 +88,21 @@ function BarcodeBand({ color }: { readonly color: string }) {
   );
 }
 
+function PassBand({ onPress, label }: { readonly onPress: () => void; readonly label: string }) {
+  const th = usePremiumTheme();
+  return (
+    <PressableScale
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      testID="bookings-next-up-pass"
+      style={[styles.passBand, { backgroundColor: th.color.card }]}
+    >
+      <BarcodeBand color={th.color.ink} />
+    </PressableScale>
+  );
+}
+
 function FrontCard(props: {
   readonly booking: WalletBooking;
   readonly meta: string;
@@ -99,19 +115,24 @@ function FrontCard(props: {
   const locale = useLocale();
   const chipLabel = useChipLabel();
   const { booking } = props;
-  const view = booking.kind === 'flight' ? flightView(booking, []) : null;
+  const leg = booking.segments[0];
+  // GATE CHANGE once a leg's gate differs from the first one this session saw.
+  const view =
+    booking.kind === 'flight'
+      ? flightView(booking, [], {
+          gateChanged: leg === undefined ? false : gateChanged(leg.id, leg.gate),
+        })
+      : null;
   const look = kindLook(booking.kind, th.color);
   const pass =
     props.onPass === null ? null : (
-      <PressableScale
-        onPress={props.onPass}
-        accessibilityRole="button"
-        accessibilityLabel={t({ id: 'bookings.premium.showPass', message: 'Show the pass' })}
-        testID="bookings-next-up-pass"
-        style={[styles.passBand, { backgroundColor: th.color.card }]}
-      >
-        <BarcodeBand color={th.color.ink} />
-      </PressableScale>
+      // The barcode stays light in dark mode, as the pass it opens does (1.13).
+      <PremiumThemeProvider scheme="light">
+        <PassBand
+          onPress={props.onPass}
+          label={t({ id: 'bookings.premium.showPass', message: 'Show the pass' })}
+        />
+      </PremiumThemeProvider>
     );
   return (
     <View testID="bookings-next-up">

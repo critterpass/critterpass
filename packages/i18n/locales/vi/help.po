@@ -17,6 +17,11 @@ msgstr "{0, plural, other {Còn # phiếu}}"
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, other {# lượt bình chọn}}"
 
+#. placeholder {0}: hub.ideasToVote
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.suggestCaption"
+msgstr "{0, plural, other {Bình chọn # ý tưởng}}"
+
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footerEmail"
 msgstr "Một người thật sẽ trả lời qua email trong vòng hai ngày."
@@ -391,11 +396,6 @@ msgstr "Đang xem xét"
 #: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.vote"
 msgstr "Bình chọn ▲"
-
-#. placeholder {0}: hub.ideasToVote
-#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
-msgid "help.premium.suggestCaption"
-msgstr "Bình chọn {0} ý tưởng"
 
 #. placeholder {0}: idea.title
 #: ../../apps/mobile/src/features/help/ideas/use-idea-board.ts

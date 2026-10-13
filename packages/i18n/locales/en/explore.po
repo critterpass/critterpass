@@ -357,16 +357,16 @@ msgstr "Change my side"
 msgid "search.field.clear"
 msgstr "Clear"
 
-#: ../../apps/mobile/src/features/explore/premium/place/place-hero-photo.tsx
-msgid "explore.premium.place.closePhoto"
-msgstr "Close"
-
 #: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
 msgid "explore.premium.sponsored.close"
 msgstr "Close"
 
 #: ../../apps/mobile/src/features/explore/premium/search/link-paste.tsx
 msgid "search.premium.pick.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/explore/premium/place/place-hero-photo.tsx
+msgid "explore.premium.place.closePhoto"
 msgstr "Close"
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-plain.tsx
@@ -438,6 +438,14 @@ msgstr "Deleting a list"
 #: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
 msgid "explore.saved.destination"
 msgstr "Destination guide"
+
+#: ../../apps/mobile/src/features/explore/premium/search/find-pin.tsx
+msgid "search.premium.pin.discardYes"
+msgstr "Discard"
+
+#: ../../apps/mobile/src/features/explore/premium/search/find-pin.tsx
+msgid "search.premium.pin.discard"
+msgstr "Discard this pin?"
 
 #: ../../apps/mobile/src/features/explore/premium/saved/saved-page.tsx
 msgid "explore.saved.done"
@@ -634,6 +642,10 @@ msgstr "Its map and search will need a connection until you download it again."
 msgid "explore.saved.deleteKeeps"
 msgstr "Its places stay in Saved."
 
+#: ../../apps/mobile/src/features/explore/premium/search/find-pin.tsx
+msgid "search.premium.pin.keep"
+msgstr "Keep editing"
+
 #: ../../apps/mobile/src/features/explore/premium/place/place-sections.tsx
 msgid "explore.detail.know"
 msgstr "Know before you go"
@@ -736,6 +748,10 @@ msgstr "No fares to show for {month} right now. Try again in a bit."
 msgid "explore.limited.body"
 msgstr "No guide lives in {0} yet, so the month-by-month crowds aren't written. Flights, money and the best months are covered, and {1} plans the trip all the same."
 
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-summary.tsx
+msgid "explore.premium.swipe.noMatches"
+msgstr "No matches this time."
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-names.tsx
 msgid "search.premium.name.noneNamed"
 msgstr "No place called “{asked}”"
@@ -807,6 +823,10 @@ msgstr "Nothing saved yet"
 #: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
 msgid "explore.home.savedNone"
 msgstr "Nothing saved yet"
+
+#: ../../apps/mobile/src/features/explore/premium/place/place-extras.tsx
+msgid "explore.offers.offline"
+msgstr "Offers need a connection."
 
 #: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
 msgid "explore.home.offlineBadge"
@@ -918,16 +938,16 @@ msgstr "Rather not"
 msgid "explore.premium.split.ratherNot"
 msgstr "Rather not"
 
+#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
+msgid "explore.saved.remove"
+msgstr "Remove"
+
 #: ../../apps/mobile/src/features/explore/premium/place/remove-for-everyone.tsx
 msgid "explore.detail.removeAll.confirm"
 msgstr "Remove"
 
 #: ../../apps/mobile/src/features/explore/premium/components/region-pack-card.tsx
 msgid "explore.pack.removeConfirm"
-msgstr "Remove"
-
-#: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
-msgid "explore.saved.remove"
 msgstr "Remove"
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
@@ -973,6 +993,10 @@ msgstr "Rename list"
 #: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
 msgid "explore.saved.renameName"
 msgstr "Rename this list"
+
+#: ../../apps/mobile/src/features/explore/premium/place/place-extras.tsx
+msgid "explore.profile.report"
+msgstr "Report a problem"
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-screen.tsx
 msgid "explore.place.retry"
@@ -1051,13 +1075,21 @@ msgstr "Search and the map work offline once {place} is on this phone."
 msgid "explore.home.search"
 msgstr "Search any city or country"
 
+#: ../../apps/mobile/src/features/explore/premium/place/place-extras.tsx
+msgid "explore.offers.open"
+msgstr "See offers"
+
 #: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
 msgid "explore.sponsored.seePassPlus"
 msgstr "See Pass+"
 
-#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-summary.tsx
 msgid "explore.swipe.seeIdeas"
 msgstr "See them in Ideas"
+
+#: ../../apps/mobile/src/features/explore/premium/place/place-extras.tsx
+msgid "explore.offers.body"
+msgstr "See what our booking partners have for {placeName}, in their own words."
 
 #: ../../apps/mobile/src/features/explore/premium/destination/month-card.tsx
 msgid "explore.panel.seen"
@@ -1143,6 +1175,10 @@ msgstr "Tap the heart on a place or a destination and it lands here."
 msgid "explore.category.temple"
 msgstr "Temple"
 
+#: ../../apps/mobile/src/features/explore/premium/place/place-extras.tsx
+msgid "explore.profile.reported"
+msgstr "Thanks. We’ll check this summary and write it again."
+
 #: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
 msgid "explore.solo.refused"
 msgstr "That didn't go through"
@@ -1150,6 +1186,10 @@ msgstr "That didn't go through"
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.refused.other"
 msgstr "That didn't go through. Try again in a moment."
+
+#: ../../apps/mobile/src/features/explore/premium/place/place-extras.tsx
+msgid "explore.profile.reportFailed"
+msgstr "That didn’t go through. Try again in a while."
 
 #: ../../apps/mobile/src/features/explore/premium/search/link-paste.tsx
 msgid "search.paste.notLink"
@@ -1167,7 +1207,7 @@ msgstr "That search didn’t come back."
 msgid "search.typedLink.eyebrow"
 msgstr "That’s a link"
 
-#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-summary.tsx
 msgid "explore.swipe.doneTitle"
 msgstr "That's the deck"
 
@@ -1194,6 +1234,10 @@ msgstr "The map and search are on this phone."
 #: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
 msgid "explore.premium.places.offlineTitle"
 msgstr "The map needs a signal"
+
+#: ../../apps/mobile/src/features/explore/premium/search/find-pin.tsx
+msgid "search.premium.pin.discardLine"
+msgstr "The name you typed goes."
 
 #: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
 msgid "explore.premium.places.failedTitle"
@@ -1236,7 +1280,7 @@ msgstr "This place didn't load"
 msgid "explore.place.goneTitle"
 msgstr "This place isn't listed any more"
 
-#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-summary.tsx
 msgid "explore.swipe.endedTitle"
 msgstr "This session is over"
 
@@ -1251,6 +1295,10 @@ msgstr "This trip is over, so its plan no longer changes."
 #: ../../apps/mobile/src/features/explore/premium/search/find-names.tsx
 msgid "search.name.arriving"
 msgstr "This trip's places are still arriving on this phone. Try again in a moment."
+
+#: ../../apps/mobile/src/features/explore/premium/place/place-extras.tsx
+msgid "explore.offers.title"
+msgstr "Tickets and tours"
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.estimate"
@@ -1272,10 +1320,6 @@ msgstr "Transit"
 msgid "explore.swipe.trip"
 msgstr "Trip"
 
-#: ../../apps/mobile/src/features/explore/premium/components/region-pack-card.tsx
-msgid "explore.pack.retry"
-msgstr "Try again"
-
 #: ../../apps/mobile/src/features/explore/premium/search/find-answer.tsx
 #: ../../apps/mobile/src/features/explore/premium/search/find-names.tsx
 #: ../../apps/mobile/src/features/explore/premium/search/link-sheet.tsx
@@ -1284,6 +1328,10 @@ msgstr "Try again"
 
 #: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
 msgid "explore.premium.places.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/explore/premium/components/region-pack-card.tsx
+msgid "explore.pack.retry"
 msgstr "Try again"
 
 #: ../../apps/mobile/src/features/explore/premium/places/places-words.ts
@@ -1309,6 +1357,10 @@ msgstr "Want it"
 #: ../../apps/mobile/src/features/explore/premium/split/split-page.tsx
 msgid "explore.premium.split.wantIt"
 msgstr "Want it"
+
+#: ../../apps/mobile/src/features/explore/premium/place/place-extras.tsx
+msgid "explore.offers.disclosure"
+msgstr "We may earn a commission if you book. It never changes what we rank first."
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-pin.tsx
 msgid "search.pin.name"

@@ -12,7 +12,6 @@ import { StyleSheet, View } from 'react-native';
 import { useWalletGuide } from '@/features/bookings';
 import { guideCritterKind, IconTile } from '@/features/trip';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
-import { toast } from '@/motion/island-toast';
 import {
   Button,
   CritterSticker,
@@ -21,6 +20,7 @@ import {
   StampMoment,
   Text,
   usePremiumTheme,
+  useToast,
 } from '@/ui/premium';
 
 import { useExportExpenses } from '../../export/use-export-expenses';
@@ -41,6 +41,7 @@ export function SettledSquare({ settle }: { readonly settle: Ready }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const guide = useWalletGuide();
+  const toast = useToast();
   const exporter = useExportExpenses();
   const recap = useScreenHref(
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a screen id, not copy
@@ -51,16 +52,20 @@ export function SettledSquare({ settle }: { readonly settle: Ready }) {
   const exportBooks = () =>
     void exporter.exportCsv().then((outcome) => {
       if (outcome === 'shared') return;
-      toast.show({
-        id: 'money-export',
-        title:
-          outcome === 'empty'
-            ? t({ id: 'money.premium.exportEmpty', message: 'Nothing to export yet.' })
-            : t({
+      toast.show(
+        outcome === 'empty'
+          ? {
+              kind: 'done',
+              message: t({ id: 'money.premium.exportEmpty', message: 'Nothing to export yet.' }),
+            }
+          : {
+              kind: 'error',
+              message: t({
                 id: 'money.premium.exportFailed',
                 message: "That export didn't work. Try again.",
               }),
-      });
+            },
+      );
     });
   return (
     <View style={{ gap: th.space.gap16 }} testID="money-settle-square">

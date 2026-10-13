@@ -4,6 +4,7 @@
  * in place.
  */
 import type { SharedPlanProjection } from '@cp/domain';
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { View } from 'react-native';
@@ -99,7 +100,10 @@ export function PlanDaysPremium({
       </Animated.View>
       {hidden > 0 ? (
         <TextButton
-          label={t({ id: 'community.detail.moreDays', message: `+ ${hidden} more days` })}
+          label={t({
+            id: 'community.detail.moreDays',
+            message: plural(hidden, { one: '+ # more day', other: '+ # more days' }),
+          })}
           onPress={() => setAllDays(true)}
           testID="shared-plan-more-days"
         />

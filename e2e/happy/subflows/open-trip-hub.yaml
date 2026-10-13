@@ -1,0 +1,40 @@
+appId: app.critterpass.dev
+---
+# Opens the trip's hub (6.01) from the TRIPS tab: Your trips lists the trip (the live one leads),
+# and its row pushes the hub. A trip that has turned on can show its welcome page first; it is
+# passed. Ends on `trip-hub`.
+- runFlow:
+    file: ../../_shared/tab.yaml
+    env:
+      TAB: trips
+      LABEL: Trips
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-list-row-.*|trip-hub'
+    timeout: 30000
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-hub'
+    commands:
+      - tapOn:
+          id: 'trip-list-row-.*'
+          index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'

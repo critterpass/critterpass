@@ -1,6 +1,6 @@
-// Skia's native renderer does not exist under Jest; see ui/avatar/test-support/skia-double for the stand-in.
+// Skia's native renderer does not exist under Jest; see lib/test-support/cutout-skia-double for the stand-in.
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/avatar/test-support/skia-double'));
+jest.mock('@shopify/react-native-skia', () => require('@/lib/test-support/cutout-skia-double'));
 
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';

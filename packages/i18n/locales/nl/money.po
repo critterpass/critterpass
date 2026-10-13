@@ -892,7 +892,7 @@ msgstr ""
 msgid "money.scan.reading"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/SettleRemindFooter.tsx
 msgid "money.settle.remind"
 msgstr ""
 
@@ -900,7 +900,7 @@ msgstr ""
 msgid "money.settle.reminded"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/SettleRemindFooter.tsx
 msgid "money.premium.remindOffline"
 msgstr ""
 

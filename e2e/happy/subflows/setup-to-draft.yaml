@@ -9,26 +9,10 @@ appId: app.critterpass.dev
     file: ../../_shared/start-as.yaml
     env:
       SCENARIO: vote_final
-- extendedWaitUntil:
-    visible:
-      id: 'final-split-open'
-    timeout: 20000
-# The card runs under the tab bar: centred, a tap on it misses the guide button.
-- scrollUntilVisible:
-    element:
-      id: 'final-split-open'
-    timeout: 20000
-    centerElement: true
+- runFlow: open-showdown.yaml
 - waitForAnimationToEnd
 - tapOn:
-    id: 'final-split-open'
-- extendedWaitUntil:
-    visible:
-      id: 'showdown'
-    timeout: 15000
-- waitForAnimationToEnd
-- tapOn:
-    id: 'showdown-half-0'
+    id: 'showdown-vote-0'
 - extendedWaitUntil:
     visible:
       id: 'reveal-set-up'
@@ -36,10 +20,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'reveal-set-up'
-- extendedWaitUntil:
-    visible:
-      id: 'setup-step-when'
-    timeout: 20000
+- runFlow: open-setup-when.yaml
 - runFlow: setup-when.yaml
 - extendedWaitUntil:
     visible:
@@ -124,5 +105,5 @@ appId: app.critterpass.dev
     timeout: 30000
 - extendedWaitUntil:
     visible:
-      id: 'drafting-steps'
+      id: 'drafting-title'
     timeout: 30000

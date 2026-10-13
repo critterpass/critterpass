@@ -1,0 +1,166 @@
+appId: app.critterpass.dev
+---
+# Home for a crew of one with nothing planned (the `crew_with_code` start), light: the first sync
+# when it is still shimmering (3.03, 1.02), the crew-ready Home (3.01), the empty passport on Trips
+# (3.06), the first-time inbox and its caught-up state (3.18, 1.01), the crew switcher (3.07), then
+# a second crew started from it (3.08), its code ticket (3.09) and the invite sheet (3.10).
+- runFlow:
+    when:
+      visible:
+        id: 'home-loading'
+    commands:
+      - takeScreenshot: premium-3.03-first-sync-light
+      - takeScreenshot: premium-1.02-loading-light
+- extendedWaitUntil:
+    visible:
+      id: 'home-no-trip'
+    timeout: 10000
+    optional: true
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '3.01'
+      NAME: crew-ready
+      LOOK: light
+
+- runFlow:
+    file: ../../_shared/tab.yaml
+    env:
+      TAB: trips
+      LABEL: Trips
+- extendedWaitUntil:
+    visible:
+      id: 'trip-list-empty'
+    timeout: 10000
+    optional: true
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '3.06'
+      NAME: no-trips
+      LOOK: light
+- runFlow:
+    file: ../../_shared/tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
+
+# The bell: a new account sees what will land here first.
+- runFlow:
+    file: ../../_shared/tap.yaml
+    env:
+      ID: 'home-bell'
+      LABEL: 'Inbox'
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-(first-time|caught-up|screen)'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'inbox-first-time'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '3.18'
+            NAME: first-time
+            LOOK: light
+      - tapOn:
+          id: 'inbox-not-now'
+          optional: true
+      - waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'inbox-caught-up'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '1.01'
+            NAME: caught-up
+            LOOK: light
+- runFlow:
+    file: ../../_shared/back-to.yaml
+    env:
+      MARK: home-screen
+
+# The switcher under the Home title, then "Start a crew" from it.
+- runFlow:
+    file: home-switcher.yaml
+    env:
+      LOOK: light
+- tapOn:
+    id: 'home-crew-switcher'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'home-start-crew'
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'home-start-crew'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'start-crew-name'
+    commands:
+      - tapOn:
+          id: 'start-crew-name'
+      - inputText: 'Saigon Supper Club'
+      - hideKeyboard
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '3.08'
+            NAME: start-crew
+            LOOK: light
+      - runFlow:
+          file: ../../_shared/tap.yaml
+          env:
+            ID: 'start-crew-create'
+            LABEL: 'Start'
+      - extendedWaitUntil:
+          visible:
+            id: 'crew-created'
+          timeout: 30000
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '3.09'
+            NAME: crew-on
+            LOOK: light
+      - tapOn:
+          id: 'start-crew-invite'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'crew-invite'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'crew-invite'
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '3.10'
+                  NAME: invite-sheet
+                  LOOK: light
+- runFlow:
+    file: ../../_shared/back-to.yaml
+    env:
+      MARK: home-screen

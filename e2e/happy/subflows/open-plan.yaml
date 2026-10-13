@@ -1,0 +1,23 @@
+appId: app.critterpass.dev
+---
+# Opens the trip's plan map (4.25) from its hub's Plan door (or tile): back to Home first, then
+# Your trips → the hub → Plan. Ends on the map with the whole trip's days listed.
+- runFlow:
+    file: ../../_shared/to-home.yaml
+- runFlow: open-trip-hub.yaml
+- runFlow: answer-visit-offer.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-door-plan|trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'trip-hub-door-plan|trip-hub-tile-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-1|day-chip-1'
+    timeout: 60000

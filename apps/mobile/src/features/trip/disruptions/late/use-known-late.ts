@@ -9,6 +9,7 @@
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 
+import { shortName } from '@/lib/people/member-name';
 import { commandOutcome } from '@/data/commands/outcome';
 import { useCommand } from '@/data/commands/use-command';
 import { useSyncPhase } from '@/data/status/use-sync-status';
@@ -91,7 +92,10 @@ export function useKnownLate(id: string): LateScene {
     state: !late.loaded ? 'loading' : model === null ? 'missing' : 'ready',
     model: model,
     reason: row === null ? '' : (words('disruption', row, 'summary') ?? row.summary),
-    lateNames: party.map((p) => p.name).filter((name) => name !== ''),
+    lateNames: party
+      .map((p) => p.name)
+      .filter((name) => name.trim() !== '')
+      .map((name) => shortName(name)),
     guide: guide,
     guideName: guideName(guide, trip?.guide_name),
     sending: sending,

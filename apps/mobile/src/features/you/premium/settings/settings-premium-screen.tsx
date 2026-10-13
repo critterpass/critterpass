@@ -5,10 +5,20 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { SettingsRow } from '@/ui/premium/cards/settings-row';
-import { Icon, ListCard, Row, SegmentedControl, Text, Toggle, usePremiumTheme } from '@/ui/premium';
+import {
+  hitSlopFor,
+  Icon,
+  ListCard,
+  PressableScale,
+  Row,
+  SegmentedControl,
+  Text,
+  Toggle,
+  usePremiumTheme,
+} from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
 import type { AccountServices } from '../../account/account-services';
@@ -78,7 +88,7 @@ function PremiumSettingsRow({
       );
     case 'destructive':
       return (
-        <Pressable
+        <PressableScale
           onPress={row.disabled === true ? undefined : row.onPress}
           disabled={row.disabled === true}
           accessibilityRole="button"
@@ -101,7 +111,7 @@ function PremiumSettingsRow({
               {row.subtitle}
             </Text>
           )}
-        </Pressable>
+        </PressableScale>
       );
     case 'custom':
       return (
@@ -157,10 +167,11 @@ export function SettingsPremiumScreen({
               onPress: plan.onPress,
               testID: 'you-settings-plan',
               element: (
-                <Pressable
+                <PressableScale
                   onPress={plan.onPress}
                   accessibilityRole="button"
                   accessibilityLabel={plan.label}
+                  hitSlop={hitSlopFor(0, 32)}
                   style={{
                     height: 32,
                     paddingHorizontal: 12,
@@ -172,7 +183,7 @@ export function SettingsPremiumScreen({
                   <Text variant="noteAction" tone="onAccent">
                     {`${plan.label} ›`}
                   </Text>
-                </Pressable>
+                </PressableScale>
               ),
             },
           })}
@@ -207,7 +218,7 @@ export function SettingsPremiumScreen({
               </ListCard>
             </View>
           ))}
-        <Pressable
+        <PressableScale
           onPress={playTokekTheme}
           accessibilityRole="button"
           style={{ alignItems: 'center', paddingVertical: th.space.gap16 }}
@@ -216,7 +227,7 @@ export function SettingsPremiumScreen({
           <Text variant="mono" tone="placeholder">
             {model.version}
           </Text>
-        </Pressable>
+        </PressableScale>
       </View>
     </PushScreen>
   );

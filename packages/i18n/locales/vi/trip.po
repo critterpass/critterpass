@@ -61,9 +61,29 @@ msgstr "+{minutes} phút"
 msgid "trip.dayOf.premium.freeTitle"
 msgstr "Một ngày tự do, có chủ đích"
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.notificationTitle"
+msgstr "Là thông báo, không phải báo thức"
+
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
 msgid "trip.dayOf.premium.addPack"
 msgstr "Thêm đồ cần mang"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.deniedTitle"
+msgstr "Báo thức đang tắt"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.askAllow"
+msgstr "Cho phép báo thức"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.exactOpen"
+msgstr "Cho phép báo thức chính xác"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.exactBody"
+msgstr "Android chỉ đổ chuông đúng phút cho những ứng dụng bạn cho phép. Nếu không, báo thức giờ xuất phát có thể reo trễ vài phút."
 
 #: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
 msgid "trip.offline.backOnline"
@@ -97,6 +117,10 @@ msgstr "Huỷ"
 #: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
 msgid "trip.hub.premium.keep"
 msgstr "Huỷ"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "common.confirm.cancel"
+msgstr "Hủy"
 
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
 msgid "trip.lockScreen.asking"
@@ -154,6 +178,10 @@ msgstr "Đi"
 msgid "trip.lockScreen.done"
 msgstr "Đã hiểu"
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.notificationOk"
+msgstr "Đã hiểu"
+
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
 msgid "trip.dayOf.premium.packPlaceholder"
 msgstr "Đèn pin đội đầu, áo khoác…"
@@ -193,6 +221,10 @@ msgstr "Chỉ báo thức giờ xuất phát của riêng tôi"
 #: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
 msgid "trip.disruptions.late.etaStale"
 msgstr "Dự kiến gần nhất {eta}"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.askTitle"
+msgstr "Cho báo thức giờ xuất phát đổ chuông?"
 
 #: ../../apps/mobile/src/features/trip/premium/hub/HubSwitch.tsx
 msgid "trip.hub.door.map"
@@ -242,6 +274,10 @@ msgstr "Ngoại tuyến"
 msgid "trip.offline.conflictOk"
 msgstr "OK"
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.notificationBody"
+msgstr "Ở phiên bản này, giờ xuất phát sẽ báo bằng thông báo có nút Mình dậy rồi và Báo lại. Thông báo không kêu khi máy để im lặng, nên tối nay nhớ bật chuông nhé."
+
 #: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
 msgid "trip.offline.online"
 msgstr "Có sóng"
@@ -249,6 +285,10 @@ msgstr "Có sóng"
 #: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
 msgid "trip.hub.premium.offlineOpen"
 msgstr "Mở"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.deniedOpen"
+msgstr "Mở Cài đặt"
 
 #: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
 msgid "trip.offline.premium.openPlan"
@@ -273,6 +313,10 @@ msgstr "Phương án B"
 #: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
 msgid "trip.dayOf.premium.doneLine"
 msgstr "Nghỉ ngơi đi. Ngày mai đã có kế hoạch."
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.exactTitle"
+msgstr "Reo đúng phút"
 
 #: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
 msgid "trip.dayOf.premium.late"
@@ -322,9 +366,17 @@ msgstr "Hết lịch hôm nay rồi."
 msgid "trip.disruptions.forecast.premiumTitle"
 msgstr "Phần còn lại của chuyến đi"
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.askBody"
+msgstr "Báo thức reo cả khi máy để im lặng hay bật Tập trung, chỉ vào giờ xuất phát và chỉ khi bạn chưa dậy. {guideName} ngừng reo ngay khi bạn chạm Mình dậy rồi."
+
 #: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
 msgid "trip.briefing.premium.eyebrow"
 msgstr "ĐIỂM TIN SÁNG NAY"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.deniedBody"
+msgstr "Điện thoại này sẽ không reo giờ xuất phát. {guideName} chỉ reo trong ứng dụng khi ứng dụng đang mở, và cả nhóm sẽ được nhắn gõ cửa nếu bạn ngủ quên."
 
 #: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
 msgid "trip.disruptions.forecast.premiumMissing"

@@ -47,7 +47,7 @@ appId: app.critterpass.dev
     when:
       visible:
         id: 'pitch-add'
-    file: ../onboarding/subflows/back.yaml
+    file: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'destination-board'
@@ -68,10 +68,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'reveal-set-up'
-- extendedWaitUntil:
-    visible:
-      id: 'setup-step-when'
-    timeout: 20000
+- runFlow: subflows/open-setup-when.yaml
 # Tomorrow in Vietnam, three days, picked in the day picker by each day's own id (the first and the
 # last), so nothing depends on the screen's size. The picker opens on the month of its suggested
 # week, which may be another month than tomorrow's: pick-days.yaml turns the sheet to each day. Every
@@ -115,15 +112,13 @@ appId: app.critterpass.dev
 # when these dates have no fares) once the prices are read.
 - extendedWaitUntil:
     visible:
-      id: 'budget-track'
+      id: 'budget-step'
     timeout: 45000
 - extendedWaitUntil:
     visible:
-      id: 'budget-bars|budget-bars-missing'
+      id: 'budget-amount'
+      text: '.*₫.*'
     timeout: 30000
-- assertVisible:
-    id: 'budget-track'
-    text: '.*₫.*'
 - waitForAnimationToEnd
 - takeScreenshot: en-fresh-vnd-budget
 # LOOKS GOOD, once: setup moves on with no "didn't lock" line on the way. Next is the rooms step,

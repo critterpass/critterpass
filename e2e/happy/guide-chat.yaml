@@ -1,56 +1,50 @@
 appId: app.critterpass.dev
 ---
-# Happy path: ask the guide a question on staging and get a streamed answer. The guide button opens
-# the sheet (3j-1) over Home, the question goes to the turn route, and the answer types in.
+# Happy path: ask the guide a question on staging and get a streamed answer. The guide circle opens
+# the guide's sheet over Home, the question goes to the turn route, and the answer types in. The
+# "Who sees this" switch then shows Me (a thread of its own, without the group's question) and
+# Group (the answer back).
 #
 # Data: a new account starts as the staging demo world (`everyday`), which gives it a confirmed Bali
 # trip with Tokek as its guide. Needs the staging api's guide model key (the turn route is not
 # mounted without one) and a free meter with answers left (a fresh account starts at 0 of 30).
-- launchApp:
-    clearState: true
 - runFlow:
     file: ../_shared/start-as.yaml
     env:
       SCENARIO: everyday
+- runFlow:
+    file: subflows/open-guide.yaml
+    env:
+      GUIDE_LABEL: 'Ask .*'
 - tapOn:
-    id: 'guide-fab'
-# The sheet's root id isn't in iOS's accessibility tree; its composer is.
-- extendedWaitUntil:
-    visible:
-      id: 'guide-composer'
-    timeout: 15000
-# iOS reads the field's label and its placeholder together (the same words twice).
-- tapOn: 'Ask, or hold to talk.*'
+    id: 'guide-composer'
 - inputText: 'What should we pack for rain in Ubud?'
-- tapOn: 'Send'
-# The answer streams in: the live answer once its first words arrive, or its saved copy once it has
-# synced. A short answer can finish streaming before the flow looks, so the live turn itself is not
-# awaited; either element holds answer text.
+# The composer's send carries no id: it is the button labelled Ask.
+- tapOn: 'Ask'
 - extendedWaitUntil:
     visible:
       id: 'guide-answer-(live|[0-9a-f-]{36})'
     timeout: 90000
 - assertNotVisible:
     id: 'guide-error'
-- takeScreenshot: happy-guide-chat
-# With a crew on the trip the sheet has GROUP / JUST ME. Just me is its own thread: the group's
-# question and its answer are not carried over, and they are back on Group.
+- takeScreenshot: premium-5.13-guide-answer-light
 - runFlow:
     when:
       visible:
-        id: 'guide-modes'
+        id: 'guide-mode'
     commands:
-      - tapOn: 'Just me'
+      - tapOn:
+          id: 'guide-mode-private'
       - waitForAnimationToEnd:
           timeout: 3000
-      - assertNotVisible: 'What should we pack for rain in Ubud\?'
+      - assertNotVisible: '.*What should we pack for rain in Ubud\?.*'
       - assertNotVisible:
           id: 'guide-answer-live'
-      - takeScreenshot: en-3j-1-just-me-after-group-turn
-      - tapOn: 'Group'
-      # The group thread opens at its end: its answer shows, the question sits above it.
+      - takeScreenshot: premium-5.13-just-me-after-group-turn-light
+      - tapOn:
+          id: 'guide-mode-group'
       - extendedWaitUntil:
           visible:
             id: 'guide-answer-(live|[0-9a-f-]{36})'
           timeout: 20000
-      - takeScreenshot: en-3j-1-group-after-just-me
+      - takeScreenshot: premium-5.13-group-after-just-me-light

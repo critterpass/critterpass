@@ -7,6 +7,10 @@ describe('name suggestions at the limit', () => {
     expect(nameSuggestions('Winston Alexander Montgomery')).toEqual(['Winston', 'Winston M.']);
   });
 
+  it('offers the given name of a family-name-first name, never the family name', () => {
+    expect(nameSuggestions('Đặng Thị Ngọc Hân Phương Linh')).toEqual(['Linh', 'Linh Đ.']);
+  });
+
   it('offers nothing for a single word', () => {
     expect(nameSuggestions('Bartholomewbartholomewba')).toEqual([]);
   });

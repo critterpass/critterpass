@@ -1,0 +1,56 @@
+appId: app.critterpass.dev
+---
+# Switches the app to ${LANG} (en or vi) as a person would: PASS → Settings → Language, then the
+# language's row. Ends on the Language page in the new language; the caller goes on from there
+# (`back-to.yaml`, or a tab).
+# From a pushed screen the tab bar is hidden: back to a tab root first.
+- runFlow:
+    file: back-to.yaml
+    env:
+      MARK: 'home-screen|you-profile|trip-list-row-.*|wallet-switch'
+- runFlow:
+    file: tab.yaml
+    env:
+      TAB: pass
+      LABEL: Pass
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile'
+    timeout: 30000
+- runFlow:
+    file: tap.yaml
+    env:
+      ID: 'you-profile-settings'
+      LABEL: 'Settings|Cài đặt'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'you-settings-language'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'you-settings-language'
+- extendedWaitUntil:
+    visible:
+      id: 'you-language-list'
+    timeout: 15000
+# The list shows the first few languages; the rest are behind "N more".
+- runFlow:
+    when:
+      notVisible:
+        id: 'you-language-${LANG}'
+    commands:
+      - tapOn:
+          id: 'you-language-more'
+- scrollUntilVisible:
+    element:
+      id: 'you-language-${LANG}'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'you-language-${LANG}'
+- waitForAnimationToEnd:
+    timeout: 5000

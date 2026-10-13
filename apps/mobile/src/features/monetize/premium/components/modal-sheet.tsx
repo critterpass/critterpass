@@ -2,7 +2,8 @@
  * A sheet the page draws itself, for screens presented see-through over the page that opened them
  * (the `(modal)` group, the seat-limit presenter): the page dims, a sheet-glass panel inset 8 with a
  * 46 corner rises on Smooth, grabber on top, Cancel left and a centred title. Dragging it down or
- * tapping the dimmed page cancels. Reduce Motion: a 150 ms fade.
+ * tapping the dimmed page cancels; it leaves on the same Smooth spring it rose on, carrying the
+ * drag's speed. Reduce Motion: a 150 ms fade.
  */
 import { useCallback, useEffect, type ReactNode } from 'react';
 import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
@@ -68,23 +69,29 @@ export function ModalSheet({
     y.set(withSpring(0, SPRINGS.smooth));
   }, [reduced, fade, y, height]);
 
-  const close = useCallback(() => {
-    if (reduced) {
-      fade.set(withTiming(0, REDUCED_FADE, () => scheduleOnRN(onCancel)));
-      return;
-    }
-    fade.set(withTiming(0, { duration: MONETIZE_TIMING.sheetFadeOut }));
-    y.set(
-      withTiming(height, { duration: MONETIZE_TIMING.sheetDropOut }, () => scheduleOnRN(onCancel)),
-    );
-  }, [reduced, fade, y, height, onCancel]);
+  const close = useCallback(
+    (velocity = 0) => {
+      if (reduced) {
+        fade.set(withTiming(0, REDUCED_FADE, () => scheduleOnRN(onCancel)));
+        return;
+      }
+      fade.set(withTiming(0, { duration: MONETIZE_TIMING.sheetFadeOut }));
+      // Clamped so the sheet never bounces back into view on the way out.
+      y.set(
+        withSpring(height, { ...SPRINGS.smooth, velocity, overshootClamping: true }, () =>
+          scheduleOnRN(onCancel),
+        ),
+      );
+    },
+    [reduced, fade, y, height, onCancel],
+  );
 
   const pan = Gesture.Pan()
     .onUpdate((e) => {
       y.set(Math.max(0, e.translationY));
     })
     .onEnd((e) => {
-      if (e.translationY > DISMISS_AT || e.velocityY > 900) scheduleOnRN(close);
+      if (e.translationY > DISMISS_AT || e.velocityY > 900) scheduleOnRN(close, e.velocityY);
       else y.set(withSpring(0, SPRINGS.smooth));
     });
 
@@ -101,7 +108,7 @@ export function ModalSheet({
           style={StyleSheet.absoluteFill}
           accessibilityRole="button"
           accessibilityLabel={cancelLabel}
-          onPress={close}
+          onPress={() => close()}
         />
       </Animated.View>
       <Animated.View
@@ -129,7 +136,11 @@ export function ModalSheet({
               <View style={[styles.grabber, { backgroundColor: t.color.outlineEmpty }]} />
               <View style={styles.headRow}>
                 <View style={styles.side}>
-                  <TextButton label={cancelLabel} onPress={close} testID="modal-sheet-cancel" />
+                  <TextButton
+                    label={cancelLabel}
+                    onPress={() => close()}
+                    testID="modal-sheet-cancel"
+                  />
                 </View>
                 <View style={styles.titles}>
                   {title === undefined ? null : (

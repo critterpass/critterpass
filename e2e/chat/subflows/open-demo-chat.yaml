@@ -4,13 +4,15 @@ appId: app.critterpass.dev
 # a few messages, and Home's chat button opens the crew chat once the crewmates' messages are in.
 - launchApp:
     clearState: true
-- runFlow: ../../home/subflows/onboard.yaml
+# On the premium UI (the only one the flows drive).
+- runFlow: ../../_shared/premium-ui.yaml
+- runFlow: ../../happy/subflows/onboard.yaml
 - runFlow:
     file: ../../_shared/seed-demo.yaml
     env:
       SEED: dev-seed-demo
 - tapOn:
-    id: 'home-header-chat'
+    id: 'home-chat'
 - extendedWaitUntil:
     visible:
       id: 'chat-composer'

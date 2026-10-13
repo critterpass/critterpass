@@ -5,6 +5,7 @@
  * new line; send sends. The bar carries the reply strip above the field.
  */
 import { t } from '@lingui/core/macro';
+import * as Haptics from 'expo-haptics';
 import { forwardRef, type ReactNode, type ComponentRef } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 
@@ -12,6 +13,7 @@ import {
   CritterSticker,
   Icon,
   PressableScale,
+  hitSlopFor,
   Text,
   makePremiumStyles,
   usePremiumTheme,
@@ -23,6 +25,9 @@ import { ring } from '../premium-paint';
 const FIELD = 40;
 const SIDE = 38;
 const STICKER_BUTTON = 32;
+const SIDE_SLOP = hitSlopFor(SIDE, SIDE);
+const STICKER_SLOP = hitSlopFor(STICKER_BUTTON, STICKER_BUTTON);
+const STRIP_SLOP = hitSlopFor(16, 16);
 
 const useStyles = makePremiumStyles((th) => ({
   bar: { paddingHorizontal: th.space.gap12, paddingTop: th.space.gap10, gap: th.space.gap8 },
@@ -107,6 +112,7 @@ export const ComposerBar = forwardRef<ComponentRef<typeof TextInput>, ComposerBa
             <PressableScale
               style={styles.plus}
               onPress={props.onAdd}
+              hitSlop={SIDE_SLOP}
               accessibilityRole="button"
               accessibilityLabel={t({
                 id: 'chat.premium.composer.add',
@@ -140,6 +146,7 @@ export const ComposerBar = forwardRef<ComponentRef<typeof TextInput>, ComposerBa
                 },
               ]}
               onPress={props.onToggleTray}
+              hitSlop={STICKER_SLOP}
               accessibilityRole="button"
               accessibilityState={{ expanded: props.trayOpen }}
               accessibilityLabel={
@@ -155,7 +162,11 @@ export const ComposerBar = forwardRef<ComponentRef<typeof TextInput>, ComposerBa
           {props.canSend ? (
             <PressableScale
               style={styles.send}
-              onPress={props.onSend}
+              onPress={() => {
+                void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                props.onSend();
+              }}
+              hitSlop={SIDE_SLOP}
               accessibilityRole="button"
               accessibilityLabel={t({ id: 'chat.premium.composer.send', message: 'Send' })}
               testID="chat-send"
@@ -164,9 +175,21 @@ export const ComposerBar = forwardRef<ComponentRef<typeof TextInput>, ComposerBa
             </PressableScale>
           ) : props.onMicTap === undefined ? null : (
             <Pressable
-              style={[styles.mic, props.recording ? { opacity: 0.6 } : null]}
+              style={({ pressed }) => [
+                styles.mic,
+                pressed ? { transform: [{ scale: th.motion.pressScale }] } : null,
+                props.recording ? { opacity: 0.6 } : null,
+              ]}
+              hitSlop={SIDE_SLOP}
               onPress={props.onMicTap}
-              onLongPress={props.onMicHoldStart}
+              onLongPress={
+                props.onMicHoldStart === undefined
+                  ? undefined
+                  : () => {
+                      void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                      props.onMicHoldStart?.();
+                    }
+              }
               onPressOut={props.recording ? props.onMicHoldEnd : undefined}
               accessibilityRole="button"
               accessibilityLabel={t({
@@ -216,6 +239,7 @@ export function ComposerStrip({
       </View>
       <PressableScale
         onPress={onCancel}
+        hitSlop={STRIP_SLOP}
         accessibilityRole="button"
         accessibilityLabel={t({ id: 'chat.premium.composer.cancelStrip', message: 'Cancel' })}
         testID="chat-strip-cancel"

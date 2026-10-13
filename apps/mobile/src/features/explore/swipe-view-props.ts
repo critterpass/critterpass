@@ -16,6 +16,8 @@ export type SwipeStage =
       readonly kind: 'deck';
       readonly top: SwipeCardFace;
       readonly under: SwipeCardFace | null;
+      /** The next few cards, top first, so the deck can keep one card waiting behind. */
+      readonly ahead: readonly SwipeCardFace[];
       readonly why: readonly WhyLine[];
     }
   | ({ readonly kind: 'summary' } & Omit<DeckSummaryProps, 'guideName' | 'onDone'>);
@@ -28,6 +30,8 @@ export interface SwipeViewProps {
   readonly done: number;
   readonly total: number;
   readonly matchCount: number;
+  /** Opens the trip's Ideas (where every match lands), from any stage. */
+  readonly onIdeas?: (() => void) | undefined;
   readonly offline: boolean;
   readonly stage: SwipeStage;
   readonly whyOpen: boolean;

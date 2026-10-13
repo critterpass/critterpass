@@ -6,7 +6,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
-import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import {
   Avatar,
@@ -23,6 +23,7 @@ import { restingAngle, type AwardsCardProps } from '../../../story/story-card-vi
 import type { ReceiptCardProps } from '../../../story/story-card-views';
 import { CardFrame } from './card-frame';
 import { useClockReached } from './use-clock';
+import { popIn } from '../../entrances';
 
 const RECEIPT_TILT = -2;
 const STAMP_TILT = -14;
@@ -150,7 +151,7 @@ export function PremiumReceiptCard(props: ReceiptCardProps) {
         </View>
         {props.paidLabel !== null && stamped ? (
           <Animated.View
-            entering={reduced ? FadeIn.duration(150) : ZoomIn.springify().damping(12)}
+            entering={popIn(reduced, 'lively')}
             style={{ position: 'absolute', right: -6, bottom: 24 }}
             testID="recap-receipt-paid"
           >

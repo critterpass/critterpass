@@ -17,7 +17,7 @@ msgstr "{change} đã ra khỏi kế hoạch"
 
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.premium.trips.comingCount"
-msgstr "{comingCount} chuyến đi"
+msgstr "{comingCount, plural, other {# chuyến đi}}"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.ideasPlaced.title"
@@ -39,7 +39,7 @@ msgstr "{count} người đi"
 msgid "home.premium.going"
 msgstr "{count} người đi"
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-rows.tsx
 msgid "home.premium.switcher.members"
 msgstr "{count} người trong nhóm"
 
@@ -75,6 +75,10 @@ msgstr "{crewName} đang ở {place}."
 msgid "home.joinTrip.titleNow"
 msgstr "{crewName} đang trong chuyến đi."
 
+#: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
+msgid "home.premium.back.eyebrow"
+msgstr "{daysHome, plural, other {Về nhà # ngày}}"
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.guideDid"
 msgstr "{guide} {summary}"
@@ -95,7 +99,7 @@ msgstr "{guide} sẽ nhắc {name} lúc {at}, khi bạn ấy hay mở app."
 msgid "home.inbox.tip"
 msgstr "{guide}: {tip}"
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-rows.tsx
 msgid "home.premium.switcher.invitedBy"
 msgstr "{inviter} mời bạn"
 
@@ -347,9 +351,9 @@ msgstr "Chào {firstName}"
 msgid "home.premium.title"
 msgstr "Trang chủ"
 
-#: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
-msgid "home.premium.back.eyebrow"
-msgstr "Về nhà {daysHome} ngày"
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
+msgid "home.premium.inbox.back"
+msgstr "Trang chủ"
 
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.premium.trips.homeTab"
@@ -453,7 +457,7 @@ msgstr "Sắp tới"
 msgid "home.premium.nextUpOn"
 msgstr "Sắp tới · {day}"
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-rows.tsx
 msgid "home.premium.switcher.next"
 msgstr "Tiếp theo: {next}"
 
@@ -939,7 +943,7 @@ msgstr "Bạn sẽ thấy các chuyến đi và đoạn chat của nhóm."
 msgid "home.joinTrip.body"
 msgstr "Bạn đã vào nhóm nhưng chưa có tên trong chuyến này. Tham gia để cùng xem lịch trình và chia chi phí."
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-rows.tsx
 msgid "home.premium.switcher.invited"
 msgstr "Bạn được mời"
 

@@ -6,7 +6,8 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { amountText, digitsToMinor } from '@/data/money/amount-digits';
 import { useWalletGuide, WalletGuideProvider } from '@/features/bookings';
@@ -21,7 +22,7 @@ import {
   TextField,
   usePremiumTheme,
 } from '@/ui/premium';
-import { KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
+import { KeyboardAwareScroll, KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
 
 import { estimateMinor, finishDeltaShown } from '../budget/estimates';
 import { useBudget, type BudgetState } from '../budget/use-budget';
@@ -121,6 +122,9 @@ function Summary({ budget }: { readonly budget: Ready }) {
 
 function Body({ budget }: { readonly budget: Ready }) {
   const th = usePremiumTheme();
+  const insets = useSafeAreaInsets();
+  // Clears the home indicator with the keyboard down, and sits a gap above the keyboard when up.
+  const footerPad = Math.max(insets.bottom, th.space.gap12);
   const { t } = useLingui();
   const locale = useLocale();
   const guide = useWalletGuide();
@@ -132,10 +136,8 @@ function Body({ budget }: { readonly budget: Ready }) {
   const hasPlan = budget.forecast.plannedMinor !== null;
   return (
     <>
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        keyboardDismissMode="interactive"
-        keyboardShouldPersistTaps="handled"
+      <KeyboardAwareScroll
+        bottomOffset={th.size.button + th.space.gap12 + th.space.gap16}
         contentContainerStyle={{ paddingTop: 8, paddingBottom: 40, gap: th.space.gap16 }}
       >
         <Summary budget={budget} />
@@ -169,10 +171,10 @@ function Body({ budget }: { readonly budget: Ready }) {
             />
           </View>
         ) : null}
-      </ScrollView>
+      </KeyboardAwareScroll>
       {budget.organiser ? (
-        <KeyboardStickyFooter>
-          <View style={{ paddingHorizontal: th.space.titleGutter, paddingBottom: th.space.gap12 }}>
+        <KeyboardStickyFooter openedOffset={th.space.gap12 - footerPad}>
+          <View style={{ paddingHorizontal: th.space.titleGutter, paddingBottom: footerPad }}>
             {setting ? (
               <Button
                 label={t({ id: 'money.payout.save', message: 'Save' })}

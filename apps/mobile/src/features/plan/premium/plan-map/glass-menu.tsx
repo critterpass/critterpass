@@ -5,7 +5,7 @@
  */
 import type { ReactNode } from 'react';
 import { Modal, Pressable, StyleSheet, View } from 'react-native';
-import Animated, { FadeIn, FadeOut, ZoomIn } from 'react-native-reanimated';
+import Animated, { FadeOut } from 'react-native-reanimated';
 
 import {
   GlassSurface,
@@ -19,6 +19,7 @@ import {
   type PremiumIconName,
 } from '@/ui/premium';
 import { useShellExtras } from '@/ui/premium/shell/shell-theme';
+import { popIn } from '../entrances';
 
 export interface GlassMenuItem {
   readonly key: string;
@@ -70,7 +71,7 @@ export function GlassMenu({
   const t = usePremiumTheme();
   const extras = useShellExtras();
   const reduced = usePremiumReducedMotion();
-  const enter = reduced ? FadeIn.duration(REDUCED_FADE_MS) : ZoomIn.springify();
+  const enter = popIn(reduced);
   const position = alignEnd
     ? { right: anchor.x, top: anchor.y }
     : { left: anchor.x, top: anchor.y };

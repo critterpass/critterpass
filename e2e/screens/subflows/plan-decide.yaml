@@ -1,0 +1,57 @@
+appId: app.critterpass.dev
+---
+# Deciding, light, from the `vote_final` Home: the showdown (4.05) and the last vote's winner
+# stamp (4.06), then the setup that follows it (plan-setup.yaml). Voting and drafting act on the
+# seeded test crew. Ends on Home.
+- scrollUntilVisible:
+    element:
+      id: 'final-split-open'
+    direction: DOWN
+    timeout: 20000
+    centerElement: true
+    optional: true
+- tapOn:
+    id: 'final-split-open'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'showdown-half-0'
+    timeout: 15000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'showdown-half-0'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '4.05'
+            NAME: showdown
+      # The account's vote is the last one needed: the poll closes and the reveal plays once. The
+      # vote is cast from the dock's button (a half only picks its side).
+      - runFlow:
+          file: ../../_shared/tap.yaml
+          env:
+            ID: 'showdown-vote-0'
+            LABEL: 'Vote .*'
+      - extendedWaitUntil:
+          visible:
+            id: 'reveal-stamp|reveal-set-up|reveal-back-home'
+          timeout: 60000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'reveal-stamp|reveal-set-up|reveal-back-home'
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '4.06'
+                  NAME: winner
+      - tapOn:
+          id: 'reveal-set-up'
+          optional: true
+- runFlow: plan-setup.yaml
+- runFlow: plan-home.yaml

@@ -11,7 +11,7 @@ import { isGuideStickerId } from '@/ui/premium/stickers/guides';
 import type { GuideId } from '@/lib/navigation/active-guide';
 
 import { useLiveRows } from './rows';
-import { memberFirstName } from '@/lib/people/member-name';
+import { memberFirstName, shortName } from '@/lib/people/member-name';
 
 export interface SetupMember {
   readonly uid: string;
@@ -110,7 +110,7 @@ function stepOf(value: string | null): TripSetupStep {
 }
 
 export function firstName(displayName: string | null): string {
-  return displayName?.trim().split(/\s+/u)[0] ?? '';
+  return displayName == null || displayName.trim() === '' ? '' : shortName(displayName);
 }
 
 export function toSetupTrip(

@@ -429,6 +429,14 @@ msgstr ""
 msgid "you.closed.departures"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/components/page-sheet.tsx
+msgid "you.premium.edit.discard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/components/page-sheet.tsx
+msgid "you.premium.edit.discardTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.formats.distance"
 msgstr ""
@@ -727,6 +735,10 @@ msgstr ""
 msgid "you.premium.keepEditing"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/components/page-sheet.tsx
+msgid "you.premium.edit.keepEditing"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 msgid "you.premium.retake.keep"
 msgstr ""
@@ -906,6 +918,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "onboarding.photo.real.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/history/stamps-premium-view.tsx
+msgid "you.premium.stamps.emptyTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
@@ -1606,6 +1622,10 @@ msgstr ""
 msgid "you.closed.restoreTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/components/page-sheet.tsx
+msgid "you.premium.edit.discardLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/premium/history/past-trip-premium-view.tsx
 msgid "you.pastTrip.when"
 msgstr ""
@@ -1670,6 +1690,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
 msgid "you.profile.noTrips"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/history/stamps-premium-view.tsx
+msgid "you.premium.stamps.emptyLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx

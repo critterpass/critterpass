@@ -2,15 +2,18 @@
  * A native sheet a page opens over itself without a route (a field on the edit page): on iOS the
  * system page sheet (swipe down to dismiss, the page behind steps back), on Android the full-height
  * slide-up. Inside, the sheet screen's grammar: Cancel left, a centred title, the bold verb right,
- * and the body scrolling under them with the keyboard. Swiping down or the system back cancels.
+ * and the body scrolling under them with the keyboard. Swiping down or the system back cancels;
+ * with edits not yet kept the swipe holds the sheet and Cancel or back asks before they go.
  *
  * The route-less twin of the shell's `SheetScreen`, for edits that live in the page's own state.
  */
+import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
 import { Modal, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { askToDiscard } from '@/ui/premium/shell';
 
 export interface PageSheetProps {
   readonly title: string;
@@ -22,6 +25,8 @@ export interface PageSheetProps {
     readonly disabled?: boolean;
     readonly testID?: string;
   };
+  /** Edits not yet kept: the swipe holds the sheet, and Cancel and back ask first. */
+  readonly dirty?: boolean;
   readonly children: ReactNode;
   readonly testID?: string;
 }
@@ -33,18 +38,35 @@ export function PageSheet({
   cancelLabel,
   onCancel,
   verb,
+  dirty = false,
   children,
   testID,
 }: PageSheetProps) {
   const th = usePremiumTheme();
+  const { t } = useLingui();
   const insets = useSafeAreaInsets();
   const ios = Platform.OS === 'ios';
+  const cancel = () => {
+    if (!dirty) {
+      onCancel();
+      return;
+    }
+    void askToDiscard({
+      title: t({ id: 'you.premium.edit.discardTitle', message: 'Discard this change?' }),
+      message: t({ id: 'you.premium.edit.discardLine', message: 'What you changed here goes.' }),
+      discard: t({ id: 'you.premium.edit.discard', message: 'Discard' }),
+      keep: t({ id: 'you.premium.edit.keepEditing', message: 'Keep editing' }),
+    }).then((discard) => {
+      if (discard) onCancel();
+    });
+  };
   return (
     <Modal
       visible
       animationType="slide"
       presentationStyle={ios ? 'pageSheet' : 'fullScreen'}
-      onRequestClose={onCancel}
+      allowSwipeDismissal={!dirty}
+      onRequestClose={cancel}
     >
       <View
         style={[
@@ -58,7 +80,7 @@ export function PageSheet({
       >
         <View style={[styles.header, { paddingHorizontal: th.space.gutter }]}>
           <PressableScale
-            onPress={onCancel}
+            onPress={cancel}
             accessibilityRole="button"
             accessibilityLabel={cancelLabel}
             hitSlop={HIT}
@@ -111,7 +133,7 @@ export function PageSheet({
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  header: { height: 56, flexDirection: 'row', alignItems: 'center', gap: 12 },
+  header: { minHeight: 56, flexDirection: 'row', alignItems: 'center', gap: 12 },
   cancel: { fontWeight: '400' },
   title: { flex: 1 },
   verbSpace: { minWidth: 44 },

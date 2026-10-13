@@ -50,6 +50,12 @@ export function headerLine(line: HeaderLine): string | null {
       if (second === undefined) {
         return t({ id: 'chat.premium.header.typingOne', message: `${first} is typing` });
       }
+      if (line.names.length === 2) {
+        return t({
+          id: 'chat.premium.header.typingTwo',
+          message: `${first} and ${second} are typing`,
+        });
+      }
       return t({ id: 'chat.premium.header.typingMany', message: `${first} and others are typing` });
     }
     case 'readOnly': {

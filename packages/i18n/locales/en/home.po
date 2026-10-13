@@ -17,7 +17,7 @@ msgstr "{change} is off the plan"
 
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.premium.trips.comingCount"
-msgstr "{comingCount} trips"
+msgstr "{comingCount, plural, one {# trip} other {# trips}}"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.ideasPlaced.title"
@@ -39,7 +39,7 @@ msgstr "{count} going"
 msgid "home.premium.going"
 msgstr "{count} going"
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-rows.tsx
 msgid "home.premium.switcher.members"
 msgstr "{count} in the crew"
 
@@ -75,6 +75,10 @@ msgstr "{crewName} is in {place} right now."
 msgid "home.joinTrip.titleNow"
 msgstr "{crewName} is on a trip right now."
 
+#: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
+msgid "home.premium.back.eyebrow"
+msgstr "{daysHome, plural, one {Home # day} other {Home # days}}"
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.guideDid"
 msgstr "{guide} {summary}"
@@ -95,7 +99,7 @@ msgstr "{guide} will nudge {name} at {at}, when they open things."
 msgid "home.inbox.tip"
 msgstr "{guide}: {tip}"
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-rows.tsx
 msgid "home.premium.switcher.invitedBy"
 msgstr "{inviter} invited you"
 
@@ -347,9 +351,9 @@ msgstr "Hey {firstName}"
 msgid "home.premium.title"
 msgstr "Home"
 
-#: ../../apps/mobile/src/features/home/premium/components/back-hero.tsx
-msgid "home.premium.back.eyebrow"
-msgstr "Home {daysHome} days"
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
+msgid "home.premium.inbox.back"
+msgstr "Home"
 
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.premium.trips.homeTab"
@@ -453,7 +457,7 @@ msgstr "Next up"
 msgid "home.premium.nextUpOn"
 msgstr "Next up · {day}"
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-rows.tsx
 msgid "home.premium.switcher.next"
 msgstr "Next: {next}"
 
@@ -939,7 +943,7 @@ msgstr "You’ll see its trips and its chat."
 msgid "home.joinTrip.body"
 msgstr "You’re in the crew, not on this trip yet. Join to be in the plan and the splits."
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-rows.tsx
 msgid "home.premium.switcher.invited"
 msgstr "You’re invited"
 

@@ -6,7 +6,7 @@ import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
-import { Avatar, Card, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { Avatar, Card, hitSlopFor, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
 import type { CrewMemberRow } from '../../crews-sheet/crew-data';
 import { crewMemberRoute } from '../../crews-sheet/routes';
@@ -37,6 +37,7 @@ export function MemberGrid({
           <PressableScale
             accessibilityRole="button"
             onPress={onInvite}
+            hitSlop={INVITE_SLOP}
             testID="crew-settings-invite"
           >
             <Text variant="bannerAction" color={th.color.status.rain.text}>
@@ -89,6 +90,9 @@ export function MemberGrid({
     </Card>
   );
 }
+
+/** The "+ Invite" line is about 18 pt tall and 60 wide: a 44 pt tap all round. */
+const INVITE_SLOP = hitSlopFor(60, 18);
 
 const styles = StyleSheet.create({
   card: { paddingTop: 12, paddingHorizontal: 8, paddingBottom: 10 },

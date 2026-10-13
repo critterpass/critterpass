@@ -8,8 +8,14 @@ appId: app.critterpass.dev
 # crew's destination vote on its board or in its final. Needs an api with DEV_SEED_ENABLED on.
 - extendedWaitUntil:
     visible:
-      id: 'dev-tools-entry'
+      id: 'dev-tools-entry|home-screen'
     timeout: 30000
+# The entry sits at the foot of a long Home.
+- scrollUntilVisible:
+    element:
+      id: 'dev-tools-entry'
+    direction: DOWN
+    timeout: 20000
 - tapOn:
     id: 'dev-tools-entry'
 - extendedWaitUntil:
@@ -23,8 +29,8 @@ appId: app.critterpass.dev
       id: 'dev-seed-demo-done'
     timeout: 120000
 # Back to Home (a relaunch would restore this screen).
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: back.yaml
 - extendedWaitUntil:
     visible:
-      id: 'dev-tools-entry'
+      id: 'home-screen|dev-tools-entry'
     timeout: 15000

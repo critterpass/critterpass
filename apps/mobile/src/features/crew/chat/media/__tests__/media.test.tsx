@@ -197,6 +197,10 @@ describe('in the chat', () => {
       ).toEqual([['waiting', ['photo']]]),
     );
     expect(api.calls).toEqual([]);
+    // The sender sees the photo in the chat before it goes up.
+    const [item] = await listUploads(s.db);
+    expect(await screen.findByTestId(`chat-upload-${item?.id ?? ''}`)).toBeTruthy();
+    expect(screen.getByText('Waiting for signal')).toBeTruthy();
   });
 
   it('leaves the brand-new chat’s welcome once a photo is on its way up', async () => {

@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { goBackOr } from '@/lib/navigation/back';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { shortName } from '@/lib/people/member-name';
 
 import { useLiveRows } from '../data/live-rows';
 import { HELP_ROUTES } from '../routes';
@@ -54,7 +55,7 @@ export function useFeedbackSent(): SentViewProps {
     queued: !online,
     heading,
     note: typeof params.note === 'string' ? params.note : '',
-    name: me.rows[0]?.name?.split(' ')[0] ?? null,
+    name: me.rows[0]?.name?.trim() ? shortName(me.rows[0].name) : null,
     receivedOn: format.date(locale, sentOn, { day: 'numeric', month: 'short', year: 'numeric' }),
     onDone: () => goBackOr(HELP_ROUTES.hub),
   };

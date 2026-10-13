@@ -1,25 +1,19 @@
 /**
- * The 2.12 save sheet as a piece a page lays over itself: the dim page, the glass sheet with its
- * grabber, and the save choice (Apple on iOS, Google, a phone number, "Not now"), or the merge
+ * The 2.12 save sheet as a piece a page lays over itself (`DrawnSheet`: the dim page, the glass
+ * sheet with a grabber that drags), and the save choice (Apple on iOS, Google, a phone number, "Not now"), or the merge
  * choice once a sign-in already holds a pass, its "kept" explanation and the line that keeps the
  * switch on offer. With `mergeOnly` the sheet shows only the merge choice and its explanation (the
  * phone page, where the number was the sign-in).
  */
-import { premium } from '@cp/design-tokens';
 import { t } from '@lingui/core/macro';
-import { Platform, Pressable, StyleSheet, View } from 'react-native';
-import Animated, { FadeIn, SlideInDown } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Platform, View } from 'react-native';
 
 import {
   Button,
   CritterSticker,
-  GlassSurface,
   PressableScale,
   Text,
-  REDUCED_FADE_MS,
   TextButton,
-  usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
 
@@ -27,8 +21,8 @@ import { guideFacts } from '../../guide-faces';
 import { declinedLine, keptBody, mergeBody } from '../../save/merge-copy';
 import { saveErrorLine } from '../../save/save-copy';
 import type { SaveState } from '../../save/use-save-flow';
-import { SHEET_SCRIM } from '../components/onboarding-colours';
 import { SignInMark } from '../components/SignInMark';
+import { DrawnSheet } from './drawn-sheet';
 
 export interface PremiumSaveSheetProps {
   readonly state: SaveState;
@@ -232,65 +226,27 @@ function MergeChoice(props: PremiumSaveSheetProps & { readonly busy: boolean }) 
 }
 
 export function PremiumSaveSheet(props: PremiumSaveSheetProps) {
-  const theme = usePremiumTheme();
-  const insets = useSafeAreaInsets();
-  const reduced = usePremiumReducedMotion();
   const { state, mergeOnly = false } = props;
   const merging = state.kind === 'merge' || state.kind === 'merging' || state.kind === 'kept';
   if (state.kind === 'saved' || state.kind === 'switched') return null;
   if (mergeOnly && !merging) return null;
   const busy = state.kind === 'working' || state.kind === 'merging';
-  // The dim page skips the save, or (like the drawn sheet's dismiss) keeps the new pass.
-  const onScrim = busy ? undefined : merging ? props.onKeptDone : props.onNotNow;
+  // The dim page and a drag down skip the save (the sheet slides out, then the page moves on), or
+  // keep the new pass, where the sheet stays for the save choice.
   return (
-    <>
-      <Animated.View
-        entering={reduced ? FadeIn.duration(REDUCED_FADE_MS) : FadeIn}
-        style={StyleSheet.absoluteFill}
-      >
-        <Pressable
-          style={[StyleSheet.absoluteFill, { backgroundColor: SHEET_SCRIM }]}
-          onPress={onScrim}
-          accessibilityRole="button"
-          accessibilityLabel={t({ id: 'onboarding.save.notNow', message: 'Not now' })}
-          testID="save-sheet-scrim"
-        />
-      </Animated.View>
-      {/* The sheet rises on the Smooth spring; Reduce Motion fades it in. */}
-      <Animated.View
-        entering={
-          reduced
-            ? FadeIn.duration(REDUCED_FADE_MS)
-            : SlideInDown.springify()
-                .stiffness(premium.spring.smooth.stiffness)
-                .damping(premium.spring.smooth.damping)
-                .mass(premium.spring.smooth.mass)
-        }
-        style={{ position: 'absolute', left: 8, right: 8, bottom: 8 }}
-      >
-        <GlassSurface
-          kind="sheet"
-          style={{
-            borderRadius: theme.radius.sheet,
-            paddingHorizontal: 18,
-            paddingTop: 12,
-            paddingBottom: Math.max(insets.bottom, 22),
-          }}
-          testID={mergeOnly ? 'merge-sheet' : 'save-sheet'}
-        >
-          <View
-            style={{
-              alignSelf: 'center',
-              width: 36,
-              height: 5,
-              borderRadius: 3,
-              backgroundColor: theme.color.outlineEmpty,
-              marginBottom: 14,
-            }}
-          />
-          {merging ? <MergeChoice {...props} busy={busy} /> : <SaveChoice {...props} busy={busy} />}
-        </GlassSurface>
-      </Animated.View>
-    </>
+    <DrawnSheet
+      onDismiss={busy ? undefined : merging ? props.onKeptDone : props.onNotNow}
+      dismissLeaves={!merging}
+      scrimLabel={t({ id: 'onboarding.save.notNow', message: 'Not now' })}
+      testID={mergeOnly ? 'merge-sheet' : 'save-sheet'}
+    >
+      {(leave) =>
+        merging ? (
+          <MergeChoice {...props} busy={busy} />
+        ) : (
+          <SaveChoice {...props} onNotNow={() => leave(props.onNotNow)} busy={busy} />
+        )
+      }
+    </DrawnSheet>
   );
 }

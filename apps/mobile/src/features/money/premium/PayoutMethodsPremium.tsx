@@ -6,7 +6,8 @@
  */
 import type { PayoutKind } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { IconTile, type LineIconName } from '@/features/trip';
 import {
@@ -20,7 +21,7 @@ import {
   usePremiumTheme,
   type PremiumTheme,
 } from '@/ui/premium';
-import { KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
+import { KeyboardAwareScroll, KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
 
 import { PAYOUT_FIELDS, validDetails } from '../settle/payout-details';
 import { usePayoutFieldLabel, usePayoutKindLabel } from '../settle/payout-labels';
@@ -55,6 +56,9 @@ function keyboardFor(field: string): 'phone-pad' | 'number-pad' | 'url' | 'defau
 
 export function PayoutMethodsPremium() {
   const th = usePremiumTheme();
+  const insets = useSafeAreaInsets();
+  // Clears the home indicator with the keyboard down, and sits a gap above the keyboard when up.
+  const footerPad = Math.max(insets.bottom, th.space.gap12);
   const { t } = useLingui();
   const kindLabel = usePayoutKindLabel();
   const fieldLabel = usePayoutFieldLabel();
@@ -71,10 +75,8 @@ export function PayoutMethodsPremium() {
       scroll={false}
       testID="money-payout-methods"
     >
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        keyboardDismissMode="interactive"
-        keyboardShouldPersistTaps="handled"
+      <KeyboardAwareScroll
+        bottomOffset={th.size.button + th.space.gap12 + th.space.gap16}
         contentContainerStyle={{ paddingTop: 8, paddingBottom: 40, gap: th.space.gap16 }}
       >
         <View style={{ paddingHorizontal: th.space.titleGutter, gap: th.space.gap4 }}>
@@ -197,9 +199,9 @@ export function PayoutMethodsPremium() {
             />
           </View>
         ) : null}
-      </ScrollView>
-      <KeyboardStickyFooter>
-        <View style={{ paddingHorizontal: th.space.titleGutter, paddingBottom: th.space.gap12 }}>
+      </KeyboardAwareScroll>
+      <KeyboardStickyFooter openedOffset={th.space.gap12 - footerPad}>
+        <View style={{ paddingHorizontal: th.space.titleGutter, paddingBottom: footerPad }}>
           <Button
             label={t({ id: 'money.payout.save', message: 'Save' })}
             disabled={!valid}

@@ -27,7 +27,8 @@ export interface GuideThreadProps {
   readonly loading: boolean;
   readonly messages: readonly SavedGuideMessage[];
   readonly onEarlier?: () => void;
-  readonly authorOf: (authorId: string | null) => Author;
+  /** The crew members who asked, by id (the viewer's own questions have none). */
+  readonly authors: ReadonlyMap<string, NonNullable<Author>>;
   readonly live: LiveTurn | null;
   readonly waiting: readonly WaitingQuestion[];
   readonly renderProposal: (changesetId: string) => ReactNode;
@@ -147,7 +148,11 @@ export function GuideThread(props: GuideThreadProps) {
         <Saved
           key={message.id}
           message={message}
-          author={message.role === 'user' ? props.authorOf(message.authorId) : null}
+          author={
+            message.role === 'user' && message.authorId !== null
+              ? (props.authors.get(message.authorId) ?? null)
+              : null
+          }
           slug={props.slug}
           guideName={props.guideName}
           renderProposal={props.renderProposal}

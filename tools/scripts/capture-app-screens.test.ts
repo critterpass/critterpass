@@ -126,8 +126,13 @@ describe('screenshotNames', () => {
 
   it('finds every screenshot in the committed screen flows', () => {
     const read = (name: string) => readFileSync(path.join(REPO, 'e2e/screens', name), 'utf8');
-    expect(screenshotNames(read('home.yaml'))).toEqual(['home', 'dev-tools']);
-    expect(screenshotNames(read('motion-lab.yaml'))).toEqual(['motion-lab']);
+    expect(screenshotNames(read('subflows/shot.yaml'))).toEqual([
+      'premium-${CODE}-${NAME}-${LOOK}',
+    ]);
+    expect(screenshotNames(read('subflows/home-first-crew.yaml'))).toEqual([
+      'premium-3.03-first-sync-light',
+      'premium-1.02-loading-light',
+    ]);
   });
 });
 

@@ -5,6 +5,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { useMemo } from 'react';
 
+import { shortName } from '@/lib/people/member-name';
 import { seatHeldSql } from '@/data/trips/seat-sql';
 
 import { useLiveRows } from '../../hub/data/live-rows';
@@ -23,9 +24,9 @@ const CREW_SQL = `SELECT u.display_name
   WHERE p.trip_id = ? AND ${seatHeldSql('p')} ORDER BY p.created_at, p.user_id`;
 const CREW_TABLES = ['trip_participants', 'users'] as const;
 
+/** The name a crewmate is called by ("Hân" of "Đặng Thị Ngọc Hân"), or null with none. */
 function firstName(name: string | null): string | null {
-  const first = (name ?? '').trim().split(/\s+/)[0] ?? '';
-  return first === '' ? null : first;
+  return (name ?? '').trim() === '' ? null : shortName(name);
 }
 
 export interface OfferData {

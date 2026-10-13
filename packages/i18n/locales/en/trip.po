@@ -61,9 +61,29 @@ msgstr "+{minutes} min"
 msgid "trip.dayOf.premium.freeTitle"
 msgstr "A free day, on purpose"
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.notificationTitle"
+msgstr "A notification, not an alarm"
+
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
 msgid "trip.dayOf.premium.addPack"
 msgstr "Add something to pack"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.deniedTitle"
+msgstr "Alarms are off"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.askAllow"
+msgstr "Allow alarms"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.exactOpen"
+msgstr "Allow exact alarms"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.exactBody"
+msgstr "Android rings alarms on the minute only for apps you allow. Without it, a leave-by alarm can ring a few minutes late."
 
 #: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
 msgid "trip.offline.backOnline"
@@ -96,6 +116,10 @@ msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
 msgid "trip.hub.premium.keep"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "common.confirm.cancel"
 msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
@@ -154,6 +178,10 @@ msgstr "Go"
 msgid "trip.lockScreen.done"
 msgstr "Got it"
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.notificationOk"
+msgstr "Got it"
+
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
 msgid "trip.dayOf.premium.packPlaceholder"
 msgstr "Headlamp, jacket…"
@@ -193,6 +221,10 @@ msgstr "Just my own leave-by alarms"
 #: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
 msgid "trip.disruptions.late.etaStale"
 msgstr "Last ETA {eta}"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.askTitle"
+msgstr "Let leave-by alarms ring?"
 
 #: ../../apps/mobile/src/features/trip/premium/hub/HubSwitch.tsx
 msgid "trip.hub.door.map"
@@ -242,6 +274,10 @@ msgstr "Offline"
 msgid "trip.offline.conflictOk"
 msgstr "OK"
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.notificationBody"
+msgstr "On this version of the app a leave-by rings as a notification with I'm up and Snooze. It won't ring through silent mode, so keep the sound on tonight."
+
 #: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
 msgid "trip.offline.online"
 msgstr "Online"
@@ -249,6 +285,10 @@ msgstr "Online"
 #: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
 msgid "trip.hub.premium.offlineOpen"
 msgstr "Open"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.deniedOpen"
+msgstr "Open Settings"
 
 #: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
 msgid "trip.offline.premium.openPlan"
@@ -273,6 +313,10 @@ msgstr "Plan B"
 #: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
 msgid "trip.dayOf.premium.doneLine"
 msgstr "Rest up. Tomorrow is on the plan."
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.exactTitle"
+msgstr "Ring on the minute"
 
 #: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
 msgid "trip.dayOf.premium.late"
@@ -322,9 +366,17 @@ msgstr "That's everything on today's plan."
 msgid "trip.disruptions.forecast.premiumTitle"
 msgstr "The rest of the trip"
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.askBody"
+msgstr "They ring through silent mode and Focus, only at leave-by times, and only if you're not up yet. {guideName} stops ringing the moment you tap I'm up."
+
 #: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
 msgid "trip.briefing.premium.eyebrow"
 msgstr "THIS MORNING'S BRIEFING"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.deniedBody"
+msgstr "This phone won't ring for leave-bys. {guideName} rings here while the app is open, and your crew gets a nudge to knock if you sleep through."
 
 #: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
 msgid "trip.disruptions.forecast.premiumMissing"

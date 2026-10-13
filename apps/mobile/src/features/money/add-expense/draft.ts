@@ -261,3 +261,31 @@ export function toAddPayload(
     ...(draft.spentAt === null ? {} : { spent_at: draft.spentAt }),
   };
 }
+
+const sameList = (a: readonly string[], b: readonly string[]) =>
+  a.length === b.length && a.every((value, index) => value === b[index]);
+
+const sameRecord = <V>(a: Readonly<Record<string, V>>, b: Readonly<Record<string, V>>) => {
+  const keys = Object.keys(a);
+  return keys.length === Object.keys(b).length && keys.every((key) => a[key] === b[key]);
+};
+
+/**
+ * Whether two drafts would record the same expense: where the keypad types and whether the
+ * category was picked by hand are not edits, so closing after only those asks nothing.
+ */
+export function sameDraft(a: ExpenseDraft, b: ExpenseDraft): boolean {
+  return (
+    a.digits === b.digits &&
+    a.currency === b.currency &&
+    a.payerId === b.payerId &&
+    a.mode === b.mode &&
+    a.category === b.category &&
+    a.description === b.description &&
+    a.spentAt === b.spentAt &&
+    sameList(a.memberIds, b.memberIds) &&
+    sameList(a.included, b.included) &&
+    sameRecord(a.weights, b.weights) &&
+    sameRecord(a.fixed, b.fixed)
+  );
+}

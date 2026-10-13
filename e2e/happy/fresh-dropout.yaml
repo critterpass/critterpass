@@ -9,10 +9,10 @@ appId: app.critterpass.dev
 
 # The friend opens the proposal from crew chat, boards, then declines from their version.
 - runFlow:
-    file: ../proposal/subflows/switch-account.yaml
+    file: subflows/switch-account.yaml
     env:
       TARGET: 'dev-accounts-switch-1'
-- runFlow: ../proposal/subflows/open-proposal-card.yaml
+- runFlow: subflows/open-proposal-card.yaml
 - extendedWaitUntil:
     visible:
       id: 'proposal-trailer|proposal-version'
@@ -52,29 +52,25 @@ appId: app.critterpass.dev
 - takeScreenshot: en-3f-3-in-with-way-out
 - tapOn:
     id: 'version-out'
+# A system alert asks first; its button repeats the words of the one under it, so the alert's is
+# matched in the case the platform draws it (Android's dialog buttons are upper case).
 - extendedWaitUntil:
-    visible:
-      id: 'board-out-confirm'
+    visible: '(?i)tell the crew you can.t make it\?'
     timeout: 15000
 - waitForAnimationToEnd
-- takeScreenshot: en-3f-5-cant-make-it
-# The sheet's own button. Android's hierarchy leaves the sheet's window out, so the tap goes where
-# the sheet draws its button (the middle of the pink pill above CANCEL); iOS finds the button by its words, which only it
-# matches whole (the title asks "…can't make it?" and the screen under it says "…after all"). The
-# confirm's own id holds no children in iOS's hierarchy.
+- takeScreenshot: premium-4.51-cant-make-it-light
 - runFlow:
     when:
       platform: Android
     commands:
-      - tapOn:
-          point: 50%, 79%
+      - tapOn: 'I CAN.T MAKE IT'
 - runFlow:
     when:
       platform: iOS
     commands:
       - tapOn:
-          text: '(?i)I can.t make it'
-# The reply is sent and the friend is back on their version, which says so.
+          text: 'I can.t make it'
+          index: 1
 - extendedWaitUntil:
     visible:
       text: '(?i)you said you can.t make it.*'
@@ -84,10 +80,10 @@ appId: app.critterpass.dev
 
 # The organiser: the tracker shows the friend as out, with the re-split to look at.
 - runFlow:
-    file: ../proposal/subflows/switch-account.yaml
+    file: subflows/switch-account.yaml
     env:
       TARGET: 'dev-accounts-switch-0'
-- runFlow: ../proposal/subflows/open-proposal-card.yaml
+- runFlow: subflows/open-proposal-card.yaml
 - extendedWaitUntil:
     visible:
       id: 'proposal-tracker'
@@ -121,7 +117,7 @@ appId: app.critterpass.dev
 - takeScreenshot: en-3f-7-real-applied
 
 # What the organiser is left with: the tracker, locked in alone, then Home.
-- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'proposal-tracker'
@@ -135,9 +131,9 @@ appId: app.critterpass.dev
 - takeScreenshot: en-3f-6-after-apply
 - tapOn:
     id: 'tracker-lock'
+# A system alert asks first.
 - extendedWaitUntil:
-    visible:
-      id: 'tracker-lock-confirm'
+    visible: '(?i).*yes, lock it in.*'
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-6-lock-alone

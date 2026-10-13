@@ -61,8 +61,28 @@ msgstr ""
 msgid "trip.dayOf.premium.freeTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.notificationTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
 msgid "trip.dayOf.premium.addPack"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.deniedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.askAllow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.exactOpen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.exactBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
@@ -96,6 +116,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
 msgid "trip.hub.premium.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "common.confirm.cancel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
@@ -154,6 +178,10 @@ msgstr ""
 msgid "trip.lockScreen.done"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.notificationOk"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
 msgid "trip.dayOf.premium.packPlaceholder"
 msgstr ""
@@ -192,6 +220,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
 msgid "trip.disruptions.late.etaStale"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.askTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/premium/hub/HubSwitch.tsx
@@ -242,12 +274,20 @@ msgstr ""
 msgid "trip.offline.conflictOk"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.notificationBody"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
 msgid "trip.offline.online"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
 msgid "trip.hub.premium.offlineOpen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.deniedOpen"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
@@ -272,6 +312,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
 msgid "trip.dayOf.premium.doneLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.exactTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
@@ -322,8 +366,16 @@ msgstr ""
 msgid "trip.disruptions.forecast.premiumTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.askBody"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
 msgid "trip.briefing.premium.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.deniedBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx

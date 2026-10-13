@@ -3,7 +3,7 @@ appId: app.critterpass.dev
 # Accessibility smoke on the dev gallery: the controls the Jest audit covers render and stay
 # reachable by their spoken labels at the AX3 text size, with Reduce Motion and increased contrast
 # on. The gallery is reached through the home screen's "Developer tools" entry (never `openLink`).
-- runFlow: ../screens/subflows/open-gallery.yaml
+- runFlow: subflows/open-gallery.yaml
 - tapOn:
     id: 'gallery-motion-reduced'
 - tapOn:
@@ -40,7 +40,7 @@ appId: app.critterpass.dev
 
 # The text field and its clear control at AX3.
 - runFlow:
-    file: ../screens/subflows/open-gallery-component-in.yaml
+    file: subflows/open-gallery-component-in.yaml
     env:
       COMPONENT: 'TextField'
       LOCALE: 'en'
@@ -50,7 +50,7 @@ appId: app.critterpass.dev
 
 # Header pills wrap their action label instead of cutting it off.
 - runFlow:
-    file: ../screens/subflows/open-gallery-component-in.yaml
+    file: subflows/open-gallery-component-in.yaml
     env:
       COMPONENT: 'HeaderPills'
       LOCALE: 'en'

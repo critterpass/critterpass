@@ -28,11 +28,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'reveal-set-up'
-- extendedWaitUntil:
-    visible:
-      id: 'setup-step-when'
-    timeout: 20000
-- runFlow: ../proposal/subflows/setup-to-draft.yaml
+- runFlow: subflows/open-setup-when.yaml
+- runFlow: subflows/setup-to-draft-week-out.yaml
 # The draft job (outline, every day, checks) takes a few minutes on staging.
 - extendedWaitUntil:
     visible:
