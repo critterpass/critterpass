@@ -19,17 +19,9 @@ msgstr "{loved} van {rated}"
 msgid "drivers.ours.loved"
 msgstr "{lovedCount} van {voters} vonden hem top"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.car"
-msgstr "{model}, {seats} plaatsen"
-
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.intro"
 msgstr "{name} beslist. Niets over hem is openbaar tot hij bevestigt op zijn eigen telefoon, en hij kan het altijd weghalen."
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr "{seats} plaatsen"
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
 msgid "drivers.card.trips"
@@ -43,7 +35,7 @@ msgstr "7+ plaatsen"
 msgid "drivers.detail.tipBy"
 msgstr "Een groep van {crewSize} · {tipMonth}"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "Voeg eerst zijn WhatsApp-nummer toe aan de reis, of hij is al vermeld."
 
@@ -84,7 +76,7 @@ msgstr "Antwoord wijzigen"
 msgid "drivers.detail.shortlistFailed"
 msgstr "Toevoegen lukte niet. Probeer opnieuw."
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr "Link maken lukte niet. Probeer opnieuw."
 
@@ -220,7 +212,7 @@ msgstr "Bericht via WhatsApp"
 msgid "drivers.invite.messageLabel"
 msgstr "Bericht aan je chauffeur"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr "Je hebt bereik nodig voor de link."
 
@@ -406,7 +398,7 @@ msgstr "Wacht op zijn bevestiging"
 msgid "drivers.detail.priceNote"
 msgstr "Wat hij groepen vertelt. Geen CritterPass-prijs."
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "Je hebt hem al één keer herinnerd."
 

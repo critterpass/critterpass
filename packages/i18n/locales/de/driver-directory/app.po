@@ -19,17 +19,9 @@ msgstr "{loved} von {rated}"
 msgid "drivers.ours.loved"
 msgstr "{lovedCount} von {voters} fanden ihn super"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.car"
-msgstr "{model}, {seats} Sitze"
-
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.intro"
 msgstr "{name} entscheidet. Nichts über ihn ist öffentlich, bis er auf seinem eigenen Handy bestätigt, und er kann es jederzeit entfernen."
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr "{seats} Sitze"
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
 msgid "drivers.card.trips"
@@ -43,7 +35,7 @@ msgstr "7+ Sitze"
 msgid "drivers.detail.tipBy"
 msgstr "Eine Crew aus {crewSize} · {tipMonth}"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "Füge zuerst seine WhatsApp-Nummer zur Reise hinzu, oder er ist schon gelistet."
 
@@ -84,7 +76,7 @@ msgstr "Antwort ändern"
 msgid "drivers.detail.shortlistFailed"
 msgstr "Hat nicht geklappt. Versuch es noch mal."
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr "Link nicht erstellt. Versuch es noch mal."
 
@@ -220,7 +212,7 @@ msgstr "Auf WhatsApp schreiben"
 msgid "drivers.invite.messageLabel"
 msgstr "Nachricht an deinen Fahrer"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr "Für den Link brauchst du Netz."
 
@@ -406,7 +398,7 @@ msgstr "Wartet auf seine Bestätigung"
 msgid "drivers.detail.priceNote"
 msgstr "Was er Crews sagt. Kein CritterPass-Preis."
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "Du hast ihn schon einmal angestupst."
 

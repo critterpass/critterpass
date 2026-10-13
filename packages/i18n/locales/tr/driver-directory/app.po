@@ -19,17 +19,9 @@ msgstr "{rated} gruptan {loved}"
 msgid "drivers.ours.loved"
 msgstr "{voters} kişiden {lovedCount} bayıldı"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.car"
-msgstr "{model}, {seats} koltuk"
-
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.intro"
 msgstr "Karar {name} için. Kendi telefonundan onaylayana kadar hakkında hiçbir şey herkese açık değil ve istediği zaman kaldırabilir."
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr "{seats} koltuk"
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
 msgid "drivers.card.trips"
@@ -43,7 +35,7 @@ msgstr "7+ koltuk"
 msgid "drivers.detail.tipBy"
 msgstr "{crewSize} kişilik bir grup · {tipMonth}"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "Önce WhatsApp numarasını yolculuğa ekle ya da zaten listede."
 
@@ -84,7 +76,7 @@ msgstr "Cevabımı değiştir"
 msgid "drivers.detail.shortlistFailed"
 msgstr "Eklenemedi. Tekrar dene."
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr "Bağlantı oluşturulamadı. Tekrar dene."
 
@@ -220,7 +212,7 @@ msgstr "WhatsApp'tan yaz"
 msgid "drivers.invite.messageLabel"
 msgstr "Şoförüne mesaj"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr "Bağlantı için sinyal gerekiyor."
 
@@ -406,7 +398,7 @@ msgstr "Onayını bekliyor"
 msgid "drivers.detail.priceNote"
 msgstr "Gruplara söylediği. CritterPass fiyatı değil."
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "Ona zaten bir kez hatırlattın."
 

@@ -19,17 +19,9 @@ msgstr "{loved} of {rated}"
 msgid "drivers.ours.loved"
 msgstr "{lovedCount} of {voters} loved it"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.car"
-msgstr "{model}, {seats} seats"
-
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.intro"
 msgstr "{name} decides. Nothing about him is public until he confirms on his own phone, and he can take it down anytime."
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr "{seats} seats"
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
 msgid "drivers.card.trips"
@@ -43,7 +35,7 @@ msgstr "7+ seats"
 msgid "drivers.detail.tipBy"
 msgstr "A crew of {crewSize} · {tipMonth}"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "Add his WhatsApp number to the trip first, or he is already listed."
 
@@ -84,7 +76,7 @@ msgstr "Change my answer"
 msgid "drivers.detail.shortlistFailed"
 msgstr "Couldn't add him. Try again."
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr "Couldn't make his link. Try again."
 
@@ -220,7 +212,7 @@ msgstr "Message on WhatsApp"
 msgid "drivers.invite.messageLabel"
 msgstr "Message to your driver"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr "Needs signal to make his link."
 
@@ -406,7 +398,7 @@ msgstr "Waiting for him to confirm"
 msgid "drivers.detail.priceNote"
 msgstr "What he tells crews. Not a CritterPass price."
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "You already nudged him once."
 

@@ -46,7 +46,7 @@ msgstr "{0} drives this day"
 #. placeholder {0}: dayLabel(long.date, locale)
 #. placeholder {1}: hoursFigure(long.hours, locale)
 #. placeholder {2}: hoursFigure(includedHours, locale)
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/use-pick-days-view.ts
 msgid "drivers.pick.overtime"
 msgstr "{0} is {1} hours. {name}'s price covers {2}."
 
@@ -60,7 +60,7 @@ msgstr "{0} of {1} checked"
 #. placeholder {0}: day.window.start
 #. placeholder {1}: day.window.end
 #. placeholder {2}: hoursFigure(day.hours, locale)
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/use-pick-days-view.ts
 msgid "drivers.pick.window"
 msgstr "{0}–{1} · {2} hours"
 
@@ -94,6 +94,10 @@ msgstr "{amount} a person"
 msgid "drivers.price.perHour"
 msgstr "{amount} an hour"
 
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.pickIntro"
+msgstr "{chosen, plural, one {Pick {name} · # day ticked} other {Pick {name} · # days ticked}}"
+
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.set"
 msgstr "{chosen, plural, one {Set {name} on # day} other {Set {name} on # days}}"
@@ -124,10 +128,15 @@ msgid "drivers.card.titlePlain"
 msgstr "{driver} to drive"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.opened"
 msgstr "{driverName} opened the link · {openedOn}"
 
-#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
+msgid "drivers.premium.ask.title"
+msgstr "{guide}'s post"
+
+#: ../../apps/mobile/src/features/drivers/offline/use-ride-back.ts
 msgid "drivers.offline.included"
 msgstr "{included} included"
 
@@ -150,6 +159,7 @@ msgid "drivers.detail.lovedValue"
 msgstr "{loved} of {rated}"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.loved"
 msgstr "{lovedCount} of {voters} loved it"
 
@@ -158,11 +168,12 @@ msgstr "{lovedCount} of {voters} loved it"
 msgid "drivers.compare.missing"
 msgstr "{missing} missing"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+#: ../../apps/mobile/src/features/drivers/shared/vehicle-line.ts
 msgid "drivers.card.car"
 msgstr "{model}, {seats} seats"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.intro"
 msgstr "{name} decides. Nothing about him is public until he confirms on his own phone, and he can take it down anytime."
 
@@ -171,10 +182,12 @@ msgid "drivers.card.title"
 msgstr "{name} wants {driver} to drive"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.savedNumber"
 msgstr "{name}’s number, car and plate"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.quote"
 msgstr "{name}'s quote"
 
@@ -203,15 +216,15 @@ msgstr "{price} for the group"
 msgid "drivers.card.price.trip"
 msgstr "{price} for the trip"
 
+#: ../../apps/mobile/src/features/drivers/shared/vehicle-line.ts
+msgid "drivers.card.seats"
+msgstr "{seats} seats"
+
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.check.seats"
 msgstr "{seats} seats"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr "{seats} seats"
-
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/use-pick-days-view.ts
 msgid "drivers.pick.takenBy"
 msgstr "{takenBy} is booked"
 
@@ -271,22 +284,28 @@ msgstr "A driver or guide"
 msgid "drivers.share.body"
 msgstr "A page with the days you pick. No login. First names only, no budgets, no chat."
 
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
+msgid "drivers.premium.addPrivacy"
+msgstr "A screenshot is read on your phone. Only its text is shared with the trip."
+
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.premium.add"
 msgstr "Add"
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.addBudget"
 msgstr "Add a budget"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
+msgid "drivers.add.title"
+msgstr "Add a driver"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
 msgid "drivers.back.add"
-msgstr "Add a driver"
-
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
-msgid "drivers.add.title"
 msgstr "Add a driver"
 
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
@@ -295,14 +314,16 @@ msgid "drivers.compare.addAnother"
 msgstr "Add another to compare"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.addContact"
 msgstr "Add him"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "Add his WhatsApp number to the trip first, or he is already listed."
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.bahasa"
 msgstr "Add it in Bahasa too"
 
@@ -329,6 +350,10 @@ msgstr "Adding a driver to the trip"
 msgid "drivers.rate.saved"
 msgstr "Answer saved"
 
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.askVerb"
+msgstr "Ask"
+
 #: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CheckParts.tsx
 msgid "drivers.check.ask"
@@ -345,6 +370,7 @@ msgid "drivers.compare.askPrice"
 msgstr "Ask him"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.ask"
 msgstr "Ask the crew first"
 
@@ -367,23 +393,29 @@ msgid "drivers.share.private"
 msgstr "Budgets, chat, last names"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.call"
 msgstr "Call"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.note"
 msgstr "Calls use signal, not data. The message sends when you’re back online."
 
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.premium.cancel"
 msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.cancel"
 msgstr "Cancel invite"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.cancelTitle"
 msgstr "Cancel this invite?"
 
@@ -400,14 +432,17 @@ msgid "drivers.compare.car"
 msgstr "Car"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.rerate"
 msgstr "Change my answer"
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.edit"
 msgstr "Change this part"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.badge.check"
 msgstr "Check it"
 
@@ -446,10 +481,12 @@ msgid "drivers.check.confirmLine"
 msgstr "Confirm this line"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.contact"
 msgstr "Contact"
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.copied"
 msgstr "Copied"
 
@@ -458,14 +495,17 @@ msgid "drivers.share.copy"
 msgstr "Copy"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.footnote"
 msgstr "Copy any message from WhatsApp or Facebook and paste it here. I only read what you send."
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.intro"
 msgstr "Copy it and post it in the groups yourself. CritterPass never posts there and never reads them."
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.copy"
 msgstr "Copy post"
 
@@ -473,11 +513,12 @@ msgstr "Copy post"
 msgid "drivers.detail.shortlistFailed"
 msgstr "Couldn't add him. Try again."
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr "Couldn't make his link. Try again."
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.badge.unread"
 msgstr "Couldn’t read"
 
@@ -520,6 +561,7 @@ msgid "drivers.find.back"
 msgstr "Day {0} · {1}"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.day"
@@ -537,6 +579,10 @@ msgstr "Day trips"
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.days"
 msgstr "Days"
+
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.discard"
+msgstr "Discard"
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
@@ -564,6 +610,7 @@ msgid "drivers.premium.navTitle"
 msgstr "Drivers"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.directory"
 msgstr "Drivers other crews loved"
 
@@ -578,10 +625,12 @@ msgid "drivers.find.directory"
 msgstr "Drivers our crews used"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.intro"
 msgstr "Drivers this crew used. The ones who haven't confirmed are only visible to you {crew}."
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.screenshotDetail"
 msgstr "Drop or pick one"
 
@@ -608,6 +657,8 @@ msgstr "Fair price"
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.back.find"
@@ -680,6 +731,7 @@ msgid "drivers.premium.fromViator"
 msgstr "FROM VIATOR"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.contactDetail"
 msgstr "From WhatsApp"
 
@@ -689,6 +741,7 @@ msgstr "Fuel"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.back"
 msgstr "Getting around"
 
@@ -739,6 +792,7 @@ msgid "drivers.unread.body"
 msgstr "I couldn’t find a driver’s name, number or price in it."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.noChase"
 msgstr "I won't chase him. One nudge from you is plenty."
 
@@ -753,6 +807,7 @@ msgid "drivers.replied.tellBody"
 msgstr "I'll write it with dates and pickup pins. You send it."
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.tellBody"
 msgstr "I'll write it with dates and pickup pins. You send it."
 
@@ -761,24 +816,32 @@ msgstr "I'll write it with dates and pickup pins. You send it."
 msgid "drivers.tours.added"
 msgstr "In the comparison"
 
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
+msgid "drivers.premium.inviteTitle"
+msgstr "Invite {name}"
+
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.invite"
 msgstr "Invite {name} to be listed"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.title"
 msgstr "Invite {name} to be listed"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.cancelled"
 msgstr "Invite cancelled. Nothing was listed."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.sent"
 msgstr "Invite sent on WhatsApp · {sentOn}"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.invite"
 msgstr "Invite to be listed"
 
@@ -795,6 +858,14 @@ msgstr "Is this\n"
 msgid "drivers.premium.checkTitle"
 msgstr "Is this right?"
 
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
+msgid "drivers.premium.keepInvite"
+msgstr "Keep it"
+
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.keep"
+msgstr "Keep picking"
+
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.toursBody"
@@ -805,8 +876,13 @@ msgid "drivers.tag.knewTheSpots"
 msgstr "Knew the spots"
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.language"
 msgstr "Language of the post"
+
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.pickDiscardTitle"
+msgstr "Leave without picking {name}?"
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.quote"
@@ -829,6 +905,7 @@ msgid "drivers.share.expires"
 msgstr "Link expires"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.listed"
 msgstr "Listed"
 
@@ -852,6 +929,7 @@ msgid "drivers.compare.loading"
 msgstr "Loading the shortlist"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.loading"
 msgstr "Loading your drivers"
 
@@ -869,6 +947,7 @@ msgid "drivers.share.create"
 msgstr "Make the link"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.making"
 msgstr "Making his link…"
 
@@ -877,6 +956,7 @@ msgid "drivers.share.needsSignal"
 msgstr "Making the link needs signal. Try again once you’re back online."
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.kindText"
 msgstr "Message"
 
@@ -886,10 +966,12 @@ msgid "drivers.detail.message"
 msgstr "Message on WhatsApp"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.messageLabel"
 msgstr "Message to your driver"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.contactName"
 msgstr "Name"
 
@@ -901,11 +983,12 @@ msgstr "Name"
 msgid "drivers.leg.title"
 msgstr "Need a driver here?"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr "Needs signal to make his link."
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.badge.new"
 msgstr "New"
 
@@ -929,6 +1012,7 @@ msgid "drivers.find.noDays"
 msgstr "No days in the plan yet. You can still line a driver up."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.emptyTitle"
 msgstr "No drivers yet"
 
@@ -969,6 +1053,7 @@ msgid "drivers.verdict.notAgain"
 msgstr "Not again"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.notClaimed"
 msgstr "Not claimed"
 
@@ -999,6 +1084,7 @@ msgid "drivers.compare.notSaidHint"
 msgstr "Not said. Ask him on WhatsApp"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.nudge"
 msgstr "Nudge"
 
@@ -1034,6 +1120,7 @@ msgid "drivers.directory.intro"
 msgstr "Only drivers who asked to be listed. Ratings come from crews who rode with them."
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.open"
 msgstr "Open in WhatsApp"
 
@@ -1050,6 +1137,7 @@ msgid "drivers.premium.openViator"
 msgstr "Open Viator ↗"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 #: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
@@ -1057,6 +1145,7 @@ msgid "drivers.rate.back"
 msgstr "Our drivers"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.title"
 msgstr "Our drivers"
 
@@ -1089,6 +1178,7 @@ msgid "drivers.include.parking"
 msgstr "Parking"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.paste"
 msgstr "Paste"
 
@@ -1098,6 +1188,7 @@ msgid "drivers.find.foundBody"
 msgstr "Paste a message, drop a screenshot, share a contact"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.pastePlaceholder"
 msgstr "Paste what the driver wrote, or a link to his post"
 
@@ -1106,6 +1197,7 @@ msgid "drivers.tag.patient"
 msgstr "Patient"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.paused"
 msgstr "Paused"
 
@@ -1177,6 +1269,7 @@ msgid "drivers.replied.quote"
 msgstr "Quote from {0}"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.rate"
 msgstr "Rate him"
 
@@ -1190,6 +1283,7 @@ msgid "drivers.rate.notEligible"
 msgstr "Rating opens after the trip, for members with a verified phone."
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.read"
 msgstr "Read it"
 
@@ -1223,6 +1317,7 @@ msgid "drivers.share.revoke"
 msgstr "Revoke link"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.emptyLine"
 msgstr "Ride with someone on this trip and they land here for the crew."
 
@@ -1240,18 +1335,22 @@ msgid "drivers.rate.save"
 msgstr "Save our answer"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.saved"
 msgstr "Saved on your phone"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.queued"
 msgstr "Saved. I’ll read it when you’re back online."
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.screenshot"
 msgstr "Screenshot"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.kindImage"
 msgstr "Screenshot"
 
@@ -1271,6 +1370,10 @@ msgstr "Send to the next crew"
 msgid "drivers.pick.asked"
 msgstr "Sent to the crew"
 
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.setVerb"
+msgstr "Set"
+
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.title"
 msgstr "Share with {name}"
@@ -1284,11 +1387,19 @@ msgstr "Share with your driver"
 msgid "drivers.add.sharedBy"
 msgstr "shared by {0}"
 
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
+msgid "drivers.premium.add.sharedBy"
+msgstr "shared by {by}"
+
 #. placeholder {0}: plan.guide.name
 #. placeholder {1}: items.length
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.shared"
 msgstr "Shared with {0} · {1}"
+
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
+msgid "drivers.premium.add.shared"
+msgstr "Shared with {guideName} · {count}"
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
@@ -1309,6 +1420,7 @@ msgid "drivers.premium.shortlistCount"
 msgstr "Shortlist · {0}"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.badge.shortlisted"
 msgstr "Shortlisted"
 
@@ -1343,10 +1455,12 @@ msgid "drivers.compare.more"
 msgstr "Swipe sideways for the rest →"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.taken"
 msgstr "Taken"
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.tapSlot"
 msgstr "Tap a highlight to change it"
 
@@ -1364,10 +1478,12 @@ msgid "drivers.replied.tell"
 msgstr "Tell {driverName} on WhatsApp"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.tell"
 msgstr "Tell {name} on WhatsApp"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.pasteDetail"
 msgstr "Text or a link"
 
@@ -1376,6 +1492,7 @@ msgid "drivers.detail.reported"
 msgstr "Thanks. We will take a look."
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.failed"
 msgstr "That didn’t go through. Try again in a moment."
 
@@ -1389,6 +1506,7 @@ msgstr "That didn’t load"
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.premium.failed"
 msgstr "That didn't load. Try again."
@@ -1402,7 +1520,12 @@ msgstr "That didn’t save. Check you’re online and try again."
 msgid "drivers.pick.error.signal"
 msgstr "That needs a connection. Try again when you’re back online."
 
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.pickDiscardLine"
+msgstr "The days you ticked are not kept."
+
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.pasteLabel"
 msgstr "The driver’s message"
 
@@ -1411,22 +1534,27 @@ msgid "drivers.share.revoked"
 msgstr "The link is off. The page shows it at once."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.expired"
 msgstr "The link switched off. Nothing was listed."
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.expires"
 msgstr "The link works until {expiresOn}. After that it switches off and nothing is listed."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.until"
 msgstr "The link works until {untilOn}. After that it switches off and nothing is listed."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.cancelLine"
 msgstr "The link you sent stops working at once."
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.message"
 msgstr "The message · you send it"
 
@@ -1466,11 +1594,13 @@ msgstr "This needs a connection. Try again when you’re back online."
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.premium.offline"
 msgstr "This needs signal. Try again when you have some."
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.savedPickups"
 msgstr "Today’s pickups and pins"
 
@@ -1500,6 +1630,7 @@ msgstr "Try again"
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.premium.retry"
 msgstr "Try again"
@@ -1510,6 +1641,7 @@ msgid "drivers.unread.another"
 msgstr "Try another screenshot"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.askBody"
 msgstr "Turns this into a vote, like any change"
 
@@ -1519,6 +1651,7 @@ msgid "drivers.unread.type"
 msgstr "Type the rest in"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.waiting"
 msgstr "Waiting for him to confirm"
 
@@ -1532,10 +1665,12 @@ msgid "drivers.line.includes"
 msgstr "What the price includes"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.savedTerms"
 msgstr "What you agreed"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.whatsapp"
 msgstr "WhatsApp"
 
@@ -1544,22 +1679,26 @@ msgid "drivers.line.phone"
 msgstr "WhatsApp"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.whatsappLater"
 msgstr "WhatsApp · later"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.contactPhone"
 msgstr "WhatsApp number, with its country code"
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.after"
 msgstr "When someone replies, share their message to me. I'll pull out the details."
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.title"
 msgstr "Which legs?"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "You already nudged him once."
 
@@ -1590,6 +1729,7 @@ msgid "drivers.queued.report"
 msgstr "Your report"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.title"
 msgstr "Your ride back"
 

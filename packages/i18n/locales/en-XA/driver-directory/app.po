@@ -19,16 +19,8 @@ msgstr ""
 msgid "drivers.ours.loved"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.car"
-msgstr ""
-
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.intro"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
@@ -43,7 +35,7 @@ msgstr ""
 msgid "drivers.detail.tipBy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr ""
 
@@ -84,7 +76,7 @@ msgstr ""
 msgid "drivers.detail.shortlistFailed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr ""
 
@@ -220,7 +212,7 @@ msgstr ""
 msgid "drivers.invite.messageLabel"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr ""
 
@@ -406,7 +398,7 @@ msgstr ""
 msgid "drivers.detail.priceNote"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr ""
 

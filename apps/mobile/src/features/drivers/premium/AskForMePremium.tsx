@@ -45,7 +45,7 @@ export function AskForMePremium({
   const slot = th.color.status.maybe;
   return (
     <PushScreen
-      title={t({ id: 'drivers.ask.title', message: `${guide}'s post` })}
+      title={t({ id: 'drivers.premium.ask.title', message: `${guide}'s post` })}
       backLabel={t({ id: 'drivers.back.find', message: 'Find a driver' })}
       scroll={false}
       testID="drivers-ask"

@@ -90,7 +90,7 @@ msgid "suppliers.rides.transferBooked"
 msgstr "Xe đón sân bay đã đặt trên {supplier} (từ email của bạn) · thông tin tài xế lấy từ voucher"
 
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-vendor-messages.ts
 msgid "suppliers.vendor.approvedLine"
 msgstr "Đã duyệt · bàn hỗ trợ sẽ gửi"
 
@@ -319,7 +319,7 @@ msgid "suppliers.journey.start"
 msgstr "Mình đã lên xe"
 
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-vendor-messages.ts
 msgid "suppliers.vendor.failedLine"
 msgstr "Tin nhắn chưa đến được họ qua WhatsApp. Bàn hỗ trợ sẽ báo bạn bước tiếp theo."
 
@@ -499,7 +499,7 @@ msgstr "Bàn hỗ trợ đang gọi phòng khám cùng bạn."
 msgid "suppliers.book.pay"
 msgstr "Thanh toán với Viator"
 
-#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-booking-flow.ts
 msgid "suppliers.book.payCancelled"
 msgstr "Đã hủy thanh toán. Không bị trừ tiền."
 
@@ -562,7 +562,7 @@ msgstr "Gửi từ WhatsApp của bạn"
 msgid "suppliers.vendor.share"
 msgstr "Gửi qua WhatsApp"
 
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-vendor-messages.ts
 msgid "suppliers.vendor.needsSignal"
 msgstr "Cần có sóng để gửi. Nội dung của bạn vẫn còn đây."
 
@@ -590,11 +590,11 @@ msgstr "NGUỒN"
 msgid "suppliers.log.splitNote"
 msgstr "Chia đều cho {people} người đã đi. Để trống nếu chỉ muốn ghi lại chuyến đi."
 
-#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-booking-flow.ts
 msgid "suppliers.book.retry"
 msgstr "Chưa được. Thử lại sau chút nhé."
 
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-vendor-messages.ts
 msgid "suppliers.vendor.failed"
 msgstr "Chưa được. Thử lại nhé."
 
@@ -627,7 +627,7 @@ msgid "suppliers.concierge.pickedUp"
 msgstr "Bàn hỗ trợ đã nhận. Sẽ có người xử lý trước {due}."
 
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-vendor-messages.ts
 msgid "suppliers.vendor.deskHours"
 msgstr "Bàn hỗ trợ gửi tin từ {open} đến {close} ({tz})."
 
@@ -647,8 +647,8 @@ msgstr "Hết giờ giữ chỗ — kiểm tra lại nhé"
 msgid "suppliers.book.operatorNote"
 msgstr "Nhà tổ chức thường xác nhận trong một ngày. Mình sẽ báo khi họ xác nhận."
 
-#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-offers.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-booking-flow.ts
 msgid "suppliers.book.payFailed"
 msgstr "Thanh toán không thành công. Không bị trừ tiền."
 
@@ -676,8 +676,8 @@ msgstr "Giờ, giá và vé trên {supplier}"
 msgid "suppliers.cancel.retry"
 msgstr "Thử lại"
 
-#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-offers.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-booking-flow.ts
 msgid "suppliers.book.rejected"
 msgstr "Viator không đặt được"
 

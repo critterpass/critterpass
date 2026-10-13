@@ -51,13 +51,16 @@ msgid "help.queued.unvote"
 msgstr "취소한 투표"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.about"
 msgstr "소개"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-parts.tsx
 msgid "help.feedback.addPhoto"
 msgstr "사진 추가"
 
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.askHuman"
 msgstr "담당자에게 문의"
@@ -95,11 +98,22 @@ msgid "help.ideas.declined"
 msgstr "보류됨"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.device"
 msgstr "기기 정보"
 
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
+msgid "help.premium.sentDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
+msgid "help.premium.articleLoading"
+msgstr ""
+
+#. placeholder {0}: form.articleTitle
 #. placeholder {0}: props.articleTitle
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.fromArticle"
 msgstr "「{0}」에서"
 
@@ -115,8 +129,15 @@ msgstr "으으"
 msgid "help.feedback.topic.guideChat"
 msgstr "가이드 채팅"
 
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.back"
+msgstr "도움말"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
+msgid "help.feedback.back"
 msgstr "도움말"
 
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
@@ -128,15 +149,12 @@ msgstr ""
 msgid "help.ideas.back"
 msgstr "도움말"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
-msgid "help.feedback.back"
-msgstr "도움말"
-
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 msgid "help.hub.title"
 msgstr "도움말과 피드백"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.centre"
 msgstr "도움말 센터"
@@ -150,10 +168,12 @@ msgid "help.premium.heading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.howsItGoing"
 msgstr "어때요?"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.hq"
 msgstr "본부 · 게시"
 
@@ -162,9 +182,11 @@ msgid "help.suggest.titleLabel"
 msgstr "간단히 한마디"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.includeDevice"
 msgstr "기기 정보 포함"
 
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingBody"
 msgstr "다음에 온라인이 되면 도움말 센터와 함께 도착해요."
@@ -173,11 +195,17 @@ msgstr "다음에 온라인이 되면 도움말 센터와 함께 도착해요."
 msgid "help.premium.shakeLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
+msgid "help.premium.feedbackKeep"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.discard"
 msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.discardTitle"
 msgstr ""
 
@@ -217,6 +245,7 @@ msgstr "신규"
 msgid "help.suggest.eyebrow"
 msgstr "새 아이디어"
 
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.no"
 msgstr "아니요"
@@ -249,14 +278,17 @@ msgid "help.feedback.topic.other"
 msgstr "기타"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.pinned"
 msgstr "고정됨"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.title"
 msgstr "보드에 고정했어요"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.queued"
 msgstr "고정했어요. 온라인으로 돌아오면 올라가고, 그때 담당자가 읽어요."
 
@@ -271,6 +303,7 @@ msgid "help.feedback.topic.planning"
 msgstr "계획"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.post"
 msgstr "게시 · 우편"
 
@@ -288,6 +321,7 @@ msgid "help.hub.rate"
 msgstr "앱 평가하기"
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.received"
 msgstr "접수됨"
 
@@ -297,8 +331,14 @@ msgid "help.hub.search"
 msgstr "환불, 오프라인 지도, 정산…"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-parts.tsx
 msgid "help.feedback.removePhoto"
 msgstr "이 사진 삭제"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
+msgid "help.feedback.titleProblem"
+msgstr "문제 신고"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
@@ -306,8 +346,9 @@ msgid "help.hub.report"
 msgstr "문제 신고"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
-msgid "help.feedback.titleProblem"
-msgstr "문제 신고"
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
+msgid "help.feedback.title"
+msgstr "피드백 보내기"
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
@@ -315,12 +356,13 @@ msgid "help.hub.feedback"
 msgstr "피드백 보내기"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
-msgid "help.feedback.title"
-msgstr "피드백 보내기"
-
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.send"
 msgstr "보내기"
+
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
+msgid "help.premium.sentTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
@@ -341,6 +383,7 @@ msgstr "출시됨"
 msgid "help.ideas.shippedTab"
 msgstr "출시됨"
 
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.english"
 msgstr "지금은 영어로 보여 드려요"
@@ -362,17 +405,19 @@ msgstr "이 중 하나와 비슷해요. 투표하면 더 빨리 반영돼요."
 msgid "help.suggest.matchOne"
 msgstr "이거랑 비슷해요. 투표하면 더 빨리 반영돼요."
 
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.stuck"
 msgstr "아직 해결이 안 됐나요?"
 
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
+msgid "help.feedback.titleIdea"
+msgstr "기능 제안"
+
 #: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.suggest"
-msgstr "기능 제안"
-
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
-msgid "help.feedback.titleIdea"
 msgstr "기능 제안"
 
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
@@ -389,19 +434,24 @@ msgid "help.hub.rateCaption"
 msgstr "10초면 돼요"
 
 #. placeholder {0}: props.name
+#. placeholder {0}: sent.name
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.thanks"
 msgstr "{0}님, 고마워요. 담당자가 하나하나 읽어요. 더 필요한 게 있으면 물어볼게요. 해결되면 Tokek이 알려 드려요."
 
 #: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.thanksNoName"
 msgstr "고마워요. 담당자가 하나하나 읽어요. 더 필요한 게 있으면 물어볼게요. 해결되면 Tokek이 알려 드려요."
 
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.thanks"
 msgstr "고마워요. 글을 고치는 데 도움이 돼요."
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.tooBig"
 msgstr "사진이 너무 커서 보낼 수 없어요. 스크린샷으로 시도해 보세요."
 
@@ -415,11 +465,13 @@ msgstr "온라인으로 돌아오면 보드가 열려요."
 msgid "help.hub.articlesOffline"
 msgstr ""
 
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.missingTitle"
 msgstr "이 글은 아직 없어요"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.toHumans"
 msgstr "담당자에게"
 
@@ -457,15 +509,18 @@ msgstr "아이디어 {0}개에 투표"
 msgid "help.ideas.votedFor"
 msgstr "{0}에 투표했어요. 이제 {count}표예요."
 
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.helpful"
 msgstr "도움이 됐나요?"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.placeholderProblem"
 msgstr "무슨 일이 있었나요? 어떻게 되길 기대했나요?"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.placeholderIdea"
 msgstr "CritterPass가 다음에 뭘 하면 좋을까요?"
 
@@ -479,6 +534,7 @@ msgid "help.hub.feedbackCaption"
 msgstr "좋은 점, 불편한 점"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.placeholder"
 msgstr "좋은 점, 불편한 점…"
 
@@ -492,6 +548,7 @@ msgstr "다음은 뭘까요?"
 msgid "help.ideas.tabs"
 msgstr "아이디어 보기 필터"
 
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 #: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
 msgid "help.article.yes"
 msgstr "네"
@@ -505,10 +562,12 @@ msgid "help.queued.idea"
 msgstr "보드에 올릴 내 아이디어"
 
 #: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.note"
 msgstr "내 메모"
 
 #: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.discardLine"
 msgstr ""
 
@@ -516,7 +575,7 @@ msgstr ""
 msgid "help.queued.feedback"
 msgstr "담당자에게 보낼 메모"
 
-#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+#: ../../apps/mobile/src/features/help/feedback/use-feedback-form.ts
 msgid "help.feedback.notSaved"
 msgstr ""
 

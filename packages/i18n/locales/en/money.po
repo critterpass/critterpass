@@ -133,10 +133,12 @@ msgstr "{guideName} fills in the prices it could read"
 msgid "money.failure.eyebrow"
 msgstr "{guideName} got half of it"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.savedLine"
 msgstr "{guideName} reads it when you're back online. You can close this."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.aimLine"
 msgstr "{guideName} snaps it when the paper is flat and still, then reads every line."
@@ -272,6 +274,7 @@ msgstr "Add"
 msgid "money.add.add"
 msgstr "Add {short}"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.add"
 msgstr "Add a line"
@@ -303,6 +306,7 @@ msgstr "Added {full}, {each} each."
 msgid "money.add.addedToast"
 msgstr "Added {full}."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.waiting"
 msgstr "Adding it up. Who had what comes next."
@@ -357,10 +361,12 @@ msgstr "At this pace you'll end around {finish}, about {deltaText} over."
 msgid "money.premium.budget.paceUnder"
 msgstr "At this pace you'll end around {finish}, about {deltaText} under."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.autoOff"
 msgstr "Auto-split off"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.autoOn"
 msgstr "Auto-split on"
@@ -438,6 +444,7 @@ msgid "money.premium.cancel"
 msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/money/premium/MoneySheets.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/MemberPickerPremium.tsx
 msgid "common.confirm.cancel"
 msgstr "Cancel"
 
@@ -474,6 +481,9 @@ msgstr "Changes"
 msgid "money.premium.close"
 msgstr "Close"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/scan-look.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanStagePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanCamera.tsx
 msgid "money.scan.close"
 msgstr "Close the scan"
@@ -504,6 +514,7 @@ msgstr "Copies it"
 msgid "money.pay.copy"
 msgstr "Copy"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.pickFailedTitle"
 msgstr "Couldn't open that photo"
@@ -512,6 +523,7 @@ msgstr "Couldn't open that photo"
 msgid "money.scan.commitOffline"
 msgstr "Couldn't reach CritterPass. Try SPLIT IT again when you're online."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.unreadableTitle"
 msgstr "Couldn't read that one"
@@ -542,6 +554,7 @@ msgstr "Custom"
 msgid "money.add.custom"
 msgstr "Custom"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.cutOff"
 msgstr "Cut off"
@@ -582,6 +595,7 @@ msgid "money.detail.delete"
 msgstr "Delete"
 
 #: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 msgid "money.premium.delete"
 msgstr "Delete a digit"
 
@@ -608,10 +622,12 @@ msgstr "Discard this expense?"
 msgid "money.settle.status.disputed"
 msgstr "Disputed"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/MemberPickerPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/MemberPicker.tsx
 msgid "money.picker.done"
 msgstr "Done"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.done"
 msgstr "Done"
@@ -666,6 +682,7 @@ msgstr "Every expense"
 msgid "money.currency.doneLine"
 msgstr "Every expense re-counts at the rate on the day it was spent."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/MemberPickerPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/MemberPicker.tsx
 msgid "money.picker.everyone"
 msgstr "Everyone"
@@ -749,6 +766,7 @@ msgstr "Getting how {payee} gets paid…"
 msgid "money.payout.loading"
 msgstr "Getting your saved details…"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.glare"
 msgstr "Glare"
@@ -788,6 +806,7 @@ msgstr "How you paid"
 msgid "money.pay.confirm"
 msgstr "I got it"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.deniedLine"
 msgstr "I need the camera to read receipts. A photo from your library works too."
@@ -838,6 +857,7 @@ msgstr "Keep total"
 msgid "money.latest"
 msgstr "Latest"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.aimTitle"
 msgstr "Lay the receipt flat"
@@ -868,6 +888,7 @@ msgstr "Line items: the fold hides them"
 msgid "money.failure.missedBlur"
 msgstr "Line items: too blurry to read"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.name"
 msgstr "Line name"
@@ -877,14 +898,17 @@ msgstr "Line name"
 msgid "money.review.mismatch"
 msgstr "Lines add up to {linesText}, the receipt says {printedText}."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.countNoTotal"
 msgstr "Lines: {typedText}"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.count"
 msgstr "Lines: {typedText} of {totalText}. The rest is shared by share."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.over"
 msgstr "Lines: {typedText}, more than the {totalText} on the receipt"
@@ -944,6 +968,7 @@ msgstr "Money · {spent} spent"
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 #: ../../apps/mobile/src/features/money/components/screen-states.tsx
 #: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/scan-look.tsx
 msgid "money.noCrew.title"
 msgstr "Money is for crews"
 
@@ -1004,6 +1029,7 @@ msgstr "No trip to add it to"
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 #: ../../apps/mobile/src/features/money/components/screen-states.tsx
 #: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/scan-look.tsx
 msgid "money.noTrip.title"
 msgstr "No trip to split yet"
 
@@ -1080,6 +1106,7 @@ msgstr "Once {payee} requests it, their payment details show here. Cash works an
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 #: ../../apps/mobile/src/features/money/components/screen-states.tsx
 #: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/scan-look.tsx
 msgid "money.noTrip.line"
 msgstr "Once the crew has a trip, every expense lands here and I keep the tally."
 
@@ -1100,6 +1127,7 @@ msgstr "Only an organiser can switch it."
 msgid "money.premium.onlyPayer"
 msgstr "Only the person paying sees these."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.settings"
 msgstr "Open Settings"
@@ -1180,6 +1208,7 @@ msgstr "Pending"
 msgid "money.payout.cashLine"
 msgstr "People can hand it to you in person."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.pick"
 msgstr "Pick a photo"
@@ -1204,6 +1233,7 @@ msgstr "Rate 1 {from} = {rate} {to}"
 msgid "money.detail.rate"
 msgstr "Rate 1 {from} = {rate} {to} on {on}"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.reading"
 msgstr "Reading the lines…"
@@ -1244,6 +1274,7 @@ msgstr "Request it"
 msgid "money.settle.status.requested"
 msgstr "Requested"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.retake"
 msgstr "Retake"
@@ -1269,6 +1300,7 @@ msgstr "Save"
 msgid "money.add.save"
 msgstr "Save"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.savedTitle"
 msgstr "Saved"
@@ -1306,10 +1338,12 @@ msgstr "Scan instead"
 msgid "money.premium.scanReceipt"
 msgstr "Scan receipt"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.scan"
 msgstr "Scan the receipt"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.pickFailedLine"
 msgstr "Scan the receipt, pick another photo, or type it in. Nothing was added."
@@ -1435,6 +1469,7 @@ msgid "money.review.commit"
 msgstr "Split it · {payer} paid"
 
 #: ../../apps/mobile/src/features/money/premium/receipt/ScanPanels.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 msgid "money.premium.splitIt"
 msgstr "Split it · {payer} paid"
 
@@ -1461,6 +1496,7 @@ msgstr "SQUARE"
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 #: ../../apps/mobile/src/features/money/components/screen-states.tsx
 #: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/scan-look.tsx
 msgid "money.noCrew.line"
 msgstr "Start or join a crew and I will split every bill with them."
 
@@ -1506,6 +1542,7 @@ msgstr "That didn't go through. Check your connection and try again."
 msgid "money.scan.evenRefused"
 msgstr "That didn't go through. Try again, or type it in."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.failedTitle"
 msgstr "That didn't upload"
@@ -1587,6 +1624,7 @@ msgstr "This expense is gone"
 msgid "money.chat.deleted"
 msgstr "This expense was deleted"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.slowLine"
 msgstr "This is taking longer than usual. Keep waiting, or type it in."
@@ -1619,10 +1657,12 @@ msgstr "Today"
 msgid "money.pay.disputed"
 msgstr "Told {who} it didn't arrive."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.blurry"
 msgstr "Too blurry"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.crumpled"
 msgstr "Too crumpled"
@@ -1661,6 +1701,7 @@ msgstr "Trip budget"
 msgid "money.budget.after"
 msgstr "Trip over"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.failedLine"
 msgstr "Try again, or type it in. Nothing was added."
@@ -1670,6 +1711,7 @@ msgstr "Try again, or type it in. Nothing was added."
 msgid "money.pay.typeAmount"
 msgstr "Type {amount} in your bank app."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeIt"
 msgstr "Type it in"
@@ -1678,10 +1720,12 @@ msgstr "Type it in"
 msgid "money.premium.typeIt"
 msgstr "Type it in"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeInstead"
 msgstr "Type it in instead"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.unreadableLine"
 msgstr "Type it in, or retake it flat and in good light. Nothing was added."
@@ -1692,6 +1736,7 @@ msgstr "Type it in, or retake it flat and in good light. Nothing was added."
 msgid "money.failure.type"
 msgstr "Type the lines"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.title"
 msgstr "Type the lines"
@@ -1735,6 +1780,7 @@ msgstr "What"
 msgid "money.currency.switchHint"
 msgstr "What the crew counts in"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.namePlaceholder"
 msgstr "What was it?"

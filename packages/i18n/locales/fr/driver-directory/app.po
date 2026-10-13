@@ -19,17 +19,9 @@ msgstr "{loved} sur {rated}"
 msgid "drivers.ours.loved"
 msgstr "{lovedCount} sur {voters} ont adoré"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.car"
-msgstr "{model}, {seats} places"
-
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.intro"
 msgstr "{name} décide. Rien sur lui n'est public tant qu'il n'a pas confirmé sur son propre téléphone, et il peut tout retirer quand il veut."
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr "{seats} places"
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
 msgid "drivers.card.trips"
@@ -43,7 +35,7 @@ msgstr "7+ places"
 msgid "drivers.detail.tipBy"
 msgstr "Un groupe de {crewSize} · {tipMonth}"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "Ajoute d'abord son numéro WhatsApp au voyage, ou il est déjà inscrit."
 
@@ -84,7 +76,7 @@ msgstr "Changer ma réponse"
 msgid "drivers.detail.shortlistFailed"
 msgstr "Ajout impossible. Réessaie."
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr "Lien non créé. Réessaie."
 
@@ -220,7 +212,7 @@ msgstr "Écrire sur WhatsApp"
 msgid "drivers.invite.messageLabel"
 msgstr "Message à ton chauffeur"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr "Il faut du réseau pour créer le lien."
 
@@ -406,7 +398,7 @@ msgstr "En attente de sa confirmation"
 msgid "drivers.detail.priceNote"
 msgstr "Ce qu'il annonce aux groupes. Pas un prix CritterPass."
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "Tu l'as déjà relancé une fois."
 

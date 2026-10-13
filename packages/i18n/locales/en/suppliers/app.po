@@ -90,7 +90,7 @@ msgid "suppliers.rides.transferBooked"
 msgstr "Airport pickup booked on {supplier} (from your email) · driver details from your voucher"
 
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-vendor-messages.ts
 msgid "suppliers.vendor.approvedLine"
 msgstr "Approved · the desk sends it"
 
@@ -319,7 +319,7 @@ msgid "suppliers.journey.start"
 msgstr "I'm in the car"
 
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-vendor-messages.ts
 msgid "suppliers.vendor.failedLine"
 msgstr "It didn’t reach them on WhatsApp. The desk will tell you what next."
 
@@ -499,7 +499,7 @@ msgstr "Ops desk is calling the clinic with you."
 msgid "suppliers.book.pay"
 msgstr "Pay with Viator"
 
-#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-booking-flow.ts
 msgid "suppliers.book.payCancelled"
 msgstr "Payment cancelled. Nothing was charged."
 
@@ -562,7 +562,7 @@ msgstr "Send it from your WhatsApp"
 msgid "suppliers.vendor.share"
 msgstr "Send it on WhatsApp"
 
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-vendor-messages.ts
 msgid "suppliers.vendor.needsSignal"
 msgstr "Sending needs signal. Your text is still here."
 
@@ -590,11 +590,11 @@ msgstr "SOURCES"
 msgid "suppliers.log.splitNote"
 msgstr "Split evenly between the {people} who rode. Leave it empty to only note the ride."
 
-#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-booking-flow.ts
 msgid "suppliers.book.retry"
 msgstr "That didn’t go through. Try again in a moment."
 
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-vendor-messages.ts
 msgid "suppliers.vendor.failed"
 msgstr "That didn’t go through. Try again."
 
@@ -627,7 +627,7 @@ msgid "suppliers.concierge.pickedUp"
 msgstr "The desk has it. Someone picks it up by {due}."
 
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-vendor-messages.ts
 msgid "suppliers.vendor.deskHours"
 msgstr "The desk sends messages between {open} and {close} ({tz})."
 
@@ -647,8 +647,8 @@ msgstr "The hold ran out — check again"
 msgid "suppliers.book.operatorNote"
 msgstr "The operator confirms most bookings within a day. I’ll tell you when they do."
 
-#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-offers.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-booking-flow.ts
 msgid "suppliers.book.payFailed"
 msgstr "The payment didn’t go through. Nothing was charged."
 
@@ -676,8 +676,8 @@ msgstr "Times, prices and tickets on {supplier}"
 msgid "suppliers.cancel.retry"
 msgstr "Try again"
 
-#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-offers.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-booking-flow.ts
 msgid "suppliers.book.rejected"
 msgstr "Viator couldn’t book it"
 

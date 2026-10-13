@@ -65,6 +65,7 @@ export function LanguagePremiumScreen() {
   const { lines, display } = model;
   const shownLanguages = model.showMore ? [...model.featured, ...model.more] : model.featured;
   const selected = model.switching ?? model.current;
+  const count = model.more.length;
   const homeTitle = t({ id: 'you.currency.home', message: 'Home currency' });
   const showIn = t({ id: 'you.currency.showIn', message: 'Show prices in' });
   const segment = (child: ReactNode) => <View style={{ width: SEGMENT_WIDTH }}>{child}</View>;
@@ -102,7 +103,7 @@ export function LanguagePremiumScreen() {
             ))}
             {model.showMore || model.more.length === 0 ? null : (
               <Row
-                title={t({ id: 'you.language.more', message: `${model.more.length} more` })}
+                title={t({ id: 'you.language.more', message: `${count} more` })}
                 trailing={<Icon name="forward" size={16} color={th.color.placeholder} />}
                 onPress={() => model.setShowMore(true)}
                 testID="you-language-more"

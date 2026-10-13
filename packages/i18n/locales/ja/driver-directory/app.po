@@ -19,17 +19,9 @@ msgstr "{rated}組中{loved}組"
 msgid "drivers.ours.loved"
 msgstr "{voters}人中{lovedCount}人が大好き"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.car"
-msgstr "{model}・{seats}人乗り"
-
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.intro"
 msgstr "決めるのは{name}さんです。本人のスマホで確認するまで何も公開されず、いつでも取り下げられます。"
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr "{seats}人乗り"
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
 msgid "drivers.card.trips"
@@ -43,7 +35,7 @@ msgstr "7人乗り以上"
 msgid "drivers.detail.tipBy"
 msgstr "{crewSize}人のグループ・{tipMonth}"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "先に旅行に彼のWhatsApp番号を追加してください。または、すでに掲載済みです。"
 
@@ -84,7 +76,7 @@ msgstr "回答を変える"
 msgid "drivers.detail.shortlistFailed"
 msgstr "追加できませんでした。もう一度お試しください。"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr "リンクを作れませんでした。もう一度お試しください。"
 
@@ -220,7 +212,7 @@ msgstr "WhatsAppでメッセージ"
 msgid "drivers.invite.messageLabel"
 msgstr "ドライバーへのメッセージ"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr "リンクを作るには通信が必要です。"
 
@@ -406,7 +398,7 @@ msgstr "本人の確認待ち"
 msgid "drivers.detail.priceNote"
 msgstr "本人がグループに伝えている内容です。CritterPassの価格ではありません。"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "すでに一度リマインドしました。"
 

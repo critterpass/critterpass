@@ -9,32 +9,38 @@ msgstr ""
 
 #. placeholder {0}: at + 1
 #. placeholder {1}: cards.length
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.counter"
 msgstr "{0} / {1}"
 
 #. placeholder {0}: face.approved
 #. placeholder {1}: face.total
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 msgid "community.consent.waiting"
 msgstr "{0}/{1} người đã đồng ý. Kế hoạch chỉ được chia sẻ khi cả nhóm đồng ý."
 
 #. placeholder {0}: projection.photos.length
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.photos"
 msgstr "{0} ảnh"
 
 #. placeholder {0}: plan.saves_count
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
 msgid "community.published.saves"
 msgstr "{0} lượt lưu"
 
 #. placeholder {0}: page.total
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
 msgid "community.browse.total"
 msgstr "{0} kế hoạch"
 
 #. placeholder {0}: card.name
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.rejected"
 msgstr "{0}: mẹo này chưa được duyệt. Thử viết lại, đừng kèm tên hay số điện thoại."
@@ -71,6 +77,7 @@ msgstr "{overlap, plural, other {# ngày trong kế hoạch này trùng với ch
 msgid "community.match"
 msgstr "Hợp gu {pct}%"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.photosRow"
 msgstr "{photos} ảnh đẹp nhất"
@@ -80,18 +87,20 @@ msgid "community.title.generated"
 msgstr "{place}: {what}"
 
 #: ../../apps/mobile/src/features/community/detail/plan-days.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-days-premium.tsx
 msgid "community.detail.moreDays"
 msgstr "+ {hidden} ngày nữa"
 
 #: ../../apps/mobile/src/features/community/detail/plan-days.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-days-premium.tsx
 msgid "community.detail.addsOne"
 msgstr "+ thêm một ngày"
 
-#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/browse/use-crew-plans.ts
 msgid "community.filter.mid"
 msgstr "6–8 ngày"
 
-#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/browse/use-crew-plans.ts
 msgid "community.filter.long"
 msgstr "Từ 9 ngày"
 
@@ -101,6 +110,7 @@ msgstr "Nhóm {size} người"
 
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
 #: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/shared-plan-premium-screen.tsx
 msgid "community.detail.heading"
 msgstr "Kế hoạch của một nhóm"
 
@@ -133,14 +143,17 @@ msgid "community.crew.solo"
 msgstr "Một người đi một mình"
 
 #: ../../apps/mobile/src/features/community/detail/trip-picker.tsx
+#: ../../apps/mobile/src/features/community/premium/trip-picker-premium.tsx
 msgid "community.picker.unnamed"
 msgstr "Một chuyến đi"
 
 #. placeholder {0}: day.day_no
 #: ../../apps/mobile/src/features/community/detail/plan-days.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-days-premium.tsx
 msgid "community.detail.addDay"
 msgstr "Thêm ngày {0}"
 
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.doneWaiting"
 msgstr "Đã đánh giá hết."
@@ -149,14 +162,17 @@ msgstr "Đã đánh giá hết."
 msgid "community.rate.done"
 msgstr "Đã chấm xong. Mẹo của bạn đã hiện cho các nhóm đang lên kế hoạch đi {place}."
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/take-down-confirm.tsx
 msgid "community.revoke.line"
 msgstr "Ai đang có liên kết sẽ thấy \"không còn được chia sẻ\". Bạn có thể tạo liên kết mới bất cứ lúc nào."
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 msgid "community.consent.approve"
 msgstr "Đồng ý"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
 msgid "community.publish.asked"
 msgstr "Đã hỏi. Kế hoạch sẽ được đăng khi cả nhóm đồng ý."
@@ -165,100 +181,130 @@ msgstr "Đã hỏi. Kế hoạch sẽ được đăng khi cả nhóm đồng ý.
 msgid "community.queued.publish"
 msgstr "Đang hỏi cả nhóm để chia sẻ kế hoạch"
 
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.backOne"
 msgstr "Lùi một bước"
 
+#: ../../apps/mobile/src/features/community/premium/plan-premium-view.tsx
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
+msgid "common.cancel"
+msgstr ""
+
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
 msgid "community.browse.clear"
 msgstr "Bỏ bộ lọc"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
 msgid "community.published.link"
 msgstr "Sao chép liên kết chỉ xem"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
 msgid "community.publish.link"
 msgstr "Chỉ sao chép đường dẫn chỉ xem"
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-premium-view.tsx
 msgid "community.detail.copyPick"
 msgstr "Chép vào một chuyến đi"
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-premium-view.tsx
 msgid "community.detail.copy"
 msgstr "Chép vào chuyến của nhóm"
 
 #: ../../apps/mobile/src/features/community/detail/trip-picker.tsx
+#: ../../apps/mobile/src/features/community/premium/trip-picker-premium.tsx
 msgid "community.picker.copy"
 msgstr "Chép kế hoạch vào bản nháp của chuyến"
 
+#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+msgid "community.browse.title"
+msgstr "Kế hoạch các nhóm"
+
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/shared-plan-premium-screen.tsx
 msgid "community.back.plans"
 msgstr "Kế hoạch các nhóm"
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
-msgid "community.browse.title"
-msgstr "Kế hoạch các nhóm"
-
-#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
 msgid "community.browse.offlineTitle"
 msgstr "Cần có mạng để xem kế hoạch"
 
 #. placeholder {0}: current.day_no
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.day"
 msgstr "Ngày {0}"
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-premium-view.tsx
 msgid "community.detail.bestDay"
 msgstr "Chỉ ngày {bestDay}"
 
 #: ../../apps/mobile/src/features/community/detail/plan-days.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-days-premium.tsx
 msgid "community.detail.dayByDay"
 msgstr "Từng ngày"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 msgid "community.consent.declinedDone"
 msgstr "Đã từ chối. Kế hoạch ở lại với nhóm."
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
 msgid "community.back.explore"
 msgstr "Khám phá"
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
 msgid "community.browse.noResultsLine"
 msgstr "Bớt bộ lọc, thêm kế hoạch."
 
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.fine"
 msgstr "Tạm được"
 
 #: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-link-premium-screen.tsx
 msgid "community.link.goneAction"
 msgstr "Về Trang chủ"
 
 #: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-link-premium-screen.tsx
 msgid "community.back.home"
 msgstr "Trang chủ"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.preview"
 msgstr "Các nhóm khác sẽ thấy thế này"
 
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
 #: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-link-premium-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/shared-plan-premium-screen.tsx
 msgid "community.detail.missingLine"
 msgstr "Lần đầu mở cần có mạng."
 
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/shared-plan-premium-screen.tsx
 msgid "community.detail.goneLine"
 msgstr "Nhóm đó đã thôi chia sẻ. Còn nhiều kế hoạch khác lắm."
 
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.loved"
 msgstr "Rất thích"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.chatLine"
 msgstr "Không bao giờ rời khỏi nhóm"
@@ -267,23 +313,27 @@ msgstr "Không bao giờ rời khỏi nhóm"
 msgid "community.rating.new"
 msgstr "Mới"
 
-#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/browse/use-crew-plans.ts
 msgid "community.filter.newest"
 msgstr "Mới nhất"
 
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.next"
 msgstr "Tiếp"
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
 msgid "community.browse.empty"
 msgstr "Chưa nhóm nào chia sẻ nơi này. Nhóm bạn có thể là nhóm đầu tiên."
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
 msgid "community.browse.emptyTitle"
 msgstr "Chưa có kế hoạch nào"
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
 msgid "community.offline"
 msgstr "Mất sóng"
 
@@ -291,15 +341,18 @@ msgstr "Mất sóng"
 msgid "community.note.allNew"
 msgstr "Chưa có gì trong này nằm trong chuyến của bạn. Ngày {best} đáng lấy nhất."
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
 msgid "community.consent.declined"
 msgstr "Chưa phải ai cũng đồng ý. Kế hoạch vẫn ở lại trong nhóm."
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 msgid "community.consent.decline"
 msgstr "Lần này thôi"
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
 msgid "community.browse.noResults"
 msgstr "Không có kế hoạch nào khớp bộ lọc"
 
@@ -307,76 +360,100 @@ msgstr "Không có kế hoạch nào khớp bộ lọc"
 msgid "community.note.nothingNew"
 msgstr "Chuyến của bạn đã có hết những chỗ này."
 
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.none"
 msgstr "Chưa có gì để chấm"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.namesOff"
 msgstr "Tắt: nhóm bạn hiện là một nhóm ẩn danh"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.namesOn"
 msgstr "Bật: chỉ hiện tên"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 msgid "community.publish.noPlan"
 msgstr "Khi chuyến đi có kế hoạch, bạn có thể chia sẻ ở đây."
 
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.intro"
 msgstr "Mỗi nơi một chạm. Mẹo của bạn hiện cho các nhóm đang lên kế hoạch đi {place}, ngoài ra không có gì khác về bạn."
 
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.tipLabel"
 msgstr "Một mẹo cho nhóm sau"
 
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.offlineLine"
 msgstr "Mở lại từ chuyến đi khi bạn có mạng."
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
 msgid "community.browse.offlineLine"
 msgstr "Mở một lần khi có mạng, sau đó sẽ xem lại được."
 
+#: ../../apps/mobile/src/features/community/premium/shared-plan-premium-screen.tsx
+msgid "community.premium.planLoading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.names"
 msgstr "Tên của nhóm"
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-premium-view.tsx
 msgid "community.report.line"
 msgstr "Đội ngũ của chúng tôi sẽ xem xét. Nhóm đã chia sẻ không biết ai báo cáo."
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.costsLine"
 msgstr "Mỗi người, làm tròn đến 10"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.photosLine"
 msgstr "{guide} chọn, chỉ những ảnh không có mặt người"
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
 msgid "community.browse.pick"
 msgstr "Chọn cho bạn"
 
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.noneLine"
 msgstr "Những nơi bạn ghé trong chuyến sẽ hiện ở đây."
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-premium-view.tsx
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.notTravelled"
 msgstr "Đã lên kế hoạch, chưa đi"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
 msgid "community.publish.cta"
 msgstr "Chia sẻ cho các nhóm"
 
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.title"
 msgstr "Chấm điểm chuyến đi"
 
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.offline"
 msgstr "Cần có mạng để chấm điểm"
@@ -387,33 +464,42 @@ msgstr "Đã sao chép đường dẫn chỉ xem."
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/shared-plan-premium-screen.tsx
 msgid "community.browse.intro"
 msgstr "Chuyến đi thật, do chính các nhóm đã đi chia sẻ. Chép cả chuyến, hoặc chỉ những ngày hay."
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-premium-view.tsx
 msgid "community.report.confirm"
 msgstr "Báo cáo"
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-premium-view.tsx
 msgid "community.detail.report"
 msgstr "Báo cáo kế hoạch này"
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-premium-view.tsx
 msgid "community.report.title"
 msgstr "Báo cáo kế hoạch này?"
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-premium-view.tsx
 msgid "community.detail.reportedLabel"
 msgstr "Đã báo cáo"
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-premium-view.tsx
 msgid "community.detail.savePlain"
 msgstr "Lưu"
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-premium-view.tsx
 msgid "community.detail.savedPlain"
 msgstr "Đã lưu"
 
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.doneQueued"
 msgstr "Đã lưu trên máy bạn. Chúng sẽ được gửi lên ngay khi bạn có sóng."
@@ -430,51 +516,64 @@ msgstr "Đã gửi cho người tổ chức."
 msgid "community.sharePill"
 msgstr "Chia sẻ"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 msgid "community.publish.title"
 msgstr "Chia sẻ kế hoạch"
 
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.share"
 msgstr "Chia sẻ cả kế hoạch"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 msgid "community.publish.offline"
 msgstr "Cần có mạng để chia sẻ"
 
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.rate.skip"
 msgstr "Bỏ qua"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 msgid "community.consent.ask"
 msgstr "Một người trong nhóm muốn chia sẻ kế hoạch này với các nhóm khác. Kế hoạch chỉ được chia sẻ khi cả nhóm đồng ý."
 
 #: ../../apps/mobile/src/features/community/detail/trip-picker.tsx
+#: ../../apps/mobile/src/features/community/premium/trip-picker-premium.tsx
 msgid "community.picker.start"
 msgstr "Bắt đầu chuyến đi với kế hoạch này"
 
 #: ../../apps/mobile/src/features/community/detail/trip-picker.tsx
+#: ../../apps/mobile/src/features/community/premium/trip-picker-premium.tsx
 msgid "community.picker.suggest"
 msgstr "Gợi ý cho người tổ chức"
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-premium-view.tsx
 msgid "community.detail.suggest"
 msgstr "Gợi ý cho người tổ chức"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/take-down-confirm.tsx
 msgid "community.withdraw.confirm"
 msgstr "Gỡ xuống"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 msgid "community.consent.withdraw"
 msgstr "Rút lại đồng ý"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/take-down-confirm.tsx
 msgid "community.withdraw.title"
 msgstr "Rút lại sự đồng ý của bạn?"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
 msgid "community.published.unpublished"
 msgstr "Đã gỡ xuống. Các nhóm khác không còn thấy nữa."
@@ -487,7 +586,7 @@ msgstr "Đang gỡ kế hoạch đã chia sẻ"
 msgid "community.queued.unpublish"
 msgstr "Đang gỡ kế hoạch đã chia sẻ"
 
-#: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/detail/use-plan-view.ts
 msgid "community.detail.reported"
 msgstr "Cảm ơn bạn. Chúng tôi sẽ xem xét."
 
@@ -495,18 +594,22 @@ msgstr "Cảm ơn bạn. Chúng tôi sẽ xem xét."
 msgid "community.detail.copyFailed"
 msgstr "Chưa được. Thử lại sau giây lát."
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
 msgid "community.published.revoked"
 msgstr "Liên kết đó đã tắt."
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.chat"
 msgstr "Trò chuyện"
 
 #: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-link-premium-screen.tsx
 msgid "community.link.goneLine"
 msgstr "Nhóm đã gỡ lịch trình hoặc tắt liên kết này. Hãy nhờ người gửi cho bạn liên kết mới."
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/take-down-confirm.tsx
 msgid "community.unpublish.line"
 msgstr "Kế hoạch sẽ bị gỡ khỏi Kế hoạch các nhóm, cùng lượt lưu và điểm đánh giá."
@@ -516,23 +619,30 @@ msgid "community.detail.tripFailed"
 msgstr "Chuyến đi chưa bắt đầu được. Hãy thử lại sau giây lát."
 
 #: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-link-premium-screen.tsx
 msgid "community.link.gone"
 msgstr "Lịch trình này không còn được chia sẻ"
 
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
 #: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-link-premium-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/shared-plan-premium-screen.tsx
 msgid "community.detail.missing"
 msgstr "Chưa mở được kế hoạch này"
 
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/shared-plan-premium-screen.tsx
 msgid "community.detail.gone"
 msgstr "Kế hoạch này đã được gỡ"
 
-#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/browse/use-crew-plans.ts
 msgid "community.filter.rating"
 msgstr "Được chấm cao"
 
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.back.trip"
@@ -541,23 +651,32 @@ msgstr "Chuyến đi"
 #: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
 #: ../../apps/mobile/src/features/community/detail/detail-screen.tsx
 #: ../../apps/mobile/src/features/community/link/plan-link-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-link-premium-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
+#: ../../apps/mobile/src/features/community/premium/shared-plan-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 #: ../../apps/mobile/src/features/community/rate/rate-screen.tsx
 msgid "community.retry"
 msgstr "Thử lại"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 msgid "community.publish.offlineLine"
 msgstr "Thử lại khi có mạng."
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/take-down-confirm.tsx
 msgid "community.revoke.confirm"
 msgstr "Tắt liên kết"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
 msgid "community.published.revokeDated"
 msgstr "Tắt liên kết tạo ngày {made}"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/take-down-confirm.tsx
 msgid "community.revoke.title"
 msgstr "Tắt liên kết tạo ngày {made}?"
@@ -566,23 +685,28 @@ msgstr "Tắt liên kết tạo ngày {made}?"
 msgid "community.queued.revoke"
 msgstr "Đang tắt một đường dẫn chỉ xem"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
 #: ../../apps/mobile/src/features/community/publish/take-down-confirm.tsx
 msgid "community.published.unpublish"
 msgstr "Gỡ chia sẻ"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/take-down-confirm.tsx
 msgid "community.unpublish.title"
 msgstr "Gỡ kế hoạch này?"
 
-#: ../../apps/mobile/src/features/community/browse/browse-screen.tsx
+#: ../../apps/mobile/src/features/community/browse/use-crew-plans.ts
 msgid "community.filter.short"
 msgstr "Tối đa 5 ngày"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.costs"
 msgstr "Chi phí"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-parts.tsx
 msgid "community.publish.what"
 msgstr "Các nhóm khác thấy gì"
@@ -592,17 +716,21 @@ msgid "community.queued.update"
 msgstr "Nội dung kế hoạch được chia sẻ"
 
 #: ../../apps/mobile/src/features/community/detail/plan-view.tsx
+#: ../../apps/mobile/src/features/community/premium/plan-premium-view.tsx
 msgid "community.detail.tips"
 msgstr "Họ sẽ đổi gì"
 
 #: ../../apps/mobile/src/features/community/detail/trip-picker.tsx
+#: ../../apps/mobile/src/features/community/premium/trip-picker-premium.tsx
 msgid "community.picker.title"
 msgstr "Chuyến đi nào?"
 
 #: ../../apps/mobile/src/features/community/detail/trip-picker.tsx
+#: ../../apps/mobile/src/features/community/premium/trip-picker-premium.tsx
 msgid "community.picker.none"
 msgstr "Bạn chưa có chuyến đi nào đang lên kế hoạch. Hãy bắt đầu một chuyến đến {place} và kế hoạch này sẽ được chép vào ngay."
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 msgid "community.consent.approved"
 msgstr "Bạn đã đồng ý."
@@ -619,10 +747,16 @@ msgstr "Chuyến đi mới của bạn"
 msgid "community.queued.rate"
 msgstr "Điểm bạn chấm cho các nơi"
 
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-manage.tsx
 msgid "community.published.live"
 msgstr "Kế hoạch của nhóm đã hiện trong mục kế hoạch các nhóm."
 
+#: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
+msgid "community.premium.rateLive"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 #: ../../apps/mobile/src/features/community/publish/publish-screen.tsx
 msgid "community.consent.withdrawn"
 msgstr "Đã rút lại sự đồng ý của bạn."

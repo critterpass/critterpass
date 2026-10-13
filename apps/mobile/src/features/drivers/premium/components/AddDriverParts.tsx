@@ -95,7 +95,7 @@ export function SharedList({
   return (
     <View style={styles.list}>
       <Text variant="captionMuted" tone="muted">
-        {t({ id: 'drivers.add.shared', message: `Shared with ${guideName} · ${count}` })}
+        {t({ id: 'drivers.premium.add.shared', message: `Shared with ${guideName} · ${count}` })}
       </Text>
       <ListCard testID="drivers-add-shared">
         {items.map((item, index) => {
@@ -110,7 +110,7 @@ export function SharedList({
             <Row
               key={item.id}
               title={label}
-              subtitle={t({ id: 'drivers.add.sharedBy', message: `shared by ${by}` })}
+              subtitle={t({ id: 'drivers.premium.add.sharedBy', message: `shared by ${by}` })}
               leading={<Avatar name={label} color={crewAccent(index + 2)} size={36} />}
               trailing={<StatusTag label={tag.label} tone={tag.tone} />}
               onPress={() => onOpen(item.id)}

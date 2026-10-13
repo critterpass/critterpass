@@ -184,15 +184,17 @@ msgstr "A crew of one is a quiet trip. Bring your people in and the vote opens u
 msgid "home.inbox.nudge.payment"
 msgstr "A settle-up is waiting for you."
 
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.add"
 msgstr "Add {title}"
 
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.addAnother"
 msgstr "Add another {title}"
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.howTo.title"
 msgstr "Add it from your home screen"
 
@@ -225,8 +227,7 @@ msgstr "Allow notifications"
 msgid "home.firstRun.searchBody"
 msgstr "Any city or region. A guide comes along wherever you go."
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.balances"
 msgstr "Balances"
 
@@ -238,9 +239,14 @@ msgstr "Before the recap locks"
 msgid "inbox.premium.example.vote"
 msgstr "Boat day closes Friday"
 
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.tier.boost"
 msgstr "Boost"
+
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
+msgid "home.premium.widgets.note"
+msgstr "Boost and Pass+ widgets can go on now. They show what they unlock until then."
 
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.premium.noTrip.invite"
@@ -274,8 +280,7 @@ msgstr "Coming up"
 msgid "home.joinTrip.failed"
 msgstr "Couldn’t join the trip. Try again."
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.countdown"
 msgstr "Countdown"
 
@@ -288,13 +293,11 @@ msgstr "Crew"
 msgid "home.premium.chat"
 msgstr "Crew chat"
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.crew"
 msgstr "Crew, live"
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.critterdex"
 msgstr "Critterdex"
 
@@ -345,7 +348,7 @@ msgstr "Example"
 msgid "home.explore.title"
 msgstr "Explore"
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.howTo.android.pick"
 msgstr "Find CritterPass and drag {widget} into place."
 
@@ -353,6 +356,7 @@ msgstr "Find CritterPass and drag {widget} into place."
 msgid "home.inbox.fixShippedVersion"
 msgstr "Fixed in {version}: what you reported. Thanks for telling us."
 
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.tier.free"
 msgstr "Free"
@@ -371,6 +375,10 @@ msgstr "Go to Home"
 
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.premium.tip.hide"
+msgstr "Got it"
+
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
+msgid "home.premium.widgets.gotIt"
 msgstr "Got it"
 
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
@@ -463,7 +471,7 @@ msgstr "Join with a crew code"
 msgid "home.joinTrip.offline"
 msgstr "Joining needs a connection. Try again when you’re online."
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.todayLine"
 msgstr "Large · the day’s plan and weather"
 
@@ -496,7 +504,7 @@ msgstr "Mark all read"
 msgid "home.inbox.markedReadAll"
 msgstr "Marked read."
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.voteLine"
 msgstr "Medium · tap to vote"
 
@@ -521,8 +529,7 @@ msgstr "Needs you · {needsYou}"
 msgid "home.inbox.unreadSpoken"
 msgstr "New: {line}"
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.nextFlight"
 msgstr "Next flight"
 
@@ -637,6 +644,7 @@ msgstr "On our side, not yours"
 msgid "home.today.open"
 msgstr "Open today"
 
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.tier.passPlus"
 msgstr "Pass+"
@@ -694,6 +702,7 @@ msgstr "Planning"
 msgid "home.premium.trips.planningTab"
 msgstr "Planning"
 
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.intro"
 msgstr "Put the trip on your home screen. Tokek keeps them up to date, even offline."
@@ -726,7 +735,7 @@ msgstr "Search a place"
 msgid "home.firstRun.body"
 msgstr "Search a place or pick a guide to start a trip. Your crew can vote on it later."
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.howTo.ios.pick"
 msgstr "Search CritterPass and pick {widget}."
 
@@ -751,6 +760,7 @@ msgstr "See the recap"
 msgid "home.premium.broke.report"
 msgstr "Send a report with this screen"
 
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.back"
 msgstr "Settings"
@@ -774,23 +784,27 @@ msgstr "Show me"
 msgid "home.inbox.more"
 msgstr "Show older"
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
+msgid "home.premium.widgets.previewHint"
+msgstr "Shows it on the home screen above"
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.nextFlightLine"
 msgstr "Small · gate, seat, boarding time"
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.countdownLine"
 msgstr "Small · home and lock screen"
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.critterdexLine"
 msgstr "Small · the critters you’ve met"
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.balancesLine"
 msgstr "Small · who owes who, and a nudge"
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.crewLine"
 msgstr "Small or medium · everyone near the meet-up"
 
@@ -871,11 +885,11 @@ msgstr "Switch crew"
 msgid "home.inbox.nudge.open"
 msgstr "Take a look"
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.howTo.ios.edit"
 msgstr "Tap Edit, then Add Widget."
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.howTo.android.widgets"
 msgstr "Tap Widgets."
 
@@ -943,8 +957,7 @@ msgstr "The plan now has {change}"
 msgid "home.joinTrip.full"
 msgstr "The trip is full. You’re number {position} in line for a seat."
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.vote"
 msgstr "The vote"
 
@@ -978,8 +991,7 @@ msgstr "This page wandered off"
 msgid "home.countdown.today"
 msgstr "Today"
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.today"
 msgstr "Today"
 
@@ -991,11 +1003,11 @@ msgstr "Today · Day {dayNo} of {dayCount}"
 msgid "home.premium.today"
 msgstr "Today · Day {dayNo} of {dayCount}"
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.howTo.ios.hold"
 msgstr "Touch and hold an empty spot on your home screen."
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.howTo.android.hold"
 msgstr "Touch and hold an empty spot on your home screen."
 
@@ -1084,6 +1096,7 @@ msgstr "Who is there"
 msgid "inbox.premium.example.replyLine"
 msgstr "Who still owes an answer"
 
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.title"
 msgstr "Widgets"

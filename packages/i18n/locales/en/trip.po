@@ -33,6 +33,10 @@ msgstr "{guideName}'s briefing"
 msgid "trip.disruptions.late.waitingLine"
 msgstr "{title} starts {start} for you."
 
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
+msgid "trip.lockScreen.eyebrow"
+msgstr "{trip} · Live Activity"
+
 #: ../../apps/mobile/src/features/trip/premium/day/DayCards.tsx
 msgid "trip.dayOf.premium.startsAt"
 msgstr "{what} starts at {start}."
@@ -73,9 +77,30 @@ msgstr "Back to today"
 msgid "trip.hub.premium.back"
 msgstr "Back to your trips"
 
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/CrewLivePreviewPremium.tsx
+msgid "trip.lockScreen.preview.boost"
+msgstr "Boost"
+
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
+msgid "trip.lockScreen.offer.boost"
+msgstr "Boost {trip}"
+
+#. placeholder {0}: boost.price
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
+msgid "trip.lockScreen.offer.boostPrice"
+msgstr "Boost {trip} · {0}"
+
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
+msgid "trip.lockScreen.cancel"
+msgstr "Cancel"
+
 #: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
 msgid "trip.hub.premium.keep"
 msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
+msgid "trip.lockScreen.asking"
+msgstr "Checking"
 
 #: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
 msgid "trip.offline.premium.close"
@@ -125,6 +150,10 @@ msgstr "Go"
 msgid "trip.dayOf.premium.go"
 msgstr "Go"
 
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
+msgid "trip.lockScreen.done"
+msgstr "Got it"
+
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
 msgid "trip.dayOf.premium.packPlaceholder"
 msgstr "Headlamp, jacket…"
@@ -157,6 +186,10 @@ msgstr "It was sent a moment ago."
 msgid "trip.offline.alreadySending"
 msgstr "It's already on its way."
 
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
+msgid "trip.lockScreen.offer.quiet"
+msgstr "Just my own leave-by alarms"
+
 #: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
 msgid "trip.disruptions.late.etaStale"
 msgstr "Last ETA {eta}"
@@ -164,6 +197,14 @@ msgstr "Last ETA {eta}"
 #: ../../apps/mobile/src/features/trip/premium/hub/HubSwitch.tsx
 msgid "trip.hub.door.map"
 msgstr "Map"
+
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/CrewLivePreviewPremium.tsx
+msgid "trip.lockScreen.preview.meetUp"
+msgstr "Meet-up"
+
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/CrewLivePreviewPremium.tsx
+msgid "trip.lockScreen.preview.meetUpAt"
+msgstr "Meet-up · {meetTime}"
 
 #: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
 msgid "trip.offline.editLabel"
@@ -328,6 +369,10 @@ msgstr "Trips"
 #: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
 msgid "trip.offline.storageLink"
 msgstr "Trips saved on this phone"
+
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
+msgid "trip.lockScreen.retry"
+msgstr "Try again"
 
 #: ../../apps/mobile/src/features/trip/premium/hub/VisitConsentLine.tsx
 msgid "permissions.visits.accept"

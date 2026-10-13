@@ -90,7 +90,7 @@ msgid "suppliers.rides.transferBooked"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-vendor-messages.ts
 msgid "suppliers.vendor.approvedLine"
 msgstr ""
 
@@ -319,7 +319,7 @@ msgid "suppliers.journey.start"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-vendor-messages.ts
 msgid "suppliers.vendor.failedLine"
 msgstr ""
 
@@ -499,7 +499,7 @@ msgstr ""
 msgid "suppliers.book.pay"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-booking-flow.ts
 msgid "suppliers.book.payCancelled"
 msgstr ""
 
@@ -562,7 +562,7 @@ msgstr ""
 msgid "suppliers.vendor.share"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-vendor-messages.ts
 msgid "suppliers.vendor.needsSignal"
 msgstr ""
 
@@ -590,11 +590,11 @@ msgstr ""
 msgid "suppliers.log.splitNote"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-booking-flow.ts
 msgid "suppliers.book.retry"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-vendor-messages.ts
 msgid "suppliers.vendor.failed"
 msgstr ""
 
@@ -627,7 +627,7 @@ msgid "suppliers.concierge.pickedUp"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-vendor-messages.ts
 msgid "suppliers.vendor.deskHours"
 msgstr ""
 
@@ -647,8 +647,8 @@ msgstr ""
 msgid "suppliers.book.operatorNote"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-offers.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-booking-flow.ts
 msgid "suppliers.book.payFailed"
 msgstr ""
 
@@ -676,8 +676,8 @@ msgstr ""
 msgid "suppliers.cancel.retry"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-offers.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/use-booking-flow.ts
 msgid "suppliers.book.rejected"
 msgstr ""
 

@@ -16,6 +16,7 @@ msgstr "\"{gloss}\" Show it, or tap to play."
 msgid "safety.share.active"
 msgstr "{crewName} can see where you are"
 
+#: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.eta"
 msgstr "{eta} minutes away on foot."
@@ -34,6 +35,7 @@ msgstr "{guideName}'s on it"
 msgid "safety.sos.away"
 msgstr "{km} km from you"
 
+#: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.distance"
 msgstr "{km} km from you, in a straight line."
@@ -43,6 +45,7 @@ msgstr "{km} km from you, in a straight line."
 msgid "safety.sos.awayMiles"
 msgstr "{km} mi from you"
 
+#: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.distanceMiles"
 msgstr "{km} mi from you, in a straight line."
@@ -78,12 +81,14 @@ msgstr "{name} is safe."
 msgid "safety.sos.knows"
 msgstr "{name} knows you're coming."
 
+#: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.title"
 msgstr "{name} needs help"
 
+#: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.live"
 msgstr "{name}'s location is live."
@@ -113,11 +118,12 @@ msgstr "+1 h"
 msgid "safety.share.extend"
 msgstr "+1 h"
 
+#: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.words"
 msgstr "A few words (optional)"
 
-#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
 msgid "safety.desk.consequence"
 msgstr "A person on the ops desk calls the clinic with you and tells them you may come in. Your insurance details stay with you."
 
@@ -142,6 +148,7 @@ msgid "safety.action.askDesk"
 msgstr "Ask"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+#: ../../apps/mobile/src/features/safety/premium/ChecklistPremium.tsx
 msgid "safety.desk.confirm"
 msgstr "Ask the desk"
 
@@ -153,7 +160,9 @@ msgstr "Ask the guide"
 msgid "safety.queued.clinic"
 msgstr "Asking the ops desk to call the clinic"
 
+#: ../../apps/mobile/src/features/safety/premium/ChecklistPremium.tsx
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
+#: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 msgid "safety.premium.back"
 msgstr "Back"
 
@@ -194,12 +203,15 @@ msgstr "Calling {number}. Your location is going to the crew."
 msgid "safety.share.deniedLine"
 msgstr "Calling and texting still work without it."
 
+#: ../../apps/mobile/src/features/safety/premium/ChecklistPremium.tsx
+#: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.cancel"
 msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/safety/premium/SosActions.tsx
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
+#: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.close"
@@ -248,9 +260,14 @@ msgstr "Done"
 msgid "safety.help.limitedLabel"
 msgstr "Emergency, from any mobile"
 
+#: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.line"
 msgstr "Every crewmate gets an alert that comes through Do Not Disturb, with where you are. CritterPass tells your crew; for emergencies call {general}."
+
+#: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
+msgid "safety.premium.sendFallbackLine"
+msgstr "Every crewmate gets an alert that comes through Do Not Disturb."
 
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.falseAlarm"
@@ -305,13 +322,17 @@ msgstr "Help"
 msgid "safety.help.centre"
 msgstr "Help with the app"
 
-#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+#: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
+msgid "safety.premium.holdToSend"
+msgstr "Hold to send SOS"
+
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.hurt"
 msgstr "Hurt or sick"
 
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+#: ../../apps/mobile/src/features/safety/sos/use-sos-send.ts
 msgid "safety.preset.fell"
 msgstr "I fell"
 
@@ -324,12 +345,12 @@ msgstr "I'm going"
 msgid "safety.sos.imGoing"
 msgstr "I'm going"
 
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+#: ../../apps/mobile/src/features/safety/sos/use-sos-send.ts
 msgid "safety.preset.lost"
 msgstr "I'm lost"
 
-#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.imLost"
 msgstr "I'm lost"
@@ -385,8 +406,8 @@ msgstr "Let the crew find you"
 msgid "safety.help.limited"
 msgstr "Limited coverage here: {general} works from any mobile phone. Your embassy can help too."
 
-#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.lostStolen"
 msgstr "Lost or stolen"
@@ -395,8 +416,8 @@ msgstr "Lost or stolen"
 msgid "safety.queued.message"
 msgstr "Message to the crew"
 
-#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.missedRide"
 msgstr "Missed a ride"
@@ -409,7 +430,7 @@ msgstr "Need a hand?"
 msgid "safety.help.title"
 msgstr "Need a hand?"
 
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+#: ../../apps/mobile/src/features/safety/sos/use-sos-send.ts
 msgid "safety.preset.ride"
 msgstr "Need a ride"
 
@@ -471,6 +492,7 @@ msgid "safety.premium.sosLoading"
 msgstr "Opening the SOS"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+#: ../../apps/mobile/src/features/safety/premium/ChecklistPremium.tsx
 msgid "safety.desk.title"
 msgstr "Ops desk calls the clinic with you"
 
@@ -507,6 +529,7 @@ msgstr "Report it to the police and ask for a written report for your insurer."
 msgid "safety.sos.seeOnMap"
 msgstr "See {name} on the map"
 
+#: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.againTitle"
 msgstr "Send another SOS today?"
@@ -516,10 +539,12 @@ msgstr "Send another SOS today?"
 msgid "safety.sos.sendNow"
 msgstr "Send now"
 
+#: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.action"
 msgstr "Send SOS"
 
+#: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.countdown"
 msgstr "Sending in {left}…"
@@ -532,6 +557,7 @@ msgstr "Sending the SOS to the crew"
 msgid "safety.pending.sentTitle"
 msgstr "Sending your SOS to the crew"
 
+#: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.sending"
 msgstr "Sending…"
@@ -605,6 +631,10 @@ msgstr "SHOW THIS"
 msgid "safety.send.slide"
 msgstr "Slide to send SOS"
 
+#: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
+msgid "safety.premium.sosChip"
+msgstr "SOS"
+
 #: ../../apps/mobile/src/features/safety/premium/SosPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.at"
@@ -624,15 +654,16 @@ msgstr "SOS to the crew"
 msgid "safety.queued.sos"
 msgstr "SOS to your crew"
 
+#: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.title"
 msgstr "SOS to your crew"
 
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+#: ../../apps/mobile/src/features/safety/sos/use-sos-send.ts
 msgid "safety.sms.bodyWhere"
 msgstr "SOS: I need help. I'm here: {link}"
 
-#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+#: ../../apps/mobile/src/features/safety/sos/use-sos-send.ts
 msgid "safety.sms.body"
 msgstr "SOS: I need help. Please call me."
 
@@ -674,14 +705,15 @@ msgstr "Telling the crew you are OK"
 msgid "safety.sos.youSafeTitle"
 msgstr "The crew knows you are OK"
 
-#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
 msgid "safety.desk.asked"
 msgstr "The desk has been asked"
 
-#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
 msgid "safety.desk.askedQueued"
 msgstr "The desk is asked the moment you have signal"
 
+#: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.straight"
 msgstr "The line is straight; your maps app has the walking route."
@@ -695,6 +727,7 @@ msgstr "The ops desk can call the clinic with you."
 msgid "safety.consent.control"
 msgstr "The share stops by itself after an hour. Off, Help still has every number and phrase, and you can share with one tap. Change it any time in Settings."
 
+#: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.ended"
 msgstr "This SOS is over. The location share has stopped."
@@ -707,10 +740,12 @@ msgstr "Tourist police"
 msgid "safety.share.until"
 msgstr "Until {until}, then it stops by itself"
 
+#: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.waiting"
 msgstr "Waiting for {name}'s location."
 
+#: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.directions"
 msgstr "Walking directions"
@@ -729,7 +764,7 @@ msgstr "You're on {placeLabel}. {guideName} has the numbers and the words."
 msgid "safety.share.activeCrew"
 msgstr "Your crew can see where you are"
 
-#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
 msgid "safety.checklist.shared"
 msgstr "Your crew can see where you are"
 
@@ -746,7 +781,7 @@ msgstr "Your crew is on it"
 msgid "safety.share.overrideLine"
 msgstr "Your crew map share stays paused; this one stops in an hour."
 
-#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
 msgid "safety.checklist.shareQueued"
 msgstr "Your crew sees where you are the moment you have signal"
 
@@ -762,6 +797,10 @@ msgstr "Your location stays live until you are safe"
 msgid "safety.sos.resendFailed"
 msgstr "Your SOS didn't go out."
 
+#: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
+msgid "safety.premium.sendFailed"
+msgstr "Your SOS didn't go out. Hold to try again, or call {general}."
+
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.failed"
 msgstr "Your SOS didn't go out. Slide to try again, or call {general}."
@@ -775,6 +814,7 @@ msgstr "Your SOS didn't reach the crew in time. Are you still in trouble?"
 msgid "safety.premium.sosGoing"
 msgstr "Your SOS is going out"
 
+#: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.againLine"
 msgstr "Your whole crew gets another alert through Do Not Disturb."

@@ -75,6 +75,7 @@ msgstr "Tới lúc {0}"
 msgid "liveMap.status.atPlace"
 msgstr "Ở {poi}"
 
+#: ../../apps/mobile/src/features/crew/live-map/crew-map-redirect.tsx
 #: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
 msgid "liveMap.premium.back"
 msgstr "Quay lại"
@@ -111,6 +112,10 @@ msgstr "Chat"
 #: ../../apps/mobile/src/features/crew/live-map/use-live-map-screen.ts
 msgid "liveMap.toast.pingOffline"
 msgstr "Chưa gửi được cho cả nhóm. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/crew/live-map/crew-map-redirect.tsx
+msgid "liveMap.premium.crewMap"
+msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/copy.ts
 msgid "liveMap.status.cycling"

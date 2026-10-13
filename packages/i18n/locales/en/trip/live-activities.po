@@ -44,47 +44,47 @@ msgstr "Meet-up"
 msgid "trip.lockScreen.preview.meetUpAt"
 msgstr "Meet-up · {meetTime}"
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.unavailable.title"
 msgstr "Not right now"
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.offer.line"
 msgstr "On a boosted trip the meet-up, ETAs and SOS sit on all {count} lock screens and in the Dynamic Island. It switches off at midnight on the last day."
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.started.title"
 msgstr "On every lock screen"
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.offer.title"
 msgstr "On every lock screen"
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.noMeetup.title"
 msgstr "Set a meet-up first"
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.unavailable.failed"
 msgstr "That didn't go through. Try again in a moment."
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.unavailable.switchedOff"
 msgstr "The crew lock screen is switched off for now. The crew map still works."
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.noMeetup.line"
 msgstr "The lock screen follows a meet-up. Set one on the crew map and it goes to every phone half an hour before."
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.started.later"
 msgstr "The meet-up at {place} goes to all {count} lock screens at {startsTime}, half an hour before. It ends by itself once everyone is there."
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.started.now"
 msgstr "The meet-up at {place} is going to all {count} lock screens now. It ends by itself once everyone is there."
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.thisTrip"
 msgstr "This trip"
 
@@ -92,6 +92,6 @@ msgstr "This trip"
 msgid "trip.lockScreen.retry"
 msgstr "Try again"
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.unavailable.offline"
 msgstr "You're offline, so this couldn't reach the crew's phones. Try again when you're back."

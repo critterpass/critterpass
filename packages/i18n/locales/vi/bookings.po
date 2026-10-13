@@ -30,6 +30,16 @@ msgstr "{0, plural, other {Chia # phần}}"
 msgid "bookings.premium.bringToFront"
 msgstr "{0}, {1}. Đưa lên trước"
 
+#. placeholder {0}: option.operator
+#: ../../apps/mobile/src/features/bookings/premium/supplier/EstimatePremium.tsx
+msgid "suppliers.estimate.operator"
+msgstr ""
+
+#. placeholder {0}: option.operator
+#: ../../apps/mobile/src/features/bookings/premium/supplier/EstimatePremium.tsx
+msgid "suppliers.estimate.meter"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.copyAddressA11y"
 msgstr "{address}, chép địa chỉ"
@@ -93,6 +103,7 @@ msgid "bookings.mailboxDone.connectingLine"
 msgstr "{guideName} đang cài lịch kiểm tra buổi sáng."
 
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/PasteSheetPremium.tsx
 msgid "bookings.paste.offline"
 msgstr "{guideName} cần có sóng để đọc."
 
@@ -156,6 +167,7 @@ msgid "bookings.queued.edit"
 msgstr "Một chỉnh sửa đặt chỗ"
 
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/PasteSheetPremium.tsx
 msgid "bookings.paste.line"
 msgstr "Mã xác nhận, liên kết từ trang đặt chỗ, hoặc cả email."
 
@@ -250,6 +262,14 @@ msgstr "Email nào cũng được"
 msgid "bookings.add.forwardCaption"
 msgstr "Email bất kỳ"
 
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorDraftPremium.tsx
+msgid "suppliers.vendor.approved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
+msgid "suppliers.cancel.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
 msgid "bookings.insurance.phone"
 msgstr "Hỗ trợ"
@@ -266,7 +286,12 @@ msgstr "Số điện thoại hỗ trợ"
 msgid "suppliers.premium.back"
 msgstr "Quay lại"
 
+#: ../../apps/mobile/src/features/bookings/premium/supplier/OffersPremium.tsx
+msgid "suppliers.offers.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+#: ../../apps/mobile/src/features/bookings/premium/MailboxConnectedPremium.tsx
 msgid "bookings.mailboxDone.back"
 msgstr "Về đặt chỗ"
 
@@ -309,6 +334,14 @@ msgstr "Giờ lên"
 msgid "bookings.kind.boat"
 msgstr "Tàu"
 
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/OffersPremium.tsx
+msgid "suppliers.offers.lede"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.premium.booking"
 msgstr "Đặt chỗ"
@@ -335,6 +368,7 @@ msgstr "Đặt chỗ: {title}"
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 #: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 #: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/MailboxConnectedPremium.tsx
 #: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
 msgid "bookings.back"
 msgstr "Đặt chỗ"
@@ -371,6 +405,8 @@ msgid "bookings.insurance.call"
 msgstr "Gọi hỗ trợ"
 
 #: ../../apps/mobile/src/features/bookings/premium/AddBookingSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/LinkCodeSheetPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/PasteSheetPremium.tsx
 msgid "common.confirm.cancel"
 msgstr "Hủy"
 
@@ -380,10 +416,29 @@ msgstr "Hủy"
 msgid "bookings.options.cancel"
 msgstr "Huỷ"
 
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/supplier/LogRidePremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorDraftPremium.tsx
+msgid "suppliers.premium.cancel"
+msgstr ""
+
+#. placeholder {0}: refund(state.quote) ?? ''
+#: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
+msgid "suppliers.cancel.refund"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
+msgid "suppliers.cancel.confirm"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.detail.supplierCancel"
 msgstr "Huỷ với Viator"
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
+msgid "suppliers.cancel.title"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 #: ../../apps/mobile/src/features/bookings/premium/ArchivePremium.tsx
@@ -399,9 +454,21 @@ msgstr "Đã huỷ"
 msgid "bookings.premium.cancelledLine"
 msgstr "Hãng bay đã huỷ chuyến. Bạn được đổi miễn phí hoặc hoàn tiền: hỏi hãng bay nhé."
 
+#: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
+msgid "suppliers.cancel.offline"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.car"
 msgstr "Thuê xe"
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.checkAgain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.check"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 #: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
@@ -412,6 +479,14 @@ msgstr "Ngày trả phòng"
 msgid "bookings.premium.mailboxChecked"
 msgstr "Đã kiểm tra {checked}"
 
+#: ../../apps/mobile/src/features/bookings/premium/supplier/EstimatePremium.tsx
+msgid "suppliers.estimate.sourceChecked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/OffersPremium.tsx
+msgid "suppliers.offers.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/premium/BoardingPassPremium.tsx
 msgid "bookings.pass.close"
 msgstr "Đóng"
@@ -419,6 +494,12 @@ msgstr "Đóng"
 #: ../../apps/mobile/src/features/bookings/premium/booking-options.ts
 msgid "bookings.options.close"
 msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/supplier/EstimatePremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorMessagesPremium.tsx
+msgid "suppliers.premium.close"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
@@ -548,6 +629,19 @@ msgstr "Chi tiết"
 msgid "bookings.premium.didYouMean"
 msgstr "Ý bạn là {0}, {1}?"
 
+#: ../../apps/mobile/src/features/bookings/premium/PasteSheetPremium.tsx
+msgid "money.premium.discard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/LogRidePremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorDraftPremium.tsx
+msgid "suppliers.premium.discardVerb"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorDraftPremium.tsx
+msgid "suppliers.premium.discardMessage"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 #: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.disconnect"
@@ -567,13 +661,34 @@ msgstr "Chuyển hướng"
 msgid "bookings.detail.doc"
 msgstr "Tài liệu {0}"
 
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/LinkCodeSheetPremium.tsx
+msgid "bookings.linkCode.done"
+msgstr "Xong"
+
 #: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.premium.done"
 msgstr "Xong"
 
-#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
-msgid "bookings.linkCode.done"
-msgstr "Xong"
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
+msgid "suppliers.cancel.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/LogRidePremium.tsx
+msgid "suppliers.log.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorDraftPremium.tsx
+msgid "suppliers.vendor.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/PasteSheetPremium.tsx
+msgid "bookings.premium.pasteDiscardTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
@@ -588,6 +703,10 @@ msgstr "Sửa đặt chỗ"
 #: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
 msgid "bookings.insurance.editHint"
 msgstr "Sửa hợp đồng"
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.email"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
 #: ../../apps/mobile/src/features/bookings/premium/components/WalletExtras.tsx
@@ -607,6 +726,7 @@ msgstr "Lần sau nhanh hơn: chuyển tiếp email là xong."
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
 #: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
 #: ../../apps/mobile/src/features/bookings/premium/components/EmptyBookings.tsx
+#: ../../apps/mobile/src/features/bookings/premium/MailboxConnectedPremium.tsx
 #: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.title"
 msgstr "Tìm đặt chỗ trong email"
@@ -614,6 +734,10 @@ msgstr "Tìm đặt chỗ trong email"
 #: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.premium.mailboxWaiting"
 msgstr "Lần kiểm tra đầu vào sáng mai"
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.first"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.premium.missingAirport"
@@ -676,6 +800,7 @@ msgid "bookings.premium.forwardNote"
 msgstr "Chuyển tiếp tới {0}, mình sẽ cất vào ví."
 
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/LinkCodeSheetPremium.tsx
 msgid "bookings.linkCode.line"
 msgstr "Bạn chuyển tiếp từ một địa chỉ chúng tôi chưa biết? Chúng tôi đã gửi tới địa chỉ đó một mã 6 số. Nhập mã để liên kết địa chỉ và đọc thư."
 
@@ -701,6 +826,10 @@ msgstr "Huỷ miễn phí đến {0}"
 #: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
 msgid "bookings.form.from"
 msgstr "Từ"
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/OfferCardPremium.tsx
+msgid "suppliers.offer.from"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
 #: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
@@ -742,6 +871,22 @@ msgstr "Có mã rồi? Liên kết email của bạn"
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
 msgid "bookings.scan.sent"
 msgstr "Nhận rồi. {guideName} đang đọc ở bên dưới."
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/SupplierParts.tsx
+msgid "suppliers.hold.leftA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/SupplierParts.tsx
+msgid "suppliers.hold.ranOut"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
+msgid "suppliers.premium.holdCancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.howMany"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
 #: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
@@ -801,6 +946,27 @@ msgstr "Đặt chỗ này đã bị xoá, hoặc thuộc một chuyến đi bạ
 msgid "bookings.delete.expense"
 msgstr "Khoản chi của nó vẫn ở mục Tiền."
 
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.premium.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/PasteSheetPremium.tsx
+msgid "bookings.premium.keepEditing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/LogRidePremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorDraftPremium.tsx
+msgid "suppliers.premium.keepEditing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
+msgid "suppliers.cancel.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
+msgid "suppliers.cancel.keepLink"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
 msgid "bookings.insurance.kept"
 msgstr "Đã lưu kèm ✓"
@@ -814,9 +980,37 @@ msgstr "Đã hạ cánh"
 msgid "bookings.form.arrive"
 msgstr "Hạ cánh lúc"
 
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.last"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/premium/components/GettingAroundParts.tsx
 msgid "suppliers.later.title"
 msgstr "Cuối ngày hôm nay"
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.lead"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.premium.discard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/LogRidePremium.tsx
+msgid "suppliers.log.soloNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.premium.discardTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/LogRidePremium.tsx
+msgid "suppliers.premium.discardRide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.release"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 #: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
@@ -824,10 +1018,12 @@ msgid "bookings.form.timeProblem"
 msgstr "Ví dụ 09:05"
 
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/LinkCodeSheetPremium.tsx
 msgid "bookings.linkCode.link"
 msgstr "Liên kết"
 
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/LinkCodeSheetPremium.tsx
 msgid "bookings.linkCode.label"
 msgstr "Mã liên kết"
 
@@ -836,22 +1032,27 @@ msgid "bookings.premium.linkIt"
 msgstr "Liên kết"
 
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/PasteSheetPremium.tsx
 msgid "bookings.paste.field"
 msgstr "Liên kết hoặc mã"
 
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/LinkCodeSheetPremium.tsx
 msgid "bookings.linkCode.title"
 msgstr "Liên kết email của bạn"
 
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/LinkCodeSheetPremium.tsx
 msgid "bookings.linkCode.linkedNothingHeld"
 msgstr "Đã liên kết. Thư bạn chuyển tiếp từ địa chỉ đó sẽ được đọc từ giờ."
 
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/LinkCodeSheetPremium.tsx
 msgid "bookings.linkCode.linked"
 msgstr "Đã liên kết. Thư chúng tôi đang giữ đang được đọc."
 
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/LinkCodeSheetPremium.tsx
 msgid "bookings.linkCode.offline"
 msgstr "Cần có sóng để liên kết. Thử lại nhé."
 
@@ -860,9 +1061,30 @@ msgstr "Cần có sóng để liên kết. Thử lại nhé."
 msgid "bookings.loading"
 msgstr "Đang tải đặt chỗ"
 
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorMessagesPremium.tsx
+msgid "suppliers.vendor.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/premium/GettingAroundPremium.tsx
 msgid "suppliers.journey.log"
 msgstr "Ghi lại"
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/LogRidePremium.tsx
+msgid "suppliers.log.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/LogRidePremium.tsx
+msgid "suppliers.log.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/LogRidePremium.tsx
+msgid "suppliers.log.kept"
+msgstr ""
+
+#. placeholder {0}: people > 0 ? people : 1
+#: ../../apps/mobile/src/features/bookings/premium/supplier/LogRidePremium.tsx
+msgid "suppliers.log.split"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.doneTitle"
@@ -876,6 +1098,26 @@ msgstr "Đánh dấu không phải của nhóm"
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.detail.meet"
 msgstr "Điểm hẹn"
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorDraftPremium.tsx
+msgid "suppliers.vendor.textLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorDraftPremium.tsx
+msgid "suppliers.vendor.draftTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorMessagesPremium.tsx
+msgid "suppliers.vendor.listError"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorMessagesPremium.tsx
+msgid "suppliers.vendor.listTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorMessagesPremium.tsx
+msgid "suppliers.vendor.listOffline"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/components/WalletHalfSwitch.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
@@ -911,6 +1153,14 @@ msgstr "Chưa lưu mã. Máy có sóng lại là lưu."
 msgid "bookings.heldMail.noCodeLine"
 msgstr "Chưa có mã nào được gửi cho thư này, nên chưa đọc được. Dán email vào đây, hoặc chuyển tiếp lại từ địa chỉ bạn dùng để đăng nhập."
 
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorMessagesPremium.tsx
+msgid "suppliers.vendor.emptyTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
+msgid "suppliers.cancel.noRefund"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/premium/GettingAroundPremium.tsx
 msgid "suppliers.around.noTrip"
 msgstr "Chưa có chuyến đi nào đang diễn ra"
@@ -935,6 +1185,11 @@ msgstr "Không có trong ví"
 msgid "bookings.premium.passPending"
 msgstr "Chưa phát hành. Chuyển tiếp cho mình khi bạn làm thủ tục."
 
+#. placeholder {0}: date(option.checked_at)
+#: ../../apps/mobile/src/features/bookings/premium/supplier/EstimatePremium.tsx
+msgid "suppliers.estimate.unreviewed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.detail.notes"
@@ -945,6 +1200,10 @@ msgstr "Ghi chú"
 msgid "bookings.form.notes"
 msgstr "Ghi chú"
 
+#: ../../apps/mobile/src/features/bookings/premium/PasteSheetPremium.tsx
+msgid "bookings.premium.pasteDiscardLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/premium/ArchivePremium.tsx
 #: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
 msgid "bookings.archive.empty"
@@ -953,6 +1212,10 @@ msgstr "Chưa có gì kết thúc."
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.empty.line"
 msgstr "Ví còn trống. Chuyển tiếp, quét hoặc dán một xác nhận là mình cất vào đây."
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorDraftPremium.tsx
+msgid "suppliers.vendor.exactNote"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/GettingAroundPremium.tsx
 msgid "suppliers.around.noPlace"
@@ -971,6 +1234,7 @@ msgid "bookings.scan.nothing"
 msgstr "Trang đó không đọc được gì. Thử lại, đặt phẳng và đủ sáng."
 
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/PasteSheetPremium.tsx
 msgid "bookings.paste.empty"
 msgstr "Chưa có gì để dán. Hãy sao chép liên kết hoặc mã trước."
 
@@ -1003,6 +1267,10 @@ msgstr "Chỉ bạn · ghế, thẻ lên máy bay"
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.privacy"
 msgstr "Chỉ bạn thấy thông tin này. Phòng khám chỉ nhận được khi bạn đồng ý, cho từng lần nhờ trợ giúp."
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.openViator"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
 msgid "bookings.premium.opensOffline"
@@ -1049,10 +1317,12 @@ msgid "bookings.add.paste"
 msgstr "Dán"
 
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/PasteSheetPremium.tsx
 msgid "bookings.paste.title"
 msgstr "Dán một đặt chỗ"
 
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/PasteSheetPremium.tsx
 msgid "bookings.paste.fromClipboard"
 msgstr "Dán từ bộ nhớ tạm"
 
@@ -1060,6 +1330,14 @@ msgstr "Dán từ bộ nhớ tạm"
 #: ../../apps/mobile/src/features/bookings/premium/components/WalletExtras.tsx
 msgid "bookings.heldMail.paste"
 msgstr "Dán email"
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.pay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.phone"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/DatePickerSheet.tsx
 msgid "bookings.date.pick"
@@ -1116,6 +1394,7 @@ msgid "bookings.detail.price"
 msgstr "Giá"
 
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/PasteSheetPremium.tsx
 msgid "bookings.paste.read"
 msgstr "Đọc đi"
 
@@ -1159,6 +1438,11 @@ msgstr "Mã"
 #: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
 msgid "bookings.banner.review"
 msgstr "Xem"
+
+#. placeholder {0}: date(option.checked_at)
+#: ../../apps/mobile/src/features/bookings/premium/supplier/EstimatePremium.tsx
+msgid "suppliers.estimate.reviewedOn"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/GettingAroundPremium.tsx
 msgid "suppliers.around.emptyBody"
@@ -1272,6 +1556,20 @@ msgstr "Ghế {0}"
 msgid "bookings.mailbox.seePass"
 msgstr "Xem Pass+"
 
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorDraftPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorMessagesPremium.tsx
+msgid "suppliers.vendor.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorDraftPremium.tsx
+msgid "suppliers.vendor.selfTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorDraftPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorMessagesPremium.tsx
+msgid "suppliers.vendor.share"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/premium/BoardingPassPremium.tsx
 msgid "bookings.pass.share"
 msgstr "Chia sẻ chuyến bay"
@@ -1298,6 +1596,14 @@ msgstr "Mở thẻ lên máy bay"
 #: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
 msgid "bookings.candidate.check"
 msgstr "Email này có gì đó lạ. Kiểm tra lại trước khi thêm nhé."
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/EstimatePremium.tsx
+msgid "suppliers.estimate.sources"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/LogRidePremium.tsx
+msgid "suppliers.log.splitNote"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
 #: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
@@ -1330,15 +1636,18 @@ msgid "bookings.premium.terms"
 msgstr "Điều khoản"
 
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/LinkCodeSheetPremium.tsx
 msgid "bookings.linkCode.wrong"
 msgstr "Mã không khớp hoặc đã hết hạn. Mã có hiệu lực một ngày; hãy dùng mã mới nhất."
 
-#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
-msgid "bookings.paste.failed"
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/LinkCodeSheetPremium.tsx
+msgid "bookings.linkCode.failed"
 msgstr "Chưa gửi được. Thử lại nhé."
 
-#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
-msgid "bookings.linkCode.failed"
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/PasteSheetPremium.tsx
+msgid "bookings.paste.failed"
 msgstr "Chưa gửi được. Thử lại nhé."
 
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
@@ -1350,6 +1659,10 @@ msgstr "Chưa gửi được. Thử lại nhé."
 msgid "bookings.insurance.failed"
 msgstr "Chưa lưu được. Thử lại nhé."
 
+#: ../../apps/mobile/src/features/bookings/premium/supplier/LogRidePremium.tsx
+msgid "suppliers.log.failed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.failedTitle"
 msgstr "Chưa được rồi"
@@ -1358,6 +1671,14 @@ msgstr "Chưa được rồi"
 #: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.mailbox.error"
 msgstr "Chưa được. Thử lại khi có sóng nhé."
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/EstimatePremium.tsx
+msgid "suppliers.estimate.gone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/LogRidePremium.tsx
+msgid "suppliers.premium.discardRideLine"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
 msgid "bookings.scan.denied"
@@ -1368,9 +1689,42 @@ msgstr "CritterPass chưa được dùng máy ảnh. Bật trong Cài đặt, ho
 msgid "bookings.add.noAddressToast"
 msgstr "Địa chỉ của nhóm chưa có trên máy này. Tạm thời hãy quét hoặc dán."
 
+#: ../../apps/mobile/src/features/bookings/premium/supplier/EstimatePremium.tsx
+msgid "suppliers.estimate.band"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
 msgid "bookings.insurance.note"
 msgstr "Màn Trợ giúp sẽ hiện thẻ này khi bạn cần."
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/SupplierParts.tsx
+msgid "suppliers.hold.ranOutA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.expired"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.operatorNote"
+msgstr ""
+
+#. placeholder {0}: option.peak_factor
+#: ../../apps/mobile/src/features/bookings/premium/supplier/EstimatePremium.tsx
+msgid "suppliers.estimate.peak"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.premium.discardLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.inWallet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/OfferCardPremium.tsx
+msgid "suppliers.offer.theirWords"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 msgid "bookings.missing.line"
@@ -1379,6 +1733,10 @@ msgstr "Đặt chỗ này đã bị xoá, hoặc không được chia sẻ với
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
 msgid "bookings.scan.unsupported"
 msgstr "Máy này không quét được ở đây. Hãy chuyển tiếp hoặc dán xác nhận."
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/EstimatePremium.tsx
+msgid "suppliers.estimate.minimum"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 #: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
@@ -1396,6 +1754,7 @@ msgid "bookings.form.to"
 msgstr "Đến"
 
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+#: ../../apps/mobile/src/features/bookings/premium/LinkCodeSheetPremium.tsx
 msgid "bookings.linkCode.wait"
 msgstr "Thử quá nhiều lần. Thử lại sau {minutes} phút."
 
@@ -1431,6 +1790,10 @@ msgstr "Bảo hiểm du lịch, {0}, thẻ hợp đồng"
 msgid "bookings.detail.who"
 msgstr "Người đi"
 
+#: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
+msgid "suppliers.cancel.retry"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.failedLine"
 msgstr "Thử kết nối lại từ Thêm đặt chỗ."
@@ -1451,6 +1814,34 @@ msgstr "Cập nhật lúc {at}"
 #: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
 msgid "bookings.premium.useAirport"
 msgstr "Dùng {0}"
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.rejectedNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
+msgid "suppliers.cancel.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.holdNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
+msgid "suppliers.cancel.down"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.book.unavailable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
+msgid "suppliers.cancel.notCancellable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/BookFlowPremium.tsx
+msgid "suppliers.pay.note"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 #: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
@@ -1481,6 +1872,18 @@ msgstr "Chào mừng đã tới. {guideName} báo cả nhóm."
 msgid "bookings.form.what"
 msgstr "Đó là gì"
 
+#: ../../apps/mobile/src/features/bookings/premium/supplier/LogRidePremium.tsx
+msgid "suppliers.log.cost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorDraftPremium.tsx
+msgid "suppliers.premium.discardMessageLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorDraftPremium.tsx
+msgid "suppliers.vendor.selfBody"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/stack/BookingBody.tsx
 msgid "bookings.card.when"
 msgstr "Khi nào"
@@ -1489,6 +1892,10 @@ msgstr "Khi nào"
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.detail.when"
 msgstr "Khi nào"
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/VendorMessagesPremium.tsx
+msgid "suppliers.vendor.empty"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
@@ -1511,6 +1918,10 @@ msgstr "Ai thấy một chuyến bay"
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.sharing"
 msgstr "Ai thấy"
+
+#: ../../apps/mobile/src/features/bookings/premium/supplier/EstimatePremium.tsx
+msgid "suppliers.estimate.title"
+msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/components/GettingAroundParts.tsx
 msgid "suppliers.rides.whyEstimate"

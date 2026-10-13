@@ -184,15 +184,17 @@ msgstr ""
 msgid "home.inbox.nudge.payment"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.add"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.addAnother"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.howTo.title"
 msgstr ""
 
@@ -225,8 +227,7 @@ msgstr ""
 msgid "home.firstRun.searchBody"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.balances"
 msgstr ""
 
@@ -238,8 +239,13 @@ msgstr ""
 msgid "inbox.premium.example.vote"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.tier.boost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
+msgid "home.premium.widgets.note"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
@@ -274,8 +280,7 @@ msgstr ""
 msgid "home.joinTrip.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.countdown"
 msgstr ""
 
@@ -288,13 +293,11 @@ msgstr ""
 msgid "home.premium.chat"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.crew"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.critterdex"
 msgstr ""
 
@@ -345,7 +348,7 @@ msgstr ""
 msgid "home.explore.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.howTo.android.pick"
 msgstr ""
 
@@ -353,6 +356,7 @@ msgstr ""
 msgid "home.inbox.fixShippedVersion"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.tier.free"
 msgstr ""
@@ -371,6 +375,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.premium.tip.hide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
+msgid "home.premium.widgets.gotIt"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
@@ -463,7 +471,7 @@ msgstr ""
 msgid "home.joinTrip.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.todayLine"
 msgstr ""
 
@@ -496,7 +504,7 @@ msgstr ""
 msgid "home.inbox.markedReadAll"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.voteLine"
 msgstr ""
 
@@ -521,8 +529,7 @@ msgstr ""
 msgid "home.inbox.unreadSpoken"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.nextFlight"
 msgstr ""
 
@@ -637,6 +644,7 @@ msgstr ""
 msgid "home.today.open"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.tier.passPlus"
 msgstr ""
@@ -694,6 +702,7 @@ msgstr ""
 msgid "home.premium.trips.planningTab"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.intro"
 msgstr ""
@@ -726,7 +735,7 @@ msgstr ""
 msgid "home.firstRun.body"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.howTo.ios.pick"
 msgstr ""
 
@@ -751,6 +760,7 @@ msgstr ""
 msgid "home.premium.broke.report"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.back"
 msgstr ""
@@ -774,23 +784,27 @@ msgstr ""
 msgid "home.inbox.more"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
+msgid "home.premium.widgets.previewHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.nextFlightLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.countdownLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.critterdexLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.balancesLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.crewLine"
 msgstr ""
 
@@ -871,11 +885,11 @@ msgstr ""
 msgid "home.inbox.nudge.open"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.howTo.ios.edit"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.howTo.android.widgets"
 msgstr ""
 
@@ -943,8 +957,7 @@ msgstr ""
 msgid "home.joinTrip.full"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.vote"
 msgstr ""
 
@@ -978,8 +991,7 @@ msgstr ""
 msgid "home.countdown.today"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-screen.tsx
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.today"
 msgstr ""
 
@@ -991,11 +1003,11 @@ msgstr ""
 msgid "home.premium.today"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.howTo.ios.hold"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/widget-gallery/widget-how-to-sheet.tsx
+#: ../../apps/mobile/src/features/home/widget-gallery/widget-copy.ts
 msgid "home.widgets.howTo.android.hold"
 msgstr ""
 
@@ -1084,6 +1096,7 @@ msgstr ""
 msgid "inbox.premium.example.replyLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/widget-gallery/widget-gallery-view.tsx
 msgid "home.widgets.title"
 msgstr ""

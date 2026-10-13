@@ -46,7 +46,7 @@ msgstr "{0} lái ngày này"
 #. placeholder {0}: dayLabel(long.date, locale)
 #. placeholder {1}: hoursFigure(long.hours, locale)
 #. placeholder {2}: hoursFigure(includedHours, locale)
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/use-pick-days-view.ts
 msgid "drivers.pick.overtime"
 msgstr "{0} kéo dài {1} giờ. Giá của {name} gồm {2} giờ."
 
@@ -60,7 +60,7 @@ msgstr "Đã kiểm {0}/{1}"
 #. placeholder {0}: day.window.start
 #. placeholder {1}: day.window.end
 #. placeholder {2}: hoursFigure(day.hours, locale)
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/use-pick-days-view.ts
 msgid "drivers.pick.window"
 msgstr "{0}–{1} · {2} giờ"
 
@@ -94,6 +94,10 @@ msgstr "{amount} một người"
 msgid "drivers.price.perHour"
 msgstr "{amount} một giờ"
 
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.pickIntro"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
 msgid "drivers.pick.set"
 msgstr "{chosen, plural, other {Đặt {name} cho # ngày}}"
@@ -124,10 +128,15 @@ msgid "drivers.card.titlePlain"
 msgstr "{driver} lái xe"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.opened"
 msgstr "{driverName} đã mở liên kết · {openedOn}"
 
-#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
+msgid "drivers.premium.ask.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/offline/use-ride-back.ts
 msgid "drivers.offline.included"
 msgstr "Đã gồm {included}"
 
@@ -150,6 +159,7 @@ msgid "drivers.detail.lovedValue"
 msgstr "{loved}/{rated}"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.loved"
 msgstr "{lovedCount}/{voters} người rất thích"
 
@@ -158,11 +168,12 @@ msgstr "{lovedCount}/{voters} người rất thích"
 msgid "drivers.compare.missing"
 msgstr "Thiếu {missing}"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+#: ../../apps/mobile/src/features/drivers/shared/vehicle-line.ts
 msgid "drivers.card.car"
 msgstr "{model}, {seats} chỗ"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.intro"
 msgstr "{name} tự quyết định. Không có gì về anh ấy được công khai cho đến khi anh ấy xác nhận trên điện thoại của mình, và anh ấy có thể gỡ xuống bất cứ lúc nào."
 
@@ -171,10 +182,12 @@ msgid "drivers.card.title"
 msgstr "{name} muốn {driver} lái xe"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.savedNumber"
 msgstr "Số điện thoại, xe và biển số của {name}"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.quote"
 msgstr "Báo giá của {name}"
 
@@ -203,15 +216,15 @@ msgstr "{price} cho cả nhóm"
 msgid "drivers.card.price.trip"
 msgstr "{price} cho cả chuyến"
 
+#: ../../apps/mobile/src/features/drivers/shared/vehicle-line.ts
+msgid "drivers.card.seats"
+msgstr "{seats} chỗ"
+
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.check.seats"
 msgstr "{seats} chỗ"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr "{seats} chỗ"
-
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/use-pick-days-view.ts
 msgid "drivers.pick.takenBy"
 msgstr "{takenBy} đã được đặt"
 
@@ -271,22 +284,28 @@ msgstr "Tài xế hoặc hướng dẫn viên"
 msgid "drivers.share.body"
 msgstr "Một trang gồm những ngày bạn chọn. Không cần đăng nhập. Chỉ có tên, không có ngân sách, không có chat."
 
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
+msgid "drivers.premium.addPrivacy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.premium.add"
 msgstr "Thêm"
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.addBudget"
 msgstr "Thêm ngân sách"
+
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
+msgid "drivers.add.title"
+msgstr "Thêm tài xế"
 
 #: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
 msgid "drivers.back.add"
-msgstr "Thêm tài xế"
-
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
-msgid "drivers.add.title"
 msgstr "Thêm tài xế"
 
 #: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
@@ -295,14 +314,16 @@ msgid "drivers.compare.addAnother"
 msgstr "Thêm một người để so sánh"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.addContact"
 msgstr "Thêm"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "Hãy thêm số WhatsApp của anh ấy vào chuyến đi trước, hoặc anh ấy đã có tên trên danh sách rồi."
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.bahasa"
 msgstr "Thêm cả bản tiếng Indonesia"
 
@@ -329,6 +350,10 @@ msgstr "Đang thêm tài xế vào chuyến đi"
 msgid "drivers.rate.saved"
 msgstr "Đã lưu câu trả lời"
 
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.askVerb"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CheckParts.tsx
 msgid "drivers.check.ask"
@@ -345,6 +370,7 @@ msgid "drivers.compare.askPrice"
 msgstr "Hỏi tài xế"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.ask"
 msgstr "Hỏi cả nhóm trước"
 
@@ -367,23 +393,29 @@ msgid "drivers.share.private"
 msgstr "Ngân sách, chat, họ"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.call"
 msgstr "Gọi"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.note"
 msgstr "Cuộc gọi dùng sóng, không dùng dữ liệu. Tin nhắn sẽ gửi khi bạn có mạng lại."
 
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.premium.cancel"
 msgstr "Huỷ"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.cancel"
 msgstr "Huỷ lời mời"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.cancelTitle"
 msgstr "Huỷ lời mời này?"
 
@@ -400,14 +432,17 @@ msgid "drivers.compare.car"
 msgstr "Xe"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.rerate"
 msgstr "Đổi câu trả lời"
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.edit"
 msgstr "Đổi phần này"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.badge.check"
 msgstr "Kiểm tra"
 
@@ -446,10 +481,12 @@ msgid "drivers.check.confirmLine"
 msgstr "Xác nhận dòng này"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.contact"
 msgstr "Liên hệ"
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.copied"
 msgstr "Đã sao chép"
 
@@ -458,14 +495,17 @@ msgid "drivers.share.copy"
 msgstr "Sao chép"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.footnote"
 msgstr "Sao chép tin nhắn từ WhatsApp hoặc Facebook rồi dán vào đây. Mình chỉ đọc những gì bạn gửi."
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.intro"
 msgstr "Sao chép rồi tự đăng vào nhóm. CritterPass không bao giờ đăng hay đọc các nhóm đó."
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.copy"
 msgstr "Sao chép bài"
 
@@ -473,11 +513,12 @@ msgstr "Sao chép bài"
 msgid "drivers.detail.shortlistFailed"
 msgstr "Chưa thêm được anh ấy. Thử lại nhé."
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr "Chưa tạo được liên kết cho anh ấy. Thử lại nhé."
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.badge.unread"
 msgstr "Không đọc được"
 
@@ -520,6 +561,7 @@ msgid "drivers.find.back"
 msgstr "Ngày {0} · {1}"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.day"
@@ -537,6 +579,10 @@ msgstr "Đi trong ngày"
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.days"
 msgstr "Các ngày"
+
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.discard"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
@@ -564,6 +610,7 @@ msgid "drivers.premium.navTitle"
 msgstr "Tài xế"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.directory"
 msgstr "Tài xế các nhóm khác rất thích"
 
@@ -578,10 +625,12 @@ msgid "drivers.find.directory"
 msgstr "Tài xế các nhóm đã đi"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.intro"
 msgstr "Các tài xế nhóm này đã đi cùng. Những người chưa xác nhận thì chỉ {crew} người các bạn thấy."
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.screenshotDetail"
 msgstr "Thả vào hoặc chọn"
 
@@ -608,6 +657,8 @@ msgstr "Giá hợp lý"
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 #: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.back.find"
@@ -680,6 +731,7 @@ msgid "drivers.premium.fromViator"
 msgstr "TỪ VIATOR"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.contactDetail"
 msgstr "Từ WhatsApp"
 
@@ -689,6 +741,7 @@ msgstr "Xăng"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.back"
 msgstr "Đi lại"
 
@@ -739,6 +792,7 @@ msgid "drivers.unread.body"
 msgstr "Mình không thấy tên, số điện thoại hay giá của tài xế."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.noChase"
 msgstr "Mình sẽ không giục anh ấy. Bạn nhắc một lần là đủ."
 
@@ -753,6 +807,7 @@ msgid "drivers.replied.tellBody"
 msgstr "Mình sẽ viết kèm ngày và ghim điểm đón. Bạn tự gửi."
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.tellBody"
 msgstr "Mình sẽ viết kèm ngày và ghim điểm đón. Bạn tự gửi."
 
@@ -761,24 +816,32 @@ msgstr "Mình sẽ viết kèm ngày và ghim điểm đón. Bạn tự gửi."
 msgid "drivers.tours.added"
 msgstr "Đã thêm vào so sánh"
 
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
+msgid "drivers.premium.inviteTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.invite"
 msgstr "Mời {name} lên danh sách"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.title"
 msgstr "Mời {name} lên danh sách"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.cancelled"
 msgstr "Đã huỷ lời mời. Không có gì được đưa lên danh sách."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.sent"
 msgstr "Đã gửi lời mời qua WhatsApp · {sentOn}"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.invite"
 msgstr "Mời lên danh sách"
 
@@ -794,6 +857,14 @@ msgstr "Đúng chưa?"
 msgid "drivers.premium.checkTitle"
 msgstr "Đúng chưa?"
 
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
+msgid "drivers.premium.keepInvite"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.keep"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.toursBody"
@@ -804,8 +875,13 @@ msgid "drivers.tag.knewTheSpots"
 msgstr "Rành các điểm đến"
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.language"
 msgstr "Ngôn ngữ bài đăng"
+
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.pickDiscardTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.quote"
@@ -828,6 +904,7 @@ msgid "drivers.share.expires"
 msgstr "Liên kết hết hạn"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.listed"
 msgstr "Đã lên danh sách"
 
@@ -851,6 +928,7 @@ msgid "drivers.compare.loading"
 msgstr "Đang tải danh sách"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.loading"
 msgstr "Đang tải tài xế của nhóm"
 
@@ -868,6 +946,7 @@ msgid "drivers.share.create"
 msgstr "Tạo liên kết"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.making"
 msgstr "Đang tạo liên kết cho anh ấy…"
 
@@ -876,6 +955,7 @@ msgid "drivers.share.needsSignal"
 msgstr "Cần có sóng để tạo liên kết. Thử lại khi bạn có mạng nhé."
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.kindText"
 msgstr "Tin nhắn"
 
@@ -885,10 +965,12 @@ msgid "drivers.detail.message"
 msgstr "Nhắn qua WhatsApp"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.messageLabel"
 msgstr "Tin nhắn gửi tài xế của bạn"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.contactName"
 msgstr "Tên"
 
@@ -900,11 +982,12 @@ msgstr "Tên"
 msgid "drivers.leg.title"
 msgstr "Cần tài xế ở đây?"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr "Cần có sóng để tạo liên kết cho anh ấy."
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.badge.new"
 msgstr "Mới"
 
@@ -928,6 +1011,7 @@ msgid "drivers.find.noDays"
 msgstr "Kế hoạch chưa có ngày nào. Bạn vẫn có thể tìm tài xế trước."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.emptyTitle"
 msgstr "Chưa có tài xế nào"
 
@@ -968,6 +1052,7 @@ msgid "drivers.verdict.notAgain"
 msgstr "Không đi lại"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.notClaimed"
 msgstr "Chưa xác nhận"
 
@@ -998,6 +1083,7 @@ msgid "drivers.compare.notSaidHint"
 msgstr "Chưa nói. Hỏi anh ấy qua WhatsApp"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.nudge"
 msgstr "Nhắc"
 
@@ -1033,6 +1119,7 @@ msgid "drivers.directory.intro"
 msgstr "Chỉ gồm tài xế muốn lên danh sách. Đánh giá đến từ các nhóm đã đi cùng họ."
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.open"
 msgstr "Mở trong WhatsApp"
 
@@ -1049,6 +1136,7 @@ msgid "drivers.premium.openViator"
 msgstr "Mở Viator ↗"
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 #: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 #: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
@@ -1056,6 +1144,7 @@ msgid "drivers.rate.back"
 msgstr "Tài xế của nhóm"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.title"
 msgstr "Tài xế của nhóm"
 
@@ -1088,6 +1177,7 @@ msgid "drivers.include.parking"
 msgstr "Gửi xe"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.paste"
 msgstr "Dán"
 
@@ -1097,6 +1187,7 @@ msgid "drivers.find.foundBody"
 msgstr "Dán tin nhắn, thả ảnh chụp màn hình, chia sẻ liên hệ"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.pastePlaceholder"
 msgstr "Dán những gì tài xế viết, hoặc đường dẫn bài đăng của anh ấy"
 
@@ -1105,6 +1196,7 @@ msgid "drivers.tag.patient"
 msgstr "Kiên nhẫn"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.paused"
 msgstr "Đang tạm dừng"
 
@@ -1176,6 +1268,7 @@ msgid "drivers.replied.quote"
 msgstr "Báo giá từ {0}"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.rate"
 msgstr "Đánh giá anh ấy"
 
@@ -1189,6 +1282,7 @@ msgid "drivers.rate.notEligible"
 msgstr "Đánh giá mở sau chuyến đi, cho thành viên có số điện thoại đã xác minh."
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.read"
 msgstr "Đọc"
 
@@ -1222,6 +1316,7 @@ msgid "drivers.share.revoke"
 msgstr "Thu hồi liên kết"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.emptyLine"
 msgstr "Đi xe với ai trong chuyến này thì họ sẽ hiện ở đây cho cả nhóm."
 
@@ -1239,18 +1334,22 @@ msgid "drivers.rate.save"
 msgstr "Lưu câu trả lời của nhóm"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.saved"
 msgstr "Đã lưu trên điện thoại"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.queued"
 msgstr "Đã lưu. Mình sẽ đọc khi bạn có mạng lại."
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.screenshot"
 msgstr "Ảnh màn hình"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.kindImage"
 msgstr "Ảnh màn hình"
 
@@ -1270,6 +1369,10 @@ msgstr "Gửi cho nhóm sau"
 msgid "drivers.pick.asked"
 msgstr "Đã gửi cho cả nhóm"
 
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.setVerb"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
 msgid "drivers.share.title"
 msgstr "Chia sẻ với {name}"
@@ -1283,11 +1386,19 @@ msgstr "Chia sẻ với tài xế của bạn"
 msgid "drivers.add.sharedBy"
 msgstr "{0} chia sẻ"
 
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
+msgid "drivers.premium.add.sharedBy"
+msgstr ""
+
 #. placeholder {0}: plan.guide.name
 #. placeholder {1}: items.length
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
 msgid "drivers.add.shared"
 msgstr "Đã chia sẻ với {0} · {1}"
+
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
+msgid "drivers.premium.add.shared"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
@@ -1308,6 +1419,7 @@ msgid "drivers.premium.shortlistCount"
 msgstr "Danh sách chọn · {0}"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.badge.shortlisted"
 msgstr "Đã vào danh sách"
 
@@ -1342,10 +1454,12 @@ msgid "drivers.compare.more"
 msgstr "Vuốt ngang để xem thêm →"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.taken"
 msgstr "Đã đặt"
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.tapSlot"
 msgstr "Chạm phần tô sáng để đổi"
 
@@ -1363,10 +1477,12 @@ msgid "drivers.replied.tell"
 msgstr "Nhắn {driverName} qua WhatsApp"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.tell"
 msgstr "Báo {name} qua WhatsApp"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.pasteDetail"
 msgstr "Chữ hoặc đường dẫn"
 
@@ -1375,6 +1491,7 @@ msgid "drivers.detail.reported"
 msgstr "Cảm ơn bạn. Chúng tôi sẽ xem xét."
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.failed"
 msgstr "Chưa gửi được. Thử lại sau giây lát."
 
@@ -1388,6 +1505,7 @@ msgstr "Chưa tải được"
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.premium.failed"
 msgstr "Chưa tải được. Thử lại nhé."
@@ -1401,7 +1519,12 @@ msgstr "Chưa lưu được. Kiểm tra mạng rồi thử lại."
 msgid "drivers.pick.error.signal"
 msgstr "Cần có mạng. Thử lại khi bạn có mạng nhé."
 
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.pickDiscardLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.pasteLabel"
 msgstr "Tin nhắn của tài xế"
 
@@ -1410,22 +1533,27 @@ msgid "drivers.share.revoked"
 msgstr "Liên kết đã tắt. Trang cũng hiện điều đó ngay."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.expired"
 msgstr "Liên kết đã tắt. Không có gì được đưa lên danh sách."
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.expires"
 msgstr "Liên kết dùng được đến {expiresOn}. Sau đó nó tắt và không có gì được đưa lên danh sách."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.until"
 msgstr "Liên kết dùng được đến {untilOn}. Sau đó nó tắt và không có gì được đưa lên danh sách."
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.cancelLine"
 msgstr "Đường liên kết bạn đã gửi sẽ ngừng hoạt động ngay."
 
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.message"
 msgstr "Tin nhắn · bạn tự gửi"
 
@@ -1465,11 +1593,13 @@ msgstr "Phần này cần có mạng. Hãy thử lại khi bạn trực tuyến.
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.premium.offline"
 msgstr "Cần có sóng. Có sóng thì thử lại nhé."
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.savedPickups"
 msgstr "Điểm đón và ghim hôm nay"
 
@@ -1499,6 +1629,7 @@ msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.premium.retry"
 msgstr "Thử lại"
@@ -1509,6 +1640,7 @@ msgid "drivers.unread.another"
 msgstr "Thử ảnh khác"
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.askBody"
 msgstr "Chuyển thành một cuộc bình chọn, như mọi thay đổi khác"
 
@@ -1518,6 +1650,7 @@ msgid "drivers.unread.type"
 msgstr "Gõ phần còn lại"
 
 #: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.waiting"
 msgstr "Đang chờ anh ấy xác nhận"
 
@@ -1531,10 +1664,12 @@ msgid "drivers.line.includes"
 msgstr "Giá đã gồm"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.savedTerms"
 msgstr "Những gì đã thỏa thuận"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.whatsapp"
 msgstr "WhatsApp"
 
@@ -1543,22 +1678,26 @@ msgid "drivers.line.phone"
 msgstr "WhatsApp"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.whatsappLater"
 msgstr "WhatsApp · để sau"
 
 #: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.contactPhone"
 msgstr "Số WhatsApp, kèm mã quốc gia"
 
 #: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.after"
 msgstr "Khi có người trả lời, chia sẻ tin nhắn cho mình. Mình sẽ lấy thông tin ra."
 
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.title"
 msgstr "Những chặng nào?"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "Bạn đã nhắc anh ấy một lần rồi."
 
@@ -1589,6 +1728,7 @@ msgid "drivers.queued.report"
 msgstr "Báo cáo của bạn"
 
 #: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.title"
 msgstr "Xe về của bạn"
 

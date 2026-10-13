@@ -19,17 +19,9 @@ msgstr "{loved} จาก {rated}"
 msgid "drivers.ours.loved"
 msgstr "{lovedCount} จาก {voters} ชอบ"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.car"
-msgstr "{model} {seats} ที่นั่ง"
-
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.intro"
 msgstr "{name} เป็นคนตัดสินใจ ไม่มีข้อมูลของเขาเผยแพร่จนกว่าเขาจะยืนยันในโทรศัพท์ของตัวเอง และลบได้ทุกเมื่อ"
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr "{seats} ที่นั่ง"
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
 msgid "drivers.card.trips"
@@ -43,7 +35,7 @@ msgstr "7+ ที่นั่ง"
 msgid "drivers.detail.tipBy"
 msgstr "แก๊ง {crewSize} คน · {tipMonth}"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "เพิ่มเบอร์ WhatsApp ของเขาในทริปก่อน หรือเขาลงรายชื่อแล้ว"
 
@@ -84,7 +76,7 @@ msgstr "เปลี่ยนคำตอบ"
 msgid "drivers.detail.shortlistFailed"
 msgstr "เพิ่มไม่ได้ ลองอีกครั้ง"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr "สร้างลิงก์ไม่ได้ ลองอีกครั้ง"
 
@@ -220,7 +212,7 @@ msgstr "ส่งข้อความทาง WhatsApp"
 msgid "drivers.invite.messageLabel"
 msgstr "ข้อความถึงคนขับ"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr "ต้องมีสัญญาณเพื่อสร้างลิงก์"
 
@@ -406,7 +398,7 @@ msgstr "รอเขายืนยัน"
 msgid "drivers.detail.priceNote"
 msgstr "สิ่งที่เขาบอกแก๊ง ไม่ใช่ราคาของ CritterPass"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "คุณเตือนเขาไปแล้วหนึ่งครั้ง"
 

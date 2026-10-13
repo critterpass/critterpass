@@ -19,17 +19,9 @@ msgstr "{loved} daripada {rated}"
 msgid "drivers.ours.loved"
 msgstr "{lovedCount} daripada {voters} suka"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.car"
-msgstr "{model}, {seats} tempat duduk"
-
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.intro"
 msgstr "{name} yang buat keputusan. Tiada apa tentangnya didedahkan sehingga dia sahkan di telefonnya sendiri, dan dia boleh padamkannya bila-bila masa."
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr "{seats} tempat duduk"
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
 msgid "drivers.card.trips"
@@ -43,7 +35,7 @@ msgstr "7+ tempat duduk"
 msgid "drivers.detail.tipBy"
 msgstr "Kumpulan {crewSize} orang · {tipMonth}"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "Tambah dulu nombor WhatsAppnya ke perjalanan, atau dia sudah disenaraikan."
 
@@ -84,7 +76,7 @@ msgstr "Tukar jawapan saya"
 msgid "drivers.detail.shortlistFailed"
 msgstr "Tak dapat tambah. Cuba lagi."
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr "Tak dapat buat pautan. Cuba lagi."
 
@@ -220,7 +212,7 @@ msgstr "Mesej di WhatsApp"
 msgid "drivers.invite.messageLabel"
 msgstr "Mesej kepada pemandu anda"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr "Perlukan isyarat untuk buat pautan."
 
@@ -406,7 +398,7 @@ msgstr "Menunggu dia sahkan"
 msgid "drivers.detail.priceNote"
 msgstr "Apa yang dia beritahu kumpulan. Bukan harga CritterPass."
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "Anda sudah ingatkan dia sekali."
 

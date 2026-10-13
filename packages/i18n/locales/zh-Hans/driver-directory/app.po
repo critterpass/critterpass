@@ -19,17 +19,9 @@ msgstr "{rated} 队中 {loved} 队"
 msgid "drivers.ours.loved"
 msgstr "{voters} 人中 {lovedCount} 人喜欢"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.car"
-msgstr "{model}，{seats} 座"
-
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.intro"
 msgstr "由 {name} 决定。在他用自己的手机确认之前，关于他的任何信息都不会公开，他也随时可以撤下。"
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr "{seats} 座"
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
 msgid "drivers.card.trips"
@@ -43,7 +35,7 @@ msgstr "7 座以上"
 msgid "drivers.detail.tipBy"
 msgstr "{crewSize} 人小队 · {tipMonth}"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "请先把他的 WhatsApp 号码加到行程里，或者他已经上架了。"
 
@@ -84,7 +76,7 @@ msgstr "修改我的回答"
 msgid "drivers.detail.shortlistFailed"
 msgstr "没能加入，请再试一次。"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr "没能生成链接，请再试一次。"
 
@@ -220,7 +212,7 @@ msgstr "WhatsApp 联系"
 msgid "drivers.invite.messageLabel"
 msgstr "发给司机的消息"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr "需要网络才能生成链接。"
 
@@ -406,7 +398,7 @@ msgstr "等他确认"
 msgid "drivers.detail.priceNote"
 msgstr "这是他对小队的报价，不是 CritterPass 的价格。"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "你已经提醒过他一次了。"
 

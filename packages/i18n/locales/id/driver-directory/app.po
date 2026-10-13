@@ -19,17 +19,9 @@ msgstr "{loved} dari {rated}"
 msgid "drivers.ours.loved"
 msgstr "{lovedCount} dari {voters} suka"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.car"
-msgstr "{model}, {seats} kursi"
-
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.intro"
 msgstr "{name} yang memutuskan. Tidak ada yang ditampilkan sampai ia mengonfirmasi di ponselnya sendiri, dan ia bisa menghapusnya kapan saja."
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr "{seats} kursi"
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
 msgid "drivers.card.trips"
@@ -43,7 +35,7 @@ msgstr "7+ kursi"
 msgid "drivers.detail.tipBy"
 msgstr "Rombongan {crewSize} orang · {tipMonth}"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "Tambahkan dulu nomor WhatsApp-nya ke perjalanan, atau ia sudah terdaftar."
 
@@ -84,7 +76,7 @@ msgstr "Ubah jawaban saya"
 msgid "drivers.detail.shortlistFailed"
 msgstr "Belum bisa menambahkan. Coba lagi."
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr "Belum bisa membuat tautan. Coba lagi."
 
@@ -220,7 +212,7 @@ msgstr "Kirim pesan WhatsApp"
 msgid "drivers.invite.messageLabel"
 msgstr "Pesan untuk sopir Anda"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr "Butuh sinyal untuk membuat tautan."
 
@@ -406,7 +398,7 @@ msgstr "Menunggu konfirmasinya"
 msgid "drivers.detail.priceNote"
 msgstr "Yang ia sampaikan ke rombongan. Bukan harga CritterPass."
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "Anda sudah mengingatkannya sekali."
 

@@ -19,17 +19,9 @@ msgstr "{loved} de {rated}"
 msgid "drivers.ours.loved"
 msgstr "{lovedCount} de {voters} adoraram"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.car"
-msgstr "{model}, {seats} lugares"
-
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.intro"
 msgstr "{name} decide. Nada sobre ele fica público até que confirme no próprio celular, e ele pode tirar quando quiser."
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr "{seats} lugares"
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
 msgid "drivers.card.trips"
@@ -43,7 +35,7 @@ msgstr "7+ lugares"
 msgid "drivers.detail.tipBy"
 msgstr "Um grupo de {crewSize} · {tipMonth}"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "Adicione primeiro o WhatsApp dele à viagem, ou ele já está na lista."
 
@@ -84,7 +76,7 @@ msgstr "Mudar minha resposta"
 msgid "drivers.detail.shortlistFailed"
 msgstr "Não deu para adicionar. Tente de novo."
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr "Não deu para criar o link. Tente de novo."
 
@@ -220,7 +212,7 @@ msgstr "Mensagem no WhatsApp"
 msgid "drivers.invite.messageLabel"
 msgstr "Mensagem para o seu motorista"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr "Precisa de sinal para criar o link."
 
@@ -406,7 +398,7 @@ msgstr "Esperando a confirmação dele"
 msgid "drivers.detail.priceNote"
 msgstr "O que ele diz aos grupos. Não é um preço do CritterPass."
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "Você já lembrou ele uma vez."
 

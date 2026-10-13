@@ -18,8 +18,10 @@ msgstr ""
 msgid "you.premium.appIcon.earnedCount"
 msgstr ""
 
+#. placeholder {0}: picker.forms.length
 #. placeholder {0}: props.forms.length
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.unlocked"
 msgstr ""
 
@@ -53,6 +55,7 @@ msgid "you.profile.stat.trips"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-view.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.language.more"
 msgstr ""
 
@@ -113,6 +116,10 @@ msgstr ""
 msgid "you.delete.tripHandOver"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/volume-slider.tsx
+msgid "common.slider.percent"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.today"
 msgstr ""
@@ -141,6 +148,7 @@ msgstr ""
 msgid "you.formats.twentyFourHour"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.voicesLine"
 msgstr ""
@@ -154,14 +162,17 @@ msgid "you.settings.account"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.erasedTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+#: ../../apps/mobile/src/features/you/premium/history/past-trip-premium-view.tsx
 msgid "you.pastTrip.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+#: ../../apps/mobile/src/features/you/premium/history/stamps-premium-view.tsx
 msgid "you.stamps.addPastTrip"
 msgstr ""
 
@@ -175,6 +186,7 @@ msgid "you.androidPermissions.fullScreen"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+#: ../../apps/mobile/src/features/you/premium/history/stamps-premium-view.tsx
 msgid "you.stamps.allYears"
 msgstr ""
 
@@ -185,7 +197,12 @@ msgid "you.profile.allStamps"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+#: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
 msgid "you.signOut.stays.all"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
+msgid "onboarding.taste.noTags"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
@@ -214,6 +231,7 @@ msgid "you.appIcon.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-view.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.language.appLanguage"
 msgstr ""
 
@@ -240,10 +258,12 @@ msgid "you.edit.username.tooLong"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.tabs"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.currency.note"
 msgstr ""
 
@@ -256,6 +276,7 @@ msgid "you.settings.offlineTripsLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.currency.mode.both"
 msgstr ""
 
@@ -275,8 +296,20 @@ msgstr ""
 msgid "you.edit.username.unknown"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
+msgid "you.premium.retake.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/history/past-trip-premium-view.tsx
+msgid "you.premium.pastTrip.cancel"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/premium/edit/appearance-sheet.tsx
 msgid "you.premium.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/edit/field-sheets-premium.tsx
+msgid "you.premium.edit.cancel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
@@ -311,23 +344,32 @@ msgstr ""
 msgid "you.language.name.zhHans"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
+msgid "onboarding.premium.photo.library"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/field-sheets-premium.tsx
 msgid "you.edit.airportSearch"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/formats-section.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.formats.clock"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.close"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.keepHint"
 msgstr ""
 
@@ -357,6 +399,7 @@ msgid "you.edit.save.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+#: ../../apps/mobile/src/features/you/premium/history/past-trip-premium-view.tsx
 msgid "you.pastTrip.country"
 msgstr ""
 
@@ -386,11 +429,13 @@ msgid "you.settings.hideTravelStyleLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.tab.critter"
 msgstr ""
 
 #. placeholder {0}: index + 1
 #: ../../apps/mobile/src/features/you/avatar/form-grid.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-parts.tsx
 msgid "you.avatar.formLabel"
 msgstr ""
 
@@ -399,6 +444,7 @@ msgstr ""
 msgid "you.appIcon.footer"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.voices"
 msgstr ""
@@ -416,11 +462,17 @@ msgid "you.pings.critters"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.currency.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/currency-sheet.tsx
+#: ../../apps/mobile/src/features/you/premium/language/currency-choice.tsx
 msgid "you.currency.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
+msgid "onboarding.photo.real.lifting"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts
@@ -451,18 +503,22 @@ msgid "you.delete.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.departures"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/formats-section.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.formats.distance"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/field-sheets-premium.tsx
 msgid "you.edit.done"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.done"
 msgstr ""
 
@@ -479,6 +535,7 @@ msgstr ""
 msgid "you.settings.location.trips"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.musicLine"
 msgstr ""
@@ -502,18 +559,21 @@ msgstr ""
 msgid "you.premium.editTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
+msgid "you.avatar.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
 msgid "you.edit.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.back"
-msgstr ""
-
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.effects"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.effectsVolume"
 msgstr ""
@@ -523,6 +583,7 @@ msgid "you.language.name.en"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.entry"
 msgstr ""
 
@@ -538,6 +599,7 @@ msgstr ""
 msgid "you.premium.critterdexLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/settings/crew-chat-choice.tsx
 #: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.pings.crewChat.all"
@@ -548,6 +610,7 @@ msgid "you.premium.pings.everything"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.exit"
 msgstr ""
 
@@ -568,6 +631,7 @@ msgstr ""
 msgid "you.premium.pings.alwaysFlight"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.follow"
 msgstr ""
@@ -581,6 +645,7 @@ msgid "you.settings.helpShareLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/formats-section.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.formats.title"
 msgstr ""
 
@@ -604,15 +669,17 @@ msgstr ""
 msgid "you.premium.pings.fromGuide"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
+msgid "you.avatar.fromDex"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 msgid "you.edit.avatarCritter"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.fromDex"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/language/currency-sheet.tsx
+#: ../../apps/mobile/src/features/you/premium/language/currency-choice.tsx
 msgid "you.currency.fromAirport"
 msgstr ""
 
@@ -638,6 +705,7 @@ msgstr ""
 msgid "you.delete.goes"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.haptics"
 msgstr ""
@@ -647,6 +715,7 @@ msgid "you.premium.pings.held"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.stampBack"
 msgstr ""
 
@@ -701,6 +770,7 @@ msgid "you.profile.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.currency.mode.home"
 msgstr ""
 
@@ -711,6 +781,7 @@ msgstr ""
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
 #: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/field-sheets-premium.tsx
 msgid "you.edit.homeAirport"
 msgstr ""
 
@@ -720,6 +791,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
 #: ../../apps/mobile/src/features/you/language/currency-sheet.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.currency.home"
 msgstr ""
 
@@ -734,6 +806,7 @@ msgid "you.settings.howChatty"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.crewSees"
 msgstr ""
 
@@ -742,8 +815,16 @@ msgstr ""
 msgid "you.profile.howYouTravel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
+msgid "onboarding.taste.summaryTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
 msgid "you.premium.offline.tokek"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
+msgid "onboarding.premium.photo.cameraOnSub"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationParts.tsx
@@ -762,12 +843,13 @@ msgstr ""
 msgid "you.language.name.id"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
-msgid "you.edit.avatarInitials"
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
+msgid "you.avatar.tab.initials"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.tab.initials"
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+msgid "you.edit.avatarInitials"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/widgets-row.ts
@@ -782,6 +864,7 @@ msgstr ""
 msgid "you.edit.username.available"
 msgstr ""
 
+#: ../../apps/mobile/src/app/you/past-trip.tsx
 #: ../../apps/mobile/src/features/you/history/past-trip-screen.tsx
 msgid "you.pastTrip.removeLine"
 msgstr ""
@@ -798,13 +881,29 @@ msgstr ""
 msgid "you.premium.keepEditing"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
+msgid "you.premium.retake.keep"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
 msgid "you.premium.offline.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/app/you/past-trip.tsx
+msgid "you.premium.pastTrip.keep"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 #: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
+msgid "you.premium.retake.discard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
+msgid "you.premium.retake.discardTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/formats-section.tsx
@@ -828,12 +927,14 @@ msgid "you.settings.languageCurrency"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-view.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.language.titleCurrency"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
 #: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/field-sheets-premium.tsx
 msgid "you.edit.languages"
 msgstr ""
 
@@ -842,6 +943,7 @@ msgid "you.delete.lastCheck"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.lastPage"
 msgstr ""
 
@@ -851,6 +953,7 @@ msgid "you.edit.discard"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.leave"
 msgstr ""
 
@@ -872,6 +975,7 @@ msgid "you.androidPermissions.exactAlarm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+#: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
 msgid "you.signOut.leaves"
 msgstr ""
 
@@ -897,6 +1001,7 @@ msgid "you.androidPermissions.promoted"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.currency.mode.local"
 msgstr ""
 
@@ -930,6 +1035,7 @@ msgid "you.sound.theme.ajo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+#: ../../apps/mobile/src/features/you/premium/settings/crew-chat-choice.tsx
 #: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.pings.crewChat.mentions"
@@ -947,6 +1053,7 @@ msgstr ""
 msgid "you.pings.money"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.music"
 msgstr ""
@@ -955,10 +1062,12 @@ msgstr ""
 msgid "you.settings.music"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.musicVolume"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.quietLine"
 msgstr ""
@@ -966,6 +1075,7 @@ msgstr ""
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
 #: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/field-sheets-premium.tsx
 msgid "you.edit.name"
 msgstr ""
 
@@ -989,8 +1099,16 @@ msgstr ""
 msgid "you.appIcon.new"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/language/currency-choice.tsx
+msgid "you.premium.currency.none"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.username.dots"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
+msgid "onboarding.photo.real.offline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
@@ -1015,6 +1133,7 @@ msgstr ""
 
 #. placeholder {0}: until ?? ''
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.body"
 msgstr ""
 
@@ -1039,6 +1158,7 @@ msgid "you.settings.musicOff"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
+#: ../../apps/mobile/src/features/you/premium/settings/crew-chat-choice.tsx
 #: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.pings.crewChat.off"
@@ -1069,6 +1189,7 @@ msgid "you.settings.rateAndroid"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.sampleLine"
 msgstr ""
 
@@ -1081,11 +1202,16 @@ msgid "you.export.tooSoon"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.initialsTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
 msgid "you.premium.offline.wifiOnly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
+msgid "onboarding.premium.photo.librarySub"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
@@ -1101,6 +1227,7 @@ msgid "you.sound.theme.paco"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/history/stamps-premium-view.tsx
 #: ../../apps/mobile/src/features/you/premium/profile/profile-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
@@ -1144,7 +1271,13 @@ msgid "you.premium.pings.past"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+#: ../../apps/mobile/src/features/you/premium/history/past-trip-premium-view.tsx
 msgid "you.pastTrip.editTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
+msgid "you.avatar.tab.photo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
@@ -1152,10 +1285,7 @@ msgid "you.edit.avatarPhoto"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.tab.photo"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "you.avatar.photoLine"
 msgstr ""
 
@@ -1168,7 +1298,12 @@ msgstr ""
 msgid "you.edit.username.none"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
+msgid "onboarding.photo.real.again"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.currency.homeNone"
 msgstr ""
 
@@ -1202,6 +1337,7 @@ msgstr ""
 msgid "you.export.line"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.playMusic"
 msgstr ""
@@ -1246,6 +1382,7 @@ msgstr ""
 msgid "you.pings.quiet"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.quiet"
 msgstr ""
@@ -1255,6 +1392,7 @@ msgid "you.edit.form.rare"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.ringsLine"
 msgstr ""
 
@@ -1278,19 +1416,23 @@ msgstr ""
 msgid "trip.offline.remove"
 msgstr ""
 
+#: ../../apps/mobile/src/app/you/past-trip.tsx
 #: ../../apps/mobile/src/features/you/history/past-trip-screen.tsx
 msgid "you.pastTrip.removeConfirm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+#: ../../apps/mobile/src/features/you/premium/history/past-trip-premium-view.tsx
 msgid "you.pastTrip.remove"
 msgstr ""
 
+#: ../../apps/mobile/src/app/you/past-trip.tsx
 #: ../../apps/mobile/src/features/you/history/past-trip-screen.tsx
 msgid "you.pastTrip.removeTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.restore"
 msgstr ""
 
@@ -1307,6 +1449,14 @@ msgstr ""
 msgid "you.appIcon.sardi"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
+msgid "you.premium.retake.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/history/past-trip-premium-view.tsx
+msgid "you.premium.pastTrip.save"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
 msgid "you.premium.save"
 msgstr ""
@@ -1316,6 +1466,7 @@ msgid "you.edit.save"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+#: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
 msgid "you.signOut.savePass"
 msgstr ""
 
@@ -1344,10 +1495,12 @@ msgid "you.premium.saving"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+#: ../../apps/mobile/src/features/you/premium/history/past-trip-premium-view.tsx
 msgid "you.pastTrip.searchCountry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.stamp"
 msgstr ""
 
@@ -1367,6 +1520,7 @@ msgstr ""
 msgid "you.premium.pings.sent"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.back"
 msgstr ""
@@ -1393,21 +1547,23 @@ msgstr ""
 msgid "you.premium.pings.openSettings"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
+msgid "you.language.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 #: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
 msgid "you.delete.back"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/language/language-view.tsx
-msgid "you.language.back"
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+#: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
+msgid "you.signOut.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/app-icon/app-icon-view.tsx
 msgid "you.appIcon.back"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
-msgid "you.signOut.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/delete/delete-premium-screen.tsx
@@ -1440,6 +1596,7 @@ msgid "you.settings.helpShare"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.currency.showIn"
 msgstr ""
 
@@ -1448,18 +1605,22 @@ msgid "you.settings.signOut"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+#: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
 msgid "you.signOut.confirm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+#: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
 msgid "you.signOut.eraseAnyway"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+#: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
 msgid "you.signOut.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+#: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
 msgid "you.signOut.unsavedLine"
 msgstr ""
 
@@ -1473,12 +1634,18 @@ msgstr ""
 msgid "you.premium.since"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
+msgid "onboarding.taste.skip"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts
 msgid "you.sound.theme.lundi"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+#: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.account.incomplete"
 msgstr ""
 
@@ -1502,6 +1669,7 @@ msgstr ""
 msgid "you.premium.pings.alwaysSos"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.title"
 msgstr ""
@@ -1519,12 +1687,13 @@ msgstr ""
 msgid "you.profile.stamps"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
-msgid "you.pastTrip.back"
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+#: ../../apps/mobile/src/features/you/premium/history/stamps-premium-view.tsx
+msgid "you.stamps.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
-msgid "you.stamps.title"
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
@@ -1532,7 +1701,12 @@ msgstr ""
 msgid "you.profile.startCrew"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
+msgid "onboarding.taste.retake"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+#: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
 msgid "you.signOut.stays"
 msgstr ""
 
@@ -1540,6 +1714,7 @@ msgstr ""
 msgid "you.settings.soundEffectsLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.stickers"
 msgstr ""
@@ -1556,6 +1731,10 @@ msgstr ""
 msgid "you.settings.idea"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
+msgid "onboarding.photo.real.camera"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
 msgid "trip.offline.removeConfirmTitle"
 msgstr ""
@@ -1564,6 +1743,7 @@ msgstr ""
 msgid "you.settings.talkOutLoud"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.hapticsLine"
 msgstr ""
@@ -1596,11 +1776,24 @@ msgstr ""
 msgid "you.edit.username.reserved"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
+msgid "onboarding.photo.real.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
+msgid "onboarding.photo.real.limitTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.name.tooLong"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
+msgid "you.premium.retake.discardLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/language/language-view.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.language.note"
 msgstr ""
 
@@ -1618,6 +1811,7 @@ msgstr ""
 msgid "you.appIcon.appearanceLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/sound/sound-premium-screen.tsx
 #: ../../apps/mobile/src/features/you/sound/sound-view.tsx
 msgid "you.sound.stickersLine"
 msgstr ""
@@ -1626,6 +1820,7 @@ msgstr ""
 msgid "you.settings.widgetsLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 #: ../../apps/mobile/src/features/you/profile/retake-sheet.tsx
 msgid "you.profile.retakeTitle"
 msgstr ""
@@ -1635,6 +1830,7 @@ msgid "you.premium.crewsSee"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+#: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
 msgid "you.signOut.unsavedTitle"
 msgstr ""
 
@@ -1644,11 +1840,14 @@ msgid "you.delete.closesInstant"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.erasedBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+#: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.account.restartFailed"
 msgstr ""
 
@@ -1673,6 +1872,7 @@ msgid "you.premium.pings.tips"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
+#: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.currency.samplePlace"
 msgstr ""
 
@@ -1705,6 +1905,7 @@ msgid "you.profile.startCrewLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+#: ../../apps/mobile/src/features/you/premium/history/past-trip-premium-view.tsx
 msgid "you.pastTrip.lead"
 msgstr ""
 
@@ -1713,6 +1914,7 @@ msgid "you.settings.offlineTrips"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+#: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
 msgid "you.signOut.leaves.offline"
 msgstr ""
 
@@ -1724,21 +1926,44 @@ msgstr ""
 msgid "you.edit.save.rejected"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
+msgid "onboarding.photo.real.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
+msgid "onboarding.premium.photo.cameraOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
+msgid "onboarding.taste.undo"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.keep"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "you.avatar.photoPending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
+msgid "onboarding.photo.real.uploading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
 msgid "you.avatar.usePhoto"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
+msgid "onboarding.photo.real.use"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
 #: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
+#: ../../apps/mobile/src/features/you/premium/edit/field-sheets-premium.tsx
 msgid "you.edit.username"
 msgstr ""
 
@@ -1760,14 +1985,17 @@ msgid "you.delete.notClosed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.notRestored"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.restoreTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+#: ../../apps/mobile/src/features/you/premium/history/past-trip-premium-view.tsx
 msgid "you.pastTrip.when"
 msgstr ""
 
@@ -1815,6 +2043,7 @@ msgstr ""
 
 #. placeholder {0}: until ?? ''
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
 msgid "you.closed.restoreBody"
 msgstr ""
 
@@ -1842,6 +2071,7 @@ msgid "you.edit.crewSees"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.initialsLine"
 msgstr ""
 
@@ -1855,6 +2085,7 @@ msgid "you.settings.guide"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+#: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.guides"
 msgstr ""
 
@@ -1881,5 +2112,6 @@ msgid "you.delete.tripFallback"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+#: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
 msgid "you.signOut.leaves.trips"
 msgstr ""

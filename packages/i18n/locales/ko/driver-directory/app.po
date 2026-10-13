@@ -19,17 +19,9 @@ msgstr "{rated}팀 중 {loved}팀"
 msgid "drivers.ours.loved"
 msgstr "{voters}명 중 {lovedCount}명이 좋아함"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.car"
-msgstr "{model}, {seats}인승"
-
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.intro"
 msgstr "결정은 {name}님이 해요. 본인 휴대폰에서 확인하기 전까지는 아무것도 공개되지 않고, 언제든 내릴 수 있어요."
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr "{seats}인승"
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
 msgid "drivers.card.trips"
@@ -43,7 +35,7 @@ msgstr "7인승 이상"
 msgid "drivers.detail.tipBy"
 msgstr "{crewSize}명 크루 · {tipMonth}"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "먼저 여행에 기사님 WhatsApp 번호를 추가해 주세요. 아니면 이미 등록되어 있어요."
 
@@ -84,7 +76,7 @@ msgstr "답 바꾸기"
 msgid "drivers.detail.shortlistFailed"
 msgstr "추가하지 못했어요. 다시 시도해 주세요."
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr "링크를 만들지 못했어요. 다시 시도해 주세요."
 
@@ -220,7 +212,7 @@ msgstr "WhatsApp으로 메시지"
 msgid "drivers.invite.messageLabel"
 msgstr "기사님께 보낼 메시지"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr "링크를 만들려면 연결이 필요해요."
 
@@ -406,7 +398,7 @@ msgstr "확인을 기다리는 중"
 msgid "drivers.detail.priceNote"
 msgstr "본인이 크루에게 알려 준 내용이에요. CritterPass 가격이 아니에요."
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "이미 한 번 알렸어요."
 

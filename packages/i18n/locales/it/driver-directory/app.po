@@ -19,17 +19,9 @@ msgstr "{loved} su {rated}"
 msgid "drivers.ours.loved"
 msgstr "È piaciuto a {lovedCount} su {voters}"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.car"
-msgstr "{model}, {seats} posti"
-
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.intro"
 msgstr "Decide {name}. Niente di lui è pubblico finché non conferma dal suo telefono, e può toglierlo quando vuole."
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr "{seats} posti"
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
 msgid "drivers.card.trips"
@@ -43,7 +35,7 @@ msgstr "7+ posti"
 msgid "drivers.detail.tipBy"
 msgstr "Un gruppo di {crewSize} · {tipMonth}"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "Aggiungi prima il suo numero WhatsApp al viaggio, oppure è già in elenco."
 
@@ -84,7 +76,7 @@ msgstr "Cambia risposta"
 msgid "drivers.detail.shortlistFailed"
 msgstr "Non aggiunto. Riprova."
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr "Link non creato. Riprova."
 
@@ -220,7 +212,7 @@ msgstr "Scrivi su WhatsApp"
 msgid "drivers.invite.messageLabel"
 msgstr "Messaggio al tuo autista"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr "Serve campo per creare il link."
 
@@ -406,7 +398,7 @@ msgstr "In attesa della sua conferma"
 msgid "drivers.detail.priceNote"
 msgstr "Quello che dice ai gruppi. Non è un prezzo CritterPass."
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "Gliel'hai già ricordato una volta."
 

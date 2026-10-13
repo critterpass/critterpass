@@ -75,6 +75,7 @@ msgstr "Arrives {0}"
 msgid "liveMap.status.atPlace"
 msgstr "At {poi}"
 
+#: ../../apps/mobile/src/features/crew/live-map/crew-map-redirect.tsx
 #: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
 msgid "liveMap.premium.back"
 msgstr "Back"
@@ -111,6 +112,10 @@ msgstr "Chat"
 #: ../../apps/mobile/src/features/crew/live-map/use-live-map-screen.ts
 msgid "liveMap.toast.pingOffline"
 msgstr "Couldn't reach the crew. Try again."
+
+#: ../../apps/mobile/src/features/crew/live-map/crew-map-redirect.tsx
+msgid "liveMap.premium.crewMap"
+msgstr "Crew map"
 
 #: ../../apps/mobile/src/features/crew/live-map/copy.ts
 msgid "liveMap.status.cycling"

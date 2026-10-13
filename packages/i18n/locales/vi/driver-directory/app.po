@@ -19,17 +19,9 @@ msgstr "{loved} trên {rated}"
 msgid "drivers.ours.loved"
 msgstr "{lovedCount} trên {voters} thích"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.car"
-msgstr "{model}, {seats} chỗ"
-
 #: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
 msgid "drivers.invite.intro"
 msgstr "{name} tự quyết định. Không có gì về anh ấy được công khai cho đến khi anh ấy xác nhận trên điện thoại của mình, và có thể gỡ bất cứ lúc nào."
-
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr "{seats} chỗ"
 
 #: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
 msgid "drivers.card.trips"
@@ -43,7 +35,7 @@ msgstr "7+ chỗ"
 msgid "drivers.detail.tipBy"
 msgstr "Nhóm {crewSize} người · {tipMonth}"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr "Thêm số WhatsApp của anh ấy vào chuyến trước, hoặc anh ấy đã có hồ sơ rồi."
 
@@ -84,7 +76,7 @@ msgstr "Đổi câu trả lời"
 msgid "drivers.detail.shortlistFailed"
 msgstr "Chưa thêm được. Thử lại nhé."
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr "Chưa tạo được link. Thử lại nhé."
 
@@ -220,7 +212,7 @@ msgstr "Nhắn qua WhatsApp"
 msgid "drivers.invite.messageLabel"
 msgstr "Tin nhắn cho tài xế"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr "Cần có mạng để tạo link."
 
@@ -406,7 +398,7 @@ msgstr "Đang chờ anh ấy xác nhận"
 msgid "drivers.detail.priceNote"
 msgstr "Lời anh ấy báo với các nhóm. Không phải giá của CritterPass."
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr "Bạn đã nhắc anh ấy một lần rồi."
 

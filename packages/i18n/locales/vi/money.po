@@ -133,10 +133,12 @@ msgstr "{guideName} điền sẵn các giá đọc được"
 msgid "money.failure.eyebrow"
 msgstr "{guideName} đọc được một nửa"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.savedLine"
 msgstr "{guideName} sẽ đọc khi bạn có mạng lại. Bạn có thể đóng lại."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.aimLine"
 msgstr "{guideName} chụp khi giấy phẳng và yên, rồi đọc từng dòng."
@@ -272,6 +274,7 @@ msgstr "Thêm"
 msgid "money.add.add"
 msgstr "Thêm {short}"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.add"
 msgstr "Thêm một dòng"
@@ -303,6 +306,7 @@ msgstr "Đã thêm {full}, {each} mỗi người."
 msgid "money.add.addedToast"
 msgstr "Đã thêm {full}."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.waiting"
 msgstr "Đang cộng lại. Tiếp theo là ai ăn gì."
@@ -357,10 +361,12 @@ msgstr "Cứ đà này bạn sẽ tiêu khoảng {finish}, vượt chừng {delt
 msgid "money.premium.budget.paceUnder"
 msgstr "Cứ đà này bạn sẽ tiêu khoảng {finish}, dư chừng {deltaText}."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.autoOff"
 msgstr "Tự chia tắt"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.autoOn"
 msgstr "Tự chia bật"
@@ -438,6 +444,7 @@ msgid "money.premium.cancel"
 msgstr "Huỷ"
 
 #: ../../apps/mobile/src/features/money/premium/MoneySheets.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/MemberPickerPremium.tsx
 msgid "common.confirm.cancel"
 msgstr "Hủy"
 
@@ -474,6 +481,9 @@ msgstr "Thay đổi"
 msgid "money.premium.close"
 msgstr "Đóng"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/scan-look.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanStagePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanCamera.tsx
 msgid "money.scan.close"
 msgstr "Đóng quét"
@@ -504,6 +514,7 @@ msgstr "Chép lại"
 msgid "money.pay.copy"
 msgstr "Chép"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.pickFailedTitle"
 msgstr "Chưa mở được ảnh đó"
@@ -512,6 +523,7 @@ msgstr "Chưa mở được ảnh đó"
 msgid "money.scan.commitOffline"
 msgstr "Chưa kết nối được với CritterPass. Có mạng rồi bấm CHIA LUÔN lại nhé."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.unreadableTitle"
 msgstr "Chưa đọc được hoá đơn này"
@@ -542,6 +554,7 @@ msgstr "Tuỳ chỉnh"
 msgid "money.add.custom"
 msgstr "Tuỳ chỉnh"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.cutOff"
 msgstr "Bị cắt mất"
@@ -582,6 +595,7 @@ msgid "money.detail.delete"
 msgstr "Xoá"
 
 #: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 msgid "money.premium.delete"
 msgstr "Xoá một chữ số"
 
@@ -608,10 +622,12 @@ msgstr "Bỏ khoản chi này?"
 msgid "money.settle.status.disputed"
 msgstr "Có vấn đề"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/MemberPickerPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/MemberPicker.tsx
 msgid "money.picker.done"
 msgstr "Xong"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.done"
 msgstr "Xong"
@@ -666,6 +682,7 @@ msgstr "Mọi khoản chi"
 msgid "money.currency.doneLine"
 msgstr "Mọi khoản chi được tính lại theo tỷ giá của ngày chi."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/MemberPickerPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/MemberPicker.tsx
 msgid "money.picker.everyone"
 msgstr "Mọi người"
@@ -749,6 +766,7 @@ msgstr "Đang lấy cách nhận tiền của {payee}…"
 msgid "money.payout.loading"
 msgstr "Đang lấy thông tin đã lưu…"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.glare"
 msgstr "Bị loá"
@@ -788,6 +806,7 @@ msgstr "Bạn đã trả bằng"
 msgid "money.pay.confirm"
 msgstr "Đã nhận"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.deniedLine"
 msgstr "Mình cần camera để đọc hoá đơn. Ảnh trong thư viện cũng được."
@@ -838,6 +857,7 @@ msgstr "Giữ tổng"
 msgid "money.latest"
 msgstr "Mới nhất"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.aimTitle"
 msgstr "Đặt hoá đơn thật phẳng"
@@ -868,6 +888,7 @@ msgstr "Các món: bị nếp gấp che mất"
 msgid "money.failure.missedBlur"
 msgstr "Các món: mờ quá không đọc được"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.name"
 msgstr "Tên dòng"
@@ -877,14 +898,17 @@ msgstr "Tên dòng"
 msgid "money.review.mismatch"
 msgstr "Các dòng cộng lại {linesText}, hoá đơn ghi {printedText}."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.countNoTotal"
 msgstr "Các dòng: {typedText}"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.count"
 msgstr "Các dòng: {typedText} trên {totalText}. Phần còn lại chia theo phần."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.over"
 msgstr "Các dòng: {typedText}, nhiều hơn {totalText} trên hoá đơn"
@@ -944,6 +968,7 @@ msgstr "Tiền · đã chi {spent}"
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 #: ../../apps/mobile/src/features/money/components/screen-states.tsx
 #: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/scan-look.tsx
 msgid "money.noCrew.title"
 msgstr "Tiền nong là chuyện của nhóm"
 
@@ -1004,6 +1029,7 @@ msgstr "Chưa có chuyến đi để thêm vào"
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 #: ../../apps/mobile/src/features/money/components/screen-states.tsx
 #: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/scan-look.tsx
 msgid "money.noTrip.title"
 msgstr "Chưa có chuyến nào để chia"
 
@@ -1080,6 +1106,7 @@ msgstr "Khi {payee} nhắc, thông tin nhận tiền sẽ hiện ở đây. Ti�
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 #: ../../apps/mobile/src/features/money/components/screen-states.tsx
 #: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/scan-look.tsx
 msgid "money.noTrip.line"
 msgstr "Khi nhóm có chuyến đi, mọi khoản chi sẽ về đây và mình giữ sổ."
 
@@ -1100,6 +1127,7 @@ msgstr "Chỉ người tổ chức mới đổi được."
 msgid "money.premium.onlyPayer"
 msgstr "Chỉ người trả tiền thấy những thông tin này."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.settings"
 msgstr "Mở Cài đặt"
@@ -1180,6 +1208,7 @@ msgstr "Đang chờ"
 msgid "money.payout.cashLine"
 msgstr "Mọi người có thể đưa tiền tận tay."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.pick"
 msgstr "Chọn ảnh"
@@ -1204,6 +1233,7 @@ msgstr "Tỷ giá 1 {from} = {rate} {to}"
 msgid "money.detail.rate"
 msgstr "Tỷ giá 1 {from} = {rate} {to} ngày {on}"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.reading"
 msgstr "Đang đọc từng dòng…"
@@ -1244,6 +1274,7 @@ msgstr "Nhắc trả"
 msgid "money.settle.status.requested"
 msgstr "Đã nhắc"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.retake"
 msgstr "Chụp lại"
@@ -1269,6 +1300,7 @@ msgstr "Lưu"
 msgid "money.add.save"
 msgstr "Lưu"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.savedTitle"
 msgstr "Đã lưu"
@@ -1306,10 +1338,12 @@ msgstr "Quét thay"
 msgid "money.premium.scanReceipt"
 msgstr "Quét hoá đơn"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.scan"
 msgstr "Quét hoá đơn"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.pickFailedLine"
 msgstr "Quét hoá đơn, chọn ảnh khác, hoặc tự gõ vào. Chưa có gì được thêm."
@@ -1435,6 +1469,7 @@ msgid "money.review.commit"
 msgstr "Chia luôn · {payer} trả"
 
 #: ../../apps/mobile/src/features/money/premium/receipt/ScanPanels.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 msgid "money.premium.splitIt"
 msgstr "Chia khoản này · {payer} đã trả"
 
@@ -1461,6 +1496,7 @@ msgstr "SÒNG PHẲNG"
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 #: ../../apps/mobile/src/features/money/components/screen-states.tsx
 #: ../../apps/mobile/src/features/money/premium/components/EmptyMoney.tsx
+#: ../../apps/mobile/src/features/money/premium/receipt/scan-look.tsx
 msgid "money.noCrew.line"
 msgstr "Lập hoặc vào một nhóm và mình sẽ chia mọi hoá đơn với họ."
 
@@ -1506,6 +1542,7 @@ msgstr "Chưa gửi được. Kiểm tra kết nối rồi thử lại."
 msgid "money.scan.evenRefused"
 msgstr "Chưa được. Thử lại, hoặc tự gõ vào."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.failedTitle"
 msgstr "Chưa tải lên được"
@@ -1587,6 +1624,7 @@ msgstr "Khoản chi này không còn"
 msgid "money.chat.deleted"
 msgstr "Khoản chi này đã bị xoá"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.slowLine"
 msgstr "Lần này lâu hơn bình thường. Chờ tiếp, hoặc tự gõ vào."
@@ -1619,10 +1657,12 @@ msgstr "Hôm nay"
 msgid "money.pay.disputed"
 msgstr "Đã báo {who} là chưa nhận được."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.blurry"
 msgstr "Mờ quá"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.crumpled"
 msgstr "Nhàu quá"
@@ -1661,6 +1701,7 @@ msgstr "Ngân sách chuyến đi"
 msgid "money.budget.after"
 msgstr "Chuyến đi đã xong"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.failedLine"
 msgstr "Thử lại, hoặc tự gõ vào. Chưa có gì được thêm."
@@ -1670,6 +1711,7 @@ msgstr "Thử lại, hoặc tự gõ vào. Chưa có gì được thêm."
 msgid "money.pay.typeAmount"
 msgstr "Nhập {amount} trong ứng dụng ngân hàng."
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeIt"
 msgstr "Tự gõ vào"
@@ -1678,10 +1720,12 @@ msgstr "Tự gõ vào"
 msgid "money.premium.typeIt"
 msgstr "Tự nhập"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeInstead"
 msgstr "Tự gõ vào"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/ScanViewPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.unreadableLine"
 msgstr "Tự gõ vào, hoặc chụp lại cho phẳng và đủ sáng. Chưa có gì được thêm."
@@ -1692,6 +1736,7 @@ msgstr "Tự gõ vào, hoặc chụp lại cho phẳng và đủ sáng. Chưa c�
 msgid "money.failure.type"
 msgstr "Gõ từng dòng"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.title"
 msgstr "Gõ từng dòng"
@@ -1735,6 +1780,7 @@ msgstr "Khoản gì"
 msgid "money.currency.switchHint"
 msgstr "Đơn vị tiền nhóm dùng để tính"
 
+#: ../../apps/mobile/src/features/money/premium/receipt/TypeLinesEditorPremium.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.namePlaceholder"
 msgstr "Món gì?"
