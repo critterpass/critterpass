@@ -299,6 +299,18 @@ jobs:
             printf '%s' "$ASC_API_KEY_P8" > "$RUNNER_TEMP/asc-api-key.p8"
             export EXPO_ASC_API_KEY_PATH=$RUNNER_TEMP/asc-api-key.p8
             export EXPO_APPLE_TEAM_ID=YFND2EEW8S EXPO_APPLE_TEAM_TYPE=INDIVIDUAL
+            # eas submit reads the App Store Connect API key from the submit profile only (the
+            # EXPO_ASC_* variables serve eas build), and cannot set one up non-interactively: the
+            # profile gets the key's path and ids as variable references, which eas-cli fills from
+            # this environment, on the runner's copy of eas.json only.
+            export ASC_API_KEY_PATH=$EXPO_ASC_API_KEY_PATH ASC_API_KEY_ID=$EXPO_ASC_KEY_ID
+            export ASC_API_KEY_ISSUER_ID=$EXPO_ASC_ISSUER_ID
+            jq --arg profile "$PROFILE" '.submit[$profile].ios += {
+                ascApiKeyPath: "$ASC_API_KEY_PATH",
+                ascApiKeyId: "$ASC_API_KEY_ID",
+                ascApiKeyIssuerId: "$ASC_API_KEY_ISSUER_ID"
+              }' eas.json > "$RUNNER_TEMP/eas.json"
+            mv "$RUNNER_TEMP/eas.json" eas.json
           else
             if [ -z "$GOOGLE_PLAY_SUBMIT_JSON" ]; then
               echo "::error::the GOOGLE_PLAY_SUBMIT_JSON secret is missing"
