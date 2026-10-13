@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# Types ${ITEM} into the day-of pack list's focused field and adds it. Runner: Android types it
+# with `input text` (Maestro's inputText waits for the screen after every key, and on the day-of
+# screen that wait once never ended); iOS types it with inputText.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - evalScript: "${http.post('http://127.0.0.1:7788/type', { body: ITEM }).status}"
+      - extendedWaitUntil:
+          visible:
+            text: ${ITEM}
+          timeout: 30000
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - inputText: ${ITEM}
+- pressKey: Enter

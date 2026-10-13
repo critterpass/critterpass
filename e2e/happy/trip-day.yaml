@@ -33,8 +33,10 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'trip-day-pack-add'
-- inputText: 'Sunscreen'
-- pressKey: Enter
+- runFlow:
+    file: subflows/type-pack-item.yaml
+    env:
+      ITEM: 'Sunscreen'
 # Android shows the chip's text; iOS reads the chip whole, by its label.
 - extendedWaitUntil:
     visible:
