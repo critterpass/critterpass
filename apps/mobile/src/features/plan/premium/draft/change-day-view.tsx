@@ -21,15 +21,18 @@ export function PremiumChangeDayView(props: ChangeDayViewProps) {
   const { days, day, locale } = props;
   const theme = usePremiumTheme();
   const guide = guideSticker(props.guide);
+  const destination = props.destination;
+  const guideName = guide.name;
   const picked = days.find((d) => d.dayNo === day);
   const ready = props.reasons.size > 0 || props.note.trim() !== '';
   const chips = days.map((d) => {
+    const n = d.dayNo;
     const wd = weekday(locale, d.date);
     return {
       dayNo: d.dayNo,
       weekday: wd,
       dateLabel: String(Number(d.date.slice(8, 10))),
-      accessibilityLabel: t({ id: 'planDraft.change.dayChip', message: `Day ${d.dayNo}, ${wd}` }),
+      accessibilityLabel: t({ id: 'planDraft.change.dayChip', message: `Day ${n}, ${wd}` }),
     };
   });
   const footer =
@@ -75,7 +78,7 @@ export function PremiumChangeDayView(props: ChangeDayViewProps) {
           <Text variant="captionMuted" style={styles.grow}>
             {t({
               id: 'planDraft.change.eyebrow',
-              message: `${props.destination} · ${guide.name}’s draft`,
+              message: `${destination} · ${guideName}’s draft`,
             })}
           </Text>
         </View>

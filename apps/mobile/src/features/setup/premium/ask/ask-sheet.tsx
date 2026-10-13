@@ -23,6 +23,7 @@ export function PremiumAskSheetView(props: AskSheetViewProps) {
   const theme = usePremiumTheme();
   const [words, setWords] = useState('');
   const guide = guideSticker(props.guide);
+  const name = guide.name;
   const note = (text: string) => <GuideNote name={guide.name} critter={guide.kind} text={text} />;
   return (
     <SheetScreen
@@ -72,11 +73,11 @@ export function PremiumAskSheetView(props: AskSheetViewProps) {
             <TextField
               placeholder={t({
                 id: 'setup.ask.words',
-                message: `Or tell ${guide.name} in your words`,
+                message: `Or tell ${name} in your words`,
               })}
               accessibilityLabel={t({
                 id: 'setup.ask.words',
-                message: `Or tell ${guide.name} in your words`,
+                message: `Or tell ${name} in your words`,
               })}
               value={words}
               onChangeText={(next) => setWords(next.slice(0, 500))}

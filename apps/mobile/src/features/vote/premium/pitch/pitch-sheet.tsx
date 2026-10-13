@@ -34,6 +34,7 @@ export function PremiumPitchSheet({ crewId, placeId }: PitchSheetProps) {
     sticker: (guide) => <CritterSticker kind={guide.kind} name={guide.name} size={44} />,
   });
   const { search, state, picked, searching } = sheet;
+  const asked = search.query;
   const quiet = (text: string, testID: string) => (
     <Text variant="body" tone="muted" testID={testID}>
       {text}
@@ -99,7 +100,7 @@ export function PremiumPitchSheet({ crewId, placeId }: PitchSheetProps) {
           ? quiet(
               t({
                 id: 'vote.pitch.none',
-                message: `Nothing called “${search.query}”. Check the spelling, or try the country.`,
+                message: `Nothing called “${asked}”. Check the spelling, or try the country.`,
               }),
               'pitch-no-results',
             )

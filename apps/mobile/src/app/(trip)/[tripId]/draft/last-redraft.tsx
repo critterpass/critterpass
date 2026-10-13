@@ -1,9 +1,9 @@
-import { t } from '@lingui/core/macro';
 import { useLocalSearchParams } from 'expo-router';
 import { View } from 'react-native';
 
 import { LastRedraftPremium } from '@/features/monetize/premium/last-redraft-premium';
 import { LastRedraftSheet, parseReasons, useLastRedraft } from '@/features/plan/draft';
+import { lastRedraftCopy } from '@/features/plan/premium/draft/last-redraft-copy';
 import { premiumRoute } from '@/lib/premium-ui';
 import { LoadingCritter, Text, usePremiumTheme } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
@@ -35,15 +35,10 @@ function PremiumLastRedraftRoute() {
   const theme = usePremiumTheme();
   const last = useLastRedraft(useLastRedraftParams());
   return (
-    <SheetScreen
-      cancelLabel={t({ id: 'plan.premium.draft.notNow', message: 'Not now' })}
-      testID="last-redraft-sheet"
-    >
+    <SheetScreen cancelLabel={lastRedraftCopy.notNow()} testID="last-redraft-sheet">
       <View style={{ padding: theme.space.gutter, gap: theme.space.gap12 }}>
         {last.trip == null ? (
-          <LoadingCritter
-            label={t({ id: 'plan.premium.draft.loading', message: 'Loading the draft' })}
-          />
+          <LoadingCritter label={lastRedraftCopy.loading()} />
         ) : (
           <LastRedraftPremium
             place={last.trip.destinationName}

@@ -45,7 +45,7 @@ export function PremiumYourVersionView(props: YourVersionViewProps) {
             {versionTitle(props)}
           </Text>
           <Text variant="body" tone="muted">
-            {versionSubLine(props, info.name)}
+            {versionSubLine(props, info)}
           </Text>
         </View>
         {props.fallbackNote === null ? null : (

@@ -33,6 +33,7 @@ import { PremiumCountrySheet } from './country-sheet';
 export function PremiumAddressScreen() {
   const th = usePremiumTheme();
   const form = useAddressScreen();
+  const savedCountry = form.savedCountry;
   const field = (key: keyof AddressDraft, label: string, extra: Partial<TextInputProps> = {}) => (
     <View style={{ gap: 6 }}>
       <Text variant="label" tone="muted" style={{ marginLeft: 6 }}>
@@ -77,7 +78,7 @@ export function PremiumAddressScreen() {
           {form.saved
             ? t({
                 id: 'album.address.savedIn',
-                message: `You have an address saved (${form.savedCountry}). Your crew can mail you a printed postcard. They never see the address. Fill the form again to change it.`,
+                message: `You have an address saved (${savedCountry}). Your crew can mail you a printed postcard. They never see the address. Fill the form again to change it.`,
               })
             : t({
                 id: 'album.address.why',

@@ -14,29 +14,28 @@ export function versionTitle({ name, preview, group, personalised }: Reader): st
 
 export function versionSubLine(
   props: Pick<YourVersionViewProps, 'group' | 'personalised' | 'organiser'>,
-  guide: string,
+  info: { readonly name: string },
 ): string {
   if (props.group) {
     return t({
       id: 'proposal.version.subGroup',
-      message: `${guide} wrote one plan for the whole crew. Tap a stop to open it.`,
+      message: `${info.name} wrote one plan for the whole crew. Tap a stop to open it.`,
     });
   }
   if (props.personalised) {
     return t({
       id: 'proposal.version.sub',
-      message: `${guide} rebuilt the plan around what you picked. Tap anything to see why it’s there.`,
+      message: `${info.name} rebuilt the plan around what you picked. Tap anything to see why it’s there.`,
     });
   }
-  const organiser = props.organiser;
-  return organiser === ''
+  return props.organiser === ''
     ? t({
         id: 'proposal.version.subPlainNoName',
-        message: `Here is the plan ${guide} put together for the crew. Tap anything to see why it’s there.`,
+        message: `Here is the plan ${info.name} put together for the crew. Tap anything to see why it’s there.`,
       })
     : t({
         id: 'proposal.version.subPlain',
-        message: `Here is the plan ${organiser} and ${guide} put together. Tap anything to see why it’s there.`,
+        message: `Here is the plan ${props.organiser} and ${info.name} put together. Tap anything to see why it’s there.`,
       });
 }
 

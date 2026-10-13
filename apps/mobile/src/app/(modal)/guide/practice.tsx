@@ -1,4 +1,3 @@
-import { t } from '@lingui/core/macro';
 import { useLocalSearchParams } from 'expo-router';
 import { useMemo } from 'react';
 
@@ -8,8 +7,8 @@ import {
 } from '@/features/guide/practice/practice-screen';
 import { PremiumPhraseCardView } from '@/features/guide/premium/practice/phrase-card-view';
 import { PremiumPracticeView } from '@/features/guide/premium/practice/practice-view';
+import { PremiumPracticeWaiting } from '@/features/guide/premium/practice/practice-waiting';
 import { premiumRoute } from '@/lib/premium-ui';
-import { LoadingCritter } from '@/ui/premium';
 
 import { getSpeech, startListening } from '../../../../modules/cp-speech';
 
@@ -52,12 +51,7 @@ function PremiumPracticeRoute() {
       {...usePracticeProps()}
       View={PremiumPracticeView}
       CardView={PremiumPhraseCardView}
-      waiting={
-        <LoadingCritter
-          label={t({ id: 'guide.premium.practice.opening', message: 'Opening your phrases…' })}
-          testID="guide-practice-waiting"
-        />
-      }
+      waiting={<PremiumPracticeWaiting />}
     />
   );
 }
