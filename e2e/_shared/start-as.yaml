@@ -4,7 +4,8 @@ appId: app.critterpass.dev
 # in seconds: no onboarding screens, no seed button, no trip built by hand.
 #
 #   ${SCENARIO}  everyday | inbox | caught_up | vote | vote_final (the Bali demo world), or
-#                trip_today | trip_tomorrow | draft_ready | crew_with_code (a Vietnamese crew's own)
+#                trip_today | trip_tomorrow | draft_ready | draft_today | crew_with_code |
+#                solo_today | solo_tomorrow (a Vietnamese crew's own)
 #   ${LANG}      en (default) or vi
 #
 # The install is cleared and launched with the request as a launch argument; the dev build's

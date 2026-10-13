@@ -4,8 +4,8 @@
  * confirmed trip three weeks out, a started plan, chat, a tip and an inbox for the chosen
  * scenario (`{"scenario": "everyday" | "inbox" | "caught_up" | "vote" | "vote_final"}`, default
  * `everyday`); the vote scenarios add the crew's destination vote (./demo-vote.ts). The start
- * scenarios (`trip_today`, `trip_tomorrow`, `draft_ready`, `crew_with_code`: ./scenarios.ts) build
- * their own crew instead of the demo world.
+ * scenarios (`trip_today`, `trip_tomorrow`, `draft_ready`, `draft_today`, `crew_with_code`,
+ * `solo_today`, `solo_tomorrow`: ./scenarios.ts) build their own crew instead of the demo world.
  *
  * Mounted only when APP_ENV is not production and DEV_SEED_ENABLED is on; the handler refuses on
  * production again whatever mounted it. Idempotent: the crew and trip are built once per caller,
@@ -98,7 +98,7 @@ export function registerDevRoutes(app: OpenAPIHono<AppEnv>, deps: DevRouteDeps):
     const now = deps.clock?.() ?? new Date();
     const start = startScenarioSchema.safeParse(scenario);
     const result = start.success
-      ? await seedStartScenario(deps.pool, { uid, isAnonymous, now }, start.data)
+      ? await seedStartScenario(deps.pool, { uid, isAnonymous, now }, start.data, deps.redis)
       : await seedDemoFor(deps.pool, uid, demoScenarioSchema.parse(scenario), now);
     deps.logger.info({ scenario, created: result.created }, 'demo world seeded');
     return c.json(result);
