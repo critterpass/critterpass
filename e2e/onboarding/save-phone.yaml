@@ -6,7 +6,7 @@ appId: app.critterpass.dev
 # from an account these flows made) and the new account is erased at the end, so the number is
 # free for the next run. Run with `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
 - runFlow: subflows/free-test-number.yaml
-- runFlow: subflows/through-name.yaml
+- runFlow: ../happy/subflows/through-name.yaml
 - tapOn:
     id: 'onboarding-photo-next'
 - extendedWaitUntil:

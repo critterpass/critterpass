@@ -2,7 +2,7 @@ appId: app.critterpass.dev
 ---
 # Generated from src/ui/gallery/state-groups.ts by src/ui/__tests__/gallery-sweep.test.ts
 # (`CP_WRITE_SWEEP=1 pnpm --filter @cp/mobile test -- gallery-sweep`); do not edit by hand.
-- runFlow: ../screens/subflows/open-gallery.yaml
+- runFlow: subflows/open-gallery.yaml
 - tapOn:
     id: 'gallery-freeze-on'
 - tapOn:

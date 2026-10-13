@@ -37,7 +37,7 @@ appId: app.critterpass.dev
 - runFlow: start-fresh.yaml
 
 # A brand-new person: a pass, a crew, then the pass saved with the phone number.
-- runFlow: ../../home/subflows/onboard.yaml
+- runFlow: ../../happy/subflows/onboard.yaml
 - runFlow:
     file: ../../_shared/open-link.yaml
     env:

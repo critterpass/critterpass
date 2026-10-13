@@ -9,7 +9,7 @@ onFlowComplete:
 - setAirplaneMode: enabled
 - launchApp:
     clearState: true
-- runFlow: subflows/through-name.yaml
+- runFlow: ../happy/subflows/through-name.yaml
 - tapOn:
     id: 'onboarding-photo-next'
 - extendedWaitUntil:

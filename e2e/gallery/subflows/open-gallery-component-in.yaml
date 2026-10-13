@@ -1,0 +1,24 @@
+appId: app.critterpass.dev
+---
+# Opens one component's gallery page with the gallery's locale and font-scale switchers set first
+# (`LOCALE` is a gallery locale code, `SCALE` one of the gallery font scales), from a fresh launch.
+- runFlow: open-gallery.yaml
+- tapOn:
+    id: 'gallery-locale-${LOCALE}'
+- tapOn:
+    id: 'gallery-font-scale-${SCALE}'
+- scrollUntilVisible:
+    element:
+      id: 'gallery-component-${COMPONENT}'
+    direction: DOWN
+    timeout: 90000
+- tapOn:
+    id: 'gallery-component-${COMPONENT}'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-detail-${COMPONENT}'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible:
+    id: 'gallery-detail-${COMPONENT}'

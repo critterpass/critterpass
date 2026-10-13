@@ -12,7 +12,7 @@ appId: app.critterpass.dev
 - runFlow: subflows/saved-test-account.yaml
 
 # Home → profile → Settings → Sign out.
-- runFlow: ../screens/sweep/subflows/home.yaml
+- runFlow: ../_shared/to-home.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-header-profile'

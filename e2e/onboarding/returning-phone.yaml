@@ -7,7 +7,7 @@ appId: app.critterpass.dev
 # The sign-in restarts the app once, onto that account. Run with
 # `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
 - runFlow: ../happy/subflows/fresh-install.yaml
-- runFlow: subflows/through-name.yaml
+- runFlow: ../happy/subflows/through-name.yaml
 - tapOn:
     id: 'onboarding-photo-next'
 - extendedWaitUntil:
@@ -81,7 +81,7 @@ appId: app.critterpass.dev
 
 # Signed out: this account stays on the server, the phone starts on a new pass.
 - runFlow:
-    file: ../proposal/subflows/switch-account.yaml
+    file: ../happy/subflows/switch-account.yaml
     env:
       TARGET: 'dev-accounts-new'
 - extendedWaitUntil:

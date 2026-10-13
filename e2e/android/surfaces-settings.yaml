@@ -11,7 +11,7 @@ appId: app.critterpass.dev
     file: ../happy/subflows/crew-with-code.yaml
     env:
       CREW: 'The Bali Six'
-- runFlow: ../screens/sweep/subflows/home.yaml
+- runFlow: ../_shared/to-home.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-header-profile'

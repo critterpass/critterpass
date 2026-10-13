@@ -4,10 +4,10 @@ appId: app.critterpass.dev
 # "How much we ping" (5b-4) opens with the product defaults, a switch and the crew chat choice
 # change in place, and back returns to Settings.
 - runFlow:
-    file: ../../screens/sweep/subflows/start.yaml
+    file: ../../happy/subflows/fresh-install.yaml
     env:
       LANG: en
-- runFlow: ../../home/subflows/onboard.yaml
+- runFlow: ../../happy/subflows/onboard.yaml
 # Home shows its header ("HEY {NAME} ›") once the account has a crew: start one, nothing else.
 - runFlow:
     file: ../../_shared/open-link.yaml
@@ -29,7 +29,7 @@ appId: app.critterpass.dev
     timeout: 30000
 - tapOn:
     id: 'start-crew-done'
-- runFlow: ../../screens/sweep/subflows/home.yaml
+- runFlow: ../../_shared/to-home.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-header-profile'
