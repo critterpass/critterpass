@@ -9,6 +9,7 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import Animated, { FadeOut, LinearTransition, SlideOutRight } from 'react-native-reanimated';
 
 import { guideCritterKind, IconTile, turn, type LineIconName } from '@/features/trip';
 import {
@@ -16,8 +17,10 @@ import {
   Button,
   GuideNote,
   PressableScale,
+  REDUCED_FADE_MS,
   Text,
   TextButton,
+  usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
@@ -80,6 +83,7 @@ function Tile(props: {
 function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
+  const reduced = usePremiumReducedMotion();
   const guide = useWalletGuide();
   const p = add.props;
   const scanLine = useScanLine(p.scan);
@@ -189,16 +193,28 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
       )}
       <View style={{ gap: th.space.gap10 }} testID="bookings-candidates">
         {p.candidates.map((view) => (
-          <CandidateCard
+          // Added slides out to the right, ignored fades; the list closes the gap (7.03, Smooth).
+          <Animated.View
             key={view.id}
-            view={view}
-            split={p.splits[view.id] ?? view.canSplit}
-            tz={p.tz}
-            onSplit={(next) => p.onSplit(view.id, next)}
-            onAdd={() => p.onAdd(view.id)}
-            onIgnore={() => p.onIgnore(view.id)}
-            onByHand={() => p.onByHand(view.id)}
-          />
+            exiting={
+              reduced
+                ? FadeOut.duration(REDUCED_FADE_MS)
+                : p.leaving[view.id] === 'add'
+                  ? SlideOutRight.springify()
+                  : FadeOut
+            }
+            layout={reduced ? undefined : LinearTransition.springify()}
+          >
+            <CandidateCard
+              view={view}
+              split={p.splits[view.id] ?? view.canSplit}
+              tz={p.tz}
+              onSplit={(next) => p.onSplit(view.id, next)}
+              onAdd={() => p.onAdd(view.id)}
+              onIgnore={() => p.onIgnore(view.id)}
+              onByHand={() => p.onByHand(view.id)}
+            />
+          </Animated.View>
         ))}
       </View>
       <GuideNote
