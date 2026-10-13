@@ -328,12 +328,12 @@ msgstr "Cancel now and Viator refunds {0}"
 msgid "suppliers.cancel.confirm"
 msgstr "Cancel the booking"
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
-msgid "bookings.detail.supplierCancel"
-msgstr "Cancel with Viator"
-
 #: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
 msgid "suppliers.cancel.title"
+msgstr "Cancel with Viator"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/DetailFoot.tsx
+msgid "bookings.detail.supplierCancel"
 msgstr "Cancel with Viator"
 
 #: ../../apps/mobile/src/features/bookings/premium/ArchivePremium.tsx
@@ -404,12 +404,17 @@ msgid "bookings.premium.mailboxSoon"
 msgstr "Coming soon. Forward confirmations meanwhile."
 
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/ConfirmationCode.tsx
 msgid "bookings.detail.ref"
 msgstr "Confirmation code"
 
 #: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.ref"
 msgstr "Confirmation code"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/ConfirmationCode.tsx
+msgid "bookings.premium.codeCopied"
+msgstr "Confirmation code copied."
 
 #: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.premium.connect"
@@ -456,7 +461,7 @@ msgstr "Delayed"
 msgid "bookings.flight.delayedBy"
 msgstr "Delayed {delayMin}m"
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/DetailFoot.tsx
 msgid "bookings.premium.delete"
 msgstr "Delete"
 
@@ -548,7 +553,7 @@ msgstr "Done"
 msgid "bookings.premium.pasteDiscardTitle"
 msgstr "Drop what you pasted?"
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/DetailFoot.tsx
 msgid "bookings.detail.edit"
 msgstr "Edit"
 
@@ -727,7 +732,7 @@ msgstr "I check for new confirmations every morning. You can switch that off in 
 msgid "bookings.mailboxDone.doneLine"
 msgstr "I check for new confirmations every morning. You can switch that off in Settings."
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/DetailFoot.tsx
 msgid "bookings.detail.landed"
 msgstr "I landed"
 

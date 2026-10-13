@@ -328,12 +328,12 @@ msgstr ""
 msgid "suppliers.cancel.confirm"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
-msgid "bookings.detail.supplierCancel"
-msgstr ""
-
 #: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
 msgid "suppliers.cancel.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/components/DetailFoot.tsx
+msgid "bookings.detail.supplierCancel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/ArchivePremium.tsx
@@ -404,11 +404,16 @@ msgid "bookings.premium.mailboxSoon"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/ConfirmationCode.tsx
 msgid "bookings.detail.ref"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.ref"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/components/ConfirmationCode.tsx
+msgid "bookings.premium.codeCopied"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
@@ -456,7 +461,7 @@ msgstr ""
 msgid "bookings.flight.delayedBy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/DetailFoot.tsx
 msgid "bookings.premium.delete"
 msgstr ""
 
@@ -548,7 +553,7 @@ msgstr ""
 msgid "bookings.premium.pasteDiscardTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/DetailFoot.tsx
 msgid "bookings.detail.edit"
 msgstr ""
 
@@ -727,7 +732,7 @@ msgstr ""
 msgid "bookings.mailboxDone.doneLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/DetailFoot.tsx
 msgid "bookings.detail.landed"
 msgstr ""
 

@@ -328,13 +328,13 @@ msgstr "Hủy bây giờ, Viator hoàn {0}"
 msgid "suppliers.cancel.confirm"
 msgstr "Hủy đặt chỗ"
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
-msgid "bookings.detail.supplierCancel"
-msgstr "Huỷ với Viator"
-
 #: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
 msgid "suppliers.cancel.title"
 msgstr "Hủy với Viator"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/DetailFoot.tsx
+msgid "bookings.detail.supplierCancel"
+msgstr "Huỷ với Viator"
 
 #: ../../apps/mobile/src/features/bookings/premium/ArchivePremium.tsx
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
@@ -404,12 +404,17 @@ msgid "bookings.premium.mailboxSoon"
 msgstr "Sắp có. Tạm thời hãy chuyển tiếp email xác nhận."
 
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/ConfirmationCode.tsx
 msgid "bookings.detail.ref"
 msgstr "Mã xác nhận"
 
 #: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.ref"
 msgstr "Mã xác nhận"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/ConfirmationCode.tsx
+msgid "bookings.premium.codeCopied"
+msgstr "Đã sao chép mã xác nhận."
 
 #: ../../apps/mobile/src/features/bookings/premium/MailboxPremium.tsx
 msgid "bookings.premium.connect"
@@ -456,7 +461,7 @@ msgstr "Trễ"
 msgid "bookings.flight.delayedBy"
 msgstr "Trễ {delayMin} phút"
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/DetailFoot.tsx
 msgid "bookings.premium.delete"
 msgstr "Xoá"
 
@@ -548,7 +553,7 @@ msgstr "Xong"
 msgid "bookings.premium.pasteDiscardTitle"
 msgstr "Bỏ nội dung bạn đã dán?"
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/DetailFoot.tsx
 msgid "bookings.detail.edit"
 msgstr "Sửa"
 
@@ -727,7 +732,7 @@ msgstr "Mỗi sáng mình kiểm tra xác nhận mới. Bạn có thể tắt tr
 msgid "bookings.mailboxDone.doneLine"
 msgstr "Mỗi sáng mình kiểm tra xác nhận mới. Bạn có thể tắt trong Cài đặt."
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/DetailFoot.tsx
 msgid "bookings.detail.landed"
 msgstr "Mình đã hạ cánh"
 
