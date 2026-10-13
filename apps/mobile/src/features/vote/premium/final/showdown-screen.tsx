@@ -144,9 +144,11 @@ export function PremiumShowdownView({ poll }: { readonly poll: PollView }) {
   const lines = useFinalLines(poll, places, people);
   const { cast } = useCastBallot(poll);
   const header = useHeader(poll);
+  // A vote still on its board has no two places to set against each other: it opens the board.
   useEffect(() => {
     if (poll.status === 'closed') router.replace(voteRoutes.reveal(poll.id));
-  }, [poll.status, poll.id]);
+    else if (poll.stage === 'board') router.replace(voteRoutes.board(poll.id));
+  }, [poll.status, poll.stage, poll.id]);
   const [first, second] = poll.options;
   if (first === undefined || second === undefined) return <ShowdownMissing />;
 

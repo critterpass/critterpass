@@ -1,7 +1,8 @@
 /**
- * Where the hub's planning CTA and ticker lines lead. A destination vote lives on Home (the pitch
- * board, then the two-place final), so an open vote opens Home until it reaches its final, when
- * the showdown (3c-1) has its two places; a closed one opens what it decided.
+ * Where the hub's planning CTA and ticker lines lead. An open destination vote opens its pitch
+ * board page while it is still on its board, and the showdown (3c-1) once it is down to two; a
+ * closed one opens what it decided. Home draws the same vote, so it is the way when neither page
+ * is registered.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
 import { t } from '@lingui/core/macro';
@@ -34,7 +35,8 @@ export function walletHref(tripId: string, page: 'bookings' | 'money'): Href {
 const SETTING_UP: ReadonlySet<string> = new Set(['won', 'setup']);
 
 export function voteHref(vote: OpenVote): Href | undefined {
-  return vote.stage === 'final' ? hrefFor('3c-1', { pollId: vote.id }) : HOME;
+  if (vote.stage === 'final') return hrefFor('3c-1', { pollId: vote.id });
+  return hrefFor('vote-board', { pollId: vote.id }) ?? HOME;
 }
 
 export interface PlanningLink {
