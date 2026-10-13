@@ -36,8 +36,14 @@ export function PremiumCheckView(props: CheckViewProps) {
       scroll={false}
       testID="plan-check"
     >
-      <ScrollView contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}>
-        <Text variant="body" tone="muted" style={{ paddingHorizontal: theme.space.gap8 }}>
+      <ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: theme.space.gutter,
+          paddingVertical: theme.space.gap16,
+          gap: theme.space.gap12,
+        }}
+      >
+        <Text variant="body" tone="muted">
           {props.body}
         </Text>
         {props.ask}
@@ -138,7 +144,7 @@ export function PremiumCheckView(props: CheckViewProps) {
         ))}
         {props.know.length === 0 ? null : (
           <View style={{ gap: theme.space.gap8 }}>
-            <Text variant="label" tone="muted" style={{ paddingHorizontal: theme.space.gap8 }}>
+            <Text variant="label" tone="muted">
               {t({ id: 'plan.check.toKnow', message: 'To know' })}
             </Text>
             <ListCard>
