@@ -39,6 +39,8 @@ export interface PressableScaleProps {
   readonly accessibilityHint?: string | undefined;
   readonly accessibilityState?: AccessibilityState;
   readonly accessibilityValue?: AccessibilityValue;
+  /** The language VoiceOver reads the label in, for words in another language than the app's. */
+  readonly accessibilityLanguage?: string | undefined;
   /** False when a parent row speaks for this control (a stepper's arrows beside its value). */
   readonly accessible?: boolean;
   readonly importantForAccessibility?: 'auto' | 'yes' | 'no' | 'no-hide-descendants';
@@ -64,6 +66,7 @@ export function PressableScale({
   accessibilityHint,
   accessibilityState,
   accessibilityValue,
+  accessibilityLanguage,
   accessible,
   importantForAccessibility,
   onLayout,
@@ -93,6 +96,7 @@ export function PressableScale({
       accessibilityHint={accessibilityHint}
       accessibilityState={{ disabled: disabled === true, ...accessibilityState }}
       {...(accessibilityValue === undefined ? {} : { accessibilityValue })}
+      {...(accessibilityLanguage === undefined ? {} : { accessibilityLanguage })}
       {...(accessible === undefined ? {} : { accessible })}
       {...(importantForAccessibility === undefined ? {} : { importantForAccessibility })}
       style={[style, animated]}

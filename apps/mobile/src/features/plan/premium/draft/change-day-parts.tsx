@@ -77,7 +77,7 @@ export function PremiumDaySummary(props: { readonly day: ReviewDay; readonly loc
     .map((stop) => stop.name)
     .join(', ');
   return (
-    <Animated.View entering={reduced ? undefined : FadeInDown.duration(260)}>
+    <Animated.View {...(reduced ? {} : { entering: FadeInDown.duration(260) })}>
       <Card testID="change-day-summary">
         <View style={styles.summary}>
           <Text variant="headline">

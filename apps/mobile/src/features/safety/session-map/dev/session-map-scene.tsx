@@ -30,6 +30,7 @@ export function SessionMapNoPackScene() {
         regionSourceUrl: WORLD_SOURCE_URL.replace(/^pmtiles:\/\//u, ''),
         regionPackAwaited: true,
         destinationName: 'Đà Lạt',
+        destinationSlug: 'da-lat',
         ended: false,
       }}
     />
