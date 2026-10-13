@@ -13,7 +13,6 @@ import { router, Slot, useLocalSearchParams } from 'expo-router';
 import { Text } from 'react-native';
 import type * as ReactNativeModule from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { createMMKV } from 'react-native-mmkv';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { resetLinkNoticesForTests, useLinkNotice } from '@/features/home/link-notice';
@@ -96,7 +95,7 @@ beforeAll(() => {
   i18n.loadAndActivate({ locale: 'en', messages: {} });
 });
 
-beforeEach(() => resetLaunchStateForTests(createMMKV({ id: 'home-link-notice-test' })));
+beforeEach(() => resetLaunchStateForTests());
 afterEach(() => {
   toastQueue.resetForTests();
   resetLinkNoticesForTests();

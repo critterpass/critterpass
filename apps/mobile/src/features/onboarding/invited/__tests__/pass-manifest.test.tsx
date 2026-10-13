@@ -9,9 +9,10 @@
 // A page is in front until another is pushed over it; `mockOver` is that page's count.
 const mockOver = { pages: 0 };
 jest.mock('expo-router', () => ({
+  ...jest.requireActual<Record<string, unknown>>(
+    '@/lib/navigation/test-support/expo-router-double',
+  ),
   useIsFocused: () => mockOver.pages === 0,
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn() },
-  useLocalSearchParams: jest.fn(() => ({})),
 }));
 
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
@@ -27,10 +28,10 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { isOnboardingComplete, setOnboardingComplete } from '@/lib/links/pending';
 
 import { clearDraftForTests, readDraft } from '../../flow-controller/draft-store';
-import { PhoneScreen } from '../../phone/PhoneScreen';
+import { PremiumPhonePage } from '../../premium/phone/PremiumPhonePage';
 import { inviteSession } from '../invite-session';
-import { ManifestScreen } from '../ManifestScreen';
-import { PassScreen } from '../PassScreen';
+import { PremiumManifestPage } from '../../premium/invite/PremiumManifestPage';
+import { PremiumInvitePassPage } from '../../premium/invite/PremiumInvitePassPage';
 import {
   applied,
   CREW_ID,
@@ -43,8 +44,7 @@ import {
   UNREACHABLE,
 } from '../test-support/fast-path';
 
-const activate = (element: Parameters<typeof fireEvent>[0]) =>
-  fireEvent(element, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });
+const activate = (element: Parameters<typeof fireEvent.press>[0]) => fireEvent.press(element);
 
 const ME = '0192e1a2-0000-7000-8000-0000000000aa';
 const JOINED = {
@@ -91,20 +91,25 @@ describe('3a-12 your pass, three taps', () => {
   it('pours the inviter’s prefill into the pass, marked as theirs', async () => {
     openInvite();
     stack = await openTestLocalFirst({ holdUploads: true });
-    await renderInvited(<PassScreen />, { services: services({ status: 'not_found' }), stack });
+    await renderInvited(<PremiumInvitePassPage />, {
+      services: services({ status: 'not_found' }),
+      stack,
+    });
     await waitFor(() => expect(readDraft()?.given_name).toBe('Rin'));
     expect(readDraft()?.home_iata).toBe('SIN');
     expect(readDraft()?.answers.length).toBeGreaterThan(0);
     expect(screen.getByText(/from winston’s contacts/iu)).toBeTruthy();
     expect(screen.getByTestId('invite-pass-chip-street_food')).toBeTruthy();
-    expect(screen.getByText('Winston gave me a hint. I picked 2.')).toBeTruthy();
+    expect(screen.getByTestId('invite-pass-tokek')).toHaveTextContent(
+      /Winston gave me a hint\. I picked 2\./u,
+    );
   });
 
   it('issues the pass, then takes the seat after “Not now”', async () => {
     openInvite();
     const api = recordedApi({ accept_invite: applied(JOINED) });
     stack = await openTestLocalFirst({ transport: api, holdUploads: true });
-    const { analytics } = await renderInvited(<PassScreen />, {
+    const { analytics } = await renderInvited(<PremiumInvitePassPage />, {
       services: services({ status: 'not_found' }),
       stack,
     });
@@ -131,8 +136,8 @@ describe('3a-12 your pass, three taps', () => {
     });
     return (
       <>
-        <PassScreen />
-        {phoneUp ? <PhoneScreen /> : null}
+        <PremiumInvitePassPage />
+        {phoneUp ? <PremiumPhonePage /> : null}
       </>
     );
   }
@@ -155,7 +160,7 @@ describe('3a-12 your pass, three taps', () => {
     await fireEvent.changeText(await screen.findByTestId('phone-number', {}, slow), '91234567');
     await activate(screen.getByTestId('phone-send'));
     await fireEvent.changeText(
-      await screen.findByLabelText('Verification code', {}, slow),
+      (await screen.findAllByLabelText('Verification code', {}, slow)).at(-1)!,
       '419203',
     );
     await waitFor(() => expect(readDraft()?.saved).toBe(true), slow);
@@ -180,7 +185,10 @@ describe('3a-12 your pass, three taps', () => {
       transport: recordedApi({ accept_invite: rejected('INVITE_EXPIRED', 410) }),
       holdUploads: true,
     });
-    await renderInvited(<PassScreen />, { services: services({ status: 'not_found' }), stack });
+    await renderInvited(<PremiumInvitePassPage />, {
+      services: services({ status: 'not_found' }),
+      stack,
+    });
     await waitFor(() => expect(readDraft()?.home_iata).toBe('SIN'));
     await activate(screen.getByTestId('invite-pass-issue'));
     await activate(await screen.findByTestId('save-not-now'));
@@ -196,7 +204,10 @@ describe('3a-12 your pass, three taps', () => {
     openInvite();
     const api = recordedApi({ accept_invite: [UNREACHABLE, applied(JOINED)] });
     stack = await openTestLocalFirst({ transport: api, holdUploads: true });
-    await renderInvited(<PassScreen />, { services: services({ status: 'not_found' }), stack });
+    await renderInvited(<PremiumInvitePassPage />, {
+      services: services({ status: 'not_found' }),
+      stack,
+    });
     await waitFor(() => expect(readDraft()?.home_iata).toBe('SIN'));
     await activate(screen.getByTestId('invite-pass-issue'));
     await activate(await screen.findByTestId('save-not-now'));
@@ -216,11 +227,16 @@ describe('3a-12 your pass, three taps', () => {
   it('asks a code joiner for a name and a home, then lets them issue', async () => {
     inviteSession.open('BATH6X', null, 0);
     stack = await openTestLocalFirst({ holdUploads: true });
-    await renderInvited(<PassScreen />, { services: services({ status: 'not_found' }), stack });
-    // The sheet that asks is already open; nothing to issue yet, and the button says what is missing.
+    await renderInvited(<PremiumInvitePassPage />, {
+      services: services({ status: 'not_found' }),
+      stack,
+    });
+    // The page that asks is already open; its button says what is missing.
     expect(await screen.findByTestId('invite-edit-name')).toBeTruthy();
     expect(screen.queryByTestId('invite-pass-issue')).toBeNull();
-    expect(within(screen.getByTestId('invite-pass-ask')).getByText('ADD YOUR NAME')).toBeTruthy();
+    expect(
+      within(screen.getByTestId('invite-edit-done')).getByText(/add your name/iu),
+    ).toBeTruthy();
     expect(screen.getByTestId('invite-edit-done')).toBeDisabled();
 
     await fireEvent.changeText(screen.getByTestId('invite-edit-name'), 'Mai');
@@ -243,10 +259,13 @@ describe('3a-12 your pass, three taps', () => {
   it('asks only for the home when the invite carried a name', async () => {
     openInvite({ invitee_home_hint: null });
     stack = await openTestLocalFirst({ holdUploads: true });
-    await renderInvited(<PassScreen />, { services: services({ status: 'not_found' }), stack });
+    await renderInvited(<PremiumInvitePassPage />, {
+      services: services({ status: 'not_found' }),
+      stack,
+    });
     await waitFor(() => expect(readDraft()?.given_name).toBe('Rin'));
     expect(
-      within(await screen.findByTestId('invite-pass-ask')).getByText('ADD YOUR HOME AIRPORT'),
+      within(await screen.findByTestId('invite-edit-done')).getByText(/add your home airport/iu),
     ).toBeTruthy();
   });
 });
@@ -276,7 +295,7 @@ describe('3a-13 you’re in', () => {
       line: 'Rin, the Bali Six just got louder.',
       source: 'model',
     });
-    await renderInvited(<ManifestScreen />, { services: answering, stack });
+    await renderInvited(<PremiumManifestPage />, { services: answering, stack });
     expect(
       await screen.findByText('Rin, the Bali Six just got louder.', {}, { timeout: 8000 }),
     ).toBeTruthy();
@@ -288,7 +307,7 @@ describe('3a-13 you’re in', () => {
     inviteSession.setJoined(JOINED);
     stack = await openTestLocalFirst({ holdUploads: true, uid: ME });
     await seedCrew(stack.db);
-    await renderInvited(<ManifestScreen />, {
+    await renderInvited(<PremiumManifestPage />, {
       services: services({ status: 'not_found' }, ME),
       stack,
     });
@@ -301,12 +320,11 @@ describe('3a-13 you’re in', () => {
     openInvite();
     inviteSession.setJoined({ ...JOINED, seated: false, waitlisted: true, waitlist_position: 1 });
     stack = await openTestLocalFirst({ holdUploads: true, uid: ME });
-    await renderInvited(<ManifestScreen />, {
+    await renderInvited(<PremiumManifestPage />, {
       services: services({ status: 'not_found' }, ME),
       stack,
     });
-    expect(await screen.findByText(/rin’s next/iu)).toBeTruthy();
-    expect(screen.getByText(/next for a seat/u)).toBeTruthy();
+    expect(await screen.findByText(/next for a seat/u)).toBeTruthy();
     expect(screen.queryByTestId('invite-manifest-pending-0')).toBeNull();
   });
 });

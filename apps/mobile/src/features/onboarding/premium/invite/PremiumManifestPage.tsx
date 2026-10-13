@@ -151,7 +151,12 @@ export function PremiumManifestPage() {
           <CritterSticker kind={tokek.kind} name={tokek.name} size={120} pose="cheer" />
           <StampLanding delayMs={400}>
             <RoundStamp
-              word={t({ id: 'onboarding.premium.manifest.in', message: `${newcomer}’s in` })}
+              // A waitlisted joiner is in the crew but next for a seat: the stamp says so.
+              word={
+                manifest.waitlisted
+                  ? copy.title
+                  : t({ id: 'onboarding.premium.manifest.in', message: `${newcomer}’s in` })
+              }
               top={t({ id: 'onboarding.premium.manifest.admitted', message: 'Admitted' })}
               {...(preview?.crew_name == null ? {} : { bottom: preview.crew_name })}
               ink="pink"
