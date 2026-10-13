@@ -380,7 +380,7 @@ msgstr "Chuyến bay"
 msgid "common.icon.food"
 msgstr "Ăn uống"
 
-#: ../../apps/mobile/src/ui/people/member-name.ts
+#: ../../apps/mobile/src/lib/people/member-name.ts
 msgid "common.member.former"
 msgstr "Thành viên cũ"
 

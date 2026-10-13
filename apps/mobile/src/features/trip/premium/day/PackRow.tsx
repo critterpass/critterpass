@@ -1,17 +1,29 @@
 /**
  * The day's pack list as chips (6.04): packed in ink with a mint check, still to pack on white with
  * an empty ring; a tap packs or unpacks, a long press takes off one of your own. "+ Add" opens a
- * field in place; Done adds it and keeps the field for the next.
+ * field in place; Done adds it and keeps the field for the next, and leaving the field adds what
+ * was typed rather than throwing it away.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { Icon, PressableScale, ring, Text, TextField, usePremiumTheme } from '@/ui/premium';
+import {
+  hitSlopFor,
+  Icon,
+  PressableScale,
+  ring,
+  Text,
+  TextField,
+  usePremiumTheme,
+} from '@/ui/premium';
 
 import type { PackChip } from '../../day-of/packing-model';
 
-export function PackRow(props: {
+/** The 34 pt chips reach the 44 pt touch target above and below. */
+const CHIP_SLOP = hitSlopFor(44, 34);
+
+export const PackRow = memo(function PackRow(props: {
   readonly chips: readonly PackChip[];
   readonly onToggle: (id: string, packed: boolean) => void;
   readonly onAdd: (label: string) => void;
@@ -21,6 +33,11 @@ export function PackRow(props: {
   const { t } = useLingui();
   const [adding, setAdding] = useState(false);
   const [text, setText] = useState('');
+  const submit = () => {
+    const label = text.trim();
+    if (label !== '') props.onAdd(label);
+    setText('');
+  };
   return (
     <View style={{ gap: th.space.gap8, paddingHorizontal: th.space.gutter }} testID="trip-day-pack">
       <Text variant="label" tone="muted">
@@ -31,6 +48,7 @@ export function PackRow(props: {
           <PressableScale
             key={chip.id}
             onPress={() => props.onToggle(chip.id, !chip.packed)}
+            hitSlop={CHIP_SLOP}
             {...(chip.personal ? { onLongPress: () => props.onRemove(chip.id) } : {})}
             accessibilityRole="checkbox"
             accessibilityState={{ checked: chip.packed }}
@@ -73,6 +91,7 @@ export function PackRow(props: {
         {adding ? null : (
           <PressableScale
             onPress={() => setAdding(true)}
+            hitSlop={CHIP_SLOP}
             accessibilityRole="button"
             accessibilityLabel={t({
               id: 'trip.dayOf.premium.addPack',
@@ -108,18 +127,17 @@ export function PackRow(props: {
           autoFocus
           returnKeyType="done"
           submitBehavior="submit"
-          onSubmitEditing={() => {
-            const label = text.trim();
-            if (label !== '') props.onAdd(label);
-            setText('');
+          onSubmitEditing={submit}
+          onBlur={() => {
+            submit();
+            setAdding(false);
           }}
-          onBlur={() => setAdding(false)}
           testID="trip-day-pack-field"
         />
       ) : null}
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   wrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },

@@ -25,11 +25,30 @@ interface ToastApi {
   readonly dismiss: (id: number) => void;
 }
 
-const ToastContext = createContext<ToastApi | null>(null);
+interface HostEntry {
+  readonly api: ToastApi;
+  /** The host this one sits inside (a sheet's host sits inside the page's), when there is one. */
+  readonly parent: HostEntry | null;
+}
 
-/** Shows a toast from anywhere under the host. Outside a host it does nothing. */
-export function useToast(): ToastApi {
-  return useContext(ToastContext) ?? NOOP;
+const ToastContext = createContext<HostEntry | null>(null);
+
+export interface UseToastOptions {
+  /**
+   * The page underneath instead of the nearest host: for a toast sent just before a sheet or
+   * cover closes ("Saved"), which would otherwise leave with it.
+   */
+  readonly outer?: boolean;
+}
+
+/**
+ * Shows a toast from anywhere under a host: the nearest one, so a sheet's error shows on the sheet
+ * (a native sheet draws above the page's host). Outside a host it does nothing.
+ */
+export function useToast({ outer = false }: UseToastOptions = {}): ToastApi {
+  const entry = useContext(ToastContext);
+  if (entry === null) return NOOP;
+  return outer && entry.parent !== null ? entry.parent.api : entry.api;
 }
 
 const NOOP: ToastApi = { show: () => -1, dismiss: () => undefined };
@@ -49,6 +68,7 @@ export interface ToastHostProps {
  */
 export function ToastHost({ children, bottomOffset }: ToastHostProps) {
   const theme = usePremiumTheme();
+  const parent = useContext(ToastContext);
   const reduced = usePremiumReducedMotion();
   const insets = useSafeAreaInsets();
   const [queue, setQueue] = useState<readonly QueuedToast[]>([]);
@@ -85,7 +105,7 @@ export function ToastHost({ children, bottomOffset }: ToastHostProps) {
     };
   }, []);
 
-  const api = useMemo(() => ({ show, dismiss }), [show, dismiss]);
+  const entry = useMemo(() => ({ api: { show, dismiss }, parent }), [show, dismiss, parent]);
   const smooth = theme.spring.smooth;
   const entering = reduced
     ? FadeIn.duration(REDUCED_FADE_MS)
@@ -95,7 +115,7 @@ export function ToastHost({ children, bottomOffset }: ToastHostProps) {
     : FadeOutDown.springify().stiffness(smooth.stiffness).damping(smooth.damping).mass(smooth.mass);
 
   return (
-    <ToastContext.Provider value={api}>
+    <ToastContext.Provider value={entry}>
       {children}
       <View
         pointerEvents="box-none"

@@ -104,7 +104,7 @@ export type { ToastProps, ToastSpec } from './feedback/Toast';
 export { ToastHost, useToast } from './feedback/ToastHost';
 export { ExternalToasts } from './feedback/external-toasts';
 export type { ExternalToast, ExternalToastSource } from './feedback/external-toasts';
-export type { ToastHostProps } from './feedback/ToastHost';
+export type { ToastHostProps, UseToastOptions } from './feedback/ToastHost';
 export { EmptyState } from './states/EmptyState';
 export type { EmptyStateProps } from './states/EmptyState';
 export { LoadingCritter, Skeleton } from './states/Skeleton';

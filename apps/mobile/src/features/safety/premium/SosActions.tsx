@@ -2,6 +2,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { StyleSheet, View } from 'react-native';
 
+import { shortName } from '@/lib/people/member-name';
 import { Button } from '@/ui/premium';
 
 import type { SosViewProps } from '../sos/view-types';
@@ -9,7 +10,8 @@ import type { SosViewProps } from '../sos/view-types';
 export function SosActions({ props }: { readonly props: SosViewProps }) {
   const { t } = useLingui();
   const { model, general } = props;
-  const name = model.senderName;
+  // The call button beside "I'm going" names the sender as their crew calls them.
+  const name = shortName(model.senderName);
   const ok = (
     <Button
       label={t({ id: 'safety.sos.imOk', message: "I'm OK" })}

@@ -6,13 +6,26 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
-import { Linking, ScrollView, StyleSheet, View } from 'react-native';
+import { Linking, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { PrivateContent } from '@/features/help';
 import { guideCritterKind, turn } from '@/features/trip';
-import { toast } from '@/motion/island-toast';
-import { Button, GuideNote, PressableScale, Text, TextField, usePremiumTheme } from '@/ui/premium';
-import { confirmAlert, KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
+import {
+  Button,
+  GuideNote,
+  PressableScale,
+  Text,
+  TextField,
+  usePremiumTheme,
+  useToast,
+} from '@/ui/premium';
+import {
+  confirmAlert,
+  KeyboardAwareScroll,
+  KeyboardStickyFooter,
+  PushScreen,
+} from '@/ui/premium/shell';
 
 import { useBookingsServices } from '../data/services';
 import { useWalletGuide } from '../data/wallet-guide';
@@ -76,8 +89,12 @@ export function PolicyCard(props: {
 
 export function InsurancePremium() {
   const th = usePremiumTheme();
+  const insets = useSafeAreaInsets();
+  // Clears the home indicator with the keyboard down, and sits a gap above the keyboard when up.
+  const footerPad = Math.max(insets.bottom, th.space.gap12);
   const { t } = useLingui();
   const services = useBookingsServices();
+  const toast = useToast();
   const guide = useWalletGuide();
   const form = useInsuranceForm();
   const [editing, setEditing] = useState(false);
@@ -94,10 +111,8 @@ export function InsurancePremium() {
         scroll={false}
         testID="bookings-insurance-form"
       >
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          keyboardDismissMode="interactive"
-          keyboardShouldPersistTaps="handled"
+        <KeyboardAwareScroll
+          bottomOffset={th.size.button + th.space.gap12 + th.space.gap16}
           contentContainerStyle={[styles.form, { paddingHorizontal: th.space.gutter }]}
         >
           <TextField
@@ -155,9 +170,9 @@ export function InsurancePremium() {
                 : t({ id: 'bookings.insurance.failed', message: "That didn't save. Try again." })}
             </Text>
           )}
-        </ScrollView>
-        <KeyboardStickyFooter>
-          <View style={{ paddingHorizontal: th.space.titleGutter, paddingBottom: th.space.gap12 }}>
+        </KeyboardAwareScroll>
+        <KeyboardStickyFooter openedOffset={th.space.gap12 - footerPad}>
+          <View style={{ paddingHorizontal: th.space.titleGutter, paddingBottom: footerPad }}>
             <Button
               label={t({ id: 'bookings.insurance.save', message: 'Save' })}
               disabled={!ready}
@@ -208,8 +223,11 @@ export function InsurancePremium() {
               onPress: () =>
                 void services.copy(existing.policy_no).then(() =>
                   toast.show({
-                    id: 'bookings-insurance-copied',
-                    title: t({ id: 'bookings.insurance.copied', message: 'Policy number copied.' }),
+                    kind: 'done',
+                    message: t({
+                      id: 'bookings.insurance.copied',
+                      message: 'Policy number copied.',
+                    }),
                   }),
                 ),
             },

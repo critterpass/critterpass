@@ -2,7 +2,8 @@
  * The forecast (6.06): "Checked 07:30" in the header, "The rest of the trip" with the guide's line,
  * the days as a strip (the wet one inverted in ink), then what could change the plan, one row per
  * risk with its dot and status (Plan B in ink, Watching, Go, Set). A risk with an open storm
- * decision opens it. All clear says so; an old check says it is the last one seen.
+ * decision opens it. All clear says so, above the GO and SET rows it is made of; no days yet says
+ * the forecast has not come in; an old check says it is the last one seen.
  */
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
@@ -80,7 +81,11 @@ export function ForecastReady({ props }: { readonly props: ForecastViewProps }) 
           {guideLine()}
         </Text>
       </View>
-      {model.days.length === 0 ? null : (
+      {model.days.length === 0 ? (
+        <Text variant="body" tone="inkSecondary" testID="forecast-no-days">
+          {lines.noForecast}
+        </Text>
+      ) : (
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -134,11 +139,12 @@ export function ForecastReady({ props }: { readonly props: ForecastViewProps }) 
           {lines.stale}
         </Text>
       ) : null}
-      {model.allClear && model.watch.length === 0 ? (
+      {model.allClear ? (
         <Text variant="body" tone="inkSecondary" testID="forecast-all-clear">
           {lines.allClear}
         </Text>
-      ) : (
+      ) : null}
+      {model.watch.length === 0 ? null : (
         <View
           style={[
             styles.card,
@@ -193,7 +199,6 @@ export function ForecastReady({ props }: { readonly props: ForecastViewProps }) 
               <PressableScale
                 key={entry.row.id}
                 onPress={() => props.onOpenStorm(pollId)}
-                pressedScale={0.99}
                 accessibilityRole="button"
                 testID={`forecast-watch-${entry.row.id}`}
               >

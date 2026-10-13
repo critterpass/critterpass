@@ -1,5 +1,12 @@
 import { Stack } from 'expo-router';
-import { useCallback, useEffect, useState, type ReactElement, type ReactNode } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
 import {
   Platform,
   StyleSheet,
@@ -36,6 +43,9 @@ import {
 /** Spread on the screen's scroll view or list, which must be the screen's first child. */
 export interface RootScrollProps {
   readonly contentInsetAdjustmentBehavior?: 'automatic';
+  /** A tap on a row while the keyboard is up acts on the row (a search list), not only closes it. */
+  readonly keyboardShouldPersistTaps: 'handled';
+  readonly keyboardDismissMode: 'interactive' | 'on-drag';
   readonly onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   readonly scrollEventThrottle?: number;
 }
@@ -64,6 +74,16 @@ export interface RootScreenProps {
 
 /** The drawn title row's height, after which the title has left and the bar shows it. */
 const TITLE_ROW = 52;
+
+const KEYBOARD_TAPS = {
+  keyboardShouldPersistTaps: 'handled',
+  keyboardDismissMode: Platform.OS === 'ios' ? 'interactive' : 'on-drag',
+} as const;
+
+const NATIVE_SCROLL: RootScrollProps = {
+  ...KEYBOARD_TAPS,
+  contentInsetAdjustmentBehavior: 'automatic',
+};
 
 /**
  * The root screen type (foundations-spec §1): large title, at most two glass actions with the
@@ -107,22 +127,27 @@ function NativeRootScreen({ title, actions, children, testID }: RootScreenParts)
     delete (button as { element?: unknown }).element;
     return button;
   });
-  const options = {
-    headerShown: true,
-    title,
-    headerLargeTitleEnabled: true,
-    headerTransparent: true,
-    headerShadowVisible: false,
-    headerLargeTitleShadowVisible: false,
-    headerTintColor: t.color.ink,
-    headerLargeTitleStyle: { color: t.color.ink, fontWeight: '700' as const },
-    headerTitleStyle: { color: t.color.ink },
-  };
+  const ink = t.color.ink;
+  // Stable while the title and ink hold: new options on every render make the navigator redraw.
+  const options = useMemo(
+    () => ({
+      headerShown: true,
+      title,
+      headerLargeTitleEnabled: true,
+      headerTransparent: true,
+      headerShadowVisible: false,
+      headerLargeTitleShadowVisible: false,
+      headerTintColor: ink,
+      headerLargeTitleStyle: { color: ink, fontWeight: '700' as const },
+      headerTitleStyle: { color: ink },
+    }),
+    [title, ink],
+  );
   return (
     <View testID={testID} style={styles.root} collapsable={false}>
       <Stack.Screen options={options} />
       <NativeHeaderActions actions={native} />
-      {children({ scrollProps: { contentInsetAdjustmentBehavior: 'automatic' }, largeTitle: null })}
+      {children({ scrollProps: NATIVE_SCROLL, largeTitle: null })}
     </View>
   );
 }
@@ -146,6 +171,10 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
     setCollapsed(event.nativeEvent.contentOffset.y > TITLE_ROW);
   }, []);
 
+  const scrollProps = useMemo(
+    (): RootScrollProps => ({ ...KEYBOARD_TAPS, onScroll, scrollEventThrottle: 16 }),
+    [onScroll],
+  );
   const barTitle = useAnimatedStyle(() => ({ opacity: shown.value }));
   const barTop = insets.top;
   const largeTitle = (
@@ -163,7 +192,7 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
 
   return (
     <View testID={testID} style={[styles.root, { paddingBottom: guideBand }]} collapsable={false}>
-      {children({ scrollProps: { onScroll, scrollEventThrottle: 16 }, largeTitle })}
+      {children({ scrollProps, largeTitle })}
       <View
         pointerEvents="box-none"
         style={[styles.bar, { height: barTop + t.size.glassNav + t.space.gap8 }]}
@@ -192,7 +221,8 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  largeTitle: { height: TITLE_ROW - 6 },
+  // A floor, not a height: the title grows with larger text instead of clipping.
+  largeTitle: { minHeight: TITLE_ROW - 6 },
   bar: { position: 'absolute', top: 0, left: 0, right: 0 },
   barTitle: {
     position: 'absolute',

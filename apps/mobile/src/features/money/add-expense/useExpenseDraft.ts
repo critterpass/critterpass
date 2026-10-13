@@ -24,7 +24,14 @@ import {
 import { useSelectedTrip } from '../data/selected-trip';
 import { useMoneyContext, type MoneyContext } from '../data/use-money-context';
 import { useTripMoney } from '../data/use-trip-money';
-import { draftReducer, newDraft, toAddPayload, type DraftAction, type ExpenseDraft } from './draft';
+import {
+  draftReducer,
+  newDraft,
+  sameDraft,
+  toAddPayload,
+  type DraftAction,
+  type ExpenseDraft,
+} from './draft';
 import {
   draftFromExpense,
   fxContextOf,
@@ -47,6 +54,8 @@ export interface ExpenseDraftState {
   /** There is a draft to show: a trip to add to, or the expense being edited. */
   readonly ready: boolean;
   readonly draft: ExpenseDraft;
+  /** The member changed the draft from where it started (any field, not only the amount). */
+  readonly dirty: boolean;
   readonly dispatch: (action: DraftAction) => void;
   readonly preview: DraftPreview | null;
   readonly crewCurrency: string;
@@ -171,6 +180,7 @@ export function useExpenseDraft(
     loading: ctx.status === 'loading' || (ctx.status === 'ready' && !rows.loaded),
     ready: seed !== null,
     draft,
+    dirty: changed !== null && !sameDraft(changed, seed ?? EMPTY),
     dispatch,
     preview,
     crewCurrency,

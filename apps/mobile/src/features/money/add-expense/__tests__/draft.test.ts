@@ -9,6 +9,7 @@ import {
   draftShares,
   leftToAssign,
   newDraft,
+  sameDraft,
   sharesByMember,
   toAddPayload,
   unitsToMinor,
@@ -246,5 +247,20 @@ describe('the category guess', () => {
       { type: 'description', text: 'Dinner' },
     );
     expect(picked.category).toBe('fun');
+  });
+});
+
+describe('closing with edits', () => {
+  it('counts a change to any field that would be recorded, not where the keypad types', () => {
+    const start = idr();
+    expect(sameDraft(start, run(start, { type: 'focus', userId: 'm' }))).toBe(true);
+    expect(sameDraft(start, run(start, { type: 'payer', userId: 'm' }))).toBe(false);
+    expect(sameDraft(start, run(start, { type: 'toggle', userId: 'a' }))).toBe(false);
+    expect(sameDraft(start, run(start, { type: 'category', category: 'transit' }))).toBe(false);
+    expect(sameDraft(start, run(start, { type: 'spentAt', at: '2026-10-13T09:00:00Z' }))).toBe(
+      false,
+    );
+    // Typed and taken back again: nothing to lose.
+    expect(sameDraft(start, run(start, ...keys('4', 'delete')))).toBe(true);
   });
 });

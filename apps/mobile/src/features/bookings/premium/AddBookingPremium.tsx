@@ -9,7 +9,8 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import Animated, { FadeOut, LinearTransition, SlideOutRight } from 'react-native-reanimated';
+import { premium } from '@cp/design-tokens';
+import Animated, { SlideOutRight } from 'react-native-reanimated';
 
 import { guideCritterKind, IconTile, turn, type LineIconName } from '@/features/trip';
 import {
@@ -17,11 +18,12 @@ import {
   Button,
   GuideNote,
   PressableScale,
-  REDUCED_FADE_MS,
   Text,
   TextButton,
   usePremiumReducedMotion,
   usePremiumTheme,
+  exitTransition,
+  layoutTransition,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
@@ -31,6 +33,12 @@ import { useAddBooking } from '../add/use-add-booking';
 import { useWalletGuide, WalletGuideProvider } from '../data/wallet-guide';
 import { BOOKINGS_ROUTES } from '../routes';
 import { CandidateCard } from './components/CandidateCard';
+
+/** An added booking slides off to the right on Smooth. */
+const SLIDE_OUT = SlideOutRight.springify()
+  .stiffness(premium.spring.smooth.stiffness)
+  .damping(premium.spring.smooth.damping)
+  .mass(premium.spring.smooth.mass);
 
 const SHEET_ROUTES = {
   paste: BOOKINGS_ROUTES.paste,
@@ -196,14 +204,8 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
           // Added slides out to the right, ignored fades; the list closes the gap (7.03, Smooth).
           <Animated.View
             key={view.id}
-            exiting={
-              reduced
-                ? FadeOut.duration(REDUCED_FADE_MS)
-                : p.leaving[view.id] === 'add'
-                  ? SlideOutRight.springify()
-                  : FadeOut
-            }
-            {...(reduced ? {} : { layout: LinearTransition.springify() })}
+            exiting={!reduced && p.leaving[view.id] === 'add' ? SLIDE_OUT : exitTransition(reduced)}
+            {...(reduced ? {} : { layout: layoutTransition(false) })}
           >
             <CandidateCard
               view={view}

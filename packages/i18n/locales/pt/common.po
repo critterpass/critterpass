@@ -380,7 +380,7 @@ msgstr ""
 msgid "common.icon.food"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/people/member-name.ts
+#: ../../apps/mobile/src/lib/people/member-name.ts
 msgid "common.member.former"
 msgstr ""
 

@@ -892,7 +892,7 @@ msgstr "Rate 1 {from} = {rate} {to} on {on}"
 msgid "money.scan.reading"
 msgstr "Reading the lines…"
 
-#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/SettleRemindFooter.tsx
 msgid "money.settle.remind"
 msgstr "Remind everyone"
 
@@ -900,7 +900,7 @@ msgstr "Remind everyone"
 msgid "money.settle.reminded"
 msgstr "Reminded everyone who owes."
 
-#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/SettleRemindFooter.tsx
 msgid "money.premium.remindOffline"
 msgstr "Reminders go out when you’re back online."
 

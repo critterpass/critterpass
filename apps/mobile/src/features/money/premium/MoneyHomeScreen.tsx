@@ -134,7 +134,8 @@ export function MoneyHomeScreen() {
           {
             key: 'search',
             label: t({ id: 'money.premium.search', message: 'Every expense' }),
-            sfSymbol: 'magnifyingglass' as const,
+            // It opens every expense, not a search: a list, not a magnifying glass.
+            sfSymbol: 'list.bullet' as const,
             glyph: 'more' as const,
             onPress: balancesNav.history,
             testID: 'money-search',

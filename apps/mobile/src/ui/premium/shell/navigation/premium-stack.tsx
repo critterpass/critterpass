@@ -4,6 +4,7 @@ import { useCallback, type ReactNode } from 'react';
 import { StatusBar } from 'react-native';
 
 import { REDUCED_FADE_MS, usePremiumReducedMotion, usePremiumTheme } from '../..';
+import { freezeOptions, type StackState } from './freeze-behind';
 import { presentedScreenOptions } from './presentation-options';
 
 export interface PremiumStackProps {
@@ -16,10 +17,15 @@ export interface PremiumStackProps {
   readonly children?: ReactNode;
 }
 
+interface StackRoute {
+  readonly key?: string | undefined;
+  readonly name: string;
+}
+
 /**
  * A native stack inside the premium UI (a tab's own stack, an area's stack): no header unless a
  * screen scaffold asks for one, the premium ground behind every page, and Reduce Motion as a
- * 150 ms cross-fade. On iOS a root screen of a tab's stack gets the native large title and glass
+ * 150 ms cross-fade; pages hidden under two or more pages freeze. On iOS a root screen of a tab's stack gets the native large title and glass
  * toolbar from `RootScreen`.
  *
  * The status bar follows the premium ground wherever the stack shows, dark content on the light
@@ -30,13 +36,21 @@ export function PremiumStack({ navigator, children }: PremiumStackProps) {
   const { color, scheme } = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
   const screenOptions = useCallback(
-    ({ route }: { readonly route: { readonly name: string } }): NativeStackNavigationOptions => {
-      const presented =
-        navigator === undefined ? {} : presentedScreenOptions(`${navigator}/${route.name}`);
+    ({
+      route,
+      navigation,
+    }: {
+      readonly route: StackRoute;
+      readonly navigation: { readonly getState: () => StackState<StackRoute> };
+    }): NativeStackNavigationOptions => {
+      const presentedOf = (of: StackRoute) =>
+        navigator === undefined ? {} : presentedScreenOptions(`${navigator}/${of.name}`);
+      const presented = presentedOf(route);
       return {
         headerShown: false,
         contentStyle: { backgroundColor: color.ground },
         ...presented,
+        ...freezeOptions(route, navigation.getState(), (above) => presentedOf(above).presentation),
         ...(reduced && presented.animation !== 'none'
           ? { animation: 'fade', animationDuration: REDUCED_FADE_MS }
           : {}),

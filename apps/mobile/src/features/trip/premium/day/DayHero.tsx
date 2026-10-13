@@ -1,17 +1,22 @@
 /**
  * The day's hero (6.04, 6.05): the destination's photo under a dark fade with the day and the
  * weather as clear-glass chips, then the one number that matters (the leave-by, or the first or
- * next stop's time) large in white. A free day, or a day already done, says so in words instead.
+ * next stop's time) large in white, with the countdown to it under a leave-by. A free day, or a
+ * day already done, says so in words instead.
  * With no photo the hero is the ink surface, so the white still reads.
  */
 import type { MediaAsset } from '@cp/domain';
 import { premium } from '@cp/design-tokens';
+import { memo } from 'react';
 import { Image, PixelRatio, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { savedStillUri } from '@/lib/media/media-files';
 import { pickBySize } from '@/lib/media/variants';
 import { GlassPill, Text, usePremiumTheme } from '@/ui/premium';
+
+import type { LeaveByView } from '../../leave-by/model';
+import { LeaveByCountdown } from './LeaveByCountdown';
 
 /** The photo's height, and how far the card under it rises over it. */
 export const DAY_HERO_HEIGHT = 330;
@@ -32,9 +37,13 @@ export interface DayHeroProps {
   readonly spoken?: string;
   /** A free or finished day: the headline is words, not a time. */
   readonly words: boolean;
+  /** The leave-by the countdown under the time counts to, with the page's minute clock. */
+  readonly countdown: LeaveByView | null;
+  readonly now: Date;
+  readonly guideName: string;
 }
 
-export function DayHero(props: DayHeroProps) {
+export const DayHero = memo(function DayHero(props: DayHeroProps) {
   const th = usePremiumTheme();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
@@ -74,6 +83,7 @@ export function DayHero(props: DayHeroProps) {
         ]}
       >
         <GlassPill kind="clear" label={props.eyebrow} testID="trip-day-eyebrow" />
+        <View style={styles.spacer} />
         {props.forecast === null ? null : (
           <GlassPill
             kind="clear"
@@ -99,15 +109,19 @@ export function DayHero(props: DayHeroProps) {
         >
           {props.big}
         </Text>
+        {props.countdown === null ? null : (
+          <LeaveByCountdown view={props.countdown} now={props.now} guideName={props.guideName} />
+        )}
       </View>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   hero: { overflow: 'hidden', justifyContent: 'flex-end' },
   chips: { position: 'absolute', flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   copy: { paddingBottom: 56, gap: 2 },
   soft: { opacity: 0.92 },
+  spacer: { flexGrow: 1 },
   tabular: { fontVariant: ['tabular-nums'] },
 });

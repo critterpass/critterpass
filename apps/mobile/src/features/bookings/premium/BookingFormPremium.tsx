@@ -8,11 +8,12 @@
 import type { BookingKind } from '@cp/domain';
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Button, Text, TextField, usePremiumTheme } from '@/ui/premium';
-import { KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
+import { KeyboardAwareScroll, KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
 
 import type { DraftProblem } from '../detail/form-model';
 import { useKindLabel } from '../detail/labels';
@@ -75,6 +76,9 @@ export function BookingFormPremium(props: {
   readonly candidateId?: string | undefined;
 }) {
   const th = usePremiumTheme();
+  const insets = useSafeAreaInsets();
+  // Clears the home indicator with the keyboard down, and sits a gap above the keyboard when up.
+  const footerPad = Math.max(insets.bottom, th.space.gap12);
   const { t } = useLingui();
   const locale = useLocale();
   const kindLabel = useKindLabel();
@@ -110,24 +114,9 @@ export function BookingFormPremium(props: {
     ? t({ id: 'bookings.form.addTitle', message: 'Add by hand' })
     : t({ id: 'bookings.form.editTitle', message: 'Edit booking' });
   return (
-    <PushScreen
-      title={title}
-      backLabel={backLabel}
-      scroll={false}
-      action={{
-        key: 'save',
-        label: t({ id: 'bookings.form.save', message: 'Save' }),
-        sfSymbol: 'checkmark',
-        glyph: 'check',
-        onPress: form.save,
-        testID: 'bookings-form-save-header',
-      }}
-      testID="bookings-form"
-    >
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        keyboardDismissMode="interactive"
-        keyboardShouldPersistTaps="handled"
+    <PushScreen title={title} backLabel={backLabel} scroll={false} testID="bookings-form">
+      <KeyboardAwareScroll
+        bottomOffset={th.size.button + th.space.gap12 + th.space.gap16}
         contentContainerStyle={[
           styles.body,
           { paddingHorizontal: th.space.gap16, gap: th.space.gap12 },
@@ -272,9 +261,9 @@ export function BookingFormPremium(props: {
             })}
           </Text>
         ) : null}
-      </ScrollView>
-      <KeyboardStickyFooter>
-        <View style={{ paddingHorizontal: th.space.titleGutter, paddingBottom: th.space.gap12 }}>
+      </KeyboardAwareScroll>
+      <KeyboardStickyFooter openedOffset={th.space.gap12 - footerPad}>
+        <View style={{ paddingHorizontal: th.space.titleGutter, paddingBottom: footerPad }}>
           <Button
             label={missing ?? t({ id: 'bookings.form.save', message: 'Save' })}
             disabled={missing !== null}

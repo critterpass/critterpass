@@ -3,6 +3,7 @@
  * "I'm up", and the day's stops (what is over fades, what is on now is green).
  */
 import { useLingui } from '@lingui/react/macro';
+import { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { crewAccent } from '@/features/trip';
@@ -10,16 +11,22 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Avatar, Button, PressableScale, ring, Text, usePremiumTheme } from '@/ui/premium';
 
 import { heroCopy } from '../../day-of/day-of-copy';
-import { clockIn } from '../../leave-by/model';
+import { clockIn, type LeaveByView } from '../../leave-by/model';
 import type { DayOfProps } from '../../day-of/use-day-of';
 
-export function Readiness({ props }: { readonly props: DayOfProps }) {
+export interface ReadinessProps {
+  readonly view: LeaveByView;
+  readonly now: Date;
+  readonly guideName: string;
+  readonly onImUp: () => void;
+}
+
+/** Memoised: the day page re-renders on every queued row, the card only when its own rows change. */
+export const Readiness = memo(function Readiness({ view, now, guideName, onImUp }: ReadinessProps) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const locale = useLocale();
-  const view = props.leaveBy;
-  if (view === null) return null;
-  const copy = heroCopy(view, props.now, props.guideName, locale);
+  const copy = heroCopy(view, now, guideName, locale);
   // With no pickup, guide note or traffic caveat to say, the card still leads with what the
   // leave-by is for, so it never opens on the faces alone.
   const what = view.title ?? view.placeName;
@@ -83,7 +90,7 @@ export function Readiness({ props }: { readonly props: DayOfProps }) {
         <Button
           label={t({ id: 'trip.dayOf.imUp', message: "I'm up" })}
           size="medium"
-          onPress={props.onImUp}
+          onPress={onImUp}
           testID="trip-day-im-up"
         />
       ) : null}
@@ -94,11 +101,15 @@ export function Readiness({ props }: { readonly props: DayOfProps }) {
       )}
     </View>
   );
-}
+});
 
-export function Stops({ props }: { readonly props: DayOfProps }) {
+export const Stops = memo(function Stops({
+  timeline,
+}: {
+  readonly timeline: DayOfProps['timeline'];
+}) {
   const th = usePremiumTheme();
-  if (props.timeline.length === 0) return null;
+  if (timeline.length === 0) return null;
   return (
     <View
       style={[
@@ -112,7 +123,7 @@ export function Stops({ props }: { readonly props: DayOfProps }) {
       ]}
       testID="trip-day-timeline"
     >
-      {props.timeline.map((entry, index) => {
+      {timeline.map((entry, index) => {
         const row = (
           <View
             style={[
@@ -150,7 +161,6 @@ export function Stops({ props }: { readonly props: DayOfProps }) {
           <PressableScale
             key={entry.id}
             onPress={entry.onPress}
-            pressedScale={0.99}
             accessibilityRole="button"
             testID={`trip-day-stop-${entry.id}`}
           >
@@ -160,7 +170,7 @@ export function Stops({ props }: { readonly props: DayOfProps }) {
       })}
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   card: { padding: 16, gap: 12 },

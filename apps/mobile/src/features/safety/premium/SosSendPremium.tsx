@@ -5,6 +5,7 @@
  * always there; past three SOS in a day the system alert asks once more.
  */
 import { useLingui } from '@lingui/react/macro';
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -26,6 +27,10 @@ export function SosSendPremium() {
   const sos = useSosSend();
   const { general, left } = sos;
   const sendLabel = t({ id: 'safety.send.action', message: 'Send SOS' });
+  // The footer clears the home indicator while the keyboard is down; up, it sits a gap above the
+  // keyboard with no band under it, and the focused words stay above the whole footer.
+  const footerPad = Math.max(insets.bottom, th.space.gap12);
+  const [footerHeight, setFooterHeight] = useState(0);
 
   const hold = () => {
     if (!sos.needsAgain) {
@@ -52,7 +57,10 @@ export function SosSendPremium() {
       testID="sos-send-screen"
     >
       <View style={[styles.root, { backgroundColor: th.color.ground }]}>
-        <KeyboardAwareScroll contentContainerStyle={{ paddingBottom: th.space.gap16 }}>
+        <KeyboardAwareScroll
+          bottomOffset={footerHeight - footerPad + th.space.gap12 + th.space.gap16}
+          contentContainerStyle={{ paddingBottom: th.space.gap16 }}
+        >
           <View
             style={[
               styles.band,
@@ -105,13 +113,14 @@ export function SosSendPremium() {
             />
           </View>
         </KeyboardAwareScroll>
-        <KeyboardStickyFooter>
+        <KeyboardStickyFooter openedOffset={th.space.gap12 - footerPad}>
           <View
+            onLayout={(event) => setFooterHeight(event.nativeEvent.layout.height)}
             style={[
               styles.footer,
               {
                 paddingHorizontal: th.space.gutter,
-                paddingBottom: insets.bottom + th.space.gap12,
+                paddingBottom: footerPad,
                 gap: th.space.gap12,
                 backgroundColor: th.color.ground,
               },
