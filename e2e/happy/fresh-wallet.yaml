@@ -152,9 +152,28 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'bookings-insurance-save'
 - extendedWaitUntil:
+    notVisible:
+      id: 'bookings-insurance-form'
+    timeout: 20000
+# The saved policy: its card on the insurance page (an empty wallet does not list it).
+- runFlow:
+    when:
+      notVisible:
+        id: 'bookings-insurance-card'
+    commands:
+      - runFlow:
+          file: ../_shared/open-link.yaml
+          env:
+            URL: critterpass-dev://wallet/bookings/insurance
+- extendedWaitUntil:
     visible:
       id: 'bookings-insurance-card'
     timeout: 20000
+- assertVisible: '(?i).*bao viet.*'
+- runFlow:
+    file: ../_shared/back-to.yaml
+    env:
+      MARK: 'wallet-switch'
 # A typed expense: 63.000 ₫ lands in LATEST and in what the crew of one has spent.
 - runFlow:
     when:

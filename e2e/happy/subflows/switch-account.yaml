@@ -25,23 +25,29 @@ appId: app.critterpass.dev
     timeout: 20000
 - tapOn:
     id: ${TARGET}
-# The app restarts on the new session; Home sends a brand-new account to onboarding.
+# The app restarts on the new session; Home sends a brand-new account to onboarding. The restart
+# can come back on Developer tools with nothing under it (a back would leave the app): Home's link
+# then takes it out.
 - waitForAnimationToEnd:
     timeout: 5000
-- openLink:
-    link: critterpass-dev://
-    optional: true
-- runFlow:
-    when:
-      visible: 'Open'
-    commands:
-      - tapOn: 'Open'
-# The restart can come back on Developer tools: back out to the splash (a new account) or Home.
 - extendedWaitUntil:
     visible:
-      id: 'onboarding-open|home-screen|tab-home|dev-build-marker|dev-nav-.*'
+      id: 'onboarding-open|home-screen|dev-build-marker|dev-nav-.*'
     timeout: 60000
 - runFlow:
-    file: ../../_shared/back-to.yaml
-    env:
-      MARK: 'onboarding-open|home-screen|tab-home'
+    when:
+      notVisible:
+        id: 'onboarding-open|home-screen'
+    commands:
+      - openLink:
+          link: critterpass-dev://
+          optional: true
+      - runFlow:
+          when:
+            visible: 'Open'
+          commands:
+            - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open|home-screen|tab-home'
+    timeout: 60000

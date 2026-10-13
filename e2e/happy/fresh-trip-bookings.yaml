@@ -121,6 +121,13 @@ appId: app.critterpass.dev
     file: subflows/pick-booking-day.yaml
     env:
       DAY: ${output.nextDay}
+- scrollUntilVisible:
+    element:
+      id: 'bookings-form-time'
+    direction: DOWN
+    timeout: 10000
+    visibilityPercentage: 100
+    centerElement: true
 - tapOn:
     id: 'bookings-form-time'
 - inputText: '09:00'

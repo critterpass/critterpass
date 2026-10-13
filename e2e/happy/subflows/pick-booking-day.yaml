@@ -28,6 +28,8 @@ appId: app.critterpass.dev
           id: 'bookings-form-date'
       - eraseText: 12
       - inputText: ${DAY}
+      # Put away, the keyboard leaves the next field clear of the form's footer.
+      - hideKeyboard
 - assertVisible:
     id: 'bookings-form-date'
     text: ${DAY}
