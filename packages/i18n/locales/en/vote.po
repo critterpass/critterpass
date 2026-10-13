@@ -108,6 +108,10 @@ msgstr "{guide} needs you to pick the last spot."
 msgid "vote.solo.body"
 msgstr "{guideName} plans it with you. No vote, no RSVP. A solo trip doesn't use a crew's free first trip."
 
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.pickOne"
+msgstr "{level} are level for the last spot. Tap the one that goes to the final."
+
 #: ../../apps/mobile/src/features/vote/premium/final/reveal-footer.tsx
 msgid "vote.reveal.backInDeck"
 msgstr "{loserName} goes back in the deck for next time"
@@ -145,6 +149,14 @@ msgstr "{voted} of {of}"
 msgid "vote.showdown.count"
 msgstr "{votes, plural, one {# vote} other {# votes}}"
 
+#: ../../apps/mobile/src/features/vote/premium/board/board-tile.tsx
+msgid "vote.premium.board.votes"
+msgstr "{votes, plural, one {# vote} other {# votes}}"
+
+#: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
+msgid "vote.premium.final.count"
+msgstr "{votes, plural, one {# vote} other {# votes}}"
+
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.lockedIn"
 msgstr "{winner} is locked in. No vote needed."
@@ -152,6 +164,10 @@ msgstr "{winner} is locked in. No vote needed."
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.result"
 msgstr "{winner} won {score}"
+
+#: ../../apps/mobile/src/features/vote/premium/board/board-parts.tsx
+msgid "vote.premium.board.pitchPlus"
+msgstr "+ Pitch a place"
 
 #: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
 msgid "vote.guest.saved"
@@ -213,6 +229,8 @@ msgid "vote.pitch.onBoard"
 msgstr "Already on the board"
 
 #: ../../apps/mobile/src/features/vote/final/tie-line.tsx
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+#: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 #: ../../apps/mobile/src/features/vote/premium/final/winner-reveal.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
@@ -245,6 +263,7 @@ msgstr "Ask the crew something"
 msgid "vote.guest.back"
 msgstr "Back"
 
+#: ../../apps/mobile/src/features/vote/premium/board/board-screen.tsx
 #: ../../apps/mobile/src/features/vote/premium/components/screen-states.tsx
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.premium.back"
@@ -253,6 +272,10 @@ msgstr "Back"
 #: ../../apps/mobile/src/features/vote/premium/final/reveal-footer.tsx
 msgid "vote.premium.reveal.backHome"
 msgstr "Back home"
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.pickBack"
+msgstr "Back to the board"
 
 #: ../../apps/mobile/src/features/vote/premium/places/guest-facts.ts
 msgid "vote.premium.guest.best"
@@ -271,6 +294,10 @@ msgstr "Best: {0}"
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
 msgid "vote.premium.cancel"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.keep"
 msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
@@ -343,15 +370,35 @@ msgstr "Drop this poll?"
 msgid "vote.final.allIn"
 msgstr "Everyone's in"
 
+#: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
+msgid "vote.premium.final.status"
+msgstr "Final"
+
 #. placeholder {0}: poll.votedCount
 #. placeholder {1}: poll.eligibleIds.length
 #: ../../apps/mobile/src/features/vote/premium/final/winner-reveal.tsx
 msgid "vote.premium.reveal.voted"
 msgstr "Final · {0} of {1} voted"
 
+#. placeholder {0}: deadline.day
+#: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
+msgid "vote.premium.final.statusDay"
+msgstr "Final · closes {0}"
+
+#. placeholder {0}: deadline.hours
+#: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
+msgid "vote.premium.final.statusHours"
+msgstr "Final · closes in {0}h"
+
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.premium.showdown.subtitle"
 msgstr "Final round"
+
+#. placeholder {0}: nameOf(first)
+#. placeholder {1}: nameOf(second)
+#: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
+msgid "vote.premium.final.open"
+msgstr "Final: {0} or {1}"
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.finalLine"
@@ -364,6 +411,10 @@ msgstr "From home"
 #: ../../apps/mobile/src/features/vote/premium/places/guest-dock.tsx
 msgid "vote.premium.guest.solo"
 msgstr "Go solo"
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.goToFinal"
+msgstr "Go to final"
 
 #: ../../apps/mobile/src/features/vote/premium/places/search-places.tsx
 msgid "vote.premium.search.guest"
@@ -378,6 +429,7 @@ msgstr "Guest guide · {0}"
 msgid "vote.premium.search.live"
 msgstr "Guide live"
 
+#: ../../apps/mobile/src/features/vote/premium/board/board-screen.tsx
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.showdown.missingLine"
 msgstr "It may be over, or this phone hasn’t got it yet."
@@ -388,6 +440,10 @@ msgstr "It may be over, or this phone hasn’t got it yet."
 #: ../../apps/mobile/src/features/vote/premium/final/reveal-lines.ts
 msgid "vote.reveal.tie"
 msgstr "It was a tie. {winnerName} won it: {0} cheaper for the {1} flying from {2}."
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.removeLine"
+msgstr "Its votes go with it, and its pitch goes back in the deck."
 
 #: ../../apps/mobile/src/features/vote/premium/places/solo-sheet.tsx
 msgid "vote.premium.solo.title"
@@ -406,9 +462,14 @@ msgstr "Loading the poll"
 msgid "vote.reveal.loading"
 msgstr "Loading the result"
 
+#: ../../apps/mobile/src/features/vote/premium/board/board-screen.tsx
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.showdown.loading"
 msgstr "Loading the vote"
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.lockIn"
+msgstr "Lock in {only}"
 
 #: ../../apps/mobile/src/features/vote/premium/final/reveal-lines.ts
 msgid "vote.reveal.lockedIn"
@@ -452,6 +513,10 @@ msgstr "No vote needed: you locked {winnerName} in. Next, the dates."
 #: ../../apps/mobile/src/features/vote/premium/final/reveal-lines.ts
 msgid "vote.reveal.lockedNote"
 msgstr "No vote this time: {winnerName} was locked in for the crew."
+
+#: ../../apps/mobile/src/features/vote/premium/board/board-tile.tsx
+msgid "vote.premium.board.noVotes"
+msgstr "No votes yet"
 
 #: ../../apps/mobile/src/features/vote/premium/places/search-places.tsx
 msgid "vote.search.guestLine"
@@ -498,6 +563,10 @@ msgstr "Pick the last spot in the final"
 msgid "vote.pitch.title"
 msgstr "Pitch a place"
 
+#: ../../apps/mobile/src/features/vote/premium/board/board-parts.tsx
+msgid "vote.premium.board.pitch"
+msgstr "Pitch a place"
+
 #: ../../apps/mobile/src/features/vote/premium/places/guest-dock.tsx
 msgid "vote.guest.pitch"
 msgstr "Pitch to the crew"
@@ -526,6 +595,10 @@ msgstr "Prices pending"
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
 msgid "vote.newPoll.question"
 msgstr "Question"
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.remove"
+msgstr "Remove"
 
 #: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
 msgid "vote.premium.guest.save"
@@ -564,9 +637,17 @@ msgstr "Solo trip to {placeName} started."
 msgid "vote.solo.start"
 msgstr "Start solo trip"
 
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.pickStart"
+msgstr "Start the final"
+
 #: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
 msgid "vote.premium.guest.reading"
 msgstr "still reading up…"
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.removeTitle"
+msgstr "Take {name} off the board?"
 
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
 msgid "vote.queued.remove"
@@ -579,6 +660,22 @@ msgstr "Taking your vote back"
 #: ../../apps/mobile/src/features/vote/places/use-solo-start.ts
 msgid "vote.solo.refused"
 msgstr "That didn't go through"
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.lockInFailed"
+msgstr "That didn't lock in. Try again in a moment."
+
+#: ../../apps/mobile/src/features/vote/premium/board/board-parts.tsx
+msgid "vote.premium.board.needsSignal"
+msgstr "That needs signal. Try again when you're back online."
+
+#: ../../apps/mobile/src/features/vote/premium/board/board-parts.tsx
+msgid "vote.premium.board.empty"
+msgstr "The board's empty. Pitch a place and I'll bring the facts."
+
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.finalFailed"
+msgstr "The final didn't start. Try again in a moment."
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.finalTitle"
@@ -604,6 +701,10 @@ msgstr "The question and answers you typed are not kept."
 msgid "vote.reveal.missingLine"
 msgstr "The vote may have been removed, or this phone hasn’t got it yet."
 
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.pickTwo"
+msgstr "These places are level. Tap the two that go to the final."
+
 #: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
 msgid "vote.guest.error"
 msgstr "This place didn't load. Try again?"
@@ -612,6 +713,7 @@ msgstr "This place didn't load. Try again?"
 msgid "vote.reveal.missingTitle"
 msgstr "This result isn’t here"
 
+#: ../../apps/mobile/src/features/vote/premium/board/board-screen.tsx
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.showdown.missingTitle"
 msgstr "This vote isn’t here"
@@ -636,10 +738,17 @@ msgstr "Two places left"
 msgid "vote.premium.showdown.vote"
 msgstr "Vote {name}"
 
+#. placeholder {0}: poll.votedCount
+#. placeholder {1}: poll.eligibleIds.length
+#: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
+msgid "vote.premium.board.status"
+msgstr "Vote open · {count} of {total} in"
+
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.premium.showdown.voted"
 msgstr "Voted {name}"
 
+#: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.final.vs"
 msgstr "vs"
@@ -655,6 +764,11 @@ msgstr "Where next?"
 
 #: ../../apps/mobile/src/features/vote/premium/final/winner-reveal.tsx
 msgid "vote.premium.reveal.title"
+msgstr "Where next?"
+
+#: ../../apps/mobile/src/features/vote/premium/board/board-parts.tsx
+#: ../../apps/mobile/src/features/vote/premium/board/board-screen.tsx
+msgid "vote.premium.board.title"
 msgstr "Where next?"
 
 #: ../../apps/mobile/src/features/vote/premium/final/winner-reveal.tsx
@@ -686,6 +800,10 @@ msgstr "Written by AI"
 #: ../../apps/mobile/src/features/vote/premium/places/solo-sheet.tsx
 msgid "vote.premium.solo.route"
 msgstr "You ⇢ {code}"
+
+#: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
+msgid "vote.premium.final.notVoted"
+msgstr "You haven't voted yet."
 
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.showdown.hint"
@@ -744,6 +862,10 @@ msgstr "your vote"
 
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.showdown.yours"
+msgstr "your vote"
+
+#: ../../apps/mobile/src/features/vote/premium/board/board-tile.tsx
+msgid "vote.premium.board.yours"
 msgstr "your vote"
 
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
