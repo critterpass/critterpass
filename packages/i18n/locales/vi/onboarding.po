@@ -559,6 +559,11 @@ msgstr "Lời mời trông như go.critterpass.app/i/… hoặc một mã sáu k
 msgid "onboarding.issued.stamp"
 msgstr "Đã cấp"
 
+#. Passport stamp word, upper case, must fit a 112 pt round stamp
+#: ../../apps/mobile/src/features/launch/premium/IssuedStamp.tsx
+msgid "launch.stamp.issued"
+msgstr "ĐÃ CẤP"
+
 #: ../../apps/mobile/src/features/onboarding/pass-facts.ts
 msgid "onboarding.pass.issued"
 msgstr "NGÀY CẤP"

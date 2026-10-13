@@ -149,8 +149,8 @@ msgid "chat.premium.settled.title"
 msgstr "Xong xuôi"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
-msgid "chat.premium.report.mute"
-msgstr "Tắt tiếng luôn {senderName}"
+msgid "chat.premium.report.muteSender"
+msgstr "Tắt tiếng luôn {name}"
 
 #: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
 msgid "crew.premium.invite.note"
@@ -810,8 +810,8 @@ msgid "chat.premium.menu.replySticker"
 msgstr "Trả lời bằng nhãn dán"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-bottom.tsx
-msgid "chat.premium.strip.replying"
-msgstr "Đang trả lời {0}"
+msgid "chat.premium.strip.replyingTo"
+msgstr "Đang trả lời {replyName}"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts
 msgid "chat.premium.menu.report"

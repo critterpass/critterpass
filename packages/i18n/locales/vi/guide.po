@@ -1220,14 +1220,14 @@ msgid "guide.voice.offlineQueued"
 msgstr "Bạn đang ngoại tuyến. {guideName} đã giữ câu hỏi và sẽ trả lời trong khung chat khi bạn có mạng lại."
 
 #: ../../apps/mobile/src/features/guide/premium/crew/crew-hint.tsx
-msgid "guide.crew.spentMidnight"
-msgstr "Bạn đã dùng hết lượt hỏi miễn phí hôm nay. {0} sẽ trả lời lại lúc nửa đêm."
+msgid "guide.premium.crew.spentMidnight"
+msgstr "Bạn đã dùng hết lượt hỏi miễn phí hôm nay. {guideName} sẽ trả lời lại lúc nửa đêm."
 
 #. placeholder {0}: left.hours
 #. placeholder {1}: left.minutes
 #: ../../apps/mobile/src/features/guide/premium/crew/crew-hint.tsx
-msgid "guide.crew.spent"
-msgstr "Bạn đã dùng hết lượt hỏi miễn phí hôm nay. {0} quay lại sau {1} giờ {2} phút."
+msgid "guide.premium.crew.spent"
+msgstr "Bạn đã dùng hết lượt hỏi miễn phí hôm nay. {guideName} quay lại sau {0} giờ {1} phút."
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-data.ts
 msgid "guide.dietary.queued"

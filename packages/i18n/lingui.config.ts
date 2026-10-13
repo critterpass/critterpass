@@ -236,6 +236,8 @@ export default defineConfig({
         // A trip's areas word the travel line the plan and Explore both show.
         ...(area === 'explore' ? [`${repoRootPrefix}/apps/mobile/src/data/areas/**`] : []),
         ...(area === 'go' ? [goButtonSource] : []),
+        // The launch screen's passport stamp opens onboarding.
+        ...(area === 'onboarding' ? [`${repoRootPrefix}/apps/mobile/src/features/launch/**`] : []),
       ],
       exclude:
         area === 'crew'

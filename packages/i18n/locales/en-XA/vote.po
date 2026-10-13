@@ -721,8 +721,6 @@ msgstr ""
 msgid "vote.premium.showdown.vote"
 msgstr ""
 
-#. placeholder {0}: poll.votedCount
-#. placeholder {1}: poll.eligibleIds.length
 #: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
 msgid "vote.premium.board.status"
 msgstr ""

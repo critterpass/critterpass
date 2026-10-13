@@ -149,7 +149,7 @@ msgid "chat.premium.settled.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/who-reacted-sheet.tsx
-msgid "chat.premium.report.mute"
+msgid "chat.premium.report.muteSender"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/invite-sheet.tsx
@@ -810,7 +810,7 @@ msgid "chat.premium.menu.replySticker"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-bottom.tsx
-msgid "chat.premium.strip.replying"
+msgid "chat.premium.strip.replyingTo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-menu-actions.ts

@@ -1220,13 +1220,13 @@ msgid "guide.voice.offlineQueued"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/crew/crew-hint.tsx
-msgid "guide.crew.spentMidnight"
+msgid "guide.premium.crew.spentMidnight"
 msgstr ""
 
 #. placeholder {0}: left.hours
 #. placeholder {1}: left.minutes
 #: ../../apps/mobile/src/features/guide/premium/crew/crew-hint.tsx
-msgid "guide.crew.spent"
+msgid "guide.premium.crew.spent"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-data.ts

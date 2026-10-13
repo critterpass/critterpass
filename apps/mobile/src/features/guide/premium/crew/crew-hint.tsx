@@ -80,11 +80,11 @@ export function PremiumGuideChatHint({ crewId }: { readonly crewId: string }) {
         <Text variant="captionMuted" tone="muted" testID="guide-crew-spent">
           {left === null
             ? t({
-                id: 'guide.crew.spentMidnight',
+                id: 'guide.premium.crew.spentMidnight',
                 message: `You've used today's free questions. ${guideName} answers again at midnight.`,
               })
             : t({
-                id: 'guide.crew.spent',
+                id: 'guide.premium.crew.spent',
                 message: `You've used today's free questions. ${guideName} is back in ${left.hours}h ${left.minutes}m.`,
               })}
         </Text>

@@ -1220,14 +1220,14 @@ msgid "guide.voice.offlineQueued"
 msgstr "You're offline. {guideName} has your question and answers in the chat when you're back online."
 
 #: ../../apps/mobile/src/features/guide/premium/crew/crew-hint.tsx
-msgid "guide.crew.spentMidnight"
-msgstr "You've used today's free questions. {0} answers again at midnight."
+msgid "guide.premium.crew.spentMidnight"
+msgstr "You've used today's free questions. {guideName} answers again at midnight."
 
 #. placeholder {0}: left.hours
 #. placeholder {1}: left.minutes
 #: ../../apps/mobile/src/features/guide/premium/crew/crew-hint.tsx
-msgid "guide.crew.spent"
-msgstr "You've used today's free questions. {0} is back in {1}h {2}m."
+msgid "guide.premium.crew.spent"
+msgstr "You've used today's free questions. {guideName} is back in {0}h {1}m."
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-data.ts
 msgid "guide.dietary.queued"
