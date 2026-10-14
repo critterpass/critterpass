@@ -81,7 +81,14 @@ export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
         <Text variant="label" tone="muted" align="center">
           {t({ id: 'crew.premium.on.kicker', message: 'Crew made' })}
         </Text>
-        <Text variant="display" align="center" accessibilityRole="header">
+        {/* Balanced lines: a long name breaks in the middle, never leaving "on" alone. */}
+        <Text
+          variant="display"
+          align="center"
+          accessibilityRole="header"
+          textBreakStrategy="balanced"
+          lineBreakStrategyIOS="push-out"
+        >
           {t({ id: 'crew.premium.on.title', message: `${name} is on` })}
         </Text>
         <Animated.View
@@ -126,13 +133,14 @@ export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
             testID="start-crew-code"
           >
             <View style={styles.codeHead}>
-              <Text variant="caption" tone="muted">
-                {t({ id: 'crew.start.codeLabel', message: 'Crew code' })}
+              <Text variant="tier" tone="muted" style={styles.eyebrow}>
+                {t({ id: 'crew.start.codeLabel', message: 'Crew code' }).toLocaleUpperCase()}
               </Text>
-              <Text variant="caption" tone="muted">
-                {copied
+              <Text variant="tier" tone="muted" style={styles.eyebrow}>
+                {(copied
                   ? t({ id: 'crew.premium.on.copied', message: 'Copied' })
-                  : t({ id: 'crew.premium.on.tapToCopy', message: 'Tap to copy' })}
+                  : t({ id: 'crew.premium.on.tapToCopy', message: 'Tap to copy' })
+                ).toLocaleUpperCase()}
               </Text>
             </View>
             <SplitFlapCode
@@ -211,6 +219,7 @@ const styles = StyleSheet.create({
   },
   grow: { flex: 1 },
   kicker: { letterSpacing: 2.6 },
+  eyebrow: { letterSpacing: 1.6 },
   crestDisc: { ...StyleSheet.absoluteFill, borderRadius: 30, opacity: 0.24 },
   perforation: { borderTopWidth: 2, borderStyle: 'dashed' },
   notch: { position: 'absolute', top: -12, width: 24, height: 24, borderRadius: 12 },

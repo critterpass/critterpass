@@ -89,6 +89,7 @@ export function EditCrewScreen() {
         sfSymbol: 'checkmark',
         glyph: 'check',
         primary: true,
+        text: true,
         onPress: save,
         testID: 'edit-crew-save',
       }}
