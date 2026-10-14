@@ -233,6 +233,12 @@ export default function DevToolsIndexScreen() {
           title="Report a problem"
           onPress={reportProblemUnderneath}
         />
+        {/* A page that fails as it renders, under the areas' recovery sheet: the device captures shoot it. */}
+        <ListCard
+          testID="dev-nav-recovery-fail"
+          title="Recovery: a page that fails"
+          onPress={() => router.push('/(dev)/recovery/fail')}
+        />
         <Section title="Demo data">
           <SeedDemoData />
           <SeedLiveMap />

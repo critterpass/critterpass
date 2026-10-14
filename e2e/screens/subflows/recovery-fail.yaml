@@ -1,0 +1,35 @@
+appId: app.critterpass.dev
+---
+# The recovery sheet over a page that fails as it renders (3.20): Developer tools' recovery entry,
+# shot once the sheet shows, then its way back and Home again.
+- evalScript: ${output.recoveryShown = false}
+- runFlow: ../../_shared/open-dev-tools.yaml
+- tapOn:
+    id: 'dev-nav-recovery-fail'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'shell-error'
+    timeout: 15000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'shell-error'
+    commands:
+      - evalScript: ${output.recoveryShown = true}
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '3.20'
+            NAME: something-broke
+            LOOK: light
+      - tapOn:
+          id: 'shell-error-back'
+          optional: true
+- runFlow:
+    when:
+      true: ${!output.recoveryShown}
+    commands:
+      - evalScript: "${output.captureMissing = (output.captureMissing || '') + ' 3.20-something-broke'}"
+- runFlow: ../../_shared/home-link.yaml
