@@ -309,6 +309,10 @@ appId: app.critterpass.dev
       text: '(?i).*3 saved.*'
     timeout: 30000
 - runFlow:
+    file: ../_shared/back-to.yaml
+    env:
+      MARK: 'trip-list-row-.*|home-screen'
+- runFlow:
     file: ../_shared/tab.yaml
     env:
       TAB: wallet
