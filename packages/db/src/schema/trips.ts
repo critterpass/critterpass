@@ -10,6 +10,7 @@ import {
   boolean,
   customType,
   date,
+  doublePrecision,
   integer,
   jsonb,
   pgTable,
@@ -33,6 +34,11 @@ const geographyMultiPolygon = customType<{ data: string }>({
   dataType: () => 'geography(MultiPolygon,4326)',
 });
 
+/** PostGIS `geography(Polygon,4326)` (`destinations.place_bounds`), typed as its WKB-hex text. */
+const geographyPolygon = customType<{ data: string }>({
+  dataType: () => 'geography(Polygon,4326)',
+});
+
 export const destinations = pgTable('destinations', {
   id: uuid('id')
     .primaryKey()
@@ -53,6 +59,30 @@ export const destinations = pgTable('destinations', {
   critterKey: text('critter_key'),
   /** Calibrates free-flow drive minutes to local traffic (editorial; 1.0 = none). */
   driveFactor: real('drive_factor').notNull().default(1),
+  /** The box place search and the day planner treat as this destination. */
+  placeBounds: geographyPolygon('place_bounds'),
+  /** `seed`, `critter`, `area` or `base` (the base-set build); the build only enriches the rest. */
+  origin: text('origin').notNull().default('critter'),
+  wikidataQid: text('wikidata_qid').unique(),
+  geonamesId: integer('geonames_id').unique(),
+  /** ISO 3166-1 alpha-2, upper case. */
+  countryCode: text('country_code'),
+  admin1: text('admin1'),
+  /** `city`, `town`, `village`, `island`, `park` or `region`. */
+  kind: text('kind'),
+  lat: doublePrecision('lat'),
+  lng: doublePrecision('lng'),
+  population: integer('population'),
+  /** `{en, vi, local, source?}`. */
+  names: jsonb('names').notNull().default({}),
+  baseRank: real('base_rank'),
+  /** `{method, distance_km, confidence?}` for a base row's critter. */
+  critterMatch: jsonb('critter_match'),
+  /** `{<locale>: {line, about}}` written from Wikidata and GeoNames facts only. */
+  texts: jsonb('texts').notNull().default({}),
+  baseBuiltAt: timestamp('base_built_at', { withTimezone: true, mode: 'date' }),
+  /** Generated column (name and names, lower case, unaccented); never written directly. */
+  searchName: text('search_name'),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });
