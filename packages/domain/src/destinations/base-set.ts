@@ -41,7 +41,7 @@ export function foldName(name: string): string {
   return name
     .normalize('NFD')
     .replace(/\p{Diacritic}/gu, '')
-    .replace(/[đĐ]/gu, 'd')
+    .replace(/[đĐðÐ]/gu, 'd')
     .toLowerCase()
     .replace(/[^a-z0-9]+/gu, ' ')
     .trim();

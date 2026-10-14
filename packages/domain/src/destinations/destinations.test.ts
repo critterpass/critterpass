@@ -75,7 +75,7 @@ describe('rankAndCap', () => {
       candidate({ name: `${country}${i}`, countryCode: country, sitelinks: sitelinks - i / 1000 }),
     );
 
-  it('caps each country, lets Vietnam keep more, and keeps a critter country’s floor', () => {
+  it('caps each country, keeps all of Vietnam and a critter country’s floor', () => {
     const rows = [...many('FR', 20, 100), ...many('VN', 20, 90), ...many('PE', 12, 1)];
     const kept = rankAndCap(rows, {
       perCountry: 5,
@@ -87,8 +87,8 @@ describe('rankAndCap', () => {
     const count = (c: string) => kept.filter((row) => row.countryCode === c).length;
     expect(kept).toHaveLength(14);
     expect(count('PE')).toBe(3);
-    expect(count('FR')).toBe(5);
-    expect(count('VN')).toBe(6);
+    expect(count('VN')).toBe(8);
+    expect(count('FR')).toBe(3);
   });
 
   it('ranks an island above a city of equal fame', () => {

@@ -18,7 +18,7 @@ import type pg from 'pg';
 import { loadGeoNames, type GeoNamesFiles } from './geonames';
 import { storeBasePhotos, type PhotoCounts } from './photos';
 import { loadExistingDestinations, toRecord, upsertBaseRows } from './upsert';
-import { loadWikidataCandidates } from './wikidata';
+import { loadWikidataByGeonames, loadWikidataCandidates, withFame } from './wikidata';
 
 export interface BaseBuildOptions {
   readonly dryRun?: boolean;
@@ -46,16 +46,25 @@ export interface BaseBuildSummary {
   readonly photos: PhotoCounts | null;
 }
 
+async function loadSources(
+  fetchImpl: typeof fetch,
+): Promise<{ geonames: GeoNamesFiles; wikidata: BaseCandidate[] }> {
+  const geonames = await loadGeoNames(fetchImpl);
+  const wikidata = await loadWikidataCandidates({ fetch: fetchImpl });
+  const fame = await loadWikidataByGeonames(
+    geonames.cities.flatMap((city) => (city.geonamesId === null ? [] : [city.geonamesId])),
+    { fetch: fetchImpl },
+  );
+  return { geonames: { ...geonames, cities: withFame(geonames.cities, fame) }, wikidata };
+}
+
 export async function runBaseBuild(
   pool: pg.Pool,
   options: BaseBuildOptions = {},
 ): Promise<BaseBuildSummary> {
   const now = options.now ?? new Date();
   const fetchImpl = options.fetch ?? fetch;
-  const sources = options.sources ?? {
-    geonames: await loadGeoNames(fetchImpl),
-    wikidata: await loadWikidataCandidates({ fetch: fetchImpl }),
-  };
+  const sources = options.sources ?? (await loadSources(fetchImpl));
   const joined = joinSources(sources.wikidata, sources.geonames.cities);
   const ranked = rankAndCap(joined, {
     ...BASE_CAP_RULES,

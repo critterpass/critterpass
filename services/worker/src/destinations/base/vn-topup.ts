@@ -7,7 +7,7 @@
  */
 import { pickVietnamTowns, type Gateway, type VnPickCandidate } from '@cp/ai';
 import { withSystem } from '@cp/db';
-import { baseScore, planUpsert, type BaseCandidate } from '@cp/domain';
+import { baseScore, foldName, planUpsert, type BaseCandidate } from '@cp/domain';
 import type pg from 'pg';
 
 import {
@@ -78,6 +78,8 @@ export async function runVietnamTopUp(
   );
   const picks: VnPickLine[] = [];
   const picked: BaseCandidate[] = [];
+  // Two GeoNames places of one name (a town and its district) are one destination.
+  const names = new Set<string>();
   let costMicros = 0;
   for (const { province, towns: shortlist } of provinceShortlists(towns)) {
     const candidates: VnPickCandidate[] = shortlist.map((town) => ({
@@ -89,7 +91,8 @@ export async function runVietnamTopUp(
     costMicros += result.costMicros;
     for (const pick of result.picks) {
       const town = shortlist.find((row) => row.geonamesId === pick.id);
-      if (town === undefined) continue;
+      if (town === undefined || names.has(foldName(town.name))) continue;
+      names.add(foldName(town.name));
       picked.push(town);
       picks.push({
         province,
@@ -101,13 +104,13 @@ export async function runVietnamTopUp(
     }
   }
   if (options.dryRun === true) return { picks, inserted: 0, enriched: 0, costMicros };
-  const names = new Map([...countries].map(([code, info]) => [code, info.name]));
+  const countryNames = new Map([...countries].map(([code, info]) => [code, info.name]));
   return withSystem(pool, async (tx) => {
     const existing = await loadExistingDestinations(tx);
     const planned = planUpsert(
       picked.map((town) => ({ ...town, score: baseScore(town) })),
       existing,
-      names,
+      countryNames,
     );
     const counts = await upsertBaseRows(
       tx,

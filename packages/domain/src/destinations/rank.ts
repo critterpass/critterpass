@@ -2,7 +2,7 @@
  * Ranking and capping the joined candidates: score = ln(sitelinks + 1) + 0.5·ln(population + 1),
  * plus 1 for an island or a national park. Each country keeps at most `perCountry` rows (Vietnam
  * `vietnamMax`); then, when the set is still over `total`, the lowest scores go, except that a
- * country with a critter keeps its best `floor`.
+ * country with a critter keeps its best `floor` and Vietnam keeps all of its rows.
  */
 import type { BaseCandidate } from './base-set';
 
@@ -48,7 +48,9 @@ export function rankAndCap(
   for (const [country, list] of byCountry) {
     list.sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
     const kept = list.slice(0, country === 'VN' ? rules.vietnamMax : rules.perCountry);
-    if (rules.critterCountries.has(country)) {
+    if (country === 'VN') {
+      for (const row of kept) protectedRows.add(row);
+    } else if (rules.critterCountries.has(country)) {
       for (const row of kept.slice(0, rules.floor)) protectedRows.add(row);
     }
     capped.push(...kept);
