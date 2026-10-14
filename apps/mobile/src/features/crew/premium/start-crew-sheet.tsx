@@ -7,13 +7,19 @@
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useEffect, useRef, useState, type ComponentRef } from 'react';
+import { StyleSheet, View, type TextInput } from 'react-native';
 
 import { DEFAULT_CREW_COVER, type CrewCover } from '@cp/domain';
 
 import { Button, GlassIconButton, GuideNote, Text, TextField, usePremiumTheme } from '@/ui/premium';
-import { useDirtySheetGuard, useScreenInsets } from '@/ui/premium/shell';
+import { usePresented } from '@/lib/navigation/use-presented';
+import {
+  SCROLL_EDGE_FADE,
+  ScrollEdgeFade,
+  useDirtySheetGuard,
+  useScreenInsets,
+} from '@/ui/premium/shell';
 import { KeyboardAwareScroll, KeyboardStickyFooter } from '@/ui/premium/shell/keyboard/keyboard';
 
 import { useReferralStamps } from '../settings/use-crew-detail';
@@ -56,6 +62,13 @@ function StartCrewForm({ start, cover }: StartCrewFormProps) {
   const stamps = useReferralStamps();
   const [lockedNote, setLockedNote] = useState<string | null>(null);
   const insets = useScreenInsets();
+  // The name takes focus once the sheet has risen: asked for during the rise, Android shows the
+  // caret but drops the keyboard, and the footer is left lifted for a keyboard that never came.
+  const presented = usePresented();
+  const nameField = useRef<ComponentRef<typeof TextInput>>(null);
+  useEffect(() => {
+    if (presented) nameField.current?.focus();
+  }, [presented]);
   useDirtySheetGuard(start.name.trim() !== '', {
     title: t({ id: 'crew.premium.start.discardTitle', message: 'Drop this crew?' }),
     message: t({ id: 'crew.premium.start.discardLine', message: 'The name you typed goes.' }),
@@ -82,79 +95,84 @@ function StartCrewForm({ start, cover }: StartCrewFormProps) {
         </Text>
         <View style={{ width: th.size.glassNav }} />
       </View>
-      <KeyboardAwareScroll
-        contentContainerStyle={{ paddingHorizontal: th.space.gutter }}
-        // The focused name keeps the footer's button above the keyboard.
-        bottomOffset={FOOTER_CLEARANCE + th.size.button + th.space.gap8 * 2}
-        contentInsetAdjustmentBehavior="never"
-      >
-        <View style={styles.stage}>
-          <View
-            pointerEvents="none"
-            style={[
-              styles.wash,
-              {
-                // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never copy.
-                experimental_backgroundImage: `radial-gradient(circle at 50% 50%, ${coverWash(cover)} 0%, transparent 70%)`,
-              },
-            ]}
-          />
-          <CrewPass
-            name={
-              start.name.trim() === ''
-                ? t({ id: 'crew.premium.start.placeholderName', message: 'Your crew' })
-                : start.name
-            }
-            cover={cover}
-            art={start.art}
-            seats={[]}
-            idle={start.name === ''}
-            testID="start-crew-pass"
-          />
-        </View>
-        <View style={[styles.form, { gap: th.space.gap8 }]}>
-          <Text variant="label" tone="muted">
-            {t({ id: 'crew.premium.start.nameLabel', message: 'Crew name' })}
-          </Text>
-          <TextField
-            accessibilityLabel={t({ id: 'crew.premium.start.nameLabel', message: 'Crew name' })}
-            value={start.name}
-            onChangeText={start.setName}
-            autoFocus
-            returnKeyType="done"
-            maxLength={start.max}
-            counter={`${String(Array.from(start.name).length)}/${String(start.max)}`}
-            testID="start-crew-name"
-          />
-          <Text variant="label" tone="muted" style={styles.section}>
-            {t({ id: 'crew.premium.start.sticker', message: 'Sticker' })}
-          </Text>
-          <StickerPicker value={start.art} onPick={start.setArt} testID="start-crew-art" />
-          <Text variant="label" tone="muted" style={styles.section}>
-            {t({ id: 'crew.premium.start.cover', message: 'Cover' })}
-          </Text>
-          <CoverPicker
-            options={coverOptions(stamps)}
-            value={cover}
-            onPick={(next) => {
-              setLockedNote(null);
-              start.setCover(next);
-            }}
-            onLocked={(locked) => setLockedNote(coverLockedNote(locked))}
-            testID="start-crew-cover"
-          />
-          {lockedNote === null && note === null ? (
-            <Text variant="caption" tone="muted" style={styles.section}>
-              {t({
-                id: 'crew.premium.start.hint',
-                message: 'Five seats wait on the pass. Tokek joins with your first trip.',
-              })}
+      {/* The pass scrolls under the header and above the footer into the ground, never cut. */}
+      <View style={styles.root}>
+        <KeyboardAwareScroll
+          contentContainerStyle={{ paddingHorizontal: th.space.gutter }}
+          // The focused name keeps the footer's button above the keyboard.
+          bottomOffset={FOOTER_CLEARANCE + th.size.button + th.space.gap8 * 2}
+          contentInsetAdjustmentBehavior="never"
+        >
+          <View style={styles.stage}>
+            <View
+              pointerEvents="none"
+              style={[
+                styles.wash,
+                {
+                  // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never copy.
+                  experimental_backgroundImage: `radial-gradient(circle at 50% 50%, ${coverWash(cover)} 0%, transparent 70%)`,
+                },
+              ]}
+            />
+            <CrewPass
+              name={
+                start.name.trim() === ''
+                  ? t({ id: 'crew.premium.start.placeholderName', message: 'Your crew' })
+                  : start.name
+              }
+              cover={cover}
+              art={start.art}
+              seats={[]}
+              idle={start.name === ''}
+              testID="start-crew-pass"
+            />
+          </View>
+          <View style={[styles.form, { gap: th.space.gap8 }]}>
+            <Text variant="label" tone="muted">
+              {t({ id: 'crew.premium.start.nameLabel', message: 'Crew name' })}
             </Text>
-          ) : (
-            <GuideNote name="Tokek" text={lockedNote ?? note ?? ''} testID="start-crew-note" />
-          )}
-        </View>
-      </KeyboardAwareScroll>
+            <TextField
+              ref={nameField}
+              accessibilityLabel={t({ id: 'crew.premium.start.nameLabel', message: 'Crew name' })}
+              value={start.name}
+              onChangeText={start.setName}
+              returnKeyType="done"
+              maxLength={start.max}
+              counter={`${String(Array.from(start.name).length)}/${String(start.max)}`}
+              testID="start-crew-name"
+            />
+            <Text variant="label" tone="muted" style={styles.section}>
+              {t({ id: 'crew.premium.start.sticker', message: 'Sticker' })}
+            </Text>
+            <StickerPicker value={start.art} onPick={start.setArt} testID="start-crew-art" />
+            <Text variant="label" tone="muted" style={styles.section}>
+              {t({ id: 'crew.premium.start.cover', message: 'Cover' })}
+            </Text>
+            <CoverPicker
+              options={coverOptions(stamps)}
+              value={cover}
+              onPick={(next) => {
+                setLockedNote(null);
+                start.setCover(next);
+              }}
+              onLocked={(locked) => setLockedNote(coverLockedNote(locked))}
+              testID="start-crew-cover"
+            />
+            {lockedNote === null && note === null ? (
+              <Text variant="caption" tone="muted" style={styles.section}>
+                {t({
+                  id: 'crew.premium.start.hint',
+                  message: 'Five seats wait on the pass. Tokek joins with your first trip.',
+                })}
+              </Text>
+            ) : (
+              <GuideNote name="Tokek" text={lockedNote ?? note ?? ''} testID="start-crew-note" />
+            )}
+          </View>
+        </KeyboardAwareScroll>
+        <ScrollEdgeFade edge="top" height={SCROLL_EDGE_FADE} />
+        <ScrollEdgeFade edge="bottom" height={SCROLL_EDGE_FADE} />
+      </View>
       <KeyboardStickyFooter
         openedOffset={th.space.gap8}
         style={{

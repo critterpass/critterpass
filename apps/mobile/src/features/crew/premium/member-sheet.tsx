@@ -20,6 +20,7 @@ import {
   ListCard,
   PressableScale,
   Row,
+  StickerIcon,
   Text,
   usePremiumTheme,
   useToast,
@@ -149,7 +150,7 @@ export function MemberSheet() {
           style={styles.tileWrap}
         >
           <Card style={styles.tile}>
-            <Icon name="chat" size={28} color={th.accent.sky} />
+            <StickerIcon name="chat" size={36} tilt={-6} />
             <Text variant="pillSmall">
               {t({ id: 'crew.premium.member.message', message: 'Message' })}
             </Text>
@@ -165,6 +166,7 @@ export function MemberSheet() {
                 id: 'crew.premium.member.promoteSub',
                 message: 'You stay in as a member',
               })}
+              trailing={<Icon name="forward" size={16} color={th.color.muted} />}
               onPress={() => void promote()}
               testID="crew-member-promote"
             />
@@ -176,9 +178,10 @@ export function MemberSheet() {
               style={styles.removeRow}
               testID="crew-member-remove"
             >
-              <Text variant="body" color={th.color.destructive.listAction}>
+              <Text variant="body" color={th.color.destructive.listAction} style={styles.flex}>
                 {t({ id: 'crew.premium.member.removeRow', message: 'Remove from the crew' })}
               </Text>
+              <Icon name="forward" size={16} color={th.color.muted} />
             </PressableScale>
           ) : null}
         </ListCard>
@@ -203,5 +206,12 @@ const styles = StyleSheet.create({
   tileWrap: { marginTop: 16 },
   tile: { height: 92, alignItems: 'center', justifyContent: 'center', gap: 6 },
   rows: { marginTop: 12, marginBottom: 16 },
-  removeRow: { minHeight: 48, justifyContent: 'center', paddingHorizontal: 14 },
+  removeRow: {
+    minHeight: 48,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 14,
+  },
+  flex: { flex: 1 },
 });

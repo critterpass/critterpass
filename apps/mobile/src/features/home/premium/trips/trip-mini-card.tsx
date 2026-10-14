@@ -18,9 +18,6 @@ import { tripDay } from '../../format';
 import { guideArt } from '../../guide-art';
 import { tripStage, type PremiumTripRow } from './trips-model';
 
-/** The dark disc's alpha over the accent (hex, about 22 %). */
-const DARK_DISC_ALPHA = '38';
-
 const useStyles = makePremiumStyles((t) => ({
   card: {
     flex: 1,
@@ -70,10 +67,11 @@ export function TripMiniCard({ trip, index, onPress }: TripMiniCardProps) {
   const when = trip.start_date === null ? null : tripDay(locale, trip.start_date);
   const percent = stage === 'voting' ? 10 : Math.max(8, Math.min(100, trip.plan_progress ?? 0));
   const fill = index % 2 === 0 ? theme.accent.tangerine : theme.accent.sun;
-  // In dark the status tints turn to deep browns; the disc keeps the accent's hue as a soft glow.
+  // In dark the status tints and a faded accent both turn to muddy browns over the card: the disc
+  // is the lifted control grey there, and the critter carries the colour.
   const tint =
     theme.scheme === 'dark'
-      ? `${fill}${DARK_DISC_ALPHA}`
+      ? theme.color.control
       : index % 2 === 0
         ? theme.color.status.tangerine.bg
         : theme.color.status.maybe.bg;
@@ -102,11 +100,13 @@ export function TripMiniCard({ trip, index, onPress }: TripMiniCardProps) {
       <Text variant="navTitle" numberOfLines={1}>
         {place}
       </Text>
-      {when === null ? null : (
-        <Text variant="caption" tone="muted" numberOfLines={1}>
-          {when}
-        </Text>
-      )}
+      {/* Always a line under the name, so cards side by side share their baselines. */}
+      <Text variant="caption" tone="muted" numberOfLines={1}>
+        {when ??
+          (stage === 'voting'
+            ? t({ id: 'home.premium.trips.datesToVote', message: 'Dates to vote' })
+            : t({ id: 'home.premium.trips.noDates', message: 'No dates yet' }))}
+      </Text>
       <View style={styles.bar}>
         <View style={{ width: `${percent}%`, height: 5, backgroundColor: fill }} />
       </View>

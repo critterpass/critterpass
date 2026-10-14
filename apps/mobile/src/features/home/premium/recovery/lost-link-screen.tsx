@@ -46,12 +46,13 @@ const useStyles = makePremiumStyles((t) => ({
   },
   art: { height: 220, alignItems: 'center', justifyContent: 'center' },
   pin: { position: 'absolute', end: 96, top: 30, transform: [{ rotate: '12deg' }] },
+  // A soft ground shadow under the critter, not a solid bar that reads as a loading line.
   shadow: {
-    width: 120,
-    height: 14,
-    borderRadius: 60,
-    backgroundColor: t.color.hairline,
-    marginTop: 4,
+    width: 140,
+    height: 22,
+    marginTop: 0,
+    experimental_backgroundImage:
+      'radial-gradient(closest-side, rgba(23,20,42,0.16), rgba(23,20,42,0))',
   },
   tile: { width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   grow: { flex: 1 },

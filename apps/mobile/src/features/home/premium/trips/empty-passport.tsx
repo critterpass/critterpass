@@ -154,11 +154,12 @@ export function EmptyPassport({ onPitch, onJoin }: EmptyPassportProps) {
           <CritterSticker kind="gecko" name="Tokek" size={112} pose="point" />
         </View>
       </View>
-      <View style={{ gap: 6 }}>
-        <Text variant="largeTitle" accessibilityRole="header" align="center">
+      {/* Left-set a little in from the cards, as the design sets the words (3.06). */}
+      <View style={{ gap: 6, paddingHorizontal: 8 }}>
+        <Text variant="largeTitle" accessibilityRole="header">
           {t({ id: 'home.premium.trips.emptyTitle', message: 'Your first stamp is waiting' })}
         </Text>
-        <Text variant="body" tone="muted" align="center">
+        <Text variant="body" tone="muted">
           {t({
             id: 'home.premium.trips.emptyLine',
             message: 'Pitch a place to your crew, or join a crew that already has a trip going.',
