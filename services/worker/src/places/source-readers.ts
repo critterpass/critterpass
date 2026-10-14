@@ -23,6 +23,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { isLeanPlace, mapSourceCategoriesToTaxonomy } from '@cp/domain';
 import { DuckDBInstance, type DuckDBConnection } from '@duckdb/node-api';
 
 import { withStepTimeout } from './step-timeout';
@@ -178,6 +179,20 @@ export const readOverturePlaces: PlaceSourceReader = async (bbox) => {
     }));
   });
 };
+
+/**
+ * Whether an Overture row belongs in the lean index (`isLeanPlace` in `@cp/domain`): a travel
+ * kind, or a transit hub by its label, at or above the confidence floor. Ingest drops the rest
+ * before conflation, so they are never written.
+ */
+export function isLeanOvertureRow(row: PlaceSourceRow): boolean {
+  return isLeanPlace({
+    category: mapSourceCategoriesToTaxonomy(row.categoryLabels),
+    labels: row.categoryLabels.slice(0, 1),
+    source: 'overture',
+    confidence: row.confidence,
+  });
+}
 
 /** Which FSQ OS source an ingest would read right now. */
 export type FsqOsSource = 'iceberg' | 'parquet' | 'none';

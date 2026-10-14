@@ -151,6 +151,7 @@ export { openSpans, openThrough, type OpenSpan } from './places/open-spans';
 export { DEFAULT_VISIT_MIN, visitMinutes } from './places/visit-minutes';
 export * from './places/shown-names';
 export * from './places/osm';
+export * from './places/lean';
 export * from './places/foursquare';
 export * from './places/foursquare-match';
 export * from './places/foursquare-photos';
