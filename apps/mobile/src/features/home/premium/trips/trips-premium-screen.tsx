@@ -9,7 +9,7 @@ import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
@@ -29,6 +29,7 @@ import { HOME_ROUTES, homeRoutes } from '../../routes';
 import { tripDayOf } from '../../trip-day';
 import { LiveTripCard } from '../components/live-trip-card';
 import { Polaroid } from '../components/polaroid';
+import { TabPageScroll } from '../components/tab-bar-fade';
 import { EmptyPassport } from './empty-passport';
 import { TripMiniCard } from './trip-mini-card';
 import { splitTrips, type TripsFilter } from './trips-model';
@@ -105,7 +106,7 @@ export function TripsPremiumScreen() {
       testID="trip-list"
     >
       {({ scrollProps, largeTitle }) => (
-        <ScrollView {...scrollProps} contentContainerStyle={styles.content}>
+        <TabPageScroll {...scrollProps} contentContainerStyle={styles.content}>
           {largeTitle}
           {!trips.loaded ? (
             <View style={{ gap: theme.space.gap16 }} testID="trip-list-loading">
@@ -213,7 +214,7 @@ export function TripsPremiumScreen() {
               )}
             </>
           )}
-        </ScrollView>
+        </TabPageScroll>
       )}
     </RootScreen>
   );
