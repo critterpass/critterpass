@@ -10,7 +10,7 @@ import { REDUCED_FADE_MS, usePremiumReducedMotion, usePremiumTheme } from '../..
 import { freezeOptions, type StackState } from './freeze-behind';
 import { oneCardRouter } from './one-card-router';
 import { presentedScreenOptions } from './presentation-options';
-import { presentedScreenLayout } from './presented-insets';
+import { presentedLayoutFor } from './presented-insets';
 import {
   childPresentations,
   childrenInsideCard,
@@ -83,6 +83,21 @@ export function PremiumStack({ navigator, children }: PremiumStackProps) {
     },
     [color.ground, navigator, reduced, insideCard],
   );
+  // A page pushed after one of this stack's sheets shows inside it (iOS).
+  const screenLayout = useMemo(
+    () =>
+      presentedLayoutFor((route) => {
+        if (insideCard) return undefined;
+        const name = route.name ?? '';
+        return (
+          ownPresentations.get(name) ??
+          (navigator === undefined
+            ? undefined
+            : presentedScreenOptions(`${navigator}/${name}`).presentation)
+        );
+      }),
+    [insideCard, navigator, ownPresentations],
+  );
   // A page or sheet opened over one of this stack's sheets replaces it (`oneCardRoutes`).
   const router = useMemo(
     () =>
@@ -98,11 +113,7 @@ export function PremiumStack({ navigator, children }: PremiumStackProps) {
     <>
       <StatusBar barStyle={scheme === 'dark' ? 'light-content' : 'dark-content'} animated />
       <InsideCardContext value={insideCard}>
-        <Stack
-          screenOptions={screenOptions}
-          screenLayout={presentedScreenLayout}
-          UNSTABLE_router={router}
-        >
+        <Stack screenOptions={screenOptions} screenLayout={screenLayout} UNSTABLE_router={router}>
           {screens}
         </Stack>
       </InsideCardContext>

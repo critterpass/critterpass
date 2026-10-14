@@ -36,30 +36,76 @@ function SheetInsets({ top, children }: { readonly top: number; readonly childre
   return <SafeAreaInsetsContext.Provider value={value}>{children}</SafeAreaInsetsContext.Provider>;
 }
 
+/** A route as a stack's layout reads it. */
+export interface LayoutRoute {
+  readonly key: string;
+  readonly name?: string;
+  readonly params?: object | undefined;
+}
+
 interface ScreenLayoutArgs {
-  readonly route: { readonly key: string };
+  readonly route: LayoutRoute;
   readonly navigation: {
-    readonly getState: () => { readonly routes: readonly { readonly key: string }[] } | undefined;
+    readonly getState: () => { readonly routes: readonly LayoutRoute[] } | undefined;
   };
   readonly options: NativeStackNavigationOptions;
   readonly children: ReactElement;
 }
 
+/** How a stack presents one of its routes, as its own options say. */
+export type PresentationOfRoute = (
+  route: LayoutRoute,
+) => NativeStackNavigationOptions['presentation'];
+
+/**
+ * The top inset a page pushed after a card in the same stack lays out from. iOS shows such a push
+ * inside the card (the native stack hands the push to the sheet's own controller), so its top is
+ * the card's top edge, not the window's: the window's 59 pt opened the page with an empty band
+ * under the grabber.
+ */
+export function insideCardTopInset(
+  routes: readonly LayoutRoute[],
+  key: string,
+  presentationOf: PresentationOfRoute,
+  os: typeof Platform.OS = Platform.OS,
+): number | undefined {
+  const index = routes.findIndex((route) => route.key === key);
+  // The first route is the stack's own page, never presented.
+  for (let under = index - 1; under > 0; under -= 1) {
+    const below = routes[under];
+    if (below === undefined) continue;
+    const top = presentedTopInset({ presentation: presentationOf(below) }, os);
+    if (top !== undefined) return top;
+  }
+  return undefined;
+}
+
 /**
  * A premium navigator's `screenLayout`: every screen gets its own keyboard footer scope (a sticky
- * footer tells the screen's form how much room it takes), and a screen it presents as a sheet gets
- * the sheet's insets.
+ * footer tells the screen's form how much room it takes), and a screen it presents as a sheet, or
+ * pushes inside one, gets the sheet's insets.
  * A stack never presents its first screen, whatever its options say: that one is the group's,
  * and the navigator above that presented the group (or pushed it, or rose it as a page) decides.
  */
-export function presentedScreenLayout({
-  route,
-  navigation,
-  options,
-  children,
-}: ScreenLayoutArgs): ReactElement {
-  const first = navigation.getState()?.routes[0]?.key === route.key;
-  const top = first ? undefined : presentedTopInset(options);
-  const scoped = <KeyboardFooterScope>{children}</KeyboardFooterScope>;
-  return top === undefined ? scoped : <SheetInsets top={top}>{scoped}</SheetInsets>;
+export function presentedLayoutFor(presentationOf?: PresentationOfRoute) {
+  return function presentedScreenLayout({
+    route,
+    navigation,
+    options,
+    children,
+  }: ScreenLayoutArgs): ReactElement {
+    const routes = navigation.getState()?.routes ?? [];
+    const first = routes[0]?.key === route.key;
+    const own = first ? undefined : presentedTopInset(options);
+    const top =
+      own ??
+      (first || presentationOf === undefined || options.presentation !== undefined
+        ? undefined
+        : insideCardTopInset(routes, route.key, presentationOf));
+    const scoped = <KeyboardFooterScope>{children}</KeyboardFooterScope>;
+    return top === undefined ? scoped : <SheetInsets top={top}>{scoped}</SheetInsets>;
+  };
 }
+
+/** The layout for a stack whose routes' presentations aren't known here. */
+export const presentedScreenLayout = presentedLayoutFor();
