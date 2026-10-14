@@ -192,6 +192,10 @@ msgstr "Thêm số hiệu chuyến bay để lưu"
 msgid "bookings.insurance.add"
 msgstr "Thêm bảo hiểm du lịch"
 
+#: ../../apps/mobile/src/features/bookings/premium/components/ConfirmationCode.tsx
+msgid "bookings.premium.addressCopied"
+msgstr "Đã sao chép địa chỉ"
+
 #: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
 msgid "bookings.form.flightProblem"
 msgstr "Mã hãng và số hiệu chuyến"

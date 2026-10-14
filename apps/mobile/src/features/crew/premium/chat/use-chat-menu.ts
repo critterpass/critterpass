@@ -60,7 +60,14 @@ export function useChatMenu(deps: ChatMenuDeps) {
         if (message.refId !== null) router.push(whereRoute(message.refId));
       },
       showWho: () => deps.setOverlay({ kind: 'who', message }),
-      copy: () => void Clipboard.setStringAsync(message.body),
+      // iOS shows nothing when an app copies: the toast says it happened.
+      copy: () =>
+        void Clipboard.setStringAsync(message.body).then(() =>
+          toast.show({
+            kind: 'done',
+            message: t({ id: 'chat.premium.copied', message: 'Copied' }),
+          }),
+        ),
       edit: () => {
         deps.setEditing(message);
         deps.setDraft(message.body);

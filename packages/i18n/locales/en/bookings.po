@@ -192,6 +192,10 @@ msgstr "Add the flight number to save"
 msgid "bookings.insurance.add"
 msgstr "Add travel insurance"
 
+#: ../../apps/mobile/src/features/bookings/premium/components/ConfirmationCode.tsx
+msgid "bookings.premium.addressCopied"
+msgstr "Address copied"
+
 #: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
 msgid "bookings.form.flightProblem"
 msgstr "Airline code and number"
