@@ -4,6 +4,8 @@
  * sheets built from them are created once per scheme.
  */
 import { boxShadow, premium } from '@cp/design-tokens';
+
+import { kitType } from './kit-type';
 import type {
   PremiumElevation,
   PremiumGlassKind,
@@ -18,7 +20,7 @@ export interface PremiumTheme {
   readonly accent: typeof premium.accent;
   readonly stamp: typeof premium.stamp;
   readonly signal: typeof premium.signal;
-  readonly type: typeof premium.type;
+  readonly type: typeof kitType;
   readonly radius: typeof premium.radius;
   readonly space: typeof premium.space;
   readonly size: typeof premium.size;
@@ -50,7 +52,7 @@ function build(scheme: PremiumScheme): PremiumTheme {
     accent: premium.accent,
     stamp: premium.stamp,
     signal: premium.signal,
-    type: premium.type,
+    type: kitType,
     radius: premium.radius,
     space: premium.space,
     size: premium.size,

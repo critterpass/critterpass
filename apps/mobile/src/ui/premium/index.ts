@@ -62,8 +62,12 @@ export {
 } from './theme/PremiumThemeProvider';
 export type { PremiumThemeProviderProps } from './theme/PremiumThemeProvider';
 export { PREMIUM_THEMES } from './theme/theme';
+export { kitType } from './theme/kit-type';
+export type { PremiumTypeName } from './theme/kit-type';
 export type { PremiumTheme } from './theme/theme';
 export { Checkbox } from './controls/Checkbox';
+export { Chip, chipLook } from './controls/Chip';
+export type { ChipProps, ChipSize, ChipSurface } from './controls/Chip';
 export type { CheckboxProps } from './controls/Checkbox';
 export { Composer } from './controls/Composer';
 export type { ComposerIdleAction, ComposerProps } from './controls/Composer';

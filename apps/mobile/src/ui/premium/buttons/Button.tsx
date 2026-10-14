@@ -1,14 +1,13 @@
 import { View } from 'react-native';
 import type { ViewStyle } from 'react-native';
 
-import type { PremiumTypeName } from '@cp/design-tokens';
-
 import { Spinner } from '../feedback/Spinner';
 import { Icon } from '../icons/Icon';
 import type { PremiumIconName } from '../icons/Icon';
 import { PressableScale, hitSlopFor } from '../motion/PressableScale';
 import { Text } from '../text/Text';
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
+import type { PremiumTypeName } from '../theme/kit-type';
 import type { PremiumTheme } from '../theme/theme';
 
 /**

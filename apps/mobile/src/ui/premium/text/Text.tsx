@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { Platform, Text as RNText, StyleSheet } from 'react-native';
 import type { StyleProp, TextProps as RNTextProps, TextStyle } from 'react-native';
 
-import type { PremiumPalette, PremiumTypeName, PremiumTypeStyle } from '@cp/design-tokens';
+import type { PremiumPalette, PremiumTypeStyle } from '@cp/design-tokens';
 
 import { fontFor } from '@/lib/fonts';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -11,6 +11,7 @@ import { useThemeSettings } from '@/lib/theme';
 import { textLayoutProblems } from '@/lib/qa/text-layout-check';
 import { reportUiQa, UI_QA_ENABLED } from '@/lib/qa/ui-qa';
 
+import type { PremiumTypeName } from '../theme/kit-type';
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 import { useReportBodyTitle } from './body-title';
 import { markRoom, marksClipped } from './mark-room';
@@ -47,6 +48,7 @@ const ONE_LINE_VARIANTS: ReadonlySet<PremiumTypeName> = new Set<PremiumTypeName>
   'textButton',
   'glassTitle',
   'segment',
+  'chip',
   'pillSmall',
   'badge',
   'toastAction',

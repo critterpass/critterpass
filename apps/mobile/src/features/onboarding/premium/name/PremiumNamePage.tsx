@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { Keyboard, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { Button, GuideNote, PressableScale, Text, TextField, usePremiumTheme } from '@/ui/premium';
+import { Button, Chip, GuideNote, Text, TextField, usePremiumTheme } from '@/ui/premium';
 
 import { guideFacts } from '../../guide-faces';
 import { atNameLimit, nameSuggestions } from '../../name/name-suggestions';
@@ -108,25 +108,12 @@ export function PremiumNamePage() {
             </Text>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap8 }}>
               {suggestions.map((option) => (
-                <PressableScale
+                <Chip
                   key={option}
+                  label={option}
+                  surface="white"
                   onPress={() => step.onChange(option)}
-                  accessibilityRole="button"
-                  accessibilityLabel={option}
-                >
-                  <View
-                    style={{
-                      height: 36,
-                      paddingHorizontal: theme.space.gap14,
-                      borderRadius: 18,
-                      backgroundColor: theme.color.card,
-                      justifyContent: 'center',
-                      boxShadow: theme.shadow.raised,
-                    }}
-                  >
-                    <Text variant="rowTextStrong">{option}</Text>
-                  </View>
-                </PressableScale>
+                />
               ))}
             </View>
           </View>

@@ -14,9 +14,9 @@ import { goBackOr } from '@/lib/navigation/back';
 import {
   Button,
   Card,
+  Chip,
   Icon,
   LoadingCritter,
-  PressableScale,
   Text,
   usePremiumReducedMotion,
   usePremiumTheme,
@@ -33,30 +33,20 @@ export function PremiumReasonChips(props: {
   readonly selected: ReadonlySet<RedraftReasonKey>;
   readonly onToggle: (reason: RedraftReasonKey) => void;
 }) {
-  const theme = usePremiumTheme();
   return (
     <View style={styles.wrap} testID="redraft-reasons">
       {REDRAFT_REASON_CHIPS.map(({ key }) => {
         const on = props.selected.has(key);
         return (
-          <PressableScale
+          <Chip
             key={key}
-            onPress={() => props.onToggle(key)}
+            label={reasonLabel(key)}
+            selected={on}
+            surface="white"
             accessibilityRole="checkbox"
-            accessibilityState={{ checked: on }}
-            style={[
-              styles.chip,
-              { borderRadius: theme.radius.pill },
-              on
-                ? { backgroundColor: theme.color.inkSurface }
-                : { backgroundColor: theme.color.card, boxShadow: theme.shadow.card },
-            ]}
+            onPress={() => props.onToggle(key)}
             testID={`redraft-reason-${key}`}
-          >
-            <Text variant="segment" tone={on ? 'onInk' : 'ink'} numberOfLines={1}>
-              {reasonLabel(key)}
-            </Text>
-          </PressableScale>
+          />
         );
       })}
     </View>
@@ -147,7 +137,6 @@ export function PremiumBoostOffer({ onBoost }: { readonly onBoost: (() => void) 
 
 const styles = StyleSheet.create({
   wrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  chip: { height: 40, paddingHorizontal: 16, justifyContent: 'center' },
   summary: { gap: 6 },
   keeps: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   waiting: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },

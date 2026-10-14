@@ -17,6 +17,7 @@ import Animated, {
 import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   CritterSticker,
+  Chip,
   Icon,
   PressableScale,
   SPRINGS,
@@ -143,26 +144,14 @@ export function TopicChips({
       {topics.map((topic) => {
         const on = value === topic;
         return (
-          <PressableScale
+          <Chip
             key={topic}
+            label={labels[topic]}
+            selected={on}
+            surface="white"
             onPress={() => onPick(topic)}
-            accessibilityRole="button"
-            accessibilityState={{ selected: on }}
-            accessibilityLabel={labels[topic]}
             testID={`feedback-topic-${topic}`}
-            style={{
-              minHeight: 36,
-              justifyContent: 'center',
-              paddingHorizontal: th.space.gap14,
-              borderRadius: th.radius.pillSmall,
-              backgroundColor: on ? th.color.ink : th.color.card,
-              ...(on ? {} : { boxShadow: th.shadow.card }),
-            }}
-          >
-            <Text variant="pillSmall" tone={on ? 'onInk' : 'ink'}>
-              {labels[topic]}
-            </Text>
-          </PressableScale>
+          />
         );
       })}
     </View>
