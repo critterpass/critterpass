@@ -9,7 +9,8 @@
  *   fills the screen's middle. The designed presenter scale under an open sheet (.93,
  *   docs/design-system.md) is allowed: an inset of that size that stops where a full-width sheet
  *   starts, rather than running on down the sheet's sides. So is an iOS 26 inset sheet over the
- *   dimmed page: the dimmed page runs on above the sheet's top, where no screen sits inside it.
+ *   dimmed page: the dimmed page runs on above the sheet's top, where no screen sits inside it. And
+ *   a card of the other scheme on its page (the light boarding pass on the dark page).
  * - KEYBOARD_BAND: with the keyboard up, a full-width band of one colour that isn't the screen's
  *   background sits right above it (the keyboard pushed a footer up and left a black gap).
  * - EMPTY_SCREEN: almost every row of the screen is bare background (content that never drew).
@@ -20,7 +21,11 @@
  * Pure functions over decoded pixels, so they run on the shards without the workspace installed.
  */
 import type { RgbaImage } from './png';
-import { isInsetSheetOverDimmedPage, screenGrounds } from './screen-checks-premium';
+import {
+  isInsetSheetOverDimmedPage,
+  isOtherSchemeCardOnPage,
+  screenGrounds,
+} from './screen-checks-premium';
 import { findCardAtEdge, findShadowCut } from './screen-edge-checks';
 import { findSheetTopGap } from './screen-sheet-checks';
 import {
@@ -150,6 +155,7 @@ export function findFrame(image: RgbaImage, options: ScreenCheckOptions): Screen
   if (isPresenterUnderSheet(image, rows, inset, frameColour)) return null;
   if (isSheetAroundInsetCard(image, rows, frameColour)) return null;
   if (isInsetSheetOverDimmedPage(image, rows, inset, frameColour)) return null;
+  if (isOtherSchemeCardOnPage(frameColour, grounds, options)) return null;
   return {
     code: 'SCREEN_FRAME',
     detail: `a ${hex(dominant(edges))} frame ${String(Math.round(inset))}px wide runs down both sides (${String(Math.round((insets.length / rows.length) * 100))}% of the screen); the screen background is ${hex(grounds[0] ?? options.background)}`,
