@@ -318,9 +318,11 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
       if (MAP_TYPES.test(type)) inner = { ...inner, free: true };
       if (type === 'RNSScreen') {
         const presentation = props.stackPresentation;
+        // A stack presented as a sheet keeps its screens (pushed inside it) on the sheet's surface.
         inner = {
           ...inner,
-          presented: typeof presentation === 'string' && OWN_SURFACE.has(presentation),
+          presented:
+            inner.presented || (typeof presentation === 'string' && OWN_SURFACE.has(presentation)),
         };
       }
       if (isControl(type, props)) {

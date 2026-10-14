@@ -188,6 +188,21 @@ describe('layout tree', () => {
     ]);
   });
 
+  it('marks texts in a stack presented as a sheet, its screens pushed inside it', () => {
+    const root = tree([
+      screen('pitch', true, [
+        host('RNSScreen', { stackPresentation: 'formSheet' }, at(0, 0, 402, 800), [
+          host('RNSScreen', { stackPresentation: 'push' }, at(0, 0, 402, 800), [
+            words('Pitch a place', at(152, 33, 99, 14)),
+          ]),
+        ]),
+      ]),
+    ]);
+    expect(collectLayoutTree(root, contexts).texts.map((t) => [t.words, t.presented])).toEqual([
+      ['Pitch a place', true],
+    ]);
+  });
+
   it('marks map labels free and names texts with ticking digits once', () => {
     const root = tree([
       screen('plan', true, [
