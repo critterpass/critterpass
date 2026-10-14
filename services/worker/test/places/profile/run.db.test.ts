@@ -3,7 +3,8 @@
  * answers and two pages shaped from the pipeline's run of 6 Oct 2026, and live recordings of
  * DeepSeek (the write, its web-search second source, the French translation) and Jev for Bảo Đại
  * Summer Palace in Đà Lạt. The run saves a checked, cited profile in English and Vietnamese with
- * Jev's labels and a stored photo; a second run, a reviewed place and a spent cap call nothing.
+ * Jev's labels and no photo (no image is searched for or downloaded); a second run, a reviewed
+ * place and a spent cap call nothing.
  */
 import { readFileSync } from 'node:fs';
 
@@ -16,7 +17,6 @@ import {
   type PlaceEstimates,
   type PlaceProfileText,
 } from '@cp/domain';
-import sharp from 'sharp';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
 import { runPlaceProfile, type PlaceProfileDeps } from '../../../src/places/profile/run';
@@ -31,10 +31,8 @@ const recorded = (name: string) =>
   (JSON.parse(file(`${name}.json`)) as { response: { status: number; body: unknown } }).response;
 
 const SEARX = 'http://searxng.test:8080';
-const IMAGE = 'https://vinwonders.com/images/dinh-3.jpg';
 
 let harness: JobsHarness;
-let photo: Buffer;
 let palace: string;
 let reviewed: string;
 let destinationId: string;
@@ -64,11 +62,6 @@ function network() {
     if (url.startsWith('https://agotourist.com/'))
       return Promise.resolve(html('page-agotourist.html'));
     if (url.startsWith('https://viet-go.com/')) return Promise.resolve(html('page-viet-go.html'));
-    if (url === IMAGE) {
-      return Promise.resolve(
-        new Response(new Uint8Array(photo), { headers: { 'content-type': 'image/jpeg' } }),
-      );
-    }
     if (url.includes('typesafe.ai')) {
       return Promise.resolve(
         json(body.includes('busy_windows') ? 'jev-place-estimates' : 'jev-place-labels'),
@@ -91,7 +84,6 @@ function network() {
 }
 
 function deps(net: ReturnType<typeof network>, overrides: Partial<PlaceProfileDeps> = {}) {
-  const puts: { key: string; bytes: number; type: string }[] = [];
   const gateway = createGateway({ apiKey: 'fixture-key', fetch: net.fetch, maxAttempts: 1 });
   const value: PlaceProfileDeps = {
     gateway,
@@ -103,18 +95,12 @@ function deps(net: ReturnType<typeof network>, overrides: Partial<PlaceProfileDe
       pool: harness.pool,
       fetch: net.fetch,
     }),
-    store: {
-      put: (key, bytes, type) => {
-        puts.push({ key, bytes: bytes.byteLength, type });
-        return Promise.resolve();
-      },
-    },
     tier: 'fast',
     dailyCapMicros: 1_000_000,
     fetch: net.fetch,
     ...overrides,
   };
-  return { value, puts, gateway };
+  return { value, gateway };
 }
 
 async function place(name: string, nameLocal: string | null, editorial: object = {}) {
@@ -128,11 +114,6 @@ async function place(name: string, nameLocal: string | null, editorial: object =
 
 beforeAll(async () => {
   harness = await startJobsHarness();
-  photo = await sharp({
-    create: { width: 1200, height: 800, channels: 3, background: { r: 40, g: 120, b: 80 } },
-  })
-    .jpeg()
-    .toBuffer();
   const { rows } = await harness.pool.query<{ id: string }>(
     `INSERT INTO destinations (slug, name, country, coverage, tz)
      VALUES ('vn-da-lat', 'Đà Lạt', 'VN', 'guest', 'Asia/Ho_Chi_Minh') RETURNING id`,
@@ -160,15 +141,14 @@ const row = (poiId: string) =>
   });
 
 describe('places.profile for one place', { timeout: 60_000 }, () => {
-  it('saves a cited profile in English and Vietnamese with labels and a photo', async () => {
+  it('saves a cited profile in English and Vietnamese with labels and no photo', async () => {
     const net = network();
-    const { value, puts } = deps(net);
+    const { value } = deps(net);
     const report = await runPlaceProfile(harness.pool, value, { poiId: palace });
     expect(report).toMatchObject({
       outcome: 'ready',
       facts: 3,
       dropped: 1,
-      photos: 1,
       secondSource: true,
     });
 
@@ -205,16 +185,13 @@ describe('places.profile for one place', { timeout: 60_000 }, () => {
       'https://viet-go.com/en/attractions/bao-dai-summer-palace',
     ]);
     expect(sources.some((u) => /facebook|tripadvisor/u.test(u))).toBe(false);
-    // The pinterest image is skipped; the other is resized and stored under the public prefix.
-    expect(puts.map((p) => [p.key, p.type])).toEqual([
-      [`c/place-profiles/${palace}/1.jpg`, 'image/jpeg'],
-    ]);
-    expect(puts[0]?.bytes).toBeGreaterThan(0);
-    expect(saved?.['photos']).toEqual([
-      expect.objectContaining({ key: `c/place-profiles/${palace}/1.jpg`, width: 480, height: 320 }),
-    ]);
+    // A web image has no licence we can check: none is searched for, downloaded or stored.
+    expect(net.calls.some((u) => new URL(u).searchParams.get('categories') === 'images')).toBe(
+      false,
+    );
+    expect(net.calls.some((u) => /\.(jpe?g|png|webp)(\?|$)/iu.test(u))).toBe(false);
+    expect(saved?.['photos']).toEqual([]);
     expect(Number(saved?.['cost_micros'])).toBeGreaterThan(0);
-    expect(net.calls.some((u) => u.includes('pinimg'))).toBe(false);
   });
 
   it('calls nothing for a place that has a profile, unless forced past a spent cap', async () => {
