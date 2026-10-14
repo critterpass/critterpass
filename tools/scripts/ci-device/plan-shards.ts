@@ -45,7 +45,8 @@ export function selectFlows(input: string, platform: DevicePlatform, root: strin
   const patterns = input.split(/[\s,]+/).filter(Boolean);
   const expanded = patterns.length
     ? patterns.flatMap((pattern) => {
-        if (!/[*?[{]/.test(pattern)) return [path.resolve(root, pattern)];
+        // A pattern has a wildcard, a set or an extglob group (`!(long-data).yaml`).
+        if (!/[*?[{]|[!@+]\(/.test(pattern)) return [path.resolve(root, pattern)];
         const matches = globSync(pattern, { cwd: root }).sort();
         if (matches.length === 0) throw new CliArgsError(`No flows match ${pattern}`);
         return matches.map((match) => path.resolve(root, match));

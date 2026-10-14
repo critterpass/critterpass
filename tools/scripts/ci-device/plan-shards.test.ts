@@ -68,6 +68,12 @@ describe('selectFlows', () => {
     expect(selectFlows('e2e/screens/!(vi*).yaml', 'ios', root)).toEqual(['e2e/screens/home.yaml']);
   });
 
+  it('reads an extglob group without a wildcard as a pattern', () => {
+    expect(selectFlows('e2e/screens/!(home).yaml', 'android', root)).not.toContain(
+      'e2e/screens/home.yaml',
+    );
+  });
+
   it('rejects inputs that name no flow', () => {
     expect(() => selectFlows('e2e/nothing/*.yaml', 'ios', root)).toThrow(/No flows match/);
     expect(() => selectFlows('e2e/missing.yaml', 'ios', root)).toThrow(/Flow not found/);
