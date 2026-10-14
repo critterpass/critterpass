@@ -145,7 +145,7 @@ export function formatSummary(shards: readonly ShardFindings[]): string {
     ...(noResult.length
       ? [`- Flows with no result (their shard stopped first): **${String(noResult.length)}**`]
       : []),
-    `- Screen-check findings (SCREEN_FRAME, KEYBOARD_BAND, EMPTY_SCREEN): **${String(checks.length)}**`,
+    `- Screen-check findings (SCREEN_FRAME, KEYBOARD_BAND, EMPTY_SCREEN, SHEET_TOP_GAP): **${String(checks.length)}**`,
     `- \`[ui-qa]\` report lines: **${String(uiQa.length)}**`,
     '',
   );

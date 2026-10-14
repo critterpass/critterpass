@@ -13,11 +13,13 @@
  * - KEYBOARD_BAND: with the keyboard up, a full-width band of one colour that isn't the screen's
  *   background sits right above it (the keyboard pushed a footer up and left a black gap).
  * - EMPTY_SCREEN: almost every row of the screen is bare background (content that never drew).
+ * - SHEET_TOP_GAP: an open sheet is empty for a tall band under its grabber (./screen-sheet-checks).
  *
  * Pure functions over decoded pixels, so they run on the shards without the workspace installed.
  */
 import type { RgbaImage } from './png';
 import { isInsetSheetOverDimmedPage, screenGrounds } from './screen-checks-premium';
+import { findSheetTopGap } from './screen-sheet-checks';
 import {
   colourDistance,
   dominant,
@@ -34,7 +36,7 @@ import {
 export { colourDistance, hex, LIMITS, parseHex, type Rgb } from './screen-pixels';
 export { screenGrounds } from './screen-checks-premium';
 
-export type ScreenCheckCode = 'SCREEN_FRAME' | 'KEYBOARD_BAND' | 'EMPTY_SCREEN';
+export type ScreenCheckCode = 'SCREEN_FRAME' | 'KEYBOARD_BAND' | 'EMPTY_SCREEN' | 'SHEET_TOP_GAP';
 
 export interface ScreenFinding {
   readonly code: ScreenCheckCode;
@@ -256,7 +258,10 @@ export function findEmptyScreen(image: RgbaImage): ScreenFinding | null {
 
 export function checkScreen(image: RgbaImage, options: ScreenCheckOptions): ScreenFinding[] {
   const empty = options.sparseByDesign === true ? null : findEmptyScreen(image);
-  return [findFrame(image, options), findKeyboardBand(image), empty].filter(
-    (finding): finding is ScreenFinding => finding !== null,
-  );
+  return [
+    findFrame(image, options),
+    findKeyboardBand(image),
+    empty,
+    findSheetTopGap(image, options.premiumGrounds),
+  ].filter((finding): finding is ScreenFinding => finding !== null);
 }

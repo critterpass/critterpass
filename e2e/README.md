@@ -55,7 +55,7 @@ as an annotation and in the job summary. In `capture` and `compare` modes the im
 orphan `screenshots` branch under `<pr>/run-<run id>/`, and one comment on the pull request
 embeds them.
 
-Every screenshot a shard takes also goes through three pixel checks
+Every screenshot a shard takes also goes through four pixel checks
 (`tools/scripts/ci-device/screen-checks.ts`), and any finding fails the shard like a `[ui-qa]`
 report, lands in `screen-checks.log` and is listed at the top of the pull request comment:
 
@@ -65,13 +65,36 @@ report, lands in `screen-checks.log` and is listed at the top of the pull reques
 - `KEYBOARD_BAND`: with the keyboard up, a full-width band of one colour that isn't the screen's
   own background sits right above it (a footer pushed up with a black gap under it).
 - `EMPTY_SCREEN`: under a quarter of the screen's rows show anything but its background.
+- `SHEET_TOP_GAP`: an open sheet is empty for more than 5% of the screen under its grabber (or its
+  top edge, for a sheet drawn without one): the top safe-area inset applied again inside the sheet,
+  or a sheet whose body never drew. Its header row belongs right under the grabber.
+
+Content under the status bar is judged in the app instead (`TEXT_UNDER_STATUS_BAR`, below): from
+pixels alone a title under the clock can't be told reliably from a full-bleed photo or map, and
+the status bar's height differs per phone.
 
 `pnpm tsx tools/scripts/ci-device/screen-scan.ts <dir>` runs them on any folder of screenshots.
 
 The app's own `[ui-qa]` reports come from dev and e2e builds (`apps/mobile/src/lib/qa`): cut or
 split text, one-line labels that wrapped, stickers without their edge or image, Home header controls
 that overlap or leave the screen, pushed screens with no back or close control, and icons that
-draw nothing. A label the design does set on two lines says so on its `Text` with
+draw nothing. Once a screen's layouts settle, its focused screens are also measured whole
+(`layout-scan.ts`, read from React's committed tree, so no component opts in):
+
+- `TEXT_OVERLAP`: two texts drawn over each other.
+- `TEXT_OVER_CONTROL`: a text under a control it is not part of (an eyebrow under the back button,
+  a title under a row's more button). A control laid over the whole text (a tap area over a card)
+  is the text's own row.
+- `TEXT_CLIPPED`: a text cut by an ancestor with `overflow: 'hidden'`.
+- `TEXT_PAST_PADDING`: a text closer than 6 pt to the edge of the card it sits on (a rounded surface
+  with a ground, at least 120 × 56 pt).
+- `TEXT_UNDER_STATUS_BAR`: a text above the top safe-area inset before anyone scrolls.
+
+Content in a scroll view is only judged against the screen's fixed parts while it is at rest and
+the fixed part is in the top 30% (a floating header), so content scrolling under a header or
+sitting under a footer is not reported; map labels are never compared. Each report names the
+screen (route) and the text's testID or nearest testID ancestor with its words (digits as `#`).
+A label the design does set on two lines says so on its `Text` with
 `singleLine={false}`, the one exemption from the wrap check; `git grep 'singleLine={false}'` lists
 every one for review. A screen that is sparse on purpose opts out of `EMPTY_SCREEN` (and only that
 check) in `tools/scripts/ci-device/sparse-by-design.ts`, the pixel checks' counterpart: its shot
