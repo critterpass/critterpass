@@ -77,7 +77,7 @@ export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
 
   return (
     <View style={[styles.root, { backgroundColor: th.color.ground }]} testID="crew-created">
-      <ScrollView contentContainerStyle={[styles.content, { paddingTop: 24 }]}>
+      <ScrollView contentContainerStyle={[styles.content, { paddingTop: insets.top + 24 }]}>
         <Text variant="label" tone="muted" align="center">
           {t({ id: 'crew.premium.on.kicker', message: 'Crew made' })}
         </Text>
