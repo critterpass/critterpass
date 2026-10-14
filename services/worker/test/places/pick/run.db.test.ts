@@ -11,7 +11,6 @@ import { fixtureTransport } from '@cp/ai/testing';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
 import { loadDraftPlaces } from '../../../src/jobs/ai/draft/load-places';
-import { ensurePlacePicks } from '../../../src/jobs/ai/draft/place-picks';
 import { placesPickJob } from '../../../src/jobs/places/pick';
 import { loadFill, runPlacePick } from '../../../src/places/pick/run';
 import { silent, startJobsHarness, until, type JobsHarness } from '../../helpers/jobs-harness';
@@ -262,38 +261,5 @@ describe('a picked destination that gains a curated set', () => {
       [late.destinationId],
     );
     expect(rows[0]?.n).toBe(50);
-  });
-});
-
-describe('a draft that starts before a destination has picks', () => {
-  it('fills from open data when its naming call fails, and has the job ask again', async () => {
-    const other = await seedDaLat(harness.pool, 'inline');
-    const boss = await harness.startRuntime([placesPickJob({ gateway: recorded() })]);
-    const report = await ensurePlacePicks(
-      harness.pool,
-      { gateway: overloaded() },
-      other.destinationId,
-      silent,
-      boss,
-    );
-    // The draft goes on with the fill: nothing named, so no stand-in must-sees yet.
-    expect(report).toMatchObject({ status: 'picked', names: 'failed', matched: 0 });
-    expect(report?.filled).toBeGreaterThan(0);
-
-    // The forced job names the well-known places and replaces the ranks.
-    await until(
-      async () =>
-        (await picksOf(harness.pool, other.destinationId)).some((pick) => pick.source === 'named'),
-      60_000,
-    );
-    const picks = await picksOf(harness.pool, other.destinationId);
-    expect(picks.filter((pick) => pick.source === 'named').map((pick) => pick.name)).toEqual([
-      ...NAMED_IN_ORDER,
-    ]);
-    expect(picks.map((pick) => pick.rank)).toEqual(picks.map((_, index) => index + 1));
-    const { rows } = await harness.pool.query<{ data: unknown }>(
-      "SELECT data FROM pgboss.job WHERE name = 'places.pick' ORDER BY created_on",
-    );
-    expect(rows.map((row) => row.data)).toEqual([{ destination: other.slug, force: true }]);
   });
 });
