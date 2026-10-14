@@ -190,15 +190,42 @@ export function CrewPlansPremiumScreen({ destination, tripId }: CrewPlansScreenP
             <Skeleton height={64} tone="soft" radius={th.radius.card} />
           </View>
         ) : null}
-        {state.status === 'missing' ? (
+        {state.status === 'missing' && state.reason === 'not_found' ? (
+          // The guide has no such place: no signal would bring its plans, so no Try again.
           <EmptyState
             critter={GECKO}
             check={false}
-            title={t({ id: 'community.browse.offlineTitle', message: 'Crew plans need a signal' })}
-            line={t({
-              id: 'community.browse.offlineLine',
-              message: 'Open this once online and it stays here for later.',
+            title={t({
+              id: 'community.browse.notFoundTitle',
+              message: 'That place isn’t in the guide',
             })}
+            line={t({
+              id: 'community.browse.notFoundLine',
+              message: 'Crew plans live on a destination’s page. Search for the place to find it.',
+            })}
+            testID="crew-plans-not-found"
+          />
+        ) : null}
+        {state.status === 'missing' && state.reason !== 'not_found' ? (
+          <EmptyState
+            critter={GECKO}
+            check={false}
+            title={
+              state.reason === 'offline'
+                ? t({ id: 'community.browse.offlineTitle', message: 'Crew plans need a signal' })
+                : t({ id: 'community.browse.failedTitle', message: 'Crew plans didn’t load' })
+            }
+            line={
+              state.reason === 'offline'
+                ? t({
+                    id: 'community.browse.offlineLine',
+                    message: 'Open this once online and it stays here for later.',
+                  })
+                : t({
+                    id: 'community.browse.failedLine',
+                    message: 'Something went wrong on our side. Try again in a moment.',
+                  })
+            }
             action={
               <Button
                 label={t({ id: 'community.retry', message: 'Try again' })}
