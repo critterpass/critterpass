@@ -97,7 +97,11 @@ appId: app.critterpass.dev
       NAME: name-typing
       LOOK: light
 # More letters while the field still has focus: a second tap can select the typed word on iOS.
-- inputText: ' Bartholomew Hales'
+# In short pieces: on a slow emulator each letter waits for the redrawn pass, and one long string
+# outlasts the driver's two-minute call deadline.
+- inputText: ' Bartho'
+- inputText: 'lomew'
+- inputText: ' Hales'
 - runFlow:
     file: shot.yaml
     env:
