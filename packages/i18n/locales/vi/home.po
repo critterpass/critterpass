@@ -335,16 +335,16 @@ msgstr ""
 msgid "home.premium.lost.home"
 msgstr "Về trang chủ"
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
-msgid "home.premium.switcher.joinFailedOk"
-msgstr "Đã hiểu"
-
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.premium.tip.hide"
 msgstr "Đã hiểu"
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 msgid "home.premium.widgets.gotIt"
+msgstr "Đã hiểu"
+
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.joinFailedOk"
 msgstr "Đã hiểu"
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx

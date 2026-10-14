@@ -15,6 +15,8 @@ const circle = (cx: number, cy: number, r: number) =>
 
 export const LINE_GLYPHS = {
   search: { d: `${circle(11, 11, 6.5)}M16 16l4.5 4.5`, stroke: 2.3 },
+  // A pencil: typing it in by hand (7.01 "Add by hand").
+  edit: { d: 'M4 20h4L19 9l-4-4L4 16z', stroke: 2 },
   bell: { d: 'M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0', stroke: 2.2 },
   plane: {
     d: 'M2.5 13.5l8-2.5V5.5a1.5 1.5 0 0 1 3 0V11l8 2.5v2l-8-1.5v4l2.5 1.6V21L12 20l-4 1v-1.4l2.5-1.6v-4l-8 1.5z',

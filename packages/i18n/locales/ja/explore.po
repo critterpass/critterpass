@@ -89,6 +89,10 @@ msgstr ""
 msgid "explore.premium.swipe.buildingLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/destination/month-card.tsx
+msgid "explore.months.pending"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-typed-link.tsx
 msgid "search.typedLink.line"
 msgstr ""
@@ -401,7 +405,7 @@ msgstr ""
 msgid "explore.saved.create"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/destination/crew-plans-row.tsx
 #: ../../apps/mobile/src/features/explore/premium/search/find-screen.tsx
 msgid "explore.premium.find.crewPlans"
 msgstr ""
@@ -583,9 +587,9 @@ msgstr ""
 msgid "explore.home.back"
 msgstr ""
 
-#. placeholder {0}: hero.name
+#. placeholder {0}: props.placeName
 #. placeholder {0}: trip.destination
-#: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/destination/crew-plans-row.tsx
 #: ../../apps/mobile/src/features/explore/premium/search/find-screen.tsx
 msgid "explore.premium.find.crewPlansLine"
 msgstr ""

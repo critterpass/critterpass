@@ -335,16 +335,16 @@ msgstr "Go home"
 msgid "home.premium.lost.home"
 msgstr "Go to Home"
 
-#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
-msgid "home.premium.switcher.joinFailedOk"
-msgstr "Got it"
-
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.premium.tip.hide"
 msgstr "Got it"
 
 #: ../../apps/mobile/src/features/home/premium/widget-gallery/widget-gallery-premium-screen.tsx
 msgid "home.premium.widgets.gotIt"
+msgstr "Got it"
+
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.joinFailedOk"
 msgstr "Got it"
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx

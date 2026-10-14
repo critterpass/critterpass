@@ -18,6 +18,12 @@ export interface EmptyStateProps {
 }
 
 /**
+ * How far a critter's art sits off its box's centre, as a share of its size: the gecko's curled
+ * tail and sleep mark weigh on its right, so in the round disc it read off-centre.
+ */
+const OPTICAL_SHIFT: Readonly<Record<string, number>> = { gecko: 0.045 };
+
+/**
  * The empty state: a 180 white disc holding a 140 sleeping critter with a tilted check sticker, a
  * 26/700 headline and a 14/1.45 muted line. Past items ("Earlier") follow it on the screen.
  */
@@ -31,6 +37,8 @@ export function EmptyState({
 }: EmptyStateProps) {
   const t = usePremiumTheme();
   const disc = t.size.emptyDisc;
+  const kind = critter?.kind ?? 'gecko';
+  const shift = (OPTICAL_SHIFT[kind] ?? 0) * t.size.emptyCritter;
   return (
     <View testID={testID} style={{ alignItems: 'center', paddingHorizontal: t.space.gutter }}>
       <View
@@ -44,13 +52,15 @@ export function EmptyState({
           justifyContent: 'center',
         }}
       >
-        <CritterSticker
-          kind={critter?.kind ?? 'gecko'}
-          name={critter?.name ?? title}
-          size={t.size.emptyCritter}
-          pose="sleep"
-          edge={false}
-        />
+        <View style={shift === 0 ? null : { transform: [{ translateX: -shift }] }}>
+          <CritterSticker
+            kind={kind}
+            name={critter?.name ?? title}
+            size={t.size.emptyCritter}
+            pose="sleep"
+            edge={false}
+          />
+        </View>
         {check ? (
           <View
             accessible={false}

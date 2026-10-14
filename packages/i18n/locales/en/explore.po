@@ -89,6 +89,10 @@ msgstr "{guideName} couldn’t finish this one. Start again for a fresh deck."
 msgid "explore.premium.swipe.buildingLine"
 msgstr "{guideName} is picking places for the crew. It takes about {DECK_MINUTES} minutes."
 
+#: ../../apps/mobile/src/features/explore/premium/destination/month-card.tsx
+msgid "explore.months.pending"
+msgstr "{guideName} is still writing up the crowds month by month."
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-typed-link.tsx
 msgid "search.typedLink.line"
 msgstr "{guideName} reads it and finds the places in it."
@@ -401,7 +405,7 @@ msgstr "Couldn't reach more places."
 msgid "explore.saved.create"
 msgstr "Create list"
 
-#: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/destination/crew-plans-row.tsx
 #: ../../apps/mobile/src/features/explore/premium/search/find-screen.tsx
 msgid "explore.premium.find.crewPlans"
 msgstr "Crew plans"
@@ -583,9 +587,9 @@ msgstr "Hidden ({0})"
 msgid "explore.home.back"
 msgstr "Home"
 
-#. placeholder {0}: hero.name
+#. placeholder {0}: props.placeName
 #. placeholder {0}: trip.destination
-#: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/destination/crew-plans-row.tsx
 #: ../../apps/mobile/src/features/explore/premium/search/find-screen.tsx
 msgid "explore.premium.find.crewPlansLine"
 msgstr "How other crews did {0}"

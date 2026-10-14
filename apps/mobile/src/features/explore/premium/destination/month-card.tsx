@@ -168,3 +168,53 @@ export function MonthCard({
     </Card>
   );
 }
+
+/**
+ * The month card's place while the guide hasn't written the months yet (undesigned: a page with
+ * picks but no crowd curve): the same card with twelve flat bars and the guide's line, so the
+ * page keeps its shape instead of an empty band over the footer.
+ */
+export function MonthCardPending({ guideName }: { readonly guideName: string }) {
+  const theme = usePremiumTheme();
+  const { t, i18n } = useLingui();
+  const months = Array.from({ length: 12 }, (_, index) => index + 1);
+  return (
+    <Card padded testID="explore-months-pending">
+      <Text variant="bannerAction">{t({ id: 'explore.months.title', message: 'When to go' })}</Text>
+      <Text variant="caption" tone="muted">
+        {t({
+          id: 'explore.months.pending',
+          message: `${guideName} is still writing up the crowds month by month.`,
+        })}
+      </Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'flex-end',
+          gap: 3,
+          height: BAR_HEIGHT,
+          marginTop: theme.space.gap10,
+        }}
+      >
+        {months.map((month) => (
+          <View
+            key={month}
+            style={{
+              flex: 1,
+              height: 6,
+              borderRadius: 3,
+              backgroundColor: theme.color.progressTodo,
+            }}
+          />
+        ))}
+      </View>
+      <View style={{ flexDirection: 'row', gap: 3, marginTop: theme.space.gap4 }}>
+        {months.map((month) => (
+          <Text key={month} variant="badge" tone="placeholder" align="center" style={{ flex: 1 }}>
+            {monthName(i18n.locale, month).slice(0, 1)}
+          </Text>
+        ))}
+      </View>
+    </Card>
+  );
+}

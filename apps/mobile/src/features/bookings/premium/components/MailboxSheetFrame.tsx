@@ -84,7 +84,8 @@ export function MailboxAddressPill(props: {
               look.box,
             ]}
           >
-            <Text variant="button" color={look.text} numberOfLines={1}>
+            {/* One line, cut in the middle: both the crew's name and the domain stay readable. */}
+            <Text variant="headline" color={look.text} numberOfLines={1} ellipsizeMode="middle">
               {props.address}
             </Text>
           </View>

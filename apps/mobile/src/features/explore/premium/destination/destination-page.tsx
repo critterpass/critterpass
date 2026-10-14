@@ -15,8 +15,6 @@ import {
   CritterSticker,
   GlassIconButton,
   GuideNote,
-  Icon,
-  ListCard,
   Skeleton,
   OfflinePill,
   PressableScale,
@@ -28,8 +26,8 @@ import { SCROLL_EDGE_FADE, ScrollEdgeFade } from '@/ui/premium/shell';
 import { SoloPassSheet } from '@/features/vote';
 
 import type { DestinationViewProps } from '../../screens/destination-view-props';
-import { Doodle } from '../components/doodle';
-import { MonthCard } from './month-card';
+import { CrewPlansRow } from './crew-plans-row';
+import { MonthCard, MonthCardPending } from './month-card';
 import { PicksCarousel } from './picks-carousel';
 
 const HERO = 320;
@@ -133,7 +131,11 @@ export function PremiumDestinationView(props: DestinationViewProps) {
               </View>
             </View>
           ) : null}
-          {months === null ? null : <MonthCard months={months} accent={guide.colour} />}
+          {months !== null ? (
+            <MonthCard months={months} accent={guide.colour} />
+          ) : props.loading || props.notice !== null ? null : (
+            <MonthCardPending guideName={guide.name} />
+          )}
           <PicksCarousel
             title={t({ id: 'explore.picks.title', message: `${guide.name}'s first-timer picks` })}
             picks={props.picks}
@@ -141,44 +143,7 @@ export function PremiumDestinationView(props: DestinationViewProps) {
             onMap={props.onMap}
           />
           {props.onCrewPlans === undefined ? null : (
-            <ListCard>
-              <PressableScale
-                onPress={props.onCrewPlans}
-                accessibilityRole="button"
-                testID="explore-crew-plans"
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: theme.space.gap12,
-                  padding: theme.space.gap12,
-                }}
-              >
-                <View
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: 10.8,
-                    backgroundColor: theme.color.status.tangerine.bg,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Doodle name="ticket" size={30} />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text variant="rowTitle">
-                    {t({ id: 'explore.premium.find.crewPlans', message: 'Crew plans' })}
-                  </Text>
-                  <Text variant="captionMuted" tone="muted">
-                    {t({
-                      id: 'explore.premium.find.crewPlansLine',
-                      message: `How other crews did ${hero.name}`,
-                    })}
-                  </Text>
-                </View>
-                <Icon name="forward" size={16} color={theme.color.placeholder} />
-              </PressableScale>
-            </ListCard>
+            <CrewPlansRow placeName={hero.name} onPress={props.onCrewPlans} />
           )}
           {props.notice === null ? null : (
             <GuideNote
