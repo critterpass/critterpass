@@ -9,6 +9,7 @@ import {
   coverage,
   designCodeOf,
   formatCoverage,
+  mergedRunShots,
   renderCodes,
   runCoverage,
   runShots,
@@ -62,6 +63,11 @@ describe('UI sweep', () => {
         states: 3,
       });
       expect(shots.get('android')).toEqual(['9.10-paywall-light']);
+      // The iOS and Android runs downloaded apart are read as one, with both platforms together.
+      const merged = mergedRunShots([dir, path.join(dir, 'missing')]);
+      expect(runCoverage(merged.get('together') ?? [], ['3.01', '4.02', '9.10']).missing).toEqual(
+        [],
+      );
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
