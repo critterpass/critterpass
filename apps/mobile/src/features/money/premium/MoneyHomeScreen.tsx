@@ -94,6 +94,7 @@ function Ready({ state }: { readonly state: BalancesReady }) {
               {t({ id: 'money.latest', message: 'Latest' })}
             </Text>
             <Button
+              alignSelf="auto"
               label={t({ id: 'money.latest.all', message: 'See all' })}
               variant="control"
               size="small"

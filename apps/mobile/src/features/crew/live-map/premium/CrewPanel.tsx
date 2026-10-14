@@ -217,6 +217,7 @@ export function CrewPanel({ m }: { readonly m: LiveMapModel }) {
               </View>
               {mine && m.gate === 'open' && meSharing !== 'off' ? (
                 <Button
+                  alignSelf="auto"
                   label={
                     meSharing === 'paused'
                       ? t({ id: 'liveMap.premium.resume', message: 'Resume' })

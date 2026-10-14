@@ -75,6 +75,7 @@ export function PremiumPhotoPage() {
             testID="onboarding-photo-next"
           />
           <TextButton
+            align="center"
             label={t({ id: 'onboarding.premium.photo.skip', message: 'Skip this step' })}
             onPress={step.next}
             testID="onboarding-photo-skip"

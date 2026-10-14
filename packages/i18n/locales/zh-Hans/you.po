@@ -207,12 +207,12 @@ msgstr ""
 msgid "you.appIcon.appearance"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
-msgid "permissions.value.ask"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.ask"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
@@ -965,10 +965,6 @@ msgstr ""
 msgid "you.pings.notificationsOff"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
-msgid "permissions.value.off"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
 msgid "you.settings.musicOff"
 msgstr ""
@@ -983,6 +979,10 @@ msgstr ""
 msgid "you.settings.location.off"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.off"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
 msgid "you.pings.quietOff"
 msgstr ""
@@ -995,12 +995,12 @@ msgstr ""
 msgid "trip.offline.storageTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
-msgid "permissions.value.on"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
 msgid "you.settings.musicOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.on"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/use-settings-model.ts

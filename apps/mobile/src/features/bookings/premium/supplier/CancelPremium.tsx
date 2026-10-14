@@ -42,10 +42,7 @@ export function CancelPremium({
       cancelLabel={t({ id: 'suppliers.premium.close', message: 'Close' })}
       testID="supplier-cancel-sheet"
     >
-      <View
-        style={[styles.body, { paddingHorizontal: th.space.gutter, gap: th.space.gap14 }]}
-        testID={`supplier-cancel-${state.kind}`}
-      >
+      <View style={[styles.body, { gap: th.space.gap14 }]} testID={`supplier-cancel-${state.kind}`}>
         <Text variant="headline">{title}</Text>
         {state.kind === 'loading' ? (
           <LoadingCritter
@@ -115,6 +112,7 @@ export function CancelPremium({
               testID="supplier-cancel-confirm"
             />
             <TextButton
+              align="center"
               label={t({ id: 'suppliers.cancel.keepLink', message: 'Keep it' })}
               onPress={keep}
             />

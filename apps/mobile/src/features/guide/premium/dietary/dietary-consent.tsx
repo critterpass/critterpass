@@ -115,6 +115,7 @@ export function DietaryConsent({
           testID="guide-dietary-consent-no"
         />
         <TextButton
+          align="center"
           label={t({ id: 'guide.premium.dietary.justMe', message: 'Keep it to myself' })}
           onPress={onJustMe}
           testID="guide-dietary-just-me"

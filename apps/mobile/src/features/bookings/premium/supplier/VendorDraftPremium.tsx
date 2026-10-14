@@ -46,7 +46,7 @@ export function VendorDraftPremium({ params }: { readonly params: DraftParams })
       }}
       testID="vendor-draft-sheet"
     >
-      <View style={[styles.body, { paddingHorizontal: th.space.gutter, gap: th.space.gap14 }]}>
+      <View style={[styles.body, { gap: th.space.gap14 }]}>
         {outcome.kind === 'approved' ? (
           <View style={{ gap: th.space.gap14 }} testID="vendor-draft-approved">
             <Text variant="title">

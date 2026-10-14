@@ -1,9 +1,9 @@
 /**
  * A destination's editorial photo, full colour (premium never duotones), filling its parent. The
  * still is the smallest file that covers the box and is kept on the phone so it draws offline next
- * time. Nothing renders while there is no photo: the parent's own fill shows.
+ * time. While there is no photo the parent's own fill shows, with `empty` drawn over it.
  */
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { Image, PixelRatio, StyleSheet, View, type LayoutChangeEvent } from 'react-native';
 
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
@@ -15,6 +15,8 @@ export interface TripPhotoProps {
   readonly slug: string | null;
   /** Which of the destination's photos (collages show a second one). @default 0 */
   readonly index?: number;
+  /** Drawn centred while the destination has no photo. */
+  readonly empty?: ReactNode;
   readonly testID?: string;
 }
 
@@ -22,7 +24,7 @@ export function useHasTripPhoto(slug: string | null): boolean {
   return useDestinationMedia(slug).items.length > 0;
 }
 
-export function TripPhoto({ slug, index = 0, testID }: TripPhotoProps) {
+export function TripPhoto({ slug, index = 0, empty, testID }: TripPhotoProps) {
   const media = heroAt(useDestinationMedia(slug).items, index);
   const [width, setWidth] = useState(0);
   const still =
@@ -36,13 +38,14 @@ export function TripPhoto({ slug, index = 0, testID }: TripPhotoProps) {
   const onLayout = (event: LayoutChangeEvent) => setWidth(event.nativeEvent.layout.width);
   return (
     <View
-      style={StyleSheet.absoluteFill}
+      style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center' }]}
       onLayout={onLayout}
       pointerEvents="none"
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
       testID={testID}
     >
+      {media === null ? (empty ?? null) : null}
       {still === undefined ? null : (
         <Image
           source={{ uri: saved ?? still.url }}

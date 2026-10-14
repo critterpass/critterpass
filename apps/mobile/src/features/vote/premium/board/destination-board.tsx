@@ -39,7 +39,6 @@ const useStyles = makePremiumStyles((t) => ({
   rows: { gap: t.space.gap10 + TILE_OVERHANG, paddingTop: TILE_OVERHANG - t.space.gap16 + 2 },
   row: { flexDirection: 'row', gap: t.space.gap10 },
   spacer: { flex: 1 },
-  action: { alignItems: 'flex-end' },
 }));
 
 export interface DestinationBoardProps {
@@ -47,6 +46,8 @@ export interface DestinationBoardProps {
   readonly me: string;
   /** Hidden where the page's own title already says "Where next?". @default true */
   readonly heading?: boolean;
+  /** The page's guide note, drawn under the board unless the board is asking with its own. */
+  readonly guideNote?: ReactNode;
 }
 
 /** The places three to a row, each row keyed by its first place. */
@@ -60,7 +61,7 @@ function rowsOf(options: readonly PollOptionView[]) {
   return rows;
 }
 
-export function DestinationBoard({ poll, me, heading = true }: DestinationBoardProps) {
+export function DestinationBoard({ poll, me, heading = true, guideNote }: DestinationBoardProps) {
   const styles = useStyles();
   const { t } = useLingui();
   const places = usePlaces(poll.id);
@@ -74,6 +75,7 @@ export function DestinationBoard({ poll, me, heading = true }: DestinationBoardP
   const [pick, setPick] = useState<FinalPick | null>(null);
   const [picked, setPicked] = useState<readonly string[]>([]);
 
+  // The empty board asks for a first pitch in its own note.
   if (poll.options.length === 0) return <EmptyBoard crewId={poll.crewId} title={heading} />;
 
   const nameOf = (option: PollOptionView) =>
@@ -231,32 +233,27 @@ export function DestinationBoard({ poll, me, heading = true }: DestinationBoardP
         </View>
       ) : null}
       {pick === null && action === 'lock_in' ? (
-        <View style={styles.action}>
-          <Button
-            size="medium"
-            label={t({
-              id: 'vote.premium.board.lockIn',
-              message: `Lock in ${only}`,
-            })}
-            onPress={() => void lockIn()}
-            disabled={close.pending}
-            loading={close.pending}
-            testID="board-lock-in"
-          />
-        </View>
+        <Button
+          label={t({
+            id: 'vote.premium.board.lockIn',
+            message: `Lock in ${only}`,
+          })}
+          onPress={() => void lockIn()}
+          disabled={close.pending}
+          loading={close.pending}
+          testID="board-lock-in"
+        />
       ) : null}
       {pick === null && action === 'go_to_final' ? (
-        <View style={styles.action}>
-          <Button
-            size="medium"
-            label={t({ id: 'vote.premium.board.goToFinal', message: 'Go to final' })}
-            onPress={() => void goToFinal()}
-            disabled={advance.pending}
-            loading={advance.pending}
-            testID="board-go-to-final"
-          />
-        </View>
+        <Button
+          label={t({ id: 'vote.premium.board.goToFinal', message: 'Go to final' })}
+          onPress={() => void goToFinal()}
+          disabled={advance.pending}
+          loading={advance.pending}
+          testID="board-go-to-final"
+        />
       ) : null}
+      {pick === null ? guideNote : null}
     </View>
   );
 }

@@ -51,7 +51,7 @@ export function LogRidePremium({ params }: { readonly params: LogRideParams }) {
       }}
       testID="supplier-log-ride-sheet"
     >
-      <View style={[styles.body, { paddingHorizontal: th.space.gutter, gap: th.space.gap14 }]}>
+      <View style={[styles.body, { gap: th.space.gap14 }]}>
         {done !== null ? (
           <View style={{ gap: th.space.gap14 }} testID="supplier-log-ride-done">
             <Text variant="title">

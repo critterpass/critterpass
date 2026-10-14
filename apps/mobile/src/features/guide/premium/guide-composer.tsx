@@ -1,7 +1,7 @@
 /**
  * The guide thread's foot (5.13, 5.14, 5.19, 5.20): the quick chips scrolling sideways, then the
- * composer with the menu camera behind `+` and the microphone (tap opens voice, hold talks at
- * once), or, once the answers are spent, the locked line with the time left, or the composer that
+ * composer with the menu camera behind `+` and the microphone in the send's place while the field
+ * is empty (tap opens voice, hold talks at once), or, once the answers are spent, the locked line with the time left, or the composer that
  * queues for midnight. Keyboard: the foot rides it; the return key sends.
  */
 import { t } from '@lingui/core/macro';
@@ -10,14 +10,7 @@ import { ScrollView, View, type TextInput } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import {
-  Composer,
-  Icon,
-  PressableScale,
-  Text,
-  makePremiumStyles,
-  usePremiumTheme,
-} from '@/ui/premium';
+import { Composer, PressableScale, Text, makePremiumStyles, usePremiumTheme } from '@/ui/premium';
 import { useKeyboardFrame } from '@/ui/premium/shell';
 
 import { Doodle, type DoodleName } from '@/features/crew';
@@ -52,7 +45,6 @@ const useStyles = makePremiumStyles((th) => ({
     paddingHorizontal: th.space.gap12,
     paddingTop: th.space.gap8,
   },
-  mic: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
   locked: {
     flex: 1,
     height: 56,
@@ -137,6 +129,17 @@ export const GuideComposer = forwardRef<ComponentRef<typeof TextInput>, GuideCom
             sendLabel={t({ id: 'guide.premium.send', message: 'Ask' })}
             returnKeyType="send"
             onSubmitEditing={props.onSend}
+            {...(props.onMic === undefined
+              ? {}
+              : {
+                  idle: {
+                    icon: 'mic' as const,
+                    label: t({ id: 'guide.premium.talk', message: `Talk to ${guide}` }),
+                    onPress: props.onMic,
+                    ...(props.onMicHold === undefined ? {} : { onLongPress: props.onMicHold }),
+                    testID: 'guide-mic',
+                  },
+                })}
             {...(props.onCamera === undefined
               ? {}
               : {
@@ -177,21 +180,7 @@ export const GuideComposer = forwardRef<ComponentRef<typeof TextInput>, GuideCom
             ))}
           </ScrollView>
         ) : null}
-        <View style={styles.row}>
-          {field}
-          {meter.kind === 'open' && props.onMic !== undefined ? (
-            <PressableScale
-              onPress={props.onMic}
-              {...(props.onMicHold === undefined ? {} : { onLongPress: props.onMicHold })}
-              accessibilityRole="button"
-              accessibilityLabel={t({ id: 'guide.premium.talk', message: `Talk to ${guide}` })}
-              testID="guide-mic"
-              style={[styles.mic, { backgroundColor: th.color.ink }]}
-            >
-              <Icon name="mic" size={20} color={th.color.onInk} />
-            </PressableScale>
-          ) : null}
-        </View>
+        <View style={styles.row}>{field}</View>
         <Animated.View style={space} />
       </View>
     );

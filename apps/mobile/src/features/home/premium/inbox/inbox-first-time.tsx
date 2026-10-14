@@ -93,6 +93,7 @@ export function InboxFirstTime() {
             testID="inbox-allow-notifications"
           />
           <TextButton
+            align="center"
             label={t({ id: 'inbox.premium.notNow', message: 'Not now — I’ll check in here' })}
             onPress={() => router.back()}
             testID="inbox-not-now"

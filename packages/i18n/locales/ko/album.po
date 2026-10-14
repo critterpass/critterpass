@@ -277,6 +277,10 @@ msgstr "동·호수, 층 (선택)"
 msgid "album.address.why"
 msgstr "크루가 보내는 인쇄 엽서용이에요. 인쇄소만 보고, 크루와 가이드는 절대 못 봐요."
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.first"
+msgstr "크루 모두가 볼 수 있어요"
+
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.premium.postcard.format"
 msgstr ""
@@ -602,10 +606,6 @@ msgstr "인쇄소가 아직 그 나라로 배송하지 않아서 디지털 엽�
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr "이번 여행"
-
-#: ../../apps/mobile/src/features/album/hub-tile.tsx
-msgid "album.tile.first"
-msgstr "크루 모두가 볼 수 있어요"
 
 #: ../../apps/mobile/src/features/album/premium/route-missing.tsx
 msgid "album.premium.missing.line"

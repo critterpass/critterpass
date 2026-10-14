@@ -144,6 +144,7 @@ export function TownCard({
           </Text>
         </View>
         <Button
+          alignSelf="auto"
           label={t({ id: 'onboarding.premium.home.use', message: 'Use' })}
           size="small"
           onPress={onUse}

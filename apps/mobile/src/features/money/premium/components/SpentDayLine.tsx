@@ -24,6 +24,7 @@ export function SpentDayLine(props: {
           {t({ id: 'money.premium.when', message: 'When' })}
         </Text>
         <Button
+          alignSelf="auto"
           label={`${dayLabel(props.daysBack, now)} ⌄`}
           variant="floating"
           size="small"

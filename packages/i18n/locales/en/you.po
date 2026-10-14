@@ -207,12 +207,12 @@ msgstr "Appearance"
 msgid "you.appIcon.appearance"
 msgstr "Appearance"
 
-#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
-msgid "permissions.value.ask"
-msgstr "Ask"
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location.ask"
+msgstr "Ask"
+
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.ask"
 msgstr "Ask"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
@@ -965,10 +965,6 @@ msgstr "Notifications"
 msgid "you.pings.notificationsOff"
 msgstr "Notifications are off, so nothing reaches your lock screen."
 
-#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
-msgid "permissions.value.off"
-msgstr "Off"
-
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
 msgid "you.settings.musicOff"
 msgstr "Off"
@@ -983,6 +979,10 @@ msgstr "Off"
 msgid "you.settings.location.off"
 msgstr "Off"
 
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.off"
+msgstr "Off"
+
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
 msgid "you.pings.quietOff"
 msgstr "Off"
@@ -995,12 +995,12 @@ msgstr "Offline"
 msgid "trip.offline.storageTitle"
 msgstr "Offline"
 
-#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
-msgid "permissions.value.on"
-msgstr "On"
-
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
 msgid "you.settings.musicOn"
+msgstr "On"
+
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.on"
 msgstr "On"
 
 #: ../../apps/mobile/src/features/you/settings/use-settings-model.ts

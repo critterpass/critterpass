@@ -96,16 +96,13 @@ export function InviteSheet() {
   const valid = codeValidLine(detail.code?.expires_at ?? null, locale);
   return (
     <SheetScreen
+      title={t({ id: 'crew.premium.invite.title', message: `Invite to ${crewName}` })}
+      subtitle={
+        valid ?? t({ id: 'crew.premium.invite.noCode', message: 'There’s no live code right now.' })
+      }
       cancelLabel={t({ id: 'crew.premium.close', message: 'Close' })}
       testID="crew-invite"
     >
-      <Text variant="emptyTitle" accessibilityRole="header">
-        {t({ id: 'crew.premium.invite.title', message: `Invite to ${crewName}` })}
-      </Text>
-      <Text variant="body" tone="muted" style={styles.sub}>
-        {valid ??
-          t({ id: 'crew.premium.invite.noCode', message: 'There’s no live code right now.' })}
-      </Text>
       <Card style={[styles.codeCard, { gap: th.space.gap14 }]} radius={th.radius.cardLarge}>
         {url === null ? (
           <View style={styles.grow}>
@@ -164,33 +161,39 @@ export function InviteSheet() {
           <View style={styles.apps}>
             <ShareTarget
               label="WhatsApp"
-              icon="send"
+              letter="W"
+              tile
               tint={th.accent.mint}
               onPress={() => send('wa')}
               testID="crew-invite-wa"
             />
             <ShareTarget
               label={t({ id: 'crew.premium.share.messages', message: 'Messages' })}
-              icon="send"
+              letter="M"
+              tile
               tint={th.color.toggleOn}
               onPress={() => send('imsg')}
               testID="crew-invite-imsg"
             />
             <ShareTarget
               label="Telegram"
-              icon="send"
+              letter="T"
+              tile
               tint={th.accent.sky}
               onPress={() => send('tg')}
             />
             <ShareTarget
               label={t({ id: 'crew.premium.share.mail', message: 'Mail' })}
-              icon="send"
+              letter="@"
+              tile
               tint={th.color.status.rain.text}
               onPress={() => send('mail')}
             />
             <ShareTarget
               label={t({ id: 'crew.premium.share.more', message: 'More' })}
               icon="more"
+              tile
+              tint={th.color.placeholder}
               onPress={() => send('more')}
               testID="crew-invite-more"
             />
@@ -221,8 +224,7 @@ export function InviteSheet() {
 const COPY_SLOP = hitSlopFor(0, 34);
 
 const styles = StyleSheet.create({
-  sub: { marginTop: 4, marginBottom: 16 },
-  codeCard: { flexDirection: 'row', alignItems: 'center', padding: 16 },
+  codeCard: { flexDirection: 'row', alignItems: 'center', padding: 16, marginTop: 8 },
   grow: { flex: 1, gap: 6 },
   code: { letterSpacing: 2.4 },
   copy: {

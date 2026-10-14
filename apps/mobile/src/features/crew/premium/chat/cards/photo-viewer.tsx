@@ -60,7 +60,7 @@ export function PremiumPhotoViewer({
             return (
               <View style={{ width, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 {url === undefined ? (
-                  <Spinner />
+                  <Spinner surface="ink" />
                 ) : (
                   <Image
                     source={{ uri: url }}

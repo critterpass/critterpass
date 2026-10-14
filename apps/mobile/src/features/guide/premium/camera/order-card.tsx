@@ -124,6 +124,7 @@ export function PremiumOrderCard(props: MenuOrderCardProps) {
           />
         )}
         <TextButton
+          align="center"
           label={t({ id: 'guide.camera.orderAsk', message: `Ask ${guideName} what to order` })}
           onPress={props.onAsk}
           testID="guide-camera-order-ask"

@@ -277,6 +277,10 @@ msgstr "Daire, kat (isteğe bağlı)"
 msgid "album.address.why"
 msgstr "Ekibinden gelecek basılı kartpostallar için. Yalnızca matbaa görür; ekibin ve rehber asla görmez."
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.first"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.premium.postcard.format"
 msgstr ""
@@ -602,10 +606,6 @@ msgstr "Matbaa henüz onların ülkesine göndermiyor, bu yüzden dijitalini al�
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr "gezi"
-
-#: ../../apps/mobile/src/features/album/hub-tile.tsx
-msgid "album.tile.first"
-msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/route-missing.tsx
 msgid "album.premium.missing.line"

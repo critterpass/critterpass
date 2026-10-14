@@ -123,6 +123,7 @@ export function ExpenseChatCardPremium({ message }: ChatCardProps) {
           )}
         </View>
         <Button
+          alignSelf="auto"
           label={view}
           variant="control"
           size="small"

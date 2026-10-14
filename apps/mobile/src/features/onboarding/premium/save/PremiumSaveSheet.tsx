@@ -192,6 +192,7 @@ function MergeChoice(props: PremiumSaveSheetProps & { readonly busy: boolean }) 
           testID="merge-kept-done"
         />
         <TextButton
+          align="center"
           label={t({ id: 'onboarding.merge.switchBack', message: 'Use my old pass instead' })}
           onPress={props.onUseExisting}
           testID="merge-kept-switch"

@@ -166,7 +166,12 @@ export function PremiumHatchScene(props: HatchViewProps) {
         {props.onSayHi === null ? null : (
           <Button label={sayHi()} onPress={props.onSayHi} testID="critters-hatch-say-hi" />
         )}
-        <TextButton label={later()} onPress={props.onLater} testID="critters-hatch-later" />
+        <TextButton
+          align="center"
+          label={later()}
+          onPress={props.onLater}
+          testID="critters-hatch-later"
+        />
       </View>
     </View>
   );

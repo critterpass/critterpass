@@ -277,6 +277,10 @@ msgstr "单元、楼层（可选）"
 msgid "album.address.why"
 msgstr "用于接收小队寄的实体明信片。只有印刷商能看到；小队和向导永远看不到。"
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.first"
+msgstr "整个小队都能看到"
+
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.premium.postcard.format"
 msgstr ""
@@ -602,10 +606,6 @@ msgstr "印刷商还不寄往他们的国家，所以他们会收到电子版"
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr "这次旅行"
-
-#: ../../apps/mobile/src/features/album/hub-tile.tsx
-msgid "album.tile.first"
-msgstr "整个小队都能看到"
 
 #: ../../apps/mobile/src/features/album/premium/route-missing.tsx
 msgid "album.premium.missing.line"
