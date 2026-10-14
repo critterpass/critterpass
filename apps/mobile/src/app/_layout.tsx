@@ -78,6 +78,7 @@ import {
 } from '@/lib/analytics';
 import { DevToolsShake } from '@/lib/dev-tools/DevToolsShake';
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
+import { installAppDateTimeFormat } from '@/lib/i18n/app-date-time-format';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
 import { bindTempleMute, configureAlwaysUpgrade, readLocationFlags } from '@/lib/location';
 import {
@@ -110,6 +111,9 @@ import { ShakeToReport } from '@/features/help/shake/ShakeListener';
 import { LocationBridge, PermissionsBridge } from '@/features/session-bridges';
 
 void SplashScreen.preventAutoHideAsync();
+
+// Day-first English dates and the app's 24-hour clock in every date formatter.
+installAppDateTimeFormat();
 
 // Expo Router renders this in place of the root layout when anything below it throws.
 export { PremiumRootErrorBoundary as ErrorBoundary };
