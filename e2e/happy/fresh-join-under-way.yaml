@@ -443,11 +443,8 @@ appId: app.critterpass.dev
                 timeout: 5000
       - takeScreenshot: en-join-under-way-newcomer-plan
       - runFlow: subflows/leave-plan.yaml
-- runFlow:
-    file: ../_shared/tab.yaml
-    env:
-      TAB: home
-      LABEL: Home
+# The hub covers the tab bar: Home by its link.
+- runFlow: ../_shared/to-home.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-chat'
