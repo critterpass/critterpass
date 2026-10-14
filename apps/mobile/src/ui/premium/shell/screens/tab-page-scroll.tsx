@@ -11,6 +11,7 @@ import { useMemo } from 'react';
 import {
   Platform,
   ScrollView,
+  type LayoutChangeEvent,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
   type ScrollViewProps,
@@ -51,19 +52,33 @@ export function TabBarFade({ continues = false }: { readonly continues?: boolean
 }
 
 /** A tab root page's scroll view with the fade under the tab bar drawn after it (iOS). */
-export function TabPageScroll({ onScroll, ...props }: ScrollViewProps) {
+export function TabPageScroll({
+  onScroll,
+  onLayout,
+  onContentSizeChange,
+  ...props
+}: ScrollViewProps) {
   const t = usePremiumTheme();
   const edges = useScrollEdges();
-  const track = edges.scrollProps.onScroll;
+  const own = edges.scrollProps;
+  // The root screen tracks the same edges (Android's fade under the drawn bar): both hear them.
   const handlers = useMemo(
     () => ({
-      ...edges.scrollProps,
+      ...own,
       onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         onScroll?.(event);
-        track(event);
+        own.onScroll(event);
+      },
+      onLayout: (event: LayoutChangeEvent) => {
+        onLayout?.(event);
+        own.onLayout(event);
+      },
+      onContentSizeChange: (width: number, height: number) => {
+        onContentSizeChange?.(width, height);
+        own.onContentSizeChange(width, height);
       },
     }),
-    [edges.scrollProps, onScroll, track],
+    [own, onScroll, onLayout, onContentSizeChange],
   );
   const height = t.space.tabBarClearance;
   return (
