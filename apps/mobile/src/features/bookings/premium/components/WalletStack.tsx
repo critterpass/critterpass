@@ -1,6 +1,6 @@
 /**
  * The bookings as a wallet stack (7.02): the next booking in front, and the next few behind it as
- * closed cards whose headers peek out 44 apart, each a little narrower than the one in front of it
+ * closed cards whose headers peek out 48 apart, each a little narrower than the one in front of it
  * (thumb, title, when and the kind's dot). A header brings its booking to the front; the front card
  * opens it. A flight in front is its boarding card (light in both modes, 1.13); anything else is a
  * white card with its kind, title and when, and the barcode band when it has a pass.
@@ -23,7 +23,8 @@ import { kindLook } from './kind-look';
 /** How many closed headers peek above the front card; the rest are listed under the stack. */
 export const STACK_DEPTH = 3;
 const CLOSED_HEIGHT = 110;
-const PEEK = 44;
+// Room for a header's title and its when line whole (marked Vietnamese lines run taller).
+const PEEK = 48;
 const FRONT_INSET = 20;
 const STEP_INSET = 6;
 const TILTS = [-5, 4, -3];
@@ -224,11 +225,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: 12,
-    paddingVertical: 12,
+    paddingTop: 8,
+    paddingBottom: 12,
     paddingHorizontal: 14,
   },
   flex: { flex: 1, minWidth: 0 },
-  dot: { width: 10, height: 10, borderRadius: 5, marginTop: 14 },
+  dot: { width: 10, height: 10, borderRadius: 5, marginTop: 10 },
   front: { padding: 18, gap: 8 },
   barcode: { flexDirection: 'row', height: 52, gap: 3, overflow: 'hidden' },
   passBand: { marginTop: 10, borderRadius: 10, overflow: 'hidden', padding: 6 },
