@@ -1,9 +1,9 @@
 appId: app.critterpass.dev
 ---
-# Back to Home: Home's link first; when that doesn't land, steps back until Home shows (at most
-# eight steps), then opens the Home tab. Sheets and pushed
-# pages the earlier steps left open are closed on the way. Each step is the edge swipe (the system
-# back on Android); a plan map or trip hub still showing after it then leaves by its own back
+# Back to Home: by Trips' link and the Home tab first (_shared/home-link.yaml); when that doesn't
+# land, steps back until Home shows (at most eight steps), then opens the Home tab. Sheets and
+# pushed pages the earlier steps left open are closed on the way. Each step is the edge swipe (the
+# system back on Android); a plan map or trip hub still showing after it then leaves by its own back
 # button, so a swipe the page didn't take shows in the log as that tap. On iOS a native sheet (Ideas
 # over the plan map, 4.40) never takes the edge swipe: it is pulled down, as the design has it.
 - runFlow: ../../_shared/home-link.yaml

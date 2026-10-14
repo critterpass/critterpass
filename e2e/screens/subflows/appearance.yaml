@@ -1,7 +1,8 @@
 appId: app.critterpass.dev
 ---
 # Sets the app's appearance to ${LOOK} (system, light or dark) on its own sheet, opened by its link
-# (`/you/appearance`, the sheet Pass → Edit → Appearance opens), then returns to Home by its link.
+# (`/you/appearance`, the sheet Pass → Edit → Appearance opens), then returns to Home (_shared/home-
+# link.yaml).
 - openLink:
     link: critterpass-dev://you/appearance
 - extendedWaitUntil:

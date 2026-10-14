@@ -1,6 +1,0 @@
-appId: com.apple.Preferences
----
-# Starts Maestro's iOS driver on the shard's simulator while the app installs (ci-device/
-# ios-device.sh): the driver's first start takes minutes on a new simulator, and the shard's flows
-# then reuse it (run-shard.ts, `--reinstall-driver=false`). Touches nothing.
-- evalScript: ${'driver up'}

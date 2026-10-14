@@ -1,17 +1,29 @@
 appId: app.critterpass.dev
 ---
-# Brings Home to the front by its link from whatever screen or sheet is showing, in a couple of
-# seconds, and never fails: the caller checks for `home-screen` and falls back to stepping back.
-# The device run pre-approves the app's link schemes (ci-device/ios-device.sh), so no "Open in"
-# prompt is waited for. A trip that has turned on can show its welcome page over Home.
+# Brings Home to the front from whatever screen or sheet is showing, in seconds, and never fails:
+# the caller checks for `home-screen` and falls back to stepping back. Trips' link closes what is
+# over the tabs and opens the Trips tab, then the Home tab is tapped: Home's own link (`/`) lands on
+# a blank page while the app runs. The device run pre-approves the app's link schemes
+# (ci-device/ios-device.sh), so no "Open in" prompt is waited for. A trip that has turned on can
+# show its welcome page over Home.
 - openLink:
-    link: critterpass-dev://
+    link: critterpass-dev://trips
+- extendedWaitUntil:
+    visible:
+      id: 'tab-home|home-screen|trip-list-row-.*|trip-list-empty|trip-hub'
+    timeout: 10000
+    optional: true
+- runFlow:
+    file: tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
 - extendedWaitUntil:
     visible:
       id: 'home-screen|critters-hatch-later'
-    timeout: 6000
+    timeout: 8000
     optional: true
-# Where the link landed, in the flow's log.
+# Where it landed, in the flow's log.
 - runFlow: where.yaml
 - runFlow:
     when:

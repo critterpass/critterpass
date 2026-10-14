@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
-# Back to Home from a pushed screen: Home's link, and when that doesn't land, back up to three
-# times (the first closes a keyboard on Android), then the Home tab.
+# Back to Home from a pushed screen: _shared/home-link.yaml, and when that doesn't land, back up to
+# three times (the first closes a keyboard on Android), then the Home tab.
 - runFlow: ../../_shared/home-link.yaml
 # The link didn't land on Home (a native sheet it can't close): step back as a person would.
 - runFlow:
