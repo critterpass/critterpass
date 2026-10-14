@@ -3,7 +3,7 @@
  * into the map the top chrome and the sheet leave, again whenever the points or the height change.
  */
 import type { CameraRef } from '@maplibre/maplibre-react-native';
-import { useEffect, type RefObject } from 'react';
+import { useCallback, useEffect, useState, type RefObject } from 'react';
 
 import { cameraPadding, type Coord, type MapDetent } from '../map';
 import { boundsOf } from './map-days';
@@ -17,10 +17,11 @@ export function useMapCamera(input: {
   readonly detent: MapDetent;
   readonly height: number;
   readonly reduced: boolean;
-  /** The map has loaded (`PremiumMapCanvas` `onReady`): a fit before it may be dropped. */
-  readonly ready: boolean;
-}): void {
-  const { camera, points, detent, height, reduced, ready } = input;
+}): () => void {
+  const { camera, points, detent, height, reduced } = input;
+  // The map has loaded (`PremiumMapCanvas` `onReady`, which this returns): a fit asked for before
+  // it may be dropped by the native map, so the fit runs again once it has.
+  const [ready, setReady] = useState(false);
   const signature = JSON.stringify(points);
   useEffect(() => {
     const bounds = boundsOf(points);
@@ -42,4 +43,5 @@ export function useMapCamera(input: {
     // The signature stands for the points.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signature, detent, height, reduced, ready]);
+  return useCallback(() => setReady(true), []);
 }
