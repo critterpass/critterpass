@@ -13,8 +13,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { IconTile } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { impact } from '@/motion';
-import { PressableScale, ring, Text, TextButton, usePremiumTheme } from '@/ui/premium';
-import { askToDiscard } from '@/ui/premium/shell';
+import { PressableScale, ring, Text, usePremiumTheme } from '@/ui/premium';
+import { askToDiscard, SheetHeader } from '@/ui/premium/shell';
 
 import { money } from '../../budget/model';
 import type { SetupMember } from '../../data/setup-trip';
@@ -122,24 +122,20 @@ export function RoomsEditor(props: {
       testID="setup-rooms-editor"
     >
       <View style={[styles.root, { backgroundColor: th.color.ground }]}>
-        <View style={[styles.header, { paddingHorizontal: th.space.gutter }]}>
-          <TextButton
-            label={t({ id: 'setup.premium.rooms.cancel', message: 'Cancel' })}
-            onPress={cancel}
-            testID="setup-rooms-editor-cancel"
-          />
-          <Text variant="navTitle" align="center" style={styles.flex} accessibilityRole="header">
-            {t({ id: 'setup.rooms.title', message: 'Who sleeps where?' })}
-          </Text>
-          <TextButton
-            label={t({ id: 'setup.premium.rooms.save', message: 'Save' })}
-            onPress={() => {
+        <SheetHeader
+          leadingLabel={t({ id: 'setup.premium.rooms.cancel', message: 'Cancel' })}
+          onLeading={cancel}
+          leadingTestID="setup-rooms-editor-cancel"
+          title={t({ id: 'setup.rooms.title', message: 'Who sleeps where?' })}
+          verb={{
+            label: t({ id: 'setup.premium.rooms.save', message: 'Save' }),
+            onPress: () => {
               if (lastMove !== null) props.onSave(draft, lastMove);
               props.onClose();
-            }}
-            testID="setup-rooms-editor-save"
-          />
-        </View>
+            },
+            testID: 'setup-rooms-editor-save',
+          }}
+        />
         <ScrollView
           onScroll={measureAll}
           scrollEventThrottle={64}
@@ -251,7 +247,6 @@ export function RoomsEditor(props: {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  header: { minHeight: 56, flexDirection: 'row', alignItems: 'center', gap: 8 },
   flex: { flex: 1, minWidth: 0 },
   waiting: { borderWidth: 1.5, borderStyle: 'dashed', padding: 12, gap: 8 },
   room: { paddingVertical: 12, paddingHorizontal: 14, gap: 10 },

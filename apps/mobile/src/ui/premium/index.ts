@@ -1,6 +1,8 @@
 // The premium kit (docs/design-system-premium.md). Premium screens import from here; the legacy kit
 // (`@/ui/*` outside `premium`, `@/motion`) is never mixed in.
 export { Button, buttonLook } from './buttons/Button';
+export { HeaderPill } from './buttons/HeaderPill';
+export type { HeaderPillProps } from './buttons/HeaderPill';
 export type { ButtonProps, ButtonSize, ButtonVariant } from './buttons/Button';
 export { IconButton } from './buttons/IconButton';
 export type { IconButtonProps, IconButtonTone } from './buttons/IconButton';

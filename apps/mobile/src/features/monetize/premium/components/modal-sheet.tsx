@@ -18,11 +18,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import {
+  GlassIconButton,
   GlassSurface,
   REDUCED_FADE,
   SPRINGS,
   Text,
-  TextButton,
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
@@ -136,7 +136,8 @@ export function ModalSheet({
               <View style={[styles.grabber, { backgroundColor: t.color.outlineEmpty }]} />
               <View style={styles.headRow}>
                 <View style={styles.side}>
-                  <TextButton
+                  <GlassIconButton
+                    icon="close"
                     label={cancelLabel}
                     onPress={() => close()}
                     testID="modal-sheet-cancel"

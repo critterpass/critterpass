@@ -59,6 +59,8 @@ export type {
   ScrollEdges,
 } from './screens/scroll-edge';
 export type { RootScreenProps, RootScrollBindings, RootScrollProps } from './screens/root-screen';
+export { SheetHeader } from './screens/sheet-header';
+export type { SheetHeaderProps } from './screens/sheet-header';
 export {
   SheetScreen,
   sheetDetentOptions,

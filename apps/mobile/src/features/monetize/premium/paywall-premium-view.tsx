@@ -19,6 +19,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { mrzLine } from '@/lib/documents/mrz';
 import {
   GlassIconButton,
+  GlassPill,
   REDUCED_FADE,
   SPRINGS,
   Text,
@@ -274,9 +275,9 @@ export function PaywallPremiumView({
           <EntryChip entry={entryPointOf(params.entry)} />
         </View>
         {subscribed ? null : (
-          <TextButton
+          <GlassPill
+            kind="clear"
             label={t({ id: 'monetize.disclosure.restore', message: 'Restore' })}
-            color={NIGHT.textSoft}
             onPress={props.onRestore}
             testID="paywall-restore"
           />
