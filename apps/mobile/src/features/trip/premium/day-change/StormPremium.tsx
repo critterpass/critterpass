@@ -8,6 +8,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { crewAccent, turn } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -22,7 +23,7 @@ import {
   Text,
   usePremiumTheme,
 } from '@/ui/premium';
-import { KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
+import { PageFooter, PushScreen } from '@/ui/premium/shell';
 
 import {
   chips,
@@ -49,6 +50,7 @@ export function StormReady({ props }: { readonly props: StormViewProps }) {
   const locale = useLocale();
   const lines = stormLines();
   const [picked, setPicked] = useState<StormOptionId | null>(null);
+  const insets = useSafeAreaInsets();
   const model = props.model;
   if (model === null) return null;
   const selected = picked ?? model.myVote ?? model.recommended ?? model.options[0]?.id ?? null;
@@ -68,7 +70,11 @@ export function StormReady({ props }: { readonly props: StormViewProps }) {
     <>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerStyle={{ paddingBottom: 140, gap: th.space.gap14 }}
+        // The vote's footer keeps the home indicator's room; without it the list does.
+        contentContainerStyle={{
+          paddingBottom: voting ? th.space.gap16 : insets.bottom + th.space.gap16,
+          gap: th.space.gap14,
+        }}
       >
         <View
           style={[
@@ -209,29 +215,28 @@ export function StormReady({ props }: { readonly props: StormViewProps }) {
         </View>
       </ScrollView>
       {voting ? (
-        <KeyboardStickyFooter>
-          <View style={{ paddingHorizontal: th.space.titleGutter, paddingBottom: th.space.gap12 }}>
-            {model.canVote ? (
-              <Button
-                label={
-                  settled && model.myVote !== null
-                    ? votedLabel(model.myVote)
-                    : ctaLabel(option, locale)
-                }
-                disabled={option === null || settled}
-                loading={props.sending}
-                onPress={() => {
-                  if (option !== null && !settled) props.onVote(option.id);
-                }}
-                testID="storm-vote"
-              />
-            ) : (
-              <Text variant="caption" tone="muted" align="center" testID="storm-not-voting">
-                {lines.notVoting}
-              </Text>
-            )}
-          </View>
-        </KeyboardStickyFooter>
+        // On the page's ground, clear of the home indicator, riding the keyboard.
+        <PageFooter>
+          {model.canVote ? (
+            <Button
+              label={
+                settled && model.myVote !== null
+                  ? votedLabel(model.myVote)
+                  : ctaLabel(option, locale)
+              }
+              disabled={option === null || settled}
+              loading={props.sending}
+              onPress={() => {
+                if (option !== null && !settled) props.onVote(option.id);
+              }}
+              testID="storm-vote"
+            />
+          ) : (
+            <Text variant="caption" tone="muted" align="center" testID="storm-not-voting">
+              {lines.notVoting}
+            </Text>
+          )}
+        </PageFooter>
       ) : null}
     </>
   );

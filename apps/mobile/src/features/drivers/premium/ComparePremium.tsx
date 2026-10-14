@@ -139,6 +139,14 @@ export function ComparePremium(props: {
       subtitle={compare.header}
       backLabel={back}
       scroll={false}
+      // The picks stand on the page's ground under the table, never over the guide's note.
+      footer={
+        docked && drivers.length > 0 ? (
+          <View style={styles.footer}>
+            {drivers.map((_, index) => pick(index, index === lead ? 1.2 : 1))}
+          </View>
+        ) : undefined
+      }
       testID="drivers-compare"
     >
       <ScrollView
@@ -148,7 +156,7 @@ export function ComparePremium(props: {
           {
             paddingHorizontal: th.space.gutter,
             gap: th.space.gap12,
-            paddingBottom: insets.bottom + (docked ? 96 : 32),
+            paddingBottom: docked ? th.space.gap16 : insets.bottom + 32,
           },
         ]}
       >
@@ -202,16 +210,6 @@ export function ComparePremium(props: {
           </View>
         ) : null}
       </ScrollView>
-      {docked && drivers.length > 0 ? (
-        <View
-          style={[
-            styles.footer,
-            { bottom: insets.bottom + 12, left: th.space.gutter, right: th.space.gutter },
-          ]}
-        >
-          {drivers.map((_, index) => pick(index, index === lead ? 1.2 : 1))}
-        </View>
-      ) : null}
     </PushScreen>
   );
 }
@@ -222,5 +220,5 @@ const styles = StyleSheet.create({
   failed: { gap: 12 },
   pickRow: { flexDirection: 'row', gap: TABLE_GAP, paddingBottom: 6 },
   center: { alignItems: 'center' },
-  footer: { position: 'absolute', flexDirection: 'row', gap: 8 },
+  footer: { flexDirection: 'row', gap: 8 },
 });

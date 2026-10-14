@@ -38,9 +38,6 @@ const useStyles = makePremiumStyles((t) => ({
   },
   cards: { gap: t.space.gap16 + t.space.gap12 },
   footer: {
-    position: 'absolute',
-    left: t.space.gutter,
-    right: t.space.gutter,
     flexDirection: 'row',
     gap: t.space.gap10,
   },
@@ -200,20 +197,28 @@ export function PremiumShowdownView({ poll }: { readonly poll: PollView }) {
     );
   };
 
-  const footerBottom = insets.bottom + theme.space.gap16;
   return (
     <PushScreen
       title={header.title}
       subtitle={header.subtitle}
       backLabel={t({ id: 'vote.premium.back', message: 'Back' })}
       scroll={false}
+      // The two votes stand on the page's ground under the cards, never over the guide's note.
+      footer={
+        poll.canVote ? (
+          <View style={styles.footer} testID="showdown-footer">
+            {button(first)}
+            {button(second)}
+          </View>
+        ) : undefined
+      }
       testID="showdown"
     >
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={[
           styles.content,
-          { paddingBottom: footerBottom + theme.size.button + theme.space.gap16 },
+          { paddingBottom: poll.canVote ? theme.space.gap16 : insets.bottom + theme.space.gap16 },
         ]}
         testID="showdown-body"
       >
@@ -227,12 +232,6 @@ export function PremiumShowdownView({ poll }: { readonly poll: PollView }) {
           />
         )}
       </ScrollView>
-      {poll.canVote ? (
-        <View style={[styles.footer, { bottom: footerBottom }]} testID="showdown-footer">
-          {button(first)}
-          {button(second)}
-        </View>
-      ) : null}
     </PushScreen>
   );
 }

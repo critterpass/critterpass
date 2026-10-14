@@ -204,7 +204,8 @@ export function PremiumDestinationView(props: DestinationViewProps) {
       <ScrollEdgeFade
         edge="bottom"
         height={insets.bottom + theme.space.gap8 + DOCK_HEIGHT + SCROLL_EDGE_FADE}
-        solid={insets.bottom + theme.space.gap8 + DOCK_HEIGHT / 2}
+        // Opaque behind the whole dock: content never reads half under the button.
+        solid={insets.bottom + theme.space.gap8 + DOCK_HEIGHT}
       />
       <View
         pointerEvents="box-none"

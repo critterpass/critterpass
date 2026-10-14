@@ -22,7 +22,7 @@ import {
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
-import { FullScreen } from '@/ui/premium/shell';
+import { FullScreen, PageFooter } from '@/ui/premium/shell';
 
 import { footerLabels, rowLine, sectionTitles, stateLines } from '../../disruptions/flight/copy';
 import type { FlightViewProps } from '../../disruptions/flight/view-types';
@@ -39,12 +39,14 @@ export function FlightReady({ props }: { readonly props: FlightViewProps }) {
   const titles = sectionTitles();
   const lines = stateLines();
   const footer = footerLabels();
+  const footed = model.canAnnounce || model.canUndo;
   return (
     <View style={[styles.root, { backgroundColor: th.color.ground }]}>
       <ScrollView
         contentContainerStyle={{
           paddingTop: insets.top + 64,
-          paddingBottom: 160,
+          // The footer stands under the list on the ground, so the last row only needs air.
+          paddingBottom: footed ? th.space.gap16 : insets.bottom + th.space.gap16,
           paddingHorizontal: th.space.gutter,
           gap: th.space.gap16,
         }}
@@ -129,18 +131,8 @@ export function FlightReady({ props }: { readonly props: FlightViewProps }) {
           </PressableScale>
         ))}
       </ScrollView>
-      {model.canAnnounce || model.canUndo ? (
-        <View
-          style={[
-            styles.footer,
-            {
-              paddingBottom: insets.bottom + 12,
-              paddingHorizontal: th.space.titleGutter,
-              backgroundColor: th.color.ground,
-            },
-          ]}
-          testID="disruption-footer"
-        >
+      {footed ? (
+        <PageFooter>
           {model.canAnnounce ? (
             <Button
               label={footer.tell}
@@ -157,7 +149,7 @@ export function FlightReady({ props }: { readonly props: FlightViewProps }) {
               testID="disruption-undo-all"
             />
           ) : null}
-        </View>
+        </PageFooter>
       ) : null}
     </View>
   );
@@ -202,13 +194,4 @@ const styles = StyleSheet.create({
   tabular: { fontVariant: ['tabular-nums'] },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10 },
   flex: { flex: 1, minWidth: 0 },
-  footer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    gap: 8,
-    alignItems: 'center',
-    paddingTop: 12,
-  },
 });

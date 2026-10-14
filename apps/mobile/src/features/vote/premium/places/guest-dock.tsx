@@ -3,36 +3,21 @@
  * notes scrolling under it never show through the buttons.
  */
 import { useLingui } from '@lingui/react/macro';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Button, usePremiumTheme } from '@/ui/premium';
-
-/** The fade's height above the safe area (130 tall in the design, the buttons included). */
-const DOCK_FADE = 100;
-
-/** A colour at zero alpha, so the fade runs from the ground's own hue, not from black. */
-function clearOf(colour: string): string {
-  return /^#[0-9a-f]{6}$/i.test(colour) ? `${colour}00` : 'transparent';
-}
+import { SCROLL_EDGE_FADE, ScrollEdgeFade } from '@/ui/premium/shell';
 
 export function GuestDock(props: { readonly onPitch: () => void; readonly onSolo: () => void }) {
   const theme = usePremiumTheme();
   const insets = useSafeAreaInsets();
   const { t } = useLingui();
+  const dockBand = insets.bottom + theme.space.gap12 + theme.size.button + theme.space.gap8;
   return (
     <>
-      <View
-        pointerEvents="none"
-        style={[
-          styles.dockFade,
-          {
-            height: insets.bottom + DOCK_FADE,
-            // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never copy.
-            experimental_backgroundImage: `linear-gradient(180deg, ${clearOf(theme.color.ground)}, ${theme.color.ground} 46%)`,
-          },
-        ]}
-      />
+      {/* Opaque behind the whole dock, fading above it: the list never reads half under it. */}
+      <ScrollEdgeFade edge="bottom" height={dockBand + SCROLL_EDGE_FADE} solid={dockBand} />
 
       <View
         style={{
@@ -63,7 +48,3 @@ export function GuestDock(props: { readonly onPitch: () => void; readonly onSolo
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  dockFade: { position: 'absolute', left: 0, right: 0, bottom: 0 },
-});
