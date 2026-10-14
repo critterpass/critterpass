@@ -163,10 +163,6 @@ msgstr ""
 msgid "search.none.term.chinese"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/browse-tiles.ts
-msgid "search.browse.coffee"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.meal.coffee"
 msgstr ""
@@ -522,6 +518,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.term.vietnamese"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/browse-tiles.ts
+msgid "search.browse.views"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/browse-tiles.ts

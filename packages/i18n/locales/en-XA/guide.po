@@ -92,6 +92,10 @@ msgstr ""
 msgid "guide.premium.identity"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.placeGuide"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/camera/camera-screen.tsx
 msgid "guide.camera.askWithMenu"
 msgstr ""
@@ -130,6 +134,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
 msgid "guide.step.cost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.seesGroup"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
@@ -539,10 +547,6 @@ msgstr ""
 msgid "guide.premium.dietary.keep"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
-msgid "guide.premium.dietary.justMe"
-msgstr ""
-
 #: ../../apps/mobile/src/features/guide/camera/menu-language.ts
 msgid "guide.camera.lang.km"
 msgstr ""
@@ -640,6 +644,14 @@ msgstr ""
 msgid "guide.dietary.dietNone"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.noSignal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.noSignalLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.spiceNone"
 msgstr ""
@@ -671,6 +683,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderLess"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.seesMe"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx

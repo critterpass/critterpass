@@ -858,7 +858,7 @@ msgid "drivers.directory.emptyAny"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
-msgid "drivers.premium.compareNone"
+msgid "drivers.premium.compareNoneHead"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
@@ -1073,6 +1073,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.tag.safeDriver"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+msgid "drivers.premium.compareNoneLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx

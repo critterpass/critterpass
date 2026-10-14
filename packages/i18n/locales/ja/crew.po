@@ -560,7 +560,7 @@ msgstr ""
 msgid "chat.header.map"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+#: ../../apps/mobile/src/features/crew/premium/chat/tray-empty.tsx
 msgid "chat.premium.tray.none"
 msgstr ""
 
@@ -651,6 +651,10 @@ msgstr ""
 msgid "chat.premium.noSignal"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/chat/tray-empty.tsx
+msgid "chat.premium.tray.noneTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
 msgid "chat.premium.tray.locked"
 msgstr ""
@@ -661,6 +665,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.notify.off"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/chat/tray-empty.tsx
+msgid "chat.premium.tray.noRecentTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
@@ -927,7 +935,7 @@ msgstr ""
 msgid "chat.premium.composer.stickers"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+#: ../../apps/mobile/src/features/crew/premium/chat/tray-empty.tsx
 msgid "chat.premium.tray.noRecent"
 msgstr ""
 

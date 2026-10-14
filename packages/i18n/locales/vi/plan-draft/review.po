@@ -24,6 +24,14 @@ msgid "planDraft.counter"
 msgstr "Đã dùng {used}/{limit} lượt soạn lại"
 
 #: ../../apps/mobile/src/features/plan/draft/review/review-words.ts
+msgid "planDraft.day.untitledOne"
+msgstr "{wd} · {at}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/review-words.ts
+msgid "planDraft.day.untitledMore"
+msgstr "{wd} · {at}, rồi {next}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/review-words.ts
 msgid "planDraft.day.lottery"
 msgstr "{wd} · {first}, kết quả bốc thăm {date}"
 
@@ -98,6 +106,10 @@ msgstr "Đang tải bản nháp của bạn"
 #: ../../apps/mobile/src/features/plan/draft/review/review-words.ts
 msgid "planDraft.miss.noTime"
 msgstr "không còn chỗ trong lịch"
+
+#: ../../apps/mobile/src/features/plan/draft/review/review-words.ts
+msgid "planDraft.day.freeTitle"
+msgstr "Không làm gì. Tuyệt."
 
 #: ../../apps/mobile/src/features/plan/draft/data/commands.ts
 msgid "planDraft.queued.revert"

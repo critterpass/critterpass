@@ -92,6 +92,10 @@ msgstr "{left} left"
 msgid "guide.premium.identity"
 msgstr "{name}, your AI guide. {modeLine}"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.placeGuide"
+msgstr "{place} guide"
+
 #: ../../apps/mobile/src/features/guide/camera/camera-screen.tsx
 msgid "guide.camera.askWithMenu"
 msgstr "{question} The menu: {dishes}"
@@ -131,6 +135,10 @@ msgstr "Add one {name}"
 #: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
 msgid "guide.step.cost"
 msgstr "Adding up the cost"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.seesGroup"
+msgstr "All {count} can see this"
 
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.allergies"
@@ -539,10 +547,6 @@ msgstr "Just me · only you can see this"
 msgid "guide.premium.dietary.keep"
 msgstr "Keep editing"
 
-#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
-msgid "guide.premium.dietary.justMe"
-msgstr "Keep it to myself"
-
 #: ../../apps/mobile/src/features/guide/camera/menu-language.ts
 msgid "guide.camera.lang.km"
 msgstr "Khmer"
@@ -640,6 +644,14 @@ msgstr "No phrases yet"
 msgid "guide.dietary.dietNone"
 msgstr "No restrictions"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.noSignal"
+msgstr "NO SIGNAL"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.noSignalLine"
+msgstr "No signal · questions wait"
+
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.spiceNone"
 msgstr "None"
@@ -672,6 +684,10 @@ msgstr "of {limit}"
 #: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderLess"
 msgstr "One fewer {name}"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.seesMe"
+msgstr "Only you can see this"
 
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
@@ -929,7 +945,7 @@ msgstr "Split the bill"
 
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.accessLabel"
-msgstr "Steps, long walks, hearing, anything the guide should plan around"
+msgstr "Stairs, long walks, hearing…"
 
 #: ../../apps/mobile/src/features/guide/premium/guide-offline.tsx
 msgid "guide.premium.offlineTools"
@@ -1244,4 +1260,4 @@ msgstr "Your order"
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-view.tsx
 msgid "guide.practice.checkCaption"
-msgstr "Your phone listens, and {0} gives one tip when it's off."
+msgstr "Your phone listens, and {0} gives one tip when a word needs work."

@@ -862,8 +862,8 @@ msgid "drivers.directory.emptyAny"
 msgstr "Chưa có ai trên danh sách"
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
-msgid "drivers.premium.compareNone"
-msgstr "Danh sách chọn chưa có ai. Lưu hai hoặc ba tài xế để so sánh ở đây."
+msgid "drivers.premium.compareNoneHead"
+msgstr "Danh sách chọn chưa có ai"
 
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.notAgain"
@@ -1078,6 +1078,10 @@ msgstr "Tự quản lý hồ sơ của mình"
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.tag.safeDriver"
 msgstr "Lái xe an toàn"
+
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+msgid "drivers.premium.compareNoneLine"
+msgstr "Lưu hai hoặc ba tài xế để xếp họ cạnh nhau ở đây."
 
 #: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.saved"

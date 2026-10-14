@@ -24,6 +24,14 @@ msgid "planDraft.counter"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/review-words.ts
+msgid "planDraft.day.untitledOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/review-words.ts
+msgid "planDraft.day.untitledMore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/review-words.ts
 msgid "planDraft.day.lottery"
 msgstr ""
 
@@ -97,6 +105,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/review-words.ts
 msgid "planDraft.miss.noTime"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/review-words.ts
+msgid "planDraft.day.freeTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/data/commands.ts

@@ -23,6 +23,18 @@ msgstr "{0}, và {1}."
 msgid "explore.detail.fromStay"
 msgstr "{duration} từ {stayName}"
 
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
+msgid "explore.detail.tile.takesHours"
+msgstr "{h} giờ"
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
+msgid "explore.detail.tile.takesHoursMin"
+msgstr "{h} giờ {m}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
+msgid "explore.detail.tile.takesMin"
+msgstr "{minutes} phút"
+
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.minutes"
 msgstr "{n} phút"

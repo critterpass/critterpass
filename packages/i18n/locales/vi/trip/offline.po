@@ -24,14 +24,6 @@ msgid "trip.offline.backToast"
 msgstr "{sent, plural, other {Có sóng lại rồi. Đã gửi # mục.}}"
 
 #: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
-msgid "trip.offline.partSaved"
-msgstr "{time}. Một phần hôm nay đã được lưu vào máy lúc {savedAt}."
-
-#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
-msgid "trip.offline.saved"
-msgstr "{time}. Hôm nay đã được lưu vào máy lúc {savedAt}."
-
-#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
 msgid "trip.offline.gone"
 msgstr "Đã gửi rồi"
 
@@ -52,6 +44,10 @@ msgid "trip.offline.headlineAt"
 msgstr "Mất sóng ở {place}"
 
 #: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.partSaved"
+msgstr "Một phần hôm nay đã được lưu vào máy lúc {savedAt}."
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
 msgid "trip.offline.readyHeadline"
 msgstr "Sẵn sàng khi mất sóng"
 
@@ -70,6 +66,10 @@ msgstr "Cuộc bình chọn đã đóng khi bạn mất sóng"
 #: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
 msgid "trip.offline.notSaved"
 msgstr "Hôm nay chưa được lưu vào máy. Lịch trình vẫn xem được; vé và bản đồ cần có sóng."
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.saved"
+msgstr "Hôm nay đã được lưu vào máy lúc {savedAt}."
 
 #: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
 msgid "trip.offline.plan"

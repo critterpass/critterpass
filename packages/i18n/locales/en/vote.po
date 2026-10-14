@@ -254,6 +254,10 @@ msgstr "Ask for {0}"
 msgid "vote.premium.newPoll.ask"
 msgstr "Ask the crew something"
 
+#: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
+msgid "vote.premium.newPoll.askedIn"
+msgstr "Asked in the {crewName} chat"
+
 #: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
 msgid "vote.guest.back"
 msgstr "Back"

@@ -66,6 +66,10 @@ msgid "trip.alarm.sheet.notificationTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
+msgid "trip.dayOf.premium.addPackGo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
 msgid "trip.dayOf.premium.addPack"
 msgstr ""
 
@@ -89,7 +93,7 @@ msgstr ""
 msgid "trip.offline.backOnline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+#: ../../apps/mobile/src/features/trip/premium/day/DayLinks.tsx
 msgid "trip.dayOf.toToday"
 msgstr ""
 
@@ -222,6 +226,11 @@ msgstr ""
 msgid "trip.disruptions.late.etaStale"
 msgstr ""
 
+#. placeholder {0}: view.lastSynced
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.lastSynced"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
 msgid "trip.alarm.sheet.askTitle"
 msgstr ""
@@ -326,11 +335,11 @@ msgstr ""
 msgid "trip.offline.premium.saveEdit"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+#: ../../apps/mobile/src/features/trip/premium/day/DayLinks.tsx
 msgid "trip.dayOf.toDayPlan"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+#: ../../apps/mobile/src/features/trip/premium/day/DayLinks.tsx
 msgid "trip.dayOf.toTomorrow"
 msgstr ""
 
@@ -442,7 +451,11 @@ msgstr ""
 msgid "trip.offline.weak"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.premium.readyTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayLinks.tsx
 msgid "trip.dayOf.toOffline"
 msgstr ""
 

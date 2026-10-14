@@ -33,7 +33,7 @@ msgstr "Explore"
 
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.missing.offlineLine"
-msgstr "I need a connection the first time. After that I'm here offline."
+msgstr "I need a connection the first time. After that I’m here offline."
 
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.guide.learningLine"
@@ -53,11 +53,11 @@ msgstr "Slow mornings, early temples, late dinners."
 
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.missing.title"
-msgstr "That place isn't in the guide"
+msgstr "That place isn’t in the guide"
 
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.missing.offlineTitle"
-msgstr "This guide hasn't loaded yet"
+msgstr "This guide hasn’t loaded yet"
 
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.missing.line"

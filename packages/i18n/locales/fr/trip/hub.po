@@ -220,6 +220,10 @@ msgstr ""
 msgid "trip.hub.homeSince"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.online"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/hub/phase-line.ts
 msgid "trip.hub.landIn"
 msgstr ""
@@ -338,10 +342,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-disruptions.ts
 msgid "trip.hub.disruption.late"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
-msgid "trip.hub.tile.online"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-links.ts

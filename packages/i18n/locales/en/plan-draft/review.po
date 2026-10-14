@@ -24,6 +24,14 @@ msgid "planDraft.counter"
 msgstr "{used} of {limit} redrafts used"
 
 #: ../../apps/mobile/src/features/plan/draft/review/review-words.ts
+msgid "planDraft.day.untitledOne"
+msgstr "{wd} · {at}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/review-words.ts
+msgid "planDraft.day.untitledMore"
+msgstr "{wd} · {at}, then {next}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/review-words.ts
 msgid "planDraft.day.lottery"
 msgstr "{wd} · {first}, lottery result {date}"
 
@@ -98,6 +106,10 @@ msgstr "Loading your draft"
 #: ../../apps/mobile/src/features/plan/draft/review/review-words.ts
 msgid "planDraft.miss.noTime"
 msgstr "no room in the days"
+
+#: ../../apps/mobile/src/features/plan/draft/review/review-words.ts
+msgid "planDraft.day.freeTitle"
+msgstr "Nothing. Bliss."
 
 #: ../../apps/mobile/src/features/plan/draft/data/commands.ts
 msgid "planDraft.queued.revert"

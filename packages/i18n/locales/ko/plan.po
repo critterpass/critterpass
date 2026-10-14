@@ -60,11 +60,6 @@ msgstr ""
 msgid "plan.card.tally"
 msgstr ""
 
-#. placeholder {0}: stars.starredCount
-#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
-msgid "plan.premium.ideas.starred"
-msgstr ""
-
 #. placeholder {0}: wholeMoney(locale, overBy, model.currency)
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
 msgid "plan.premium.draft.over"
@@ -171,6 +166,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
 msgid "plan.tripMap.empty.noPlanLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-parts.tsx
+msgid "plan.premium.ideas.starred"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
@@ -379,7 +378,7 @@ msgstr ""
 msgid "plan.check.lessDriving.before"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+#: ../../apps/mobile/src/features/plan/premium/stop/sheet-parts.tsx
 msgid "plan.premium.item.booked"
 msgstr ""
 
@@ -582,6 +581,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.day.item.dayChip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-parts.tsx
+msgid "planDraft.change.dayOnly"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
@@ -956,7 +959,7 @@ msgstr ""
 msgid "plan.premium.stop.moving"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-parts.tsx
 msgid "plan.premium.ideas.mustDoLead"
 msgstr ""
 
@@ -1020,6 +1023,10 @@ msgstr ""
 msgid "plan.allDays.preview.empty"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/all-days/day-tile.tsx
+msgid "plan.premium.allDays.noPins"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
 msgid "plan.tripMap.empty.title"
 msgstr ""
@@ -1061,8 +1068,8 @@ msgid "plan.settings.maxesLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
-#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
 #: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+#: ../../apps/mobile/src/features/plan/premium/only-you-pill.tsx
 msgid "planDraft.onlyYou"
 msgstr ""
 

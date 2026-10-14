@@ -66,6 +66,10 @@ msgid "trip.alarm.sheet.notificationTitle"
 msgstr "A notification, not an alarm"
 
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
+msgid "trip.dayOf.premium.addPackGo"
+msgstr "Add it"
+
+#: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
 msgid "trip.dayOf.premium.addPack"
 msgstr "Add something to pack"
 
@@ -89,7 +93,7 @@ msgstr "Android rings alarms on the minute only for apps you allow. Without it, 
 msgid "trip.offline.backOnline"
 msgstr "Back online"
 
-#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+#: ../../apps/mobile/src/features/trip/premium/day/DayLinks.tsx
 msgid "trip.dayOf.toToday"
 msgstr "Back to today"
 
@@ -222,6 +226,11 @@ msgstr "Just my own leave-by alarms"
 msgid "trip.disruptions.late.etaStale"
 msgstr "Last ETA {eta}"
 
+#. placeholder {0}: view.lastSynced
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.lastSynced"
+msgstr "Last synced {0}"
+
 #: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
 msgid "trip.alarm.sheet.askTitle"
 msgstr "Let leave-by alarms ring?"
@@ -326,11 +335,11 @@ msgstr "Running late?"
 msgid "trip.offline.premium.saveEdit"
 msgstr "Save edit"
 
-#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+#: ../../apps/mobile/src/features/trip/premium/day/DayLinks.tsx
 msgid "trip.dayOf.toDayPlan"
 msgstr "See the day plan"
 
-#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+#: ../../apps/mobile/src/features/trip/premium/day/DayLinks.tsx
 msgid "trip.dayOf.toTomorrow"
 msgstr "See tomorrow"
 
@@ -442,7 +451,11 @@ msgstr "Watching"
 msgid "trip.offline.weak"
 msgstr "Weak signal"
 
-#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.premium.readyTitle"
+msgstr "What works offline"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayLinks.tsx
 msgid "trip.dayOf.toOffline"
 msgstr "What works with no signal"
 

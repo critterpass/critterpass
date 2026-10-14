@@ -23,6 +23,18 @@ msgstr ""
 msgid "explore.detail.fromStay"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
+msgid "explore.detail.tile.takesHours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
+msgid "explore.detail.tile.takesHoursMin"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
+msgid "explore.detail.tile.takesMin"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.minutes"
 msgstr ""

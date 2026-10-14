@@ -49,13 +49,13 @@ msgstr "{0}, with {1}"
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
 msgid "explore.picks.title"
-msgstr "{0}'s first-timer picks"
+msgstr "{0}’s first-timer picks"
 
 #. placeholder {0}: guide.name
 #. placeholder {1}: hero.name
 #: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
 msgid "explore.dest.unavailable"
-msgstr "{0}'s notes on {1} didn't load. They'll show up once this phone is back online."
+msgstr "{0}’s notes on {1} didn’t load. They’ll show up once this phone is back online."
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-plain.tsx
 msgid "search.plain.count"
@@ -766,7 +766,7 @@ msgstr "No fares to show for {month} right now. Try again in a bit."
 #. placeholder {1}: guide.name
 #: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
 msgid "explore.limited.body"
-msgstr "No guide lives in {0} yet, so the month-by-month crowds aren't written. Flights, money and the best months are covered, and {1} plans the trip all the same."
+msgstr "No guide lives in {0} yet, so the month-by-month crowds aren’t written. Flights, money and the best months are covered, and {1} plans the trip all the same."
 
 #: ../../apps/mobile/src/features/explore/premium/swipe/swipe-summary.tsx
 msgid "explore.premium.swipe.noMatches"

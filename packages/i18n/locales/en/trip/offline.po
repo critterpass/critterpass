@@ -24,14 +24,6 @@ msgid "trip.offline.backToast"
 msgstr "{sent, plural, one {Back online. # thing sent.} other {Back online. # things sent.}}"
 
 #: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
-msgid "trip.offline.partSaved"
-msgstr "{time}. Part of today was saved to your phone at {savedAt}."
-
-#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
-msgid "trip.offline.saved"
-msgstr "{time}. Today was saved to your phone at {savedAt}."
-
-#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
 msgid "trip.offline.gone"
 msgstr "Already sent"
 
@@ -52,6 +44,10 @@ msgid "trip.offline.headlineAt"
 msgstr "Offline at {place}"
 
 #: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.partSaved"
+msgstr "Part of today was saved to your phone at {savedAt}."
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
 msgid "trip.offline.readyHeadline"
 msgstr "Ready for no signal"
 
@@ -70,6 +66,10 @@ msgstr "The vote closed while you were offline"
 #: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
 msgid "trip.offline.notSaved"
 msgstr "Today isn't saved to this phone yet. The plan still works; tickets and maps need signal."
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.saved"
+msgstr "Today was saved to your phone at {savedAt}."
 
 #: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
 msgid "trip.offline.plan"

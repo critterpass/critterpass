@@ -109,7 +109,7 @@ msgstr "Đang đi ô tô"
 msgid "liveMap.editor.keepTime"
 msgstr "Giữ {currentTime}"
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
 msgid "liveMap.premium.lastSeen"
 msgstr "Thấy lần cuối"
 
@@ -150,7 +150,7 @@ msgstr "chưa có giờ tới"
 msgid "liveMap.noTrip.title"
 msgstr "Chưa có chuyến nào trên bản đồ"
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.gate.notStartedTitle"
 msgstr "Chưa tới ngày đi"
 
@@ -182,7 +182,7 @@ msgstr "Đang tới"
 msgid "liveMap.primer.line"
 msgstr "Chỉ trong ngày đi, chỉ với nhóm này. Tạm dừng lúc nào cũng được."
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
 msgid "liveMap.premium.pause"
 msgstr "Tạm dừng"
 
@@ -214,7 +214,7 @@ msgstr "Đã gọi cả nhóm: {place} lúc {time}."
 msgid "liveMap.toast.pinged"
 msgstr "Đã gọi cả nhóm."
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
 msgid "liveMap.premium.resume"
 msgstr "Tiếp tục"
 
@@ -263,11 +263,11 @@ msgstr "Ngừng chia sẻ lúc nửa đêm {0}"
 msgid "liveMap.status.sharing"
 msgstr "Đang chia sẻ"
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.gate.notStartedLine"
 msgstr "Mở chia sẻ vào ngày đầu của chuyến đi."
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.gate.endedLine"
 msgstr "Chia sẻ đã tự tắt lúc nửa đêm."
 
@@ -288,15 +288,15 @@ msgstr "Cả nhóm thấy bạn đang tới. {minutes} phút nữa."
 msgid "liveMap.noTrip.line"
 msgstr "Bản đồ nhóm mở vào những ngày cả nhóm đi chung."
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.premium.wakesUp"
 msgstr "Bản đồ sẽ bật vào ngày đầu tiên của chuyến đi"
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.premium.guideName"
 msgstr "Tokek"
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.gate.endedTitle"
 msgstr "Đã hết ngày đi"
 
@@ -311,6 +311,10 @@ msgstr "Đang tắt vị trí trực tiếp"
 #: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
 msgid "liveMap.queued.shareOn"
 msgstr "Đang bật vị trí trực tiếp"
+
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
+msgid "liveMap.premium.updatesBack"
+msgstr "Cập nhật khi bạn có sóng lại"
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/MeetupEditorPremium.tsx
 msgid "liveMap.editor.useSpot"

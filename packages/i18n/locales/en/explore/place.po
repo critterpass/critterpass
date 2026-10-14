@@ -23,6 +23,18 @@ msgstr "{0}, and {1}."
 msgid "explore.detail.fromStay"
 msgstr "{duration} from {stayName}"
 
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
+msgid "explore.detail.tile.takesHours"
+msgstr "{h} h"
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
+msgid "explore.detail.tile.takesHoursMin"
+msgstr "{h} h {m}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
+msgid "explore.detail.tile.takesMin"
+msgstr "{minutes} min"
+
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.minutes"
 msgstr "{n} min"
@@ -173,7 +185,7 @@ msgstr "Takes"
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.noPlan"
-msgstr "No plan to add to yet"
+msgstr "The plan isn’t shared yet"
 
 #: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
 msgid "explore.detail.undo"

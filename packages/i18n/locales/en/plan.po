@@ -60,11 +60,6 @@ msgstr "{0} of {1} are free"
 msgid "plan.card.tally"
 msgstr "{0} of {1} yeses so far"
 
-#. placeholder {0}: stars.starredCount
-#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
-msgid "plan.premium.ideas.starred"
-msgstr "{0} of {total} starred"
-
 #. placeholder {0}: wholeMoney(locale, overBy, model.currency)
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
 msgid "plan.premium.draft.over"
@@ -172,6 +167,10 @@ msgstr "{otherName}’s must-do"
 #: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
 msgid "plan.tripMap.empty.noPlanLine"
 msgstr "{saved, plural, one {One place is saved in Ideas. It goes onto a day once there is a plan.} other {# places are saved in Ideas. They go onto days once there is a plan.}}"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-parts.tsx
+msgid "plan.premium.ideas.starred"
+msgstr "{starred} of {total} starred"
 
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
 msgid "planDraft.coverage.missing"
@@ -379,7 +378,7 @@ msgstr "Balances stay to settle ({open} open)"
 msgid "plan.check.lessDriving.before"
 msgstr "Before"
 
-#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+#: ../../apps/mobile/src/features/plan/premium/stop/sheet-parts.tsx
 msgid "plan.premium.item.booked"
 msgstr "Booked"
 
@@ -583,6 +582,10 @@ msgstr "Day {0}, redrafted, is ready."
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.day.item.dayChip"
 msgstr "Day {dayNo}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-parts.tsx
+msgid "planDraft.change.dayOnly"
+msgstr "Day {n}"
 
 #: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
 msgid "plan.allDays.dayTitle"
@@ -956,7 +959,7 @@ msgstr "Moves to your next trip"
 msgid "plan.premium.stop.moving"
 msgstr "Moving to {time}"
 
-#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-parts.tsx
 msgid "plan.premium.ideas.mustDoLead"
 msgstr "Must-dos: star one each."
 
@@ -1020,6 +1023,10 @@ msgstr "Nothing booked, on purpose"
 msgid "plan.allDays.preview.empty"
 msgstr "Nothing left on this day"
 
+#: ../../apps/mobile/src/features/plan/premium/all-days/day-tile.tsx
+msgid "plan.premium.allDays.noPins"
+msgstr "Nothing pinned yet"
+
 #: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
 msgid "plan.tripMap.empty.title"
 msgstr "Nothing saved yet"
@@ -1061,8 +1068,8 @@ msgid "plan.settings.maxesLine"
 msgstr "Only the crew total shows"
 
 #: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
-#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
 #: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+#: ../../apps/mobile/src/features/plan/premium/only-you-pill.tsx
 msgid "planDraft.onlyYou"
 msgstr "Only you see this"
 
