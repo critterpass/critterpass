@@ -3,6 +3,7 @@ import { Modal, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ToastHost, usePremiumTheme } from '../..';
+import { FooterStack } from './footer-stack';
 
 export interface ModalSheetProps {
   /** Swiping it down (iOS), system back (Android): the sheet's "not now". */
@@ -59,7 +60,9 @@ export function ModalSheet({
             {children}
           </ScrollView>
           {footer === undefined ? null : (
-            <View style={[styles.footer, { paddingHorizontal: t.space.gutter }]}>{footer}</View>
+            <FooterStack style={[styles.footer, { paddingHorizontal: t.space.gutter }]}>
+              {footer}
+            </FooterStack>
           )}
         </ToastHost>
       </View>

@@ -15,6 +15,7 @@ import {
   NativeLeadingControl,
 } from './header-actions';
 import type { ShellAction } from './header-actions';
+import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from './scroll-edge';
 
 export interface PushScreenProps {
   /** The centred inline title (19/700). */
@@ -133,16 +134,28 @@ export function PushScreen({
   );
   const drawnOptions = useMemo(() => ({ headerShown: false, title }), [title]);
 
+  const edges = useScrollEdges();
   const body = scroll ? (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
       contentContainerStyle={{ paddingBottom: t.space.gap16 }}
       keyboardShouldPersistTaps="handled"
+      {...edges.scrollProps}
     >
       {children}
     </ScrollView>
   ) : (
     children
+  );
+  // Under a drawn bar or large title the content fades into the ground as it scrolls up under
+  // them (the native iOS bar draws the system's own scroll edge).
+  const fadedBody = scroll ? (
+    <View style={styles.body}>
+      {body}
+      <ScrollEdgeFade edge="top" height={SCROLL_EDGE_FADE} visible={edges.top} />
+    </View>
+  ) : (
+    body
   );
 
   if (headerless) {
@@ -220,7 +233,7 @@ export function PushScreen({
             </Text>
           )}
         </View>
-        {body}
+        {fadedBody}
       </View>
     );
   }
@@ -250,7 +263,7 @@ export function PushScreen({
             {actions.length > 0 ? <DrawnHeaderActions actions={actions} /> : null}
           </View>
         </View>
-        {body}
+        {fadedBody}
       </View>
     );
   }
@@ -269,6 +282,7 @@ export function PushScreen({
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
+  body: { flex: 1 },
   titleBlock: { alignItems: 'center', maxWidth: 240, flexShrink: 1 },
   drawnBar: { flexDirection: 'row', alignItems: 'center' },
   largeBar: { flexDirection: 'row', alignItems: 'center' },
