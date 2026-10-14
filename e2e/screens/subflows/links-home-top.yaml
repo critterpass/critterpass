@@ -1,0 +1,34 @@
+appId: app.critterpass.dev
+---
+# Home in ${LOOK}, from wherever the app is: the trip card at rest (3.02), then scrolled so the
+# tab bar shrinks (1.04), and back to the top.
+- runFlow: ../../_shared/home-link.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 15000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'home-screen'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '3.02'
+            NAME: home-link
+            LOOK: ${LOOK}
+      - scroll
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '1.04'
+            NAME: tab-bar-scrolled-link
+            LOOK: ${LOOK}
+      - scrollUntilVisible:
+          element:
+            id: 'home-screen'
+          direction: UP
+          timeout: 5000
+          optional: true

@@ -54,6 +54,8 @@ export const FLOW_MEDIAN_MINUTES: Readonly<Record<string, number>> = {
   'e2e/screens/ios/hub-wallet.yaml': 8.9,
   'e2e/screens/ios/pages-footers.yaml': 12.0,
   'e2e/screens/ios/sheets-keyboards.yaml': 9.3,
+  'e2e/screens/links-home.yaml': 7.0,
+  'e2e/screens/links-trip.yaml': 7.0,
   'e2e/screens/long-data.yaml': 8.0,
   'e2e/screens/menus.yaml': 6.5,
   'e2e/screens/pass.yaml': 10.7,

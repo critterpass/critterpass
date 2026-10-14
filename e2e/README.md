@@ -304,7 +304,9 @@ The sweep runs:
   short iOS set in `e2e/screens/ios-sweep.txt` on four shards (one of the five macOS runners
   stays free for CI's macOS jobs):
   native sheets and their grabber, keyboards, floating headers under the status bar and footers
-  pinned over content (`e2e/screens/ios/`), and `long-data`. The founder's iPhone found what the
+  pinned over content (`e2e/screens/ios/`), the link captures (`capture`, `links-trip`,
+  `links-home`: every trip page, Home and the tabs, dark for the main ones) and the wallet and
+  first-run journeys, so it shoots every screen the Android sweep shoots in light. The founder's iPhone found what the
   Android sweep passed (a sheet's doubled top inset, titles under the clock), so this leg runs
   before every TestFlight build (see the release gate);
 - every night on main (the `schedule` trigger): the whole sweep on Android, and its English flows
@@ -314,7 +316,11 @@ The sweep runs:
 Two sweep flows are not journeys. `capture.yaml` is the fast capture: each screen the seed sets is
 opened by its link (`subflows/capture.yaml`: `openLink critterpass-dev://<route>`, wait for
 `qa-settled` on that route, shoot), seconds a screen; add a screen there when its state needs no
-taps. `menus.yaml` long-presses the crew chat's message and a plan stop and taps every row of each
+taps. `links-trip.yaml` and `links-home.yaml` do the same for a trip's pages and the crew's, with the
+ids read from the QA marker (`subflows/trip-id.yaml`, `subflows/crew-id.yaml`). A capture whose
+screen never showed is still shot and named in the flow's log, and `subflows/capture-done.yaml`
+fails the flow once every screenshot is taken, so a sweep that skipped designs never reads as
+passed. `menus.yaml` long-presses the crew chat's message and a plan stop and taps every row of each
 menu, and fails when a row shows nothing (no strip, toast, sheet, question or screen).
 
 Every sweep comment lists what the run's screenshots captured against the premium designs, per

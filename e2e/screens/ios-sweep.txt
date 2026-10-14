@@ -1,6 +1,8 @@
 # The iPhone leg of the UI sweep (device.yml `sweep` preset with platform=ios and no flows): the
-# screens whose layout iOS draws its own way, about ten minutes of flows a shard, balanced by
-# recorded flow time over the iOS jobs' max-parallel. Every e2e/screens flow runs on Android.
+# screens whose layout iOS draws its own way plus every other screen the Android sweep shoots in
+# light (by link where a link reaches it), about twenty-five minutes of flows a shard, balanced by
+# recorded flow time over the iOS jobs' max-parallel. Every e2e/screens flow runs on Android; long
+# real data (long-data.yaml) and the dark and Vietnamese journeys stay there.
 #
 # Sheets (the grabber, the safe areas inside a native sheet) and keyboards.
 e2e/screens/ios/sheets-keyboards.yaml
@@ -8,7 +10,12 @@ e2e/screens/ios/guide-find.yaml
 # Floating headers, the status bar and footers pinned over scrolled content.
 e2e/screens/ios/pages-footers.yaml
 e2e/screens/ios/hub-wallet.yaml
-# The fast capture: screens the seed sets, each opened by its link.
+# The fast capture: screens the seed sets, each opened by its link; every trip page and Home and
+# the tabs by their links (light, and dark for Home, the tabs and the trip's main pages).
 e2e/screens/capture.yaml
-# Long real data: long Vietnamese names, a week-long trip, a crew of five and a crew of one.
-e2e/screens/long-data.yaml
+e2e/screens/links-trip.yaml
+e2e/screens/links-home.yaml
+# Journeys whose screens need taps: the wallet of a crew with bookings and expenses, and the first
+# run from the splash to the issued pass.
+e2e/screens/wallet-trip.yaml
+e2e/screens/first-run.yaml

@@ -1,0 +1,25 @@
+appId: app.critterpass.dev
+---
+# The crew's trip id into ${output.tripId} (empty when no trip opened), for captures that open a
+# trip's pages by their links: the hub from Home's trip card (else the Trips tab), its route read
+# from the QA marker (`/hub/<id>`), then back to Home.
+- evalScript: ${output.tripId = ''}
+- runFlow:
+    file: trip-open-hub.yaml
+    env:
+      ZOOM: ''
+# A trip that is on asks once, over its hub, to remember the places visited: not now (a sheet
+# over the hub hides the QA marker on iOS).
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - runFlow: ../../_shared/settle.yaml
+- runFlow: ../../_shared/where.yaml
+- evalScript: "${output.tripId = output.where.indexOf('/hub/') === 0 ? output.where.split('/')[2] : ''}"
+- evalScript: "${console.log('trip id ' + (output.tripId || 'none'))}"
+- evalScript: "${output.captureMissing = (output.captureMissing || '') + (output.tripId ? '' : ' trip-id')}"
+- runFlow: ../../_shared/home-link.yaml
