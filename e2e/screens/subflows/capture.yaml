@@ -2,11 +2,11 @@ appId: app.critterpass.dev
 ---
 # The fast capture: opens ${ROUTE} (an in-app route, `paywall/compare`) by its link, waits until
 # the app's QA marker reads settled on that route (or, when ${READY} is set, until that element
-# shows: a native sheet hides the marker), and shoots it as `premium-${CODE}-${NAME}-${LOOK}`. A
-# few seconds a screen, where tapping there from Home costs a minute: for screens whose state the
-# seed sets, not for journeys. ${SHEET} true means the screen was opened over Home: after the shot
-# every level it presented is closed again (a page pushed inside a sheet, then the sheet) until
-# Home shows, so the next sheet never opens inside a stale one.
+# shows: an iOS sheet leaves the marker on the page under it), and shoots it as
+# `premium-${CODE}-${NAME}-${LOOK}`. A few seconds a screen, where tapping there from Home costs a
+# minute: for screens whose state the seed sets, not for journeys. ${SHEET} true means the screen
+# was opened over Home: after the shot the app is back on Home with nothing over it
+# (close-to-home.yaml), so the next sheet never opens inside a stale one.
 - openLink:
     link: critterpass-dev://${ROUTE}
 - runFlow:

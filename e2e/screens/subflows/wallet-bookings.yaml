@@ -62,7 +62,21 @@ appId: app.critterpass.dev
             id: 'bookings-insurance-(add|card)'
           direction: DOWN
           timeout: 10000
+          centerElement: true
           optional: true
+      # The wallet can come back from a booking scrolled past it: up again.
+      - runFlow:
+          when:
+            notVisible:
+              id: 'bookings-insurance-(add|card)'
+          commands:
+            - scrollUntilVisible:
+                element:
+                  id: 'bookings-insurance-(add|card)'
+                direction: UP
+                timeout: 10000
+                centerElement: true
+                optional: true
       - runFlow:
           when:
             visible:

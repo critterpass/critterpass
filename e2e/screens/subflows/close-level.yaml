@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
 # One step of close-to-home.yaml: when the app isn't on Home (${output.where}, from the QA marker:
-# `unknown` while a native sheet hides it), closes the level on top by its drawn button (a page's
+# `unknown` when the marker can't be read), closes the level on top by its drawn button (a page's
 # ‹ inside a sheet, a sheet's or full screen's ✕, the paywall's close), else by the sheet's own
 # gesture (_shared/close-sheet: pulled down on iOS, the system back on Android), and reads where
 # it landed. A pull-down on a full-height sheet whose content takes the swipe closes nothing, so

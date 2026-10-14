@@ -53,6 +53,10 @@ appId: app.critterpass.dev
             id: 'you-edit-name-field'
           timeout: 10000
           optional: true
+      # The field asks for the keyboard itself; an emulator can leave it down, so it is tapped.
+      - tapOn:
+          id: 'you-edit-name-field'
+          optional: true
       - runFlow:
           file: shot.yaml
           env:

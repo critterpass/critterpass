@@ -1,15 +1,40 @@
 appId: app.critterpass.dev
 ---
-# Closes every level the last capture presented over Home, one at a time, until the app's QA
-# marker reads Home (`/`): a page pushed inside a sheet, then the sheet, at most four levels
-# (close-level.yaml). Home's link is the last resort (_shared/to-home).
-- runFlow: ../../_shared/where.yaml
-- evalScript: ${output.closedByButton = false}
-- runFlow: close-level.yaml
-- runFlow: close-level.yaml
-- runFlow: close-level.yaml
-- runFlow: close-level.yaml
+# Back to Home with nothing presented over it, after a capture opened a sheet or modal there.
+# On iOS the app is relaunched: a native sheet keeps the screens under it (and the QA marker) in
+# the hierarchy, so no check can tell it is still up, and a sheet left up takes the next link
+# inside it. On Android every level is closed in turn (close-level.yaml, at most four), as the QA
+# marker reads where it landed; Home's link is the last resort (_shared/to-home).
 - runFlow:
     when:
-      true: ${output.where !== '/'}
-    file: ../../_shared/to-home.yaml
+      platform: iOS
+    commands:
+      - stopApp
+      - launchApp
+      - extendedWaitUntil:
+          visible:
+            id: 'home-screen|critters-hatch-later'
+          timeout: 30000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-hatch-later'
+          commands:
+            - tapOn:
+                id: 'critters-hatch-later'
+      - runFlow: ../../_shared/settle.yaml
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - runFlow: ../../_shared/where.yaml
+      - evalScript: ${output.closedByButton = false}
+      - runFlow: close-level.yaml
+      - runFlow: close-level.yaml
+      - runFlow: close-level.yaml
+      - runFlow: close-level.yaml
+      - runFlow:
+          when:
+            true: ${output.where !== '/'}
+          file: ../../_shared/to-home.yaml

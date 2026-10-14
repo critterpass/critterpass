@@ -144,12 +144,42 @@ appId: app.critterpass.dev
       text: '(?i)copy|share'
     timeout: 8000
 - runFlow: ../_shared/back.yaml
-# Copy last (back in the chat): it puts the message on the clipboard and the app's "Copied" toast
-# says so, on both systems.
+# Copy last (back in the chat): it puts the message on the clipboard. iOS shows nothing of its own,
+# so the app's "Copied" toast says so; Android shows its clipboard overlay over the app (its window
+# hides the app's toast from the hierarchy), which is the proof there.
 - runFlow: subflows/plan-home.yaml
 - runFlow: subflows/chat-open-crew.yaml
+- longPressOn:
+    text: '.*Uluwatu at sunset.*'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-action-copy'
+    timeout: 8000
+- tapOn:
+    id: 'chat-action-copy'
 - runFlow:
-    file: subflows/menu-chat-action.yaml
-    env:
-      KEY: copy
-      EXPECT: '(?i).*copied.*'
+    when:
+      platform: iOS
+    commands:
+      - extendedWaitUntil:
+          visible:
+            text: '(?i).*copied.*'
+          timeout: 8000
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: '.*clipboard.*'
+          timeout: 8000
+          optional: true
+      - runFlow:
+          when:
+            notVisible:
+              id: '.*clipboard.*'
+          commands:
+            - extendedWaitUntil:
+                visible:
+                  text: '(?i).*copied.*'
+                timeout: 3000

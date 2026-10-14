@@ -51,9 +51,9 @@ appId: app.critterpass.dev
     file: ../../_shared/back-to.yaml
     env:
       MARK: 'bookings-wallet-empty'
-# The add page (7.03), its mailbox sheet (7.05) and adding by hand (7.04), each opened by its link
-# (the wallet's own rows sit under the tab bar on a short phone) and left by stepping back to the
-# empty wallet. Nothing is saved.
+# The add page (7.03) and adding by hand (7.04), each opened by its link (the wallet's own rows sit
+# under the tab bar on a short phone), and the mailbox sheet (7.05) from the add page; each is left
+# by stepping back to the empty wallet. Nothing is saved.
 - runFlow:
     file: ../../_shared/open-link.yaml
     env:
@@ -69,7 +69,19 @@ appId: app.critterpass.dev
       CODE: '7.03'
       NAME: add-page
       LOOK: ${LOOK}
+# The mailbox sheet from the add page's guide note, as a person opens it (its link is the fallback).
+- tapOn:
+    text: 'Find bookings in my email'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-mailbox'
+    timeout: 8000
+    optional: true
 - runFlow:
+    when:
+      notVisible:
+        id: 'bookings-mailbox'
     file: ../../_shared/open-link.yaml
     env:
       URL: critterpass-dev://wallet/bookings/mailbox

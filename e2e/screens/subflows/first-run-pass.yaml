@@ -219,12 +219,39 @@ appId: app.critterpass.dev
       id: 'home-no-results'
     timeout: 10000
     optional: true
+# The airports near you come from the network's guess (a runner's own city) until the phone's own
+# fix is asked for: "Use my location" once, at the device's place (Hồ Chí Minh City, first-run.yaml).
+- scrollUntilVisible:
+    element:
+      id: 'home-locate'
+    direction: DOWN
+    timeout: 5000
+    centerElement: true
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'home-locate'
+    commands:
+      - tapOn:
+          id: 'home-locate'
+      - tapOn:
+          text: '(?i)(while using the app|allow while using app|only this time|allow once)'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'home-near'
+          timeout: 10000
+          optional: true
 - runFlow:
     file: shot.yaml
     env:
       CODE: '2.10'
       NAME: nothing-found
       LOOK: light
+- tapOn:
+    id: 'home-search'
+    optional: true
 - eraseText: 3
 - inputText: 'Sing'
 - extendedWaitUntil:

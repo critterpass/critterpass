@@ -139,6 +139,7 @@ appId: app.critterpass.dev
       NAME: compare
       LOOK: light
       SHEET: 'true'
+      READY: 'compare'
 - runFlow:
     file: subflows/capture.yaml
     env:
@@ -147,6 +148,7 @@ appId: app.critterpass.dev
       NAME: start-crew
       LOOK: light
       SHEET: 'true'
+      READY: 'start-crew'
 - runFlow:
     file: subflows/capture.yaml
     env:
@@ -155,6 +157,7 @@ appId: app.critterpass.dev
       NAME: invite-friends
       LOOK: light
       SHEET: 'true'
+      READY: 'referral-dashboard'
 - runFlow:
     file: subflows/capture.yaml
     env:
@@ -163,6 +166,7 @@ appId: app.critterpass.dev
       NAME: delete
       LOOK: light
       SHEET: 'true'
+      READY: 'you-delete'
 - runFlow:
     file: subflows/capture.yaml
     env:
@@ -171,6 +175,7 @@ appId: app.critterpass.dev
       NAME: add-expense
       LOOK: light
       SHEET: 'true'
+      READY: 'money-add'
 # A phrase's show mode, full screen (the guide's phrase card's SHOW).
 - runFlow:
     file: subflows/capture.yaml
