@@ -85,3 +85,18 @@ export async function isPopularPlace(
   );
   return rows[0]?.popular ?? false;
 }
+
+/** Which of `poiIds` are popular in their destinations; runs in the caller's transaction. */
+export async function popularAmong(
+  tx: Pick<pg.PoolClient, 'query'>,
+  poiIds: readonly string[],
+): Promise<Set<string>> {
+  if (poiIds.length === 0) return new Set();
+  const { rows } = await tx.query<{ id: string }>(
+    `SELECT target.id FROM pois target
+      CROSS JOIN LATERAL (${POPULAR_PLACES_SQL.replaceAll('$1', 'target.destination_id')}) popular
+      WHERE target.id = ANY($1::uuid[]) AND popular.poi_id = target.id`,
+    [poiIds],
+  );
+  return new Set(rows.map((row) => row.id));
+}
