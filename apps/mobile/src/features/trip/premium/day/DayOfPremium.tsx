@@ -7,12 +7,19 @@
  * above the keyboard, and the sections re-render only when their own rows change.
  */
 import { useLingui } from '@lingui/react/macro';
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Banner, Button, OfflinePill, Skeleton, Text, usePremiumTheme } from '@/ui/premium';
-import { KeyboardAwareScroll, PushScreen } from '@/ui/premium/shell';
+import {
+  KeyboardAwareScroll,
+  PushScreen,
+  SCROLL_EDGE_FADE,
+  ScrollEdgeFade,
+  useScrollEdges,
+} from '@/ui/premium/shell';
 
 import { heroCopy } from '../../day-of/day-of-copy';
 import { useDayOf, type DayOfProps } from '../../day-of/use-day-of';
@@ -31,6 +38,11 @@ export function DayOfReady({ props }: { readonly props: DayOfProps }) {
   const insets = useSafeAreaInsets();
   const view = props.leaveBy;
   const lead = props.firstUp;
+  // Once the hero has scrolled up (a pack field focused lifts the page), the status bar and the
+  // floating back get a ground of their own instead of sitting on the cards.
+  const [heroHeight, setHeroHeight] = useState(0);
+  const bar = insets.top + th.size.iconButton + th.space.gap12;
+  const edges = useScrollEdges({ topAfter: Math.max(0, heroHeight - bar) });
   const copy = view === null ? null : heroCopy(view, props.now, props.guideName, locale);
   const hero =
     copy !== null
@@ -56,120 +68,132 @@ export function DayOfReady({ props }: { readonly props: DayOfProps }) {
               words: false,
             };
   return (
-    <KeyboardAwareScroll
-      contentInsetAdjustmentBehavior="never"
-      bottomOffset={th.space.gap16}
-      contentContainerStyle={{ paddingBottom: insets.bottom + 40, gap: th.space.gap16 }}
-    >
-      <DayHero
-        media={props.heroMedia ?? null}
-        eyebrow={props.eyebrow}
-        forecast={props.forecast}
-        onForecast={props.onForecast}
-        label={hero.label}
-        big={hero.big}
-        {...(hero.spoken === undefined ? {} : { spoken: hero.spoken })}
-        words={hero.words}
-        countdown={view}
-        now={props.now}
-        guideName={props.guideName}
-      />
-      <View style={[styles.rise, { paddingHorizontal: th.space.gutter, gap: th.space.gap10 }]}>
-        {props.offline ? <OfflinePill /> : null}
-        {view !== null ? (
-          <Readiness
-            view={view}
+    <>
+      <KeyboardAwareScroll
+        contentInsetAdjustmentBehavior="never"
+        bottomOffset={th.space.gap16}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 40, gap: th.space.gap16 }}
+        {...edges.scrollProps}
+      >
+        <View onLayout={(event) => setHeroHeight(event.nativeEvent.layout.height)}>
+          <DayHero
+            media={props.heroMedia ?? null}
+            eyebrow={props.eyebrow}
+            forecast={props.forecast}
+            onForecast={props.onForecast}
+            label={hero.label}
+            big={hero.big}
+            {...(hero.spoken === undefined ? {} : { spoken: hero.spoken })}
+            words={hero.words}
+            countdown={view}
             now={props.now}
             guideName={props.guideName}
-            onImUp={props.onImUp}
           />
-        ) : lead !== null && lead.kind !== 'done' ? (
-          <View
-            style={[
-              styles.card,
-              {
-                borderRadius: th.radius.cardRow,
-                backgroundColor: th.color.card,
-                boxShadow: th.shadow.card,
-              },
-            ]}
-          >
-            <Text variant="title">{lead.title}</Text>
-          </View>
-        ) : (
-          <View
-            style={[
-              styles.card,
-              {
-                borderRadius: th.radius.cardRow,
-                backgroundColor: th.color.card,
-                boxShadow: th.shadow.card,
-              },
-            ]}
-          >
-            <Text variant="body" tone="inkSecondary">
-              {lead === null
-                ? t({ id: 'trip.dayOf.freeDay', message: 'Nothing planned today. A free day.' })
-                : t({
-                    id: 'trip.dayOf.premium.doneLine',
-                    message: 'Rest up. Tomorrow is on the plan.',
-                  })}
-            </Text>
-          </View>
-        )}
-        {props.alarmNote === null ? null : (
-          <Banner
-            tone="guide"
-            text={props.alarmNote.text}
-            {...(props.alarmNote.action === undefined ? {} : { action: props.alarmNote.action })}
-            testID="trip-day-alarm-note"
-          />
-        )}
-      </View>
-      {props.late === null ? null : (
-        <View
-          style={[styles.lateRow, { paddingHorizontal: th.space.gutter }]}
-          testID="trip-day-late"
-        >
-          <Text variant="label" tone="muted">
-            {t({ id: 'trip.dayOf.premium.late', message: 'Running late?' })}
-          </Text>
-          {LATE_STEPS.map((minutes) => (
-            <Button
-              alignSelf="auto"
-              key={minutes}
-              label={t({ id: 'trip.dayOf.premium.lateBy', message: `+${minutes} min` })}
-              size="small"
-              variant="floating"
-              onPress={() => props.late?.(minutes)}
-              testID={`trip-day-late-${minutes}`}
-            />
-          ))}
         </View>
-      )}
-      {props.onGo === undefined ? null : (
-        <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap4 }}>
-          <Button
-            label={t({ id: 'trip.dayOf.premium.go', message: 'Go' })}
-            onPress={props.onGo}
-            testID="trip-day-go"
-          />
-          {props.goDetail == null ? null : (
-            <Text variant="captionMuted" tone="muted" align="center">
-              {props.goDetail}
-            </Text>
+        <View style={[styles.rise, { paddingHorizontal: th.space.gutter, gap: th.space.gap10 }]}>
+          {props.offline ? <OfflinePill /> : null}
+          {view !== null ? (
+            <Readiness
+              view={view}
+              now={props.now}
+              guideName={props.guideName}
+              onImUp={props.onImUp}
+            />
+          ) : lead !== null && lead.kind !== 'done' ? (
+            <View
+              style={[
+                styles.card,
+                {
+                  borderRadius: th.radius.cardRow,
+                  backgroundColor: th.color.card,
+                  boxShadow: th.shadow.card,
+                },
+              ]}
+            >
+              <Text variant="title">{lead.title}</Text>
+            </View>
+          ) : (
+            <View
+              style={[
+                styles.card,
+                {
+                  borderRadius: th.radius.cardRow,
+                  backgroundColor: th.color.card,
+                  boxShadow: th.shadow.card,
+                },
+              ]}
+            >
+              <Text variant="body" tone="inkSecondary">
+                {lead === null
+                  ? t({ id: 'trip.dayOf.freeDay', message: 'Nothing planned today. A free day.' })
+                  : t({
+                      id: 'trip.dayOf.premium.doneLine',
+                      message: 'Rest up. Tomorrow is on the plan.',
+                    })}
+              </Text>
+            </View>
+          )}
+          {props.alarmNote === null ? null : (
+            <Banner
+              tone="guide"
+              text={props.alarmNote.text}
+              {...(props.alarmNote.action === undefined ? {} : { action: props.alarmNote.action })}
+              testID="trip-day-alarm-note"
+            />
           )}
         </View>
-      )}
-      <PackRow
-        chips={props.pack}
-        onToggle={props.onTogglePack}
-        onAdd={props.onAddPack}
-        onRemove={props.onRemovePack}
+        {props.late === null ? null : (
+          <View
+            style={[styles.lateRow, { paddingHorizontal: th.space.gutter }]}
+            testID="trip-day-late"
+          >
+            <Text variant="label" tone="muted">
+              {t({ id: 'trip.dayOf.premium.late', message: 'Running late?' })}
+            </Text>
+            {LATE_STEPS.map((minutes) => (
+              <Button
+                alignSelf="auto"
+                key={minutes}
+                label={t({ id: 'trip.dayOf.premium.lateBy', message: `+${minutes} min` })}
+                size="small"
+                variant="floating"
+                onPress={() => props.late?.(minutes)}
+                testID={`trip-day-late-${minutes}`}
+              />
+            ))}
+          </View>
+        )}
+        {props.onGo === undefined ? null : (
+          <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap4 }}>
+            <Button
+              label={t({ id: 'trip.dayOf.premium.go', message: 'Go' })}
+              onPress={props.onGo}
+              testID="trip-day-go"
+            />
+            {props.goDetail == null ? null : (
+              <Text variant="captionMuted" tone="muted" align="center">
+                {props.goDetail}
+              </Text>
+            )}
+          </View>
+        )}
+        <PackRow
+          chips={props.pack}
+          onToggle={props.onTogglePack}
+          onAdd={props.onAddPack}
+          onRemove={props.onRemovePack}
+        />
+        <Stops timeline={props.timeline} />
+        <DayLinks props={props} />
+      </KeyboardAwareScroll>
+      <ScrollEdgeFade
+        edge="top"
+        height={bar + SCROLL_EDGE_FADE}
+        solid={bar}
+        visible={edges.top}
+        testID="trip-day-top-ground"
       />
-      <Stops timeline={props.timeline} />
-      <DayLinks props={props} />
-    </KeyboardAwareScroll>
+    </>
   );
 }
 
