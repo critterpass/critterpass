@@ -21,7 +21,11 @@ import { useWalletGuide, WalletGuideProvider } from '../data/wallet-guide';
 import { clock } from '../format';
 import { useMailbox, type MailboxStatus } from '../mailbox/use-mailbox';
 import { MailboxProviderCard } from './components/MailboxProviderCard';
-import { MailboxPassBadge, MailboxSheetFrame } from './components/MailboxSheetFrame';
+import {
+  MailboxAddressPill,
+  MailboxPassBadge,
+  MailboxSheetFrame,
+} from './components/MailboxSheetFrame';
 
 const PROVIDERS: readonly MailboxProvider[] = ['gmail', 'microsoft'];
 
@@ -201,17 +205,16 @@ export function MailboxPremium(props: {
             </View>
           ) : null}
           {status.kind === 'soon' && props.address !== null ? (
-            <Button
-              label={props.address}
-              variant="secondary"
-              onPress={() => void mailbox.copy(props.address ?? '')}
-              testID="bookings-mailbox-address"
+            <MailboxAddressPill
+              address={props.address}
+              onCopy={() => void mailbox.copy(props.address ?? '')}
             />
           ) : null}
         </View>
         {connected === null ? null : (
           <View style={[styles.center, { marginTop: th.space.gap16 }]}>
             <TextButton
+              align="center"
               label={t({ id: 'bookings.mailbox.disconnect', message: 'Disconnect' })}
               color={th.color.destructive.text}
               onPress={disconnect}

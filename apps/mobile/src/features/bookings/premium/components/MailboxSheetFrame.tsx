@@ -1,14 +1,14 @@
 /**
  * The mailbox sheet's frame (7.05) inside its native form sheet route: the sheet material under
  * the content, below the system grabber on iOS and with a drawn grabber on Android. And the
- * "With Pass+" badge under its actions.
+ * "With Pass+" badge under its actions, and the forward address to copy.
  */
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 
 import { useBackAffordance } from '@/lib/qa/back-affordance';
-import { PressableScale, Text, usePremiumTheme, type PremiumTheme } from '@/ui/premium';
+import { buttonLook, PressableScale, Text, usePremiumTheme, type PremiumTheme } from '@/ui/premium';
 import { sheetMaterialStyle } from '@/ui/premium/shell';
 
 /**
@@ -54,7 +54,48 @@ export function MailboxPassBadge(props: {
   );
 }
 
+/**
+ * The forward address as a secondary pill that copies it. An address runs long, so its words keep
+ * the pill's side padding and step down in size to fit whole.
+ */
+export function MailboxAddressPill(props: {
+  readonly address: string;
+  readonly onCopy: () => void;
+}) {
+  const th = usePremiumTheme();
+  return (
+    <PressableScale
+      onPress={props.onCopy}
+      accessibilityRole="button"
+      accessibilityLabel={props.address}
+      testID="bookings-mailbox-address"
+    >
+      {({ pressed }) => {
+        const look = buttonLook(th, 'secondary', 'large', { pressed, disabled: false });
+        return (
+          <View
+            style={[
+              styles.address,
+              {
+                height: th.size.button,
+                borderRadius: th.radius.button,
+                paddingHorizontal: th.space.pillPadH,
+              },
+              look.box,
+            ]}
+          >
+            <Text variant="button" color={look.text} numberOfLines={1}>
+              {props.address}
+            </Text>
+          </View>
+        );
+      }}
+    </PressableScale>
+  );
+}
+
 const styles = StyleSheet.create({
+  address: { alignItems: 'center', justifyContent: 'center' },
   fill: { flex: 1 },
   // Clears the system grabber on iOS (it draws over the sheet's top band).
   sheet: { paddingTop: 24 },
