@@ -132,6 +132,7 @@ export function CrewPanel({
   const th = usePremiumTheme();
   const { t } = useLingui();
   const me = m.view?.me ?? null;
+  const crewName = m.crewName;
   const meSharing = me?.sharing ?? 'off';
   // "Not now" puts the question away until the map opens again.
   const [primerHidden, setPrimerHidden] = useState(false);
@@ -175,7 +176,7 @@ export function CrewPanel({
               <Text variant="rowText" tone="inkSecondary">
                 {t({
                   id: 'liveMap.premium.primerLine',
-                  message: `Only during trip days, only ${m.crewName}. Pause any time from your row.`,
+                  message: `Only during trip days, only ${crewName}. Pause any time from your row.`,
                 })}
               </Text>
             </View>
