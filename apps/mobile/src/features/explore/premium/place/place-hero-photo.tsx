@@ -29,12 +29,14 @@ import {
   Text,
   makePremiumStyles,
   usePremiumReducedMotion,
+  usePremiumTheme,
 } from '@/ui/premium';
 
 import { heroPhotoItems } from '../../place-lightbox';
 import { isGenericPhoto } from '../../place-photo';
 import { placeIcon } from '../../search/place-icons';
 import { Doodle } from '../components/doodle';
+import { placeTint } from '../components/place-tint';
 
 const PUSH_IN = 1.08;
 const PUSH_MS = 6000;
@@ -47,7 +49,7 @@ const PLATE = 'rgba(0,0,0,.45)';
 const ON_PLATE = '#ffffff';
 
 const useStyles = makePremiumStyles((th) => ({
-  doodle: { alignItems: 'center', justifyContent: 'center', backgroundColor: th.accent.paper },
+  doodle: { alignItems: 'center', justifyContent: 'center' },
   generic: {
     position: 'absolute',
     start: th.space.gap12,
@@ -77,6 +79,7 @@ export function PlaceHeroPhoto({
   captionInset,
 }: PlaceHeroPhotoProps) {
   const styles = useStyles();
+  const theme = usePremiumTheme();
   const { t } = useLingui();
   const reduced = usePremiumReducedMotion();
   // A live photo that fails to load gives way to the kind's tile, and is not offered full screen.
@@ -112,8 +115,15 @@ export function PlaceHeroPhoto({
             testID="explore-place-hero-live"
           />
         ) : photo === null ? (
-          // No photo of its own and none live: the kind's own doodle.
-          <View style={[StyleSheet.absoluteFill, styles.doodle]} testID="explore-place-hero-tile">
+          // No photo of its own and none live: the kind's own doodle on the kind's pastel.
+          <View
+            style={[
+              StyleSheet.absoluteFill,
+              styles.doodle,
+              { backgroundColor: placeTint(theme, category) },
+            ]}
+            testID="explore-place-hero-tile"
+          >
             <Doodle name={placeIcon(category)} size={150} />
           </View>
         ) : (
