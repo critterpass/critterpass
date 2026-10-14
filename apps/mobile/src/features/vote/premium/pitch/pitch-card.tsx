@@ -83,7 +83,7 @@ export function PremiumPitchCard(props: {
   if (state.phase === 'error' && state.headline === null) {
     return (
       <Card testID="pitch-error">
-        <View style={styles.stack}>
+        <View style={[styles.stack, { padding: theme.space.gutter }]}>
           <Text variant="headline">
             {t({ id: 'vote.pitch.errorTitle', message: "The pitch didn't come through" })}
           </Text>
@@ -98,7 +98,7 @@ export function PremiumPitchCard(props: {
   const heading = state.sticker === null ? '' : (state.headline ?? state.sticker.name);
   return (
     <Card radius={theme.radius.cardLarge} testID="pitch-card">
-      <View style={styles.stack}>
+      <View style={[styles.stack, { padding: theme.space.gutter }]}>
         <View style={styles.head}>
           {state.sticker === null ? (
             <Skeleton
@@ -168,7 +168,13 @@ export function PremiumPitchCard(props: {
         ) : null}
         {state.quote === null ? null : (
           <FadeSection>
-            <GuideNote name={guide.name} text={state.quote} testID="pitch-quote" />
+            <GuideNote
+              name={guide.name}
+              critter={guide.kind}
+              {...(guide.kind === 'tanuki' ? { tint: 'pon' as const } : {})}
+              text={state.quote}
+              testID="pitch-quote"
+            />
           </FadeSection>
         )}
         {pitchShowsAiLabel(state) ? (
