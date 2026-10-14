@@ -138,7 +138,7 @@ export function placeTree(
   tree: LayoutTree,
   rects: readonly (QaRect | null)[],
   layerAtRest: (box: number) => boolean,
-): { texts: PlacedText[]; controls: PlacedControl[] } {
+): { texts: PlacedText[]; controls: PlacedControl[]; cover: PlacedGround[] } {
   const layers = new Map<number, PlacedLayer>();
   const layer = (box: number | null): PlacedLayer | null => {
     if (box === null) return null;
@@ -196,7 +196,15 @@ export function placeTree(
       ownGround: control.ownGround,
     });
   }
-  return { texts, controls };
+  const cover = tree.grounds.flatMap(({ box, edge, share }): PlacedGround[] => {
+    const rect = rects[box];
+    const paint = tree.paints.get(box);
+    if (!rect || paint === undefined) return [];
+    const height = rect.height * share;
+    const y = edge === 'top' ? rect.y : rect.y + rect.height - height;
+    return [{ key: String(box), paint, rect: { ...rect, y, height } }];
+  });
+  return { texts, controls, cover };
 }
 
 function judge(tree: LayoutTree, rects: readonly (QaRect | null)[]): void {

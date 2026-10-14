@@ -121,6 +121,10 @@ describe('layout tree', () => {
         host('RCTView', { style: { opacity: 0 } }, at(0, 0, 10, 10), [
           words('measuring copy', at(0, 0, 10, 10)),
         ]),
+        // The native bar's title is measured from the bar, not the window.
+        host('RNSScreenStackHeaderSubview', {}, at(124, 14, 153, 16), [
+          words('Marrakech setup', at(124, 14, 153, 16)),
+        ]),
       ]),
     ]);
     const result = collectLayoutTree(root, contexts);

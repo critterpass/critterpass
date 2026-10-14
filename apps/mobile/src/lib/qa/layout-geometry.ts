@@ -144,6 +144,8 @@ export interface LayoutInput {
   readonly window: { readonly width: number; readonly height: number };
   /** The window's top safe-area inset: the status bar, and the camera housing below it. */
   readonly topInset?: number;
+  /** Every surface on screen that draws a ground (the status bar's own ground among them). */
+  readonly cover?: readonly PlacedGround[];
 }
 
 /**
@@ -215,10 +217,30 @@ function pairProblems(
   return problems;
 }
 
-function boxProblems(text: Judged, topInset: number): LayoutProblem | null {
+/** `region` of `text` is hidden by any ground drawn after it that it doesn't sit on. */
+function hiddenBy(text: Placed, cover: readonly PlacedGround[], region: QaRect): boolean {
+  const own = new Set(text.grounds.map((ground) => ground.key));
+  return cover.some(
+    (ground) => ground.paint > text.paint && !own.has(ground.key) && contains(ground.rect, region),
+  );
+}
+
+function boxProblems(
+  text: Judged,
+  topInset: number,
+  cover: readonly PlacedGround[],
+): LayoutProblem | null {
   const { clip, card, ink } = text;
   const resting = text.layer === null || text.layer.atRest;
-  if (resting && !text.free && text.presented !== true && ink.y < topInset - TOUCH_PT) {
+  // What shows under the status bar is judged: words the status bar's ground hides don't show.
+  const underBar = { ...ink, height: Math.min(ink.height, topInset - ink.y) };
+  if (
+    resting &&
+    !text.free &&
+    text.presented !== true &&
+    ink.y < topInset - TOUCH_PT &&
+    !hiddenBy(text, cover, underBar)
+  ) {
     return {
       code: 'TEXT_UNDER_STATUS_BAR',
       subject: `${text.screen}: ${text.label}`,
@@ -250,12 +272,15 @@ function boxProblems(text: Judged, topInset: number): LayoutProblem | null {
     };
   }
   if (card && !text.windowed && isCard(card.rect) && overlaps(card.rect, text.rect)) {
-    const tight = tightSides(card.rect, text.rect, CARD_INSET_PT);
+    // Across, the words as drawn (a centred line in a full-width box keeps its room); down, the
+    // text's box.
+    const words = { x: ink.x, width: ink.width, y: text.rect.y, height: text.rect.height };
+    const tight = tightSides(card.rect, words, CARD_INSET_PT);
     if (tight.length > 0)
       return {
         code: 'TEXT_PAST_PADDING',
         subject: `${text.screen}: ${text.label} at the edge of ${card.label}`,
-        detail: `(room ${tight.join(', ')}, at least ${String(CARD_INSET_PT)}pt; ${describeRect(text.rect)} in ${describeRect(card.rect)})`,
+        detail: `(room ${tight.join(', ')}, at least ${String(CARD_INSET_PT)}pt; ${describeRect(words)} in ${describeRect(card.rect)})`,
       };
   }
   return null;
@@ -267,12 +292,13 @@ export function layoutProblems({
   controls,
   window,
   topInset = 0,
+  cover = [],
 }: LayoutInput): LayoutProblem[] {
   const shown = texts.map(throughClip).filter((t) => onScreen(t.ink, window));
   const shownControls = controls.filter((c) => onScreen(c.rect, window));
   const problems = pairProblems(shown, shownControls, window);
   for (const text of shown) {
-    const problem = boxProblems(text, topInset);
+    const problem = boxProblems(text, topInset, cover);
     if (problem) problems.push(problem);
   }
   return problems;

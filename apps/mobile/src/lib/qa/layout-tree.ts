@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 import type { ViewStyle } from 'react-native';
 
+import { drawsGround, solidBand, type TreeGround } from './layout-grounds';
+
+export { drawsGround } from './layout-grounds';
 import type { QaLine } from './layout-rects';
 
 /**
@@ -45,6 +48,11 @@ const ART_ROLES = new Set(['image', 'img']);
  * measured from the sheet's top.
  */
 const SCREEN_TYPES = new Set(['RNSScreen', 'RNSModalScreen']);
+/**
+ * The native navigation bar's own views (its title and bar buttons): measured from the bar, not
+ * the window, so their place on screen is unknown here and they are left out.
+ */
+const NATIVE_HEADER_TYPES = /^RNSScreenStackHeader/u;
 
 /**
  * Presentations a native stack shows in a surface of its own (a sheet, a modal card): its content
@@ -115,6 +123,8 @@ export interface LayoutTree {
   readonly labels: ReadonlyMap<number, string>;
   /** Drawing order per box index, for grounds. */
   readonly paints: ReadonlyMap<number, number>;
+  /** Every surface that draws a ground, in drawing order. */
+  readonly grounds: readonly TreeGround[];
   readonly texts: readonly TreeText[];
   readonly controls: readonly TreeControl[];
 }
@@ -160,26 +170,6 @@ function flatStyle(props: Props): ViewStyle {
   } catch {
     return {};
   }
-}
-
-/** False for a colour that draws nothing (transparent, or almost all alpha gone). */
-export function drawsGround(colour: unknown): boolean {
-  if (colour === undefined || colour === null) return false;
-  if (typeof colour !== 'string') return true;
-  const value = colour.trim().toLowerCase();
-  if (value === 'transparent') return false;
-  const hex = /^#(?:[0-9a-f]{3}([0-9a-f])|[0-9a-f]{6}([0-9a-f]{2}))$/u.exec(value);
-  if (hex) {
-    const alpha =
-      hex[1] !== undefined ? parseInt(hex[1] + hex[1], 16) : parseInt(hex[2] ?? 'ff', 16);
-    return alpha >= 128;
-  }
-  const rgba = /^(?:rgba|hsla)\([^,]+,[^,]+,[^,]+,\s*([\d.]+%?)\s*\)$/u.exec(value);
-  if (rgba?.[1] !== undefined) {
-    const alpha = rgba[1].endsWith('%') ? parseFloat(rgba[1]) / 100 : parseFloat(rgba[1]);
-    return alpha >= 0.5;
-  }
-  return true;
 }
 
 /** The roundness of all four corners: a sheet's top band, rounded at its top only, is no card. */
@@ -250,6 +240,7 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
   const boxes: FiberLike[] = [];
   const labels = new Map<number, string>();
   const paints = new Map<number, number>();
+  const allGrounds: TreeGround[] = [];
   let paint = 0;
   const texts: TreeText[] = [];
   const controls: TreeControl[] = [];
@@ -287,6 +278,7 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
       const type = fiber.type;
       const style = flatStyle(props);
       if (style.display === 'none' || style.opacity === 0) continue;
+      if (NATIVE_HEADER_TYPES.test(type)) continue;
       const role = props.accessibilityRole ?? props.role;
       if (props.accessible === true && typeof role === 'string' && ART_ROLES.has(role)) continue;
       paint += 1;
@@ -358,7 +350,14 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
       }
       if (grounded) {
         inner = { ...inner, grounds: [...inner.grounds, index] };
+        allGrounds.push({ box: index, edge: 'top', share: 1 });
         used = true;
+      } else {
+        const band = solidBand(style.experimental_backgroundImage);
+        if (band !== null) {
+          allGrounds.push({ box: index, ...band });
+          used = true;
+        }
       }
       if (used) {
         boxes.push(fiber);
@@ -369,5 +368,5 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
     if (testId !== null) inner = { ...inner, testId };
     if (fiber.child) stack.push([fiber.child, inner]);
   }
-  return { boxes, labels, paints, texts, controls };
+  return { boxes, labels, paints, grounds: allGrounds, texts, controls };
 }

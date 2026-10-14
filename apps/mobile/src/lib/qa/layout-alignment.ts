@@ -11,7 +11,8 @@ import { bottom, describeRect, onScreen, right, TOUCH_PT } from './layout-rects'
 /**
  * CONTROL_MISALIGNED: a text button stacked right under a wide button whose words are centred,
  * on the same surface, with its own words off that centre ("Cancel the draft" set at the left edge
- * under a centred COME BACK LATER). The design centres the pair or sets both at the edge.
+ * under a centred COME BACK LATER). The design centres the pair or sets both at the edge, as the
+ * rows of a list do.
  */
 
 /** A button this far under another is stacked with it. */
@@ -20,6 +21,8 @@ const STACK_GAP_PT = 32;
 const WIDE_SHARE = 0.6;
 /** Centres this close are the same centre. */
 const CENTRE_PT = 12;
+/** Words starting this close start at the same edge. */
+const EDGE_PT = 2;
 
 const centre = (r: QaRect) => r.x + r.width / 2;
 
@@ -87,6 +90,8 @@ export function alignmentProblems({ texts, controls, window }: LayoutInput): Lay
         continue;
       const off = centre(words) - centre(upperWords);
       if (Math.abs(off) <= CENTRE_PT) continue;
+      // Both set at the same edge: rows of a list (an inbox), not a centred pair.
+      if (Math.abs(words.x - upperWords.x) <= EDGE_PT) continue;
       problems.push({
         code: 'CONTROL_MISALIGNED',
         subject: `${upper.screen}: ${lower.label} off the centre of ${upper.label}`,
