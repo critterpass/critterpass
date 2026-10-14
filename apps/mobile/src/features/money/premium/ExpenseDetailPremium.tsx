@@ -262,8 +262,9 @@ export function ExpenseDetailPremium({
               )}
             </PrivateContent>
           </View>
-          <View style={{ transform: [turn(8)] }}>
-            <StickerIcon name={look.icon} size={64} tile={look.bg} />
+          {/* The bare sticker leaning back, as the design draws it (no tile behind it). */}
+          <View style={{ transform: [turn(-10)] }}>
+            <StickerIcon name={look.icon} size={72} />
           </View>
         </View>
         <View style={[styles.tags, { paddingHorizontal: th.space.titleGutter }]}>
