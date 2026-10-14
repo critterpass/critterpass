@@ -25,6 +25,7 @@ and the one-table summary.
 | [App Clip built behind a flag](20260928-app-clip-built-behind-a-flag.md) | D15: native clip built now, offered only with `links.app_clip` on |
 | [Guide voice font: Mynerve](20260930-guide-voice-mynerve.md) | Founder decision (not a spike): Mynerve replaces Caveat so the guide speaks Vietnamese (superseded by Borel) |
 | [Guide voice font: Borel](20260930-guide-voice-borel.md) | Founder decision (not a spike): Borel replaces Mynerve; voice token 16/1.5 |
+| [Agent-curated places and local guides](20261014-agent-curated-places-and-local-guides.md) | Founder decision (not a spike): curated places as reviewed notes on open-data rows; local guides with published business data only (C0) |
 
 ## Spike results
 

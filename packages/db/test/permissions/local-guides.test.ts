@@ -37,25 +37,31 @@ afterAll(async () => {
 
 const device = () => anonymousActor().device;
 
-const insert = (url: string, extra: Record<string, unknown> = {}) => {
-  const row = { name: 'Somchai T.', review_summary: SUMMARY, status: 'listed', ...extra };
-  return withSystem(db.pool, (tx) =>
+interface GuideFields {
+  readonly name?: string;
+  readonly review_summary?: object;
+  readonly status?: string;
+  readonly rating?: object;
+  readonly merged_into_id?: string;
+}
+
+const insert = (url: string, extra: GuideFields = {}) =>
+  withSystem(db.pool, (tx) =>
     tx.query<{ id: string }>(
       `INSERT INTO local_guides (destination_id, name, kind, profile_url, review_summary, status,
                                  rating, merged_into_id)
        VALUES ($1, $2, 'individual', $3, $4, $5, $6, $7) RETURNING id`,
       [
         destinationId,
-        row.name,
+        extra.name ?? 'Somchai T.',
         url,
-        JSON.stringify(row.review_summary),
-        row.status,
-        row['rating'] === undefined ? null : JSON.stringify(row['rating']),
-        row['merged_into_id'] ?? null,
+        JSON.stringify(extra.review_summary ?? SUMMARY),
+        extra.status ?? 'listed',
+        extra.rating === undefined ? null : JSON.stringify(extra.rating),
+        extra.merged_into_id ?? null,
       ],
     ),
   );
-};
 
 describe('local_guides RLS: listed guides readable by every signed-in reader, written by the loader (class R)', () => {
   it('shows a reader listed guides only', async () => {
