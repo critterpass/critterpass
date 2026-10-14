@@ -10,7 +10,9 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Icon, PressableScale, Tag, Text, usePremiumTheme } from '@/ui/premium';
 
 import type { BillingPeriod } from '../paywall/paywall-model';
+import type { PaywallViewProps } from '../paywall/paywall-props';
 import type { PerkLine } from '../perks/perk-copy';
+import { GoldButton } from './components/gold-button';
 import { InkStamp } from './components/ink-stamp';
 import { NIGHT, NightGlass } from './components/night';
 
@@ -144,3 +146,50 @@ const styles = StyleSheet.create({
   tile: { height: 60, borderRadius: 20, paddingHorizontal: 14, justifyContent: 'center' },
   save: { position: 'absolute', right: -4, top: -12 },
 });
+
+/** The paywall's gold call to action: buy, check the purchase again, or your plan once you have it. */
+export function PaywallAction({
+  subscribed,
+  verifyFailed,
+  buyLabel,
+  busy,
+  canBuy,
+  props,
+}: {
+  readonly subscribed: boolean;
+  readonly verifyFailed: boolean;
+  readonly buyLabel: string;
+  readonly busy: boolean;
+  readonly canBuy: boolean;
+  readonly props: PaywallViewProps;
+}) {
+  const { t } = useLingui();
+  if (subscribed) {
+    return (
+      <GoldButton
+        label={t({ id: 'monetize.paywall.yourPlan', message: 'You have Pass+ · Your plan' })}
+        onPress={props.onPlan}
+        testID="paywall-plan"
+      />
+    );
+  }
+  if (verifyFailed) {
+    return (
+      <GoldButton
+        label={t({ id: 'monetize.paywall.checkAgain', message: 'Check again' })}
+        onPress={props.onCheckAgain}
+        testID="paywall-check-again"
+      />
+    );
+  }
+  return (
+    <GoldButton
+      onNight
+      label={buyLabel}
+      onPress={props.onBuy}
+      loading={busy}
+      disabled={!canBuy}
+      testID="paywall-buy"
+    />
+  );
+}

@@ -17,6 +17,7 @@ import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import type { Subscription } from '../../data/billing-rows';
 import { BillingIssuePremiumView } from '../../premium/billing-issue-premium-view';
 import { CancelPremiumView } from '../../premium/cancel-premium-view';
+import { compareRows } from '../../perks/perk-copy';
 import { PlanPremiumView } from '../../premium/plan-premium-view';
 import { planModel, type PlanInput } from '../plan-model';
 
@@ -153,6 +154,7 @@ describe('your plan', () => {
           plan: model,
           price: null,
           boosts: [],
+          compare: compareRows([]),
           restore: { status: 'idle' },
           storeAvailable,
           onUpgrade: jest.fn(),

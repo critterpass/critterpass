@@ -1,13 +1,17 @@
 /**
  * The Pass+ gold call to action (9.10, 9.11, 9.15): 56 high, a warm gradient with a lit top edge
  * and a slow shine. Loading keeps the pill and shows the progressive verb. Disabled it takes the
- * kit's disabled pill (1.B: #e9eaee with grey words), never a dimmed gold that reads as broken.
+ * kit's disabled pill (1.B: #e9eaee with grey words), never a dimmed gold that reads as broken; on
+ * the night ground (`onNight`) it is the night's glass with soft white words, the same in light and
+ * dark, since that ground never changes with the appearance.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- colour values, never copy. */
 import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { PressableScale, Spinner, Text, usePremiumTheme } from '@/ui/premium';
+
+import { NIGHT } from '../monetize-palette';
 
 import { ShineSweep } from './shine-sweep';
 
@@ -18,6 +22,8 @@ export interface GoldButtonProps {
   readonly loading?: boolean;
   /** Something to the left of the label (the Stamp icon on 9.15). */
   readonly leading?: ReactNode;
+  /** Drawn on the paywall's night ground. */
+  readonly onNight?: boolean;
   readonly testID?: string;
 }
 
@@ -27,6 +33,7 @@ export function GoldButton({
   disabled = false,
   loading = false,
   leading,
+  onNight = false,
   testID,
 }: GoldButtonProps) {
   const t = usePremiumTheme();
@@ -39,7 +46,14 @@ export function GoldButton({
       accessibilityState={{ disabled: disabled || loading, busy: loading }}
       {...(testID === undefined ? {} : { testID })}
       style={[
-        disabled ? [styles.shape, { backgroundColor: t.color.controlDisabled }] : styles.pill,
+        disabled
+          ? [
+              styles.shape,
+              onNight
+                ? { backgroundColor: NIGHT.glass, boxShadow: NIGHT_DISABLED_RING }
+                : { backgroundColor: t.color.controlDisabled },
+            ]
+          : styles.pill,
         { height: t.size.button, borderRadius: t.radius.button },
       ]}
     >
@@ -48,7 +62,7 @@ export function GoldButton({
         {loading ? <Spinner /> : leading}
         <Text
           variant="button"
-          color={disabled ? t.color.placeholder : t.color.onAccent}
+          color={disabled ? (onNight ? NIGHT.textMuted : t.color.placeholder) : t.color.onAccent}
           style={styles.label}
           numberOfLines={1}
         >
@@ -58,6 +72,8 @@ export function GoldButton({
     </PressableScale>
   );
 }
+
+const NIGHT_DISABLED_RING = '0 0 0 1px rgba(255,255,255,0.14)';
 
 const styles = StyleSheet.create({
   shape: { overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },

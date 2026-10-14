@@ -22,6 +22,7 @@ import { PushScreen } from '@/ui/premium/shell';
 import { useBoostLine, usePlanDate, usePlanLine } from '../plan/plan-copy';
 import type { PlanViewProps } from '../plan/plan-props';
 import { useRestoreLine } from '../paywall/purchase-lines';
+import { FreePlanList } from './components/free-plan-list';
 import { PlanCard } from './components/plan-card';
 
 export function PlanPremiumView({ props }: { readonly props: PlanViewProps }) {
@@ -64,7 +65,8 @@ export function PlanPremiumView({ props }: { readonly props: PlanViewProps }) {
         style={{
           paddingHorizontal: th.space.gutter,
           gap: th.space.gap16,
-          paddingTop: th.space.gap8,
+          // The first card keeps clear of the header's back circle.
+          paddingTop: th.space.gap16,
         }}
       >
         {plan === null ? null : paid ? (
@@ -103,6 +105,7 @@ export function PlanPremiumView({ props }: { readonly props: PlanViewProps }) {
             </View>
           </Card>
         )}
+        {plan !== null && !paid ? <FreePlanList rows={props.compare} /> : null}
         {plan?.hasIssue === true ? (
           <Button
             label={t({ id: 'monetize.plan.fixPayment', message: 'Fix the payment' })}
@@ -198,7 +201,13 @@ export function PlanPremiumView({ props }: { readonly props: PlanViewProps }) {
             </ListCard>
           </View>
         ) : plan !== null ? (
-          <Text variant="caption" tone="muted" testID="plan-no-store">
+          <Text
+            variant="caption"
+            tone="muted"
+            textBreakStrategy="balanced"
+            style={styles.note}
+            testID="plan-no-store"
+          >
             {t({
               id: 'monetize.plan.noStore',
               message:
@@ -235,5 +244,6 @@ export function PlanPremiumView({ props }: { readonly props: PlanViewProps }) {
 const styles = StyleSheet.create({
   group: { gap: 6 },
   groupLabel: { paddingHorizontal: 6 },
+  note: { paddingHorizontal: 6 },
   cancel: { alignItems: 'center', paddingVertical: 12 },
 });
