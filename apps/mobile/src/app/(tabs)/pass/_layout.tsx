@@ -1,7 +1,8 @@
-import { sheetRouteOptions } from '@/ui/premium/shell';
+/* eslint-disable lingui/no-unlocalized-strings -- route names, not copy. */
+import { tabSheetOptions } from '@/ui/premium/shell';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
 
-const RETAKE_SHEET = sheetRouteOptions('full');
+const RETAKE_SHEET = tabSheetOptions('pass/retake');
 
 /**
  * The PASS tab's stack. The pass is a root screen, so on iOS it needs a native stack for its large
