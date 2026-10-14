@@ -16,7 +16,7 @@ appId: app.critterpass.dev
       - extendedWaitUntil:
           visible:
             id: '${READY}'
-          timeout: 15000
+          timeout: 25000
           optional: true
       - runFlow: ../../_shared/settle.yaml
 - runFlow:

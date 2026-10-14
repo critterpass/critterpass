@@ -23,7 +23,19 @@ appId: app.critterpass.dev
           commands:
             - tapOn:
                 id: 'critters-hatch-later'
-      - runFlow: ../../_shared/settle.yaml
+      # A cold start takes a while to load the crew: the next link waits for Home's trip card,
+      # or it opens on a loading page and its screen turns up a capture later.
+      - extendedWaitUntil:
+          visible:
+            id: 'home-next-up'
+          timeout: 30000
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'qa-settled'
+            text: '.*path:/'
+          timeout: 15000
+          optional: true
 - runFlow:
     when:
       platform: Android
