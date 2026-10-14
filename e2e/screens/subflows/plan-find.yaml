@@ -229,6 +229,15 @@ appId: app.critterpass.dev
             id: 'place-detail'
           timeout: 20000
           optional: true
+      # The nearby cards arrive after the page and draw their icons a moment later: the shot
+      # waits for the cards, then for the screen to stop changing.
+      - extendedWaitUntil:
+          visible:
+            id: 'place-detail-nearby-.*'
+          timeout: 10000
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 3000
       - runFlow:
           when:
             visible:
@@ -258,6 +267,8 @@ appId: app.critterpass.dev
                 direction: DOWN
                 timeout: 10000
                 optional: true
+            - waitForAnimationToEnd:
+                timeout: 3000
             - runFlow:
                 file: shot.yaml
                 env:

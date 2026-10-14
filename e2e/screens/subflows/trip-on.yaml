@@ -73,6 +73,23 @@ appId: app.critterpass.dev
             CODE: '6.05'
             NAME: free-day
             LOOK: ${LOOK}
+      # The page's foot: the links under the pack list, below the fold.
+      - scrollUntilVisible:
+          element:
+            id: 'trip-day-links'
+          direction: DOWN
+          timeout: 10000
+          centerElement: true
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'trip-day-links'
+          file: shot.yaml
+          env:
+            CODE: '6.04'
+            NAME: day-of-foot
+            LOOK: ${LOOK}
       # The pack list's field, keyboard up; closed again without adding anything.
       - runFlow:
           when:

@@ -197,12 +197,12 @@ appId: app.critterpass.dev
           file: ../../_shared/back-to.yaml
           env:
             MARK: home-screen
-      # Invite friends, from the Pass page.
+      # Invite friends, from the Pass page (opened by its link: a tap on Android's drawn bar
+      # here has landed on the Wallet tab).
       - runFlow:
-          file: ../../_shared/tab.yaml
+          file: ../../_shared/open-link.yaml
           env:
-            TAB: pass
-            LABEL: Pass
+            URL: critterpass-dev://pass
       - extendedWaitUntil:
           visible:
             id: 'you-profile'
@@ -223,6 +223,9 @@ appId: app.critterpass.dev
           timeout: 10000
           optional: true
       - runFlow:
+          when:
+            visible:
+              id: 'referral-dashboard'
           file: shot.yaml
           env:
             CODE: '3.11'
