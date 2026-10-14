@@ -1,7 +1,7 @@
 import { Children } from 'react';
 import type { ReactNode } from 'react';
-import { Text as RNText } from 'react-native';
-import type { TextProps as RNTextProps, TextStyle } from 'react-native';
+import { Platform, Text as RNText, StyleSheet } from 'react-native';
+import type { StyleProp, TextProps as RNTextProps, TextStyle } from 'react-native';
 
 import type { PremiumPalette, PremiumTypeName, PremiumTypeStyle } from '@cp/design-tokens';
 
@@ -12,6 +12,7 @@ import { textLayoutProblems } from '@/lib/qa/text-layout-check';
 import { reportUiQa, UI_QA_ENABLED } from '@/lib/qa/ui-qa';
 
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
+import { markRoom, marksClipped } from './mark-room';
 
 /** Palette roles a text can take by name; any other colour is passed as `color`. */
 export type PremiumTextTone = Extract<
@@ -89,6 +90,39 @@ export function premiumFont(
     : { fontFamily: resolved.fontFamily, fontStyle: resolved.fontStyle };
 }
 
+/** A number from a flattened style, or 0 for a missing or relative one. */
+function points(...values: readonly unknown[]): number {
+  for (const value of values) if (typeof value === 'number') return value;
+  return 0;
+}
+
+/**
+ * The top padding that keeps stacked marks whole (`./mark-room`), balanced by as much negative top
+ * margin so the text's baseline and the layout around it stay where they were. iOS draws glyphs
+ * into the text's padding; Android's own font padding already gives them room.
+ */
+function markRoomStyle(
+  text: string | null,
+  size: number,
+  tokenLineHeight: number | undefined,
+  scale: number,
+  style: StyleProp<TextStyle>,
+): { readonly room: number; readonly style: TextStyle | null } {
+  if (Platform.OS !== 'ios' || text === null) return { room: 0, style: null };
+  const flat: TextStyle = StyleSheet.flatten(style) ?? {};
+  const own = flat.fontSize ?? size;
+  const lineHeight = flat.lineHeight ?? tokenLineHeight;
+  const room = markRoom(text, own, lineHeight) * scale;
+  if (room === 0) return { room: 0, style: null };
+  return {
+    room,
+    style: {
+      paddingTop: points(flat.paddingTop, flat.paddingVertical, flat.padding) + room,
+      marginTop: points(flat.marginTop, flat.marginVertical, flat.margin) - room,
+    },
+  };
+}
+
 /**
  * Premium text: one type token per use, SF Pro (system) unless the token is the guide's voice or a
  * code. Dynamic Type scales it natively up to the token's cap, so display type never outgrows its
@@ -117,6 +151,14 @@ export function Text({
     rest.adjustsFontSizeToFit === undefined
       ? { adjustsFontSizeToFit: true, minimumFontScale: LABEL_FIT_FLOOR }
       : {};
+  const text = plainText(rest.children);
+  const marks = markRoomStyle(
+    text,
+    token.size,
+    token.lineHeight,
+    Math.min(fontScale, token.maxScale),
+    style,
+  );
 
   return (
     <RNText
@@ -134,14 +176,14 @@ export function Text({
         token.lineHeight === undefined ? null : { lineHeight: token.lineHeight },
         align === undefined ? null : { textAlign: align },
         style,
+        marks.style,
       ]}
       // Only where something reads it: line metrics sent to JS on every layout cost a bridge trip
       // per text (keyboard, sheet detents, list scroll), so store builds skip them.
       onTextLayout={
         UI_QA_ENABLED || onTextLayout !== undefined
           ? (event) => {
-              const text = UI_QA_ENABLED ? plainText(rest.children) : null;
-              if (text !== null) {
+              if (UI_QA_ENABLED && text !== null) {
                 const oneLine = singleLine ?? ONE_LINE_VARIANTS.has(variant);
                 const problems = textLayoutProblems({
                   lines: event.nativeEvent.lines,
@@ -153,6 +195,14 @@ export function Text({
                   // Larger text sizes wrap labels by design (Dynamic Type).
                   singleLine: oneLine && fontScale <= 1,
                 });
+                const first = event.nativeEvent.lines[0];
+                if (
+                  Platform.OS === 'ios' &&
+                  first !== undefined &&
+                  marksClipped(text, first, marks.room)
+                ) {
+                  problems.push('TEXT_MARKS_CLIPPED');
+                }
                 for (const code of problems)
                   reportUiQa(code, rest.testID ?? text.slice(0, 40), variant);
               }
