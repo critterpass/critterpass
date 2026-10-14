@@ -16,7 +16,7 @@ import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { ForecastReady } from '../../../premium/day-change/ForecastPremium';
 import { checkedLabel } from '../copy';
-import { forecastDays, forecastModel, type WatchRowData } from '../model';
+import { forecastDays, forecastModel, standoutDay, type WatchRowData } from '../model';
 import { FORECAST_FIXTURES } from '../test-support/forecast-fixtures';
 import type { ForecastViewProps } from '../view-types';
 
@@ -103,6 +103,25 @@ describe('forecast model', () => {
 
 const propsOf = (name: string): ForecastViewProps =>
   (FORECAST_FIXTURES[name] as () => ForecastViewProps)();
+
+describe('forecast strip', () => {
+  const day = (date: string, rainPct: number) => ({
+    date,
+    today: false,
+    highC: 28,
+    rainPct,
+    wet: rainPct >= 50,
+    hours: [],
+  });
+  it('inverts only the wettest wet day, the earliest on a tie', () => {
+    expect(standoutDay([day('2026-11-04', 80), day('2026-11-05', 68), day('2026-11-06', 12)])).toBe(
+      '2026-11-04',
+    );
+    expect(standoutDay([day('2026-11-04', 60), day('2026-11-05', 90)])).toBe('2026-11-05');
+    expect(standoutDay([day('2026-11-04', 70), day('2026-11-05', 70)])).toBe('2026-11-04');
+    expect(standoutDay([day('2026-11-04', 10)])).toBeNull();
+  });
+});
 
 describe('forecast screen', () => {
   it('opens the storm vote only from a Plan B row with an open decision', async () => {

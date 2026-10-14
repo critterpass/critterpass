@@ -7,7 +7,7 @@
  */
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
@@ -30,9 +30,12 @@ import {
   percent,
 } from '../../disruptions/forecast/copy';
 import type { ForecastViewProps } from '../../disruptions/forecast/view-types';
-import type { WatchEntry } from '../../disruptions/forecast/model';
+import { standoutDay, type WatchEntry } from '../../disruptions/forecast/model';
 import { useForecastScreen } from '../../disruptions/forecast/use-forecast-screen';
 import { LineIcon } from '../components/LineIcon';
+
+/** A day's tile in the strip at its narrowest (6.06: six days across the screen). */
+const DAY_WIDTH = 56;
 
 const TONE: Readonly<Record<WatchEntry['status'], StatusTone>> = {
   plan_b: 'unopened',
@@ -65,6 +68,15 @@ export function ForecastReady({ props }: { readonly props: ForecastViewProps }) 
   const statusWord = useStatusWord();
   const lines = forecastLines();
   const { model } = props;
+  const { width } = useWindowDimensions();
+  const standout = standoutDay(model.days);
+  // The days share the row's width when they fit, so a short forecast fills the strip instead of
+  // bunching at its start; a long one keeps the 56 pt day and scrolls.
+  const span = width - th.space.gutter * 2;
+  const dayWidth = Math.max(
+    DAY_WIDTH,
+    Math.floor((span - th.space.gap6 * (model.days.length - 1)) / Math.max(1, model.days.length)),
+  );
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
@@ -94,7 +106,7 @@ export function ForecastReady({ props }: { readonly props: ForecastViewProps }) 
           testID="forecast-days"
         >
           {model.days.map((day) => {
-            const risky = day.wet;
+            const risky = day.date === standout;
             const fg = risky ? th.color.onInk : th.color.ink;
             return (
               <View
@@ -102,6 +114,7 @@ export function ForecastReady({ props }: { readonly props: ForecastViewProps }) 
                 style={[
                   styles.day,
                   {
+                    width: dayWidth,
                     borderRadius: th.radius.field,
                     backgroundColor: risky ? th.color.ink : th.color.card,
                     boxShadow: th.shadow.card,
@@ -120,7 +133,7 @@ export function ForecastReady({ props }: { readonly props: ForecastViewProps }) 
                     },
                   )}
                 </Text>
-                <LineIcon name={risky ? 'rain' : 'sun'} size={24} color={fg} />
+                <LineIcon name={day.wet ? 'rain' : 'sun'} size={24} color={fg} />
                 <Text variant="headline" color={fg}>
                   {day.highC === null ? '–' : degrees(day.highC, locale)}
                 </Text>
@@ -248,7 +261,7 @@ export function ForecastPremium({ tripId }: { readonly tripId: string }) {
 
 const styles = StyleSheet.create({
   body: { paddingTop: 8, paddingBottom: 40 },
-  day: { width: 56, alignItems: 'center', gap: 4, paddingVertical: 10 },
+  day: { alignItems: 'center', gap: 4, paddingVertical: 10 },
   soft: { opacity: 0.75 },
   card: { paddingHorizontal: 14, paddingVertical: 2 },
   risk: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 11 },
