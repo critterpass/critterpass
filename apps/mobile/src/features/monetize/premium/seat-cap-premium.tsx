@@ -97,6 +97,7 @@ export function SeatCapPremium(props: SeatCapViewProps) {
             />
             <View style={{ alignItems: 'center' }}>
               <TextButton
+                align="center"
                 label={t({ id: 'monetize.seatCap.keep', message: `Keep it at ${cap}` })}
                 onPress={props.onKeep}
                 testID="seat-cap-keep"

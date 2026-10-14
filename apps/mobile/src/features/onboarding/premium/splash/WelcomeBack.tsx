@@ -187,6 +187,7 @@ export function WelcomeBack({
         />
         <View style={{ alignItems: 'center' }}>
           <TextButton
+            align="center"
             label={t({ id: 'onboarding.splash.invite', message: 'I have an invite code' })}
             onPress={onInviteCode}
             testID="onboarding-invite-code"

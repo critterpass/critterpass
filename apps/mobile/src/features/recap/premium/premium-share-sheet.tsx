@@ -154,6 +154,7 @@ export function PremiumShareSheet({
               {t({ id: 'shareImage.error', message: "The picture didn't draw." })}
             </Text>
             <TextButton
+              align="center"
               label={t({ id: 'shareImage.retry', message: 'Try again' })}
               onPress={() => setAttempt((n) => n + 1)}
               testID={`${testID}-retry`}

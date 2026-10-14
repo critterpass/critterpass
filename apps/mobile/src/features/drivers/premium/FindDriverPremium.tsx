@@ -194,6 +194,7 @@ export function FindDriverPremium({
         />
         <View style={styles.center}>
           <TextButton
+            align="center"
             label={t({ id: 'drivers.find.ours', message: 'Our drivers: rate or invite one' })}
             onPress={find.onOurs}
             testID="drivers-find-ours"

@@ -131,6 +131,7 @@ function MemoryScene({ m }: { readonly m: MemoryScreenState }) {
         )}
         <View style={{ alignItems: 'center' }}>
           <TextButton
+            align="center"
             label={t({ id: 'recap.premium.memory.share', message: 'Share the memory' })}
             onPress={() => m.setSharing(true)}
             color={RECAP_PAINT.shareOnPhoto}

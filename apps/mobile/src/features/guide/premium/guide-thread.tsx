@@ -143,6 +143,7 @@ export function GuideThread(props: GuideThreadProps) {
       {props.onEarlier === undefined ? null : (
         <View style={{ alignItems: 'center' }}>
           <TextButton
+            align="center"
             label={t({ id: 'guide.chat.earlier', message: 'Earlier messages' })}
             onPress={props.onEarlier}
             testID="guide-earlier"

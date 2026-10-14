@@ -219,6 +219,7 @@ export function PlanPremiumView({ props }: { readonly props: PlanViewProps }) {
         {plan?.canCancel === true && plan.manageHere ? (
           <View style={styles.cancel}>
             <TextButton
+              align="center"
               label={t({ id: 'monetize.plan.cancel', message: 'Cancel Pass+' })}
               color={th.color.destructive.listAction}
               onPress={props.onCancel}

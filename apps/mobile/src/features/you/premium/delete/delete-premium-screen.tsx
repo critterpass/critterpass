@@ -231,6 +231,7 @@ export function DeletePremiumScreen({
           </Pressable>
           <View style={{ alignItems: 'center' }}>
             <TextButton
+              align="center"
               label={t({ id: 'you.delete.keep', message: 'Keep my account' })}
               onPress={d.onKeep}
               testID="you-delete-keep"

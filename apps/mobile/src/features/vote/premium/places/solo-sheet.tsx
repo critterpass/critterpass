@@ -121,6 +121,7 @@ export function SoloPassSheet(props: SoloPassSheetProps) {
               />
             </View>
             <TextButton
+              align="center"
               label={t({ id: 'vote.solo.cancel', message: 'Not now' })}
               onPress={props.onClose}
               testID="solo-cancel"

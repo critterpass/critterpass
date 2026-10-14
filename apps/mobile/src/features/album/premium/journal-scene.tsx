@@ -242,6 +242,7 @@ export function PremiumJournalScene(props: AlbumViewProps) {
         ))}
         <View style={{ alignItems: 'center' }}>
           <TextButton
+            align="center"
             label={exportLabel(props.exportState)}
             onPress={props.onDownloadAll}
             testID="album-export"

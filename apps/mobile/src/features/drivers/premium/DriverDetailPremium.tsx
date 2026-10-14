@@ -208,6 +208,7 @@ export function DriverDetailPremium(input: {
         )}
         <View style={styles.center}>
           <TextButton
+            align="center"
             label={t({ id: 'drivers.detail.report', message: 'Report this listing' })}
             onPress={() => ask({ kind: REPORT.listing, id: driver.id })}
             testID="drivers-report"

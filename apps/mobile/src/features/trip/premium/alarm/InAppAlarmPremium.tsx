@@ -112,6 +112,7 @@ export function InAppAlarmPremium(props: InAppAlarmProps) {
           {props.snoozeAllowed ? (
             <View style={styles.center}>
               <TextButton
+                align="center"
                 label={t({ id: 'trip.alarm.snooze', message: 'Snooze 5 min' })}
                 color={white}
                 onPress={props.onSnooze}
@@ -137,6 +138,7 @@ export function InAppAlarmPremium(props: InAppAlarmProps) {
           )}
           {props.onClose === undefined ? null : (
             <TextButton
+              align="center"
               label={t({ id: 'trip.alarm.close', message: 'Close' })}
               color={white}
               onPress={props.onClose}

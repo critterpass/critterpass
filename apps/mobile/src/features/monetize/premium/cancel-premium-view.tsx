@@ -150,6 +150,7 @@ export function CancelPremiumView({ props }: { readonly props: CancelViewProps |
           />
           <View style={{ alignItems: 'center', paddingVertical: 6 }}>
             <TextButton
+              align="center"
               label={t({ id: 'monetize.cancel.anyway', message: 'Cancel anyway' })}
               color={th.color.destructive.listAction}
               onPress={props.onCancel}

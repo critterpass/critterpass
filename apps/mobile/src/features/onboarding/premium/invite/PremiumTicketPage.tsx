@@ -202,6 +202,7 @@ export function PremiumTicketPage() {
           />
           <View style={{ alignItems: 'center' }}>
             <TextButton
+              align="center"
               label={t({
                 id: 'onboarding.invite.ticket.lookAround',
                 message: 'Just look around first',

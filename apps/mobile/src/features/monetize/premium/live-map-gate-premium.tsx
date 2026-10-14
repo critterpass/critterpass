@@ -64,6 +64,7 @@ export function LiveMapGatePremium({ place, price, onBoost, onLater }: LiveMapGa
         />
         <View style={{ alignItems: 'center' }}>
           <TextButton
+            align="center"
             label={t({ id: 'monetize.premium.later', message: 'Maybe later' })}
             onPress={onLater}
             testID="live-map-gate-later"

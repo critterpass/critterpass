@@ -194,6 +194,7 @@ export function PremiumManifestPage() {
         />
         <View style={{ alignItems: 'center' }}>
           <TextButton
+            align="center"
             label={t({ id: 'onboarding.invite.manifest.sayHi', message: 'Say hi to the crew' })}
             onPress={manifest.openCrew}
             testID="invite-manifest-hi"

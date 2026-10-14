@@ -80,6 +80,7 @@ export function PremiumVoiceConsent({
           />
           <View style={{ alignItems: 'center' }}>
             <TextButton
+              align="center"
               label={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}
               onPress={onType}
               testID="guide-voice-consent-no"

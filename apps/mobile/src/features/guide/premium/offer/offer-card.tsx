@@ -122,6 +122,7 @@ export function PremiumOfferCard({ message }: ChatCardProps) {
               />
               <View style={{ alignItems: 'center' }}>
                 <TextButton
+                  align="center"
                   label={t({ id: 'guide.offer.notNow', message: 'Not now' })}
                   onPress={() => setConfirming(false)}
                   testID="guide-offer-not-now"

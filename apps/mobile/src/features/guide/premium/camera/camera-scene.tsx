@@ -276,6 +276,7 @@ export function PremiumCameraScene(props: CameraViewProps) {
             )}
             <View style={{ alignItems: 'center' }}>
               <TextButton
+                align="center"
                 label={t({ id: 'guide.camera.retake', message: 'Read another menu' })}
                 onPress={props.onRetake}
                 testID="guide-camera-retake"

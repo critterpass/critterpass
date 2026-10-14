@@ -123,6 +123,7 @@ export function PremiumPhraseShowScreen() {
         )}
         {practice === undefined ? null : (
           <TextButton
+            align="center"
             label={t({ id: 'guide.phrase.practise', message: 'Practise saying it' })}
             onPress={() => router.replace(practice)}
             testID="guide-phrase-show-practise"

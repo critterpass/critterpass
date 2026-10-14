@@ -176,6 +176,7 @@ export function ComparePremium(props: {
         {drivers.length < 2 ? (
           <View style={styles.center}>
             <TextButton
+              align="center"
               label={t({ id: 'drivers.compare.addAnother', message: 'Add another to compare' })}
               onPress={compare.addAnother}
               testID="drivers-compare-add"

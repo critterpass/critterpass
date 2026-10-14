@@ -60,6 +60,7 @@ export function PremiumPostcardCard({ tripId, guide, place, note }: PostcardCard
         <Button label={copy.send} onPress={compose} testID="recap-postcard-open" />
         <View style={{ alignItems: 'center' }}>
           <TextButton
+            align="center"
             label={copy.album}
             onPress={() => router.push(albumRoutes.album(tripId))}
             testID="recap-postcard-album"

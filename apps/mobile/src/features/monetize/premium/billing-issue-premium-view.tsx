@@ -196,6 +196,7 @@ export function BillingIssuePremiumView({
               ) : null}
               <View style={{ alignItems: 'center' }}>
                 <TextButton
+                  align="center"
                   label={
                     checking
                       ? t({ id: 'monetize.issue.checking', message: 'Checking…' })
