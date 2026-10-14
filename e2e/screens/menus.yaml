@@ -1,0 +1,111 @@
+appId: app.critterpass.dev
+---
+# Every long-press and context menu the sweep reaches, each row tapped once, on the `everyday`
+# Bali crew: a crewmate's chat message (reply, pin, copy, report) and a stop on the plan map
+# (details, move, time, remove, ask, share). Each row must show what it promises: the composer's
+# reply strip, a toast, a sheet, a question, the guide or the share sheet. Unlike the captures,
+# this flow fails when a row shows nothing. Nothing is saved: every sheet and question is left
+# without saving, and the pin is taken off again.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
+- runFlow: subflows/chat-open-crew.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'chat-screen'
+    timeout: 15000
+- runFlow:
+    file: subflows/menu-chat-action.yaml
+    env:
+      KEY: reply
+      EXPECT: 'Replying to .*'
+- runFlow:
+    file: subflows/menu-chat-action.yaml
+    env:
+      KEY: pin
+      EXPECT: 'Pinned to the trip'
+- runFlow:
+    file: subflows/menu-chat-action.yaml
+    env:
+      KEY: unpin
+      EXPECT: 'Unpinned'
+# Copy puts the message on the clipboard; the row must still say so.
+- runFlow:
+    file: subflows/menu-chat-action.yaml
+    env:
+      KEY: copy
+      EXPECT: '(?i).*copied.*'
+- runFlow:
+    file: subflows/menu-chat-action.yaml
+    env:
+      KEY: report
+      EXPECT: 'Report this message\?'
+- runFlow: subflows/plan-home.yaml
+- runFlow: subflows/plan-open-map.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-map-search'
+    timeout: 15000
+# The day sheet at half, where the stops' cards are.
+- swipe:
+    start: 50%, 82%
+    end: 50%, 45%
+    duration: 600
+- extendedWaitUntil:
+    visible:
+      id: 'timeline-stop-.*'
+    timeout: 10000
+- runFlow:
+    file: subflows/menu-stop-action.yaml
+    env:
+      KEY: details
+      EXPECT: 'plan-item-save'
+- runFlow: subflows/menu-stop-close.yaml
+- runFlow:
+    file: subflows/menu-stop-action.yaml
+    env:
+      KEY: move
+      EXPECT: 'plan-item-save'
+- runFlow: subflows/menu-stop-close.yaml
+- runFlow:
+    file: subflows/menu-stop-action.yaml
+    env:
+      KEY: time
+      EXPECT: 'plan-item-save'
+- runFlow: subflows/menu-stop-close.yaml
+# Remove asks first; Cancel keeps the stop.
+- tapOn:
+    id: 'timeline-stop-.*'
+    index: 0
+- tapOn:
+    id: 'stop-menu-remove'
+- extendedWaitUntil:
+    visible:
+      text: 'Cancel'
+    timeout: 8000
+- tapOn:
+    text: 'Cancel'
+- runFlow: ../_shared/settle.yaml
+# Ask opens the guide with a question about the stop; back to the plan after.
+- runFlow:
+    file: subflows/menu-stop-action.yaml
+    env:
+      KEY: ask
+      EXPECT: 'guide-.*'
+- runFlow: ../_shared/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'timeline-stop-.*'
+    timeout: 10000
+# Share last: the system share sheet (its Copy row on both systems).
+- tapOn:
+    id: 'timeline-stop-.*'
+    index: 0
+- tapOn:
+    id: 'stop-menu-share'
+- extendedWaitUntil:
+    visible:
+      text: '(?i)copy|share'
+    timeout: 8000
+- runFlow: ../_shared/back.yaml
