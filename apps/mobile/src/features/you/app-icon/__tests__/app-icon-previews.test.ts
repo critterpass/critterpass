@@ -7,8 +7,8 @@ import { describe, expect, it } from '@jest/globals';
 import { APP_ICON_PREVIEWS, type AppIconLook } from '../app-icon-previews';
 
 /** The alternates the icon plugin bundles by default (its `DEFAULT_ALTERNATE_IDS`). */
-const ALTERNATES: readonly AppIconBaseId[] = ['face', 'pon', 'sardi', 'temple'];
-const LOOKS: readonly AppIconLook[] = ['any', 'dark', 'tinted'];
+const ALTERNATES: readonly AppIconBaseId[] = ['face', 'stamp', 'sticker'];
+const LOOKS: readonly AppIconLook[] = ['any', 'dark', 'clear', 'tinted'];
 const PREVIEWS_DIR = path.join(__dirname, '..', 'previews');
 
 // The picker lists an icon only when it has a preview, so an icon the build ships without one

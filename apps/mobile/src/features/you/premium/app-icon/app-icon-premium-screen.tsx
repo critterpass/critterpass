@@ -111,7 +111,9 @@ export function AppIconPremiumScreen() {
   const { t } = useLingui();
   const names = useIconNames();
   const { model, switching, problem, choose } = useAppIconPicker(deviceAppIcon);
-  const [look, setLook] = useState<AppIconLook>('any');
+  // Auto shows the icon as the phone's appearance would: light by day, dark at night.
+  const [picked, setLook] = useState<AppIconLook | 'auto'>('auto');
+  const look: AppIconLook = picked === 'auto' ? (th.scheme === 'dark' ? 'dark' : 'any') : picked;
   const current = model.current ?? 'passport';
   const lockedName =
     problem !== null && problem !== 'failed' ? (names[problem.locked] ?? problem.locked) : '';
@@ -197,6 +199,7 @@ export function AppIconPremiumScreen() {
           <View style={{ marginTop: th.space.gap14 }}>
             <SegmentedControl
               options={[
+                { value: 'auto', label: t({ id: 'you.premium.appearance.auto', message: 'Auto' }) },
                 {
                   value: 'any',
                   label: t({ id: 'you.premium.appearance.light', message: 'Light' }),
@@ -205,12 +208,13 @@ export function AppIconPremiumScreen() {
                   value: 'dark',
                   label: t({ id: 'you.premium.appearance.dark', message: 'Dark' }),
                 },
+                { value: 'clear', label: t({ id: 'you.premium.icon.clear', message: 'Clear' }) },
                 {
                   value: 'tinted',
                   label: t({ id: 'you.premium.icon.tinted', message: 'Tinted' }),
                 },
               ]}
-              value={look}
+              value={picked}
               onChange={setLook}
               accessibilityLabel={t({ id: 'you.appIcon.appearance', message: 'Appearance' })}
               testID="you-app-icon-look"
