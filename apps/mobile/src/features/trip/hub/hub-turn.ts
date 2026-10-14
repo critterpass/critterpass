@@ -29,7 +29,12 @@ export function hubPlanning(
   fallback: PlanningLink | null,
 ): HubPlanning | null {
   if (turn === null || NOT_A_STEP.has(turn.kind)) {
-    return fallback === null ? null : { label: fallback.label, href: fallback.href };
+    if (fallback === null) return null;
+    return {
+      ...(fallback.note === undefined ? {} : { note: fallback.note }),
+      label: fallback.label,
+      href: fallback.href,
+    };
   }
   return turn.button === null || turn.href === undefined
     ? { note: turn.line }
