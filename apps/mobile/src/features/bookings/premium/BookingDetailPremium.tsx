@@ -242,11 +242,11 @@ export function BookingDetailPremium({ bookingId }: { readonly bookingId: string
           }),
         testID: 'bookings-options',
       }}
+      footer={booking.mine ? <Foot detail={detail} /> : undefined}
       testID="bookings-detail"
     >
       <View style={[styles.body, { gap: th.space.gap16 }]}>
         {view === null ? <OtherBody detail={detail} /> : <FlightBody detail={detail} />}
-        <Foot detail={detail} />
       </View>
     </PushScreen>
   );

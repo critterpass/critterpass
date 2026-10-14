@@ -1,8 +1,11 @@
-/** The owner's foot of a booking's detail: "I landed", the supplier's cancel, then Edit and Delete. */
+/**
+ * The owner's foot of a booking's detail: "I landed", the supplier's cancel, then Edit and Delete,
+ * pinned at the page's foot on its ground (the detail's `PushScreen` footer).
+ */
 import { useLingui } from '@lingui/react/macro';
 import { StyleSheet, View } from 'react-native';
 
-import { Button, usePremiumTheme } from '@/ui/premium';
+import { Button } from '@/ui/premium';
 
 import type { BookingDetail } from '../../detail/use-booking-detail';
 import { askDeleteBooking } from '../booking-options';
@@ -10,11 +13,10 @@ import { askDeleteBooking } from '../booking-options';
 type Ready = Extract<BookingDetail, { kind: 'ready' }>;
 
 export function DetailFoot({ detail }: { readonly detail: Ready }) {
-  const th = usePremiumTheme();
   const { t } = useLingui();
   if (!detail.booking.mine) return null;
   return (
-    <View style={[styles.foot, { paddingHorizontal: th.space.gutter }]}>
+    <View style={styles.foot}>
       {detail.canReportLanded ? (
         <Button
           label={t({ id: 'bookings.detail.landed', message: 'I landed' })}
@@ -53,7 +55,7 @@ export function DetailFoot({ detail }: { readonly detail: Ready }) {
 }
 
 const styles = StyleSheet.create({
-  foot: { gap: 10, paddingTop: 8 },
+  foot: { gap: 10 },
   pair: { flexDirection: 'row', gap: 8 },
   flex: { flex: 1 },
 });

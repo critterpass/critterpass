@@ -213,7 +213,34 @@ export function ExpenseDetailPremium({
       if (yes) void detail.confirmDelete();
     });
   return (
-    <PushScreen title={backLabel} backLabel={backLabel} testID="money-expense-detail">
+    <PushScreen
+      title={backLabel}
+      backLabel={backLabel}
+      // Edit and Delete stand at the page's foot on its ground, as the design pins them.
+      footer={
+        detail.canChange ? (
+          <View style={styles.pair}>
+            <View style={styles.flex}>
+              <Button
+                label={t({ id: 'money.detail.edit', message: 'Edit' })}
+                variant="secondary"
+                onPress={detail.onEdit}
+                testID="money-detail-edit"
+              />
+            </View>
+            <View style={styles.flex}>
+              <Button
+                label={t({ id: 'money.detail.delete', message: 'Delete' })}
+                variant="destructive"
+                onPress={askDelete}
+                testID="money-detail-delete"
+              />
+            </View>
+          </View>
+        ) : undefined
+      }
+      testID="money-expense-detail"
+    >
       <View style={[styles.body, { gap: th.space.gap16 }]}>
         <View style={[styles.head, { paddingHorizontal: th.space.titleGutter }]}>
           <View style={styles.flex}>
@@ -262,26 +289,6 @@ export function ExpenseDetailPremium({
         </View>
         <RoomSplitSection detail={detail} fallback={<Shares detail={detail} />} />
         <Changes detail={detail} />
-        {detail.canChange ? (
-          <View style={[styles.pair, { paddingHorizontal: th.space.gutter }]}>
-            <View style={styles.flex}>
-              <Button
-                label={t({ id: 'money.detail.edit', message: 'Edit' })}
-                variant="secondary"
-                onPress={detail.onEdit}
-                testID="money-detail-edit"
-              />
-            </View>
-            <View style={styles.flex}>
-              <Button
-                label={t({ id: 'money.detail.delete', message: 'Delete' })}
-                variant="destructive"
-                onPress={askDelete}
-                testID="money-detail-delete"
-              />
-            </View>
-          </View>
-        ) : null}
       </View>
     </PushScreen>
   );
