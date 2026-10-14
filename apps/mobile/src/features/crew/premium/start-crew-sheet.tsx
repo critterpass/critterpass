@@ -84,6 +84,8 @@ function StartCrewForm({ start, cover }: StartCrewFormProps) {
       </View>
       <KeyboardAwareScroll
         contentContainerStyle={{ paddingHorizontal: th.space.gutter }}
+        // The focused name keeps its counter line and the footer's button above the keyboard.
+        bottomOffset={FOOTER_CLEARANCE + th.size.button + th.space.gap8 * 2}
         contentInsetAdjustmentBehavior="never"
       >
         <View style={styles.stage}>
@@ -172,6 +174,9 @@ function StartCrewForm({ start, cover }: StartCrewFormProps) {
     </View>
   );
 }
+
+/** The counter line under the name field and a gap above the footer's button. */
+const FOOTER_CLEARANCE = 32;
 
 /** The soft wash behind the pass, in the cover's colour at a quarter strength. */
 function coverWash(cover: CrewCover): string {

@@ -16,7 +16,6 @@ import {
   Tag,
   Text,
   makePremiumStyles,
-  ring,
   usePremiumTheme,
   type CrewMember,
 } from '@/ui/premium';
@@ -49,6 +48,9 @@ const useStyles = makePremiumStyles((t) => ({
     borderRadius: t.radius.card,
     backgroundColor: t.color.card,
   },
+  // The ink ring is its own layer under the guide, so the sticker breaks out over it the way it
+  // breaks out over an unringed tile's edge (a ring drawn as the tile's shadow paints over it).
+  ring: { position: 'absolute', top: -2, left: -2, right: -2, bottom: -2, borderWidth: 2 },
   sticker: { position: 'absolute', left: 0, right: 0, alignItems: 'center' },
   tag: { position: 'absolute', left: 12, right: 12, top: STICKER_FLOOR + 10 },
   foot: {
@@ -113,16 +115,19 @@ export function BoardTile({
       accessibilityRole="button"
       accessibilityLabel={label}
       accessibilityState={{ selected: ringed, disabled: onPress === undefined }}
-      style={[
-        styles.tile,
-        {
-          boxShadow: ringed
-            ? `${ring(2, theme.color.ink)}, ${theme.shadow.card}`
-            : theme.shadow.card,
-        },
-      ]}
+      style={[styles.tile, { boxShadow: theme.shadow.card }]}
       testID={`board-sticker-${index}`}
     >
+      {ringed ? (
+        <View
+          pointerEvents="none"
+          style={[
+            styles.ring,
+            { borderRadius: theme.radius.card + 2, borderColor: theme.color.ink },
+          ]}
+          testID={`board-sticker-${index}-ring`}
+        />
+      ) : null}
       <View pointerEvents="none" style={[styles.sticker, { top: STICKER_FLOOR - look.size }]}>
         <View style={{ transform: [{ rotate: `${look.rotate}deg` }] }}>
           <CritterSticker kind={guide.kind} name={guide.name} size={look.size} />

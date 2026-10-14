@@ -78,6 +78,8 @@ export function PageSheet({
         ]}
         testID={testID}
       >
+        {/* The system page sheet draws no grabber over a plain modal: the sheet draws its own. */}
+        {ios ? <View style={[styles.grabber, { backgroundColor: th.color.placeholder }]} /> : null}
         <View style={[styles.header, { paddingHorizontal: th.space.gutter }]}>
           <PressableScale
             onPress={cancel}
@@ -117,6 +119,8 @@ export function PageSheet({
           style={styles.root}
           contentContainerStyle={{
             paddingHorizontal: th.space.gutter,
+            // Room above the first field for its focus ring, which the scroll view would clip.
+            paddingTop: th.space.gap8,
             paddingBottom: th.space.gap16 + insets.bottom,
             gap: th.space.gap12,
           }}
@@ -133,6 +137,7 @@ export function PageSheet({
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
+  grabber: { alignSelf: 'center', width: 36, height: 5, borderRadius: 3, marginTop: 8 },
   header: { minHeight: 56, flexDirection: 'row', alignItems: 'center', gap: 12 },
   cancel: { fontWeight: '400' },
   title: { flex: 1 },

@@ -33,7 +33,7 @@ import { entryPointOf } from '../paywall/use-paywall-record';
 import { useRestoreLine } from '../paywall/purchase-lines';
 import { GoldButton } from './components/gold-button';
 import { InkStamp } from './components/ink-stamp';
-import { NIGHT, NightGround } from './components/night';
+import { HeadlineSparkles, NIGHT, NightGround } from './components/night';
 import { PurchaseFooter } from './components/purchase-footer';
 import { StampSlam } from './components/stamp-slam';
 import { VisaCard } from './components/visa-card';
@@ -62,6 +62,7 @@ export function PaywallPremiumView({
   const subscribed = phase === 'subscribed';
   const busy = phase === 'purchasing' || phase === 'verifying' || phase === 'loading';
   const [landed, setLanded] = useState(false);
+  const [lineEnd, setLineEnd] = useState<number | null>(null);
   const boostPlace = props.boostTrip?.name ?? '';
 
   // The page steps in, the visa drops (Smooth), then the stamp lands (Lively).
@@ -86,7 +87,7 @@ export function PaywallPremiumView({
         : t({ id: 'monetize.premium.getYearly', message: `Get Pass+ · ${price} a year` });
 
   return (
-    <NightGround>
+    <NightGround sparkles={false}>
       <ScrollView
         contentContainerStyle={[
           styles.content,
@@ -94,14 +95,20 @@ export function PaywallPremiumView({
         ]}
         testID="paywall"
       >
-        <Text
-          variant="display"
-          color={NIGHT.text}
-          style={styles.headline}
-          accessibilityRole="header"
-        >
-          {t({ id: 'monetize.paywall.headline', message: 'Go further\nthan free' })}
-        </Text>
+        <View>
+          <Text
+            variant="display"
+            color={NIGHT.text}
+            style={styles.headline}
+            accessibilityRole="header"
+            onTextLayout={(event) =>
+              setLineEnd(Math.max(0, ...event.nativeEvent.lines.map((line) => line.x + line.width)))
+            }
+          >
+            {t({ id: 'monetize.paywall.headline', message: 'Go further\nthan free' })}
+          </Text>
+          <HeadlineSparkles lineEnd={lineEnd} />
+        </View>
         <Animated.View style={visaIn}>
           <VisaCard
             title={t({ id: 'monetize.paywall.passPlus', message: 'Pass+' })}
@@ -290,7 +297,8 @@ const styles = StyleSheet.create({
   content: { paddingHorizontal: 24, gap: 16 },
   headline: { fontWeight: '800' },
   ftf: { position: 'absolute', left: 150, top: 168 },
-  links: { flexDirection: 'row', justifyContent: 'center', gap: 20 },
+  // The links keep clear of the disclosure lines under them.
+  links: { flexDirection: 'row', justifyContent: 'center', gap: 20, marginBottom: 8 },
   top: {
     position: 'absolute',
     left: 20,

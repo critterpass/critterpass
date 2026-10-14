@@ -30,7 +30,16 @@ export function SplitPeople(props: SplitPeopleProps) {
   const { draft, members } = props;
   if (draft.mode === 'equal') {
     return (
-      <View style={[styles.wrap, { gap: th.space.gap10, paddingHorizontal: th.space.gutter }]}>
+      <View
+        style={[
+          styles.wrap,
+          {
+            gap: th.space.gap10,
+            paddingHorizontal: th.space.gutter,
+            paddingTop: th.space.gap4,
+          },
+        ]}
+      >
         {members.map((member) => {
           const inSplit = draft.included.includes(member.userId);
           return (
@@ -163,7 +172,8 @@ export function SplitPeople(props: SplitPeopleProps) {
 }
 
 const styles = StyleSheet.create({
-  wrap: { flexDirection: 'row', flexWrap: 'wrap' },
+  // Centred under the split switch, so one person in the split never strands at the left edge.
+  wrap: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' },
   person: { alignItems: 'center', gap: 4, width: 52 },
   out: { opacity: 0.4 },
   card: { overflow: 'hidden' },

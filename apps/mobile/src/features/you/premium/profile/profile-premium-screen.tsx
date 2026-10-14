@@ -5,8 +5,9 @@
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { createElement } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
+import { TabPageScroll } from '@/features/home/premium/components/tab-bar-fade';
 import { MONETIZE_ROUTES } from '@/features/monetize';
 import { Text, usePremiumTheme } from '@/ui/premium';
 import { RootScreen } from '@/ui/premium/shell';
@@ -59,7 +60,7 @@ export function ProfilePremiumScreen() {
       ]}
     >
       {({ scrollProps, largeTitle }) => (
-        <ScrollView
+        <TabPageScroll
           {...scrollProps}
           contentContainerStyle={{ paddingBottom: th.space.tabBarClearance }}
         >
@@ -98,7 +99,7 @@ export function ProfilePremiumScreen() {
               />
             </>
           )}
-        </ScrollView>
+        </TabPageScroll>
       )}
     </RootScreen>
   );

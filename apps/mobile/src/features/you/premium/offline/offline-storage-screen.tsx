@@ -124,7 +124,7 @@ export function OfflineStoragePremiumScreen() {
       backLabel={t({ id: 'trip.offline.backToSettings', message: 'Settings' })}
       testID="trip-offline-storage"
     >
-      <View style={styles.content}>
+      <View style={[styles.content, { paddingHorizontal: th.space.gap16 }]}>
         <View
           style={[
             styles.meter,

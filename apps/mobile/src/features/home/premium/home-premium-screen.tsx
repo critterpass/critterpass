@@ -9,7 +9,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { createElement, useContext, useRef, useState, type ComponentRef } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
@@ -42,6 +42,7 @@ import { useCrewSwitcherRequest } from './crew-switcher/open-request';
 import { GlassGlyphButton } from './components/glass-glyph-button';
 import { HomeGlyph } from './components/home-glyph';
 import { HomeSyncing } from './components/home-syncing';
+import { TabPageScroll } from './components/tab-bar-fade';
 import { PremiumDevTools } from './components/premium-dev-tools';
 import { CrewSection, FirstRunSection } from './home-sections';
 import { crewAvatars } from './use-premium-home';
@@ -177,7 +178,7 @@ function HomeFrame({ view, onPick, children }: HomeFrameProps) {
     <View style={{ flex: 1 }} testID="home-screen">
       <RootScreen title={title} actions={crew === null ? [plus] : []} header="drawn">
         {({ scrollProps, largeTitle }) => (
-          <ScrollView {...scrollProps} contentContainerStyle={styles.content}>
+          <TabPageScroll {...scrollProps} contentContainerStyle={styles.content}>
             {crew === null ? (
               largeTitle
             ) : (
@@ -244,7 +245,7 @@ function HomeFrame({ view, onPick, children }: HomeFrameProps) {
             ) : null}
             {children}
             <PremiumDevTools />
-          </ScrollView>
+          </TabPageScroll>
         )}
       </RootScreen>
       <View
