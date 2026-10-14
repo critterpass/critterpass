@@ -289,6 +289,14 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'place.profile_translate': fast(null, 2048, { output: 'structured', temperature: 0.2 }),
   // A destination's brief from the pages code fetched (system usage): pro, structured, no thinking.
   'destination.brief': pro(null, 6000, 'low', PROFILE_CALL),
+  // A base-set destination's line and about text from Wikidata and GeoNames facts only.
+  'destination.describe': fast(null, 1024, { output: 'structured', temperature: 0.3 }),
+  // Vietnam's travel-worthy towns per province, chosen from a closed list (run once).
+  'destination.vn_picks': pro(null, 2048, 'low', {
+    output: 'structured',
+    thinking: 'disabled',
+    temperature: 0,
+  }),
 };
 
 const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
@@ -303,6 +311,7 @@ const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
   'place.labels': twin(),
   'must_do.resolve': twin(),
   'redraft.note_intent': twin(),
+  'destination.critter': twin(),
 };
 
 function toConfig(route: AiRoute, spec: RouteSpec): RouteConfig {
