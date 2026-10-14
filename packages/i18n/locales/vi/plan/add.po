@@ -85,11 +85,11 @@ msgstr "Khoảng {minutes} phút đi xe"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.add"
-msgstr "THÊM VÀO {dayLabel} · {time}"
+msgstr "Thêm vào {dayLabel} · {time}"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.addAnyway"
-msgstr "VẪN THÊM VÀO {dayLabel}"
+msgstr "Vẫn thêm vào {dayLabel}"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.line.inPlan"
@@ -146,11 +146,11 @@ msgstr "Buổi sáng khô ráo vào {month}"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.waiting"
-msgstr "ĐANG TÌM GIỜ HỢP NHẤT…"
+msgstr "Đang tìm giờ hợp nhất…"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.move"
-msgstr "DỜI SANG {dayLabel} · {time}"
+msgstr "Dời sang {dayLabel} · {time}"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.block.new"
@@ -190,7 +190,7 @@ msgstr "Mở cửa lúc {time}"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.pickElsewhere"
-msgstr "CHỌN NGÀY HOẶC GIỜ KHÁC"
+msgstr "Chọn ngày hoặc giờ khác"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.quiet"
@@ -206,7 +206,7 @@ msgstr "Ngay sau {a}"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.ideas"
-msgstr "LƯU VÀO Ý TƯỞNG"
+msgstr "Lưu vào Ý tưởng"
 
 #: ../../apps/mobile/src/features/plan/add/use-save-to-ideas.ts
 msgid "plan.add.savedToastShared"
@@ -218,11 +218,11 @@ msgstr "XEM Ý TƯỞNG"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.suggest"
-msgstr "ĐỀ XUẤT CHO {dayLabel} · {time}"
+msgstr "Đề xuất cho {dayLabel} · {time}"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.suggestAnyway"
-msgstr "VẪN ĐỀ XUẤT CHO {dayLabel}"
+msgstr "Vẫn đề xuất cho {dayLabel}"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.voteNote"
@@ -238,4 +238,4 @@ msgstr "Xếp vào giờ ăn"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.title"
-msgstr "VÌ SAO {time}"
+msgstr "Vì sao {time}"

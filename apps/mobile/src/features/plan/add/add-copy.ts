@@ -244,8 +244,8 @@ export function dayHeader(dayLabel: string, day: DayFit | null): string {
 
 export function addLabel(dayLabel: string, time: string, organiser: boolean): string {
   return organiser
-    ? t({ id: 'plan.add.cta.add', message: `ADD TO ${dayLabel} · ${time}` })
-    : t({ id: 'plan.add.cta.suggest', message: `SUGGEST FOR ${dayLabel} · ${time}` });
+    ? t({ id: 'plan.add.cta.add', message: `Add to ${dayLabel} · ${time}` })
+    : t({ id: 'plan.add.cta.suggest', message: `Suggest for ${dayLabel} · ${time}` });
 }
 
 /** "1H30", "45 MIN": the block's length in the time column. */
@@ -272,7 +272,7 @@ export function nearbyLine(name: string, minutes: number): string {
 }
 
 export function moveLabel(dayLabel: string, time: string): string {
-  return t({ id: 'plan.add.cta.move', message: `MOVE IT TO ${dayLabel} · ${time}` });
+  return t({ id: 'plan.add.cta.move', message: `Move it to ${dayLabel} · ${time}` });
 }
 
 export function offlineNote(guideName: string): string {
@@ -287,5 +287,5 @@ export function pickedLine(guide: string): string {
 }
 
 export function whyTitle(time: string): string {
-  return t({ id: 'plan.add.why.title', message: `WHY ${time}` });
+  return t({ id: 'plan.add.why.title', message: `Why ${time}` });
 }
