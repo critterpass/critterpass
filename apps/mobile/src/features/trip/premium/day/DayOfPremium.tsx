@@ -44,7 +44,7 @@ export function DayOfReady({ props }: { readonly props: DayOfProps }) {
         : lead.kind === 'done'
           ? {
               label: null,
-              big: t({ id: 'trip.dayOf.done', message: "That's everything on today's plan." }),
+              big: t({ id: 'trip.dayOf.done', message: 'That’s everything on today’s plan.' }),
               words: true,
             }
           : {

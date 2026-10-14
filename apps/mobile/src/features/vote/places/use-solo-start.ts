@@ -49,7 +49,7 @@ export function useSoloStart({
     (opId: string) => {
       toast.show({
         id: opId,
-        title: t({ id: 'vote.solo.refused', message: "That didn't go through" }),
+        title: t({ id: 'vote.solo.refused', message: 'That didn’t go through' }),
         subtitle: t({ id: 'vote.solo.refusedBody', message: 'No trip was started. Try again.' }),
       });
     },

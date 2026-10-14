@@ -68,7 +68,7 @@ export function useInvite(tripId: string, providerId: string) {
                 id: 'drivers.invite.noPhone',
                 message: 'Add his WhatsApp number to the trip first, or he is already listed.',
               })
-            : t({ id: 'drivers.invite.failed', message: "Couldn't make his link. Try again." }),
+            : t({ id: 'drivers.invite.failed', message: 'Couldn’t make his link. Try again.' }),
       );
     });
   }, [invite, providerId, t, tripId]);

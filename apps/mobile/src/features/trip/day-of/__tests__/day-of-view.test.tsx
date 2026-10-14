@@ -98,7 +98,7 @@ describe('day-of screen', () => {
 
   it("tells a member who isn't on the early item to sleep in", async () => {
     await scene('3k-2-not-mine');
-    expect(screen.getByText("You're not on this one. Sleep in.")).toBeTruthy();
+    expect(screen.getByText('You’re not on this one. Sleep in.')).toBeTruthy();
     expect(screen.queryByTestId('trip-day-im-up')).toBeNull();
   });
 

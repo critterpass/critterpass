@@ -206,7 +206,7 @@ export function CrewPanel({
         </View>
         <View style={styles.wide}>
           <Button
-            label={t({ id: 'liveMap.actions.onMyWay', message: "I'm on my way" })}
+            label={t({ id: 'liveMap.actions.onMyWay', message: 'I’m on my way' })}
             {...actionSize}
             disabled={m.offline || m.pinging}
             // eslint-disable-next-line lingui/no-unlocalized-strings -- a ping kind, not copy

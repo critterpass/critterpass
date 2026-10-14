@@ -68,7 +68,7 @@ describe('split decisions', () => {
     const name = (uid: string) => (uid === 'r' ? 'Rin' : uid);
     expect(silentLine(['me', 'r'], 'me', name, list)).toBe("Rin and you haven't said");
     expect(silentLine(['r'], 'me', name, list)).toBe("Rin hasn't said");
-    expect(silentLine(['me'], 'me', name, list)).toBe("You haven't said");
+    expect(silentLine(['me'], 'me', name, list)).toBe('You haven’t said');
     expect(silentLine([], 'me', name, list)).toBeNull();
   });
 });

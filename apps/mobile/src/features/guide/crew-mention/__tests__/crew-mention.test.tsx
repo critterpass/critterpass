@@ -232,7 +232,7 @@ describe('a guide offer', () => {
         </GestureHandlerRootView>
       </SafeAreaProvider>,
     );
-    await waitFor(() => expect(screen.getByText("I'm in · 1 slot left")).toBeTruthy());
+    await waitFor(() => expect(screen.getByText('I’m in · 1 slot left')).toBeTruthy());
     await fireEvent.press(screen.getByTestId('guide-offer-in'));
     // The tap only asks: nothing is claimed until the explicit yes.
     expect(screen.getByTestId('guide-offer-confirm')).toBeTruthy();

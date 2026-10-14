@@ -179,7 +179,7 @@ export function PremiumVoiceScene(props: VoiceViewProps) {
           <Text variant="captionMuted" tone="muted" testID="guide-voice-text-only">
             {t({
               id: 'guide.voice.textOnly',
-              message: "This reply couldn't be spoken, so it's text only.",
+              message: 'This reply couldn’t be spoken, so it’s text only.',
             })}
           </Text>
         ) : null}

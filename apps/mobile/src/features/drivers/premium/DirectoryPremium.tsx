@@ -159,7 +159,7 @@ export function DirectoryPremium(input: { readonly tripId: string; readonly area
                     id: 'drivers.premium.offline',
                     message: 'This needs signal. Try again when you have some.',
                   })
-                : t({ id: 'drivers.premium.failed', message: "That didn't load. Try again." })}
+                : t({ id: 'drivers.premium.failed', message: 'That didn’t load. Try again.' })}
             </Text>
             {p.onRetry === undefined ? null : (
               <Button

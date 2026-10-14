@@ -63,7 +63,7 @@ export function useRateDriver({
               id: 'drivers.rate.notEligible',
               message: 'Rating opens after the trip, for members with a verified phone.',
             })
-          : t({ id: 'drivers.rate.failed', message: "Couldn't save your answer. Try again." }),
+          : t({ id: 'drivers.rate.failed', message: 'Couldn’t save your answer. Try again.' }),
     });
   }
 

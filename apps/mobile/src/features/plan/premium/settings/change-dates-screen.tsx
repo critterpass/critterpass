@@ -65,7 +65,7 @@ export function ChangeDatesScreen({ tripId }: { readonly tripId: string }) {
                 kind: 'missing',
                 title: t({
                   id: 'plan.dates.missingTitle',
-                  message: "This trip isn't here any more",
+                  message: 'This trip isn’t here any more',
                 }),
                 line: t({
                   id: 'plan.dates.missingLine',

@@ -148,11 +148,11 @@ export function usePremiumGuideMeter(input: {
             : queue.problem === 'offline'
               ? t({
                   id: 'guide.queued.offline',
-                  message: "That needs a connection. Try again when you're back online.",
+                  message: 'That needs a connection. Try again when you’re back online.',
                 })
               : t({
                   id: 'guide.queued.refused',
-                  message: "That question couldn't be saved for later.",
+                  message: 'That question couldn’t be saved for later.',
                 })}
         </Text>
       )}

@@ -42,7 +42,7 @@ function useNotificationActions(
   useEffect(() => {
     const imUp = {
       identifier: 'up',
-      buttonTitle: t({ id: 'trip.alarm.imUp', message: "I'm up" }),
+      buttonTitle: t({ id: 'trip.alarm.imUp', message: 'I’m up' }),
       options: { opensAppToForeground: true },
     };
     const snoozeAction = {

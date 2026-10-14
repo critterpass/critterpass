@@ -71,7 +71,7 @@ export function RegionPackCardView(props: RegionPackCardViewProps) {
               {status === 'failed'
                 ? t({
                     id: 'explore.pack.failed',
-                    message: "The download didn't finish. Check your connection and try again.",
+                    message: 'The download didn’t finish. Check your connection and try again.',
                   })
                 : t({
                     id: 'explore.pack.offer',

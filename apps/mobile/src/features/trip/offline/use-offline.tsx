@@ -151,7 +151,7 @@ export function useOffline(
       ? t({
           id: 'trip.offline.notSaved',
           message:
-            "Today isn't saved to this phone yet. The plan still works; tickets and maps need signal.",
+            'Today isn’t saved to this phone yet. The plan still works; tickets and maps need signal.',
         })
       : day !== null && day.missing.length > 0
         ? t({

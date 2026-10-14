@@ -137,7 +137,7 @@ function clauses(reasons: readonly FitReason[], stopName: (id: string) => string
     out.push(t({ id: 'explore.detail.why.rain', message: `rain is likely ${from}–${to}` }));
   }
   if (find(reasons, 'hours_unknown') !== undefined) {
-    out.push(t({ id: 'explore.detail.why.hoursUnknown', message: "its hours aren't known" }));
+    out.push(t({ id: 'explore.detail.why.hoursUnknown', message: 'its hours aren’t known' }));
   }
   return out;
 }

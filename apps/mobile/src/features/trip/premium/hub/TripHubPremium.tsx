@@ -175,7 +175,7 @@ export function TripHubPremium({ tripId, onBack }: TripHubPremiumProps) {
               tone="info"
               text={t({
                 id: 'trip.hub.premium.offlineDay',
-                message: "No signal. Today's plan, passes and phrases are saved on this phone.",
+                message: 'No signal. Today’s plan, passes and phrases are saved on this phone.',
               })}
               action={{
                 label: t({ id: 'trip.hub.premium.offlineOpen', message: 'Open' }),

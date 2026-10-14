@@ -45,7 +45,7 @@ export function systemLine(
     case 'rejoin_asked':
       return t({ id: 'chat.system.rejoinAsked', message: `${name} would like to rejoin the crew` });
     case 'trip_settled':
-      return t({ id: 'chat.system.tripSettled', message: "All square: everyone's settled up" });
+      return t({ id: 'chat.system.tripSettled', message: 'All square: everyone’s settled up' });
     case 'rsvp_in':
       return t({ id: 'chat.system.rsvpIn', message: `${name} is in` });
     case 'rsvp_maybe':

@@ -35,7 +35,7 @@ export function toolStepLabel(tool: string): string {
     case 'fit_check':
       return t({ id: 'guide.step.fit', message: 'Checking it fits the day' });
     case 'crew_profiles':
-      return t({ id: 'guide.step.crew', message: "Checking what the crew's into" });
+      return t({ id: 'guide.step.crew', message: 'Checking what the crew’s into' });
     case 'bookable_activity':
       return t({ id: 'guide.step.bookable', message: 'Checking what can be booked' });
     case 'phrase_card':

@@ -102,7 +102,7 @@ export function useTakePlan(input: {
       }),
       refused: t({
         id: 'community.detail.copyFailed',
-        message: "That didn't go through. Try again in a moment.",
+        message: 'That didn’t go through. Try again in a moment.',
       }),
     });
     if (outcome === 'done') input.onChanged();
@@ -154,7 +154,7 @@ export function useTakePlan(input: {
           id: toastIds.copied(id),
           refused: t({
             id: 'community.detail.tripFailed',
-            message: "The trip didn't start. Try again in a moment.",
+            message: 'The trip didn’t start. Try again in a moment.',
           }),
         });
         return;

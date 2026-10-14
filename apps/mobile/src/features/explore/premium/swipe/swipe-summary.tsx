@@ -28,7 +28,7 @@ export function SwipeSummary({
       <Text variant="title">
         {ended
           ? t({ id: 'explore.swipe.endedTitle', message: 'This session is over' })
-          : t({ id: 'explore.swipe.doneTitle', message: "That's the deck" })}
+          : t({ id: 'explore.swipe.doneTitle', message: 'That’s the deck' })}
       </Text>
       {matches.length === 0 ? (
         <Text variant="body" tone="muted" testID="swipe-summary-none">

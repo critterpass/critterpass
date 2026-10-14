@@ -91,11 +91,11 @@ export const forecastLines = () => ({
   }),
   stale: t({
     id: 'trip.disruptions.forecast.stale',
-    message: "I couldn't check in the last three hours. This is the last I saw.",
+    message: 'I couldn’t check in the last three hours. This is the last I saw.',
   }),
   offline: t({
     id: 'trip.disruptions.forecast.offline',
-    message: "You're offline. This is the last forecast on your phone.",
+    message: 'You’re offline. This is the last forecast on your phone.',
   }),
   noForecast: t({
     id: 'trip.disruptions.forecast.noForecast',

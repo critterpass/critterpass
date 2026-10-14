@@ -113,7 +113,7 @@ export function GuestGuide({
             state.phase === 'error' ? (
               <View style={{ gap: theme.space.gap8 }} testID="guest-error">
                 <Text variant="body">
-                  {t({ id: 'vote.guest.error', message: "This place didn't load. Try again?" })}
+                  {t({ id: 'vote.guest.error', message: 'This place didn’t load. Try again?' })}
                 </Text>
                 <Button
                   label={t({ id: 'vote.guest.retryPlace', message: 'Try again' })}

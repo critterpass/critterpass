@@ -55,7 +55,7 @@ export function OurDriversPremium({ tripId }: { readonly tripId: string }) {
                     id: 'drivers.premium.offline',
                     message: 'This needs signal. Try again when you have some.',
                   })
-                : t({ id: 'drivers.premium.failed', message: "That didn't load. Try again." })}
+                : t({ id: 'drivers.premium.failed', message: 'That didn’t load. Try again.' })}
             </Text>
             <Button
               label={t({ id: 'drivers.premium.retry', message: 'Try again' })}
@@ -149,7 +149,7 @@ export function OurDriversPremium({ tripId }: { readonly tripId: string }) {
           <Text variant="captionMuted" tone="muted" align="center">
             {t({
               id: 'drivers.ours.noChase',
-              message: "I won't chase him. One nudge from you is plenty.",
+              message: 'I won’t chase him. One nudge from you is plenty.',
             })}
           </Text>
         ) : null}

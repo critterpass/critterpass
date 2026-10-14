@@ -130,7 +130,7 @@ describe('the phrase card', () => {
 
   it("reads a card without recorded audio in the phone's voice, and opens SHOW mode", async () => {
     await renderWithI18n(card(null));
-    expect(screen.getByText("Read in your phone's voice")).toBeTruthy();
+    expect(screen.getByText('Read in your phone’s voice')).toBeTruthy();
     await fireEvent.press(screen.getByLabelText('Play it out loud'));
     expect(mockSpeak).toHaveBeenCalledWith(
       'Tolong ke Villa Kayu Manis, Jalan Raya Sayan, Ubud.',
@@ -152,7 +152,7 @@ describe('the phrase card', () => {
     try {
       await renderWithI18n(card(null));
       expect(screen.queryByLabelText('Play it out loud')).toBeNull();
-      expect(screen.queryByText("Read in your phone's voice")).toBeNull();
+      expect(screen.queryByText('Read in your phone’s voice')).toBeNull();
     } finally {
       mockSpeechInstalled = true;
     }
