@@ -34,6 +34,7 @@ import { flowScreenshotNames, planCopies, type FlowScreens } from '../capture-fl
 import { failOnUiQa, pullUiQaLog, recordFlowUiQa, scanUiQa, type UiQaReport } from '../ui-qa-scan';
 import { adb, captureFailure, relaunchApp, startRunnerActions } from './device-state';
 import { recordFlowMeasurements } from './encode-totals';
+import { buildCommits, commitProblem } from './js-commit-proof';
 import { flowMinutes } from './flow-durations';
 import {
   attemptResult,
@@ -125,6 +126,18 @@ export function annotation(level: 'error' | 'warning', title: string, message: s
   return `::${level} title=${escape(title).replace(/[:,]/g, ' ')}::${escape(message)}`;
 }
 
+/**
+ * Maestro's iOS driver (an XCTest runner) is uninstalled, built into place and started again for
+ * every `maestro test`, a minute or more each time on a runner: after the shard's first flow has
+ * installed it, later flows reuse it (`--reinstall-driver=false`, a hidden Maestro 2 option) and
+ * only start it again when it is no longer running.
+ */
+export function driverArgs(platform: DevicePlatform, installed: boolean): string[] {
+  return platform === 'ios' && installed ? ['--reinstall-driver=false'] : [];
+}
+
+let driverInstalled = false;
+
 /** One Maestro run of one flow, stopped at the time limit; its report goes to `junit/<slug>.xml`. */
 function runAttempt(options: ShardOptions, flow: string, slug: string, envArgs: string[]) {
   const dir = path.join(options.out, 'maestro', slug);
@@ -141,7 +154,8 @@ function runAttempt(options: ShardOptions, flow: string, slug: string, envArgs: 
   const ended = spawnSync(
     MAESTRO,
     [
-      ...['--device', options.device, 'test', flow, '--format', 'junit', '--output', junit],
+      ...['--device', options.device, 'test', ...driverArgs(options.platform, driverInstalled)],
+      ...[flow, '--format', 'junit', '--output', junit],
       ...['--test-output-dir', dir, '--debug-output', dir, '--flatten-debug-output'],
       ...envArgs,
     ],
@@ -153,6 +167,7 @@ function runAttempt(options: ShardOptions, flow: string, slug: string, envArgs: 
     },
   );
   recorder?.stop();
+  driverInstalled = true;
   const seconds = Math.round((Date.now() - started) / 1000);
   const result = attemptResult(ended);
   if (result === 'timed out') writeFileSync(junit, timedOutJunit(slug, seconds, limit));
@@ -168,6 +183,7 @@ export function runShard(options: ShardOptions): {
   failed: string[];
   retried: string[];
   uiQa: Map<string, UiQaReport[]>;
+  builds: string[];
 } {
   if (!existsSync(MAESTRO)) throw new Error(`Maestro not found at ${MAESTRO}`);
   const shots = path.join(options.out, 'screenshots');
@@ -176,6 +192,11 @@ export function runShard(options: ShardOptions): {
   const failed: string[] = [];
   const retried: string[] = [];
   const uiQa = new Map<string, UiQaReport[]>();
+  const builds: string[] = [];
+  const read = (log: string) => {
+    builds.push(...buildCommits(log));
+    return log;
+  };
   const results: FlowScreens[] = options.flows.map((flow) => {
     const slug = flowSlug(flow, REPO_ROOT);
     const label = path.relative(REPO_ROOT, flow);
@@ -214,9 +235,12 @@ export function runShard(options: ShardOptions): {
       );
     }
     if (options.platform === 'ios') {
-      recordFlowUiQa(uiQa, flow, (appId) => pullUiQaLog(options.device, appId));
+      recordFlowUiQa(uiQa, flow, (appId) => read(pullUiQaLog(options.device, appId)));
     } else {
-      uiQa.set(label, scanUiQa(adb(options.device, ['logcat', '-d', '-s', 'ReactNativeJS:V'])));
+      uiQa.set(
+        label,
+        scanUiQa(read(adb(options.device, ['logcat', '-d', '-s', 'ReactNativeJS:V']))),
+      );
       recordFlowMeasurements(options.out, slug, (args) => adb(options.device, args));
       saveHierarchy(MAESTRO, options.device, path.join(options.out, 'hierarchy', `${slug}.json`));
     }
@@ -231,7 +255,7 @@ export function runShard(options: ShardOptions): {
   for (const { from, to } of planCopies(results, shots)) {
     if (existsSync(from)) copyFileSync(from, to);
   }
-  return { failed, retried, uiQa };
+  return { failed, retried, uiQa, builds };
 }
 
 function summary(line: string): void {
@@ -249,7 +273,17 @@ function main(): void {
   } finally {
     stopActions();
   }
-  const { failed, retried, uiQa } = shard;
+  const { failed, retried, uiQa, builds } = shard;
+  // The run's export carries the commit (device.yml); without one, a local run proves nothing.
+  const expected = process.env.JS_COMMIT;
+  const wrongBuild = expected ? commitProblem(builds, expected) : null;
+  if (wrongBuild) {
+    console.log(annotation('error', 'JS build', wrongBuild));
+    summary(`\nJS build: ${wrongBuild}`);
+    process.exitCode = 1;
+  } else if (expected) {
+    console.log(`JS build: every flow ran js:${expected}`);
+  }
   if (retried.length > 0) console.log(`Passed on retry: ${retried.join(', ')}`);
   for (const [flow, reports] of uiQa) {
     for (const report of reports)
