@@ -176,9 +176,10 @@ export function MemberSheet() {
               style={styles.removeRow}
               testID="crew-member-remove"
             >
-              <Text variant="body" color={th.color.destructive.listAction}>
+              <Text variant="body" color={th.color.destructive.listAction} style={styles.flex}>
                 {t({ id: 'crew.premium.member.removeRow', message: 'Remove from the crew' })}
               </Text>
+              <Icon name="forward" size={16} color={th.color.placeholder} />
             </PressableScale>
           ) : null}
         </ListCard>
@@ -203,5 +204,11 @@ const styles = StyleSheet.create({
   tileWrap: { marginTop: 16 },
   tile: { height: 92, alignItems: 'center', justifyContent: 'center', gap: 6 },
   rows: { marginTop: 12, marginBottom: 16 },
-  removeRow: { minHeight: 48, justifyContent: 'center', paddingHorizontal: 14 },
+  removeRow: {
+    minHeight: 48,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 14,
+  },
+  flex: { flex: 1 },
 });
