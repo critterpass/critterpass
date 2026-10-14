@@ -1,4 +1,5 @@
 import { noteTextLayoutEvent } from './layout-scan';
+import { noteTextCut } from './text-cut-state';
 import type { UiQaCode } from './ui-qa';
 
 interface Line {
@@ -75,9 +76,9 @@ export function textLayoutProblems({
 }: TextLayoutCheck): UiQaCode[] {
   noteTextLayoutEvent();
   const problems: UiQaCode[] = [];
-  if (truncationIsBug && (cutByFit || (lineLimited && isTruncated(lines, text)))) {
-    problems.push('TEXT_TRUNCATED');
-  }
+  const cut = truncationIsBug && (cutByFit || (lineLimited && isTruncated(lines, text)));
+  noteTextCut(text, cut);
+  if (cut) problems.push('TEXT_TRUNCATED');
   if (hasWordBreak(lines)) problems.push('TEXT_WORD_BROKEN');
   if (singleLine && lines.length > 1) problems.push('TEXT_WRAPPED');
   if (marksClipped) problems.push('TEXT_MARKS_CLIPPED');

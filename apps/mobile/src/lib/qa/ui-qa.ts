@@ -1,5 +1,8 @@
 import type * as ExpoFileSystemModule from 'expo-file-system';
 import Constants from 'expo-constants';
+import { Platform } from 'react-native';
+
+import { textBeingLaidOut, textStillCut } from './text-cut-state';
 
 /**
  * Runtime UI checks for development and e2e builds: shared components report layout problems the
@@ -57,6 +60,13 @@ function fileSink(): UiQaSink {
   };
 }
 
+/**
+ * How long an Android truncation waits for the text's settled layout (./text-cut-state): the
+ * auto-fit's second pass and a row's final width land well inside it.
+ */
+export const TRUNCATION_SETTLE_MS = 1000;
+const pending = new Set<string>();
+
 let sink: UiQaSink | null = null;
 const seen = new Set<string>();
 
@@ -72,16 +82,30 @@ function defaultSink(): UiQaSink {
 export function setUiQaSink(next: UiQaSink | null): void {
   sink = next;
   seen.clear();
+  pending.clear();
+}
+
+function emit(key: string, code: UiQaCode, subject: string, detail?: string): void {
+  seen.add(key);
+  sink ??= defaultSink();
+  sink(`${UI_QA_TAG} ${code} ${JSON.stringify(subject)}${detail ? ` ${detail}` : ''}`);
 }
 
 /** Reports one problem once per code + subject, so a re-render doesn't flood the log. */
 export function reportUiQa(code: UiQaCode, subject: string, detail?: string): void {
   if (!UI_QA_ENABLED) return;
   const key = `${code}|${subject}`;
-  if (seen.has(key)) return;
-  seen.add(key);
-  sink ??= defaultSink();
-  sink(`${UI_QA_TAG} ${code} ${JSON.stringify(subject)}${detail ? ` ${detail}` : ''}`);
+  if (seen.has(key) || pending.has(key)) return;
+  const text = code === 'TEXT_TRUNCATED' && Platform.OS === 'android' ? textBeingLaidOut() : null;
+  if (text === null) {
+    emit(key, code, subject, detail);
+    return;
+  }
+  pending.add(key);
+  setTimeout(() => {
+    pending.delete(key);
+    if (textStillCut(text)) emit(key, code, subject, detail);
+  }, TRUNCATION_SETTLE_MS);
 }
 
 /** The line that names the running JS build in the report log (./settled-marker). */
