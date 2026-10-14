@@ -60,6 +60,7 @@ export {
   ScrollEdgeFade,
   useScrollEdges,
 } from './screens/scroll-edge';
+export { TabPageScroll } from './screens/tab-page-scroll';
 export type {
   PhotoHeaderScrimProps,
   ScrollEdgeFadeProps,

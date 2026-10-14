@@ -21,7 +21,7 @@ import {
   usePremiumTheme,
   PressableScale,
 } from '@/ui/premium';
-import { RootScreen, type ShellAction } from '@/ui/premium/shell';
+import { RootScreen, TabPageScroll, type ShellAction } from '@/ui/premium/shell';
 
 import { useChatUnread } from '../data/session-rows';
 import {
@@ -42,7 +42,6 @@ import { useCrewSwitcherRequest } from './crew-switcher/open-request';
 import { GlassGlyphButton } from './components/glass-glyph-button';
 import { HomeGlyph } from './components/home-glyph';
 import { HomeSyncing } from './components/home-syncing';
-import { TabPageScroll } from './components/tab-bar-fade';
 import { PremiumDevTools } from './components/premium-dev-tools';
 import { CrewSection, FirstRunSection } from './home-sections';
 import { crewAvatars } from './use-premium-home';

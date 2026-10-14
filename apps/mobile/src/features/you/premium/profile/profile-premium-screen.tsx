@@ -7,10 +7,9 @@ import { router } from 'expo-router';
 import { createElement } from 'react';
 import { View } from 'react-native';
 
-import { TabPageScroll } from '@/features/home/premium/components/tab-bar-fade';
 import { MONETIZE_ROUTES } from '@/features/monetize';
 import { Text, usePremiumTheme } from '@/ui/premium';
-import { RootScreen } from '@/ui/premium/shell';
+import { RootScreen, TabPageScroll } from '@/ui/premium/shell';
 
 import { useMemberFaces } from '../../avatar/member-faces';
 import { useOwnerUid } from '../../data/live-rows';

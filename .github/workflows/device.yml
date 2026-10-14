@@ -176,11 +176,12 @@ jobs:
             echo "$line" >> "$GITHUB_STEP_SUMMARY"
           fi
           if [ "$preset" = sweep ]; then
-            # The iPhone leg on its own: the short iOS set (e2e/screens/ios-sweep.txt) on five
-            # shards (the iOS jobs' max-parallel) whatever the shards input says.
+            # The iPhone leg on its own: the short iOS set (e2e/screens/ios-sweep.txt) on four
+            # shards whatever the shards input says, so one of the five macOS runners stays free
+            # for CI's macOS jobs.
             if [ -z "$flows" ] && [ "$platform" = ios ]; then
               flows=$(grep -v '^[[:space:]]*#' e2e/screens/ios-sweep.txt | grep -v '^[[:space:]]*$' | tr '\n' ' ')
-              shards=5
+              shards=4
             fi
             # Every screen in both languages; sheets unless screenshots alone were asked for. Linux
             # runners are plentiful: sixteen Android shards, balanced by recorded flow time, so the
@@ -337,7 +338,7 @@ jobs:
     timeout-minutes: 120
     strategy:
       fail-fast: false
-      max-parallel: 5
+      max-parallel: 4
       matrix: ${{ fromJSON(needs.prepare.outputs.ios_matrix) }}
     steps:
       - uses: actions/checkout@v7

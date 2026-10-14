@@ -21,7 +21,7 @@ import {
   makePremiumStyles,
   usePremiumTheme,
 } from '@/ui/premium';
-import { RootScreen, type ShellAction } from '@/ui/premium/shell';
+import { RootScreen, TabPageScroll, type ShellAction } from '@/ui/premium/shell';
 
 import { tripDay } from '../../format';
 import { guideArt } from '../../guide-art';
@@ -29,7 +29,6 @@ import { HOME_ROUTES, homeRoutes } from '../../routes';
 import { tripDayOf } from '../../trip-day';
 import { LiveTripCard } from '../components/live-trip-card';
 import { Polaroid } from '../components/polaroid';
-import { TabPageScroll } from '../components/tab-bar-fade';
 import { EmptyPassport } from './empty-passport';
 import { TripMiniCard } from './trip-mini-card';
 import { splitTrips, type TripsFilter } from './trips-model';

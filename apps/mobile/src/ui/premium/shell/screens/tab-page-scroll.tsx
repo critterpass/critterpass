@@ -13,8 +13,8 @@ import {
   type ScrollViewProps,
 } from 'react-native';
 
-import { usePremiumTheme } from '@/ui/premium';
-import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from '@/ui/premium/shell';
+import { usePremiumTheme } from '../..';
+import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from './scroll-edge';
 
 /** A tab root page's scroll view with the fade under the tab bar drawn after it. */
 export function TabPageScroll({ onScroll, ...props }: ScrollViewProps) {

@@ -301,8 +301,8 @@ The sweep runs:
   sixteen shards balanced by flow time (the longest flows are split into light and dark halves,
   `*-dark.yaml`);
 - on an iPhone: `gh workflow run device.yml -f preset=sweep -f platform=ios [-f pr=<n>]` runs the
-  short iOS set in `e2e/screens/ios-sweep.txt` on five shards (all five macOS runners, so CI's
-  macOS jobs wait for it):
+  short iOS set in `e2e/screens/ios-sweep.txt` on four shards (one of the five macOS runners
+  stays free for CI's macOS jobs):
   native sheets and their grabber, keyboards, floating headers under the status bar and footers
   pinned over content (`e2e/screens/ios/`), and `long-data`. The founder's iPhone found what the
   Android sweep passed (a sheet's doubled top inset, titles under the clock), so this leg runs
@@ -482,7 +482,7 @@ on both platforms with the new builds:
 # Both find the e2e-test build that matches the native fingerprint (see Builds above):
 gh workflow run device.yml -f preset=happy -f platform=android
 gh workflow run device.yml -f preset=happy -f platform=ios -f shards=3
-# Then the iPhone leg of the UI sweep (five shards), once the happy runs have left the macOS runners:
+# Then the iPhone leg of the UI sweep (four shards), once the happy runs have left the macOS runners:
 gh workflow run device.yml -f preset=sweep -f platform=ios
 ```
 
