@@ -10,6 +10,7 @@ import { FlatList, Pressable, View } from 'react-native';
 
 import {
   Button,
+  EmptyState,
   Icon,
   SegmentedControl,
   StatusTag,
@@ -179,19 +180,37 @@ function Board() {
             </View>
           }
           ListEmptyComponent={
-            <Text variant="body" tone="muted" align="center" testID="help-ideas-empty">
-              {b.board.unavailable
-                ? t({
-                    id: 'help.ideas.offline',
-                    message: 'The board opens once you’re back online.',
-                  })
-                : b.tab === 'shipped'
-                  ? t({ id: 'help.ideas.noneShipped', message: 'Nothing shipped from here yet.' })
-                  : t({
-                      id: 'help.ideas.none',
-                      message: 'No ideas yet. Yours could be the first.',
-                    })}
-            </Text>
+            // Undesigned: the kit's empty state, clear of the floating Suggest button.
+            <View style={{ paddingTop: 24, paddingBottom: 120 }}>
+              <EmptyState
+                check={false}
+                critter={{ kind: 'gecko', name: 'Tokek' }}
+                title={
+                  b.board.unavailable
+                    ? t({ id: 'help.ideas.offlineTitle', message: 'The board is offline' })
+                    : b.tab === 'shipped'
+                      ? t({ id: 'help.ideas.noneShippedTitle', message: 'Nothing shipped yet' })
+                      : t({ id: 'help.ideas.noneTitle', message: 'No ideas yet' })
+                }
+                line={
+                  b.board.unavailable
+                    ? t({
+                        id: 'help.ideas.offline',
+                        message: 'The board opens once you’re back online.',
+                      })
+                    : b.tab === 'shipped'
+                      ? t({
+                          id: 'help.ideas.noneShippedLine',
+                          message: 'Ideas from this board land here once they’re built.',
+                        })
+                      : t({
+                          id: 'help.ideas.noneLine',
+                          message: 'Yours could be the first. Suggest one and everyone can vote.',
+                        })
+                }
+                testID="help-ideas-empty"
+              />
+            </View>
           }
           renderItem={({ item }) => <IdeaCard row={item} onVote={() => void b.onVote(item.id)} />}
         />
