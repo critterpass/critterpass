@@ -274,9 +274,15 @@ describe('screen-wide layout checks', () => {
     const reel = text('money-hero-amount "# # # # # # # # # #"', at(79, -721, 38, 861), {
       clip: window1,
     });
-    const currency = text('money-hero-amount "₫"', at(40, 75, 39, 62));
     const settle = control('money-settle', at(20, 432, 251, 56));
-    expect(codes({ texts: [reel, currency], controls: [settle], window })).toEqual([]);
+    const sameNumber = text('money-hero-amount "₫"', at(40, 75, 41, 62));
+    const bars = { label: 'money-bars', rect: at(20, 320, 371, 200) };
+    const barReel = text('money-bar "# # # # # # # # # #"', at(322, 300, 8, 190), {
+      clip: { label: 'money-bar', rect: at(322, 340, 8, 19) },
+      card: bars,
+      lineCount: 10,
+    });
+    expect(codes({ texts: [reel, sameNumber, barReel], controls: [settle], window })).toEqual([]);
     const nights = text('bookings-closed "# nights"', at(84, 263, 45, 12));
     const openCard = control('bookings-open-details', at(20, 272, 371, 249), { ownGround: true });
     expect(codes({ texts: [nights], controls: [openCard], window })).toEqual([]);

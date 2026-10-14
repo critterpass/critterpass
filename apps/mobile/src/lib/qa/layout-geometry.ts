@@ -47,6 +47,11 @@ export const HEADER_BAND = 0.3;
 const SQUEEZE_CARD_PT = 280;
 const SQUEEZE_LINES = 4;
 const SQUEEZE_SHARE = 0.4;
+/** Narrower than this, a column of lines is a stack of single glyphs (a number's reel). */
+const SQUEEZE_MIN_PT = 40;
+
+/** Who a text belongs to in a report: its testID or nearest testID ancestor. */
+const owner = (text: Placed) => text.label.split(' "')[0];
 
 export type LayoutCode = Extract<
   UiQaCode,
@@ -175,6 +180,8 @@ function pairProblems(
   shown.forEach((text, index) => {
     for (const other of shown.slice(index + 1)) {
       if (!comparable(text, other, window) || !overlaps(text.ink, other.ink)) continue;
+      // A rolling number's reels and the rest of that number are one drawing.
+      if ((text.windowed || other.windowed) && owner(text) === owner(other)) continue;
       if (hiddenEither(text, other, intersect(text.ink, other.ink))) continue;
       problems.push({
         code: 'TEXT_OVERLAP',
@@ -225,6 +232,8 @@ function boxProblems(text: Judged, topInset: number): LayoutProblem | null {
   const lines = text.lineCount ?? 0;
   if (
     card &&
+    !text.windowed &&
+    ink.width >= SQUEEZE_MIN_PT &&
     lines >= SQUEEZE_LINES &&
     card.rect.width >= SQUEEZE_CARD_PT &&
     ink.width < card.rect.width * SQUEEZE_SHARE
@@ -235,7 +244,7 @@ function boxProblems(text: Judged, topInset: number): LayoutProblem | null {
       detail: `(${String(lines)} lines ${String(Math.round(ink.width))}pt wide on a ${String(Math.round(card.rect.width))}pt card)`,
     };
   }
-  if (card && isCard(card.rect) && overlaps(card.rect, text.rect)) {
+  if (card && !text.windowed && isCard(card.rect) && overlaps(card.rect, text.rect)) {
     const tight = tightSides(card.rect, text.rect, CARD_INSET_PT);
     if (tight.length > 0)
       return {
