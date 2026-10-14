@@ -62,9 +62,11 @@ appId: app.critterpass.dev
                   LOOK: ${LOOK}
             - hideKeyboard:
                 optional: true
+            # The toast lasts a few seconds: the tap doesn't wait for the screen to settle.
             - tapOn:
                 id: 'money-add-submit'
                 optional: true
+                waitToSettleTimeoutMs: 200
             - extendedWaitUntil:
                 visible: 'Added .*'
                 timeout: 5000

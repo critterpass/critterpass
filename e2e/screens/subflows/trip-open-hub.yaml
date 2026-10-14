@@ -26,13 +26,27 @@ appId: app.critterpass.dev
       visible:
         id: 'home-(in-trip|next-up)'
     commands:
-      - tapOn:
-          id: 'home-(in-trip|next-up)'
+      - runFlow:
+          when:
+            true: ${ZOOM == ''}
+          commands:
+            - tapOn:
+                id: 'home-(in-trip|next-up)'
+      # The zoom is shot while the card still grows: that tap doesn't wait for the screen to settle,
+      # and the hub is waited for after the shot.
       - runFlow:
           when:
             true: ${ZOOM != ''}
           commands:
+            - tapOn:
+                id: 'home-(in-trip|next-up)'
+                waitToSettleTimeoutMs: 1
             - takeScreenshot: ${ZOOM}
+            - extendedWaitUntil:
+                visible:
+                  id: 'trip-hub'
+                timeout: 15000
+                optional: true
 - runFlow:
     when:
       notVisible:
