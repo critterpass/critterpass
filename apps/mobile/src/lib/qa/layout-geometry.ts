@@ -1,13 +1,24 @@
 import type { QaRect } from './header-overlap';
+import {
+  contains,
+  describeRect,
+  intersect,
+  onScreen,
+  overlaps,
+  sidesPast,
+  tightSides,
+  TOUCH_PT,
+  bottom,
+} from './layout-rects';
 import type { UiQaCode } from './ui-qa';
 
 /**
  * The geometry of the screen-wide layout checks (./layout-scan): what one settled, measured screen
  * shows that the design never allows. Pure functions over window rectangles, in points.
  *
- * - TEXT_OVERLAP: two texts drawn over each other (day tags piled up, a title under a date).
- * - TEXT_OVER_CONTROL: a text drawn under a control it is not part of (an eyebrow under the back
- *   button, a title running under a row's more button).
+ * - TEXT_OVERLAP: two texts' glyphs drawn over each other (day tags piled up, a title on a date).
+ * - TEXT_OVER_CONTROL: a text and a control it is not part of drawn over each other (an eyebrow
+ *   under the back button, a title running under a row's more button).
  * - TEXT_CLIPPED: a text cut by an ancestor that clips its children (a headline running past a
  *   card's rounded edge, a footnote cut at its foot).
  * - TEXT_PAST_PADDING: a text inside a card that reaches the card's edge (the card lost its inner
@@ -15,15 +26,12 @@ import type { UiQaCode } from './ui-qa';
  * - TEXT_UNDER_STATUS_BAR: a text drawn under the status bar before anyone scrolls (a page that
  *   grew past the screen's top, a header placed without the top safe area).
  *
- * Content in a scroll view moves under the screen's fixed parts by design, so a fixed control or
- * text is only judged against scrolled content when that content is at rest at the top and the
- * fixed part sits in the header band: what a floating header covers before anyone scrolls.
+ * What is covered is not judged: a text under a surface drawn later (the next card of a deck, a
+ * sheet over its page, a panel over a photo) does not show. Content in a scroll view moves under
+ * the screen's fixed parts by design, so a fixed control or text is only judged against scrolled
+ * content when that content is at rest at the top and the fixed part sits in the header band.
  */
 
-/** Anti-aliasing and rounding: edges this close only touch. */
-export const TOUCH_PT = 1;
-/** Two boxes must share more than this on both axes to count as drawn over each other. */
-export const OVERLAP_PT = 2;
 /** The least room a text keeps from its card's edges. */
 export const CARD_INSET_PT = 6;
 /** Smaller rounded surfaces are pills, tags and chips: their labels sit tight by design. */
@@ -39,6 +47,7 @@ export type LayoutCode = Extract<
   | 'TEXT_CLIPPED'
   | 'TEXT_PAST_PADDING'
   | 'TEXT_UNDER_STATUS_BAR'
+  | 'CONTROL_MISALIGNED'
 >;
 
 export interface LayoutProblem {
@@ -54,18 +63,32 @@ export interface PlacedLayer {
   readonly atRest: boolean;
 }
 
-interface Placed {
+/** A surface with a ground of its own, which hides what was drawn before it. */
+export interface PlacedGround {
+  readonly key: string;
+  /** Its place in drawing order. */
+  readonly paint: number;
+  readonly rect: QaRect;
+}
+
+export interface Placed {
   /** Names the box in a report: its testID, or its nearest testID ancestor and its words. */
   readonly label: string;
   readonly rect: QaRect;
   /** The screen (route) it belongs to: boxes of different screens are never compared. */
   readonly screen: string;
   readonly layer: PlacedLayer | null;
-  /** Inside a map or another surface whose labels may meet by design. */
+  /** Inside a map, whose labels may meet by design. */
   readonly free: boolean;
+  /** Its place in drawing order: a later box draws over an earlier one. */
+  readonly paint: number;
+  /** The grounds it sits on, outermost first. */
+  readonly grounds: readonly PlacedGround[];
 }
 
 export interface PlacedText extends Placed {
+  /** Where its glyphs draw (./layout-rects `inkOf`). */
+  readonly ink: QaRect;
   /** Keys of the controls this text is part of. */
   readonly controls: readonly string[];
   /** The nearest ancestor (within its layer) that clips its children. */
@@ -86,38 +109,6 @@ export interface LayoutInput {
   readonly topInset?: number;
 }
 
-const right = (r: QaRect) => r.x + r.width;
-const bottom = (r: QaRect) => r.y + r.height;
-
-/** How far two boxes share each axis (negative when apart). */
-function shared(a: QaRect, b: QaRect): { dx: number; dy: number } {
-  return {
-    dx: Math.min(right(a), right(b)) - Math.max(a.x, b.x),
-    dy: Math.min(bottom(a), bottom(b)) - Math.max(a.y, b.y),
-  };
-}
-
-export function overlaps(a: QaRect, b: QaRect): boolean {
-  const { dx, dy } = shared(a, b);
-  return dx > OVERLAP_PT && dy > OVERLAP_PT;
-}
-
-export function contains(outer: QaRect, inner: QaRect): boolean {
-  return (
-    inner.x >= outer.x - TOUCH_PT &&
-    inner.y >= outer.y - TOUCH_PT &&
-    right(inner) <= right(outer) + TOUCH_PT &&
-    bottom(inner) <= bottom(outer) + TOUCH_PT
-  );
-}
-
-/** Drawn and at least partly inside the window. */
-export function onScreen(r: QaRect, window: LayoutInput['window']): boolean {
-  if (r.width <= TOUCH_PT || r.height <= TOUCH_PT) return false;
-  const { dx, dy } = shared(r, { x: 0, y: 0, ...window });
-  return dx > TOUCH_PT && dy > TOUCH_PT;
-}
-
 /**
  * Whether two boxes of one screen are judged against each other: the same layer always; a fixed
  * box in the header band against content at rest; otherwise never (content scrolls under fixed
@@ -132,37 +123,83 @@ export function comparable(a: Placed, b: Placed, window: LayoutInput['window']):
   return bottom(fixed.rect) <= window.height * HEADER_BAND;
 }
 
-const round = (n: number) => Math.round(n);
-export function describeRect(r: QaRect): string {
-  return `x=${String(round(r.x))} y=${String(round(r.y))} w=${String(round(r.width))} h=${String(round(r.height))}`;
+/** `region` of `lower` is hidden by a ground `upper` sits on that was drawn after `lower`. */
+export function covered(lower: Placed, upper: Placed, region: QaRect): boolean {
+  const own = new Set(lower.grounds.map((ground) => ground.key));
+  return upper.grounds.some(
+    (ground) => ground.paint > lower.paint && !own.has(ground.key) && contains(ground.rect, region),
+  );
 }
 
-/** Room `inner` keeps from each edge of `outer` (negative past it). */
-function insets(outer: QaRect, inner: QaRect): [string, number][] {
-  return [
-    ['top', inner.y - outer.y],
-    ['bottom', bottom(outer) - bottom(inner)],
-    ['left', inner.x - outer.x],
-    ['right', right(outer) - right(inner)],
-  ];
-}
-
-/** The sides of `inner` past `outer`, by how much: `bottom 6pt, right 12pt`. */
-export function sidesPast(outer: QaRect, inner: QaRect): string[] {
-  return insets(outer, inner)
-    .filter(([, room]) => room < -TOUCH_PT)
-    .map(([side, room]) => `${side} ${String(round(-room))}pt`);
-}
-
-/** The sides of `inner` closer than `least` to the edges of `outer`, with the room they keep. */
-export function tightSides(outer: QaRect, inner: QaRect, least: number): string[] {
-  return insets(outer, inner)
-    .filter(([, room]) => room < least - TOUCH_PT)
-    .map(([side, room]) => `${side} ${String(round(room))}pt`);
+function hiddenEither(a: Placed, b: Placed, region: QaRect): boolean {
+  return a.paint < b.paint ? covered(a, b, region) : covered(b, a, region);
 }
 
 function isCard(r: QaRect): boolean {
   return r.width >= CARD_MIN_WIDTH && r.height >= CARD_MIN_HEIGHT;
+}
+
+function pairProblems(
+  shown: readonly PlacedText[],
+  controls: readonly PlacedControl[],
+  window: LayoutInput['window'],
+): LayoutProblem[] {
+  const problems: LayoutProblem[] = [];
+  shown.forEach((text, index) => {
+    for (const other of shown.slice(index + 1)) {
+      if (!comparable(text, other, window) || !overlaps(text.ink, other.ink)) continue;
+      if (hiddenEither(text, other, intersect(text.ink, other.ink))) continue;
+      problems.push({
+        code: 'TEXT_OVERLAP',
+        subject: `${text.screen}: ${text.label} overlaps ${other.label}`,
+        detail: `(${describeRect(text.ink)}; ${describeRect(other.ink)})`,
+      });
+    }
+    for (const control of controls) {
+      if (text.controls.includes(control.key)) continue;
+      if (!comparable(text, control, window) || !overlaps(text.ink, control.rect)) continue;
+      // A control laid over the whole text is the row it reads as (a tap area over a card).
+      if (contains(control.rect, text.rect)) continue;
+      if (hiddenEither(text, control, intersect(text.ink, control.rect))) continue;
+      problems.push({
+        code: 'TEXT_OVER_CONTROL',
+        subject: `${text.screen}: ${text.label} under ${control.label}`,
+        detail: `(${describeRect(text.ink)}; ${describeRect(control.rect)})`,
+      });
+    }
+  });
+  return problems;
+}
+
+function boxProblems(text: PlacedText, topInset: number): LayoutProblem | null {
+  const { clip, card, ink } = text;
+  const resting = text.layer === null || text.layer.atRest;
+  if (resting && !text.free && ink.y < topInset - TOUCH_PT) {
+    return {
+      code: 'TEXT_UNDER_STATUS_BAR',
+      subject: `${text.screen}: ${text.label}`,
+      detail: `(glyphs from ${String(Math.round(ink.y))}pt, the status bar ends at ${String(Math.round(topInset))}pt; ${describeRect(ink)})`,
+    };
+  }
+  if (clip && overlaps(clip.rect, ink)) {
+    const past = sidesPast(clip.rect, ink);
+    if (past.length > 0)
+      return {
+        code: 'TEXT_CLIPPED',
+        subject: `${text.screen}: ${text.label} cut by ${clip.label}`,
+        detail: `(${past.join(', ')}; ${describeRect(ink)} in ${describeRect(clip.rect)})`,
+      };
+  }
+  if (card && isCard(card.rect) && overlaps(card.rect, text.rect)) {
+    const tight = tightSides(card.rect, text.rect, CARD_INSET_PT);
+    if (tight.length > 0)
+      return {
+        code: 'TEXT_PAST_PADDING',
+        subject: `${text.screen}: ${text.label} at the edge of ${card.label}`,
+        detail: `(room ${tight.join(', ')}, at least ${String(CARD_INSET_PT)}pt; ${describeRect(text.rect)} in ${describeRect(card.rect)})`,
+      };
+  }
+  return null;
 }
 
 /** Every problem one measured screen shows, one per pair or text. */
@@ -172,63 +209,12 @@ export function layoutProblems({
   window,
   topInset = 0,
 }: LayoutInput): LayoutProblem[] {
-  const problems: LayoutProblem[] = [];
-  const shown = texts.filter((t) => onScreen(t.rect, window));
+  const shown = texts.filter((t) => onScreen(t.ink, window));
   const shownControls = controls.filter((c) => onScreen(c.rect, window));
-
-  shown.forEach((text, index) => {
-    for (const other of shown.slice(index + 1)) {
-      if (!comparable(text, other, window) || !overlaps(text.rect, other.rect)) continue;
-      problems.push({
-        code: 'TEXT_OVERLAP',
-        subject: `${text.screen}: ${text.label} overlaps ${other.label}`,
-        detail: `(${describeRect(text.rect)}; ${describeRect(other.rect)})`,
-      });
-    }
-    for (const control of shownControls) {
-      if (text.controls.includes(control.key)) continue;
-      if (!comparable(text, control, window) || !overlaps(text.rect, control.rect)) continue;
-      // A control laid over the whole text is the row it reads as (a tap area over a card).
-      if (contains(control.rect, text.rect)) continue;
-      problems.push({
-        code: 'TEXT_OVER_CONTROL',
-        subject: `${text.screen}: ${text.label} under ${control.label}`,
-        detail: `(${describeRect(text.rect)}; ${describeRect(control.rect)})`,
-      });
-    }
-  });
-
+  const problems = pairProblems(shown, shownControls, window);
   for (const text of shown) {
-    const { clip, card } = text;
-    const resting = text.layer === null || text.layer.atRest;
-    if (resting && !text.free && text.rect.y < topInset - TOUCH_PT) {
-      problems.push({
-        code: 'TEXT_UNDER_STATUS_BAR',
-        subject: `${text.screen}: ${text.label}`,
-        detail: `(top at ${String(round(text.rect.y))}pt, the status bar ends at ${String(round(topInset))}pt; ${describeRect(text.rect)})`,
-      });
-      continue;
-    }
-    if (clip && overlaps(clip.rect, text.rect)) {
-      const past = sidesPast(clip.rect, text.rect);
-      if (past.length > 0) {
-        problems.push({
-          code: 'TEXT_CLIPPED',
-          subject: `${text.screen}: ${text.label} cut by ${clip.label}`,
-          detail: `(${past.join(', ')}; ${describeRect(text.rect)} in ${describeRect(clip.rect)})`,
-        });
-        continue;
-      }
-    }
-    if (card && isCard(card.rect) && overlaps(card.rect, text.rect)) {
-      const tight = tightSides(card.rect, text.rect, CARD_INSET_PT);
-      if (tight.length > 0)
-        problems.push({
-          code: 'TEXT_PAST_PADDING',
-          subject: `${text.screen}: ${text.label} at the edge of ${card.label}`,
-          detail: `(room ${tight.join(', ')}, at least ${String(CARD_INSET_PT)}pt; ${describeRect(text.rect)} in ${describeRect(card.rect)})`,
-        });
-    }
+    const problem = boxProblems(text, topInset);
+    if (problem) problems.push(problem);
   }
   return problems;
 }

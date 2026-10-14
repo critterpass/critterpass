@@ -81,19 +81,24 @@ that overlap or leave the screen, pushed screens with no back or close control, 
 draw nothing. Once a screen's layouts settle, its focused screens are also measured whole
 (`layout-scan.ts`, read from React's committed tree, so no component opts in):
 
-- `TEXT_OVERLAP`: two texts drawn over each other.
-- `TEXT_OVER_CONTROL`: a text under a control it is not part of (an eyebrow under the back button,
-  a title under a row's more button). A control laid over the whole text (a tap area over a card)
-  is the text's own row.
+- `TEXT_OVERLAP`: two texts' glyphs drawn over each other (where the words of each line draw,
+  without the leading a caption and its value share by design).
+- `TEXT_OVER_CONTROL`: a text and a control it is not part of drawn over each other (an eyebrow
+  under the back button, a title under a row's more button). A control laid over the whole text
+  (a tap area over a card) is the text's own row.
 - `TEXT_CLIPPED`: a text cut by an ancestor with `overflow: 'hidden'`.
-- `TEXT_PAST_PADDING`: a text closer than 6 pt to the edge of the card it sits on (a rounded surface
-  with a ground, at least 120 × 56 pt).
+- `TEXT_PAST_PADDING`: a text closer than 6 pt to the edge of the card it sits on (a surface with
+  a ground and all four corners rounded, at least 120 × 56 pt).
 - `TEXT_UNDER_STATUS_BAR`: a text above the top safe-area inset before anyone scrolls.
+- `CONTROL_MISALIGNED`: a text button stacked under a wide button with centred words, on the same
+  surface, with its words off that centre (a "Cancel" set at the left edge under a centred primary).
 
-Content in a scroll view is only judged against the screen's fixed parts while it is at rest and
-the fixed part is in the top 30% (a floating header), so content scrolling under a header or
-sitting under a footer is not reported; map labels are never compared. Each report names the
-screen (route) and the text's testID or nearest testID ancestor with its words (digits as `#`).
+What a surface drawn later covers is not judged (the card behind in a deck, the page under a
+sheet, a panel over a photo), nor are the words drawn into artwork (a view read as one image, such
+as a stamp). Content in a scroll view is only judged against the screen's fixed parts while it is
+at rest and the fixed part is in the top 30% (a floating header), so content scrolling under a
+header or sitting under a footer is not reported; map labels are never compared. Each report names
+the screen (route) and the text's testID or nearest testID ancestor with its words (digits as `#`).
 A label the design does set on two lines says so on its `Text` with
 `singleLine={false}`, the one exemption from the wrap check; `git grep 'singleLine={false}'` lists
 every one for review. A screen that is sparse on purpose opts out of `EMPTY_SCREEN` (and only that

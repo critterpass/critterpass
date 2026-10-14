@@ -1,13 +1,16 @@
 import { describe, expect, it } from '@jest/globals';
 
 import type { QaRect } from '../header-overlap';
+import { alignmentProblems } from '../layout-alignment';
 import {
   comparable,
   layoutProblems,
   type PlacedControl,
+  type PlacedGround,
   type PlacedLayer,
   type PlacedText,
 } from '../layout-geometry';
+import { inkOf, type QaLine } from '../layout-rects';
 
 const window = { width: 393, height: 852 };
 const at = (x: number, y: number, width: number, height: number): QaRect => ({
@@ -19,11 +22,45 @@ const at = (x: number, y: number, width: number, height: number): QaRect => ({
 const content: PlacedLayer = { id: 'content', atRest: true };
 const scrolled: PlacedLayer = { id: 'content', atRest: false };
 
-function text(label: string, rect: QaRect, extra: Partial<PlacedText> = {}): PlacedText {
-  return { label, rect, screen: 'trip', layer: null, free: false, controls: [], ...extra };
+// Drawing order follows the order a test makes its boxes in, as React draws siblings.
+let painted = 0;
+function text(
+  label: string,
+  rect: QaRect,
+  extra: Partial<PlacedText> & { lines?: QaLine[] } = {},
+): PlacedText {
+  painted += 1;
+  const { lines, ...rest } = extra;
+  return {
+    label,
+    rect,
+    ink: inkOf(rect, lines),
+    screen: 'trip',
+    layer: null,
+    free: false,
+    paint: painted,
+    grounds: [],
+    controls: [],
+    ...rest,
+  };
 }
 function control(key: string, rect: QaRect, extra: Partial<PlacedControl> = {}): PlacedControl {
-  return { key, label: key, rect, screen: 'trip', layer: null, free: false, ...extra };
+  painted += 1;
+  return {
+    key,
+    label: key,
+    rect,
+    screen: 'trip',
+    layer: null,
+    free: false,
+    paint: painted,
+    grounds: [],
+    ...extra,
+  };
+}
+function ground(key: string, rect: QaRect): PlacedGround {
+  painted += 1;
+  return { key, paint: painted, rect };
 }
 const codes = (input: Parameters<typeof layoutProblems>[0]) =>
   layoutProblems(input).map((p) => `${p.code} ${p.subject}`);
@@ -31,6 +68,9 @@ const codes = (input: Parameters<typeof layoutProblems>[0]) =>
 describe('screen-wide layout checks', () => {
   it('passes a column of texts that only touch, and a label inside its own button', () => {
     const texts = [
+      // A field's caption over its value share only their leading.
+      text('"GIVEN NAME · PRÉNOM"', at(120, 79, 250, 23), { screen: 'pass' }),
+      text('"Winston Bart"', at(120, 98, 125, 33), { screen: 'pass' }),
       text('"Hà Nội"', at(20, 140, 200, 60)),
       text('"Oct 23–29 · 1 going"', at(20, 201, 180, 18)),
       text('"Lock Oct 28 – Nov 3"', at(120, 760, 150, 22), { controls: ['lock'] }),
@@ -42,7 +82,7 @@ describe('screen-wide layout checks', () => {
   it('reports day tags piled on each other', () => {
     const texts = [
       text('"Day # · Old Quarter evening…"', at(36, 418, 200, 18)),
-      text('"Day # · Lakes and markets"', at(36, 432, 160, 18)),
+      text('"Day # · Lakes and markets"', at(36, 426, 160, 18)),
     ];
     expect(codes({ texts, controls: [], window })).toEqual([
       'TEXT_OVERLAP trip: "Day # · Old Quarter evening…" overlaps "Day # · Lakes and markets"',
@@ -51,7 +91,7 @@ describe('screen-wide layout checks', () => {
 
   it('reports the trip eyebrow drawn under the back button, not the title beside it', () => {
     const texts = [
-      text('trip-hub-eyebrow', at(26, 112, 140, 18), { layer: content }),
+      text('trip-hub-eyebrow', at(26, 108, 140, 18), { layer: content }),
       text('"Hà Nội"', at(24, 136, 190, 64), { layer: content }),
     ];
     const controls = [control('glass-back', at(20, 68, 48, 48))];
@@ -103,7 +143,7 @@ describe('screen-wide layout checks', () => {
     const texts = [
       text('pitch-eyebrow', at(130, 264, 120, 16), { card }),
       text('pitch-headline', at(130, 282, 260, 84), { card, clip: card }),
-      text('pitch-written-by-ai', at(42, 664, 100, 20), { card, clip: card }),
+      text('pitch-written-by-ai', at(42, 668, 100, 20), { card, clip: card }),
       text('pitch-reason', at(42 + 16, 450, 260, 40), { card, clip: card }),
     ];
     expect(layoutProblems({ texts, controls: [], window })).toEqual([
@@ -120,7 +160,7 @@ describe('screen-wide layout checks', () => {
       expect.objectContaining({
         code: 'TEXT_CLIPPED',
         subject: 'trip: pitch-written-by-ai cut by pitch-card',
-        detail: expect.stringContaining('bottom 2pt'),
+        detail: expect.stringContaining('bottom 3pt'),
       }),
     ]);
   });
@@ -142,5 +182,73 @@ describe('screen-wide layout checks', () => {
     expect(
       codes({ texts: [title, scrolledTitle, header], controls: [], window, topInset: 59 }),
     ).toEqual(['TEXT_UNDER_STATUS_BAR trip: drafting-title']);
+  });
+
+  it('judges a title by where its words draw, not by the box that stretches the row', () => {
+    const title = text('home-screen "Home"', at(44, 58, 323, 46), {
+      lines: [{ x: 0, y: 0, width: 120, height: 46 }],
+    });
+    const bell = control('home-bell', at(296, 56, 44, 44));
+    expect(codes({ texts: [title], controls: [bell], window })).toEqual([]);
+    const long = text('home-screen "Flying Dragon Supper"', at(44, 58, 323, 46), {
+      lines: [{ x: 0, y: 0, width: 280, height: 46 }],
+    });
+    expect(codes({ texts: [long], controls: [bell], window })).toEqual([
+      'TEXT_OVER_CONTROL trip: home-screen "Flying Dragon Supper" under home-bell',
+    ]);
+  });
+
+  it('leaves what a later surface covers: the card behind in a deck, the page under a sheet', () => {
+    const page = ground('page', at(0, 0, 393, 852));
+    const behind = text('"Mount Agung"', at(59, 695, 293, 33), { grounds: [page] });
+    const topCard = ground('top-card', at(40, 420, 330, 340));
+    const top = text('"Ulun Danu Batur Temple"', at(48, 694, 315, 35), {
+      grounds: [page, topCard],
+    });
+    const footer = text('"Pitch to the crew"', at(64, 815, 126, 23), { grounds: [page] });
+    const sheet = ground('sheet', at(8, 450, 377, 402));
+    const notNow = control('solo-cancel', at(30, 805, 57, 44), { grounds: [page, sheet] });
+    expect(codes({ texts: [behind, top, footer], controls: [notNow], window })).toEqual([]);
+    // The same deck with the top card drawn first: its title shows through the one above it.
+    const early = text('"Ulun Danu Batur Temple"', at(48, 694, 315, 35), { grounds: [page] });
+    const late = text('"Mount Agung"', at(59, 695, 293, 33), { grounds: [page] });
+    expect(codes({ texts: [early, late], controls: [], window })).toHaveLength(1);
+  });
+
+  it('reports a text button set at the left edge under a centred primary button', () => {
+    const sheet = ground('page', at(0, 0, 393, 852));
+    const primary = control('draft-later', at(24, 736, 345, 58), { grounds: [sheet] });
+    const primaryLabel = text('"Come back later"', at(120, 755, 153, 22), {
+      controls: ['draft-later'],
+      grounds: [sheet],
+    });
+    const cancel = control('draft-cancel', at(24, 806, 345, 30), { grounds: [sheet] });
+    const cancelLabel = text('"Cancel the draft"', at(24, 810, 115, 20), {
+      controls: ['draft-cancel'],
+      grounds: [sheet],
+    });
+    const input = {
+      texts: [primaryLabel, cancelLabel],
+      controls: [primary, cancel],
+      window,
+    };
+    expect(alignmentProblems(input).map((p) => p.subject)).toEqual([
+      'trip: draft-cancel off the centre of draft-later',
+    ]);
+    const centred = text('"Cancel the draft"', at(139, 810, 115, 20), {
+      controls: ['draft-cancel'],
+      grounds: [sheet],
+    });
+    expect(alignmentProblems({ ...input, texts: [primaryLabel, centred] })).toEqual([]);
+    // A list row under the button sits on its own card: not the button's pair.
+    const card = ground('card', at(16, 806, 361, 60));
+    const row = control('row', at(16, 806, 361, 60), { grounds: [sheet, card] });
+    const rowTitle = text('"Mỹ Khê Beach"', at(32, 816, 100, 20), {
+      controls: ['row'],
+      grounds: [sheet, card],
+    });
+    expect(
+      alignmentProblems({ texts: [primaryLabel, rowTitle], controls: [primary, row], window }),
+    ).toEqual([]);
   });
 });

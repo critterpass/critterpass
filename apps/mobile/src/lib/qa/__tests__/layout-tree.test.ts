@@ -142,6 +142,35 @@ describe('layout tree', () => {
     expect(time?.layer).not.toBeNull();
   });
 
+  it('leaves artwork out, keeps grounds in drawing order, and takes a top-rounded band for no card', () => {
+    const root = tree([
+      screen('issued', true, [
+        host('RCTView', { style: { ...card, overflow: 'visible' } }, at(17, 84, 377, 300), [
+          words('GIVEN NAME', at(120, 100, 200, 20)),
+          host('RCTView', { accessible: true, accessibilityRole: 'image' }, at(250, 300, 100, 60), [
+            words('ISSUED', at(256, 317, 93, 52)),
+          ]),
+        ]),
+        host(
+          'RCTView',
+          { style: { ...card, borderBottomLeftRadius: 0, borderBottomRightRadius: 0 } },
+          at(0, 296, 411, 120),
+          [words('Jimbaran', at(20, 398, 371, 18))],
+        ),
+      ]),
+    ]);
+    const result = collectLayoutTree(root, contexts);
+    expect(result.texts.map((t) => t.words)).toEqual(['GIVEN NAME', 'Jimbaran']);
+    const [name, place] = result.texts;
+    expect(name?.card).not.toBeNull();
+    expect(place?.card).toBeNull();
+    // Both sit on a ground; the band drawn after the pass covers what the pass drew.
+    const passGround = name?.grounds.at(-1) ?? -1;
+    const bandGround = place?.grounds.at(-1) ?? -1;
+    expect(result.paints.get(bandGround) ?? 0).toBeGreaterThan(name?.paint ?? 0);
+    expect(result.paints.get(passGround) ?? 0).toBeLessThan(name?.paint ?? 0);
+  });
+
   it('marks map labels free and names texts with ticking digits once', () => {
     const root = tree([
       screen('plan', true, [
@@ -176,9 +205,9 @@ describe('layout scan', () => {
     const root = tree([
       screen('[tripId]/index', true, [
         host('RCTView', { testID: 'glass-back', onClick: () => undefined }, at(20, 68, 48, 48)),
-        words('Oct 23–29 · 1 going', at(26, 112, 140, 18), { testID: 'trip-hub-eyebrow' }),
+        words('Oct 23–29 · 1 going', at(26, 108, 140, 18), { testID: 'trip-hub-eyebrow' }),
         words('Day 1 · Old Quarter', at(36, 418, 200, 18)),
-        words('Day 2 · Lakes and markets', at(36, 432, 160, 18)),
+        words('Day 2 · Lakes and markets', at(36, 426, 160, 18)),
       ]),
     ]);
     const element = (

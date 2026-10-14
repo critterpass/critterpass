@@ -4,13 +4,15 @@ import { Dimensions } from 'react-native';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 
 import type { QaMeasurable, QaRect } from './header-overlap';
+import { alignmentProblems } from './layout-alignment';
 import {
   layoutProblems,
-  TOUCH_PT,
   type PlacedControl,
+  type PlacedGround,
   type PlacedLayer,
   type PlacedText,
 } from './layout-geometry';
+import { inkOf, TOUCH_PT, type QaLine } from './layout-rects';
 import { collectLayoutTree, hostRootOf, type FiberLike, type LayoutTree } from './layout-tree';
 import { reportUiQa, UI_QA_ENABLED } from './ui-qa';
 
@@ -22,8 +24,9 @@ import { reportUiQa, UI_QA_ENABLED } from './ui-qa';
  * No component opts in. Every premium text already runs the text checks (./text-layout-check)
  * inside its native layout event; while that event is dispatched, React Native holds it in
  * `global.event`, whose `currentTarget` is the text's native element. That element leads to the
- * tree's root once, and every later text layout only restarts the settle timer. Navigation
- * restarts it too (./back-affordance), for a screen shown again without a new layout.
+ * tree's root once; every text layout keeps the text's lines (where its glyphs draw) and restarts
+ * the settle timer. Navigation restarts it too (./back-affordance), for a screen shown again
+ * without a new layout.
  *
  * Cost: development and e2e builds only; one timer per burst of layouts, then two measuring passes
  * over the focused screens' texts and the boxes around them.
@@ -51,6 +54,8 @@ interface FabricUiManager {
 
 let root: FiberRootLike | null = null;
 let timer: ReturnType<typeof setTimeout> | null = null;
+/** Each native text's lines, by the instance React keeps for it across commits. */
+let linesByText = new WeakMap<object, readonly QaLine[]>();
 
 function fabric(): FabricUiManager | undefined {
   return (globalThis as { nativeFabricUIManager?: FabricUiManager }).nativeFabricUIManager;
@@ -122,6 +127,11 @@ function atRest(fiber: FiberLike): boolean {
   return typeof top === 'number' && typeof left === 'number' && top <= 1 && left <= 1;
 }
 
+function linesOf(fiber: FiberLike): readonly QaLine[] | undefined {
+  const canonical = hostState(fiber).canonical;
+  return canonical ? linesByText.get(canonical) : undefined;
+}
+
 /** The measured tree as the geometry reads it; boxes that did not measure are left out. */
 export function placeTree(
   tree: LayoutTree,
@@ -143,6 +153,12 @@ export function placeTree(
     if (box === null || !rect) return undefined;
     return { label: tree.labels.get(box) ?? 'a parent', rect };
   };
+  const grounds = (boxes: readonly number[]): PlacedGround[] =>
+    boxes.flatMap((box) => {
+      const rect = rects[box];
+      const paint = tree.paints.get(box);
+      return rect && paint !== undefined ? [{ key: String(box), paint, rect }] : [];
+    });
   const texts: PlacedText[] = [];
   for (const text of tree.texts) {
     const rect = rects[text.box];
@@ -150,9 +166,12 @@ export function placeTree(
     texts.push({
       label: text.label,
       rect,
+      ink: inkOf(rect, text.lines),
       screen: text.screen,
       layer: layer(text.layer),
       free: text.free,
+      paint: text.paint,
+      grounds: grounds(text.grounds),
       controls: text.controls.map(String),
       clip: around(text.clip),
       card: around(text.card),
@@ -169,6 +188,8 @@ export function placeTree(
       screen: control.screen,
       layer: layer(control.layer),
       free: control.free,
+      paint: control.paint,
+      grounds: grounds(control.grounds),
     });
   }
   return { texts, controls };
@@ -181,7 +202,8 @@ function judge(tree: LayoutTree, rects: readonly (QaRect | null)[]): void {
     return fiber !== undefined && atRest(fiber);
   });
   const topInset = initialWindowMetrics?.insets.top ?? 0;
-  for (const problem of layoutProblems({ ...placed, window, topInset }))
+  const input = { ...placed, window, topInset };
+  for (const problem of [...layoutProblems(input), ...alignmentProblems(input)])
     reportUiQa(problem.code, problem.subject, problem.detail);
 }
 
@@ -191,6 +213,7 @@ function scan(): void {
   const tree = collectLayoutTree(root.current, {
     route: NavigationRouteContext,
     focused: IsFocusedContext,
+    linesOf,
   });
   const sample = (previous: (QaRect | null)[] | null, count: number) => {
     measureAll(tree.boxes, (rects) => {
@@ -218,10 +241,18 @@ export function scheduleLayoutScan(): void {
  */
 export function noteTextLayoutEvent(): void {
   if (!UI_QA_ENABLED) return;
+  const event = (
+    globalThis as {
+      event?: { currentTarget?: unknown; nativeEvent?: { lines?: readonly QaLine[] } };
+    }
+  ).event;
+  const element = event?.currentTarget as NativeElementLike | null | undefined;
+  const fiber = element?.__internalInstanceHandle;
+  const canonical = fiber ? hostState(fiber).canonical : undefined;
+  const lines = event?.nativeEvent?.lines;
+  if (canonical && Array.isArray(lines)) linesByText.set(canonical, lines);
   if (root === null) {
-    const event = (globalThis as { event?: { currentTarget?: unknown } }).event;
-    const element = event?.currentTarget as NativeElementLike | null | undefined;
-    const hostRoot = hostRootOf(element?.__internalInstanceHandle);
+    const hostRoot = hostRootOf(fiber);
     const state = hostRoot?.stateNode as FiberRootLike | undefined;
     if (state?.current === undefined) return;
     root = state;
@@ -234,4 +265,5 @@ export function resetLayoutScan(): void {
   if (timer !== null) clearTimeout(timer);
   timer = null;
   root = null;
+  linesByText = new WeakMap();
 }

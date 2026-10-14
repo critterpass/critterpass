@@ -1,11 +1,15 @@
 import { StyleSheet } from 'react-native';
 import type { ViewStyle } from 'react-native';
 
+import type { QaLine } from './layout-rects';
+
 /**
  * Reads what the screen-wide layout checks (./layout-scan) judge straight from React's committed
  * tree, so no component has to opt in: every native text with its words, the controls, the scroll
- * views, the parents that clip, the cards, and which screen (route) each belongs to. Screens that
- * are not focused (the page under a sheet, the other tabs) and hidden subtrees are left out.
+ * views, the parents that clip, the cards and the grounds that cover what was drawn before them, in
+ * drawing order, and which screen (route) each belongs to. Screens that are not focused (the page
+ * under a sheet, the other tabs), hidden subtrees and artwork (a view read as one image, such as a
+ * stamp or a sticker, whose words are drawn into it) are left out.
  *
  * The fiber fields read here (`tag`, `type`, `memoizedProps`, `child`, `sibling`, `return`,
  * `stateNode`) are the ones React's own developer tools read, in production builds too.
@@ -34,6 +38,7 @@ const INPUT_TYPES = /TextInput/u;
 const MAP_TYPES = /^(RNMBX|AIRMap|RNMapsMap)|MapView/u;
 /** Glass and blur surfaces draw a card without a background colour. */
 const GLASS_TYPES = /Glass|Blur/u;
+const ART_ROLES = new Set(['image', 'img']);
 const CONTROL_ROLES = new Set([
   'button',
   'link',
@@ -62,6 +67,12 @@ export interface TreeText {
   readonly clip: number | null;
   readonly card: number | null;
   readonly free: boolean;
+  /** Its place in drawing order (pre-order over the native boxes). */
+  readonly paint: number;
+  /** Box indexes of the grounds it sits on, outermost first. */
+  readonly grounds: readonly number[];
+  /** Its lines from its last layout event, when one was seen. */
+  readonly lines?: readonly QaLine[] | undefined;
 }
 
 export interface TreeControl {
@@ -70,6 +81,8 @@ export interface TreeControl {
   readonly screen: string;
   readonly layer: number | null;
   readonly free: boolean;
+  readonly paint: number;
+  readonly grounds: readonly number[];
 }
 
 export interface LayoutTree {
@@ -77,6 +90,8 @@ export interface LayoutTree {
   readonly boxes: readonly FiberLike[];
   /** Readable names per box index, for clips and cards. */
   readonly labels: ReadonlyMap<number, string>;
+  /** Drawing order per box index, for grounds. */
+  readonly paints: ReadonlyMap<number, number>;
   readonly texts: readonly TreeText[];
   readonly controls: readonly TreeControl[];
 }
@@ -87,6 +102,8 @@ export interface ScreenContexts {
   readonly route: unknown;
   /** Its value is false for a screen that is not focused. */
   readonly focused: unknown;
+  /** A native text's lines from its last layout event. */
+  readonly linesOf?: (fiber: FiberLike) => readonly QaLine[] | undefined;
 }
 
 interface Scope {
@@ -97,6 +114,7 @@ interface Scope {
   readonly card: number | null;
   readonly free: boolean;
   readonly testId: string | null;
+  readonly grounds: readonly number[];
 }
 
 type Props = Readonly<Record<string, unknown>>;
@@ -140,15 +158,16 @@ export function drawsGround(colour: unknown): boolean {
   return true;
 }
 
+/** The roundness of all four corners: a sheet's top band, rounded at its top only, is no card. */
 function radiusOf(style: ViewStyle): number {
+  const all = typeof style.borderRadius === 'number' ? style.borderRadius : 0;
   const corners = [
-    style.borderRadius,
     style.borderTopLeftRadius,
     style.borderTopRightRadius,
     style.borderBottomLeftRadius,
     style.borderBottomRightRadius,
-  ].filter((value): value is number => typeof value === 'number');
-  return corners.length === 0 ? 0 : Math.max(...corners);
+  ].map((value) => (typeof value === 'number' ? value : all));
+  return Math.min(...corners);
 }
 
 function isControl(type: string, props: Props): boolean {
@@ -206,6 +225,8 @@ export function hostRootOf(fiber: FiberLike | null | undefined): FiberLike | nul
 export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): LayoutTree {
   const boxes: FiberLike[] = [];
   const labels = new Map<number, string>();
+  const paints = new Map<number, number>();
+  let paint = 0;
   const texts: TreeText[] = [];
   const controls: TreeControl[] = [];
   const start: Scope = {
@@ -216,6 +237,7 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
     card: null,
     free: false,
     testId: null,
+    grounds: [],
   };
   const stack: [FiberLike, Scope][] = root.child ? [[root.child, start]] : [];
 
@@ -240,6 +262,9 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
       const type = fiber.type;
       const style = flatStyle(props);
       if (style.display === 'none' || style.opacity === 0) continue;
+      const role = props.accessibilityRole ?? props.role;
+      if (props.accessible === true && typeof role === 'string' && ART_ROLES.has(role)) continue;
+      paint += 1;
       if (TEXT_TYPES.has(type)) {
         const words = wordsOf(fiber);
         if (words !== '') {
@@ -254,6 +279,9 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
             clip: inner.clip,
             card: inner.card,
             free: inner.free,
+            paint,
+            grounds: inner.grounds,
+            lines: contexts.linesOf?.(fiber),
           });
         }
         // Nested spans are drawn by this text.
@@ -262,6 +290,7 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
       const index = boxes.length;
       let used = false;
       const name = labelFor(testId, inner);
+      const grounded = drawsGround(style.backgroundColor);
       if (SCROLL_TYPES.has(type)) {
         // What clips or holds the scroll view does not judge the content scrolling inside it.
         inner = { ...inner, layer: index, clip: null, card: null };
@@ -275,6 +304,8 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
           screen: inner.screen,
           layer: inner.layer,
           free: inner.free,
+          paint,
+          grounds: inner.grounds,
         });
         inner = { ...inner, controls: [...inner.controls, index] };
         used = true;
@@ -284,22 +315,23 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
           inner = { ...inner, clip: index };
           used = true;
         }
-        const radius = radiusOf(style);
-        if (
-          radius >= CARD_RADIUS &&
-          (drawsGround(style.backgroundColor) || GLASS_TYPES.test(type))
-        ) {
+        if (radiusOf(style) >= CARD_RADIUS && (grounded || GLASS_TYPES.test(type))) {
           inner = { ...inner, card: index };
           used = true;
         }
       }
+      if (grounded) {
+        inner = { ...inner, grounds: [...inner.grounds, index] };
+        used = true;
+      }
       if (used) {
         boxes.push(fiber);
         labels.set(index, name);
+        paints.set(index, paint);
       }
     }
     if (testId !== null) inner = { ...inner, testId };
     if (fiber.child) stack.push([fiber.child, inner]);
   }
-  return { boxes, labels, texts, controls };
+  return { boxes, labels, paints, texts, controls };
 }
