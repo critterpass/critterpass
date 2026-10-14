@@ -23,7 +23,10 @@ export function useOfflineRows(search: TripPlaceSearch, trip: SearchTrip, from: 
   const syncedOn =
     sync.lastSyncedAt === null
       ? null
-      : sync.lastSyncedAt.toLocaleDateString(i18n.locale, { month: 'short', day: 'numeric' });
+      : // The app's date formatter writes English days first ("12 Oct"); the Date method doesn't.
+        new Intl.DateTimeFormat(i18n.locale, { month: 'short', day: 'numeric' }).format(
+          sync.lastSyncedAt,
+        );
   const now = new Date();
   const photos = usePlaceTilePhotos(
     search.rows.flatMap((place) => (place.poiId === null ? [] : [place.poiId])),

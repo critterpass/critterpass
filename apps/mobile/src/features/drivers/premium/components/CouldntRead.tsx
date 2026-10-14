@@ -58,7 +58,8 @@ export function CouldntReadPremium(props: {
                 { borderRadius: th.radius.cardRow, backgroundColor: th.accent.paper },
               ]}
             >
-              <Text variant="mono" numberOfLines={8}>
+              {/* The scanned words as they were written, not set in the mono label's capitals. */}
+              <Text variant="mono" numberOfLines={8} style={{ textTransform: 'none' }}>
                 {source}
               </Text>
               {parsed?.cut_off === true ? (
