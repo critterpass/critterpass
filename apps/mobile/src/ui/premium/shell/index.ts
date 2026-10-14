@@ -34,6 +34,8 @@ export type { DirtySheetGuard, DiscardPrompt } from './screens/dirty-sheet';
 export { FULL_SCREEN_ROUTE_OPTIONS, FullScreen } from './screens/full-screen';
 export type { FullScreenProps } from './screens/full-screen';
 export type { ShellAction, ToolbarIcon } from './screens/header-actions';
+export { HeaderBar, HeaderTitle } from './screens/header-bar';
+export type { HeaderBarProps } from './screens/header-bar';
 export { FooterStack } from './screens/footer-stack';
 export type { FooterStackProps } from './screens/footer-stack';
 export { HOLD_TO_CONFIRM_MS, HoldToConfirm } from './screens/hold-to-confirm';

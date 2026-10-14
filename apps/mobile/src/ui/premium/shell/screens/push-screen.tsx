@@ -15,6 +15,7 @@ import {
   NativeLeadingControl,
 } from './header-actions';
 import type { ShellAction } from './header-actions';
+import { HeaderBar, HeaderTitle } from './header-bar';
 import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from './scroll-edge';
 
 export interface PushScreenProps {
@@ -51,21 +52,6 @@ export interface PushScreenProps {
 
 const goBack = () => router.back();
 const goHome = () => router.replace('/');
-
-function InlineTitle({ title, subtitle }: { readonly title: string; readonly subtitle?: string }) {
-  return (
-    <View style={styles.titleBlock}>
-      <Text variant="navTitle" numberOfLines={1} align="center" accessibilityRole="header">
-        {title}
-      </Text>
-      {subtitle === undefined ? null : (
-        <Text variant="navSubtitle" tone="muted" numberOfLines={1} align="center">
-          {subtitle}
-        </Text>
-      )}
-    </View>
-  );
-}
 
 /**
  * The push screen type (foundations-spec §1): glass back left, centred title and subtitle, one
@@ -120,9 +106,7 @@ export function PushScreen({
     () => ({
       headerShown: true,
       title,
-      headerTitle: () => (
-        <InlineTitle title={title} {...(subtitle === undefined ? {} : { subtitle })} />
-      ),
+      headerTitle: () => <HeaderTitle title={title} subtitle={subtitle} />,
       headerTitleAlign: 'center' as const,
       headerTransparent: true,
       headerShadowVisible: false,
@@ -242,26 +226,17 @@ export function PushScreen({
     return (
       <View testID={testID} style={[styles.root, { backgroundColor: t.color.ground }]}>
         <Stack.Screen options={drawnOptions} />
-        <View
-          style={[
-            styles.drawnBar,
-            {
-              marginTop: insets.top + t.space.gap6,
-              marginBottom: t.space.gap6,
-              minHeight: t.size.glassNav,
-              paddingHorizontal: t.space.gutter,
-            },
-          ]}
-        >
-          <View style={styles.side}>
-            {drawnControl === null ? null : (
-              <DrawnLeadingControl kind={drawnControl} label={leadingLabel} onPress={leave} />
-            )}
-          </View>
-          <InlineTitle title={title} {...(subtitle === undefined ? {} : { subtitle })} />
-          <View style={[styles.side, styles.sideEnd]}>
-            {actions.length > 0 ? <DrawnHeaderActions actions={actions} /> : null}
-          </View>
+        <View style={{ marginTop: insets.top + t.space.gap6, marginBottom: t.space.gap6 }}>
+          <HeaderBar
+            title={title}
+            {...(subtitle === undefined ? {} : { subtitle })}
+            leading={
+              drawnControl === null ? null : (
+                <DrawnLeadingControl kind={drawnControl} label={leadingLabel} onPress={leave} />
+              )
+            }
+            trailing={actions.length > 0 ? <DrawnHeaderActions actions={actions} /> : null}
+          />
         </View>
         {fadedBody}
       </View>
@@ -283,13 +258,8 @@ export function PushScreen({
 const styles = StyleSheet.create({
   root: { flex: 1 },
   body: { flex: 1 },
-  titleBlock: { alignItems: 'center', maxWidth: 240, flexShrink: 1 },
-  drawnBar: { flexDirection: 'row', alignItems: 'center' },
   largeBar: { flexDirection: 'row', alignItems: 'center' },
   grow: { flex: 1 },
-  // Equal sides keep the title centred whatever the action's width.
-  side: { flex: 1, flexDirection: 'row' },
-  sideEnd: { justifyContent: 'flex-end' },
   floating: {
     position: 'absolute',
     left: 0,
