@@ -41,7 +41,6 @@ export function foundAt(iso: string, locale: string): string {
     hour: '2-digit',
     minute: '2-digit',
     // 24-hour unless the viewer chose 12-hour in Settings, whatever the phone's clock says.
-    hour12: false,
     ...clockOption(),
   });
 }

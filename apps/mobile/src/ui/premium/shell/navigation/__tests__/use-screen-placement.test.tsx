@@ -40,11 +40,11 @@ async function open(path: string) {
 
 describe('screen placement under the router', () => {
   it('reads the first screen of a group opened on a sheet route as that sheet', async () => {
-    // The root presents the crew group the way its first screen is listed: a tall sheet. The
-    // render that opens it still sees the root's state without the group.
+    // The root presents the crew group the way its first screen is listed: a sheet that fits its
+    // content. The render that opens it still sees the root's state without the group.
     expect(await open('/crew/abc/invite')).toEqual({
       kind: 'presented',
-      presentation: { kind: 'sheet', detents: [1] },
+      presentation: { kind: 'sheet', detents: 'fit' },
       ownStack: false,
     });
   });
