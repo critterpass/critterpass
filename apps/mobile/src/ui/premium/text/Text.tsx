@@ -75,6 +75,26 @@ const LABEL_FIT_FLOOR: Partial<Record<PremiumTypeName, number>> = {
  */
 const CAPS: TextStyle = { textTransform: 'uppercase' };
 
+/** Headings the design never leaves a lone word under ("Remove from the / Crew?"). */
+const BALANCED_VARIANTS: ReadonlySet<PremiumTypeName> = new Set<PremiumTypeName>([
+  'hero',
+  'display',
+  'displayLarge',
+  'largeTitle',
+  'emptyTitle',
+  'title',
+]);
+
+/**
+ * Centred lines (footnotes, empty states) and headings break so their last line never holds one
+ * word: Android balances the lines, iOS pushes a word down to keep the last one company.
+ */
+const BALANCED = Platform.select<RNTextProps>({
+  android: { textBreakStrategy: 'balanced' },
+  ios: { lineBreakStrategyIOS: 'push-out' },
+  default: {},
+});
+
 /** The children as one string, or `null` when they hold elements (nested styled spans). */
 function plainText(children: ReactNode): string | null {
   const parts: string[] = [];
@@ -189,6 +209,7 @@ export function Text({
       ? { adjustsFontSizeToFit: true, minimumFontScale: floor }
       : {};
   const text = plainText(rest.children);
+  const balanced = align === 'center' || BALANCED_VARIANTS.has(variant);
   const scale = Math.min(fontScale, token.maxScale);
   const borel = token.family === 'guide' && font.fontFamily !== undefined;
   const marks = borel
@@ -197,6 +218,7 @@ export function Text({
 
   return (
     <RNText
+      {...(balanced ? BALANCED : null)}
       {...fit}
       {...rest}
       allowFontScaling
