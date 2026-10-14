@@ -46,7 +46,12 @@ export function LiveMapGatePremium({ place, price, onBoost, onLater }: LiveMapGa
           })}
         </Text>
         <View style={[styles.safety, { backgroundColor: th.color.banner.success.bg }]}>
-          <Text variant="caption" color={th.color.banner.success.text}>
+          <Text
+            variant="caption"
+            color={th.color.banner.success.text}
+            textBreakStrategy="balanced"
+            lineBreakStrategyIOS="push-out"
+          >
             {t({
               id: 'monetize.premium.gateSafety',
               message: 'Help and SOS share your location on any trip, boosted or not.',

@@ -1,6 +1,7 @@
 /**
  * The passport paper the profile and Edit profile are printed on: the paper, its guilloche and
- * the inks the design uses on it. Paper stays light in dark mode (it is a document).
+ * the inks the design uses on it. Paper stays light in dark mode (it is a document), toned down so
+ * it does not glare off a dark page.
  */
 import { memberColourForSlot, type GuideColour } from '@cp/domain';
 
@@ -13,8 +14,15 @@ export const PASS_PAPER = {
   faint: '#9a917e',
   mrz: '#b3a993',
   rule: 'rgba(23,20,42,.14)',
+  /** The paper on a dark page: the same warm sheet in dimmer light. */
+  paperDim: '#e6dfcc',
 } as const;
 /* eslint-enable critterpass/no-literal-style, lingui/no-unlocalized-strings */
+
+/** The passport paper for the theme's appearance. */
+export function paperOf(theme: PremiumTheme): string {
+  return theme.scheme === 'dark' ? PASS_PAPER.paperDim : theme.accent.paper;
+}
 
 /** The passport's printed mono sizes: a field label and the page header. */
 export const PASS_PAPER_TYPE = { label: 8.5, header: 9.5 } as const;

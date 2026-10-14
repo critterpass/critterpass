@@ -3,7 +3,6 @@
  * on it (1.07: fall, squash, ink ring, confetti, a heavy tap), Pon cheers, the perks pop in, and
  * the split card says who owes what. Plays once. Until the server confirms, the page waits.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- colour values, never copy. */
 import { format, upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';

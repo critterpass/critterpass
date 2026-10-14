@@ -94,7 +94,13 @@ export function VisaCard({
           </View>
         ))}
       </View>
-      <Text variant="mono" color={PAPER_MUTED} numberOfLines={1} style={styles.mrz}>
+      <Text
+        variant="mono"
+        color={PAPER_MUTED}
+        numberOfLines={1}
+        ellipsizeMode="clip"
+        style={styles.mrz}
+      >
         {mrz}
       </Text>
       <View style={styles.icon} pointerEvents="none">

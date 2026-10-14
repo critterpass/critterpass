@@ -6,20 +6,22 @@
  * a card with what can be done meanwhile; on an unboosted trip the Boost card sits over it.
  */
 import type { CameraRef } from '@maplibre/maplibre-react-native';
+import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useRef } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { LiveMapGatePremium } from '@/features/monetize';
 import { PremiumMapCanvas } from '@/features/plan';
-import { GlassIconButton, Text, usePremiumTheme } from '@/ui/premium';
+import { GlassIconButton, GlassSurface, Text, usePremiumTheme } from '@/ui/premium';
 import { SCROLL_EDGE_FADE, ScrollEdgeFade } from '@/ui/premium/shell';
 
 import { liveMapPaywall } from '../gate-slot';
 import { useLiveMapScreen } from '../use-live-map-screen';
 import { CrewPanel } from './CrewPanel';
+import { GatePreview } from './gate-preview';
 import { Pins, Sleeping } from './crew-map-marks';
 import { useDestinationCentre } from './use-destination-centre';
 import { MeetupEditorPremium } from './MeetupEditorPremium';
@@ -33,6 +35,7 @@ export function CrewMapPremium({ tripId }: { readonly tripId: string }) {
   const insets = useSafeAreaInsets();
   const camera = useRef<CameraRef>(null);
   const m = useLiveMapScreen(tripId);
+  const { height } = useWindowDimensions();
   const open = m.gate === 'open' || m.gate === 'loading';
   const destination = useDestinationCentre(m.destinationId);
   const framed =
@@ -77,6 +80,7 @@ export function CrewMapPremium({ tripId }: { readonly tripId: string }) {
           ]}
         />
       ) : null}
+      {m.gate === 'boost_required' ? <GatePreview m={m} height={height * 0.55} /> : null}
       {/* The clock and battery read on a fade of the ground, not straight on the map's labels. */}
       <ScrollEdgeFade
         edge="top"
@@ -96,27 +100,45 @@ export function CrewMapPremium({ tripId }: { readonly tripId: string }) {
           onPress={() => router.back()}
           testID="live-map-back"
         />
-        <View style={[styles.pill, { backgroundColor: th.color.inkSurface }]}>
-          {/* A long crew name gives way, the count always shows whole. */}
-          <View style={styles.pillLine}>
-            <Text
-              variant="pillSmall"
-              color={th.color.onInkSurface}
-              numberOfLines={1}
-              singleLine={false}
-              style={styles.pillName}
-            >
-              {m.crewName}
-            </Text>
-            {open && members > 0 ? (
-              <Text variant="pillSmall" color={th.color.onInkSurface} numberOfLines={1}>
-                {t({
-                  id: 'liveMap.premium.pillCount',
-                  message: ` · ${sharing} of ${members} sharing`,
-                })}
+        <View style={styles.pillSlot}>
+          {m.gate === 'boost_required' ? (
+            // The gate previews the map: a light glass capsule says so, as the design labels it.
+            <View style={[styles.pill, { boxShadow: th.shadow.float }]}>
+              <GlassSurface kind="regular" style={[StyleSheet.absoluteFill, styles.pillGlass]} />
+              <Text variant="badge" style={styles.previewLabel} numberOfLines={1}>
+                {upper(
+                  t({
+                    id: 'liveMap.premium.previewPill',
+                    message: `Preview · your ${m.destinationName ?? m.crewName} trip`,
+                  }),
+                  m.locale,
+                )}
               </Text>
-            ) : null}
-          </View>
+            </View>
+          ) : (
+            <View style={[styles.pill, { backgroundColor: th.color.inkSurface }]}>
+              {/* A long crew name gives way, the count always shows whole. */}
+              <View style={styles.pillLine}>
+                <Text
+                  variant="pillSmall"
+                  color={th.color.onInkSurface}
+                  numberOfLines={1}
+                  singleLine={false}
+                  style={styles.pillName}
+                >
+                  {m.crewName}
+                </Text>
+                {open && members > 0 ? (
+                  <Text variant="pillSmall" color={th.color.onInkSurface} numberOfLines={1}>
+                    {t({
+                      id: 'liveMap.premium.pillCount',
+                      message: ` · ${sharing} of ${members} sharing`,
+                    })}
+                  </Text>
+                ) : null}
+              </View>
+            </View>
+          )}
         </View>
         <View style={styles.circle} />
       </View>
@@ -178,14 +200,19 @@ const styles = StyleSheet.create({
     gap: 10,
     zIndex: 2,
   },
+  // The capsule hugs its words, centred between the back circle and its mirror.
+  pillSlot: { flex: 1, alignItems: 'center' },
   pill: {
-    flex: 1,
+    maxWidth: '100%',
     height: 34,
-    borderRadius: 12,
+    borderRadius: 17,
     paddingHorizontal: 14,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
   },
+  pillGlass: { borderRadius: 17 },
+  previewLabel: { letterSpacing: 0.9, fontWeight: '700' },
   pillLine: { flexDirection: 'row', alignItems: 'center', maxWidth: '100%' },
   pillName: { flexShrink: 1 },
   circle: { width: 44 },

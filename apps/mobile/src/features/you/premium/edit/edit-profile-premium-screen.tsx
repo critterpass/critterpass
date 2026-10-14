@@ -143,9 +143,21 @@ export function EditProfilePremiumScreen() {
             photoUri={edit.photoUri}
             onChangePhoto={() => router.push(YOU_ROUTES.avatar)}
           />
-          <Text variant="caption" tone="muted" style={{ paddingHorizontal: th.space.titleGutter }}>
-            {t({ id: 'you.premium.crewsSee', message: 'This page is all your crews ever see' })}
-          </Text>
+          {/* Centred under the page with the crew glyph, as the design says who sees it. */}
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: th.space.gap6,
+              paddingHorizontal: th.space.titleGutter,
+            }}
+          >
+            <Icon name="people" size={14} color={th.color.muted} />
+            <Text variant="caption" tone="muted" align="center">
+              {t({ id: 'you.premium.crewsSee', message: 'This page is all your crews ever see' })}
+            </Text>
+          </View>
           {edit.problem === null ? null : (
             <Text
               variant="caption"

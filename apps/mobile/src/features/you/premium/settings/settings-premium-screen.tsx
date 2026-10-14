@@ -153,6 +153,7 @@ export function SettingsPremiumScreen({
   const plan = model.plan;
   return (
     <PushScreen
+      largeTitle
       title={t({ id: 'you.profile.settings', message: 'Settings' })}
       backLabel={t({ id: 'you.profile.backPass', message: 'Pass' })}
       testID="you-settings"

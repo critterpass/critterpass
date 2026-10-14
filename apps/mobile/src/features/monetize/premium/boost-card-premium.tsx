@@ -3,7 +3,6 @@
  * buyer, the trip's dates and how it's paid, a little BOOSTED stamp, the perks, and Settle / Thanks
  * for crewmates. A refunded or moved boost greys and says so. The chat lane places it.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- colour values, never copy. */
 import { format, upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { StyleSheet, View } from 'react-native';

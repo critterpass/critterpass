@@ -50,7 +50,7 @@ export function GoldButton({
           ? [
               styles.shape,
               onNight
-                ? { backgroundColor: NIGHT.glass, boxShadow: NIGHT_DISABLED_RING }
+                ? { backgroundColor: NIGHT_DISABLED_FILL, boxShadow: NIGHT_DISABLED_RING }
                 : { backgroundColor: t.color.controlDisabled },
             ]
           : styles.pill,
@@ -62,7 +62,7 @@ export function GoldButton({
         {loading ? <Spinner /> : leading}
         <Text
           variant="button"
-          color={disabled ? (onNight ? NIGHT.textMuted : t.color.placeholder) : t.color.onAccent}
+          color={disabled ? (onNight ? NIGHT.textSoft : t.color.placeholder) : t.color.onAccent}
           style={styles.label}
           numberOfLines={1}
         >
@@ -73,7 +73,10 @@ export function GoldButton({
   );
 }
 
-const NIGHT_DISABLED_RING = '0 0 0 1px rgba(255,255,255,0.14)';
+// Disabled on the night still reads: soft white words on a lighter glass with a clear edge.
+// eslint-disable-next-line critterpass/no-literal-style -- the night's glass, pending a token
+const NIGHT_DISABLED_FILL = 'rgba(255,255,255,0.12)';
+const NIGHT_DISABLED_RING = '0 0 0 1px rgba(255,255,255,0.24)';
 
 const styles = StyleSheet.create({
   shape: { overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
