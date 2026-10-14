@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
 # Before the trip (the demo crew's Bali trip, three weeks out): the hub, and its crew map with
-# nothing to show yet (6.13, when the trip is boosted), in ${LOOK}.
+# nothing to show yet (6.13 when the trip is boosted, else its Boost card, 9.19), in ${LOOK}.
 - runFlow:
     file: trip-open-hub.yaml
     env:
@@ -21,7 +21,16 @@ appId: app.critterpass.dev
           optional: true
       - runFlow: trip-deny.yaml
       # 6.13 is a boosted trip's map asleep until its first trip day; an unboosted trip shows the
-      # Boost gate instead, which is not 6.13 and is not shot under its name.
+      # Boost card over the map instead (9.19), shot under that name.
+      - runFlow:
+          when:
+            visible:
+              id: 'live-map-gate-boost'
+          file: shot.yaml
+          env:
+            CODE: '9.19'
+            NAME: unboosted-map
+            LOOK: ${LOOK}
       - runFlow:
           when:
             notVisible:

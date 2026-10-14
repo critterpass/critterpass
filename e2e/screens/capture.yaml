@@ -171,3 +171,13 @@ appId: app.critterpass.dev
       NAME: add-expense
       LOOK: light
       SHEET: 'true'
+# A phrase's show mode, full screen (the guide's phrase card's SHOW).
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: guide/phrase?phrase=Tolong%20ke%20Villa%20Kayu%20Manis%2C%20Sayan.&lang=id&gloss=Please%20take%20us%20to%20Villa%20Kayu%20Manis%2C%20Sayan.
+      CODE: '5.23'
+      NAME: phrase-show
+      LOOK: light
+      SHEET: 'true'
+      READY: 'guide-phrase-show'
