@@ -5,12 +5,15 @@
  * the rows say "last seen" and the buttons wait (6.12).
  */
 import { useLingui } from '@lingui/react/macro';
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { crewAccent } from '@/features/trip';
 import {
+  Avatar,
   Button,
   CrewStack,
+  Icon,
   PressableScale,
   StatusTag,
   Text,
@@ -128,15 +131,12 @@ export function CrewPanel({
 }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
-  const meSharing = m.view?.me?.sharing ?? 'off';
+  const me = m.view?.me ?? null;
+  const meSharing = me?.sharing ?? 'off';
+  // "Not now" puts the question away until the map opens again.
+  const [primerHidden, setPrimerHidden] = useState(false);
+  const asking = meSharing === 'off' && m.gate === 'open' && !primerHidden;
   const actionSize = m.offline ? ({ size: 'medium', alignSelf: 'stretch' } as const) : {};
-  const footer =
-    m.endsOn === null
-      ? ''
-      : t({
-          id: 'liveMap.panel.footer',
-          message: `Sharing switches itself off on ${m.endsOn} at midnight.`,
-        });
   return (
     <View
       style={[
@@ -146,7 +146,7 @@ export function CrewPanel({
       testID="live-map-panel"
     >
       <View style={[styles.grabber, { backgroundColor: th.color.outlineEmpty }]} />
-      {meSharing === 'off' && m.gate === 'open' ? (
+      {asking ? (
         <View
           style={[
             styles.card,
@@ -154,27 +154,50 @@ export function CrewPanel({
               borderRadius: th.radius.cardRow,
               backgroundColor: th.color.card,
               boxShadow: th.shadow.card,
+              gap: th.space.gap12,
             },
           ]}
           testID="live-map-primer"
         >
-          <Text variant="headline">
-            {t({ id: 'liveMap.primer.title', message: 'Share where you are with the crew?' })}
-          </Text>
-          <Text variant="rowText" tone="inkSecondary">
-            {footer === ''
-              ? t({
-                  id: 'liveMap.primer.line',
-                  message: 'Only on trip days, only with this crew. Pause any time.',
-                })
-              : footer}
-          </Text>
-          <Button
-            label={t({ id: 'liveMap.primer.action', message: 'Share my location' })}
-            size="medium"
-            onPress={m.turnOn}
-            testID="live-map-share"
-          />
+          <View style={styles.primerTop}>
+            {me === null ? null : (
+              <View>
+                <Avatar name={me.name} color={crewAccent(me.joinIndex)} uid={me.uid} size={44} />
+                <View style={[styles.eye, { backgroundColor: th.color.card }]}>
+                  <Icon name="lock" size={11} color={th.color.inkSecondary} />
+                </View>
+              </View>
+            )}
+            <View style={[styles.flex, { gap: th.space.gap4 }]}>
+              <Text variant="headline">
+                {t({ id: 'liveMap.primer.title', message: 'Share where you are with the crew?' })}
+              </Text>
+              <Text variant="rowText" tone="inkSecondary">
+                {t({
+                  id: 'liveMap.premium.primerLine',
+                  message: `Only during trip days, only ${m.crewName}. Pause any time from your row.`,
+                })}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.actions}>
+            <View style={styles.wide}>
+              <Button
+                label={t({ id: 'liveMap.premium.shareTripDays', message: 'Share on trip days' })}
+                size="medium"
+                alignSelf="stretch"
+                onPress={m.turnOn}
+                testID="live-map-share"
+              />
+            </View>
+            <Button
+              label={t({ id: 'liveMap.primer.notNow', message: 'Not now' })}
+              variant="secondary"
+              size="medium"
+              onPress={() => setPrimerHidden(true)}
+              testID="live-map-not-now"
+            />
+          </View>
         </View>
       ) : (
         <MeetupCard m={m} />
@@ -187,34 +210,38 @@ export function CrewPanel({
           testID="live-map-settings"
         />
       ) : null}
-      <View style={styles.actions}>
-        {/* Offline both wait (6.12): the two drop to the smaller pill and share the row, so
-            "Ping all · queued" stays on one line. */}
-        <View style={m.offline ? styles.wide : styles.flex}>
-          <Button
-            label={
-              m.offline
-                ? t({ id: 'liveMap.premium.pingQueued', message: 'Ping all · queued' })
-                : t({ id: 'liveMap.actions.pingAll', message: 'Ping all' })
-            }
-            variant="secondary"
-            {...actionSize}
-            disabled={m.offline || m.pinging}
-            onPress={() => m.ping('ping')}
-            testID="live-map-ping"
-          />
+      {/* While it asks you to share, the card's own two choices are the panel's only actions. */}
+      {asking ? null : (
+        <View style={styles.actions}>
+          {/* Offline both wait (6.12): the two drop to the smaller pill and share the row in
+            halves, the queued ping with its clock, so "Ping all · queued" stays on one line. */}
+          <View style={m.offline ? styles.half : styles.flex}>
+            <Button
+              label={
+                m.offline
+                  ? t({ id: 'liveMap.premium.pingQueued', message: 'Ping all · queued' })
+                  : t({ id: 'liveMap.actions.pingAll', message: 'Ping all' })
+              }
+              variant="secondary"
+              {...actionSize}
+              {...(m.offline ? { icon: 'clock' as const } : {})}
+              disabled={m.offline || m.pinging}
+              onPress={() => m.ping('ping')}
+              testID="live-map-ping"
+            />
+          </View>
+          <View style={m.offline ? styles.half : styles.wide}>
+            <Button
+              label={t({ id: 'liveMap.actions.onMyWay', message: 'I’m on my way' })}
+              {...actionSize}
+              disabled={m.offline || m.pinging}
+              // eslint-disable-next-line lingui/no-unlocalized-strings -- a ping kind, not copy
+              onPress={() => m.ping('on_my_way')}
+              testID="live-map-on-my-way"
+            />
+          </View>
         </View>
-        <View style={styles.wide}>
-          <Button
-            label={t({ id: 'liveMap.actions.onMyWay', message: 'I’m on my way' })}
-            {...actionSize}
-            disabled={m.offline || m.pinging}
-            // eslint-disable-next-line lingui/no-unlocalized-strings -- a ping kind, not copy
-            onPress={() => m.ping('on_my_way')}
-            testID="live-map-on-my-way"
-          />
-        </View>
-      </View>
+      )}
     </View>
   );
 }
@@ -231,6 +258,18 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   flex: { flex: 1, minWidth: 0 },
   wide: { flex: 1.6 },
+  half: { flex: 1, minWidth: 0 },
+  primerTop: { flexDirection: 'row', alignItems: 'flex-start', gap: 12 },
+  eye: {
+    position: 'absolute',
+    right: -4,
+    bottom: -4,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   tabular: { fontVariant: ['tabular-nums'] },
   lane: { height: 34, justifyContent: 'center' },
   track: { position: 'absolute', left: 0, right: 0, height: 3, borderRadius: 2 },
