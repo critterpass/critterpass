@@ -80,7 +80,7 @@ export function FindScreen(props: SearchControllerProps) {
               id: 'explore.premium.find.crewPlansLine',
               message: `How other crews did ${trip.destination}`,
             }),
-            doodle: 'ticket' as const,
+            doodle: 'star' as const,
             accent: theme.accent.mint,
             tint: theme.color.status.booked.bg,
             onPress: start.crewPlans.onPress,
@@ -180,7 +180,8 @@ export function FindScreen(props: SearchControllerProps) {
           out under the field's foot instead of cutting the first row at its edge. */}
       <View
         style={{
-          paddingTop: online ? insets.top + 2 : theme.space.gap10,
+          // Clear of the status bar and the Dynamic Island, as 4.30 sets the field under them.
+          paddingTop: online ? insets.top + theme.space.gap8 : theme.space.gap10,
           paddingBottom: theme.space.gap8,
           backgroundColor: theme.color.ground,
           zIndex: 1,
@@ -210,7 +211,8 @@ export function FindScreen(props: SearchControllerProps) {
       <KeyboardAwareScroll
         contentContainerStyle={{
           paddingHorizontal: theme.space.gap16,
-          paddingTop: theme.space.gap8,
+          // The first card starts below the field's fade, never under it.
+          paddingTop: FIELD_FADE,
           paddingBottom: insets.bottom + theme.space.gap16,
           gap: theme.space.gap16,
         }}
