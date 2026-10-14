@@ -38,8 +38,23 @@ appId: app.critterpass.dev
                   NAME: new-poll
       # Closed unposted, step by step back to the chat (the keyboard, then the sheet): a lone
       # Cancel tap could miss under the keyboard and leave the sheet up for every later step.
-      - runFlow:
-          file: ../../_shared/back-to.yaml
-          env:
-            MARK: 'chat-screen'
+      - repeat:
+          while:
+            visible:
+              id: 'new-poll-question'
+          times: 3
+          commands:
+            - runFlow:
+                when:
+                  visible:
+                    id: 'sheet-cancel'
+                commands:
+                  - tapOn:
+                      id: 'sheet-cancel'
+            - runFlow:
+                when:
+                  visible:
+                    id: 'new-poll-question'
+                file: ../../_shared/back.yaml
+            - runFlow: ../../_shared/settle.yaml
 - runFlow: plan-home.yaml
