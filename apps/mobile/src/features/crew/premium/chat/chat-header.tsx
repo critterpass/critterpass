@@ -82,8 +82,10 @@ const useStyles = makePremiumStyles((th) => ({
     paddingHorizontal: th.space.gap16,
     gap: th.space.gap8,
   },
-  titles: { flex: 1, alignItems: 'center', gap: 2 },
-  side: { minWidth: th.size.glassNav, alignItems: 'flex-end' },
+  // Equal sides keep the name on the screen's centre beside a wide "Map" pill.
+  side: { flex: 1, flexDirection: 'row', alignItems: 'center' },
+  end: { justifyContent: 'flex-end' },
+  titles: { alignItems: 'center', gap: 2, maxWidth: 240, flexShrink: 1 },
 }));
 
 export interface ChatHeaderProps {
@@ -112,12 +114,14 @@ export function ChatHeader({ crewId, crewName, line }: ChatHeaderProps) {
         ]}
       />
       <View style={styles.row}>
-        <GlassIconButton
-          icon="back"
-          label={t({ id: 'chat.premium.header.back', message: 'Back' })}
-          onPress={() => (router.canGoBack() ? router.back() : router.replace(CREW_ROUTES.home))}
-          testID="chat-back"
-        />
+        <View style={styles.side}>
+          <GlassIconButton
+            icon="back"
+            label={t({ id: 'chat.premium.header.back', message: 'Back' })}
+            onPress={() => (router.canGoBack() ? router.back() : router.replace(CREW_ROUTES.home))}
+            testID="chat-back"
+          />
+        </View>
         <PressableScale
           style={styles.titles}
           accessibilityRole="button"
@@ -139,7 +143,7 @@ export function ChatHeader({ crewId, crewName, line }: ChatHeaderProps) {
           {/* Another area's chip under the name (BOOSTED while the trip's boost is on). */}
           <ChatHeaderBadge crewId={crewId} />
         </PressableScale>
-        <View style={styles.side}>
+        <View style={[styles.side, styles.end]}>
           {map === null ? null : (
             <GlassPill
               label={t({ id: 'chat.header.map', message: 'Map' })}
