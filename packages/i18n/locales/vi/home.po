@@ -423,7 +423,7 @@ msgstr "Xem qua trước khi đưa vào kế hoạch."
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.markAll"
-msgstr "Đánh dấu đã đọc"
+msgstr "Đọc hết"
 
 #: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
 msgid "home.inbox.markedReadAll"

@@ -207,14 +207,26 @@ export function CrewMapPremium({ tripId }: { readonly tripId: string }) {
           testID="live-map-back"
         />
         <View style={[styles.pill, { backgroundColor: th.color.inkSurface }]}>
-          <Text variant="pillSmall" color={th.color.onInkSurface} numberOfLines={1}>
-            {open && members > 0
-              ? t({
-                  id: 'liveMap.premium.pill',
-                  message: `${m.crewName} · ${sharing} of ${members} sharing`,
-                })
-              : m.crewName}
-          </Text>
+          {/* A long crew name gives way, the count always shows whole. */}
+          <View style={styles.pillLine}>
+            <Text
+              variant="pillSmall"
+              color={th.color.onInkSurface}
+              numberOfLines={1}
+              singleLine={false}
+              style={styles.pillName}
+            >
+              {m.crewName}
+            </Text>
+            {open && members > 0 ? (
+              <Text variant="pillSmall" color={th.color.onInkSurface} numberOfLines={1}>
+                {t({
+                  id: 'liveMap.premium.pillCount',
+                  message: ` · ${sharing} of ${members} sharing`,
+                })}
+              </Text>
+            ) : null}
+          </View>
         </View>
         <View style={styles.circle} />
       </View>
@@ -283,6 +295,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  pillLine: { flexDirection: 'row', alignItems: 'center', maxWidth: '100%' },
+  pillName: { flexShrink: 1 },
   circle: { width: 44 },
   offline: { position: 'absolute', left: 0, right: 0, alignItems: 'center', zIndex: 2 },
   offlinePill: {

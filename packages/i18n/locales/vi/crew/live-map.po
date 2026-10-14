@@ -7,10 +7,9 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
-#. placeholder {0}: m.crewName
 #: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
-msgid "liveMap.premium.pill"
-msgstr "{0} · {sharing}/{members} đang chia sẻ"
+msgid "liveMap.premium.pillCount"
+msgstr " · {sharing}/{members} đang chia sẻ"
 
 #: ../../apps/mobile/src/features/crew/live-map/copy.ts
 msgid "liveMap.distance.kilometers"

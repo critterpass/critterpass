@@ -3,14 +3,14 @@
  * settling up): each digit is a column of 0–9 that slides on the Smooth spring; symbols, separators
  * and spaces stay put. Columns are keyed from the right, so "Rp 450.000" growing to "Rp 1.450.000"
  * rolls the digits that exist and fades in the new leading one. Reduce Motion cross-fades instead.
- * A column is a reel of ten one-line texts, each in a box one line tall, laid out over a hidden
- * resting digit, and every digit is tabular, so the amount keeps its width as it rolls. Separate
- * boxes rather than one ten-line text: a text's own lines drift by fractions of a point as they
- * stack, so a high digit came to rest about 1.5 pt below the symbols beside it.
+ * A column is one text of ten lines, each one line box tall, laid out over a hidden resting digit,
+ * and every digit is tabular, so the amount keeps its width as it rolls. The line box is held to
+ * whole device pixels: a fractional one drifted as the ten lines stacked, so a high digit came to
+ * rest about 1.5 pt below the symbols beside it.
  */
 import type { PremiumTypeName } from '@cp/design-tokens';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { PixelRatio, StyleSheet, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -28,6 +28,7 @@ import {
 } from '@/ui/premium';
 
 const DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] as const;
+const STRIP = DIGITS.join('\n');
 
 export interface RollingAmountProps {
   /** The formatted amount, exactly as it reads ("US$186.40"). */
@@ -78,19 +79,15 @@ function DigitColumn(props: {
       {/* Laid out outside the one-line column: measured inside it, Android cuts the text to the
           column's height and draws only the 0 line, so every other digit rolled into blank. */}
       <Animated.View style={[styles.reel, style]}>
-        {DIGITS.map((digit) => (
-          <View key={digit} style={{ height: props.height }}>
-            <Text
-              variant={props.variant}
-              tone={props.tone}
-              {...(props.color === undefined ? {} : { color: props.color })}
-              style={[styles.tabular, styles.strip, { lineHeight: props.height }]}
-              accessible={false}
-            >
-              {digit}
-            </Text>
-          </View>
-        ))}
+        <Text
+          variant={props.variant}
+          tone={props.tone}
+          {...(props.color === undefined ? {} : { color: props.color })}
+          style={[styles.tabular, styles.strip, { lineHeight: props.height }]}
+          accessible={false}
+        >
+          {STRIP}
+        </Text>
       </Animated.View>
     </Animated.View>
   );
@@ -117,7 +114,7 @@ export function RollingAmount({ text, variant, tone = 'ink', color, testID }: Ro
         variant={variant}
         style={[styles.measure, styles.tabular]}
         onLayout={(event) => {
-          setHeight(event.nativeEvent.layout.height);
+          setHeight(PixelRatio.roundToNearestPixel(event.nativeEvent.layout.height));
           setFirst((current) => current ?? text);
         }}
       >
@@ -162,6 +159,6 @@ const styles = StyleSheet.create({
   hidden: { opacity: 0 },
   reel: { position: 'absolute', top: 0, left: 0, right: 0 },
   tabular: { fontVariant: ['tabular-nums'] },
-  // No font padding, so each digit is exactly one line box.
+  // No font padding, so each of the ten lines is exactly one line box.
   strip: { includeFontPadding: false, textAlignVertical: 'top' },
 });
