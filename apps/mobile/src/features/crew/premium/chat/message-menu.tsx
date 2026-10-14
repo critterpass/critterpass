@@ -138,7 +138,8 @@ export function MessageMenu(props: MessageMenuProps) {
   const reduced = usePremiumReducedMotion();
   const window = useWindowDimensions();
   const [more, setMore] = useState(false);
-  // The lifted copy's own height: their message adds its sender's name, so it can outgrow the row.
+  // The lifted copy's own height once laid out: their message adds its sender's name, so it can
+  // outgrow the row; until then the row's height places the bar and the menu.
   const [height, setHeight] = useState<number | null>(null);
   const { anchor } = props;
   const lift = props.sticker ? 150 / 112 : 1.03;
@@ -178,47 +179,45 @@ export function MessageMenu(props: MessageMenuProps) {
         <View style={styles.frost} />
         {props.sticker ? null : <View style={styles.scrim} />}
       </Pressable>
-      {height === null ? null : (
-        <Animated.View
-          entering={enter}
-          style={[
-            styles.bar,
-            { top: top - BAR_HEIGHT - 12, left: left ?? undefined, right: right ?? undefined },
-          ]}
-        >
-          <GlassSurface kind="regular" style={StyleSheet.absoluteFill} />
-          {choices.map((reaction) => (
-            <PressableScale
-              key={reaction}
-              style={[
-                styles.cell,
-                mine.has(reaction) ? { backgroundColor: CHAT_PAINT.myReaction } : null,
-              ]}
-              onPress={() => {
-                void Haptics.selectionAsync();
-                props.onReact(reaction);
-                props.onClose();
-              }}
-              accessibilityRole="button"
-              accessibilityLabel={reactionLabel(reaction)}
-              accessibilityState={{ selected: mine.has(reaction) }}
-              testID={`chat-react-${reaction}`}
-            >
-              <ReactionFace reaction={reaction} size={32} />
-            </PressableScale>
-          ))}
-          {props.sticker || more ? null : (
-            <PressableScale
-              style={[styles.cell, { backgroundColor: th.color.segmentTrack }]}
-              onPress={() => setMore(true)}
-              accessibilityRole="button"
-              accessibilityLabel={t({ id: 'chat.premium.menu.more', message: 'More reactions' })}
-            >
-              <Icon name="plus" size={18} color={th.color.ink} />
-            </PressableScale>
-          )}
-        </Animated.View>
-      )}
+      <Animated.View
+        entering={enter}
+        style={[
+          styles.bar,
+          { top: top - BAR_HEIGHT - 12, left: left ?? undefined, right: right ?? undefined },
+        ]}
+      >
+        <GlassSurface kind="regular" style={StyleSheet.absoluteFill} />
+        {choices.map((reaction) => (
+          <PressableScale
+            key={reaction}
+            style={[
+              styles.cell,
+              mine.has(reaction) ? { backgroundColor: CHAT_PAINT.myReaction } : null,
+            ]}
+            onPress={() => {
+              void Haptics.selectionAsync();
+              props.onReact(reaction);
+              props.onClose();
+            }}
+            accessibilityRole="button"
+            accessibilityLabel={reactionLabel(reaction)}
+            accessibilityState={{ selected: mine.has(reaction) }}
+            testID={`chat-react-${reaction}`}
+          >
+            <ReactionFace reaction={reaction} size={32} />
+          </PressableScale>
+        ))}
+        {props.sticker || more ? null : (
+          <PressableScale
+            style={[styles.cell, { backgroundColor: th.color.segmentTrack }]}
+            onPress={() => setMore(true)}
+            accessibilityRole="button"
+            accessibilityLabel={t({ id: 'chat.premium.menu.more', message: 'More reactions' })}
+          >
+            <Icon name="plus" size={18} color={th.color.ink} />
+          </PressableScale>
+        )}
+      </Animated.View>
       {/* At the row's width, so the words wrap as they did in the chat; the shadow hugs the bubble. */}
       <View
         pointerEvents="none"
@@ -229,7 +228,6 @@ export function MessageMenu(props: MessageMenuProps) {
             left: anchor.x,
             width: anchor.width,
             alignItems: props.mine ? 'flex-end' : 'flex-start',
-            opacity: height === null ? 0 : 1,
             transform: [{ scale: lift }],
             // eslint-disable-next-line lingui/no-unlocalized-strings -- style keywords, never copy.
             transformOrigin: props.mine ? 'top right' : 'top left',
@@ -250,27 +248,25 @@ export function MessageMenu(props: MessageMenuProps) {
           </View>
         </View>
       </View>
-      {height === null ? null : (
-        <Animated.View
-          entering={enter}
-          style={[
-            styles.menu,
-            { top: top + liftedHeight + 12, left: left ?? undefined, right: right ?? undefined },
-          ]}
-        >
-          <GlassSurface kind="sheet" style={StyleSheet.absoluteFill} />
-          {props.actions.map((action, index) => (
-            <View key={action.key}>
-              {index === 0 ? null : <View style={styles.hairline} />}
-              <MenuRow action={action} onClose={props.onClose} />
-            </View>
-          ))}
-          {props.destructive.length === 0 ? null : <View style={styles.band} />}
-          {props.destructive.map((action) => (
-            <MenuRow key={action.key} action={action} onClose={props.onClose} />
-          ))}
-        </Animated.View>
-      )}
+      <Animated.View
+        entering={enter}
+        style={[
+          styles.menu,
+          { top: top + liftedHeight + 12, left: left ?? undefined, right: right ?? undefined },
+        ]}
+      >
+        <GlassSurface kind="sheet" style={StyleSheet.absoluteFill} />
+        {props.actions.map((action, index) => (
+          <View key={action.key}>
+            {index === 0 ? null : <View style={styles.hairline} />}
+            <MenuRow action={action} onClose={props.onClose} />
+          </View>
+        ))}
+        {props.destructive.length === 0 ? null : <View style={styles.band} />}
+        {props.destructive.map((action) => (
+          <MenuRow key={action.key} action={action} onClose={props.onClose} />
+        ))}
+      </Animated.View>
     </Animated.View>
   );
 }
