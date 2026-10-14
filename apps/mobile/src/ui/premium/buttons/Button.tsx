@@ -81,28 +81,20 @@ export function buttonLook(
   t: PremiumTheme,
   variant: ButtonVariant,
   size: ButtonSize,
-  state: { readonly pressed: boolean; readonly disabled: boolean },
+  state: { readonly pressed: boolean; readonly disabled: boolean; readonly loading?: boolean },
 ): Look {
   const c = t.color;
   if (state.disabled) return { box: { backgroundColor: c.controlDisabled }, text: c.placeholder };
   switch (variant) {
     case 'primary':
-      // The pressed pill keeps its shadow: the press scale already says it is pressed.
-      if (state.pressed) {
-        return {
-          box: {
-            backgroundColor: c.inkPressed,
-            ...(size === 'large' ? { boxShadow: t.shadow.ink } : {}),
-          },
-          text: c.onInk,
-        };
-      }
+      // Pressed, the pill sits down onto the page: the lighter ink and no drop (1.B).
+      if (state.pressed) return { box: { backgroundColor: c.inkPressed }, text: c.onInk };
       if (size === 'large') {
         return {
           box: {
             // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never rendered copy.
             backgroundImage: `linear-gradient(180deg, ${c.inkFillTop}, ${c.inkFillBottom})`,
-            boxShadow: t.shadow.ink,
+            boxShadow: state.loading === true ? t.shadow.inkLoading : t.shadow.ink,
           },
           text: c.onInk,
         };
@@ -175,6 +167,7 @@ export function Button({
         const look = buttonLook(t, variant, size, {
           pressed: pressed && !loading,
           disabled,
+          loading,
         });
         return (
           <View

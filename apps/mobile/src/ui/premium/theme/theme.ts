@@ -5,6 +5,7 @@
  */
 import { boxShadow, premium } from '@cp/design-tokens';
 
+import { kitShadows, type KitShadowName } from './kit-shadow';
 import { kitType } from './kit-type';
 import type {
   PremiumElevation,
@@ -29,7 +30,7 @@ export interface PremiumTheme {
   readonly spring: typeof premium.spring;
   readonly motion: typeof premium.motion;
   /** Each elevation as `boxShadow` text. */
-  readonly shadow: Readonly<Record<keyof PremiumElevation, string>>;
+  readonly shadow: Readonly<Record<keyof PremiumElevation | KitShadowName, string>>;
   readonly material: PremiumMaterials;
   /** Each material's highlight, ring and drop stack as `boxShadow` text. */
   readonly materialShadow: Readonly<Record<PremiumGlassKind, string>>;
@@ -60,7 +61,7 @@ function build(scheme: PremiumScheme): PremiumTheme {
     tilt: premium.tilt,
     spring: premium.spring,
     motion: premium.motion,
-    shadow: mapValues(mode.elevation, boxShadow),
+    shadow: { ...mapValues(mode.elevation, boxShadow), ...kitShadows(scheme) },
     material: mode.material,
     materialShadow: mapValues(mode.material, (m) => boxShadow(m.shadow)),
   });

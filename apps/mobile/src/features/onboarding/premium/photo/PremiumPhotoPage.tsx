@@ -5,7 +5,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { Image, Linking, ScrollView, View } from 'react-native';
+import { Image, Linking, View } from 'react-native';
 
 import {
   Button,
@@ -13,11 +13,14 @@ import {
   Icon,
   ListCard,
   PressableScale,
+  ring,
   Row,
+  ROW_ROOM_ABOVE,
+  ROW_ROOM_BELOW,
+  ScrollRow,
   Spinner,
   Text,
   TextButton,
-  ring,
   usePremiumTheme,
 } from '@/ui/premium';
 
@@ -142,10 +145,13 @@ export function PremiumPhotoPage() {
               })}
         </Text>
       </View>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ gap: theme.space.gap10, paddingVertical: theme.space.gap6 }}
+      <ScrollRow
+        gap={theme.space.gap10}
+        // 6 above and below the faces, as the row kept; its ring and shadow room sits inside.
+        style={{
+          marginTop: theme.space.gap6 - ROW_ROOM_ABOVE,
+          marginBottom: theme.space.gap6 - ROW_ROOM_BELOW,
+        }}
         testID="onboarding-photo-guides"
       >
         {step.faces.map((guide) => {
@@ -175,7 +181,7 @@ export function PremiumPhotoPage() {
             </PressableScale>
           );
         })}
-      </ScrollView>
+      </ScrollRow>
       {state.kind === 'preview' ? (
         <View style={{ gap: theme.space.gap8 }} testID="onboarding-photo-preview">
           <Button

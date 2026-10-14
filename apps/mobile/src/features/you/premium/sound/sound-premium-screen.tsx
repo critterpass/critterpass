@@ -6,7 +6,7 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
 import { music } from '@/motion/music';
@@ -15,11 +15,14 @@ import {
   CritterSticker,
   ListCard,
   PressableScale,
+  ring,
   Row,
+  ROW_ROOM_ABOVE,
+  ROW_ROOM_BELOW,
+  ScrollRow,
   Text,
   TextButton,
   Toggle,
-  ring,
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
@@ -150,14 +153,13 @@ export function SoundPremiumScreen() {
               testID="you-sound-music-volume"
             />
           </ListCard>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={{ marginHorizontal: -th.space.gutter }}
-            contentContainerStyle={{
-              gap: th.space.gap10,
-              paddingHorizontal: th.space.gutter,
-              paddingVertical: th.space.gap8,
+          <ScrollRow
+            gap={th.space.gap10}
+            bleed={th.space.gutter}
+            // 8 above and below the discs, as the row kept; its shadow room sits inside.
+            style={{
+              marginTop: th.space.gap8 - ROW_ROOM_ABOVE,
+              marginBottom: th.space.gap8 - ROW_ROOM_BELOW,
             }}
           >
             {values.themes.map((guideId) => {
@@ -216,7 +218,7 @@ export function SoundPremiumScreen() {
                 </PressableScale>
               );
             })}
-          </ScrollView>
+          </ScrollRow>
           {values.pinned ? (
             <TextButton
               label={t({ id: 'you.sound.follow', message: 'Follow my guide' })}

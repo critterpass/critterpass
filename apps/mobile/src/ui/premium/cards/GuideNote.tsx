@@ -43,7 +43,7 @@ function discOf(t: PremiumTheme, tint: GuideTint): string {
 }
 
 /**
- * A guide's note: a neutral white strip (r22) with the speaker's critter in a 36 pt disc of their
+ * A guide's note: a neutral white strip (r22) on the strip's own light shadow, with the speaker's critter in a 36 pt disc of their
  * tint, the bold name leading the line at 13/1.35 in the secondary ink, and an optional ink action
  * pill. The strip follows the card colour in dark mode; only the disc carries the speaker's tint.
  */
@@ -97,7 +97,7 @@ export function GuideNote({
       style={{
         borderRadius: t.radius.card,
         backgroundColor: t.color.card,
-        boxShadow: t.shadow.float,
+        boxShadow: t.shadow.guideStrip,
         paddingVertical: t.space.gap8,
         paddingStart: t.space.gap8,
         paddingEnd: t.space.rowPadH,

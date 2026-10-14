@@ -8,7 +8,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { upper } from '@cp/i18n';
 
@@ -19,8 +19,11 @@ import {
   CritterSticker,
   GuideNote,
   PressableScale,
-  Text,
   ring,
+  ROW_ROOM_ABOVE,
+  ROW_ROOM_BELOW,
+  ScrollRow,
+  Text,
   usePremiumTheme,
 } from '@/ui/premium';
 
@@ -46,10 +49,13 @@ function FacePicker({
 }) {
   const theme = usePremiumTheme();
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{ gap: theme.space.gap10, paddingVertical: theme.space.gap6 }}
+    <ScrollRow
+      gap={theme.space.gap10}
+      // 6 above and below the faces, as the row kept; its ring and shadow room sits inside.
+      style={{
+        marginTop: theme.space.gap6 - ROW_ROOM_ABOVE,
+        marginBottom: theme.space.gap6 - ROW_ROOM_BELOW,
+      }}
       accessibilityRole="radiogroup"
       testID="invite-pass-faces"
     >
@@ -81,7 +87,7 @@ function FacePicker({
           </PressableScale>
         );
       })}
-    </ScrollView>
+    </ScrollRow>
   );
 }
 
