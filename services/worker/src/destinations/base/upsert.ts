@@ -2,8 +2,9 @@
  * Writes a planned base set in one statement: every planned row goes in through
  * `jsonb_to_recordset` and one `INSERT … ON CONFLICT (slug)`. A new row becomes a `base` row with
  * a default box around its centre; an existing row is enriched (ids, centre, population, names,
- * kind, region). A seed, critter or area row keeps its name, country, coverage, set and critter;
- * a base row also takes the build's name, country, currency and time zone.
+ * kind, region). A seed, critter or area row keeps its name, country, coverage, set and critter,
+ * and only fills a missing currency or time zone; a base row also takes the build's name, country,
+ * currency and time zone.
  */
 import {
   boundsHalfKm,
@@ -26,8 +27,11 @@ export async function loadExistingDestinations(tx: pg.PoolClient): Promise<Exist
     origin: ExistingDestination['origin'];
     wikidata_qid: string | null;
     geonames_id: number | null;
+    lat: number | null;
+    lng: number | null;
+    names: Record<string, string> | null;
   }>(
-    `SELECT id, slug, name, country, country_code, origin, wikidata_qid, geonames_id
+    `SELECT id, slug, name, country, country_code, origin, wikidata_qid, geonames_id, lat, lng, names
        FROM destinations ORDER BY slug`,
   );
   return rows.map((row) => ({
@@ -39,6 +43,9 @@ export async function loadExistingDestinations(tx: pg.PoolClient): Promise<Exist
     origin: row.origin,
     qid: row.wikidata_qid,
     geonamesId: row.geonames_id,
+    lat: row.lat,
+    lng: row.lng,
+    names: row.names ?? {},
   }));
 }
 
@@ -131,8 +138,9 @@ export async function upsertBaseRows(
        name = CASE WHEN d.origin = 'base' THEN EXCLUDED.name ELSE d.name END,
        country = CASE WHEN d.origin = 'base' THEN EXCLUDED.country ELSE d.country END,
        currency = CASE WHEN d.origin = 'base' THEN coalesce(EXCLUDED.currency, d.currency)
-                       ELSE d.currency END,
-       tz = CASE WHEN d.origin = 'base' THEN coalesce(EXCLUDED.tz, d.tz) ELSE d.tz END,
+                       ELSE coalesce(d.currency, EXCLUDED.currency) END,
+       tz = CASE WHEN d.origin = 'base' THEN coalesce(EXCLUDED.tz, d.tz)
+                 ELSE coalesce(d.tz, EXCLUDED.tz) END,
        place_bounds = CASE WHEN d.origin = 'base' THEN coalesce(d.place_bounds, EXCLUDED.place_bounds)
                            ELSE d.place_bounds END
      RETURNING (xmax = 0) AS inserted`,
