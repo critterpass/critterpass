@@ -25,6 +25,11 @@ appId: app.critterpass.dev
     file: ../subflows/chat-guide.yaml
     env:
       LOOK: light
+# On iOS the guide's chat sheet stays up after chat-guide, so Find starts from a fresh Home.
+- runFlow:
+    file: ../subflows/start.yaml
+    env:
+      SCENARIO: everyday
 - runFlow:
     file: ../subflows/plan-find.yaml
     env:
