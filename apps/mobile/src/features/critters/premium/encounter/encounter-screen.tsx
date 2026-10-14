@@ -16,6 +16,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
 import { openInTabs } from '@/lib/navigation/open-in-tabs';
 import { tierWord, useToast } from '@/ui/premium';
+import { PresentedState } from '@/ui/premium/shell';
 
 import { artKind } from '../../art-kind';
 import { useCrewSightings } from '../../data/crew-sightings';
@@ -58,11 +59,12 @@ export function PremiumEncounterScreen({ tz = deviceTimeZone() }: { readonly tz?
   const toast = useToast();
   const { snapshot, befriend, dismiss } = useEncounter();
   const candidate = snapshot.candidate;
-  const formRow = useLiveRows<SpawnFormRow>(
+  const form = useLiveRows<SpawnFormRow>(
     SPAWN_FORM_SQL,
     uid === null || candidate === null ? null : [uid, candidate.rule.form_id],
     SPAWN_FORM_TABLES,
-  ).rows[0];
+  );
+  const formRow = form.rows[0];
   const forecastRows = dataOf(useCrowdForecasts(candidate?.spot.poiId ?? null))?.curves ?? [];
   const crew = useCrewSightings(candidate?.rule.critter_id ?? '');
   const [now] = useState(() => Date.now());
@@ -78,6 +80,10 @@ export function PremiumEncounterScreen({ tz = deviceTimeZone() }: { readonly tz?
   const back = () => goBackOr(PASS_TAB);
 
   const art = candidate === null ? null : spawnArt(candidate.rule, formRow);
+  // The critter's art still reading: the wait, not "nothing here" for a moment.
+  if (candidate !== null && art === null && snapshot.phase !== 'none' && !form.loaded) {
+    return <PresentedState state={{ kind: 'waiting' }} testID="encounter-waiting" />;
+  }
   if (candidate === null || art === null || snapshot.phase === 'none') {
     return <NothingScene onBack={back} />;
   }
