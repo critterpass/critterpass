@@ -57,11 +57,19 @@ describe('money text without formatToParts', () => {
       [135_000n, 'USD', 'en'],
       [-135_000n, 'USD', 'en'],
       [135_000n, 'USD', 'vi'],
+      [0n, 'SGD', 'en'],
+      [384_000n, 'SGD', 'en'],
     ];
     const withParts = samples.map(([minor, currency, locale]) => local(minor, currency, locale));
     hermesOnIphone();
     const without = samples.map(([minor, currency, locale]) => local(minor, currency, locale));
     expect(without.map(plain)).toEqual(withParts.map(plain));
+  });
+
+  it('spaces a swapped symbol by its own shape, not by the code the runtime wrote', () => {
+    // Android writes "SGD 0.00": the space belongs to the code, so "S$" hugs the digits.
+    expect(local(0n, 'SGD', 'en')).toBe('S$0.00');
+    expect(plain(local(15_000_000n, 'IDR', 'en'))).toBe('Rp 150,000');
   });
 
   it('groups thousands and places the symbol as the locale does', () => {

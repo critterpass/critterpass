@@ -136,6 +136,7 @@ export function useExpenseDetail(expenseId: string, tripId: string | null = null
   return {
     kind: 'ready',
     tripId: ctx.trip.id,
+    tz: ctx.trip.tz,
     members: ctx.members,
     item,
     currency,

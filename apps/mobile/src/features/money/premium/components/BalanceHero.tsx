@@ -159,7 +159,7 @@ export function EmptyLedgerHero(props: {
       testID="money-empty-hero"
     >
       <View style={styles.emptySticker} pointerEvents="none">
-        <StickerIcon name="wallet" size={88} tilt={-12} color={th.color.outlineEmpty} />
+        <StickerIcon name="wallet" size={76} tilt={-12} color={th.color.outlineEmpty} />
       </View>
       <Text variant="label" color={th.color.onInkSurface} style={styles.soft}>
         {t({ id: 'money.premium.square', message: `${props.crewName} · you're square` })}
@@ -193,7 +193,8 @@ const styles = StyleSheet.create({
   amountRow: { flexDirection: 'row', alignItems: 'flex-end' },
   spark: { marginLeft: 6, marginBottom: 8 },
   dark: { padding: 20, minHeight: 168, justifyContent: 'flex-end', overflow: 'hidden' },
-  emptySticker: { position: 'absolute', top: -14, right: -10, opacity: 0.55 },
+  // Inside the card's rounded corner, so the card's clip never cuts its outline (7.16).
+  emptySticker: { position: 'absolute', top: 14, right: 16, opacity: 0.55 },
   soft: { opacity: 0.85 },
   crew: { flexDirection: 'row', alignItems: 'center', gap: 10 },
 });

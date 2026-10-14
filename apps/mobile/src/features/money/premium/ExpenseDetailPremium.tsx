@@ -25,7 +25,12 @@ import {
 import { confirmAlert, PushScreen } from '@/ui/premium/shell';
 
 import { useCategoryLabel } from '../components/category';
-import { rateText, useFieldLabel } from '../expense-detail/detail-copy';
+import {
+  changeStampText,
+  expenseDayText,
+  rateText,
+  useFieldLabel,
+} from '../expense-detail/detail-copy';
 import { useExpenseDetail, type ExpenseDetail } from '../expense-detail/use-expense-detail';
 import { formatAmount, formatAmountShown } from '../format';
 import { categoryLook } from './components/category-look';
@@ -103,10 +108,7 @@ function Changes({ detail }: { readonly detail: Ready }) {
   const added = detail.added;
   if (detail.history.length === 0 && added === null) return null;
   const adder = added?.name ?? '';
-  const addedOn =
-    added === null
-      ? ''
-      : format.date(locale, new Date(added.at), { day: 'numeric', month: 'short' });
+  const addedOn = added === null ? '' : changeStampText(locale, added.at, detail.tz);
   return (
     <View style={{ gap: th.space.gap8, paddingHorizontal: th.space.titleGutter }}>
       <Text variant="label" tone="muted">
@@ -114,7 +116,7 @@ function Changes({ detail }: { readonly detail: Ready }) {
       </Text>
       <View style={[styles.timeline, { borderLeftColor: th.color.fieldBorder }]}>
         {detail.history.map((edit) => {
-          const on = format.date(locale, new Date(edit.at), { day: 'numeric', month: 'short' });
+          const on = changeStampText(locale, edit.at, detail.tz);
           const editor = edit.editorName;
           const what = format.list(locale, edit.fields.map(fieldLabel));
           const line =
@@ -181,14 +183,7 @@ export function ExpenseDetailPremium({
     item.crewAmountMinor !== null && item.currency !== currency
       ? `≈ ${formatAmount(item.crewAmountMinor, currency, locale)}`
       : null;
-  const when =
-    item.spentAt === ''
-      ? ''
-      : format.date(locale, new Date(item.spentAt), {
-          weekday: 'short',
-          day: 'numeric',
-          month: 'short',
-        });
+  const when = item.localDate === '' ? '' : expenseDayText(locale, item.localDate);
   const sub = [
     converted,
     payer === '' ? null : t({ id: 'money.row.paid', message: `${payer} paid` }),
