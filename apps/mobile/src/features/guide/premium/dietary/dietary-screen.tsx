@@ -1,11 +1,11 @@
 /**
  * Food and access needs, premium (5.21, 5.22): consent first for someone who has never shared
- * (Share flags grants it and opens the form with sharing on; Not now goes back with nothing
- * shared; Keep it to myself opens the form unshared), then the form. Save goes through the
+ * (Share flags grants it and opens the form with sharing on; Not now opens the form unshared; ✕
+ * leaves with nothing shared), then the form. Save goes through the
  * offline queue; leaving with edits asks first.
  */
 import { t } from '@lingui/core/macro';
-import { router, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 import { useContext, useState } from 'react';
 import { Keyboard, View } from 'react-native';
 import { useAnimatedReaction } from 'react-native-reanimated';
@@ -15,6 +15,9 @@ import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { Button, LoadingCritter, Text, usePremiumTheme } from '@/ui/premium';
 import {
   FullScreen,
+  SCROLL_EDGE_FADE,
+  ScrollEdgeFade,
+  useScrollEdges,
   useDirtySheetGuard,
   useKeyboardFrame,
   useScreenInsets,
@@ -48,6 +51,7 @@ function OpenDietary({ services }: { readonly services: DietaryServices }) {
   const [step, setStep] = useState<'consent' | 'form' | null>(null);
   const [grant, setGrant] = useState(false);
   const keyboardUp = useKeyboardUp();
+  const edges = useScrollEdges();
   const guard = useDirtySheetGuard(form.dirty, {
     title: t({ id: 'guide.premium.dietary.discard', message: 'Discard your changes?' }),
     message: t({ id: 'guide.premium.dietary.discardLine', message: 'What you changed goes.' }),
@@ -68,8 +72,7 @@ function OpenDietary({ services }: { readonly services: DietaryServices }) {
               setGrant(true);
               setStep('form');
             }}
-            onNotNow={() => router.back()}
-            onJustMe={() => setStep('form')}
+            onNotNow={() => setStep('form')}
           />
         </View>
       </FullScreen>
@@ -79,14 +82,23 @@ function OpenDietary({ services }: { readonly services: DietaryServices }) {
     <FullScreen closeLabel={close} overPhoto={false} testID="guide-dietary-sheet">
       <Stack.Screen options={{ headerShown: false }} />
       <View style={{ flex: 1, backgroundColor: th.color.ground }}>
-        <DietaryForm
-          profile={form.profile}
-          onChange={form.edit}
-          onShareChange={(share) => {
-            if (share && !form.consented && !form.wasSharing) setGrant(true);
-            form.edit({ ...form.profile, visibility: share ? SHARED : PRIVATE });
-          }}
-        />
+        <View style={{ flex: 1 }}>
+          <DietaryForm
+            scrollProps={edges.scrollProps}
+            profile={form.profile}
+            onChange={form.edit}
+            onShareChange={(share) => {
+              if (share && !form.consented && !form.wasSharing) setGrant(true);
+              form.edit({ ...form.profile, visibility: share ? SHARED : PRIVATE });
+            }}
+          />
+          {/* The form fades out above Save while there is more of it, instead of cutting there. */}
+          <ScrollEdgeFade
+            edge="bottom"
+            height={SCROLL_EDGE_FADE}
+            visible={edges.bottom && !keyboardUp}
+          />
+        </View>
         {keyboardUp ? null : (
           <View style={{ paddingHorizontal: 20, paddingBottom: insets.bottom + 12, gap: 6 }}>
             {form.saved ? (

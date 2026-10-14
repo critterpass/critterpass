@@ -10,7 +10,7 @@ import { useState, type ReactNode } from 'react';
 import { View } from 'react-native';
 
 import { SegmentedControl, Text, TextField, Toggle, usePremiumTheme } from '@/ui/premium';
-import { KeyboardAwareScroll, useScreenInsets } from '@/ui/premium/shell';
+import { KeyboardAwareScroll, useScreenInsets, type ScrollEdges } from '@/ui/premium/shell';
 
 import type { DietaryProfile } from '../../dietary/dietary-data';
 import { COMMON_ALLERGENS, useDietLabels, type Allergen } from '../../dietary/dietary-labels';
@@ -36,10 +36,13 @@ export function DietaryForm({
   profile,
   onChange,
   onShareChange,
+  scrollProps,
 }: {
   readonly profile: DietaryProfile;
   readonly onChange: (next: DietaryProfile) => void;
   readonly onShareChange: (share: boolean) => void;
+  /** Where the form sits against its edges, for the fade over Save. */
+  readonly scrollProps: ScrollEdges['scrollProps'];
 }) {
   const th = usePremiumTheme();
   const insets = useScreenInsets();
@@ -61,10 +64,11 @@ export function DietaryForm({
   const avoidLabel = t({ id: 'guide.dietary.avoidLabel', message: 'Coriander, offal, raw fish…' });
   const accessLabel = t({
     id: 'guide.dietary.accessLabel',
-    message: 'Steps, long walks, hearing, anything the guide should plan around',
+    message: 'Stairs, long walks, hearing…',
   });
   return (
     <KeyboardAwareScroll
+      {...scrollProps}
       contentContainerStyle={{
         paddingTop: insets.top + 64,
         paddingHorizontal: 24,
