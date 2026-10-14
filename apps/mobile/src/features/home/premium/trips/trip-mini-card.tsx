@@ -18,6 +18,9 @@ import { tripDay } from '../../format';
 import { guideArt } from '../../guide-art';
 import { tripStage, type PremiumTripRow } from './trips-model';
 
+/** The dark disc's alpha over the accent (hex, about 22 %). */
+const DARK_DISC_ALPHA = '38';
+
 const useStyles = makePremiumStyles((t) => ({
   card: {
     flex: 1,
@@ -67,7 +70,13 @@ export function TripMiniCard({ trip, index, onPress }: TripMiniCardProps) {
   const when = trip.start_date === null ? null : tripDay(locale, trip.start_date);
   const percent = stage === 'voting' ? 10 : Math.max(8, Math.min(100, trip.plan_progress ?? 0));
   const fill = index % 2 === 0 ? theme.accent.tangerine : theme.accent.sun;
-  const tint = index % 2 === 0 ? theme.color.status.tangerine.bg : theme.color.status.maybe.bg;
+  // In dark the status tints turn to deep browns; the disc keeps the accent's hue as a soft glow.
+  const tint =
+    theme.scheme === 'dark'
+      ? `${fill}${DARK_DISC_ALPHA}`
+      : index % 2 === 0
+        ? theme.color.status.tangerine.bg
+        : theme.color.status.maybe.bg;
   const word =
     stage === 'voting'
       ? t({ id: 'home.premium.trips.voting', message: 'Voting' })
