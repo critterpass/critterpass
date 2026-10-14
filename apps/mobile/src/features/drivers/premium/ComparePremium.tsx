@@ -83,10 +83,13 @@ export function ComparePremium(props: {
         title={t({ id: 'drivers.premium.compareNoneTitle', message: 'Compare' })}
         subtitle={compare.header}
         backLabel={back}
+        scroll={false}
         testID="drivers-compare-empty"
       >
+        {/* Nothing else on the page: the empty state takes the room left, in its optical centre. */}
         <View style={[styles.none, { paddingHorizontal: th.space.gutter }]}>
           <EmptyState
+            fill
             title={t({
               id: 'drivers.premium.compareNoneHead',
               message: 'Nobody on the shortlist yet',
@@ -214,7 +217,7 @@ export function ComparePremium(props: {
 }
 
 const styles = StyleSheet.create({
-  none: { paddingTop: 32 },
+  none: { flex: 1, paddingTop: 32 },
   body: { paddingTop: 8 },
   failed: { gap: 12 },
   pickRow: { flexDirection: 'row', gap: TABLE_GAP, paddingBottom: 6 },

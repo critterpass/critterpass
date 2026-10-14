@@ -193,7 +193,9 @@ export function PremiumJournalScene(props: AlbumViewProps) {
     );
   } else if (photos.length === 0) {
     body = (
+      // Nothing else on the page: in its optical centre, not over a blank lower half.
       <EmptyState
+        fill
         critter={{ kind: art.kind, name: props.guideName }}
         title={t({ id: 'album.empty.title', message: 'No photos yet' })}
         line={t({
@@ -257,6 +259,7 @@ export function PremiumJournalScene(props: AlbumViewProps) {
       <Stack.Screen options={{ headerShown: false }} />
       <ScrollView
         contentContainerStyle={{
+          flexGrow: 1,
           paddingTop: insets.top + 6,
           paddingHorizontal: 16,
           paddingBottom: insets.bottom + 32,

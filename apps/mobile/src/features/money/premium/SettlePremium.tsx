@@ -239,7 +239,7 @@ export function SettlePremium({ tripId = null }: { readonly tripId?: string | nu
 }
 
 const styles = StyleSheet.create({
-  body: { paddingTop: 8, paddingBottom: 24 },
+  body: { flexGrow: 1, paddingTop: 8, paddingBottom: 24 },
   flex: { flex: 1, minWidth: 0 },
   tabular: { fontVariant: ['tabular-nums'] },
   guideLine: { flexDirection: 'row', alignItems: 'center', gap: 10 },

@@ -65,8 +65,10 @@ export function NothingToSettle() {
   const { t } = useLingui();
   const guide = useWalletGuide();
   return (
-    <View style={{ paddingTop: th.space.gutter }}>
+    // In the optical centre of the page, not hanging under the title with the page blank below.
+    <View style={{ flexGrow: 1, paddingTop: th.space.gutter }}>
       <EmptyState
+        fill
         title={t({ id: 'money.settle.nothingTitle', message: 'Nothing to settle' })}
         line={t({
           id: 'money.settle.nothing',

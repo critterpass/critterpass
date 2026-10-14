@@ -150,6 +150,14 @@ function Board() {
         }}
         backLabel={t({ id: 'help.ideas.back', message: 'Help' })}
         scroll={false}
+        // On the page's ground under the list, so the last idea always clears it.
+        footer={
+          <Button
+            label={t({ id: 'help.premium.suggest', message: 'Suggest an idea' })}
+            onPress={() => b.setSuggesting(true)}
+            testID="help-ideas-suggest"
+          />
+        }
         testID="help-ideas"
       >
         <FlatList
@@ -157,9 +165,9 @@ function Board() {
           data={b.board.loaded ? b.rows : []}
           keyExtractor={(row) => row.id}
           contentContainerStyle={{
+            flexGrow: 1,
             padding: th.space.gutter,
             gap: th.space.gap8,
-            paddingBottom: 120,
           }}
           ListHeaderComponent={
             <View style={{ marginBottom: th.space.gap8 }}>
@@ -180,9 +188,10 @@ function Board() {
             </View>
           }
           ListEmptyComponent={
-            // Undesigned: the kit's empty state, clear of the floating Suggest button.
-            <View style={{ paddingTop: 24, paddingBottom: 120 }}>
+            // Undesigned: the kit's empty state, in the optical centre of the room left.
+            <View style={{ flexGrow: 1 }}>
               <EmptyState
+                fill
                 check={false}
                 critter={{ kind: 'gecko', name: 'Tokek' }}
                 title={
@@ -214,16 +223,6 @@ function Board() {
           }
           renderItem={({ item }) => <IdeaCard row={item} onVote={() => void b.onVote(item.id)} />}
         />
-        <View
-          style={{ position: 'absolute', left: 24, right: 24, bottom: 40 }}
-          pointerEvents="box-none"
-        >
-          <Button
-            label={t({ id: 'help.premium.suggest', message: 'Suggest an idea' })}
-            onPress={() => b.setSuggesting(true)}
-            testID="help-ideas-suggest"
-          />
-        </View>
       </PushScreen>
       {b.suggesting ? (
         <SuggestIdeaSheet
