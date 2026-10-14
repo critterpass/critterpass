@@ -1,8 +1,7 @@
 /**
- * A destination with no curated media still shows pictures, on real Postgres: each first-timer
- * pick carries the first photo of its ready AI profile (none from a profile still being written,
- * none for a place the editors reviewed), and the first pick with a photo is offered as the
- * destination's cover with the place it shows.
+ * A destination with no curated media, on real Postgres: its first-timer picks offer none of the
+ * photos their AI profiles found by web search (no licence we could check), so no pick stands in
+ * as the destination's cover.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -18,9 +17,7 @@ let pool: pg.Pool;
 let haNoi: string;
 let bare: string;
 let viewer: string;
-const ids = new Map<string, string>();
 
-const MEDIA_HOST = 'https://media.test';
 const SEEDS = [
   ['Hoan Kiem Lake', 'nature', 'pending'],
   ['Ngoc Son Temple', 'temple_shrine', 'ready'],
@@ -34,7 +31,7 @@ const photosOf = (id: string) => [
 ];
 
 const picks = (destinationId: string) =>
-  withUser(pool, viewer, 'test', (tx) => readPicks(tx, destinationId, null, MEDIA_HOST));
+  withUser(pool, viewer, 'test', (tx) => readPicks(tx, destinationId, null));
 
 beforeAll(async () => {
   postgres = await startPostgres();
@@ -57,7 +54,6 @@ beforeAll(async () => {
       [haNoi, name, category, 21.02 + index * 0.004, index + 1],
     );
     const id = inserted.rows[0]?.id as string;
-    ids.set(name, id);
     if (profile !== null) {
       await pool.query(
         `INSERT INTO place_profiles (poi_id, status, texts, photos) VALUES ($1, $2, '{}', $3)`,
@@ -78,47 +74,12 @@ afterAll(async () => {
 });
 
 describe("a destination's picks and cover without curated media", () => {
-  it("gives each pick its ready profile's first photo", async () => {
+  it('shows no stored profile photo on any pick, and so no pick cover', async () => {
     const shown = await picks(haNoi);
-    const photoOf = (name: string) => shown.find((pick) => pick.name === name)?.photo;
-    const temple = ids.get('Ngoc Son Temple') as string;
     expect(shown.map((pick) => pick.name)).toEqual(SEEDS.map(([name]) => name));
-    expect(photoOf('Ngoc Son Temple')).toEqual({
-      url: `${MEDIA_HOST}/c/place-profiles/${temple}/1.jpg`,
-      source_page: `https://commons.example/${temple}`,
-    });
-    expect(photoOf('Hanoi Opera House')).not.toBeNull();
-    // A profile still being written, and a place with no profile, have no photo to show.
-    expect(photoOf('Hoan Kiem Lake')).toBeNull();
-    expect(photoOf('Long Bien Bridge')).toBeNull();
-  });
-
-  it('offers the first pick with a photo as the cover, naming the place', async () => {
-    const temple = ids.get('Ngoc Son Temple') as string;
-    expect(coverOf(await picks(haNoi))).toEqual({
-      url: `${MEDIA_HOST}/c/place-profiles/${temple}/1.jpg`,
-      source_page: `https://commons.example/${temple}`,
-      poi_id: temple,
-      name: 'Ngoc Son Temple',
-    });
-  });
-
-  it('keeps the profile photo off a place the editors reviewed', async () => {
-    const temple = ids.get('Ngoc Son Temple') as string;
-    await pool.query(
-      `UPDATE pois SET curation = 'editorial', editorial = '{"why_go": "A red bridge to an island temple."}'
-        WHERE id = $1`,
-      [temple],
-    );
-    try {
-      const shown = await picks(haNoi);
-      expect(shown.find((pick) => pick.poi_id === temple)?.photo).toBeNull();
-      expect(coverOf(shown)?.name).toBe('Hanoi Opera House');
-    } finally {
-      await pool.query(`UPDATE pois SET curation = 'auto', editorial = '{}' WHERE id = $1`, [
-        temple,
-      ]);
-    }
+    // Ready profiles still list scraped photos in this database: none is offered.
+    expect(shown.map((pick) => pick.photo)).toEqual(SEEDS.map(() => null));
+    expect(coverOf(shown)).toBeNull();
   });
 
   it('has no cover where no pick has a photo', async () => {

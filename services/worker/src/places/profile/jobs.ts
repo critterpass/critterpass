@@ -28,7 +28,6 @@ import {
 import type pg from 'pg';
 
 import { defineJob, type AnyJobDefinition } from '../../boss';
-import { createAvatarMediaStore } from '../../jobs/avatar/media-store';
 import { runPlaceProfile, type PlaceProfileDeps } from './run';
 import { createPlaceSearch } from './search';
 import { markRunEnded, saveProfileTranslation } from './store';
@@ -44,10 +43,6 @@ export interface PlaceProfileEnv {
   readonly PLACES_SEARCH_GAP_MS: number;
   readonly PLACES_PROFILE_MODEL: 'fast' | 'pro';
   readonly PLACES_PROFILE_DAILY_CAP_USD: number;
-  readonly R2_S3_ENDPOINT?: string | undefined;
-  readonly R2_BUCKET?: string | undefined;
-  readonly R2_ACCESS_KEY_ID?: string | undefined;
-  readonly R2_SECRET_ACCESS_KEY?: string | undefined;
 }
 
 /** Warm-up jobs from a pitch or a trip: the top 30, one every 20 s. */
@@ -76,15 +71,6 @@ export function placeProfileDeps(
     ...(env.ANTHROPIC_BASE_URL === undefined ? {} : { baseURL: env.ANTHROPIC_BASE_URL }),
     ...shared,
   });
-  const bucket =
-    env.R2_S3_ENDPOINT && env.R2_BUCKET && env.R2_ACCESS_KEY_ID && env.R2_SECRET_ACCESS_KEY
-      ? createAvatarMediaStore({
-          endpoint: env.R2_S3_ENDPOINT,
-          bucket: env.R2_BUCKET,
-          accessKeyId: env.R2_ACCESS_KEY_ID,
-          secretAccessKey: env.R2_SECRET_ACCESS_KEY,
-        })
-      : undefined;
   return {
     gateway,
     decisions: createDecisionClient({
@@ -102,7 +88,6 @@ export function placeProfileDeps(
       pool: options.pool,
       ...(env.TAVILY_API_KEY ? { tavily: createTavilySearch({ apiKey: env.TAVILY_API_KEY }) } : {}),
     }),
-    store: bucket,
     tier: env.PLACES_PROFILE_MODEL,
     dailyCapMicros: Math.round(env.PLACES_PROFILE_DAILY_CAP_USD * 1_000_000),
   };

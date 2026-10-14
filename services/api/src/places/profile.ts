@@ -39,7 +39,10 @@ export interface ProfileReadOptions {
   readonly uid: string;
   /** Per-reader limits on new jobs; absent = only the worker's daily cap applies. */
   readonly redis?: RateLimitRedisClient | undefined;
-  /** Origin of the media Worker that serves the public `c/` prefix (photos). */
+  /**
+   * Origin of the media Worker. Not read: a profile carries no photo (the ones found by web search
+   * had no licence we could check), so `photos` is always empty.
+   */
   readonly mediaBaseUrl?: string | undefined;
 }
 
@@ -51,7 +54,6 @@ interface ProfileRow {
   readonly visit_min: number | null;
   readonly dish: string | null;
   readonly facts: unknown;
-  readonly photos: unknown;
   readonly sources: unknown;
   readonly generated_at: Date | null;
   /** The worker skipped the run at an earlier day's spent cap: queue it again. */
@@ -70,7 +72,6 @@ const factsSchema = z.array(
 export function secondSourceOf(stored: string | undefined): 'agrees' | 'own_site' | 'single' {
   return stored === 'agrees' || stored === 'own_site' ? stored : 'single';
 }
-const photosSchema = z.array(z.object({ key: z.string(), source_page: z.string() }));
 const sourcesSchema = z.array(z.object({ url: z.string(), title: z.string() }));
 
 /** Every language the app ships text in (`@cp/i18n`), the pseudo-locale aside. */
@@ -125,15 +126,13 @@ async function allowed(
   }
 }
 
-function readyWire(row: ProfileRow, locale: string, mediaBaseUrl: string | undefined) {
+function readyWire(row: ProfileRow, locale: string) {
   const own = placeProfileTextSchema.safeParse(row.texts[locale]);
   const english = placeProfileTextSchema.safeParse(row.texts['en']);
   const text = own.success ? own.data : english.success ? english.data : null;
   if (text === null) return null;
   const facts = factsSchema.safeParse(row.facts);
-  const photos = photosSchema.safeParse(row.photos);
   const sources = sourcesSchema.safeParse(row.sources);
-  const base = mediaBaseUrl?.replace(/\/+$/u, '');
   return {
     wire: {
       status: 'ready',
@@ -158,10 +157,7 @@ function readyWire(row: ProfileRow, locale: string, mediaBaseUrl: string | undef
               },
             ];
       }),
-      photos:
-        base === undefined || !photos.success
-          ? []
-          : photos.data.map((p) => ({ url: `${base}/${p.key}`, sourcePage: p.source_page })),
+      photos: [],
       sources: sources.success ? sources.data : [],
       generatedAt: (row.generated_at ?? new Date()).toISOString(),
     } satisfies PlaceProfileWire,
@@ -176,7 +172,7 @@ export async function readPlaceProfile(
 ): Promise<PlaceProfileWire | null> {
   if (place.reviewed || PROFILE_SKIPPED_CATEGORIES.has(place.category as PoiCategory)) return null;
   const { rows } = await tx.query<ProfileRow>(
-    `SELECT status, texts, meal_role, best_times, visit_min, dish, facts, photos, sources,
+    `SELECT status, texts, meal_role, best_times, visit_min, dish, facts, sources,
             generated_at,
             status = 'failed' AND error = 'daily_cap'
               AND updated_at < date_trunc('day', now() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC'
@@ -200,7 +196,7 @@ export async function readPlaceProfile(
   if (row.status === 'pending') return { status: 'pending' };
   if (row.status !== 'ready') return null;
   const readerLocale = await profileReaderLocale(tx, options.uid);
-  const ready = readyWire(row, readerLocale, options.mediaBaseUrl);
+  const ready = readyWire(row, readerLocale);
   if (ready === null) return null;
   if (
     !ready.translated &&
