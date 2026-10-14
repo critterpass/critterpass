@@ -17,4 +17,4 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'plan-map-menu-${ITEM}'
           optional: true
-      - waitForAnimationToEnd
+      - runFlow: ../../_shared/settle.yaml

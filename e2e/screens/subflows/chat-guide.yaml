@@ -183,5 +183,5 @@ appId: app.critterpass.dev
           commands:
             - tapOn:
                 id: 'guide-close'
-            - waitForAnimationToEnd
+            - runFlow: ../../_shared/settle.yaml
 - runFlow: chat-home.yaml

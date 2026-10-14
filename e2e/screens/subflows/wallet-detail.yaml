@@ -101,7 +101,7 @@ appId: app.critterpass.dev
             platform: Android
           commands:
             - back
-            - waitForAnimationToEnd
+            - runFlow: ../../_shared/settle.yaml
 - runFlow:
     when:
       visible:

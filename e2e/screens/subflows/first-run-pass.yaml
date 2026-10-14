@@ -19,7 +19,7 @@ appId: app.critterpass.dev
             LOOK: light
       - tapOn:
           id: 'paste-link-skip'
-      - waitForAnimationToEnd
+      - runFlow: ../../_shared/settle.yaml
 - extendedWaitUntil:
     visible:
       id: 'onboarding-open'
@@ -78,8 +78,7 @@ appId: app.critterpass.dev
             visible:
               id: 'onboarding-open'
           commands:
-            - waitForAnimationToEnd:
-                timeout: 3000
+            - runFlow: ../../_shared/settle.yaml
             - tapOn:
                 id: 'onboarding-open'
       - extendedWaitUntil:
@@ -116,7 +115,7 @@ appId: app.critterpass.dev
       id: 'onboarding-photo'
     timeout: 10000
     optional: true
-- waitForAnimationToEnd
+- runFlow: ../../_shared/settle.yaml
 - runFlow:
     file: shot.yaml
     env:
@@ -155,11 +154,11 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'quiz-card-left'
     optional: true
-- waitForAnimationToEnd
+- runFlow: ../../_shared/settle.yaml
 - tapOn:
     id: 'quiz-card-right'
     optional: true
-- waitForAnimationToEnd
+- runFlow: ../../_shared/settle.yaml
 - runFlow:
     file: shot.yaml
     env:
@@ -176,7 +175,7 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'quiz-card-left'
           optional: true
-      - waitForAnimationToEnd
+      - runFlow: ../../_shared/settle.yaml
 - extendedWaitUntil:
     visible:
       id: 'taste-done'
@@ -255,8 +254,7 @@ appId: app.critterpass.dev
       id: 'onboarding-issued'
     timeout: 20000
     optional: true
-- waitForAnimationToEnd:
-    timeout: 4000
+- runFlow: ../../_shared/settle.yaml
 - runFlow:
     file: shot.yaml
     env:
@@ -284,7 +282,7 @@ appId: app.critterpass.dev
             LOOK: light
       - tapOn:
           id: 'save-not-now'
-      - waitForAnimationToEnd
+      - runFlow: ../../_shared/settle.yaml
 - runFlow:
     when:
       visible:
@@ -317,7 +315,7 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'primer-later'
-      - waitForAnimationToEnd
+      - runFlow: ../../_shared/settle.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-screen'

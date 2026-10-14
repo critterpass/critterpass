@@ -17,7 +17,7 @@ appId: app.critterpass.dev
           commands:
             - tapOn:
                 id: 'full-screen-close'
-            - waitForAnimationToEnd
+            - runFlow: ../../_shared/settle.yaml
       - runFlow:
           when:
             visible:
@@ -32,14 +32,14 @@ appId: app.critterpass.dev
           commands:
             - tapOn:
                 point: '10%,9%'
-            - waitForAnimationToEnd
+            - runFlow: ../../_shared/settle.yaml
       # A form the flow typed into asks before it closes: its changes are thrown away.
       - runFlow:
           when:
             visible: 'Discard your changes\?'
           commands:
             - tapOn: 'DISCARD|Discard'
-            - waitForAnimationToEnd
+            - runFlow: ../../_shared/settle.yaml
       - runFlow:
           when:
             platform: iOS
@@ -49,4 +49,4 @@ appId: app.critterpass.dev
             - swipe:
                 start: 50%, 30%
                 end: 50%, 95%
-            - waitForAnimationToEnd
+            - runFlow: ../../_shared/settle.yaml

@@ -62,8 +62,7 @@ appId: app.critterpass.dev
 # read it again and start another seeded account instead of a new one.
 - stopApp
 - launchApp
-- waitForAnimationToEnd:
-    timeout: 8000
+- runFlow: settle.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-screen|tab-home|critters-hatch-later|visit-consent-decline'

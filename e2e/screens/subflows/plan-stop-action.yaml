@@ -20,7 +20,7 @@ appId: app.critterpass.dev
           id: 'stop-menu-${ITEM}'
           optional: true
       # The row runs once the menu's fade out ends.
-      - waitForAnimationToEnd
+      - runFlow: ../../_shared/settle.yaml
       - runFlow:
           file: shot.yaml
           env:

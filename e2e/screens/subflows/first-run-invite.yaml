@@ -109,8 +109,7 @@ appId: app.critterpass.dev
             id: 'invite-manifest-screen'
           timeout: 10000
           optional: true
-      - waitForAnimationToEnd:
-          timeout: 4000
+      - runFlow: ../../_shared/settle.yaml
       - runFlow:
           file: shot.yaml
           env:

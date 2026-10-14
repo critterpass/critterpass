@@ -84,7 +84,7 @@ appId: app.critterpass.dev
                 start: 50%, 12%
                 end: 50%, 95%
                 duration: 500
-            - waitForAnimationToEnd
+            - runFlow: ../../_shared/settle.yaml
       # Move to another day and Change time open the same sheet.
       - runFlow:
           file: ../subflows/plan-stop-action.yaml
@@ -102,7 +102,7 @@ appId: app.critterpass.dev
                 start: 50%, 12%
                 end: 50%, 95%
                 duration: 500
-            - waitForAnimationToEnd
+            - runFlow: ../../_shared/settle.yaml
       - runFlow:
           file: ../subflows/plan-stop-action.yaml
           env:
@@ -119,7 +119,7 @@ appId: app.critterpass.dev
                 start: 50%, 12%
                 end: 50%, 95%
                 duration: 500
-            - waitForAnimationToEnd
+            - runFlow: ../../_shared/settle.yaml
       # Remove: the question first; Cancel keeps the stop.
       - runFlow:
           file: ../subflows/plan-stop-action.yaml
@@ -130,7 +130,7 @@ appId: app.critterpass.dev
       - tapOn:
           text: 'Cancel'
           optional: true
-      - waitForAnimationToEnd
+      - runFlow: ../../_shared/settle.yaml
       # Ask the guide: the guide with a question about the stop waiting in its composer.
       - runFlow:
           file: ../subflows/plan-stop-action.yaml
@@ -144,7 +144,7 @@ appId: app.critterpass.dev
               id: 'plan-map-search'
           commands:
             - runFlow: ../../_shared/back.yaml
-      - waitForAnimationToEnd
+      - runFlow: ../../_shared/settle.yaml
       # Share last: the system share sheet over the map, then away.
       - runFlow:
           file: ../subflows/plan-stop-action.yaml
@@ -182,7 +182,7 @@ appId: app.critterpass.dev
                       start: 50%, 55%
                       end: 50%, 98%
                       duration: 400
-      - waitForAnimationToEnd
+      - runFlow: ../../_shared/settle.yaml
       # The plan check's page.
       - runFlow:
           file: ../subflows/plan-more.yaml

@@ -23,4 +23,4 @@ appId: app.critterpass.dev
             LOOK: ${LOOK}
       - tapOn:
           point: '50%,93%'
-      - waitForAnimationToEnd
+      - runFlow: ../../_shared/settle.yaml

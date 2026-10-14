@@ -11,8 +11,7 @@ appId: app.critterpass.dev
       id: 'home-screen'
     timeout: 15000
     optional: true
-- waitForAnimationToEnd:
-    timeout: 4000
+- runFlow: ../../_shared/settle.yaml
 - runFlow:
     file: shot.yaml
     env:
@@ -31,7 +30,7 @@ appId: app.critterpass.dev
 - swipe:
     start: 50%, 35%
     end: 50%, 80%
-- waitForAnimationToEnd
+- runFlow: ../../_shared/settle.yaml
 - runFlow:
     file: home-switcher.yaml
     env:
@@ -56,7 +55,7 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'inbox-not-now'
           optional: true
-      - waitForAnimationToEnd
+      - runFlow: ../../_shared/settle.yaml
 - extendedWaitUntil:
     visible:
       id: 'inbox-card-.*'
@@ -117,7 +116,7 @@ appId: app.critterpass.dev
       visible:
         id: 'crew-settings'
     commands:
-      - waitForAnimationToEnd
+      - runFlow: ../../_shared/settle.yaml
       - runFlow:
           file: shot.yaml
           env:

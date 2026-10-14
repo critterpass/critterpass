@@ -36,7 +36,7 @@ appId: app.critterpass.dev
           commands:
             - tapOn:
                 id: 'offline-remove-.*'
-            - waitForAnimationToEnd
+            - runFlow: ../../_shared/settle.yaml
             - runFlow:
                 file: shot.yaml
                 env:
@@ -46,7 +46,7 @@ appId: app.critterpass.dev
             - tapOn:
                 text: 'Cancel|CANCEL'
                 optional: true
-            - waitForAnimationToEnd
+            - runFlow: ../../_shared/settle.yaml
 - runFlow:
     file: ../../_shared/back-to.yaml
     env:

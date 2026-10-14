@@ -4,4 +4,4 @@ appId: app.critterpass.dev
 - tapOn:
     text: '(?i)(don.?t allow|deny|not now)'
     optional: true
-- waitForAnimationToEnd
+- runFlow: ../../_shared/settle.yaml

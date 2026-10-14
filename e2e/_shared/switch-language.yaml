@@ -52,5 +52,4 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'you-language-${LANG}'
-- waitForAnimationToEnd:
-    timeout: 5000
+- runFlow: settle.yaml

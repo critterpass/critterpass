@@ -70,7 +70,7 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'inbox-not-now'
           optional: true
-      - waitForAnimationToEnd
+      - runFlow: ../../_shared/settle.yaml
 - runFlow:
     when:
       visible:
@@ -133,8 +133,7 @@ appId: app.critterpass.dev
             id: 'crew-created'
           timeout: 30000
           optional: true
-      - waitForAnimationToEnd:
-          timeout: 4000
+      - runFlow: ../../_shared/settle.yaml
       - runFlow:
           file: shot.yaml
           env:

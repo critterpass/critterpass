@@ -58,7 +58,7 @@ appId: app.critterpass.dev
                 commands:
                   - tapOn:
                       point: '50%,8%'
-            - waitForAnimationToEnd
+            - runFlow: ../../_shared/settle.yaml
       # The keyboard up with a draft, then the draft sent to the crew.
       - runFlow:
           when:
@@ -105,8 +105,7 @@ appId: app.critterpass.dev
                   - tapOn:
                       id: 'chat-tray-sticker-.*'
                       optional: true
-                  - waitForAnimationToEnd:
-                      timeout: 4000
+                  - runFlow: ../../_shared/settle.yaml
                   - runFlow:
                       file: shot.yaml
                       env:

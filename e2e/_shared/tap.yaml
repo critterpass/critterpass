@@ -17,4 +17,4 @@ appId: app.critterpass.dev
       - tapOn:
           text: '${LABEL}'
           optional: true
-- waitForAnimationToEnd
+- runFlow: settle.yaml

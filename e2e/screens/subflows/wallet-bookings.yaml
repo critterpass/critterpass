@@ -36,7 +36,7 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'bookings-closed-.*'
-      - waitForAnimationToEnd
+      - runFlow: ../../_shared/settle.yaml
       # The picked card comes to the front (open it), or opens its detail straight away.
       - runFlow:
           when:

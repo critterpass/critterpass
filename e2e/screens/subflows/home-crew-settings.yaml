@@ -63,7 +63,7 @@ appId: app.critterpass.dev
           commands:
             - tapOn:
                 id: 'crew-member-remove'
-            - waitForAnimationToEnd
+            - runFlow: ../../_shared/settle.yaml
             - runFlow:
                 file: shot.yaml
                 env:
@@ -74,7 +74,7 @@ appId: app.critterpass.dev
             - tapOn:
                 text: 'Cancel|CANCEL'
                 optional: true
-            - waitForAnimationToEnd
+            - runFlow: ../../_shared/settle.yaml
       - runFlow:
           file: ../../_shared/back-to.yaml
           env:
@@ -108,4 +108,4 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'crew-leave-stay'
           optional: true
-      - waitForAnimationToEnd
+      - runFlow: ../../_shared/settle.yaml

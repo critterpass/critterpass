@@ -5,5 +5,5 @@ appId: app.critterpass.dev
 # name, ${LOOK} light or dark. ${DATA}, when a flow sets it (`long`), follows the name, so a capture
 # with long real data sits beside the same state with the short demo data.
 - evalScript: "${output.shotData = typeof DATA === 'undefined' || DATA === '' ? '' : '-' + DATA}"
-- waitForAnimationToEnd
+- runFlow: ../../_shared/settle.yaml
 - takeScreenshot: premium-${CODE}-${NAME}${output.shotData}-${LOOK}

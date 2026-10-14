@@ -1,46 +1,17 @@
 appId: app.critterpass.dev
 ---
-# Sets the app's appearance to ${LOOK} (system, light or dark) from Pass → Edit → Appearance, then
-# returns to Home. Starts from wherever the last steps ended: it steps back to Home first.
-- runFlow: ../../_shared/to-home.yaml
-- runFlow:
-    file: ../../_shared/tab.yaml
-    env:
-      TAB: pass
-      LABEL: Pass
-- extendedWaitUntil:
-    visible:
-      id: 'you-profile'
-    timeout: 15000
-- runFlow:
-    file: ../../_shared/tap.yaml
-    env:
-      ID: 'you-profile-edit'
-      LABEL: 'Edit|Sửa'
-- extendedWaitUntil:
-    visible:
-      id: 'you-edit-fields'
-    timeout: 15000
-- scrollUntilVisible:
-    element:
-      id: 'you-edit-appearance'
-    direction: DOWN
-    timeout: 15000
-- tapOn:
-    id: 'you-edit-appearance'
+# Sets the app's appearance to ${LOOK} (system, light or dark) on its own sheet, opened by its link
+# (`/you/appearance`, the sheet Pass → Edit → Appearance opens), then returns to Home by its link.
+- openLink:
+    link: critterpass-dev://you/appearance
 - extendedWaitUntil:
     visible:
       id: 'you-appearance-${LOOK}'
-    timeout: 10000
+    timeout: 15000
 - tapOn:
     id: 'you-appearance-${LOOK}'
-- waitForAnimationToEnd
-- runFlow: ../../_shared/back.yaml
-- runFlow:
-    file: ../../_shared/tab.yaml
-    env:
-      TAB: home
-      LABEL: Home
+- runFlow: ../../_shared/settle.yaml
+- runFlow: ../../_shared/home-link.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-screen'

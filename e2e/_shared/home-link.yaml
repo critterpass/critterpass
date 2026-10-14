@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# Brings Home to the front by its link from whatever screen or sheet is showing, in a couple of
+# seconds, and never fails: the caller checks for `home-screen` and falls back to stepping back.
+# The device run pre-approves the app's link schemes (ci-device/ios-device.sh), so no "Open in"
+# prompt is waited for. A trip that has turned on can show its welcome page over Home.
+- openLink:
+    link: critterpass-dev://
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen|critters-hatch-later'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'
