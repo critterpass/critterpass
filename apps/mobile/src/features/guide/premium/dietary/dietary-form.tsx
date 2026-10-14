@@ -1,7 +1,7 @@
 /**
  * The dietary form (5.22): diet and allergy chips, "Something else?" (Done adds it as a chip and
  * clears the field), what you would rather not eat (only you see it), spice, getting around, and
- * the share switch. The form scrolls so the focused field sits above the keyboard; Save sits under
+ * (the share switch is the header's pill). The form scrolls so the focused field sits above the keyboard; Save sits under
  * the form, hidden while the keyboard is up.
  */
 import { DIETS, SPICE_LEVELS } from '@cp/domain';
@@ -9,7 +9,7 @@ import { t } from '@lingui/core/macro';
 import { useState, type ReactNode } from 'react';
 import { View } from 'react-native';
 
-import { SegmentedControl, Text, TextField, Toggle, usePremiumTheme } from '@/ui/premium';
+import { SegmentedControl, Text, TextField, usePremiumTheme } from '@/ui/premium';
 import { KeyboardAwareScroll, useScreenInsets, type ScrollEdges } from '@/ui/premium/shell';
 
 import type { DietaryProfile } from '../../dietary/dietary-data';
@@ -35,12 +35,10 @@ function Chips({ children }: { readonly children: ReactNode }) {
 export function DietaryForm({
   profile,
   onChange,
-  onShareChange,
   scrollProps,
 }: {
   readonly profile: DietaryProfile;
   readonly onChange: (next: DietaryProfile) => void;
-  readonly onShareChange: (share: boolean) => void;
   /** Where the form sits against its edges, for the fade over Save. */
   readonly scrollProps: ScrollEdges['scrollProps'];
 }) {
@@ -73,12 +71,12 @@ export function DietaryForm({
         paddingTop: insets.top + 64,
         paddingHorizontal: 24,
         paddingBottom: 24,
-        gap: th.space.gap16 + 6,
+        gap: th.space.gap16,
       }}
       testID="guide-dietary"
     >
       <Text variant="largeTitle">
-        {t({ id: 'guide.dietary.title', message: 'Food and access needs' })}
+        {t({ id: 'guide.premium.dietary.title', message: 'Food and getting around' })}
       </Text>
       <Section title={t({ id: 'guide.dietary.diet', message: 'Diet' })}>
         <Chips>
@@ -164,31 +162,6 @@ export function DietaryForm({
           testID="guide-dietary-access"
         />
       </Section>
-      <View style={{ gap: th.space.gap6 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: th.space.gap12 }}>
-          <Text variant="rowTitle" style={{ flex: 1 }}>
-            {t({
-              id: 'guide.dietary.shareToggle',
-              message: 'Share flags with my crew and guide',
-            })}
-          </Text>
-          <Toggle
-            value={profile.visibility === 'crew_flags'}
-            onChange={onShareChange}
-            accessibilityLabel={t({
-              id: 'guide.dietary.shareToggle',
-              message: 'Share flags with my crew and guide',
-            })}
-            testID="guide-dietary-share"
-          />
-        </View>
-        <Text variant="captionMuted" tone="muted">
-          {t({
-            id: 'guide.dietary.shareCaption',
-            message: 'They see "vegetarian" or "no peanuts", never your notes or your avoid list.',
-          })}
-        </Text>
-      </View>
     </KeyboardAwareScroll>
   );
 }
