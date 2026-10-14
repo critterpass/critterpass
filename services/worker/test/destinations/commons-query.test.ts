@@ -20,7 +20,7 @@ describe('Commons file-page query', () => {
     const [call] = calls;
     expect(call?.init?.method).toBe('POST');
     expect(call?.url).not.toContain('titles=');
-    const body = new URLSearchParams(String(call?.init?.body));
+    const body = call?.init?.body as URLSearchParams;
     expect(body.get('titles')?.split('|')).toHaveLength(50);
   });
 });
