@@ -10,7 +10,10 @@ export const WDQS_URL = 'https://query.wikidata.org/sparql';
 const USER_AGENT = 'CritterPass-destinations/1.0 (https://critterpass.app; ops@critterpass.app)';
 export const MIN_SITELINKS = 10;
 
-/** Wikidata class → our kind. */
+/**
+ * Wikidata class → our kind. "Geographic region" is left out: its items include continents,
+ * macro-regions, conflict zones and planning corridors, none of which a crew can travel to.
+ */
 export const WIKIDATA_TYPES: Readonly<Record<string, DestinationKind>> = {
   Q515: 'city',
   Q1549591: 'city',
@@ -18,7 +21,6 @@ export const WIKIDATA_TYPES: Readonly<Record<string, DestinationKind>> = {
   Q532: 'village',
   Q23442: 'island',
   Q46169: 'park',
-  Q82794: 'region',
 };
 
 export function candidateQuery(typeQid: string): string {
