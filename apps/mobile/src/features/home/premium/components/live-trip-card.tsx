@@ -9,6 +9,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -26,6 +27,7 @@ import {
   usePremiumTheme,
   type CrewMember,
 } from '@/ui/premium';
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { ZoomLink } from '@/ui/premium/shell';
 
 import { TripPhoto } from './trip-photo';
@@ -107,11 +109,17 @@ const ON_PHOTO = premium.modes.light.color;
 function BlinkDot() {
   const styles = useStyles();
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const on = useSharedValue(1);
   useEffect(() => {
-    if (reduced) return;
+    if (!looping) {
+      cancelAnimation(on);
+      on.value = 1;
+      return undefined;
+    }
     on.value = withRepeat(withTiming(0.25, { duration: BLINK_MS }), -1, true);
-  }, [on, reduced]);
+    return () => cancelAnimation(on);
+  }, [on, looping]);
   const blink = useAnimatedStyle(() => ({ opacity: on.value }));
   return <Animated.View style={[styles.dot, blink]} />;
 }

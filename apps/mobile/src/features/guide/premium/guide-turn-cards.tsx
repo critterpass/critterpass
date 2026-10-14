@@ -5,6 +5,7 @@
 import { t } from '@lingui/core/macro';
 import { useEffect } from 'react';
 import { View } from 'react-native';
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import Animated, {
   cancelAnimation,
   useAnimatedStyle,
@@ -64,12 +65,17 @@ const useStyles = makePremiumStyles((th) => ({
 function ActiveDot() {
   const th = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const pulse = useSharedValue(1);
   useEffect(() => {
-    if (reduced) return undefined;
+    if (!looping) {
+      cancelAnimation(pulse);
+      pulse.value = 1;
+      return undefined;
+    }
     pulse.value = withRepeat(withTiming(0.45, { duration: th.motion.bobMs / 2 }), -1, true);
     return () => cancelAnimation(pulse);
-  }, [pulse, reduced, th.motion.bobMs]);
+  }, [pulse, looping, th.motion.bobMs]);
   const style = useAnimatedStyle(() => ({ opacity: pulse.value }));
   return (
     <Animated.View

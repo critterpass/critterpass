@@ -14,6 +14,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { PressableScale, Text, usePremiumReducedMotion, usePremiumTheme } from '@/ui/premium';
 
 import { crewAccent } from '../components/crew-accent';
@@ -57,10 +58,11 @@ function Strip({ items, copy }: { readonly items: readonly TickerItem[]; readonl
 export function ActivityTicker({ items }: { readonly items: readonly TickerItem[] }) {
   const th = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const [width, setWidth] = useState(0);
   const x = useSharedValue(0);
   useEffect(() => {
-    if (reduced || width === 0) {
+    if (!looping || width === 0) {
       cancelAnimation(x);
       x.value = 0;
       return undefined;
@@ -72,7 +74,7 @@ export function ActivityTicker({ items }: { readonly items: readonly TickerItem[
       false,
     );
     return () => cancelAnimation(x);
-  }, [reduced, width, x]);
+  }, [looping, width, x]);
   const moving = useAnimatedStyle(() => ({ transform: [{ translateX: x.value }] }));
   if (items.length === 0) return null;
   const onLayout = (event: LayoutChangeEvent) => {

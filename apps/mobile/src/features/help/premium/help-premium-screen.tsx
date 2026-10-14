@@ -7,6 +7,7 @@ import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { Pressable, View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -29,6 +30,7 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { PushScreen } from '@/ui/premium/shell';
 
 import { useHelpHub } from '../hub/use-help-hub';
@@ -47,9 +49,14 @@ const WIGGLE_SWING_MS = 200;
 function ShakingPhone() {
   const th = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const tilt = useSharedValue(0);
   useEffect(() => {
-    if (reduced) return;
+    if (!looping) {
+      cancelAnimation(tilt);
+      tilt.value = 0;
+      return undefined;
+    }
     tilt.value = withRepeat(
       withDelay(
         2240,
@@ -63,7 +70,8 @@ function ShakingPhone() {
       ),
       -1,
     );
-  }, [reduced, tilt]);
+    return () => cancelAnimation(tilt);
+  }, [looping, tilt]);
   const style = useAnimatedStyle(() => ({
     transform: [{ translateY: 16 }, { rotate: `${tilt.value}deg` }, { translateY: -16 }],
   }));
