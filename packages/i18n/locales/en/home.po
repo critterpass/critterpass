@@ -153,7 +153,7 @@ msgstr "{spoken} to {place}"
 
 #: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
 msgid "home.inbox.markedRead"
-msgstr "Marked read. The {stillNeedYou} on top still need you."
+msgstr "{stillNeedYou, plural, one {Marked read. The one on top still needs you.} other {Marked read. The # on top still need you.}}"
 
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.premium.pitchPlus"
@@ -187,6 +187,7 @@ msgstr "Add it from your home screen"
 msgid "home.premium.savedLink.add"
 msgstr "Add to ideas"
 
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.all"
 msgstr "All"
@@ -255,6 +256,7 @@ msgstr "Couldn’t join the trip. Try again."
 msgid "home.widgets.countdown"
 msgstr "Countdown"
 
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.crew"
 msgstr "Crew"
@@ -298,6 +300,10 @@ msgstr "Developer tools"
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.earlier"
 msgstr "Earlier"
+
+#: ../../apps/mobile/src/features/home/premium/recovery/lost-link-screen.tsx
+msgid "home.premium.lost.tripsSub"
+msgstr "Every trip you’re part of"
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 msgid "inbox.premium.example"
@@ -347,6 +353,7 @@ msgstr "Got it"
 msgid "home.premium.switcher.joinFailedOk"
 msgstr "Got it"
 
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.guides"
 msgstr "Guides"
@@ -621,6 +628,7 @@ msgstr "Settings"
 msgid "home.premium.back.settle"
 msgstr "Settle up with the crew"
 
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.inbox.filters"
@@ -658,7 +666,7 @@ msgstr "Small · who owes who, and a nudge"
 msgid "home.widgets.crewLine"
 msgstr "Small or medium · everyone near the meet-up"
 
-#: ../../apps/mobile/src/features/home/premium/home-sections.tsx
+#: ../../apps/mobile/src/features/home/premium/components/offline-status.tsx
 msgid "home.offline.held"
 msgstr "Some changes can't be sent yet. We'll keep trying when the app is opened."
 
@@ -976,6 +984,10 @@ msgstr "Your crew is saving you a spot on CritterPass. {url}"
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
 msgid "home.header.yourCrews"
 msgstr "Your crews"
+
+#: ../../apps/mobile/src/features/home/premium/recovery/lost-link-screen.tsx
+msgid "home.premium.lost.homeSub"
+msgstr "Your crews and what’s next"
 
 #: ../../apps/mobile/src/features/home/premium/trips/empty-passport.tsx
 msgid "home.premium.trips.firstStamp"

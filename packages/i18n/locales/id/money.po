@@ -24,12 +24,10 @@ msgstr ""
 msgid "money.premium.everyExpenseSub"
 msgstr ""
 
-#. placeholder {0}: settle.open
-#. placeholder {1}: settle.people
-#. placeholder {2}: guide.name
-#. placeholder {3}: settle.people
-#. placeholder {4}: guide.name
-#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
+#. placeholder {0}: props.open
+#. placeholder {1}: props.people
+#. placeholder {2}: props.people
+#: ../../apps/mobile/src/features/money/premium/components/SettleExtras.tsx
 msgid "money.premium.reward"
 msgstr ""
 
@@ -94,6 +92,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
 msgid "money.detail.editedBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
+msgid "money.premium.paymentPeople"
 msgstr ""
 
 #. placeholder {0}: status.label
@@ -198,6 +200,10 @@ msgstr ""
 msgid "money.payout.field.account"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/premium/PayoutMethodsPremium.tsx
+msgid "money.premium.payoutAddAction"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.addEmpty"
 msgstr ""
@@ -210,6 +216,7 @@ msgstr ""
 msgid "money.typeLines.add"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/premium/components/SettleExtras.tsx
 #: ../../apps/mobile/src/features/money/premium/HistoryPremium.tsx
 #: ../../apps/mobile/src/features/money/premium/MoneyHomeScreen.tsx
 msgid "money.empty.add"
@@ -550,6 +557,10 @@ msgstr ""
 msgid "money.typeLines.everyone"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/premium/components/SettleExtras.tsx
+msgid "money.settle.nothing"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/premium/components/RoomSplitSection.tsx
 msgid "money.rooms.evenLine"
 msgstr ""
@@ -570,7 +581,7 @@ msgstr ""
 msgid "money.queued.addExpense"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/AddExpenseWaiting.tsx
 #: ../../apps/mobile/src/features/money/premium/MoneySheets.tsx
 msgid "money.premium.noTripLine"
 msgstr ""
@@ -742,11 +753,19 @@ msgstr ""
 msgid "money.premium.newTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+msgid "money.premium.budget.noneOrganiser"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+msgid "money.premium.budget.none"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/premium/HistoryPremium.tsx
 msgid "money.history.emptyTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/AddExpenseWaiting.tsx
 msgid "money.premium.noTripTitle"
 msgstr ""
 
@@ -775,12 +794,12 @@ msgstr ""
 msgid "money.premium.exportEmpty"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/MoneyHomeScreen.tsx
-msgid "money.settle.none"
+#: ../../apps/mobile/src/features/money/premium/components/SettleExtras.tsx
+msgid "money.settle.nothingTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
-msgid "money.settle.nothing"
+#: ../../apps/mobile/src/features/money/premium/MoneyHomeScreen.tsx
+msgid "money.settle.none"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
@@ -1014,6 +1033,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/premium/PaymentPremium.tsx
 msgid "money.premium.paymentGoneLine"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/money/premium/components/SettleExtras.tsx
+msgid "money.premium.rewardName"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx

@@ -154,7 +154,7 @@ msgstr "Thêm chuyến đi cũ"
 
 #: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
 msgid "you.edit.languages.none"
-msgstr "Thêm các ngôn ngữ bạn nói"
+msgstr "Thêm ngôn ngữ"
 
 #: ../../apps/mobile/src/features/you/premium/history/stamps-premium-view.tsx
 msgid "you.stamps.allYears"
@@ -180,6 +180,10 @@ msgstr "Luôn luôn"
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
 msgid "you.pings.always"
 msgstr "Luôn được báo"
+
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
+msgid "you.profile.noTags"
+msgstr "Trả lời sáu câu chọn nhanh"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.app"
@@ -746,6 +750,10 @@ msgstr "Sửa tiếp"
 #: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 msgid "you.premium.retake.keep"
 msgstr "Làm tiếp"
+
+#: ../../apps/mobile/src/features/you/premium/delete/delete-hold-ring.tsx
+msgid "you.delete.keepHolding"
+msgstr "Giữ tiếp"
 
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
 msgid "you.premium.offline.keep"

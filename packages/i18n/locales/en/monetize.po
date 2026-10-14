@@ -8,6 +8,7 @@ msgstr ""
 "Language: en\n"
 
 #: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/components/free-plan-list.tsx
 msgid "monetize.compare.no"
 msgstr "–"
 
@@ -114,6 +115,7 @@ msgid "monetize.card.chip.redrafts"
 msgstr "∞ redrafts"
 
 #: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/components/free-plan-list.tsx
 msgid "monetize.compare.yes"
 msgstr "✓"
 
@@ -338,7 +340,7 @@ msgid "monetize.plan.change"
 msgstr "Change plan"
 
 #: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
-#: ../../apps/mobile/src/features/monetize/premium/paywall-premium-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-parts.tsx
 msgid "monetize.paywall.checkAgain"
 msgstr "Check again"
 
@@ -666,6 +668,10 @@ msgstr "On"
 #: ../../apps/mobile/src/features/monetize/premium/boost-card-premium.tsx
 msgid "monetize.card.covered"
 msgstr "on {buyer}"
+
+#: ../../apps/mobile/src/features/monetize/premium/components/free-plan-list.tsx
+msgid "monetize.plan.freeIncludes"
+msgstr "On the free plan"
 
 #: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
 msgid "monetize.premium.boostUntil"
@@ -1250,7 +1256,7 @@ msgstr "Yearly · renews {date}"
 msgid "monetize.compare.havePass"
 msgstr "You have Pass+"
 
-#: ../../apps/mobile/src/features/monetize/premium/paywall-premium-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-parts.tsx
 msgid "monetize.paywall.yourPlan"
 msgstr "You have Pass+ · Your plan"
 

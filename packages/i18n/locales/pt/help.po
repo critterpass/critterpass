@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: pt\n"
 
+#. placeholder {0}: hub.ideasToVote
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.suggestCaption"
+msgstr ""
+
 #. placeholder {0}: b.left
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.premium.ideas.votesLeft"
@@ -16,11 +21,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, one {# voto} other {# votos}}"
-
-#. placeholder {0}: hub.ideasToVote
-#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
-msgid "help.premium.suggestCaption"
-msgstr ""
 
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footerEmail"
@@ -146,6 +146,10 @@ msgstr "Como está a correr?"
 msgid "help.sent.hq"
 msgstr "Sede · Correio"
 
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.noneShippedLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.titleLabel"
 msgstr "Em poucas palavras"
@@ -204,20 +208,24 @@ msgid "help.article.no"
 msgstr "Não"
 
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
-msgid "help.ideas.none"
-msgstr "Ainda não há ideias. A tua pode ser a primeira."
+msgid "help.ideas.noneTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.noResults"
 msgstr "Ainda não há nada no centro de ajuda que corresponda."
 
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
-msgid "help.ideas.noneShipped"
-msgstr "Ainda nada foi lançado a partir daqui."
+msgid "help.ideas.noneShippedTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.okay"
 msgstr "Ok"
+
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.reportCaptionShake"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.other"
@@ -370,6 +378,10 @@ msgid "help.feedback.tooBig"
 msgstr "Essa imagem é demasiado grande para enviar. Experimenta uma captura de ecrã."
 
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.offlineTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.offline"
 msgstr "O quadro abre quando voltares a ter ligação."
 
@@ -413,6 +425,10 @@ msgstr "O que aconteceu e o que esperavas?"
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.placeholderIdea"
 msgstr "O que deve o CritterPass fazer a seguir?"
+
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.reportCaption"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.descriptionLabel"
@@ -465,3 +481,7 @@ msgstr ""
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
 msgstr "O teu voto numa ideia"
+
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.noneLine"
+msgstr ""

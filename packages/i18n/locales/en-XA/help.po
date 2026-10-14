@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en-XA\n"
 
+#. placeholder {0}: hub.ideasToVote
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.suggestCaption"
+msgstr ""
+
 #. placeholder {0}: b.left
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.premium.ideas.votesLeft"
@@ -15,11 +20,6 @@ msgstr ""
 #. placeholder {0}: match.count
 #: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.matchMeta"
-msgstr ""
-
-#. placeholder {0}: hub.ideasToVote
-#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
-msgid "help.premium.suggestCaption"
 msgstr ""
 
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
@@ -146,6 +146,10 @@ msgstr ""
 msgid "help.sent.hq"
 msgstr ""
 
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.noneShippedLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.titleLabel"
 msgstr ""
@@ -204,7 +208,7 @@ msgid "help.article.no"
 msgstr ""
 
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
-msgid "help.ideas.none"
+msgid "help.ideas.noneTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
@@ -212,11 +216,15 @@ msgid "help.hub.noResults"
 msgstr ""
 
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
-msgid "help.ideas.noneShipped"
+msgid "help.ideas.noneShippedTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.okay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.reportCaptionShake"
 msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
@@ -370,6 +378,10 @@ msgid "help.feedback.tooBig"
 msgstr ""
 
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.offlineTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.offline"
 msgstr ""
 
@@ -412,6 +424,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.placeholderIdea"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.reportCaption"
 msgstr ""
 
 #: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
@@ -464,4 +480,8 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.noneLine"
 msgstr ""

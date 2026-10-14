@@ -24,14 +24,12 @@ msgstr "{0, plural, other {# KHOẢN CHI}}"
 msgid "money.premium.everyExpenseSub"
 msgstr "{0, plural, other {# khoản, lọc theo người}}"
 
-#. placeholder {0}: settle.open
-#. placeholder {1}: settle.people
-#. placeholder {2}: guide.name
-#. placeholder {3}: settle.people
-#. placeholder {4}: guide.name
-#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
+#. placeholder {0}: props.open
+#. placeholder {1}: props.people
+#. placeholder {2}: props.people
+#: ../../apps/mobile/src/features/money/premium/components/SettleExtras.tsx
 msgid "money.premium.reward"
-msgstr "{0, plural, one {Thêm một khoản trả nữa là cả {1} người nhận {2} Sòng Phẳng.} other {Thêm # khoản trả nữa là cả {3} người nhận {4} Sòng Phẳng.}}"
+msgstr "{0, plural, other {Thêm # khoản trả nữa là cả {1} người nhận {reward}.}}"
 
 #. placeholder {0}: share.name
 #: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
@@ -95,6 +93,10 @@ msgstr "{editor} đã xoá · {on}"
 #: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
 msgid "money.detail.editedBy"
 msgstr "{editor} đã sửa · {on}"
+
+#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
+msgid "money.premium.paymentPeople"
+msgstr "{from} → {to}"
 
 #. placeholder {0}: status.label
 #: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
@@ -198,6 +200,10 @@ msgstr "Bảng tính mọi khoản chi"
 msgid "money.payout.field.account"
 msgstr "Số tài khoản"
 
+#: ../../apps/mobile/src/features/money/premium/PayoutMethodsPremium.tsx
+msgid "money.premium.payoutAddAction"
+msgstr "Thêm"
+
 #: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.addEmpty"
 msgstr "Thêm"
@@ -210,6 +216,7 @@ msgstr "Thêm {short}"
 msgid "money.typeLines.add"
 msgstr "Thêm một dòng"
 
+#: ../../apps/mobile/src/features/money/premium/components/SettleExtras.tsx
 #: ../../apps/mobile/src/features/money/premium/HistoryPremium.tsx
 #: ../../apps/mobile/src/features/money/premium/MoneyHomeScreen.tsx
 msgid "money.empty.add"
@@ -550,6 +557,10 @@ msgstr "Hôm nay mọi người đã được nhắc rồi."
 msgid "money.typeLines.everyone"
 msgstr "Mọi người cùng ăn"
 
+#: ../../apps/mobile/src/features/money/premium/components/SettleExtras.tsx
+msgid "money.settle.nothing"
+msgstr "Mọi người đã sòng phẳng. Thêm những gì cả nhóm chi và mình sẽ theo dõi ai nợ ai."
+
 #: ../../apps/mobile/src/features/money/premium/components/RoomSplitSection.tsx
 msgid "money.rooms.evenLine"
 msgstr "Mọi người trả như nhau, và khoản chia không theo phòng nữa."
@@ -570,7 +581,7 @@ msgstr "Đã xoá khoản chi. Số dư được tính lại."
 msgid "money.queued.addExpense"
 msgstr "Khoản chi: {what}"
 
-#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/AddExpenseWaiting.tsx
 #: ../../apps/mobile/src/features/money/premium/MoneySheets.tsx
 msgid "money.premium.noTripLine"
 msgstr "Khoản chi thuộc về một chuyến đi. Tạo chuyến đi với nhóm, rồi thêm vào đây."
@@ -742,11 +753,19 @@ msgstr "Tên người trả thấy"
 msgid "money.premium.newTitle"
 msgstr "Khoản chi mới · {0}"
 
+#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+msgid "money.premium.budget.noneOrganiser"
+msgstr "Nhóm chưa có ngân sách. Đặt một mức và mình sẽ giúp cả nhóm bám theo."
+
+#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+msgid "money.premium.budget.none"
+msgstr "Nhóm chưa có ngân sách. Người tổ chức có thể đặt cho chuyến đi."
+
 #: ../../apps/mobile/src/features/money/premium/HistoryPremium.tsx
 msgid "money.history.emptyTitle"
 msgstr "Chưa có khoản chi nào"
 
-#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/AddExpenseWaiting.tsx
 msgid "money.premium.noTripTitle"
 msgstr "Chưa có chuyến đi để thêm vào"
 
@@ -775,13 +794,13 @@ msgstr "Không có gì khớp bộ lọc này."
 msgid "money.premium.exportEmpty"
 msgstr "Chưa có gì để xuất."
 
+#: ../../apps/mobile/src/features/money/premium/components/SettleExtras.tsx
+msgid "money.settle.nothingTitle"
+msgstr "Không có gì để thanh toán"
+
 #: ../../apps/mobile/src/features/money/premium/MoneyHomeScreen.tsx
 msgid "money.settle.none"
 msgstr "Không có gì để thanh toán"
-
-#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
-msgid "money.settle.nothing"
-msgstr "Không có gì để thanh toán. Mọi người đã sòng phẳng."
 
 #: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
 msgid "money.premium.nudge"
@@ -1015,6 +1034,11 @@ msgstr "Thanh toán"
 #: ../../apps/mobile/src/features/money/premium/PaymentPremium.tsx
 msgid "money.premium.paymentGoneLine"
 msgstr "Mục Thanh toán hiện những khoản còn mở."
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/money/premium/components/SettleExtras.tsx
+msgid "money.premium.rewardName"
+msgstr "{0} Sòng Phẳng"
 
 #: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
 msgid "money.premium.noTrip"

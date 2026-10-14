@@ -29,10 +29,6 @@ msgstr "Everyone settled up on {place}, to the last payment."
 msgid "stickers.how.settledNoPlace"
 msgstr "Everyone settled up, to the last payment."
 
-#: ../../apps/mobile/src/features/critters/stickers/sticker-shelf.tsx
-msgid "stickers.shelf.empty"
-msgstr "Settle a trip to the last payment or level up your crew to earn one."
-
 #: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
 msgid "stickers.name.settled"
 msgstr "Settled Tokek"

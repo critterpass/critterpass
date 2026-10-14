@@ -182,6 +182,7 @@ msgstr "Back to the keyboard"
 msgid "chat.premium.attach.camera"
 msgstr "Camera"
 
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 #: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
 #: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
 #: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
@@ -730,6 +731,10 @@ msgstr "Pinned to the trip"
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
 msgid "chat.premium.starter.place"
 msgstr "Pitch a place to go"
+
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
+msgid "crew.premium.settings.planTrip"
+msgstr "Plan a trip"
 
 #: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
 msgid "crew.referral.shareMessage"

@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#. placeholder {0}: hub.ideasToVote
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.suggestCaption"
+msgstr "{0, plural, =0 {Hãy là người đầu tiên đề xuất} other {Bình chọn # ý tưởng}}"
+
 #. placeholder {0}: b.left
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.premium.ideas.votesLeft"
@@ -16,11 +21,6 @@ msgstr "{0, plural, other {Còn # phiếu}}"
 #: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, other {# lượt bình chọn}}"
-
-#. placeholder {0}: hub.ideasToVote
-#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
-msgid "help.premium.suggestCaption"
-msgstr "{0, plural, other {Bình chọn # ý tưởng}}"
 
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footerEmail"
@@ -146,6 +146,10 @@ msgstr "Mọi thứ thế nào?"
 msgid "help.sent.hq"
 msgstr "Trụ sở · Bưu phẩm"
 
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.noneShippedLine"
+msgstr "Ý tưởng từ bảng này sẽ xuất hiện ở đây khi được làm xong."
+
 #: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.titleLabel"
 msgstr "Nói ngắn gọn"
@@ -204,20 +208,24 @@ msgid "help.article.no"
 msgstr "Không"
 
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
-msgid "help.ideas.none"
-msgstr "Chưa có ý tưởng nào. Của bạn có thể là ý tưởng đầu tiên."
+msgid "help.ideas.noneTitle"
+msgstr "Chưa có ý tưởng nào"
 
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.noResults"
 msgstr "Trung tâm trợ giúp chưa có gì khớp với từ này."
 
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
-msgid "help.ideas.noneShipped"
-msgstr "Chưa có gì được ra mắt từ đây."
+msgid "help.ideas.noneShippedTitle"
+msgstr "Chưa có gì ra mắt"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.okay"
 msgstr "Ổn"
+
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.reportCaptionShake"
+msgstr "Hoặc lắc bất kỳ màn hình nào"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.other"
@@ -370,6 +378,10 @@ msgid "help.feedback.tooBig"
 msgstr "Ảnh này quá lớn để gửi. Hãy thử dùng ảnh chụp màn hình."
 
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.offlineTitle"
+msgstr "Bảng đang ngoại tuyến"
+
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.offline"
 msgstr "Bảng sẽ mở khi bạn online lại."
 
@@ -413,6 +425,10 @@ msgstr "Chuyện gì đã xảy ra, và bạn mong đợi điều gì?"
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.placeholderIdea"
 msgstr "CritterPass nên làm gì tiếp theo?"
+
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.reportCaption"
+msgstr "Lỗi gì, và ở đâu"
 
 #: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.descriptionLabel"
@@ -465,3 +481,7 @@ msgstr "Ghi chú của bạn chưa được lưu. Nó vẫn còn ở đây: hãy
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
 msgstr "Lượt bình chọn của bạn cho một ý tưởng"
+
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.noneLine"
+msgstr "Ý tưởng của bạn có thể là đầu tiên. Đề xuất một ý và mọi người đều có thể bình chọn."

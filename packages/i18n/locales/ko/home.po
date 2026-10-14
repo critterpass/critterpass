@@ -187,6 +187,7 @@ msgstr ""
 msgid "home.premium.savedLink.add"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.all"
 msgstr ""
@@ -255,6 +256,7 @@ msgstr ""
 msgid "home.widgets.countdown"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.crew"
 msgstr ""
@@ -297,6 +299,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.earlier"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/premium/recovery/lost-link-screen.tsx
+msgid "home.premium.lost.tripsSub"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
@@ -347,6 +353,7 @@ msgstr ""
 msgid "home.premium.switcher.joinFailedOk"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.guides"
 msgstr ""
@@ -621,6 +628,7 @@ msgstr ""
 msgid "home.premium.back.settle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.inbox.filters"
@@ -658,7 +666,7 @@ msgstr ""
 msgid "home.widgets.crewLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/premium/home-sections.tsx
+#: ../../apps/mobile/src/features/home/premium/components/offline-status.tsx
 msgid "home.offline.held"
 msgstr ""
 
@@ -975,6 +983,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
 msgid "home.header.yourCrews"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/premium/recovery/lost-link-screen.tsx
+msgid "home.premium.lost.homeSub"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/trips/empty-passport.tsx

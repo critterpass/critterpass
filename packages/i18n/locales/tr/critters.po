@@ -192,6 +192,11 @@ msgstr ""
 msgid "critters.premium.hatch.setTag"
 msgstr ""
 
+#. placeholder {0}: card.reward.xp
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.xpShort"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.xp"
 msgstr ""
@@ -517,6 +522,10 @@ msgstr ""
 msgid "critters.legendary.intro"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.critterShort"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.legendaryMode"
 msgstr ""
@@ -694,19 +703,6 @@ msgstr ""
 msgid "critters.legendary.remindersOn"
 msgstr ""
 
-#. placeholder {0}: card.reward.xp
-#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
-msgid "quests.reward.xp"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
-msgid "quests.reward.critter"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
-msgid "quests.reward.settled"
-msgstr ""
-
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.sayHi"
 msgstr ""
@@ -717,6 +713,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptySearchBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.settledShort"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts

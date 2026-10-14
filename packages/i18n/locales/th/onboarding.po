@@ -61,6 +61,10 @@ msgid "onboarding.invite.problem.referralTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.countIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
 msgid "onboarding.invite.manifest.someWaiting"
 msgstr ""
 

@@ -154,7 +154,7 @@ msgstr "Add a past trip"
 
 #: ../../apps/mobile/src/features/you/premium/edit/edit-profile-premium-screen.tsx
 msgid "you.edit.languages.none"
-msgstr "Add the languages you speak"
+msgstr "Add languages"
 
 #: ../../apps/mobile/src/features/you/premium/history/stamps-premium-view.tsx
 msgid "you.stamps.allYears"
@@ -180,6 +180,10 @@ msgstr "Always"
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
 msgid "you.pings.always"
 msgstr "Always gets through"
+
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
+msgid "you.profile.noTags"
+msgstr "Answer six quick picks"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.app"
@@ -746,6 +750,10 @@ msgstr "Keep editing"
 #: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 msgid "you.premium.retake.keep"
 msgstr "Keep going"
+
+#: ../../apps/mobile/src/features/you/premium/delete/delete-hold-ring.tsx
+msgid "you.delete.keepHolding"
+msgstr "Keep holding"
 
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx
 msgid "you.premium.offline.keep"

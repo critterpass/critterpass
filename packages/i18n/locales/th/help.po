@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: th\n"
 
+#. placeholder {0}: hub.ideasToVote
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.suggestCaption"
+msgstr ""
+
 #. placeholder {0}: b.left
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.premium.ideas.votesLeft"
@@ -16,11 +21,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, other {# โหวต}}"
-
-#. placeholder {0}: hub.ideasToVote
-#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
-msgid "help.premium.suggestCaption"
-msgstr ""
 
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footerEmail"
@@ -146,6 +146,10 @@ msgstr "เป็นยังไงบ้าง?"
 msgid "help.sent.hq"
 msgstr "สำนักงานใหญ่ · ไปรษณีย์"
 
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.noneShippedLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.titleLabel"
 msgstr "สรุปสั้น ๆ"
@@ -204,20 +208,24 @@ msgid "help.article.no"
 msgstr "ไม่"
 
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
-msgid "help.ideas.none"
-msgstr "ยังไม่มีไอเดีย ของคุณอาจเป็นอันแรกก็ได้"
+msgid "help.ideas.noneTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.noResults"
 msgstr "ศูนย์ช่วยเหลือยังไม่มีเรื่องที่ตรงกับคำค้นนี้"
 
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
-msgid "help.ideas.noneShipped"
-msgstr "ยังไม่มีอะไรที่ส่งมอบจากตรงนี้"
+msgid "help.ideas.noneShippedTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.okay"
 msgstr "โอเค"
+
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.reportCaptionShake"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.other"
@@ -370,6 +378,10 @@ msgid "help.feedback.tooBig"
 msgstr "รูปนี้ใหญ่เกินกว่าจะส่งได้ ลองใช้ภาพหน้าจอแทนนะ"
 
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.offlineTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.offline"
 msgstr "บอร์ดจะเปิดเมื่อคุณกลับมาออนไลน์"
 
@@ -413,6 +425,10 @@ msgstr "เกิดอะไรขึ้น และคุณคาดหว�
 #: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.placeholderIdea"
 msgstr "CritterPass ควรทำอะไรต่อไป?"
+
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.reportCaption"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.descriptionLabel"
@@ -465,3 +481,7 @@ msgstr ""
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
 msgstr "โหวตของคุณให้ไอเดีย"
+
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.noneLine"
+msgstr ""
