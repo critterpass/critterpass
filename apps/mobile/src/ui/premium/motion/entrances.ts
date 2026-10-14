@@ -5,18 +5,18 @@
  */
 import { premium, type PremiumSpringName } from '@cp/design-tokens';
 import {
-  FadeIn,
   FadeInDown,
+  ReduceMotion,
   withSpring,
   withTiming,
   type EntryExitAnimationFunction,
 } from 'react-native-reanimated';
 
-import { REDUCED_FADE, REDUCED_FADE_MS, SPRINGS } from './springs';
+import { REDUCED_FADE, reducedFadeIn, SPRINGS } from './springs';
 
 /** Pops in from 0.9 on `spring` while it fades in; fades under Reduce Motion. */
 export function popIn(reduced: boolean, spring: PremiumSpringName = 'snappy') {
-  if (reduced) return FadeIn.duration(REDUCED_FADE_MS);
+  if (reduced) return reducedFadeIn();
   const pop: EntryExitAnimationFunction = () => {
     'worklet';
     return {
@@ -32,7 +32,12 @@ export function popIn(reduced: boolean, spring: PremiumSpringName = 'snappy') {
 
 /** Rises into place on `spring` (after `delay` ms); fades under Reduce Motion. */
 export function riseIn(reduced: boolean, spring: PremiumSpringName = 'smooth', delay = 0) {
-  if (reduced) return FadeIn.duration(REDUCED_FADE_MS);
+  if (reduced) return reducedFadeIn();
   const { stiffness, damping, mass } = premium.spring[spring];
-  return FadeInDown.springify().stiffness(stiffness).damping(damping).mass(mass).delay(delay);
+  return FadeInDown.springify()
+    .stiffness(stiffness)
+    .damping(damping)
+    .mass(mass)
+    .delay(delay)
+    .reduceMotion(ReduceMotion.Never);
 }

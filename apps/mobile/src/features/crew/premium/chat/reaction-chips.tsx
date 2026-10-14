@@ -11,7 +11,6 @@ import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
 import { View } from 'react-native';
 import Animated, {
-  FadeIn,
   withSpring,
   withTiming,
   type EntryExitAnimationFunction,
@@ -21,10 +20,10 @@ import {
   CritterSticker,
   PressableScale,
   REDUCED_FADE,
-  REDUCED_FADE_MS,
   SPRINGS,
   Text,
   makePremiumStyles,
+  reducedFadeIn,
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
@@ -137,9 +136,7 @@ export function ReactionChips({ groups, readOnly, onToggle, onShowWho }: Reactio
         return (
           <Animated.View
             key={group.emoji}
-            {...(seen.has(group.emoji)
-              ? {}
-              : { entering: reduced ? FadeIn.duration(REDUCED_FADE_MS) : popIn })}
+            {...(seen.has(group.emoji) ? {} : { entering: reduced ? reducedFadeIn() : popIn })}
           >
             <PressableScale
               style={[styles.chip, group.mine ? styles.mine : null]}

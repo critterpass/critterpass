@@ -5,13 +5,13 @@
  */
 import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Animated, { FadeIn, SlideInDown } from 'react-native-reanimated';
+import Animated, { SlideInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { REDUCED_FADE_MS, usePremiumReducedMotion, usePremiumTheme } from '@/ui/premium';
+import { reducedFadeIn, usePremiumReducedMotion, usePremiumTheme } from '@/ui/premium';
 
 function riseIn(reduced: boolean, spring: { stiffness: number; damping: number; mass: number }) {
-  if (reduced) return FadeIn.duration(REDUCED_FADE_MS);
+  if (reduced) return reducedFadeIn();
   return SlideInDown.springify()
     .stiffness(spring.stiffness)
     .damping(spring.damping)
