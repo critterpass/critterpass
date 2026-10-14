@@ -235,7 +235,8 @@ export function PlacePage(props: PlaceDetailInput) {
       <ScrollEdgeFade
         edge="bottom"
         height={dockBand + SCROLL_EDGE_FADE}
-        solid={dockBand - theme.size.button / 2}
+        // Opaque behind the whole dock: content never reads half under the button.
+        solid={dockBand}
         visible={edges.bottom}
       />
       <View

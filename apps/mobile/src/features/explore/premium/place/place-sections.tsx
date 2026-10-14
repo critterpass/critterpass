@@ -22,7 +22,7 @@ import type { FactTiles } from '../../place-detail/context';
 import { barsLabel, hourLevels } from '../../place-detail/model';
 import { placeIcon } from '../../search/place-icons';
 import { Eyebrow, SectionLabel } from '../components/labels';
-import { PlaceThumb } from '../components/place-thumb';
+import { Doodle } from '../components/doodle';
 
 export function FactTilesRow({ facts }: { readonly facts: FactTiles }) {
   const theme = usePremiumTheme();
@@ -220,16 +220,21 @@ export function NearbyRow(props: {
               accessibilityLabel={place.name}
               testID={`place-detail-nearby-${place.poi_id}`}
             >
-              <Card style={{ width: 156, overflow: 'hidden' }}>
+              {/* Nothing here clips: on Android the doodle and the + (Skia canvases) drew
+                  nothing inside the clipped card and thumb, leaving bare grey blocks. The band
+                  rounds its own top corners instead. */}
+              <Card style={{ width: 156 }}>
                 <View
                   style={{
                     height: 84,
+                    borderTopLeftRadius: theme.radius.card,
+                    borderTopRightRadius: theme.radius.card,
                     backgroundColor: theme.color.control,
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
                 >
-                  <PlaceThumb icon={placeIcon(place.category)} size={64} radius={0} />
+                  <Doodle name={placeIcon(place.category)} size={46} />
                 </View>
                 <View style={{ padding: theme.space.gap10, gap: 2 }}>
                   <Eyebrow
