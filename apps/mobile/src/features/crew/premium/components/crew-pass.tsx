@@ -148,7 +148,8 @@ export function CrewPass({
           </Text>
           <View style={styles.seats}>
             {filled.map((seat) => (
-              <View key={seat.id} style={[styles.seat, { borderColor: look.fill }]}>
+              // A white ring, so a face the cover's own colour still reads on it (orange on orange).
+              <View key={seat.id} style={[styles.seat, { borderColor: th.accent.stickerEdge }]}>
                 <Avatar name={seat.name} color={seat.color} uid={seat.id} size={18} />
               </View>
             ))}
@@ -167,7 +168,12 @@ export function CrewPass({
           </Text>
           <View style={styles.seats}>
             {filled.map((seat) => (
-              <Avatar key={seat.id} name={seat.name} color={seat.color} uid={seat.id} size={24} />
+              <View
+                key={seat.id}
+                style={[styles.seatLarge, { borderColor: th.accent.stickerEdge }]}
+              >
+                <Avatar name={seat.name} color={seat.color} uid={seat.id} size={24} />
+              </View>
             ))}
           </View>
         </View>
@@ -219,6 +225,7 @@ const styles = StyleSheet.create({
   name: { letterSpacing: 1.2 },
   seats: { flexDirection: 'row', gap: 3, alignItems: 'center' },
   seat: { borderWidth: 1.5, borderRadius: 11 },
+  seatLarge: { borderWidth: 2, borderRadius: 14 },
   open: { width: 18, height: 18, borderRadius: 9, borderWidth: 1.5, borderStyle: 'dashed' },
   code: { letterSpacing: 4 },
 });
