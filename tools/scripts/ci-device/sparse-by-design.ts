@@ -95,6 +95,10 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     "render 3f-6 Who's in: crew of two with the friend out: two rows and the lock note, honest and complete",
   ],
   [
+    '3f-7-real-applied',
+    'premium dropout page after applying, crew of two with nothing shared to change: who replied, one line, the keep-in-chat row and the applied line, honest and complete',
+  ],
+  [
     '3k-9-on-time',
     'undesigned-states 3k-9 "The map": the map fills the screen behind the sheet; tiles do not load on the CI emulator',
   ],
