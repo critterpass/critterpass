@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { View, type LayoutChangeEvent } from 'react-native';
 
 import { PressableScale } from '../motion/PressableScale';
@@ -46,8 +46,9 @@ function discOf(t: PremiumTheme, tint: GuideTint): string {
  * A guide's note: a neutral white strip (r22) on the strip's own light shadow, with the speaker's critter in a 36 pt disc of their
  * tint, the bold name leading the line at 13/1.35 in the secondary ink, and an optional ink action
  * pill. The strip follows the card colour in dark mode; only the disc carries the speaker's tint.
+ * Memoised: it often sits under a field (the name page), whose every keystroke re-renders the page.
  */
-export function GuideNote({
+export const GuideNote = memo(function GuideNote({
   name,
   text,
   critter = 'gecko',
@@ -137,4 +138,4 @@ export function GuideNote({
       {stacked ? null : pill}
     </View>
   );
-}
+});

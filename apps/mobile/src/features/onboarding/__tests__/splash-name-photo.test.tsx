@@ -95,6 +95,27 @@ describe('3a-2 name', () => {
     expect(screen.getByTestId('onboarding-name-tokek')).toHaveTextContent(/Winston/u);
   });
 
+  it('keeps Tokek’s line still while the next letters go in', async () => {
+    jest.useFakeTimers();
+    await renderOnboarding(<PremiumNamePage />);
+    await fireEvent.changeText(screen.getByTestId('onboarding-name-field'), 'Winston');
+    await act(async () => {
+      jest.advanceTimersByTime(900);
+      await Promise.resolve();
+    });
+    // The field mounts again focused once the page is in: type into the one on screen.
+    await fireEvent.changeText(screen.getByTestId('onboarding-name-field'), 'Winston B');
+    await fireEvent.changeText(screen.getByTestId('onboarding-name-field'), 'Winston Ba');
+    const note = screen.getByTestId('onboarding-name-tokek');
+    expect(note).toHaveTextContent(/Winston/u);
+    expect(note).not.toHaveTextContent(/Winston B/u);
+    await act(async () => {
+      jest.advanceTimersByTime(900);
+      await Promise.resolve();
+    });
+    expect(screen.getByTestId('onboarding-name-tokek')).toHaveTextContent(/Winston Ba/u);
+  });
+
   it('blocks names the guides can’t print, clips at 24 and reads other scripts', async () => {
     expect(nameReaction('', BLOCKED_NAME_WORDS)).toBe('empty');
     expect(nameReaction('Fuck', BLOCKED_NAME_WORDS)).toBe('blocked');
