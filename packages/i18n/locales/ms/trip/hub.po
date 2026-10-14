@@ -88,6 +88,10 @@ msgstr ""
 msgid "trip.hub.ticker.applied"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
+msgid "trip.hub.note.setup"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.drafted"
 msgstr ""
@@ -190,6 +194,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.settled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
+msgid "trip.hub.note.plan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
@@ -402,6 +410,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.cancelKept"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
+msgid "trip.hub.note.vote"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts

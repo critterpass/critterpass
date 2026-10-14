@@ -435,11 +435,11 @@ msgstr "Copy post"
 
 #: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.shortlistFailed"
-msgstr "Couldn't add him. Try again."
+msgstr "Couldn’t add him. Try again."
 
 #: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
-msgstr "Couldn't make his link. Try again."
+msgstr "Couldn’t make his link. Try again."
 
 #: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.badge.unread"
@@ -451,7 +451,7 @@ msgstr "Couldn’t read it"
 
 #: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.failed"
-msgstr "Couldn't save your answer. Try again."
+msgstr "Couldn’t save your answer. Try again."
 
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.covers"
@@ -463,7 +463,7 @@ msgstr "Crews loved it"
 
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.back"
-msgstr "Crews' drivers"
+msgstr "Crews’ drivers"
 
 #: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
 msgid "drivers.premium.cutOff"
@@ -662,7 +662,7 @@ msgstr "I couldn’t find a driver’s name, number or price in it."
 
 #: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.noChase"
-msgstr "I won't chase him. One nudge from you is plenty."
+msgstr "I won’t chase him. One nudge from you is plenty."
 
 #. placeholder {0}: plan.area
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
@@ -671,11 +671,11 @@ msgstr "I'll write a post for the {0} groups. You post it."
 
 #: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
 msgid "drivers.replied.tellBody"
-msgstr "I'll write it with dates and pickup pins. You send it."
+msgstr "I’ll write it with dates and pickup pins. You send it."
 
 #: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.tellBody"
-msgstr "I'll write it with dates and pickup pins. You send it."
+msgstr "I’ll write it with dates and pickup pins. You send it."
 
 #: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 msgid "drivers.tours.added"
@@ -1218,7 +1218,7 @@ msgstr "That didn’t go through. Try again."
 #: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.premium.failed"
-msgstr "That didn't load. Try again."
+msgstr "That didn’t load. Try again."
 
 #: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.error"
@@ -1278,7 +1278,7 @@ msgstr "This driver is no longer on the shortlist."
 
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.unavailable"
-msgstr "This driver's listing isn't available right now. He may have paused it."
+msgstr "This driver’s listing isn’t available right now. He may have paused it."
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
@@ -1364,7 +1364,7 @@ msgstr "WhatsApp number, with its country code"
 
 #: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.after"
-msgstr "When someone replies, share their message to me. I'll pull out the details."
+msgstr "When someone replies, share their message to me. I’ll pull out the details."
 
 #: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.title"

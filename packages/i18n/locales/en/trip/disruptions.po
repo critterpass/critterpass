@@ -257,7 +257,7 @@ msgstr "Go"
 
 #: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
 msgid "trip.disruptions.forecast.stale"
-msgstr "I couldn't check in the last three hours. This is the last I saw."
+msgstr "I couldn’t check in the last three hours. This is the last I saw."
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.said.skip"
@@ -321,7 +321,7 @@ msgstr "No hour-by-hour forecast for this day yet."
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.offlineMap"
-msgstr "No map offline. Your pick goes out when you're back."
+msgstr "No map offline. Your pick goes out when you’re back."
 
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.tally.none"
@@ -497,7 +497,7 @@ msgstr "Told the others nothing changes for them"
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.told"
-msgstr "Told whoever's waiting."
+msgstr "Told whoever’s waiting."
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 #: ../../apps/mobile/src/features/trip/disruptions/forecast/use-forecast-screen.ts
@@ -514,7 +514,7 @@ msgstr "Undo everything"
 
 #: ../../apps/mobile/src/features/trip/disruptions/commands.ts
 msgid "trip.disruptions.queued.undo"
-msgstr "Undoing the guide's changes"
+msgstr "Undoing the guide’s changes"
 
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.closes"
@@ -574,23 +574,23 @@ msgstr "You voted to swap."
 
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.notVoting"
-msgstr "You're not on this one, so the others decide."
+msgstr "You’re not on this one, so the others decide."
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.offline"
-msgstr "You're offline. Answers go out when you're back."
+msgstr "You’re offline. Answers go out when you’re back."
 
 #: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
 msgid "trip.disruptions.forecast.offline"
-msgstr "You're offline. This is the last forecast on your phone."
+msgstr "You’re offline. This is the last forecast on your phone."
 
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.offline"
-msgstr "You're offline. Your vote goes out when you're back."
+msgstr "You’re offline. Your vote goes out when you’re back."
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.onTime"
-msgstr "You're on time again."
+msgstr "You’re on time again."
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.said.told"

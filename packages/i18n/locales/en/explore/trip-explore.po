@@ -65,7 +65,7 @@ msgstr "By {guide}"
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.swipeBody"
-msgstr "Can't agree? {count} places, everyone swipes, matches go to Ideas."
+msgstr "Can’t agree? {count} places, everyone swipes, matches go to Ideas."
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.fillIt"
@@ -121,7 +121,7 @@ msgstr "Trip"
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.gapSolo"
-msgstr "You're free"
+msgstr "You’re free"
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.gapsFullTitle"

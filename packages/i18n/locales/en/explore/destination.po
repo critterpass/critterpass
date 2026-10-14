@@ -41,7 +41,7 @@ msgstr "I'm still learning {place}. Nobody has checked my picks here yet."
 
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.guide.guestLine"
-msgstr "Not my island, but I've done my homework."
+msgstr "Not my island, but I’ve done my homework."
 
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.guide.ponLine"

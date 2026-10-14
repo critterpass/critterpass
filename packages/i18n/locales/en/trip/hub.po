@@ -88,6 +88,10 @@ msgstr "{votes, plural, one {# vote open} other {# votes open}}"
 msgid "trip.hub.ticker.applied"
 msgstr "A change made it into the plan"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
+msgid "trip.hub.note.setup"
+msgstr "A few answers from the crew and I can draft the days."
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.drafted"
 msgstr "A new plan is ready"
@@ -192,6 +196,10 @@ msgstr "Early start"
 msgid "trip.hub.tile.settled"
 msgstr "Even"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
+msgid "trip.hub.note.plan"
+msgstr "Every day’s stops, times and the map are in the plan."
+
 #: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.cancelTold"
 msgstr "Everyone on it gets told."
@@ -274,7 +282,7 @@ msgstr "Nothing from me yet. My morning briefings start {start}."
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-copy.ts
 msgid "trip.briefing.noneYet"
-msgstr "Nothing from me yet. Today's briefing comes this morning."
+msgstr "Nothing from me yet. Today’s briefing comes this morning."
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.todayDone"
@@ -286,7 +294,7 @@ msgstr "Nothing new from me today. Enjoy it."
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-copy.ts
 msgid "trip.briefing.noneTomorrow"
-msgstr "Nothing new from me today. I'll check again tomorrow morning."
+msgstr "Nothing new from me today. I’ll check again tomorrow morning."
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.noVotes"
@@ -404,6 +412,10 @@ msgstr "That didn’t go through. Try again with signal."
 msgid "trip.menu.cancelKept"
 msgstr "The chat, money, bookings and photos stay to read."
 
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
+msgid "trip.hub.note.vote"
+msgstr "The crew is still picking where to go."
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.won"
 msgstr "The place is picked"
@@ -487,7 +499,7 @@ msgstr "Where next?"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.openDay"
-msgstr "Who's up, and what to pack"
+msgstr "Who’s up, and what to pack"
 
 #: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.left"

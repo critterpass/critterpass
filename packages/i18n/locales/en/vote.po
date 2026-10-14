@@ -173,8 +173,8 @@ msgid "vote.newPoll.day"
 msgstr "1 day"
 
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
-msgid "vote.newPoll.hour"
-msgstr "1 hour"
+msgid "vote.newPoll.hourShort"
+msgstr "1 h"
 
 #: ../../apps/mobile/src/features/vote/premium/places/search-places.tsx
 msgid "vote.search.localOne"
@@ -363,7 +363,7 @@ msgstr "Drop this poll?"
 
 #: ../../apps/mobile/src/features/vote/final/tie-line.tsx
 msgid "vote.final.allIn"
-msgstr "Everyone's in"
+msgstr "Everyone’s in"
 
 #: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
 msgid "vote.premium.final.status"
@@ -481,6 +481,14 @@ msgstr "Locked in, no vote needed."
 msgid "vote.premium.guest.money"
 msgstr "Money"
 
+#: ../../apps/mobile/src/features/vote/premium/poll/answer-grip.tsx
+msgid "vote.newPoll.moveDown"
+msgstr "Move down"
+
+#: ../../apps/mobile/src/features/vote/premium/poll/answer-grip.tsx
+msgid "vote.newPoll.moveUp"
+msgstr "Move up"
+
 #. placeholder {0}: p.name
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
 msgid "crew.queued.create"
@@ -587,6 +595,10 @@ msgstr "Question"
 msgid "vote.premium.board.remove"
 msgstr "Remove"
 
+#: ../../apps/mobile/src/features/vote/premium/poll/answer-grip.tsx
+msgid "vote.newPoll.reorder"
+msgstr "Reorder answer"
+
 #: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
 msgid "vote.premium.guest.save"
 msgstr "Save"
@@ -598,7 +610,7 @@ msgstr "Search a place"
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 #: ../../apps/mobile/src/features/vote/premium/places/search-places.tsx
 msgid "vote.pitch.searchFailed"
-msgstr "Search didn't answer. Try again in a moment."
+msgstr "Search didn’t answer. Try again in a moment."
 
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.searching"
@@ -646,23 +658,23 @@ msgstr "Taking your vote back"
 
 #: ../../apps/mobile/src/features/vote/places/use-solo-start.ts
 msgid "vote.solo.refused"
-msgstr "That didn't go through"
+msgstr "That didn’t go through"
 
 #: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
 msgid "vote.premium.board.lockInFailed"
-msgstr "That didn't lock in. Try again in a moment."
+msgstr "That didn’t lock in. Try again in a moment."
 
 #: ../../apps/mobile/src/features/vote/premium/board/board-parts.tsx
 msgid "vote.premium.board.needsSignal"
-msgstr "That needs signal. Try again when you're back online."
+msgstr "That needs signal. Try again when you’re back online."
 
 #: ../../apps/mobile/src/features/vote/premium/board/board-parts.tsx
 msgid "vote.premium.board.empty"
-msgstr "The board's empty. Pitch a place and I'll bring the facts."
+msgstr "The board’s empty. Pitch a place and I’ll bring the facts."
 
 #: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
 msgid "vote.premium.board.finalFailed"
-msgstr "The final didn't start. Try again in a moment."
+msgstr "The final didn’t start. Try again in a moment."
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.finalTitle"
@@ -678,7 +690,7 @@ msgstr "The organiser sets it up next."
 
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-card.tsx
 msgid "vote.pitch.errorTitle"
-msgstr "The pitch didn't come through"
+msgstr "The pitch didn’t come through"
 
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
 msgid "vote.premium.newPoll.discardLine"
@@ -694,7 +706,7 @@ msgstr "These places are level. Tap the two that go to the final."
 
 #: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
 msgid "vote.guest.error"
-msgstr "This place didn't load. Try again?"
+msgstr "This place didn’t load. Try again?"
 
 #: ../../apps/mobile/src/features/vote/premium/final/winner-reveal.tsx
 msgid "vote.reveal.missingTitle"
@@ -786,11 +798,11 @@ msgstr "You ⇢ {code}"
 
 #: ../../apps/mobile/src/features/vote/premium/board/final-card.tsx
 msgid "vote.premium.final.notVoted"
-msgstr "You haven't voted yet."
+msgstr "You haven’t voted yet."
 
 #: ../../apps/mobile/src/features/vote/premium/final/showdown-screen.tsx
 msgid "vote.showdown.hint"
-msgstr "You haven't voted yet. Tap a side."
+msgstr "You haven’t voted yet. Tap a side."
 
 #: ../../apps/mobile/src/features/vote/premium/final/reveal-lines.ts
 msgid "vote.reveal.missed"
@@ -807,11 +819,11 @@ msgstr "You voted {0}."
 
 #: ../../apps/mobile/src/features/vote/premium/places/search-places.tsx
 msgid "vote.search.offline"
-msgstr "You're offline. Search comes back with the connection."
+msgstr "You’re offline. Search comes back with the connection."
 
 #: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
 msgid "vote.pitch.offline"
-msgstr "You're offline. Search comes back with the connection."
+msgstr "You’re offline. Search comes back with the connection."
 
 #: ../../apps/mobile/src/features/vote/premium/final/reveal-lines.ts
 msgid "vote.premium.reveal.crewPickedPlain"

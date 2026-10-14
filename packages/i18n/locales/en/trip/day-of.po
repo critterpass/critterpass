@@ -137,11 +137,11 @@ msgstr "Tomorrow · {line}"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.noTravel"
-msgstr "Travel time isn't included."
+msgstr "Travel time isn’t included."
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.noTravelAirport"
-msgstr "Travel time to the airport isn't included."
+msgstr "Travel time to the airport isn’t included."
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.deniedAction"
@@ -169,11 +169,11 @@ msgstr "You'll get a notification at {at}, not an alarm."
 
 #: ../../apps/mobile/src/features/trip/leave-by/commands.ts
 msgid "trip.dayOf.queued.up"
-msgstr "You're up"
+msgstr "You’re up"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.soloUp"
-msgstr "You're up"
+msgstr "You’re up"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.set"

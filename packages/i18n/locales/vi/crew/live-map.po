@@ -158,6 +158,10 @@ msgstr "Chưa tới ngày đi"
 msgid "liveMap.status.still"
 msgstr "Đang đứng yên"
 
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+msgid "liveMap.primer.notNow"
+msgstr "Để sau"
+
 #: ../../apps/mobile/src/features/crew/live-map/copy.ts
 msgid "liveMap.status.off"
 msgstr "Không chia sẻ"
@@ -179,8 +183,8 @@ msgid "liveMap.premium.onTheWay"
 msgstr "Đang tới"
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
-msgid "liveMap.primer.line"
-msgstr "Chỉ trong ngày đi, chỉ với nhóm này. Tạm dừng lúc nào cũng được."
+msgid "liveMap.premium.primerLine"
+msgstr "Chỉ trong những ngày đi chơi, chỉ với {crewName}. Tạm dừng lúc nào cũng được ngay trên dòng của bạn."
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
 msgid "liveMap.premium.pause"
@@ -213,6 +217,10 @@ msgstr "Đã gọi cả nhóm: {place} lúc {time}."
 #: ../../apps/mobile/src/features/crew/live-map/ping-toast.ts
 msgid "liveMap.toast.pinged"
 msgstr "Đã gọi cả nhóm."
+
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-preview.tsx
+msgid "liveMap.premium.previewPill"
+msgstr "Xem trước · chuyến {place} của bạn"
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
 msgid "liveMap.premium.resume"
@@ -247,8 +255,8 @@ msgid "liveMap.queued.createMeetup"
 msgstr "Đang đặt điểm hẹn"
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
-msgid "liveMap.primer.action"
-msgstr "Chia sẻ vị trí"
+msgid "liveMap.premium.shareTripDays"
+msgstr "Chia sẻ trong ngày đi chơi"
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
 msgid "liveMap.primer.title"
@@ -270,11 +278,6 @@ msgstr "Mở chia sẻ vào ngày đầu của chuyến đi."
 #: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.gate.endedLine"
 msgstr "Chia sẻ đã tự tắt lúc nửa đêm."
-
-#. placeholder {0}: m.endsOn
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
-msgid "liveMap.panel.footer"
-msgstr "Chia sẻ tự tắt lúc nửa đêm {0}."
 
 #: ../../apps/mobile/src/features/crew/live-map/ping-toast.ts
 msgid "liveMap.toast.onMyWay"

@@ -29,7 +29,7 @@ msgstr "{0} at {1}"
 msgid "explore.dest.writing"
 msgstr "{0} is still writing up {1}: the month-by-month crowds land here. The places are already on the map."
 
-#. placeholder {0}: view.done
+#. placeholder {0}: deckPosition(stage.kind, view.done, view.total)
 #. placeholder {1}: view.total
 #: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
 msgid "explore.premium.swipe.progress"
@@ -118,8 +118,8 @@ msgid "explore.dayTrips.length.minutes"
 msgstr "{mins} min"
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-sections.tsx
-msgid "explore.premium.place.minutesOn"
-msgstr "{minutes} min on"
+msgid "explore.premium.place.minutesFromHere"
+msgstr "{minutes} min from here"
 
 #: ../../apps/mobile/src/data/areas/travel-line.ts
 msgid "explore.dayTrips.travel.leg"
@@ -399,7 +399,7 @@ msgstr "Couldn’t find it"
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-names.tsx
 msgid "search.name.incomplete"
-msgstr "Couldn't reach more places."
+msgstr "Couldn’t reach more places."
 
 #: ../../apps/mobile/src/features/explore/premium/saved/saved-parts.tsx
 msgid "explore.saved.create"
@@ -596,7 +596,7 @@ msgstr "How other crews did {0}"
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-screen.tsx
 msgid "explore.place.missingOffline"
-msgstr "I need a connection the first time. After that it's here offline."
+msgstr "I need a connection the first time. After that it’s here offline."
 
 #: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
 msgid "explore.premium.swipe.in"
@@ -632,7 +632,7 @@ msgstr "It may have closed or been merged with another. Search for it by name."
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.refused.currency"
-msgstr "It uses another currency, which a day trip can't cross yet."
+msgstr "It uses another currency, which a day trip can’t cross yet."
 
 #: ../../apps/mobile/src/features/explore/components/why-words.ts
 msgid "explore.swipe.whyNear"
@@ -640,7 +640,7 @@ msgstr "It's about {minutes} min on foot from the stay."
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.refused.timeZone"
-msgstr "It's in another time zone, which a day trip can't cross yet."
+msgstr "It’s in another time zone, which a day trip can’t cross yet."
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.onDayLine"
@@ -1206,11 +1206,11 @@ msgstr "Thanks. We’ll check this summary and write it again."
 
 #: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
 msgid "explore.solo.refused"
-msgstr "That didn't go through"
+msgstr "That didn’t go through"
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.refused.other"
-msgstr "That didn't go through. Try again in a moment."
+msgstr "That didn’t go through. Try again in a moment."
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-extras.tsx
 msgid "explore.profile.reportFailed"
@@ -1222,7 +1222,7 @@ msgstr "That isn’t a link yet. Copy the post’s link and paste it here."
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.refused.notADayTrip"
-msgstr "That place isn't a day trip from here any more."
+msgstr "That place isn’t a day trip from here any more."
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-answer.tsx
 msgid "search.plain.failed"
@@ -1234,7 +1234,7 @@ msgstr "That’s a link"
 
 #: ../../apps/mobile/src/features/explore/premium/swipe/swipe-summary.tsx
 msgid "explore.swipe.doneTitle"
-msgstr "That's the deck"
+msgstr "That’s the deck"
 
 #: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
 msgid "explore.premium.swipe.arrivingLine"
@@ -1250,15 +1250,15 @@ msgstr "The deck didn’t come"
 
 #: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
 msgid "explore.home.empty"
-msgstr "The destinations haven't reached this phone yet. They load once it's online."
+msgstr "The destinations haven’t reached this phone yet. They load once it’s online."
 
 #: ../../apps/mobile/src/features/explore/premium/components/region-pack-card.tsx
 msgid "explore.pack.failed"
-msgstr "The download didn't finish. Check your connection and try again."
+msgstr "The download didn’t finish. Check your connection and try again."
 
 #: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
 msgid "explore.sponsored.neutral"
-msgstr "The guide's picks are never ranked by what a partner pays. We may earn a commission if you book through a partner."
+msgstr "The guide’s picks are never ranked by what a partner pays. We may earn a commission if you book through a partner."
 
 #: ../../apps/mobile/src/features/explore/premium/components/region-pack-card.tsx
 msgid "explore.pack.readyBody"
@@ -1295,7 +1295,7 @@ msgstr "The plan changed while you were choosing. Have another look and try agai
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-names.tsx
 msgid "search.name.failed"
-msgstr "The search didn't go through."
+msgstr "The search didn’t go through."
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.booked"
@@ -1307,11 +1307,11 @@ msgstr "This day is already at {area}."
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-screen.tsx
 msgid "explore.place.failedTitle"
-msgstr "This place didn't load"
+msgstr "This place didn’t load"
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-screen.tsx
 msgid "explore.place.goneTitle"
-msgstr "This place isn't listed any more"
+msgstr "This place isn’t listed any more"
 
 #: ../../apps/mobile/src/features/explore/premium/swipe/swipe-summary.tsx
 msgid "explore.swipe.endedTitle"
@@ -1327,7 +1327,7 @@ msgstr "This trip is over, so its plan no longer changes."
 
 #: ../../apps/mobile/src/features/explore/premium/search/find-names.tsx
 msgid "search.name.arriving"
-msgstr "This trip's places are still arriving on this phone. Try again in a moment."
+msgstr "This trip’s places are still arriving on this phone. Try again in a moment."
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-extras.tsx
 msgid "explore.offers.title"
@@ -1466,7 +1466,7 @@ msgstr "You see it because you're looking at {place}. It isn't chosen from anyth
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.offline"
-msgstr "You're offline. Adding a day trip needs a connection."
+msgstr "You’re offline. Adding a day trip needs a connection."
 
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.trip"

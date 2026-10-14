@@ -71,7 +71,7 @@ msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/crew/live-map/use-live-map-screen.ts
 msgid "liveMap.toast.pingOffline"
-msgstr "Couldn't reach the crew. Try again."
+msgstr "Couldn’t reach the crew. Try again."
 
 #: ../../apps/mobile/src/features/crew/live-map/crew-map-redirect.tsx
 msgid "liveMap.premium.crewMap"
@@ -95,7 +95,7 @@ msgstr "Here"
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
 msgid "liveMap.actions.onMyWay"
-msgstr "I'm on my way"
+msgstr "I’m on my way"
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/MeetupEditorPremium.tsx
 msgid "liveMap.editor.inMinutes"
@@ -158,6 +158,10 @@ msgstr "Not a trip day yet"
 msgid "liveMap.status.still"
 msgstr "Not moving"
 
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+msgid "liveMap.primer.notNow"
+msgstr "Not now"
+
 #: ../../apps/mobile/src/features/crew/live-map/copy.ts
 msgid "liveMap.status.off"
 msgstr "Not sharing"
@@ -179,8 +183,8 @@ msgid "liveMap.premium.onTheWay"
 msgstr "On the way"
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
-msgid "liveMap.primer.line"
-msgstr "Only on trip days, only with this crew. Pause any time."
+msgid "liveMap.premium.primerLine"
+msgstr "Only during trip days, only {crewName}. Pause any time from your row."
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
 msgid "liveMap.premium.pause"
@@ -213,6 +217,10 @@ msgstr "Pinged everyone: {place} at {time}."
 #: ../../apps/mobile/src/features/crew/live-map/ping-toast.ts
 msgid "liveMap.toast.pinged"
 msgstr "Pinged everyone."
+
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-preview.tsx
+msgid "liveMap.premium.previewPill"
+msgstr "Preview · your {place} trip"
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
 msgid "liveMap.premium.resume"
@@ -247,8 +255,8 @@ msgid "liveMap.queued.createMeetup"
 msgstr "Setting the meet-up"
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
-msgid "liveMap.primer.action"
-msgstr "Share my location"
+msgid "liveMap.premium.shareTripDays"
+msgstr "Share on trip days"
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
 msgid "liveMap.primer.title"
@@ -270,11 +278,6 @@ msgstr "Sharing opens on your first trip day."
 #: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.gate.endedLine"
 msgstr "Sharing switched itself off at midnight."
-
-#. placeholder {0}: m.endsOn
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
-msgid "liveMap.panel.footer"
-msgstr "Sharing switches itself off on {0} at midnight."
 
 #: ../../apps/mobile/src/features/crew/live-map/ping-toast.ts
 msgid "liveMap.toast.onMyWay"
