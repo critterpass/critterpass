@@ -149,7 +149,7 @@ export function PlainList(props: PlainListProps) {
           paddingHorizontal: theme.space.gap8,
         }}
       >
-        <Text variant="headline" testID="search-plain-count" style={{ flexShrink: 1 }}>
+        <Text variant="headline" testID="search-plain-count" style={{ flex: 1 }}>
           {props.heading ??
             t({
               id: 'search.plain.count',
@@ -158,6 +158,7 @@ export function PlainList(props: PlainListProps) {
         </Text>
         {props.onMap === undefined ? null : (
           <SegmentedControl
+            hug
             options={[
               { value: 'list', label: t({ id: 'search.plain.list', message: 'List' }) },
               { value: 'map', label: t({ id: 'search.plain.map', message: 'Map' }) },
