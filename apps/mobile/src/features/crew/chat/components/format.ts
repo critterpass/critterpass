@@ -9,11 +9,13 @@ import { clockOption } from '@/lib/i18n/formats';
 
 const DAY_MS = 86_400_000;
 
+/** "15:02" by default; the 12/24-hour setting wins over the 24-hour default. */
 export function timeOf(iso: string, locale: string, timeZone?: string): string {
   return dateTimeFormat(locale, {
     hour: '2-digit',
-    ...clockOption(),
     minute: '2-digit',
+    hourCycle: 'h23',
+    ...clockOption(),
     ...(timeZone === undefined ? {} : { timeZone }),
   }).format(new Date(iso));
 }
