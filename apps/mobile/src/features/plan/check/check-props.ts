@@ -7,6 +7,8 @@ export interface CheckViewProps {
   readonly onBack: () => void;
   readonly status: string;
   readonly state: 'loading' | 'ready';
+  /** The check is running (or has never run): the result is on its way. */
+  readonly checking?: boolean;
   readonly title: string;
   readonly body: string;
   /** Shown instead of the cards: running, failed, or nothing to fix. */

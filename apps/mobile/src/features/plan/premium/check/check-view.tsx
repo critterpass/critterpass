@@ -15,6 +15,7 @@ import {
   ListCard,
   LoadingCritter,
   PressableScale,
+  Skeleton,
   Text,
   usePremiumTheme,
 } from '@/ui/premium';
@@ -32,7 +33,8 @@ export function PremiumCheckView(props: CheckViewProps) {
   return (
     <PushScreen
       title={barTitle(props.title, locale)}
-      subtitle={barTitle(props.status, locale)}
+      // While it checks, the title already says so: no "Checking…" under "Checking the plan".
+      {...(props.checking === true ? {} : { subtitle: barTitle(props.status, locale) })}
       backLabel={props.backLabel}
       scroll={false}
       testID="plan-check"
@@ -58,6 +60,23 @@ export function PremiumCheckView(props: CheckViewProps) {
         )}
         {props.ask}
         {props.state === 'loading' ? <LoadingCritter label={props.status} /> : null}
+        {props.state === 'ready' && props.checking === true && props.cards.length === 0 ? (
+          // The result's place, held by the shape of a fix card, with the guide at work under it.
+          <View style={{ gap: theme.space.gap12 }} testID="plan-check-waiting">
+            <View style={{ borderRadius: 18, overflow: 'hidden' }}>
+              <Skeleton height={132} radius={18} tone="block" />
+            </View>
+            <View style={{ borderRadius: 18, overflow: 'hidden' }}>
+              <Skeleton height={96} radius={18} tone="soft" />
+            </View>
+            <LoadingCritter
+              label={t({
+                id: 'plan.premium.check.looking',
+                message: 'Hours, drives and saves, day by day…',
+              })}
+            />
+          </View>
+        ) : null}
         {props.cards.map((card) => (
           <View
             key={card.id}
