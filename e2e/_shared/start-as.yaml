@@ -5,7 +5,9 @@ appId: app.critterpass.dev
 #
 #   ${SCENARIO}  everyday | inbox | caught_up | vote | vote_final (the Bali demo world), or
 #                trip_today | trip_tomorrow | draft_ready | draft_today | crew_with_code |
-#                solo_today | solo_tomorrow (a Vietnamese crew's own)
+#                solo_today | solo_tomorrow (a Vietnamese crew's own), or week_crew |
+#                week_solo (a locked week at long-named places without photos, for a crew of
+#                five or of one: the sweep's long real data)
 #   ${LANG}      en (default) or vi
 #
 # The install is cleared and launched with the request as a launch argument; the dev build's

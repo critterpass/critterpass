@@ -12,7 +12,9 @@
  * - `crew_with_code`: a crew of one with a live join code and no trip;
  * - `solo_today`: a crew of one on the same Đà Nẵng trip, on today, with its budget locked in đồng
  *   and nothing spent or booked (./scenario-solo-trip.ts);
- * - `solo_tomorrow`: that solo trip confirmed for tomorrow, already in `pre_trip`.
+ * - `solo_tomorrow`: that solo trip confirmed for tomorrow, already in `pre_trip`;
+ * - `week_crew` and `week_solo`: a locked seven-day trip ten days out at places with long names
+ *   and no photos, for a crew of five and a crew of one (./scenario-week-trip.ts).
  *
  * Every answer carries the crew's join code. Each scenario has its own crew per caller, built in
  * one transaction; asking again answers the same crew and trip and builds nothing twice.
@@ -26,6 +28,7 @@ import { SEED_DEVICE_ID, type SeedCaller } from './play-command';
 import { ensureScenarioCrew, SCENARIO_CREW_NAMES, scenarioCrewCode } from './scenario-crew';
 import { buildSoloTrip, type SoloTripInput } from './scenario-solo-trip';
 import { buildScenarioTrip, SCENARIO_CURRENCY, type ScenarioTripInput } from './scenario-trip';
+import { buildWeekTrip } from './scenario-week-trip';
 
 export const startScenarioSchema = z.enum([
   'trip_today',
@@ -35,6 +38,8 @@ export const startScenarioSchema = z.enum([
   'crew_with_code',
   'solo_today',
   'solo_tomorrow',
+  'week_crew',
+  'week_solo',
 ]);
 export type StartScenario = z.infer<typeof startScenarioSchema>;
 
@@ -51,7 +56,10 @@ export interface SeedStartResult {
 }
 
 const TRIPS: Readonly<
-  Record<Exclude<StartScenario, 'crew_with_code' | SoloScenario>, Omit<ScenarioTripInput, 'crewId'>>
+  Record<
+    Exclude<StartScenario, 'crew_with_code' | SoloScenario | WeekScenario>,
+    Omit<ScenarioTripInput, 'crewId'>
+  >
 > = {
   trip_today: { stage: 'under_way', startsInDays: 0, withFlight: false },
   trip_tomorrow: { stage: 'locked', startsInDays: 1, withFlight: true },
@@ -69,12 +77,21 @@ function isSolo(scenario: StartScenario): scenario is SoloScenario {
   return scenario in SOLO_TRIPS;
 }
 
+type WeekScenario = 'week_crew' | 'week_solo';
+function isWeek(scenario: StartScenario): scenario is WeekScenario {
+  return scenario === 'week_crew' || scenario === 'week_solo';
+}
+
 /** The trip a scenario builds in its crew, or none. */
 function tripBuilder(
   scenario: StartScenario,
   redis: RateLimitRedisClient,
 ): ((tx: pg.PoolClient, who: SeedCaller, crewId: string) => Promise<string>) | undefined {
   if (scenario === 'crew_with_code') return undefined;
+  if (isWeek(scenario)) {
+    const withCrew = scenario === 'week_crew';
+    return (tx, who, crewId) => buildWeekTrip(tx, who, { crewId, withCrew });
+  }
   if (isSolo(scenario)) {
     const solo = SOLO_TRIPS[scenario];
     return (tx, who, crewId) => buildSoloTrip(tx, who, { ...solo, crewId }, redis);

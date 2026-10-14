@@ -22,6 +22,9 @@ export const SCENARIO_CREW_NAMES = {
   // Long on purpose: the crew's forward address is made from its name.
   solo_today: 'Just me in Đà Nẵng, three days',
   solo_tomorrow: 'Just me in Đà Nẵng from tomorrow',
+  // As long as a crew name may be (32 characters).
+  week_crew: 'Gia đình Nguyễn Phương đi Hội An',
+  week_solo: 'Một mình đi khắp Đà Nẵng cả tuần',
 } as const;
 
 /** In join order; the first paid for the seeded ride. */
@@ -87,15 +90,16 @@ export async function scenarioCrewCode(
   return minted.code;
 }
 
-/** Adds the five crewmates to the crew and seats them on the trip; returns their ids in order. */
+/** Adds the crewmates (the five by default) to the crew and seats them on the trip; returns their ids in order. */
 export async function addScenarioCrewmates(
   tx: pg.PoolClient,
   crewId: string,
   tripId: string,
+  names: readonly string[] = SCENARIO_CREWMATES,
 ): Promise<string[]> {
   return asSystemRole(tx, async () => {
     const ids: string[] = [];
-    for (const [index, name] of SCENARIO_CREWMATES.entries()) {
+    for (const [index, name] of names.entries()) {
       const { rows } = await tx.query<{ id: string }>(
         `INSERT INTO users (id, status, display_name, home_airport, home_country, home_currency,
            locale, tz)
