@@ -41,6 +41,7 @@ export function PremiumBalanceView(props: BalanceViewProps) {
       testID="plan-balance"
     >
       <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{
           paddingHorizontal: theme.space.gutter,
           paddingVertical: theme.space.gap16,

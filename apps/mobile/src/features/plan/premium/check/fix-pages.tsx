@@ -49,7 +49,10 @@ function FixPage(props: {
       scroll={false}
       testID={props.testID}
     >
-      <ScrollView contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}>
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}
+      >
         {props.children}
       </ScrollView>
       {props.primary === null && props.send === null ? null : (

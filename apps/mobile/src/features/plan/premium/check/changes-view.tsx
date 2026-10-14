@@ -36,6 +36,7 @@ export function PremiumChangesView(props: ChangesReviewViewProps) {
       testID="plan-review"
     >
       <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{
           paddingHorizontal: theme.space.gutter,
           paddingVertical: theme.space.gap16,

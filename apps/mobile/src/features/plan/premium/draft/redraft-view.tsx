@@ -43,7 +43,10 @@ export function PremiumRedraftView(props: RedraftDiffViewProps) {
       scroll={false}
       testID="redraft-screen"
     >
-      <ScrollView contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}>
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}
+      >
         {body}
       </ScrollView>
       {foot === null ? null : (
