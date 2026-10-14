@@ -59,11 +59,9 @@ export interface PushScreenProps {
 }
 
 const goBack = () => router.back();
-
+const goHome = () => router.replace('/');
 /** The iOS navigation bar under the status bar (the title row with its glass controls). */
 const NATIVE_BAR_HEIGHT = 44;
-
-const goHome = () => router.replace('/');
 
 /**
  * The push screen type (foundations-spec §1): glass back left, centred title and subtitle, one
@@ -120,8 +118,7 @@ export function PushScreen({
     control === 'none' || nativeBack ? null : control === 'home' ? 'back' : control;
   const leadingLabel = control === 'close' ? (closeLabel ?? backLabel) : backLabel;
   const leave = control === 'home' ? goHome : goBack;
-  // The bar's native back is the way back, and so is the shell's back or ✕ as a native toolbar
-  // item on iOS; a drawn back or ✕ registers itself.
+  // The native back or toolbar ✕ is the way back; a drawn back or ✕ registers itself.
   useBackAffordance(!headerless && !drawnBar && (nativeBack || drawnControl !== null));
 
   const ink = t.color.ink;
@@ -139,13 +136,16 @@ export function PushScreen({
     }),
     [title, subtitle, nativeBack, ink],
   );
-  const drawnOptions = useMemo(() => ({ headerShown: false, title }), [title]);
+  // No native title left mounted under the status bar once the page draws its own bar.
+  const drawnOptions = useMemo(
+    () => ({ headerShown: false, title, headerTitle: () => null }),
+    [title],
+  );
 
   const edges = useScrollEdges();
   const content = <BodyTitleContext value={reportBodyTitle}>{children}</BodyTitleContext>;
-  // Under the transparent native bar (iOS) the page keeps the status bar and the bar's height
-  // clear itself: the system's automatic inset is lost when the scroll view isn't the one the
-  // screen's controller tracks, and the content then started under the bar's title.
+  // Under the transparent native bar (iOS) the page keeps the status bar and the bar clear itself
+  // (the system's own inset is lost on a scroll view its controller doesn't track).
   const underNativeBar = !drawnBar && !headerless;
   const barGround = insets.top + NATIVE_BAR_HEIGHT;
   const footed = footer !== undefined;
