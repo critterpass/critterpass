@@ -155,9 +155,10 @@ export function PushScreen({
     <ScrollView
       contentInsetAdjustmentBehavior={underNativeBar ? 'never' : 'automatic'}
       contentContainerStyle={
+        // A first card keeps a gap under the bar, and its shadow stays whole.
         underNativeBar
-          ? { paddingTop: barGround, paddingBottom: foot }
-          : { paddingBottom: t.space.gap16 }
+          ? { paddingTop: barGround + t.space.gap8, paddingBottom: foot }
+          : { paddingTop: headerless ? 0 : t.space.gap8, paddingBottom: t.space.gap16 }
       }
       {...(underNativeBar ? { scrollIndicatorInsets: { top: barGround } } : {})}
       keyboardShouldPersistTaps="handled"
