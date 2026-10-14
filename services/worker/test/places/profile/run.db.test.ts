@@ -80,7 +80,7 @@ function network() {
       if (body.includes('You translate the short page')) {
         return Promise.resolve(json('deepseek-profile-translate-fr'));
       }
-      if (body.includes('"estimates"')) {
+      if (body.includes('busy_source_url')) {
         return Promise.resolve(json('deepseek-profile-write-estimates'));
       }
       return Promise.resolve(json('deepseek-profile-write'));

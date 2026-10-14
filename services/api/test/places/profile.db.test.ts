@@ -221,4 +221,57 @@ describe('GET /v1/places/{id} profile', () => {
     expect(await read(english, id)).toEqual({ status: 'pending' });
     expect(await jobs('places.profile', id)).toEqual([{ poi_id: id }]);
   });
+
+  it("labels a popular place's estimates in the reader's language, and has none elsewhere", async () => {
+    const id = await place('Đà Lạt Flower Gardens', { must_see: true });
+    const estimates = {
+      visit: { value: { bucket: '1_2h', minutes: 90 }, basis: 'estimate' },
+      busy: {
+        value: [{ days: 'weekends', from: 9, to: 12, level: 'busy' }],
+        basis: 'cited',
+        source: 'https://blog.example/da-lat',
+      },
+      fee: { value: { en: '100,000 VND', vi: '100.000 đồng' }, basis: 'estimate' },
+      tips: [{ value: { en: 'Go on a weekday', vi: 'Nên đi ngày thường' }, basis: 'estimate' }],
+    };
+    await withSystem(pool, (tx) =>
+      tx.query(
+        `INSERT INTO place_profiles (poi_id, status, texts, estimates, generated_at)
+         VALUES ($1, 'ready', $2, $3, now())`,
+        [id, JSON.stringify(TEXT), JSON.stringify(estimates)],
+      ),
+    );
+    const vi = randomUUID();
+    await pool.query(`INSERT INTO users (id, status, locale) VALUES ($1, 'registered', 'vi')`, [
+      vi,
+    ]);
+    expect(await read(vi, id)).toMatchObject({
+      locale: 'vi',
+      estimates: {
+        locale: 'vi',
+        visit: { bucket: '1_2h', minutes: 90, label: 'estimate', sourceUrl: null },
+        busy: {
+          windows: [{ days: 'weekends', from: 9, to: 12, level: 'busy' }],
+          label: 'cited',
+          sourceUrl: 'https://blog.example/da-lat',
+        },
+        fee: { text: '100.000 đồng', label: 'estimate', sourceUrl: null },
+        tips: [{ text: 'Nên đi ngày thường', label: 'estimate', sourceUrl: null }],
+        dress: null,
+        bestTimes: null,
+      },
+    });
+    expect(await read(french, id)).toMatchObject({
+      estimates: { locale: 'en', fee: { text: '100,000 VND' } },
+    });
+    const plain = await place('Quiet Lane Café');
+    await withSystem(pool, (tx) =>
+      tx.query(
+        `INSERT INTO place_profiles (poi_id, status, texts, generated_at)
+         VALUES ($1, 'ready', $2, now())`,
+        [plain, JSON.stringify(TEXT)],
+      ),
+    );
+    expect(await read(english, plain)).toMatchObject({ status: 'ready', estimates: null });
+  });
 });
