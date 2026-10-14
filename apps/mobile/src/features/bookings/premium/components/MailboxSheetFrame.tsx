@@ -99,7 +99,8 @@ export function MailboxAddressPill(props: {
 }
 
 const styles = StyleSheet.create({
-  fill: { flex: 1 },
+  // Grows and shrinks from its content: the sheet fits its content, so there is no height to fill.
+  fill: { flexGrow: 1, flexShrink: 1 },
   // Clears the system grabber on iOS (it draws over the sheet's top band).
   sheet: { paddingTop: 24 },
   grabber: {

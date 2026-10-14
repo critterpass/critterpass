@@ -18,8 +18,13 @@ function Insets() {
 }
 
 async function laidOut(presentation: 'formSheet' | 'modal' | 'card', first: boolean) {
+  await renderLayout(presentation, first);
+  return String(screen.getByTestId('insets').props.children);
+}
+
+async function renderLayout(presentation: 'formSheet' | 'modal' | 'card', first: boolean) {
   const navigation = { getState: () => ({ routes: first ? [{ key: 'me' }] : [{ key: 'under' }] }) };
-  await render(
+  return render(
     <SafeAreaProvider
       initialMetrics={{ insets: WINDOW, frame: { x: 0, y: 0, width: 393, height: 852 } }}
     >
@@ -31,7 +36,16 @@ async function laidOut(presentation: 'formSheet' | 'modal' | 'card', first: bool
       })}
     </SafeAreaProvider>,
   );
-  return String(screen.getByTestId('insets').props.children);
+}
+
+/** Whether the layout starts the screen with the empty stop view, ahead of its content. */
+async function startsWithStop(presentation: 'formSheet' | 'modal' | 'card', first: boolean) {
+  await renderLayout(presentation, first);
+  const stop = screen.queryByTestId('sheet-scroll-stop');
+  if (stop === null) return false;
+  const content = screen.getByTestId('insets');
+  const siblings = stop.parent?.children ?? [];
+  return siblings[0] === stop && siblings.includes(content) && stop.children.length === 0;
 }
 
 describe('insets inside a presented sheet', () => {
@@ -72,5 +86,13 @@ describe('insets inside a presented sheet', () => {
     const modal = (route: { readonly key: string }) =>
       route.key === 'cover' ? ('modal' as const) : undefined;
     expect(insideCardTopInset(routes, 'page', modal, 'android')).toBeUndefined();
+  });
+
+  it('starts an iOS form sheet with an empty view, ahead of the screen', async () => {
+    // Its first-subview walk would otherwise reach a scroll view nested in the content and move it.
+    expect(await startsWithStop('formSheet', false)).toBe(true);
+    expect(await startsWithStop('card', false)).toBe(false);
+    expect(await startsWithStop('modal', false)).toBe(false);
+    expect(await startsWithStop('formSheet', true)).toBe(false);
   });
 });
