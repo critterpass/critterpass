@@ -104,7 +104,8 @@ export function GlassMenu({
   const group = (
     <>
       {preview}
-      <GlassSurface kind="regular" style={styles.menu}>
+      {/* Opaque, as the sheet material is: the iOS glass let the stop under it read through. */}
+      <GlassSurface kind="sheet" style={styles.menu}>
         {items.map((item, index) => {
           const before = items[index - 1];
           const separated =
