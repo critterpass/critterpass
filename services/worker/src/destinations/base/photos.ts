@@ -47,17 +47,20 @@ export async function fetchCommonsPages(
   const unique = [...new Set(titles)].sort();
   for (let at = 0; at < unique.length; at += TITLES_PER_QUERY) {
     const chunk = unique.slice(at, at + TITLES_PER_QUERY);
-    const url = new URL(COMMONS_API);
-    url.search = new URLSearchParams({
-      action: 'query',
-      format: 'json',
-      formatversion: '2',
-      titles: chunk.join('|'),
-      prop: 'imageinfo',
-      iiprop: 'url|size|mime|extmetadata',
-      iiurlwidth: String(DOWNLOAD_PX),
-    }).toString();
-    const response = await fetchImpl(url, { headers: { 'user-agent': USER_AGENT } });
+    // Fifty long non-Latin titles overflow a URL (HTTP 414), so the query goes as a form body.
+    const response = await fetchImpl(COMMONS_API, {
+      method: 'POST',
+      headers: { 'user-agent': USER_AGENT },
+      body: new URLSearchParams({
+        action: 'query',
+        format: 'json',
+        formatversion: '2',
+        titles: chunk.join('|'),
+        prop: 'imageinfo',
+        iiprop: 'url|size|mime|extmetadata',
+        iiurlwidth: String(DOWNLOAD_PX),
+      }),
+    });
     if (!response.ok) throw new Error(`Commons query failed: HTTP ${response.status}`);
     const body = (await response.json()) as {
       query?: { pages?: CommonsPage[]; normalized?: { from: string; to: string }[] };
