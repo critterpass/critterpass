@@ -129,12 +129,10 @@ export function CrewPlansPremiumScreen({ destination, tripId }: CrewPlansScreenP
           ? t({ id: 'community.back.explore', message: 'Explore' })
           : t({ id: 'community.back.trip', message: 'Trip' })
       }
+      largeTitle
       testID="crew-plans"
     >
       <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap8 }}>
-        <Text variant="largeTitle" accessibilityRole="header">
-          {t({ id: 'community.browse.title', message: 'Crew plans' })}
-        </Text>
         <Text variant="body" tone="muted">
           {t({
             id: 'community.browse.intro',

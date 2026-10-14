@@ -30,11 +30,8 @@ export function PlanPagePlaceholder({
   const { t } = useLingui();
   const heading = t({ id: 'community.detail.heading', message: 'A crew plan' });
   return (
-    <PushScreen title={heading} backLabel={backLabel} testID={testID}>
+    <PushScreen title={heading} backLabel={backLabel} largeTitle testID={testID}>
       <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap12 }}>
-        <Text variant="largeTitle" accessibilityRole="header">
-          {heading}
-        </Text>
         <Text variant="body" tone="muted">
           {t({
             id: 'community.browse.intro',
