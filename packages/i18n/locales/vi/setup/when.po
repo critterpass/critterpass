@@ -127,6 +127,10 @@ msgstr "Ai cũng rảnh, và vé máy bay tuần đó rẻ hơn."
 msgid "setup.when.line.solo"
 msgstr "Từ lịch của bạn."
 
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
+msgid "setup.when.own.justNow"
+msgstr "vừa xong"
+
 #: ../../apps/mobile/src/features/setup/when/when-props.ts
 msgid "setup.when.fail.offline"
 msgstr "Cần có mạng để chốt. Thử lại sau chút nhé."

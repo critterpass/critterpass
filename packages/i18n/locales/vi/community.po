@@ -202,6 +202,14 @@ msgid "community.back.plans"
 msgstr "Kế hoạch các nhóm"
 
 #: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+msgid "community.browse.failedTitle"
+msgstr "Chưa tải được kế hoạch của các nhóm"
+
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+msgid "community.browse.notFoundLine"
+msgstr "Kế hoạch của các nhóm nằm trên trang của điểm đến. Tìm nơi này để mở trang đó."
+
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
 msgid "community.browse.offlineTitle"
 msgstr "Cần có mạng để xem kế hoạch"
 
@@ -454,6 +462,10 @@ msgstr "Bỏ qua"
 msgid "community.consent.ask"
 msgstr "Một người trong nhóm muốn chia sẻ kế hoạch này với các nhóm khác. Kế hoạch chỉ được chia sẻ khi cả nhóm đồng ý."
 
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+msgid "community.browse.failedLine"
+msgstr "Bên mình gặp trục trặc. Thử lại sau chút nhé."
+
 #: ../../apps/mobile/src/features/community/premium/trip-picker-premium.tsx
 msgid "community.picker.start"
 msgstr "Bắt đầu chuyến đi với kế hoạch này"
@@ -502,6 +514,10 @@ msgstr "Chưa được. Thử lại sau giây lát."
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
 msgid "community.published.revoked"
 msgstr "Liên kết đó đã tắt."
+
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+msgid "community.browse.notFoundTitle"
+msgstr "Nơi này chưa có trong cẩm nang"
 
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 msgid "community.publish.chat"

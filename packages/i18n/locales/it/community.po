@@ -202,6 +202,14 @@ msgid "community.back.plans"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+msgid "community.browse.failedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+msgid "community.browse.notFoundLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
 msgid "community.browse.offlineTitle"
 msgstr ""
 
@@ -454,6 +462,10 @@ msgstr ""
 msgid "community.consent.ask"
 msgstr ""
 
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+msgid "community.browse.failedLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/community/premium/trip-picker-premium.tsx
 msgid "community.picker.start"
 msgstr ""
@@ -501,6 +513,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
 msgid "community.published.revoked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+msgid "community.browse.notFoundTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx

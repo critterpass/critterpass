@@ -127,6 +127,10 @@ msgstr "Everyone’s free, and flights are cheaper that week."
 msgid "setup.when.line.solo"
 msgstr "From your calendar."
 
+#: ../../apps/mobile/src/features/setup/when/own-calendar.ts
+msgid "setup.when.own.justNow"
+msgstr "just now"
+
 #: ../../apps/mobile/src/features/setup/when/when-props.ts
 msgid "setup.when.fail.offline"
 msgstr "Locking needs signal. Try again in a moment."

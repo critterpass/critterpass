@@ -1094,6 +1094,10 @@ msgstr "Sync"
 msgid "setup.calendar.synced"
 msgstr "Synced {age}"
 
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.syncedJustNow"
+msgstr "Synced just now"
+
 #: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
 msgid "setup.ask.thanks"
 msgstr "Thanks. I’ll only tell {organiser} whether the week works."

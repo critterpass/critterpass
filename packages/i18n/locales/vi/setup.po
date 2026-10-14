@@ -1094,6 +1094,10 @@ msgstr "Đồng bộ"
 msgid "setup.calendar.synced"
 msgstr "Đã đồng bộ {age}"
 
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.syncedJustNow"
+msgstr "Vừa đồng bộ xong"
+
 #: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
 msgid "setup.ask.thanks"
 msgstr "Cảm ơn nhé. Mình chỉ báo {organiser} tuần đó có ổn không."

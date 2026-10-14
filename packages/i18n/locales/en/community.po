@@ -202,6 +202,14 @@ msgid "community.back.plans"
 msgstr "Crew plans"
 
 #: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+msgid "community.browse.failedTitle"
+msgstr "Crew plans didn’t load"
+
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+msgid "community.browse.notFoundLine"
+msgstr "Crew plans live on a destination’s page. Search for the place to find it."
+
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
 msgid "community.browse.offlineTitle"
 msgstr "Crew plans need a signal"
 
@@ -454,6 +462,10 @@ msgstr "Skip it"
 msgid "community.consent.ask"
 msgstr "Someone in the crew wants to share this plan with other crews. It only goes out if everyone agrees."
 
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+msgid "community.browse.failedLine"
+msgstr "Something went wrong on our side. Try again in a moment."
+
 #: ../../apps/mobile/src/features/community/premium/trip-picker-premium.tsx
 msgid "community.picker.start"
 msgstr "Start a trip with this plan"
@@ -502,6 +514,10 @@ msgstr "That didn't go through. Try again in a moment."
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
 msgid "community.published.revoked"
 msgstr "That link is off."
+
+#: ../../apps/mobile/src/features/community/premium/crew-plans-premium-screen.tsx
+msgid "community.browse.notFoundTitle"
+msgstr "That place isn’t in the guide"
 
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-parts.tsx
 msgid "community.publish.chat"
