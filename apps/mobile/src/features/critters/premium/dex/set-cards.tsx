@@ -41,7 +41,9 @@ const useStyles = makePremiumStyles((th) => ({
   homeHead: { flexDirection: 'row', alignItems: 'baseline', gap: th.space.gap8 },
   homeName: { flex: 1 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', rowGap: 6 },
-  cell: { height: 50, alignItems: 'center', justifyContent: 'center' },
+  // A set smaller than a row spreads its few cells across the card (8.01), not left-packed.
+  gridFew: { justifyContent: 'space-evenly' },
+  cell: { width: '20%', height: 50, alignItems: 'center', justifyContent: 'center' },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -102,15 +104,6 @@ export function LegendaryBanner({
   );
 }
 
-/**
- * The grid runs five across (8.01); a small set spreads its few cells over the card's width rather
- * than leaving the right half empty.
- */
-function columnWidth(cells: number): `${number}%` {
-  const columns = Math.min(5, Math.max(3, cells));
-  return `${100 / columns}%`;
-}
-
 export function HomeSetCard({
   set,
   onOpen,
@@ -136,13 +129,9 @@ export function HomeSetCard({
           {count}
         </Text>
       </View>
-      <View style={styles.grid}>
+      <View style={[styles.grid, set.cells.length < 5 ? styles.gridFew : null]}>
         {set.cells.map((cell) => (
-          <View
-            key={cell.id}
-            style={[styles.cell, { width: columnWidth(set.cells.length) }]}
-            testID={`critters-cell-${cell.no}`}
-          >
+          <View key={cell.id} style={styles.cell} testID={`critters-cell-${cell.no}`}>
             <CellArt cell={cell} size={46} maskSize={42} />
           </View>
         ))}
