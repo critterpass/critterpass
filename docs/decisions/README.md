@@ -19,14 +19,12 @@ and the one-table summary.
 | [Skia critter painter performance](20260927-skia-critter-painter-perf.md) | Critter port fidelity, draw-on fps, Critterdex grid |
 | [Motion transitions and startup](20260927-motion-transitions-and-startup.md) | Grow-into-page transition, timeline drag, cold start, download size |
 | [Background location and dwell ring](20260927-background-location-dwell-ring.md) | Trip-day location session, 50 m dwell ring, Always upgrade, battery |
-| [MapLibre + PMTiles on R2](20260927-maplibre-pmtiles-on-r2.md) | Custom basemap from PMTiles, offline city pack, pan fps (superseded by Google Maps and Places) |
+| [MapLibre + PMTiles on R2](20260927-maplibre-pmtiles-on-r2.md) | Custom basemap from PMTiles, offline city pack, pan fps |
 | [Valhalla routing on Railway](20260927-valhalla-routing-on-railway.md) | Self-hosted routing latency, matrix, build cost; Mapbox-at-launch decision |
 | [In-house procedural audio](20260927-in-house-procedural-audio.md) | Founder decision (not a spike): SFX and music synthesised in `@cp/sound-art` |
 | [App Clip built behind a flag](20260928-app-clip-built-behind-a-flag.md) | D15: native clip built now, offered only with `links.app_clip` on |
 | [Guide voice font: Mynerve](20260930-guide-voice-mynerve.md) | Founder decision (not a spike): Mynerve replaces Caveat so the guide speaks Vietnamese (superseded by Borel) |
 | [Guide voice font: Borel](20260930-guide-voice-borel.md) | Founder decision (not a spike): Borel replaces Mynerve; voice token 16/1.5 |
-| [Google Maps and Places](20261014-google-maps-and-places.md) | Founder decision (D38): Google Places API (New) through our api, Google Maps in the app, only the place id stored; supersedes MapLibre + PMTiles |
-| [Destination base set](20261014-destination-base-set.md) | Founder decision (D39): about 5,000 stored destinations from Wikidata and GeoNames, Commons photos, facts-only text, one of the 151 critters each |
 
 ## Spike results
 
