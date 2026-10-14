@@ -40,11 +40,18 @@ import { useDeckCards } from './use-deck-cards';
 
 const FLY_MS = 450;
 const NO_CARDS: readonly SwipeCardFace[] = [];
-const HEART = '♥';
 /** Room the name band takes at the card's foot, so a doodle centres in what stays in view. */
 const NAME_BAND = 110;
 
 const BAND_INK = PREMIUM_THEMES.light.color.inkSurface;
+
+/**
+ * Where the reader is in the deck ("12 of 30" while the twelfth card is up): the card on top
+ * counts, so the first card reads "1 of 30"; the summary after the last card reads the total.
+ */
+export function deckPosition(stage: string, done: number, total: number): number {
+  return stage === 'deck' ? Math.min(done + 1, total) : Math.min(done, total);
+}
 
 function CardFace({ face }: { readonly face: SwipeCardFace }) {
   const theme = usePremiumTheme();
@@ -173,13 +180,14 @@ export function SwipePage(props: SwipeScreenProps) {
             <Text variant="captionMuted" tone="muted">
               {t({
                 id: 'explore.premium.swipe.progress',
-                message: `${view.done} of ${view.total}`,
+                message: `${deckPosition(stage.kind, view.done, view.total)} of ${view.total}`,
               })}
             </Text>
           )}
         </View>
         <GlassPill
-          label={`${HEART} ${String(view.matchCount)}`}
+          icon="heart"
+          label={String(view.matchCount)}
           onPress={view.onIdeas ?? (() => router.back())}
           testID="swipe-matches"
         />
