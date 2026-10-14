@@ -11,7 +11,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { PrivateContent } from '@/features/help';
 import { useWalletGuide, WalletGuideProvider } from '@/features/bookings';
-import { crewAccent, guideCritterKind, IconTile } from '@/features/trip';
+import { crewAccent, guideCritterKind } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   Avatar,
@@ -30,6 +30,7 @@ import { formatAmount } from '../format';
 import type { SettleRowModel } from '../settle/model';
 import { usePayoutKindLabel } from '../settle/payout-labels';
 import { useSettle, type SettleState } from '../settle/use-settle';
+import { NothingToSettle, SettleReward } from './components/SettleExtras';
 import { SettledSquare } from './components/SettledSquare';
 import { SettleRemindFooter } from './components/SettleRemindFooter';
 
@@ -115,8 +116,13 @@ export function PaymentCard({
               {amount}
             </Text>
           </PrivateContent>
-          <Text variant="helper" color={status.color}>
-            {status.label}
+          {/* Who pays whom by name: two crewmates can share an initial ("T → T"). */}
+          <Text variant="helper" tone="muted" numberOfLines={1}>
+            {t({ id: 'money.premium.paymentPeople', message: `${from} → ${to}` })}
+            {' · '}
+            <Text variant="helper" color={status.color}>
+              {status.label}
+            </Text>
           </Text>
         </View>
         {row.actions.includes('nudge') ? (
@@ -184,31 +190,7 @@ function Open({ settle }: { readonly settle: Ready }) {
           })}
         </Text>
       </View>
-      {settle.open > 0 ? (
-        <View
-          style={[
-            styles.reward,
-            {
-              marginHorizontal: th.space.gutter,
-              borderRadius: th.radius.card,
-              borderColor: th.color.outlineEmpty,
-              backgroundColor: th.color.card,
-            },
-          ]}
-          testID="money-settle-reward"
-        >
-          <IconTile name="star" bg={th.color.control} color={th.stamp.green.text} size={48} />
-          <Text variant="rowText" style={styles.flex}>
-            {t({
-              id: 'money.premium.reward',
-              message: plural(settle.open, {
-                one: `One more payment and all ${settle.people} of you get the Settled ${guide.name}.`,
-                other: `# more payments and all ${settle.people} of you get the Settled ${guide.name}.`,
-              }),
-            })}
-          </Text>
-        </View>
-      ) : null}
+      {settle.open > 0 ? <SettleReward open={settle.open} people={settle.people} /> : null}
     </View>
   );
 }
@@ -221,7 +203,13 @@ export function SettlePremium({ tripId = null }: { readonly tripId?: string | nu
   const backLabel = t({ id: 'money.back', message: 'Money' });
   return (
     <WalletGuideProvider tripId={settle.kind === 'ready' ? settle.tripId : null}>
-      <PushScreen title={title} backLabel={backLabel} scroll={false} testID="money-settle">
+      <PushScreen
+        largeTitle
+        title={title}
+        backLabel={backLabel}
+        scroll={false}
+        testID="money-settle"
+      >
         <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={styles.body}>
           {settle.kind === 'loading' ? (
             <View style={{ padding: th.space.gutter, gap: th.space.gap10 }}>
@@ -236,12 +224,7 @@ export function SettlePremium({ tripId = null }: { readonly tripId?: string | nu
             settle.expenses > 0 ? (
               <SettledSquare settle={settle} />
             ) : (
-              <Text variant="body" tone="muted" align="center" style={{ padding: th.space.gutter }}>
-                {t({
-                  id: 'money.settle.nothing',
-                  message: 'Nothing to settle. Everyone is square.',
-                })}
-              </Text>
+              <NothingToSettle />
             )
           ) : (
             <Open settle={settle} />
@@ -268,13 +251,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
   },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  reward: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    borderWidth: 1.5,
-    borderStyle: 'dashed',
-    paddingVertical: 12,
-    paddingHorizontal: 14,
-  },
 });
