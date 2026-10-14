@@ -167,13 +167,28 @@ export function weekday(locale: string, date: string | null): string {
   return date === null ? '' : format.date(locale, localDate(date), { weekday: 'short' });
 }
 
-/** "Oct 12–19" for the trip's dates. */
+/**
+ * "Oct 12–19" (or "12–19 Oct" where the day leads) for the trip's dates. Inside one month the
+ * last day joins the first one's day, in the locale's own order; across months both dates show.
+ */
 export function tripDates(locale: string, start: string | null, end: string | null): string {
   if (start === null) return '';
   if (end === null || end === start) return shortDate(locale, start);
-  const sameMonth = start.slice(0, 7) === end.slice(0, 7);
-  const last = sameMonth ? String(Number(end.slice(8, 10))) : shortDate(locale, end);
-  return `${shortDate(locale, start)}–${last}`;
+  if (start.slice(0, 7) !== end.slice(0, 7)) {
+    return `${shortDate(locale, start)} – ${shortDate(locale, end)}`;
+  }
+  const last = String(Number(end.slice(8, 10)));
+  const day = new Intl.DateTimeFormat(locale, {
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a calendar date at noon UTC.
+  const noon = new Date(`${start.slice(0, 10)}T12:00:00Z`);
+  // An engine without parts keeps the month-first join.
+  if (typeof day.formatToParts !== 'function') return `${shortDate(locale, start)}–${last}`;
+  const parts = day.formatToParts(noon);
+  return parts.map((part) => (part.type === 'day' ? `${part.value}–${last}` : part.value)).join('');
 }
 
 export function tagLabel(tag: DayTag, short = false): string {
