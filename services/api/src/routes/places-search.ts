@@ -14,6 +14,7 @@ import { z } from 'zod';
 
 import type { RateLimitRedisClient } from '../abuse/rate-limits';
 import type { AppEnv } from '../app';
+import { profileReaderLocale } from '../places/profile';
 import {
   enforceUidRateLimit,
   requireCommandSession,
@@ -42,6 +43,10 @@ export interface PlaceSearchRow {
   readonly guide: string;
   /** Silhouette ids of the locals to find here (critter keys; never names). */
   readonly locals: readonly string[];
+  /** One facts-only line under the name (AI-written from Wikidata and GeoNames facts). */
+  readonly line: string | null;
+  /** The media subject of its ready photo (`destination:<slug>`), for `GET /v1/media`. */
+  readonly photo: string | null;
 }
 
 const querySchema = z.object({
@@ -69,23 +74,34 @@ interface Row {
   /** The guide of the destination's own critter, while guides go by city. */
   city_guide: string | null;
   set_id: string | null;
+  origin: string;
+  critter_key: string | null;
+  line: string | null;
+  photo: string | null;
 }
 
 export async function searchDestinations(
   tx: pg.PoolClient,
   q: string,
   limit: number,
+  locale = 'en',
 ): Promise<PlaceSearchRow[]> {
   const { rows } = await tx.query<Row>(
     `WITH q AS (SELECT app.unaccent_immutable(lower($1)) AS t),
      scored AS (
-       SELECT d.id, d.name, coalesce(s.name, d.country) AS country, upper(s.code) AS code,
-              d.coverage, s.guide_slug AS guide, s.id AS set_id,
+       SELECT d.id, d.name, coalesce(s.name, d.country) AS country,
+              upper(coalesce(s.code, d.country_code)) AS code, d.coverage, d.origin, d.base_rank,
+              d.critter_key, s.guide_slug AS guide, s.id AS set_id,
+              coalesce(d.texts -> $5 ->> 'line', d.texts -> 'en' ->> 'line') AS line,
+              CASE WHEN EXISTS (SELECT 1 FROM media_assets m
+                                 WHERE m.status = 'ready'
+                                   AND m.subject_keys @> ARRAY['destination:' || d.slug])
+                   THEN 'destination:' || d.slug END AS photo,
               (SELECT g.slug FROM guides g
                 WHERE g.critter_key = d.critter_key AND app.guides_per_city()) AS city_guide,
               greatest(
                 similarity(app.unaccent_immutable(lower(d.name)), q.t),
-                word_similarity(q.t, app.unaccent_immutable(lower(d.name))),
+                word_similarity(q.t, coalesce(d.search_name, app.unaccent_immutable(lower(d.name)))),
                 0.9 * coalesce(similarity(app.unaccent_immutable(lower(s.name)), q.t), 0),
                 CASE WHEN app.unaccent_immutable(lower(d.name)) LIKE q.t || '%' THEN 1.0 ELSE 0 END,
                 CASE WHEN app.unaccent_immutable(lower(coalesce(s.name, d.country, ''))) LIKE q.t || '%'
@@ -95,13 +111,17 @@ export async function searchDestinations(
          LEFT JOIN critter_sets s ON s.id = d.critter_set_id
          CROSS JOIN q
         -- A day-trip area is reached from its city, never picked as a place to go.
-        WHERE (d.critter_set_id IS NULL OR s.id IS NOT NULL) AND d.coverage <> 'area'),
+        WHERE (d.critter_set_id IS NULL OR s.id IS NOT NULL) AND d.coverage <> 'area'
+          AND (d.origin <> 'base' OR app.destinations_base_search())),
      matched AS (SELECT *, max(score) OVER () AS best FROM scored WHERE score >= $2)
-     SELECT id, name, country, code, coverage, guide, city_guide, set_id FROM matched
+     SELECT id, name, country, code, coverage, guide, city_guide, set_id, origin, critter_key,
+            line, photo
+       FROM matched
       WHERE score >= best * $4
-      ORDER BY score DESC, (coverage = 'live') DESC, name
+      ORDER BY score DESC, (origin <> 'base') DESC, (coverage = 'live') DESC,
+               base_rank DESC NULLS LAST, name
       LIMIT $3`,
-    [q, MIN_SCORE, limit, NEAR_BEST],
+    [q, MIN_SCORE, limit, NEAR_BEST, locale],
   );
   const setIds = [...new Set(rows.flatMap((row) => (row.set_id === null ? [] : [row.set_id])))];
   const locals = await tx.query<{ key: string; set_id: string; city: string }>(
@@ -123,7 +143,14 @@ export async function searchDestinations(
       country_code: row.code,
       coverage: row.coverage,
       guide: row.city_guide ?? (row.coverage === 'live' ? (row.guide ?? 'tokek') : 'tokek'),
-      locals: (inCity.length > 0 ? inCity : inPlace.slice(0, 3)).map((local) => local.key),
+      locals:
+        row.origin === 'base'
+          ? row.critter_key === null
+            ? []
+            : [row.critter_key]
+          : (inCity.length > 0 ? inCity : inPlace.slice(0, 3)).map((local) => local.key),
+      line: row.line,
+      photo: row.photo,
     };
   });
 }
@@ -139,8 +166,8 @@ export function registerPlaceSearchRoutes(app: OpenAPIHono<AppEnv>, deps: PlaceS
     );
     const parsed = querySchema.safeParse(c.req.query());
     if (!parsed.success) throw new DomainError('VALIDATION', { reason: 'q_required' });
-    const results = await withUser(deps.pool, uid, 'unknown', (tx) =>
-      searchDestinations(tx, parsed.data.q, parsed.data.limit),
+    const results = await withUser(deps.pool, uid, 'unknown', async (tx) =>
+      searchDestinations(tx, parsed.data.q, parsed.data.limit, await profileReaderLocale(tx, uid)),
     );
     c.header('Cache-Control', 'private, max-age=60');
     return c.json({ results });

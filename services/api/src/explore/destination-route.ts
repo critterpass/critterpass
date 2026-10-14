@@ -28,6 +28,7 @@ import {
   readDestinationInsights,
   type DestinationInsights,
 } from '../travel-data/destination-route';
+import { profileReaderLocale } from '../places/profile';
 import { originsQuerySchema } from '../travel-data/fares-route';
 import { coverOf, readPicks, type DestinationCover, type DestinationPick } from './picks';
 import { pickSponsored, sponsoredEligible, type SponsoredPick } from './sponsored-slot';
@@ -49,6 +50,36 @@ export interface ExploreDestination extends DestinationInsights {
    * no pick has one.
    */
   readonly cover: DestinationCover | null;
+  /**
+   * The destination's facts-only line and about text in the reader's language (English when it
+   * has none), AI-written from Wikidata and GeoNames facts; null when it has none.
+   */
+  readonly about: DestinationAbout | null;
+}
+
+export interface DestinationAbout {
+  readonly line: string;
+  readonly text: string;
+  /** Where the facts come from, for the "AI-written · Facts: Wikidata, GeoNames" label. */
+  readonly sources: readonly ['wikidata', 'geonames'];
+}
+
+async function readAbout(
+  tx: pg.PoolClient,
+  destinationId: string,
+): Promise<DestinationAbout | null> {
+  const viewer = await tx.query<{ uid: string | null }>('SELECT app.uid()::text AS uid');
+  const uid = viewer.rows[0]?.uid ?? null;
+  const locale = uid === null ? 'en' : await profileReaderLocale(tx, uid);
+  const { rows } = await tx.query<{ line: string | null; text: string | null }>(
+    `SELECT coalesce(texts -> $2 ->> 'line', texts -> 'en' ->> 'line') AS line,
+            coalesce(texts -> $2 ->> 'about', texts -> 'en' ->> 'about') AS text
+       FROM destinations WHERE id = $1`,
+    [destinationId, locale],
+  );
+  const row = rows[0];
+  if (row === undefined || row.line === null || row.text === null) return null;
+  return { line: row.line, text: row.text, sources: ['wikidata', 'geonames'] };
 }
 
 const querySchema = z.object({
@@ -123,6 +154,7 @@ export async function readExploreDestination(
     home_airport_missing: own.rows[0]?.missing ?? true,
     picks: withSponsoredSlot(organic, slot, eligible),
     cover: coverOf(organic),
+    about: await readAbout(tx, destination.id),
   };
 }
 
