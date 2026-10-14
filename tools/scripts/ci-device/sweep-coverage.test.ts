@@ -1,3 +1,5 @@
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 
 import { describe, expect, it } from 'vitest';
@@ -8,6 +10,8 @@ import {
   designCodeOf,
   formatCoverage,
   renderCodes,
+  runCoverage,
+  runShots,
   sweepShots,
 } from './sweep-coverage';
 
@@ -38,5 +42,28 @@ describe('UI sweep', () => {
 
   it('formats a report with the counts', () => {
     expect(formatCoverage(coverage(ROOT))).toMatch(/Premium designs swept: \*\*\d+ of \d+\*\*/);
+  });
+
+  it("counts the designs a run's screenshots captured, per platform", () => {
+    const dir = mkdtempSync(path.join(tmpdir(), 'run-coverage-'));
+    try {
+      for (const [shard, files] of [
+        ['device-ios-shard-1', ['premium-3.01-home-light.png', 'premium-3.01-home-dark.png']],
+        ['device-ios-shard-2', ['premium-4.02-search-light.png', 'screenshot-x.png']],
+        ['device-android-shard-1', ['premium-9.10-paywall-light.png']],
+      ] as const) {
+        mkdirSync(path.join(dir, shard, 'screenshots'), { recursive: true });
+        for (const file of files) writeFileSync(path.join(dir, shard, 'screenshots', file), '');
+      }
+      const shots = runShots(dir);
+      expect(runCoverage(shots.get('ios') ?? [], ['3.01', '4.02', '9.10'])).toEqual({
+        captured: ['3.01', '4.02'],
+        missing: ['9.10'],
+        states: 3,
+      });
+      expect(shots.get('android')).toEqual(['9.10-paywall-light']);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 });

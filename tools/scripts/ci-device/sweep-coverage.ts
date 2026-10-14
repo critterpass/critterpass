@@ -9,7 +9,7 @@
  * A design code (`3.01`) names a render in `docs/design-renders/premium/` (titled in its
  * `screens.json`); compare mode pairs each screenshot with the render its code names.
  */
-import { globSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, globSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 
@@ -214,6 +214,51 @@ export function formatCoverage(c: Coverage): string {
     `- ${String(c.shots.length)} screenshot states.`,
     '',
   ].join('\n');
+}
+
+/** The design codes a run's screenshots show (`premium-<code>-<state>-<look>.png`), by platform. */
+export function runShots(shardsDir: string): Map<string, string[]> {
+  const byPlatform = new Map<string, string[]>();
+  if (!existsSync(shardsDir)) return byPlatform;
+  for (const shard of readdirSync(shardsDir)) {
+    const platform = /^device-(ios|android)-shard-/.exec(shard)?.[1];
+    const dir = path.join(shardsDir, shard, 'screenshots');
+    if (!platform || !existsSync(dir)) continue;
+    const names = readdirSync(dir)
+      .filter((file) => file.startsWith('premium-') && file.endsWith('.png'))
+      .map((file) => file.slice('premium-'.length, -'.png'.length));
+    byPlatform.set(platform, [...(byPlatform.get(platform) ?? []), ...names]);
+  }
+  return byPlatform;
+}
+
+/** What one run captured against the designs: the codes it shows, and the ones it doesn't. */
+export function runCoverage(
+  shots: readonly string[],
+  renders: readonly string[],
+): { readonly captured: string[]; readonly missing: string[]; readonly states: number } {
+  const seen = new Set(shots.map(designCodeOf).filter((code) => code !== undefined));
+  return {
+    captured: renders.filter((code) => seen.has(code)),
+    missing: renders.filter((code) => !seen.has(code)),
+    states: new Set(shots).size,
+  };
+}
+
+/** The run's coverage per platform, as markdown, above the sweep's own (what its flows can reach). */
+export function formatRunCoverage(
+  byPlatform: ReadonlyMap<string, readonly string[]>,
+  renders: readonly string[],
+): string {
+  const lines = ['### This run captured', ''];
+  if (byPlatform.size === 0) lines.push('- No design | device screenshot in this run.');
+  for (const [platform, shots] of byPlatform) {
+    const c = runCoverage(shots, renders);
+    lines.push(
+      `- ${platform}: **${String(c.captured.length)} of ${String(renders.length)}** designs in ${String(c.states)} screenshots. Not captured: ${c.missing.length ? c.missing.join(', ') : 'none'}.`,
+    );
+  }
+  return [...lines, ''].join('\n');
 }
 
 function main(): void {
