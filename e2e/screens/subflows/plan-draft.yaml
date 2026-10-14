@@ -12,13 +12,17 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'trip-hub-door-plan'
+# The tile only when the door didn't open the plan: the hub lingers in the hierarchy as it pushes.
 - runFlow:
     when:
       visible:
         id: 'trip-hub-tile-plan'
+      notVisible:
+        id: 'draft-review'
     commands:
       - tapOn:
           id: 'trip-hub-tile-plan'
+          optional: true
 - extendedWaitUntil:
     visible:
       id: 'draft-review'
