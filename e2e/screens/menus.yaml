@@ -87,10 +87,13 @@ appId: app.critterpass.dev
     env:
       KEY: ask
       EXPECT: 'guide-.*'
-# The question waits in the guide's composer with the keyboard up: the first back on Android only
-# closes the keyboard.
+# Back to the plan by the guide's close button (on Android the system back left the guide up with
+# the question in its composer), then the system back for whatever is left.
+- tapOn:
+    id: 'guide-close'
+    optional: true
 - repeat:
-    times: 3
+    times: 2
     while:
       notVisible:
         id: 'timeline-stop-.*'
