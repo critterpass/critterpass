@@ -3,3 +3,4 @@ export { boostHref, MONETIZE_ROUTES, MONETIZE_SCREENS, paywallHref, stampedHref 
 export { BillingIssueBanner } from './plan/billing-issue-banner';
 export { usePlan } from './plan/use-plan';
 export { LiveMapGatePremium } from './premium/live-map-gate-premium';
+export { GUILLOCHE, paperGrain } from './premium/repeating-gradient';

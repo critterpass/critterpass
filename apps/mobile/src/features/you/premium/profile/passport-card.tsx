@@ -6,6 +6,7 @@ import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
 import { PrivateContent } from '@/features/help';
+import { GUILLOCHE } from '@/features/monetize';
 import { hitSlopFor, PressableScale, Tag, Text, TierLabel, usePremiumTheme } from '@/ui/premium';
 
 import { statLabel } from '../../profile/profile-copy';
@@ -14,11 +15,6 @@ import { PASS_PAPER } from '../pass-paper';
 import { PremiumProfileFace } from './profile-face';
 
 const FACE = 82;
-/* eslint-disable lingui/no-unlocalized-strings -- a CSS pattern, never copy. */
-const GUILLOCHE =
-  'repeating-radial-gradient(circle at 20% 120%, rgba(23,20,42,.04) 0 1px, transparent 1px 7px)';
-/* eslint-enable lingui/no-unlocalized-strings */
-
 export interface PassportCardProps {
   readonly model: ProfileModel;
   readonly photoUri: string | null;

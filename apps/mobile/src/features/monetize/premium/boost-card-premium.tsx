@@ -13,8 +13,7 @@ import { Avatar, Button, Card, Skeleton, Text, usePremiumTheme } from '@/ui/prem
 
 import type { BoostCardViewProps } from '../boost-card/boost-card-props';
 import { InkStamp } from './components/ink-stamp';
-
-const STRIP = 'repeating-linear-gradient(90deg, #ff5fa8 0 10px, #ffffff 10px 14px)';
+import { BOOST_STRIPE } from './repeating-gradient';
 
 export function BoostCardPremium(props: BoostCardViewProps) {
   const { t } = useLingui();
@@ -57,7 +56,7 @@ export function BoostCardPremium(props: BoostCardViewProps) {
   );
   return (
     <Card radius={22} style={styles.card} testID="boost-card">
-      <View style={[styles.strip, { experimental_backgroundImage: STRIP }]} />
+      <View style={[styles.strip, { experimental_backgroundImage: BOOST_STRIPE }]} />
       <View style={styles.body}>
         <View style={styles.head}>
           {buyer === '' ? null : <Avatar name={buyer} color={th.accent.sun} size={36} />}

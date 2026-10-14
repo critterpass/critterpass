@@ -16,6 +16,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { paperGrain } from '@/features/monetize';
 import { useIdleLoopRunning } from '@/motion/idle-pause';
 import {
   Button,
@@ -40,8 +41,7 @@ const useStyles = makePremiumStyles((t) => ({
     backgroundColor: t.accent.paper,
     padding: 14,
     gap: 10,
-    backgroundImage:
-      'repeating-linear-gradient(115deg, rgba(23,20,42,.035) 0 1px, transparent 1px 6px)',
+    backgroundImage: paperGrain(260),
   },
   left: {
     borderTopLeftRadius: 14,

@@ -29,6 +29,7 @@ import {
 
 import type { SeatedMember } from '../boost/boost-model';
 import { seatColour } from './components/crew-colours';
+import { paperGrain } from './repeating-gradient';
 
 export function EntryStampCard({
   place,
@@ -220,8 +221,7 @@ const styles = StyleSheet.create({
     height: 148,
     borderRadius: 20,
     padding: 16,
-    experimental_backgroundImage:
-      'repeating-linear-gradient(115deg, rgba(23,20,42,0.035) 0 1px, transparent 1px 6px)',
+    experimental_backgroundImage: paperGrain(),
     transform: [{ rotate: '-1.5deg' }],
     marginTop: 8,
   },
