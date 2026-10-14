@@ -158,10 +158,10 @@ The local tools publish the current JS to the shared `e2e-test` update channel, 
 once could load each other's JS. The workflow never publishes an update:
 
 1. The prepare job finds the newest e2e-test build for the native fingerprint (or takes
-   `build_url`) and plans the shards; beside it from the run's start, the bundles job exports this commit's JS once per
-   platform with `expo export:embed --bytecode` (Hermes, the development variant, the commit
-   inlined as `EXPO_PUBLIC_JS_COMMIT`) while the shards boot their simulators and emulators, which
-   wait for it (`tools/scripts/ci-device/wait-bundles.sh`).
+   `build_url`) and plans the shards. Beside it from the run's start, the bundles job exports this
+   commit's JS once per platform with `expo export:embed --bytecode` (Hermes, the development
+   variant, the commit inlined as `EXPO_PUBLIC_JS_COMMIT`) while the shards boot their simulators
+   and emulators, which wait for it (`tools/scripts/ci-device/wait-bundles.sh`).
 2. Each iOS shard copies the simulator `.app`, replaces `main.jsbundle` and its assets, sets
    `EXUpdatesEnabled` to false and `EXUpdatesCheckOnLaunch` to `NEVER` in `Expo.plist`, re-signs
    it ad hoc and installs it on its own fresh simulator.
