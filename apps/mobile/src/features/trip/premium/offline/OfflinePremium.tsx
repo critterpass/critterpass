@@ -225,8 +225,10 @@ export function OfflinePremium({ tripId }: { readonly tripId: string }) {
           </Text>
         )}
         <View style={styles.center}>
-          <TextButton
-            align="center"
+          <Button
+            variant="secondary"
+            size="medium"
+            icon="download"
             label={t({ id: 'trip.offline.storageLink', message: 'Trips saved on this phone' })}
             onPress={() => router.push(offlineStorageRoute())}
             testID="trip-offline-storage-link"

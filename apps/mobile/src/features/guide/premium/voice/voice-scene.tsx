@@ -15,7 +15,6 @@ import {
   Icon,
   PressableScale,
   Text,
-  TextButton,
   makePremiumStyles,
   usePremiumTheme,
 } from '@/ui/premium';
@@ -216,8 +215,10 @@ export function PremiumVoiceScene(props: VoiceViewProps) {
           </View>
         ) : null}
         {cannotTalk ? (
-          <TextButton
-            align="center"
+          <Button
+            variant="secondary"
+            size="medium"
+            alignSelf="center"
             label={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}
             onPress={props.onType}
             testID="guide-voice-type"
