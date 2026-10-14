@@ -43,7 +43,7 @@ flowchart LR
     WEB["apps/web: Astro 7 on Workers (site, /i /p /r links, AASA, assetlinks, OG)"]
     ADM["apps/admin: Vite SPA"]
     MW["services/media-worker: HMAC-signed reads"]
-    R2[("R2: media, pg_dump, OG cache")]
+    R2[("R2: media, PMTiles, pg_dump, OG cache")]
   end
   subgraph RW["Railway — Singapore (static outbound IPs)"]
     API["api: Hono (Node 26) ×2–4"]
@@ -61,7 +61,7 @@ flowchart LR
   subgraph TP["Third parties"]
     CL["DeepSeek API"]; APNS["APNs"]; FCM["FCM v1"]; RC["RevenueCat + store notifications"]
     OTP["WhatsApp / Telegram Gateway / Prelude"]; SUP["Viator, Travelpayouts, Agoda*, Klook*, Trip.com*, Grab Farefeed, WhatsApp Business"]
-    DATA["Google Places API (New) + Maps SDKs for iOS and Android, Open-Meteo, AeroDataBox, FlightAware, Frankfurter, BestTime, Mapbox Directions/Matrix (live ETAs)"]
+    DATA["Open-Meteo, AeroDataBox, FlightAware, Frankfurter, BestTime, Foursquare, Mapbox Directions/Matrix (launch routing provider)"]
     VOICE["Deepgram, ElevenLabs"]; OBS["Sentry, PostHog EU, Grafana Cloud, Langfuse"]; MAIL["Resend, inbound mail, PostGrid"]
   end
   IAPP & AAPP -->|HTTPS commands, SSE guide stream| API
@@ -223,7 +223,7 @@ Queues are named `<domain>.<action>`; full catalogue (triggers, retries, singlet
 | Web search | `web_search` tool in `packages/ai/src/tools/web-search.ts` behind a `SearchProvider` (`src/search/`, Tavily first, Brave next): query screened for contact details, codes and crew names; supplier/OTA/map blocklist sent as `exclude_domains` and every URL screened again across country domains; results reach the model as untrusted data with URL, title and fetch time; answers carry their source links; web numbers are cite-only (never plan changes, costs or structured output) |
 | Decisions | `packages/ai/src/decide/` beside the generation client: typed Choice/Noul/Score questions to TypeSafe `jev-1.13.0` (pinned origin and model, 800 ms, fast-tier twin fallback of the same answer shape); routes marked `provider: 'jev'` in the routing table; never generation ([decision](decisions/20260927-jev-decision-model.md)) |
 | Personas | persona files in `packages/content` (voice, lexicon, colour per C5), loaded by `packages/ai/persona` |
-| Context | read via `guide_reader` role views only (no C3, no supplier content); our place layer (registry rows, labels, profiles, briefs, crew notes, stops) + planner outputs, never Google content (D38) |
+| Context | read via `guide_reader` role views only (no C3, no supplier content); curated POI DB + planner outputs |
 | Tools | allow-listed tool schemas; read tools query deterministic services; **write tools produce proposals** (`ChangeSet`, `GuideAction` draft) validated by `planner`/`cost-engine`; user or crew approval then a normal command applies it |
 | Streaming | chat: SSE from api (`/v1/guide/stream`); long jobs: pg-boss with step progress on Centrifugo |
 | Metering | quota reserved in the command tx (`entitlements`), released on failure; free = 30 questions/day, reset 00:00 device tz; silent fair-use cap on unlimited tiers |
@@ -268,10 +268,10 @@ Tier A bundled (~6–10 MB): 6 guides × 4 forms × {idle,cheer,sleep} × {48,96
 | Transfers | pre-trip affiliate links (Klook, Trip.com, Kiwitaxi, GetTransfer); in-trip Grab Farefeed fare + ETA + deep link, Gojek deep link fallback | supplier | manual expense |
 | Flights | Travelpayouts fare calendars (estimates); AeroDataBox + FlightAware alerts; no booking | – | forward/paste |
 | Vendor messages | WhatsApp Business only after user approves draft (ops desk in admin) | – | – |
-| Place details | Google Places API (New) through `services/api` only (D38, [ADR](decisions/20261014-google-maps-and-places.md)): Autocomplete with session tokens, Place Details with one field mask per screen, Place Photos with author credit, Text Search and Nearby for discovery; every response `no-store` with `attribution{provider:'google'}`; only `google_place_id` stored (coordinates ≤ 30 days); monthly caps per SKU in `google_places_usage`, per-user limits, switch `places.google.enabled`. Foursquare live details (D24) retire with the open-data index | – | – |
+| Place details | Foursquare Places API: one live Place Details call per place-detail open (`GET /v1/places/{id}/live`), passed through with "Powered by Foursquare" and never stored; curated POIs get their Foursquare id from `places.fsq_match`; one monthly call cap shared by api and worker (D24) | – | – |
 | Social link readers | Add from a link (`POST /v1/trips/{id}/imports`, `packages/suppliers/src/social`): TikTok oEmbed (caption, author, thumbnail); YouTube oEmbed plus Data API `videos.list` (title, description) with `YOUTUBE_API_KEY`; Instagram oEmbed only with an app token, else the app asks for a screenshot; Google Maps full URLs parsed with no request, short links resolved by one request reading only the `Location` header (no Google API, D6); Apple Maps `q`/`ll` parsed. Screenshots are read on the phone (`cp-ocr`) and only their text is sent. The model reads post text as untrusted input (`links.extract_places`); matching to POIs is code. Nothing from a post is stored but the URL on the idea; platforms switch with `imports.platforms` | – | – |
 
-Rules: supplier content (titles, photos, reviews, prices) rendered **verbatim only inside supplier cards**, never cached beyond the request/TTL the supplier allows, never stored in `guide_reader` views, never sent to the LLM. Foursquare Places API content (hours, rating, price, photos, tips, contact) is supplier content under this rule: its Pay as You Go terms allow no caching of any attribute but the place id and photo ids, so it is served live per request (`no-store`), kept out of `pois`, `poi_live_checks`, `guide_reader` views, the LLM and the app's persisted caches (D24). Google Places content (names, addresses, hours, ratings, prices, photos) is supplier content under the same rule: only the place id is kept, coordinates at most 30 days (D38). The guide reasons over our place layer and links a supplier card by `poi_id ↔ supplier_product_ref`. Ranking is commission-neutral; affiliate disclosure on every card. Hold copy only when the supplier returns a hold (`HOLDING`); otherwise "free cancellation until {date}" / "book here".
+Rules: supplier content (titles, photos, reviews, prices) rendered **verbatim only inside supplier cards**, never cached beyond the request/TTL the supplier allows, never stored in `guide_reader` views, never sent to the LLM. Foursquare Places API content (hours, rating, price, photos, tips, contact) is supplier content under this rule: its Pay as You Go terms allow no caching of any attribute but the place id and photo ids, so it is served live per request (`no-store`), kept out of `pois`, `poi_live_checks`, `guide_reader` views, the LLM and the app's persisted caches (D24). The guide reasons over our curated POI DB and links a supplier card by `poi_id ↔ supplier_product_ref`. Ranking is commission-neutral; affiliate disclosure on every card. Hold copy only when the supplier returns a hold (`HOLDING`); otherwise "free cancellation until {date}" / "book here".
 
 ---
 
@@ -311,8 +311,6 @@ Permission contract suite (Vitest + Testcontainers, PR-blocking): fixture actors
 |---|---|---|
 | DB URLs, Redis, Centrifugo API key, HMAC keys, Better Auth secret, JWT keys | Railway variables (reference vars) | quarterly (JWT via `rotationInterval`) |
 | APNs .p8, FCM service account, RevenueCat, Anthropic, supplier keys, Telegram Gateway/Prelude, WhatsApp | Railway variables | quarterly / on staff change |
-| Google Places server key `GOOGLE_PLACES_API_KEY` (Places API (New) only; one per environment) | Railway variables (api, worker) | on staff change |
-| Google Maps mobile keys `GOOGLE_MAPS_IOS_API_KEY` (bundle-id restricted) and `GOOGLE_MAPS_ANDROID_API_KEY` (package + SHA-1 restricted) | EAS env vars + GitHub Actions secrets; left out of the native fingerprint | on staff change |
 | Cloudflare (R2, Workers) | Wrangler secrets + GitHub Actions secrets | quarterly |
 | EAS / store credentials | EAS secrets | yearly |
 | Firebase `google-services.json` (Android FCM) | EAS file variable `GOOGLE_SERVICES_JSON` (development, preview, production); local git-ignored copy at `apps/mobile/google-services.json` | on Firebase app change |
@@ -485,7 +483,7 @@ sequenceDiagram
 | | react-native-gesture-handler | 3.x |
 | | @shopify/react-native-skia | 2.13 |
 | | react-native-vision-camera | 5.x |
-| | react-native-maps (`PROVIDER_GOOGLE`, iOS and Android) | 1.29.x (Expo SDK 58) |
+| | @maplibre/maplibre-react-native | 11.x |
 | | @powersync/react-native (+ drizzle driver) | 2.3.x |
 | | centrifuge (JS) | 5.7.x |
 | | react-native-mmkv | 4.3 |
@@ -569,7 +567,7 @@ Results summary and index: [decisions/README.md](decisions/README.md).
 | S-RT | proxy + JWKS; unsubscribe <1 s; recovery after 2 min background; 5k sockets / 2 nodes | tune Redis engine / add nodes | PASS (unsubscribe p95 3.4 ms, 5,000 sockets) — [ADR](decisions/20260927-centrifugo-realtime-proxy.md) |
 | Apple targets | fork of `@bacons/apple-targets` or in-repo config plugin signs all targets on SDK 58 / Xcode 27 / UIScene | bare workflow | PASS on simulator signing (unmodified published package); device signing incomplete — [targets](decisions/20260927-apple-extension-targets-sdk58.md), [App Group bridge](decisions/20260927-app-group-inline-module-bridge.md) |
 | Renderer / motion / surfaces | mobile S1–S8 thresholds (critter parity, Critterdex scroll, LA I'M UP, NSE, dwell ring, drag snap, cold start) | adjust budgets, never scope | PASS on the measurable criteria; device fps, cold start and battery incomplete — [Skia](decisions/20260927-skia-critter-painter-perf.md), [motion](decisions/20260927-motion-transitions-and-startup.md), [push](decisions/20260927-apns-live-activity-push-and-action-keys.md), [Android](decisions/20260927-android-native-surfaces.md), [location](decisions/20260927-background-location-dwell-ring.md) |
-| Tiles | PMTiles on R2 served to MapLibre with offline regions | vector tile server on Railway | PASS; Android pan fps incomplete — [ADR](decisions/20260927-maplibre-pmtiles-on-r2.md). Superseded 2026-10-14: Google Maps in the app, no map packs ([ADR](decisions/20261014-google-maps-and-places.md)) |
+| Tiles | PMTiles on R2 served to MapLibre with offline regions | vector tile server on Railway | PASS; Android pan fps incomplete — [ADR](decisions/20260927-maplibre-pmtiles-on-r2.md) |
 | Routing | Valhalla on Railway: route p95 <300 ms; 16×16 matrix p95 <1 s | Mapbox Directions/Matrix | PASS on routes; FAIL on matrix; fallback taken: Mapbox at launch behind the routing provider, Valhalla later — [ADR](decisions/20260927-valhalla-routing-on-railway.md) |
 
 ---
@@ -624,5 +622,5 @@ Singapore controller; data resident in Singapore (Railway SG, PlanetScale ap-sou
 3. Extension auth: device action keys (chosen) vs shared session token — keep keys unless S-AUTH shows friction.
 4. PlanetScale Singapore price/availability (S-DB) — fallback Railway Postgres HA.
 5. Roundup timezone: trip tz vs device tz while travelling (master Q-84).
-6. PMTiles on R2 vs tile server — decided by tiles spike; superseded by Google Maps (D38).
+6. PMTiles on R2 vs tile server — decided by tiles spike.
 7. Viator payment form hosting domain allowed by Viator certification (`critterpass.app/checkout`)?
