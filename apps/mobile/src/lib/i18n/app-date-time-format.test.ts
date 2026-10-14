@@ -34,6 +34,20 @@ describe('app dates and clocks', () => {
     expect(appDateLocales(['en', 'vi'])).toEqual(['en-GB', 'vi']);
   });
 
+  it('writes a span inside one month as its days, on every engine', () => {
+    const days = new Intl.DateTimeFormat('en', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+    const nov = (day: number) => new Date(Date.UTC(2026, 10, day, 12));
+    expect(plain(days.formatRange(nov(5), nov(11)))).toBe('5–11 Nov');
+    expect(plain(days.formatRange(nov(5), nov(5)))).toBe('5 Nov');
+    expect(plain(days.formatRange(new Date(Date.UTC(2026, 9, 29, 12)), nov(2)))).toBe(
+      '29 Oct – 2 Nov',
+    );
+    const vi = new Intl.DateTimeFormat('vi', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+    expect(plain(vi.formatRange(nov(5), nov(11)))).toBe(
+      plain(vi.format(nov(5))).replace('5', '5–11'),
+    );
+  });
+
   it('gives a time with no clock of its own the app clock', () => {
     const time = new Intl.DateTimeFormat('en-US', {
       hour: 'numeric',
