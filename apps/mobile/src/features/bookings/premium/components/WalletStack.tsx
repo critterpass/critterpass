@@ -25,7 +25,8 @@ export const STACK_DEPTH = 3;
 const CLOSED_HEIGHT = 110;
 // Room for a header's title and its when line whole (marked Vietnamese lines run taller).
 const PEEK = 48;
-const FRONT_INSET = 20;
+// The front card lines up with the cards under the stack (the page's 16 pt sides).
+const FRONT_INSET = 16;
 const STEP_INSET = 6;
 const TILTS = [-5, 4, -3];
 const STRIPES = [3, 1, 2, 1, 4, 1, 1, 3, 2, 1, 3, 1, 2, 2, 1, 4, 1, 2, 1, 3, 1, 1, 2, 3, 1, 2];
@@ -40,7 +41,8 @@ function ClosedCard(props: {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const look = kindLook(props.booking.kind, th.color);
-  const inset = FRONT_INSET + STEP_INSET * (props.count - 1 - props.index);
+  // Even the nearest card behind is a step narrower than the front one, so one card still stacks.
+  const inset = FRONT_INSET + STEP_INSET * (props.count - props.index);
   return (
     <PressableScale
       onPress={props.onPick}
@@ -172,7 +174,6 @@ function FrontCard(props: {
               arrives={clock(locale, view.arrivesAt, props.tz)}
               boards={clock(locale, view.boardsAt, props.tz)}
               statusLabel={chipLabel(view.chip, view.delayMin)}
-              notch={th.color.ground}
             />
           </PremiumThemeProvider>
         )}

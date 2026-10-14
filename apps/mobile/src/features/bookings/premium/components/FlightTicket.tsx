@@ -26,8 +26,6 @@ export interface FlightTicketProps {
   readonly arrives: string;
   readonly boards: string;
   readonly statusLabel: string;
-  /** The page's ground, for the perforation's notches. */
-  readonly notch: string;
 }
 
 function toneOf(chip: FlightChip): StatusTone {
@@ -157,9 +155,11 @@ export function FlightTicket(props: FlightTicketProps) {
         </Text>
       </View>
       <View style={styles.perforation}>
-        <View style={[styles.notch, styles.notchLeft, { backgroundColor: props.notch }]} />
+        {/* The notches take the card's own (light) ground, so in dark mode the card reads as one
+            paper ticket (1.13) instead of showing two black holes. */}
+        <View style={[styles.notch, styles.notchLeft, { backgroundColor: th.color.ground }]} />
         <View style={[styles.dash, { borderColor: th.color.fieldBorder }]} />
-        <View style={[styles.notch, styles.notchRight, { backgroundColor: props.notch }]} />
+        <View style={[styles.notch, styles.notchRight, { backgroundColor: th.color.ground }]} />
       </View>
       <View style={styles.stub}>
         <StubCell
