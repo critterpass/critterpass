@@ -34,6 +34,8 @@ export interface CuratedPlacesReport {
     readonly name: string;
     readonly closest: { readonly name: string; readonly distanceM: number } | null;
   }[];
+  /** The unmatched lines with their rank in the file, for the OpenStreetMap lookup. */
+  readonly unmatchedLines: readonly { readonly rank: number; readonly line: CuratedPlaceRow }[];
   /** Places of an earlier run the file no longer names (their curated block was removed). */
   readonly dropped: number;
   /** The destination's popular set after the load, and how many of it are curated. */
@@ -71,7 +73,12 @@ async function destinationOf(pool: pg.Pool, slug: string) {
   });
 }
 
-async function writeNote(pool: pg.Pool, poiId: string, note: CuratedNoteLines): Promise<void> {
+/** Writes one curated line into a row's note and marks the row reviewed. */
+export async function writeCuratedNote(
+  pool: pg.Pool,
+  poiId: string,
+  note: CuratedNoteLines,
+): Promise<void> {
   await withSystem(pool, async (tx) => {
     await allowIndexMaintenance(tx);
     const { rows } = await tx.query<{ editorial: unknown }>(
@@ -92,7 +99,14 @@ export async function loadCuratedPlaces(
   lines: readonly CuratedPlaceRow[],
   options: { readonly dryRun: boolean },
 ): Promise<CuratedPlacesReport> {
-  const empty = { rows: lines.length, matched: [], unmatched: [], dropped: 0, popular: null };
+  const empty = {
+    rows: lines.length,
+    matched: [],
+    unmatched: [],
+    unmatchedLines: [],
+    dropped: 0,
+    popular: null,
+  };
   const destination = await destinationOf(pool, slug);
   if (destination === undefined) {
     return { destination: slug, status: 'unknown_destination', ...empty };
@@ -114,6 +128,7 @@ export async function loadCuratedPlaces(
   const taken = new Set<string>();
   const matched: { name: string; poiId: string; row: string; distanceM: number }[] = [];
   const unmatched: CuratedPlacesReport['unmatched'][number][] = [];
+  const unmatchedLines: { rank: number; line: CuratedPlaceRow }[] = [];
   const notes: { poiId: string; note: CuratedNoteLines }[] = [];
   for (const [index, line] of lines.entries()) {
     const lead: CuratedLead = {
@@ -137,6 +152,7 @@ export async function loadCuratedPlaces(
             ? null
             : { name: closest.name, distanceM: Math.round(closest.distanceM) },
       });
+      unmatchedLines.push({ rank: index + 1, line });
       continue;
     }
     taken.add(verdict.row.id);
@@ -155,11 +171,12 @@ export async function loadCuratedPlaces(
       rows: lines.length,
       matched,
       unmatched,
+      unmatchedLines,
       dropped: 0,
       popular: null,
     };
   }
-  for (const { poiId, note } of notes) await writeNote(pool, poiId, note);
+  for (const { poiId, note } of notes) await writeCuratedNote(pool, poiId, note);
   const after = await withSystem(pool, async (tx) => {
     await allowIndexMaintenance(tx);
     const dropped = await tx.query(
@@ -176,5 +193,13 @@ export async function loadCuratedPlaces(
       },
     };
   });
-  return { destination: slug, status: 'loaded', rows: lines.length, matched, unmatched, ...after };
+  return {
+    destination: slug,
+    status: 'loaded',
+    rows: lines.length,
+    matched,
+    unmatched,
+    unmatchedLines,
+    ...after,
+  };
 }

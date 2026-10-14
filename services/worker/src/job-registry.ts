@@ -44,6 +44,7 @@ import { placePickDeps, placesPickJob } from './jobs/places/pick';
 import { destinationBriefJobs } from './places/profile/brief-jobs';
 import { placeProfileDeps, placeProfileJobs } from './places/profile/jobs';
 import { placesPruneJob } from './jobs/places/prune';
+import { curatedOsmLookupJob } from './jobs/places/curated-osm-lookup';
 import { tripPlacesRefreshJob } from './jobs/places/trip-refresh';
 import { planningJobs } from './jobs/planning';
 import { communityJobs } from './jobs/community';
@@ -89,6 +90,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     anonGcJob(),
     ...placesJobs(),
     mapRegionRegisterJob({ tilesBaseUrl: env.TILES_BASE_URL }),
+    curatedOsmLookupJob(),
     accountPurgeJob(),
     ...accountExportJobs(env),
     fixesTtlJob(),
