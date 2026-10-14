@@ -116,7 +116,8 @@ export function PushScreen({
   const nativeOptions = useMemo(
     () => ({
       headerShown: true,
-      title,
+      // A crumb page's bar has no title: the native bar would draw `title` itself otherwise.
+      title: crumb ? '' : title,
       headerTitle: crumb ? () => null : () => <HeaderTitle title={title} subtitle={subtitle} />,
       headerTitleAlign: 'center' as const,
       headerTransparent: true,

@@ -140,10 +140,16 @@ describe('one card at a time', () => {
     expect(open('page', 'sheet', 'modal', 'sheet')).toEqual(['page', 'sheet']);
   });
 
+  it('lets a page opened from a cover replace the cover, and a sheet sit over it', () => {
+    expect(open('page', 'cover', 'page')).toEqual(['page', 'page']);
+    expect(open('page', 'sheet', 'cover', 'page')).toEqual(['page', 'page']);
+    expect(open('page', 'cover', 'sheet')).toEqual(['page', 'cover', 'sheet']);
+  });
+
   it('keeps covers and see-through cards over what opened them', () => {
     expect(open('page', 'sheet', 'cover')).toEqual(['page', 'sheet', 'cover']);
     expect(open('page', 'sheet', 'drawn')).toEqual(['page', 'sheet', 'drawn']);
-    expect(open('page', 'cover', 'page')).toEqual(['page', 'cover', 'page']);
+    expect(open('page', 'drawn', 'page')).toEqual(['page', 'drawn', 'page']);
   });
 
   it('leaves pushes over pages and the first route alone', () => {
