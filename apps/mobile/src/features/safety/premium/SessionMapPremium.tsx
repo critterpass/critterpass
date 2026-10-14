@@ -17,7 +17,7 @@ import { crewAccent } from '@/features/trip';
 import { distanceIn } from '@/lib/i18n/formats';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Avatar, Button, ring, Text, usePremiumTheme } from '@/ui/premium';
-import { PushScreen } from '@/ui/premium/shell';
+import { PushScreen, StatusBarGround } from '@/ui/premium/shell';
 
 import { PLATFORM } from '../sos/send-queries';
 import { useSessionMap } from '../session-map/use-session-map';
@@ -131,6 +131,8 @@ export function SessionMapPremium() {
           </PremiumMapCanvas>
         ) : null}
       </View>
+      {/* The clock and battery sit on a fade of the ground, not straight on the map's labels. */}
+      <StatusBarGround />
       <View
         onLayout={(event) => setCardHeight(event.nativeEvent.layout.height)}
         style={[

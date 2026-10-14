@@ -14,6 +14,7 @@ import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 import { useBackAffordance } from '@/lib/qa/back-affordance';
 import { guideSticker } from '@/ui/premium/stickers/guides';
 import { GuideNote, usePremiumReducedMotion, usePremiumTheme } from '@/ui/premium';
+import { StatusBarGround } from '@/ui/premium/shell';
 import { BackEdge } from '@/ui/premium/shell/navigation/back-edge';
 
 import { tripCheckLine, peekCheckLine } from '../../trip-map/sheet-copy';
@@ -155,6 +156,8 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
           />
         )}
       </PremiumMapCanvas>
+      {/* The clock and battery sit on a fade of the ground, not straight on the map's labels. */}
+      <StatusBarGround />
       <BackEdge />
       {detent === 'full' ? null : (
         <TopBar

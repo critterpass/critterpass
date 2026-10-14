@@ -26,6 +26,7 @@ import {
   Text,
   usePremiumTheme,
 } from '@/ui/premium';
+import { StatusBarGround } from '@/ui/premium/shell';
 
 import {
   ctaLabel,
@@ -116,6 +117,8 @@ export function LateScenePremium({ late }: { readonly late: LateScene }) {
           </PremiumMapCanvas>
         )}
       </View>
+      {/* The clock and battery sit on a fade of the ground, not straight on the map's labels. */}
+      <StatusBarGround />
       <View
         style={[
           styles.header,

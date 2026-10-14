@@ -20,7 +20,7 @@ import {
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
-import { PushScreen } from '@/ui/premium/shell';
+import { PushScreen, StatusBarGround } from '@/ui/premium/shell';
 
 import type { GoMode, GoPoint, MapsApp } from '../maps-handoff';
 import type { PreviewState } from '../preview-model';
@@ -75,6 +75,8 @@ export function GoPremiumView(props: GoPremiumViewProps) {
           bottomInset={cardHeight}
         />
       </View>
+      {/* The clock and battery sit on a fade of the ground, not straight on the map's labels. */}
+      <StatusBarGround />
       <View
         pointerEvents="box-none"
         style={[styles.top, { top: insets.top + th.space.gap6, left: th.space.gutter }]}

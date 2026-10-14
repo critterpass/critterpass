@@ -29,6 +29,7 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
+import { StatusBarGround } from '@/ui/premium/shell';
 import { BackEdge } from '@/ui/premium/shell/navigation/back-edge';
 
 import { labelSubtitle } from '../../places/places-copy';
@@ -156,6 +157,8 @@ export function PremiumPlacesMapView(props: PlacesMapViewProps) {
       {/* The map is its own chrome; the list it swaps with on the same route draws a bar. */}
       <Stack.Screen options={{ headerShown: false }} />
       <View style={styles.fill}>{body}</View>
+      {/* The clock and battery sit on a fade of the ground, not straight on the map's labels. */}
+      <StatusBarGround />
       <BackEdge />
       <View style={[styles.bar, { top, left: theme.space.gap16, right: theme.space.gap16 }]}>
         <GlassIconButton

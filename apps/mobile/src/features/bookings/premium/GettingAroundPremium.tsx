@@ -25,6 +25,7 @@ import {
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
+import { StatusBarGround } from '@/ui/premium/shell';
 
 import { useGettingAroundScreen } from '../getting-around/use-getting-around-screen';
 import { LaterLegs, PhraseCard, RideCard } from './components/GettingAroundParts';
@@ -106,6 +107,8 @@ export function GettingAroundPremium(input: {
           </PremiumMapCanvas>
         )}
       </View>
+      {/* The clock and battery sit on a fade of the ground, not straight on the map's labels. */}
+      <StatusBarGround />
       <View style={[styles.header, { top: insets.top + 6, paddingHorizontal: th.space.gutter }]}>
         <GlassIconButton
           icon="back"
