@@ -40,7 +40,7 @@ export function legendaryTitle(placeLine: string, span: string): string {
 }
 
 export function homeSetCount(found: number, total: number): string {
-  return t({ id: 'critters.dex.homeCount', message: `${found}/${total} · Home set` });
+  return t({ id: 'critters.dex.homeCount', message: `${found}/${total} · home set` });
 }
 
 export function setCount(found: number, total: number): string {
