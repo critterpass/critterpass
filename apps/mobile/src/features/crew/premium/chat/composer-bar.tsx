@@ -1,8 +1,10 @@
 /**
  * The crew chat composer (5.01, 5.08): a `+` for photos, polls, expenses and more; the field
- * ("Message, or @tokek") with the gecko sticker button inside it (ink while the tray is open); and
+ * ("Message, or @tokek") with the gecko sticker button inside it (ringed in ink while the tray is
+ * open, so the gecko keeps its sun disc and never reads as a black face); and
  * the mic, which turns into the ink send button once there is something to send. Return inserts a
- * new line; send sends. The bar carries the reply strip above the field.
+ * new line; send sends. The bar carries the reply strip above the field. The placeholder is drawn
+ * beside the field's caret rather than by the field, which puts the caret over its first letter.
  */
 import { t } from '@lingui/core/macro';
 import * as Haptics from 'expo-haptics';
@@ -28,6 +30,9 @@ const STICKER_BUTTON = 32;
 const SIDE_SLOP = hitSlopFor(SIDE, SIDE);
 const STICKER_SLOP = hitSlopFor(STICKER_BUTTON, STICKER_BUTTON);
 const STRIP_SLOP = hitSlopFor(16, 16);
+/** The field's text starts at its edge, where the caret stands; the placeholder clears it. */
+const CARET_CLEARANCE = 3;
+const INPUT_PAD_V = 10;
 
 const useStyles = makePremiumStyles((th) => ({
   bar: { paddingHorizontal: th.space.gap12, paddingTop: th.space.gap10, gap: th.space.gap8 },
@@ -53,13 +58,19 @@ const useStyles = makePremiumStyles((th) => ({
     paddingStart: th.space.gap14,
     paddingEnd: th.space.gap4,
   },
+  inputWrap: { flex: 1 },
   input: {
-    flex: 1,
     ...th.type.body,
     color: th.color.ink,
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingTop: INPUT_PAD_V,
+    paddingBottom: INPUT_PAD_V,
     maxHeight: 120,
+  },
+  placeholder: {
+    position: 'absolute',
+    top: INPUT_PAD_V,
+    start: CARET_CLEARANCE,
+    end: 0,
   },
   sticker: {
     width: STICKER_BUTTON,
@@ -124,25 +135,39 @@ export const ComposerBar = forwardRef<ComponentRef<typeof TextInput>, ComposerBa
             </PressableScale>
           )}
           <View style={styles.field}>
-            <TextInput
-              ref={ref}
-              style={styles.input}
-              value={props.value}
-              onChangeText={props.onChangeText}
-              onFocus={props.onFocus}
-              placeholder={props.placeholder}
-              placeholderTextColor={th.color.placeholder}
-              selectionColor={th.color.caret}
-              multiline
-              maxLength={BODY_MAX}
-              accessibilityLabel={t({ id: 'chat.premium.composer.field', message: 'Message' })}
-              testID="chat-input"
-            />
+            <View style={styles.inputWrap}>
+              {props.value === '' ? (
+                <View
+                  style={styles.placeholder}
+                  pointerEvents="none"
+                  importantForAccessibility="no-hide-descendants"
+                  accessibilityElementsHidden
+                >
+                  <Text variant="body" color={th.color.placeholder} numberOfLines={1}>
+                    {props.placeholder}
+                  </Text>
+                </View>
+              ) : null}
+              <TextInput
+                ref={ref}
+                style={styles.input}
+                value={props.value}
+                onChangeText={props.onChangeText}
+                onFocus={props.onFocus}
+                selectionColor={th.color.caret}
+                multiline
+                maxLength={BODY_MAX}
+                accessibilityLabel={t({ id: 'chat.premium.composer.field', message: 'Message' })}
+                accessibilityHint={props.placeholder}
+                testID="chat-input"
+              />
+            </View>
             <PressableScale
               style={[
                 styles.sticker,
                 {
-                  backgroundColor: props.trayOpen ? th.color.inkSurface : th.color.status.maybe.bg,
+                  backgroundColor: th.color.status.maybe.bg,
+                  ...(props.trayOpen ? { boxShadow: ring(2, th.color.ink) } : {}),
                 },
               ]}
               onPress={props.onToggleTray}

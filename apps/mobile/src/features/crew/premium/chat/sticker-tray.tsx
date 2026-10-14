@@ -25,17 +25,15 @@ import type {
   TraySticker,
 } from '../../chat/data/use-sticker-tray';
 import { plainFormSpec, stickerArtKind } from '../../chat/data/use-sticker-form';
-import { CHAT_PAINT } from '../premium-paint';
 
 const TILE = 76;
 const ART = 68;
 
 const useStyles = makePremiumStyles((th) => ({
+  // The tray sits in the page under the composer: the page's ground, cut off from the chat by the
+  // composer's hairline, so it never reads as a white slab ending short of the screen's corners.
   tray: {
-    backgroundColor: th.color.card,
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
-    boxShadow: CHAT_PAINT.trayShadow,
+    backgroundColor: th.color.ground,
     paddingTop: th.space.gap12,
   },
   tabs: {
@@ -188,7 +186,7 @@ export function StickerTray({ tray, height, bottomInset, onSend, onLocked }: Sti
         <PressableScale
           style={[
             styles.recent,
-            { backgroundColor: tab === 'recent' ? th.color.inkSurface : th.color.control },
+            { backgroundColor: tab === 'recent' ? th.color.inkSurface : th.color.card },
           ]}
           onPress={() => setTab('recent')}
           accessibilityRole="tab"
@@ -211,7 +209,7 @@ export function StickerTray({ tray, height, bottomInset, onSend, onLocked }: Sti
                 key={candidate.form.critterId}
                 style={[
                   styles.tab,
-                  { backgroundColor: active ? th.color.inkSurface : th.color.control },
+                  { backgroundColor: active ? th.color.inkSurface : th.color.card },
                 ]}
                 onPress={() => setTab(candidate.form.critterId)}
                 accessibilityRole="tab"
