@@ -5,10 +5,10 @@
  * second kept by the search client. The outcome is the job's output and a log line.
  */
 import { curatedOsmLookupKey, PLACES_QUEUES } from '@cp/domain';
+import { createNominatimSearch, type NominatimSearch } from '@cp/suppliers';
 import { z } from 'zod';
 
 import { defineJob, type AnyJobDefinition } from '../../boss';
-import { createNominatimSearch, type NominatimSearch } from '../../places/curated-load/osm-lookup';
 import { lookUpCuratedPlace } from '../../places/curated-load/osm-place';
 import { curatedPlaceRowSchema } from '../../places/curated-load/rows';
 

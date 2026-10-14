@@ -22,6 +22,9 @@ export {
   type NameAliases,
   type WishMatches,
 } from './place-names';
+export * from './named-place-match';
+export * from './curated-name-rules';
+export * from './osm-result-match';
 export { alignStableIds, redraftDiff } from './redraft-diff';
 export { collapseSamePlaces, knownPlaceFor, metresBetween, type Collapsed } from './same-place';
 export {

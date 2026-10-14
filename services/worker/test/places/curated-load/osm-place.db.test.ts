@@ -2,18 +2,16 @@
  * A curated place found in OpenStreetMap, written on a migrated Postgres (Testcontainers): the new
  * row carries the OSM id, name, local name, point, address and the destination's time zone, plus
  * the curated note; a re-run matches that row without asking OSM; a row of the same OSM id is
- * reused, and one another destination owns is left alone. Nominatim is the recorded-format reply
- * in `fixtures/nominatim/` (see `osm-lookup.test.ts`).
+ * reused, and one another destination owns is left alone. Nominatim answers with the jsonv2 reply
+ * kept in `@cp/planner`'s test fixture.
  */
-import { readFileSync } from 'node:fs';
-
 import { runMigrations } from '@cp/db';
 import { startPostgres, type StartedPostgreSqlContainer } from '@cp/db/testing';
 import { readEditorialOverlay } from '@cp/domain';
 import pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import type { NominatimResult } from '../../../src/places/curated-load/osm-lookup';
+import { PATONG_BEACH_REPLY } from '../../../../../packages/planner/test/draft/nominatim-fixture';
 import { lookUpCuratedPlace } from '../../../src/places/curated-load/osm-place';
 import type { CuratedPlaceRow } from '../../../src/places/curated-load/rows';
 
@@ -21,13 +19,10 @@ let postgres: StartedPostgreSqlContainer;
 let pool: pg.Pool;
 let phuket: string;
 
-const patongReply = JSON.parse(
-  readFileSync(new URL('../fixtures/nominatim/patong-beach.json', import.meta.url), 'utf8'),
-) as NominatimResult[];
 let asked = 0;
 const search = () => {
   asked += 1;
-  return Promise.resolve(patongReply);
+  return Promise.resolve(PATONG_BEACH_REPLY);
 };
 
 const place = (over: Partial<CuratedPlaceRow> = {}): CuratedPlaceRow => ({
