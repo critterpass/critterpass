@@ -191,6 +191,7 @@ export function placeTree(
       free: control.free,
       paint: control.paint,
       grounds: grounds(control.grounds),
+      ownGround: control.ownGround,
     });
   }
   return { texts, controls };

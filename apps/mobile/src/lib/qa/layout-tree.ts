@@ -83,6 +83,8 @@ export interface TreeControl {
   readonly free: boolean;
   readonly paint: number;
   readonly grounds: readonly number[];
+  /** It draws a ground of its own. */
+  readonly ownGround: boolean;
 }
 
 export interface LayoutTree {
@@ -306,6 +308,7 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
           free: inner.free,
           paint,
           grounds: inner.grounds,
+          ownGround: grounded,
         });
         inner = { ...inner, controls: [...inner.controls, index] };
         used = true;

@@ -96,7 +96,9 @@ draw nothing. Once a screen's layouts settle, its focused screens are also measu
   surface, with its words off that centre (a "Cancel" set at the left edge under a centred primary).
 
 What a surface drawn later covers is not judged (the card behind in a deck, the page under a
-sheet, a panel over a photo), nor are the words drawn into artwork (a view read as one image, such
+sheet, a panel over a photo, a card-sized control), a text its clip shows less than half of (the
+reels of a rolling number) is judged only where its window shows it, nor are the words drawn into
+artwork (a view read as one image, such
 as a stamp). Content in a scroll view is only judged against the screen's fixed parts while it is
 at rest and the fixed part is in the top 30% (a floating header), so content scrolling under a
 header or sitting under a footer is not reported; map labels are never compared. Each report names

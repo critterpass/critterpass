@@ -33,8 +33,13 @@ function wordsOf(control: PlacedControl, texts: readonly PlacedText[]): QaRect |
   return own.length === 1 ? (own[0]?.ink ?? null) : null;
 }
 
+/** Developer tools' entries are not the product's buttons. */
+const DEV_TOOL = /^dev-/u;
+
 export function alignmentProblems({ texts, controls, window }: LayoutInput): LayoutProblem[] {
-  const shown = controls.filter((control) => onScreen(control.rect, window));
+  const shown = controls.filter(
+    (control) => onScreen(control.rect, window) && !DEV_TOOL.test(control.label),
+  );
   const problems: LayoutProblem[] = [];
   for (const upper of shown) {
     if (upper.rect.width < window.width * WIDE_SHARE) continue;

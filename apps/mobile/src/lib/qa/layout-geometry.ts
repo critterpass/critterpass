@@ -29,7 +29,9 @@ import type { UiQaCode } from './ui-qa';
  *   guide's note whose action took most of the row).
  *
  * What is covered is not judged: a text under a surface drawn later (the next card of a deck, a
- * sheet over its page, a panel over a photo) does not show. Content in a scroll view moves under
+ * sheet over its page, a panel over a photo, a card-sized control) does not show. A text its clip
+ * shows less than half of is seen through a window by design (the reels of a rolling number): only
+ * the part in the window is judged, and it is not reported as cut. Content in a scroll view moves under
  * the screen's fixed parts by design, so a fixed control or text is only judged against scrolled
  * content when that content is at rest at the top and the fixed part sits in the header band.
  */
@@ -108,6 +110,22 @@ export interface PlacedText extends Placed {
 
 export interface PlacedControl extends Placed {
   readonly key: string;
+  /** It draws a ground of its own (a card that is also a tap target). */
+  readonly ownGround?: boolean;
+}
+
+/** A text as judged: its ink limited to what its clip shows when that is a window onto it. */
+interface Judged extends PlacedText {
+  readonly windowed: boolean;
+}
+
+const area = (r: QaRect) => Math.max(0, r.width) * Math.max(0, r.height);
+
+function throughClip(text: PlacedText): Judged {
+  if (!text.clip) return { ...text, windowed: false };
+  const visible = intersect(text.ink, text.clip.rect);
+  if (area(visible) >= area(text.ink) / 2) return { ...text, windowed: false };
+  return { ...text, ink: visible, windowed: true };
 }
 
 export interface LayoutInput {
@@ -149,7 +167,7 @@ function isCard(r: QaRect): boolean {
 }
 
 function pairProblems(
-  shown: readonly PlacedText[],
+  shown: readonly Judged[],
   controls: readonly PlacedControl[],
   window: LayoutInput['window'],
 ): LayoutProblem[] {
@@ -169,7 +187,12 @@ function pairProblems(
       if (!comparable(text, control, window) || !overlaps(text.ink, control.rect)) continue;
       // A control laid over the whole text is the row it reads as (a tap area over a card).
       if (contains(control.rect, text.rect)) continue;
-      if (hiddenEither(text, control, intersect(text.ink, control.rect))) continue;
+      const region = intersect(text.ink, control.rect);
+      if (hiddenEither(text, control, region)) continue;
+      // A card that is also a tap target hides what was drawn under it (a stack of cards).
+      const cardOver =
+        control.ownGround === true && control.paint > text.paint && isCard(control.rect);
+      if (cardOver && contains(control.rect, region)) continue;
       problems.push({
         code: 'TEXT_OVER_CONTROL',
         subject: `${text.screen}: ${text.label} under ${control.label}`,
@@ -180,7 +203,7 @@ function pairProblems(
   return problems;
 }
 
-function boxProblems(text: PlacedText, topInset: number): LayoutProblem | null {
+function boxProblems(text: Judged, topInset: number): LayoutProblem | null {
   const { clip, card, ink } = text;
   const resting = text.layer === null || text.layer.atRest;
   if (resting && !text.free && ink.y < topInset - TOUCH_PT) {
@@ -190,7 +213,7 @@ function boxProblems(text: PlacedText, topInset: number): LayoutProblem | null {
       detail: `(glyphs from ${String(Math.round(ink.y))}pt, the status bar ends at ${String(Math.round(topInset))}pt; ${describeRect(ink)})`,
     };
   }
-  if (clip && overlaps(clip.rect, ink)) {
+  if (clip && !text.windowed && overlaps(clip.rect, ink)) {
     const past = sidesPast(clip.rect, ink);
     if (past.length > 0)
       return {
@@ -231,7 +254,7 @@ export function layoutProblems({
   window,
   topInset = 0,
 }: LayoutInput): LayoutProblem[] {
-  const shown = texts.filter((t) => onScreen(t.ink, window));
+  const shown = texts.map(throughClip).filter((t) => onScreen(t.ink, window));
   const shownControls = controls.filter((c) => onScreen(c.rect, window));
   const problems = pairProblems(shown, shownControls, window);
   for (const text of shown) {

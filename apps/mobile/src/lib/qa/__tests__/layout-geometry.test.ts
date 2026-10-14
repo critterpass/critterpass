@@ -268,4 +268,25 @@ describe('screen-wide layout checks', () => {
       'TEXT_SQUEEZED trip: "I can also check your inbox…" in a narrow column on bookings-guide-note',
     ]);
   });
+
+  it('judges a rolling number by its window, and a stack of cards by the card on top', () => {
+    const window1 = { label: 'money-hero-amount', rect: at(79, 61, 38, 88) };
+    const reel = text('money-hero-amount "# # # # # # # # # #"', at(79, -721, 38, 861), {
+      clip: window1,
+    });
+    const currency = text('money-hero-amount "₫"', at(40, 75, 39, 62));
+    const settle = control('money-settle', at(20, 432, 251, 56));
+    expect(codes({ texts: [reel, currency], controls: [settle], window })).toEqual([]);
+    const nights = text('bookings-closed "# nights"', at(84, 263, 45, 12));
+    const openCard = control('bookings-open-details', at(20, 272, 371, 249), { ownGround: true });
+    expect(codes({ texts: [nights], controls: [openCard], window })).toEqual([]);
+    // A button is no card: drawn before or after the text, the two collide.
+    const before = control('glass-back', at(20, 68, 48, 48), { ownGround: true });
+    const eyebrow = text('trip-hub-eyebrow', at(26, 108, 140, 18));
+    const after = control('glass-back', at(20, 68, 48, 48), { ownGround: true });
+    for (const back of [before, after])
+      expect(codes({ texts: [eyebrow], controls: [back], window })).toEqual([
+        'TEXT_OVER_CONTROL trip: trip-hub-eyebrow under glass-back',
+      ]);
+  });
 });
