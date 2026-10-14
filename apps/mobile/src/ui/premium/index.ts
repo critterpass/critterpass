@@ -101,6 +101,8 @@ export type { StatusTagProps, StatusTone } from './cards/StatusTag';
 export { Avatar, avatarFill, CrewStack, initialOf } from './people/Avatar';
 export type { AvatarFill, AvatarProps, CrewMember, CrewStackProps } from './people/Avatar';
 export { CritterSticker } from './stickers/CritterSticker';
+export { StickerIcon } from './stickers/StickerIcon';
+export type { StickerIconName, StickerIconProps } from './stickers/StickerIcon';
 export type { CritterStickerProps } from './stickers/CritterSticker';
 export { RectStamp, RoundStamp } from './stickers/Stamp';
 export type { RectStampProps, RoundStampProps, StampInk } from './stickers/Stamp';

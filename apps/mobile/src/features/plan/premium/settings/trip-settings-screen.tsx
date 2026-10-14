@@ -18,7 +18,15 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/premium/stickers/guides';
-import { CritterSticker, Icon, ListCard, StatusTag, Text, usePremiumTheme } from '@/ui/premium';
+import {
+  CritterSticker,
+  Icon,
+  ListCard,
+  StatusTag,
+  StickerIcon,
+  Text,
+  usePremiumTheme,
+} from '@/ui/premium';
 import { confirmAlert, PushScreen } from '@/ui/premium/shell';
 
 import { GlassMenu } from '../plan-map/glass-menu';
@@ -45,6 +53,8 @@ export function rangeText(locale: string, start: string | null, end: string | nu
 }
 
 function SettingRow(props: {
+  /** The row's sticker tile (4.53's trip rows). */
+  readonly leading?: ReactNode;
   readonly label: string;
   readonly line?: string | undefined;
   readonly value?: string | undefined;
@@ -74,6 +84,7 @@ function SettingRow(props: {
         backgroundColor: pressed ? theme.color.control : undefined,
       })}
     >
+      {props.leading}
       <View style={{ flex: 1, minWidth: 0 }}>
         <Text variant="body">{props.label}</Text>
         {props.line === undefined ? null : (
@@ -179,6 +190,7 @@ export function TripSettingsScreen({ tripId }: { readonly tripId: string }) {
         </Text>
         <ListCard>
           <SettingRow
+            leading={<StickerIcon name="cal" size={36} tile={theme.color.control} />}
             label={t({ id: 'plan.settings.dates', message: 'Dates' })}
             value={dates ?? t({ id: 'plan.settings.datesOpen', message: 'Not set' })}
             onPress={
@@ -187,16 +199,32 @@ export function TripSettingsScreen({ tripId }: { readonly tripId: string }) {
             testID="trip-settings-dates"
           />
           <SettingRow
+            leading={<StickerIcon name="temple" size={36} tile={theme.color.control} />}
             label={t({ id: 'plan.settings.where', message: 'Where' })}
             value={place}
             testID="trip-settings-where"
           />
           <SettingRow
+            leading={
+              <View
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: theme.radius.dayBadge,
+                  backgroundColor: theme.color.control,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <CritterSticker kind={guide.kind} name={guideName} seed={guide.seed} size={30} />
+              </View>
+            }
             label={t({ id: 'plan.settings.guide', message: 'Guide' })}
             value={guideName}
             testID="trip-settings-guide"
           />
           <SettingRow
+            leading={<StickerIcon name="heart" size={36} tile={theme.color.control} />}
             label={t({ id: 'plan.settings.who', message: 'Who’s coming' })}
             value={t({ id: 'plan.settings.going', message: `${going} going` })}
             testID="trip-settings-who"

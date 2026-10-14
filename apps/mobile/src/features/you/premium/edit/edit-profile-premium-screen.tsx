@@ -185,7 +185,7 @@ export function EditProfilePremiumScreen() {
               <Row
                 title={t({ id: 'you.premium.appearance', message: 'Appearance' })}
                 subtitle={appearanceWords[appearance]}
-                leading={<Tile glyph="expand" color={th.color.ink} />}
+                leading={<Tile glyph="appearance" color={th.color.ink} />}
                 trailing={chevron}
                 onPress={() => router.push(APPEARANCE_ROUTE)}
                 testID="you-edit-appearance"

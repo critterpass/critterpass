@@ -66,11 +66,14 @@ export function StopMenu(props: StopMenuProps) {
     onPress === undefined ? [] : [{ ...item, onPress }];
   const items: GlassMenuItem[] = [
     { key: 'details', label: copy.details(), icon: 'forward', onPress: props.onDetails },
-    ...offered({ key: 'move', label: copy.move(), icon: 'expand' }, props.onMove),
-    ...offered({ key: 'time', label: copy.time(), icon: 'edit' }, props.onTime),
-    ...offered({ key: 'ask', label: copy.ask(props.guideName), icon: 'mic' }, props.onAsk),
+    ...offered({ key: 'move', label: copy.move(), icon: 'calendar' }, props.onMove),
+    ...offered({ key: 'time', label: copy.time(), icon: 'clock' }, props.onTime),
+    ...offered({ key: 'ask', label: copy.ask(props.guideName), icon: 'chat' }, props.onAsk),
     { key: 'share', label: copy.share(), icon: 'share', onPress: props.onShare },
-    ...offered({ key: 'remove', label: copy.remove(), destructive: true }, props.onRemove),
+    ...offered(
+      { key: 'remove', label: copy.remove(), icon: 'trash', destructive: true },
+      props.onRemove,
+    ),
   ];
   return (
     <GlassMenu

@@ -133,7 +133,7 @@ export function MemberSheet() {
           style={styles.tileWrap}
         >
           <Card style={styles.tile}>
-            <Icon name="send" size={28} color={th.accent.sky} />
+            <Icon name="chat" size={28} color={th.accent.sky} />
             <Text variant="pillSmall">
               {t({ id: 'crew.premium.member.message', message: 'Message' })}
             </Text>

@@ -232,7 +232,7 @@ export function PremiumPhotoPage() {
             })}
             leading={
               <OptionTile bg={theme.color.status.rain.bg}>
-                <Icon name="expand" size={20} color={theme.color.status.rain.text} />
+                <Icon name="photos" size={20} color={theme.color.status.rain.text} />
               </OptionTile>
             }
             trailing={<Icon name="forward" size={16} color={theme.color.placeholder} />}

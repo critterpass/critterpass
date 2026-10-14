@@ -11,12 +11,13 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { PrivateContent } from '@/features/help';
 import { useWalletGuide, WalletGuideProvider } from '@/features/bookings';
-import { crewAccent, guideCritterKind, IconTile, LineIcon } from '@/features/trip';
+import { crewAccent, guideCritterKind, IconTile } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   Avatar,
   Button,
   CritterSticker,
+  Icon,
   PressableScale,
   Skeleton,
   Text,
@@ -106,7 +107,7 @@ export function PaymentCard({
         ]}
       >
         <Avatar name={from} color={crewAccent(index(row.fromId))} uid={row.fromId} size={36} />
-        <LineIcon name="navigate" size={16} color={th.color.placeholder} />
+        <Icon name="arrowRight" size={16} color={th.color.placeholder} />
         <Avatar name={to} color={crewAccent(index(row.toId))} uid={row.toId} size={28} />
         <View style={styles.flex}>
           <PrivateContent>

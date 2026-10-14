@@ -1,13 +1,13 @@
-/** Each expense category's line icon and tint on the premium money screens. */
+/** Each expense category's colour sticker and tint on the premium money screens (7.21, 7.23). */
 import type { PremiumPalette } from '@cp/design-tokens';
 import type { ExpenseCategory } from '@cp/domain';
 
-import type { LineIconName } from '@/features/trip';
+import type { StickerIconName } from '@/ui/premium';
 
 type Tint = keyof PremiumPalette['status'];
 
 const LOOK: Readonly<
-  Record<ExpenseCategory, { readonly icon: LineIconName; readonly tint: Tint }>
+  Record<ExpenseCategory, { readonly icon: StickerIconName; readonly tint: Tint }>
 > = {
   stays: { icon: 'bed', tint: 'tangerine' },
   food: { icon: 'food', tint: 'voteOpen' },

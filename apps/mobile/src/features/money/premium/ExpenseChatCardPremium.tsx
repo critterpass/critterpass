@@ -12,9 +12,15 @@ import { View } from 'react-native';
 import { shortName } from '@/lib/people/member-name';
 import { homeEquivalent, useMoneyDisplay } from '@/data/money';
 import type { ChatCardProps } from '@/features/crew';
-import { IconTile } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { Button, Skeleton, Text, makePremiumStyles, usePremiumTheme } from '@/ui/premium';
+import {
+  Button,
+  makePremiumStyles,
+  Skeleton,
+  StickerIcon,
+  Text,
+  usePremiumTheme,
+} from '@/ui/premium';
 
 import { useChatExpense } from '../chat/use-chat-expense';
 import { categoryOf } from '../data/expense-items';
@@ -111,7 +117,7 @@ export function ExpenseChatCardPremium({ message }: ChatCardProps) {
   return (
     <View style={styles.card} testID={`chat-expense-${row.id}`}>
       <View style={styles.row}>
-        <IconTile name={look.icon} bg={look.bg} color={look.color} size={44} />
+        <StickerIcon name={look.icon} size={44} tile={look.bg} />
         <View style={styles.body}>
           <Text variant="rowTitle" numberOfLines={2}>
             {paid}

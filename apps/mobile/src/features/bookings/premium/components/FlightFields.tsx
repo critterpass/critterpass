@@ -56,7 +56,7 @@ export function FlightFields(props: {
           />
         </View>
         <GlassIconButton
-          icon="retry"
+          icon="swap"
           label={t({ id: 'bookings.premium.swapAirports', message: 'Swap the airports' })}
           onPress={() => props.onChange({ from: draft.to, to: draft.from })}
           testID="bookings-form-swap"

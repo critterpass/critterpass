@@ -9,9 +9,8 @@ import { StyleSheet, View } from 'react-native';
 
 import { PrivateContent } from '@/features/help';
 import { homeEquivalent, useMoneyDisplay } from '@/data/money';
-import { IconTile } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { PressableScale, StickerIcon, Text, usePremiumTheme } from '@/ui/premium';
 
 import { useCategoryLabel } from '../../components/category';
 import type { ExpenseItem } from '../../data/expense-items';
@@ -74,7 +73,7 @@ export const ExpenseRow = memo(function ExpenseRow({
           },
         ]}
       >
-        <IconTile name={look.icon} bg={look.bg} color={look.color} size={46} />
+        <StickerIcon name={look.icon} size={46} tile={look.bg} />
         <View style={styles.body}>
           <Text variant="rowTitle" numberOfLines={2}>
             {title}
