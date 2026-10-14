@@ -5,7 +5,7 @@ import { NativeTabs } from 'expo-router/native-tabs';
 import { Platform, StyleSheet, View } from 'react-native';
 
 import { useGateDecision } from '@/lib/navigation/gates';
-import { tabBarHidden } from '@/lib/navigation/tab-bar';
+import { tabBarHidden, tabSheetUp } from '@/lib/navigation/tab-bar';
 
 import { usePremiumTheme } from '../..';
 import { DrawnTabBar } from './drawn-tab-bar';
@@ -58,7 +58,10 @@ export function PremiumTabs({
   const appGuide = useGuideActions();
   const actions = guideOverride ?? appGuide;
   // A page pushed inside a tab's stack has no tab bar (nor Android's guide button over it).
-  const pushed = tabBarHidden(useRootNavigationState());
+  const rootState = useRootNavigationState();
+  const pushed = tabBarHidden(rootState);
+  // Android's drawn bar would draw over a tab's sheet (the iPhone's sits under it by itself).
+  const sheetUp = tabSheetUp(rootState);
 
   if (gated && decision.kind === 'wait') return null;
   if (gated && decision.kind === 'redirect') return <Redirect href={decision.href} />;
@@ -78,7 +81,9 @@ export function PremiumTabs({
     return (
       <Tabs
         screenOptions={{ headerShown: false, sceneStyle: { backgroundColor: color.ground } }}
-        tabBar={(props) => <DrawnTabBar {...props} tabs={items} guide={actions} hidden={pushed} />}
+        tabBar={(props) => (
+          <DrawnTabBar {...props} tabs={items} guide={actions} hidden={pushed || sheetUp} />
+        )}
       >
         {items.map((tab) => (
           <Tabs.Screen key={tab.name} name={tab.name} options={{ title: tab.label }} />

@@ -79,12 +79,39 @@ function holdsPush(prefix: string, level: NavState): boolean {
 export function tabBarHidden(
   root: { readonly routes?: readonly StateRoute[] | undefined } | undefined,
 ): boolean {
-  // Before the container has state (the first frame) there is nothing pushed. The router's own
-  // root route holds the app's root stack.
+  const tab = focusedTab(root);
+  if (tab === undefined) return false;
+  return holdsPush('', { index: 0, routes: [tab] });
+}
+
+/** The focused tab's route, read through the router's own root route. */
+function focusedTab(
+  root: { readonly routes?: readonly StateRoute[] | undefined } | undefined,
+): StateRoute | undefined {
+  // Before the container has state (the first frame) there is no tab yet. The router's own root
+  // route holds the app's root stack.
   const top = root?.routes;
   const app = top?.length === 1 && top[0]?.name === ROUTER_ROOT ? top[0].state?.routes : top;
   const tabs = app?.find((route) => route.name === TABS)?.state;
-  const tab = tabs?.routes[tabs.index ?? 0];
-  if (tab === undefined) return false;
-  return holdsPush('', { index: 0, routes: [tab] });
+  return tabs?.routes[tabs.index ?? 0];
+}
+
+/**
+ * Whether the focused tab's top page is one of its sheets. Android's drawn tab bar floats over the
+ * tab's pages in the same window as its native sheets, so it drew on top of a sheet's lower half;
+ * it steps away while one is up (the iPhone's system bar sits under its sheets by itself).
+ */
+export function tabSheetUp(
+  root: { readonly routes?: readonly StateRoute[] | undefined } | undefined,
+): boolean {
+  let route = focusedTab(root);
+  let path = route?.name ?? '';
+  while (route?.state !== undefined) {
+    const level: NavState = route.state;
+    route = level.routes[level.index ?? level.routes.length - 1];
+    if (route === undefined) return false;
+    path = `${path}/${route.name}`;
+    if (isSheet(path)) return true;
+  }
+  return false;
 }

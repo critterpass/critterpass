@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { tabBarHidden } from '../tab-bar';
+import { tabBarHidden, tabSheetUp } from '../tab-bar';
 
 type Route = { name: string; state?: State };
 type State = { index: number; routes: Route[] };
@@ -73,5 +73,28 @@ describe('tab bar', () => {
     expect(tabBarHidden(undefined)).toBe(false);
     // A tab whose stack has not mounted yet.
     expect(tabBarHidden(tabs({ name: 'wallet' }))).toBe(false);
+  });
+
+  it('tells when the focused tab shows one of its sheets', () => {
+    const addSheet = {
+      name: 'wallet',
+      state: stack(0, {
+        name: 'bookings',
+        state: stack(1, { name: 'index' }, { name: 'add-sheet' }),
+      }),
+    };
+    expect(tabSheetUp(tabs(addSheet))).toBe(true);
+    const currency = {
+      name: 'wallet',
+      state: stack(1, { name: 'money/index' }, { name: 'money/currency' }),
+    };
+    expect(tabSheetUp(tabs(currency))).toBe(true);
+    const closed = {
+      name: 'wallet',
+      state: stack(0, { name: 'money/index' }, { name: 'money/currency' }),
+    };
+    expect(tabSheetUp(tabs(closed))).toBe(false);
+    expect(tabSheetUp(tabs({ name: 'index' }))).toBe(false);
+    expect(tabSheetUp(undefined)).toBe(false);
   });
 });
