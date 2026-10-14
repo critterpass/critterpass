@@ -10,18 +10,20 @@ import { t } from '@lingui/core/macro';
 import { Linking, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
-import { Doodle, crewAccent, type DoodleName } from '@/features/crew';
+import { crewAccent } from '@/features/crew';
 import { currentFormats } from '@/lib/i18n/formats';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   Avatar,
   Button,
   CritterSticker,
+  StickerIcon,
   Text,
   makePremiumStyles,
   usePremiumReducedMotion,
   usePremiumTheme,
   type PremiumTheme,
+  type StickerIconName,
   popIn,
 } from '@/ui/premium';
 
@@ -32,12 +34,12 @@ import type { RevealMode } from '../../quests/use-reward-reveal';
 import { CritterSilhouette } from '../components/critter-silhouette';
 import { doubleRing, layered, ring } from '../components/scrims';
 
-const DOODLE: Record<QuestIcon, DoodleName> = {
-  sun: 'star',
+const STICKER: Record<QuestIcon, StickerIconName> = {
+  sun: 'sun',
   pin: 'pin',
   food: 'food',
   wallet: 'wallet',
-  egg: 'spark',
+  egg: 'egg',
   star: 'star',
   critter: 'heart',
 };
@@ -65,6 +67,8 @@ const useStyles = makePremiumStyles((th) => ({
     boxShadow: th.shadow.card,
   },
   head: { flexDirection: 'row', alignItems: 'center', gap: th.space.gap12 },
+  words: { flex: 1, gap: 4 },
+  reward: { alignItems: 'flex-end', gap: 2, maxWidth: 96 },
   track: { height: 5, borderRadius: 3, overflow: 'hidden', backgroundColor: th.color.control },
   squad: { flexDirection: 'row', gap: 4, flexWrap: 'wrap' },
   tile: {
@@ -78,17 +82,19 @@ const useStyles = makePremiumStyles((th) => ({
   actions: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: th.space.gap8 },
 }));
 
-function rewardLine(card: QuestCardModel, done: boolean): string {
-  const reward =
-    card.reward.kind === 'critter'
-      ? t({ id: 'quests.reward.critter', message: 'Reward · legendary critter' })
-      : card.reward.kind === 'settled'
-        ? t({ id: 'quests.reward.settled', message: 'Reward · Settled Tokek' })
-        : t({ id: 'quests.reward.xp', message: `Reward · +${card.reward.xp} XP` });
-  if (done) return `${reward} · ${t({ id: 'quests.card.done', message: 'Done' })}`;
-  if (card.state === 'missed')
-    return `${reward} · ${t({ id: 'quests.card.missed', message: 'Missed' })}`;
-  return reward;
+/** The reward in the card's right column (8.07: "+120 XP", "Settled Tokek"). */
+function rewardShort(card: QuestCardModel): string {
+  return card.reward.kind === 'critter'
+    ? t({ id: 'quests.reward.critterShort', message: 'Legendary' })
+    : card.reward.kind === 'settled'
+      ? t({ id: 'quests.reward.settledShort', message: 'Settled Tokek' })
+      : t({ id: 'quests.reward.xpShort', message: `+${card.reward.xp} XP` });
+}
+
+function stateWord(card: QuestCardModel, done: boolean): string | null {
+  if (done) return t({ id: 'quests.card.done', message: 'Done' });
+  if (card.state === 'missed') return t({ id: 'quests.card.missed', message: 'Missed' });
+  return null;
 }
 
 function Befriend({ id, place }: { readonly id: string; readonly place: BefriendPlace }) {
@@ -160,6 +166,7 @@ export function QuestRow({
         : card.progress.done / Math.max(1, card.progress.total);
   const active = card.state === 'active' && !done;
   const practice = card.practice;
+  const word = stateWord(card, done);
   return (
     <View
       style={[
@@ -172,12 +179,45 @@ export function QuestRow({
       testID={`quest-card-${card.id}`}
     >
       <View style={styles.head}>
-        {featured ? null : <Doodle name={DOODLE[card.icon]} color={accent} size={44} />}
-        <View style={{ flex: 1, gap: 2 }}>
+        {featured ? null : <StickerIcon name={STICKER[card.icon]} color={accent} size={44} />}
+        <View style={styles.words}>
           <Text variant={featured ? 'headline' : 'rowTitle'}>{card.title}</Text>
           <Text variant="captionMuted" tone="muted">
             {card.body}
           </Text>
+          {card.people === null ? null : (
+            <View style={styles.squad}>
+              {card.people.map((person) => (
+                <View
+                  key={person.userId}
+                  style={[
+                    { borderRadius: 14 },
+                    person.done || done
+                      ? { boxShadow: doubleRing(2, th.color.card, 3.5, th.accent.mint) }
+                      : { opacity: 0.35 },
+                  ]}
+                >
+                  <Avatar
+                    name={person.name}
+                    color={crewAccent(null, person.joinIndex)}
+                    uid={person.userId}
+                    size={24}
+                  />
+                </View>
+              ))}
+            </View>
+          )}
+          {progress === null ? null : (
+            <View style={styles.track}>
+              <View
+                style={{
+                  width: `${Math.round(progress * 100)}%`,
+                  height: 5,
+                  backgroundColor: accent,
+                }}
+              />
+            </View>
+          )}
         </View>
         {featured && card.reward.kind === 'critter' ? (
           <View style={styles.tile}>
@@ -186,45 +226,27 @@ export function QuestRow({
               {t({ id: 'critters.premium.quests.legendary', message: 'LEGENDARY' })}
             </Text>
           </View>
-        ) : null}
+        ) : (
+          <Animated.View
+            key={done ? 'done' : 'open'}
+            style={styles.reward}
+            {...(done && reveal !== undefined ? { entering: popIn(reduced, 'lively') } : {})}
+          >
+            <Text variant="badge" tone="muted" align="right" testID={`quest-reward-${card.id}`}>
+              {rewardShort(card)}
+            </Text>
+            {word === null ? null : (
+              <Text
+                variant="badge"
+                align="right"
+                color={done ? th.color.status.booked.text : th.color.inkSecondary}
+              >
+                {word}
+              </Text>
+            )}
+          </Animated.View>
+        )}
       </View>
-      {card.people === null ? null : (
-        <View style={styles.squad}>
-          {card.people.map((person) => (
-            <View
-              key={person.userId}
-              style={[
-                { borderRadius: 14 },
-                person.done || done
-                  ? { boxShadow: doubleRing(2, th.color.card, 3.5, th.accent.mint) }
-                  : { opacity: 0.35 },
-              ]}
-            >
-              <Avatar
-                name={person.name}
-                color={crewAccent(null, person.joinIndex)}
-                uid={person.userId}
-                size={24}
-              />
-            </View>
-          ))}
-        </View>
-      )}
-      {progress === null ? null : (
-        <View style={styles.track}>
-          <View
-            style={{ width: `${Math.round(progress * 100)}%`, height: 5, backgroundColor: accent }}
-          />
-        </View>
-      )}
-      <Animated.View
-        key={done ? 'done' : 'open'}
-        {...(done && reveal !== undefined ? { entering: popIn(reduced, 'lively') } : {})}
-      >
-        <Text variant="badge" tone="muted">
-          {rewardLine(card, done)}
-        </Text>
-      </Animated.View>
       {card.befriend !== null && active && befriendPlace !== undefined ? (
         <Befriend id={card.id} place={befriendPlace} />
       ) : null}

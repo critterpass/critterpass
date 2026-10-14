@@ -6,6 +6,7 @@
  */
 import { crewLevel, toLocalWallTime, type CrewLevel } from '@cp/domain';
 import { guideIdOr, type GuideStickerId } from '@/ui/premium/stickers/guides';
+import { readableTitle } from './quest-title';
 import type { BefriendPlace } from './use-befriend-spot';
 import type { RevealMode } from './server-clock';
 
@@ -187,7 +188,7 @@ export function buildQuestsModel(input: QuestsInput): QuestsModel {
       );
       return {
         id: row.id,
-        title: text(row, 'title') ?? row.title,
+        title: readableTitle(text(row, 'title') ?? row.title),
         body: text(row, 'body') ?? row.body,
         colour: COLOURS[index % COLOURS.length] ?? 'yellow',
         icon: iconOf(row, reward),
