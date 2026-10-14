@@ -8,6 +8,9 @@ appId: app.critterpass.dev
     file: ../subflows/start.yaml
     env:
       SCENARIO: crew_with_code
+- tapOn:
+    id: 'home-crew-switcher'
+    optional: true
 - extendedWaitUntil:
     visible:
       id: 'home-start-crew'
@@ -70,6 +73,16 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'trip-hub-door-plan'
     optional: true
+# The day sheet at half height shows the day's stops with their menus.
+- extendedWaitUntil:
+    visible:
+      id: 'plan-map-search'
+    timeout: 15000
+    optional: true
+- swipe:
+    start: 50%, 82%
+    end: 50%, 45%
+    duration: 600
 - extendedWaitUntil:
     visible:
       id: 'stop-menu-.*'
