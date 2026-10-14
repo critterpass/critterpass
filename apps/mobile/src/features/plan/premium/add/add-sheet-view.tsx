@@ -18,7 +18,7 @@ import {
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
-import { sheetMaterialStyle } from '@/ui/premium/shell';
+import { FooterStack, sheetMaterialStyle } from '@/ui/premium/shell';
 
 import type { AddSheetViewProps } from '../../add/add-look';
 import { Doodle } from '@/features/explore';
@@ -194,13 +194,12 @@ export function PremiumAddSheetView(props: AddSheetViewProps) {
           {props.who}
         </ScrollView>
       </View>
-      <View
+      <FooterStack
+        gap={theme.space.gap4}
         style={{
           paddingHorizontal: theme.space.gap16,
           paddingTop: theme.space.gap8,
           paddingBottom: Math.max(insets.bottom, theme.space.gap16),
-          gap: theme.space.gap4,
-          alignItems: 'center',
         }}
       >
         {props.voteNote == null ? null : (
@@ -224,7 +223,7 @@ export function PremiumAddSheetView(props: AddSheetViewProps) {
             testID="plan-add-save-later"
           />
         )}
-      </View>
+      </FooterStack>
     </View>
   );
 }

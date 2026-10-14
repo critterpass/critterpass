@@ -29,10 +29,13 @@ import { lineFor, titleFor, type DraftingViewProps } from '../../draft/drafting/
 import { failLine, stepLine } from '../../draft/drafting/step-copy';
 import { draftingBackLabel } from '../../draft/review/draft-copy';
 import { DayStickers, StepMark } from './drafting-parts';
-import { confirmAlert } from '@/ui/premium/shell';
-
-/** The status bar band the scrolled page fades under. */
-const TOP_FADE = 12;
+import {
+  confirmAlert,
+  FooterStack,
+  SCROLL_EDGE_FADE,
+  ScrollEdgeFade,
+  useScrollEdges,
+} from '@/ui/premium/shell';
 
 export function PremiumDraftingView({
   guide,
@@ -51,6 +54,7 @@ export function PremiumDraftingView({
   const insets = useSafeAreaInsets();
   const locale = useLocale();
   const sticker = guideSticker(guide);
+  const edges = useScrollEdges();
   const rows = steps.filter((row) => (VISIBLE_STEP_IDS as readonly string[]).includes(row.id));
   const working = phase.kind === 'running' || phase.kind === 'starting' || phase.kind === 'done';
   const slow = phase.kind === 'running' && phase.slow;
@@ -82,6 +86,7 @@ export function PremiumDraftingView({
         </View>
       ) : null}
       <ScrollView
+        {...edges.scrollProps}
         contentContainerStyle={{
           paddingTop: slow ? theme.space.gap16 : insets.top + theme.space.gap16 * 3,
           paddingHorizontal: theme.space.gutter,
@@ -160,26 +165,18 @@ export function PremiumDraftingView({
         )}
         {working && dayCards.length > 0 ? <DayStickers days={dayCards} locale={locale} /> : null}
       </ScrollView>
-      {slow ? null : (
-        <View
-          pointerEvents="none"
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: insets.top + TOP_FADE,
-            // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never copy.
-            experimental_backgroundImage: `linear-gradient(180deg, ${theme.color.ground} ${String(Math.round((insets.top / (insets.top + TOP_FADE)) * 100))}%, ${theme.color.ground}00)`,
-          }}
-        />
-      )}
-      <View
+      {/* Scrolled, the page fades out under the status bar instead of running under the clock. */}
+      <ScrollEdgeFade
+        edge="top"
+        height={insets.top + SCROLL_EDGE_FADE}
+        solid={insets.top}
+        visible={!slow && edges.top}
+      />
+      <FooterStack
+        gap={theme.space.gap4}
         style={{
           paddingHorizontal: theme.space.titleGutter,
           paddingBottom: insets.bottom + theme.space.gap16,
-          gap: theme.space.gap4,
-          alignItems: 'center',
         }}
       >
         {phase.kind === 'failed' || phase.kind === 'cancelled' ? (
@@ -242,7 +239,7 @@ export function PremiumDraftingView({
             )}
           </>
         )}
-      </View>
+      </FooterStack>
     </Animated.View>
   );
 }

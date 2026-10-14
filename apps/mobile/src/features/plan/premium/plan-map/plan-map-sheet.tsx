@@ -17,6 +17,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
+import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from '@/ui/premium/shell';
 import {
   GlassSurface,
   REDUCED_FADE,
@@ -26,7 +27,6 @@ import {
 } from '@/ui/premium';
 
 import { settleDetent, sheetHeight, type MapDetent } from '../map';
-import { EdgeFade } from './edge-fade';
 
 export interface PlanMapSheetProps {
   readonly detent: MapDetent;
@@ -47,9 +47,6 @@ export interface PlanMapSheetProps {
 /** Air left under the full sheet's last row when it fits its content. */
 const FIT_AIR = 24;
 
-/** The fade where the scrolled body meets the head. */
-const BODY_FADE = 14;
-
 const GRABBER_W = 36;
 const GRABBER_H = 5;
 
@@ -66,6 +63,7 @@ export function PlanMapSheet({
 }: PlanMapSheetProps) {
   const t = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
+  const edges = useScrollEdges();
   // What the full sheet holds (head + body), measured while it is full.
   const [headH, setHeadH] = useState(0);
   const [bodyH, setBodyH] = useState<number | null>(null);
@@ -146,14 +144,12 @@ export function PlanMapSheet({
           <GestureDetector gesture={bodyPan}>
             <ScrollView
               scrollEnabled={detent !== 'peek'}
-              {...(fitFull
-                ? {
-                    onContentSizeChange: (_w: number, h: number) => {
-                      // Only the full sheet's own content counts (padding for lower detents aside).
-                      if (detent === 'full') setBodyH(h);
-                    },
-                  }
-                : {})}
+              {...edges.scrollProps}
+              onContentSizeChange={(w: number, h: number) => {
+                edges.scrollProps.onContentSizeChange(w, h);
+                // Only the full sheet's own content counts (padding for lower detents aside).
+                if (fitFull && detent === 'full') setBodyH(h);
+              }}
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{
                 paddingHorizontal: t.space.gap16,
@@ -164,7 +160,12 @@ export function PlanMapSheet({
             </ScrollView>
           </GestureDetector>
           {/* The body scrolls up under the head: it fades out there instead of being cut. */}
-          {detent === 'peek' ? null : <EdgeFade edge="top" height={BODY_FADE} />}
+          <ScrollEdgeFade
+            edge="top"
+            height={SCROLL_EDGE_FADE}
+            color={t.material.sheet.fill}
+            visible={detent !== 'peek' && edges.top}
+          />
         </View>
       </GlassSurface>
     </Animated.View>

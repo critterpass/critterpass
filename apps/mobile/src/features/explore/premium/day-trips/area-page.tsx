@@ -18,12 +18,12 @@ import {
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
+import { SCROLL_EDGE_FADE, ScrollEdgeFade } from '@/ui/premium/shell';
 
 import type { AreaViewProps } from '../../day-trips/area-screen';
 import * as copy from '../../day-trips/copy';
 import { PicksCarousel } from '../destination/picks-carousel';
 import { Doodle } from '../components/doodle';
-import { DockFade } from '../components/dock-fade';
 
 const HERO = 240;
 
@@ -122,7 +122,11 @@ export function PremiumAreaView(props: AreaViewProps) {
           </Text>
         </View>
       </ScrollView>
-      <DockFade dockHeight={DOCK_HEIGHT} gap={theme.space.gap8} />
+      <ScrollEdgeFade
+        edge="bottom"
+        height={insets.bottom + theme.space.gap8 + DOCK_HEIGHT + SCROLL_EDGE_FADE}
+        solid={insets.bottom + theme.space.gap8 + DOCK_HEIGHT / 2}
+      />
       <View
         style={{
           position: 'absolute',
@@ -141,6 +145,7 @@ export function PremiumAreaView(props: AreaViewProps) {
       <View
         style={{
           position: 'absolute',
+          zIndex: 2,
           left: theme.space.titleGutter,
           right: theme.space.titleGutter,
           bottom: insets.bottom + theme.space.gap8,

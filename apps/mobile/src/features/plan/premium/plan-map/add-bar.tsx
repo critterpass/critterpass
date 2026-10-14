@@ -14,12 +14,11 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { EdgeFade } from './edge-fade';
+import { SCROLL_EDGE_FADE, ScrollEdgeFade } from '@/ui/premium/shell';
 
-/** How far the bar floats over the sheet's foot, its height, and the fade's reach above it. */
+/** How far the bar floats over the sheet's foot, and its height. */
 const DOCK_BOTTOM = 28;
 const BAR_HEIGHT = 54;
-const FADE_ABOVE = 28;
 
 const useStyles = makePremiumStyles((t) => ({
   dock: {
@@ -72,17 +71,20 @@ export function AddBar({
   const t = usePremiumTheme();
   return (
     <View style={styles.dock}>
-      <EdgeFade
+      <ScrollEdgeFade
         edge="bottom"
-        height={DOCK_BOTTOM + BAR_HEIGHT + FADE_ABOVE}
-        solid={0.45}
+        height={DOCK_BOTTOM + BAR_HEIGHT + SCROLL_EDGE_FADE}
+        solid={DOCK_BOTTOM + BAR_HEIGHT / 2}
         offset={-DOCK_BOTTOM}
+        color={t.material.sheet.fill}
       />
       <PressableScale
         onPress={onPress}
         accessibilityRole="button"
         accessibilityLabel={label}
         testID="plan-add-bar"
+        // Over the fade, which the kit stacks above the list.
+        style={{ zIndex: 2 }}
       >
         <View style={styles.bar}>
           <View style={styles.plus}>

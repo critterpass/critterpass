@@ -24,10 +24,10 @@ import {
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
+import { SCROLL_EDGE_FADE, ScrollEdgeFade } from '@/ui/premium/shell';
 import { SoloPassSheet } from '@/features/vote';
 
 import type { DestinationViewProps } from '../../screens/destination-view-props';
-import { DockFade } from '../components/dock-fade';
 import { Doodle } from '../components/doodle';
 import { MonthCard } from './month-card';
 import { PicksCarousel } from './picks-carousel';
@@ -210,7 +210,11 @@ export function PremiumDestinationView(props: DestinationViewProps) {
           ) : null}
         </View>
       </ScrollView>
-      <DockFade dockHeight={DOCK_HEIGHT} gap={theme.space.gap8} />
+      <ScrollEdgeFade
+        edge="bottom"
+        height={insets.bottom + theme.space.gap8 + DOCK_HEIGHT + SCROLL_EDGE_FADE}
+        solid={insets.bottom + theme.space.gap8 + DOCK_HEIGHT / 2}
+      />
       <View
         pointerEvents="box-none"
         style={{
@@ -247,6 +251,7 @@ export function PremiumDestinationView(props: DestinationViewProps) {
       <View
         style={{
           position: 'absolute',
+          zIndex: 2,
           left: theme.space.titleGutter,
           right: theme.space.titleGutter,
           bottom: insets.bottom + theme.space.gap8,

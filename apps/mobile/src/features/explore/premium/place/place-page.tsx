@@ -9,8 +9,7 @@
 import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
-import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -24,6 +23,12 @@ import {
   Text,
   usePremiumTheme,
 } from '@/ui/premium';
+import {
+  PhotoHeaderScrim,
+  SCROLL_EDGE_FADE,
+  ScrollEdgeFade,
+  useScrollEdges,
+} from '@/ui/premium/shell';
 
 import { dayTitle } from '../../place-detail/model';
 import { usePlaceDetail, type PlaceDetailInput } from '../../place-detail/use-place-detail';
@@ -33,8 +38,6 @@ import { SectionLabel } from '../components/labels';
 import { PlaceResultRow } from '../components/place-result-row';
 import { FactTilesRow, KnowBeforeCard, NearbyRow, WhenItFitsCard } from './place-sections';
 import { PlaceOffersCard, ReportPlaceProfile } from './place-extras';
-import { DockFade } from '../components/dock-fade';
-import { PlaceTopEdge } from './place-edges';
 import { PlaceHeroPhoto } from './place-hero-photo';
 import { PremiumRemoveForEveryone } from './remove-for-everyone';
 
@@ -54,15 +57,15 @@ export function PlacePage(props: PlaceDetailInput) {
     return href === undefined ? undefined : () => router.push(href);
   };
   const guide = { kind: view.guide.kind, name: view.guide.name };
-  const y = useSharedValue(0);
-  const onScroll = useAnimatedScrollHandler((event) => {
-    y.set(event.contentOffset.y);
-  });
+  // The glass circles' band, and the dock's: the page fades into the ground under each, the top
+  // one only once the photo has scrolled out from under the circles.
+  const headerBand = insets.top + theme.space.gap4 + theme.size.glassNav;
+  const dockBand = insets.bottom + theme.space.gap12 + theme.size.button;
+  const edges = useScrollEdges({ topAfter: HERO - OVERLAP - headerBand });
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.ground }} testID="place-detail">
-      <Animated.ScrollView
-        onScroll={onScroll}
-        scrollEventThrottle={16}
+      <ScrollView
+        {...edges.scrollProps}
         contentContainerStyle={{ paddingBottom: insets.bottom + 110 }}
       >
         <View style={{ height: HERO, overflow: 'hidden' }}>
@@ -191,9 +194,20 @@ export function PlacePage(props: PlaceDetailInput) {
           )}
           {further.profile === null ? null : <ReportPlaceProfile poiId={further.placeId} />}
         </View>
-      </Animated.ScrollView>
-      <PlaceTopEdge y={y} solidFrom={HERO - OVERLAP} />
-      <DockFade dockHeight={theme.size.button} gap={theme.space.gap12} />
+      </ScrollView>
+      {edges.top ? null : <PhotoHeaderScrim height={headerBand + SCROLL_EDGE_FADE} />}
+      <ScrollEdgeFade
+        edge="top"
+        height={headerBand + SCROLL_EDGE_FADE}
+        solid={headerBand}
+        visible={edges.top}
+      />
+      <ScrollEdgeFade
+        edge="bottom"
+        height={dockBand + SCROLL_EDGE_FADE}
+        solid={dockBand - theme.size.button / 2}
+        visible={edges.bottom}
+      />
       <View
         pointerEvents="box-none"
         style={[
@@ -279,10 +293,18 @@ export function PlacePage(props: PlaceDetailInput) {
 const styles = StyleSheet.create({
   header: {
     position: 'absolute',
+    zIndex: 2,
     left: 0,
     right: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  dock: { position: 'absolute', left: 0, right: 0, flexDirection: 'row', alignItems: 'center' },
+  dock: {
+    position: 'absolute',
+    zIndex: 2,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 });
