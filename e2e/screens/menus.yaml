@@ -1,8 +1,8 @@
 appId: app.critterpass.dev
 ---
 # Every long-press and context menu the sweep reaches, each row tapped once, on the `everyday`
-# Bali crew: a crewmate's chat message (reply, pin, copy, report) and a stop on the plan map
-# (details, move, time, remove, ask, share). Each row must show what it promises: the composer's
+# Bali crew: a crewmate's chat message (reply, pin, report, and copy last) and a stop on the plan
+# map (details, move, time, remove, ask, share). Each row must show what it promises: the composer's
 # reply strip, a toast, a sheet, a question, the guide or the share sheet. Unlike the captures,
 # this flow fails when a row shows nothing. Nothing is saved: every sheet and question is left
 # without saving, and the pin is taken off again.
@@ -30,12 +30,6 @@ appId: app.critterpass.dev
     env:
       KEY: unpin
       EXPECT: 'Unpinned'
-# Copy puts the message on the clipboard; the row must still say so.
-- runFlow:
-    file: subflows/menu-chat-action.yaml
-    env:
-      KEY: copy
-      EXPECT: '(?i).*copied.*'
 - runFlow:
     file: subflows/menu-chat-action.yaml
     env:
@@ -93,7 +87,15 @@ appId: app.critterpass.dev
     env:
       KEY: ask
       EXPECT: 'guide-.*'
-- runFlow: ../_shared/back.yaml
+# The question waits in the guide's composer with the keyboard up: the first back on Android only
+# closes the keyboard.
+- repeat:
+    times: 3
+    while:
+      notVisible:
+        id: 'timeline-stop-.*'
+    commands:
+      - runFlow: ../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'timeline-stop-.*'
@@ -109,3 +111,12 @@ appId: app.critterpass.dev
       text: '(?i)copy|share'
     timeout: 8000
 - runFlow: ../_shared/back.yaml
+# Copy last (back in the chat): it puts the message on the clipboard, and the row must still say
+# so. Android's own clipboard preview can show "Copied"; iOS shows nothing of its own.
+- runFlow: subflows/plan-home.yaml
+- runFlow: subflows/chat-open-crew.yaml
+- runFlow:
+    file: subflows/menu-chat-action.yaml
+    env:
+      KEY: copy
+      EXPECT: '(?i).*copied.*'
