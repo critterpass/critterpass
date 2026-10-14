@@ -1298,3 +1298,9 @@ One row per line, added at the end. Never re-wrap or re-pad the table: the file 
 | Crew settings (`features/crew`, 3.12) | Choosing the notification level | The system action sheet on iOS, the drawn options sheet on Android, from the "Notifications · Mentions ›" row. |
 | Inbox (`features/home`, 3.18) | First time, notifications already allowed | No ask at the foot; the gear opens notification settings. |
 | Crew manifest (`features/onboarding`, 2.19) | Joined a crew with no trip yet | The header's count reads "2 IN". |
+| Plan check (`features/plan/premium/check/check-view.tsx`, 4.43) | The check is running and nothing has come back yet | The title alone says "Checking the plan" (no second "Checking…" under it); a block and a soft card skeleton hold the fix cards' place, with the bobbing guide and "Hours, drives and saves, day by day…" under them. |
+| Destination (`features/explore/premium/destination/destination-page.tsx`, 4.04) | Loading before the name is known | A soft bar holds the name's place on the hero, so the eyebrow and the guide's line never sit over a yellow gap. |
+| Crew map, not boosted (`features/crew/live-map/premium/crew-map-preview.tsx`, 9.19) | Crew faces behind the Boost card | The crew's real faces (initials and colours) at fixed spots, with you as the glowing dot; a picture of what boosting turns on, never anyone's location. |
+| Voice and point and ask (`features/guide/premium/voice`, `camera`, 5.15/5.16) | Talking or scanning can't start | "Type instead" is a secondary pill (floating on the dark camera), not bare grey text. |
+| What works offline (`features/trip/premium/offline/OfflinePremium.tsx`, 6.15) | Link to the trips saved on this phone | A secondary pill with the download glyph, not bare grey text. |
+| New poll (`features/vote/premium/poll/answer-grip.tsx`, 4.01) | Reordering answers | The drawn grips drag a row up or down one place per row height; screen readers get Move up and Move down. |
