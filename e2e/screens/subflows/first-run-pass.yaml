@@ -122,23 +122,31 @@ appId: app.critterpass.dev
       CODE: '2.08'
       NAME: photo
       LOOK: light
-- scrollUntilVisible:
-    element:
-      id: 'onboarding-photo-options'
-    direction: DOWN
-    timeout: 5000
-    optional: true
+# The ways to a real photo further down: a shot of their own only when the first one didn't hold
+# them (a tall phone shows the whole page at once, and the second shot would repeat the first).
 - runFlow:
     when:
-      visible:
+      notVisible:
         id: 'onboarding-photo-options'
     commands:
+      - scrollUntilVisible:
+          element:
+            id: 'onboarding-photo-options'
+          direction: DOWN
+          timeout: 5000
+          centerElement: true
+          optional: true
       - runFlow:
-          file: shot.yaml
-          env:
-            CODE: '2.08'
-            NAME: photo-options
-            LOOK: light
+          when:
+            visible:
+              id: 'onboarding-photo-options'
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '2.08'
+                  NAME: photo-options
+                  LOOK: light
 - runFlow:
     file: ../../_shared/tap.yaml
     env:
