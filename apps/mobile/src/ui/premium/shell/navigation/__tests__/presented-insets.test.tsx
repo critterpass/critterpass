@@ -41,7 +41,7 @@ async function renderLayout(presentation: 'formSheet' | 'modal' | 'card', first:
 /** Whether the layout starts the screen with the empty stop view, ahead of its content. */
 async function startsWithStop(presentation: 'formSheet' | 'modal' | 'card', first: boolean) {
   await renderLayout(presentation, first);
-  const stop = screen.queryByTestId('sheet-scroll-stop');
+  const stop = screen.queryByTestId('scroll-walk-stop');
   if (stop === null) return false;
   const content = screen.getByTestId('insets');
   const siblings = stop.parent?.children ?? [];

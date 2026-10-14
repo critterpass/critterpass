@@ -7,10 +7,11 @@
  */
 import type { NativeStackNavigationOptions } from 'expo-router/native-stack';
 import { useMemo, type ReactElement, type ReactNode } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Platform } from 'react-native';
 import { SafeAreaInsetsContext, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { KeyboardFooterScope } from '../keyboard/keyboard';
+import { ScrollWalkStop } from '../screens/scroll-walk-stop';
 
 /** The band at the top of a sheet that the grabber sits in (the system's on iOS). */
 export const SHEET_TOP_CLEARANCE = 12;
@@ -35,25 +36,6 @@ function SheetInsets({ top, children }: { readonly top: number; readonly childre
   const value = useMemo(() => ({ ...insets, top }), [insets, top]);
   return <SafeAreaInsetsContext.Provider value={value}>{children}</SafeAreaInsetsContext.Provider>;
 }
-
-/**
- * The first native view of a native form sheet's content (iOS). react-native-screens walks a form
- * sheet's first subviews down to the first scroll view it meets and sets that scroll view's frame
- * to the sheet screen's own frame, origin included, whenever the screen lays out. A scroll view
- * nested under the content's root (the paywall's night ground, the mailbox's sheet material, a
- * group's whole stack) was moved to where the screen sat while the sheet was still rising, below
- * its bottom edge, so the sheet opened blank apart from what sat outside the scroll view. This
- * empty view ends that walk; each sheet's scroll view keeps the frame its own layout gives it.
- */
-export function SheetScrollStop() {
-  return (
-    <View collapsable={false} pointerEvents="none" style={styles.stop} testID="sheet-scroll-stop" />
-  );
-}
-
-const styles = StyleSheet.create({
-  stop: { position: 'absolute', top: 0, left: 0, width: 0, height: 0 },
-});
 
 /** A route as a stack's layout reads it. */
 export interface LayoutRoute {
@@ -102,8 +84,8 @@ export function insideCardTopInset(
 /**
  * A premium navigator's `screenLayout`: every screen gets its own keyboard footer scope (a sticky
  * footer tells the screen's form how much room it takes), and a screen it presents as a sheet, or
- * pushes inside one, gets the sheet's insets; a native form sheet's content starts with the
- * `SheetScrollStop`.
+ * pushes inside one, gets the sheet's insets; a native form sheet's content starts with a
+ * `ScrollWalkStop`.
  * A stack never presents its first screen, whatever its options say: that one is the group's,
  * and the navigator above that presented the group (or pushed it, or rose it as a page) decides.
  */
@@ -125,7 +107,7 @@ export function presentedLayoutFor(presentationOf?: PresentationOfRoute) {
     const formSheet = !first && options.presentation === 'formSheet' && Platform.OS === 'ios';
     const scoped = (
       <KeyboardFooterScope>
-        {formSheet ? <SheetScrollStop /> : null}
+        {formSheet ? <ScrollWalkStop /> : null}
         {children}
       </KeyboardFooterScope>
     );
