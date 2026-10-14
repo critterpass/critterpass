@@ -188,8 +188,11 @@ describe('typing curated places from their notes', { timeout: 60_000 }, () => {
     expect(skipReason(await loadProfileTarget(harness.pool, eatery), false, 0, 1)).toBe('reviewed');
     // Typing costs are left out of the job's daily cap.
     expect(await spentTodayMicros(harness.pool, now)).toBe(0);
-    // Once the note is gone, the typed row does not stand in for a profile.
-    await harness.pool.query(`UPDATE pois SET editorial = '{}' WHERE id = $1`, [house]);
+    // Once the note is gone, the typed row does not stand in for a profile (a must-see stays
+    // popular, so the warm-up picks it up again).
+    await harness.pool.query(`UPDATE pois SET editorial = '{"must_see": true}' WHERE id = $1`, [
+      house,
+    ]);
     const target = await loadProfileTarget(harness.pool, house);
     expect(target?.status).toBeNull();
     expect(skipReason(target, false, 0, 1)).toBeNull();
