@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useToast } from './ToastHost';
+import { frontToast, useToast } from './ToastHost';
 
 /** A toast another part of the app queued, as the premium stack reads it. */
 export interface ExternalToast {
@@ -20,7 +20,9 @@ export interface ExternalToastSource {
 /**
  * Shows the toasts code outside the premium screens queues (`toast.show` from a runtime, a
  * notification handler) as premium toasts: each one is taken off its queue as it arrives, so the
- * current UI's island toast never draws it. Renders nothing; mount it under a `ToastHost`.
+ * current UI's island toast never draws it. A toast sent while a sheet or cover is up shows on
+ * that sheet's host (it would show under the sheet otherwise). Renders nothing; mount it under a
+ * `ToastHost`.
  */
 export function ExternalToasts({ source }: { readonly source: ExternalToastSource }) {
   const toast = useToast();
@@ -32,7 +34,7 @@ export function ExternalToasts({ source }: { readonly source: ExternalToastSourc
       const message =
         current.subtitle === undefined ? current.title : `${current.title} ${current.subtitle}`;
       const { action } = current;
-      toast.show(
+      (frontToast() ?? toast).show(
         action === undefined
           ? { kind: 'done', message }
           : { kind: 'done', message, undo: action.onPress, actionLabel: action.label },

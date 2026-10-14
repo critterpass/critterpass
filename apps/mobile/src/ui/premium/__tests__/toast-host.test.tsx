@@ -9,12 +9,20 @@ jest.mock('react-native-reanimated', () => ({
  * shows on the sheet, and `outer` sends one to the page underneath (a "Saved" sent as it closes).
  */
 import { describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, screen, within } from '@testing-library/react-native';
+import { act, fireEvent, screen, within } from '@testing-library/react-native';
+import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { renderWithI18n } from '@/lib/i18n/testing';
-import { PremiumThemeProvider, ToastHost, useToast } from '@/ui/premium';
+import {
+  ExternalToasts,
+  PremiumThemeProvider,
+  ToastHost,
+  useToast,
+  type ExternalToast,
+  type ExternalToastSource,
+} from '@/ui/premium';
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -77,5 +85,72 @@ describe('ToastHost inside another host', () => {
     await renderNested(false);
     await fireEvent.press(screen.getByText('outer'));
     expect(screen.getByText('Saved.')).toBeTruthy();
+  });
+});
+
+/** A toast queue outside the premium screens, as the island toast queue behaves. */
+function queueSource() {
+  let current: ExternalToast | null = null;
+  const listeners = new Set<() => void>();
+  const source: ExternalToastSource = {
+    subscribe: (listener) => {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+    getCurrent: () => current,
+    dismiss: () => {
+      current = null;
+    },
+  };
+  const send = (title: string) => {
+    current = { id: title, title };
+    for (const listener of listeners) listener();
+  };
+  return { source, send };
+}
+
+function SheetUp({ source }: { readonly source: ExternalToastSource }) {
+  const [open, setOpen] = useState(true);
+  return (
+    <SafeAreaProvider initialMetrics={METRICS}>
+      <PremiumThemeProvider>
+        <View testID="page">
+          <ToastHost>
+            <ExternalToasts source={source} />
+            <Pressable onPress={() => setOpen(false)}>
+              <Text>close sheet</Text>
+            </Pressable>
+            {open ? (
+              <View testID="sheet">
+                <ToastHost bottomOffset={0}>
+                  <Probe />
+                </ToastHost>
+              </View>
+            ) : null}
+          </ToastHost>
+        </View>
+      </PremiumThemeProvider>
+    </SafeAreaProvider>
+  );
+}
+
+describe('toasts while a sheet is up', () => {
+  it('shows a toast sent from outside the screens on the sheet, not under it', async () => {
+    const { source, send } = queueSource();
+    await renderWithI18n(<SheetUp source={source} />, { locale: 'en' });
+    await act(async () => {
+      send('Address copied.');
+      await Promise.resolve();
+    });
+    expect(within(screen.getByTestId('sheet')).getByText('Address copied.')).toBeTruthy();
+  });
+
+  it('hands a toast still up to the page when the sheet closes', async () => {
+    const { source } = queueSource();
+    await renderWithI18n(<SheetUp source={source} />, { locale: 'en' });
+    await fireEvent.press(screen.getByText('near'));
+    await fireEvent.press(screen.getByText('close sheet'));
+    expect(screen.queryByTestId('sheet')).toBeNull();
+    expect(screen.getByText('Could not remove Hân.')).toBeTruthy();
   });
 });
