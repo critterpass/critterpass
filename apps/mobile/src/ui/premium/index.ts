@@ -86,6 +86,8 @@ export { GuideNote } from './cards/GuideNote';
 export type { GuideNoteProps, GuideTint } from './cards/GuideNote';
 export { DayBadge, Row } from './cards/Row';
 export type { DayBadgeProps, RowProps } from './cards/Row';
+export { ROW_ROOM_ABOVE, ROW_ROOM_BELOW, ScrollRow } from './cards/ScrollRow';
+export type { ScrollRowProps } from './cards/ScrollRow';
 export { PhotoCard, StatTile } from './cards/StatTile';
 export type { PhotoCardProps, StatTileProps } from './cards/StatTile';
 export { StatusTag } from './cards/StatusTag';
