@@ -7,7 +7,7 @@ import { markPasteHintShown, pasteHintShown } from '@/lib/permissions/paste-hint
 
 import { Text } from '../text/Text';
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
-import { Button, type ButtonSize, type ButtonVariant } from './Button';
+import { Button, type ButtonProps, type ButtonSize, type ButtonVariant } from './Button';
 import { readPaste, showsPasteHint } from './paste-read';
 import { TextButton } from './TextButton';
 
@@ -22,6 +22,8 @@ export interface PasteButtonProps {
   readonly variant?: ButtonVariant;
   /** @default 'small' */
   readonly size?: ButtonSize;
+  /** Where the pill sits across its parent (`Button`'s): `auto` beside text in a row. */
+  readonly alignSelf?: ButtonProps['alignSelf'];
   readonly testID?: string;
 }
 
@@ -41,6 +43,7 @@ export function PasteButton({
   onEmpty,
   variant = 'floating',
   size = 'small',
+  alignSelf,
   testID = 'paste-button',
 }: PasteButtonProps) {
   const { t } = useLingui();
@@ -62,6 +65,7 @@ export function PasteButton({
       icon="paste"
       variant={variant}
       size={size}
+      {...(alignSelf === undefined ? {} : { alignSelf })}
       onPress={paste}
       testID={testID}
     />

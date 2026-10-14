@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import { BookingsServicesProvider } from '@/features/bookings/data/services';
 import { deviceBookingsServices } from '@/features/bookings/data/device-services';
-import { sheetRouteOptions } from '@/ui/premium/shell';
+import { tabSheetOptions } from '@/ui/premium/shell';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
 
 import { getOcr } from '../../../../../modules/cp-ocr';
@@ -21,11 +21,20 @@ export default function BookingsLayout() {
   return (
     <BookingsServicesProvider services={services}>
       <PremiumStack>
-        <PremiumStackScreen name="add-sheet" options={sheetRouteOptions('half')} />
-        <PremiumStackScreen name="paste" options={sheetRouteOptions('fit')} />
-        <PremiumStackScreen name="link-code" options={sheetRouteOptions('fit')} />
-        <PremiumStackScreen name="mailbox" options={sheetRouteOptions('full')} />
-        <PremiumStackScreen name="pass/[id]" options={sheetRouteOptions('full')} />
+        <PremiumStackScreen
+          name="add-sheet"
+          options={tabSheetOptions('wallet/bookings/add-sheet')}
+        />
+        <PremiumStackScreen name="paste" options={tabSheetOptions('wallet/bookings/paste')} />
+        <PremiumStackScreen
+          name="link-code"
+          options={tabSheetOptions('wallet/bookings/link-code')}
+        />
+        <PremiumStackScreen name="mailbox" options={tabSheetOptions('wallet/bookings/mailbox')} />
+        <PremiumStackScreen
+          name="pass/[id]"
+          options={tabSheetOptions('wallet/bookings/pass/[id]')}
+        />
       </PremiumStack>
     </BookingsServicesProvider>
   );

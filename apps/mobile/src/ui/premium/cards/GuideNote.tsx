@@ -1,4 +1,5 @@
-import { View } from 'react-native';
+import { useState } from 'react';
+import { View, type LayoutChangeEvent } from 'react-native';
 
 import { PressableScale } from '../motion/PressableScale';
 import { CritterSticker } from '../stickers/CritterSticker';
@@ -23,6 +24,19 @@ export interface GuideNoteProps {
   readonly testID?: string;
 }
 
+/** The words keep at least this share of the room beside the critter, or the action moves under them. */
+const WORDS_SHARE = 0.6;
+
+/**
+ * Whether the action goes under the words: beside them it would leave the words less than
+ * `WORDS_SHARE` of the room right of the critter (a wide "Find bookings in my email" squeezed the
+ * line into a five-line column).
+ */
+export function stacksAction(room: number, action: number, gap: number): boolean {
+  if (room <= 0 || action <= 0) return false;
+  return room - action - gap < room * WORDS_SHARE;
+}
+
 /** The speaker's disc behind the critter: Tokek's yellow, Pon's tangerine. */
 function discOf(t: PremiumTheme, tint: GuideTint): string {
   return tint === 'pon' ? t.color.status.tangerine.bg : t.color.status.maybe.bg;
@@ -44,9 +58,42 @@ export function GuideNote({
 }: GuideNoteProps) {
   const t = usePremiumTheme();
   const disc = t.size.guideCritter;
+  const gap = t.space.gap10;
+  const [room, setRoom] = useState(0);
+  const [actionWidth, setActionWidth] = useState(0);
+  const stacked = action !== undefined && stacksAction(room, actionWidth, gap);
+  const onRow = (event: LayoutChangeEvent) => {
+    const inner = event.nativeEvent.layout.width - t.space.gap8 - t.space.rowPadH;
+    setRoom(Math.max(0, inner - disc - gap));
+  };
+  const onAction = (event: LayoutChangeEvent) => setActionWidth(event.nativeEvent.layout.width);
+  const pill =
+    action === undefined ? null : (
+      <PressableScale
+        onPress={action.onPress}
+        accessibilityLabel={action.label}
+        onLayout={onAction}
+        style={stacked ? { alignSelf: 'flex-start', marginTop: t.space.gap6 } : null}
+      >
+        <View
+          style={{
+            height: t.size.noteAction,
+            paddingHorizontal: t.space.pillSmallPadH,
+            borderRadius: t.radius.noteAction,
+            backgroundColor: t.color.ink,
+            justifyContent: 'center',
+          }}
+        >
+          <Text variant="noteAction" tone="onInk" numberOfLines={1}>
+            {action.label}
+          </Text>
+        </View>
+      </PressableScale>
+    );
   return (
     <View
       testID={testID}
+      onLayout={onRow}
       style={{
         borderRadius: t.radius.card,
         backgroundColor: t.color.card,
@@ -56,7 +103,7 @@ export function GuideNote({
         paddingEnd: t.space.rowPadH,
         flexDirection: 'row',
         alignItems: 'center',
-        gap: t.space.gap10,
+        gap,
       }}
     >
       <View
@@ -73,34 +120,21 @@ export function GuideNote({
       >
         <CritterSticker kind={critter} name={name} size={disc} pose="point" />
       </View>
-      <View style={{ flex: 1 }} accessible accessibilityLabel={`${name}: ${text}`}>
-        <Text variant="note" tone="inkSecondary">
-          {showName ? (
-            <Text variant="bannerAction" tone="ink">
-              {name}
-              {'\u00a0 '}
-            </Text>
-          ) : null}
-          {text}
-        </Text>
+      <View style={{ flex: 1 }}>
+        <View accessible accessibilityLabel={`${name}: ${text}`}>
+          <Text variant="note" tone="inkSecondary">
+            {showName ? (
+              <Text variant="bannerAction" tone="ink">
+                {name}
+                {'\u00a0 '}
+              </Text>
+            ) : null}
+            {text}
+          </Text>
+        </View>
+        {stacked ? pill : null}
       </View>
-      {action === undefined ? null : (
-        <PressableScale onPress={action.onPress} accessibilityLabel={action.label}>
-          <View
-            style={{
-              height: t.size.noteAction,
-              paddingHorizontal: t.space.pillSmallPadH,
-              borderRadius: t.radius.noteAction,
-              backgroundColor: t.color.ink,
-              justifyContent: 'center',
-            }}
-          >
-            <Text variant="noteAction" tone="onInk" numberOfLines={1}>
-              {action.label}
-            </Text>
-          </View>
-        </PressableScale>
-      )}
+      {stacked ? null : pill}
     </View>
   );
 }

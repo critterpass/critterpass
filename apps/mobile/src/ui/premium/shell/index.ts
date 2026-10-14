@@ -18,6 +18,7 @@ export {
   presentationOptions,
   presentedScreenOptions,
   SELF_ANIMATED_SHEET,
+  tabSheetOptions,
 } from './navigation/presentation-options';
 export { leadingControlFor, useScreenPlacement } from './navigation/use-screen-placement';
 export { SHEET_TOP_CLEARANCE, useScreenInsets, useShownAsSheet } from './navigation/screen-insets';
