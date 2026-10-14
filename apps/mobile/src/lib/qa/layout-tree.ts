@@ -125,6 +125,8 @@ export interface LayoutTree {
   readonly paints: ReadonlyMap<number, number>;
   /** Every surface that draws a ground, in drawing order. */
   readonly grounds: readonly TreeGround[];
+  /** Each scroll view's box index to the scroll view it scrolls inside, if any. */
+  readonly layerParents: ReadonlyMap<number, number | null>;
   readonly texts: readonly TreeText[];
   readonly controls: readonly TreeControl[];
 }
@@ -241,6 +243,7 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
   const labels = new Map<number, string>();
   const paints = new Map<number, number>();
   const allGrounds: TreeGround[] = [];
+  const layerParents = new Map<number, number | null>();
   let paint = 0;
   const texts: TreeText[] = [];
   const controls: TreeControl[] = [];
@@ -311,6 +314,7 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
       const grounded = drawsGround(style.backgroundColor);
       if (SCROLL_TYPES.has(type)) {
         // What clips or holds the scroll view does not judge the content scrolling inside it.
+        layerParents.set(index, inner.layer);
         inner = { ...inner, layer: index, clip: null, card: null };
         used = true;
       }
@@ -368,5 +372,5 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
     if (testId !== null) inner = { ...inner, testId };
     if (fiber.child) stack.push([fiber.child, inner]);
   }
-  return { boxes, labels, paints, grounds: allGrounds, texts, controls };
+  return { boxes, labels, paints, grounds: allGrounds, layerParents, texts, controls };
 }

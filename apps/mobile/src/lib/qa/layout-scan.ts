@@ -209,10 +209,13 @@ export function placeTree(
 
 function judge(tree: LayoutTree, rects: readonly (QaRect | null)[]): void {
   const window = Dimensions.get('window');
-  const placed = placeTree(tree, rects, (box) => {
+  // A row scrolling sideways inside a page is at rest only while the page is too.
+  const layerAtRest = (box: number | null | undefined): boolean => {
+    if (box === null || box === undefined) return true;
     const fiber = tree.boxes[box];
-    return fiber !== undefined && atRest(fiber);
-  });
+    return fiber !== undefined && atRest(fiber) && layerAtRest(tree.layerParents.get(box));
+  };
+  const placed = placeTree(tree, rects, (box) => layerAtRest(box));
   const topInset = initialWindowMetrics?.insets.top ?? 0;
   const input = { ...placed, window, topInset };
   for (const problem of [...layoutProblems(input), ...alignmentProblems(input)])

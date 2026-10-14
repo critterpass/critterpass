@@ -288,6 +288,40 @@ describe('layout scan', () => {
     );
   });
 
+  it('leaves a sideways row alone while the page it sits in is scrolled under the fixed bar', () => {
+    const root = tree([
+      screen('[tripId]/index', true, [
+        host('RCTView', { testID: 'glass-back', onClick: () => undefined }, at(20, 68, 48, 48)),
+        host('RCTScrollView', {}, at(0, 0, 390, 844), [
+          host('AndroidHorizontalScrollView', {}, at(0, 70, 390, 40), [
+            words('Today', at(26, 80, 60, 18), { testID: 'trip-hub-door-today' }),
+          ]),
+        ]),
+      ]),
+    ]);
+    const page = root.child?.child?.child?.sibling;
+    const pageElement = (
+      page?.stateNode as { canonical: { publicInstance: { scrollTop: number } } }
+    ).canonical.publicInstance;
+    pageElement.scrollTop = 300;
+    const text = page?.child?.child;
+    (globalThis as { event?: unknown }).event = {
+      currentTarget: (text?.stateNode as { canonical: { publicInstance: unknown } }).canonical
+        .publicInstance,
+    };
+    noteTextLayoutEvent();
+    jest.advanceTimersByTime(LAYOUT_SETTLE_MS + 1000);
+    expect(reports).toEqual([]);
+    pageElement.scrollTop = 0;
+    scheduleLayoutScan();
+    jest.advanceTimersByTime(LAYOUT_SETTLE_MS + 1000);
+    expect(reports).toEqual(
+      UI_QA_ENABLED
+        ? [expect.stringContaining('TEXT_OVER_CONTROL "[tripId]/index: trip-hub-door-today')]
+        : [],
+    );
+  });
+
   it('is busy from a navigation until the next measurement, and tells its listeners', () => {
     const root = tree([screen('index', true, [words('Home', at(20, 100, 80, 20))])]);
     const element = (
