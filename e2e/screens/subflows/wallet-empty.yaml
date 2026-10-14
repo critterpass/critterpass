@@ -2,7 +2,7 @@ appId: app.critterpass.dev
 ---
 # The wallet of a crew with nothing in it yet (the demo crew's Bali trip), in ${LOOK}: empty
 # bookings (7.01), the + becoming the add sheet (1.06) and its forward toast (1.03), the add page
-# (7.03) with the mailbox sheet (7.05), adding by hand with the keyboard up (7.04), and the empty
+# (7.03), the mailbox sheet (7.05), adding by hand with the keyboard up (7.04), and the empty
 # ledger (7.16). Nothing is saved.
 - runFlow:
     file: wallet-open.yaml
@@ -15,7 +15,8 @@ appId: app.critterpass.dev
       CODE: '7.01'
       NAME: empty
       LOOK: ${LOOK}
-# The + grows into the add sheet; "Forward" copies the crew's address and says so in a toast.
+# The + grows into the add sheet; "Forward" copies the crew's address and says so in a toast (the
+# island toast, not the sheet's own "address" lines). The sheet is pulled down again.
 - runFlow:
     file: ../../_shared/tap.yaml
     env:
@@ -41,79 +42,70 @@ appId: app.critterpass.dev
           id: 'bookings-add-forward'
           optional: true
       - extendedWaitUntil:
-          visible: '.*(Forward any confirmation|address).*'
-          timeout: 5000
+          visible:
+            id: 'island-toast-pill'
+          timeout: 6000
           optional: true
       - takeScreenshot: premium-1.03-forward-toast-${LOOK}
-      - swipe:
-          start: 50%, 35%
-          end: 50%, 95%
-      - runFlow: ../../_shared/settle.yaml
-      - runFlow:
-          when:
-            visible:
-              id: 'bookings-add-hand'
-          commands:
-            - runFlow: ../../_shared/back.yaml
-# The add page, opened on its mailbox sheet; the sheet closed shows the page itself.
-- scrollUntilVisible:
-    element:
-      id: 'bookings-channel-mailbox'
-    direction: DOWN
+- runFlow:
+    file: ../../_shared/back-to.yaml
+    env:
+      MARK: 'bookings-wallet-empty'
+# The add page (7.03), its mailbox sheet (7.05) and adding by hand (7.04), each opened by its link
+# (the wallet's own rows sit under the tab bar on a short phone) and left by stepping back to the
+# empty wallet. Nothing is saved.
+- runFlow:
+    file: ../../_shared/open-link.yaml
+    env:
+      URL: critterpass-dev://wallet/bookings/add
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-add-(forward|scan|paste)'
     timeout: 10000
     optional: true
 - runFlow:
-    when:
-      visible:
-        id: 'bookings-channel-mailbox'
-    commands:
-      - tapOn:
-          id: 'bookings-channel-mailbox'
-      - extendedWaitUntil:
-          visible:
-            id: 'bookings-mailbox.*'
-          timeout: 10000
-          optional: true
-      - runFlow:
-          file: shot.yaml
-          env:
-            CODE: '7.05'
-            NAME: mailbox
-            LOOK: ${LOOK}
-      - tapOn:
-          id: 'bookings-mailbox-close'
-          optional: true
-      - extendedWaitUntil:
-          visible:
-            id: 'bookings-add-(forward|scan|paste)'
-          timeout: 10000
-          optional: true
-      - runFlow:
-          file: shot.yaml
-          env:
-            CODE: '7.03'
-            NAME: add-page
-            LOOK: ${LOOK}
-      - runFlow: ../../_shared/back.yaml
+    file: shot.yaml
+    env:
+      CODE: '7.03'
+      NAME: add-page
+      LOOK: ${LOOK}
+- runFlow:
+    file: ../../_shared/open-link.yaml
+    env:
+      URL: critterpass-dev://wallet/bookings/mailbox
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-mailbox-provider-.*|bookings-mailbox-on'
+    timeout: 10000
+    optional: true
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '7.05'
+      NAME: mailbox
+      LOOK: ${LOOK}
+- tapOn:
+    id: 'bookings-mailbox-close'
+    optional: true
+- runFlow:
+    file: ../../_shared/back-to.yaml
+    env:
+      MARK: 'bookings-wallet-empty'
 # Adding by hand: the form, then a flight's airport field with the keyboard up. Left unsaved.
-- scrollUntilVisible:
-    element:
-      id: 'bookings-channel-hand'
-    direction: DOWN
+- runFlow:
+    file: ../../_shared/open-link.yaml
+    env:
+      URL: critterpass-dev://wallet/bookings/edit/new
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-form'
     timeout: 10000
     optional: true
 - runFlow:
     when:
       visible:
-        id: 'bookings-channel-hand'
+        id: 'bookings-form'
     commands:
-      - tapOn:
-          id: 'bookings-channel-hand'
-      - extendedWaitUntil:
-          visible:
-            id: 'bookings-form'
-          timeout: 10000
-          optional: true
       - runFlow:
           file: shot.yaml
           env:
@@ -140,7 +132,10 @@ appId: app.critterpass.dev
             LOOK: ${LOOK}
       - hideKeyboard:
           optional: true
-      - runFlow: ../../_shared/back.yaml
+- runFlow:
+    file: ../../_shared/back-to.yaml
+    env:
+      MARK: 'bookings-wallet-empty'
 - runFlow:
     file: wallet-open.yaml
     env:

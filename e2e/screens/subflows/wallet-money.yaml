@@ -325,10 +325,13 @@ appId: app.critterpass.dev
                         NAME: target-keyboard
                         LOOK: ${LOOK}
                   # Saving closes the keyboard itself; hiding it again would be a system back
-                  # on Android and leave the budget page.
-                  - tapOn:
-                      id: 'money-budget-save'
-                      optional: true
+                  # on Android and leave the budget page. The footer over the keyboard can keep
+                  # its id out of Android's hierarchy: then Save is tapped by its label.
+                  - runFlow:
+                      file: ../../_shared/tap.yaml
+                      env:
+                        ID: 'money-budget-save'
+                        LABEL: 'Save|Lưu'
                   - extendedWaitUntil:
                       visible:
                         id: 'money-budget-summary'

@@ -104,11 +104,32 @@ appId: app.critterpass.dev
             - tapOn:
                 id: 'bookings-insurance-save'
                 optional: true
+            # Saving goes back to the wallet; the policy's card page opens from its row there.
             - extendedWaitUntil:
                 visible:
-                  id: 'bookings-insurance'
+                  id: 'bookings-insurance|bookings-insurance-card'
                 timeout: 10000
                 optional: true
+            - runFlow:
+                when:
+                  notVisible:
+                    id: 'bookings-insurance'
+                commands:
+                  - scrollUntilVisible:
+                      element:
+                        id: 'bookings-insurance-card'
+                      direction: DOWN
+                      timeout: 10000
+                      centerElement: true
+                      optional: true
+                  - tapOn:
+                      id: 'bookings-insurance-card'
+                      optional: true
+                  - extendedWaitUntil:
+                      visible:
+                        id: 'bookings-insurance'
+                      timeout: 10000
+                      optional: true
             - runFlow:
                 file: shot.yaml
                 env:
