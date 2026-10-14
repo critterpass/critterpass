@@ -668,10 +668,6 @@ msgstr "Mọi người ›"
 msgid "trip.menu.cancelTold"
 msgstr "Mọi người trong chuyến đều được báo."
 
-#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
-msgid "plan.premium.map.searchAny"
-msgstr "Tìm gì cũng được, hoặc hỏi {guide}"
-
 #: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
 msgid "plan.dates.fine"
 msgstr "Ổn"
@@ -1217,6 +1213,10 @@ msgstr "Lưu để dùng ngoại tuyến"
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
 msgid "plan.premium.map.search"
 msgstr "Tìm ở {place}, hoặc hỏi {guide}"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.searchOrAsk"
+msgstr "Tìm, hoặc hỏi {guide}"
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
 msgid "plan.premium.map.see"

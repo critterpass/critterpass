@@ -132,6 +132,7 @@ export function PremiumMoveStopSheet({ day, days, onPick, onClose }: MoveStopShe
             chosen={null}
             size="large"
             onChoose={(to) => onPick(stop, to)}
+            bleed={18}
           />
         </View>
       )}

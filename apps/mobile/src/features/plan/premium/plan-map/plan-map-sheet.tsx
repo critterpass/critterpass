@@ -26,6 +26,7 @@ import {
 } from '@/ui/premium';
 
 import { settleDetent, sheetHeight, type MapDetent } from '../map';
+import { EdgeFade } from './edge-fade';
 
 export interface PlanMapSheetProps {
   readonly detent: MapDetent;
@@ -45,6 +46,9 @@ export interface PlanMapSheetProps {
 
 /** Air left under the full sheet's last row when it fits its content. */
 const FIT_AIR = 24;
+
+/** The fade where the scrolled body meets the head. */
+const BODY_FADE = 14;
 
 const GRABBER_W = 36;
 const GRABBER_H = 5;
@@ -138,26 +142,30 @@ export function PlanMapSheet({
             {head}
           </View>
         </GestureDetector>
-        <GestureDetector gesture={bodyPan}>
-          <ScrollView
-            scrollEnabled={detent !== 'peek'}
-            {...(fitFull
-              ? {
-                  onContentSizeChange: (_w: number, h: number) => {
-                    // Only the full sheet's own content counts (padding for lower detents aside).
-                    if (detent === 'full') setBodyH(h);
-                  },
-                }
-              : {})}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{
-              paddingHorizontal: t.space.gap16,
-              paddingBottom: bodyBottom + t.space.gap16 + (full - at(detent)),
-            }}
-          >
-            {children}
-          </ScrollView>
-        </GestureDetector>
+        <View style={styles.body}>
+          <GestureDetector gesture={bodyPan}>
+            <ScrollView
+              scrollEnabled={detent !== 'peek'}
+              {...(fitFull
+                ? {
+                    onContentSizeChange: (_w: number, h: number) => {
+                      // Only the full sheet's own content counts (padding for lower detents aside).
+                      if (detent === 'full') setBodyH(h);
+                    },
+                  }
+                : {})}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{
+                paddingHorizontal: t.space.gap16,
+                paddingBottom: bodyBottom + t.space.gap16 + (full - at(detent)),
+              }}
+            >
+              {children}
+            </ScrollView>
+          </GestureDetector>
+          {/* The body scrolls up under the head: it fades out there instead of being cut. */}
+          {detent === 'peek' ? null : <EdgeFade edge="top" height={BODY_FADE} />}
+        </View>
       </GlassSurface>
     </Animated.View>
   );
@@ -166,5 +174,6 @@ export function PlanMapSheet({
 const styles = StyleSheet.create({
   sheet: { position: 'absolute', left: 0, right: 0, bottom: 0 },
   fill: { flex: 1, overflow: 'hidden' },
+  body: { flex: 1 },
   grabber: { alignSelf: 'center', width: GRABBER_W, height: GRABBER_H, marginBottom: 10 },
 });

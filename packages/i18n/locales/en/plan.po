@@ -668,10 +668,6 @@ msgstr "Everyone ›"
 msgid "trip.menu.cancelTold"
 msgstr "Everyone on it gets told."
 
-#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
-msgid "plan.premium.map.searchAny"
-msgstr "Find anything, or ask {guide}"
-
 #: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
 msgid "plan.dates.fine"
 msgstr "Fine"
@@ -1217,6 +1213,10 @@ msgstr "Save for offline"
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
 msgid "plan.premium.map.search"
 msgstr "Search {place}, or ask {guide}"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.searchOrAsk"
+msgstr "Search, or ask {guide}"
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
 msgid "plan.premium.map.see"
