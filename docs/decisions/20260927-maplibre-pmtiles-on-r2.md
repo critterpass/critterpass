@@ -5,6 +5,10 @@ Status: PASS on rendering, delivery choice and city-pack download. Offline PASS 
 in Airplane Mode (founder run, 2026-09-28), within one app session; a cold relaunch offline is not
 covered (see Findings). Android pan/zoom fps is still a founder checklist item.
 
+**Superseded 2026-10-14** by [Google Maps and Places](20261014-google-maps-and-places.md) (D38): the
+app map moves to Google Maps (`react-native-maps`), there is no in-app offline map, and the map
+packs and PMTiles pipeline are removed. This record stays as the history of the spike.
+
 ## Context
 
 Phase-02 "Map tiles" (system-architecture.md §11) needs a real custom-styled basemap sourced from
