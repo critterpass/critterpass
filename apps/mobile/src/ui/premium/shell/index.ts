@@ -28,7 +28,10 @@ export { GUIDE_TRIGGER_ROUTE, PREMIUM_TABS, PremiumTabs } from './navigation/pre
 export type { PremiumTabsProps } from './navigation/premium-tabs';
 export { useGuideActions } from './navigation/guide-circle';
 export type { GuideActions } from './navigation/guide-circle';
-export { confirmAlert } from './screens/alerts';
+export { confirmAlert, noticeAlert, optionsAlert } from './screens/alerts';
+export { DialogHost } from './screens/dialog-host';
+export { StatusBarOver } from './screens/status-bar-over';
+export type { DialogOption } from './screens/dialog-queue';
 export type { TwoChoiceAlert } from './screens/alerts';
 export { askToDiscard, sheetLeaveDecision, useDirtySheetGuard } from './screens/dirty-sheet';
 export type { DirtySheetGuard, DiscardPrompt } from './screens/dirty-sheet';

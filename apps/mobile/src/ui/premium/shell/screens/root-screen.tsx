@@ -33,7 +33,6 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '../..';
-import { useGuideBand } from '../navigation/guide-band';
 import {
   capActions,
   DrawnHeaderActions,
@@ -163,7 +162,6 @@ function NativeRootScreen({ title, actions, children, testID }: RootScreenParts)
 function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) {
   const t = usePremiumTheme();
   const insets = useSafeAreaInsets();
-  const guideBand = useGuideBand();
   const reduced = usePremiumReducedMotion();
   const [collapsed, setCollapsed] = useState(false);
   const shown = useSharedValue(0);
@@ -199,7 +197,7 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
   );
 
   return (
-    <View testID={testID} style={[styles.root, { paddingBottom: guideBand }]} collapsable={false}>
+    <View testID={testID} style={styles.root} collapsable={false}>
       {children({ scrollProps, largeTitle })}
       <View
         pointerEvents="box-none"

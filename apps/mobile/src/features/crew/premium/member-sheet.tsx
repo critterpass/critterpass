@@ -103,6 +103,22 @@ export function MemberSheet() {
       }),
       confirm: t({ id: 'crew.premium.member.remove', message: `Remove ${name}` }),
       cancel: t({ id: 'crew.premium.member.keep', message: `Keep ${name}` }),
+      // The drawn card (Android) leads with who leaves, a pink minus on their face (3.15).
+      badge: (
+        <View>
+          <Avatar
+            name={name}
+            color={memberAccent(member?.colour)}
+            uid={member?.user_id}
+            size={76}
+          />
+          <View
+            style={[styles.minus, { backgroundColor: th.accent.pink, borderColor: th.color.card }]}
+          >
+            <Icon name="minus" size={14} color={th.color.onAccent} />
+          </View>
+        </View>
+      ),
     });
     if (!ok) return;
     router.back();
@@ -173,6 +189,17 @@ export function MemberSheet() {
 
 const styles = StyleSheet.create({
   identity: { alignItems: 'center', gap: 4, paddingVertical: 8 },
+  minus: {
+    position: 'absolute',
+    right: -2,
+    bottom: -2,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    borderWidth: 2.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   tileWrap: { marginTop: 16 },
   tile: { height: 92, alignItems: 'center', justifyContent: 'center', gap: 6 },
   rows: { marginTop: 12, marginBottom: 16 },

@@ -5,9 +5,9 @@
  * Google Wallet and opening the airline's app wait for their services and are not drawn.
  */
 import { t } from '@lingui/core/macro';
-import { ActionSheetIOS, Alert, Platform, Share } from 'react-native';
+import { ActionSheetIOS, Platform, Share } from 'react-native';
 
-import { confirmAlert } from '@/ui/premium/shell';
+import { confirmAlert, optionsAlert } from '@/ui/premium/shell';
 
 export interface BookingOptionsInput {
   readonly header: string;
@@ -68,18 +68,6 @@ export function openBookingOptions(input: BookingOptionsInput): void {
     );
     return;
   }
-  // Android's alert holds three buttons; with three options a tap outside closes it.
-  Alert.alert(
-    input.header,
-    undefined,
-    [
-      ...options.map((option) => ({
-        text: option.label,
-        onPress: option.run,
-        style: option.destructive === true ? ('destructive' as const) : ('default' as const),
-      })),
-      ...(options.length < 3 ? [{ text: close, style: 'cancel' as const }] : []),
-    ],
-    { cancelable: true },
-  );
+  // Android draws the designed options sheet (7.15) rather than the stock dialog.
+  optionsAlert({ header: input.header, options, close });
 }

@@ -12,7 +12,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Alert, Modal, Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
+import { Modal, Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -31,7 +31,7 @@ import {
   Text,
   usePremiumReducedMotion,
 } from '@/ui/premium';
-import { confirmAlert } from '@/ui/premium/shell';
+import { confirmAlert, noticeAlert } from '@/ui/premium/shell';
 
 import { HOME_ROUTES } from '../../routes';
 import { HomeGlyph } from '../components/home-glyph';
@@ -107,7 +107,10 @@ export function CrewSwitcherMenu({
     if (!joining) return;
     if (await switcher.join(invite)) onPick(invite.crewId);
     else
-      Alert.alert(t({ id: 'crew.sheet.joinFailed', message: 'That invite can’t be joined now' }));
+      await noticeAlert({
+        title: t({ id: 'crew.sheet.joinFailed', message: 'That invite can’t be joined now' }),
+        ok: t({ id: 'home.premium.switcher.joinFailedOk', message: 'Got it' }),
+      });
   };
   return (
     <Modal visible={mounted} transparent animationType="none" onRequestClose={onClose}>

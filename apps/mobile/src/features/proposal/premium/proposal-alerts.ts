@@ -3,9 +3,8 @@
  * the crew you can't make it, locking the trip in, and the waitlist place a full trip gives.
  */
 import { t } from '@lingui/core/macro';
-import { Alert } from 'react-native';
 
-import { confirmAlert } from '@/ui/premium/shell';
+import { confirmAlert, noticeAlert } from '@/ui/premium/shell';
 
 const cancel = () => t({ id: 'common.confirm.cancel', message: 'Cancel' });
 
@@ -50,12 +49,9 @@ export function showWaitlisted(position: number | null, cap: number | null): Pro
     id: 'proposal.seat.offer',
     message: 'If a seat frees up, it’s offered to you first in line. Nothing joins you by itself.',
   });
-  return new Promise((resolve) => {
-    Alert.alert(
-      t({ id: 'proposal.seat.title', message: 'The trip is full' }),
-      `${seats} ${place} ${offer}`,
-      [{ text: t({ id: 'proposal.seat.ok', message: 'Got it' }), onPress: () => resolve() }],
-      { cancelable: true, onDismiss: () => resolve() },
-    );
+  return noticeAlert({
+    title: t({ id: 'proposal.seat.title', message: 'The trip is full' }),
+    message: `${seats} ${place} ${offer}`,
+    ok: t({ id: 'proposal.seat.ok', message: 'Got it' }),
   });
 }
