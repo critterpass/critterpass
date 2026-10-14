@@ -17,6 +17,8 @@ import {
 import { KeyboardStickyFooter } from '../keyboard/keyboard';
 import { SHEET_TOP_CLEARANCE, useShownAsSheet } from '../navigation/screen-insets';
 import { useDirtySheetGuard, type DiscardPrompt } from './dirty-sheet';
+import { FooterStack } from './footer-stack';
+import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from './scroll-edge';
 
 /** Half height for one choice, full height for a form, or as tall as the content. */
 export type SheetDetent = 'half' | 'full' | 'fit';
@@ -131,6 +133,7 @@ export function SheetScreen({
   // sheet material.
   const asPage = !useShownAsSheet();
   const [busy, setBusy] = useState(false);
+  const edges = useScrollEdges();
   // Cancel is the sheet's way back.
   useBackAffordance();
   const guard = useDirtySheetGuard(
@@ -243,12 +246,30 @@ export function SheetScreen({
               automaticallyAdjustKeyboardInsets
               keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
               keyboardShouldPersistTaps="handled"
+              {...edges.scrollProps}
             >
               {children}
             </ScrollView>
           ) : (
             children
           )}
+          {/* The form fades under the header row and into the footer instead of being cut. */}
+          {scroll ? (
+            <ScrollEdgeFade
+              edge="top"
+              height={SCROLL_EDGE_FADE}
+              color={t.material.sheet.fill}
+              visible={edges.top}
+            />
+          ) : null}
+          {scroll && footer !== undefined ? (
+            <ScrollEdgeFade
+              edge="bottom"
+              height={SCROLL_EDGE_FADE}
+              color={t.material.sheet.fill}
+              visible={edges.bottom}
+            />
+          ) : null}
         </View>
         {footer === undefined ? null : (
           <KeyboardStickyFooter
@@ -258,7 +279,7 @@ export function SheetScreen({
               paddingBottom: t.space.gap16 + (asPage ? insets.bottom : 0),
             }}
           >
-            {footer}
+            <FooterStack>{footer}</FooterStack>
           </KeyboardStickyFooter>
         )}
       </ToastHost>
