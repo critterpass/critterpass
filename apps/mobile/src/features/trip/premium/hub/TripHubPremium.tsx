@@ -234,8 +234,8 @@ export function TripHubPremium({ tripId, onBack }: TripHubPremiumProps) {
       </ScrollView>
       <ScrollEdgeFade
         edge="top"
-        height={insets.top + SCROLL_EDGE_FADE}
-        solid={insets.top}
+        height={insets.top + SCROLL_EDGE_FADE * 2}
+        solid={insets.top + SCROLL_EDGE_FADE / 2}
         visible={edges.top}
         testID="trip-hub-top-ground"
       />

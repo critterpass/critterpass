@@ -19,6 +19,14 @@ import { usePhaseLine } from '../../hub/phase-line';
 /** The photo's height: the 1.05 hero, tall enough for the name and the switch under it. */
 export const HUB_HERO_HEIGHT = 380;
 
+/**
+ * The page's rounded top edge over the photo (1.05): the content rises over the hero's foot on
+ * 24 pt corners instead of meeting the photo in a straight line.
+ */
+const SHEET_RADIUS = 24;
+/** How much of that edge the content under it overlaps, so the switch sits its gap under the edge. */
+const SHEET_TUCK = 16;
+
 /** The photo's fade: dark at the top for the circles, clear in the middle, dark under the name. */
 const HERO_FADE =
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, not copy
@@ -92,8 +100,9 @@ export function HubHero(props: HubHeroProps) {
         styles.hero,
         onPhoto
           ? {
-              height: HUB_HERO_HEIGHT + insets.top - th.space.statusBar,
+              height: HUB_HERO_HEIGHT + SHEET_RADIUS + insets.top - th.space.statusBar,
               backgroundColor: th.color.inkSurface,
+              marginBottom: -SHEET_TUCK,
             }
           : { paddingTop: insets.top + th.space.gap6 + th.size.glassNav + th.space.gap16 },
       ]}
@@ -145,7 +154,10 @@ export function HubHero(props: HubHeroProps) {
       <View
         style={[
           styles.foot,
-          { paddingHorizontal: th.space.titleGutter, paddingBottom: onPhoto ? 34 : th.space.gap16 },
+          {
+            paddingHorizontal: th.space.titleGutter,
+            paddingBottom: onPhoto ? 34 + SHEET_RADIUS : th.space.gap16,
+          },
         ]}
       >
         <View style={styles.name}>
@@ -201,4 +213,12 @@ const styles = StyleSheet.create({
   right: { alignItems: 'flex-end', gap: 8 },
   phase: { alignItems: 'flex-end' },
   tabular: { fontVariant: ['tabular-nums'] },
+  sheetEdge: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderTopLeftRadius: SHEET_RADIUS,
+    borderTopRightRadius: SHEET_RADIUS,
+  },
 });
