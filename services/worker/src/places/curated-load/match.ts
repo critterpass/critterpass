@@ -3,8 +3,8 @@
  * must carry the place's name (English or local, the same words as the pick matcher's rules) and
  * lie near that point: the same name within `SAME_NAME_RADIUS_M`, a name one word apart within
  * `CLOSE_NAME_RADIUS_M`. A row further than `STRONG_NAME_RADIUS_M` must carry the place's full
- * name (English or local, accents and case aside): sharing the words is not enough there ("Time
- * Square Square" 900 m off is not Times Square). Two Latin names that each hold two telling words
+ * name (English or local; accents, case and the destination's own words aside): sharing the
+ * words is not enough there ("Time Square Square" 900 m off is not Times Square). Two Latin names that each hold two telling words
  * the other lacks are different places, whatever their local names say ("Banker-Tattoo Train Night
  * Market Ratchada" is not "Rot Fai Ratchada Train Night Market"). Among rows that qualify, the
  * closer name wins, then the same kind of place, then the nearer row. Short of that, a row whose
@@ -154,18 +154,24 @@ export function withoutBranchNote(name: string, leadWords: ReadonlySet<string>):
   return nameTokens(outside).some((word) => leadWords.has(word)) ? name : outside;
 }
 
-const fullName = (name: string | null): string => (name === null ? '' : nameTokens(name).join(' '));
+/** A name word for word, accents, case and the destination's own words aside. */
+function fullName(name: string | null, plain: ReadonlySet<string>): string {
+  const tokens = name === null ? [] : nameTokens(name);
+  const telling = tokens.filter((token) => !plain.has(token));
+  return (telling.length > 0 ? telling : tokens).join(' ');
+}
 
 /** Whether one of the row's names is one of the place's names, word for word. */
 export function sameFullName(
   lead: CuratedLead,
   row: MatchCandidate,
+  plain: ReadonlySet<string>,
   leadWords: ReadonlySet<string>,
-) {
-  const wanted = new Set([fullName(lead.name), fullName(lead.localName)]);
+): boolean {
+  const wanted = new Set([fullName(lead.name, plain), fullName(lead.localName, plain)]);
   wanted.delete('');
   return [row.name, withoutBranchNote(row.name, leadWords), row.nameLocal].some((name) =>
-    wanted.has(fullName(name)),
+    wanted.has(fullName(name, plain)),
   );
 }
 
@@ -210,7 +216,7 @@ export function chooseCuratedMatch(
   const open = free.filter(
     (row) =>
       !clearlyDifferentNames(lead, row, plain) &&
-      (row.distanceM <= STRONG_NAME_RADIUS_M || sameFullName(lead, row, leadWords)),
+      (row.distanceM <= STRONG_NAME_RADIUS_M || sameFullName(lead, row, plain, leadWords)),
   );
   const byId = new Map(open.map((row) => [row.id, row]));
   const ranked = rankNamedPlace(

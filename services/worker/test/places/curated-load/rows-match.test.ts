@@ -165,7 +165,9 @@ describe('matching a curated place only under its own name', () => {
       kind: 'none',
       closest: lookalike,
     });
-    const square = row('square', 'Times Square', STRONG_NAME_RADIUS_M + 600, { category: 'other' });
+    const square = row('square', 'Times Square, New York', STRONG_NAME_RADIUS_M + 600, {
+      category: 'other',
+    });
     expect(chooseCuratedMatch(times, [lookalike, square], newYork)).toMatchObject({
       kind: 'match',
       row: { id: 'square' },
