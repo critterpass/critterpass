@@ -2,7 +2,7 @@
  * How long each flow takes, for planning shards by time (plan-shards.ts): the median minutes of its
  * passing Android runs in the release gate's reports (the "Release gate" issue), re-measured on the
  * premium screens where a passing run exists, and the UI sweep's flows (e2e/screens) as one Android
- * sweep timed them (iOS takes about half again as long). A flow with no
+ * sweep timed them (the iPhone-only flows under ios/ as the iOS sweep timed them). A flow with no
  * recorded run counts as DEFAULT_FLOW_MINUTES. Update a row when a journey's length changes for
  * good; an approximate number is enough to balance shards.
  */
@@ -45,28 +45,29 @@ export const FLOW_MEDIAN_MINUTES: Readonly<Record<string, number>> = {
   'e2e/happy/trip-day.yaml': 2.4,
   'e2e/happy/vote.yaml': 2.9,
   'e2e/screens/capture.yaml': 4.0,
-  'e2e/screens/chat.yaml': 9.7,
-  'e2e/screens/critters.yaml': 7.6,
-  'e2e/screens/first-run.yaml': 5.9,
-  'e2e/screens/home-dark.yaml': 4.4,
-  'e2e/screens/home.yaml': 10.6,
-  'e2e/screens/ios/guide-find.yaml': 9.5,
-  'e2e/screens/ios/hub-wallet.yaml': 8.5,
-  'e2e/screens/ios/pages-footers.yaml': 11.0,
-  'e2e/screens/ios/sheets-keyboards.yaml': 9.0,
+  'e2e/screens/chat.yaml': 8.3,
+  'e2e/screens/critters.yaml': 8.0,
+  'e2e/screens/first-run.yaml': 7.0,
+  'e2e/screens/home-dark.yaml': 4.1,
+  'e2e/screens/home.yaml': 10.2,
+  'e2e/screens/ios/guide-find.yaml': 12.8,
+  'e2e/screens/ios/hub-wallet.yaml': 8.9,
+  'e2e/screens/ios/pages-footers.yaml': 12.0,
+  'e2e/screens/ios/sheets-keyboards.yaml': 9.3,
   'e2e/screens/long-data.yaml': 8.0,
-  'e2e/screens/menus.yaml': 6.0,
-  'e2e/screens/pass.yaml': 10.5,
+  'e2e/screens/menus.yaml': 6.5,
+  'e2e/screens/pass.yaml': 10.7,
   'e2e/screens/plan-dark.yaml': 5.5,
-  'e2e/screens/plan-vote-dark.yaml': 3.3,
-  'e2e/screens/plan-vote.yaml': 11.4,
-  'e2e/screens/plan.yaml': 11.9,
-  'e2e/screens/trip-dark.yaml': 5.8,
-  'e2e/screens/trip.yaml': 12.8,
-  'e2e/screens/vi-trip.yaml': 9.7,
-  'e2e/screens/vi.yaml': 10.5,
-  'e2e/screens/wallet-dark.yaml': 5.3,
-  'e2e/screens/wallet.yaml': 11.7,
+  'e2e/screens/plan-vote-dark.yaml': 2.0,
+  'e2e/screens/plan-vote.yaml': 9.2,
+  'e2e/screens/plan.yaml': 10.7,
+  'e2e/screens/trip-dark.yaml': 4.3,
+  'e2e/screens/trip.yaml': 11.2,
+  'e2e/screens/vi-trip.yaml': 7.7,
+  'e2e/screens/vi.yaml': 11.1,
+  'e2e/screens/wallet-dark.yaml': 4.3,
+  'e2e/screens/wallet-trip.yaml': 9.0,
+  'e2e/screens/wallet.yaml': 3.8,
 };
 
 /** Recorded median minutes of a repo-root-relative flow file, or the default. */

@@ -6,24 +6,13 @@ appId: app.critterpass.dev
 # stack, a flight and a stay, insurance, balances, adding an expense, settling up and the budget,
 # in light and then dark (the dark flight detail keeps its light boarding card). Receipt scans,
 # rooms and a cancelled flight need a camera or a booking no seed makes: not captured here.
-# The dark pass is wallet-dark.yaml (its own shard).
+# The Đà Nẵng crew's wallet is wallet-trip.yaml, and the dark pass wallet-dark.yaml (shards of
+# their own).
 - runFlow:
     file: subflows/start.yaml
     env:
       SCENARIO: everyday
 - runFlow:
     file: subflows/wallet-empty.yaml
-    env:
-      LOOK: light
-- runFlow:
-    file: subflows/start.yaml
-    env:
-      SCENARIO: trip_tomorrow
-- runFlow:
-    file: subflows/wallet-bookings.yaml
-    env:
-      LOOK: light
-- runFlow:
-    file: subflows/wallet-money.yaml
     env:
       LOOK: light
