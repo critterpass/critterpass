@@ -143,6 +143,7 @@ export function DayOfReady({ props }: { readonly props: DayOfProps }) {
           </Text>
           {LATE_STEPS.map((minutes) => (
             <Button
+              alignSelf="auto"
               key={minutes}
               label={t({ id: 'trip.dayOf.premium.lateBy', message: `+${minutes} min` })}
               size="small"

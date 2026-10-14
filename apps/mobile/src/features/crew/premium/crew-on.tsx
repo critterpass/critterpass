@@ -157,7 +157,7 @@ export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
           />
           <ShareTarget
             label={t({ id: 'crew.premium.share.copy', message: 'Copy code' })}
-            icon="check"
+            icon="paste"
             onPress={copy}
           />
           <ShareTarget
@@ -168,7 +168,7 @@ export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
           />
           <ShareTarget
             label={t({ id: 'crew.premium.share.more', message: 'More' })}
-            icon="more"
+            icon="share"
             onPress={share}
           />
         </View>
@@ -187,6 +187,7 @@ export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
           testID="start-crew-invite"
         />
         <TextButton
+          align="center"
           label={t({ id: 'crew.start.done', message: 'Done' })}
           onPress={returnHome}
           testID="start-crew-done"

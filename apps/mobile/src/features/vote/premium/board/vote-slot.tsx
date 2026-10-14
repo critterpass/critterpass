@@ -12,12 +12,19 @@ import { boardShape } from './board-model';
 import { DestinationBoard } from './destination-board';
 import { FinalCard } from './final-card';
 
-export function VoteSlot({ vote }: VoteSlotProps) {
+export function VoteSlot({ vote, guideNote }: VoteSlotProps) {
   const me = useMyUid();
   const { poll } = usePoll(vote.pollId, me);
-  if (poll === null || me === null) return null;
-  if (boardShape(poll) === 'final') return <FinalCard poll={poll} />;
-  return <DestinationBoard poll={poll} me={me} />;
+  if (poll === null || me === null) return guideNote ?? null;
+  if (boardShape(poll) === 'final') {
+    return (
+      <>
+        <FinalCard poll={poll} />
+        {guideNote}
+      </>
+    );
+  }
+  return <DestinationBoard poll={poll} me={me} guideNote={guideNote} />;
 }
 
 let registered = false;

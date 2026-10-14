@@ -193,6 +193,7 @@ export function HelpPremium() {
               </Text>
             </View>
             <Button
+              alignSelf="auto"
               label={t({ id: 'safety.help.go', message: 'Go' })}
               size="medium"
               onPress={() => props.onGo(facility)}

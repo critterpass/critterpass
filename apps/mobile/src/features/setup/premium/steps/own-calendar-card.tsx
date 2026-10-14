@@ -33,6 +33,7 @@ export function OwnCalendarCard({
         </Text>
       </View>
       <Button
+        alignSelf="auto"
         label={own.action.label}
         size="small"
         variant="control"

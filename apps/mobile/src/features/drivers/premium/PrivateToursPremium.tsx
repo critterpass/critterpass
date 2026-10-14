@@ -132,6 +132,7 @@ export function PrivateToursPremium({
               </Text>
             </View>
             <Button
+              alignSelf="auto"
               label={
                 link.partner === 'klook'
                   ? t({ id: 'drivers.premium.openKlook', message: 'Open Klook ↗' })

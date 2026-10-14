@@ -21,16 +21,26 @@ import {
   type CrewMember,
 } from '@/ui/premium';
 
-/** The design's three tiles: each guide a little bigger or smaller, higher or lower, tilted. */
+/**
+ * The design's three tiles give each guide its own size and tilt, but every guide stands on the
+ * same line and every tag and voter row sits at the same inset, so a row reads as one layout and a
+ * tall guide never reaches its tag.
+ */
 const VARIANTS = [
-  { size: 84, top: -34, rotate: 0, tag: -5 },
-  { size: 92, top: -20, rotate: -8, tag: 4 },
-  { size: 76, top: -30, rotate: 0, tag: -3 },
+  { size: 84, rotate: 0 },
+  { size: 88, rotate: -8 },
+  { size: 80, rotate: 0 },
 ] as const;
 
 export const TILE_HEIGHT = 138;
+/** Where every guide's feet stand, from the tile's top. */
+const STICKER_FLOOR = 56;
 /** How far the tallest guide reaches above its tile. */
-export const TILE_OVERHANG = 34;
+export const TILE_OVERHANG = Math.max(...VARIANTS.map((look) => look.size)) - STICKER_FLOOR;
+/** One tilt for every tag on the board. */
+const TAG_TILT = -3;
+/** The voter row's height: the faces' size, so "No votes yet" and a row of faces line up. */
+const FOOT_HEIGHT = 22;
 
 const useStyles = makePremiumStyles((t) => ({
   tile: {
@@ -40,8 +50,16 @@ const useStyles = makePremiumStyles((t) => ({
     backgroundColor: t.color.card,
   },
   sticker: { position: 'absolute', left: 0, right: 0, alignItems: 'center' },
-  tag: { position: 'absolute', left: 12, right: 6, top: 70 },
-  foot: { position: 'absolute', left: 12, right: 12, bottom: 12 },
+  tag: { position: 'absolute', left: 12, right: 12, top: STICKER_FLOOR + 10 },
+  foot: {
+    position: 'absolute',
+    left: 12,
+    right: 12,
+    bottom: 14,
+    height: FOOT_HEIGHT,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 }));
 
 export interface BoardTileProps {
@@ -105,17 +123,17 @@ export function BoardTile({
       ]}
       testID={`board-sticker-${index}`}
     >
-      <View pointerEvents="none" style={[styles.sticker, { top: look.top }]}>
+      <View pointerEvents="none" style={[styles.sticker, { top: STICKER_FLOOR - look.size }]}>
         <View style={{ transform: [{ rotate: `${look.rotate}deg` }] }}>
           <CritterSticker kind={guide.kind} name={guide.name} size={look.size} />
         </View>
       </View>
       <View pointerEvents="none" style={styles.tag}>
-        <Tag label={name} color={colour} rotate={look.tag} />
+        <Tag label={name} color={colour} rotate={TAG_TILT} />
       </View>
       <View pointerEvents="none" style={styles.foot}>
         {voters.length > 0 ? (
-          <CrewStack members={voters} size={22} max={3} accessibilityLabel={votersLabel} />
+          <CrewStack members={voters} size={FOOT_HEIGHT} max={3} accessibilityLabel={votersLabel} />
         ) : (
           <Text variant="captionMuted" tone="muted" numberOfLines={1}>
             {t({ id: 'vote.premium.board.noVotes', message: 'No votes yet' })}

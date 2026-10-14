@@ -277,6 +277,10 @@ msgstr "Căn hộ, tầng (không bắt buộc)"
 msgid "album.address.why"
 msgstr "Để nhận bưu thiếp in từ nhóm. Chỉ nhà in thấy; nhóm và hướng dẫn viên thì không bao giờ."
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.first"
+msgstr "cho cả nhóm"
+
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.premium.postcard.format"
 msgstr "Kiểu"
@@ -602,10 +606,6 @@ msgstr "Nhà in chưa gửi tới nước họ, nên họ nhận bản số"
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr "chuyến đi"
-
-#: ../../apps/mobile/src/features/album/hub-tile.tsx
-msgid "album.tile.first"
-msgstr "cả nhóm đều thấy"
 
 #: ../../apps/mobile/src/features/album/premium/route-missing.tsx
 msgid "album.premium.missing.line"

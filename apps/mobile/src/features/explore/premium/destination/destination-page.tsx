@@ -24,6 +24,7 @@ import {
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
+import { SCROLL_EDGE_FADE, ScrollEdgeFade } from '@/ui/premium/shell';
 import { SoloPassSheet } from '@/features/vote';
 
 import type { DestinationViewProps } from '../../screens/destination-view-props';
@@ -35,6 +36,8 @@ const HERO = 320;
 /* eslint-disable-next-line lingui/no-unlocalized-strings -- a style value, never copy. */
 const GUIDE_TILT = '-6deg';
 
+/** The dock: the 56 pt button, a 4 pt gap and the 44 pt text button under it. */
+const DOCK_HEIGHT = 104;
 export function PremiumDestinationView(props: DestinationViewProps) {
   const theme = usePremiumTheme();
   const insets = useSafeAreaInsets();
@@ -207,6 +210,11 @@ export function PremiumDestinationView(props: DestinationViewProps) {
           ) : null}
         </View>
       </ScrollView>
+      <ScrollEdgeFade
+        edge="bottom"
+        height={insets.bottom + theme.space.gap8 + DOCK_HEIGHT + SCROLL_EDGE_FADE}
+        solid={insets.bottom + theme.space.gap8 + DOCK_HEIGHT / 2}
+      />
       <View
         pointerEvents="box-none"
         style={{
@@ -243,6 +251,7 @@ export function PremiumDestinationView(props: DestinationViewProps) {
       <View
         style={{
           position: 'absolute',
+          zIndex: 2,
           left: theme.space.titleGutter,
           right: theme.space.titleGutter,
           bottom: insets.bottom + theme.space.gap8,

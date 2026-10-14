@@ -85,7 +85,13 @@ export function PremiumChangeDayView(props: ChangeDayViewProps) {
         <Text variant="label" tone="muted">
           {t({ id: 'planDraft.change.which', message: 'Which day?' })}
         </Text>
-        <DayChips chips={chips} chosen={day} size="small" onChoose={props.onDay} />
+        <DayChips
+          chips={chips}
+          chosen={day}
+          size="small"
+          onChoose={props.onDay}
+          bleed={theme.space.gutter}
+        />
         {picked === undefined ? null : (
           <PremiumDaySummary key={picked.dayNo} day={picked} locale={locale} />
         )}

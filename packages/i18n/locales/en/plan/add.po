@@ -85,11 +85,11 @@ msgstr "About {minutes} min by car"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.add"
-msgstr "ADD TO {dayLabel} · {time}"
+msgstr "Add to {dayLabel} · {time}"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.addAnyway"
-msgstr "ADD TO {dayLabel} ANYWAY"
+msgstr "Add to {dayLabel} anyway"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.line.inPlan"
@@ -146,11 +146,11 @@ msgstr "Dry mornings in {month}"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.waiting"
-msgstr "FINDING THE BEST TIME…"
+msgstr "Finding the best time…"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.move"
-msgstr "MOVE IT TO {dayLabel} · {time}"
+msgstr "Move it to {dayLabel} · {time}"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.block.new"
@@ -190,7 +190,7 @@ msgstr "Opens at {time}"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.pickElsewhere"
-msgstr "PICK ANOTHER DAY OR TIME"
+msgstr "Pick another day or time"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.quiet"
@@ -206,7 +206,7 @@ msgstr "Right after {a}"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.ideas"
-msgstr "SAVE TO IDEAS"
+msgstr "Save to Ideas"
 
 #: ../../apps/mobile/src/features/plan/add/use-save-to-ideas.ts
 msgid "plan.add.savedToastShared"
@@ -218,11 +218,11 @@ msgstr "SEE IDEAS"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.suggest"
-msgstr "SUGGEST FOR {dayLabel} · {time}"
+msgstr "Suggest for {dayLabel} · {time}"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.suggestAnyway"
-msgstr "SUGGEST FOR {dayLabel} ANYWAY"
+msgstr "Suggest for {dayLabel} anyway"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.voteNote"
@@ -238,4 +238,4 @@ msgstr "Timed for a meal"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.title"
-msgstr "WHY {time}"
+msgstr "Why {time}"

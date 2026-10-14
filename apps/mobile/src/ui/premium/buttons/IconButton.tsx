@@ -14,6 +14,8 @@ export interface IconButtonProps {
   /** What the button does, read by assistive tech ("Add a stop"). */
   readonly label: string;
   readonly onPress?: () => void;
+  /** A hold does something else (the composer's mic: tap opens voice, hold talks). */
+  readonly onLongPress?: () => void;
   /** @default 'white' */
   readonly tone?: IconButtonTone;
   readonly disabled?: boolean;
@@ -35,6 +37,7 @@ export function IconButton({
   icon,
   label,
   onPress,
+  onLongPress,
   tone = 'white',
   disabled = false,
   size,
@@ -47,6 +50,7 @@ export function IconButton({
     <PressableScale
       testID={testID}
       onPress={onPress}
+      {...(onLongPress === undefined ? {} : { onLongPress })}
       disabled={disabled}
       accessibilityLabel={label}
       hitSlop={hitSlopFor(side, side)}

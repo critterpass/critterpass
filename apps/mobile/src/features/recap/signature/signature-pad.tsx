@@ -114,7 +114,13 @@ export function SignaturePad({ name, value, onChange, height = 140, testID }: Si
         </View>
       </GestureDetector>
       <View style={styles.actions}>
-        <Button size="small" variant="secondary" label={typedAction} onPress={typeName} />
+        <Button
+          alignSelf="auto"
+          size="small"
+          variant="secondary"
+          label={typedAction}
+          onPress={typeName}
+        />
         {value === null ? null : (
           <TextButton
             label={t({ id: 'common.signature.clear', message: 'Clear' })}

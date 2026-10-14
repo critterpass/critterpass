@@ -224,6 +224,7 @@ export function PremiumWeekPicker(props: WeekPickerProps) {
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap6 }}>
           {chips.map((chip, index) => (
             <Button
+              alignSelf="auto"
               key={chip.range.start}
               size="small"
               variant={sameRange(pick.range, chip.range) ? 'primary' : 'control'}

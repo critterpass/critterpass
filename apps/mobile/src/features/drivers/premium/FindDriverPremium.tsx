@@ -172,6 +172,7 @@ export function FindDriverPremium({
             </Text>
           </View>
           <Button
+            alignSelf="auto"
             label={t({ id: 'drivers.find.draft', message: 'Draft it' })}
             size="small"
             onPress={find.onAsk}

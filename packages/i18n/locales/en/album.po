@@ -277,6 +277,10 @@ msgstr "Flat, floor (optional)"
 msgid "album.address.why"
 msgstr "For printed postcards from your crew. Only the printer sees it; your crew and the guide never do."
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.first"
+msgstr "for the crew"
+
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.premium.postcard.format"
 msgstr "Format"
@@ -602,10 +606,6 @@ msgstr "The printer doesn't post to their country yet, so they get the digital o
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr "the trip"
-
-#: ../../apps/mobile/src/features/album/hub-tile.tsx
-msgid "album.tile.first"
-msgstr "the whole crew sees them"
 
 #: ../../apps/mobile/src/features/album/premium/route-missing.tsx
 msgid "album.premium.missing.line"

@@ -32,8 +32,11 @@ export interface DayPickerSheetProps {
   readonly onDismiss: () => void;
 }
 
+/** The sheet's side padding (`PremiumSheet`), which the day chips bleed through. */
+const SHEET_SIDE = 20;
+
 const useStyles = makePremiumStyles((th) => ({
-  chips: { gap: th.space.gap8, paddingEnd: th.space.gap16 },
+  chips: { gap: th.space.gap8, paddingBottom: th.space.gap6 },
   chip: {
     width: 52,
     height: 54,
@@ -60,7 +63,9 @@ export function PremiumDayPickerSheet(props: DayPickerSheetProps) {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.chips}
+          // Bleeds through the sheet's 20 pt sides, so a scrolled chip isn't cut at the padding.
+          style={{ marginHorizontal: -SHEET_SIDE }}
+          contentContainerStyle={[styles.chips, { paddingHorizontal: SHEET_SIDE }]}
           testID="day-trip-picker-days"
         >
           {props.chips.map((chip) => {

@@ -123,6 +123,7 @@ export function LaterLegs({ later }: { readonly later: GettingAroundViewProps['l
           </View>
           {leg.openLabel === null ? null : (
             <Button
+              alignSelf="auto"
               label={leg.openLabel}
               size="small"
               loading={leg.opening === true}

@@ -277,6 +277,10 @@ msgstr ""
 msgid "album.address.why"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.first"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.premium.postcard.format"
 msgstr ""
@@ -601,10 +605,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
-msgstr ""
-
-#: ../../apps/mobile/src/features/album/hub-tile.tsx
-msgid "album.tile.first"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/route-missing.tsx

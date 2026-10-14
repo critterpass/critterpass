@@ -1,7 +1,7 @@
 /**
  * The trip as a collage card (3.02): "Next up · Oct 12", the destination at hero size, the live
  * countdown and the plan ring, who is going, two polaroids of the place and the guide hanging over
- * the card's top. From the first day on the trip's clock it is today's card ("Today · Day 4 of 8").
+ * the card's top. A place with no photos yet shows the paper plane sticker instead of empty frames. From the first day on the trip's clock it is today's card ("Today · Day 4 of 8").
  * The card zooms into the trip hub (1.05).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- sizes and pose names, never copy. */
@@ -28,6 +28,7 @@ import { tripDayOf } from '../../trip-day';
 import { CountdownPill } from './countdown-pill';
 import { PlanRingPill } from './plan-ring-pill';
 import { Polaroid } from './polaroid';
+import { useHasTripPhoto } from './trip-photo';
 
 const useStyles = makePremiumStyles((t) => ({
   // At least the collage's height; larger type grows the card and the "going" row stays under
@@ -54,6 +55,7 @@ const useStyles = makePremiumStyles((t) => ({
   collage: { position: 'absolute', top: 0, end: 0, width: 190, height: 256 },
   photo1: { position: 'absolute', top: 30, end: 16 },
   photo2: { position: 'absolute', top: 96, end: 72 },
+  plane: { position: 'absolute', top: 92, end: 40, transform: [{ rotate: '-8deg' }] },
   dayTag: { position: 'absolute', top: 150, end: 20 },
   guide: { position: 'absolute', top: -44, end: 6 },
 }));
@@ -96,6 +98,7 @@ export function TripCollageCard({
   const progress = onTrip === null ? trip.planProgress : 0;
   const count = going.length;
   const slug = trip.destinationSlug ?? null;
+  const hasPhoto = useHasTripPhoto(slug);
 
   return (
     <ZoomLink
@@ -106,12 +109,20 @@ export function TripCollageCard({
     >
       <View style={styles.card}>
         <View style={styles.collage} pointerEvents="none">
-          <View style={styles.photo1}>
-            <Polaroid slug={slug} width={124} height={150} rotate={8} />
-          </View>
-          <View style={styles.photo2}>
-            <Polaroid slug={slug} index={1} width={116} height={134} rotate={-7} />
-          </View>
+          {hasPhoto ? (
+            <>
+              <View style={styles.photo1}>
+                <Polaroid slug={slug} width={124} height={150} rotate={8} />
+              </View>
+              <View style={styles.photo2}>
+                <Polaroid slug={slug} index={1} width={116} height={134} rotate={-7} />
+              </View>
+            </>
+          ) : (
+            <View style={styles.plane} testID="home-next-up-no-photo">
+              <CritterSticker kind="plane" name="plane" size={96} />
+            </View>
+          )}
           {onTrip === null ? null : (
             <View style={styles.dayTag}>
               <Tag

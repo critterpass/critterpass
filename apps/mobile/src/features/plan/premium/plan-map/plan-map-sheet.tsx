@@ -17,6 +17,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
+import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from '@/ui/premium/shell';
 import {
   GlassSurface,
   REDUCED_FADE,
@@ -62,6 +63,7 @@ export function PlanMapSheet({
 }: PlanMapSheetProps) {
   const t = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
+  const edges = useScrollEdges();
   // What the full sheet holds (head + body), measured while it is full.
   const [headH, setHeadH] = useState(0);
   const [bodyH, setBodyH] = useState<number | null>(null);
@@ -138,26 +140,33 @@ export function PlanMapSheet({
             {head}
           </View>
         </GestureDetector>
-        <GestureDetector gesture={bodyPan}>
-          <ScrollView
-            scrollEnabled={detent !== 'peek'}
-            {...(fitFull
-              ? {
-                  onContentSizeChange: (_w: number, h: number) => {
-                    // Only the full sheet's own content counts (padding for lower detents aside).
-                    if (detent === 'full') setBodyH(h);
-                  },
-                }
-              : {})}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{
-              paddingHorizontal: t.space.gap16,
-              paddingBottom: bodyBottom + t.space.gap16 + (full - at(detent)),
-            }}
-          >
-            {children}
-          </ScrollView>
-        </GestureDetector>
+        <View style={styles.body}>
+          <GestureDetector gesture={bodyPan}>
+            <ScrollView
+              scrollEnabled={detent !== 'peek'}
+              {...edges.scrollProps}
+              onContentSizeChange={(w: number, h: number) => {
+                edges.scrollProps.onContentSizeChange(w, h);
+                // Only the full sheet's own content counts (padding for lower detents aside).
+                if (fitFull && detent === 'full') setBodyH(h);
+              }}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{
+                paddingHorizontal: t.space.gap16,
+                paddingBottom: bodyBottom + t.space.gap16 + (full - at(detent)),
+              }}
+            >
+              {children}
+            </ScrollView>
+          </GestureDetector>
+          {/* The body scrolls up under the head: it fades out there instead of being cut. */}
+          <ScrollEdgeFade
+            edge="top"
+            height={SCROLL_EDGE_FADE}
+            color={t.material.sheet.fill}
+            visible={detent !== 'peek' && edges.top}
+          />
+        </View>
       </GlassSurface>
     </Animated.View>
   );
@@ -166,5 +175,6 @@ export function PlanMapSheet({
 const styles = StyleSheet.create({
   sheet: { position: 'absolute', left: 0, right: 0, bottom: 0 },
   fill: { flex: 1, overflow: 'hidden' },
+  body: { flex: 1 },
   grabber: { alignSelf: 'center', width: GRABBER_W, height: GRABBER_H, marginBottom: 10 },
 });

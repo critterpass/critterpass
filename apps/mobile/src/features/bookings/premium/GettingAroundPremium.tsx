@@ -173,6 +173,7 @@ export function GettingAroundPremium(input: {
             <View style={styles.row}>
               {journey.startedAt === null ? (
                 <Button
+                  alignSelf="auto"
                   label={t({ id: 'suppliers.journey.start', message: "I'm in the car" })}
                   size="medium"
                   variant="secondary"

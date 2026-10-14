@@ -149,7 +149,7 @@ export function PremiumPhotoViewer(props: PhotoViewerProps) {
             </>
           ) : (
             <View style={styles.busy} testID="album-viewer-busy">
-              <Spinner />
+              <Spinner surface="ink" />
             </View>
           )}
           <GlassPill

@@ -6,6 +6,7 @@ import { StatusBar } from 'react-native';
 import { REDUCED_FADE_MS, usePremiumReducedMotion, usePremiumTheme } from '../..';
 import { freezeOptions, type StackState } from './freeze-behind';
 import { presentedScreenOptions } from './presentation-options';
+import { presentedScreenLayout } from './presented-insets';
 
 export interface PremiumStackProps {
   /**
@@ -61,7 +62,9 @@ export function PremiumStack({ navigator, children }: PremiumStackProps) {
   return (
     <>
       <StatusBar barStyle={scheme === 'dark' ? 'light-content' : 'dark-content'} animated />
-      <Stack screenOptions={screenOptions}>{children}</Stack>
+      <Stack screenOptions={screenOptions} screenLayout={presentedScreenLayout}>
+        {children}
+      </Stack>
     </>
   );
 }

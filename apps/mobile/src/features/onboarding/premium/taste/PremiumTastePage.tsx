@@ -77,6 +77,7 @@ export function PremiumTastePage() {
               testID="taste-done"
             />
             <TextButton
+              align="center"
               label={t({ id: 'onboarding.taste.retake', message: 'Start over' })}
               onPress={quiz.restart}
               testID="taste-retake"

@@ -47,12 +47,9 @@ export function HeatCalendar(props: {
   return (
     <Card padded testID="when-heatmap">
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.space.gap8 }}>
-        <Text variant="headline" style={{ flex: 1 }}>
+        <Text variant="headline" numberOfLines={1} style={{ flex: 1 }}>
           {monthLabel(i18n.locale, month.year, month.month)}
         </Text>
-        {props.windowLabel === undefined ? null : (
-          <StatusTag tone="booked" label={props.windowLabel} />
-        )}
         <PressableScale
           onPress={() => setIndex((at) => Math.max(0, at - 1))}
           disabled={index <= 0}
@@ -72,6 +69,13 @@ export function HeatCalendar(props: {
           <Icon name="forward" size={16} color={theme.color.status.rain.text} />
         </PressableScale>
       </View>
+      {/* The window's tag gets its own line under the month: beside it, a range across two months
+          ("Oct 28 – Nov 3 · you're free") pushed the month name onto two lines. */}
+      {props.windowLabel === undefined ? null : (
+        <View style={{ flexDirection: 'row', marginTop: theme.space.gap8 }}>
+          <StatusTag tone="booked" label={props.windowLabel} />
+        </View>
+      )}
       <View style={{ flexDirection: 'row', marginTop: theme.space.gap10 }}>
         {weekdays.map((day, at) => (
           <Text key={at} variant="badge" tone="muted" align="center" style={{ flex: 1 }}>

@@ -61,7 +61,8 @@ export function PremiumPitchSheet({ crewId, placeId }: PitchSheetProps) {
           })}
       testID="pitch-sheet"
     >
-      <View style={[styles.body, { paddingHorizontal: theme.space.gutter }]}>
+      {/* The sheet's scroll already keeps the gutter. */}
+      <View style={styles.body}>
         <TextField
           value={sheet.query}
           onChangeText={sheet.setQuery}

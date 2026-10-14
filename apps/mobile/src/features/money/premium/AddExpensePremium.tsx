@@ -125,6 +125,7 @@ export function AddExpensePremium(props: {
           </Text>
           {state.editing ? null : (
             <Button
+              alignSelf="auto"
               label={t({ id: 'money.premium.scanInstead', message: 'Scan instead' })}
               variant="floating"
               size="small"

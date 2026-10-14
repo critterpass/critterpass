@@ -72,6 +72,7 @@ export function CouldntReadPremium(props: {
         />
         <View style={styles.center}>
           <TextButton
+            align="center"
             label={t({ id: 'drivers.unread.another', message: 'Try another screenshot' })}
             onPress={() => router.back()}
           />

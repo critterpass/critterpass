@@ -40,6 +40,7 @@ function OwnMaxCard({ set, onChange }: { readonly set: boolean; readonly onChang
         {t({ id: 'setup.budget.member.yourMax', message: 'Your max' })}
       </Text>
       <Button
+        alignSelf="auto"
         size="small"
         variant="control"
         label={

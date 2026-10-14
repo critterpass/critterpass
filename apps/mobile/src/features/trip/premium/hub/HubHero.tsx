@@ -55,7 +55,12 @@ function PhaseBlock({
   const color = onPhoto ? th.accent.paper : undefined;
   return (
     <View style={styles.phase} testID="trip-hub-phase">
-      <Text variant="caption" tone="muted" {...(color === undefined ? {} : { color })}>
+      <Text
+        variant="label"
+        tone="muted"
+        numberOfLines={1}
+        {...(color === undefined ? {} : { color })}
+      >
         {line.label}
       </Text>
       <Text
@@ -87,7 +92,7 @@ export function HubHero(props: HubHeroProps) {
               height: HUB_HERO_HEIGHT + insets.top - th.space.statusBar,
               backgroundColor: th.color.inkSurface,
             }
-          : { paddingTop: insets.top + th.space.gap6 + th.size.glassNav },
+          : { paddingTop: insets.top + th.space.gap6 + th.size.glassNav + th.space.gap16 },
       ]}
       testID="trip-hub-hero"
     >
@@ -184,9 +189,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  foot: { flexDirection: 'row', alignItems: 'flex-end', gap: 12 },
+  // The countdown block hangs from the caption's line, so its label sits level with the dates and
+  // the crew stack tucks under the digits instead of floating at the title's foot.
+  foot: { flexDirection: 'row', alignItems: 'flex-start', gap: 12 },
   name: { flex: 1, minWidth: 0 },
-  right: { alignItems: 'flex-end', gap: 8, paddingBottom: 10 },
+  right: { alignItems: 'flex-end', gap: 8 },
   phase: { alignItems: 'flex-end' },
   tabular: { fontVariant: ['tabular-nums'] },
 });

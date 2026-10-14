@@ -18,6 +18,7 @@ export {
   presentationOptions,
   presentedScreenOptions,
   SELF_ANIMATED_SHEET,
+  tabSheetOptions,
 } from './navigation/presentation-options';
 export { leadingControlFor, useScreenPlacement } from './navigation/use-screen-placement';
 export { SHEET_TOP_CLEARANCE, useScreenInsets, useShownAsSheet } from './navigation/screen-insets';
@@ -33,6 +34,10 @@ export type { DirtySheetGuard, DiscardPrompt } from './screens/dirty-sheet';
 export { FULL_SCREEN_ROUTE_OPTIONS, FullScreen } from './screens/full-screen';
 export type { FullScreenProps } from './screens/full-screen';
 export type { ShellAction, ToolbarIcon } from './screens/header-actions';
+export { HeaderBar, HeaderTitle } from './screens/header-bar';
+export type { HeaderBarProps } from './screens/header-bar';
+export { FooterStack } from './screens/footer-stack';
+export type { FooterStackProps } from './screens/footer-stack';
 export { HOLD_TO_CONFIRM_MS, HoldToConfirm } from './screens/hold-to-confirm';
 export type { HoldToConfirmProps } from './screens/hold-to-confirm';
 export { ModalSheet } from './screens/modal-sheet';
@@ -40,6 +45,17 @@ export type { ModalSheetProps } from './screens/modal-sheet';
 export { PushScreen } from './screens/push-screen';
 export type { PushScreenProps } from './screens/push-screen';
 export { RootScreen } from './screens/root-screen';
+export {
+  PhotoHeaderScrim,
+  SCROLL_EDGE_FADE,
+  ScrollEdgeFade,
+  useScrollEdges,
+} from './screens/scroll-edge';
+export type {
+  PhotoHeaderScrimProps,
+  ScrollEdgeFadeProps,
+  ScrollEdges,
+} from './screens/scroll-edge';
 export type { RootScreenProps, RootScrollBindings, RootScrollProps } from './screens/root-screen';
 export {
   SheetScreen,

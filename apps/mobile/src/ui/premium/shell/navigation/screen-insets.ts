@@ -9,8 +9,7 @@ import { useSafeAreaInsets, type EdgeInsets } from 'react-native-safe-area-conte
 
 import { useScreenPlacement } from './use-screen-placement';
 
-/** The band at the top of a sheet that the grabber sits in (the system's on iOS). */
-export const SHEET_TOP_CLEARANCE = 12;
+export { SHEET_TOP_CLEARANCE } from './presented-insets';
 
 /**
  * True when the screen shows as a native sheet: its own stack or its group (iOS) presented it as
@@ -25,13 +24,10 @@ export function useShownAsSheet(): boolean {
 }
 
 /**
- * The safe-area insets for a screen's own layout: the window's, with the top replaced by the
- * grabber's band when it shows as a sheet. Outside a navigator it keeps the window's.
+ * The safe-area insets for a screen's own layout. Inside a sheet the navigator that presented it
+ * already gives the grabber's band as the top (`presentedScreenLayout`), so these are the
+ * safe-area context's own; the name stays for screens that read it.
  */
 export function useScreenInsets(): EdgeInsets {
-  const insets = useSafeAreaInsets();
-  const placement = useScreenPlacement();
-  const sheet = useShownAsSheet();
-  if (placement === undefined || !sheet) return insets;
-  return { ...insets, top: SHEET_TOP_CLEARANCE };
+  return useSafeAreaInsets();
 }

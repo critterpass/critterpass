@@ -37,6 +37,7 @@ export function PremiumSuggestionsView(props: {
             </Text>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.space.gap12 }}>
               <Button
+                alignSelf="auto"
                 size="medium"
                 label={
                   row.kind === 'offer'

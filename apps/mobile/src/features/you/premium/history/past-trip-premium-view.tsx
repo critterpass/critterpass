@@ -57,7 +57,7 @@ export function PastTripPremiumView(props: PastTripViewProps) {
       }}
       testID="you-past-trip"
     >
-      <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap16 }}>
+      <View style={{ gap: th.space.gap16 }}>
         <Text variant="body" tone="muted">
           {t({
             id: 'you.pastTrip.lead',

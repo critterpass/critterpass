@@ -86,7 +86,7 @@ export function VendorMessagesPremium({
       cancelLabel={t({ id: 'suppliers.premium.close', message: 'Close' })}
       testID="vendor-messages-sheet"
     >
-      <View style={[styles.body, { paddingHorizontal: th.space.gutter, gap: th.space.gap10 }]}>
+      <View style={[styles.body, { gap: th.space.gap10 }]}>
         {load.kind === 'loading' ? (
           <LoadingCritter
             label={t({ id: 'suppliers.vendor.loading', message: 'Loading your messages' })}

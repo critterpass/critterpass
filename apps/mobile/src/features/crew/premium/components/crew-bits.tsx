@@ -1,5 +1,5 @@
 /**
- * Small pieces the crew pages share: a radio row (one choice in a list), the crew code as split-flap tiles, and a round share target.
+ * Small pieces the crew pages share: a radio row (one choice in a list), the crew code as split-flap tiles, and a share target (a round disc with an icon, or the invite sheet's lettered app tile).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- style values, never copy. */
 import { t } from '@lingui/core/macro';
@@ -118,17 +118,24 @@ export function SplitFlapCode({
 export function ShareTarget({
   label,
   icon,
+  letter,
+  tile = false,
   tint,
   onPress,
   testID,
 }: {
   readonly label: string;
-  readonly icon: PremiumIconName;
+  /** The mark: a kit icon, or the app's letter (the design's "W", "M", "@"). */
+  readonly icon?: PremiumIconName;
+  readonly letter?: string;
+  /** A rounded app tile instead of a round disc. @default false */
+  readonly tile?: boolean;
   readonly tint?: string;
   readonly onPress: () => void;
   readonly testID?: string;
 }) {
   const th = usePremiumTheme();
+  const ink = tint === undefined ? th.color.ink : th.accent.stickerEdge;
   return (
     <PressableScale
       accessibilityRole="button"
@@ -139,15 +146,17 @@ export function ShareTarget({
     >
       <View
         style={[
-          styles.targetDisc,
+          tile ? styles.targetTile : styles.targetDisc,
           { backgroundColor: tint ?? th.color.card, boxShadow: th.shadow.raised },
         ]}
       >
-        <Icon
-          name={icon}
-          size={24}
-          color={tint === undefined ? th.color.ink : th.accent.stickerEdge}
-        />
+        {letter !== undefined ? (
+          <Text variant="stampWord" style={{ color: ink }}>
+            {letter}
+          </Text>
+        ) : icon === undefined ? null : (
+          <Icon name={icon} size={24} color={ink} />
+        )}
       </View>
       <Text variant="caption" tone="inkSecondary" numberOfLines={1}>
         {label}
@@ -178,6 +187,13 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  targetTile: {
+    width: 58,
+    height: 58,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },

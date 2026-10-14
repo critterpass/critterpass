@@ -207,12 +207,12 @@ msgstr "Giao diện"
 msgid "you.appIcon.appearance"
 msgstr "Giao diện"
 
-#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
-msgid "permissions.value.ask"
-msgstr "Hỏi"
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location.ask"
+msgstr "Hỏi"
+
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.ask"
 msgstr "Hỏi"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
@@ -965,10 +965,6 @@ msgstr "Thông báo"
 msgid "you.pings.notificationsOff"
 msgstr "Thông báo đang tắt nên không gì hiện lên màn hình khóa của bạn."
 
-#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
-msgid "permissions.value.off"
-msgstr "Tắt"
-
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
 msgid "you.settings.musicOff"
 msgstr "Tắt"
@@ -983,6 +979,10 @@ msgstr "Tắt"
 msgid "you.settings.location.off"
 msgstr "Tắt"
 
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.off"
+msgstr "Tắt"
+
 #: ../../apps/mobile/src/features/you/premium/notifications/NotificationsPremium.tsx
 msgid "you.pings.quietOff"
 msgstr "Tắt"
@@ -995,12 +995,12 @@ msgstr "Ngoại tuyến"
 msgid "trip.offline.storageTitle"
 msgstr "Ngoại tuyến"
 
-#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
-msgid "permissions.value.on"
-msgstr "Bật"
-
 #: ../../apps/mobile/src/features/you/sound/music-line.ts
 msgid "you.settings.musicOn"
+msgstr "Bật"
+
+#: ../../apps/mobile/src/features/you/premium/settings/permissions-card.tsx
+msgid "permissions.value.on"
 msgstr "Bật"
 
 #: ../../apps/mobile/src/features/you/settings/use-settings-model.ts

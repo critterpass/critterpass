@@ -1,12 +1,12 @@
 /**
  * A polaroid (3.02, 3.17): white frame (pad 5, r14), the photo inside at r10, tilted, with the
- * photo-card shadow. The photo is the destination's still; the frame shows empty paper until it
- * arrives.
+ * photo-card shadow. The photo is the destination's still; a place with no photo shows the paper
+ * plane in the frame, never empty paper.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- CSS gradients and shadows, never copy. */
 import { View } from 'react-native';
 
-import { makePremiumStyles } from '@/ui/premium';
+import { CritterSticker, makePremiumStyles } from '@/ui/premium';
 
 import { TripPhoto } from './trip-photo';
 
@@ -33,7 +33,18 @@ export function Polaroid({ slug, index = 0, width, height, rotate }: PolaroidPro
   return (
     <View style={[styles.frame, { width, height, transform: [{ rotate: `${rotate}deg` }] }]}>
       <View style={styles.photo}>
-        <TripPhoto slug={slug} index={index} />
+        <TripPhoto
+          slug={slug}
+          index={index}
+          empty={
+            <CritterSticker
+              kind="plane"
+              name="plane"
+              size={Math.round(Math.min(width, height) * 0.6)}
+              edge={false}
+            />
+          }
+        />
       </View>
     </View>
   );

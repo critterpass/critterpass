@@ -48,6 +48,9 @@ export function GlassSurface({
       <GlassView
         testID={testID}
         glassEffectStyle={kind === 'clear' ? 'clear' : 'regular'}
+        // The system's clear glass has no tint of its own, so its white glyphs vanished on a light
+        // sky: the design's dark clear tint keeps them legible over any photo or map.
+        {...(kind === 'clear' ? { tintColor: t.material.clear.tint } : {})}
         colorScheme={t.scheme}
         isInteractive={interactive}
         style={style}

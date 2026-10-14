@@ -225,6 +225,7 @@ export function PremiumCalendarConnectView(props: CalendarConnectViewProps) {
             </View>
             {row.action === null ? null : (
               <Button
+                alignSelf="auto"
                 size="small"
                 variant={row.action.ink ? 'primary' : 'control'}
                 label={row.action.label}

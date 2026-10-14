@@ -169,6 +169,7 @@ export function HelpShare({ share }: { readonly share: ShareControlsProps }) {
           </Text>
           {share.extendCapped ? null : (
             <Button
+              alignSelf="auto"
               label={t({ id: 'safety.share.extend', message: '+1 h' })}
               size="small"
               variant="floating"
@@ -177,6 +178,7 @@ export function HelpShare({ share }: { readonly share: ShareControlsProps }) {
             />
           )}
           <Button
+            alignSelf="auto"
             label={t({ id: 'safety.share.stop', message: 'Stop' })}
             size="small"
             variant="control"

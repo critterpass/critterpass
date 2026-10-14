@@ -103,6 +103,7 @@ export function DayTripsScreen({ tripId }: { readonly tripId: string }) {
                     <View style={{ flexDirection: 'row', marginTop: theme.space.gap4 }}>
                       {card.dayNo === null ? (
                         <Button
+                          alignSelf="auto"
                           label={t({ id: 'explore.premium.dayTrips.put', message: 'Put on a day' })}
                           size="small"
                           variant="control"

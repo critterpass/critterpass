@@ -277,6 +277,10 @@ msgstr "Appartement, étage (facultatif)"
 msgid "album.address.why"
 msgstr "Pour les cartes imprimées de ta crew. Seul l'imprimeur la voit ; ta crew et le guide jamais."
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.first"
+msgstr "toute la crew les voit"
+
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.premium.postcard.format"
 msgstr ""
@@ -602,10 +606,6 @@ msgstr "L'imprimeur n'envoie pas encore dans leur pays, ils reçoivent donc la v
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr "le voyage"
-
-#: ../../apps/mobile/src/features/album/hub-tile.tsx
-msgid "album.tile.first"
-msgstr "toute la crew les voit"
 
 #: ../../apps/mobile/src/features/album/premium/route-missing.tsx
 msgid "album.premium.missing.line"

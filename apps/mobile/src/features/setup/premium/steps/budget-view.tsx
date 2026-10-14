@@ -224,6 +224,7 @@ export function PremiumBudgetView(props: BudgetViewProps) {
             }}
           >
             <Button
+              alignSelf="auto"
               size="small"
               variant="control"
               label={t({ id: 'setup.budget.infeasible.dates', message: 'Cheaper dates' })}
@@ -231,6 +232,7 @@ export function PremiumBudgetView(props: BudgetViewProps) {
               testID="budget-infeasible-dates"
             />
             <Button
+              alignSelf="auto"
               size="small"
               variant="control"
               label={t({ id: 'setup.budget.infeasible.shorter', message: 'A shorter trip' })}
@@ -238,6 +240,7 @@ export function PremiumBudgetView(props: BudgetViewProps) {
               testID="budget-infeasible-shorter"
             />
             <Button
+              alignSelf="auto"
               size="small"
               variant="control"
               label={t({ id: 'setup.budget.infeasible.hostels', message: 'Mix in hostels' })}

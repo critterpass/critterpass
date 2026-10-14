@@ -15,6 +15,7 @@ import {
   type OpenedRoute,
   type ScreenPresentation,
 } from '@/lib/navigation/presentation';
+import { TAB_SHEETS, type TabSheetPath } from '@/lib/navigation/tab-bar';
 
 import { sheetDetentOptions, sheetRouteOptions } from '../screens/sheet-screen';
 
@@ -102,4 +103,9 @@ export function presentedScreenOptions(path: string): NativeStackNavigationOptio
 export function rootRouteOptions(route: OpenedRoute): NativeStackNavigationOptions {
   const presentation = presentationOf(openedPath(route));
   return presentation === undefined ? {} : presentationOptions(presentation, true);
+}
+
+/** A tab-stack sheet's options, by its path under `app/(tabs)/` (`lib/navigation/tab-bar.ts`). */
+export function tabSheetOptions(path: TabSheetPath): NativeStackNavigationOptions {
+  return sheetRouteOptions(TAB_SHEETS[path]);
 }

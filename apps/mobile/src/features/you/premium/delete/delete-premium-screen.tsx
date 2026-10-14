@@ -158,6 +158,7 @@ export function DeletePremiumScreen({
               </Text>
             </View>
             <Button
+              alignSelf="auto"
               label={t({ id: 'you.premium.settleUp', message: 'Settle up' })}
               size="small"
               onPress={d.onSettle}

@@ -91,6 +91,26 @@ describe('route features', () => {
     // The chosen day draws last, over the dots.
     expect(pins.features.at(-1)?.properties.kind).toBe('pin');
   });
+
+  it('gives stops at the same spot one pin carrying both numbers, never two stacked pins', () => {
+    const loop: MapDay = {
+      dayNo: 2,
+      stops: [
+        { id: 'p', n: 1, lat: 21.0368, lng: 105.8346 },
+        { id: 'q', n: 2, lat: 21.0285, lng: 105.8542 },
+        // About 20 m from the first stop: the same spot at any zoom the day is drawn at.
+        { id: 'r', n: 3, lat: 21.0369, lng: 105.8347 },
+      ],
+    };
+    const { pins } = planMapFeatures({ days: [loop], chosenDayNo: 2, stay: null });
+    expect(pins.features.map((f) => [f.properties.id, f.properties.label])).toEqual([
+      ['p', '1·3'],
+      ['q', '2'],
+    ]);
+    // Another day's dots stay one per stop.
+    const dots = planMapFeatures({ days: [loop], chosenDayNo: null, stay: null }).pins;
+    expect(dots.features).toHaveLength(3);
+  });
 });
 
 describe('sheet detents', () => {

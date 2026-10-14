@@ -119,7 +119,8 @@ describe('states', () => {
     await renderChat(<CrewChatView crewId={CREW} />, s);
     expect(await screen.findByTestId('chat-welcome')).toBeTruthy();
     expect(screen.getByText('The Bali Six is on')).toBeTruthy();
-    expect(screen.getByTestId('chat-input').props.placeholder).toBe('Say hi to the crew');
+    expect(screen.getByTestId('chat-input').props.accessibilityHint).toBe('Say hi to the crew');
+    expect(screen.getByText('Say hi to the crew', { includeHiddenElements: true })).toBeTruthy();
     expect(screen.queryByTestId('chat-starter-invite')).toBeNull();
     await fireEvent.press(screen.getByTestId('chat-starter-free'));
     expect(screen.getByDisplayValue('@tokek when is everyone free?')).toBeTruthy();

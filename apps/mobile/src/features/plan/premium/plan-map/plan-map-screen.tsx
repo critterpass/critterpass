@@ -103,6 +103,7 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
   const checkHref = { pathname: '/[tripId]/check', params: { tripId } } as const;
   const placeName = model.destination ?? '';
   const ideas = model.ideas.length;
+  const openSearch = () => (search === undefined ? undefined : router.push(search));
   const openIdeas = () => router.push({ pathname: '/[tripId]/ideas', params: { tripId } });
 
   const head =
@@ -112,6 +113,7 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
         chosen={map.dayNo}
         size={detent === 'peek' ? 'large' : 'small'}
         onChoose={map.setDay}
+        bleed={16}
       />
     );
 
@@ -159,9 +161,7 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
             ? { ideas: { count: ideas, label: planMapCopy.menu.ideas(ideas), onPress: openIdeas } }
             : {})}
           onBack={back}
-          onSearch={() => {
-            if (search !== undefined) router.push(search);
-          }}
+          onSearch={openSearch}
           onMore={setMenu}
           onChip={layer.onChip}
         />
@@ -223,11 +223,7 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
                 dayNo={day.dayNo}
                 rows={map.rows}
                 lifted={map.liftedTime}
-                labels={{
-                  booked: planMapCopy.booked(),
-                  menu: planMapCopy.stopMenu(),
-                  drop: planMapCopy.dropSlot(),
-                }}
+                labels={planMapCopy.timeline()}
                 onLift={model.readOnly ? null : (index) => map.reorder.lift(index).ok}
                 onCross={map.reorder.cross}
                 onDrop={() => void map.reorder.drop()}
@@ -239,15 +235,11 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
         )}
       </PlanMapSheet>
       {detent === 'half' && !model.readOnly && !model.empty ? (
-        <View style={styles.addBar}>
-          <AddBar
-            label={planMapCopy.addTo(map.chips.find((c) => c.dayNo === map.dayNo)?.weekday ?? '')}
-            guide={{ kind: guide.kind, name: guide.name }}
-            onPress={() => {
-              if (search !== undefined) router.push(search);
-            }}
-          />
-        </View>
+        <AddBar
+          label={planMapCopy.addTo(map.chips.find((c) => c.dayNo === map.dayNo)?.weekday ?? '')}
+          guide={{ kind: guide.kind, name: guide.name }}
+          onPress={openSearch}
+        />
       ) : null}
       {picked === null || detent === 'full' ? null : (
         <PlaceCarousel
@@ -296,5 +288,4 @@ function checkRow(line: string | null, onPress: () => void) {
 
 const styles = StyleSheet.create({
   screen: { flex: 1 },
-  addBar: { position: 'absolute', left: 16, right: 16, bottom: 28 },
 });

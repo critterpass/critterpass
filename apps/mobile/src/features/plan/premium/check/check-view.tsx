@@ -116,6 +116,7 @@ export function PremiumCheckView(props: CheckViewProps) {
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap6 }}>
               {card.fixLabel === null ? null : (
                 <Button
+                  alignSelf="auto"
                   size="small"
                   label={card.fixLabel}
                   onPress={card.onFix}
@@ -125,6 +126,7 @@ export function PremiumCheckView(props: CheckViewProps) {
               )}
               {card.detail?.onUse == null ? null : (
                 <Button
+                  alignSelf="auto"
                   size="small"
                   variant="control"
                   label={card.detail.useLabel}
@@ -133,6 +135,7 @@ export function PremiumCheckView(props: CheckViewProps) {
               )}
               {card.detail == null ? null : (
                 <Button
+                  alignSelf="auto"
                   size="small"
                   variant="control"
                   label={t({ id: 'plan.premium.check.leave', message: 'Leave it' })}

@@ -54,7 +54,7 @@ export function MonthGrid(props: MonthGridProps) {
   return (
     <View style={{ gap: theme.space.gap10 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 18 }}>
-        <Text variant="headline" style={{ flex: 1 }} accessibilityRole="header">
+        <Text variant="headline" numberOfLines={1} style={{ flex: 1 }} accessibilityRole="header">
           {props.title}
         </Text>
         {props.aside ?? null}
