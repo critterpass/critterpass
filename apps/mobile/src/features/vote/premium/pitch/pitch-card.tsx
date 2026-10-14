@@ -59,6 +59,20 @@ function useChipText(): (chip: PitchChip) => string {
   };
 }
 
+/** A long tag's ends swing furthest when tilted: past this many letters it lies flat and wraps. */
+const LONG_TAG = 22;
+const TILTS = [-3, 2, -2, 3] as const;
+
+/**
+ * How a fact tag sits in the pitch: short ones tilted a little, each its own way (the design's
+ * −5…+4, kept small so a row never climbs into the title or the next row); a long one (an
+ * event's name) lies flat on up to two lines inside the card.
+ */
+export function tagTilt(index: number, label: string): { rotate: number; lines: 1 | 2 } {
+  if (label.length > LONG_TAG) return { rotate: 0, lines: 2 };
+  return { rotate: TILTS[index % TILTS.length] ?? 0, lines: 1 };
+}
+
 export function PremiumPitchCard(props: {
   readonly state: PitchState;
   readonly people: ReadonlyMap<string, Person>;
@@ -131,9 +145,18 @@ export function PremiumPitchCard(props: {
         {state.chips.length > 0 ? (
           <FadeSection>
             <View style={styles.tags} testID="pitch-chips">
-              {state.chips.map((chip, index) => (
-                <Tag key={`${chip.kind}-${index}`} label={chipText(chip)} />
-              ))}
+              {state.chips.map((chip, index) => {
+                const label = chipText(chip);
+                const tilt = tagTilt(index, label);
+                return (
+                  <Tag
+                    key={`${chip.kind}-${index}`}
+                    label={label}
+                    rotate={tilt.rotate}
+                    lines={tilt.lines}
+                  />
+                );
+              })}
             </View>
           </FadeSection>
         ) : null}
@@ -193,7 +216,8 @@ const styles = StyleSheet.create({
   head: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   sticker: { flexShrink: 0 },
   titles: { flex: 1, gap: 4 },
-  tags: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  // Room above, below and between rows for the tilt and the sticker shadow.
+  tags: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 8, rowGap: 10, paddingVertical: 4 },
   reasons: { gap: 10 },
   reason: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   grow: { flex: 1 },
