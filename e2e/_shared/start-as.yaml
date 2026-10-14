@@ -52,12 +52,18 @@ appId: app.critterpass.dev
           id: 'start-as-code'
       # iOS copies a spoken label: the code is its last six characters.
       - evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
-- tapOn:
-    id: 'start-as-ready'
-- extendedWaitUntil:
-    visible:
-      id: 'home-screen|tab-home'
-    timeout: 30000
+# The first launch on a fresh simulator can drop this tap (the app's window has no input focus
+# yet): it is tapped again while Home has not come up.
+- retry:
+    maxRetries: 2
+    commands:
+      - tapOn:
+          id: 'start-as-ready'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'home-screen|tab-home'
+          timeout: 20000
 # A plain relaunch drops the launch argument: an in-app restart later (an account switch) would
 # read it again and start another seeded account instead of a new one.
 - stopApp
