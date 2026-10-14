@@ -130,7 +130,7 @@ describe('PASS tab Critterdex', () => {
     // Tokek is only pending here: its name must not reach the screen, in any case.
     expect(screen.queryByText(/tokek/iu)).toBeNull();
     expect(screen.queryByLabelText(/tokek/iu)).toBeNull();
-    expect(screen.getByText('??? · 0 of 4 forms')).toBeTruthy();
+    expect(screen.getByText('0 of 4 forms')).toBeTruthy();
     expect(screen.getByLabelText('Chép')).toBeTruthy();
   });
 
