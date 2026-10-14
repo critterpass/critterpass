@@ -18,6 +18,7 @@ import Animated, {
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from '@/ui/premium/shell';
+import { usePageSheetCovered } from '@/ui/premium/shell/screens/page-sheet-cover';
 import {
   GlassSurface,
   REDUCED_FADE,
@@ -75,10 +76,12 @@ export function PlanMapSheet({
   const visible = useSharedValue(at(detent));
   const start = useSharedValue(0);
 
+  // A sheet opened over the map (a stop's details) replaces this one while it is up.
+  const covered = usePageSheetCovered();
   useEffect(() => {
-    const target = sheetHeight(detent, height, fit);
+    const target = covered ? 0 : sheetHeight(detent, height, fit);
     visible.set(reduced ? withTiming(target, REDUCED_FADE) : withSpring(target, SPRINGS.smooth));
-  }, [detent, height, fit, reduced, visible]);
+  }, [covered, detent, height, fit, reduced, visible]);
 
   const settle = (released: number, velocity: number) => {
     const next = settleDetent(released, velocity, height, fit);

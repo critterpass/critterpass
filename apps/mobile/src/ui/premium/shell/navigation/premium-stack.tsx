@@ -1,12 +1,24 @@
 import { Stack } from 'expo-router';
 import type { NativeStackNavigationOptions } from 'expo-router/native-stack';
-import { useCallback, type ReactNode } from 'react';
+import { useCallback, useContext, useMemo, type ReactNode } from 'react';
 import { StatusBar } from 'react-native';
+
+import { presentationOf } from '@/lib/navigation/presentation';
+import { ScreenPresentationContext } from '@/lib/navigation/router-internals';
 
 import { REDUCED_FADE_MS, usePremiumReducedMotion, usePremiumTheme } from '../..';
 import { freezeOptions, type StackState } from './freeze-behind';
+import { oneCardRouter } from './one-card-router';
 import { presentedScreenOptions } from './presentation-options';
 import { presentedScreenLayout } from './presented-insets';
+import {
+  childPresentations,
+  childrenInsideCard,
+  holdsItsSheets,
+  InsideCardContext,
+  pushedInsideCard,
+} from './stack-cards';
+import { fromNative } from './use-screen-placement';
 
 export interface PremiumStackProps {
   /**
@@ -36,6 +48,15 @@ interface StackRoute {
 export function PremiumStack({ navigator, children }: PremiumStackProps) {
   const { color, scheme } = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
+  // Shown as a sheet itself (iOS): its sheets push inside it (`stack-cards.ts`).
+  const outerCard = useContext(InsideCardContext);
+  const ownCard = holdsItsSheets(useContext(ScreenPresentationContext));
+  const insideCard = outerCard || ownCard;
+  const ownPresentations = useMemo(() => childPresentations(children), [children]);
+  const screens = useMemo(
+    () => (insideCard ? childrenInsideCard(children) : children),
+    [children, insideCard],
+  );
   const screenOptions = useCallback(
     ({
       route,
@@ -44,8 +65,11 @@ export function PremiumStack({ navigator, children }: PremiumStackProps) {
       readonly route: StackRoute;
       readonly navigation: { readonly getState: () => StackState<StackRoute> };
     }): NativeStackNavigationOptions => {
-      const presentedOf = (of: StackRoute) =>
-        navigator === undefined ? {} : presentedScreenOptions(`${navigator}/${of.name}`);
+      const presentedOf = (of: StackRoute) => {
+        const listed =
+          navigator === undefined ? {} : presentedScreenOptions(`${navigator}/${of.name}`);
+        return insideCard ? pushedInsideCard(listed) : listed;
+      };
       const presented = presentedOf(route);
       return {
         headerShown: false,
@@ -57,14 +81,31 @@ export function PremiumStack({ navigator, children }: PremiumStackProps) {
           : {}),
       };
     },
-    [color.ground, navigator, reduced],
+    [color.ground, navigator, reduced, insideCard],
+  );
+  // A page or sheet opened over one of this stack's sheets replaces it (`oneCardRoutes`).
+  const router = useMemo(
+    () =>
+      oneCardRouter((route) => {
+        if (insideCard) return undefined;
+        const own = ownPresentations.get(route.name);
+        if (own !== undefined) return fromNative(own);
+        return navigator === undefined ? undefined : presentationOf(`${navigator}/${route.name}`);
+      }),
+    [insideCard, navigator, ownPresentations],
   );
   return (
     <>
       <StatusBar barStyle={scheme === 'dark' ? 'light-content' : 'dark-content'} animated />
-      <Stack screenOptions={screenOptions} screenLayout={presentedScreenLayout}>
-        {children}
-      </Stack>
+      <InsideCardContext value={insideCard}>
+        <Stack
+          screenOptions={screenOptions}
+          screenLayout={presentedScreenLayout}
+          UNSTABLE_router={router}
+        >
+          {screens}
+        </Stack>
+      </InsideCardContext>
     </>
   );
 }

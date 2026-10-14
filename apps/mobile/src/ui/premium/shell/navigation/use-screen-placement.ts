@@ -18,7 +18,9 @@ import {
 type NativePresentation = NonNullable<ContextType<typeof ScreenPresentationContext>>;
 
 /** The screen's own presentation in its stack, as the native stack set it. */
-function fromNative(presentation: NativePresentation | undefined): ScreenPresentation | undefined {
+export function fromNative(
+  presentation: NativePresentation | undefined,
+): ScreenPresentation | undefined {
   switch (presentation) {
     case undefined:
     case 'card':

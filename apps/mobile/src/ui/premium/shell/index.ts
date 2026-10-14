@@ -42,6 +42,7 @@ export type { FooterStackProps } from './screens/footer-stack';
 export { HOLD_TO_CONFIRM_MS, HoldToConfirm } from './screens/hold-to-confirm';
 export type { HoldToConfirmProps } from './screens/hold-to-confirm';
 export { ModalSheet } from './screens/modal-sheet';
+export { useCoverPageSheet, usePageSheetCovered } from './screens/page-sheet-cover';
 export type { ModalSheetProps } from './screens/modal-sheet';
 export { PushScreen } from './screens/push-screen';
 export type { PushScreenProps } from './screens/push-screen';
