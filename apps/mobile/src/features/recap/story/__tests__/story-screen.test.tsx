@@ -62,11 +62,16 @@ const slide = () => screen.getByRole('adjustable');
 const next = () =>
   fireEvent(slide(), 'accessibilityAction', { nativeEvent: { actionName: 'increment' } });
 
+/** Every card the seeded recap builds, from the cover to the postcard. */
+const CARDS = 8;
+
 /**
- * Steps forward until the card shows. A card whose rows load after the story opened (the stamp)
- * joins the story late, so stepping carries on from the last card until it has.
+ * Steps forward until the card shows. Cards whose rows load after the story opened (the stamp, the
+ * one that got away) join it late, and one that joins ahead of the playing card takes its place,
+ * so stepping starts only once the whole story is there.
  */
 async function skipTo(testID: string): Promise<void> {
+  await until(() => screen.queryByLabelText(new RegExp(`^Slide \\d+ of ${CARDS}\\.`)) !== null);
   const deadline = Date.now() + 20_000;
   while (screen.queryByTestId(testID) === null) {
     if (Date.now() > deadline) throw new Error(`${testID} never played`);
