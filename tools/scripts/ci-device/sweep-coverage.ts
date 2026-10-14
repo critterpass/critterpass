@@ -5,7 +5,7 @@
  *
  *   tsx tools/scripts/ci-device/sweep-coverage.ts            print the coverage report (markdown)
  *   tsx tools/scripts/ci-device/sweep-coverage.ts --out f.md write the report to a file
- *   tsx tools/scripts/ci-device/sweep-coverage.ts --run d1 --run d2
+ *   tsx tools/scripts/ci-device/sweep-coverage.ts --run <ios> --run <android>
  *                                       what downloaded runs (folders of `device-<os>-shard-N`)
  *                                       captured, per platform and together
  *
