@@ -8,6 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   Easing,
   useAnimatedStyle,
   useSharedValue,
@@ -15,6 +16,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import {
   Button,
   CritterSticker,
@@ -100,16 +102,21 @@ export function EmptyPassport({ onPitch, onJoin }: EmptyPassportProps) {
   const styles = useStyles();
   const theme = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const { t } = useLingui();
   const bob = useSharedValue(0);
   useEffect(() => {
-    if (reduced) return;
+    if (!looping) {
+      cancelAnimation(bob);
+      bob.value = 0;
+      return;
+    }
     bob.value = withRepeat(
       withTiming(1, { duration: BOB_MS, easing: Easing.inOut(Easing.sin) }),
       -1,
       true,
     );
-  }, [bob, reduced]);
+  }, [bob, looping]);
   const idle = useAnimatedStyle(() => ({
     transform: [{ translateY: -6 * bob.value }, { rotate: `${-2 + bob.value}deg` }],
   }));

@@ -7,6 +7,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   Easing,
   useAnimatedStyle,
   useSharedValue,
@@ -14,6 +15,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import {
   Avatar,
   Button,
@@ -40,16 +42,21 @@ export function BoostLockAlert({
   const { t } = useLingui();
   const th = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const turn = useSharedValue(0);
   useEffect(() => {
-    if (!visible || reduced) return;
+    if (!visible || !looping) {
+      cancelAnimation(turn);
+      turn.set(0);
+      return;
+    }
     turn.set(
       withRepeat(
         withTiming(360, { duration: MONETIZE_TIMING.lockSpin, easing: Easing.linear }),
         -1,
       ),
     );
-  }, [visible, reduced, turn]);
+  }, [visible, looping, turn]);
   const spin = useAnimatedStyle(() => ({ transform: [{ rotate: `${String(turn.value)}deg` }] }));
   const who = name === '' ? t({ id: 'monetize.premium.someone', message: 'Someone' }) : name;
   return (

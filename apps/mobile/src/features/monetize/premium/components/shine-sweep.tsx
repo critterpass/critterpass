@@ -5,6 +5,7 @@
 import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import Animated, {
+  cancelAnimation,
   Easing,
   useAnimatedStyle,
   useSharedValue,
@@ -14,6 +15,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { usePremiumReducedMotion } from '@/ui/premium';
 import { MONETIZE_TIMING } from '../monetize-palette';
 
@@ -29,9 +31,14 @@ export interface ShineSweepProps {
 
 export function ShineSweep({ every, width, distance, opacity = 0.7 }: ShineSweepProps) {
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const x = useSharedValue(-width);
   useEffect(() => {
-    if (reduced) return;
+    if (!looping) {
+      cancelAnimation(x);
+      x.set(-width);
+      return;
+    }
     const sweep = Math.round(every * 0.25);
     x.set(
       withRepeat(
@@ -45,7 +52,7 @@ export function ShineSweep({ every, width, distance, opacity = 0.7 }: ShineSweep
         -1,
       ),
     );
-  }, [reduced, every, width, distance, x]);
+  }, [looping, every, width, distance, x]);
   const style = useAnimatedStyle(() => ({
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS angle, never copy.
     transform: [{ translateX: x.value }, { skewX: '-20deg' }],

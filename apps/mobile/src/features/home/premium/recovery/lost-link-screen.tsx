@@ -9,6 +9,7 @@ import { router, usePathname } from 'expo-router';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   Easing,
   useAnimatedStyle,
   useSharedValue,
@@ -28,6 +29,7 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { FullScreen } from '@/ui/premium/shell';
 
 import { HomeGlyph } from '../components/home-glyph';
@@ -60,17 +62,22 @@ export function LostLinkScreen() {
   const theme = usePremiumTheme();
   const insets = useSafeAreaInsets();
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const { t } = useLingui();
   const path = usePathname();
   const lift = useSharedValue(0);
   useEffect(() => {
-    if (reduced) return;
+    if (!looping) {
+      cancelAnimation(lift);
+      lift.value = 0;
+      return;
+    }
     lift.value = withRepeat(
       withTiming(1, { duration: FLOAT_MS, easing: Easing.inOut(Easing.sin) }),
       -1,
       true,
     );
-  }, [lift, reduced]);
+  }, [lift, looping]);
   const float = useAnimatedStyle(() => ({
     transform: [{ translateY: -9 * lift.value }, { rotate: `${-2 + 4 * lift.value}deg` }],
   }));

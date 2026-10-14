@@ -30,6 +30,7 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { passInk } from '../crew-look';
@@ -71,6 +72,7 @@ export function CrewPass({
 }: CrewPassProps) {
   const th = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const look = passInk(cover);
   const sticker = guideSticker(art);
   const fill = useSharedValue(look.fill);
@@ -90,7 +92,7 @@ export function CrewPass({
   }, [art, reduced, slap]);
 
   useEffect(() => {
-    if (reduced || !idle) {
+    if (!looping || !idle) {
       bob.value = withTiming(0, REDUCED_FADE);
       return;
     }
@@ -101,7 +103,7 @@ export function CrewPass({
       ),
       -1,
     );
-  }, [reduced, idle, bob]);
+  }, [looping, idle, bob]);
 
   const book = useAnimatedStyle(() => ({
     backgroundColor: fill.value,

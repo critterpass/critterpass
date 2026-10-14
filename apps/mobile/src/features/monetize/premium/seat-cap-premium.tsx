@@ -15,6 +15,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   Avatar,
@@ -38,16 +39,17 @@ const ARC = [14, 4, 0, 0, 4, 14];
 
 function Newcomer({ name }: { readonly name: string }) {
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const th = usePremiumTheme();
   const y = useSharedValue(0);
   useEffect(() => {
-    if (reduced) {
+    if (!looping) {
       cancelAnimation(y);
       y.set(0);
       return;
     }
     y.set(withRepeat(withTiming(-6, { duration: MONETIZE_TIMING.newcomerBob }), -1, true));
-  }, [reduced, y]);
+  }, [looping, y]);
   const style = useAnimatedStyle(() => ({ transform: [{ translateY: y.value }] }));
   return (
     <Animated.View style={[styles.newcomer, style]}>
