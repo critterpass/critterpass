@@ -277,6 +277,10 @@ msgstr "部屋番号・階（任意）"
 msgid "album.address.why"
 msgstr "クルーからの印刷ポストカード用です。見るのは印刷会社だけで、クルーやガイドには見えません。"
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.first"
+msgstr "クルー全員が見られます"
+
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.premium.postcard.format"
 msgstr ""
@@ -602,10 +606,6 @@ msgstr "印刷会社がまだその国に発送していないため、デジタ
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr "この旅"
-
-#: ../../apps/mobile/src/features/album/hub-tile.tsx
-msgid "album.tile.first"
-msgstr "クルー全員が見られます"
 
 #: ../../apps/mobile/src/features/album/premium/route-missing.tsx
 msgid "album.premium.missing.line"

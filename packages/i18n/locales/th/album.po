@@ -277,6 +277,10 @@ msgstr "ห้อง ชั้น (ไม่บังคับ)"
 msgid "album.address.why"
 msgstr "สำหรับโปสการ์ดพิมพ์จากครูของคุณ มีแค่โรงพิมพ์ที่เห็น ครูและไกด์ไม่เห็นเลย"
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.first"
+msgstr "ทั้งครูเห็นได้"
+
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.premium.postcard.format"
 msgstr ""
@@ -602,10 +606,6 @@ msgstr "โรงพิมพ์ยังไม่ส่งไปประเท
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr "ทริปนี้"
-
-#: ../../apps/mobile/src/features/album/hub-tile.tsx
-msgid "album.tile.first"
-msgstr "ทั้งครูเห็นได้"
 
 #: ../../apps/mobile/src/features/album/premium/route-missing.tsx
 msgid "album.premium.missing.line"

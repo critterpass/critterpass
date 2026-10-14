@@ -277,6 +277,10 @@ msgstr "Unit, lantai (opsional)"
 msgid "album.address.why"
 msgstr "Untuk kartu pos cetak dari krumu. Hanya percetakan yang melihatnya; kru dan pemandu tidak pernah."
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.first"
+msgstr "seluruh kru melihatnya"
+
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.premium.postcard.format"
 msgstr ""
@@ -602,10 +606,6 @@ msgstr "Percetakan belum mengirim ke negara mereka, jadi mereka dapat versi digi
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr "perjalanan"
-
-#: ../../apps/mobile/src/features/album/hub-tile.tsx
-msgid "album.tile.first"
-msgstr "seluruh kru melihatnya"
 
 #: ../../apps/mobile/src/features/album/premium/route-missing.tsx
 msgid "album.premium.missing.line"

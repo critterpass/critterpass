@@ -277,6 +277,10 @@ msgstr "Interno, piano (facoltativo)"
 msgid "album.address.why"
 msgstr "Per le cartoline stampate della tua crew. Lo vede solo la tipografia; la crew e la guida mai."
 
+#: ../../apps/mobile/src/features/album/hub-tile.tsx
+msgid "album.tile.first"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/premium/postcard-scene.tsx
 msgid "album.premium.postcard.format"
 msgstr ""
@@ -602,10 +606,6 @@ msgstr "La tipografia non spedisce ancora nel loro paese, quindi ricevono quella
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr "il viaggio"
-
-#: ../../apps/mobile/src/features/album/hub-tile.tsx
-msgid "album.tile.first"
-msgstr ""
 
 #: ../../apps/mobile/src/features/album/premium/route-missing.tsx
 msgid "album.premium.missing.line"
