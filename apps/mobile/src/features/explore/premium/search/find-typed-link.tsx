@@ -32,6 +32,7 @@ export function FindTypedLink(props: { readonly guideName: string; readonly onAd
         </Text>
       </View>
       <Button
+        alignSelf="auto"
         label={t({ id: 'search.clipboard.add', message: 'Add from it' })}
         size="small"
         onPress={props.onAdd}

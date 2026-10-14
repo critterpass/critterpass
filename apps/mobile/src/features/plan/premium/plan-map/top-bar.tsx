@@ -114,7 +114,14 @@ export function TopBar(props: TopBarProps) {
         >
           <GlassSurface kind="nav" interactive style={styles.pill}>
             <Icon name="search" size={17} color={t.color.muted} />
-            <Text variant="body" tone="inkSecondary" numberOfLines={1} style={styles.pillText}>
+            <Text
+              variant="body"
+              tone="inkSecondary"
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.8}
+              style={styles.pillText}
+            >
               {props.placeholder}
             </Text>
             <View style={styles.guide}>

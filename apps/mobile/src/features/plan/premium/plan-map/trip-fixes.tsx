@@ -81,6 +81,7 @@ export function TripFixRows(props: TripFixRowsProps) {
         </Text>
         {onShare === null ? null : (
           <Button
+            alignSelf="auto"
             label={planMapCopy.share()}
             variant="control"
             size="small"

@@ -9,7 +9,7 @@ import { t } from '@lingui/core/macro';
 import { addLabel, moveLabel, pickedLine } from './add-copy';
 
 export function waitingLabel(): string {
-  return t({ id: 'plan.add.cta.waiting', message: 'FINDING THE BEST TIME…' });
+  return t({ id: 'plan.add.cta.waiting', message: 'Finding the best time…' });
 }
 
 export function waitingLine(guide: string): string {
@@ -24,13 +24,13 @@ export function nowhereLine(): string {
 }
 
 export function saveToIdeasLabel(): string {
-  return t({ id: 'plan.add.cta.ideas', message: 'SAVE TO IDEAS' });
+  return t({ id: 'plan.add.cta.ideas', message: 'Save to Ideas' });
 }
 
 export function anywayLabel(dayLabel: string, organiser: boolean): string {
   return organiser
-    ? t({ id: 'plan.add.cta.addAnyway', message: `ADD TO ${dayLabel} ANYWAY` })
-    : t({ id: 'plan.add.cta.suggestAnyway', message: `SUGGEST FOR ${dayLabel} ANYWAY` });
+    ? t({ id: 'plan.add.cta.addAnyway', message: `Add to ${dayLabel} anyway` })
+    : t({ id: 'plan.add.cta.suggestAnyway', message: `Suggest for ${dayLabel} anyway` });
 }
 
 /** Under the name of a place that is already a stop. */
@@ -43,7 +43,7 @@ export function inPlanLine(dayLabel: string, time: string): string {
 
 /** The move button while the choice is still where the stop is. */
 export function pickElsewhereLabel(): string {
-  return t({ id: 'plan.add.cta.pickElsewhere', message: 'PICK ANOTHER DAY OR TIME' });
+  return t({ id: 'plan.add.cta.pickElsewhere', message: 'Pick another day or time' });
 }
 
 /** "Thu, Oct 22 is the day you came from" as a one-tap way back to Tokek's own pick. */

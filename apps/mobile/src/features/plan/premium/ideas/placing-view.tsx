@@ -141,7 +141,7 @@ export function PremiumPlacingView(props: PlacingViewProps) {
                   <Icon name="check" size={12} color={theme.color.onInk} />
                 </View>
               ) : line.status === 'running' ? (
-                <Spinner size={DISC} color={theme.color.ink} trackColor={theme.color.fieldBorder} />
+                <Spinner size={DISC} />
               ) : (
                 <View
                   style={{

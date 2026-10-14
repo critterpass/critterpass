@@ -668,10 +668,6 @@ msgstr ""
 msgid "trip.menu.cancelTold"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
-msgid "plan.premium.map.searchAny"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
 msgid "plan.dates.fine"
 msgstr ""
@@ -1216,6 +1212,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
 msgid "plan.premium.map.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.searchOrAsk"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts

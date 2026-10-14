@@ -185,6 +185,7 @@ export function AskBar(props: {
         })}
       </Text>
       <Button
+        alignSelf="auto"
         label={t({ id: 'drivers.check.ask', message: `Ask ${name}` })}
         size="small"
         disabled={url === null}

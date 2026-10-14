@@ -113,6 +113,7 @@ export function PremiumMoveStopSheet({ day, days, onPick, onClose }: MoveStopShe
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap6 }}>
           {day.stops.map((one) => (
             <Button
+              alignSelf="auto"
               key={one.stableId}
               size="small"
               variant="control"
@@ -132,6 +133,7 @@ export function PremiumMoveStopSheet({ day, days, onPick, onClose }: MoveStopShe
             chosen={null}
             size="large"
             onChoose={(to) => onPick(stop, to)}
+            bleed={18}
           />
         </View>
       )}

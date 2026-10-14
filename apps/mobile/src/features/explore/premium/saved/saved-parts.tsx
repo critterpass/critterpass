@@ -118,6 +118,7 @@ export function ListNameField(props: {
       />
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.space.gap16 }}>
         <Button
+          alignSelf="auto"
           label={
             editor.kind === 'new'
               ? t({ id: 'explore.saved.create', message: 'Create list' })

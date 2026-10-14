@@ -130,6 +130,7 @@ export function SplitPage({
                 />
                 <View style={{ flexDirection: 'row', gap: theme.space.gap8 }}>
                   <Button
+                    alignSelf="auto"
                     size="small"
                     label={t({ id: 'explore.premium.split.wantIt', message: 'Want it' })}
                     onPress={() => picker.onSay('want', note.trim() === '' ? null : note.trim())}
@@ -137,6 +138,7 @@ export function SplitPage({
                     testID="split-say-want"
                   />
                   <Button
+                    alignSelf="auto"
                     size="small"
                     variant="control"
                     label={t({ id: 'explore.premium.split.ratherNot', message: 'Rather not' })}
@@ -253,6 +255,7 @@ export function SplitPage({
               )}
               {view.vote === null ? null : (
                 <TextButton
+                  align="center"
                   label={view.vote.label}
                   onPress={view.vote.onPress}
                   testID="split-vote"

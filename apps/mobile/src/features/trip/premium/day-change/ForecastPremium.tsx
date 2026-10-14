@@ -89,7 +89,9 @@ export function ForecastReady({ props }: { readonly props: ForecastViewProps }) 
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ gap: th.space.gap6 }}
+          // Bleeds through the page's gutter, so a scrolled day runs to the screen's edge.
+          style={{ marginHorizontal: -th.space.gutter }}
+          contentContainerStyle={{ gap: th.space.gap6, paddingHorizontal: th.space.gutter }}
           testID="forecast-days"
         >
           {model.days.map((day) => {

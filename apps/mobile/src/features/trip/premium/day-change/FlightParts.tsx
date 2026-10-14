@@ -139,12 +139,14 @@ export function QuestionCard({
       ) : question.canAnswer && answered === null ? (
         <View style={styles.pair}>
           <Button
+            alignSelf="auto"
             label={labels.approve}
             size="medium"
             onPress={() => answer('approve')}
             testID={`disruption-approve-${action.id}`}
           />
           <Button
+            alignSelf="auto"
             label={labels.keep}
             size="medium"
             variant="control"

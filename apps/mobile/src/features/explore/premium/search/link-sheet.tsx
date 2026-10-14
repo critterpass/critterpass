@@ -162,6 +162,7 @@ export function PremiumLinkSheet(props: LinkSheetProps) {
                   />
                 ) : match.kind === 'ambiguous' ? (
                   <Button
+                    alignSelf="auto"
                     size="small"
                     variant="control"
                     label={t({ id: 'search.link.pickOne', message: 'Pick one' })}
@@ -169,6 +170,7 @@ export function PremiumLinkSheet(props: LinkSheetProps) {
                   />
                 ) : (
                   <TextButton
+                    align="center"
                     label={t({ id: 'search.link.search', message: 'Search' })}
                     onPress={() => props.onSearch(match.label)}
                   />
@@ -205,12 +207,14 @@ export function PremiumLinkSheet(props: LinkSheetProps) {
         )}
         {chosen === 0 || props.dayLabel === null ? null : (
           <TextButton
+            align="center"
             label={t({ id: 'search.link.putOnDay', message: `Or put them on ${day}` })}
             onPress={props.onPutOnDay}
             testID="search-link-put-on-day"
           />
         )}
         <TextButton
+          align="center"
           label={t({ id: 'search.link.screenshot', message: 'Add a screenshot instead' })}
           onPress={props.onScreenshot}
           testID="search-link-screenshot"

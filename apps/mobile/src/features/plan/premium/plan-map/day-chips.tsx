@@ -1,7 +1,9 @@
 /**
  * The days as chips (4.25 at peek 52×54, 4.26 at half 46×48): weekday over the day of the month,
  * an underline in the day's colour, the chosen day filled ink. Tapping one swaps the day (its route
- * traces out from the stay). Scrolls sideways, bleeding past the edge.
+ * traces out from the stay). Scrolls sideways, bleeding past the edge: `bleed` is the parent's side
+ * padding, which the row reaches through so a scrolled chip runs to the screen's edge instead of
+ * being cut at the padding, while the first and last chips still rest on the parent's inset.
  */
 import { ScrollView, View } from 'react-native';
 
@@ -22,10 +24,15 @@ export interface DayChipsProps {
   readonly chosen: number | null;
   readonly size: 'large' | 'small';
   readonly onChoose: (dayNo: number) => void;
+  /** The parent's side padding the row bleeds through (0 when it already runs edge to edge). */
+  readonly bleed?: number;
 }
 
+/** Room under the chips for their card shadow, which a sideways scroller clips to its bounds. */
+const SHADOW_ROOM = 10;
+
 const useStyles = makePremiumStyles((t) => ({
-  row: { gap: t.space.gap8, paddingEnd: t.space.gap16 },
+  row: { gap: t.space.gap8, paddingTop: 2, paddingBottom: SHADOW_ROOM },
   chip: {
     borderRadius: t.radius.field,
     alignItems: 'center',
@@ -38,14 +45,15 @@ const useStyles = makePremiumStyles((t) => ({
   weekday: { opacity: 0.7 },
 }));
 
-export function DayChips({ chips, chosen, size, onChoose }: DayChipsProps) {
+export function DayChips({ chips, chosen, size, onChoose, bleed = 0 }: DayChipsProps) {
   const styles = useStyles();
   const box = size === 'large' ? { width: 52, height: 54 } : { width: 46, height: 48 };
   return (
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.row}
+      style={{ marginHorizontal: -bleed, marginBottom: -SHADOW_ROOM + 2 }}
+      contentContainerStyle={[styles.row, { paddingHorizontal: bleed }]}
     >
       {chips.map((chip) => {
         const on = chip.dayNo === chosen;

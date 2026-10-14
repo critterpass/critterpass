@@ -84,6 +84,7 @@ export function FixPanel(props: {
       >
         {card.fixLabel === null ? null : (
           <Button
+            alignSelf="auto"
             size="small"
             label={card.fixLabel}
             onPress={card.onFix}
@@ -92,6 +93,7 @@ export function FixPanel(props: {
           />
         )}
         <Button
+          alignSelf="auto"
           size="small"
           variant="control"
           label={t({ id: 'plan.premium.fix.otherWays', message: 'Other ways' })}
@@ -99,6 +101,7 @@ export function FixPanel(props: {
           testID={`trip-fix-other-${card.id}`}
         />
         <Button
+          alignSelf="auto"
           size="small"
           variant="control"
           label={t({ id: 'plan.premium.check.leave', message: 'Leave it' })}

@@ -79,6 +79,7 @@ export function PremiumVersionHistorySheet({
                 </Text>
               ) : (
                 <Button
+                  alignSelf="auto"
                   size="small"
                   variant="control"
                   label={t({ id: 'planDraft.history.restore', message: 'Restore' })}

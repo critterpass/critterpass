@@ -43,7 +43,7 @@ export function PremiumCalendarConnectedView({ outcome, onDone }: CalendarConnec
           }}
         >
           {outcome === 'connecting' ? (
-            <Spinner size={36} color={theme.color.ink} trackColor={theme.color.fieldBorder} />
+            <Spinner size={36} />
           ) : (
             <Icon
               name={good ? 'check' : 'close'}

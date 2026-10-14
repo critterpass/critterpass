@@ -8,6 +8,9 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
+/** Room above and below the chips for their float shadow (8 down + 20 blur − 6 spread). */
+const SHADOW_ROOM = 24;
+
 export interface HubDoor {
   readonly key: 'plan' | 'map' | 'money';
   readonly onPress: () => void;
@@ -63,6 +66,9 @@ export function HubSwitch({ doors }: { readonly doors: readonly HubDoor[] }) {
       alwaysBounceHorizontal={false}
       showsHorizontalScrollIndicator={false}
       accessibilityRole="tablist"
+      // The row's own box is tall enough for the chips' float shadow: a horizontal scroller clips to
+      // its bounds, and a tight box cut the shadow into a visible band under the chips.
+      style={styles.scroller}
       contentContainerStyle={[
         styles.row,
         { paddingHorizontal: th.space.gap16, gap: th.space.gap8 },
@@ -88,6 +94,7 @@ export function HubSwitch({ doors }: { readonly doors: readonly HubDoor[] }) {
 }
 
 const styles = StyleSheet.create({
-  row: { alignItems: 'center', paddingVertical: 4 },
+  scroller: { marginVertical: -SHADOW_ROOM + 4, flexGrow: 0 },
+  row: { alignItems: 'center', paddingVertical: SHADOW_ROOM },
   chip: { height: 34, justifyContent: 'center' },
 });

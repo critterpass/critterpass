@@ -85,6 +85,7 @@ export function IdeasSheet({ tripId }: { readonly tripId: string }) {
           </View>
           {model.mapHref === undefined ? null : (
             <Button
+              alignSelf="auto"
               label={t({ id: 'plan.premium.ideas.onMap', message: 'On map' })}
               size="small"
               variant="control"

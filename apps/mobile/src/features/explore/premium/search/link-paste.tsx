@@ -104,6 +104,7 @@ export function PremiumLinkPaste(props: LinkPasteProps) {
           />
         </View>
         <TextButton
+          align="center"
           label={t({ id: 'search.paste.screenshot', message: 'Or pick a screenshot' })}
           onPress={props.onScreenshot}
           testID="search-link-paste-screenshot"

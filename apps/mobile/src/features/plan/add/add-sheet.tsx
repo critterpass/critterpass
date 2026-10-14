@@ -229,7 +229,7 @@ export function AddSheet(props: AddSheetProps) {
 
   return (
     <SheetView
-      name={upper(subject?.name ?? '', locale)}
+      name={subject?.name ?? ''}
       line={words.line}
       days={chips(dayGrades(server.fit))}
       dayNo={nowhere ? null : (choice?.dayNo ?? null)}

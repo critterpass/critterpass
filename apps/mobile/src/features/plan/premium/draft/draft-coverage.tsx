@@ -98,6 +98,7 @@ export function DraftCoverage(props: {
             {action === null ? null : (
               <View style={{ flexDirection: 'row' }}>
                 <Button
+                  alignSelf="auto"
                   size="small"
                   label={
                     action === 'pick_place'

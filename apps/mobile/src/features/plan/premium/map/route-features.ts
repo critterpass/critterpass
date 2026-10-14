@@ -135,6 +135,30 @@ export function traceLegs(legs: readonly Leg[], progress: number): Leg[] {
   return traced;
 }
 
+/** Stops closer than this share one pin: two numbered pins this close sit on top of each other. */
+export const SHARED_PIN_METRES = 60;
+
+function metres(a: Coord, b: Coord): number {
+  return length(a, b) * 111_320;
+}
+
+/**
+ * The chosen day's stops as pins: stops at (nearly) the same spot join the first one's pin, which
+ * carries every number ("1·3") instead of drawing a second pin over it.
+ */
+export function sharedPins(
+  stops: readonly MapStop[],
+): { readonly stop: MapStop; readonly label: string }[] {
+  const groups: { stop: MapStop; at: Coord; numbers: number[] }[] = [];
+  for (const stop of stops) {
+    const at: Coord = [stop.lng, stop.lat];
+    const near = groups.find((group) => metres(group.at, at) < SHARED_PIN_METRES);
+    if (near === undefined) groups.push({ stop, at, numbers: [stop.n] });
+    else near.numbers.push(stop.n);
+  }
+  return groups.map((group) => ({ stop: group.stop, label: group.numbers.join('·') }));
+}
+
 export interface PlanMapFeatures {
   readonly legs: FeatureCollection<LineString, LegProperties>;
   readonly pins: FeatureCollection<Point, PinProperties>;
@@ -170,14 +194,17 @@ export function planMapFeatures(input: {
         });
       }
     }
-    for (const stop of day.stops) {
+    const marks = chosen
+      ? sharedPins(day.stops)
+      : day.stops.map((stop) => ({ stop, label: String(stop.n) }));
+    for (const { stop, label } of marks) {
       pins.push({
         type: 'Feature',
         id: stop.id,
         geometry: { type: 'Point', coordinates: [stop.lng, stop.lat] },
         properties: {
           id: stop.id,
-          label: String(stop.n),
+          label,
           color: chosen ? colours.route : colours.fill,
           kind: chosen ? 'pin' : 'dot',
           faded: faded.has(stop.id),

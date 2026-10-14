@@ -221,6 +221,7 @@ export function PremiumRedraftView(props: RedraftDiffViewProps) {
         />
       </View>
       <TextButton
+        align="center"
         label={
           old === ''
             ? t({ id: 'planDraft.diff.putBackDay', message: 'Put the day back' })

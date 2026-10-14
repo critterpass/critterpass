@@ -97,6 +97,7 @@ export function QueuedSheet(props: QueuedItemSheetProps) {
         )}
         <View style={styles.center}>
           <TextButton
+            align="center"
             label={t({ id: 'trip.offline.premium.close', message: 'Close' })}
             onPress={props.onClose}
             testID="trip-offline-item-close"

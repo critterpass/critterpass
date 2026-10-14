@@ -23,6 +23,12 @@ import {
   Text,
   usePremiumTheme,
 } from '@/ui/premium';
+import {
+  PhotoHeaderScrim,
+  SCROLL_EDGE_FADE,
+  ScrollEdgeFade,
+  useScrollEdges,
+} from '@/ui/premium/shell';
 
 import { dayTitle } from '../../place-detail/model';
 import { usePlaceDetail, type PlaceDetailInput } from '../../place-detail/use-place-detail';
@@ -51,9 +57,17 @@ export function PlacePage(props: PlaceDetailInput) {
     return href === undefined ? undefined : () => router.push(href);
   };
   const guide = { kind: view.guide.kind, name: view.guide.name };
+  // The glass circles' band, and the dock's: the page fades into the ground under each, the top
+  // one only once the photo has scrolled out from under the circles.
+  const headerBand = insets.top + theme.space.gap4 + theme.size.glassNav;
+  const dockBand = insets.bottom + theme.space.gap12 + theme.size.button;
+  const edges = useScrollEdges({ topAfter: HERO - OVERLAP - headerBand });
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.ground }} testID="place-detail">
-      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 110 }}>
+      <ScrollView
+        {...edges.scrollProps}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 110 }}
+      >
         <View style={{ height: HERO, overflow: 'hidden' }}>
           <PlaceHeroPhoto
             photo={view.photo}
@@ -181,6 +195,19 @@ export function PlacePage(props: PlaceDetailInput) {
           {further.profile === null ? null : <ReportPlaceProfile poiId={further.placeId} />}
         </View>
       </ScrollView>
+      {edges.top ? null : <PhotoHeaderScrim height={headerBand + SCROLL_EDGE_FADE} />}
+      <ScrollEdgeFade
+        edge="top"
+        height={headerBand + SCROLL_EDGE_FADE}
+        solid={headerBand}
+        visible={edges.top}
+      />
+      <ScrollEdgeFade
+        edge="bottom"
+        height={dockBand + SCROLL_EDGE_FADE}
+        solid={dockBand - theme.size.button / 2}
+        visible={edges.bottom}
+      />
       <View
         pointerEvents="box-none"
         style={[
@@ -266,10 +293,18 @@ export function PlacePage(props: PlaceDetailInput) {
 const styles = StyleSheet.create({
   header: {
     position: 'absolute',
+    zIndex: 2,
     left: 0,
     right: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  dock: { position: 'absolute', left: 0, right: 0, flexDirection: 'row', alignItems: 'center' },
+  dock: {
+    position: 'absolute',
+    zIndex: 2,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 });

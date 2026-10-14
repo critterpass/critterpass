@@ -64,12 +64,14 @@ function GuideReply(props: {
       {props.kept ? null : (
         <View style={{ flexDirection: 'row', gap: theme.space.gap6 }}>
           <Button
+            alignSelf="auto"
             size="small"
             label={t({ id: 'plan.collab.keep', message: 'Keep it' })}
             onPress={props.onKeep}
             testID="plan-guide-keep"
           />
           <Button
+            alignSelf="auto"
             size="small"
             variant="control"
             label={t({ id: 'plan.collab.undo', message: 'Undo' })}
@@ -229,6 +231,7 @@ export function PremiumCommentsCard(props: PremiumCommentsCardProps) {
             />
           </View>
           <Button
+            alignSelf="auto"
             size="small"
             label={t({ id: 'plan.collab.send', message: 'Send' })}
             disabled={draft.trim() === ''}

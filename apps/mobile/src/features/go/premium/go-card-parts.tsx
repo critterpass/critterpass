@@ -97,6 +97,7 @@ export function GoGrabRow({
         </Text>
       </View>
       <Button
+        alignSelf="auto"
         label={t({ id: 'go.preview.ride', message: 'Ride' })}
         size="medium"
         variant="secondary"

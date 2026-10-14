@@ -37,6 +37,9 @@ import {
 } from './find-start';
 import { useFindStart } from './use-find-start';
 
+/** The list's fade under the field's foot. */
+const FIELD_FADE = 12;
+
 export function FindScreen(props: SearchControllerProps) {
   const theme = usePremiumTheme();
   const insets = useSafeAreaInsets();
@@ -173,7 +176,28 @@ export function FindScreen(props: SearchControllerProps) {
           />
         </View>
       )}
-      <View style={{ paddingTop: online ? insets.top + 2 : theme.space.gap10 }}>
+      {/* The field draws over the list: its focus ring and shadow stay whole, and the list fades
+          out under the field's foot instead of cutting the first row at its edge. */}
+      <View
+        style={{
+          paddingTop: online ? insets.top + 2 : theme.space.gap10,
+          paddingBottom: theme.space.gap8,
+          backgroundColor: theme.color.ground,
+          zIndex: 1,
+        }}
+      >
+        <View
+          pointerEvents="none"
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: '100%',
+            height: FIELD_FADE,
+            // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never copy.
+            experimental_backgroundImage: `linear-gradient(180deg, ${theme.color.ground}, ${theme.color.ground}00)`,
+          }}
+        />
         <FindField
           value={query}
           onChangeText={find.type}
@@ -186,7 +210,7 @@ export function FindScreen(props: SearchControllerProps) {
       <KeyboardAwareScroll
         contentContainerStyle={{
           paddingHorizontal: theme.space.gap16,
-          paddingTop: theme.space.gap16,
+          paddingTop: theme.space.gap8,
           paddingBottom: insets.bottom + theme.space.gap16,
           gap: theme.space.gap16,
         }}

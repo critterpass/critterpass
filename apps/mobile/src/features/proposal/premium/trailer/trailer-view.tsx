@@ -92,6 +92,7 @@ export function PremiumTrailerView(props: TrailerViewProps) {
               <View style={styles.quick}>
                 {props.quick.map((reply) => (
                   <Button
+                    alignSelf="auto"
                     key={reply.kind}
                     variant="floating"
                     size="small"

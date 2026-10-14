@@ -254,6 +254,7 @@ export function PremiumItemSheet(props: ItemDetailSheetProps) {
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap6 }}>
             {props.dayNos.map((dayNo) => (
               <Button
+                alignSelf="auto"
                 key={dayNo}
                 size="small"
                 variant={dayNo === targetDay ? 'primary' : 'control'}

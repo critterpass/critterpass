@@ -60,7 +60,9 @@ function Tile({ tile }: { readonly tile: HubTileData }) {
             {tile.value}
           </Text>
           {tile.caption === null ? null : (
-            <Text variant="caption" tone="muted" numberOfLines={1}>
+            // A half-width tile is narrow: the line under the value wraps to a second line before
+            // it is ever cut.
+            <Text variant="caption" tone="muted" numberOfLines={2} singleLine={false}>
               {tile.caption}
             </Text>
           )}

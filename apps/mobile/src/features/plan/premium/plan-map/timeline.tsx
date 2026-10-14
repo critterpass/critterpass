@@ -7,7 +7,7 @@
  */
 import * as Haptics from 'expo-haptics';
 import { useCallback, useMemo, useState } from 'react';
-import { View, type LayoutChangeEvent } from 'react-native';
+import { useWindowDimensions, View, type LayoutChangeEvent } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
@@ -52,9 +52,30 @@ const NO_DRAG = Gesture.Pan().enabled(false);
 /** The leg rail sits under the stop's number disc: past the time column, the gap and the card. */
 const RAIL_INSET = 24;
 
-/** The time column: 44 pt holds a 24-hour clock ("14:30"); a 12-hour one ("10:40am") needs 62. */
-function clockWidth(times: readonly (string | null | undefined)[]): number {
-  return times.some((time) => (time?.length ?? 0) > 5) ? 62 : 44;
+/**
+ * The time column at the design's size: 44 pt holds a 24-hour clock ("14:30"), a 12-hour one
+ * ("11:30am") 64. It grows with the reader's text size (up to the label's cap), so a long time is
+ * never squeezed smaller than the rest.
+ */
+export function clockWidth(times: readonly (string | null | undefined)[], fontScale = 1): number {
+  const base = times.some((time) => (time?.length ?? 0) > 5) ? 64 : 44;
+  return Math.ceil(base * Math.min(Math.max(fontScale, 1), CLOCK_MAX_SCALE));
+}
+
+/** The time label's Dynamic Type cap (the control labels' 1.5). */
+const CLOCK_MAX_SCALE = 1.5;
+/** A figure space: as wide as one tabular digit. */
+const FIGURE_SPACE = '\u2007';
+
+/**
+ * Pads a one-digit hour ("8:00am") with a figure space when the column also holds two-digit hours
+ * ("11:30am"), so every time in the column lines up on both edges and at the colon.
+ */
+export function alignClock(time: string, times: readonly (string | null | undefined)[]): string {
+  const hour = (value: string) => /^\d+/.exec(value)?.[0].length ?? 0;
+  const widest = Math.max(0, ...times.map((value) => hour(value ?? '')));
+  const own = hour(time);
+  return own > 0 && own < widest ? FIGURE_SPACE.repeat(widest - own) + time : time;
 }
 
 const useStyles = makePremiumStyles((t) => ({
@@ -76,13 +97,15 @@ export function Timeline(props: TimelineProps) {
   const styles = useStyles();
   const t = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
+  const { fontScale } = useWindowDimensions();
   // Where each row sits, by index, as laid out (read by the drag, never by render).
   const layouts = useSharedValue<Readonly<Record<number, { y: number; h: number }>>>({});
   const [held, setHeld] = useState<{ index: number; startY: number } | null>(null);
   const dy = useSharedValue(0);
   const lift = useSharedValue(0);
   const order = useMemo(() => props.rows.map((row) => row.id), [props.rows]);
-  const clock = clockWidth([...props.rows.map((row) => row.time), props.lifted?.time]);
+  const times = [...props.rows.map((row) => row.time), props.lifted?.time];
+  const clock = clockWidth(times, fontScale);
 
   // The held row and the last slot it crossed, for the drag's worklet: crossing is worked out on
   // the UI thread and reaches React only when the slot changes.
@@ -197,7 +220,7 @@ export function Timeline(props: TimelineProps) {
                   singleLine
                   style={{ fontVariant: ['tabular-nums'] }}
                 >
-                  {isHeld ? (props.lifted?.time ?? row.time) : row.time}
+                  {alignClock(isHeld ? (props.lifted?.time ?? row.time) : row.time, times)}
                 </Text>
               </View>
               {isHeld ? (

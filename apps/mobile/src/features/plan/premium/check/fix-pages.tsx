@@ -73,6 +73,7 @@ function FixPage(props: {
           )}
           {props.send === null ? null : (
             <TextButton
+              align="center"
               label={props.sendLabel}
               onPress={props.send}
               testID={`${props.testID}-send`}

@@ -124,6 +124,7 @@ export function PremiumBalanceView(props: BalanceViewProps) {
             <View style={{ flexDirection: 'row', gap: theme.space.gap8 }}>
               {offer.add === null ? null : (
                 <Button
+                  alignSelf="auto"
                   size="small"
                   label={offer.add.label}
                   onPress={offer.add.onPress}
@@ -133,6 +134,7 @@ export function PremiumBalanceView(props: BalanceViewProps) {
               )}
               {offer.ask.onPress === null ? null : (
                 <Button
+                  alignSelf="auto"
                   size="small"
                   variant="control"
                   label={offer.ask.label}
@@ -252,9 +254,15 @@ export function PremiumGapView(props: GapViewProps) {
             testID="plan-gap-add"
           />
         </View>
-        <TextButton label={props.elseLabel} onPress={props.onElse} testID="plan-gap-else" />
+        <TextButton
+          align="center"
+          label={props.elseLabel}
+          onPress={props.onElse}
+          testID="plan-gap-else"
+        />
         {props.onDismiss === undefined ? null : (
           <TextButton
+            align="center"
             label={t({ id: 'plan.premium.gap.close', message: 'Close' })}
             onPress={props.onDismiss}
           />

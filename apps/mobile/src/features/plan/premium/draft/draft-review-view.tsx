@@ -215,6 +215,7 @@ export function PremiumDraftReviewView(props: DraftReviewViewProps) {
           />
         </View>
         <TextButton
+          align="center"
           label={t({
             id: 'planDraft.review.changeDay',
             message: `Ask ${guideName} to change a day`,
