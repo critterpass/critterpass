@@ -3,11 +3,9 @@
  * report sheet, the "+" sheet and the microphone-off sheet. One at a time; each closes back to the
  * chat with nothing lost.
  */
-import type { ReportReason, StickerPose } from '@cp/domain';
+import type { ReportReason } from '@cp/domain';
 import { t } from '@lingui/core/macro';
-import { View } from 'react-native';
-
-import { usePremiumTheme } from '@/ui/premium';
+import type { ReactNode } from 'react';
 
 import type { ChatMessage } from '../../chat/data/rows';
 import type { ReactionGroup } from '../../chat/data/use-reactions';
@@ -16,12 +14,16 @@ import type { ChatMediaActions } from '../../chat/media/use-chat-media-actions';
 import { AttachSheet, MicOffSheet } from './chat-sheets';
 import { MessageMenu, type MenuAction } from './message-menu';
 import type { MessageAnchor } from './message-row';
-import { MessageText } from './message-text';
-import { StickerArtView } from './sticker-message';
 import { ReportSheet, WhoReactedSheet } from './who-reacted-sheet';
 
 export type ChatOverlay =
-  | { readonly kind: 'menu'; readonly message: ChatMessage; readonly anchor: MessageAnchor }
+  | {
+      readonly kind: 'menu';
+      readonly message: ChatMessage;
+      readonly anchor: MessageAnchor;
+      /** The held message as its row draws it, lifted over the chat. */
+      readonly preview: ReactNode;
+    }
   | { readonly kind: 'who'; readonly message: ChatMessage }
   | { readonly kind: 'report'; readonly message: ChatMessage }
   | null;
@@ -44,7 +46,6 @@ export interface ChatOverlaysProps {
 }
 
 export function ChatOverlays(props: ChatOverlaysProps) {
-  const th = usePremiumTheme();
   const { overlay, media } = props;
   return (
     <>
@@ -56,34 +57,7 @@ export function ChatOverlays(props: ChatOverlaysProps) {
           reactions={props.groupsOf(overlay.message.id)}
           actions={props.menuFor(overlay.message).main}
           destructive={props.menuFor(overlay.message).danger}
-          preview={
-            overlay.message.type === 'sticker' && overlay.message.refId !== null ? (
-              <StickerArtView
-                formId={overlay.message.refId}
-                pose={overlay.message.body as StickerPose}
-                size={112}
-                tilt={5}
-              />
-            ) : (
-              <View
-                style={{
-                  width: overlay.anchor.width,
-                  borderRadius: th.radius.card,
-                  paddingVertical: th.space.gap12,
-                  paddingHorizontal: th.space.gap16,
-                  backgroundColor: props.isMine(overlay.message)
-                    ? th.color.inkSurface
-                    : th.color.card,
-                }}
-              >
-                <MessageText
-                  body={overlay.message.body}
-                  tone={props.isMine(overlay.message) ? 'mine' : 'theirs'}
-                  deleted={false}
-                />
-              </View>
-            )
-          }
+          preview={overlay.preview}
           onReact={(reaction) => props.onReact(overlay.message.id, reaction)}
           onClose={props.close}
         />

@@ -8,7 +8,7 @@
 import { critterReactionKey, DOODLE_REACTIONS } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import * as Haptics from 'expo-haptics';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
 import Animated, {
   withSpring,
@@ -22,7 +22,6 @@ import {
   PressableScale,
   REDUCED_FADE,
   SPRINGS,
-  Text,
   makePremiumStyles,
   reducedFadeIn,
   reducedFadeOut,
@@ -34,6 +33,7 @@ import {
 import type { ReactionGroup } from '../../chat/data/use-reactions';
 import { CHAT_PAINT } from '../premium-paint';
 import type { MessageAnchor } from './message-row';
+import { MENU_ROW, MenuRow } from './menu-row';
 import { ReactionFace, reactionLabel } from './reaction-chips';
 
 /** The sticker bar's critters: Tokek cheering and thinking, Pon, the sardine, the puffin, Tokek asleep. */
@@ -58,11 +58,16 @@ const MENU_WIDTH = 250;
 /** The lifted message takes at most this share of the screen's height. */
 const PREVIEW_SHARE = 0.4;
 const BAR_HEIGHT = 54;
-const ROW = 48;
 
 const useStyles = makePremiumStyles((th) => ({
   scrim: { ...StyleSheet.absoluteFill, backgroundColor: CHAT_PAINT.menuScrim },
-  frost: { ...StyleSheet.absoluteFill, backgroundColor: th.color.ground, opacity: 0.55 },
+  // Over the header and the status bar too; with no blur on hand the frost is thick enough that
+  // the chat behind reads as shapes, not words.
+  root: { ...StyleSheet.absoluteFill, zIndex: 10 },
+  frost: { ...StyleSheet.absoluteFill, backgroundColor: th.color.ground, opacity: 0.82 },
+  lifted: { position: 'absolute' },
+  liftedShadow: { borderRadius: th.radius.banner },
+  liftedClip: { borderRadius: th.radius.banner, overflow: 'hidden' },
   bar: {
     position: 'absolute',
     height: BAR_HEIGHT,
@@ -79,13 +84,6 @@ const useStyles = makePremiumStyles((th) => ({
     borderRadius: th.radius.card,
     overflow: 'hidden',
   },
-  row: {
-    height: ROW,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: th.space.gap16,
-  },
   hairline: { height: th.size.hairline, backgroundColor: th.color.hairlineMenu },
   band: { height: 6, backgroundColor: th.color.segmentTrack },
 }));
@@ -98,7 +96,7 @@ export interface MessageMenuProps {
   readonly actions: readonly MenuAction[];
   readonly destructive: readonly MenuAction[];
   /** The lifted message, drawn by the caller at the anchor's size. */
-  readonly preview: React.ReactNode;
+  readonly preview: ReactNode;
   readonly onReact: (reaction: string) => void;
   readonly onClose: () => void;
 }
@@ -140,15 +138,17 @@ export function MessageMenu(props: MessageMenuProps) {
   const reduced = usePremiumReducedMotion();
   const window = useWindowDimensions();
   const [more, setMore] = useState(false);
+  // The lifted copy's own height: their message adds its sender's name, so it can outgrow the row.
+  const [height, setHeight] = useState<number | null>(null);
   const { anchor } = props;
   const lift = props.sticker ? 150 / 112 : 1.03;
   const menuHeight =
-    ROW * (props.actions.length + props.destructive.length) +
+    MENU_ROW * (props.actions.length + props.destructive.length) +
     (props.destructive.length > 0 ? 6 : 0);
   // Keep the bar, the lifted message and the menu on screen together.
   const { top, liftedHeight } = menuPlacement({
     anchorY: anchor.y,
-    anchorHeight: anchor.height,
+    anchorHeight: height ?? anchor.height,
     lift,
     menuHeight,
     windowHeight: window.height,
@@ -164,7 +164,7 @@ export function MessageMenu(props: MessageMenuProps) {
 
   return (
     <Animated.View
-      style={StyleSheet.absoluteFill}
+      style={styles.root}
       entering={reducedFadeIn()}
       exiting={reducedFadeOut()}
       testID="chat-message-menu"
@@ -178,110 +178,99 @@ export function MessageMenu(props: MessageMenuProps) {
         <View style={styles.frost} />
         {props.sticker ? null : <View style={styles.scrim} />}
       </Pressable>
-      <Animated.View
-        entering={enter}
-        style={[
-          styles.bar,
-          { top: top - BAR_HEIGHT - 12, left: left ?? undefined, right: right ?? undefined },
-        ]}
-      >
-        <GlassSurface kind="regular" style={StyleSheet.absoluteFill} />
-        {choices.map((reaction) => (
-          <PressableScale
-            key={reaction}
-            style={[
-              styles.cell,
-              mine.has(reaction) ? { backgroundColor: CHAT_PAINT.myReaction } : null,
-            ]}
-            onPress={() => {
-              void Haptics.selectionAsync();
-              props.onReact(reaction);
-              props.onClose();
-            }}
-            accessibilityRole="button"
-            accessibilityLabel={reactionLabel(reaction)}
-            accessibilityState={{ selected: mine.has(reaction) }}
-            testID={`chat-react-${reaction}`}
-          >
-            <ReactionFace reaction={reaction} size={32} />
-          </PressableScale>
-        ))}
-        {props.sticker || more ? null : (
-          <PressableScale
-            style={[styles.cell, { backgroundColor: th.color.segmentTrack }]}
-            onPress={() => setMore(true)}
-            accessibilityRole="button"
-            accessibilityLabel={t({ id: 'chat.premium.menu.more', message: 'More reactions' })}
-          >
-            <Icon name="plus" size={18} color={th.color.ink} />
-          </PressableScale>
-        )}
-      </Animated.View>
+      {height === null ? null : (
+        <Animated.View
+          entering={enter}
+          style={[
+            styles.bar,
+            { top: top - BAR_HEIGHT - 12, left: left ?? undefined, right: right ?? undefined },
+          ]}
+        >
+          <GlassSurface kind="regular" style={StyleSheet.absoluteFill} />
+          {choices.map((reaction) => (
+            <PressableScale
+              key={reaction}
+              style={[
+                styles.cell,
+                mine.has(reaction) ? { backgroundColor: CHAT_PAINT.myReaction } : null,
+              ]}
+              onPress={() => {
+                void Haptics.selectionAsync();
+                props.onReact(reaction);
+                props.onClose();
+              }}
+              accessibilityRole="button"
+              accessibilityLabel={reactionLabel(reaction)}
+              accessibilityState={{ selected: mine.has(reaction) }}
+              testID={`chat-react-${reaction}`}
+            >
+              <ReactionFace reaction={reaction} size={32} />
+            </PressableScale>
+          ))}
+          {props.sticker || more ? null : (
+            <PressableScale
+              style={[styles.cell, { backgroundColor: th.color.segmentTrack }]}
+              onPress={() => setMore(true)}
+              accessibilityRole="button"
+              accessibilityLabel={t({ id: 'chat.premium.menu.more', message: 'More reactions' })}
+            >
+              <Icon name="plus" size={18} color={th.color.ink} />
+            </PressableScale>
+          )}
+        </Animated.View>
+      )}
+      {/* At the row's width, so the words wrap as they did in the chat; the shadow hugs the bubble. */}
       <View
         pointerEvents="none"
-        style={{
-          position: 'absolute',
-          top,
-          left: props.mine ? undefined : anchor.x,
-          right: props.mine ? window.width - anchor.x - anchor.width : undefined,
-          maxHeight: liftedHeight / lift,
-          overflow: 'hidden',
-          transform: [{ scale: lift }],
-          // eslint-disable-next-line lingui/no-unlocalized-strings -- style keywords, never copy.
-          transformOrigin: props.mine ? 'top right' : 'top left',
-          boxShadow: props.sticker ? undefined : CHAT_PAINT.menuShadow,
-        }}
-      >
-        {props.preview}
-      </View>
-      <Animated.View
-        entering={enter}
         style={[
-          styles.menu,
-          { top: top + liftedHeight + 12, left: left ?? undefined, right: right ?? undefined },
+          styles.lifted,
+          {
+            top,
+            left: anchor.x,
+            width: anchor.width,
+            alignItems: props.mine ? 'flex-end' : 'flex-start',
+            opacity: height === null ? 0 : 1,
+            transform: [{ scale: lift }],
+            // eslint-disable-next-line lingui/no-unlocalized-strings -- style keywords, never copy.
+            transformOrigin: props.mine ? 'top right' : 'top left',
+          },
         ]}
       >
-        <GlassSurface kind="sheet" style={StyleSheet.absoluteFill} />
-        {props.actions.map((action, index) => (
-          <View key={action.key}>
-            {index === 0 ? null : <View style={styles.hairline} />}
-            <MenuRow action={action} onClose={props.onClose} />
+        <View
+          style={props.sticker ? null : [styles.liftedShadow, { boxShadow: CHAT_PAINT.menuShadow }]}
+        >
+          <View
+            style={[
+              props.sticker ? null : styles.liftedClip,
+              { maxHeight: (window.height * PREVIEW_SHARE) / lift },
+            ]}
+            onLayout={(event) => setHeight(event.nativeEvent.layout.height)}
+          >
+            {props.preview}
           </View>
-        ))}
-        {props.destructive.length === 0 ? null : <View style={styles.band} />}
-        {props.destructive.map((action) => (
-          <MenuRow key={action.key} action={action} onClose={props.onClose} />
-        ))}
-      </Animated.View>
+        </View>
+      </View>
+      {height === null ? null : (
+        <Animated.View
+          entering={enter}
+          style={[
+            styles.menu,
+            { top: top + liftedHeight + 12, left: left ?? undefined, right: right ?? undefined },
+          ]}
+        >
+          <GlassSurface kind="sheet" style={StyleSheet.absoluteFill} />
+          {props.actions.map((action, index) => (
+            <View key={action.key}>
+              {index === 0 ? null : <View style={styles.hairline} />}
+              <MenuRow action={action} onClose={props.onClose} />
+            </View>
+          ))}
+          {props.destructive.length === 0 ? null : <View style={styles.band} />}
+          {props.destructive.map((action) => (
+            <MenuRow key={action.key} action={action} onClose={props.onClose} />
+          ))}
+        </Animated.View>
+      )}
     </Animated.View>
-  );
-}
-
-function MenuRow({
-  action,
-  onClose,
-}: {
-  readonly action: MenuAction;
-  readonly onClose: () => void;
-}) {
-  const th = usePremiumTheme();
-  const styles = useStyles();
-  const color = action.destructive === true ? th.color.destructive.listAction : th.color.ink;
-  return (
-    <PressableScale
-      style={styles.row}
-      pressedScale={1}
-      onPress={() => {
-        onClose();
-        action.onPress();
-      }}
-      accessibilityRole="menuitem"
-      testID={`chat-action-${action.key}`}
-    >
-      <Text variant="headline" color={color} style={{ fontWeight: '400' }}>
-        {action.label}
-      </Text>
-      <Icon name={action.icon} size={18} color={color} />
-    </PressableScale>
   );
 }
