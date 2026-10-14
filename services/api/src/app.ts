@@ -10,6 +10,8 @@ import { ZodError } from 'zod';
 
 import type { SessionResolver } from './commands/_framework/session';
 import { registerGeocodingRoutes, type GeocodingRouteDeps } from './geocoding/routes';
+import { createKillSwitches } from './ops/kill-switches';
+import type { OsmFallbackDeps } from './places/osm-fallback';
 import { NOOP_ERROR_REPORTER, type ErrorReporter } from './obs/sentry';
 import { redactLinkPath } from './links/redact';
 import type { FoursquareLiveConfig } from './places/live';
@@ -49,6 +51,9 @@ export interface AppDeps {
   tilesBaseUrl?: string;
   /** Foursquare Places API for live place details (`/v1/places/{id}/live`); absent = unavailable. */
   foursquare?: FoursquareLiveConfig;
+  /** Redis for the place search's OpenStreetMap fallback (one request a second across instances,
+   *  answers kept 30 days); absent = a search that finds nothing is never looked up. */
+  placesOsmFallback?: Pick<OsmFallbackDeps, 'redis' | 'onError'>;
   /** Sentry: unexpected errors are reported and `INTERNAL` carries `detail.event_id`. */
   errors?: ErrorReporter;
   /** The signed-in session behind a request; the places, map and geocoding routes need one. */
@@ -160,6 +165,14 @@ export function createApp(deps: AppDeps) {
       tilesBaseUrl: deps.tilesBaseUrl ?? DEFAULT_TILES_BASE_URL,
       ...(deps.foursquare !== undefined ? { foursquare: deps.foursquare } : {}),
       profiles: { redis: deps.geocoding?.redis },
+      ...(deps.placesOsmFallback !== undefined
+        ? {
+            osmFallback: {
+              ...deps.placesOsmFallback,
+              isOn: createKillSwitches(pool).isOn,
+            },
+          }
+        : {}),
     });
     if (deps.geocoding !== undefined) {
       registerGeocodingRoutes(app, {

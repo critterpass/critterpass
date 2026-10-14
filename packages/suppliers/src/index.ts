@@ -115,5 +115,6 @@ export {
   type MapboxHttpClient,
 } from './mapbox/geocode';
 export * from './valhalla';
+export * from './nominatim';
 export * from './social';
 export * from './private-transport';

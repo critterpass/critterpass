@@ -28,6 +28,7 @@ import { getPlaceLive, type FoursquareLiveConfig } from './live';
 import { registerLiveSearchRoutes } from './live-search-routes';
 import { getMapRegionManifest } from './map-regions';
 import { createWantedRegionsReader, WANTED_MAX } from './map-regions-wanted';
+import { MIN_FALLBACK_QUERY_LENGTH, osmFallback, type OsmFallbackDeps } from './osm-fallback';
 import { MAX_BROWSE_LIMIT, searchPlaces, type PlaceSearchFilters } from './search';
 
 export interface PlacesRouteDeps {
@@ -50,6 +51,8 @@ export interface PlacesRouteDeps {
     readonly redis?: RateLimitRedisClient | undefined;
     readonly mediaBaseUrl?: string | undefined;
   };
+  /** The OpenStreetMap lookup for a submitted search with no answer; absent = never asked. */
+  readonly osmFallback?: OsmFallbackDeps;
 }
 
 const DEFAULT_TILES_BASE_URL = 'https://pub-0cf3d04afb394624afbe8f117d1f198b.r2.dev';
@@ -79,6 +82,9 @@ const searchQuerySchema = z.object({
   category: z.string().optional(),
   destination_id: z.uuid().optional(),
   open_at: z.iso.datetime({ offset: true }).optional(),
+  // The app sends `submit=1` when the person submits the search, never while they type: only then
+  // may an empty answer inside a destination be looked up in OpenStreetMap.
+  submit: z.literal('1').optional(),
   // Up to 300 for a destination's no-query browse (a map page); 50 for anything else.
   limit: z.coerce.number().int().positive().max(MAX_BROWSE_LIMIT).optional(),
 });
@@ -151,9 +157,23 @@ export function registerPlacesRoutes(app: OpenAPIHono<AppEnv>, deps: PlacesRoute
       return c.json(response);
     }
 
-    const results = await withUser(deps.pool, actor.uid, actor.device, (tx) =>
-      searchPlaces(tx, filters),
-    );
+    const search = () =>
+      withUser(deps.pool, actor.uid, actor.device, (tx) => searchPlaces(tx, filters));
+    const results = await search();
+    const q = query.q?.trim() ?? '';
+    if (
+      results.length === 0 &&
+      deps.osmFallback !== undefined &&
+      query.submit === '1' &&
+      query.destination_id !== undefined &&
+      q.length >= MIN_FALLBACK_QUERY_LENGTH
+    ) {
+      const outcome = await osmFallback(deps.pool, deps.osmFallback, {
+        destinationId: query.destination_id,
+        q,
+      });
+      if (outcome === 'found' || outcome === 'cached') return c.json({ results: await search() });
+    }
     return c.json({ results });
   });
 
