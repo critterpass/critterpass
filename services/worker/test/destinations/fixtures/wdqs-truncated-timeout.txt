@@ -1,0 +1,23 @@
+{
+  "head" : {
+    "vars" : [ "item", "sitelinks", "iso", "coord", "pop", "image", "banner", "gn", "en", "vi", "elev" ]
+  },
+  "results" : {
+    "bindings" : [ {
+      "item" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q1854"
+      },
+      "sitelinks" : {
+        "datatype" : "http://www.w3.org/2001/XMLSchema#integer",
+        "type" : "literal",
+        "value" : "226"
+      },
+      "en" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Ho Chi Min
+SPARQL-QUERY: queryStr=SELECT ?item ?sitelinks ?iso ?coord ?pop ?image ?banner ?gn ?en ?vi ?elev WHERE {
+java.util.concurrent.TimeoutException
+	at java.util.concurrent.FutureTask.get(FutureTask.java:205)
+	at com.bigdata.rdf.sail.webapp.BigdataServlet.submitApiTask(BigdataServlet.java:292)

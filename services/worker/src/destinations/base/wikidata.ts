@@ -1,13 +1,17 @@
 /**
  * Wikidata (CC0) candidates: items of a destination type with an English or Vietnamese
  * Wikivoyage article and at least 10 sitelinks, with their coordinates, country, population,
- * image and Wikivoyage banner, GeoNames id, elevation and English and Vietnamese labels. One SPARQL
- * query per type, at most five at once (WDQS's limit per client), retried on 429 and 5xx.
+ * image and Wikivoyage banner, GeoNames id, elevation and English and Vietnamese labels. Each type
+ * is queried in sitelink bands so every page finishes well inside WDQS's 60 s limit, at most five
+ * pages at once (WDQS's limit per client). A page is retried on 429 and 5xx, and on a truncated
+ * body (WDQS cuts the JSON off mid-stream and appends a Java `TimeoutException` trailer).
  */
 import type { BaseCandidate, DestinationKind } from '@cp/domain';
 
-export const WDQS_URL = 'https://query.wikidata.org/sparql';
-const USER_AGENT = 'CritterPass-destinations/1.0 (https://critterpass.app; ops@critterpass.app)';
+import { inPool, runQuery, type Binding, type WikidataOptions } from './wdqs';
+
+export type { WikidataOptions } from './wdqs';
+
 export const MIN_SITELINKS = 10;
 
 /**
@@ -23,12 +27,31 @@ export const WIKIDATA_TYPES: Readonly<Record<string, DestinationKind>> = {
   Q46169: 'park',
 };
 
-export function candidateQuery(typeQid: string): string {
+/**
+ * Sitelink bands `[from, to)` a type is paged by: each item has one sitelink count, so it lands in
+ * exactly one page with all its rows (the query yields a row per value combination).
+ */
+export const SITELINK_BANDS: readonly (readonly [number, number | null])[] = [
+  [MIN_SITELINKS, 12],
+  [12, 15],
+  [15, 20],
+  [20, 30],
+  [30, 50],
+  [50, 100],
+  [100, null],
+];
+
+export function candidateQuery(
+  typeQid: string,
+  band: readonly [number, number | null] = [MIN_SITELINKS, null],
+): string {
+  const [from, to] = band;
+  const filter = `?sitelinks >= ${String(from)}${to === null ? '' : ` && ?sitelinks < ${String(to)}`}`;
   return `SELECT ?item ?sitelinks ?iso ?coord ?pop ?image ?banner ?gn ?en ?vi ?elev WHERE {
   VALUES ?site { <https://en.wikivoyage.org/> <https://vi.wikivoyage.org/> }
   ?item wdt:P31 wd:${typeQid} .
   ?wv schema:about ?item ; schema:isPartOf ?site .
-  ?item wikibase:sitelinks ?sitelinks . FILTER(?sitelinks >= ${MIN_SITELINKS})
+  ?item wikibase:sitelinks ?sitelinks . FILTER(${filter})
   ?item wdt:P625 ?coord .
   OPTIONAL { ?item wdt:P17/wdt:P297 ?iso }
   OPTIONAL { ?item wdt:P1082 ?pop }
@@ -40,8 +63,6 @@ export function candidateQuery(typeQid: string): string {
   OPTIONAL { ?item rdfs:label ?vi FILTER(lang(?vi) = "vi") }
 }`;
 }
-
-type Binding = Partial<Record<string, { value: string }>>;
 
 /** `…/Special:FilePath/Hoi%20An.jpg` → `Hoi An.jpg`. */
 export function commonsFileName(url: string): string | null {
@@ -100,42 +121,6 @@ export function candidatesFromBindings(
   return out;
 }
 
-export interface WikidataOptions {
-  readonly fetch?: typeof fetch;
-  readonly retries?: number;
-  readonly retryDelayMs?: number;
-}
-
-async function runQuery(query: string, options: WikidataOptions): Promise<Binding[]> {
-  const fetchImpl = options.fetch ?? fetch;
-  const retries = options.retries ?? 4;
-  for (let attempt = 0; ; attempt += 1) {
-    const response = await fetchImpl(WDQS_URL, {
-      method: 'POST',
-      headers: {
-        accept: 'application/sparql-results+json',
-        'content-type': 'application/x-www-form-urlencoded',
-        'user-agent': USER_AGENT,
-      },
-      body: new URLSearchParams({ query }).toString(),
-      signal: AbortSignal.timeout(90_000),
-    });
-    if (response.ok) {
-      const body = (await response.json()) as { results?: { bindings?: Binding[] } };
-      return body.results?.bindings ?? [];
-    }
-    if ((response.status !== 429 && response.status < 500) || attempt >= retries) {
-      throw new Error(`Wikidata query failed: HTTP ${response.status}`);
-    }
-    const wait = Number(response.headers.get('retry-after'));
-    const delay =
-      Number.isFinite(wait) && wait > 0
-        ? wait * 1000
-        : (options.retryDelayMs ?? 5_000) * 2 ** attempt;
-    await new Promise((resolve) => setTimeout(resolve, delay));
-  }
-}
-
 /** GeoNames ids per query when looking cities up by their GeoNames id (Wikidata P1566). */
 export const GEONAMES_IDS_PER_QUERY = 400;
 
@@ -172,27 +157,29 @@ export async function loadWikidataByGeonames(
   for (let at = 0; at < ids.length; at += GEONAMES_IDS_PER_QUERY) {
     batches.push(ids.slice(at, at + GEONAMES_IDS_PER_QUERY));
   }
-  for (let at = 0; at < batches.length; at += 5) {
-    const results = await Promise.all(
-      batches.slice(at, at + 5).map((batch) => runQuery(byGeonamesQuery(batch), options)),
-    );
-    for (const row of results.flat()) {
-      const item = row['item']?.value;
-      const gn = Number(row['gn']?.value);
-      if (item === undefined || !Number.isInteger(gn)) continue;
-      const sitelinks = Number(row['sitelinks']?.value ?? 0);
-      const known = fame.get(gn);
-      if (known !== undefined && known.sitelinks >= sitelinks) continue;
-      const en = row['en']?.value;
-      const vi = row['vi']?.value;
-      fame.set(gn, {
-        qid: item.slice(item.lastIndexOf('/') + 1),
-        sitelinks,
-        photoFile: commonsFileName(row['banner']?.value ?? row['image']?.value ?? ''),
-        ...(en === undefined ? {} : { en }),
-        ...(vi === undefined ? {} : { vi }),
-      });
-    }
+  const results = await inPool(
+    batches.map(
+      (batch, index) => () =>
+        runQuery(byGeonamesQuery(batch), `geonames ids page ${String(index + 1)}`, options),
+    ),
+    5,
+  );
+  for (const row of results.flat()) {
+    const item = row['item']?.value;
+    const gn = Number(row['gn']?.value);
+    if (item === undefined || !Number.isInteger(gn)) continue;
+    const sitelinks = Number(row['sitelinks']?.value ?? 0);
+    const known = fame.get(gn);
+    if (known !== undefined && known.sitelinks >= sitelinks) continue;
+    const en = row['en']?.value;
+    const vi = row['vi']?.value;
+    fame.set(gn, {
+      qid: item.slice(item.lastIndexOf('/') + 1),
+      sitelinks,
+      photoFile: commonsFileName(row['banner']?.value ?? row['image']?.value ?? ''),
+      ...(en === undefined ? {} : { en }),
+      ...(vi === undefined ? {} : { vi }),
+    });
   }
   return fame;
 }
@@ -223,18 +210,19 @@ export function withFame(
 export async function loadWikidataCandidates(
   options: WikidataOptions = {},
 ): Promise<BaseCandidate[]> {
-  const types = Object.entries(WIKIDATA_TYPES);
-  const results: BaseCandidate[][] = [];
-  for (let at = 0; at < types.length; at += 5) {
-    const batch = types.slice(at, at + 5);
-    results.push(
-      ...(await Promise.all(
-        batch.map(async ([qid, kind]) =>
-          candidatesFromBindings(await runQuery(candidateQuery(qid), options), kind),
-        ),
-      )),
-    );
-  }
+  const pages = Object.entries(WIKIDATA_TYPES).flatMap(([qid, kind]) =>
+    SITELINK_BANDS.map((band) => ({ qid, kind, band })),
+  );
+  const results = await inPool(
+    pages.map(({ qid, kind, band }) => async () => {
+      const label = `${qid} sitelinks ${String(band[0])}–${band[1] === null ? '' : String(band[1])}`;
+      return candidatesFromBindings(
+        await runQuery(candidateQuery(qid, band), label, options),
+        kind,
+      );
+    }),
+    5,
+  );
   // An item of several types keeps its first (city before town before island …).
   const seen = new Set<string>();
   return results.flat().filter((row) => {
