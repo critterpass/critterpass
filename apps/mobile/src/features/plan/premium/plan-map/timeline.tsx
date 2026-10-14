@@ -6,7 +6,7 @@
  * that never moves opens the stop's menu, as a tap does. Under Reduce Motion the lift is a fade.
  */
 import * as Haptics from 'expo-haptics';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState, type ComponentRef } from 'react';
 import { useWindowDimensions, View, type LayoutChangeEvent } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -27,6 +27,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
+import type { LiftRect } from './menu-choice';
 import { StopCard, type StopCardLabels, type TimelineRow } from './timeline-stop-card';
 
 export type { TimelineRow } from './timeline-stop-card';
@@ -43,7 +44,8 @@ export interface TimelineProps {
   readonly onCross: (index: number) => void;
   readonly onDrop: () => void;
   readonly onCancel: () => void;
-  readonly onOpenMenu: (id: string) => void;
+  /** Opens the stop's menu, lifted from where its card sits on screen (null when unmeasured). */
+  readonly onOpenMenu: (id: string, from: LiftRect | null) => void;
 }
 
 const HOLD_MS = 350;
@@ -112,7 +114,23 @@ export function Timeline(props: TimelineProps) {
   const heldIndex = useSharedValue(-1);
   const heldStart = useSharedValue(0);
   const lastOver = useSharedValue(-1);
-  const { onLift, onCross, onCancel, onOpenMenu, onDrop } = props;
+  const { onLift, onCross, onCancel, onDrop } = props;
+  // Each stop's card, so its menu lifts it from where it sits.
+  const cards = useRef(new Map<string, ComponentRef<typeof View>>());
+  const { onOpenMenu: openMenu } = props;
+  const onOpenMenu = useCallback(
+    (id: string) => {
+      const card = cards.current.get(id);
+      if (card === undefined) {
+        openMenu(id, null);
+        return;
+      }
+      card.measureInWindow((x, y, width, height) =>
+        openMenu(id, width > 0 ? { x, y, width, height } : null),
+      );
+    },
+    [openMenu],
+  );
 
   const begin = useCallback(
     (index: number) => {
@@ -211,7 +229,13 @@ export function Timeline(props: TimelineProps) {
               layouts.set({ ...layouts.get(), [index]: { y, h: height } });
             }}
           >
-            <View style={styles.row}>
+            <View
+              style={styles.row}
+              ref={(view) => {
+                if (view === null) cards.current.delete(row.id);
+                else cards.current.set(row.id, view);
+              }}
+            >
               <View style={[styles.time, { width: clock }]}>
                 <Text
                   variant="bannerAction"
@@ -228,7 +252,7 @@ export function Timeline(props: TimelineProps) {
               ) : (
                 <GestureDetector gesture={gestures[index] ?? NO_DRAG}>
                   <PressableScale
-                    onPress={() => props.onOpenMenu(row.id)}
+                    onPress={() => onOpenMenu(row.id)}
                     accessibilityRole="button"
                     accessibilityLabel={row.title}
                     style={{ flex: 1 }}
@@ -238,7 +262,7 @@ export function Timeline(props: TimelineProps) {
                       row={row}
                       dayNo={props.dayNo}
                       labels={props.labels}
-                      onOpenMenu={props.onOpenMenu}
+                      onOpenMenu={onOpenMenu}
                     />
                   </PressableScale>
                 </GestureDetector>

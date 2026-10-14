@@ -1,8 +1,9 @@
 /**
  * A stop's menu (4.29): the stop lifted as a card (its day's colour bar, title, time and how it is
- * reached, its booking) over the dimmed day, and the glass menu under it: see the details, move it
- * to another day, change its time, ask the guide, share it, and remove it from the plan (pink, set
- * apart). A member's moves and removals go to the crew as suggestions, as every edit of theirs does.
+ * reached, its booking) where it sat on the dimmed day, and the glass menu right under it: see the
+ * details, move it to another day, change its time, ask the guide, share it, and remove it from
+ * the plan (pink, set apart). A row the stop can't take is left out. A member's moves and removals
+ * go to the crew as suggestions, as every edit of theirs does.
  */
 import { useWindowDimensions, View } from 'react-native';
 
@@ -11,6 +12,7 @@ import { makePremiumStyles, StatusTag, Text } from '@/ui/premium';
 import { dayColours } from '../map';
 import { planMapCopy } from './copy';
 import { GlassMenu, type GlassMenuItem } from './glass-menu';
+import type { LiftRect } from './menu-choice';
 
 export interface StopMenuStop {
   readonly id: string;
@@ -23,17 +25,21 @@ export interface StopMenuStop {
 
 export interface StopMenuProps {
   readonly stop: StopMenuStop;
+  /** Where the stop's card sat on screen; null when it was picked on the map. */
+  readonly from: LiftRect | null;
   readonly guideName: string;
   readonly onClose: () => void;
   readonly onDetails: () => void;
-  readonly onMove: () => void;
-  readonly onTime: () => void;
+  readonly onMove: (() => void) | undefined;
+  readonly onTime: (() => void) | undefined;
   readonly onAsk: (() => void) | undefined;
   readonly onShare: () => void;
   readonly onRemove: (() => void) | undefined;
 }
 
+/** Where the design lifts a stop that has no card on screen (one picked on the map). */
 const PREVIEW_TOP = 170;
+const EDGE = 20;
 
 const useStyles = makePremiumStyles((t) => ({
   card: {
@@ -56,35 +62,27 @@ export function StopMenu(props: StopMenuProps) {
   const { width } = useWindowDimensions();
   const { stop } = props;
   const copy = planMapCopy.stop;
+  const offered = (item: Omit<GlassMenuItem, 'onPress'>, onPress: (() => void) | undefined) =>
+    onPress === undefined ? [] : [{ ...item, onPress }];
   const items: GlassMenuItem[] = [
     { key: 'details', label: copy.details(), icon: 'forward', onPress: props.onDetails },
-    { key: 'move', label: copy.move(), icon: 'expand', onPress: props.onMove },
-    { key: 'time', label: copy.time(), icon: 'edit', onPress: props.onTime },
-    ...(props.onAsk === undefined
-      ? []
-      : [
-          {
-            key: 'ask',
-            label: copy.ask(props.guideName),
-            icon: 'mic' as const,
-            onPress: props.onAsk,
-          },
-        ]),
+    ...offered({ key: 'move', label: copy.move(), icon: 'expand' }, props.onMove),
+    ...offered({ key: 'time', label: copy.time(), icon: 'edit' }, props.onTime),
+    ...offered({ key: 'ask', label: copy.ask(props.guideName), icon: 'mic' }, props.onAsk),
     { key: 'share', label: copy.share(), icon: 'share', onPress: props.onShare },
-    ...(props.onRemove === undefined
-      ? []
-      : [{ key: 'remove', label: copy.remove(), destructive: true, onPress: props.onRemove }]),
+    ...offered({ key: 'remove', label: copy.remove(), destructive: true }, props.onRemove),
   ];
   return (
     <GlassMenu
       items={items}
       onClose={props.onClose}
-      anchor={{ x: 20, y: PREVIEW_TOP }}
+      anchor={{ x: EDGE, y: PREVIEW_TOP }}
+      lift={{ from: props.from, fallback: PREVIEW_TOP }}
       accessibilityLabel={planMapCopy.closeMenu()}
       testID="stop-menu"
       preview={
         <View
-          style={[styles.card, { width: width - 40 }]}
+          style={[styles.card, { width: width - EDGE * 2 }]}
           accessible
           accessibilityLabel={stop.title}
         >

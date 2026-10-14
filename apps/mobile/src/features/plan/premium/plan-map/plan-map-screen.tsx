@@ -29,7 +29,7 @@ import { PlacesLayer } from './places-layer';
 import { PlanMapSheet } from './plan-map-sheet';
 import { PremiumPlanShareSheet } from '../share/plan-share-sheet';
 import { PlanMoreMenu } from './plan-more-menu';
-import { StopOverlays } from './stop-overlays';
+import { StopOverlays, type OpenStop } from './stop-overlays';
 import { Timeline } from './timeline';
 import { PlanDayHead, TripFixRows } from './trip-fixes';
 import { TopBar } from './top-bar';
@@ -60,7 +60,10 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
   const [moved, setDetent] = useState<MapDetent | null>(null);
   const detent: MapDetent = moved ?? (model.empty ? 'half' : (sheet ?? 'peek'));
   const [menu, setMenu] = useState<number | null>(null);
-  const [stopMenu, setStopMenu] = useState<string | null>(props.item ?? null);
+  // A link that names a stop opens straight on its details.
+  const [openStop, setOpenStop] = useState<OpenStop | null>(
+    props.item === undefined ? null : { id: props.item, from: null, details: true },
+  );
   const [sharing, setSharing] = useState(false);
   const [picked, setPicked] = useState<string | null>(null);
   const guide = guideSticker(model.guide.id);
@@ -139,7 +142,7 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
           size={detent === 'full' ? 'small' : detent === 'peek' ? 'medium' : 'large'}
           onSelectStop={(id) => {
             setDetent('half');
-            setStopMenu(id);
+            setOpenStop({ id, from: null, details: false });
           }}
         />
         {stay === null ? null : (
@@ -228,7 +231,7 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
                 onCross={map.reorder.cross}
                 onDrop={() => void map.reorder.drop()}
                 onCancel={map.reorder.cancel}
-                onOpenMenu={setStopMenu}
+                onOpenMenu={(id, from) => setOpenStop({ id, from, details: false })}
               />
             ) : null}
           </View>
@@ -262,13 +265,13 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
           onClose={() => setMenu(null)}
         />
       )}
-      {stopMenu === null ? null : (
+      {openStop === null ? null : (
         <StopOverlays
           tripId={tripId}
           map={map}
-          stopId={stopMenu}
-          openDetails={stopMenu === props.item}
-          onClose={() => setStopMenu(null)}
+          stop={openStop}
+          onDetails={() => setOpenStop({ ...openStop, details: true })}
+          onClose={() => setOpenStop(null)}
         />
       )}
       {sharing ? (
