@@ -143,7 +143,15 @@ export function SegmentedControl<Value extends string>({
                   }
             }
           >
-            <Text variant="segment" tone={selected ? 'ink' : 'inkSecondary'} numberOfLines={1}>
+            {/* One size for every segment: a label too long for its share wraps onto a second line
+                (a longer language) instead of each one shrinking on its own. */}
+            <Text
+              variant="segment"
+              tone={selected ? 'ink' : 'inkSecondary'}
+              align="center"
+              numberOfLines={hug ? 1 : 2}
+              singleLine={false}
+            >
               {option.label}
             </Text>
           </Pressable>
