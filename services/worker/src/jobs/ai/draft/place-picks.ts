@@ -1,58 +1,57 @@
 /**
  * A draft never starts from an empty shelf. A destination without a curated set is planned from
- * its machine picks (`src/places/pick/run.ts`); when a draft starts before those exist, they are
- * made first, inside the job, with a bounded wait on the naming call (the open-data fill needs no
- * model). And when the places we know still cannot fill the days, the draft says so: its summary
- * line tells the organiser, and the job logs it.
+ * what its destination brief recommends (the brief writes the destination's recommended places,
+ * docs/product-decisions.md D38); a draft that starts while that brief is still being written waits
+ * for it, up to `BRIEF_WAIT_MS`, and then goes on with what is known. The brief itself is queued on
+ * the pitch or trip that first names the destination; the draft queues nothing. And when the places
+ * we know still cannot fill the days, the draft says so: its summary line tells the organiser, and
+ * the job logs it.
  */
 import { longVisitsOf, writeDraftSummary, type DraftModel, type DraftPlanInput } from '@cp/ai';
 import { pickCoverage, withSystem } from '@cp/db';
 import type pg from 'pg';
-import type { PgBoss } from 'pg-boss';
 
 import type { JobLogger } from '../../../boss/define-job';
-import { runPlacePick, type PlacePickDeps, type PlacePickReport } from '../../../places/pick/run';
-import { queuePlacePick } from '../../places/pick';
 import { allMustDosMade, type DraftToSave } from './persist';
 
-/** How long a draft waits for the model to name the destination's well-known places. */
-export const PICK_WAIT_MS = 45_000;
+/** How long a draft waits for the destination's brief. */
+export const BRIEF_WAIT_MS = 45_000;
+const BRIEF_POLL_MS = 3_000;
 
 /** Candidates a day needs before a draft counts as more than a must-do list. */
 export const MIN_CANDIDATES_PER_DAY = 2;
 
 /**
- * Makes the destination's picks when it has neither a curated set nor picks; null when not needed.
- * When the naming call fails or runs out of time the draft goes on with the open-data fill, and
- * one forced `places.pick` is queued so the well-known places are asked for again (the job
- * retries, and only its last attempt goes without names).
+ * What the draft found: `not_needed` (a curated set, or recommended places already), the brief's
+ * finished status, `none` (no brief asked for), or `timeout` (still being written).
  */
-export async function ensurePlacePicks(
+export type BriefWait = 'not_needed' | 'ready' | 'declined' | 'failed' | 'none' | 'timeout';
+
+/** Waits for the destination's brief when the destination has nothing recommended yet. */
+export async function awaitDestinationBrief(
   pool: pg.Pool,
-  deps: PlacePickDeps | undefined,
   destinationId: string,
   logger: JobLogger,
-  boss: Pick<PgBoss, 'send'>,
-): Promise<PlacePickReport | null> {
+  options: { readonly waitMs?: number; readonly pollMs?: number } = {},
+): Promise<BriefWait> {
   const coverage = await withSystem(pool, (tx) => pickCoverage(tx, destinationId));
-  if (!coverage.needsPicks) return null;
-  try {
-    const report = await runPlacePick(
-      pool,
-      deps ?? {},
-      { destinationId, signal: AbortSignal.timeout(PICK_WAIT_MS) },
-      logger,
+  if (!coverage.needsPicks) return 'not_needed';
+  const deadline = Date.now() + (options.waitMs ?? BRIEF_WAIT_MS);
+  for (;;) {
+    const { rows } = await withSystem(pool, (tx) =>
+      tx.query<{ status: 'pending' | 'ready' | 'declined' | 'failed' }>(
+        'SELECT status FROM destination_briefs WHERE destination_id = $1',
+        [destinationId],
+      ),
     );
-    if (report.names === 'failed' && report.destination !== null) {
-      const slug = report.destination;
-      await queuePlacePick(boss, slug, true).catch((error: unknown) =>
-        logger.warn({ err: error, slug }, 'draft: forced place pick not queued'),
-      );
+    const status = rows[0]?.status;
+    if (status === undefined) return 'none';
+    if (status !== 'pending') return status;
+    if (Date.now() >= deadline) {
+      logger.warn({ destinationId }, 'draft: destination brief still pending, drafting without');
+      return 'timeout';
     }
-    return report;
-  } catch (error) {
-    logger.warn({ err: error, destinationId }, 'draft: place picks failed, drafting without');
-    return null;
+    await new Promise((resolve) => setTimeout(resolve, options.pollMs ?? BRIEF_POLL_MS));
   }
 }
 

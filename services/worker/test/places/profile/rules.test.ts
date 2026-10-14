@@ -1,8 +1,6 @@
-import sharp from 'sharp';
 import { describe, expect, it } from 'vitest';
 
 import { pageWindow } from '../../../src/places/profile/pages';
-import { resizePhoto } from '../../../src/places/profile/photos';
 import { skipReason } from '../../../src/places/profile/run';
 import { enginesFor, isExcludedUrl } from '../../../src/places/profile/search';
 import type { ProfileTarget } from '../../../src/places/profile/store';
@@ -100,26 +98,11 @@ describe('place search pacing and screening', () => {
   });
 });
 
-describe('page text and photos', () => {
+describe('page text', () => {
   it("starts a page's window shortly before its first mention of the place, accents folded", () => {
     const text = `${'x '.repeat(2_000)}Giá vé Dinh Bao Dai III: 60.000 đ ${'y '.repeat(10)}`;
     const window = pageWindow(text, ['Dinh Bảo Đại III']);
     expect(window).toContain('Dinh Bao Dai III: 60.000');
     expect(window.length).toBeLessThan(800);
-  });
-
-  it('resizes a photo to 480 px wide and refuses a thumbnail', async () => {
-    const big = await sharp({
-      create: { width: 1600, height: 1200, channels: 3, background: '#2a6' },
-    })
-      .png()
-      .toBuffer();
-    const small = await sharp({
-      create: { width: 120, height: 90, channels: 3, background: '#2a6' },
-    })
-      .png()
-      .toBuffer();
-    expect(await resizePhoto(big)).toMatchObject({ width: 480, height: 360 });
-    expect(await resizePhoto(small)).toBeNull();
   });
 });

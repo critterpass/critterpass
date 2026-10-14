@@ -4,10 +4,10 @@
  * A destination job on `places.ingest` plans the run's tiles and queues one `sources` job per tile
  * in a single insert (`queueTileRun`); the run's id is that destination job's id, so a retried
  * destination job finds its tiles already queued instead of queueing them twice. Each tile job
- * ingests Overture and FSQ OS inside its tile. The pg-boss jobs are the run's durable record: when
- * a tile ends with no other `sources` job of its run still queued, retrying or active, it queues
- * the run's `finish` job, which applies OpenStreetMap to the whole box, releases the stored FSQ
- * rows and reports the destination's totals and active count. A worker restart costs the tile it
+ * ingests Overture inside its tile. The pg-boss jobs are the run's durable record: when a tile
+ * ends with no other `sources` job of its run still queued, retrying or active, it queues the
+ * run's `finish` job, which applies OpenStreetMap to the whole box and reports the destination's
+ * totals and active count. A worker restart costs the tile it
  * stopped. The queue is `singleton`, like `places.ingest`, so one tile runs at a time with DuckDB's
  * memory capped; a run's `finish` job goes ahead of the next destination's tiles.
  */
@@ -24,7 +24,6 @@ import {
   type TileRunSources,
 } from '../../places/ingest-tile-run';
 import type { IngestTile } from '../../places/ingest-tiles';
-import { queuePlacePick } from './pick';
 
 export const PLACES_INGEST_TILE_QUEUE = 'places.ingest_tile';
 
@@ -65,7 +64,6 @@ const payloadSchema = z.object({
   tiles: z.number().int().min(1),
   index: z.number().int().min(0).optional(),
   tile: tileSchema.optional(),
-  fsqRunId: z.uuid().optional(),
   /** The destination job's priority, kept by its tiles; `finish` goes one above. */
   priority: z.number().int(),
   /** When the destination job started, for the run's duration. */
@@ -88,7 +86,6 @@ export interface TileRunStart {
   readonly runId: string;
   readonly slug: string;
   readonly tiles: readonly IngestTile[];
-  readonly fsqRunId: string | undefined;
   readonly priority: number;
   readonly startedAt: Date;
 }
@@ -108,7 +105,6 @@ export async function queueTileRun(boss: PgBoss, run: TileRunStart): Promise<num
         tiles: run.tiles.length,
         index,
         tile,
-        ...(run.fsqRunId !== undefined ? { fsqRunId: run.fsqRunId } : {}),
         priority: run.priority,
         startedAt: run.startedAt.toISOString(),
       } satisfies PlacesIngestTilePayload,
@@ -134,7 +130,6 @@ async function finishWhenLast(
     slug: data.slug,
     stage: 'finish',
     tiles: data.tiles,
-    ...(data.fsqRunId !== undefined ? { fsqRunId: data.fsqRunId } : {}),
     priority: data.priority,
     startedAt: data.startedAt,
   };
@@ -145,14 +140,7 @@ async function finishWhenLast(
   return true;
 }
 
-const COUNT_KEYS = [
-  'overtureRows',
-  'fsqOsRows',
-  'inserted',
-  'updated',
-  'skipped',
-  'ownedElsewhere',
-];
+const COUNT_KEYS = ['overtureRows', 'inserted', 'updated', 'skipped', 'ownedElsewhere'];
 
 /** Sums the run's finished tiles' counts, and counts the tiles that failed for good. */
 function tileTotals(jobs: readonly JobWithMetadata<unknown>[]): {
@@ -196,14 +184,7 @@ export function placesIngestTileJob(sources: TileRunSources = {}): AnyJobDefinit
       if (data.stage === 'sources') {
         if (data.tile === undefined) throw new Error('a sources tile job needs its tile');
         try {
-          const result = await ingestTile(
-            pool,
-            target,
-            data.tile,
-            data.fsqRunId,
-            sources,
-            progress,
-          );
+          const result = await ingestTile(pool, target, data.tile, sources, progress);
           const finishQueued = await finishWhenLast(boss, data, job.id);
           return { slug, runId, tile: data.index, of: data.tiles, ...result, finishQueued };
         } catch (error) {
@@ -220,13 +201,7 @@ export function placesIngestTileJob(sources: TileRunSources = {}): AnyJobDefinit
       // Only a tile stuck active after a crash gets here early; it queues a new finish when done.
       if (waiting > 0) return { slug, runId, waiting };
       const { counts, failedTiles } = tileTotals(jobs);
-      const result = await finishDestinationRun(
-        pool,
-        target,
-        { fsqRunId: data.fsqRunId, releaseFsqRows: failedTiles === 0 },
-        sources,
-        progress,
-      );
+      const result = await finishDestinationRun(pool, target, sources, progress);
       const minutes = Math.round((Date.now() - Date.parse(data.startedAt)) / 60_000);
       const summary = {
         slug,
@@ -239,13 +214,6 @@ export function placesIngestTileJob(sources: TileRunSources = {}): AnyJobDefinit
         ...result,
       };
       logger.info(summary, 'places ingest finished');
-      // The catalogue just changed: a destination without a curated set has its picks made again
-      // from the full set, also when a draft made them inline from the rows that had landed by
-      // then (a re-run replaces ranks without rewriting unchanged rows; the job skips a curated
-      // destination). The ingest is done either way.
-      await queuePlacePick(boss, slug, true).catch((error: unknown) =>
-        logger.warn({ err: error, slug }, 'places pick not queued after the ingest'),
-      );
       return summary;
     },
   });

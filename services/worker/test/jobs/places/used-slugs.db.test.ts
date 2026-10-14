@@ -1,6 +1,7 @@
 /**
- * The monthly places refresh's selection against real Postgres: live destinations, those with a
- * trip or a pitch in the last 90 days, and those in a refresh country; nothing else.
+ * The destinations in use, which the monthly places refresh covers, against real Postgres: a trip
+ * in any phase (as its destination or a stop) or a pitch in the last 180 days; a curated
+ * destination nobody uses and a country's other destinations are left out.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -9,7 +10,7 @@ import { startPostgres, type StartedPostgreSqlContainer } from '@cp/db/testing';
 import pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { wantedSlugs } from '../../../src/jobs/places';
+import { usedSlugs } from '../../../src/jobs/places';
 
 let postgres: StartedPostgreSqlContainer;
 let pool: pg.Pool;
@@ -24,12 +25,13 @@ async function destination(slug: string, coverage: 'live' | 'guest', setId?: str
   return rows[0]!.id;
 }
 
-async function trip(destinationId: string, daysAgo: number): Promise<void> {
-  await pool.query(
+async function trip(destinationId: string, daysAgo: number): Promise<string> {
+  const { rows } = await pool.query<{ id: string }>(
     `INSERT INTO trips (crew_id, status, destination_id, created_at)
-     VALUES ($1, 'setup', $2, now() - make_interval(days => $3))`,
+     VALUES ($1, 'setup', $2, now() - make_interval(days => $3)) RETURNING id`,
     [crewId, destinationId, daysAgo],
   );
+  return rows[0]!.id;
 }
 
 async function pitch(destinationId: string, daysAgo: number): Promise<void> {
@@ -69,11 +71,16 @@ beforeAll(async () => {
 
   await destination('iceland', 'live');
   await destination('vn-da-lat', 'guest', set[0]!.id);
-  await trip(await destination('pe-lima', 'guest'), 10);
-  await pitch(await destination('ma-marrakech', 'guest'), 89);
-  await trip(await destination('pt-porto', 'guest'), 120);
-  await pitch(await destination('mx-tulum', 'guest'), 91);
+  const lima = await trip(await destination('pe-lima', 'guest'), 10);
+  await pitch(await destination('ma-marrakech', 'guest'), 100);
+  await trip(await destination('pt-porto', 'guest'), 400);
+  await pitch(await destination('mx-tulum', 'guest'), 200);
   await destination('jp-osaka', 'guest');
+  await pool.query(
+    `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
+     VALUES ($1, $2, 1, $3, 2)`,
+    [lima, crewId, await destination('pe-cusco', 'guest')],
+  );
 }, 180_000);
 
 afterAll(async () => {
@@ -81,17 +88,9 @@ afterAll(async () => {
   await postgres?.stop();
 });
 
-describe('wantedSlugs', () => {
-  it('takes live destinations and those with a trip or a pitch in the last 90 days', async () => {
-    expect(await wantedSlugs(pool, [])).toEqual(['iceland', 'ma-marrakech', 'pe-lima']);
-  });
-
-  it('adds every destination in a refresh country', async () => {
-    expect(await wantedSlugs(pool, ['VN'])).toEqual([
-      'iceland',
-      'ma-marrakech',
-      'pe-lima',
-      'vn-da-lat',
-    ]);
+describe('usedSlugs', () => {
+  it('takes destinations with a trip in any phase or a pitch in the last 180 days', async () => {
+    // Iceland is curated but unused, Đà Lạt only shares a country, Tulum's pitch is too old.
+    expect(await usedSlugs(pool)).toEqual(['ma-marrakech', 'pe-cusco', 'pe-lima', 'pt-porto']);
   });
 });

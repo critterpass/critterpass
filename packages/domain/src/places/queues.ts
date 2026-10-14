@@ -25,6 +25,7 @@ export const PLACES_QUEUES = {
   destinationBrief: 'places.destination_brief',
   briefTranslate: 'places.brief_translate',
   homeLink: 'places.home_link',
+  prune: 'places.prune',
 } as const;
 
 export const PLACES_QUEUE_SPECS = {
@@ -109,6 +110,13 @@ export const PLACES_QUEUE_SPECS = {
     retryDelay: 120,
     expireInSeconds: 5 * 60,
   },
+  // Operator only: one run at a time, never retried by itself (a rerun reads the kept set again).
+  // Dumping and deleting about ten million rows in paced batches takes a few hours.
+  'places.prune': {
+    policy: 'singleton',
+    retryLimit: 0,
+    expireInSeconds: 8 * 60 * 60,
+  },
 } as const satisfies Record<string, Partial<QueueSpec>>;
 
 export function placesQueueSpecs(
@@ -137,7 +145,17 @@ export const PLACES_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof PLACES_QUEU
     'places.brief_translate': "Translates a destination brief's lines into a reader's language",
     'places.home_link':
       'Writes the ways to reach a destination from a home city, with cited time and cost estimates',
+    'places.prune':
+      'Deletes places outside the lean rule or the destinations in use, keeping every referenced one',
   };
+
+export const placesPruneJobSchema = z
+  .object({
+    /** Counts only; a run deletes only when this is explicitly false. */
+    dry_run: z.boolean().default(true),
+  })
+  .nullish();
+export type PlacesPruneJob = z.output<typeof placesPruneJobSchema>;
 
 export const foursquareMatchJobSchema = z.object({
   /** One destination slug; unset = every destination with curated places. */

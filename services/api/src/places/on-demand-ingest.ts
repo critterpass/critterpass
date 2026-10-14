@@ -6,17 +6,12 @@
  * running is not queued again, and one that stays sparse after an ingest (a small town with little
  * open data) is retried at most once a week.
  *
- * A destination that has places but no curated set and no machine picks yet gets one
- * `places.pick` job instead, so there is something to suggest and draft from by the time the crew
- * plans; a sparse one gets its picks when its ingest finishes (the worker queues them).
+ * Machine picks are retired (docs/product-decisions.md D38): nothing here queues `places.pick`.
+ * What a destination without a curated set recommends comes from its destination brief, queued
+ * below on first use.
  */
-import { pickCoverage, sendInTx, type AppendedDomainEvent } from '@cp/db';
-import {
-  PLACES_QUEUES,
-  placesDestinationBriefKey,
-  placesPickKey,
-  placesProfileWarmKey,
-} from '@cp/domain';
+import { sendInTx, type AppendedDomainEvent } from '@cp/db';
+import { PLACES_QUEUES, placesDestinationBriefKey, placesProfileWarmKey } from '@cp/domain';
 import type pg from 'pg';
 
 /** The worker's per-destination ingest queue (services/worker/src/jobs/places). */
@@ -117,32 +112,8 @@ export async function queueBriefWhenMissing(
   return true;
 }
 
-/** The worker's per-destination pick queue (services/worker/src/jobs/places/pick.ts). */
+/** The worker's per-destination pick queue (services/worker/src/jobs/places/pick.ts), kept for operator reruns. */
 export const PLACES_PICK_QUEUE = PLACES_QUEUES.pick;
-
-/**
- * Queues the destination's machine picks when it has neither a curated set nor picks; true when
- * it does not (queued now, or a run is already waiting). Runs in the caller's transaction.
- */
-export async function queuePickWhenNeeded(
-  tx: pg.PoolClient,
-  destinationId: string,
-): Promise<boolean> {
-  const coverage = await pickCoverage(tx, destinationId);
-  if (!coverage.needsPicks) return false;
-  const { rows } = await tx.query<{ slug: string }>('SELECT slug FROM destinations WHERE id = $1', [
-    destinationId,
-  ]);
-  const slug = rows[0]?.slug;
-  if (slug === undefined) return false;
-  await sendInTx(
-    tx,
-    PLACES_PICK_QUEUE,
-    { destination: slug },
-    { singletonKey: placesPickKey(slug) },
-  );
-  return true;
-}
 
 /**
  * The destinations an appended event names, read through rows the actor can see (the event log
@@ -187,7 +158,6 @@ export async function onDemandIngestHook(
 ): Promise<void> {
   for (const destinationId of await destinationsOf(tx, event)) {
     const sparse = await queueIngestWhenSparse(tx, destinationId);
-    if (!sparse) await queuePickWhenNeeded(tx, destinationId);
     await queueBriefWhenMissing(tx, destinationId, sparse);
     await queueProfileWarm(tx, destinationId, sparse);
   }

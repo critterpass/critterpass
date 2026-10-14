@@ -61,7 +61,7 @@ flowchart LR
   subgraph TP["Third parties"]
     CL["DeepSeek API"]; APNS["APNs"]; FCM["FCM v1"]; RC["RevenueCat + store notifications"]
     OTP["WhatsApp / Telegram Gateway / Prelude"]; SUP["Viator, Travelpayouts, Agoda*, Klook*, Trip.com*, Grab Farefeed, WhatsApp Business"]
-    DATA["Open-Meteo, AeroDataBox, FlightAware, Frankfurter, BestTime, Foursquare, Mapbox Directions/Matrix (launch routing provider)"]
+    DATA["Open-Meteo, AeroDataBox, FlightAware, Frankfurter, BestTime, Mapbox Directions/Matrix (launch routing provider)"]
     VOICE["Deepgram, ElevenLabs"]; OBS["Sentry, PostHog EU, Grafana Cloud, Langfuse"]; MAIL["Resend, inbound mail, PostGrid"]
   end
   IAPP & AAPP -->|HTTPS commands, SSE guide stream| API
@@ -268,10 +268,10 @@ Tier A bundled (~6–10 MB): 6 guides × 4 forms × {idle,cheer,sleep} × {48,96
 | Transfers | pre-trip affiliate links (Klook, Trip.com, Kiwitaxi, GetTransfer); in-trip Grab Farefeed fare + ETA + deep link, Gojek deep link fallback | supplier | manual expense |
 | Flights | Travelpayouts fare calendars (estimates); AeroDataBox + FlightAware alerts; no booking | – | forward/paste |
 | Vendor messages | WhatsApp Business only after user approves draft (ops desk in admin) | – | – |
-| Place details | Foursquare Places API: one live Place Details call per place-detail open (`GET /v1/places/{id}/live`), passed through with "Powered by Foursquare" and never stored; curated POIs get their Foursquare id from `places.fsq_match`; one monthly call cap shared by api and worker (D24) | – | – |
+| Place details | Our own data: the open-data POI (Overture + OSM, D38), its AI place profile and, for popular places, labelled AI estimates (busy times, visit length, best time, tips, entry fee, dress) with their sources; no live supplier call. Foursquare is retired (D38) | – | – |
 | Social link readers | Add from a link (`POST /v1/trips/{id}/imports`, `packages/suppliers/src/social`): TikTok oEmbed (caption, author, thumbnail); YouTube oEmbed plus Data API `videos.list` (title, description) with `YOUTUBE_API_KEY`; Instagram oEmbed only with an app token, else the app asks for a screenshot; Google Maps full URLs parsed with no request, short links resolved by one request reading only the `Location` header (no Google API, D6); Apple Maps `q`/`ll` parsed. Screenshots are read on the phone (`cp-ocr`) and only their text is sent. The model reads post text as untrusted input (`links.extract_places`); matching to POIs is code. Nothing from a post is stored but the URL on the idea; platforms switch with `imports.platforms` | – | – |
 
-Rules: supplier content (titles, photos, reviews, prices) rendered **verbatim only inside supplier cards**, never cached beyond the request/TTL the supplier allows, never stored in `guide_reader` views, never sent to the LLM. Foursquare Places API content (hours, rating, price, photos, tips, contact) is supplier content under this rule: its Pay as You Go terms allow no caching of any attribute but the place id and photo ids, so it is served live per request (`no-store`), kept out of `pois`, `poi_live_checks`, `guide_reader` views, the LLM and the app's persisted caches (D24). The guide reasons over our curated POI DB and links a supplier card by `poi_id ↔ supplier_product_ref`. Ranking is commission-neutral; affiliate disclosure on every card. Hold copy only when the supplier returns a hold (`HOLDING`); otherwise "free cancellation until {date}" / "book here".
+Rules: supplier content (titles, photos, reviews, prices) rendered **verbatim only inside supplier cards**, never cached beyond the request/TTL the supplier allows, never stored in `guide_reader` views, never sent to the LLM. The guide reasons over our curated POI DB and links a supplier card by `poi_id ↔ supplier_product_ref`. Ranking is commission-neutral; affiliate disclosure on every card. Hold copy only when the supplier returns a hold (`HOLDING`); otherwise "free cancellation until {date}" / "book here".
 
 ---
 

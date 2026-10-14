@@ -8,8 +8,9 @@
  * - else matched to the nearest active POI within 60 m whose name is trigram-similar (>= 0.6, the
  *   conflation threshold) and whose category is compatible: the POI gains the `osm` id, and fills
  *   its empty hours, website, phone and local name from OSM;
- * - else a sight (`kind: 'place'`) becomes a new POI of this destination; a business
- *   (`hours_only`) is dropped, so OSM never duplicates the open-data copy of a shop or restaurant.
+ * - else a sight (`kind: 'place'`) that passes the lean rule (`isLeanPlace` in `@cp/domain`)
+ *   becomes a new POI of this destination; a business (`hours_only`) is dropped, so OSM never
+ *   duplicates the open-data copy of a shop or restaurant.
  *
  * A linked or matched POI another destination owns (overlapping boxes, Hội An inside Đà Nẵng's)
  * is left to that destination's own ingest: neither updated nor added again.
@@ -18,7 +19,12 @@
  * (`hours_source = 'osm'`), so editorial and researched hours always win. Nothing is deactivated
  * or deleted.
  */
-import { defaultVisitRadiusM, parseOsmOpeningHours } from '@cp/domain';
+import {
+  defaultVisitRadiusM,
+  isLeanPlace,
+  parseOsmOpeningHours,
+  type PoiCategory,
+} from '@cp/domain';
 import { withSystem } from '@cp/db';
 import type pg from 'pg';
 
@@ -42,7 +48,7 @@ interface OsmRecord {
   readonly source_id: string;
   readonly name: string;
   readonly name_local: string | null;
-  readonly category: string;
+  readonly category: PoiCategory;
   readonly kind: 'place' | 'hours_only';
   readonly lat: number;
   readonly lng: number;
@@ -149,6 +155,7 @@ async function applyChunk(
   const inserts = records.filter(
     (record) =>
       record.kind === 'place' &&
+      isLeanPlace({ category: record.category, labels: [], source: 'osm' }) &&
       !target.has(record.source_id) &&
       !ownedElsewhere.has(record.source_id),
   );

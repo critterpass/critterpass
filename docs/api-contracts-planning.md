@@ -7,8 +7,9 @@ Status: contracts for the section 7 screens (7a-1 … 7i-2). Each phase refines 
 ## Rules that hold everywhere
 
 - Reasons, issues, chips and import events carry codes with numbers and ids, never words. The app words them from its own templates in every language.
-- Copy names the source it used: "usually busy from 10" for an editorial curve, "what crews saw" only for visit-derived rows (five crews or more), "I read the post" unless a video was actually analysed. No view counts or durations for TikTok.
-- Nothing from a social post is stored except the URL on the idea. Foursquare attributes are never stored. A Navigation API result is never stored: legs and the route cache hold self-hosted routing or straight-line estimates only.
+- Copy names the source it used: "usually busy from 10" for an editorial curve, "what crews saw" only for visit-derived rows (five crews or more), "estimate" for an AI estimate (D38), "I read the post" unless a video was actually analysed. No view counts or durations for TikTok.
+- Nothing from a social post is stored except the URL on the idea. Foursquare is retired (D38): place search has no live "More places" section and no Foursquare call is made. A Navigation API result is never stored: legs and the route cache hold self-hosted routing or straight-line estimates only.
+- Planning research (D38): a destination brief and the planning agent may read blogs, travel guides and social pages (TikTok and YouTube through oEmbed captions) for suggestions and tips, and may cite them; a suggestion is kept only when it resolves to one of our place rows. Facts (fee, hours, dress) still need a non-social cited page or are labelled estimates. Supplier and OTA sites stay excluded (D10, D23).
 - An unsent change set draft is its author's alone. A guide's draft reaches the trip's organisers. Placed ideas, fixes and swaps are drafts until sent.
 - Hides are private to their owner. A stance is an explicit public ballot and is never derived from a swipe "no" or a hidden place. Nothing about crew balance is stored or posted.
 - "Participant" = an active member of the trip's crew who has not answered `out`, or its organiser; anyone else gets `NOT_FOUND`.
