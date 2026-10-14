@@ -10,6 +10,8 @@ import { useMemo, type ReactElement, type ReactNode } from 'react';
 import { Platform } from 'react-native';
 import { SafeAreaInsetsContext, useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { KeyboardFooterScope } from '../keyboard/keyboard';
+
 /** The band at the top of a sheet that the grabber sits in (the system's on iOS). */
 export const SHEET_TOP_CLEARANCE = 12;
 
@@ -44,7 +46,9 @@ interface ScreenLayoutArgs {
 }
 
 /**
- * A premium navigator's `screenLayout`: a screen it presents as a sheet gets the sheet's insets.
+ * A premium navigator's `screenLayout`: every screen gets its own keyboard footer scope (a sticky
+ * footer tells the screen's form how much room it takes), and a screen it presents as a sheet gets
+ * the sheet's insets.
  * A stack never presents its first screen, whatever its options say: that one is the group's,
  * and the navigator above that presented the group (or pushed it, or rose it as a page) decides.
  */
@@ -56,5 +60,6 @@ export function presentedScreenLayout({
 }: ScreenLayoutArgs): ReactElement {
   const first = navigation.getState()?.routes[0]?.key === route.key;
   const top = first ? undefined : presentedTopInset(options);
-  return top === undefined ? children : <SheetInsets top={top}>{children}</SheetInsets>;
+  const scoped = <KeyboardFooterScope>{children}</KeyboardFooterScope>;
+  return top === undefined ? scoped : <SheetInsets top={top}>{scoped}</SheetInsets>;
 }

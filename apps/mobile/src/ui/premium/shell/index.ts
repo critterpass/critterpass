@@ -3,6 +3,7 @@
 export {
   KeyboardAwareScroll,
   KeyboardDismissArea,
+  KeyboardFooterScope,
   KeyboardStickyFooter,
   PremiumKeyboardProvider,
   useKeyboardFrame,
@@ -41,10 +42,18 @@ export type { FooterStackProps } from './screens/footer-stack';
 export { HOLD_TO_CONFIRM_MS, HoldToConfirm } from './screens/hold-to-confirm';
 export type { HoldToConfirmProps } from './screens/hold-to-confirm';
 export { ModalSheet } from './screens/modal-sheet';
+export { useCoverPageSheet, usePageSheetCovered } from './screens/page-sheet-cover';
 export type { ModalSheetProps } from './screens/modal-sheet';
 export { PushScreen } from './screens/push-screen';
 export type { PushScreenProps } from './screens/push-screen';
 export { RootScreen } from './screens/root-screen';
+export { PresentedState, ScreenMissing, ScreenWaiting } from './screens/screen-states';
+export type {
+  PresentedStateKind,
+  PresentedStateProps,
+  ScreenMissingProps,
+  ScreenWaitingProps,
+} from './screens/screen-states';
 export {
   PhotoHeaderScrim,
   SCROLL_EDGE_FADE,
@@ -57,6 +66,8 @@ export type {
   ScrollEdges,
 } from './screens/scroll-edge';
 export type { RootScreenProps, RootScrollBindings, RootScrollProps } from './screens/root-screen';
+export { SheetHeader } from './screens/sheet-header';
+export type { SheetHeaderProps } from './screens/sheet-header';
 export {
   SheetScreen,
   sheetDetentOptions,

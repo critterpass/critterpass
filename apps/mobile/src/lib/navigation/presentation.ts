@@ -228,3 +228,35 @@ export function screenPlacement(
   }
   return { kind: 'root', tab: false };
 }
+
+/**
+ * One card at a time: a page, sheet or modal opened over a sheet or modal never shows as a second
+ * card on top of it. A route of the same group pushes inside the sheet's own stack (the group's
+ * navigator does that by itself); a route of another navigator replaces the sheet it was opened
+ * from, so the sheet goes as the route arrives, and back returns to the page under the sheet.
+ * A page opened from a cover (a city from the places search) replaces the cover too: the native
+ * stack would otherwise raise it as a page sheet over the cover. A sheet over a cover is one card
+ * over a full screen and stays; covers and see-through cards that arrive stay over what opened
+ * them.
+ *
+ * `routes` is a stack's routes after an action added the last one; the result drops the sheets and
+ * modals right under it. A stack's first route is never presented, so it always stays.
+ */
+export function oneCardRoutes<R>(
+  routes: readonly R[],
+  presentationOfRoute: (route: R) => ScreenPresentation | undefined,
+): readonly R[] {
+  const top = routes.at(-1);
+  if (top === undefined || routes.length < 3) return routes;
+  const arriving = presentationOfRoute(top);
+  if (arriving?.kind === 'cover' || arriving?.kind === 'drawn') return routes;
+  const page = arriving === undefined;
+  let keep = routes.length - 1;
+  while (keep > 1) {
+    const under = presentationOfRoute(routes[keep - 1] as R);
+    const card = under?.kind === 'sheet' || under?.kind === 'modal';
+    if (!card && !(page && under?.kind === 'cover')) break;
+    keep -= 1;
+  }
+  return keep === routes.length - 1 ? routes : [...routes.slice(0, keep), top];
+}

@@ -118,6 +118,7 @@ export function HistoryPremium() {
   );
   return (
     <PushScreen
+      largeTitle
       title={t({ id: 'money.history.premiumTitle', message: 'Every expense' })}
       backLabel={t({ id: 'money.back', message: 'Money' })}
       action={{

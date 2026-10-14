@@ -59,7 +59,49 @@ export function HeaderBar({ leading, title, subtitle, trailing, testID }: Header
   );
 }
 
+/**
+ * A crumb page's bar (7.13, 6.19): the glass back, the page it returns to beside it in the muted
+ * line ("Bookings"), the trailing action; the page's large title sits under it.
+ */
+export function CrumbBar({
+  top,
+  leading,
+  crumb,
+  trailing,
+}: {
+  readonly top: number;
+  readonly leading: ReactNode;
+  readonly crumb: string | null;
+  readonly trailing: ReactNode;
+}) {
+  const t = usePremiumTheme();
+  return (
+    <View
+      style={[
+        styles.row,
+        {
+          marginTop: top,
+          minHeight: t.size.glassNav,
+          paddingHorizontal: t.space.gutter,
+          gap: t.space.gap12,
+        },
+      ]}
+    >
+      {leading}
+      {crumb === null ? (
+        <View style={styles.grow} />
+      ) : (
+        <Text variant="rowText" tone="muted" numberOfLines={1} style={styles.grow}>
+          {crumb}
+        </Text>
+      )}
+      {trailing}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
+  grow: { flex: 1 },
   row: { flexDirection: 'row', alignItems: 'center' },
   // Equal sides keep the title centred whatever the two sides' widths.
   side: { flex: 1, flexDirection: 'row', alignItems: 'center' },

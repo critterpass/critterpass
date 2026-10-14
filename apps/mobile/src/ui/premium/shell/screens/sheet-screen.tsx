@@ -6,18 +6,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useBackAffordance } from '@/lib/qa/back-affordance';
 
-import {
-  PressableScale,
-  Spinner,
-  Text,
-  ToastHost,
-  usePremiumTheme,
-  type PremiumTheme,
-} from '../..';
+import { ToastHost, usePremiumTheme, type PremiumTheme } from '../..';
 import { KeyboardStickyFooter } from '../keyboard/keyboard';
 import { SHEET_TOP_CLEARANCE, useShownAsSheet } from '../navigation/screen-insets';
+import { useScreenPlacement } from '../navigation/use-screen-placement';
 import { useDirtySheetGuard, type DiscardPrompt } from './dirty-sheet';
 import { FooterStack } from './footer-stack';
+import { SheetHeader } from './sheet-header';
 import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from './scroll-edge';
 
 /** Half height for one choice, full height for a form, or as tall as the content. */
@@ -28,8 +23,8 @@ const ANDROID_SHEET_RADIUS = 28;
 
 /**
  * A layout's options for a sheet route: the native form sheet with its grabber and detent. On
- * iOS 26 the system draws it as Liquid Glass and `SheetScreen` lays the sheet material's tint over
- * it; the page behind steps back at full height and dims at half.
+ * iOS 26 the system draws its edge as Liquid Glass and `SheetScreen` fills the body with the opaque
+ * sheet material; the page behind steps back at full height and dims at half.
  */
 export function sheetRouteOptions(detent: SheetDetent): NativeStackNavigationOptions {
   return {
@@ -56,24 +51,24 @@ export function sheetDetentOptions(detents: readonly number[]): NativeStackNavig
 }
 
 /**
- * The sheet material a native form sheet's root draws under its content: the opaque fill with
- * Material's corners on Android, and on iOS the tint over the system glass. For a sheet route that
+ * The sheet material a native form sheet's root draws under its content: the opaque fill, with
+ * Material's corners on Android. For a sheet route that
  * draws its own page instead of using `SheetScreen` (Ideas over the plan map).
  */
 export function sheetMaterialStyle(t: PremiumTheme): ViewStyle {
+  // Opaque on both platforms (the design's sheets never show the page through their body): the
+  // fill is the sheet material's tint already laid over the ground.
   return Platform.OS === 'android'
     ? {
         backgroundColor: t.material.sheet.fill,
         borderTopLeftRadius: ANDROID_SHEET_RADIUS,
         borderTopRightRadius: ANDROID_SHEET_RADIUS,
       }
-    : // Sheet glass (foundations-spec §5): the system glass blurs, this tint makes it the sheet's
-      // denser material so the page behind reads as colour, not content.
-      { backgroundColor: t.material.sheet.tint };
+    : { backgroundColor: t.material.sheet.fill };
 }
 
 export interface SheetVerb {
-  /** The bold word on the right ("Save", "Post", "Add"). */
+  /** The verb in the ink pill on the right ("Save", "Post", "Add"). */
   readonly label: string;
   /**
    * Keeps the edits, then the sheet closes. Resolve `false` to keep it open (the save failed and
@@ -89,7 +84,7 @@ export interface SheetScreenProps {
   readonly title?: string;
   /** The muted line under the title (the crew and dates a sheet is about). */
   readonly subtitle?: string;
-  /** The left word ("Cancel"). */
+  /** What the glass ✕ (or back, pushed inside a sheet) says ("Cancel", "Close"). */
   readonly cancelLabel: string;
   readonly verb?: SheetVerb;
   /** Edits not yet kept: swiping down, Cancel and back ask first. */
@@ -105,7 +100,8 @@ export interface SheetScreenProps {
 }
 
 /**
- * The sheet screen type (foundations-spec §1): Cancel left, bold verb right, drawn inside the
+ * The sheet screen type (journeys 03, 04, 07, 09): the glass ✕ left, the centred title, the verb as
+ * the ink pill right, drawn inside the
  * content on both platforms (Android's native sheet has no header). Swiping down cancels, and with
  * edits it asks first. The keyboard: iOS lifts the sheet itself; the footer rides it on both.
  *
@@ -132,9 +128,11 @@ export function SheetScreen({
   // A page instead of a native sheet: its header then sits below the status bar on the opaque
   // sheet material.
   const asPage = !useShownAsSheet();
+  // Pushed inside a sheet (one card at a time) it leads with the glass back, else the glass ✕.
+  const pushed = useScreenPlacement()?.kind === 'pushed';
   const [busy, setBusy] = useState(false);
   const edges = useScrollEdges();
-  // Cancel is the sheet's way back.
+  // The glass ✕ is the sheet's way back.
   useBackAffordance();
   const guard = useDirtySheetGuard(
     dirty && discardPrompt !== undefined,
@@ -174,72 +172,33 @@ export function SheetScreen({
         {android && !asPage ? (
           <View style={[styles.grabber, { backgroundColor: t.color.placeholder }]} />
         ) : null}
-        <View
-          collapsable={false}
-          style={[
-            styles.header,
-            { paddingHorizontal: t.space.gutter },
-            asPage ? styles.pageHeader : null,
-          ]}
-        >
-          {/* Equal sides keep the title centred whatever the words' widths ("Hủy" / "Lưu"). */}
-          <View style={styles.side}>
-            <PressableScale
-              testID="sheet-cancel"
-              accessibilityLabel={cancelLabel}
-              onPress={() => router.back()}
-              hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-            >
-              <Text variant="button" style={styles.cancel}>
-                {cancelLabel}
-              </Text>
-            </PressableScale>
-          </View>
-          <View style={styles.title}>
-            {title === undefined ? null : (
-              <Text variant="button" accessibilityRole="header" numberOfLines={1} align="center">
-                {title}
-              </Text>
-            )}
-            {subtitle === undefined ? null : (
-              <Text variant="caption" tone="muted" numberOfLines={1} align="center">
-                {subtitle}
-              </Text>
-            )}
-          </View>
-          <View style={[styles.side, styles.sideEnd]}>
-            {verb === undefined ? null : (
-              <PressableScale
-                testID={verb.testID ?? 'sheet-verb'}
-                accessibilityLabel={verb.label}
-                accessibilityState={{ busy }}
-                disabled={verb.disabled === true || busy}
-                onPress={() => void runVerb()}
-                hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-              >
-                {/* The word keeps its width while the spinner stands in for it. */}
-                <Text
-                  variant="button"
-                  tone={verb.disabled === true ? 'placeholder' : 'ink'}
-                  style={busy ? styles.hidden : null}
-                >
-                  {verb.label}
-                </Text>
-                {busy ? (
-                  <View style={styles.spinner}>
-                    <Spinner color={t.color.ink} trackColor={t.color.hairline} />
-                  </View>
-                ) : null}
-              </PressableScale>
-            )}
-          </View>
-        </View>
+        <SheetHeader
+          leading={pushed ? 'back' : 'close'}
+          leadingLabel={cancelLabel}
+          onLeading={() => router.back()}
+          title={title}
+          subtitle={subtitle}
+          verb={
+            verb === undefined
+              ? undefined
+              : {
+                  label: verb.label,
+                  disabled: verb.disabled === true,
+                  busy,
+                  onPress: () => void runVerb(),
+                  testID: verb.testID ?? 'sheet-verb',
+                }
+          }
+          style={asPage ? null : styles.header}
+        />
         <View collapsable={false} style={styles.body}>
           {scroll ? (
             <ScrollView
               style={styles.scroll}
+              // The top gap keeps the first field's focus ring and the first card's shadow whole.
               contentContainerStyle={{
                 paddingHorizontal: t.space.gutter,
+                paddingTop: t.space.gap8,
                 paddingBottom: t.space.gap16,
               }}
               contentInsetAdjustmentBehavior="never"
@@ -293,21 +252,7 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   grabber: { alignSelf: 'center', width: 36, height: 5, borderRadius: 3, marginTop: 8 },
   // Clears the system grabber (iOS draws it over the top 20 pt of the sheet and takes taps there).
-  header: {
-    height: 56,
-    marginTop: Platform.OS === 'ios' ? SHEET_TOP_CLEARANCE : 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    zIndex: 1,
-  },
-  pageHeader: { marginTop: 0 },
-  cancel: { fontWeight: '400' },
-  side: { flex: 1, flexDirection: 'row' },
-  sideEnd: { justifyContent: 'flex-end' },
-  title: { flexShrink: 1, maxWidth: '60%' },
-  hidden: { opacity: 0 },
-  spinner: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center' },
+  header: { marginTop: Platform.OS === 'ios' ? SHEET_TOP_CLEARANCE : 0 },
   body: { flex: 1, overflow: 'hidden' },
   scroll: { flex: 1 },
 });

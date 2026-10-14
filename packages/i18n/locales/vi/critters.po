@@ -379,6 +379,10 @@ msgstr "Khám phá ở quê nhà: tắt"
 msgid "critters.queued.homeOn"
 msgstr "Khám phá ở quê nhà: bật"
 
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.loadingTitle"
+msgstr "Đang tìm sticker…"
+
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.hardest"
 msgstr "Cho thử thách khó nhất"

@@ -38,7 +38,7 @@ export function ComparePremium(props: {
     (state.kind === 'offline' && state.data === null)
   ) {
     return (
-      <PushScreen title={title} backLabel={back} testID="drivers-compare-loading">
+      <PushScreen largeTitle title={title} backLabel={back} testID="drivers-compare-loading">
         {state.kind === 'loading' ? (
           <LoadingCritter
             label={t({ id: 'drivers.compare.loading', message: 'Loading the shortlist' })}
@@ -71,6 +71,7 @@ export function ComparePremium(props: {
   if (drivers.length === 0) {
     return (
       <PushScreen
+        largeTitle
         title={t({ id: 'drivers.premium.compareNoneTitle', message: 'Compare' })}
         subtitle={compare.header}
         backLabel={back}
@@ -117,6 +118,7 @@ export function ComparePremium(props: {
   };
   return (
     <PushScreen
+      largeTitle
       title={title}
       subtitle={compare.header}
       backLabel={back}

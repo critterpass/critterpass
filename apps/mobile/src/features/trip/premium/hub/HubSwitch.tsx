@@ -4,15 +4,16 @@
  * A door with nowhere to go yet (no plan while the crew votes) is left out, never drawn dead.
  */
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import { PressableScale, Text, usePremiumTheme } from '@/ui/premium';
-
-/**
- * Room above and below the chips for their shadows: the chosen chip's ink shadow reaches 38 pt
- * under it (16 down + 32 blur − 10 spread), the others' float 22.
- */
-const SHADOW_ROOM = 40;
+import {
+  PressableScale,
+  ROW_ROOM_ABOVE,
+  ROW_ROOM_BELOW,
+  ScrollRow,
+  Text,
+  usePremiumTheme,
+} from '@/ui/premium';
 
 export interface HubDoor {
   readonly key: 'plan' | 'map' | 'money';
@@ -41,7 +42,8 @@ function Chip(props: {
             borderRadius: th.radius.pillSmall,
             paddingHorizontal: th.space.pillSmallPadH + 2,
             backgroundColor: props.selected ? th.color.ink : th.color.card,
-            boxShadow: props.selected ? th.shadow.ink : th.shadow.float,
+            // The 56 pt pill's deep ink shadow is never for a chip: both lie on the float shadow.
+            boxShadow: th.shadow.float,
           },
         ]}
       >
@@ -64,18 +66,11 @@ export function HubSwitch({ doors }: { readonly doors: readonly HubDoor[] }) {
   return (
     // Scrolls only when the chips overflow (a longer language): a row that fits doesn't bounce, so
     // an iOS edge swipe that starts over it goes back instead of tugging the chips.
-    <ScrollView
-      horizontal
-      alwaysBounceHorizontal={false}
-      showsHorizontalScrollIndicator={false}
+    <ScrollRow
       accessibilityRole="tablist"
-      // The row's own box is tall enough for the chips' float shadow: a horizontal scroller clips to
-      // its bounds, and a tight box cut the shadow into a visible band under the chips.
+      gap={th.space.gap8}
+      contentContainerStyle={{ paddingHorizontal: th.space.gap16 }}
       style={styles.scroller}
-      contentContainerStyle={[
-        styles.row,
-        { paddingHorizontal: th.space.gap16, gap: th.space.gap8 },
-      ]}
       testID="trip-hub-switch"
     >
       <Chip
@@ -92,12 +87,12 @@ export function HubSwitch({ doors }: { readonly doors: readonly HubDoor[] }) {
           testID={`trip-hub-door-${door.key}`}
         />
       ))}
-    </ScrollView>
+    </ScrollRow>
   );
 }
 
 const styles = StyleSheet.create({
-  scroller: { marginVertical: -SHADOW_ROOM + 4, flexGrow: 0 },
-  row: { alignItems: 'center', paddingVertical: SHADOW_ROOM },
+  // The row keeps the 4 pt it always added between the hero and the chips.
+  scroller: { marginVertical: 4 - ROW_ROOM_BELOW, marginTop: 4 - ROW_ROOM_ABOVE },
   chip: { height: 34, justifyContent: 'center' },
 });

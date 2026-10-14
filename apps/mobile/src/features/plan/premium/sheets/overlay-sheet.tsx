@@ -25,6 +25,7 @@ import {
   sheetMaterialStyle,
   type DiscardPrompt,
 } from '@/ui/premium/shell';
+import { useCoverPageSheet } from '@/ui/premium/shell/screens/page-sheet-cover';
 import { useShellExtras } from '@/ui/premium/shell/shell-theme';
 
 import { useSheetDrag } from './use-sheet-drag';
@@ -58,6 +59,8 @@ export function OverlaySheet(props: OverlaySheetProps) {
   const insets = useSafeAreaInsets();
   const { scrim } = useShellExtras();
   const keyboard = useKeyboardFrame();
+  // One card at a time: the page's own sheet steps down while this one is up.
+  useCoverPageSheet();
   const lift = useAnimatedStyle(() => ({ paddingBottom: keyboard.height.get() }));
   const drag = useSheetDrag({
     onDismiss: props.onDismiss,

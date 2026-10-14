@@ -56,6 +56,8 @@ export interface TextLayoutCheck {
   readonly lineLimited?: boolean;
   /** The design sets this text on one line (button, pill and chip labels): a second line is a bug. */
   readonly singleLine?: boolean;
+  /** The first line's stacked marks reach past the top of the text's box (iOS cuts them). */
+  readonly marksClipped?: boolean;
 }
 
 /**
@@ -69,6 +71,7 @@ export function textLayoutProblems({
   cutByFit = false,
   lineLimited = true,
   singleLine = false,
+  marksClipped = false,
 }: TextLayoutCheck): UiQaCode[] {
   noteTextLayoutEvent();
   const problems: UiQaCode[] = [];
@@ -77,5 +80,6 @@ export function textLayoutProblems({
   }
   if (hasWordBreak(lines)) problems.push('TEXT_WORD_BROKEN');
   if (singleLine && lines.length > 1) problems.push('TEXT_WRAPPED');
+  if (marksClipped) problems.push('TEXT_MARKS_CLIPPED');
   return problems;
 }

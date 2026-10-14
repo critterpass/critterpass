@@ -10,6 +10,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { crewAccent } from '@/features/trip';
 import { Avatar, PressableScale, Text, TextButton, usePremiumTheme } from '@/ui/premium';
+import { SheetHeader } from '@/ui/premium/shell';
 
 import { toggleMember, type MemberPickerProps } from '../../receipt/member-pick';
 
@@ -38,39 +39,18 @@ export function MemberPickerPremium({
         accessibilityLabel={title}
         testID="money-member-picker"
       >
-        <View
-          style={[
-            styles.head,
-            {
-              paddingHorizontal: th.space.gutter,
-              ...(Platform.OS === 'ios' ? {} : { paddingTop: insets.top }),
-            },
-          ]}
-        >
-          <View style={styles.side}>
-            <TextButton
-              label={t({ id: 'common.confirm.cancel', message: 'Cancel' })}
-              onPress={onClose}
-              testID="money-member-cancel"
-            />
-          </View>
-          <Text
-            variant="headline"
-            numberOfLines={1}
-            accessibilityRole="header"
-            style={styles.title}
-          >
-            {title}
-          </Text>
-          <View style={[styles.side, styles.end]}>
-            <TextButton
-              label={t({ id: 'money.picker.done', message: 'Done' })}
-              tone="ink"
-              onPress={() => onDone(everyone ? null : picked)}
-              testID="money-member-done"
-            />
-          </View>
-        </View>
+        <SheetHeader
+          leadingLabel={t({ id: 'common.confirm.cancel', message: 'Cancel' })}
+          onLeading={onClose}
+          leadingTestID="money-member-cancel"
+          title={title}
+          verb={{
+            label: t({ id: 'money.picker.done', message: 'Done' }),
+            onPress: () => onDone(everyone ? null : picked),
+            testID: 'money-member-done',
+          }}
+          style={Platform.OS === 'ios' ? null : { marginTop: insets.top }}
+        />
         <ScrollView
           contentContainerStyle={[
             styles.grid,
@@ -121,10 +101,6 @@ export function MemberPickerPremium({
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  head: { flexDirection: 'row', alignItems: 'center', minHeight: 56, gap: 8 },
-  side: { flex: 1 },
-  end: { alignItems: 'flex-end' },
-  title: { flex: 2, textAlign: 'center' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 16 },
   person: { alignItems: 'center', gap: 6, width: 72 },
   everyone: { width: '100%' },

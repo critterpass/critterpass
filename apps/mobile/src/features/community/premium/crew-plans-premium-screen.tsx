@@ -7,7 +7,7 @@
  */
 import type { SharedPlanCard } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -25,6 +25,9 @@ import {
   Skeleton,
   StatusTag,
   Tag,
+  ROW_ROOM_ABOVE,
+  ROW_ROOM_BELOW,
+  ScrollRow,
   Text,
   usePremiumReducedMotion,
   usePremiumTheme,
@@ -153,13 +156,13 @@ export function CrewPlansPremiumScreen({ destination, tripId }: CrewPlansScreenP
           ) : null}
         </View>
       </View>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          gap: th.space.gap8,
-          paddingHorizontal: th.space.gutter,
-          paddingVertical: th.space.gap14,
+      {/* The chips' shadows get room under the row instead of ending in a flat band. */}
+      <ScrollRow
+        gap={th.space.gap8}
+        contentContainerStyle={{ paddingHorizontal: th.space.gutter }}
+        style={{
+          marginTop: th.space.gap14 - ROW_ROOM_ABOVE,
+          marginBottom: th.space.gap14 - ROW_ROOM_BELOW,
         }}
       >
         {plans.chips.map((chip) => (
@@ -171,7 +174,7 @@ export function CrewPlansPremiumScreen({ destination, tripId }: CrewPlansScreenP
             testID={`crew-plans-filter-${chip.key}`}
           />
         ))}
-      </ScrollView>
+      </ScrollRow>
       <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap12 }}>
         {state.status === 'loading' ? (
           <View style={{ gap: th.space.gap12 }}>

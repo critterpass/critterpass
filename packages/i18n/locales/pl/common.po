@@ -68,6 +68,10 @@ msgstr ""
 msgid "permissions.camera.title"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/premium/shell/screens/screen-states.tsx
+msgid "common.premium.screen.close"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/premium/stickers/TierLabel.tsx
 msgid "common.critter.tierCommon"
 msgstr ""
@@ -104,6 +108,10 @@ msgstr ""
 msgid "common.shell.fabHelp"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/premium/shell/screens/screen-states.tsx
+msgid "common.premium.screen.waiting"
+msgstr ""
+
 #: ../../apps/mobile/src/lib/permissions/primer-copy.ts
 msgid "permissions.microphone.body"
 msgstr ""
@@ -114,6 +122,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
 msgid "motion.motionLab.toast"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/premium/shell/screens/screen-states.tsx
+msgid "common.premium.screen.missingLine"
 msgstr ""
 
 #: ../../apps/mobile/src/lib/permissions/primer-copy.ts
@@ -178,6 +190,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/lib/permissions/primer-copy.ts
 msgid "permissions.state.restricted"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/premium/shell/screens/screen-states.tsx
+msgid "common.premium.screen.missingTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/lib/permissions/primer-copy.ts

@@ -379,6 +379,10 @@ msgstr "Explore at home: off"
 msgid "critters.queued.homeOn"
 msgstr "Explore at home: on"
 
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.loadingTitle"
+msgstr "Finding the sticker…"
+
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.hardest"
 msgstr "For the hardest thing"

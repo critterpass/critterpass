@@ -68,6 +68,10 @@ msgstr ""
 msgid "permissions.camera.title"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/premium/shell/screens/screen-states.tsx
+msgid "common.premium.screen.close"
+msgstr "Đóng"
+
 #: ../../apps/mobile/src/ui/premium/stickers/TierLabel.tsx
 msgid "common.critter.tierCommon"
 msgstr "Thường"
@@ -104,6 +108,10 @@ msgstr "freeze"
 msgid "common.shell.fabHelp"
 msgstr "Trợ giúp"
 
+#: ../../apps/mobile/src/ui/premium/shell/screens/screen-states.tsx
+msgid "common.premium.screen.waiting"
+msgstr "Đang chuẩn bị…"
+
 #: ../../apps/mobile/src/lib/permissions/primer-copy.ts
 msgid "permissions.microphone.body"
 msgstr ""
@@ -115,6 +123,10 @@ msgstr "Trang chủ"
 #: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
 msgid "motion.motionLab.toast"
 msgstr "Island toast"
+
+#: ../../apps/mobile/src/ui/premium/shell/screens/screen-states.tsx
+msgid "common.premium.screen.missingLine"
+msgstr "Có thể nó đã được chuyển đi hoặc gỡ bỏ. Đóng lại rồi mở lại nhé."
 
 #: ../../apps/mobile/src/lib/permissions/primer-copy.ts
 msgid "permissions.locationAlways.title"
@@ -179,6 +191,10 @@ msgstr ""
 #: ../../apps/mobile/src/lib/permissions/primer-copy.ts
 msgid "permissions.state.restricted"
 msgstr ""
+
+#: ../../apps/mobile/src/ui/premium/shell/screens/screen-states.tsx
+msgid "common.premium.screen.missingTitle"
+msgstr "Không có gì ở đây"
 
 #: ../../apps/mobile/src/lib/permissions/primer-copy.ts
 msgid "permissions.state.off"

@@ -119,8 +119,21 @@ const TYPE_FOR_SIZE: Record<ButtonSize, PremiumTypeName> = {
   small: 'pillSmall',
 };
 
+/** A picker's "⌄" typed at the end of a label: drawn as the chevron glyph instead. */
+const TYPED_CHEVRON = /\s*\u2304\s*$/u;
+
+/**
+ * The label and whether it ends in the picker chevron. A typed "⌄" comes from a fallback font
+ * with a taller line box, which pushed the label down in its pill and cut its top ("Today ⌄").
+ */
+export function pillLabel(label: string, chevron: boolean): { text: string; chevron: boolean } {
+  return TYPED_CHEVRON.test(label)
+    ? { text: label.replace(TYPED_CHEVRON, ''), chevron: true }
+    : { text: label, chevron };
+}
+
 export function Button({
-  label,
+  label: givenLabel,
   onPress,
   variant = 'primary',
   size = 'large',
@@ -128,12 +141,13 @@ export function Button({
   loading = false,
   loadingLabel,
   icon,
-  chevron = false,
+  chevron: givenChevron = false,
   accessibilityHint,
   alignSelf,
   testID,
 }: ButtonProps) {
   const t = usePremiumTheme();
+  const { text: label, chevron } = pillLabel(givenLabel, givenChevron);
   const box = sizeBox(t, size);
   const shown = loading ? (loadingLabel ?? label) : label;
   const height = Number(box.height);

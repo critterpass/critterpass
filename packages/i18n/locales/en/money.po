@@ -571,12 +571,17 @@ msgid "money.queued.addExpense"
 msgstr "Expense: {what}"
 
 #: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/MoneySheets.tsx
 msgid "money.premium.noTripLine"
 msgstr "Expenses belong to a trip. Start one with the crew, then add it here."
 
 #: ../../apps/mobile/src/features/money/premium/components/SettledSquare.tsx
 msgid "money.premium.export"
 msgstr "Export for your records"
+
+#: ../../apps/mobile/src/features/money/premium/MoneySheets.tsx
+msgid "money.premium.tripsLoading"
+msgstr "Finding your trips…"
 
 #: ../../apps/mobile/src/features/money/components/category.ts
 msgid "money.category.food"

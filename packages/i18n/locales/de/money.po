@@ -571,11 +571,16 @@ msgid "money.queued.addExpense"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/MoneySheets.tsx
 msgid "money.premium.noTripLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/premium/components/SettledSquare.tsx
 msgid "money.premium.export"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/premium/MoneySheets.tsx
+msgid "money.premium.tripsLoading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/components/category.ts

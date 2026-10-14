@@ -5,11 +5,21 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- style values, never copy. */
 import { t } from '@lingui/core/macro';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import type { CrewCover } from '@cp/domain';
 
-import { Card, CritterSticker, Icon, PressableScale, ring, usePremiumTheme } from '@/ui/premium';
+import {
+  Card,
+  CritterSticker,
+  Icon,
+  PressableScale,
+  ring,
+  ROW_ROOM_ABOVE,
+  ROW_ROOM_BELOW,
+  ScrollRow,
+  usePremiumTheme,
+} from '@/ui/premium';
 import { GUIDE_AVATAR_IDS, guideSticker } from '@/ui/premium/stickers/guides';
 
 import type { CoverOption } from '../crew-look';
@@ -91,9 +101,9 @@ export function CoverPicker({
 }) {
   const th = usePremiumTheme();
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
+    <ScrollRow
+      gap={12}
+      bleed={12}
       contentContainerStyle={styles.covers}
       style={styles.coverStrip}
       testID={testID}
@@ -123,7 +133,7 @@ export function CoverPicker({
           </PressableScale>
         );
       })}
-    </ScrollView>
+    </ScrollRow>
   );
 }
 
@@ -156,10 +166,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // One row that scrolls sideways (the Pass+ covers sit past the sixth), with room for the
-  // picked book's lift and ring.
-  coverStrip: { marginHorizontal: -8, overflow: 'visible' },
-  covers: { flexDirection: 'row', gap: 12, paddingTop: 14, paddingBottom: 6, paddingHorizontal: 8 },
+  // One row that scrolls sideways (the Pass+ covers sit past the sixth): the row keeps room for
+  // the picked book's lift, ring and shadow, and lays out with 14 above and 6 below as before.
+  coverStrip: { marginTop: 14 - ROW_ROOM_ABOVE, marginBottom: 6 - ROW_ROOM_BELOW },
+  covers: { alignItems: 'flex-start' },
   book: {
     width: 40,
     height: 52,

@@ -10,7 +10,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { PremiumSheet } from '@/features/album';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { CritterSticker, Skeleton, Text, usePremiumTheme } from '@/ui/premium';
+import { CritterSticker, LoadingCritter, Skeleton, Text, usePremiumTheme } from '@/ui/premium';
 
 import { guideArt } from '../../stickers/sticker-art';
 import { stickerHow, stickerName } from '../../stickers/sticker-copy';
@@ -75,7 +75,11 @@ export function PremiumStickerDetailSheet() {
   }
   return (
     <PremiumSheet
-      title={t({ id: 'stickers.detail.missingTitle', message: 'This sticker isn’t here' })}
+      title={
+        loaded
+          ? t({ id: 'stickers.detail.missingTitle', message: 'This sticker isn’t here' })
+          : t({ id: 'stickers.detail.loadingTitle', message: 'Finding the sticker…' })
+      }
       onClose={close}
       testID={loaded ? 'sticker-detail-missing' : 'sticker-detail-loading'}
     >
@@ -87,13 +91,19 @@ export function PremiumStickerDetailSheet() {
           })}
         </Text>
       ) : (
-        <Skeleton height={ART} tone="block" radius={22} />
+        <View style={styles.waiting}>
+          <Skeleton height={ART} tone="block" radius={22} />
+          <LoadingCritter
+            label={t({ id: 'stickers.detail.loadingTitle', message: 'Finding the sticker…' })}
+          />
+        </View>
       )}
     </PremiumSheet>
   );
 }
 
 const styles = StyleSheet.create({
+  waiting: { gap: 12 },
   body: { alignItems: 'center', gap: 10, paddingBottom: 8 },
   badge: {
     position: 'absolute',

@@ -757,6 +757,10 @@ msgstr "Trên xe: khoảng {before} → {after}"
 msgid "planDraft.diff.failed"
 msgstr "Lần này không tính. Thử lại, có khi với lý do khác."
 
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.missingLine"
+msgstr "Có thể chuyến đi đã bị huỷ. Đóng lại và xem các chuyến đi của bạn."
+
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
 msgid "common.missing.line"
 msgstr "Có thể nó đã bị xoá, hoặc điện thoại này chưa có."
@@ -1073,6 +1077,10 @@ msgstr "Mở"
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.day.item.maps"
 msgstr "Mở bản đồ"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.loading"
+msgstr "Đang mở lịch ngày…"
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/fix-panel.tsx
 msgid "plan.premium.fix.otherWays"
@@ -1439,6 +1447,10 @@ msgstr "Nội dung này không còn ở đây"
 #: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
 msgid "plan.premium.lessDriving.none"
 msgstr "Thứ tự này đã ngắn nhất mà không phải dời gì đã đặt."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.missingTitle"
+msgstr "Chuyến đi này không còn nữa"
 
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.day.item.bookingLine"

@@ -9,26 +9,42 @@
  * - `KeyboardAwareScroll` for forms: keeps the focused field above the keyboard, drags it away;
  * - `useKeyboardFrame` for a screen that lays itself out around the keyboard on the UI thread.
  *
- * Native form sheets on iOS move with the keyboard by themselves: don't add an avoider inside one.
+ * A native form sheet below full height moves up with the keyboard by itself (iOS): the sticky
+ * footer measures where it sits and rises only by what the keyboard still covers.
  */
-import { useEffect, type ReactNode } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ComponentRef,
+  type ReactNode,
+} from 'react';
 import type * as KeyboardControllerModule from 'react-native-keyboard-controller';
 import {
+  findNodeHandle,
   Keyboard,
   Platform,
   TurboModuleRegistry,
   ScrollView,
+  StyleSheet,
   View,
   type ScrollViewProps,
   type StyleProp,
   type ViewStyle,
 } from 'react-native';
-import {
+import Animated, {
+  useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
   withTiming,
   type SharedValue,
 } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { scheduleOnRN } from 'react-native-worklets';
 
 import { TextButtonAlignProvider } from '../../buttons/TextButton';
 
@@ -66,9 +82,53 @@ export interface KeyboardStickyFooterProps {
   readonly style?: StyleProp<ViewStyle>;
 }
 
+/** A number from a flattened style, or 0 for a missing or relative one. */
+function points(...values: readonly unknown[]): number {
+  for (const value of values) if (typeof value === 'number') return value;
+  return 0;
+}
+
 /**
- * A footer that rides the keyboard: the composer, a sheet's bottom action. A text button in it
- * centres under the full-width action, as in a `FooterStack`.
+ * How far a footer rises so its foot sits `offset` above the keyboard's top, in points: none when
+ * it already clears it (a sheet the system lifts with the keyboard). `tuck` is the home-indicator
+ * room in the footer's own bottom padding, which goes under the keyboard while it is up.
+ */
+export function footerRise(input: {
+  readonly footerBottom: number;
+  readonly windowHeight: number;
+  readonly keyboardHeight: number;
+  readonly offset: number;
+  readonly tuck: number;
+}): number {
+  'worklet';
+  const keyboardTop = input.windowHeight - input.keyboardHeight;
+  return Math.max(0, input.footerBottom - input.tuck - (keyboardTop - input.offset));
+}
+
+/**
+ * The room a screen's sticky footer takes above the keyboard, for the screen's
+ * `KeyboardAwareScroll` to keep the focused field above it rather than under it. One scope per
+ * screen (the premium navigators wrap every screen in one).
+ */
+interface FooterSpace {
+  readonly height: number;
+  readonly set: (height: number) => void;
+}
+
+const FooterSpaceContext = createContext<FooterSpace | null>(null);
+
+export function KeyboardFooterScope({ children }: { readonly children: ReactNode }) {
+  const [height, set] = useState(0);
+  const value = useMemo(() => ({ height, set }), [height]);
+  return <FooterSpaceContext.Provider value={value}>{children}</FooterSpaceContext.Provider>;
+}
+
+/**
+ * A footer that rides the keyboard: the composer, a sheet's bottom action. It rises only as far as
+ * the keyboard covers it, measured where it is on the screen: a page's footer lifts by the
+ * keyboard's height, a sheet the system already lifts keeps its place, and the home-indicator room
+ * under it tucks under the keyboard. A text button in it centres under the full-width action, as
+ * in a `FooterStack`.
  */
 export function KeyboardStickyFooter({
   children,
@@ -78,11 +138,114 @@ export function KeyboardStickyFooter({
   const library = keyboardController();
   const content = <TextButtonAlignProvider value="center">{children}</TextButtonAlignProvider>;
   if (library === null) return <View style={style}>{content}</View>;
-  const { KeyboardStickyView } = library;
   return (
-    <KeyboardStickyView offset={{ closed: 0, opened: -openedOffset }} style={style}>
+    <RidingFooter library={library} openedOffset={openedOffset} style={style}>
       {content}
-    </KeyboardStickyView>
+    </RidingFooter>
+  );
+}
+
+function RidingFooter({
+  library,
+  openedOffset,
+  style,
+  children,
+}: {
+  readonly library: KeyboardController;
+  readonly openedOffset: number;
+  readonly style: StyleProp<ViewStyle> | undefined;
+  readonly children: ReactNode;
+}) {
+  const { KeyboardControllerNative, useGenericKeyboardHandler, useReanimatedKeyboardAnimation } =
+    library;
+  const { height: windowHeight } = library.useWindowDimensions();
+  const insets = useSafeAreaInsets();
+  const space = useContext(FooterSpaceContext);
+  const anchor = useRef<ComponentRef<typeof View>>(null);
+  const { progress } = useReanimatedKeyboardAnimation();
+  // Where the footer's foot sits on the screen before it rises, and how far it rises once the
+  // keyboard is up.
+  const footerBottom = useSharedValue(-1);
+  const keyboardHeight = useSharedValue(0);
+  const rise = useSharedValue(0);
+  const flat: ViewStyle = StyleSheet.flatten(style) ?? {};
+  const padBottom = points(flat.paddingBottom, flat.paddingVertical, flat.padding);
+  const tuck = insets.bottom > 0 && padBottom >= insets.bottom ? insets.bottom : 0;
+
+  const settle = useCallback(
+    (bottom: number) => {
+      footerBottom.set(bottom);
+      const height = keyboardHeight.get();
+      if (height > 0) {
+        rise.set(
+          footerRise({
+            footerBottom: bottom,
+            windowHeight,
+            keyboardHeight: height,
+            offset: openedOffset,
+            tuck,
+          }),
+        );
+      }
+    },
+    [footerBottom, keyboardHeight, rise, windowHeight, openedOffset, tuck],
+  );
+
+  // Reads the footer's place on the screen natively: a native sheet's own position (and the lift
+  // the system gives it for the keyboard) is invisible to React Native's layout.
+  const measure = useCallback(() => {
+    const tag = findNodeHandle(anchor.current);
+    if (tag == null) return;
+    KeyboardControllerNative.viewPositionInWindow(tag)
+      .then((place) => settle(place.y + place.height))
+      .catch(() => undefined);
+  }, [KeyboardControllerNative, settle]);
+
+  useGenericKeyboardHandler(
+    {
+      onStart: (event) => {
+        'worklet';
+        keyboardHeight.set(event.height);
+        if (event.height > 0) {
+          const bottom = footerBottom.get();
+          if (bottom >= 0) {
+            rise.set(
+              footerRise({
+                footerBottom: bottom,
+                windowHeight,
+                keyboardHeight: event.height,
+                offset: openedOffset,
+                tuck,
+              }),
+            );
+          }
+          scheduleOnRN(measure);
+        }
+      },
+      onEnd: (event) => {
+        'worklet';
+        keyboardHeight.set(event.height);
+        if (event.height > 0) scheduleOnRN(measure);
+      },
+    },
+    [windowHeight, openedOffset, tuck, measure],
+  );
+
+  const riding = useAnimatedStyle(() => ({
+    transform: [{ translateY: -rise.get() * progress.get() }],
+  }));
+
+  return (
+    <View
+      ref={anchor}
+      collapsable={false}
+      onLayout={(event) => {
+        space?.set(Math.max(0, event.nativeEvent.layout.height - tuck + openedOffset));
+        measure();
+      }}
+    >
+      <Animated.View style={[style, riding]}>{children}</Animated.View>
+    </View>
   );
 }
 
@@ -102,6 +265,7 @@ export function KeyboardAwareScroll({
   ...props
 }: KeyboardAwareScrollProps) {
   const library = keyboardController();
+  const footer = useContext(FooterSpaceContext)?.height ?? 0;
   const shared: ScrollViewProps = {
     keyboardDismissMode: Platform.OS === 'ios' ? 'interactive' : 'on-drag',
     keyboardShouldPersistTaps: 'handled',
@@ -117,7 +281,7 @@ export function KeyboardAwareScroll({
   }
   const { KeyboardAwareScrollView } = library;
   return (
-    <KeyboardAwareScrollView bottomOffset={bottomOffset} {...shared}>
+    <KeyboardAwareScrollView bottomOffset={bottomOffset + footer} {...shared}>
       {children}
     </KeyboardAwareScrollView>
   );

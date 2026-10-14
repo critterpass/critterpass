@@ -118,6 +118,7 @@ function OpenPracticeScreen({
   speech,
   View,
   CardView,
+  waiting,
 }: PracticeScreenProps) {
   const context = useGuideContext(tripId);
   const consent = useVoiceConsent();
@@ -206,7 +207,8 @@ function OpenPracticeScreen({
     setChosen(phrase.id);
     run(controller.current, phrase);
   };
-  if (cards === null) return null;
+  // The cards' first read: the same wait as the session's, never a blank sheet.
+  if (cards === null) return <>{waiting}</>;
   return (
     <View
       guideName={context.guideName}

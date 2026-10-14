@@ -12,7 +12,7 @@ import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Doodle } from '@/features/explore';
-import { Button, Text, TextButton, Toggle, usePremiumTheme } from '@/ui/premium';
+import { Button, GlassIconButton, Text, TextButton, Toggle, usePremiumTheme } from '@/ui/premium';
 import { confirmAlert } from '@/ui/premium/shell';
 
 import { useMailboxActions } from '../add/use-mailbox-actions';
@@ -148,7 +148,8 @@ export function MailboxPremium(props: {
       >
         {Platform.OS === 'ios' ? null : (
           <View style={styles.close}>
-            <TextButton
+            <GlassIconButton
+              icon="close"
               label={t({ id: 'bookings.premium.done', message: 'Done' })}
               onPress={props.onClose}
               testID="bookings-mailbox-close"

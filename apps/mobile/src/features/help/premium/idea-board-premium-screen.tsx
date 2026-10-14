@@ -119,6 +119,7 @@ function Board() {
   return (
     <>
       <PushScreen
+        largeTitle
         title={t({ id: 'help.ideas.title', message: 'What’s next?' })}
         action={{
           key: 'votes-left',

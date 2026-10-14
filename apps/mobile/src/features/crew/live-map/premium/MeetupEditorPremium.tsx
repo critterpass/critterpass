@@ -11,11 +11,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { usePlaceSearch, type SearchedPlace } from '@/data/places/usePlaceSearch';
 import {
   Button,
+  GlassIconButton,
   Icon,
   PressableScale,
   SegmentedControl,
   Text,
-  TextButton,
   TextField,
   usePremiumTheme,
 } from '@/ui/premium';
@@ -126,7 +126,8 @@ export function MeetupEditorPremium(props: {
               ? t({ id: 'liveMap.editor.createTitle', message: 'Set a meet-up' })
               : t({ id: 'liveMap.editor.moveTitle', message: 'Move the meet-up' })}
           </Text>
-          <TextButton
+          <GlassIconButton
+            icon="close"
             label={t({ id: 'liveMap.premium.cancel', message: 'Cancel' })}
             onPress={props.onDismiss}
             testID="live-meetup-cancel"

@@ -4,6 +4,7 @@ import path from 'node:path';
 import { describe, expect, it } from '@jest/globals';
 
 import {
+  oneCardRoutes,
   openedPath,
   PRESENTED_ROUTES,
   presentationOf,
@@ -113,5 +114,46 @@ describe('screenPlacement', () => {
       kind: 'root',
       tab: false,
     });
+  });
+});
+
+describe('one card at a time', () => {
+  const kinds: Record<string, ScreenPresentation | undefined> = {
+    page: undefined,
+    sheet: SHEET,
+    modal: { kind: 'modal' },
+    cover: { kind: 'cover' },
+    drawn: { kind: 'drawn' },
+  };
+  const open = (...names: string[]) =>
+    oneCardRoutes(
+      names.map((name, index) => ({ name, key: `${name}-${String(index)}` })),
+      (route) => kinds[route.name],
+    ).map((route) => route.name);
+
+  it('lets a page opened from a sheet replace the sheet', () => {
+    expect(open('page', 'sheet', 'page')).toEqual(['page', 'page']);
+    expect(open('page', 'modal', 'page')).toEqual(['page', 'page']);
+  });
+
+  it('lets a sheet opened from a sheet replace it, and every sheet under it', () => {
+    expect(open('page', 'sheet', 'modal', 'sheet')).toEqual(['page', 'sheet']);
+  });
+
+  it('lets a page opened from a cover replace the cover, and a sheet sit over it', () => {
+    expect(open('page', 'cover', 'page')).toEqual(['page', 'page']);
+    expect(open('page', 'sheet', 'cover', 'page')).toEqual(['page', 'page']);
+    expect(open('page', 'cover', 'sheet')).toEqual(['page', 'cover', 'sheet']);
+  });
+
+  it('keeps covers and see-through cards over what opened them', () => {
+    expect(open('page', 'sheet', 'cover')).toEqual(['page', 'sheet', 'cover']);
+    expect(open('page', 'sheet', 'drawn')).toEqual(['page', 'sheet', 'drawn']);
+    expect(open('page', 'drawn', 'page')).toEqual(['page', 'drawn', 'page']);
+  });
+
+  it('leaves pushes over pages and the first route alone', () => {
+    expect(open('page', 'page', 'page')).toEqual(['page', 'page', 'page']);
+    expect(open('sheet', 'page')).toEqual(['sheet', 'page']);
   });
 });

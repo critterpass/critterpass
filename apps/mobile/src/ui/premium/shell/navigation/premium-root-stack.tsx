@@ -7,11 +7,12 @@ import {
 import type { NativeStackNavigationOptions } from 'expo-router/native-stack';
 import { useCallback, useMemo } from 'react';
 
-import type { OpenedRoute } from '@/lib/navigation/presentation';
+import { openedPath, presentationOf, type OpenedRoute } from '@/lib/navigation/presentation';
 import type { PremiumPalette, PremiumScheme } from '@cp/design-tokens';
 
 import { REDUCED_FADE_MS, usePremiumReducedMotion, usePremiumTheme } from '../..';
 import { freezeOptions, type StackState } from './freeze-behind';
+import { oneCardRouter } from './one-card-router';
 import { presentedScreenLayout } from './presented-insets';
 import { rootRouteOptions, SELF_ANIMATED_SHEET } from './presentation-options';
 
@@ -19,6 +20,9 @@ import { rootRouteOptions, SELF_ANIMATED_SHEET } from './presentation-options';
 export { SELF_ANIMATED_SHEET };
 
 type RootRoute = OpenedRoute & { readonly key?: string | undefined };
+
+/** A group opened over a sheet replaces the sheet (`oneCardRoutes`). */
+const ROOT_ROUTER = oneCardRouter((route) => presentationOf(openedPath(route)));
 
 /** The navigation library's colours for the premium palette, so no default white or grey flashes. */
 function navigationTheme(scheme: PremiumScheme, color: PremiumPalette) {
@@ -77,7 +81,11 @@ export function PremiumRootStack() {
   );
   return (
     <NavigationThemeProvider value={theme}>
-      <Stack screenOptions={screenOptions} screenLayout={presentedScreenLayout} />
+      <Stack
+        screenOptions={screenOptions}
+        screenLayout={presentedScreenLayout}
+        UNSTABLE_router={ROOT_ROUTER}
+      />
     </NavigationThemeProvider>
   );
 }

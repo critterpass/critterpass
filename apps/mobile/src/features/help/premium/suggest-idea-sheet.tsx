@@ -9,17 +9,8 @@ import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { Modal, ScrollView, StyleSheet, View } from 'react-native';
 
-import {
-  Button,
-  GuideNote,
-  ListCard,
-  Row,
-  Spinner,
-  Text,
-  TextButton,
-  TextField,
-  usePremiumTheme,
-} from '@/ui/premium';
+import { Button, GuideNote, ListCard, Row, TextField, usePremiumTheme } from '@/ui/premium';
+import { SheetHeader } from '@/ui/premium/shell';
 
 import type { BoardStatus } from '../ideas/board';
 
@@ -67,27 +58,20 @@ export function SuggestIdeaSheet(props: SuggestIdeaSheetProps) {
       onRequestClose={props.onClose}
     >
       <View style={[styles.fill, { backgroundColor: th.color.ground }]} testID="help-suggest">
-        <View style={[styles.head, { paddingHorizontal: th.space.gutter }]}>
-          <TextButton
-            label={t({ id: 'help.premium.suggestCancel', message: 'Cancel' })}
-            onPress={props.onClose}
-            testID="help-suggest-cancel"
-          />
-          <Text variant="navTitle" accessibilityRole="header" style={styles.title}>
-            {heading}
-          </Text>
-          {props.posting ? (
-            <Spinner />
-          ) : (
-            <TextButton
-              label={t({ id: 'help.suggest.post', message: 'Post it' })}
-              tone="ink"
-              onPress={props.onPost}
-              disabled={!canPost}
-              testID="help-suggest-post"
-            />
-          )}
-        </View>
+        <SheetHeader
+          style={styles.head}
+          leadingLabel={t({ id: 'help.premium.suggestCancel', message: 'Cancel' })}
+          onLeading={props.onClose}
+          leadingTestID="help-suggest-cancel"
+          title={heading}
+          verb={{
+            label: t({ id: 'help.suggest.post', message: 'Post it' }),
+            onPress: props.onPost,
+            disabled: !canPost,
+            busy: props.posting,
+            testID: 'help-suggest-post',
+          }}
+        />
         <ScrollView
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{ padding: th.space.gutter, gap: th.space.gap16 }}
@@ -162,12 +146,5 @@ export function SuggestIdeaSheet(props: SuggestIdeaSheetProps) {
 
 const styles = StyleSheet.create({
   fill: { flex: 1 },
-  head: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    minHeight: 56,
-    paddingTop: 8,
-  },
-  title: { flex: 1, textAlign: 'center' },
+  head: { marginTop: 8 },
 });

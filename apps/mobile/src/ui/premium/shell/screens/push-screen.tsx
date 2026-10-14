@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useBackAffordance } from '@/lib/qa/back-affordance';
 
 import { Text, usePremiumTheme } from '../..';
+import { BodyTitleContext } from '../../text/body-title';
 import { leadingControlFor, useScreenPlacement } from '../navigation/use-screen-placement';
 import {
   capActions,
@@ -15,7 +16,8 @@ import {
   NativeLeadingControl,
 } from './header-actions';
 import type { ShellAction } from './header-actions';
-import { HeaderBar, HeaderTitle } from './header-bar';
+import { CrumbBar, HeaderBar, HeaderTitle } from './header-bar';
+import { useBodyTitle, useHeaderLeavesWithPage } from './push-screen-hooks';
 import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from './scroll-edge';
 
 export interface PushScreenProps {
@@ -51,6 +53,10 @@ export interface PushScreenProps {
 }
 
 const goBack = () => router.back();
+
+/** The iOS navigation bar under the status bar (the title row with its glass controls). */
+const NATIVE_BAR_HEIGHT = 44;
+
 const goHome = () => router.replace('/');
 
 /**
@@ -83,6 +89,11 @@ export function PushScreen({
 }: PushScreenProps) {
   const t = usePremiumTheme();
   const insets = useSafeAreaInsets();
+  useHeaderLeavesWithPage();
+  // A large title in the body makes this a crumb page: the bar shows the back and the page it
+  // returns to, and no inline title (one title per page).
+  const [bodyTitle, reportBodyTitle] = useBodyTitle();
+  const crumb = bodyTitle && !largeTitle && !headerless;
   const actions = capActions(action === undefined ? [] : [action], 1);
   const ios = Platform.OS === 'ios';
   const placement = useScreenPlacement();
@@ -105,34 +116,48 @@ export function PushScreen({
   const nativeOptions = useMemo(
     () => ({
       headerShown: true,
-      title,
-      headerTitle: () => <HeaderTitle title={title} subtitle={subtitle} />,
+      // A crumb page's bar has no title: the native bar would draw `title` itself otherwise.
+      title: crumb ? '' : title,
+      headerTitle: crumb ? () => null : () => <HeaderTitle title={title} subtitle={subtitle} />,
       headerTitleAlign: 'center' as const,
       headerTransparent: true,
       headerShadowVisible: false,
-      headerBackButtonDisplayMode: 'minimal' as const,
+      // A crumb page's back names the page it returns to ("‹ Bookings").
+      headerBackButtonDisplayMode: crumb ? ('default' as const) : ('minimal' as const),
+      ...(crumb ? { headerBackTitle: backLabel } : {}),
       headerBackVisible: nativeBack,
       headerTintColor: ink,
     }),
-    [title, subtitle, nativeBack, ink],
+    [title, subtitle, nativeBack, ink, crumb, backLabel],
   );
   const drawnOptions = useMemo(() => ({ headerShown: false, title }), [title]);
 
   const edges = useScrollEdges();
+  const content = <BodyTitleContext value={reportBodyTitle}>{children}</BodyTitleContext>;
+  // Under the transparent native bar (iOS) the page keeps the status bar and the bar's height
+  // clear itself: the system's automatic inset is lost when the scroll view isn't the one the
+  // screen's controller tracks, and the content then started under the bar's title.
+  const underNativeBar = ios && !headerless && !largeTitle;
+  const barGround = insets.top + NATIVE_BAR_HEIGHT;
   const body = scroll ? (
     <ScrollView
-      contentInsetAdjustmentBehavior="automatic"
-      contentContainerStyle={{ paddingBottom: t.space.gap16 }}
+      contentInsetAdjustmentBehavior={underNativeBar ? 'never' : 'automatic'}
+      contentContainerStyle={
+        underNativeBar
+          ? { paddingTop: barGround, paddingBottom: insets.bottom + t.space.gap16 }
+          : { paddingBottom: t.space.gap16 }
+      }
+      {...(underNativeBar ? { scrollIndicatorInsets: { top: barGround } } : {})}
       keyboardShouldPersistTaps="handled"
       {...edges.scrollProps}
     >
-      {children}
+      {content}
     </ScrollView>
   ) : (
-    children
+    content
   );
   // Under a drawn bar or large title the content fades into the ground as it scrolls up under
-  // them (the native iOS bar draws the system's own scroll edge).
+  // them.
   const fadedBody = scroll ? (
     <View style={styles.body}>
       {body}
@@ -170,53 +195,44 @@ export function PushScreen({
     );
   }
 
-  if (largeTitle && !headerless) {
+  // The drawn crumb bar: the glass back with the page it returns to beside it, then (for a
+  // `largeTitle` page) the title under it. A crumb page on iOS keeps the native bar.
+  if ((largeTitle || (crumb && !ios)) && !headerless) {
     return (
       <View testID={testID} style={[styles.root, { backgroundColor: t.color.ground }]}>
         <Stack.Screen options={drawnOptions} />
-        <View
-          style={[
-            styles.largeBar,
-            {
-              marginTop: insets.top + t.space.gap6,
-              minHeight: t.size.glassNav,
+        <CrumbBar
+          top={insets.top + t.space.gap6}
+          leading={
+            control === 'none' ? null : (
+              <DrawnLeadingControl
+                kind={control === 'close' ? 'close' : 'back'}
+                label={leadingLabel}
+                onPress={leave}
+              />
+            )
+          }
+          crumb={control === 'back' || control === 'home' ? backLabel : null}
+          trailing={actions.length > 0 ? <DrawnHeaderActions actions={actions} /> : null}
+        />
+        {largeTitle ? (
+          <View
+            style={{
               paddingHorizontal: t.space.gutter,
-              gap: t.space.gap12,
-            },
-          ]}
-        >
-          {control === 'none' ? null : (
-            <DrawnLeadingControl
-              kind={control === 'close' ? 'close' : 'back'}
-              label={leadingLabel}
-              onPress={leave}
-            />
-          )}
-          {control === 'back' || control === 'home' ? (
-            <Text variant="rowText" tone="muted" numberOfLines={1} style={styles.grow}>
-              {backLabel}
+              paddingTop: t.space.gap12,
+              paddingBottom: t.space.gap6,
+            }}
+          >
+            <Text variant="largeTitle" accessibilityRole="header" singleLine={false}>
+              {title}
             </Text>
-          ) : (
-            <View style={styles.grow} />
-          )}
-          {actions.length > 0 ? <DrawnHeaderActions actions={actions} /> : null}
-        </View>
-        <View
-          style={{
-            paddingHorizontal: t.space.gutter,
-            paddingTop: t.space.gap12,
-            paddingBottom: t.space.gap6,
-          }}
-        >
-          <Text variant="largeTitle" accessibilityRole="header" singleLine={false}>
-            {title}
-          </Text>
-          {subtitle === undefined ? null : (
-            <Text variant="rowText" tone="muted" singleLine={false}>
-              {subtitle}
-            </Text>
-          )}
-        </View>
+            {subtitle === undefined ? null : (
+              <Text variant="rowText" tone="muted" singleLine={false}>
+                {subtitle}
+              </Text>
+            )}
+          </View>
+        ) : null}
         {fadedBody}
       </View>
     );
@@ -238,11 +254,15 @@ export function PushScreen({
             trailing={actions.length > 0 ? <DrawnHeaderActions actions={actions} /> : null}
           />
         </View>
+        {/* Keeps the body at the crumb bar's position, so turning into a crumb page doesn't remount it. */}
+        {null}
         {fadedBody}
       </View>
     );
   }
 
+  // The native bar is transparent and draws no ground of its own over a page's scroll view: the
+  // status bar and the bar get the ground (solid), then a short fade, once content scrolls under.
   return (
     <View testID={testID} style={styles.root}>
       <Stack.Screen options={nativeOptions} />
@@ -250,7 +270,19 @@ export function PushScreen({
         <NativeLeadingControl kind={drawnControl} label={leadingLabel} onPress={leave} />
       ) : null}
       <NativeHeaderActions actions={actions} />
-      {body}
+      {scroll ? (
+        <View style={styles.body}>
+          {body}
+          <ScrollEdgeFade
+            edge="top"
+            height={barGround + SCROLL_EDGE_FADE}
+            solid={barGround}
+            visible={edges.top}
+          />
+        </View>
+      ) : (
+        body
+      )}
     </View>
   );
 }
@@ -258,8 +290,6 @@ export function PushScreen({
 const styles = StyleSheet.create({
   root: { flex: 1 },
   body: { flex: 1 },
-  largeBar: { flexDirection: 'row', alignItems: 'center' },
-  grow: { flex: 1 },
   floating: {
     position: 'absolute',
     left: 0,
