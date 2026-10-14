@@ -4,13 +4,12 @@ import { IsFocusedContext } from 'expo-router/build/react-navigation/core/useIsF
 
 import type { QaRect } from '../header-overlap';
 import {
-  isLayoutSettled,
   LAYOUT_SETTLE_MS,
   noteTextLayoutEvent,
   resetLayoutScan,
   scheduleLayoutScan,
-  subscribeLayoutSettled,
 } from '../layout-scan';
+import { isLayoutSettled, subscribeLayoutSettled } from '../layout-settled';
 import { collectLayoutTree, drawsGround, subjectWords } from '../layout-tree';
 import { setUiQaSink, UI_QA_ENABLED } from '../ui-qa';
 
@@ -287,6 +286,31 @@ describe('layout scan', () => {
     jest.advanceTimersByTime(LAYOUT_SETTLE_MS + 1000);
     stop();
     expect(flips).toEqual(UI_QA_ENABLED ? [true, false, true] : []);
+  });
+
+  it('stays settled while a text ticks in place, and a ticking text cannot hold a scan off', () => {
+    const root = tree([screen('hub', true, [words('8D 10:20:38', at(20, 100, 120, 20))])]);
+    const element = (
+      root.child?.child?.child?.stateNode as { canonical: { publicInstance: unknown } }
+    ).canonical.publicInstance;
+    const lines = [{ x: 20, y: 100, width: 120, height: 20 }];
+    const tick = () => {
+      (globalThis as { event?: unknown }).event = {
+        currentTarget: element,
+        nativeEvent: { lines },
+      };
+      noteTextLayoutEvent();
+    };
+    tick();
+    // A tick every 600 ms, faster than the quiet time a new layout waits for.
+    for (let k = 0; k < 4; k += 1) {
+      jest.advanceTimersByTime(600);
+      tick();
+    }
+    jest.advanceTimersByTime(LAYOUT_SETTLE_MS + 1000);
+    expect(isLayoutSettled()).toBe(UI_QA_ENABLED);
+    tick();
+    expect(isLayoutSettled()).toBe(UI_QA_ENABLED);
   });
 
   it('stays quiet without a layout event to start from', () => {

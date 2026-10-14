@@ -2,7 +2,7 @@ import { usePathname } from 'expo-router';
 import { useEffect, useSyncExternalStore } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { isLayoutSettled, subscribeLayoutSettled } from './layout-scan';
+import { isLayoutSettled, subscribeLayoutSettled } from './layout-settled';
 import { announceQaBuild, qaBuildLabel, UI_QA_ENABLED } from './ui-qa';
 
 /**

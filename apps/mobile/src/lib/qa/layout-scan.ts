@@ -14,6 +14,7 @@ import {
 } from './layout-geometry';
 import { inkOf, TOUCH_PT, type QaLine } from './layout-rects';
 import { collectLayoutTree, hostRootOf, type FiberLike, type LayoutTree } from './layout-tree';
+import { resetLayoutSettled, sameLines, setSettled } from './layout-settled';
 import { reportUiQa, UI_QA_ENABLED } from './ui-qa';
 
 /**
@@ -54,28 +55,6 @@ interface FabricUiManager {
 
 let root: FiberRootLike | null = null;
 let timer: ReturnType<typeof setTimeout> | null = null;
-/** Whether the focused screens were measured since the last layout or navigation (./settled-marker). */
-let settled = false;
-const settleListeners = new Set<() => void>();
-
-function setSettled(next: boolean): void {
-  if (settled === next) return;
-  settled = next;
-  for (const listener of settleListeners) listener();
-}
-
-/** True once the screens shown have been measured, until the next layout or navigation. */
-export function isLayoutSettled(): boolean {
-  return settled;
-}
-
-/** Calls `listener` each time the settled state flips; returns the unsubscribe. */
-export function subscribeLayoutSettled(listener: () => void): () => void {
-  settleListeners.add(listener);
-  return () => {
-    settleListeners.delete(listener);
-  };
-}
 /** Each native text's lines, by the instance React keeps for it across commits. */
 let linesByText = new WeakMap<object, readonly QaLine[]>();
 
@@ -269,6 +248,16 @@ export function scheduleLayoutScan(): void {
 }
 
 /**
+ * A text laid out again where it already was (a ticking countdown, a clock): the screen is no
+ * less settled, and a scan already waiting keeps its time, or a once-a-second tick would hold it
+ * off for good.
+ */
+function scheduleRelayoutScan(): void {
+  if (root === null || timer !== null) return;
+  timer = setTimeout(scan, LAYOUT_SETTLE_MS);
+}
+
+/**
  * Called inside a text's native layout event: finds the tree's root from the event's element the
  * first time, then schedules a scan.
  */
@@ -283,12 +272,17 @@ export function noteTextLayoutEvent(): void {
   const fiber = element?.__internalInstanceHandle;
   const canonical = fiber ? hostState(fiber).canonical : undefined;
   const lines = event?.nativeEvent?.lines;
+  const before = canonical ? linesByText.get(canonical) : undefined;
   if (canonical && Array.isArray(lines)) linesByText.set(canonical, lines);
   if (root === null) {
     const hostRoot = hostRootOf(fiber);
     const state = hostRoot?.stateNode as FiberRootLike | undefined;
     if (state?.current === undefined) return;
     root = state;
+  }
+  if (before !== undefined && Array.isArray(lines) && sameLines(before, lines)) {
+    scheduleRelayoutScan();
+    return;
   }
   scheduleLayoutScan();
 }
@@ -299,5 +293,5 @@ export function resetLayoutScan(): void {
   timer = null;
   root = null;
   linesByText = new WeakMap();
-  settled = false;
+  resetLayoutSettled();
 }
