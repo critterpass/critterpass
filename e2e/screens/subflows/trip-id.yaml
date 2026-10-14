@@ -23,3 +23,4 @@ appId: app.critterpass.dev
 - evalScript: "${console.log('trip id ' + (output.tripId || 'none'))}"
 - evalScript: "${output.captureMissing = (output.captureMissing || '') + (output.tripId ? '' : ' trip-id')}"
 - runFlow: ../../_shared/home-link.yaml
+- runFlow: visit-consent.yaml

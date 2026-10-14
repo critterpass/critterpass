@@ -45,6 +45,23 @@ appId: app.critterpass.dev
               text: '.*path:/${ROUTE}'
           commands:
             - evalScript: "${output.captureMissing = output.captureMissing + ' ' + CODE + '-' + NAME}"
+# A trip that is on asks once, over whatever shows, to remember the places visited; the marker
+# still reads the page under it. Turned down before the shot: a check that costs nothing while it
+# isn't up (a `when: visible` on a missing element waits seven seconds).
+- evalScript: ${output.consentUp = true}
+- runFlow:
+    when:
+      notVisible:
+        id: 'visit-consent-decline'
+    commands:
+      - evalScript: ${output.consentUp = false}
+- runFlow:
+    when:
+      true: ${output.consentUp}
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - runFlow: ../../_shared/settle.yaml
 - takeScreenshot: premium-${CODE}-${NAME}-${LOOK}
 - runFlow:
     when:

@@ -1,18 +1,21 @@
 appId: app.critterpass.dev
 ---
-# The fast capture of Home and the tabs, by link, on the Bali demo crew (`everyday`, its
-# organiser): Home with its trip card and the tab bar shrunk by a scroll, then each page opened
+# The fast capture of Home and the tabs, by link, on the Bali demo crew (`vote`: `everyday` with an
+# open vote, so Home scrolls; its organiser): Home with its trip card and the tab bar shrunk by a
+# scroll, then each page opened
 # by its link and shot once the app's QA marker reads settled on it (subflows/capture.yaml): Your
-# trips, the inbox, the empty wallet and balances, the passport; in light also crew settings, the
-# crew's edit and leave pages, past bookings, travel insurance, the budget, the profile editor,
-# notifications, the plan's cancel and card-declined pages, a lost link, the invite sheet and the
-# recovery sheet over a page that fails (Developer tools). Then dark for Home and the tabs. It
+# trips, the inbox, the empty wallet and balances, the passport; in light also the recovery sheet
+# over a page that fails (Developer tools), past bookings, travel insurance, the budget, the
+# profile editor, notifications, the plan's cancel and card-declined pages, a lost link, and last
+# crew settings and the crew's edit and leave pages (then a relaunch: the crew area's stack keeps
+# its drawn switcher under every later link). Then dark for Home and the tabs. It
 # fails at the end when a page never showed (subflows/capture-done.yaml).
 - runFlow:
     file: subflows/start.yaml
     env:
-      SCENARIO: everyday
+      SCENARIO: vote
 - runFlow: subflows/crew-id.yaml
+- runFlow: subflows/recovery-fail.yaml
 - runFlow:
     file: subflows/links-home-top.yaml
     env:
@@ -51,27 +54,6 @@ appId: app.critterpass.dev
       ROUTE: pass
       CODE: '9.01'
       NAME: profile-link
-      LOOK: light
-- runFlow:
-    file: subflows/capture.yaml
-    env:
-      ROUTE: crew/${output.crewId}/settings
-      CODE: '3.12'
-      NAME: crew-settings-link
-      LOOK: light
-- runFlow:
-    file: subflows/capture.yaml
-    env:
-      ROUTE: crew/${output.crewId}/edit
-      CODE: '3.13'
-      NAME: edit-crew-link
-      LOOK: light
-- runFlow:
-    file: subflows/capture.yaml
-    env:
-      ROUTE: crew/${output.crewId}/leave
-      CODE: '3.16'
-      NAME: leave-crew
       LOOK: light
 - runFlow:
     file: subflows/capture.yaml
@@ -133,13 +115,25 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/capture.yaml
     env:
-      ROUTE: crew/${output.crewId}/invite
-      CODE: '3.10'
-      NAME: invite-sheet-link
+      ROUTE: crew/${output.crewId}/settings
+      CODE: '3.12'
+      NAME: crew-settings-link
       LOOK: light
-      SHEET: 'true'
-      READY: 'crew-invite'
-- runFlow: subflows/recovery-fail.yaml
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: crew/${output.crewId}/edit
+      CODE: '3.13'
+      NAME: edit-crew-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: crew/${output.crewId}/leave
+      CODE: '3.16'
+      NAME: leave-crew
+      LOOK: light
+- runFlow: subflows/relaunch-home.yaml
 - runFlow:
     file: subflows/appearance.yaml
     env:

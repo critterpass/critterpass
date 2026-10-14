@@ -1,0 +1,17 @@
+appId: app.critterpass.dev
+---
+# A trip that is on asks once, over Home, to remember the places visited: it is waited for a few
+# seconds after Home shows and turned down (not now), so it never covers a later step.
+- extendedWaitUntil:
+    visible:
+      id: 'visit-consent-decline'
+    timeout: 12000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - runFlow: ../../_shared/settle.yaml
