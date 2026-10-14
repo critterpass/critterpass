@@ -16,7 +16,15 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
-import { Button, ListCard, Skeleton, Text, usePremiumTheme } from '@/ui/premium';
+import {
+  Button,
+  ListCard,
+  Skeleton,
+  StickerIcon,
+  Text,
+  usePremiumTheme,
+  type StickerIconName,
+} from '@/ui/premium';
 import { HoldToConfirm, PushScreen } from '@/ui/premium/shell';
 
 import { money } from '@/features/vote';
@@ -25,6 +33,16 @@ import { cancelTripCommand } from '../../settings/data/commands';
 import { useCancelSummary } from '../../settings/data/use-settings-reads';
 
 type Consequence = CancelSummaryResult['consequences'][number];
+
+/** Each consequence's sticker tile, as the design gives every row one. */
+const CONSEQUENCE_ICON: Readonly<Record<Consequence['kind'], StickerIconName>> = {
+  booking_refund: 'bed',
+  booking_kept: 'wallet',
+  booking_ask: 'chat',
+  boost_moves: 'ticket',
+  money_stays: 'wallet',
+  chat_stays: 'chat',
+};
 
 function consequenceText(
   locale: string,
@@ -150,16 +168,25 @@ export function CancelTripScreen({ tripId }: { readonly tripId: string }) {
                   testID={`cancel-trip-${line.kind}`}
                   style={{
                     minHeight: 62,
-                    justifyContent: 'center',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: theme.space.gap12,
                     paddingHorizontal: theme.space.rowPadH,
                   }}
                 >
-                  <Text variant="rowTitle" numberOfLines={1}>
-                    {words.title}
-                  </Text>
-                  <Text variant="captionMuted" tone="muted">
-                    {words.line}
-                  </Text>
+                  <StickerIcon
+                    name={CONSEQUENCE_ICON[line.kind]}
+                    size={36}
+                    tile={theme.color.control}
+                  />
+                  <View style={{ flex: 1, minWidth: 0 }}>
+                    <Text variant="rowTitle" numberOfLines={1}>
+                      {words.title}
+                    </Text>
+                    <Text variant="captionMuted" tone="muted">
+                      {words.line}
+                    </Text>
+                  </View>
                 </View>
               );
             })}

@@ -7,8 +7,8 @@ export interface BrowseTile {
   readonly key: string;
   readonly category: PoiCategory;
   /**
-   * The places list's own filter for this kind; null where the list has no such group (coffee is
-   * food there, a waterfall is nature), so the tile asks for the kind in words instead.
+   * The places list's own filter for this kind; null where the list has no such group (a view or a
+   * waterfall is nature there), so the tile asks for the kind in words instead.
    */
   readonly filter: string | null;
   /** The folded word the phone's search reads for it ("coffee"). */
@@ -51,19 +51,20 @@ export const BROWSE_TILES: readonly BrowseTile[] = [
     label: () => t({ id: 'search.browse.beaches', message: 'Beaches' }),
   },
   {
-    key: 'coffee',
-    category: 'food',
-    filter: null,
-    word: 'coffee',
-    icon: 'food',
-    label: () => t({ id: 'search.browse.coffee', message: 'Coffee' }),
-  },
-  {
     key: 'spa',
     category: 'health',
     filter: 'wellness',
     word: 'spa',
-    icon: 'spark',
+    icon: 'heart',
     label: () => t({ id: 'search.browse.spa', message: 'Spa' }),
+  },
+  // Coffee shared the food bowl; the design's sixth kind is the views, under the camera.
+  {
+    key: 'views',
+    category: 'nature',
+    filter: null,
+    word: 'view',
+    icon: 'camera',
+    label: () => t({ id: 'search.browse.views', message: 'Views' }),
   },
 ];

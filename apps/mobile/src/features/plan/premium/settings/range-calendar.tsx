@@ -54,6 +54,8 @@ export function RangeCalendar(props: {
   readonly month: string;
   readonly start: string | null;
   readonly end: string | null;
+  /** The trip's dates now, drawn softly so the new range is picked against them. */
+  readonly current?: { readonly start: string; readonly end: string } | null;
   readonly onMonth: (month: string) => void;
   readonly onDay: (day: string) => void;
 }) {
@@ -106,6 +108,8 @@ export function RangeCalendar(props: {
               <View key={`blank-${String(index)}`} style={{ width: `${100 / 7}%`, height: CELL }} />
             );
           const on = inRange(day);
+          const now =
+            props.current != null && day >= props.current.start && day <= props.current.end;
           return (
             <View key={day} style={{ width: `${100 / 7}%`, height: CELL, padding: 2 }}>
               <PressableScale
@@ -121,7 +125,7 @@ export function RangeCalendar(props: {
                 style={{
                   flex: 1,
                   borderRadius: theme.radius.dayBadge,
-                  backgroundColor: on ? theme.color.ink : undefined,
+                  backgroundColor: on ? theme.color.ink : now ? theme.color.control : undefined,
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
