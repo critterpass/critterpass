@@ -18,7 +18,8 @@ export interface ManifestFacts {
 
 export interface ManifestCopy {
   readonly eyebrow: string;
-  readonly count: string | null;
+  /** "5 of 6" against the trip's seats; "2 in" for a crew-only join, which has no seat cap. */
+  readonly count: string;
   readonly title: string;
   readonly body: string;
   readonly welcome: string;
@@ -33,7 +34,7 @@ export function manifestCopy(f: ManifestFacts): ManifestCopy {
   });
   const count =
     f.cap === null
-      ? null
+      ? t({ id: 'onboarding.invite.manifest.countIn', message: `${members} in` })
       : t({ id: 'onboarding.invite.manifest.count', message: `${members} of ${cap}` });
   const welcome = t({
     id: 'onboarding.invite.manifest.welcome',

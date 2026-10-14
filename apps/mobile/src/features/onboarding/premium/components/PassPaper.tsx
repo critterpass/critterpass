@@ -40,7 +40,7 @@ function Field({
 }) {
   const theme = usePremiumTheme();
   return (
-    <View style={{ minWidth: '40%', flexGrow: 1 }}>
+    <View style={{ flex: 1, minWidth: 0 }}>
       <Text variant="badge" color={PAPER_INK.label}>
         {label}
       </Text>
@@ -70,6 +70,13 @@ export function PassPaper({
   const issued = size === 'issued';
   const photo = issued ? { w: 92, h: 114 } : { w: 68, h: 84 };
   const face = facts.face;
+  const style = (
+    <Field
+      label={labels.style}
+      value={facts.style ?? labels.weWillAsk}
+      pending={facts.style === null}
+    />
+  );
   return (
     <PrivateContent>
       <View
@@ -138,23 +145,25 @@ export function PassPaper({
                 </Text>
               )}
             </View>
-            <Field
-              label={labels.home}
-              value={facts.home ?? labels.notYet}
-              pending={facts.home === null}
-            />
-            {issued ? (
+            {/* Two columns (2.05 HOME | STYLE, 2.11 HOME | ISSUED), then the issued pass's style
+                across: one column grew the card until the stamps landed on the words. */}
+            <View style={{ width: '100%', flexDirection: 'row', gap: theme.space.gap12 }}>
               <Field
-                label={labels.issued}
-                value={facts.issued ?? labels.notYet}
-                pending={facts.issued === null}
+                label={labels.home}
+                value={facts.home ?? labels.notYet}
+                pending={facts.home === null}
               />
-            ) : null}
-            <Field
-              label={labels.style}
-              value={facts.style ?? labels.weWillAsk}
-              pending={facts.style === null}
-            />
+              {issued ? (
+                <Field
+                  label={labels.issued}
+                  value={facts.issued ?? labels.notYet}
+                  pending={facts.issued === null}
+                />
+              ) : (
+                style
+              )}
+            </View>
+            {issued ? <View style={{ width: '100%', flexDirection: 'row' }}>{style}</View> : null}
           </View>
         </View>
         <View style={{ borderTopWidth: 1.5, borderStyle: 'dashed', borderColor: PAPER_INK.slot }}>
