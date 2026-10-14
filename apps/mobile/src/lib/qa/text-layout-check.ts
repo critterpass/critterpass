@@ -1,3 +1,4 @@
+import { noteTextLayoutEvent } from './layout-scan';
 import type { UiQaCode } from './ui-qa';
 
 interface Line {
@@ -57,7 +58,10 @@ export interface TextLayoutCheck {
   readonly singleLine?: boolean;
 }
 
-/** The problems one settled text layout shows. */
+/**
+ * The problems one settled text layout shows. Called inside the text's native layout event, it
+ * also tells the screen-wide layout checks (./layout-scan) that the screen laid out again.
+ */
 export function textLayoutProblems({
   lines,
   text,
@@ -66,6 +70,7 @@ export function textLayoutProblems({
   lineLimited = true,
   singleLine = false,
 }: TextLayoutCheck): UiQaCode[] {
+  noteTextLayoutEvent();
   const problems: UiQaCode[] = [];
   if (truncationIsBug && (cutByFit || (lineLimited && isTruncated(lines, text)))) {
     problems.push('TEXT_TRUNCATED');

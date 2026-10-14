@@ -5,7 +5,9 @@ import Constants from 'expo-constants';
  * Runtime UI checks for development and e2e builds: shared components report layout problems the
  * design never allows (a headline cut with an ellipsis, a word split across lines, a one-line
  * label that wrapped, a critter without its sticker edge or still without its image, header
- * controls running into each other, a pushed screen with no way back, an icon that draws nothing).
+ * controls running into each other, a pushed screen with no way back, an icon that draws nothing,
+ * and on every settled screen a text drawn over another text or a control, cut by a clipping parent
+ * touching its card's edge, or under the status bar: ./layout-scan).
  * Each report is a `[ui-qa]` console warning plus a line in `<documents>/ui-qa.log`, which
  * `pnpm screens:capture` and the device shards read back after every Maestro flow and fail on.
  * Store builds (staging, production) never report: the gate is read once at load.
@@ -21,7 +23,12 @@ export type UiQaCode =
   | 'STICKER_EMPTY'
   | 'HEADER_OVERLAP'
   | 'NO_BACK_AFFORDANCE'
-  | 'ICON_EMPTY';
+  | 'ICON_EMPTY'
+  | 'TEXT_OVERLAP'
+  | 'TEXT_OVER_CONTROL'
+  | 'TEXT_CLIPPED'
+  | 'TEXT_PAST_PADDING'
+  | 'TEXT_UNDER_STATUS_BAR';
 
 function readVariant(): unknown {
   return Constants.expoConfig?.extra?.appVariant;

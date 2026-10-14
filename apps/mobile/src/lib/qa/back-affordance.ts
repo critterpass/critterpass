@@ -2,6 +2,7 @@ import { router, useNavigationContainerRef, usePathname, useSegments } from 'exp
 import { useIsRouteFocused } from '@/lib/navigation/router-internals';
 import { useEffect } from 'react';
 
+import { scheduleLayoutScan } from './layout-scan';
 import { reportUiQa, UI_QA_ENABLED } from './ui-qa';
 
 /** Long enough for a push animation and a first data render to finish. */
@@ -86,8 +87,8 @@ export function missingBackAffordance(input: {
 
 /**
  * Mounted once at the root: after every navigation settles, reports NO_BACK_AFFORDANCE for a
- * pushed screen (one navigation can go back from) that shows no back or close control.
- * Development and e2e builds only.
+ * pushed screen (one navigation can go back from) that shows no back or close control, and has the
+ * screen-wide layout checks look at the new screen. Development and e2e builds only.
  */
 export function useNoBackAffordanceGuard(): void {
   const pathname = usePathname();
@@ -96,6 +97,8 @@ export function useNoBackAffordanceGuard(): void {
   const navigation = useNavigationContainerRef();
   useEffect(() => {
     if (!UI_QA_ENABLED) return undefined;
+    // A screen shown again (back to it) lays nothing out anew: its layout is judged from here.
+    scheduleLayoutScan();
     const missing = () =>
       missingBackAffordance({
         canGoBack: router.canGoBack(),
