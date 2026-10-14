@@ -4,6 +4,7 @@ import {
   Platform,
   StyleSheet,
   View,
+  type LayoutChangeEvent,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
 } from 'react-native';
@@ -20,6 +21,7 @@ import {
   type ShellAction,
 } from './header-actions';
 import { useScreenPlacement } from '../navigation/use-screen-placement';
+import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from './scroll-edge';
 import { TabBarFade } from './tab-page-scroll';
 
 /** Spread on the screen's scroll view or list, which must be the screen's first child. */
@@ -30,6 +32,9 @@ export interface RootScrollProps {
   readonly keyboardShouldPersistTaps: 'handled';
   readonly keyboardDismissMode: 'interactive' | 'on-drag';
   readonly onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  /** Where the content ends against the tab bar (the fade under it follows). */
+  readonly onLayout?: (event: LayoutChangeEvent) => void;
+  readonly onContentSizeChange?: (width: number, height: number) => void;
   readonly scrollEventThrottle?: number;
 }
 
@@ -147,10 +152,17 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
   const t = usePremiumTheme();
   const insets = useSafeAreaInsets();
   const [collapsed, setCollapsed] = useState(false);
+  // Whether content runs on under the tab bar, for the longer fade there.
+  const edges = useScrollEdges();
+  const track = edges.scrollProps;
 
-  const onScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    setCollapsed(event.nativeEvent.contentOffset.y > TITLE_ROW);
-  }, []);
+  const onScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      setCollapsed(event.nativeEvent.contentOffset.y > TITLE_ROW);
+      track.onScroll(event);
+    },
+    [track],
+  );
 
   // The drawn title keeps the status bar clear itself: iOS adding its own inset as well (a root in
   // a tab's native stack) set the title a row below its actions. The native tabs leave these
@@ -161,11 +173,14 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
       contentInsetAdjustmentBehavior: 'never',
       automaticallyAdjustContentInsets: false,
       onScroll,
+      onLayout: track.onLayout,
+      onContentSizeChange: track.onContentSizeChange,
       scrollEventThrottle: 16,
     }),
-    [onScroll],
+    [onScroll, track],
   );
   const barTop = insets.top;
+  const barHeight = barTop + t.size.glassNav + t.space.gap8;
   const largeTitle = (
     <View style={{ paddingTop: barTop + t.space.gap6, paddingHorizontal: t.space.titleGutter }}>
       <Text
@@ -185,16 +200,23 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
   return (
     <View testID={testID} style={styles.root} collapsable={false}>
       {children({ scrollProps, largeTitle })}
-      {fade ? <TabBarFade /> : null}
-      <View
-        pointerEvents="box-none"
-        style={[styles.bar, { height: barTop + t.size.glassNav + t.space.gap8 }]}
-      >
+      {fade ? <TabBarFade continues={edges.bottom} /> : null}
+      {/* The content fades out under the collapsed bar instead of meeting its edge in a line. */}
+      {collapsed ? (
+        <ScrollEdgeFade
+          edge="top"
+          offset={barHeight}
+          height={SCROLL_EDGE_FADE}
+          color={t.material.regular.fill}
+        />
+      ) : null}
+      <View pointerEvents="box-none" style={[styles.bar, { height: barHeight }]}>
         {/* Glass never fades (the system stops drawing it below full opacity): it comes and goes
             whole, and only the title fades. */}
         {collapsed ? (
           <GlassSurface kind="regular" style={StyleSheet.absoluteFill} testID="root-bar" />
         ) : null}
+
         {/* Mounted only while collapsed: a faded-out copy of the title would still sit over the
             large title's row for screen readers and the layout checks. */}
         {collapsed ? (
