@@ -201,8 +201,23 @@ export function CrewSection({ view, openTrip, now }: CrewSectionProps) {
   const everyday = home.mode === 'everyday' || home.mode === 'final_vote';
   const voteDrawn = everyday && vote !== null && home.vote !== null;
   // The pitch board carries its own "+ Pitch a place"; the final and a crew with no vote use Home's.
-  const pitchHere =
-    everyday && pitchGo !== undefined && !(voteDrawn && home.vote?.stage === 'board');
+  const boardDrawn = voteDrawn && home.vote?.stage === 'board';
+  const pitchHere = everyday && pitchGo !== undefined && !boardDrawn;
+  const soloNote =
+    crew.members.length === 1 ? (
+      <GuideNote
+        name="Tokek"
+        text={t({
+          id: 'home.premium.solo',
+          message: 'A crew of one is a quiet trip. Bring your people in and the vote opens up.',
+        })}
+        action={{
+          label: t({ id: 'home.premium.solo.cta', message: 'Invite' }),
+          onPress: () => router.push(crewInviteRoute(crew.id)),
+        }}
+        testID="home-invite-friends"
+      />
+    ) : null;
   return (
     <View style={styles.stack} testID={`home-mode-${home.mode}`}>
       {openTrip === null ? null : <JoinTripNote trip={openTrip} crewName={crew.name} />}
@@ -228,7 +243,12 @@ export function CrewSection({ view, openTrip, now }: CrewSectionProps) {
         />
       )}
       {voteDrawn && vote !== null && home.vote !== null
-        ? createElement(vote.Component, { crewId: crew.id, vote: home.vote })
+        ? createElement(vote.Component, {
+            crewId: crew.id,
+            vote: home.vote,
+            // The board draws Home's note under itself, and swaps it for its own while it asks.
+            ...(boardDrawn ? { guideNote: soloNote } : {}),
+          })
         : null}
       {pitchHere ? (
         <PressableScale
@@ -242,20 +262,7 @@ export function CrewSection({ view, openTrip, now }: CrewSectionProps) {
           </Text>
         </PressableScale>
       ) : null}
-      {crew.members.length === 1 ? (
-        <GuideNote
-          name="Tokek"
-          text={t({
-            id: 'home.premium.solo',
-            message: 'A crew of one is a quiet trip. Bring your people in and the vote opens up.',
-          })}
-          action={{
-            label: t({ id: 'home.premium.solo.cta', message: 'Invite' }),
-            onPress: () => router.push(crewInviteRoute(crew.id)),
-          }}
-          testID="home-invite-friends"
-        />
-      ) : null}
+      {boardDrawn ? null : soloNote}
       {showTip && tip !== null && tipGuide !== null ? (
         <GuideNote
           name={tipGuide.name}

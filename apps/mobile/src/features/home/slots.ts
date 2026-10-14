@@ -7,13 +7,18 @@
  * under "WHERE NEXT?". Until one is registered the slot is empty and Home shows no board.
  */
 import type { Href } from 'expo-router';
-import type { ComponentType } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 
 import type { HomeVoteSlot } from '@cp/domain';
 
 export interface VoteSlotProps {
   readonly crewId: string;
   readonly vote: HomeVoteSlot;
+  /**
+   * Home's guide note for the crew, drawn under the vote. The board swaps it for its own note while
+   * it asks the organiser something, so the page never stacks two guide notes.
+   */
+  readonly guideNote?: ReactNode;
 }
 
 export interface HomeVoteSlotRegistration {
