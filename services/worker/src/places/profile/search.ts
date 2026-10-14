@@ -3,7 +3,9 @@
  * one slot reservation shared by every worker (`app.reserve_place_search`) and rotated over the
  * enabled engines, two per query, so the scraped engines behind it never see a burst. Tavily is
  * the fallback only when SearXNG returns fewer than five usable results. Queries carry the place's
- * names, the town and topics only (D23). Supplier, social, map and Foursquare pages are left out.
+ * names, the town and topics only (D23). Two domain policies: `facts` (fees, hours, dress) leaves
+ * out supplier, review, map, Foursquare, social and pin-board pages; `suggestions` (which places a
+ * brief names, a popular place's tips) also reads social posts, forums and any travel blog.
  */
 import {
   isBlockedUrl,
@@ -14,27 +16,52 @@ import {
 import { withSystem } from '@cp/db';
 import type pg from 'pg';
 
-/** Sources a profile never reads: suppliers (D23), Foursquare pages (D24), social and pin boards. */
-export const EXCLUDED_DOMAINS: readonly string[] = [
+export type ResearchPolicy = 'facts' | 'suggestions';
+
+/** Never read for anything: suppliers (D23), Foursquare pages (D24) and pin boards. */
+export const SUGGESTION_EXCLUDED_DOMAINS: readonly string[] = [
   ...SUPPLIER_BLOCKED_DOMAINS,
   'foursquare.com',
   '4sqi.net',
-  'facebook.com',
-  'instagram.com',
-  'tiktok.com',
-  'youtube.com',
   'pinterest.com',
   'pinimg.com',
 ];
 
-export function isExcludedUrl(url: string): boolean {
+/** Never read for a fee, hours or a dress rule: the above, social posts and forums too. */
+export const EXCLUDED_DOMAINS: readonly string[] = [
+  ...SUGGESTION_EXCLUDED_DOMAINS,
+  'facebook.com',
+  'instagram.com',
+  'tiktok.com',
+  'youtube.com',
+  'youtu.be',
+  'reddit.com',
+];
+
+export const SOCIAL_RESEARCH_SWITCH = 'places.social_research.enabled';
+
+/** `suggestions` (blogs and social posts too) for briefs and tips unless the switch is off. */
+export async function researchPolicy(pool: pg.Pool): Promise<ResearchPolicy> {
+  return withSystem(pool, async (tx) => {
+    const { rows } = await tx.query<{ value: unknown }>(
+      'SELECT value FROM ops.ops_config WHERE key = $1',
+      [SOCIAL_RESEARCH_SWITCH],
+    );
+    return rows[0]?.value === false ? 'facts' : 'suggestions';
+  });
+}
+
+const excludedFor = (policy: ResearchPolicy) =>
+  policy === 'facts' ? EXCLUDED_DOMAINS : SUGGESTION_EXCLUDED_DOMAINS;
+
+export function isExcludedUrl(url: string, policy: ResearchPolicy = 'facts'): boolean {
   let host: string;
   try {
     host = new URL(url.startsWith('//') ? `https:${url}` : url).hostname.replace(/^www\./u, '');
   } catch {
     return true;
   }
-  return isBlockedUrl(url) || EXCLUDED_DOMAINS.some((d) => host === d || host.endsWith(`.${d}`));
+  return isBlockedUrl(url) || excludedFor(policy).some((d) => host === d || host.endsWith(`.${d}`));
 }
 
 export interface ImageHit {
@@ -44,7 +71,12 @@ export interface ImageHit {
 }
 
 export interface PlaceSearch {
-  web(query: string, language: string, signal?: AbortSignal): Promise<ProfilePage[]>;
+  web(
+    query: string,
+    language: string,
+    signal?: AbortSignal,
+    policy?: ResearchPolicy,
+  ): Promise<ProfilePage[]>;
   images(query: string, language: string, signal?: AbortSignal): Promise<ImageHit[]>;
 }
 
@@ -119,7 +151,7 @@ export function createPlaceSearch(options: PlaceSearchOptions): PlaceSearch {
   }
 
   return {
-    async web(query, language, signal) {
+    async web(query, language, signal, policy = 'facts') {
       const seq = await slot(signal);
       const engines = enginesFor(seq, options.engines);
       const results = await searx(
@@ -133,18 +165,18 @@ export function createPlaceSearch(options: PlaceSearchOptions): PlaceSearch {
       );
       const pages: ProfilePage[] = results
         .filter((r): r is SearxResult & { url: string } => typeof r.url === 'string')
-        .filter((r) => !isExcludedUrl(r.url))
+        .filter((r) => !isExcludedUrl(r.url, policy))
         .map((r) => ({ url: r.url, title: r.title ?? '', text: r.content ?? '' }));
       if (pages.length >= MIN_WEB_RESULTS || options.tavily === undefined) return pages;
       const hits = await options.tavily
         .search(
-          { query, maxResults: 8, excludeDomains: EXCLUDED_DOMAINS, topic: 'general' },
+          { query, maxResults: 8, excludeDomains: [...excludedFor(policy)], topic: 'general' },
           signal,
         )
         .catch(() => []);
       const seen = new Set(pages.map((p) => p.url));
       for (const hit of hits) {
-        if (seen.has(hit.url) || isExcludedUrl(hit.url)) continue;
+        if (seen.has(hit.url) || isExcludedUrl(hit.url, policy)) continue;
         seen.add(hit.url);
         pages.push({ url: hit.url, title: hit.title, text: hit.content });
       }

@@ -37,8 +37,8 @@ import type pg from 'pg';
 
 import type { AvatarMediaStore } from '../../jobs/avatar/media-store';
 import { saveProfileEstimates, wantsEstimates } from './estimates-store';
-import { findPhotoHits, gatherPages, keepPhotos, profilePlace } from './evidence';
-import type { ImageHit, PlaceSearch } from './search';
+import { findPhotoHits, gatherPages, gatherTipPages, keepPhotos, profilePlace } from './evidence';
+import { researchPolicy, type ImageHit, type PlaceSearch } from './search';
 import {
   loadProfileTarget,
   markCapped,
@@ -139,8 +139,14 @@ export async function runPlaceProfile(
   ).catch(() => null);
   const hitsP = findPhotoHits(target, deps, signal).catch(() => [] as ImageHit[]);
   const estimating = await wantsEstimates(pool, target.id);
+  const tipsP =
+    estimating && (await researchPolicy(pool)) === 'suggestions'
+      ? gatherTipPages(target, deps, signal)
+      : Promise.resolve([]);
 
-  const pages = await gatherPages(target, deps, signal);
+  const facts = await gatherPages(target, deps, signal);
+  const seen = new Set(facts.map((p) => p.url));
+  const pages = [...facts, ...(await tipsP).filter((p) => !seen.has(p.url))];
   const searchSeconds = seconds(started);
   if (pages.length === 0) {
     await markRunEnded(pool, target.id, {

@@ -1,10 +1,11 @@
 /**
  * Cite-or-drop for a destination brief. An essential or an eatery stays only when its quote is on
- * the page it cites and names the place; a stay band only when its quote is on the page and holds
- * both amounts. A `why` line with a number its page does not hold is blanked. Nothing is repaired:
+ * the page it cites and names the place (a blog, a forum or a social post's caption counts); a
+ * stay band only when its quote is on a page that is not a social post and holds both amounts. A `why` line with a number its page does not hold is blanked. Nothing is repaired:
  * whatever fails is dropped and recorded with its reason. Names are still leads after this: the
  * worker keeps one only when our own rows carry it.
  */
+import { isSocialUrl } from '@cp/domain';
 import { z } from 'zod';
 
 import { isBlockedUrl } from '../../tools/blocked-domains';
@@ -198,7 +199,10 @@ export function checkDestinationBriefReply(
   const stays = reply.data.stays.flatMap((item) => {
     const entry = staySchema.safeParse(item);
     if (!entry.success || tiers.has(entry.data.tier)) return [];
-    const page = citedPage(entry.data.source_url, entry.data.quote, pages);
+    // A price is a fact: never taken from a social post or a forum.
+    const page = isSocialUrl(entry.data.source_url)
+      ? 'social_source'
+      : citedPage(entry.data.source_url, entry.data.quote, pages);
     const problem = typeof page === 'string' ? page : stayProblem(entry.data, entry.data.quote);
     if (problem !== null || typeof page === 'string') {
       dropped.push({ section: 'stays', name: entry.data.tier, reason: problem ?? 'unknown' });
