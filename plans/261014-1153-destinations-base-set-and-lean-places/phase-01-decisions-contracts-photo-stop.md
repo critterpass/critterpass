@@ -50,7 +50,7 @@ Done when: #916 merged and deployed; the staging R2 prefix `c/place-profiles/` i
   1. **D38 (2026-10-14), lean open data, AI estimates, curated media.** Quote the founder (13:25–13:30). Places stay our open-data index, lean: Overture and OSM only (FSQ OS ingest dropped), a destination is ingested when a trip or pitch first uses it, only travel kinds above a confidence floor are kept, and only destinations with recent activity are refreshed; the existing index is pruned to that rule plus every referenced or curated row. Foursquare is retired (D24 live details and photos, D25 live search and id matching): cost at scale. Machine picks (D28 `places.pick`) are retired; a destination's recommended places are its editorial set and its brief. No per-place photos: a place shows a curated licensed photo or short video (Pexels, Pixabay, Commons; approved in the ops console) only when it is popular (editorial essentials, brief essentials and eateries, editorial must-sees; at most 40 a destination); every other place has no image. AI estimates for popular places (busy times, visit length, best time, tips, entry fee, dress) are written through the profile pipeline with or without web search, labelled as estimates and cited when a source exists (amends D31's cite-or-drop for these fields only, as D30 did for prices); busy times are shown as "estimate", never as "what crews saw" (D21). The planning agent may read blogs, travel guides and social media for suggestions and tips; suggestions resolve to our rows or are dropped; supplier and OTA sites stay excluded (D10, D23). MapLibre, PMTiles packs, Valhalla, Mapbox routing and Mapbox address geocoding stay. Google Maps Platform is not used (Vietnam is a prohibited territory under GMP Terms §3.2.1(c)(v)); the Google Cloud setup of 14 Oct is unused.
   2. **D39 (2026-10-14), amends D29 (1):** the stored base set of ~5,000 destinations; each matched to one of the 151 critters (nearest in country within a cap, admin-region overrides, Jev for the residual from candidate keys only); neighbours share a critter, which is their guide; base rows carry no critter set, so locals pages stay with the 61 places.
 - Done when: both rows quote the founder and name what they amend.
-- Status: todo
+- Status: done — 561cfaa32
 
 ### T3 — Contract deltas
 - Files: the other docs in `owns`.
@@ -63,7 +63,7 @@ Done when: #916 merged and deployed; the staging R2 prefix `c/place-profiles/` i
   6. **api-contracts-explore:** destination route `about` (from #917).
   7. **api-contracts-async §2.3** (`:217-229`): `places.ingest` scope (used destinations, Overture + OSM); new `places.prune` (operator), `media.propose` (weekly); retiring `places.fsq_match`, `places.fsq_export_chunk`, `places.pick`.
 - Done when: every route, column, queue and switch named in phases 3–6 appears once.
-- Status: todo
+- Status: done — e0580f878
 
 ## Rollback
 
