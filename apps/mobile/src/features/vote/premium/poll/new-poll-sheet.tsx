@@ -93,7 +93,7 @@ export function NewPollSheet({ crewId }: { readonly crewId: string }) {
       }}
       testID="new-poll"
     >
-      <View style={{ paddingHorizontal: theme.space.gap16, gap: theme.space.gap16 }}>
+      <View style={{ gap: theme.space.gap16 }}>
         <TextInput
           ref={(node) => {
             inputs.current[0] = node;

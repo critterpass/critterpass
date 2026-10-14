@@ -73,10 +73,7 @@ export function BookFlowPremium({
       }}
       testID="supplier-book-sheet"
     >
-      <View
-        style={[styles.body, { paddingHorizontal: th.space.gutter, gap: th.space.gap14 }]}
-        testID={`supplier-book-${step}`}
-      >
+      <View style={[styles.body, { gap: th.space.gap14 }]} testID={`supplier-book-${step}`}>
         <View style={{ gap: th.space.gap4 }}>
           <Text variant="headline">{flow.title}</Text>
           <Text variant="rowText" tone="muted">

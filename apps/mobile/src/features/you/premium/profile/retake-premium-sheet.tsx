@@ -75,7 +75,7 @@ export function RetakePremiumSheet() {
       }}
       testID="you-retake"
     >
-      <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap16 }}>
+      <View style={{ gap: th.space.gap16 }}>
         {question === null ? (
           <View style={{ gap: th.space.gap16 }} testID="you-retake-summary">
             <Text variant="title" accessibilityRole="header">

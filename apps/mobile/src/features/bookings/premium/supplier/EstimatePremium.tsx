@@ -25,7 +25,7 @@ export function EstimatePremium({ raw }: { readonly raw: string | undefined }) {
       cancelLabel={t({ id: 'suppliers.premium.close', message: 'Close' })}
       testID="supplier-estimate-sheet"
     >
-      <View style={[styles.body, { paddingHorizontal: th.space.gutter, gap: th.space.gap14 }]}>
+      <View style={[styles.body, { gap: th.space.gap14 }]}>
         {option === null ? (
           <Text variant="body" tone="inkSecondary" testID="supplier-estimate-gone">
             {t({
