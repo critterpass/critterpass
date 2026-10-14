@@ -109,4 +109,22 @@ describe('screen checks on the premium UI', { timeout: 60_000 }, () => {
     for (let y = 100; y < 820; y += 24) paint(tall, 30, y, 300, y + 12, [60, 60, 70]);
     expect(findFrame(tall, options)).toBeNull();
   });
+  it('reads an action sheet scrim over a premium page as no frame, but not a frame on the page', () => {
+    const options = { background: BG, premiumGrounds: premiumGrounds() };
+    // A booking's action sheet: its scrim greys the page's 20 pt gutters and its cards alike.
+    expect(findFrame(load('scrim-action-sheet-options'), options)).toBeNull();
+    const dim = (colour: Rgb): Rgb => [
+      Math.round(colour[0] * 0.8),
+      Math.round(colour[1] * 0.8),
+      Math.round(colour[2] * 0.8),
+    ];
+    const ground: Rgb = [0xf5, 0xf5, 0xf7];
+    const card: Rgb = [0xff, 0xff, 0xff];
+    // The same grey frame around an undimmed page is still a frame.
+    const framed = blank(400, 860, ground);
+    for (let y = 90; y < 820; y += 70) paint(framed, 19, y, 381, y + 60, card);
+    paint(framed, 0, 0, 19, 860, dim(ground));
+    paint(framed, 381, 0, 400, 860, dim(ground));
+    expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
+  });
 });

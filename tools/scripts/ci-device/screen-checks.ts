@@ -10,7 +10,8 @@
  *   docs/design-system.md) is allowed: an inset of that size that stops where a full-width sheet
  *   starts, rather than running on down the sheet's sides. So is an iOS 26 inset sheet over the
  *   dimmed page: the dimmed page runs on above the sheet's top, where no screen sits inside it. And
- *   a card of the other scheme on its page (the light boarding pass on the dark page).
+ *   a card of the other scheme on its page (the light boarding pass on the dark page), and a
+ *   scrim (an action sheet's dimming) over a premium page, gutters and middle darkened alike.
  * - KEYBOARD_BAND: with the keyboard up, a full-width band of one colour that isn't the screen's
  *   background sits right above it (the keyboard pushed a footer up and left a black gap).
  * - EMPTY_SCREEN: almost every row of the screen is bare background (content that never drew).
@@ -24,6 +25,7 @@ import type { RgbaImage } from './png';
 import {
   isInsetSheetOverDimmedPage,
   isOtherSchemeCardOnPage,
+  isScrimOverPremiumPage,
   screenGrounds,
 } from './screen-checks-premium';
 import { findCardAtEdge, findShadowCut } from './screen-edge-checks';
@@ -156,6 +158,7 @@ export function findFrame(image: RgbaImage, options: ScreenCheckOptions): Screen
   if (isSheetAroundInsetCard(image, rows, frameColour)) return null;
   if (isInsetSheetOverDimmedPage(image, rows, inset, frameColour)) return null;
   if (isOtherSchemeCardOnPage(frameColour, grounds, options)) return null;
+  if (isScrimOverPremiumPage(image, rows, frameColour, options)) return null;
   return {
     code: 'SCREEN_FRAME',
     detail: `a ${hex(dominant(edges))} frame ${String(Math.round(inset))}px wide runs down both sides (${String(Math.round((insets.length / rows.length) * 100))}% of the screen); the screen background is ${hex(grounds[0] ?? options.background)}`,
