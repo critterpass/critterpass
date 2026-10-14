@@ -64,7 +64,7 @@ export type { PremiumTheme } from './theme/theme';
 export { Checkbox } from './controls/Checkbox';
 export type { CheckboxProps } from './controls/Checkbox';
 export { Composer } from './controls/Composer';
-export type { ComposerProps } from './controls/Composer';
+export type { ComposerIdleAction, ComposerProps } from './controls/Composer';
 export { progressFraction, segmentFrames, stepperCan, stepValue } from './controls/control-logic';
 export type { SegmentFrame, StepperBounds } from './controls/control-logic';
 export { ProgressBar, StepProgress } from './controls/Progress';
