@@ -76,6 +76,7 @@ export function PremiumLegendaryScreen({ now = () => new Date() }: { readonly no
         />
         {calendar.items.length === 0 ? null : (
           <Button
+            alignSelf="auto"
             label={calendar.allReminded ? remindersOn() : remindMe()}
             variant={calendar.allReminded ? 'control' : 'primary'}
             size="small"

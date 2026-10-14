@@ -46,6 +46,7 @@ export function BalanceHero(props: {
           {label}
         </Text>
         <Button
+          alignSelf="auto"
           label={`${props.currency} ⌄`}
           variant="floating"
           size="small"

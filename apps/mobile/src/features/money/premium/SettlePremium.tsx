@@ -120,6 +120,7 @@ export function PaymentCard({
         </View>
         {row.actions.includes('nudge') ? (
           <Button
+            alignSelf="auto"
             label={t({ id: 'money.premium.nudge', message: 'Nudge' })}
             size="small"
             onPress={() => settle.onNudge(row)}

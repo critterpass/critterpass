@@ -164,16 +164,14 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
           >
             {p.address}
           </Text>
-          {/* The pill sits in its own box so the row centres it (a pill keeps to its start). */}
-          <View>
-            <Button
-              label={t({ id: 'bookings.premium.copy', message: 'Copy' })}
-              size="small"
-              variant="control"
-              onPress={() => void p.onCopy(p.address ?? '')}
-              testID="bookings-add-copy"
-            />
-          </View>
+          <Button
+            label={t({ id: 'bookings.premium.copy', message: 'Copy' })}
+            size="small"
+            variant="control"
+            alignSelf="auto"
+            onPress={() => void p.onCopy(p.address ?? '')}
+            testID="bookings-add-copy"
+          />
         </View>
       )}
       {p.noTrip ? (

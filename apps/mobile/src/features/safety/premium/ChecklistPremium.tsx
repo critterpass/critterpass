@@ -84,6 +84,7 @@ export function ChecklistPremium() {
                 </Text>
                 {action === null ? null : (
                   <Button
+                    alignSelf="auto"
                     label={action.label}
                     size="small"
                     variant={variantFor(action.tone)}

@@ -117,6 +117,7 @@ function Befriend({ id, place }: { readonly id: string; readonly place: Befriend
             : t({ id: 'quests.befriend.nearestAway', message: `Nearest: ${name} · ${away}` })}
         </Text>
         <Button
+          alignSelf="auto"
           size="small"
           variant="control"
           label={t({ id: 'quests.befriend.go', message: 'Go' })}
@@ -230,6 +231,7 @@ export function QuestRow({
       <View style={styles.actions}>
         {practice !== null && active && onPractise !== undefined ? (
           <Button
+            alignSelf="auto"
             size="small"
             variant="control"
             label={t({ id: 'quests.card.practise', message: 'Practise' })}
@@ -248,6 +250,7 @@ export function QuestRow({
             </Text>
           ) : (
             <Button
+              alignSelf="auto"
               size="small"
               label={t({ id: 'quests.card.join', message: "I'm in" })}
               onPress={() => onSignUp(card.id)}
