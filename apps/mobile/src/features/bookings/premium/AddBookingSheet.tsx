@@ -49,7 +49,13 @@ function Tile(props: {
           paddingHorizontal: th.space.gap8,
         }}
       >
-        <StickerIcon name={props.icon} size={52} tilt={props.tilt} />
+        <StickerIcon
+          name={props.icon}
+          size={52}
+          tilt={props.tilt}
+          // 1.06 draws the by-hand wallet in sun yellow, not the hub's mint.
+          {...(props.icon === 'wallet' ? { color: th.accent.sun } : {})}
+        />
         <Text variant="label" align="center" numberOfLines={2}>
           {props.label}
         </Text>

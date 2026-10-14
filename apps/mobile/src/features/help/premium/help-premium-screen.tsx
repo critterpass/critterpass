@@ -33,9 +33,10 @@ import { PushScreen } from '@/ui/premium/shell';
 
 import { useHelpHub } from '../hub/use-help-hub';
 
-/** A row's colour tile with its sticker (9.06). */
+/** A row's colour tile with its sticker in paper white on it (9.06). */
 function Tile({ sticker, color }: { readonly sticker: StickerIconName; readonly color: string }) {
-  return <StickerIcon name={sticker} size={36} tile={color} />;
+  const th = usePremiumTheme();
+  return <StickerIcon name={sticker} size={36} tile={color} color={th.accent.paper} />;
 }
 
 /** One wiggle's first and last beat, and each swing between. */

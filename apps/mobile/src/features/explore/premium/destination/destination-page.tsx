@@ -226,35 +226,38 @@ export function PremiumDestinationView(props: DestinationViewProps) {
           />
         )}
       </View>
-      <View
-        style={{
-          position: 'absolute',
-          zIndex: 2,
-          left: theme.space.titleGutter,
-          right: theme.space.titleGutter,
-          bottom: insets.bottom + theme.space.gap8,
-          gap: theme.space.gap4,
-          alignItems: 'center',
-        }}
-      >
-        <View style={{ alignSelf: 'stretch' }}>
-          <Button
-            label={t({ id: 'vote.guest.pitch', message: 'Pitch to the crew' })}
-            onPress={actions.onPitch}
-            disabled={actions.mode === 'crews'}
-            testID="explore-pitch"
-          />
+      {/* The solo sheet stands over the page alone: the footer steps out under it. */}
+      {actions.mode === 'solo' ? null : (
+        <View
+          style={{
+            position: 'absolute',
+            zIndex: 2,
+            left: theme.space.titleGutter,
+            right: theme.space.titleGutter,
+            bottom: insets.bottom + theme.space.gap8,
+            gap: theme.space.gap4,
+            alignItems: 'center',
+          }}
+        >
+          <View style={{ alignSelf: 'stretch' }}>
+            <Button
+              label={t({ id: 'vote.guest.pitch', message: 'Pitch to the crew' })}
+              onPress={actions.onPitch}
+              disabled={actions.mode === 'crews'}
+              testID="explore-pitch"
+            />
+          </View>
+          {/* The text button hugs its label; the wrapper centres it under the pill. */}
+          <View style={{ alignSelf: 'center' }}>
+            <TextButton
+              align="center"
+              label={t({ id: 'explore.premium.dest.solo', message: 'Plan it solo' })}
+              onPress={actions.onSolo}
+              testID="explore-solo"
+            />
+          </View>
         </View>
-        {/* The text button hugs its label; the wrapper centres it under the pill. */}
-        <View style={{ alignSelf: 'center' }}>
-          <TextButton
-            align="center"
-            label={t({ id: 'explore.premium.dest.solo', message: 'Plan it solo' })}
-            onPress={actions.onSolo}
-            testID="explore-solo"
-          />
-        </View>
-      </View>
+      )}
       {actions.mode === 'solo' ? (
         <SoloPassSheet
           placeName={hero.name}

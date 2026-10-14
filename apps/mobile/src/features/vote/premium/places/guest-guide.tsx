@@ -284,7 +284,7 @@ export function GuestGuide({
           testID="guest-save"
         />
       </View>
-      {place === null ? null : <GuestDock onPitch={pitch} onSolo={() => setSolo(true)} />}
+      {place === null || solo ? null : <GuestDock onPitch={pitch} onSolo={() => setSolo(true)} />}
       {solo && place !== null ? (
         <SoloSheet
           placeId={placeId}

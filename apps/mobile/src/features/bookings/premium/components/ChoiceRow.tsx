@@ -1,10 +1,10 @@
 /**
  * A row of chips that opens in place under the control that asked for it (the booking's kind and
- * day on 7.04): the picked one in ink, the rest on white; picking closes it.
+ * day on 7.04): the kit's chips, the picked one in ink, the rest on white; picking closes it.
  */
-import { ScrollView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-import { Button, usePremiumTheme } from '@/ui/premium';
+import { Chip, ROW_ROOM_ABOVE, ROW_ROOM_BELOW, ScrollRow, usePremiumTheme } from '@/ui/premium';
 
 export interface Choice<Value extends string | number> {
   readonly value: Value;
@@ -19,30 +19,29 @@ export function ChoiceRow<Value extends string | number>(props: {
 }) {
   const th = usePremiumTheme();
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
+    <ScrollRow
       keyboardShouldPersistTaps="handled"
-      contentContainerStyle={[
-        styles.row,
-        { paddingHorizontal: th.space.gutter, gap: th.space.gap6 },
-      ]}
+      gap={th.space.gap6}
+      contentContainerStyle={{ paddingHorizontal: th.space.gutter }}
+      style={styles.row}
       testID={props.testID}
     >
       {props.choices.map((choice) => (
-        <Button
+        <Chip
           key={String(choice.value)}
           label={choice.label}
-          size="small"
-          variant={choice.value === props.value ? 'primary' : 'floating'}
+          size="hub"
+          surface="white"
+          selected={choice.value === props.value}
           onPress={() => props.onPick(choice.value)}
           testID={`${props.testID}-${String(choice.value)}`}
         />
       ))}
-    </ScrollView>
+    </ScrollRow>
   );
 }
 
 const styles = StyleSheet.create({
-  row: { alignItems: 'center', paddingVertical: 4 },
+  // 4 pt above and below the chips, as the row kept; its own room for shadows sits inside it.
+  row: { marginTop: 4 - ROW_ROOM_ABOVE, marginBottom: 4 - ROW_ROOM_BELOW },
 });

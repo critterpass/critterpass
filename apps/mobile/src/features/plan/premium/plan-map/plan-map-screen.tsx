@@ -11,6 +11,7 @@ import { useMemo, useRef, useState } from 'react';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
+import { useBackAffordance } from '@/lib/qa/back-affordance';
 import { guideSticker } from '@/ui/premium/stickers/guides';
 import { GuideNote, usePremiumReducedMotion, usePremiumTheme } from '@/ui/premium';
 import { BackEdge } from '@/ui/premium/shell/navigation/back-edge';
@@ -59,6 +60,8 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
   // Peek (or the link's height) until moved, an empty plan at half: read once the plan has loaded.
   const [moved, setDetent] = useState<MapDetent | null>(null);
   const detent: MapDetent = moved ?? (model.empty ? 'half' : (sheet ?? 'peek'));
+  // The whole trip (4.27) draws no back: its grabber lowers the sheet onto the map and its back.
+  useBackAffordance(detent === 'full');
   const [menu, setMenu] = useState<number | null>(null);
   // A link that names a stop opens straight on its details.
   const [openStop, setOpenStop] = useState<OpenStop | null>(
@@ -237,7 +240,8 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
           </View>
         )}
       </PlanMapSheet>
-      {detent === 'half' && !model.readOnly && !model.empty ? (
+      {/* A stop's menu stands alone over the dimmed plan (4.29): the add bar steps out under it. */}
+      {detent === 'half' && !model.readOnly && !model.empty && openStop === null ? (
         <AddBar
           label={planMapCopy.addTo(map.chips.find((c) => c.dayNo === map.dayNo)?.weekday ?? '')}
           guide={{ kind: guide.kind, name: guide.name }}
