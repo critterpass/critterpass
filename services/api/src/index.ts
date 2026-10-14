@@ -94,6 +94,10 @@ const app = createApp({
       ),
     onMapboxError: (error: unknown) => logger.warn({ err: error }, 'mapbox geocode failed'),
   },
+  placesOsmFallback: {
+    redis,
+    onError: (error: unknown) => logger.warn({ err: error }, 'openstreetmap place lookup failed'),
+  },
   ...(routing !== undefined ? { routing } : {}),
   tilesBaseUrl: env.TILES_BASE_URL,
   ...(env.FOURSQUARE_API_KEY !== undefined
