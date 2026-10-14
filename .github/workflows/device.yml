@@ -593,6 +593,7 @@ jobs:
           JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           SUMMARY_FILE: ${{ runner.temp }}/summary.md
+          PUBLISH_JPEG: 'true'
         run: |
           heading="Device screenshots"
           [ "$MODE" = compare ] && [ "${SHEETLESS:-}" != true ] && heading="Design | device sheets"

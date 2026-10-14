@@ -136,7 +136,8 @@ export function driverArgs(platform: DevicePlatform, installed: boolean): string
   return platform === 'ios' && installed ? ['--reinstall-driver=false'] : [];
 }
 
-let driverInstalled = false;
+/** The shard's setup may have started the driver already (ci-device/ios-device.sh). */
+let driverInstalled = process.env.MAESTRO_DRIVER_READY === 'true';
 
 /** One Maestro run of one flow, stopped at the time limit; its report goes to `junit/<slug>.xml`. */
 function runAttempt(options: ShardOptions, flow: string, slug: string, envArgs: string[]) {

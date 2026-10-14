@@ -44,7 +44,16 @@ git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 mkdir -p "$run_dir"
 (cd "$images" && find . \( -name '*.png' -o -name '*.gif' -o -name '*.mp4' \) -print0 |
   xargs -0 -I{} rsync -R {} "$work/branch/$run_dir/")
-count=$(find "$run_dir" \( -name '*.png' -o -name '*.gif' -o -name '*.mp4' \) | wc -l | tr -d ' ')
+# Sheets and screenshots go up as JPEG when ImageMagick is there: a sweep's hundreds of PNGs took
+# minutes to push, a reviewer reads the JPEGs just as well, and the screen checks have already run
+# on the PNGs in the shards.
+ext=png
+if [ "${PUBLISH_JPEG:-}" = true ] && command -v mogrify >/dev/null; then
+  find "$run_dir" -name '*.png' -print0 | xargs -0 -r -n 40 -P 4 mogrify -format jpg -quality 85
+  find "$run_dir" -name '*.png' -delete
+  ext=jpg
+fi
+count=$(find "$run_dir" \( -name "*.$ext" -o -name '*.gif' -o -name '*.mp4' \) | wc -l | tr -d ' ')
 if [ -n "${PRUNE_KEEP:-}" ]; then
   # Run ids grow, so the oldest runs sort first. The tree is read from the index: outside this
   # run's folder nothing is checked out.
@@ -78,11 +87,11 @@ fi
   echo
   [ -n "${RUN_URL:-}" ] && echo "From [this run]($RUN_URL), $count image(s)." && echo
   [ -n "$summary" ] && cat "$summary" && echo
-  for folder in $(find "$run_dir" -name '*.png' -exec dirname {} \; | sort -u); do
+  for folder in $(find "$run_dir" -name "*.$ext" -exec dirname {} \; | sort -u); do
     echo "<details open><summary><b>${folder#"$run_dir"/}</b></summary>"
     echo
-    for file in $(find "$folder" -maxdepth 1 -name '*.png' | sort); do
-      name=$(basename "$file" .png)
+    for file in $(find "$folder" -maxdepth 1 -name "*.$ext" | sort); do
+      name=$(basename "$file" ".$ext")
       echo "**$name**"
       echo
       echo "<img src=\"https://raw.githubusercontent.com/$repo/$branch/$file\" width=\"320\" alt=\"$name\">"
@@ -101,7 +110,7 @@ if [ "$(wc -c <"$body")" -gt 64000 ]; then
     [ -n "$summary" ] && head -c 40000 "$summary" && echo
     echo "Every image: https://github.com/$repo/tree/$branch/$run_dir"
     echo
-    for file in $(find "$run_dir" -name 'index.png' | sort); do
+    for file in $(find "$run_dir" -name "index.$ext" | sort); do
       echo "<img src=\"https://raw.githubusercontent.com/$repo/$branch/$file\" width=\"720\" alt=\"$file\">"
       echo
     done

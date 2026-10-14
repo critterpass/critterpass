@@ -79,6 +79,12 @@ xcrun simctl spawn "$udid" defaults write com.apple.keyboard.preferences \
 xcrun simctl ui "$udid" appearance "${APPEARANCE:-light}"
 xcrun simctl status_bar "$udid" override --time 9:41 --batteryState charged --batteryLevel 100 \
   --cellularMode active --cellularBars 4 --wifiMode active --wifiBars 3 --dataNetwork wifi
+# Maestro's driver starts while the app installs; the flows reuse it.
+maestro="${MAESTRO_BIN:-$HOME/.maestro/bin/maestro}"
+warm_log=${RUNNER_TEMP:-/tmp}/driver-warmup.log
+MAESTRO_DRIVER_STARTUP_TIMEOUT=360000 "$maestro" --device "$udid" test "$here/driver-warmup.yaml" \
+  >"$warm_log" 2>&1 &
+warmup=$!
 xcrun simctl install "$udid" "$app"
 # A first launch outside Maestro: the cold start (the JS loaded for the first time) happens here,
 # and the first flow's taps land on an app that takes input (the first launch on a fresh simulator
@@ -86,7 +92,13 @@ xcrun simctl install "$udid" "$app"
 xcrun simctl launch "$udid" "$bundle_id" >/dev/null || true
 sleep 12
 xcrun simctl terminate "$udid" "$bundle_id" >/dev/null 2>&1 || true
-stamp "installed and launched once: running the flows"
+if wait "$warmup"; then
+  export MAESTRO_DRIVER_READY=true
+  stamp "installed and launched once, Maestro's driver up: running the flows"
+else
+  tail -20 "$warm_log" || true
+  stamp "installed and launched once (Maestro's driver did not warm up): running the flows"
+fi
 
 # RECORD_VIDEO=true records every flow (the release gate).
 video=$([ "${RECORD_VIDEO:-}" = true ] && echo --video || true)
