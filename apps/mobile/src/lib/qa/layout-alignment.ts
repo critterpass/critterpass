@@ -27,10 +27,30 @@ function innermostGround(control: PlacedControl): string | null {
   return control.grounds.at(-1)?.key ?? null;
 }
 
-/** The ink of the one text a control holds, or null when it holds none or several. */
-function wordsOf(control: PlacedControl, texts: readonly PlacedText[]): QaRect | null {
+/** The one text a control holds, or null when it holds none or several. */
+function textOf(control: PlacedControl, texts: readonly PlacedText[]): PlacedText | null {
   const own = texts.filter((text) => text.controls.at(-1) === control.key);
-  return own.length === 1 ? (own[0]?.ink ?? null) : null;
+  return own.length === 1 ? (own[0] ?? null) : null;
+}
+
+function wordsOf(control: PlacedControl, texts: readonly PlacedText[]): QaRect | null {
+  return textOf(control, texts)?.ink ?? null;
+}
+
+const within = (inner: QaRect, outer: QaRect) =>
+  inner.x >= outer.x - 1 &&
+  inner.y >= outer.y - 1 &&
+  right(inner) <= right(outer) + 1 &&
+  bottom(inner) <= bottom(outer) + 1;
+
+/**
+ * A tap target that draws its own surface (a pill, a code field, a tappable card) sets its words
+ * where its surface puts them: it is not a bare text button paired with the button above.
+ */
+function drawsOwnSurface(control: PlacedControl, texts: readonly PlacedText[]): boolean {
+  if (control.ownGround === true) return true;
+  const card = textOf(control, texts)?.card;
+  return card !== undefined && within(card.rect, control.rect);
 }
 
 /** Developer tools' entries are not the product's buttons. */
@@ -60,7 +80,7 @@ export function alignmentProblems({ texts, controls, window }: LayoutInput): Lay
           Math.min(bottom(other.rect), bottom(lower.rect)) - Math.max(other.rect.y, lower.rect.y) >
             lower.rect.height / 2,
       );
-      if (inRow) continue;
+      if (inRow || drawsOwnSurface(lower, texts)) continue;
       const words = wordsOf(lower, texts);
       if (words === null || words.width >= upper.rect.width * WIDE_SHARE) continue;
       if (words.x < upper.rect.x - TOUCH_PT || right(words) > right(upper.rect) + TOUCH_PT)

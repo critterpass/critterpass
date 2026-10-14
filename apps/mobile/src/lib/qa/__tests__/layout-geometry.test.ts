@@ -250,6 +250,16 @@ describe('screen-wide layout checks', () => {
     expect(
       alignmentProblems({ texts: [primaryLabel, rowTitle], controls: [primary, row], window }),
     ).toEqual([]);
+    // A code pill under the button draws its own glass: its label starts where the pill puts it.
+    const pill = control('join-code', at(24, 806, 345, 52), { grounds: [sheet] });
+    const pillLabel = text('"Join with a crew code"', at(44, 822, 150, 20), {
+      controls: ['join-code'],
+      grounds: [sheet],
+      card: { label: 'GlassSurface', rect: at(24, 806, 345, 52) },
+    });
+    expect(
+      alignmentProblems({ texts: [primaryLabel, pillLabel], controls: [primary, pill], window }),
+    ).toEqual([]);
   });
 
   it('reports a guide note whose words were squeezed into a narrow column by a wide action', () => {
