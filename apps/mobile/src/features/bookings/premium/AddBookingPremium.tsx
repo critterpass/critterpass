@@ -107,9 +107,6 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
         { paddingHorizontal: th.space.gutter, gap: th.space.gap14 },
       ]}
     >
-      <Text variant="largeTitle" accessibilityRole="header">
-        {t({ id: 'bookings.add.title', message: 'Add a booking' })}
-      </Text>
       <View style={styles.tiles}>
         <Tile
           icon="chat"
@@ -155,16 +152,28 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
             },
           ]}
         >
-          <Text variant="mono" style={styles.flex} numberOfLines={1} selectable>
+          {/* The whole address on one line: no tracking, and it shrinks before it cuts. */}
+          <Text
+            variant="mono"
+            style={styles.addressText}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.75}
+            ellipsizeMode="middle"
+            selectable
+          >
             {p.address}
           </Text>
-          <Button
-            label={t({ id: 'bookings.premium.copy', message: 'Copy' })}
-            size="small"
-            variant="control"
-            onPress={() => void p.onCopy(p.address ?? '')}
-            testID="bookings-add-copy"
-          />
+          {/* The pill sits in its own box so the row centres it (a pill keeps to its start). */}
+          <View>
+            <Button
+              label={t({ id: 'bookings.premium.copy', message: 'Copy' })}
+              size="small"
+              variant="control"
+              onPress={() => void p.onCopy(p.address ?? '')}
+              testID="bookings-add-copy"
+            />
+          </View>
         </View>
       )}
       {p.noTrip ? (
@@ -243,11 +252,13 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
       <View style={styles.links}>
         <TextButton
           label={t({ id: 'bookings.add.byHand', message: 'Or type it in by hand' })}
+          align="center"
           onPress={p.onTypeIn}
           testID="bookings-add-by-hand"
         />
         <TextButton
           label={t({ id: 'bookings.add.linkCode', message: 'Got a code? Link your email' })}
+          align="center"
           onPress={p.onLinkCode}
           testID="bookings-add-link-code"
         />
@@ -273,6 +284,7 @@ export function AddBookingPremium({ start }: { readonly start?: string | undefin
       <PushScreen
         title={t({ id: 'bookings.add.title', message: 'Add a booking' })}
         backLabel={back}
+        largeTitle
         scroll={false}
         testID="bookings-add"
       >
@@ -295,6 +307,8 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 8,
   },
-  flex: { flex: 1, minWidth: 0 },
-  links: { alignItems: 'center', gap: 4 },
+  addressText: { flex: 1, minWidth: 0, letterSpacing: 0 },
+  // Each link is a 44 pt target with no gap between them; the top margin gives the first word the
+  // same distance from the note as the second has from the first.
+  links: { alignItems: 'center', marginTop: 8 },
 });

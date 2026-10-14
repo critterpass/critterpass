@@ -7,12 +7,17 @@ import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 
+import { useBackAffordance } from '@/lib/qa/back-affordance';
 import { PressableScale, Text, usePremiumTheme, type PremiumTheme } from '@/ui/premium';
 import { sheetMaterialStyle } from '@/ui/premium/shell';
 
-/** The sheet's surface: the native sheet draws the grabber and the swipe down on iOS. */
+/**
+ * The sheet's surface: the native sheet draws the grabber and the swipe down on iOS, which is its
+ * way back as the design draws it; on Android the sheet's "Done" is. Either way the sheet has one.
+ */
 export function MailboxSheetFrame(props: { readonly children: ReactNode }) {
   const th = usePremiumTheme();
+  useBackAffordance();
   return (
     <View style={[styles.fill, styles.sheet, sheetMaterialStyle(th)]} testID="bookings-mailbox">
       {Platform.OS === 'android' ? (
