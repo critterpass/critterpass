@@ -34,8 +34,9 @@ const DOODLES: Readonly<Record<string, DoodleName>> = {
 
 const useStyles = makePremiumStyles((th) => ({
   chips: { paddingHorizontal: th.space.gap16 },
-  // 4 pt above and below the chips; the row's own room for their raised shadow sits inside it.
-  chipRow: { marginTop: 4 - 6, marginBottom: 4 - 18 },
+  // 4 pt above and below the chips; the row's own room for their raised shadow sits inside it,
+  // drawn over the composer row it overlaps so the halo is never cut flat at the composer.
+  chipRow: { marginTop: 4 - 6, marginBottom: 4 - 18, zIndex: 1 },
   chip: {
     flexDirection: 'row',
     alignItems: 'center',
