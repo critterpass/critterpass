@@ -7,7 +7,7 @@
 import type { ReactNode } from 'react';
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
-import { StatusBarOver } from '@/ui/premium/shell';
+import { ScrollWalkStop, StatusBarOver } from '@/ui/premium/shell';
 
 import { NIGHT } from '../monetize-palette';
 
@@ -41,6 +41,9 @@ export function NightGround({
         style,
       ]}
     >
+      {/* The night ground's first native view: a sheet's scroll view under it (the paywall's) is
+          never on react-native-screens' first-subview walk, which moved it off the sheet. */}
+      <ScrollWalkStop />
       {/* White clock and battery over the night ground, in the light scheme too. */}
       <StatusBarOver dark />
       {(sparkles ? SPARKLES : []).map((s) => (

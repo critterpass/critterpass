@@ -93,6 +93,7 @@ describe('insets inside a presented sheet', () => {
     expect(await startsWithStop('formSheet', false)).toBe(true);
     expect(await startsWithStop('card', false)).toBe(false);
     expect(await startsWithStop('modal', false)).toBe(false);
-    expect(await startsWithStop('formSheet', true)).toBe(false);
+    // A group's first screen that says form sheet runs the same walk natively.
+    expect(await startsWithStop('formSheet', true)).toBe(true);
   });
 });

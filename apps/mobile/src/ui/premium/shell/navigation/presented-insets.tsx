@@ -104,7 +104,9 @@ export function presentedLayoutFor(presentationOf?: PresentationOfRoute) {
       (first || presentationOf === undefined || options.presentation !== undefined
         ? undefined
         : insideCardTopInset(routes, route.key, presentationOf));
-    const formSheet = !first && options.presentation === 'formSheet' && Platform.OS === 'ios';
+    // A group's first screen too: its stack doesn't present it, but its native screen still says
+    // form sheet and still runs the walk (the paywall, opened as the (modal) group's first page).
+    const formSheet = options.presentation === 'formSheet' && Platform.OS === 'ios';
     const scoped = (
       <KeyboardFooterScope>
         {formSheet ? <ScrollWalkStop /> : null}
