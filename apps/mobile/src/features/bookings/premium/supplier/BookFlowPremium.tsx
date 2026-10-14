@@ -152,6 +152,7 @@ export function BookFlowPremium({
               testID="supplier-book-pay"
             />
             <TextButton
+              align="center"
               label={t({ id: 'suppliers.book.release', message: 'Let it go' })}
               onPress={flow.onRelease}
               testID="supplier-book-release"

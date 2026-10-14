@@ -176,6 +176,7 @@ export function ErrorSheet({ retry }: ErrorSheetProps) {
           />
         )}
         <TextButton
+          align="center"
           label={t({ id: 'home.premium.broke.report', message: 'Send a report with this screen' })}
           onPress={() =>
             router.push({

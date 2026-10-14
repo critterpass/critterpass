@@ -136,6 +136,7 @@ export function LeaveCrewScreen() {
           testID="crew-leave-handover"
         />
         <TextButton
+          align="center"
           label={t({ id: 'crew.premium.leave.stay', message: 'Hand over, but stay in' })}
           disabled={chosen === null || busy !== null}
           onPress={() => void handOver(false)}

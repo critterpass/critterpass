@@ -112,6 +112,7 @@ export function CancelPremium({
               testID="supplier-cancel-confirm"
             />
             <TextButton
+              align="center"
               label={t({ id: 'suppliers.cancel.keepLink', message: 'Keep it' })}
               onPress={keep}
             />

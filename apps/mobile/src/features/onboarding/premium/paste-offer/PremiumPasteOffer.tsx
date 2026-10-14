@@ -239,6 +239,7 @@ export function PremiumPasteOffer({ onPasted, onSkip, onShown }: PremiumPasteOff
           />
         )}
         <TextButton
+          align="center"
           label={
             notInvite === null
               ? t({ id: 'onboarding.premium.paste.fresh', message: 'No link, start fresh' })

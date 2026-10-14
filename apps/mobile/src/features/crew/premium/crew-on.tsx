@@ -187,6 +187,7 @@ export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
           testID="start-crew-invite"
         />
         <TextButton
+          align="center"
           label={t({ id: 'crew.start.done', message: 'Done' })}
           onPress={returnHome}
           testID="start-crew-done"
