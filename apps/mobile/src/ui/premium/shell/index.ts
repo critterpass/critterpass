@@ -30,7 +30,7 @@ export { useGuideActions } from './navigation/guide-circle';
 export type { GuideActions } from './navigation/guide-circle';
 export { confirmAlert, noticeAlert, optionsAlert } from './screens/alerts';
 export { DialogHost } from './screens/dialog-host';
-export { StatusBarOver } from './screens/status-bar-over';
+export { StatusBarGround, StatusBarOver } from './screens/status-bar-over';
 export type { DialogOption } from './screens/dialog-queue';
 export type { TwoChoiceAlert } from './screens/alerts';
 export { askToDiscard, sheetLeaveDecision, useDirtySheetGuard } from './screens/dirty-sheet';
@@ -49,6 +49,8 @@ export { useCoverPageSheet, usePageSheetCovered } from './screens/page-sheet-cov
 export type { ModalSheetProps } from './screens/modal-sheet';
 export { PushScreen } from './screens/push-screen';
 export type { PushScreenProps } from './screens/push-screen';
+export { PageFooter } from './screens/page-footer';
+export type { PageFooterProps } from './screens/page-footer';
 export { RootScreen } from './screens/root-screen';
 export { PresentedState, ScreenMissing, ScreenWaiting } from './screens/screen-states';
 export type {
@@ -58,9 +60,11 @@ export type {
   ScreenWaitingProps,
 } from './screens/screen-states';
 export {
+  edgeGradient,
   PhotoHeaderScrim,
   SCROLL_EDGE_FADE,
   ScrollEdgeFade,
+  transparentOf,
   useScrollEdges,
 } from './screens/scroll-edge';
 export { TabPageScroll } from './screens/tab-page-scroll';

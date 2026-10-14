@@ -21,7 +21,7 @@ export const TAB_ICONS: Readonly<Record<PremiumTabIcon, ImageSourcePropType>> = 
   pass: PASS,
 };
 
-/** Tokek in the iOS search-role circle (28 pt). */
+/** Tokek on 1.04's yellow disc, in the iOS search-role circle (48 pt). */
 export const GUIDE_TAB_IMAGE: ImageSourcePropType = GUIDE_TAB;
 
 /** Tokek inside the Android guide button (46 pt). */

@@ -69,7 +69,7 @@ const PRESENTATIONS: Readonly<Record<string, ScreenPresentation>> = {
   // Areas.
   'crew/index': DRAWN,
   'crew/new': FULL,
-  'crew/[crewId]/invite': FULL,
+  'crew/[crewId]/invite': FIT,
   'crew/[crewId]/member/[uid]': FIT,
   'vote/new-poll': FULL,
   'vote/pitch': FULL,

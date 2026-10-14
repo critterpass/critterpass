@@ -57,17 +57,43 @@ const ONE_LINE_VARIANTS: ReadonlySet<PremiumTypeName> = new Set<PremiumTypeName>
 
 /**
  * How far a one-line label held to one line may shrink to fit whole. Only labels in a slot of fixed
- * width step down: a segment a little (its neighbours share the track), a badge, tier or place tag
- * further. Button, pill and chip labels keep their size: their pill grows with the label, and a
+ * width step down: a badge, tier or place tag. A segment keeps its size beside its neighbours (it
+ * wraps instead: shrunk one by one, a control showed three sizes). Button, pill and chip labels keep their size: their pill grows with the label, and a
  * full-width button wraps a long label onto a second line, so one screen never shows its actions
  * at different sizes.
  */
 const LABEL_FIT_FLOOR: Partial<Record<PremiumTypeName, number>> = {
-  segment: 0.9,
   badge: 0.75,
   tier: 0.75,
   placeTag: 0.75,
 };
+
+/**
+ * The design sets its mono labels in capitals with their tracking (CREW CODE, PAGE 07 ·
+ * REFERRALS, FOUND IT · WINSTON'S CREW), so the variant does, whatever case the copy is in. A
+ * caller showing text as it was written (a scanned line) sets `textTransform: 'none'`.
+ */
+const CAPS: TextStyle = { textTransform: 'uppercase' };
+
+/** Headings the design never leaves a lone word under ("Remove from the / Crew?"). */
+const BALANCED_VARIANTS: ReadonlySet<PremiumTypeName> = new Set<PremiumTypeName>([
+  'hero',
+  'display',
+  'displayLarge',
+  'largeTitle',
+  'emptyTitle',
+  'title',
+]);
+
+/**
+ * Centred lines (footnotes, empty states) and headings break so their last line never holds one
+ * word: Android balances the lines, iOS pushes a word down to keep the last one company.
+ */
+const BALANCED = Platform.select<RNTextProps>({
+  android: { textBreakStrategy: 'balanced' },
+  ios: { lineBreakStrategyIOS: 'push-out' },
+  default: {},
+});
 
 /** The children as one string, or `null` when they hold elements (nested styled spans). */
 function plainText(children: ReactNode): string | null {
@@ -183,6 +209,7 @@ export function Text({
       ? { adjustsFontSizeToFit: true, minimumFontScale: floor }
       : {};
   const text = plainText(rest.children);
+  const balanced = align === 'center' || BALANCED_VARIANTS.has(variant);
   const scale = Math.min(fontScale, token.maxScale);
   const borel = token.family === 'guide' && font.fontFamily !== undefined;
   const marks = borel
@@ -191,6 +218,7 @@ export function Text({
 
   return (
     <RNText
+      {...(balanced ? BALANCED : null)}
       {...fit}
       {...rest}
       allowFontScaling
@@ -203,6 +231,7 @@ export function Text({
           color: color ?? theme.color[tone],
         },
         token.lineHeight === undefined ? null : { lineHeight: token.lineHeight },
+        token.family === 'mono' ? CAPS : null,
         align === undefined ? null : { textAlign: align },
         style,
         marks.style,

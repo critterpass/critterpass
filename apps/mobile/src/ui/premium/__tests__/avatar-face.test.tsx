@@ -10,6 +10,7 @@ import { tokens } from '@cp/design-tokens';
 
 import { renderWithI18n } from '@/lib/i18n/testing';
 import { Avatar, avatarFill, PremiumThemeProvider } from '@/ui/premium';
+import { initialSize } from '@/ui/premium/people/Avatar';
 import { MemberFaceProvider, type MemberFaceResolver } from '@/ui/premium/people/member-face';
 
 const PHOTO = { uri: 'https://media.example/face.jpg' };
@@ -74,5 +75,15 @@ describe('Avatar', () => {
     await screen.unmount();
     await renderAvatar('photo-uid', false);
     expect(screen.queryByTestId('face-photo')).toBeNull();
+  });
+});
+
+describe('the initial in a large circle', () => {
+  it('keeps the token size up to the large avatar, then grows with the circle', () => {
+    expect(initialSize(40, 40, 14)).toBeUndefined();
+    expect(initialSize(76, 40, 14)).toBe(40);
+    const mid = initialSize(56, 40, 14) ?? 0;
+    expect(mid).toBeGreaterThan(14);
+    expect(mid).toBeLessThan(40);
   });
 });

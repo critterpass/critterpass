@@ -7,6 +7,7 @@ import {
   currentFormats,
   DEFAULT_FORMATS,
   distanceIn,
+  effectiveTimeFormat,
   setFormats,
 } from './formats';
 
@@ -16,10 +17,12 @@ const plain = (text: string) => text.replace(/[\u202f\u00a0]/gu, ' ');
 afterEach(() => setFormats(DEFAULT_FORMATS));
 
 describe('formats', () => {
-  it('leaves the clock to the language until a format is chosen', () => {
-    expect(clockOption()).toEqual({});
+  it('writes 24-hour in every language until a format is chosen', () => {
+    expect(clockOption()).toEqual({ hour12: false });
+    expect(effectiveTimeFormat()).toBe('24h');
     expect(clockText('vi', AT, 'UTC')).toBe('14:05');
-    expect(plain(clockText('en-US', AT, 'UTC'))).toBe('02:05 PM');
+    expect(clockText('en-US', AT, 'UTC')).toBe('14:05');
+    expect(clockText('en-US', new Date('2026-10-03T00:05:00Z'), 'UTC')).toBe('00:05');
   });
 
   it('writes 12- or 24-hour as chosen, in any language', () => {

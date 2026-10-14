@@ -8,6 +8,7 @@ import {
   useState,
 } from 'react';
 import type { ReactNode } from 'react';
+import { NavigationContext } from 'expo-router/react-navigation';
 import { AccessibilityInfo, Pressable, View } from 'react-native';
 import Animated, {
   withSpring,
@@ -57,6 +58,28 @@ export function useToast({ outer = false }: UseToastOptions = {}): ToastApi {
 }
 
 const NOOP: ToastApi = { show: () => -1, dismiss: () => undefined };
+
+interface ShownHost {
+  readonly api: ToastApi;
+  /** True while the screen holding the host is the one on screen. */
+  readonly shown: () => boolean;
+}
+
+/** The hosts inside sheets, covers and areas, in the order they mounted. */
+const shownHosts: ShownHost[] = [];
+
+/**
+ * The host a toast sent from outside the screens (`ExternalToasts`) shows on: the newest one on
+ * screen (a native sheet draws above the page's host, so a toast sent while one is up went under
+ * it); null on a page with no host of its own, where the root's shows.
+ */
+export function frontToast(): ToastApi | null {
+  for (let index = shownHosts.length - 1; index >= 0; index -= 1) {
+    const host = shownHosts[index];
+    if (host?.shown() === true) return host.api;
+  }
+  return null;
+}
 
 export interface ToastHostProps {
   readonly children: ReactNode;
@@ -112,6 +135,7 @@ function sinkOut(spring: Spring, fadeMs: number): EntryExitAnimationFunction {
 export function ToastHost({ children, bottomOffset }: ToastHostProps) {
   const theme = usePremiumTheme();
   const parent = useContext(ToastContext);
+  const navigation = useContext(NavigationContext);
   const reduced = usePremiumReducedMotion();
   const insets = useSafeAreaInsets();
   const [queue, setQueue] = useState<readonly QueuedToast[]>([]);
@@ -149,6 +173,31 @@ export function ToastHost({ children, bottomOffset }: ToastHostProps) {
   }, []);
 
   const entry = useMemo(() => ({ api: { show, dismiss }, parent }), [show, dismiss, parent]);
+
+  // A host inside a sheet or cover takes the toasts sent from outside the screens while it shows.
+  useEffect(() => {
+    if (parent === null) return undefined;
+    const host: ShownHost = { api: entry.api, shown: () => navigation?.isFocused() ?? true };
+    shownHosts.push(host);
+    return () => {
+      const at = shownHosts.indexOf(host);
+      if (at >= 0) shownHosts.splice(at, 1);
+    };
+  }, [entry, navigation, parent]);
+
+  // A sheet that closes with a toast still up hands it to the page underneath, so a "Saved" sent
+  // just before it went down still shows.
+  const live = useRef(queue);
+  useEffect(() => {
+    live.current = queue;
+  }, [queue]);
+  useEffect(
+    () => () => {
+      if (parent === null) return;
+      for (const item of live.current) parent.api.show(item.spec);
+    },
+    [parent],
+  );
   const smooth = theme.spring.smooth;
   const entering = useMemo(
     () => (reduced ? reducedFadeIn() : riseIn(smooth, theme.motion.reduceMotionFadeMs)),

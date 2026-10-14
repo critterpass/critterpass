@@ -28,7 +28,8 @@ export const NATIVE_GLASS = Platform.OS === 'ios' && isLiquidGlassAvailable();
 /**
  * The premium glass material. On iOS it is the system Liquid Glass (`GlassView`), which supplies
  * blur, refraction and its own Reduce Transparency fallback, following the theme's scheme rather
- * than the phone's. Elsewhere it is the design's fallback: the tint composited on a solid ground
+ * than the phone's. The `sheet` kind is the design's opaque sheet material on every platform.
+ * Elsewhere it is the design's fallback: the tint composited on a solid ground
  * with the highlight, ring and drop stack, and no blur.
  *
  * Never fade glass or a parent of it below full opacity (the system stops drawing it), never put
@@ -43,7 +44,9 @@ export function GlassSurface({
 }: GlassSurfaceProps) {
   const t = usePremiumTheme();
 
-  if (NATIVE_GLASS) {
+  // Sheets stay opaque on iOS too: the design's sheets never show the page through their body
+  // (the plan map's day sheet showed its streets and pins through the system glass).
+  if (NATIVE_GLASS && kind !== 'sheet') {
     return (
       <GlassView
         testID={testID}

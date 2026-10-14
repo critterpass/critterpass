@@ -13,13 +13,19 @@ import type { PremiumPalette, PremiumScheme } from '@cp/design-tokens';
 import { REDUCED_FADE_MS, usePremiumReducedMotion, usePremiumTheme } from '../..';
 import { freezeOptions, type StackState } from './freeze-behind';
 import { oneCardRouter } from './one-card-router';
-import { presentedScreenLayout } from './presented-insets';
+import { presentedLayoutFor, type LayoutRoute } from './presented-insets';
 import { rootRouteOptions, SELF_ANIMATED_SHEET } from './presentation-options';
 
 // Area layouts import it from here.
 export { SELF_ANIMATED_SHEET };
 
 type RootRoute = OpenedRoute & { readonly key?: string | undefined };
+
+/** A page pushed after a sheet shows inside it (iOS): it lays out from the sheet's top. */
+const ROOT_LAYOUT = presentedLayoutFor(
+  // The route itself: a group's presentation is read from the stack it holds.
+  (route) => rootRouteOptions(route as LayoutRoute & RootRoute).presentation,
+);
 
 /** A group opened over a sheet replaces the sheet (`oneCardRoutes`). */
 const ROOT_ROUTER = oneCardRouter((route) => presentationOf(openedPath(route)));
@@ -83,7 +89,7 @@ export function PremiumRootStack() {
     <NavigationThemeProvider value={theme}>
       <Stack
         screenOptions={screenOptions}
-        screenLayout={presentedScreenLayout}
+        screenLayout={ROOT_LAYOUT}
         UNSTABLE_router={ROOT_ROUTER}
       />
     </NavigationThemeProvider>

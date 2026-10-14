@@ -249,11 +249,17 @@ export function SheetScreen({
 
 const NO_PROMPT: DiscardPrompt = { title: '', message: '', discard: '', keep: '' };
 
+// Grow and shrink from the content's own height (not `flex: 1`): a sheet that fits its content
+// has no height to fill, and a root that only filled it measured as tall as its header, so its
+// material ended there and the page showed through the rest of the sheet. A sheet with a fixed
+// height still fills it, and a long form still shrinks to it and scrolls.
+const FILL = { flexGrow: 1, flexShrink: 1 } as const;
+
 const styles = StyleSheet.create({
-  root: { flex: 1 },
+  root: FILL,
   grabber: { alignSelf: 'center', width: 36, height: 5, borderRadius: 3, marginTop: 8 },
   // Clears the system grabber (iOS draws it over the top 20 pt of the sheet and takes taps there).
   header: { marginTop: Platform.OS === 'ios' ? SHEET_TOP_CLEARANCE : 0 },
-  body: { flex: 1, overflow: 'hidden' },
-  scroll: { flex: 1 },
+  body: { ...FILL, overflow: 'hidden' },
+  scroll: FILL,
 });

@@ -39,10 +39,13 @@ import {
   NativeHeaderActions,
   type ShellAction,
 } from './header-actions';
+import { useScreenPlacement } from '../navigation/use-screen-placement';
+import { TabBarFade } from './tab-page-scroll';
 
 /** Spread on the screen's scroll view or list, which must be the screen's first child. */
 export interface RootScrollProps {
-  readonly contentInsetAdjustmentBehavior?: 'automatic';
+  readonly contentInsetAdjustmentBehavior?: 'automatic' | 'never';
+  readonly automaticallyAdjustContentInsets?: boolean;
   /** A tap on a row while the keyboard is up acts on the row (a search list), not only closes it. */
   readonly keyboardShouldPersistTaps: 'handled';
   readonly keyboardDismissMode: 'interactive' | 'on-drag';
@@ -62,9 +65,10 @@ export interface RootScreenProps {
   /** At most two; `primary` marks the ink `+`, which goes last. */
   readonly actions?: readonly ShellAction[];
   /**
-   * `native`: the iOS large title that collapses into the glass bar, needs the screen to sit in a
-   * native stack (a tab's own stack). `drawn`: the shell draws the title and the bar it collapses
-   * into (Android, and iOS tabs without a stack). @default native on iOS, drawn on Android
+   * `drawn`: the shell draws the title on the row of its actions, as the design sets every root
+   * (1.04, 7.01), and the bar it collapses into. `native`: the iOS large title, on its own row
+   * under the system toolbar, for a screen in a native stack that wants the system's.
+   * @default drawn
    */
   readonly header?: 'native' | 'drawn';
   /** Renders the screen's scroll view or list with the bindings. */
@@ -97,7 +101,7 @@ export function RootScreen({ title, actions = [], header, children, testID }: Ro
   // system back.
   useNoBackByDesign();
   const ordered = capActions(actions, 2);
-  const mode = header ?? (Platform.OS === 'ios' ? 'native' : 'drawn');
+  const mode = header ?? 'drawn';
   if (mode === 'native') {
     return (
       <NativeRootScreen title={title} actions={ordered} testID={testID}>
@@ -177,8 +181,16 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
     setCollapsed(event.nativeEvent.contentOffset.y > TITLE_ROW);
   }, []);
 
+  // The drawn title keeps the status bar clear itself: iOS adding its own inset as well (a root in
+  // a tab's native stack) set the title a row below its actions.
   const scrollProps = useMemo(
-    (): RootScrollProps => ({ ...KEYBOARD_TAPS, onScroll, scrollEventThrottle: 16 }),
+    (): RootScrollProps => ({
+      ...KEYBOARD_TAPS,
+      contentInsetAdjustmentBehavior: 'never',
+      automaticallyAdjustContentInsets: false,
+      onScroll,
+      scrollEventThrottle: 16,
+    }),
     [onScroll],
   );
   const barTitle = useAnimatedStyle(() => ({ opacity: shown.value }));
@@ -196,9 +208,13 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
     </View>
   );
 
+  // A tab's root page fades into its ground under Android's drawn bar.
+  const tabRoot = useScreenPlacement();
+  const fade = Platform.OS === 'android' && tabRoot?.kind === 'root' && tabRoot.tab;
   return (
     <View testID={testID} style={styles.root} collapsable={false}>
       {children({ scrollProps, largeTitle })}
+      {fade ? <TabBarFade /> : null}
       <View
         pointerEvents="box-none"
         style={[styles.bar, { height: barTop + t.size.glassNav + t.space.gap8 }]}

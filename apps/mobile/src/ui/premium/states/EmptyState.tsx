@@ -14,8 +14,21 @@ export interface EmptyStateProps {
   readonly check?: boolean;
   /** A way forward under the line (a button), so the screen never dead-ends. */
   readonly action?: ReactNode;
+  /**
+   * `page` (the default) is the 180 disc for a screen with nothing else to show; `inline` a
+   * smaller one for an empty section or card among other content (no ideas yet, no stickers).
+   */
+  readonly size?: 'page' | 'inline';
+  /**
+   * Takes the space left on the screen and sits in its optical centre (a little above the middle),
+   * instead of hanging under the header with the rest of the screen blank.
+   */
+  readonly fill?: boolean;
   readonly testID?: string;
 }
+
+/** The inline disc and critter, as a share of the page ones. */
+const INLINE_SCALE = 0.6;
 
 /**
  * How far a critter's art sits off its box's centre, as a share of its size: the gecko's curled
@@ -25,7 +38,9 @@ const OPTICAL_SHIFT: Readonly<Record<string, number>> = { gecko: 0.045 };
 
 /**
  * The empty state: a 180 white disc holding a 140 sleeping critter with a tilted check sticker, a
- * 26/700 headline and a 14/1.45 muted line. Past items ("Earlier") follow it on the screen.
+ * 26/700 headline, a 14/1.45 muted line and the way forward. Past items ("Earlier") follow it on
+ * the screen. Screens with nothing else to show `fill` the space; a section among others is
+ * `inline`. Every empty or error state is built from it rather than a bare grey line.
  */
 export function EmptyState({
   title,
@@ -33,19 +48,37 @@ export function EmptyState({
   critter,
   check = true,
   action,
+  size = 'page',
+  fill = false,
   testID,
 }: EmptyStateProps) {
   const t = usePremiumTheme();
-  const disc = t.size.emptyDisc;
+  const inline = size === 'inline';
+  const scale = inline ? INLINE_SCALE : 1;
+  const disc = Math.round(t.size.emptyDisc * scale);
+  const critterSize = Math.round(t.size.emptyCritter * scale);
   const kind = critter?.kind ?? 'gecko';
-  const shift = (OPTICAL_SHIFT[kind] ?? 0) * t.size.emptyCritter;
+  const shift = (OPTICAL_SHIFT[kind] ?? 0) * critterSize;
   return (
-    <View testID={testID} style={{ alignItems: 'center', paddingHorizontal: t.space.gutter }}>
+    <View
+      testID={testID}
+      style={[
+        {
+          alignItems: 'center',
+          paddingHorizontal: t.space.gutter,
+          paddingVertical: inline ? t.space.gap16 : t.space.emptyTextGap,
+        },
+        // The optical centre: a little more room under it than over it.
+        fill
+          ? { flexGrow: 1, justifyContent: 'center', paddingBottom: t.space.emptyTextGap * 2 }
+          : null,
+      ]}
+    >
       <View
         style={{
           width: disc,
           height: disc,
-          borderRadius: t.radius.emptyDisc,
+          borderRadius: disc / 2,
           backgroundColor: t.color.card,
           boxShadow: t.shadow.emptyDisc,
           alignItems: 'center',
@@ -56,7 +89,7 @@ export function EmptyState({
           <CritterSticker
             kind={kind}
             name={critter?.name ?? title}
-            size={t.size.emptyCritter}
+            size={critterSize}
             pose="sleep"
             edge={false}
           />
@@ -71,12 +104,22 @@ export function EmptyState({
               transform: [{ rotate: `${String(t.tilt.emptyCheck)}deg` }],
             }}
           >
-            <CritterSticker kind="check" name={title} size={t.size.emptyCheck} />
+            <CritterSticker
+              kind="check"
+              name={title}
+              size={Math.round(t.size.emptyCheck * scale)}
+            />
           </View>
         ) : null}
       </View>
-      <View style={{ marginTop: t.space.emptyTextGap, alignItems: 'center', gap: t.space.gap6 }}>
-        <Text variant="emptyTitle" align="center" accessibilityRole="header">
+      <View
+        style={{
+          marginTop: inline ? t.space.gap16 : t.space.emptyTextGap,
+          alignItems: 'center',
+          gap: t.space.gap6,
+        }}
+      >
+        <Text variant={inline ? 'title' : 'emptyTitle'} align="center" accessibilityRole="header">
           {title}
         </Text>
         <Text variant="emptyLine" tone="muted" align="center">

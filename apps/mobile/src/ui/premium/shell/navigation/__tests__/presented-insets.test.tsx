@@ -3,7 +3,12 @@ import { render, screen } from '@testing-library/react-native';
 import { Text } from 'react-native';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { presentedScreenLayout, presentedTopInset, SHEET_TOP_CLEARANCE } from '../presented-insets';
+import {
+  insideCardTopInset,
+  presentedScreenLayout,
+  presentedTopInset,
+  SHEET_TOP_CLEARANCE,
+} from '../presented-insets';
 
 const WINDOW = { top: 59, bottom: 34, left: 0, right: 0 };
 
@@ -48,5 +53,24 @@ describe('insets inside a presented sheet', () => {
     expect(presentedTopInset({ presentation: 'modal' }, 'android')).toBeUndefined();
     expect(presentedTopInset({ presentation: 'fullScreenModal' }, 'ios')).toBeUndefined();
     expect(presentedTopInset({ presentation: 'transparentModal' }, 'ios')).toBeUndefined();
+  });
+
+  it('lays a page pushed after a sheet out from the sheet top on iOS', () => {
+    const routes = [{ key: 'tabs' }, { key: 'paywall' }, { key: 'compare' }, { key: 'page' }];
+    const shown = (route: { readonly key: string }) =>
+      route.key === 'paywall' ? ('formSheet' as const) : undefined;
+    expect(insideCardTopInset(routes, 'page', shown, 'ios')).toBe(SHEET_TOP_CLEARANCE);
+    expect(insideCardTopInset(routes, 'paywall', shown, 'ios')).toBeUndefined();
+  });
+
+  it('keeps the window top for a push over pages or a cover', () => {
+    const routes = [{ key: 'tabs' }, { key: 'cover' }, { key: 'page' }];
+    const cover = (route: { readonly key: string }) =>
+      route.key === 'cover' ? ('fullScreenModal' as const) : undefined;
+    expect(insideCardTopInset(routes, 'page', cover, 'ios')).toBeUndefined();
+    // Android rises a page sheet as a page: what's pushed after it keeps the window's top.
+    const modal = (route: { readonly key: string }) =>
+      route.key === 'cover' ? ('modal' as const) : undefined;
+    expect(insideCardTopInset(routes, 'page', modal, 'android')).toBeUndefined();
   });
 });
