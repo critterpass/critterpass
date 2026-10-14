@@ -115,6 +115,14 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     'the standard loading skeleton (ui/states/Skeleton card preset) under the back control while the running-late row syncs',
   ],
   [
+    '4.43-plan-check-light',
+    'premium render 4.43 Plan check while the check runs or with nothing to fix: the title, two lines and the "Whose picks made it" row',
+  ],
+  [
+    '4.28-all-days-light',
+    "premium render 4.28 All days on a three-day trip: the guide's note, three day tiles and the Ideas line fill the top of the page",
+  ],
+  [
     '7h-1-running',
     'undesigned-states 7h-1 "Check running": the headline and one card saying Tokek is checking the plan',
   ],
