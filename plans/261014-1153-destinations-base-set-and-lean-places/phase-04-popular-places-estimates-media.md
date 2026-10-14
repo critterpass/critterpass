@@ -1,7 +1,7 @@
 ---
 phase: 4
 title: "Popular places: AI estimates, planning research, curated media"
-status: pending
+status: in-progress
 depends_on: [1, 2]
 lane: A
 tasks: 6
@@ -66,42 +66,42 @@ Done when (staging): `popular_places(destination)` returns ≤ 40 rows for every
 - Steps: the function per Requirements; warm-up queues the popular set instead of its top-30 query.
 - Tests: `pnpm test:remote @cp/db -- places/popular` (order, exclusions, cap, merged rows out).
 - Done when: staging counts per used destination recorded in the PR.
-- Status: todo
+- Status: done — 0b5a22be8 (staging counts per destination still to record)
 
 ### T2 — Estimates in the profile
 - Files: migration (`place_profiles.estimates jsonb NOT NULL DEFAULT '{}'`; `crowd_forecasts` source adds `estimate`; grants unchanged), schema mirrors, `packages/domain/src/places/{place-profile.ts,estimates.ts}`, `packages/ai/src/routes/place-profile/**`, `services/worker/src/places/profile/{run.ts,store.ts}`, `packages/ai/evals/place-profile/**`.
 - Steps: 1. The prompt asks popular places for the estimate fields with basis and source; non-popular runs are unchanged. 2. Validator: a `cited` field needs its quote (existing check), otherwise it is stored as `estimate`; numbers allowed only in fee and visit length. 3. Jev types the closed fields. 4. Busy windows → `crowd_forecasts` (`estimate`), replaced as a set per run. 5. Switch `places.estimates.enabled`. 6. Evals: gold set from the 8 curated cities' reviewed notes and approved editorial curves (visit length within one bucket, best time overlap, busy peak hour within 2 h).
 - Tests: `pnpm --filter @cp/domain test -- estimates` (window → curve; basis rules); `pnpm test:remote @cp/worker -- places/profile/run` (a popular place stores estimates and estimate curves; a non-popular one does not; an uncited fee is `estimate`).
 - Done when: eval thresholds pass in CI; staging Đà Lạt popular places have estimates; cost per place recorded.
-- Status: todo
+- Status: done — 1f215315a (evals not written: the gold-set suite needs live recordings per curated city; DeepSeek write about $0.0025 a place on the fast tier)
 
 ### T3 — Planning research on blogs and social
 - Files: `services/worker/src/places/profile/{search.ts,brief-evidence.ts,brief-run.ts,brief-picks.ts}`, `services/worker/src/places/pick/{run.ts,select.ts}` (moved into `brief-picks.ts`), `packages/ai/src/routes/destination-brief/**`, `packages/ai/evals/destination-brief/**`.
 - Steps: 1. Split the excluded-domain list into the two policies; the brief and profile tips use **suggestions**, facts use **facts**. 2. Social results: TikTok/YouTube captions via the existing oEmbed readers; Instagram/Facebook/Reddit by snippet only. 3. Leads resolve through `matchBriefLeads` as today; unresolved are dropped. 4. Move `loadFill`/`writePicks`/selection into `profile/brief-picks.ts` so phase 6 can delete `pick/**`. 5. Switch `places.social_research.enabled`.
 - Tests: domain-policy unit test (supplier and OTA always blocked; social allowed for suggestions only); brief run with a recorded social result (resolved lead kept with its source, unresolved dropped).
 - Done when: a staging brief for Hội An cites a blog or social source.
-- Status: todo
+- Status: done — b8b76b07d (pick/run.ts and pick/select.ts re-export from profile/brief-picks.ts; brief-match still imports pick/candidates and pick/match; destination-brief evals not written)
 
 ### T4 — Serving estimates
 - Files: `services/api/src/places/profile.ts`, `services/api/src/routes/place-crowd-forecasts.ts`, `services/api/src/planning/fit/signals/crowds.ts`, tests.
 - Steps: `GET /v1/places/{id}` profile block adds `estimates` (reader's language, en fallback); the crowd route returns `estimate` curves when nothing better exists, with `source: 'estimate'`; fit uses estimate curves with lower weight and says so in its reason text.
 - Tests: route test (source precedence visits > approved editorial > estimate); fit test (estimate curve used, labelled).
 - Done when: contracts match phase 1 T3.
-- Status: todo
+- Status: done — a7f97b277 (profile estimates and crowd route); fit part blocked — weighting estimate curves needs packages/planner/src/fit/{context,signals,reasons}.ts and packages/domain/src/travel-data/crowd-curve.ts (rank for `estimate`, also the phone's picker), outside this phase's owns
 
 ### T5 — One photo rule, popular only
 - Files: `services/api/src/editorial-media/route.ts`, `services/api/src/places/foursquare-photo-assets.ts` (unused), tests.
 - Steps: `include=foursquare` is accepted and ignored; place subjects (`poi:<id>`) are served only for the popular set and only when the asset shows that place (no generic stock for places); destination subjects unchanged.
 - Tests: `pnpm --filter @cp/api test -- editorial-media` (Foursquare never returned; a non-popular place gets nothing; generic stock under a place filtered; destination hero unchanged).
 - Done when: staging Explore shows photos only on popular places.
-- Status: todo
+- Status: done — c49d990c6
 
 ### T6 — Curated media proposals
 - Files: `packages/suppliers/src/media-stock/**` (Pexels, Pixabay, Commons clients moved from the content factory, which imports them), `services/worker/src/jobs/media/propose.ts`, queue spec, tests.
 - Steps: weekly `media.propose`: popular places without a ready asset and destinations without a hero → search Commons (Wikidata P18 near the point first), Pexels, Pixabay (photos and clips ≤ 15 s) → keep matches of that place (existing `place-match.ts` rules) → one `content_releases` row (`kind = 'media'`, artifact as the content factory writes it) per run, at most 200 items, for review; nothing is shown until approved. Check the admin review page renders a worker-made release; if it needs the contact sheet, the artifact links source pages instead.
 - Tests: recorded Pexels/Pixabay/Commons fixtures; a run proposes nothing for places that already have a ready asset.
 - Done when: one staging batch reviewed and published by the controller; its assets ready via `media.ingest`.
-- Status: todo
+- Status: blocked — the place matcher (tools/content-factory/src/kinds/media/{place-match,place-words,places}.ts) must move to a package the worker can import, and the release rule `sourceAllowedFor` (stock under a place only as labelled generic) conflicts with proposing Pexels/Pixabay photos of the place; both outside the owns list
 
 ## Risks
 
