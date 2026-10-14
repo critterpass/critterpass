@@ -23,9 +23,12 @@ import type { AreaViewProps } from '../../day-trips/area-screen';
 import * as copy from '../../day-trips/copy';
 import { PicksCarousel } from '../destination/picks-carousel';
 import { Doodle } from '../components/doodle';
+import { DockFade } from '../components/dock-fade';
 
 const HERO = 240;
 
+/** The dock: the 56 pt button, a 4 pt gap and the 44 pt text button under it. */
+const DOCK_HEIGHT = 104;
 export function PremiumAreaView(props: AreaViewProps) {
   const theme = usePremiumTheme();
   const insets = useSafeAreaInsets();
@@ -119,6 +122,7 @@ export function PremiumAreaView(props: AreaViewProps) {
           </Text>
         </View>
       </ScrollView>
+      <DockFade dockHeight={DOCK_HEIGHT} gap={theme.space.gap8} />
       <View
         style={{
           position: 'absolute',

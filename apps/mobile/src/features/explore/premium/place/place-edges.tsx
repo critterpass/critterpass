@@ -1,8 +1,7 @@
 /**
- * The place page's two soft edges. At the top, once the page scrolls past its photo, the ground
- * fades in behind the status bar and the glass circles, so the name never runs under them. At the
- * foot, the page fades out behind the Add dock, so a section never sits half under the button.
- * Neither takes touches.
+ * The place page's top edge. At the top, once the page scrolls past its photo, the ground
+ * fades in behind the status bar and the glass circles, so the name never runs under them. It takes
+ * no touches.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- CSS gradient parts, never copy. */
 import { StyleSheet } from 'react-native';
@@ -56,26 +55,6 @@ export function PlaceTopEdge({
   );
 }
 
-/** Behind the dock: clear above the button, the ground from its middle down. */
-export function PlaceDockEdge({ dockHeight }: { readonly dockHeight: number }) {
-  const th = usePremiumTheme();
-  const insets = useSafeAreaInsets();
-  const ground = th.color.ground;
-  return (
-    <Animated.View
-      pointerEvents="none"
-      style={[
-        styles.bottom,
-        {
-          height: insets.bottom + th.space.gap12 + dockHeight + HEADER_AIR,
-          experimental_backgroundImage: `linear-gradient(0deg, ${ground} 55%, ${clearOf(ground)})`,
-        },
-      ]}
-    />
-  );
-}
-
 const styles = StyleSheet.create({
   top: { position: 'absolute', top: 0, left: 0, right: 0 },
-  bottom: { position: 'absolute', bottom: 0, left: 0, right: 0 },
 });

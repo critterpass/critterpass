@@ -33,7 +33,8 @@ import { SectionLabel } from '../components/labels';
 import { PlaceResultRow } from '../components/place-result-row';
 import { FactTilesRow, KnowBeforeCard, NearbyRow, WhenItFitsCard } from './place-sections';
 import { PlaceOffersCard, ReportPlaceProfile } from './place-extras';
-import { PlaceDockEdge, PlaceTopEdge } from './place-edges';
+import { DockFade } from '../components/dock-fade';
+import { PlaceTopEdge } from './place-edges';
 import { PlaceHeroPhoto } from './place-hero-photo';
 import { PremiumRemoveForEveryone } from './remove-for-everyone';
 
@@ -192,7 +193,7 @@ export function PlacePage(props: PlaceDetailInput) {
         </View>
       </Animated.ScrollView>
       <PlaceTopEdge y={y} solidFrom={HERO - OVERLAP} />
-      <PlaceDockEdge dockHeight={theme.size.button} />
+      <DockFade dockHeight={theme.size.button} gap={theme.space.gap12} />
       <View
         pointerEvents="box-none"
         style={[

@@ -103,7 +103,9 @@ export function DirectoryPremium(input: { readonly tripId: string; readonly area
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.chips}
+          // Bleeds through the page's gutter, so a scrolled chip runs to the screen's edge.
+          style={{ marginHorizontal: -th.space.gutter }}
+          contentContainerStyle={[styles.chips, { paddingHorizontal: th.space.gutter }]}
         >
           {p.areaChips.map((chip) => (
             <Button
