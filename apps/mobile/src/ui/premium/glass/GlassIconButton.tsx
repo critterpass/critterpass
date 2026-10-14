@@ -20,15 +20,15 @@ export interface GlassIconButtonProps {
 }
 
 /**
- * The iPhone's own back and close in its bar draw their chevron and ✕ about 1.75× the kit glyph,
- * so a drawn back (a crumb page) beside the system's (a plain push) looked like a second style.
- * On iOS the drawn back and ✕ take the system's size; Android keeps the design's.
+ * The iPhone's own back and close in its bar draw their chevron about 1.75× the kit glyph and their
+ * ✕ about 1.45×, so a drawn back (a crumb page) beside the system's (a plain push) looked like a
+ * second style. On iOS the drawn back and ✕ take the system's size; Android keeps the design's.
  */
-const IOS_NAV_GLYPH = 1.75;
+const IOS_NAV_GLYPH: Partial<Record<PremiumIconName, number>> = { back: 1.75, close: 1.45 };
 
 function glyphSize(icon: PremiumIconName, base: number): number {
-  const nav = icon === 'back' || icon === 'close';
-  return nav && Platform.OS === 'ios' ? Math.round(base * IOS_NAV_GLYPH) : base;
+  const scale = Platform.OS === 'ios' ? IOS_NAV_GLYPH[icon] : undefined;
+  return scale === undefined ? base : Math.round(base * scale);
 }
 
 /** The 44 pt glass circle: header back, close on full-screen covers, share and ⋯ actions. */
