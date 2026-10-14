@@ -36,10 +36,10 @@ appId: app.critterpass.dev
                 env:
                   CODE: '4.01'
                   NAME: new-poll
-            - hideKeyboard
-            - runFlow:
-                file: ../../_shared/tap.yaml
-                env:
-                  ID: 'sheet-cancel'
-                  LABEL: 'Cancel'
+      # Closed unposted, step by step back to the chat (the keyboard, then the sheet): a lone
+      # Cancel tap could miss under the keyboard and leave the sheet up for every later step.
+      - runFlow:
+          file: ../../_shared/back-to.yaml
+          env:
+            MARK: 'chat-screen'
 - runFlow: plan-home.yaml
