@@ -4,16 +4,52 @@
  * and stay prices, in Vietnamese and English), six elsewhere, our own fetch of the top pages, and
  * the result snippets beside them. The links of a destination and the ways to it from a home city
  * are searched the same way. Queries carry place names and topics only (D23).
+ *
+ * Under the `suggestions` policy the brief also reads travel blogs, forums and social posts.
+ * A social page is never fetched: a TikTok or YouTube result is read through the platform's
+ * public oEmbed (its caption), anything else social (Instagram, Facebook, Reddit) by its search
+ * snippet only.
  */
 import type { BriefDestination, ProfilePage } from '@cp/ai';
-import { isVietnam } from '@cp/domain';
+import { isSocialUrl, isVietnam } from '@cp/domain';
+import { classifyLink, readPost } from '@cp/suppliers';
 
 import { fetchTopPages } from './pages';
-import type { PlaceSearch } from './search';
+import type { PlaceSearch, ResearchPolicy } from './search';
 
 /** Pages fetched and read in full; the other results go in as snippets. */
 export const BRIEF_PAGES_READ = 6;
 const SNIPPETS_PER_QUERY = 5;
+/** Social results read through oEmbed per run, at most. */
+const SOCIAL_CAPTIONS = 6;
+const CAPTION_MAX = 1_500;
+
+/**
+ * Social results with their caption: TikTok and YouTube through oEmbed, put before the search
+ * snippet (the snippet alone stays when the platform does not answer); every other result is
+ * left as it came.
+ */
+export async function readSocialCaptions(
+  snippets: readonly ProfilePage[],
+  fetchImpl: typeof fetch,
+): Promise<ProfilePage[]> {
+  let budget = SOCIAL_CAPTIONS;
+  return Promise.all(
+    snippets.map(async (snippet) => {
+      const link = classifyLink(snippet.url);
+      if (link === null || (link.platform !== 'tiktok' && link.platform !== 'youtube')) {
+        return snippet;
+      }
+      if (budget <= 0) return snippet;
+      budget -= 1;
+      const read = await readPost(link.platform, link.url, { fetch: fetchImpl }).catch(() => null);
+      if (read?.kind !== 'post' || read.post.text.trim() === '') return snippet;
+      const caption = read.post.text.trim().slice(0, CAPTION_MAX);
+      const text = snippet.text.trim() === '' ? caption : `${caption}\n${snippet.text}`;
+      return { ...snippet, title: read.post.title ?? snippet.title, text };
+    }),
+  );
+}
 
 export function briefDestination(name: string, country: string | null): BriefDestination {
   return { name, country: isVietnam(country) ? 'Vietnam' : country };
@@ -46,9 +82,10 @@ export async function gatherPages(
   near: readonly string[],
   deps: { readonly search: PlaceSearch; readonly fetch?: typeof fetch | undefined },
   signal?: AbortSignal,
+  policy: ResearchPolicy = 'facts',
 ): Promise<ProfilePage[]> {
   const lists = await Promise.all(
-    queries.map(([q, lang]) => deps.search.web(q, lang, signal).catch(() => [])),
+    queries.map(([q, lang]) => deps.search.web(q, lang, signal, policy).catch(() => [])),
   );
   const snippets: ProfilePage[] = [];
   const seen = new Set<string>();
@@ -62,7 +99,7 @@ export async function gatherPages(
     }
   }
   const pages = await fetchTopPages(
-    snippets.map((s) => s.url),
+    snippets.filter((s) => !isSocialUrl(s.url)).map((s) => s.url),
     near,
     BRIEF_PAGES_READ,
     {
@@ -71,20 +108,34 @@ export async function gatherPages(
     },
   );
   const fetched = new Set(pages.map((p) => p.url));
-  return [...pages, ...snippets.filter((s) => !fetched.has(s.url))];
+  const rest = snippets.filter((s) => !fetched.has(s.url));
+  const read =
+    policy === 'suggestions' ? await readSocialCaptions(rest, deps.fetch ?? fetch) : rest;
+  return [...pages, ...read];
+}
+
+/** The social and forum searches a brief adds under the `suggestions` policy. */
+export function socialBriefQueries(name: string, country: string | null): [string, string][] {
+  const queries: [string, string][] = [
+    [`${name} travel blog itinerary hidden gems`, 'en'],
+    [`${name} tiktok must try places`, 'en'],
+    [`${name} reddit recommendations`, 'en'],
+  ];
+  if (isVietnam(country)) queries.push([`${name} review địa điểm check in tiktok`, 'vi']);
+  return queries;
 }
 
 export function gatherBriefPages(
   destination: { readonly name: string; readonly country: string | null },
   deps: { readonly search: PlaceSearch; readonly fetch?: typeof fetch | undefined },
   signal?: AbortSignal,
+  policy: ResearchPolicy = 'facts',
 ): Promise<ProfilePage[]> {
-  return gatherPages(
-    briefQueries(destination.name, destination.country),
-    [destination.name],
-    deps,
-    signal,
-  );
+  const queries = briefQueries(destination.name, destination.country);
+  if (policy === 'suggestions') {
+    queries.push(...socialBriefQueries(destination.name, destination.country));
+  }
+  return gatherPages(queries, [destination.name], deps, signal, policy);
 }
 
 /** The searches for a destination's day trips and onward cities: [query, language]. */

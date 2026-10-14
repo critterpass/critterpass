@@ -1,11 +1,11 @@
 /**
  * `GET /v1/media`: ready assets for the asked subjects, hero first, with absolute public URLs,
  * smallest file first, and the credit and licence; pending assets and other subjects never show.
- * A place's kept Foursquare photos join only when asked for, after its own Commons photo and
- * before generic stock.
+ * A place shows a photo only when it is popular in its destination, and only a photo of the place
+ * itself: never generic stock standing in for it, never a Foursquare photo (even when asked for).
  */
 import { replacePoiFoursquarePhotos, withSystem } from '@cp/db';
-import { placeMediaListResponseSchema, type MediaListResponse } from '@cp/domain';
+import { type MediaListResponse } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerEditorialMediaRoute } from '../../src/editorial-media/route';
@@ -21,6 +21,7 @@ async function asset(
   status: 'ready' | 'pending',
   kind: 'photo' | 'video' = 'photo',
   source: 'wikimedia' | 'pexels' = 'wikimedia',
+  title: string | null = null,
 ): Promise<string> {
   return withSystem(harness.pool, async (tx) => {
     const id = crypto.randomUUID();
@@ -37,11 +38,11 @@ async function asset(
     await tx.query(
       `INSERT INTO media_assets (id, kind, source, source_id, source_url, download_url, subject_keys,
          rank, author, licence, licence_url, attribution_required, credit, blurhash, variants,
-         poster_key, duration_ms, status)
+         poster_key, duration_ms, status, title)
        VALUES ($1, $2, $11, $3, 'https://commons.wikimedia.org/wiki/File:X.jpg',
          'https://upload.wikimedia.org/x.jpg', $4, $5, 'Someone', 'cc-by-sa-4.0',
          'https://creativecommons.org/licenses/by-sa/4.0', true,
-         'Someone · CC BY-SA 4.0 · Wikimedia Commons', $6, $7, $8, $9, $10)`,
+         'Someone · CC BY-SA 4.0 · Wikimedia Commons', $6, $7, $8, $9, $10, $12)`,
       [
         id,
         kind,
@@ -54,6 +55,7 @@ async function asset(
         kind === 'video' ? 8000 : null,
         status,
         source,
+        title,
       ],
     );
     return id;
@@ -108,9 +110,9 @@ describe('GET /v1/media', () => {
   });
 
   it('answers several subjects at once and never another subject', async () => {
-    const { body } = await media('subjects=poi:dragon-bridge,destination:kyoto');
-    expect(body.items).toHaveLength(2);
-    expect(body.items.find((i) => i.id === hero)?.subjects).toEqual(['poi:dragon-bridge']);
+    const { body } = await media('subjects=destination:da-nang,destination:kyoto');
+    expect(body.items).toHaveLength(4);
+    expect(body.items.find((i) => i.id === hero)?.subjects).toEqual(['destination:da-nang']);
   });
 
   it('answers an unknown subject with an empty list', async () => {
@@ -122,77 +124,72 @@ describe('GET /v1/media', () => {
     expect((await media('')).status).toBe(422);
   });
 
-  describe('a place with kept Foursquare photos', () => {
-    let withCommons: string;
-    let withoutCommons: string;
+  describe('places', () => {
+    let popular: string;
+    let plain: string;
     let commons: string;
-    let stock: string;
-    let otherStock: string;
+    let matchedStock: string;
 
     beforeAll(async () => {
-      [withCommons, withoutCommons] = await withSystem(harness.pool, async (tx) => {
+      [popular, plain] = await withSystem(harness.pool, async (tx) => {
         const { rows: destinations } = await tx.query<{ id: string }>(
           "INSERT INTO destinations (slug, name, coverage) VALUES ('hoi-an', 'Hội An', 'live') RETURNING id",
         );
         const ids: string[] = [];
-        for (const name of ['Japanese Bridge', 'Lantern stall']) {
+        for (const [name, editorial] of [
+          ['Japanese Bridge', { must_see: true }],
+          ['Lantern stall', {}],
+        ] as const) {
           const { rows } = await tx.query<{ id: string }>(
-            `INSERT INTO pois (destination_id, name, category, lat, lng)
-             VALUES ($1, $2, 'other', 15.877, 108.326) RETURNING id`,
-            [destinations[0]!.id, name],
+            `INSERT INTO pois (destination_id, name, category, lat, lng, editorial)
+             VALUES ($1, $2, 'other', 15.877, 108.326, $3) RETURNING id`,
+            [destinations[0]!.id, name, JSON.stringify(editorial)],
           );
           ids.push(rows[0]!.id);
-          await replacePoiFoursquarePhotos(
-            tx,
-            rows[0]!.id,
-            ['first', 'second'].map((photoId) => ({
-              photoId: `${name}-${photoId}`,
+          await replacePoiFoursquarePhotos(tx, rows[0]!.id, [
+            {
+              photoId: `${name}-first`,
               prefix: 'https://fastly.4sqi.net/img/general/',
-              suffix: `/${photoId}.jpg`,
+              suffix: '/first.jpg',
               width: 1440,
               height: 1920,
               createdAt: null,
-            })),
-          );
+            },
+          ]);
         }
         return ids as [string, string];
       });
-      stock = await asset('10', [`poi:${withCommons}`], 0, 'ready', 'photo', 'pexels');
-      commons = await asset('11', [`poi:${withCommons}`], 1, 'ready');
-      otherStock = await asset('12', [`poi:${withoutCommons}`], 0, 'ready', 'photo', 'pexels');
+      await asset(
+        '10',
+        [`poi:${popular}`],
+        0,
+        'ready',
+        'photo',
+        'pexels',
+        'Generic, not this place: lanterns',
+      );
+      commons = await asset('11', [`poi:${popular}`], 1, 'ready');
+      matchedStock = await asset(
+        '13',
+        [`poi:${popular}`],
+        2,
+        'ready',
+        'photo',
+        'pexels',
+        'Japanese Covered Bridge, Hoi An',
+      );
+      await asset('12', [`poi:${plain}`], 0, 'ready');
     });
 
-    it('never shows them to a build that did not ask, and leads with the place itself', async () => {
-      const { body } = await media(`subjects=poi:${withCommons},poi:${withoutCommons}`);
-      const of = (poiId: string) =>
-        body.items.filter((i) => i.subjects.includes(`poi:${poiId}`)).map((i) => i.id);
-      expect(of(withCommons)).toEqual([commons, stock]);
-      expect(of(withoutCommons)).toEqual([otherStock]);
+    it("shows a popular place's own photos and never generic stock or Foursquare", async () => {
+      const { body } = await media(`subjects=poi:${popular}&include=foursquare`);
+      expect(body.items.map((i) => i.id)).toEqual([commons, matchedStock]);
+      expect(body.items.every((i) => (i.source as string) !== 'foursquare')).toBe(true);
     });
 
-    it('adds them when asked, between the Commons photo and generic stock, with the credit', async () => {
-      const subjects = `poi:${withCommons},poi:${withoutCommons}`;
-      const { body } = await media(`subjects=${subjects}&include=foursquare`);
-      const items = placeMediaListResponseSchema.parse(body).items;
-      const of = (poiId: string) =>
-        items.filter((i) => i.subjects.includes(`poi:${poiId}`)).map((i) => i.source);
-      expect(of(withCommons)).toEqual(['wikimedia', 'foursquare', 'foursquare', 'pexels']);
-      expect(of(withoutCommons)).toEqual(['foursquare', 'foursquare', 'pexels']);
-
-      const first = items.find((i) => i.subjects.includes(`poi:${withoutCommons}`))!;
-      expect(first).toMatchObject({
-        kind: 'photo',
-        rank: 0,
-        credit: 'Powered by Foursquare',
-        attribution_required: true,
-        source_url: 'https://foursquare.com',
-        videos: [],
-      });
-      expect(first.images).toEqual([
-        { url: 'https://fastly.4sqi.net/img/general/320x427/first.jpg', w: 320, h: 427 },
-        { url: 'https://fastly.4sqi.net/img/general/640x853/first.jpg', w: 640, h: 853 },
-        { url: 'https://fastly.4sqi.net/img/general/810x1080/first.jpg', w: 810, h: 1080 },
-      ]);
+    it('shows nothing for a place outside the popular set, even its own photo', async () => {
+      const { body } = await media(`subjects=poi:${plain},poi:not-a-uuid`);
+      expect(body.items).toEqual([]);
     });
 
     it('leaves a destination read as it was', async () => {

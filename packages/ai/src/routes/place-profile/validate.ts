@@ -6,6 +6,7 @@
  * fails is dropped and recorded with its reason.
  */
 import {
+  isSocialUrl,
   PLACE_BEST_TIMES,
   PLACE_FACT_KINDS,
   PLACE_MEAL_ROLES,
@@ -99,6 +100,8 @@ export function profileUngroundedNumbers(text: string, source: string): string[]
 /** Why a fact fails cite-or-drop, or null when it holds. */
 export function factProblem(fact: RawProfileFact, pages: readonly ProfilePage[]): string | null {
   if (isBlockedUrl(fact.source_url)) return 'blocked_source';
+  // A fee, hours or a dress rule is never taken from a social post or a forum.
+  if (isSocialUrl(fact.source_url)) return 'social_source';
   const cited = pages.filter((p) => p.url === fact.source_url);
   if (cited.length === 0) return 'unknown_source';
   const quote = squash(fact.quote);

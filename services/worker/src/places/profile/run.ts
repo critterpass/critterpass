@@ -9,6 +9,7 @@
  */
 import {
   buildPlaceProfileRequest,
+  checkEstimates,
   checkPlaceProfileReply,
   checkSecondSource,
   isDeclined,
@@ -17,6 +18,7 @@ import {
   parseStructuredText,
   PLACE_PROFILE_ROUTES,
   textOf,
+  typeEstimates,
   wantsSecondSource,
   type DecisionClient,
   type Gateway,
@@ -32,8 +34,9 @@ import {
 } from '@cp/domain';
 import type pg from 'pg';
 
-import { gatherPages, profilePlace } from './evidence';
-import type { PlaceSearch } from './search';
+import { saveProfileEstimates, wantsEstimates } from './estimates-store';
+import { gatherPages, gatherTipPages, profilePlace } from './evidence';
+import { researchPolicy, type PlaceSearch } from './search';
 import {
   loadProfileTarget,
   markCapped,
@@ -70,6 +73,8 @@ export type PlaceProfileReport =
       readonly facts: number;
       readonly dropped: number;
       readonly secondSource: boolean;
+      /** Weekdays given an estimated busy curve; null when the place gets no estimates. */
+      readonly estimateDays: number | null;
       readonly costMicros: number;
       readonly seconds: number;
     };
@@ -126,8 +131,15 @@ export async function runPlaceProfile(
     },
     usage,
   ).catch(() => null);
+  const estimating = await wantsEstimates(pool, target.id);
+  const tipsP =
+    estimating && (await researchPolicy(pool)) === 'suggestions'
+      ? gatherTipPages(target, deps, signal)
+      : Promise.resolve([]);
 
-  const pages = await gatherPages(target, deps, signal);
+  const facts = await gatherPages(target, deps, signal);
+  const seen = new Set(facts.map((p) => p.url));
+  const pages = [...facts, ...(await tipsP).filter((p) => !seen.has(p.url))];
   const searchSeconds = seconds(started);
   if (pages.length === 0) {
     await markRunEnded(pool, target.id, {
@@ -141,7 +153,7 @@ export async function runPlaceProfile(
   const write = await deps.gateway.callModel(
     PLACE_PROFILE_ROUTES[deps.tier],
     {
-      ...buildPlaceProfileRequest(place, pages, locales),
+      ...buildPlaceProfileRequest(place, pages, locales, estimating),
       ...(signal === undefined ? {} : { signal }),
     },
     usage,
@@ -184,6 +196,27 @@ export async function runPlaceProfile(
     timings: { search_s: searchSeconds, text_s: seconds(started) },
   });
 
+  let estimateDays: number | null = null;
+  let estimateCost = 0;
+  const checkedEstimates = estimating
+    ? checkEstimates((raw as { estimates?: unknown }).estimates, pages, locales)
+    : null;
+  if (checkedEstimates !== null) {
+    const typed = await typeEstimates(deps.decisions, target, checkedEstimates, usage).catch(
+      () => null,
+    );
+    if (typed !== null) {
+      estimateCost = typed.costMicros;
+      estimateDays = await saveProfileEstimates(
+        pool,
+        target.id,
+        typed.estimates,
+        typed.costMicros,
+        now(),
+      );
+    }
+  }
+
   let second: SecondSourceResult | null = null;
   let final = checked;
   const asksSecond =
@@ -215,7 +248,8 @@ export async function runPlaceProfile(
     facts: final.facts.length,
     dropped: final.dropped.length,
     secondSource: asksSecond,
-    costMicros: write.costMicros + labelCost + (second?.costMicros ?? 0),
+    estimateDays,
+    costMicros: write.costMicros + labelCost + estimateCost + (second?.costMicros ?? 0),
     seconds: seconds(started),
   };
 }

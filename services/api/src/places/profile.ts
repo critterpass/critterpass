@@ -9,7 +9,9 @@
  */
 import { sendInTx } from '@cp/db';
 import {
+  estimatesWire,
   PLACES_QUEUES,
+  placeEstimatesSchema,
   placeProfileTextSchema,
   placesProfileKey,
   placesProfileTranslateKey,
@@ -17,6 +19,7 @@ import {
   PLACE_FACT_KINDS,
   PLACE_MEAL_ROLES,
   PROFILE_SKIPPED_CATEGORIES,
+  type PlaceEstimatesWire,
   type PlaceProfileWire,
   type PoiCategory,
 } from '@cp/domain';
@@ -55,6 +58,7 @@ interface ProfileRow {
   readonly dish: string | null;
   readonly facts: unknown;
   readonly sources: unknown;
+  readonly estimates: unknown;
   readonly generated_at: Date | null;
   /** The worker skipped the run at an earlier day's spent cap: queue it again. */
   readonly cap_reset: boolean;
@@ -126,6 +130,15 @@ async function allowed(
   }
 }
 
+/** A popular place's labelled estimates in the reader's language; null when it has none. */
+function estimatesOf(stored: unknown, locale: string): PlaceEstimatesWire | null {
+  const parsed = placeEstimatesSchema.safeParse(stored);
+  if (!parsed.success) return null;
+  const { tips, ...fields } = parsed.data;
+  if (tips.length === 0 && Object.values(fields).every((f) => f === undefined)) return null;
+  return estimatesWire(parsed.data, locale);
+}
+
 function readyWire(row: ProfileRow, locale: string) {
   const own = placeProfileTextSchema.safeParse(row.texts[locale]);
   const english = placeProfileTextSchema.safeParse(row.texts['en']);
@@ -158,6 +171,7 @@ function readyWire(row: ProfileRow, locale: string) {
             ];
       }),
       photos: [],
+      estimates: estimatesOf(row.estimates, locale),
       sources: sources.success ? sources.data : [],
       generatedAt: (row.generated_at ?? new Date()).toISOString(),
     } satisfies PlaceProfileWire,
@@ -173,7 +187,7 @@ export async function readPlaceProfile(
   if (place.reviewed || PROFILE_SKIPPED_CATEGORIES.has(place.category as PoiCategory)) return null;
   const { rows } = await tx.query<ProfileRow>(
     `SELECT status, texts, meal_role, best_times, visit_min, dish, facts, sources,
-            generated_at,
+            estimates, generated_at,
             status = 'failed' AND error = 'daily_cap'
               AND updated_at < date_trunc('day', now() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC'
               AS cap_reset

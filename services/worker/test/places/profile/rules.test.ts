@@ -75,6 +75,27 @@ describe('place search pacing and screening', () => {
     }
     expect(isExcludedUrl('https://agotourist.com/dinh-bao-dai-da-lat-dinh-iii/')).toBe(false);
   });
+
+  it('reads social posts and forums for suggestions only; suppliers stay out of both', () => {
+    for (const url of [
+      'https://www.tiktok.com/@traveller/video/7300000000000000000',
+      'https://www.youtube.com/watch?v=abcdefghijk',
+      'https://www.instagram.com/p/abc/',
+      'https://www.reddit.com/r/VietNam/comments/abc',
+    ]) {
+      expect(isExcludedUrl(url, 'facts'), url).toBe(true);
+      expect(isExcludedUrl(url, 'suggestions'), url).toBe(false);
+    }
+    for (const url of [
+      'https://www.tripadvisor.com/Attraction_Review-g293922',
+      'https://www.agoda.com/x',
+      'https://foursquare.com/v/abc',
+      'https://i.pinimg.com/736x/aa.jpg',
+    ]) {
+      expect(isExcludedUrl(url, 'suggestions'), url).toBe(true);
+    }
+    expect(isExcludedUrl('https://someones-travel-blog.example/da-lat', 'suggestions')).toBe(false);
+  });
 });
 
 describe('page text', () => {

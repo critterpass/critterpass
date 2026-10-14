@@ -87,6 +87,8 @@ export * from './planning/split-decision';
 export * from './places/geocode-local';
 export * from './places/foursquare-photos';
 export * from './places/recommended';
+export * from './places/kept-places';
+export * from './places/popular';
 export * from './money/latest-rates';
 export {
   AccountPurgeError,

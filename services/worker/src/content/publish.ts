@@ -2,9 +2,8 @@
  * `content.publish` (docs/api-contracts-async.md §2.2): publishes an approved content release in
  * one transaction. The artifact's checksum is verified, every catalogue row of the kind is replaced
  * with the release's items, the previously live release of the kind becomes `superseded`, and
- * clients are told to refetch on the `catalog` channel. Help releases also queue `content.embed`,
- * and a places release queues a forced `places.pick` for each destination it wrote to, so one that
- * now has a curated set loses its machine picks and one still short of it is picked again; the
+ * clients are told to refetch on the `catalog` channel. Help releases also queue `content.embed`
+ * (machine picks are retired, docs/product-decisions.md D38, so a places release queues none); the
  * rows of trips and people that name a record it merged follow it to the kept one (`follow-merges.ts`).
  * A release the job must refuse (a card without native review, an unverified safety record) is
  * marked blocked with the reason instead of being retried. A rollback re-approves an older release and runs this same job, so restoring a
@@ -17,7 +16,6 @@ import type pg from 'pg';
 import { z } from 'zod';
 
 import { defineJob, enqueueInTx, type AnyJobDefinition } from '../boss/define-job';
-import { queuePlacePick } from '../jobs/places/pick';
 import { contentEmbedJob } from './embed';
 import { followMergedPlaces, type FollowResult } from './follow-merges';
 import { WRITERS, PublishRefusedError } from './writers';
@@ -139,7 +137,7 @@ export function contentPublishJob(): AnyJobDefinition {
     queue: 'content.publish',
     schema: contentPublishPayloadSchema,
     singletonKey: (data) => data.release_id,
-    async handler(data, { pool, logger, boss }) {
+    async handler(data, { pool, logger }) {
       try {
         const result = await withSystem(pool, async (tx) => {
           const published = await publishRelease(tx, data.release_id);
@@ -149,12 +147,6 @@ export function contentPublishJob(): AnyJobDefinition {
           return published;
         });
         logger.info({ ...result }, 'content release published');
-        // After the commit, so a missing queue can never undo a publish.
-        for (const slug of result.destinations ?? []) {
-          await queuePlacePick(boss, slug, true).catch((error: unknown) =>
-            logger.warn({ err: error, slug }, 'places pick not queued after the places release'),
-          );
-        }
         return { ...result };
       } catch (error) {
         if (!(error instanceof PublishRefusedError || error instanceof ReleaseLoadError))
