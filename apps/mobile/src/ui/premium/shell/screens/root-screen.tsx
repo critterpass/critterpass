@@ -64,9 +64,10 @@ export interface RootScreenProps {
   /** At most two; `primary` marks the ink `+`, which goes last. */
   readonly actions?: readonly ShellAction[];
   /**
-   * `native`: the iOS large title that collapses into the glass bar, needs the screen to sit in a
-   * native stack (a tab's own stack). `drawn`: the shell draws the title and the bar it collapses
-   * into (Android, and iOS tabs without a stack). @default native on iOS, drawn on Android
+   * `drawn`: the shell draws the title on the row of its actions, as the design sets every root
+   * (1.04, 7.01), and the bar it collapses into. `native`: the iOS large title, on its own row
+   * under the system toolbar, for a screen in a native stack that wants the system's.
+   * @default drawn
    */
   readonly header?: 'native' | 'drawn';
   /** Renders the screen's scroll view or list with the bindings. */
@@ -99,7 +100,7 @@ export function RootScreen({ title, actions = [], header, children, testID }: Ro
   // system back.
   useNoBackByDesign();
   const ordered = capActions(actions, 2);
-  const mode = header ?? (Platform.OS === 'ios' ? 'native' : 'drawn');
+  const mode = header ?? 'drawn';
   if (mode === 'native') {
     return (
       <NativeRootScreen title={title} actions={ordered} testID={testID}>
