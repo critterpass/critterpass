@@ -4,7 +4,7 @@
  * Placeholder words are regular, typed ones medium.
  */
 import { useLingui } from '@lingui/react/macro';
-import { forwardRef, useState, type ComponentRef } from 'react';
+import { forwardRef, useCallback, useRef, useState, type ComponentRef } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import type { TextInputProps } from 'react-native';
 
@@ -18,7 +18,8 @@ export interface SearchFieldProps extends Omit<
   TextInputProps,
   'style' | 'placeholderTextColor' | 'selectionColor' | 'value' | 'onChangeText'
 > {
-  readonly value: string;
+  /** Leave it out for a field the native input owns (typing never waits on a busy JS thread). */
+  readonly value?: string;
   readonly onChangeText: (next: string) => void;
   /** What the search finds, read by assistive tech and shown as the placeholder by default. */
   readonly accessibilityLabel: string;
@@ -50,7 +51,26 @@ export const SearchField = forwardRef<ComponentRef<typeof TextInput>, SearchFiel
     const th = usePremiumTheme();
     const { t } = useLingui();
     const [focused, setFocused] = useState(false);
-    const filled = value !== '';
+    // An uncontrolled field tracks whether it holds words for its clear disc and weight.
+    const [typed, setTyped] = useState(false);
+    const filled = value === undefined ? typed : value !== '';
+    const own = useRef<ComponentRef<typeof TextInput> | null>(null);
+    const setRefs = useCallback(
+      (node: ComponentRef<typeof TextInput> | null) => {
+        own.current = node;
+        if (typeof ref === 'function') ref(node);
+        else if (ref !== null) ref.current = node;
+      },
+      [ref],
+    );
+    const change = (next: string) => {
+      setTyped(next !== '');
+      onChangeText(next);
+    };
+    const clear = () => {
+      if (value === undefined) own.current?.clear();
+      change('');
+    };
     const shape = {
       height: HEIGHT,
       borderRadius: HEIGHT / 2,
@@ -64,10 +84,10 @@ export const SearchField = forwardRef<ComponentRef<typeof TextInput>, SearchFiel
       <>
         <Icon name="search" size={17} stroke={2.4} color={th.color.muted} />
         <TextInput
-          ref={ref}
+          ref={setRefs}
           {...input}
-          value={value}
-          onChangeText={onChangeText}
+          {...(value === undefined ? {} : { value })}
+          onChangeText={change}
           placeholder={placeholder ?? accessibilityLabel}
           accessibilityLabel={accessibilityLabel}
           allowFontScaling
@@ -95,7 +115,7 @@ export const SearchField = forwardRef<ComponentRef<typeof TextInput>, SearchFiel
         />
         {filled ? (
           <PressableScale
-            onPress={() => onChangeText('')}
+            onPress={clear}
             accessibilityLabel={
               clearLabel ?? t({ id: 'common.premium.search.clear', message: 'Clear' })
             }

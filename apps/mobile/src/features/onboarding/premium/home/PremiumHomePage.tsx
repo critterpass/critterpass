@@ -6,7 +6,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { Keyboard, TextInput, View } from 'react-native';
+import { Keyboard, View } from 'react-native';
 
 import { homeBaseFor } from '@cp/domain';
 
@@ -15,8 +15,8 @@ import {
   Button,
   CritterSticker,
   GuideNote,
-  Icon,
   RoundStamp,
+  SearchField,
   Text,
   usePremiumTheme,
 } from '@/ui/premium';
@@ -70,39 +70,16 @@ export function PremiumHomePage() {
           })}
         </Text>
       </View>
-      <View
-        style={{
-          height: 50,
-          borderRadius: theme.radius.field,
-          backgroundColor: theme.color.card,
-          boxShadow: theme.shadow.raised,
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: theme.space.gap10,
-          paddingHorizontal: theme.space.fieldPadH,
-        }}
-      >
-        <Icon name="search" size={18} color={theme.color.muted} />
-        {/* Uncontrolled: the native field owns the typed text, so a busy JS thread never reorders
-            letters. */}
-        <TextInput
-          onChangeText={step.setQuery}
-          placeholder={t({ id: 'onboarding.home.search', message: 'City, airport or code' })}
-          placeholderTextColor={theme.color.placeholder}
-          selectionColor={theme.color.caret}
-          accessibilityLabel={t({ id: 'onboarding.home.search', message: 'City, airport or code' })}
-          autoCorrect={false}
-          autoCapitalize="words"
-          returnKeyType="search"
-          style={{
-            flex: 1,
-            fontSize: theme.type.field.size,
-            fontWeight: theme.type.field.weight,
-            color: theme.color.ink,
-          }}
-          testID="home-search"
-        />
-      </View>
+      {/* Uncontrolled: the native field owns the typed text, so a busy JS thread never reorders
+          letters. */}
+      <SearchField
+        surface="white"
+        onChangeText={step.setQuery}
+        accessibilityLabel={t({ id: 'onboarding.home.search', message: 'City, airport or code' })}
+        autoCorrect={false}
+        autoCapitalize="words"
+        testID="home-search"
+      />
       {step.noResults ? (
         <View style={{ gap: theme.space.gap4 }} testID="home-no-results">
           <Text variant="title">
