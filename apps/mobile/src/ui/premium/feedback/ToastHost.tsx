@@ -9,11 +9,11 @@ import {
 } from 'react';
 import type { ReactNode } from 'react';
 import { AccessibilityInfo, Pressable, View } from 'react-native';
-import Animated, { FadeIn, FadeInDown, FadeOut, FadeOutDown } from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { usePremiumReducedMotion } from '../motion/reduced-motion';
-import { layoutTransition, REDUCED_FADE_MS } from '../motion/springs';
+import { layoutTransition, reducedFadeIn, reducedFadeOut } from '../motion/springs';
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 import { Toast, toastText } from './Toast';
 import type { ToastSpec } from './Toast';
@@ -108,10 +108,10 @@ export function ToastHost({ children, bottomOffset }: ToastHostProps) {
   const entry = useMemo(() => ({ api: { show, dismiss }, parent }), [show, dismiss, parent]);
   const smooth = theme.spring.smooth;
   const entering = reduced
-    ? FadeIn.duration(REDUCED_FADE_MS)
+    ? reducedFadeIn()
     : FadeInDown.springify().stiffness(smooth.stiffness).damping(smooth.damping).mass(smooth.mass);
   const exiting = reduced
-    ? FadeOut.duration(REDUCED_FADE_MS)
+    ? reducedFadeOut()
     : FadeOutDown.springify().stiffness(smooth.stiffness).damping(smooth.damping).mass(smooth.mass);
 
   return (

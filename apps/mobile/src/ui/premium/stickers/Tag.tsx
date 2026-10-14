@@ -9,11 +9,13 @@ export interface TagProps {
   readonly color?: string | undefined;
   /** Degrees; the design tilts tags between −5 and +4. @default −5 */
   readonly rotate?: number | undefined;
+  /** Lines the label may take where the tag sits in a narrow column. @default 1 */
+  readonly lines?: 1 | 2 | undefined;
   readonly testID?: string | undefined;
 }
 
 /** A sticker tag: 14/800 on an accent, 2.5 white die-cut edge, sticker shadow, tilted. */
-export function Tag({ label, color, rotate, testID }: TagProps) {
+export function Tag({ label, color, rotate, lines = 1, testID }: TagProps) {
   const t = usePremiumTheme();
   return (
     <View
@@ -30,7 +32,7 @@ export function Tag({ label, color, rotate, testID }: TagProps) {
         transform: [{ rotate: `${String(rotate ?? t.tilt.tag)}deg` }],
       }}
     >
-      <Text variant="placeTag" tone="onAccent" numberOfLines={1}>
+      <Text variant="placeTag" tone="onAccent" numberOfLines={lines} singleLine={lines === 1}>
         {label}
       </Text>
     </View>

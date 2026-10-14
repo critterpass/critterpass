@@ -9,7 +9,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { router, usePathname } from 'expo-router';
 import { View } from 'react-native';
-import Animated, { FadeIn, SlideInDown } from 'react-native-reanimated';
+import Animated, { SlideInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { canGoBack, goBackOr } from '@/lib/navigation/back';
@@ -22,6 +22,7 @@ import {
   Text,
   TextButton,
   makePremiumStyles,
+  reducedFadeIn,
   usePremiumReducedMotion,
   usePremiumTheme,
   type PremiumIconName,
@@ -131,9 +132,7 @@ export function ErrorSheet({ retry }: ErrorSheetProps) {
       </View>
       <View style={styles.scrim} />
       <Animated.View
-        entering={
-          reduced ? FadeIn.duration(150) : SlideInDown.springify().damping(28).stiffness(195)
-        }
+        entering={reduced ? reducedFadeIn() : SlideInDown.springify().damping(28).stiffness(195)}
         style={[styles.sheet, { paddingBottom: insets.bottom + theme.space.gap16 }]}
       >
         <View style={styles.grabber} />

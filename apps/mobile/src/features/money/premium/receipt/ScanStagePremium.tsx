@@ -8,7 +8,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { useState, type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
+import Animated, { ZoomIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -16,8 +16,8 @@ import {
   GlassPill,
   PREMIUM_THEMES,
   PremiumThemeProvider,
-  REDUCED_FADE_MS,
   Tag,
+  reducedFadeIn,
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
@@ -49,7 +49,7 @@ function IssueSticker({ label }: { readonly label: string }) {
     <Animated.View
       entering={
         reduced
-          ? FadeIn.duration(REDUCED_FADE_MS)
+          ? reducedFadeIn()
           : ZoomIn.springify().stiffness(stiffness).damping(damping).mass(mass)
       }
       style={styles.issue}

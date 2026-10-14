@@ -11,8 +11,6 @@ import * as Haptics from 'expo-haptics';
 import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
 import Animated, {
-  FadeIn,
-  FadeOut,
   withSpring,
   withTiming,
   type EntryExitAnimationFunction,
@@ -23,10 +21,11 @@ import {
   Icon,
   PressableScale,
   REDUCED_FADE,
-  REDUCED_FADE_MS,
   SPRINGS,
   Text,
   makePremiumStyles,
+  reducedFadeIn,
+  reducedFadeOut,
   usePremiumReducedMotion,
   usePremiumTheme,
   type PremiumIconName,
@@ -161,13 +160,13 @@ export function MessageMenu(props: MessageMenuProps) {
   const right = props.mine ? 16 : undefined;
   const mine = new Set(props.reactions.filter((group) => group.mine).map((group) => group.emoji));
   const choices: readonly string[] = props.sticker || more ? STICKER_BAR : DOODLE_REACTIONS;
-  const enter = reduced ? FadeIn.duration(REDUCED_FADE_MS) : popIn;
+  const enter = reduced ? reducedFadeIn() : popIn;
 
   return (
     <Animated.View
       style={StyleSheet.absoluteFill}
-      entering={FadeIn.duration(REDUCED_FADE_MS)}
-      exiting={FadeOut.duration(REDUCED_FADE_MS)}
+      entering={reducedFadeIn()}
+      exiting={reducedFadeOut()}
       testID="chat-message-menu"
     >
       <Pressable

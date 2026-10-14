@@ -5,15 +5,15 @@
  */
 import type { ReactNode } from 'react';
 import { Modal, Pressable, StyleSheet, View } from 'react-native';
-import Animated, { FadeOut } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import {
   GlassSurface,
   Icon,
   makePremiumStyles,
   PressableScale,
-  REDUCED_FADE_MS,
   Text,
+  reducedFadeOut,
   usePremiumReducedMotion,
   usePremiumTheme,
   type PremiumIconName,
@@ -85,7 +85,7 @@ export function GlassMenu({
       />
       <Animated.View
         entering={enter}
-        exiting={FadeOut.duration(REDUCED_FADE_MS)}
+        exiting={reducedFadeOut()}
         style={[{ position: 'absolute', gap: t.space.gap12 }, position]}
         testID={testID}
       >

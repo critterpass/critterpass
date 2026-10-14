@@ -11,7 +11,7 @@
 import { useIsFocused } from 'expo-router';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
-import Animated, { FadeIn } from 'react-native-reanimated';
+import Animated, { FadeIn, ReduceMotion } from 'react-native-reanimated';
 
 import { usePresented } from '@/lib/navigation/use-presented';
 import { asksByItself, cameraAccessStep } from '@/lib/permissions/camera-access';
@@ -69,7 +69,9 @@ export function MenuCamera({ camera, onCapture, onFailed, renderAsk }: MenuCamer
   return (
     <Animated.View
       style={StyleSheet.absoluteFill}
-      {...(renderAsk === undefined ? {} : { entering: FadeIn.duration(PREVIEW_FADE_MS) })}
+      {...(renderAsk === undefined
+        ? {}
+        : { entering: FadeIn.duration(PREVIEW_FADE_MS).reduceMotion(ReduceMotion.Never) })}
     >
       <camera.Camera
         style={StyleSheet.absoluteFill}

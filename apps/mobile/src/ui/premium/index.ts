@@ -39,6 +39,8 @@ export {
   layoutTransition,
   REDUCED_FADE,
   REDUCED_FADE_MS,
+  reducedFadeIn,
+  reducedFadeOut,
   SPRINGS,
 } from './motion/springs';
 export { Text } from './text/Text';

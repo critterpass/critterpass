@@ -70,7 +70,7 @@ export function PremiumPicksList({ picks, when, tag: tagOf, onOpen }: PicksListP
               </View>
               {tag === '' ? null : (
                 <View style={styles.tag}>
-                  <Tag label={tag} />
+                  <Tag label={tag} lines={2} />
                 </View>
               )}
             </PressableScale>
