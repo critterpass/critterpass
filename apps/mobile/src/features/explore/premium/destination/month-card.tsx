@@ -174,6 +174,11 @@ export function MonthCard({
  * picks but no crowd curve): the same card with twelve flat bars and the guide's line, so the
  * page keeps its shape instead of an empty band over the footer.
  */
+/** A gentle seasonal curve for the pending bars: a shape, never a forecast. */
+const PENDING_SHAPE: readonly number[] = [
+  0.35, 0.4, 0.55, 0.7, 0.6, 0.45, 0.5, 0.65, 0.8, 0.7, 0.5, 0.4,
+];
+
 export function MonthCardPending({ guideName }: { readonly guideName: string }) {
   const theme = usePremiumTheme();
   const { t, i18n } = useLingui();
@@ -196,16 +201,15 @@ export function MonthCardPending({ guideName }: { readonly guideName: string }) 
           marginTop: theme.space.gap10,
         }}
       >
-        {months.map((month) => (
-          <View
-            key={month}
-            style={{
-              flex: 1,
-              height: 6,
-              borderRadius: 3,
-              backgroundColor: theme.color.progressTodo,
-            }}
-          />
+        {/* The chart's silhouette, shimmering, so the card reads as on its way, not empty. */}
+        {months.map((month, index) => (
+          <View key={month} style={{ flex: 1 }}>
+            <Skeleton
+              height={Math.round((PENDING_SHAPE[index] ?? 0.5) * BAR_HEIGHT)}
+              radius={3}
+              tone="soft"
+            />
+          </View>
         ))}
       </View>
       <View style={{ flexDirection: 'row', gap: 3, marginTop: theme.space.gap4 }}>
