@@ -115,7 +115,7 @@ appId: app.critterpass.dev
             CODE: '4.29'
             NAME: kit-details
             LOOK: light
-# The pitch sheet's header, then a city's page and its crew plans from its search.
+# Places as you type (4.02), then a city's page and its crew plans from its search.
 - runFlow:
     file: ../subflows/start.yaml
     env:
@@ -133,14 +133,22 @@ appId: app.critterpass.dev
       visible:
         id: 'place-search-field'
     commands:
+      # Places with a few letters typed over the keyboard, its rows and the guide's note (4.02).
+      - tapOn:
+          id: 'place-search-field'
+      - inputText: 'Mar'
+      - extendedWaitUntil:
+          visible:
+            id: 'place-result-.*'
+          timeout: 15000
+          optional: true
       - runFlow:
           file: ../subflows/shot.yaml
           env:
             CODE: '4.02'
-            NAME: kit-pitch
+            NAME: search-typed
             LOOK: light
-      - tapOn:
-          id: 'place-search-field'
+      - eraseText: 3
       - inputText: 'Hoi An'
       - extendedWaitUntil:
           visible:
