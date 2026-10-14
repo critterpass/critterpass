@@ -8,6 +8,7 @@ import { describe, expect, it } from 'vitest';
 import {
   chooseCuratedMatch,
   SAME_NAME_RADIUS_M,
+  STRONG_NAME_RADIUS_M,
   withoutBranchNote,
   type CuratedLead,
   type MatchCandidate,
@@ -144,5 +145,53 @@ describe('choosing the row a curated place is', () => {
       row: { id: 'spaced' },
     });
     expect(chooseCuratedMatch(seoullo, [{ ...spaced, distanceM: 400 }], plain).kind).toBe('none');
+  });
+});
+
+describe('matching a curated place only under its own name', () => {
+  const bangkok = plainWords('Bangkok', 'Thailand');
+  const newYork = plainWords('New York', 'United States');
+
+  it('needs the full name beyond a short walk, not just the same words', () => {
+    const times: CuratedLead = {
+      name: 'Times Square',
+      localName: null,
+      category: 'other',
+      lat: 40.758,
+      lng: -73.9855,
+    };
+    const lookalike = row('lookalike', 'Time Square Square', 889, { category: 'museum' });
+    expect(chooseCuratedMatch(times, [lookalike], newYork)).toEqual({
+      kind: 'none',
+      closest: lookalike,
+    });
+    const square = row('square', 'Times Square', STRONG_NAME_RADIUS_M + 600, { category: 'other' });
+    expect(chooseCuratedMatch(times, [lookalike, square], newYork)).toMatchObject({
+      kind: 'match',
+      row: { id: 'square' },
+    });
+    expect(
+      chooseCuratedMatch(times, [{ ...lookalike, distanceM: STRONG_NAME_RADIUS_M - 1 }], newYork),
+    ).toMatchObject({ kind: 'match', row: { id: 'lookalike' } });
+  });
+
+  it('never takes a clearly different Latin name, even when the local names agree', () => {
+    const rotFai: CuratedLead = {
+      name: 'Rot Fai Ratchada Train Night Market',
+      localName: 'ตลาดนัดรถไฟรัชดา',
+      category: 'market',
+      lat: 13.77,
+      lng: 100.5662,
+    };
+    const other = row('other', 'Banker-Tattoo Train Night Market Ratchada', 120, {
+      nameLocal: 'ตลาดนัดรถไฟรัชดา',
+      category: 'other',
+    });
+    expect(chooseCuratedMatch(rotFai, [other], bangkok).kind).toBe('none');
+    const local = row('local', 'ตลาดนัดรถไฟรัชดา', 120, { category: 'market' });
+    expect(chooseCuratedMatch(rotFai, [other, local], bangkok)).toMatchObject({
+      kind: 'match',
+      row: { id: 'local' },
+    });
   });
 });

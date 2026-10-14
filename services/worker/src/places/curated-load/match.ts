@@ -2,9 +2,14 @@
  * Which of our open-data rows a curated place is. The researcher's point is approximate, so a row
  * must carry the place's name (English or local, the same words as the pick matcher's rules) and
  * lie near that point: the same name within `SAME_NAME_RADIUS_M`, a name one word apart within
- * `CLOSE_NAME_RADIUS_M`. Among rows that qualify, the closer name wins, then the same kind of
- * place, then the nearer row. Short of that, a row whose name is nearly the same text
- * (`SIMILAR_TEXT`, for scripts written without spaces) close to the point (`SIMILAR_RADIUS_M`). A place no row carries is reported and never created from the
+ * `CLOSE_NAME_RADIUS_M`. A row further than `STRONG_NAME_RADIUS_M` must carry the place's full
+ * name (English or local, accents and case aside): sharing the words is not enough there ("Time
+ * Square Square" 900 m off is not Times Square). Two Latin names that each hold two telling words
+ * the other lacks are different places, whatever their local names say ("Banker-Tattoo Train Night
+ * Market Ratchada" is not "Rot Fai Ratchada Train Night Market"). Among rows that qualify, the
+ * closer name wins, then the same kind of place, then the nearer row. Short of that, a row whose
+ * name is nearly the same text (`SIMILAR_TEXT`, for scripts written without spaces) close to the
+ * point (`SIMILAR_RADIUS_M`). A place no row carries is reported and never created from the
  * researcher's point: open data stays the source of a place's name, point and address.
  */
 import type { PlacePickKind } from '@cp/ai';
@@ -12,7 +17,7 @@ import { QUALITY_SCORE } from '@cp/db';
 import type { PoiCategory } from '@cp/domain';
 import type pg from 'pg';
 
-import { nameTokens } from '@cp/planner';
+import { nameAliases, nameTokens } from '@cp/planner';
 
 import { rankNamedPlace, searchWords, SAME_NAME_SCORE, type PickCandidate } from '../pick/match';
 
@@ -25,6 +30,10 @@ const SIMILAR = 0.3;
 /** Trigram similarity and distance at which a row is the place without sharing its words. */
 export const SIMILAR_TEXT = 0.5;
 export const SIMILAR_RADIUS_M = 250;
+/** Beyond this distance only the place's full name (English or local) is a match. */
+export const STRONG_NAME_RADIUS_M = 250;
+/** Telling words each of two Latin names must lack from the other to be different places. */
+const DIFFERENT_WORDS = 2;
 /** Rows nearer than this to each other count as equally near; the kind of place decides. */
 const NEAR_STEP_M = 250;
 
@@ -145,6 +154,50 @@ export function withoutBranchNote(name: string, leadWords: ReadonlySet<string>):
   return nameTokens(outside).some((word) => leadWords.has(word)) ? name : outside;
 }
 
+const fullName = (name: string | null): string => (name === null ? '' : nameTokens(name).join(' '));
+
+/** Whether one of the row's names is one of the place's names, word for word. */
+export function sameFullName(
+  lead: CuratedLead,
+  row: MatchCandidate,
+  leadWords: ReadonlySet<string>,
+) {
+  const wanted = new Set([fullName(lead.name), fullName(lead.localName)]);
+  wanted.delete('');
+  return [row.name, withoutBranchNote(row.name, leadWords), row.nameLocal].some((name) =>
+    wanted.has(fullName(name)),
+  );
+}
+
+function tellingAliases(name: string, plain: ReadonlySet<string>): Set<string>[] {
+  return nameAliases(name).primary.map(
+    (tokens) => new Set(tokens.filter((token) => !plain.has(token))),
+  );
+}
+
+function lacking(a: ReadonlySet<string>, b: ReadonlySet<string>): number {
+  let count = 0;
+  for (const token of a) if (!b.has(token)) count += 1;
+  return count;
+}
+
+/**
+ * Whether the place's English name and the row's name are clearly different places: both Latin,
+ * and every way of reading them leaves each with `DIFFERENT_WORDS` telling words the other lacks.
+ */
+export function clearlyDifferentNames(
+  lead: CuratedLead,
+  row: MatchCandidate,
+  plain: ReadonlySet<string>,
+): boolean {
+  if (!LATIN.test(lead.name) || !LATIN.test(row.name)) return false;
+  const ours = tellingAliases(lead.name, plain);
+  const theirs = tellingAliases(row.name, plain);
+  return ours.every((a) =>
+    theirs.every((b) => lacking(a, b) >= DIFFERENT_WORDS && lacking(b, a) >= DIFFERENT_WORDS),
+  );
+}
+
 /** The row a curated place is among `candidates` (rows already taken left out), or none. */
 export function chooseCuratedMatch(
   lead: CuratedLead,
@@ -152,9 +205,14 @@ export function chooseCuratedMatch(
   plain: ReadonlySet<string>,
   taken: ReadonlySet<string> = new Set(),
 ): CuratedMatch {
-  const open = candidates.filter((row) => !taken.has(row.id));
-  const byId = new Map(open.map((row) => [row.id, row]));
   const leadWords = new Set(nameTokens(`${lead.name} ${lead.localName ?? ''}`));
+  const free = candidates.filter((row) => !taken.has(row.id));
+  const open = free.filter(
+    (row) =>
+      !clearlyDifferentNames(lead, row, plain) &&
+      (row.distanceM <= STRONG_NAME_RADIUS_M || sameFullName(lead, row, leadWords)),
+  );
+  const byId = new Map(open.map((row) => [row.id, row]));
   const ranked = rankNamedPlace(
     { name: lead.name, localName: lead.localName, kind: pickKindOf(lead.category), area: null },
     open.map((row) => ({ ...row, name: withoutBranchNote(row.name, leadWords) })),
@@ -185,5 +243,5 @@ export function chooseCuratedMatch(
       withoutBranchNote(row.name, leadWords) === row.name,
   );
   if (similar !== undefined) return { kind: 'match', row: similar, score: similar.similarity };
-  return { kind: 'none', closest: open[0] ?? null };
+  return { kind: 'none', closest: free[0] ?? null };
 }
