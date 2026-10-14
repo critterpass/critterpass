@@ -1,7 +1,7 @@
 # Maestro device runs on GitHub-hosted runners: flows, screenshot captures and design | device sheets,
 # sharded across parallel simulators and emulators. See e2e/README.md ("Device runs on GitHub Actions").
 #
-# Every run is isolated: the prepare job exports this commit's JS once per platform (Hermes bytecode,
+# Every run is isolated: the bundles job exports this commit's JS once per platform (Hermes bytecode,
 # with the commit inlined as EXPO_PUBLIC_JS_COMMIT), and each shard swaps it into its own copy of the
 # reused EAS e2e-test build with expo-updates turned off, so no run ever loads JS another run
 # published to the shared e2e-test update channel.
@@ -101,7 +101,7 @@ env:
 
 jobs:
   prepare:
-    name: prepare (builds, bundles, shards)
+    name: prepare (builds, shards)
     # Manual runs, or same-repo pull requests labelled `device-run` (never forks).
     if: >-
       github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' ||
@@ -256,12 +256,27 @@ jobs:
           FLOWS: ${{ steps.settings.outputs.flows }}
           SHARDS: ${{ steps.settings.outputs.shards }}
         run: pnpm exec tsx tools/scripts/ci-device/plan-shards.ts --platform android --shards "$SHARDS" --flows "$FLOWS"
+
+  # The JS export takes minutes: it runs in its own job, while the shards set up and boot their
+  # simulators and emulators (each waits for the artifact: ci-device/wait-bundles.sh).
+  bundles:
+    name: bundles (this commit's JS)
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with: { ref: '${{ env.CHECKOUT_REF }}' }
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
       - name: Export the JS bundles
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          IOS: ${{ steps.settings.outputs.ios }}
-          ANDROID: ${{ steps.settings.outputs.android }}
-          EXPO_PUBLIC_JS_COMMIT: ${{ steps.settings.outputs.js_commit }}
+          IOS: ${{ needs.prepare.outputs.ios }}
+          ANDROID: ${{ needs.prepare.outputs.android }}
+          EXPO_PUBLIC_JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
         working-directory: apps/mobile
         run: |
           export APP_VARIANT=development NODE_ENV=production
@@ -292,6 +307,9 @@ jobs:
     name: ios shard ${{ matrix.shard }}
     needs: prepare
     if: needs.prepare.outputs.ios == 'true'
+    permissions:
+      contents: read
+      actions: read
     # Xcode 26.6 on macOS 26: the image the e2e-test build is made on. Up to five at a time, the
     # plan's five macOS slots: a sweep's iPhone leg runs at once, and CI's macOS jobs wait for it.
     runs-on: macos-26
@@ -311,12 +329,14 @@ jobs:
         with: { node-version: 24 }
       - uses: actions/setup-java@v6
         with: { distribution: temurin, java-version: 17 }
-      - uses: actions/download-artifact@v8
-        with: { name: device-bundles, path: '${{ runner.temp }}/bundles' }
       - name: Install Maestro
         run: |
           curl -fsSL https://get.maestro.mobile.dev | bash
           "$HOME/.maestro/bin/maestro" --version
+      - name: Wait for this run's JS
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: tools/scripts/ci-device/wait-bundles.sh "$RUNNER_TEMP/bundles"
       - name: Run the flows
         id: flows
         env:
@@ -385,6 +405,9 @@ jobs:
     name: android shard ${{ matrix.shard }}
     needs: prepare
     if: needs.prepare.outputs.android == 'true'
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-latest
     timeout-minutes: 120
     strategy:
@@ -397,15 +420,10 @@ jobs:
         with: { node-version: 24 }
       - uses: actions/setup-java@v6
         with: { distribution: temurin, java-version: 17 }
-      - uses: actions/download-artifact@v8
-        with: { name: device-bundles, path: '${{ runner.temp }}/bundles' }
-      - name: Patch the APK with this commit's JS
+      - name: Download the e2e-test APK
         env:
           BUILD_URL: ${{ needs.prepare.outputs.android_url }}
-        run: |
-          curl -fsSL --retry 3 -o "$RUNNER_TEMP/e2e-test.apk" "$BUILD_URL"
-          tools/scripts/ci-device/patch-android-apk.sh "$RUNNER_TEMP/e2e-test.apk" \
-            "$RUNNER_TEMP/bundles/android/index.android.bundle" "$RUNNER_TEMP/app.apk"
+        run: curl -fsSL --retry 3 -o "$RUNNER_TEMP/e2e-test.apk" "$BUILD_URL"
       - name: Install Maestro
         run: |
           curl -fsSL https://get.maestro.mobile.dev | bash
@@ -415,9 +433,12 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
+      # The emulator boots first; its script then waits for this run's JS, patches it into the
+      # APK (ci-device/patch-android-apk.sh) and runs the flows.
       - name: Run the flows
         uses: reactivecircus/android-emulator-runner@v2
         env:
+          GH_TOKEN: ${{ github.token }}
           FLOWS: ${{ matrix.flows }}
           JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
           OTP_TEST_CODE: ${{ secrets.OTP_TEST_CODE }}
@@ -444,7 +465,10 @@ jobs:
           disable-animations: true
           # The emulator connects to an adb server that is already running, instead of racing to start one.
           pre-emulator-launch-script: adb start-server
-          script: tools/scripts/ci-device/android-device.sh "$RUNNER_TEMP/app.apk" "$RUNNER_TEMP/out" "$FLOWS"
+          script: |
+            tools/scripts/ci-device/wait-bundles.sh "$RUNNER_TEMP/bundles"
+            tools/scripts/ci-device/patch-android-apk.sh "$RUNNER_TEMP/e2e-test.apk" "$RUNNER_TEMP/bundles/android/index.android.bundle" "$RUNNER_TEMP/app.apk"
+            tools/scripts/ci-device/android-device.sh "$RUNNER_TEMP/app.apk" "$RUNNER_TEMP/out" "$FLOWS"
       # Launch and first-screen timings from Maestro's own command log, into the shard's artifact
       # (perf/device-timings.json) and the job summary. Recorded only: it never fails a shard.
       - name: Record launch timings

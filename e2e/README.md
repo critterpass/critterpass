@@ -55,7 +55,7 @@ as an annotation and in the job summary. In `capture` and `compare` modes the im
 orphan `screenshots` branch under `<pr>/run-<run id>/`, and one comment on the pull request
 embeds them.
 
-Every screenshot a shard takes also goes through four pixel checks
+Every screenshot a shard takes also goes through six pixel checks
 (`tools/scripts/ci-device/screen-checks.ts`), and any finding fails the shard like a `[ui-qa]`
 report, lands in `screen-checks.log` and is listed at the top of the pull request comment:
 
@@ -68,6 +68,9 @@ report, lands in `screen-checks.log` and is listed at the top of the pull reques
 - `SHEET_TOP_GAP`: an open sheet is empty for more than 5% of the screen under its grabber (or its
   top edge, for a sheet drawn without one): the top safe-area inset applied again inside the sheet,
   or a sheet whose body never drew. Its header row belongs right under the grabber.
+- `SHADOW_CUT`: a soft shadow stops in a straight line over the ground it was fading into: the
+  scroll row or box it sits in clips it (a chip row's shadows cut flat under the chips).
+- `CARD_AT_EDGE`: a card's rounded corners sit at the screen's side, with no gutter.
 
 Content under the status bar is judged in the app instead (`TEXT_UNDER_STATUS_BAR`, below): from
 pixels alone a title under the clock can't be told reliably from a full-bleed photo or map, and
@@ -155,9 +158,10 @@ The local tools publish the current JS to the shared `e2e-test` update channel, 
 once could load each other's JS. The workflow never publishes an update:
 
 1. The prepare job finds the newest e2e-test build for the native fingerprint (or takes
-   `build_url`), exports this commit's JS once per platform with `expo export:embed --bytecode`
-   (Hermes, the development variant, the commit inlined as `EXPO_PUBLIC_JS_COMMIT`) and plans
-   the shards.
+   `build_url`) and plans the shards; the bundles job then exports this commit's JS once per
+   platform with `expo export:embed --bytecode` (Hermes, the development variant, the commit
+   inlined as `EXPO_PUBLIC_JS_COMMIT`) while the shards boot their simulators and emulators, which
+   wait for it (`tools/scripts/ci-device/wait-bundles.sh`).
 2. Each iOS shard copies the simulator `.app`, replaces `main.jsbundle` and its assets, sets
    `EXUpdatesEnabled` to false and `EXUpdatesCheckOnLaunch` to `NEVER` in `Expo.plist`, re-signs
    it ad hoc and installs it on its own fresh simulator.
@@ -168,15 +172,27 @@ once could load each other's JS. The workflow never publishes an update:
    since the build are missing on Android (they live in the APK's compiled resources); iOS gets
    them with the bundle.
 
-The prepare job fails when the exported bundle does not carry the commit, and every shard
-first runs `tools/scripts/ci-device/js-commit.yaml`, which reads the Developer tools build marker
-(`update:embedded js:<commit>`) to prove the app runs this run's JS.
+The bundles job fails when the exported bundle does not carry the commit, and every shard fails
+unless the app ran this run's JS in every flow: dev and e2e builds log `[qa-build] js:<commit>`
+when they start, into the report log the `[ui-qa]` scan reads after each flow
+(`tools/scripts/ci-device/js-commit-proof.ts`), so no flow opens Developer tools for it.
+
+### The settled marker
+
+Dev and e2e builds draw a 2pt invisible box at the screen's bottom-left corner
+(`apps/mobile/src/lib/qa/settled-marker.tsx`): its id is `qa-settled` once the layout scan has
+measured the screens shown, `qa-busy` from the next layout or navigation until then, and its label
+is `js:<commit> path:<route>`. `_shared/settle.yaml` waits on it before every screenshot and after
+taps, instead of `waitForAnimationToEnd` (which compares screenshots until two agree, seconds a
+frame on a runner without a GPU), and `_shared/where.yaml` reads the route into `${output.where}`
+so a flow can branch with a script condition: a `when: visible` on an element that is not there
+waits out Maestro's seven-second lookup.
 
 ### Shards planned by time
 
 `tools/scripts/ci-device/plan-shards.ts` balances a run's shards by total flow time, not by count:
 the longest flow first, each to the shard with the least time so far. The times are the median
-minutes of each flow's passing Android runs in the release gate's reports, kept in
+minutes of each flow's passing Android runs in the release gate's reports and of the sweep's flows, kept in
 `tools/scripts/ci-device/flow-durations.ts`; a flow with no row counts as five minutes. The plan
 step prints each shard's flows and their minutes.
 
@@ -281,9 +297,12 @@ pairs it with `docs/design-renders/premium/<code>.png` and titles it from that f
 
 The sweep runs:
 
-- on demand: `gh workflow run device.yml -f preset=sweep -f platform=android -f shards=7 [-f pr=<n>]`;
+- on demand: `gh workflow run device.yml -f preset=sweep -f platform=android [-f pr=<n>]`, on
+  sixteen shards balanced by flow time (the longest flows are split into light and dark halves,
+  `*-dark.yaml`);
 - on an iPhone: `gh workflow run device.yml -f preset=sweep -f platform=ios [-f pr=<n>]` runs the
-  short iOS set in `e2e/screens/ios-sweep.txt` on two shards (the five macOS runners are shared):
+  short iOS set in `e2e/screens/ios-sweep.txt` on five shards (all five macOS runners, so CI's
+  macOS jobs wait for it):
   native sheets and their grabber, keyboards, floating headers under the status bar and footers
   pinned over content (`e2e/screens/ios/`), and `long-data`. The founder's iPhone found what the
   Android sweep passed (a sheet's doubled top inset, titles under the clock), so this leg runs
@@ -292,6 +311,14 @@ The sweep runs:
   (`vi*.yaml` left out) on one iOS shard, posting the sheets, the check findings and the coverage
   report to the open "Nightly UI sweep" issue.
 
+Two sweep flows are not journeys. `capture.yaml` is the fast capture: each screen the seed sets is
+opened by its link (`subflows/capture.yaml`: `openLink critterpass-dev://<route>`, wait for
+`qa-settled` on that route, shoot), seconds a screen; add a screen there when its state needs no
+taps. `menus.yaml` long-presses the crew chat's message and a plan stop and taps every row of each
+menu, and fails when a row shows nothing (no strip, toast, sheet, question or screen).
+
+Every sweep comment lists what the run's screenshots captured against the premium designs, per
+platform ("This run captured"), above the sweep's own coverage report.
 `pnpm tsx tools/scripts/ci-device/sweep-coverage.ts` prints the coverage report: the premium
 designs (`screens.json`) the sweep never shoots, and the routes under `apps/mobile/src/app` with no
 sweep shot. Every route is listed in its `ROUTE_SHOTS` table with the design codes that show it, or
@@ -455,7 +482,7 @@ on both platforms with the new builds:
 # Both find the e2e-test build that matches the native fingerprint (see Builds above):
 gh workflow run device.yml -f preset=happy -f platform=android
 gh workflow run device.yml -f preset=happy -f platform=ios -f shards=3
-# Then the iPhone leg of the UI sweep (two shards), once the happy runs have left the macOS runners:
+# Then the iPhone leg of the UI sweep (five shards), once the happy runs have left the macOS runners:
 gh workflow run device.yml -f preset=sweep -f platform=ios
 ```
 
@@ -493,6 +520,9 @@ some of the flows.
   list.
 - Once a trip turns on, its welcome page (`critters-hatch-later`) can come up over Home at any
   later step: wait for Home or the page, and pass it.
+- Every `when: visible` on an element that is not there, and every `when: notVisible` on one that
+  is, waits up to seven seconds: branch on the platform, a script, or the route from
+  `_shared/where.yaml` where you can.
 
 ## UI review gate
 

@@ -30,7 +30,9 @@ boot_simulator() {
   approvals="$HOME/Library/Developer/CoreSimulator/Devices/$udid/data/Library/Preferences/com.apple.launchservices.schemeapproval.plist"
   mkdir -p "$(dirname "$approvals")"
   /usr/libexec/PlistBuddy -c "Add :com.apple.CoreSimulator.CoreSimulatorBridge-->critterpass-dev string app.critterpass.dev" "$approvals" >/dev/null
-  xcrun simctl boot "$udid"
+  # `simctl boot` returns only once the device is up, minutes on a new one: it boots in the
+  # background, and `bootstatus -b` (which also boots it, should this fail) waits for it later.
+  (xcrun simctl boot "$udid" >/dev/null 2>&1 &)
   echo "$udid" >"$udid_file"
 }
 
