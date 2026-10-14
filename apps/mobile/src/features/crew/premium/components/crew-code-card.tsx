@@ -49,9 +49,16 @@ export function CrewCodeCard({
             .filter(Boolean)
             .join(' · ')}
         </Text>
-        <Text variant="title" style={styles.code} testID="crew-settings-code">
-          {code?.code ?? t({ id: 'crew.settings.noCode', message: 'No live code' })}
-        </Text>
+        {code === null ? (
+          // The sentence reads as a status line, not as a code in the code's tracked title type.
+          <Text variant="rowTitle" testID="crew-settings-code">
+            {t({ id: 'crew.settings.noCode', message: 'No live code' })}
+          </Text>
+        ) : (
+          <Text variant="title" style={styles.code} testID="crew-settings-code">
+            {code.code}
+          </Text>
+        )}
       </View>
       {code === null && canManage ? (
         <PressableScale

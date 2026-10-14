@@ -192,7 +192,7 @@ export function CrewSettingsPremium() {
           onInvite={() => router.push(crewInviteRoute(crewId))}
         />
 
-        <CrewTripsCard trips={detail.trips} now={now} locale={locale} />
+        <CrewTripsCard crewId={crewId} trips={detail.trips} now={now} locale={locale} />
 
         <CrewCodeCard
           code={code}
