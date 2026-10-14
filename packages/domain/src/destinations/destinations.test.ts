@@ -106,7 +106,7 @@ describe('rankAndCap', () => {
 describe('planUpsert', () => {
   const existing: ExistingDestination[] = [
     {
-      id: 'd1',
+      id: 'row-1',
       slug: 'da-nang',
       name: 'Đà Nẵng',
       country: 'Vietnam',
@@ -116,7 +116,7 @@ describe('planUpsert', () => {
       geonamesId: null,
     },
     {
-      id: 'd2',
+      id: 'row-2',
       slug: 'vn-hoi-an',
       name: 'Hội An',
       country: 'Vietnam',
@@ -126,7 +126,7 @@ describe('planUpsert', () => {
       geonamesId: null,
     },
     {
-      id: 'd3',
+      id: 'row-3',
       slug: 'us-springfield',
       name: 'Springfield',
       country: 'United States',
@@ -148,8 +148,8 @@ describe('planUpsert', () => {
       names,
     );
     expect(plan.map((row) => [row.slug, row.existing?.id])).toEqual([
-      ['da-nang', 'd1'],
-      ['vn-hoi-an', 'd2'],
+      ['da-nang', 'row-1'],
+      ['vn-hoi-an', 'row-2'],
     ]);
   });
 
@@ -163,7 +163,7 @@ describe('planUpsert', () => {
       names,
     );
     expect(plan.map((row) => [row.slug, row.existing?.id ?? null])).toEqual([
-      ['us-springfield', 'd3'],
+      ['us-springfield', 'row-3'],
       ['us-springfield-2', null],
     ]);
   });
