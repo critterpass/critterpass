@@ -9,14 +9,11 @@ import { useLingui } from '@lingui/react/macro';
 import { useMemo } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
-import { crewAccent } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
-  Avatar,
   Chip,
   EmptyState,
   PressableScale,
-  ring,
   ROW_ROOM_ABOVE,
   ROW_ROOM_BELOW,
   ScrollRow,
@@ -28,6 +25,7 @@ import { PushScreen } from '@/ui/premium/shell';
 
 import { groupByDay, type ExpenseItem } from '../data/expense-items';
 import { calendarDate, formatAmount } from '../format';
+import { RingedAvatar } from './components/RingedAvatar';
 import { useHistory } from '../history/use-history';
 import { ExpenseRow } from './components/ExpenseRow';
 
@@ -82,23 +80,7 @@ export function HistoryPremium() {
             accessibilityState={{ selected }}
             testID={`money-history-member-${member.userId}`}
           >
-            <View
-              style={[
-                styles.avatarRing,
-                selected
-                  ? {
-                      boxShadow: [ring(2.5, th.color.ground), ring(4.5, th.color.ink)].join(', '),
-                    }
-                  : { opacity: filter.memberId === null ? 1 : 0.45 },
-              ]}
-            >
-              <Avatar
-                name={member.name}
-                color={crewAccent(member.joinIndex)}
-                uid={member.userId}
-                size={36}
-              />
-            </View>
+            <RingedAvatar member={member} ringed={selected} dimmed={filter.memberId !== null} />
           </PressableScale>
         );
       })}
@@ -189,7 +171,6 @@ export function HistoryPremium() {
 const styles = StyleSheet.create({
   // 4 pt above and below the chips; the row's own room for the chosen ring sits inside it.
   filters: { marginTop: 4 - ROW_ROOM_ABOVE, marginBottom: 4 - ROW_ROOM_BELOW },
-  avatarRing: { borderRadius: 18 },
   dayHead: { flexDirection: 'row', justifyContent: 'space-between' },
   card: { overflow: 'hidden' },
   tabular: { fontVariant: ['tabular-nums'] },
