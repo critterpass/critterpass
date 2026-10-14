@@ -455,6 +455,24 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
+      # The system image is fetched here, checked and fetched again when the download came back
+      # broken ("Error on ZipFile unknown archive" leaves no image, and the emulator then never
+      # boots). The emulator step below finds it installed.
+      - name: Install the emulator image
+        run: |
+          sdk="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          [ -x "$sdk" ] || sdk=sdkmanager
+          yes | "$sdk" --licenses > /dev/null || true
+          image="$ANDROID_HOME/system-images/android-35/google_apis/x86_64"
+          for attempt in 1 2 3 4; do
+            "$sdk" --install 'system-images;android-35;google_apis;x86_64' --channel=0 > /dev/null || true
+            if [ -f "$image/system.img" ]; then echo "emulator image ready (attempt $attempt)"; exit 0; fi
+            echo "emulator image missing after attempt $attempt; fetching again"
+            rm -rf "$image"
+            sleep $((attempt * 10))
+          done
+          echo "::error::the emulator image could not be installed"
+          exit 1
       # The emulator boots first; its script then waits for this run's JS, patches it into the
       # APK (ci-device/patch-android-apk.sh) and runs the flows.
       - name: Run the flows

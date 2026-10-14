@@ -33,10 +33,22 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'search-tile-swipe'
+      # The deck being built, shot the moment it shows (it gives way to the deck).
+      - extendedWaitUntil:
+          visible:
+            id: 'swipe-building|swipe-deck|swipe-summary'
+          timeout: 15000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'swipe-building'
+          commands:
+            - takeScreenshot: premium-4.42-building-${LOOK}
       - extendedWaitUntil:
           visible:
             id: 'swipe-deck|swipe-summary'
-          timeout: 15000
+          timeout: 20000
           optional: true
       - runFlow:
           when:

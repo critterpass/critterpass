@@ -3,6 +3,12 @@ appId: app.critterpass.dev
 # The chat offline (5.03, Android: airplane mode cannot cut the iOS simulator's network): the
 # no-signal marker, and a message typed and sent that waits in the queue. Signal comes back at the
 # end and the queued message goes out; the top flow also turns airplane mode off when it ends.
+# The chat must be the screen on top (the microphone sheet before closes back to it).
+- runFlow:
+    when:
+      notVisible:
+        id: 'chat-screen'
+    file: chat-open-crew.yaml
 - setAirplaneMode: enabled
 - extendedWaitUntil:
     visible:
@@ -20,7 +26,8 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'chat-send'
           optional: true
-      - hideKeyboard
+      # No hideKeyboard: on Android it is a system back once sending has closed the keyboard, and
+      # that leaves the chat for Home.
 - runFlow:
     file: shot.yaml
     env:

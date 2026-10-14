@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
 # Home for the Bali demo crew (the `everyday` start, its organiser) in ${LOOK}: the trip as a
-# collage card (3.02), the tab bar shrunk by a scroll (1.04), the crew switcher (3.07), the inbox
+# collage card (3.02; in light also a place voted for on its board), the tab bar shrunk by a scroll (1.04), the crew switcher (3.07), the inbox
 # answered from its cards (3.17), Your trips (3.05) and crew settings (3.12). In light only, also
 # editing the crew (3.13), a member (3.14), removing them up to the alert, which is cancelled
 # (3.15), leaving as the organiser up to "hand it over first", which stays (3.16), a lost link
@@ -18,6 +18,41 @@ appId: app.critterpass.dev
       CODE: '3.02'
       NAME: trip-collage
       LOOK: ${LOOK}
+# In light, a vote on the board's first place: its tile ringed as picked (the account's own vote).
+- runFlow:
+    when:
+      true: ${LOOK == 'light'}
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'board-sticker-0'
+          direction: DOWN
+          timeout: 8000
+          centerElement: true
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'board-sticker-0'
+          commands:
+            - tapOn:
+                id: 'board-sticker-0'
+            - extendedWaitUntil:
+                visible:
+                  id: 'board-sticker-0-ring'
+                timeout: 8000
+                optional: true
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '3.02'
+                  NAME: vote-picked
+                  LOOK: ${LOOK}
+      # Back to the top, so 1.04's scroll starts where a person's would.
+      - swipe:
+          start: 50%, 35%
+          end: 50%, 90%
+      - runFlow: ../../_shared/settle.yaml
 - swipe:
     start: 50%, 70%
     end: 50%, 35%

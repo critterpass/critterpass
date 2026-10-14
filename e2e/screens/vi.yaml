@@ -11,10 +11,11 @@ onFlowComplete:
 # plan map for the Bali demo crew, so wrapped or clipped Vietnamese labels show in the sheets. The
 # area subflows run with LOOK `vi`, which takes only their key screens (the ones they repeat in
 # dark) and names the shots `premium-<code>-<state>-vi`.
+# Home on the `vote` seed (the crew's open vote makes it long enough to scroll), as home.yaml.
 - runFlow:
     file: subflows/start.yaml
     env:
-      SCENARIO: everyday
+      SCENARIO: vote
       LANG: vi
 - runFlow:
     file: subflows/home-crew.yaml

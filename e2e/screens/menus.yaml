@@ -96,6 +96,30 @@ appId: app.critterpass.dev
     visible:
       id: 'plan-map-search'
     timeout: 10000
+    optional: true
+# On Android the guide's close can come back to Home (the crew switcher once even open under the
+# tap) instead of the plan: the rest of the menu is reached again from Home. The flow's log says
+# `where` it landed.
+- runFlow:
+    when:
+      notVisible:
+        id: 'plan-map-search'
+    commands:
+      - runFlow: ../_shared/where.yaml
+      - runFlow:
+          when:
+            visible:
+              id: 'crew-switcher'
+          commands:
+            - tapOn:
+                point: '50%,93%'
+            - runFlow: ../_shared/settle.yaml
+      - runFlow: subflows/plan-home.yaml
+      - runFlow: subflows/plan-open-map.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-map-search'
+    timeout: 15000
 - runFlow:
     when:
       notVisible:
@@ -120,12 +144,47 @@ appId: app.critterpass.dev
       text: '(?i)copy|share'
     timeout: 8000
 - runFlow: ../_shared/back.yaml
-# Copy last (back in the chat): it puts the message on the clipboard, and the row must still say
-# so. Android's own clipboard preview can show "Copied"; iOS shows nothing of its own.
+# Copy last (back in the chat): it puts the message on the clipboard. iOS shows nothing of its own,
+# so the app's "Copied" toast says so; on Android the system's clipboard window comes up over the
+# app and keeps both out of the hierarchy, so the copy is proved by the system's Paste into the composer
+# (then cleared, nothing sent).
 - runFlow: subflows/plan-home.yaml
 - runFlow: subflows/chat-open-crew.yaml
+- longPressOn:
+    text: '.*Uluwatu at sunset.*'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-action-copy'
+    timeout: 8000
+- tapOn:
+    id: 'chat-action-copy'
 - runFlow:
-    file: subflows/menu-chat-action.yaml
-    env:
-      KEY: copy
-      EXPECT: '(?i).*copied.*'
+    when:
+      platform: iOS
+    commands:
+      - extendedWaitUntil:
+          visible:
+            text: '(?i).*copied.*'
+          timeout: 8000
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - extendedWaitUntil:
+          notVisible:
+            id: 'chat-action-copy'
+          timeout: 5000
+          optional: true
+      - tapOn:
+          id: 'chat-input'
+      # The system's own Paste (Maestro's pasteText would type its own copied text instead).
+      - longPressOn:
+          id: 'chat-input'
+      - tapOn:
+          text: '(?i)paste'
+      - extendedWaitUntil:
+          visible:
+            id: 'chat-input'
+            text: '.*Uluwatu at sunset.*'
+          timeout: 8000
+      - eraseText: 60

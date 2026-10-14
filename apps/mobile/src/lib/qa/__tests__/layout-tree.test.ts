@@ -121,6 +121,10 @@ describe('layout tree', () => {
         host('RCTView', { style: { opacity: 0 } }, at(0, 0, 10, 10), [
           words('measuring copy', at(0, 0, 10, 10)),
         ]),
+        // The native bar's title is measured from the bar, not the window.
+        host('RNSScreenStackHeaderSubview', {}, at(124, 14, 153, 16), [
+          words('Marrakech setup', at(124, 14, 153, 16)),
+        ]),
       ]),
     ]);
     const result = collectLayoutTree(root, contexts);
@@ -280,6 +284,40 @@ describe('layout scan', () => {
               '[ui-qa] TEXT_OVERLAP "[tripId]/index: \\"Day # · Old Quarter\\" overlaps \\"Day # · Lakes and markets\\""',
             ),
           ]
+        : [],
+    );
+  });
+
+  it('leaves a sideways row alone while the page it sits in is scrolled under the fixed bar', () => {
+    const root = tree([
+      screen('[tripId]/index', true, [
+        host('RCTView', { testID: 'glass-back', onClick: () => undefined }, at(20, 68, 48, 48)),
+        host('RCTScrollView', {}, at(0, 0, 390, 844), [
+          host('AndroidHorizontalScrollView', {}, at(0, 70, 390, 40), [
+            words('Today', at(26, 80, 60, 18), { testID: 'trip-hub-door-today' }),
+          ]),
+        ]),
+      ]),
+    ]);
+    const page = root.child?.child?.child?.sibling;
+    const pageElement = (
+      page?.stateNode as { canonical: { publicInstance: { scrollTop: number } } }
+    ).canonical.publicInstance;
+    pageElement.scrollTop = 300;
+    const text = page?.child?.child;
+    (globalThis as { event?: unknown }).event = {
+      currentTarget: (text?.stateNode as { canonical: { publicInstance: unknown } }).canonical
+        .publicInstance,
+    };
+    noteTextLayoutEvent();
+    jest.advanceTimersByTime(LAYOUT_SETTLE_MS + 1000);
+    expect(reports).toEqual([]);
+    pageElement.scrollTop = 0;
+    scheduleLayoutScan();
+    jest.advanceTimersByTime(LAYOUT_SETTLE_MS + 1000);
+    expect(reports).toEqual(
+      UI_QA_ENABLED
+        ? [expect.stringContaining('TEXT_OVER_CONTROL "[tripId]/index: trip-hub-door-today')]
         : [],
     );
   });

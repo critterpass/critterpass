@@ -47,6 +47,8 @@ interface NativeElementLike extends QaMeasurable {
   readonly __internalInstanceHandle?: FiberLike;
   readonly scrollTop?: unknown;
   readonly scrollLeft?: unknown;
+  /** The layout width, before any transform. */
+  readonly offsetWidth?: unknown;
 }
 
 interface FabricUiManager {
@@ -128,6 +130,18 @@ function atRest(fiber: FiberLike): boolean {
   return typeof top === 'number' && typeof left === 'number' && top <= 1 && left <= 1;
 }
 
+/**
+ * How much a scaled ancestor shrinks a text in the window: its measured width over its layout
+ * width (`offsetWidth`, which no transform changes). 1 when the layout width can't be read.
+ */
+export function drawnScale(fiber: FiberLike | undefined, rect: QaRect): number {
+  const width =
+    fiber === undefined ? undefined : hostState(fiber).canonical?.publicInstance?.offsetWidth;
+  if (typeof width !== 'number' || width <= 0 || rect.width <= 0) return 1;
+  const scale = rect.width / width;
+  return Math.abs(scale - 1) < 0.02 ? 1 : scale;
+}
+
 function linesOf(fiber: FiberLike): readonly QaLine[] | undefined {
   const canonical = hostState(fiber).canonical;
   return canonical ? linesByText.get(canonical) : undefined;
@@ -138,7 +152,7 @@ export function placeTree(
   tree: LayoutTree,
   rects: readonly (QaRect | null)[],
   layerAtRest: (box: number) => boolean,
-): { texts: PlacedText[]; controls: PlacedControl[] } {
+): { texts: PlacedText[]; controls: PlacedControl[]; cover: PlacedGround[] } {
   const layers = new Map<number, PlacedLayer>();
   const layer = (box: number | null): PlacedLayer | null => {
     if (box === null) return null;
@@ -167,7 +181,7 @@ export function placeTree(
     texts.push({
       label: text.label,
       rect,
-      ink: inkOf(rect, text.lines),
+      ink: inkOf(rect, text.lines, drawnScale(tree.boxes[text.box], rect)),
       lineCount: text.lines?.length,
       presented: text.presented,
       screen: text.screen,
@@ -196,15 +210,26 @@ export function placeTree(
       ownGround: control.ownGround,
     });
   }
-  return { texts, controls };
+  const cover = tree.grounds.flatMap(({ box, edge, share }): PlacedGround[] => {
+    const rect = rects[box];
+    const paint = tree.paints.get(box);
+    if (!rect || paint === undefined) return [];
+    const height = rect.height * share;
+    const y = edge === 'top' ? rect.y : rect.y + rect.height - height;
+    return [{ key: String(box), paint, rect: { ...rect, y, height } }];
+  });
+  return { texts, controls, cover };
 }
 
 function judge(tree: LayoutTree, rects: readonly (QaRect | null)[]): void {
   const window = Dimensions.get('window');
-  const placed = placeTree(tree, rects, (box) => {
+  // A row scrolling sideways inside a page is at rest only while the page is too.
+  const layerAtRest = (box: number | null | undefined): boolean => {
+    if (box === null || box === undefined) return true;
     const fiber = tree.boxes[box];
-    return fiber !== undefined && atRest(fiber);
-  });
+    return fiber !== undefined && atRest(fiber) && layerAtRest(tree.layerParents.get(box));
+  };
+  const placed = placeTree(tree, rects, (box) => layerAtRest(box));
   const topInset = initialWindowMetrics?.insets.top ?? 0;
   const input = { ...placed, window, topInset };
   for (const problem of [...layoutProblems(input), ...alignmentProblems(input)])

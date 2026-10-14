@@ -5,6 +5,9 @@
  *
  *   tsx tools/scripts/ci-device/sweep-coverage.ts            print the coverage report (markdown)
  *   tsx tools/scripts/ci-device/sweep-coverage.ts --out f.md write the report to a file
+ *   tsx tools/scripts/ci-device/sweep-coverage.ts --run <ios> --run <android>
+ *                                       what downloaded runs (folders of `device-<os>-shard-N`)
+ *                                       captured, per platform and together
  *
  * A design code (`3.01`) names a render in `docs/design-renders/premium/` (titled in its
  * `screens.json`); compare mode pairs each screenshot with the render its code names.
@@ -261,12 +264,26 @@ export function formatRunCoverage(
   return [...lines, ''].join('\n');
 }
 
+/** Several downloaded runs as one: each platform's shots from every run, and both together. */
+export function mergedRunShots(dirs: readonly string[]): Map<string, string[]> {
+  const merged = new Map<string, string[]>();
+  for (const dir of dirs)
+    for (const [platform, shots] of runShots(dir))
+      merged.set(platform, [...(merged.get(platform) ?? []), ...shots]);
+  if (merged.size > 1) merged.set('together', [...merged.values()].flat());
+  return merged;
+}
+
 function main(): void {
   const { values } = parseArgs({
     args: process.argv.slice(2).filter((arg) => arg !== '--'),
-    options: { out: { type: 'string' } },
+    options: { out: { type: 'string' }, run: { type: 'string', multiple: true } },
   });
-  const report = formatCoverage(coverage(REPO_ROOT));
+  const runs = values.run ?? [];
+  const report =
+    runs.length > 0
+      ? formatRunCoverage(mergedRunShots(runs), renderCodes(REPO_ROOT))
+      : formatCoverage(coverage(REPO_ROOT));
   if (values.out) writeFileSync(values.out, report);
   else console.log(report);
 }

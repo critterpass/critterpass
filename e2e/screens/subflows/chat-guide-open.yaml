@@ -9,10 +9,12 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'guide-fab'
+# Only while the guide isn't up: its composer is labelled "Ask Tokek" too, and a tap there would
+# raise the keyboard over the starters.
 - runFlow:
     when:
       notVisible:
-        id: 'guide-sheet'
+        id: 'guide-sheet|guide-empty|guide-composer'
     commands:
       - runFlow:
           file: ../../_shared/tap.yaml

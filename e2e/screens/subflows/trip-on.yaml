@@ -197,17 +197,51 @@ appId: app.critterpass.dev
             id: 'live-map-screen|live-map-gate'
           timeout: 20000
           optional: true
+      # A tap while the hub was still settling from its scroll can open nothing: once more.
+      - runFlow:
+          when:
+            notVisible:
+              id: 'live-map-screen|live-map-gate'
+            visible:
+              id: 'trip-hub-door-map'
+          commands:
+            - tapOn:
+                id: 'trip-hub-door-map'
+            - extendedWaitUntil:
+                visible:
+                  id: 'live-map-screen|live-map-gate'
+                timeout: 20000
+                optional: true
       - runFlow: trip-deny.yaml
+      # Sharing off asks first (6.11); sharing turned on (the system asks once, and is allowed)
+      # shows the crew map itself (6.10). It stays on for this test account only.
       - runFlow:
           when:
             visible:
               id: 'live-map-primer'
-          file: shot.yaml
-          env:
-            CODE: '6.11'
-            NAME: sharing-off
-            LOOK: ${LOOK}
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '6.11'
+                  NAME: sharing-off
+                  LOOK: ${LOOK}
+            - tapOn:
+                id: 'live-map-share'
+            - tapOn:
+                text: '(?i)(while using the app|allow while using app|only this time|allow once)'
+                optional: true
+            - extendedWaitUntil:
+                notVisible:
+                  id: 'live-map-primer'
+                timeout: 10000
+                optional: true
       - runFlow:
+          when:
+            visible:
+              id: 'live-map-screen'
+            notVisible:
+              id: 'live-map-primer'
           file: shot.yaml
           env:
             CODE: '6.10'

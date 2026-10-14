@@ -1,0 +1,52 @@
+appId: app.critterpass.dev
+---
+# Back to Home with nothing presented over it, after a capture opened a sheet or modal there.
+# On iOS the app is relaunched: a native sheet keeps the screens under it (and the QA marker) in
+# the hierarchy, so no check can tell it is still up, and a sheet left up takes the next link
+# inside it. On Android every level is closed in turn (close-level.yaml, at most four), as the QA
+# marker reads where it landed; Home's link is the last resort (_shared/to-home).
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - stopApp
+      - launchApp
+      - extendedWaitUntil:
+          visible:
+            id: 'home-screen|critters-hatch-later'
+          timeout: 30000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-hatch-later'
+          commands:
+            - tapOn:
+                id: 'critters-hatch-later'
+      # A cold start takes a while to load the crew: the next link waits for Home's trip card,
+      # or it opens on a loading page and its screen turns up a capture later.
+      - extendedWaitUntil:
+          visible:
+            id: 'home-next-up'
+          timeout: 30000
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'qa-settled'
+            text: '.*path:/'
+          timeout: 15000
+          optional: true
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - runFlow: ../../_shared/where.yaml
+      - evalScript: ${output.closedByButton = false}
+      - runFlow: close-level.yaml
+      - runFlow: close-level.yaml
+      - runFlow: close-level.yaml
+      - runFlow: close-level.yaml
+      - runFlow:
+          when:
+            true: ${output.where !== '/'}
+          file: ../../_shared/to-home.yaml

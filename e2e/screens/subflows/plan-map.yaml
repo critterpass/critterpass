@@ -108,7 +108,27 @@ appId: app.critterpass.dev
                   id: 'trip-day-[0-9]+'
                 timeout: 10000
                 optional: true
+            # At half only the sheet's head drags it: when the first drag began below the head (on
+            # Android's taller sheet it can land on the day's title), it is dragged again from the
+            # grabber's height.
             - runFlow:
+                when:
+                  notVisible:
+                    id: 'trip-day-[0-9]+'
+                commands:
+                  - swipe:
+                      start: 50%, 42%
+                      end: 50%, 5%
+                      duration: 800
+                  - extendedWaitUntil:
+                      visible:
+                        id: 'trip-day-[0-9]+'
+                      timeout: 10000
+                      optional: true
+            - runFlow:
+                when:
+                  visible:
+                    id: 'trip-day-[0-9]+'
                 file: shot.yaml
                 env:
                   CODE: '4.27'

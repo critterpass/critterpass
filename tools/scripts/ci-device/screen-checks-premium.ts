@@ -99,3 +99,27 @@ export function screenGrounds(
   );
   return exactly(sides) ?? [options.background];
 }
+
+/**
+ * A card of the other scheme on its page: the frame's colour is exactly one scheme's page ground,
+ * while the screen's middle reads as the other scheme (the boarding pass, drawn light on the dark
+ * page by design). Its page shows at the card's gutter on both sides, which is no frame.
+ */
+export function isOtherSchemeCardOnPage(
+  frameColour: Rgb,
+  middleGrounds: Grounds,
+  options: ScreenCheckOptions,
+): boolean {
+  const families = options.premiumGrounds ?? [];
+  // The middle must read as a premium scheme itself: a premium ground framing the current UI is
+  // a frame.
+  if (!families.includes(middleGrounds)) return false;
+  return families.some((family) => {
+    const page = family[0];
+    if (page === undefined || family === middleGrounds) return false;
+    const otherScheme = !family.some((ground) =>
+      middleGrounds.some((middle) => colourDistance(ground, middle) <= LIMITS.exactGround),
+    );
+    return otherScheme && colourDistance(frameColour, page) <= LIMITS.exactGround;
+  });
+}

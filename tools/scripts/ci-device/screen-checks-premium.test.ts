@@ -73,6 +73,22 @@ describe('screen checks on the premium UI', { timeout: 60_000 }, () => {
     expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
   });
 
+  it('leaves a light pass on the dark page, and still flags a dark band around the light page', () => {
+    const options = { background: BG, premiumGrounds: premiumGrounds() };
+    const [light, dark] = premiumGrounds();
+    const darkPage = dark?.[0] ?? [0, 0, 0];
+    const lightCard = light?.[0] ?? [255, 255, 255];
+    // 7.10 in dark: the boarding pass is drawn light at the 20 pt gutters of the dark page.
+    const pass = blank(400, 860, darkPage);
+    paint(pass, 20, 20, 380, 800, lightCard);
+    expect(findFrame(pass, options)).toBeNull();
+    // A light premium page set inside a dark border that isn't a page ground stays a frame.
+    const framed = blank(400, 860, lightCard);
+    paint(framed, 0, 0, 20, 860, [40, 10, 10]);
+    paint(framed, 380, 0, 400, 860, [40, 10, 10]);
+    expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
+  });
+
   it('allows an inset sheet over the dimmed page, and not the same inset from the top', () => {
     // The iOS 26 guide sheet, lifted by the keyboard, 8 pt in from the dimmed page.
     const options = { background: BG, premiumGrounds: premiumGrounds() };

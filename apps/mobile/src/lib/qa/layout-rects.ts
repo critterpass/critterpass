@@ -60,10 +60,20 @@ export interface QaLine {
 /**
  * Where a text's glyphs draw: the span of its lines (a title's box may stretch the row while its
  * words take a part of it), without the leading above the first line and below the last. Without
- * lines, the box itself without that leading.
+ * lines, the box itself without that leading. `scale` is how much smaller (or larger) the text
+ * draws than it was laid out: its measured width over its layout width.
  */
-export function inkOf(box: QaRect, lines?: readonly QaLine[]): QaRect {
-  const drawn = (lines ?? []).filter((line) => line.width > 0 && line.height > 0);
+export function inkOf(box: QaRect, lines?: readonly QaLine[], scale = 1): QaRect {
+  // Lines are laid out in the text's own points; a scaled ancestor (a pass shrunk while the name is
+  // typed) draws them smaller in the window, as its measured box already is.
+  const drawn = (lines ?? [])
+    .filter((line) => line.width > 0 && line.height > 0)
+    .map((line) => ({
+      x: line.x * scale,
+      y: line.y * scale,
+      width: line.width * scale,
+      height: line.height * scale,
+    }));
   const first = drawn[0];
   const last = drawn.at(-1);
   if (first === undefined || last === undefined) {

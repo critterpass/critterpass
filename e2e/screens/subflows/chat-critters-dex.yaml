@@ -13,15 +13,29 @@ appId: app.critterpass.dev
       id: 'you-profile'
     timeout: 15000
     optional: true
+# Centred first (at the page's foot the row sits under the tab bar); else opened by its link.
 - scrollUntilVisible:
     element:
       id: 'you-profile-critterdex'
     direction: DOWN
     timeout: 15000
+    centerElement: true
     optional: true
 - tapOn:
     id: 'you-profile-critterdex'
     optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex'
+    timeout: 8000
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-dex'
+    file: ../../_shared/open-link.yaml
+    env:
+      URL: critterpass-dev://you/critterdex
 - extendedWaitUntil:
     visible:
       id: 'critters-dex-list|critters-dex-empty'

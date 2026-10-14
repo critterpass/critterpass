@@ -97,7 +97,11 @@ appId: app.critterpass.dev
       NAME: name-typing
       LOOK: light
 # More letters while the field still has focus: a second tap can select the typed word on iOS.
-- inputText: ' Bartholomew Hales'
+# In short pieces: on a slow emulator each letter waits for the redrawn pass, and one long string
+# outlasts the driver's two-minute call deadline.
+- inputText: ' Bartho'
+- inputText: 'lomew'
+- inputText: ' Hales'
 - runFlow:
     file: shot.yaml
     env:
@@ -122,23 +126,31 @@ appId: app.critterpass.dev
       CODE: '2.08'
       NAME: photo
       LOOK: light
-- scrollUntilVisible:
-    element:
-      id: 'onboarding-photo-options'
-    direction: DOWN
-    timeout: 5000
-    optional: true
+# The ways to a real photo further down: a shot of their own only when the first one didn't hold
+# them (a tall phone shows the whole page at once, and the second shot would repeat the first).
 - runFlow:
     when:
-      visible:
+      notVisible:
         id: 'onboarding-photo-options'
     commands:
+      - scrollUntilVisible:
+          element:
+            id: 'onboarding-photo-options'
+          direction: DOWN
+          timeout: 5000
+          centerElement: true
+          optional: true
       - runFlow:
-          file: shot.yaml
-          env:
-            CODE: '2.08'
-            NAME: photo-options
-            LOOK: light
+          when:
+            visible:
+              id: 'onboarding-photo-options'
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '2.08'
+                  NAME: photo-options
+                  LOOK: light
 - runFlow:
     file: ../../_shared/tap.yaml
     env:
@@ -211,12 +223,39 @@ appId: app.critterpass.dev
       id: 'home-no-results'
     timeout: 10000
     optional: true
+# The airports near you come from the network's guess (a runner's own city) until the phone's own
+# fix is asked for: "Use my location" once, at the device's place (Hồ Chí Minh City, first-run.yaml).
+- scrollUntilVisible:
+    element:
+      id: 'home-locate'
+    direction: DOWN
+    timeout: 5000
+    centerElement: true
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'home-locate'
+    commands:
+      - tapOn:
+          id: 'home-locate'
+      - tapOn:
+          text: '(?i)(while using the app|allow while using app|only this time|allow once)'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'home-near'
+          timeout: 10000
+          optional: true
 - runFlow:
     file: shot.yaml
     env:
       CODE: '2.10'
       NAME: nothing-found
       LOOK: light
+- tapOn:
+    id: 'home-search'
+    optional: true
 - eraseText: 3
 - inputText: 'Sing'
 - extendedWaitUntil:

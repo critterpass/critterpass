@@ -2,18 +2,25 @@ appId: app.critterpass.dev
 ---
 # The fast capture sweep, light: screens whose state the `everyday` seed sets, each opened by its
 # link and shot once the app's QA marker reads settled (subflows/capture.yaml), seconds apiece.
-# The pages first (they stack up, each with its way back), then the sheets and modals, each closed
-# again after its shot. Destination loading is shot the moment its link opens; Crew plans for a
-# destination nobody has shared yet has no premium render and is shot by its own name. Journeys
-# (actions really tapped) stay in the other sweep flows.
+# The pages first (they stack up, each with its way back), then, from Home, the crew switcher and
+# the sheets and modals, each closed again level by level until Home shows (a sheet opened inside a
+# stale one draws the wrong screen). Đà Lạt's guide is shot the moment its link opens on this new
+# account (nothing of it is on the phone yet: the loading page), then once it settles; Crew plans
+# for Đà Lạt, where nobody has shared a plan yet, has no premium render and is shot by its own
+# name. Journeys (actions really tapped) stay in the other sweep flows.
 - runFlow:
     file: subflows/start.yaml
     env:
       SCENARIO: everyday
 # A destination's guide as it loads: shot before it settles.
 - openLink:
-    link: critterpass-dev://explore/da-lat
+    link: critterpass-dev://explore/vn-da-lat
 - takeScreenshot: premium-4.04-destination-loading-light
+- extendedWaitUntil:
+    visible:
+      id: 'explore-picks|explore-months|explore-destination-missing'
+    timeout: 20000
+    optional: true
 - runFlow:
     file: subflows/shot.yaml
     env:
@@ -22,7 +29,7 @@ appId: app.critterpass.dev
       LOOK: light
 # Crew plans with none shared yet (no premium render).
 - openLink:
-    link: critterpass-dev://community/da-lat
+    link: critterpass-dev://community/vn-da-lat
 - runFlow: ../_shared/settle.yaml
 - takeScreenshot: community-crew-plans-empty-light
 - runFlow:
@@ -77,13 +84,6 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/capture.yaml
     env:
-      ROUTE: crew
-      CODE: '3.07'
-      NAME: crews
-      LOOK: light
-- runFlow:
-    file: subflows/capture.yaml
-    env:
       ROUTE: you/critterdex
       CODE: '8.01'
       NAME: critterdex
@@ -116,6 +116,12 @@ appId: app.critterpass.dev
       CODE: '4.04'
       NAME: destination-ready
       LOOK: light
+# From Home: the crew switcher (3.07), then the sheets, each opened over Home.
+- runFlow: ../_shared/to-home.yaml
+- runFlow:
+    file: subflows/home-switcher.yaml
+    env:
+      LOOK: light
 - runFlow:
     file: subflows/capture.yaml
     env:
@@ -124,6 +130,7 @@ appId: app.critterpass.dev
       NAME: pass-plus
       LOOK: light
       SHEET: 'true'
+      READY: 'paywall-buy'
 - runFlow:
     file: subflows/capture.yaml
     env:
@@ -132,6 +139,7 @@ appId: app.critterpass.dev
       NAME: compare
       LOOK: light
       SHEET: 'true'
+      READY: 'compare'
 - runFlow:
     file: subflows/capture.yaml
     env:
@@ -140,6 +148,7 @@ appId: app.critterpass.dev
       NAME: start-crew
       LOOK: light
       SHEET: 'true'
+      READY: 'start-crew'
 - runFlow:
     file: subflows/capture.yaml
     env:
@@ -148,6 +157,7 @@ appId: app.critterpass.dev
       NAME: invite-friends
       LOOK: light
       SHEET: 'true'
+      READY: 'referral-dashboard'
 - runFlow:
     file: subflows/capture.yaml
     env:
@@ -156,6 +166,7 @@ appId: app.critterpass.dev
       NAME: delete
       LOOK: light
       SHEET: 'true'
+      READY: 'you-delete'
 - runFlow:
     file: subflows/capture.yaml
     env:
@@ -164,3 +175,14 @@ appId: app.critterpass.dev
       NAME: add-expense
       LOOK: light
       SHEET: 'true'
+      READY: 'money-add'
+# A phrase's show mode, full screen (the guide's phrase card's SHOW).
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: guide/phrase?phrase=Tolong%20ke%20Villa%20Kayu%20Manis%2C%20Sayan.&lang=id&gloss=Please%20take%20us%20to%20Villa%20Kayu%20Manis%2C%20Sayan.
+      CODE: '5.23'
+      NAME: phrase-show
+      LOOK: light
+      SHEET: 'true'
+      READY: 'guide-phrase-show'
