@@ -11,20 +11,13 @@ import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import {
-  Banner,
-  Button,
-  OfflinePill,
-  Skeleton,
-  Text,
-  TextButton,
-  usePremiumTheme,
-} from '@/ui/premium';
+import { Banner, Button, OfflinePill, Skeleton, Text, usePremiumTheme } from '@/ui/premium';
 import { KeyboardAwareScroll, PushScreen } from '@/ui/premium/shell';
 
 import { heroCopy } from '../../day-of/day-of-copy';
 import { useDayOf, type DayOfProps } from '../../day-of/use-day-of';
 import { DayHero } from './DayHero';
+import { DayLinks } from './DayLinks';
 import { Readiness, Stops } from './DayCards';
 import { PackRow } from './PackRow';
 
@@ -175,40 +168,7 @@ export function DayOfReady({ props }: { readonly props: DayOfProps }) {
         onRemove={props.onRemovePack}
       />
       <Stops timeline={props.timeline} />
-      <View style={[styles.links, { paddingHorizontal: th.space.gutter }]}>
-        {props.onDayPlan === undefined ? null : (
-          <TextButton
-            label={t({ id: 'trip.dayOf.toDayPlan', message: 'See the day plan' })}
-            onPress={props.onDayPlan}
-            align="center"
-            testID="trip-day-plan"
-          />
-        )}
-        {props.onTomorrow === undefined ? null : (
-          <TextButton
-            label={t({ id: 'trip.dayOf.toTomorrow', message: 'See tomorrow' })}
-            onPress={props.onTomorrow}
-            align="center"
-            testID="trip-day-tomorrow"
-          />
-        )}
-        {props.onToday === undefined ? null : (
-          <TextButton
-            label={t({ id: 'trip.dayOf.toToday', message: 'Back to today' })}
-            onPress={props.onToday}
-            align="center"
-            testID="trip-day-today"
-          />
-        )}
-        {props.onOffline === undefined ? null : (
-          <TextButton
-            label={t({ id: 'trip.dayOf.toOffline', message: 'What works with no signal' })}
-            onPress={props.onOffline}
-            align="center"
-            testID="trip-day-offline"
-          />
-        )}
-      </View>
+      <DayLinks props={props} />
     </KeyboardAwareScroll>
   );
 }
@@ -241,5 +201,4 @@ const styles = StyleSheet.create({
   rise: { marginTop: -46 },
   card: { padding: 16, gap: 12 },
   lateRow: { flexDirection: 'row', alignItems: 'center', gap: 8, flexWrap: 'wrap' },
-  links: { alignItems: 'center', gap: 4 },
 });

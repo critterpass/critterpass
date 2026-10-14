@@ -11,6 +11,7 @@ import { StyleSheet, View } from 'react-native';
 import {
   hitSlopFor,
   Icon,
+  IconButton,
   PressableScale,
   ring,
   Text,
@@ -113,27 +114,40 @@ export const PackRow = memo(function PackRow(props: {
         )}
       </View>
       {adding ? (
-        <TextField
-          accessibilityLabel={t({
-            id: 'trip.dayOf.premium.addPack',
-            message: 'Add something to pack',
-          })}
-          placeholder={t({
-            id: 'trip.dayOf.premium.packPlaceholder',
-            message: 'Headlamp, jacket…',
-          })}
-          value={text}
-          onChangeText={setText}
-          autoFocus
-          returnKeyType="done"
-          submitBehavior="submit"
-          onSubmitEditing={submit}
-          onBlur={() => {
-            submit();
-            setAdding(false);
-          }}
-          testID="trip-day-pack-field"
-        />
+        <View style={[styles.field, { gap: th.space.gap8 }]}>
+          <View style={styles.input}>
+            <TextField
+              accessibilityLabel={t({
+                id: 'trip.dayOf.premium.addPack',
+                message: 'Add something to pack',
+              })}
+              placeholder={t({
+                id: 'trip.dayOf.premium.packPlaceholder',
+                message: 'Headlamp, jacket…',
+              })}
+              value={text}
+              onChangeText={setText}
+              autoFocus
+              returnKeyType="done"
+              submitBehavior="submit"
+              onSubmitEditing={submit}
+              onBlur={() => {
+                submit();
+                setAdding(false);
+              }}
+              testID="trip-day-pack-field"
+            />
+          </View>
+          {/* The add beside the field, so adding never depends on finding the keyboard's key. */}
+          <IconButton
+            icon="plus"
+            tone="ink"
+            disabled={text.trim() === ''}
+            label={t({ id: 'trip.dayOf.premium.addPackGo', message: 'Add it' })}
+            onPress={submit}
+            testID="trip-day-pack-submit"
+          />
+        </View>
       ) : null}
     </View>
   );
@@ -152,4 +166,6 @@ const styles = StyleSheet.create({
   },
   mark: { width: 18, height: 18, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
   pending: { opacity: 0.7 },
+  field: { flexDirection: 'row', alignItems: 'center' },
+  input: { flex: 1 },
 });

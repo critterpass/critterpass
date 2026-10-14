@@ -21,9 +21,13 @@ import { LeaveByCountdown } from './LeaveByCountdown';
 /** The photo's height, and how far the card under it rises over it. */
 export const DAY_HERO_HEIGHT = 330;
 
+/**
+ * Dark at the top for the chips, clear through the middle, then a scrim under the headline that
+ * holds the white type on any photo, a bright beach or a sign behind it included.
+ */
 const FADE =
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, not copy
-  'linear-gradient(180deg, rgba(10,10,25,0.55) 0%, rgba(10,10,25,0.1) 40%, rgba(10,10,25,0.6) 100%)';
+  'linear-gradient(180deg, rgba(10,10,25,0.5) 0%, rgba(10,10,25,0.05) 30%, rgba(10,10,25,0.5) 58%, rgba(10,10,25,0.8) 100%)';
 
 export interface DayHeroProps {
   readonly media: MediaAsset | null;
