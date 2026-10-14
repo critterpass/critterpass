@@ -25,6 +25,8 @@ import type { UiQaCode } from './ui-qa';
  *   padding).
  * - TEXT_UNDER_STATUS_BAR: a text drawn under the status bar before anyone scrolls (a page that
  *   grew past the screen's top, a header placed without the top safe area).
+ * - TEXT_SQUEEZED: a text wrapped into a narrow column of four lines or more on a wide card (a
+ *   guide's note whose action took most of the row).
  *
  * What is covered is not judged: a text under a surface drawn later (the next card of a deck, a
  * sheet over its page, a panel over a photo) does not show. Content in a scroll view moves under
@@ -39,6 +41,10 @@ export const CARD_MIN_WIDTH = 120;
 export const CARD_MIN_HEIGHT = 56;
 /** The top share of the window a floating header occupies. */
 export const HEADER_BAND = 0.3;
+/** A card this wide or wider gives its words more than a narrow column. */
+const SQUEEZE_CARD_PT = 280;
+const SQUEEZE_LINES = 4;
+const SQUEEZE_SHARE = 0.4;
 
 export type LayoutCode = Extract<
   UiQaCode,
@@ -47,6 +53,7 @@ export type LayoutCode = Extract<
   | 'TEXT_CLIPPED'
   | 'TEXT_PAST_PADDING'
   | 'TEXT_UNDER_STATUS_BAR'
+  | 'TEXT_SQUEEZED'
   | 'CONTROL_MISALIGNED'
 >;
 
@@ -89,6 +96,8 @@ export interface Placed {
 export interface PlacedText extends Placed {
   /** Where its glyphs draw (./layout-rects `inkOf`). */
   readonly ink: QaRect;
+  /** How many lines it laid out in, when its layout event was seen. */
+  readonly lineCount?: number | undefined;
   /** Keys of the controls this text is part of. */
   readonly controls: readonly string[];
   /** The nearest ancestor (within its layer) that clips its children. */
@@ -189,6 +198,19 @@ function boxProblems(text: PlacedText, topInset: number): LayoutProblem | null {
         subject: `${text.screen}: ${text.label} cut by ${clip.label}`,
         detail: `(${past.join(', ')}; ${describeRect(ink)} in ${describeRect(clip.rect)})`,
       };
+  }
+  const lines = text.lineCount ?? 0;
+  if (
+    card &&
+    lines >= SQUEEZE_LINES &&
+    card.rect.width >= SQUEEZE_CARD_PT &&
+    ink.width < card.rect.width * SQUEEZE_SHARE
+  ) {
+    return {
+      code: 'TEXT_SQUEEZED',
+      subject: `${text.screen}: ${text.label} in a narrow column on ${card.label}`,
+      detail: `(${String(lines)} lines ${String(Math.round(ink.width))}pt wide on a ${String(Math.round(card.rect.width))}pt card)`,
+    };
   }
   if (card && isCard(card.rect) && overlaps(card.rect, text.rect)) {
     const tight = tightSides(card.rect, text.rect, CARD_INSET_PT);

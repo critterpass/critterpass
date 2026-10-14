@@ -167,6 +167,7 @@ export function placeTree(
       label: text.label,
       rect,
       ink: inkOf(rect, text.lines),
+      lineCount: text.lines?.length,
       screen: text.screen,
       layer: layer(text.layer),
       free: text.free,

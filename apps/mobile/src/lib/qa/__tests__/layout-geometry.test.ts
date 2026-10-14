@@ -251,4 +251,21 @@ describe('screen-wide layout checks', () => {
       alignmentProblems({ texts: [primaryLabel, rowTitle], controls: [primary, row], window }),
     ).toEqual([]);
   });
+
+  it('reports a guide note whose words were squeezed into a narrow column by a wide action', () => {
+    const card = { label: 'bookings-guide-note', rect: at(22, 407, 371, 104) };
+    const line = (y: number) => ({ x: 0, y, width: 96, height: 18 });
+    const squeezed = text('"I can also check your inbox…"', at(78, 416, 100, 90), {
+      card,
+      lineCount: 5,
+      lines: [line(0), line(18), line(36), line(54), line(72)],
+    });
+    const roomy = text('"Anyone with the code can join…"', at(78, 576, 290, 36), {
+      card: { label: 'invite-note', rect: at(22, 568, 371, 54) },
+      lineCount: 2,
+    });
+    expect(codes({ texts: [squeezed, roomy], controls: [], window })).toEqual([
+      'TEXT_SQUEEZED trip: "I can also check your inbox…" in a narrow column on bookings-guide-note',
+    ]);
+  });
 });

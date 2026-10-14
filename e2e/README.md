@@ -90,6 +90,8 @@ draw nothing. Once a screen's layouts settle, its focused screens are also measu
 - `TEXT_PAST_PADDING`: a text closer than 6 pt to the edge of the card it sits on (a surface with
   a ground and all four corners rounded, at least 120 × 56 pt).
 - `TEXT_UNDER_STATUS_BAR`: a text above the top safe-area inset before anyone scrolls.
+- `TEXT_SQUEEZED`: a text wrapped into four lines or more in under 40% of a card at least 280 pt
+  wide (a guide's note whose action took most of the row).
 - `CONTROL_MISALIGNED`: a text button stacked under a wide button with centred words, on the same
   surface, with its words off that centre (a "Cancel" set at the left edge under a centred primary).
 
