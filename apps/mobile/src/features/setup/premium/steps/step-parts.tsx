@@ -16,6 +16,9 @@ import { CHECKLIST_ROWS, type ChecklistRowKey } from '../../data/checklist';
 import { rowTitle } from '../checklist/copy';
 import { StatusDisc } from '../checklist/checklist-parts';
 
+/** How far the page fades out above a step's footer. */
+const FOOTER_FADE = 24;
+
 export function StepPage(props: {
   readonly title: string;
   readonly subtitle?: string | undefined;
@@ -40,7 +43,8 @@ export function StepPage(props: {
         contentContainerStyle={{
           paddingHorizontal: theme.space.gap16,
           paddingTop: theme.space.gap8,
-          paddingBottom: theme.space.gap16,
+          // The last card scrolls clear of the footer's fade.
+          paddingBottom: props.footer == null ? theme.space.gap16 : FOOTER_FADE,
           gap: theme.space.gap16,
         }}
       >
@@ -56,6 +60,19 @@ export function StepPage(props: {
             alignItems: 'center',
           }}
         >
+          {/* The page fades out above the footer instead of ending in a hard cut across a card. */}
+          <View
+            pointerEvents="none"
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: '100%',
+              height: FOOTER_FADE,
+              // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never copy.
+              experimental_backgroundImage: `linear-gradient(0deg, ${theme.color.ground}, ${theme.color.ground}00)`,
+            }}
+          />
           {props.footer}
         </View>
       )}
