@@ -61,7 +61,8 @@ describe('pins and rows', () => {
     expect(await screen.findByTestId(`live-map-row-${MAYA}+${RIN}`)).toBeTruthy();
     // Jordan's last fix is 12 minutes old.
     expect(screen.getAllByText('Last seen 12 min ago').length).toBeGreaterThan(0);
-    expect(screen.getByText('The Bali Six · 5 of 5 sharing')).toBeTruthy();
+    expect(screen.getByText('The Bali Six')).toBeTruthy();
+    expect(screen.getByText(' · 5 of 5 sharing')).toBeTruthy();
   });
 
   it('lists each person with an arrival clock in the trip zone', async () => {
