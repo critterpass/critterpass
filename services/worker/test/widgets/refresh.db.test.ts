@@ -31,7 +31,13 @@ const BUNDLE = 'app.critterpass';
 let world: TripDayWorld;
 let apns: FakeApns;
 let provider: ApnsProvider;
-let now = new Date('2026-10-14T08:00:00Z');
+/**
+ * The test clock starts at 08:00 UTC tomorrow: held pushes are counted against the database's own
+ * now(), so a fixed past date would make every held push look already due.
+ */
+const tomorrow = new Date();
+tomorrow.setUTCHours(24 + 8, 0, 0, 0);
+let now = tomorrow;
 let seen = 0;
 /** Maya and Dev show a widget; Rin has a token but no widget. */
 const phones: string[] = [];
