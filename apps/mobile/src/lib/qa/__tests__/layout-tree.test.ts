@@ -194,6 +194,19 @@ describe('layout tree', () => {
     ]);
   });
 
+  it("marks texts in iOS's own component for a sheet", () => {
+    const root = tree([
+      screen('guide/[threadId]', true, [
+        host('RNSModalScreen', { stackPresentation: 'modal' }, at(0, 0, 402, 820), [
+          words('Tokek', at(114, 25, 56, 16)),
+        ]),
+      ]),
+    ]);
+    expect(collectLayoutTree(root, contexts).texts.map((t) => [t.words, t.presented])).toEqual([
+      ['Tokek', true],
+    ]);
+  });
+
   it('marks texts in a stack presented as a sheet, its screens pushed inside it', () => {
     const root = tree([
       screen('pitch', true, [

@@ -40,6 +40,13 @@ const MAP_TYPES = /^(RNMBX|AIRMap|RNMapsMap)|MapView/u;
 const GLASS_TYPES = /Glass|Blur/u;
 const ART_ROLES = new Set(['image', 'img']);
 /**
+ * The native screen a stack draws each route in: iOS draws a sheet or modal in its own component
+ * (react-native-screens picks `RNSModalScreen` for every presentation but a push), whose content is
+ * measured from the sheet's top.
+ */
+const SCREEN_TYPES = new Set(['RNSScreen', 'RNSModalScreen']);
+
+/**
  * Presentations a native stack shows in a surface of its own (a sheet, a modal card): its content
  * is measured from that surface's top, never from under the status bar.
  */
@@ -316,7 +323,7 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
         used = true;
       }
       if (MAP_TYPES.test(type)) inner = { ...inner, free: true };
-      if (type === 'RNSScreen') {
+      if (SCREEN_TYPES.has(type)) {
         const presentation = props.stackPresentation;
         // A stack presented as a sheet keeps its screens (pushed inside it) on the sheet's surface.
         inner = {
