@@ -28,7 +28,7 @@ import {
 } from '@/ui/premium';
 
 import type { LiftRect } from './menu-choice';
-import { StopCard, type StopCardLabels, type TimelineRow } from './timeline-stop-card';
+import { LegRail, StopCard, type StopCardLabels, type TimelineRow } from './timeline-stop-card';
 
 export type { TimelineRow } from './timeline-stop-card';
 
@@ -83,8 +83,6 @@ export function alignClock(time: string, times: readonly (string | null | undefi
 const useStyles = makePremiumStyles((t) => ({
   row: { flexDirection: 'row', alignItems: 'flex-start', gap: t.space.gap8 },
   time: { paddingTop: 12, alignItems: 'flex-end' },
-  leg: { flexDirection: 'row', alignItems: 'center', height: 26, gap: 8 },
-  legLine: { width: 2, height: 26, backgroundColor: t.color.progressTodo },
   slot: {
     flex: 1,
     height: 56,
@@ -268,13 +266,8 @@ export function Timeline(props: TimelineProps) {
                 </GestureDetector>
               )}
             </View>
-            {row.legAfter === null || index === props.rows.length - 1 ? null : (
-              <View style={[styles.leg, { paddingStart: clock + RAIL_INSET }]}>
-                <View style={styles.legLine} />
-                <Text variant="badge" tone="muted">
-                  {row.legAfter}
-                </Text>
-              </View>
+            {index === props.rows.length - 1 ? null : (
+              <LegRail label={row.legAfter} inset={clock + RAIL_INSET} />
             )}
           </View>
         );

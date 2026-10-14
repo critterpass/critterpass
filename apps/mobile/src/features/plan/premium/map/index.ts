@@ -1,6 +1,6 @@
 // The premium map (4.25–4.39), shared with the crew map on the trip: one light or night style, the
 // day colours, the sheet's detents and the plan's route and pin layers.
-export { dayColours, EMPTY_DAY } from './day-colours';
+export { dayColours, dayInk, EMPTY_DAY } from './day-colours';
 export type { DayColours } from './day-colours';
 export {
   cameraPadding,

@@ -13,7 +13,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 
 import type { DayItem } from '@/data/plan/plan-model';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { PressableScale, ring, Text, usePremiumTheme } from '@/ui/premium';
+import { Icon, PressableScale, ring, Text, usePremiumTheme } from '@/ui/premium';
 import { sketchLayout } from '@/ui/premium/planning/planning-shapes';
 
 import type { CardRect } from '../../all-days/use-cross-day-drag';
@@ -218,7 +218,22 @@ export function DayTile(props: DayTileProps) {
           }}
           onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
         >
-          {width === 0 ? null : (
+          {placed.length === 0 ? (
+            // No stop with a place yet (a pickup, a meal not pinned): say so, not a bare block.
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: theme.space.gap4,
+              }}
+            >
+              <Icon name="pin" size={16} color={theme.color.placeholder} />
+              <Text variant="captionMuted" tone="placeholder" numberOfLines={1}>
+                {t({ id: 'plan.premium.allDays.noPins', message: 'Nothing pinned yet' })}
+              </Text>
+            </View>
+          ) : width === 0 ? null : (
             <DayRoute stops={placed} width={width} colour={colours.route} tile={props} />
           )}
         </View>

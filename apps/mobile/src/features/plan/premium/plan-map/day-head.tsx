@@ -11,10 +11,11 @@ import {
   PressableScale,
   StatusTag,
   Text,
+  usePremiumTheme,
   type CrewMember,
 } from '@/ui/premium';
 
-import { dayColours } from '../map';
+import { dayInk } from '../map';
 
 export interface DayHeadProps {
   readonly dayNo: number;
@@ -35,7 +36,7 @@ const useStyles = makePremiumStyles((t) => ({
 
 export function DayHead(props: DayHeadProps) {
   const styles = useStyles();
-  const ink = dayColours(props.dayNo).ink;
+  const ink = dayInk(props.dayNo, usePremiumTheme().scheme);
   return (
     <View style={styles.head}>
       <View style={styles.text}>
