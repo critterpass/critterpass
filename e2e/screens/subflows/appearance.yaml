@@ -13,6 +13,14 @@ appId: app.critterpass.dev
     id: 'you-appearance-${LOOK}'
 - runFlow: ../../_shared/settle.yaml
 - runFlow: ../../_shared/home-link.yaml
+# A trip that is on asks once, over Home, to remember the places visited: not now.
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
 - extendedWaitUntil:
     visible:
       id: 'home-screen'
