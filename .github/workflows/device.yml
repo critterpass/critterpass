@@ -176,12 +176,11 @@ jobs:
             echo "$line" >> "$GITHUB_STEP_SUMMARY"
           fi
           if [ "$preset" = sweep ]; then
-            # The iPhone leg on its own: the short iOS set (e2e/screens/ios-sweep.txt), one flow a
-            # shard on three of the five macOS runners (the iOS jobs' max-parallel) whatever the
-            # shards input says.
+            # The iPhone leg on its own: the short iOS set (e2e/screens/ios-sweep.txt) on five
+            # shards (the iOS jobs' max-parallel) whatever the shards input says.
             if [ -z "$flows" ] && [ "$platform" = ios ]; then
               flows=$(grep -v '^[[:space:]]*#' e2e/screens/ios-sweep.txt | grep -v '^[[:space:]]*$' | tr '\n' ' ')
-              shards=3
+              shards=5
             fi
             # Every screen in both languages; sheets unless screenshots alone were asked for. Linux
             # runners are plentiful: sixteen Android shards, balanced by recorded flow time, so the
@@ -293,22 +292,25 @@ jobs:
     name: ios shard ${{ matrix.shard }}
     needs: prepare
     if: needs.prepare.outputs.ios == 'true'
-    # Xcode 26.6 on macOS 26: the image the e2e-test build is made on. Three at a time, leaving two
-    # of the plan's five macOS slots to CI.
+    # Xcode 26.6 on macOS 26: the image the e2e-test build is made on. Up to five at a time, the
+    # plan's five macOS slots: a sweep's iPhone leg runs at once, and CI's macOS jobs wait for it.
     runs-on: macos-26
     timeout-minutes: 120
     strategy:
       fail-fast: false
-      max-parallel: 3
+      max-parallel: 5
       matrix: ${{ fromJSON(needs.prepare.outputs.ios_matrix) }}
     steps:
       - uses: actions/checkout@v7
         with: { ref: '${{ env.CHECKOUT_REF }}' }
+      - run: sudo xcode-select -s /Applications/Xcode_26.6.app
+      # A new simulator's first boot takes minutes: it runs while the job sets up.
+      - name: Boot the simulator
+        run: tools/scripts/ci-device/ios-device.sh boot
       - uses: actions/setup-node@v7
         with: { node-version: 24 }
       - uses: actions/setup-java@v6
         with: { distribution: temurin, java-version: 17 }
-      - run: sudo xcode-select -s /Applications/Xcode_26.6.app
       - uses: actions/download-artifact@v8
         with: { name: device-bundles, path: '${{ runner.temp }}/bundles' }
       - name: Install Maestro

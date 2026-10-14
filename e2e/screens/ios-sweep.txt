@@ -1,10 +1,14 @@
 # The iPhone leg of the UI sweep (device.yml `sweep` preset with platform=ios and no flows): the
-# screens whose layout iOS draws its own way, one flow a shard on three of the five macOS runners.
-# Every e2e/screens flow runs on Android.
+# screens whose layout iOS draws its own way, about ten minutes of flows a shard, balanced by
+# recorded flow time over the iOS jobs' max-parallel. Every e2e/screens flow runs on Android.
 #
 # Sheets (the grabber, the safe areas inside a native sheet) and keyboards.
 e2e/screens/ios/sheets-keyboards.yaml
+e2e/screens/ios/guide-find.yaml
 # Floating headers, the status bar and footers pinned over scrolled content.
 e2e/screens/ios/pages-footers.yaml
+e2e/screens/ios/hub-wallet.yaml
+# The fast capture: screens the seed sets, each opened by its link.
+e2e/screens/capture.yaml
 # Long real data: long Vietnamese names, a week-long trip, a crew of five and a crew of one.
 e2e/screens/long-data.yaml

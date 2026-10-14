@@ -2,9 +2,8 @@ appId: app.critterpass.dev
 ---
 # The iPhone sweep's sheets and keyboards, in light: what only iOS draws its own way (native form
 # sheets and their grabber, the safe areas inside a sheet, the keyboard and its suggestion strip).
-# The pitch sheet over the keyboard and a destination's pitch card, the crew chat with the keyboard
-# and the sticker tray, the guide's chat sheet with its composer, and Find with the keyboard up, a
-# place and its Add to plan sheet.
+# The pitch sheet over the keyboard and a destination's pitch card, and the crew chat with the
+# keyboard and the sticker tray. The guide's chat sheet and Find are in guide-find.yaml.
 - runFlow:
     file: ../subflows/start.yaml
     env:
@@ -19,16 +18,5 @@ appId: app.critterpass.dev
       SCENARIO: everyday
 - runFlow:
     file: ../subflows/chat-crew.yaml
-    env:
-      LOOK: light
-- runFlow:
-    file: ../subflows/chat-guide.yaml
-    env:
-      LOOK: light
-# On iOS the guide's chat sheet can stay up after chat-guide: Find starts from Home, by its link or
-# by pulling the sheet down (the same account, no new seed).
-- runFlow: ../subflows/plan-home.yaml
-- runFlow:
-    file: ../subflows/plan-find.yaml
     env:
       LOOK: light
