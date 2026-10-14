@@ -3,8 +3,8 @@
  * settling up): each digit is a column of 0–9 that slides on the Smooth spring; symbols, separators
  * and spaces stay put. Columns are keyed from the right, so "Rp 450.000" growing to "Rp 1.450.000"
  * rolls the digits that exist and fades in the new leading one. Reduce Motion cross-fades instead.
- * A column is one text of ten lines, each one line box tall, and every digit is tabular, so the
- * amount keeps its width as it rolls.
+ * A column is one text of ten lines, each one line box tall, laid out over a hidden resting digit,
+ * and every digit is tabular, so the amount keeps its width as it rolls.
  */
 import type { PremiumTypeName } from '@cp/design-tokens';
 import { useEffect, useState } from 'react';
@@ -66,7 +66,17 @@ function DigitColumn(props: {
   }));
   return (
     <Animated.View style={[{ height: props.height, overflow: 'hidden' }, shown]}>
-      <Animated.View style={style}>
+      {/* The resting width of one digit sizes the column. */}
+      <Text
+        variant={props.variant}
+        style={[styles.tabular, styles.strip, styles.hidden, { lineHeight: props.height }]}
+        accessible={false}
+      >
+        0
+      </Text>
+      {/* Laid out outside the one-line column: measured inside it, Android cuts the text to the
+          column's height and draws only the 0 line, so every other digit rolled into blank. */}
+      <Animated.View style={[styles.reel, style]}>
         <Text
           variant={props.variant}
           tone={props.tone}
@@ -144,6 +154,8 @@ export function RollingAmount({ text, variant, tone = 'ink', color, testID }: Ro
 const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center' },
   measure: { position: 'absolute', opacity: 0 },
+  hidden: { opacity: 0 },
+  reel: { position: 'absolute', top: 0, left: 0, right: 0 },
   tabular: { fontVariant: ['tabular-nums'] },
   // No font padding, so each of the ten lines is exactly one line box.
   strip: { includeFontPadding: false, textAlignVertical: 'top' },
