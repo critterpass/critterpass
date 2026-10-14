@@ -159,7 +159,14 @@ export function MailboxPremium(props: {
           </View>
         )}
         <View style={styles.head}>
-          <Text variant="emptyTitle" style={styles.title} accessibilityRole="header">
+          <Text
+            variant="emptyTitle"
+            style={styles.title}
+            accessibilityRole="header"
+            // Two even lines ("Find bookings / in my email"), never one word left alone.
+            textBreakStrategy="balanced"
+            lineBreakStrategyIOS="standard"
+          >
             {t({ id: 'bookings.mailbox.title', message: 'Find bookings in my email' })}
           </Text>
           <View style={styles.doodle}>
@@ -267,7 +274,8 @@ export function MailboxSheetPremium() {
 }
 
 const styles = StyleSheet.create({
-  close: { alignItems: 'flex-end' },
+  // The ✕ leads, as on every sheet, clear of the doodle that leans in from the right.
+  close: { alignItems: 'flex-start' },
   head: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   title: { maxWidth: 230 },
   doodle: { marginTop: -12 },
