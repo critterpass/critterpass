@@ -9,6 +9,7 @@ import {
   tightSides,
   TOUCH_PT,
   bottom,
+  right,
 } from './layout-rects';
 import type { UiQaCode } from './ui-qa';
 
@@ -272,9 +273,12 @@ function boxProblems(
     };
   }
   if (card && !text.windowed && isCard(card.rect) && overlaps(card.rect, text.rect)) {
-    // Across, the words as drawn (a centred line in a full-width box keeps its room); down, the
-    // text's box.
-    const words = { x: ink.x, width: ink.width, y: text.rect.y, height: text.rect.height };
+    // Across, the words as drawn (a centred line in a full-width box keeps its room) when they
+    // sit inside the text's box (lines from an earlier, wider layout don't); down, the box.
+    const inBox = ink.x >= text.rect.x - TOUCH_PT && right(ink) <= right(text.rect) + TOUCH_PT;
+    const words = inBox
+      ? { x: ink.x, width: ink.width, y: text.rect.y, height: text.rect.height }
+      : text.rect;
     const tight = tightSides(card.rect, words, CARD_INSET_PT);
     if (tight.length > 0)
       return {

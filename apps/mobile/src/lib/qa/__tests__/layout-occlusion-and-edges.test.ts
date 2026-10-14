@@ -93,6 +93,13 @@ describe('layout checks judge what shows', () => {
       card,
       lines: [{ x: 0, y: 0, width: 392, height: 18 }],
     });
+    // Lines left from a wider layout than the box it wraps in now: the box is judged.
+    const tile = { label: 'search-tile-swipe', rect: at(16, 281, 181, 128) };
+    const stale = text('search-tile-swipe "Can\'t agree?"', at(28, 356, 157, 41), {
+      card: tile,
+      lines: [{ x: 0, y: 0, width: 324, height: 41 }],
+    });
+    expect(codes({ texts: [stale], controls: [], window })).toEqual([]);
     expect(codes({ texts: [edge], controls: [], window })).toEqual([
       'TEXT_PAST_PADDING hub: premium-options "A long line" at the edge of premium-options',
     ]);
