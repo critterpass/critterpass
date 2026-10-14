@@ -43,6 +43,8 @@ export interface OfflineCardProps {
   readonly line: string;
   readonly chip: SignalChip;
   readonly guide: GuideId;
+  /** The trip's destination, whose saved photo the page's polaroid shows. */
+  readonly destinationSlug?: string | null;
 }
 
 /** One waiting write opened from the sends list: what it is, since when, and what can change. */

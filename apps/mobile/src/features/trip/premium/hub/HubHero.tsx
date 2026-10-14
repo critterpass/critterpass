@@ -5,16 +5,15 @@
  */
 import type { MediaAsset } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { Image, PixelRatio, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Image, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { savedStillUri } from '@/lib/media/media-files';
-import { pickBySize } from '@/lib/media/variants';
 import { CrewStack, GlassIconButton, Text, usePremiumTheme, type CrewMember } from '@/ui/premium';
 import { StatusBarOver } from '@/ui/premium/shell';
 
 import type { HubHeader } from '../../hub/hub-model';
 import { usePhaseLine } from '../../hub/phase-line';
+import { heroStillUri } from '../components/hero-still';
 
 /** The photo's height: the 1.05 hero, tall enough for the name and the switch under it. */
 export const HUB_HERO_HEIGHT = 380;
@@ -43,13 +42,6 @@ export interface HubHeroProps {
   readonly onMenu: (() => void) | null;
   /** The page has scrolled the hero away from under the status bar. */
   readonly scrolledPast?: boolean;
-}
-
-function heroUri(media: MediaAsset | null, widthPt: number): string | null {
-  if (media === null) return null;
-  const still = pickBySize(media.images, widthPt * PixelRatio.get());
-  if (still === undefined) return null;
-  return savedStillUri(media, still.url) ?? still.url;
 }
 
 /** The countdown (or day count) on the right; its digits re-read every second. */
@@ -91,7 +83,7 @@ export function HubHero(props: HubHeroProps) {
   const { t } = useLingui();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
-  const uri = heroUri(props.media, width);
+  const uri = heroStillUri(props.media, width);
   const onPhoto = uri !== null;
   const text = onPhoto ? th.accent.paper : th.color.ink;
   return (
