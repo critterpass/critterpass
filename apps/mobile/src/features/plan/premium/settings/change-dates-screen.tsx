@@ -186,6 +186,7 @@ export function ChangeDatesScreen({ tripId }: { readonly tripId: string }) {
             testID="change-dates-ask"
           />
           <TextButton
+            align="center"
             label={t({ id: 'plan.dates.now', message: 'Change it now' })}
             onPress={() => void changeNow()}
             disabled={range === null || lock.pending || move.pending}

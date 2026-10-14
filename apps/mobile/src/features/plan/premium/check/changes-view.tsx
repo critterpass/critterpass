@@ -193,6 +193,7 @@ export function PremiumChangesView(props: ChangesReviewViewProps) {
         )}
         {props.ask == null ? null : (
           <TextButton
+            align="center"
             label={props.ask.label}
             onPress={props.ask.onPress}
             disabled={props.ask.disabled}

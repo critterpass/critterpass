@@ -73,6 +73,7 @@ export function LockScreenOfferPremium({ tripId }: { readonly tripId: string }) 
           ) : null}
           {phase.kind === 'offer' ? (
             <TextButton
+              align="center"
               label={t({
                 id: 'trip.lockScreen.offer.quiet',
                 message: 'Just my own leave-by alarms',

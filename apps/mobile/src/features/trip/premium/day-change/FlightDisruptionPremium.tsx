@@ -151,6 +151,7 @@ export function FlightReady({ props }: { readonly props: FlightViewProps }) {
           ) : null}
           {model.canUndo ? (
             <TextButton
+              align="center"
               label={footer.undo}
               onPress={props.onUndoAll}
               testID="disruption-undo-all"

@@ -127,6 +127,7 @@ export function RouteScreen({ tripId }: { readonly tripId: string }) {
           </View>
           {stops.length > 1 ? (
             <TextButton
+              align="center"
               label={t({ id: 'setup.premium.route.oneStop', message: 'Just one stop' })}
               onPress={() => void send([])}
               testID="route-one-stop"

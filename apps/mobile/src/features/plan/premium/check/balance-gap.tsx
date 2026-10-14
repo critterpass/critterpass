@@ -252,9 +252,15 @@ export function PremiumGapView(props: GapViewProps) {
             testID="plan-gap-add"
           />
         </View>
-        <TextButton label={props.elseLabel} onPress={props.onElse} testID="plan-gap-else" />
+        <TextButton
+          align="center"
+          label={props.elseLabel}
+          onPress={props.onElse}
+          testID="plan-gap-else"
+        />
         {props.onDismiss === undefined ? null : (
           <TextButton
+            align="center"
             label={t({ id: 'plan.premium.gap.close', message: 'Close' })}
             onPress={props.onDismiss}
           />

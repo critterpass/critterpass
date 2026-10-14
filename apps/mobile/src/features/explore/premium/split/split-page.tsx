@@ -253,6 +253,7 @@ export function SplitPage({
               )}
               {view.vote === null ? null : (
                 <TextButton
+                  align="center"
                   label={view.vote.label}
                   onPress={view.vote.onPress}
                   testID="split-vote"
