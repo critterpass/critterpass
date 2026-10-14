@@ -295,4 +295,26 @@ describe('screen-wide layout checks', () => {
         'TEXT_OVER_CONTROL trip: trip-hub-eyebrow under glass-back',
       ]);
   });
+
+  it('measures a sheet from its own top, and leaves a row of chips under a field alone', () => {
+    const sheetTitle = text('guide-top-bar "Tokek"', at(114, 25, 56, 16), { presented: true });
+    expect(codes({ texts: [sheetTitle], controls: [], window, topInset: 62 })).toEqual([]);
+    const search = control('plan-map-search', at(68, 64, 266, 48));
+    const searchWords = text('"Find anything"', at(130, 79, 142, 18), {
+      controls: ['plan-map-search'],
+    });
+    const chips = ['food', 'museum', 'beach'].map((name, index) =>
+      control(`chip-${name}`, at(100 + index * 80, 126, 70, 26)),
+    );
+    const chipWords = chips.map((chip, index) =>
+      text(`"${String(index)}"`, at(chip.rect.x + 10, 133, 40, 11), { controls: [chip.key] }),
+    );
+    expect(
+      alignmentProblems({
+        texts: [searchWords, ...chipWords],
+        controls: [search, ...chips],
+        window,
+      }),
+    ).toEqual([]);
+  });
 });

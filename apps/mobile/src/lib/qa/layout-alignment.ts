@@ -51,6 +51,16 @@ export function alignmentProblems({ texts, controls, window }: LayoutInput): Lay
       if (innermostGround(lower) !== innermostGround(upper)) continue;
       const gap = lower.rect.y - bottom(upper.rect);
       if (gap < -TOUCH_PT || gap > STACK_GAP_PT) continue;
+      // A row of chips or tabs under a field: its buttons sit side by side, not centred.
+      const inRow = shown.some(
+        (other) =>
+          other !== lower &&
+          other !== upper &&
+          innermostGround(other) === innermostGround(lower) &&
+          Math.min(bottom(other.rect), bottom(lower.rect)) - Math.max(other.rect.y, lower.rect.y) >
+            lower.rect.height / 2,
+      );
+      if (inRow) continue;
       const words = wordsOf(lower, texts);
       if (words === null || words.width >= upper.rect.width * WIDE_SHARE) continue;
       if (words.x < upper.rect.x - TOUCH_PT || right(words) > right(upper.rect) + TOUCH_PT)

@@ -168,6 +168,7 @@ export function placeTree(
       rect,
       ink: inkOf(rect, text.lines),
       lineCount: text.lines?.length,
+      presented: text.presented,
       screen: text.screen,
       layer: layer(text.layer),
       free: text.free,

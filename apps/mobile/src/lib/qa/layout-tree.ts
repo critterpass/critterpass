@@ -39,6 +39,18 @@ const MAP_TYPES = /^(RNMBX|AIRMap|RNMapsMap)|MapView/u;
 /** Glass and blur surfaces draw a card without a background colour. */
 const GLASS_TYPES = /Glass|Blur/u;
 const ART_ROLES = new Set(['image', 'img']);
+/**
+ * Presentations a native stack shows in a surface of its own (a sheet, a modal card): its content
+ * is measured from that surface's top, never from under the status bar.
+ */
+const OWN_SURFACE = new Set([
+  'modal',
+  'transparentModal',
+  'formSheet',
+  'pageSheet',
+  'containedModal',
+  'containedTransparentModal',
+]);
 const CONTROL_ROLES = new Set([
   'button',
   'link',
@@ -73,6 +85,8 @@ export interface TreeText {
   readonly grounds: readonly number[];
   /** Its lines from its last layout event, when one was seen. */
   readonly lines?: readonly QaLine[] | undefined;
+  /** Inside a screen presented in a surface of its own (a sheet). */
+  readonly presented: boolean;
 }
 
 export interface TreeControl {
@@ -117,6 +131,7 @@ interface Scope {
   readonly free: boolean;
   readonly testId: string | null;
   readonly grounds: readonly number[];
+  readonly presented: boolean;
 }
 
 type Props = Readonly<Record<string, unknown>>;
@@ -240,6 +255,7 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
     free: false,
     testId: null,
     grounds: [],
+    presented: false,
   };
   const stack: [FiberLike, Scope][] = root.child ? [[root.child, start]] : [];
 
@@ -284,6 +300,7 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
             paint,
             grounds: inner.grounds,
             lines: contexts.linesOf?.(fiber),
+            presented: inner.presented,
           });
         }
         // Nested spans are drawn by this text.
@@ -299,6 +316,13 @@ export function collectLayoutTree(root: FiberLike, contexts: ScreenContexts): La
         used = true;
       }
       if (MAP_TYPES.test(type)) inner = { ...inner, free: true };
+      if (type === 'RNSScreen') {
+        const presentation = props.stackPresentation;
+        inner = {
+          ...inner,
+          presented: typeof presentation === 'string' && OWN_SURFACE.has(presentation),
+        };
+      }
       if (isControl(type, props)) {
         controls.push({
           box: index,

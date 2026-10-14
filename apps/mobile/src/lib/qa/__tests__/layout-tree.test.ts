@@ -171,6 +171,23 @@ describe('layout tree', () => {
     expect(result.paints.get(passGround) ?? 0).toBeLessThan(name?.paint ?? 0);
   });
 
+  it('marks texts in a screen presented as a sheet', () => {
+    const root = tree([
+      screen('guide', true, [
+        host('RNSScreen', { stackPresentation: 'formSheet' }, at(0, 0, 402, 800), [
+          words('Tokek', at(114, 25, 56, 16)),
+        ]),
+        host('RNSScreen', { stackPresentation: 'push' }, at(0, 0, 402, 874), [
+          words('Crew made', at(172, 27, 67, 13)),
+        ]),
+      ]),
+    ]);
+    expect(collectLayoutTree(root, contexts).texts.map((t) => [t.words, t.presented])).toEqual([
+      ['Tokek', true],
+      ['Crew made', false],
+    ]);
+  });
+
   it('marks map labels free and names texts with ticking digits once', () => {
     const root = tree([
       screen('plan', true, [

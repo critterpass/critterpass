@@ -105,6 +105,11 @@ export interface PlacedText extends Placed {
   readonly ink: QaRect;
   /** How many lines it laid out in, when its layout event was seen. */
   readonly lineCount?: number | undefined;
+  /**
+   * Inside a sheet or modal card: iOS measures it from that surface's top, and the surface never
+   * reaches under the status bar.
+   */
+  readonly presented?: boolean | undefined;
   /** Keys of the controls this text is part of. */
   readonly controls: readonly string[];
   /** The nearest ancestor (within its layer) that clips its children. */
@@ -213,7 +218,7 @@ function pairProblems(
 function boxProblems(text: Judged, topInset: number): LayoutProblem | null {
   const { clip, card, ink } = text;
   const resting = text.layer === null || text.layer.atRest;
-  if (resting && !text.free && ink.y < topInset - TOUCH_PT) {
+  if (resting && !text.free && text.presented !== true && ink.y < topInset - TOUCH_PT) {
     return {
       code: 'TEXT_UNDER_STATUS_BAR',
       subject: `${text.screen}: ${text.label}`,
