@@ -1,7 +1,7 @@
 ---
 phase: 1
 title: Decisions, contracts and the photo stop
-status: pending
+status: done
 depends_on: []
 lane: B
 tasks: 3
@@ -51,7 +51,7 @@ Done when: no profile run searches or downloads an image; no api response carrie
 - Steps: 1. Remove the image search and download (`run.ts:135,220-221`, `evidence.ts:68-90`, `photos.ts`). 2. Readers return no profile photo: `profile.ts:134` drops `photos`; `place-photo.ts` returns the Commons/Foursquare/stock order without the profile step; `coverOf` (`picks.ts:84`) falls back to the destination's `media_assets` hero or none. 3. One-off worker CLI lists and deletes every object under `c/place-profiles/` (batched, dry-run flag, prints counts) and sets `photos = '[]'`; run on staging, record counts in the PR. The column stays until phase 5.
 - Tests: `pnpm --filter @cp/worker test -- profile` (a run makes no image-search call: the search double records none); `pnpm --filter @cp/api test -- places/profile` (response has no photos).
 - Done when: staging bucket listing under the prefix is empty; a fresh profile run on staging stores text only.
-- Status: todo
+- Status: done — 8c15203f7
 
 ### T2 — Decision log and ADRs
 - Goal: the founder's 14 Oct decisions are the contract.
@@ -63,7 +63,7 @@ Done when: no profile run searches or downloads an image; no api response carrie
   4. ADR "Google Maps and Places": field → SKU table (decision 4 of plan.md), caps, attribution rules (Google Maps logo 16–19 dp or "Google Maps" text 12–16 sp off-map; photo author credit and a path to the larger photo; "Places API results displayed on a map must be shown on a Google Map"), styling by `customMapStyle` JSON and why not a Map ID (no console step, runtime light/dark switch, a Map ID bills Dynamic Maps loads after 10 k a month), the react-native-maps choice and why `expo-maps` is out, the Google Cloud project (`critterpass-e3c73`, shared with Firebase), the three keys and their restrictions (names only). ADR "Destination base set": sources, licences (GeoNames CC BY 4.0 credit, Wikidata CC0, Wikivoyage as a filter only, Commons per-file licence), recipe, matching.
 - Tests: none (docs). `pnpm exec prettier --write` on the files.
 - Done when: both D rows quote the founder and name the amended decisions; the README index lists both ADRs; the MapLibre ADR says superseded.
-- Status: todo
+- Status: done — 2c639f70e
 
 ### T3 — Contract deltas
 - Goal: lanes code against written contracts; nobody else edits these docs until phase 5 T4.
@@ -79,7 +79,7 @@ Done when: no profile run searches or downloads an image; no api response carrie
   8. **design-system** (`:246`, `:258`): `PlanningMapCanvas`/`MapView` on Google Maps with the light/dark JSON styles; the Google Maps attribution component.
 - Tests: none (docs).
 - Done when: every route, column, queue and stream named in phases 2–5 appears here once.
-- Status: todo
+- Status: done — df68d90a2
 
 ## Risks and rollback
 
