@@ -24,6 +24,8 @@ import {
 } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
+import { scheduleLayoutScan } from '@/lib/qa/layout-scan';
+
 import { REDUCED_FADE_MS, usePremiumTheme } from '../..';
 
 /** How far content takes to fade out past the floating thing's edge. */
@@ -137,6 +139,9 @@ export interface ScrollEdges {
     readonly onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
     readonly onLayout: (event: LayoutChangeEvent) => void;
     readonly onContentSizeChange: (width: number, height: number) => void;
+    /** Where a drag or a fling comes to rest, the layout checks look at the content again. */
+    readonly onScrollEndDrag: () => void;
+    readonly onMomentumScrollEnd: () => void;
     readonly scrollEventThrottle: number;
   };
 }
@@ -187,6 +192,9 @@ export function useScrollEdges({ topAfter = 0 }: { readonly topAfter?: number } 
         metrics.current = { ...metrics.current, content: height };
         update();
       },
+      // A no-op outside development and e2e builds.
+      onScrollEndDrag: scheduleLayoutScan,
+      onMomentumScrollEnd: scheduleLayoutScan,
       scrollEventThrottle: 16,
     }),
     [update],
