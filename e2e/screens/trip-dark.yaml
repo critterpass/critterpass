@@ -1,0 +1,21 @@
+appId: app.critterpass.dev
+---
+# The dark half of trip.yaml, split off so the two halves run on separate shards: the trip hub, the
+# day page, the crew map and getting around on the Đà Nẵng trip that is on today, in dark, on a
+# fresh `trip_today` account.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: trip_today
+- runFlow:
+    file: subflows/appearance.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/trip-on.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/trip-around.yaml
+    env:
+      LOOK: dark

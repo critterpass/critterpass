@@ -6,6 +6,7 @@ appId: app.critterpass.dev
 # crew of six on a Đà Nẵng trip that is on today, in light and then dark. Storms, flight delays,
 # running late, SOS and the leave-by alarm need a live incident no seed makes, and the lock screen,
 # Dynamic Island and widgets are system surfaces: none is captured here.
+# The dark pass is trip-dark.yaml (its own shard).
 - runFlow:
     file: subflows/start.yaml
     env:
@@ -32,15 +33,3 @@ appId: app.critterpass.dev
     file: subflows/trip-offline.yaml
     env:
       LOOK: light
-- runFlow:
-    file: subflows/appearance.yaml
-    env:
-      LOOK: dark
-- runFlow:
-    file: subflows/trip-on.yaml
-    env:
-      LOOK: dark
-- runFlow:
-    file: subflows/trip-around.yaml
-    env:
-      LOOK: dark

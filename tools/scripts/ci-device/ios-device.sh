@@ -18,10 +18,16 @@ tsx="tsx@${TSX_VERSION:-4}"
 work=${RUNNER_TEMP:-$(mktemp -d)}/ios-build
 mkdir -p "$work" "$out_dir"
 
+# Each setup step's start in the log, so the shard's setup time can be read step by step.
+stamp() { echo "[$(date -u +%H:%M:%S)] $*"; }
+
+stamp "download the build"
 curl -fsSL --retry 3 -o "$work/build.tar.gz" "$build_url"
 mkdir -p "$work/app" && tar -xzf "$work/build.tar.gz" -C "$work/app" && rm "$work/build.tar.gz"
-app=$(npx --yes "$tsx" "$here/patch-ios-app.ts" "$work/app" "$bundle_dir" | tail -1)
+# The host app's Info.plist (the bundle id and URL schemes) is the same before and after the patch.
+plist=$(find "$work/app" -maxdepth 3 -name Info.plist -path '*.app/Info.plist' | head -1)
 
+stamp "create and boot the simulator"
 runtime=$(xcrun simctl list runtimes -j |
   jq -r '[.runtimes[] | select(.isAvailable and .platform == "iOS")] | sort_by(.version | split(".") | map(tonumber)) | last | .identifier')
 udid=$(xcrun simctl create "CritterPass CI" "${DEVICE:-iPhone 17}" "$runtime")
@@ -31,12 +37,20 @@ echo "Simulator ${DEVICE:-iPhone 17} on $runtime ($udid)"
 # leaving iOS's "Open in …?" prompt on screen for this and every later flow.
 approvals="$HOME/Library/Developer/CoreSimulator/Devices/$udid/data/Library/Preferences/com.apple.launchservices.schemeapproval.plist"
 mkdir -p "$(dirname "$approvals")"
-bundle_id=$(plutil -extract CFBundleIdentifier raw "$app/Info.plist")
-for scheme in $(plutil -extract CFBundleURLTypes json -o - "$app/Info.plist" | jq -r '.[].CFBundleURLSchemes[]'); do
+bundle_id=$(plutil -extract CFBundleIdentifier raw "$plist")
+for scheme in $(plutil -extract CFBundleURLTypes json -o - "$plist" | jq -r '.[].CFBundleURLSchemes[]'); do
   /usr/libexec/PlistBuddy -c "Add :com.apple.CoreSimulator.CoreSimulatorBridge-->$scheme string $bundle_id" "$approvals" >/dev/null
 done
 xcrun simctl boot "$udid"
+
+# While it boots: swap this commit's JS into the app, and check the runner reaches the api (a
+# simulator uses the Mac's network, so the runner's own request is the check).
+stamp "patch the app and check the network while the simulator boots"
+app=$(npx --yes "$tsx" "$here/patch-ios-app.ts" "$work/app" "$bundle_dir" | tail -1)
+npx --yes "$tsx" "$here/network-preflight.ts" --platform ios --device "$udid" --url "${E2E_API_BASE_URL:-}"
+
 xcrun simctl bootstatus "$udid" -b >/dev/null
+stamp "simulator booted: settings and install"
 # A new simulator covers its first keyboard with the slide-to-type introduction ("Speed up your
 # typing…", Continue), which hides the app's own elements from the flow until it is dismissed.
 xcrun simctl spawn "$udid" defaults write com.apple.keyboard.preferences \
@@ -45,9 +59,7 @@ xcrun simctl ui "$udid" appearance "${APPEARANCE:-light}"
 xcrun simctl status_bar "$udid" override --time 9:41 --batteryState charged --batteryLevel 100 \
   --cellularMode active --cellularBars 4 --wifiMode active --wifiBars 3 --dataNetwork wifi
 xcrun simctl install "$udid" "$app"
-
-# A simulator uses the Mac's network: the runner itself must reach the api before any flow runs.
-npx --yes "$tsx" "$here/network-preflight.ts" --platform ios --device "$udid" --url "${E2E_API_BASE_URL:-}"
+stamp "installed: running the flows"
 
 # RECORD_VIDEO=true records every flow (the release gate).
 video=$([ "${RECORD_VIDEO:-}" = true ] && echo --video || true)

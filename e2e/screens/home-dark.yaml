@@ -1,0 +1,17 @@
+appId: app.critterpass.dev
+---
+# The dark half of home.yaml, split off so the two halves run on separate shards: Home, the
+# switcher, the inbox, Your trips and crew settings for the Bali demo crew, in dark, on a fresh
+# `everyday` account.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
+- runFlow:
+    file: subflows/appearance.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/home-crew.yaml
+    env:
+      LOOK: dark

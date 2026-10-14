@@ -1,0 +1,31 @@
+appId: app.critterpass.dev
+onFlowComplete:
+  # Find's offline capture switches the signal off; a stopped run must not leave it off.
+  - runFlow:
+      when:
+        platform: Android
+      commands:
+        - setAirplaneMode: disabled
+---
+# The dark half of plan.yaml, split off so the two halves run on separate shards: the Bali trip's
+# plan on its map, its ⋯ menu and Find, in dark, on a fresh `everyday` account.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
+- runFlow:
+    file: subflows/appearance.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/plan-map.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/plan-menu.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/plan-find.yaml
+    env:
+      LOOK: dark

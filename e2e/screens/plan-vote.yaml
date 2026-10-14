@@ -6,6 +6,7 @@ appId: app.critterpass.dev
 # and a solo trip's setup in light, and the key screens in dark. A capture sweep: every step after
 # the start is conditional, so a missing state skips its shot. The plan, its menu and Find are in
 # plan.yaml.
+# The dark pass is plan-vote-dark.yaml (its own shard).
 - runFlow:
     file: subflows/start.yaml
     env:
@@ -36,16 +37,3 @@ appId: app.critterpass.dev
     file: subflows/plan-solo-setup.yaml
     env:
       LOOK: light
-# The places pitch ends deep in a stack of sheets: the dark pass starts from a fresh Home.
-- runFlow:
-    file: subflows/start.yaml
-    env:
-      SCENARIO: crew_with_code
-- runFlow:
-    file: subflows/appearance.yaml
-    env:
-      LOOK: dark
-- runFlow:
-    file: subflows/plan-places.yaml
-    env:
-      LOOK: dark

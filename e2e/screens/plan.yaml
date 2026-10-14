@@ -13,6 +13,7 @@ onFlowComplete:
 # at half, trip settings, Find, a place and Swipe together; 1.09, 1.11 and 1.12). A capture sweep:
 # every step after the start is conditional, so a missing state skips its shot. Vote, setup and
 # drafting are in plan-vote.yaml.
+# The dark pass is plan-dark.yaml (its own shard).
 - runFlow:
     file: subflows/start.yaml
     env:
@@ -37,19 +38,3 @@ onFlowComplete:
     file: subflows/plan-find.yaml
     env:
       LOOK: light
-- runFlow:
-    file: subflows/appearance.yaml
-    env:
-      LOOK: dark
-- runFlow:
-    file: subflows/plan-map.yaml
-    env:
-      LOOK: dark
-- runFlow:
-    file: subflows/plan-menu.yaml
-    env:
-      LOOK: dark
-- runFlow:
-    file: subflows/plan-find.yaml
-    env:
-      LOOK: dark

@@ -176,14 +176,18 @@ jobs:
             echo "$line" >> "$GITHUB_STEP_SUMMARY"
           fi
           if [ "$preset" = sweep ]; then
-            # The iPhone leg on its own: the short iOS set (e2e/screens/ios-sweep.txt), sized to two
-            # of the five macOS runners whatever the shards input says.
+            # The iPhone leg on its own: the short iOS set (e2e/screens/ios-sweep.txt), one flow a
+            # shard on three of the five macOS runners (the iOS jobs' max-parallel) whatever the
+            # shards input says.
             if [ -z "$flows" ] && [ "$platform" = ios ]; then
               flows=$(grep -v '^[[:space:]]*#' e2e/screens/ios-sweep.txt | grep -v '^[[:space:]]*$' | tr '\n' ' ')
-              shards=2
+              shards=3
             fi
-            # Every screen in both languages; sheets unless screenshots alone were asked for.
+            # Every screen in both languages; sheets unless screenshots alone were asked for. Linux
+            # runners are plentiful: sixteen Android shards, balanced by recorded flow time, so the
+            # sweep takes about as long as its longest flow.
             [ -z "$flows" ] && flows='e2e/screens/*.yaml'
+            [ "$platform" != ios ] && [ "$shards" -lt 16 ] && shards=16
             [ "$mode" = flows ] && mode=compare
             # Without a pull request the images go to the nightly issue.
             [ -z "$pr" ] && pr=nightly
@@ -312,9 +316,10 @@ jobs:
           curl -fsSL https://get.maestro.mobile.dev | bash
           "$HOME/.maestro/bin/maestro" --version
       - name: Run the flows
+        id: flows
         env:
           BUILD_URL: ${{ needs.prepare.outputs.ios_url }}
-          FLOWS: tools/scripts/ci-device/js-commit.yaml ${{ matrix.flows }}
+          FLOWS: ${{ matrix.flows }}
           JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
           OTP_TEST_CODE: ${{ secrets.OTP_TEST_CODE }}
           # The crew the push fixtures and chat flows address (repository variables).
@@ -339,6 +344,8 @@ jobs:
       - name: Keep the app's crash reports
         if: always()
         continue-on-error: true
+        env:
+          FLOWS_OUTCOME: ${{ steps.flows.outcome }}
         run: |
           dest="$RUNNER_TEMP/out/crash"
           mkdir -p "$dest"
@@ -348,7 +355,8 @@ jobs:
               -exec grep -il 'critterpass' {} + 2>/dev/null | while read -r report; do cp "$report" "$dest/"; done
           done
           udid=$(xcrun simctl list devices booted -j | jq -r '[.devices[][] | select(.name == "CritterPass CI")][0].udid // empty')
-          if [ -n "$udid" ]; then
+          # The app's own log lines take over a minute to read back: only a failed shard needs them.
+          if [ -n "$udid" ] && [ "$FLOWS_OUTCOME" != success ]; then
             xcrun simctl spawn "$udid" log show --last 3h --style compact \
               --predicate '(process BEGINSWITH "CritterPass" AND NOT subsystem BEGINSWITH "com.apple.dt") OR subsystem == "com.facebook.react.log" OR eventMessage CONTAINS "RCTFatal"' \
               2>/dev/null | tail -n 20000 > "$dest/app.log" || true
@@ -408,7 +416,7 @@ jobs:
       - name: Run the flows
         uses: reactivecircus/android-emulator-runner@v2
         env:
-          FLOWS: tools/scripts/ci-device/js-commit.yaml ${{ matrix.flows }}
+          FLOWS: ${{ matrix.flows }}
           JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
           OTP_TEST_CODE: ${{ secrets.OTP_TEST_CODE }}
           # The crew the push fixtures and chat flows address (repository variables).

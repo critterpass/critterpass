@@ -1,0 +1,16 @@
+appId: app.critterpass.dev
+---
+# The dark half of plan-vote.yaml, split off so the two halves run on separate shards: pitching a
+# place, in dark, on a fresh `crew_with_code` account.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: crew_with_code
+- runFlow:
+    file: subflows/appearance.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/plan-places.yaml
+    env:
+      LOOK: dark
