@@ -69,6 +69,9 @@ export function SegmentedControl<Value extends string>({
     ? options.map((o) => measured[o.value])
     : segmentFrames(width, t.space.segmentTrackPad, fit.weights);
   const labelSize = hug || fit.scale === 1 ? null : { fontSize: t.type.segment.size * fit.scale };
+  // Until every label is measured the first frame lays them out unfitted: no layout check then.
+  const fitted =
+    hug || (width > 0 && options.every((option) => natural[option.value] !== undefined));
   const index = Math.max(
     0,
     options.findIndex((o) => o.value === value),
@@ -188,6 +191,7 @@ export function SegmentedControl<Value extends string>({
               {...(selected && ink ? { color: t.color.onInkSurface } : {})}
               align="center"
               numberOfLines={hug ? 1 : 2}
+              {...(fitted ? {} : { singleLine: false })}
               style={labelSize}
             >
               {option.label}
