@@ -21,7 +21,9 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
+import { premiumFont } from '@/ui/premium/text/Text';
 
+import { useCrewName } from '../../data/use-final';
 import { createPollCommand } from '../../data/vote-commands';
 import {
   DEADLINE_MS,
@@ -34,8 +36,10 @@ import {
 const ROW = 50;
 
 export function NewPollSheet({ crewId }: { readonly crewId: string }) {
-  const { t } = useLingui();
+  const { t, i18n } = useLingui();
   const theme = usePremiumTheme();
+  const crewName = useCrewName(crewId);
+  const titleType = theme.type.emptyTitle;
   const create = useCommand(createPollCommand);
   const [draft, setDraft] = useState<PollDraft>({
     question: '',
@@ -110,11 +114,22 @@ export function NewPollSheet({ crewId }: { readonly crewId: string }) {
           onSubmitEditing={() => inputs.current[1]?.focus()}
           accessibilityLabel={t({ id: 'vote.newPoll.question', message: 'Question' })}
           testID="new-poll-question"
-          style={[
-            theme.type.emptyTitle,
-            { color: theme.color.ink, marginTop: theme.space.gap16, padding: 0 },
-          ]}
+          // The question is the sheet's title as it is typed (26/700), not a body line.
+          maxFontSizeMultiplier={titleType.maxScale}
+          style={{
+            ...premiumFont(titleType, i18n.locale, false),
+            fontSize: titleType.size,
+            letterSpacing: titleType.tracking,
+            color: theme.color.ink,
+            marginTop: theme.space.gap16,
+            padding: 0,
+          }}
         />
+        {crewName === null ? null : (
+          <Text variant="captionMuted" tone="muted" style={{ marginTop: -theme.space.gap12 }}>
+            {t({ id: 'vote.premium.newPoll.askedIn', message: `Asked in the ${crewName} chat` })}
+          </Text>
+        )}
         <ListCard>
           {draft.options.map((option, index) => (
             <View
