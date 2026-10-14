@@ -14,6 +14,7 @@ export {
 export * from './realtime';
 export * from './travel-data';
 export * from './media';
+export * from './destinations';
 export * from './entitlements/capability-keys';
 export * from './entitlements/errors';
 export * from './entitlements/metrics';
