@@ -41,7 +41,7 @@ function PasteBodyFields(props: {
       />
       <TextField
         accessibilityLabel={t({ id: 'bookings.paste.field', message: 'Link or code' })}
-        placeholder={t({ id: 'bookings.paste.field', message: 'Link or code' })}
+        label={t({ id: 'bookings.paste.field', message: 'Link or code' })}
         value={props.value}
         onChangeText={props.onTake}
         multiline

@@ -24,8 +24,8 @@ import {
   Icon,
   LoadingCritter,
   PressableScale,
+  SearchField,
   Text,
-  TextField,
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
@@ -184,7 +184,7 @@ export function PremiumPlacesMapView(props: PlacesMapViewProps) {
           </PressableScale>
         ) : (
           <View style={styles.fill}>
-            <TextField
+            <SearchField
               value={props.query ?? ''}
               onChangeText={props.onQuery}
               placeholder={placesWords.findHere(props.destinationName)}

@@ -7,7 +7,7 @@ import { PREMIUM_LOCKED_MARK, PREMIUM_STICKER, premiumLockedMask } from '@cp/cri
 import type { Rarity } from '@cp/critter-art';
 import { StyleSheet, View } from 'react-native';
 
-import { CritterSticker, Text } from '@/ui/premium';
+import { CritterSticker, Text, usePremiumTheme } from '@/ui/premium';
 
 export interface CritterSilhouetteProps {
   readonly kind: string;
@@ -40,7 +40,15 @@ export function CritterSilhouette({
   markColor,
   mirrored = false,
 }: CritterSilhouetteProps) {
-  const mask = ghost ? PREMIUM_STICKER.ghostMask : premiumLockedMask(rarity, onInk);
+  const th = usePremiumTheme();
+  // In the dark the light mask stood out pure white on dark cards: the theme's dark masks instead.
+  const mask = ghost
+    ? PREMIUM_STICKER.ghostMask
+    : th.scheme === 'dark' && !onInk
+      ? rarity === 'legendary'
+        ? th.color.lockedMaskGold
+        : th.color.lockedMask
+      : premiumLockedMask(rarity, onInk);
   return (
     <View
       accessible

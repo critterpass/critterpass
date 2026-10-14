@@ -23,6 +23,19 @@ export function useCopyCode(): (code: string) => void {
     );
 }
 
+/** Says the crew's forward address was copied once the copy lands (iOS shows nothing of its own). */
+export function useAddressCopiedToast(): (copying: Promise<void>) => void {
+  const { t } = useLingui();
+  const toast = useToast();
+  return (copying) =>
+    void copying.then(() =>
+      toast.show({
+        kind: 'done',
+        message: t({ id: 'bookings.premium.addressCopied', message: 'Address copied' }),
+      }),
+    );
+}
+
 export function ConfirmationCodeCard({ code }: { readonly code: string | null }) {
   const { t } = useLingui();
   const copy = useCopyCode();

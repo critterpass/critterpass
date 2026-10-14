@@ -2,12 +2,11 @@ import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
-import type { PremiumTypeName } from '@cp/design-tokens';
-
 import { Text } from '../text/Text';
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 import { usePremiumReducedMotion } from './reduced-motion';
 import { SPRINGS } from './springs';
+import type { PremiumTypeName } from '../theme/kit-type';
 
 /** The rolling strip, 0 to 9, one per line: one text node per column, not ten. */
 const STRIP = '0\n1\n2\n3\n4\n5\n6\n7\n8\n9';

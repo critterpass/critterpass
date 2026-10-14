@@ -3,7 +3,6 @@ import * as Haptics from 'expo-haptics';
 import { router, useGlobalSearchParams } from 'expo-router';
 import { useCallback } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 
@@ -55,18 +54,17 @@ export function useGuideActions(): GuideActions {
 }
 
 /**
- * Android's guide button: Tokek in the yellow circle (Tabs.dc.html) floating above the Material
- * bottom bar at the trailing edge. Tap asks the guide, long-press opens Help. iOS draws the guide
- * as the tab bar's own search-role circle instead.
+ * Android's guide circle: Tokek in the yellow circle beside the drawn tab bar (phone 1.04). Tap
+ * asks the guide, long-press opens Help. iOS draws the guide as the tab bar's own search-role
+ * circle instead.
  */
 export function GuideFab({ actions }: { readonly actions: GuideActions }) {
   const { t } = useLingui();
   const extras = useShellExtras();
-  const insets = useSafeAreaInsets();
   if (actions.ask === undefined) return null;
   const guide = GUIDE_NAME;
   const helpLabel = t({ id: 'common.shell.fabHelp', message: 'Get help' });
-  const { guideCircle: size, androidTabBar, androidFabMargin } = SHELL_SIZE;
+  const { guideCircle: size } = SHELL_SIZE;
   return (
     <PressableScale
       testID="guide-fab"
@@ -82,8 +80,6 @@ export function GuideFab({ actions }: { readonly actions: GuideActions }) {
           height: size,
           borderRadius: size / 2,
           borderColor: extras.guideRing,
-          bottom: androidTabBar + insets.bottom + androidFabMargin,
-          right: androidFabMargin,
           // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, not copy
           experimental_backgroundImage: `radial-gradient(circle at 35% 28%, ${extras.guide.from} 0%, ${extras.guide.mid} 42%, ${extras.guide.to} 100%)`,
         },
@@ -96,7 +92,6 @@ export function GuideFab({ actions }: { readonly actions: GuideActions }) {
 
 const styles = StyleSheet.create({
   fab: {
-    position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: SHELL_SIZE.guideCircleBorder,

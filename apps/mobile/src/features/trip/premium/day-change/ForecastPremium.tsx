@@ -13,11 +13,12 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import {
   OfflinePill,
   PressableScale,
+  ScrollRow,
   Skeleton,
   StatusTag,
+  type StatusTone,
   Text,
   usePremiumTheme,
-  type StatusTone,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
@@ -86,12 +87,10 @@ export function ForecastReady({ props }: { readonly props: ForecastViewProps }) 
           {lines.noForecast}
         </Text>
       ) : (
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
+        <ScrollRow
           // Bleeds through the page's gutter, so a scrolled day runs to the screen's edge.
-          style={{ marginHorizontal: -th.space.gutter }}
-          contentContainerStyle={{ gap: th.space.gap6, paddingHorizontal: th.space.gutter }}
+          gap={th.space.gap6}
+          bleed={th.space.gutter}
           testID="forecast-days"
         >
           {model.days.map((day) => {
@@ -105,7 +104,7 @@ export function ForecastReady({ props }: { readonly props: ForecastViewProps }) 
                   {
                     borderRadius: th.radius.field,
                     backgroundColor: risky ? th.color.ink : th.color.card,
-                    boxShadow: risky ? th.shadow.ink : th.shadow.card,
+                    boxShadow: th.shadow.card,
                   },
                 ]}
                 testID={`forecast-day-${day.date}`}
@@ -131,7 +130,7 @@ export function ForecastReady({ props }: { readonly props: ForecastViewProps }) 
               </View>
             );
           })}
-        </ScrollView>
+        </ScrollRow>
       )}
       <Text variant="label" tone="muted">
         {lines.section}

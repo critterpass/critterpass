@@ -116,6 +116,7 @@ export function PremiumBudgetView(props: BudgetViewProps) {
           </View>
           {props.onSkip === null ? null : (
             <TextButton
+              align="center"
               label={t({ id: 'setup.budget.skip', message: 'Skip the budget' })}
               onPress={props.onSkip}
               testID="budget-skip"

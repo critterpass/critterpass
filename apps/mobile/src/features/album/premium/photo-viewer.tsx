@@ -135,7 +135,7 @@ export function PremiumPhotoViewer(props: PhotoViewerProps) {
           {props.busy === null ? (
             <>
               <GlassPill
-                icon="expand"
+                icon="download"
                 label={t({ id: 'album.viewer.save', message: 'Save' })}
                 onPress={() => props.onSave(photo)}
                 testID="album-viewer-save"

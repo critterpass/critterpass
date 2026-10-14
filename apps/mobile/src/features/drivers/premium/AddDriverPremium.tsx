@@ -87,7 +87,7 @@ export function AddDriverPremium(input: AddDriverInput) {
           <View style={{ gap: th.space.gap10 }}>
             <TextField
               accessibilityLabel={t({ id: 'drivers.add.contactName', message: 'Name' })}
-              placeholder={t({ id: 'drivers.add.contactName', message: 'Name' })}
+              label={t({ id: 'drivers.add.contactName', message: 'Name' })}
               value={add.name}
               onChangeText={add.setName}
               textContentType="name"
@@ -99,7 +99,7 @@ export function AddDriverPremium(input: AddDriverInput) {
                 id: 'drivers.add.contactPhone',
                 message: 'WhatsApp number, with its country code',
               })}
-              placeholder={t({
+              label={t({
                 id: 'drivers.add.contactPhone',
                 message: 'WhatsApp number, with its country code',
               })}

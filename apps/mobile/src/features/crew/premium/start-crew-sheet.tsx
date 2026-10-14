@@ -84,7 +84,7 @@ function StartCrewForm({ start, cover }: StartCrewFormProps) {
       </View>
       <KeyboardAwareScroll
         contentContainerStyle={{ paddingHorizontal: th.space.gutter }}
-        // The focused name keeps its counter line and the footer's button above the keyboard.
+        // The focused name keeps the footer's button above the keyboard.
         bottomOffset={FOOTER_CLEARANCE + th.size.button + th.space.gap8 * 2}
         contentInsetAdjustmentBehavior="never"
       >
@@ -123,7 +123,7 @@ function StartCrewForm({ start, cover }: StartCrewFormProps) {
             autoFocus
             returnKeyType="done"
             maxLength={start.max}
-            helper={`${String(Array.from(start.name).length)}/${String(start.max)}`}
+            counter={`${String(Array.from(start.name).length)}/${String(start.max)}`}
             testID="start-crew-name"
           />
           <Text variant="label" tone="muted" style={styles.section}>

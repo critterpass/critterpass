@@ -11,13 +11,13 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import {
   Button,
+  Chip,
   Composer,
   GlassPill,
-  PressableScale,
+  makePremiumStyles,
+  ScrollRow,
   Text,
   TextButton,
-  makePremiumStyles,
-  usePremiumTheme,
 } from '@/ui/premium';
 import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
@@ -52,14 +52,6 @@ const useStyles = makePremiumStyles((th) => ({
     borderRadius: 17,
     overflow: 'hidden',
     backgroundColor: th.accent.sun,
-  },
-  action: {
-    height: 36,
-    paddingHorizontal: 14,
-    borderRadius: 18,
-    justifyContent: 'center',
-    backgroundColor: th.color.card,
-    boxShadow: th.shadow.card,
   },
 }));
 
@@ -98,7 +90,6 @@ function Corners() {
 }
 
 export function PremiumCameraScene(props: CameraViewProps) {
-  const th = usePremiumTheme();
   const styles = useStyles();
   const insets = useScreenInsets();
   const { state } = props;
@@ -214,6 +205,7 @@ export function PremiumCameraScene(props: CameraViewProps) {
         {cannotScan ? (
           <View style={styles.inset}>
             <TextButton
+              align="center"
               label={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}
               onPress={props.onClose}
               testID="guide-camera-type"
@@ -229,26 +221,24 @@ export function PremiumCameraScene(props: CameraViewProps) {
         state.phase === 'result' &&
         state.reading !== null &&
         props.followUps.length > 0 ? (
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ gap: 8, paddingHorizontal: 16 }}
+          <ScrollRow
+            gap={8}
+            above={4}
+            below={4}
+            contentContainerStyle={{ paddingHorizontal: 16 }}
             testID="guide-camera-follow-ups"
           >
             {props.followUps.map((action, index) => (
-              <PressableScale
+              <Chip
                 key={action.id}
-                style={[styles.action, index === 0 ? { backgroundColor: th.color.ink } : null]}
+                label={action.label}
+                selected={index === 0}
+                surface="white"
                 onPress={action.onPress}
-                accessibilityRole="button"
                 testID={`guide-camera-follow-${action.id}`}
-              >
-                <Text variant="rowTextStrong" tone={index === 0 ? 'onInk' : 'ink'}>
-                  {action.label}
-                </Text>
-              </PressableScale>
+              />
             ))}
-          </ScrollView>
+          </ScrollRow>
         ) : null}
         {ordering ? null : state.phase === 'result' ? (
           <View style={{ gap: 6 }}>

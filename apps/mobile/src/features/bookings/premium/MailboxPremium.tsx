@@ -26,6 +26,7 @@ import {
   MailboxPassBadge,
   MailboxSheetFrame,
 } from './components/MailboxSheetFrame';
+import { useAddressCopiedToast } from './components/ConfirmationCode';
 
 const PROVIDERS: readonly MailboxProvider[] = ['gmail', 'microsoft'];
 
@@ -38,6 +39,7 @@ export function MailboxPremium(props: {
   const th = usePremiumTheme();
   const insets = useSafeAreaInsets();
   const { t, i18n } = useLingui();
+  const copied = useAddressCopiedToast();
   const { name: guideName } = useWalletGuide();
   const mailbox = useMailboxActions(props.status, props.onChanged);
   const { status } = props;
@@ -208,7 +210,7 @@ export function MailboxPremium(props: {
           {status.kind === 'soon' && props.address !== null ? (
             <MailboxAddressPill
               address={props.address}
-              onCopy={() => void mailbox.copy(props.address ?? '')}
+              onCopy={() => copied(mailbox.copy(props.address ?? ''))}
             />
           ) : null}
         </View>

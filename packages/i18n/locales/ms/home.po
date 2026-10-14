@@ -343,6 +343,10 @@ msgstr ""
 msgid "home.premium.widgets.gotIt"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
+msgid "home.premium.switcher.joinFailedOk"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.guides"
 msgstr ""

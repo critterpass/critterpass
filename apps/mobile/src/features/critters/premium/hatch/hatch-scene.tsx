@@ -142,7 +142,7 @@ export function PremiumHatchScene(props: HatchViewProps) {
             >
               {hatchedTitle(props.name).toLocaleUpperCase(locale)}
             </Text>
-            <Text variant="hero" align="center" numberOfLines={2}>
+            <Text variant="displayLarge" align="center" numberOfLines={2}>
               {welcome(props.place)}
             </Text>
             <Text variant="body" tone="inkSecondary" align="center">

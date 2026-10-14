@@ -140,11 +140,7 @@ export function PremiumTastePage() {
         {/* Tokek's line leads with its small doodle, pointing at the cards (2.07). */}
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.space.gap8 }}>
           <CritterSticker kind={tokek.kind} name={tokek.name} size={34} pose="point" />
-          <Text
-            variant="guide"
-            color={theme.color.banner.guide.text}
-            style={{ flex: 1, paddingTop: theme.space.gap6 }}
-          >
+          <Text variant="guide" color={theme.color.banner.guide.text} style={{ flex: 1 }}>
             {tokekLine(quiz.lastTrigger, locale)}
           </Text>
         </View>

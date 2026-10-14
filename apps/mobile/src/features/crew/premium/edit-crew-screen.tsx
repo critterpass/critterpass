@@ -130,7 +130,7 @@ export function EditCrewScreen() {
           onChangeText={(next) => setName(next.slice(0, CREW_NAME_MAX))}
           maxLength={CREW_NAME_MAX}
           returnKeyType="done"
-          helper={`${String(Array.from(currentName).length)}/${String(CREW_NAME_MAX)}`}
+          counter={`${String(Array.from(currentName).length)}/${String(CREW_NAME_MAX)}`}
           testID="edit-crew-name"
         />
         <Text variant="label" tone="muted" style={styles.section}>

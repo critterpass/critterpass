@@ -6,10 +6,10 @@
  */
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, View, useWindowDimensions } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
 
 import { Doodle, placeIcon } from '@/features/explore';
-import { IconButton, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { IconButton, PressableScale, ScrollRow, Text, usePremiumTheme } from '@/ui/premium';
 
 import type { MapPlace } from '../../trip-map/map-places';
 
@@ -71,9 +71,7 @@ export function PlaceCarousel(props: {
           }).toLocaleUpperCase()}
         </Text>
       </View>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
+      <ScrollRow
         snapToInterval={CARD_W + theme.space.gap10}
         decelerationRate="fast"
         contentContainerStyle={{
@@ -143,7 +141,7 @@ export function PlaceCarousel(props: {
             </View>
           </PressableScale>
         ))}
-      </ScrollView>
+      </ScrollRow>
     </View>
   );
 }

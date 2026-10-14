@@ -11,6 +11,7 @@ import { crewAccent } from '@/features/trip';
 import {
   Avatar,
   Button,
+  Chip,
   EmptyState,
   PressableScale,
   Skeleton,
@@ -108,35 +109,39 @@ export function DirectoryPremium(input: { readonly tripId: string; readonly area
           contentContainerStyle={[styles.chips, { paddingHorizontal: th.space.gutter }]}
         >
           {p.areaChips.map((chip) => (
-            <Button
+            <Chip
               key={chip}
               label={chip}
-              size="small"
-              variant={p.filters.areas.includes(chip) ? 'primary' : 'floating'}
+              size="hub"
+              surface="white"
+              selected={p.filters.areas.includes(chip)}
               onPress={() => p.onToggleArea(chip)}
               testID={`drivers-area-${chip}`}
             />
           ))}
           {p.languageChip === null ? null : (
-            <Button
+            <Chip
               label={p.languageChip}
-              size="small"
-              variant={p.filters.language === null ? 'floating' : 'primary'}
+              size="hub"
+              surface="white"
+              selected={p.filters.language !== null}
               onPress={p.onToggleLanguage}
               testID="drivers-language"
             />
           )}
-          <Button
+          <Chip
             label={t({ id: 'drivers.directory.sevenPlus', message: '7+ seats' })}
-            size="small"
-            variant={p.filters.sevenPlus ? 'primary' : 'floating'}
+            size="hub"
+            surface="white"
+            selected={p.filters.sevenPlus}
             onPress={p.onToggleSevenPlus}
             testID="drivers-seven-plus"
           />
-          <Button
+          <Chip
             label={t({ id: 'drivers.directory.dayTrips', message: 'Day trips' })}
-            size="small"
-            variant={p.filters.dayTrips ? 'primary' : 'floating'}
+            size="hub"
+            surface="white"
+            selected={p.filters.dayTrips}
             onPress={p.onToggleDayTrips}
             testID="drivers-day-trips"
           />

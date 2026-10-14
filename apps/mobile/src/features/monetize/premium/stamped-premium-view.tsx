@@ -222,6 +222,7 @@ export function StampedPremiumView({
           />
         ) : (
           <TextButton
+            align="center"
             label={t({ id: 'monetize.welcome.done', message: 'Done' })}
             onPress={props.onDone}
             testID="stamped-done"

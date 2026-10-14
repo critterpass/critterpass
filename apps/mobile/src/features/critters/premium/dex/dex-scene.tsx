@@ -14,11 +14,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   GlassIconButton,
+  SearchField,
   SegmentedControl,
   Skeleton,
   Tag,
   Text,
-  TextField,
   usePremiumTheme,
 } from '@/ui/premium';
 
@@ -111,7 +111,7 @@ export function PremiumDexScene(props: DexViewProps) {
         accessibilityLabel={filterGroupLabel()}
         testID="critters-dex-filter"
       />
-      <TextField
+      <SearchField
         accessibilityLabel={searchLabel()}
         placeholder={searchLabel()}
         value={query}

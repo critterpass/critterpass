@@ -2,6 +2,7 @@
 import { useState } from 'react';
 
 import { Checkbox } from '../controls/Checkbox';
+import { Chip } from '../controls/Chip';
 import { Composer } from '../controls/Composer';
 import { ProgressBar, StepProgress } from '../controls/Progress';
 import { SegmentedControl } from '../controls/SegmentedControl';
@@ -39,6 +40,12 @@ export function ControlSamples() {
         <Stepper accessibilityLabel="Nights" value={nights} onChange={setNights} min={1} max={14} />
         <Checkbox accessibilityLabel="Packed" checked={checked} onChange={setChecked} />
         <Checkbox accessibilityLabel="Not packed" checked={false} onChange={setChecked} />
+      </GalleryRow>
+      <GalleryRow>
+        <Chip label="All 24" selected={range === 'trip'} onPress={() => setRange('trip')} />
+        <Chip label="Food 8" onPress={() => setRange('day')} />
+        <Chip label="Saved" surface="white" onPress={() => setRange('week')} />
+        <Chip label="Kept" size="small" surface="tint" />
       </GalleryRow>
       <TextField
         accessibilityLabel="Trip name"

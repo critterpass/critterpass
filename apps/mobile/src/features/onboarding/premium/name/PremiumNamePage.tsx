@@ -3,13 +3,14 @@
  * typed (the MRZ rewrites itself), Tokek reacts once typing pauses, and Next docks on the
  * keyboard. At the pass's 24-letter limit the field turns pink, says so, and offers shorter names.
  */
+import { GIVEN_NAME_MAX, givenNameLength } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Keyboard, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { Button, GuideNote, PressableScale, Text, TextField, usePremiumTheme } from '@/ui/premium';
+import { Button, Chip, GuideNote, Text, TextField, usePremiumTheme } from '@/ui/premium';
 
 import { guideFacts } from '../../guide-faces';
 import { atNameLimit, nameSuggestions } from '../../name/name-suggestions';
@@ -70,6 +71,9 @@ export function PremiumNamePage() {
       </Text>
       <TextField
         accessibilityLabel={t({ id: 'onboarding.name.label', message: 'Your first name' })}
+        label={t({ id: 'onboarding.premium.name.fieldLabel', message: 'Name' })}
+        // The count shows once the name reaches what a pass can print (2.06).
+        counter={limit ? `${String(givenNameLength(name))}/${String(GIVEN_NAME_MAX)}` : undefined}
         value={name}
         onChangeText={step.onChange}
         key={step.focusReady ? 'focus' : 'wait'}
@@ -108,25 +112,12 @@ export function PremiumNamePage() {
             </Text>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap8 }}>
               {suggestions.map((option) => (
-                <PressableScale
+                <Chip
                   key={option}
+                  label={option}
+                  surface="white"
                   onPress={() => step.onChange(option)}
-                  accessibilityRole="button"
-                  accessibilityLabel={option}
-                >
-                  <View
-                    style={{
-                      height: 36,
-                      paddingHorizontal: theme.space.gap14,
-                      borderRadius: 18,
-                      backgroundColor: theme.color.card,
-                      justifyContent: 'center',
-                      boxShadow: theme.shadow.raised,
-                    }}
-                  >
-                    <Text variant="rowTextStrong">{option}</Text>
-                  </View>
-                </PressableScale>
+                />
               ))}
             </View>
           </View>

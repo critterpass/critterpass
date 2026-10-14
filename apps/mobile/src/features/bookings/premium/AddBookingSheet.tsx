@@ -8,8 +8,9 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { View } from 'react-native';
 
-import { guideCritterKind, IconTile, LineIcon, turn, type LineIconName } from '@/features/trip';
-import { CritterSticker, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { guideCritterKind, LineIcon } from '@/features/trip';
+import { CritterSticker, PressableScale, StickerIcon, Text, usePremiumTheme } from '@/ui/premium';
+import type { StickerIconName } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
 
 import { useWalletContext } from '../data/use-wallet-context';
@@ -19,9 +20,8 @@ import { leaveSheetThen } from './sheet-handoff';
 import { useAddChannels } from './use-add-channels';
 
 function Tile(props: {
-  readonly icon: LineIconName;
-  readonly bg: string;
-  readonly color: string;
+  /** The tile's colour sticker (1.06: a chat bubble, a camera, a wallet). */
+  readonly icon: StickerIconName;
   readonly label: string;
   /** Degrees the doodle leans. */
   readonly tilt: number;
@@ -49,9 +49,13 @@ function Tile(props: {
           paddingHorizontal: th.space.gap8,
         }}
       >
-        <View style={{ transform: [turn(props.tilt)] }}>
-          <IconTile name={props.icon} bg={props.bg} color={props.color} size={52} />
-        </View>
+        <StickerIcon
+          name={props.icon}
+          size={52}
+          tilt={props.tilt}
+          // 1.06 draws the by-hand wallet in sun yellow, not the hub's mint.
+          {...(props.icon === 'wallet' ? { color: th.accent.sun } : {})}
+        />
         <Text variant="label" align="center" numberOfLines={2}>
           {props.label}
         </Text>
@@ -74,27 +78,21 @@ function Body() {
     <View style={{ gap: th.space.gap16, paddingBottom: th.space.gap16 }}>
       <View style={{ flexDirection: 'row', gap: th.space.gap10 }}>
         <Tile
-          icon="mail"
-          bg={th.color.status.rain.bg}
-          color={th.color.status.rain.text}
+          icon="chat"
           label={t({ id: 'bookings.premium.forwardAnEmail', message: 'Forward an email' })}
           tilt={-6}
           onPress={channels.forward}
           testID="bookings-add-forward"
         />
         <Tile
-          icon="scan"
-          bg={th.color.status.voteOpen.bg}
-          color={th.color.status.voteOpen.text}
+          icon="camera"
           label={t({ id: 'bookings.premium.scanATicket', message: 'Scan a ticket' })}
           tilt={5}
           onPress={then(scan)}
           testID="bookings-add-scan"
         />
         <Tile
-          icon="receipt"
-          bg={th.color.status.maybe.bg}
-          color={th.color.status.maybe.text}
+          icon="wallet"
           label={t({ id: 'bookings.premium.byHand', message: 'Add by hand' })}
           tilt={-4}
           onPress={then(channels.byHand)}

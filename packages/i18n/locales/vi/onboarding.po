@@ -693,6 +693,10 @@ msgstr "Bảo tàng"
 msgid "onboarding.tag.museums.short"
 msgstr "Bảo tàng"
 
+#: ../../apps/mobile/src/features/onboarding/premium/name/PremiumNamePage.tsx
+msgid "onboarding.premium.name.fieldLabel"
+msgstr "Tên"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.nature.short"
 msgstr "Thiên nhiên"

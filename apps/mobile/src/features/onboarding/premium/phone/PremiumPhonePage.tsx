@@ -161,7 +161,7 @@ export function PremiumPhonePage() {
           <View style={{ flex: 1 }}>
             <TextField
               accessibilityLabel={t({ id: 'onboarding.phone.label', message: 'Phone' })}
-              placeholder={t({ id: 'onboarding.phone.label', message: 'Phone' })}
+              label={t({ id: 'onboarding.phone.label', message: 'Phone' })}
               value={number}
               onChangeText={phone.setNumber}
               editable={sent === null}

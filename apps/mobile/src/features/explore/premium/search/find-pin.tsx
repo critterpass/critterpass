@@ -134,7 +134,7 @@ export function FindPin(props: FindPinProps) {
           )}
           <TextField
             accessibilityLabel={t({ id: 'search.pin.name', message: 'What is it called?' })}
-            placeholder={t({ id: 'search.pin.name', message: 'What is it called?' })}
+            label={t({ id: 'search.pin.name', message: 'What is it called?' })}
             value={name}
             onChangeText={setName}
             returnKeyType="done"

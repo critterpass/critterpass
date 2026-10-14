@@ -152,6 +152,7 @@ function SaveChoice(props: PremiumSaveSheetProps & { readonly busy: boolean }) {
         testID="save-google"
       />
       <TextButton
+        align="center"
         label={t({ id: 'onboarding.save.phone', message: 'Use my phone number' })}
         tone="inkSecondary"
         onPress={props.onPhone}
@@ -159,6 +160,7 @@ function SaveChoice(props: PremiumSaveSheetProps & { readonly busy: boolean }) {
         testID="save-phone"
       />
       <TextButton
+        align="center"
         label={t({ id: 'onboarding.save.notNow', message: 'Not now' })}
         onPress={props.onNotNow}
         disabled={busy}

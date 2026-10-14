@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { useFormats } from '@/lib/i18n/formats';
-import { Banner, Skeleton, TextField, usePremiumTheme } from '@/ui/premium';
+import { Banner, SearchField, Skeleton, usePremiumTheme } from '@/ui/premium';
 import { RootScreen, type ShellAction } from '@/ui/premium/shell';
 
 import { WalletGuideProvider } from '../data/wallet-guide';
@@ -112,14 +112,13 @@ export function WalletBookingsScreen() {
             <WalletHalfSwitch current="bookings" />
             {query === null ? null : (
               <View style={{ paddingHorizontal: theme.space.gap16 }}>
-                <TextField
+                <SearchField
                   autoFocus
                   value={query ?? ''}
                   onChangeText={setQuery}
                   placeholder={searchLabel}
                   accessibilityLabel={searchLabel}
                   returnKeyType="search"
-                  clearButtonMode="while-editing"
                   testID="bookings-search-field"
                 />
               </View>

@@ -5,11 +5,20 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
-import { Image, ScrollView, View } from 'react-native';
+import { Image, View } from 'react-native';
 
 import { FormSticker } from '@/features/critters';
 import { GUIDE_AVATAR_IDS, guideSticker, type GuideAvatarId } from '@/ui/premium/stickers/guides';
-import { CritterSticker, PressableScale, Text, ring, usePremiumTheme } from '@/ui/premium';
+import {
+  CritterSticker,
+  PressableScale,
+  ring,
+  ROW_ROOM_ABOVE,
+  ROW_ROOM_BELOW,
+  ScrollRow,
+  Text,
+  usePremiumTheme,
+} from '@/ui/premium';
 
 import type { MemberFace } from '../../avatar/member-face';
 import type { OwnedForm } from '../../avatar/owned-forms';
@@ -75,14 +84,13 @@ export function GuideDiscs(props: {
 }) {
   const th = usePremiumTheme();
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      style={{ marginHorizontal: -th.space.gutter }}
-      contentContainerStyle={{
-        gap: th.space.gap10,
-        paddingHorizontal: th.space.gutter,
-        paddingVertical: th.space.gap6,
+    <ScrollRow
+      gap={th.space.gap10}
+      bleed={th.space.gutter}
+      // 6 above and below the discs, as the row kept; its room for the ring and shadow sits inside.
+      style={{
+        marginTop: th.space.gap6 - ROW_ROOM_ABOVE,
+        marginBottom: th.space.gap6 - ROW_ROOM_BELOW,
       }}
       accessibilityRole="radiogroup"
       testID="you-avatar-guide"
@@ -114,7 +122,7 @@ export function GuideDiscs(props: {
           </PressableScale>
         );
       })}
-    </ScrollView>
+    </ScrollRow>
   );
 }
 

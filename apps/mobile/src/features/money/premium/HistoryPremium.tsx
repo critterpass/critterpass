@@ -7,15 +7,19 @@
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useMemo } from 'react';
-import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 
 import { crewAccent } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   Avatar,
+  Chip,
   EmptyState,
   PressableScale,
   ring,
+  ROW_ROOM_ABOVE,
+  ROW_ROOM_BELOW,
+  ScrollRow,
   Skeleton,
   Text,
   usePremiumTheme,
@@ -52,35 +56,19 @@ export function HistoryPremium() {
   // Still reading, or nothing spent yet: the list holds only the skeleton or the empty state.
   const none = history.loading || history.items.length === 0;
   const filters = (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={[
-        styles.filters,
-        { paddingLeft: th.space.gutter, paddingRight: th.space.gutter },
-      ]}
+    <ScrollRow
+      gap={6}
+      contentContainerStyle={{ paddingHorizontal: th.space.gutter }}
+      style={styles.filters}
       testID="money-history-filters"
     >
-      <PressableScale
+      <Chip
+        label={t({ id: 'money.history.everyone', message: 'Everyone' })}
+        selected={filter.memberId === null}
+        surface="white"
         onPress={() => history.setFilter({ ...filter, memberId: null })}
-        accessibilityRole="button"
-        accessibilityState={{ selected: filter.memberId === null }}
         testID="money-history-everyone"
-      >
-        <View
-          style={[
-            styles.everyone,
-            {
-              backgroundColor: filter.memberId === null ? th.color.ink : th.color.card,
-              boxShadow: filter.memberId === null ? th.shadow.ink : th.shadow.float,
-            },
-          ]}
-        >
-          <Text variant="segment" color={filter.memberId === null ? th.color.onInk : th.color.ink}>
-            {t({ id: 'money.history.everyone', message: 'Everyone' })}
-          </Text>
-        </View>
-      </PressableScale>
+      />
       {history.members.map((member) => {
         const selected = filter.memberId === member.userId;
         return (
@@ -114,7 +102,7 @@ export function HistoryPremium() {
           </PressableScale>
         );
       })}
-    </ScrollView>
+    </ScrollRow>
   );
   return (
     <PushScreen
@@ -199,8 +187,8 @@ export function HistoryPremium() {
 }
 
 const styles = StyleSheet.create({
-  filters: { gap: 6, alignItems: 'center', paddingVertical: 4 },
-  everyone: { height: 36, borderRadius: 18, paddingHorizontal: 14, justifyContent: 'center' },
+  // 4 pt above and below the chips; the row's own room for the chosen ring sits inside it.
+  filters: { marginTop: 4 - ROW_ROOM_ABOVE, marginBottom: 4 - ROW_ROOM_BELOW },
   avatarRing: { borderRadius: 18 },
   dayHead: { flexDirection: 'row', justifyContent: 'space-between' },
   card: { overflow: 'hidden' },

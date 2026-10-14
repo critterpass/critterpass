@@ -158,7 +158,7 @@ export function PayoutMethodsPremium() {
                         <TextField
                           key={field}
                           accessibilityLabel={fieldLabel(field)}
-                          placeholder={fieldLabel(field)}
+                          label={fieldLabel(field)}
                           value={methods.values[field] ?? ''}
                           onChangeText={(value) => methods.setValue(field, value)}
                           keyboardType={keyboardFor(field)}

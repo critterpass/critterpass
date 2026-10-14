@@ -229,6 +229,7 @@ export function HelpPremium() {
         {props.onSos === null ? null : <SosAlertAccess />}
         {props.insurer === null ? (
           <TextButton
+            align="center"
             label={t({ id: 'safety.help.noInsurance', message: 'No insurance on file · add' })}
             onPress={props.onInsurance}
             testID="help-insurance-add"

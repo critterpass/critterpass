@@ -46,7 +46,7 @@ export function FlightFields(props: {
         <View style={styles.flex}>
           <TextField
             accessibilityLabel={t({ id: 'bookings.form.from', message: 'From' })}
-            placeholder={t({ id: 'bookings.form.from', message: 'From' })}
+            label={t({ id: 'bookings.form.from', message: 'From' })}
             value={draft.from}
             onChangeText={(from) => props.onChange({ from: from.toUpperCase() })}
             autoCapitalize="characters"
@@ -56,7 +56,7 @@ export function FlightFields(props: {
           />
         </View>
         <GlassIconButton
-          icon="retry"
+          icon="swap"
           label={t({ id: 'bookings.premium.swapAirports', message: 'Swap the airports' })}
           onPress={() => props.onChange({ from: draft.to, to: draft.from })}
           testID="bookings-form-swap"
@@ -64,7 +64,7 @@ export function FlightFields(props: {
         <View style={styles.flex}>
           <TextField
             accessibilityLabel={t({ id: 'bookings.form.to', message: 'To' })}
-            placeholder={t({ id: 'bookings.form.to', message: 'To' })}
+            label={t({ id: 'bookings.form.to', message: 'To' })}
             value={draft.to}
             onChangeText={(to) => props.onChange({ to: to.toUpperCase() })}
             autoCapitalize="characters"

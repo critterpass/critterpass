@@ -16,14 +16,14 @@ import { guideCritterKind, IconTile, turn, type LineIconName } from '@/features/
 import {
   Banner,
   Button,
+  exitTransition,
   GuideNote,
+  layoutTransition,
   PressableScale,
   Text,
   TextButton,
   usePremiumReducedMotion,
   usePremiumTheme,
-  exitTransition,
-  layoutTransition,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
@@ -33,6 +33,7 @@ import { useAddBooking } from '../add/use-add-booking';
 import { useWalletGuide, WalletGuideProvider } from '../data/wallet-guide';
 import { BOOKINGS_ROUTES } from '../routes';
 import { CandidateCard } from './components/CandidateCard';
+import { useAddressCopiedToast } from './components/ConfirmationCode';
 
 /** An added booking slides off to the right on Smooth. */
 const SLIDE_OUT = SlideOutRight.springify()
@@ -91,6 +92,7 @@ function Tile(props: {
 function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
+  const copied = useAddressCopiedToast();
   const reduced = usePremiumReducedMotion();
   const guide = useWalletGuide();
   const p = add.props;
@@ -169,7 +171,7 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
             size="small"
             variant="control"
             alignSelf="auto"
-            onPress={() => void p.onCopy(p.address ?? '')}
+            onPress={() => copied(p.onCopy(p.address ?? ''))}
             testID="bookings-add-copy"
           />
         </View>

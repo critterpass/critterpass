@@ -9,49 +9,27 @@ import { View } from 'react-native';
 
 import type { TasteTag } from '@cp/domain';
 
-import { Icon, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { Chip, usePremiumTheme } from '@/ui/premium';
 
 import { shownTags } from '../../invited/travel-tags';
 import { tagWords } from '../../taste/tag-labels';
 
-function Chip({
-  label,
-  selected,
-  onPress,
-  testID,
-}: {
+function TagChip(props: {
   readonly label: string;
   readonly selected: boolean;
   readonly onPress: () => void;
   readonly testID: string;
 }) {
-  const theme = usePremiumTheme();
   return (
-    <PressableScale
-      onPress={onPress}
+    <Chip
+      label={props.label}
+      selected={props.selected}
+      onPress={props.onPress}
+      surface="white"
       accessibilityRole="checkbox"
-      accessibilityState={{ checked: selected }}
-      accessibilityLabel={label}
-      testID={testID}
-    >
-      <View
-        style={{
-          minHeight: 36,
-          paddingHorizontal: theme.space.gap14,
-          borderRadius: 18,
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: theme.space.gap6,
-          backgroundColor: selected ? theme.color.ink : theme.color.card,
-          boxShadow: selected ? theme.shadow.ink : theme.shadow.raised,
-        }}
-      >
-        {selected ? <Icon name="check" size={14} color={theme.color.onInk} /> : null}
-        <Text variant="rowTextStrong" color={selected ? theme.color.onInk : theme.color.ink}>
-          {label}
-        </Text>
-      </View>
-    </PressableScale>
+      {...(props.selected ? { icon: 'check' as const } : {})}
+      testID={props.testID}
+    />
   );
 }
 
@@ -67,7 +45,7 @@ export function TravelTagChips({
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap8 }}>
       {shownTags(selected, more).map((tag) => (
-        <Chip
+        <TagChip
           key={tag}
           label={tagWords(tag).full}
           selected={selected.includes(tag)}
@@ -76,7 +54,7 @@ export function TravelTagChips({
         />
       ))}
       {more ? null : (
-        <Chip
+        <TagChip
           label={t({ id: 'onboarding.invite.pass.more', message: '+ More' })}
           selected={false}
           onPress={() => setMore(true)}

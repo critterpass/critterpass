@@ -6,41 +6,28 @@
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
 
-import { Button, PressableScale, Text, TextButton, TextField, usePremiumTheme } from '@/ui/premium';
+import { Button, Chip, TextButton, TextField, usePremiumTheme } from '@/ui/premium';
 
 import type { ListEditor } from '../../screens/saved-screen';
 import type { ListChoice } from '../../screens/saved-screen';
 import { ALL_LISTS, type ListSummary, type SavedRow } from '../../saved-model';
 
-export function Chip(props: {
+export function ListChip(props: {
   readonly label: string;
   readonly on: boolean;
   readonly onPress: () => void;
   readonly testID: string;
 }) {
-  const theme = usePremiumTheme();
   return (
-    <PressableScale
+    <Chip
+      label={props.label}
+      selected={props.on}
       onPress={props.onPress}
-      accessibilityRole="button"
-      accessibilityState={{ selected: props.on }}
-      accessibilityLabel={props.label}
+      size="hub"
       testID={props.testID}
-      style={{
-        height: 34,
-        borderRadius: 17,
-        paddingHorizontal: 13,
-        justifyContent: 'center',
-        backgroundColor: props.on ? theme.color.inkSurface : theme.color.control,
-      }}
-    >
-      <Text variant="segment" tone={props.on ? 'onInk' : 'ink'} numberOfLines={1}>
-        {props.label}
-      </Text>
-    </PressableScale>
+    />
   );
 }
-
 export function ListChips(props: {
   readonly lists: readonly ListSummary[];
   readonly total: number;
@@ -58,14 +45,14 @@ export function ListChips(props: {
       contentContainerStyle={{ gap: theme.space.gap6, paddingHorizontal: theme.space.gutter }}
       testID="explore-saved-lists"
     >
-      <Chip
+      <ListChip
         label={`${t({ id: 'explore.saved.all', message: 'All' })} ${String(props.total)}`}
         on={props.choice === ALL_LISTS}
         onPress={() => props.onChoose(ALL_LISTS)}
         testID="explore-saved-list-all"
       />
       {props.lists.map((list) => (
-        <Chip
+        <ListChip
           key={list.name ?? ''}
           label={`${props.listLabel(list.name)} ${String(list.count)}`}
           on={props.choice === list.name}
@@ -73,7 +60,7 @@ export function ListChips(props: {
           testID={`explore-saved-list-${list.name ?? 'default'}`}
         />
       ))}
-      <Chip
+      <ListChip
         label={t({ id: 'explore.saved.newList', message: '+ New list' })}
         on={false}
         onPress={props.onNewList}
@@ -160,13 +147,13 @@ export function RowActions(props: {
       }}
     >
       <View style={{ flexDirection: 'row', gap: theme.space.gap6 }}>
-        <Chip
+        <ListChip
           label={t({ id: 'explore.saved.move', message: 'Move' })}
           on={props.moving}
           onPress={() => props.onMove(row)}
           testID={`explore-saved-move-${row.refId}`}
         />
-        <Chip
+        <ListChip
           label={t({ id: 'explore.saved.remove', message: 'Remove' })}
           on={false}
           onPress={() => props.onRemove(row)}
@@ -181,7 +168,7 @@ export function RowActions(props: {
           {props.lists
             .filter((list) => list.name !== row.listName)
             .map((list) => (
-              <Chip
+              <ListChip
                 key={list.name ?? ''}
                 label={props.listLabel(list.name)}
                 on={false}

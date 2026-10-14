@@ -84,7 +84,7 @@ function IdeaCard({ row, onVote }: { readonly row: BoardRow; readonly onVote: ()
         }}
         testID={`help-idea-vote-${row.id}`}
       >
-        <Icon name="expand" size={14} color={row.voted ? th.color.onInk : th.color.ink} />
+        <Icon name="arrowUp" size={14} color={row.voted ? th.color.onInk : th.color.ink} />
         <Text variant="stepperValue" color={row.voted ? th.color.onInk : th.color.ink}>
           {String(row.count)}
         </Text>

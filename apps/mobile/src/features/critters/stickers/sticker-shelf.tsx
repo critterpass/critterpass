@@ -54,22 +54,21 @@ export function StickerShelfView({ items, onOpen }: StickerShelfViewProps) {
   const { t, i18n } = useLingui();
   return (
     <View style={styles.card} testID="sticker-shelf">
-      <Text variant="label" tone="muted" style={styles.head}>
-        {t({ id: 'stickers.shelf.title', message: 'Stickers' }).toLocaleUpperCase(i18n.locale)}
-      </Text>
-      {items.length === 0 ? (
-        <Text
-          variant="rowText"
-          tone="muted"
-          singleLine={false}
-          style={styles.head}
-          testID="sticker-shelf-empty"
-        >
-          {t({
-            id: 'stickers.shelf.empty',
-            message: 'Settle a trip to the last payment or level up your crew to earn one.',
-          })}
+      {/* The card's inset sits on a wrapper, so the words themselves keep clear of its edges. */}
+      <View style={styles.head}>
+        <Text variant="label" tone="muted">
+          {t({ id: 'stickers.shelf.title', message: 'Stickers' }).toLocaleUpperCase(i18n.locale)}
         </Text>
+      </View>
+      {items.length === 0 ? (
+        <View style={styles.head}>
+          <Text variant="rowText" tone="muted" singleLine={false} testID="sticker-shelf-empty">
+            {t({
+              id: 'stickers.shelf.empty',
+              message: 'Settle a trip to the last payment or level up your crew to earn one.',
+            })}
+          </Text>
+        </View>
       ) : (
         <ScrollView
           horizontal

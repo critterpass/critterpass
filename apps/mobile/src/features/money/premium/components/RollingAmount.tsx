@@ -4,11 +4,13 @@
  * and spaces stay put. Columns are keyed from the right, so "Rp 450.000" growing to "Rp 1.450.000"
  * rolls the digits that exist and fades in the new leading one. Reduce Motion cross-fades instead.
  * A column is one text of ten lines, each one line box tall, laid out over a hidden resting digit,
- * and every digit is tabular, so the amount keeps its width as it rolls.
+ * and every digit is tabular, so the amount keeps its width as it rolls. The line box is held to
+ * whole device pixels: a fractional one drifted as the ten lines stacked, so a high digit came to
+ * rest about 1.5 pt below the symbols beside it.
  */
 import type { PremiumTypeName } from '@cp/design-tokens';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { PixelRatio, StyleSheet, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -112,7 +114,7 @@ export function RollingAmount({ text, variant, tone = 'ink', color, testID }: Ro
         variant={variant}
         style={[styles.measure, styles.tabular]}
         onLayout={(event) => {
-          setHeight(event.nativeEvent.layout.height);
+          setHeight(PixelRatio.roundToNearestPixel(event.nativeEvent.layout.height));
           setFirst((current) => current ?? text);
         }}
       >

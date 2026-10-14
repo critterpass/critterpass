@@ -1,14 +1,22 @@
 /**
- * The swipe deck before it has cards (undesigned; built from the kit's loading critter, empty
- * state and button): while the guide builds it, the bobbing critter with "Building the deck" and
- * how long it takes, centred; once the deck is in but its places are still reaching the phone, the
- * same critter with "Almost there"; past the time a deck takes, the sleeping critter says it didn't
- * come together, with Start again as the one button under it.
+ * The swipe deck before it has cards (undesigned; built from the kit's skeleton, loading critter,
+ * guide note, empty state and button): while the guide builds it, the deck's own card in its
+ * skeleton (the photo block and the name band) with the bobbing critter and "Building the deck" on
+ * it, and the guide's line under it saying how long it takes; once the deck is in but its places
+ * are still reaching the phone, the same card with "Almost there"; past the time a deck takes, the
+ * sleeping critter says it didn't come together, with Start again as the one button under it.
  */
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
-import { Button, EmptyState, LoadingCritter, Text, usePremiumTheme } from '@/ui/premium';
+import {
+  Button,
+  EmptyState,
+  GuideNote,
+  LoadingCritter,
+  Skeleton,
+  usePremiumTheme,
+} from '@/ui/premium';
 
 import { DECK_MINUTES, type DeckWait } from '../../deck-wait';
 import type { GuideFacts } from '../../format';
@@ -46,34 +54,68 @@ export function SwipeWaiting(props: {
   }
   const arriving = props.wait === 'arriving';
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: theme.space.gap8,
-        paddingHorizontal: theme.space.gutter,
-      }}
-      testID="swipe-building"
-    >
-      <LoadingCritter
-        label={
+    <View style={{ flex: 1, gap: theme.space.gap16 }} testID="swipe-building">
+      <View
+        style={{
+          flex: 1,
+          borderRadius: 36,
+          backgroundColor: theme.color.card,
+          padding: 8,
+          boxShadow: theme.shadow.card,
+        }}
+      >
+        <View style={{ flex: 1, borderRadius: 29, overflow: 'hidden' }}>
+          {/* Taller than any card: the card's rounded frame cuts it to its own height. */}
+          <Skeleton height={1200} radius={29} tone="block" />
+          <View
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <LoadingCritter
+              label={
+                arriving
+                  ? t({ id: 'explore.premium.swipe.arriving', message: 'Almost there' })
+                  : t({ id: 'explore.premium.swipe.building', message: 'Building the deck' })
+              }
+            />
+          </View>
+          <View
+            style={{
+              position: 'absolute',
+              left: theme.space.gap16,
+              right: theme.space.gap16,
+              bottom: theme.space.gap16,
+              gap: theme.space.gap8,
+            }}
+          >
+            <Skeleton width="70%" height={22} radius={8} />
+            <Skeleton width="40%" height={14} radius={6} />
+          </View>
+        </View>
+      </View>
+      <GuideNote
+        name={guideName}
+        critter={props.guide.kind}
+        text={
           arriving
-            ? t({ id: 'explore.premium.swipe.arriving', message: 'Almost there' })
-            : t({ id: 'explore.premium.swipe.building', message: 'Building the deck' })
+            ? t({
+                id: 'explore.premium.swipe.arrivingLine',
+                message: 'The cards are on their way to your phone.',
+              })
+            : t({
+                id: 'explore.premium.swipe.buildingLine',
+                message: `${guideName} is picking places for the crew. It takes about ${DECK_MINUTES} minutes.`,
+              })
         }
+        testID="swipe-building-note"
       />
-      <Text variant="caption" tone="muted" align="center" singleLine={false}>
-        {arriving
-          ? t({
-              id: 'explore.premium.swipe.arrivingLine',
-              message: 'The cards are on their way to your phone.',
-            })
-          : t({
-              id: 'explore.premium.swipe.buildingLine',
-              message: `${guideName} is picking places for the crew. It takes about ${DECK_MINUTES} minutes.`,
-            })}
-      </Text>
     </View>
   );
 }

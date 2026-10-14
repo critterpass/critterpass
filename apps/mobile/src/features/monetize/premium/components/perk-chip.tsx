@@ -1,10 +1,10 @@
 /**
- * A perk as a white chip with a coloured dot or tick disc (9.12, 9.14, 9.15, 9.21); `paused` greys
+ * A perk as a white kit chip with a coloured dot or tick disc (9.12, 9.14, 9.15, 9.21); `paused` greys
  * it and strikes it through (what pauses when the free first trip ends).
  */
 import { View } from 'react-native';
 
-import { Icon, Text, usePremiumTheme } from '@/ui/premium';
+import { Chip, Icon, usePremiumTheme } from '@/ui/premium';
 
 export interface PerkChipProps {
   readonly label: string;
@@ -28,48 +28,34 @@ export function PerkChip({
   testID,
 }: PerkChipProps) {
   const t = usePremiumTheme();
-  const bg = paused ? t.color.control : kept ? t.color.status.booked.bg : t.color.card;
-  const fg = paused ? t.color.placeholder : kept ? t.color.banner.success.text : t.color.ink;
   const disc = height === 34 ? 22 : 16;
-  return (
+  const leading = paused ? undefined : mark === 'tick' ? (
     <View
-      testID={testID}
       style={{
-        height,
-        borderRadius: height / 2,
-        paddingLeft: mark === 'tick' ? 6 : 12,
-        paddingRight: 12,
-        flexDirection: 'row',
+        width: disc,
+        height: disc,
+        borderRadius: disc / 2,
+        backgroundColor: color,
         alignItems: 'center',
-        gap: 6,
-        backgroundColor: bg,
-        boxShadow: paused || kept ? undefined : t.shadow.float,
+        justifyContent: 'center',
       }}
     >
-      {paused ? null : mark === 'tick' ? (
-        <View
-          style={{
-            width: disc,
-            height: disc,
-            borderRadius: disc / 2,
-            backgroundColor: color,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Icon name="check" size={disc * 0.62} color={t.color.onAccent} />
-        </View>
-      ) : (
-        <View style={{ width: 7, height: 7, borderRadius: 3.5, backgroundColor: color }} />
-      )}
-      <Text
-        variant={height === 34 ? 'rowTextStrong' : 'pillSmall'}
-        color={fg}
-        style={paused ? { textDecorationLine: 'line-through' } : null}
-        numberOfLines={1}
-      >
-        {label}
-      </Text>
+      <Icon name="check" size={disc * 0.62} color={t.color.onAccent} />
     </View>
+  ) : (
+    <View
+      style={{ width: 7, height: 7, borderRadius: 3.5, marginLeft: 6, backgroundColor: color }}
+    />
+  );
+  return (
+    <Chip
+      label={label}
+      size={height === 34 ? 'hub' : 'small'}
+      surface={paused ? 'control' : kept ? 'tint' : 'white'}
+      leading={leading}
+      struck={paused}
+      color={paused ? t.color.placeholder : undefined}
+      testID={testID}
+    />
   );
 }

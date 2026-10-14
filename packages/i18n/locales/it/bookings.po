@@ -192,6 +192,10 @@ msgstr ""
 msgid "bookings.insurance.add"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/premium/components/ConfirmationCode.tsx
+msgid "bookings.premium.addressCopied"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
 msgid "bookings.form.flightProblem"
 msgstr ""
@@ -386,6 +390,7 @@ msgid "bookings.pass.close"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/booking-options.ts
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.options.close"
 msgstr ""
 

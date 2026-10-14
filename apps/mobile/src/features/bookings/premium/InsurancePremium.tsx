@@ -118,7 +118,7 @@ export function InsurancePremium() {
         >
           <TextField
             accessibilityLabel={t({ id: 'bookings.insurance.provider', message: 'Insurer' })}
-            placeholder={t({ id: 'bookings.insurance.provider', message: 'Insurer' })}
+            label={t({ id: 'bookings.insurance.provider', message: 'Insurer' })}
             value={draft.provider}
             onChangeText={(provider) => form.onChange({ provider })}
             autoCapitalize="words"
@@ -127,7 +127,7 @@ export function InsurancePremium() {
           />
           <TextField
             accessibilityLabel={t({ id: 'bookings.insurance.number', message: 'Policy number' })}
-            placeholder={t({ id: 'bookings.insurance.number', message: 'Policy number' })}
+            label={t({ id: 'bookings.insurance.number', message: 'Policy number' })}
             value={draft.policyNo}
             onChangeText={(policyNo) => form.onChange({ policyNo })}
             autoCapitalize="characters"

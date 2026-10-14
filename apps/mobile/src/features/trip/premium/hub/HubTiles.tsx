@@ -6,16 +6,15 @@
 import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { PressableScale, StickerIcon, Text, usePremiumTheme } from '@/ui/premium';
+import type { StickerIconName } from '@/ui/premium';
 
 import { HubTileLook, type HubTileData } from '../../hub/tiles';
-import { IconTile } from '../components/IconTile';
-import type { LineIconName } from '../components/LineIcon';
-import { turn } from '../components/turn';
 
-const ICON: Readonly<Record<string, LineIconName>> = {
-  cal: 'calendar',
-  ticket: 'card',
+/** A tile's sticker (6.01: calendar, ticket, wallet, star, camera); a tile from elsewhere wears a star. */
+const STICKER: Readonly<Record<string, StickerIconName>> = {
+  cal: 'cal',
+  ticket: 'ticket',
   wallet: 'wallet',
   star: 'star',
   camera: 'camera',
@@ -23,13 +22,6 @@ const ICON: Readonly<Record<string, LineIconName>> = {
 
 function Tile({ tile }: { readonly tile: HubTileData }) {
   const th = usePremiumTheme();
-  const look = {
-    plan: th.color.status.voteOpen,
-    bookings: th.color.status.rain,
-    money: th.color.status.booked,
-    quests: th.color.status.tangerine,
-    album: th.color.status.maybe,
-  }[tile.key] ?? { bg: th.color.control, text: th.color.ink };
   return (
     <PressableScale
       {...(tile.onPress === undefined ? {} : { onPress: tile.onPress })}
@@ -52,8 +44,8 @@ function Tile({ tile }: { readonly tile: HubTileData }) {
         <Text variant="label" tone="muted" numberOfLines={1} style={styles.title}>
           {tile.title}
         </Text>
-        <View style={[styles.sticker, { transform: [turn(8)] }]}>
-          <IconTile name={ICON[tile.icon] ?? 'star'} bg={look.bg} color={look.text} size={40} />
+        <View style={styles.sticker}>
+          <StickerIcon name={STICKER[tile.icon] ?? 'star'} size={40} tilt={8} />
         </View>
         <View>
           <Text variant="stat" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.7}>

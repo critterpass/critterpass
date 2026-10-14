@@ -6,11 +6,18 @@
  */
 import { t } from '@lingui/core/macro';
 import { forwardRef, type ComponentRef } from 'react';
-import { ScrollView, View, type TextInput } from 'react-native';
+import { View, type TextInput } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Composer, PressableScale, Text, makePremiumStyles, usePremiumTheme } from '@/ui/premium';
+import {
+  Composer,
+  PressableScale,
+  ScrollRow,
+  Text,
+  makePremiumStyles,
+  usePremiumTheme,
+} from '@/ui/premium';
 import { useKeyboardFrame } from '@/ui/premium/shell';
 
 import { Doodle, type DoodleName } from '@/features/crew';
@@ -26,7 +33,9 @@ const DOODLES: Readonly<Record<string, DoodleName>> = {
 };
 
 const useStyles = makePremiumStyles((th) => ({
-  chips: { paddingHorizontal: th.space.gap16, gap: th.space.gap8, paddingVertical: 4 },
+  chips: { paddingHorizontal: th.space.gap16 },
+  // 4 pt above and below the chips; the row's own room for their raised shadow sits inside it.
+  chipRow: { marginTop: 4 - 6, marginBottom: 4 - 18 },
   chip: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -156,9 +165,11 @@ export const GuideComposer = forwardRef<ComponentRef<typeof TextInput>, GuideCom
     return (
       <View testID="guide-foot">
         {meter.kind === 'open' && props.quickActions.length > 0 ? (
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
+          <ScrollRow
+            gap={th.space.gap8}
+            above={6}
+            below={18}
+            style={styles.chipRow}
             contentContainerStyle={styles.chips}
             keyboardShouldPersistTaps="handled"
           >
@@ -178,7 +189,7 @@ export const GuideComposer = forwardRef<ComponentRef<typeof TextInput>, GuideCom
                 <Text variant="rowTextStrong">{action.label}</Text>
               </PressableScale>
             ))}
-          </ScrollView>
+          </ScrollRow>
         ) : null}
         <View style={styles.row}>{field}</View>
         <Animated.View style={space} />

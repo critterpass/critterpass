@@ -19,6 +19,7 @@ import {
   IconButton,
   OfflinePill,
   PhotoLayer,
+  PREMIUM_THEMES,
   RectStamp,
   StampMoment,
   SwipeDeck,
@@ -42,6 +43,8 @@ const NO_CARDS: readonly SwipeCardFace[] = [];
 const HEART = '♥';
 /** Room the name band takes at the card's foot, so a doodle centres in what stays in view. */
 const NAME_BAND = 110;
+
+const BAND_INK = PREMIUM_THEMES.light.color.inkSurface;
 
 function CardFace({ face }: { readonly face: SwipeCardFace }) {
   const theme = usePremiumTheme();
@@ -88,19 +91,21 @@ function CardFace({ face }: { readonly face: SwipeCardFace }) {
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundColor: theme.color.inkSurface,
+              // The scrim stays dark in either scheme so the name reads in white over any photo
+              // (the dark scheme's ink surface is near-white and turned the band into a grey slab).
+              backgroundColor: BAND_INK,
               opacity: 0.55,
             }}
           />
           <View style={{ padding: theme.space.gap16, gap: theme.space.gap4 }}>
-            <Text variant="stat" tone="onInk" numberOfLines={2}>
+            <Text variant="stat" color={theme.accent.paper} numberOfLines={2}>
               {face.name}
             </Text>
-            <Text variant="rowText" tone="onInk" numberOfLines={2}>
+            <Text variant="rowText" color={theme.accent.paper} numberOfLines={2}>
               {face.meta}
             </Text>
             {face.social === null ? null : (
-              <Text variant="badge" tone="onInk">
+              <Text variant="badge" color={theme.accent.paper}>
                 {face.social}
               </Text>
             )}

@@ -7,6 +7,11 @@ import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 export interface RowProps {
   readonly title: string;
   readonly subtitle?: string;
+  /**
+   * Holds the subtitle to one line, cut where the design cuts it: `middle` for an address or code
+   * whose both ends matter ("bali-demo…@in.critterpass.app"), `tail` for prose.
+   */
+  readonly subtitleCut?: 'middle' | 'tail';
   /** A day badge, avatar or critter. */
   readonly leading?: ReactNode;
   /** A status tag, toggle or any control. */
@@ -31,6 +36,7 @@ function shown(node: ReactNode): boolean {
 export function Row({
   title,
   subtitle,
+  subtitleCut,
   leading,
   trailing,
   trailingText,
@@ -61,7 +67,11 @@ export function Row({
       <View style={{ flex: 1 }}>
         <Text variant={person ? 'rowText' : 'rowTitle'}>{title}</Text>
         {subtitle === undefined ? null : (
-          <Text variant={person ? 'captionMuted' : 'caption'} tone="muted">
+          <Text
+            variant={person ? 'captionMuted' : 'caption'}
+            tone="muted"
+            {...(subtitleCut === undefined ? {} : { numberOfLines: 1, ellipsizeMode: subtitleCut })}
+          >
             {subtitle}
           </Text>
         )}

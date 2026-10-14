@@ -4,55 +4,13 @@
  * A door with nowhere to go yet (no plan while the crew votes) is left out, never drawn dead.
  */
 import { useLingui } from '@lingui/react/macro';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-import {
-  PressableScale,
-  ROW_ROOM_ABOVE,
-  ROW_ROOM_BELOW,
-  ScrollRow,
-  Text,
-  usePremiumTheme,
-} from '@/ui/premium';
+import { Chip, ROW_ROOM_ABOVE, ROW_ROOM_BELOW, ScrollRow, usePremiumTheme } from '@/ui/premium';
 
 export interface HubDoor {
   readonly key: 'plan' | 'map' | 'money';
   readonly onPress: () => void;
-}
-
-function Chip(props: {
-  readonly label: string;
-  readonly selected: boolean;
-  readonly onPress?: () => void;
-  readonly testID: string;
-}) {
-  const th = usePremiumTheme();
-  return (
-    <PressableScale
-      {...(props.onPress === undefined ? {} : { onPress: props.onPress })}
-      accessibilityRole="tab"
-      accessibilityState={{ selected: props.selected }}
-      accessibilityLabel={props.label}
-      testID={props.testID}
-    >
-      <View
-        style={[
-          styles.chip,
-          {
-            borderRadius: th.radius.pillSmall,
-            paddingHorizontal: th.space.pillSmallPadH + 2,
-            backgroundColor: props.selected ? th.color.ink : th.color.card,
-            // The 56 pt pill's deep ink shadow is never for a chip: both lie on the float shadow.
-            boxShadow: th.shadow.float,
-          },
-        ]}
-      >
-        <Text variant="pillSmall" color={props.selected ? th.color.onInk : th.color.ink}>
-          {props.label}
-        </Text>
-      </View>
-    </PressableScale>
-  );
 }
 
 export function HubSwitch({ doors }: { readonly doors: readonly HubDoor[] }) {
@@ -76,13 +34,18 @@ export function HubSwitch({ doors }: { readonly doors: readonly HubDoor[] }) {
       <Chip
         label={t({ id: 'trip.hub.door.today', message: 'Today' })}
         selected
+        size="hub"
+        surface="white"
+        accessibilityRole="tab"
         testID="trip-hub-door-today"
       />
       {doors.map((door) => (
         <Chip
           key={door.key}
           label={labels[door.key]}
-          selected={false}
+          size="hub"
+          surface="white"
+          accessibilityRole="tab"
           onPress={door.onPress}
           testID={`trip-hub-door-${door.key}`}
         />
@@ -94,5 +57,4 @@ export function HubSwitch({ doors }: { readonly doors: readonly HubDoor[] }) {
 const styles = StyleSheet.create({
   // The row keeps the 4 pt it always added between the hero and the chips.
   scroller: { marginVertical: 4 - ROW_ROOM_BELOW, marginTop: 4 - ROW_ROOM_ABOVE },
-  chip: { height: 34, justifyContent: 'center' },
 });

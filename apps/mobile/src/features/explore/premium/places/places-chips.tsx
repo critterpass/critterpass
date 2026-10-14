@@ -3,9 +3,7 @@
  * destination has, fullest first, each with its count. One at a time; the chosen chip is ink. Over
  * the map the others are glass; on the list they sit on the control fill.
  */
-import { ScrollView, View } from 'react-native';
-
-import { GlassSurface, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { Chip, ScrollRow, usePremiumTheme } from '@/ui/premium';
 
 import { placeCounts, type HubPlace, type PlacesFilter } from '../../places/places-model';
 import { placesWords } from './places-words';
@@ -32,49 +30,30 @@ export function PlacesChips(props: {
   readonly over: 'map' | 'list';
 }) {
   const theme = usePremiumTheme();
-  const chip = {
-    height: 34,
-    borderRadius: 17,
-    paddingHorizontal: 13,
-    flexDirection: 'row',
-    alignItems: 'center',
-  } as const;
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{ gap: theme.space.gap6, paddingHorizontal: theme.space.gap16 }}
+    // Flat chips need no room; the glass ones over the map keep room for their soft shadow (a wider
+    // band would take the map's touches under the row).
+    <ScrollRow
+      gap={theme.space.gap6}
+      above={4}
+      below={12}
+      contentContainerStyle={{ paddingHorizontal: theme.space.gap16 }}
       testID="places-chips"
     >
       {placesChips(props.places, props.filter).map(({ filter, count }) => {
         const on = filter === props.filter;
-        const label = `${placesWords.filter(filter)} ${String(count)}`;
-        const body = (
-          <Text variant="segment" tone={on ? 'onInk' : 'ink'} numberOfLines={1}>
-            {label}
-          </Text>
-        );
         return (
-          <PressableScale
+          <Chip
             key={filter}
+            label={`${placesWords.filter(filter)} ${String(count)}`}
+            selected={on}
+            size="hub"
+            surface={props.over === 'map' ? 'glass' : 'control'}
             onPress={() => props.onFilter(on && filter !== 'all' ? 'all' : filter)}
-            accessibilityRole="button"
-            accessibilityState={{ selected: on }}
-            accessibilityLabel={label}
             testID={`places-chip-${filter}`}
-          >
-            {on ? (
-              <View style={[chip, { backgroundColor: theme.color.inkSurface }]}>{body}</View>
-            ) : props.over === 'map' ? (
-              <GlassSurface kind="nav" style={chip}>
-                {body}
-              </GlassSurface>
-            ) : (
-              <View style={[chip, { backgroundColor: theme.color.control }]}>{body}</View>
-            )}
-          </PressableScale>
+          />
         );
       })}
-    </ScrollView>
+    </ScrollRow>
   );
 }

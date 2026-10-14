@@ -214,6 +214,7 @@ export function PremiumDraftingView({
             </View>
             {phase.kind === 'offline' ? null : (
               <TextButton
+                align="center"
                 label={t({ id: 'plan.premium.drafting.cancel', message: 'Cancel the draft' })}
                 onPress={() =>
                   void confirmAlert({

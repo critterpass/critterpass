@@ -13,9 +13,9 @@ import {
   Icon,
   ListCard,
   Row,
+  SearchField,
   Skeleton,
   Text,
-  TextField,
   usePremiumTheme,
 } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
@@ -66,14 +66,13 @@ export function PremiumPitchSheet({ crewId, placeId }: PitchSheetProps) {
     >
       {/* The sheet's scroll already keeps the gutter. */}
       <View style={styles.body}>
-        <TextField
+        <SearchField
           value={sheet.query}
           onChangeText={sheet.setQuery}
           placeholder={t({ id: 'vote.pitch.search', message: 'Search a place' })}
           accessibilityLabel={t({ id: 'vote.pitch.search', message: 'Search a place' })}
           autoFocus={placeId === undefined}
           returnKeyType="search"
-          clearButtonMode="while-editing"
           testID="pitch-search"
         />
         {searching && search.results.length > 0 ? (

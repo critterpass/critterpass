@@ -150,19 +150,19 @@ export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
         <View style={styles.targets}>
           <ShareTarget
             label={t({ id: 'crew.premium.share.messages', message: 'Messages' })}
-            icon="send"
+            icon="chat"
             tint={th.color.toggleOn}
             onPress={share}
             testID="start-crew-share"
           />
           <ShareTarget
             label={t({ id: 'crew.premium.share.copy', message: 'Copy code' })}
-            icon="paste"
+            icon="copy"
             onPress={copy}
           />
           <ShareTarget
             label={t({ id: 'crew.premium.share.qr', message: 'QR' })}
-            icon="expand"
+            icon="qr"
             onPress={() => setQr((on) => !on)}
             testID="crew-on-qr-toggle"
           />

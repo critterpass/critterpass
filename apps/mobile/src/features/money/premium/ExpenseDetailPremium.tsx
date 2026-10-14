@@ -10,7 +10,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { useMoneyDisplay } from '@/data/money';
 import { PrivateContent } from '@/features/help';
-import { crewAccent, IconTile, turn } from '@/features/trip';
+import { crewAccent, turn } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   Avatar,
@@ -18,6 +18,7 @@ import {
   EmptyState,
   Skeleton,
   StatusTag,
+  StickerIcon,
   Text,
   usePremiumTheme,
 } from '@/ui/premium';
@@ -240,7 +241,7 @@ export function ExpenseDetailPremium({
             </PrivateContent>
           </View>
           <View style={{ transform: [turn(8)] }}>
-            <IconTile name={look.icon} bg={look.bg} color={look.color} size={64} />
+            <StickerIcon name={look.icon} size={64} tile={look.bg} />
           </View>
         </View>
         <View style={[styles.tags, { paddingHorizontal: th.space.titleGutter }]}>

@@ -14,6 +14,7 @@ import {
   Button,
   IconButton,
   PressableScale,
+  ScrollRow,
   Text,
   TextButton,
   usePremiumTheme,
@@ -74,15 +75,7 @@ export function PremiumAddSheetView(props: AddSheetViewProps) {
             </Text>
           )}
           {props.days.length === 0 ? null : (
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={{ marginHorizontal: -theme.space.gap16 }}
-              contentContainerStyle={{
-                gap: theme.space.gap6,
-                paddingHorizontal: theme.space.gap16,
-              }}
-            >
+            <ScrollRow gap={theme.space.gap6} bleed={theme.space.gap16}>
               {props.days.map((day) => {
                 const on = day.dayNo === props.dayNo;
                 const dot = fitColour(day.fit);
@@ -129,7 +122,7 @@ export function PremiumAddSheetView(props: AddSheetViewProps) {
                   </PressableScale>
                 );
               })}
-            </ScrollView>
+            </ScrollRow>
           )}
           {props.guidePick == null ? null : (
             <TextButton
@@ -218,6 +211,7 @@ export function PremiumAddSheetView(props: AddSheetViewProps) {
         </View>
         {props.onSaveLater === null ? null : (
           <TextButton
+            align="center"
             label={t({ id: 'plan.add.saveLater', message: 'Just save it for later' })}
             onPress={props.onSaveLater}
             testID="plan-add-save-later"

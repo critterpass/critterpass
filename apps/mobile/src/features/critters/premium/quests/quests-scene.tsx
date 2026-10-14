@@ -32,13 +32,17 @@ const useStyles = makePremiumStyles((th) => ({
     paddingHorizontal: 16,
     gap: th.space.gap8,
     borderRadius: 22,
-    backgroundColor: th.color.inkSurface,
+    // The ink card in the light; in the dark the ink surface turns near-white, so the card stays a
+    // raised dark card there (8.07 dark).
+    ...(th.scheme === 'dark'
+      ? { backgroundColor: th.color.card, boxShadow: th.shadow.card }
+      : { backgroundColor: th.color.inkSurface }),
   },
   bar: {
     height: 10,
     borderRadius: 5,
     overflow: 'hidden',
-    backgroundColor: th.color.inkToastAction,
+    backgroundColor: th.scheme === 'dark' ? th.color.control : th.color.inkToastAction,
   },
 }));
 
@@ -73,6 +77,8 @@ function emptyCopy(state: 'before' | 'writing' | 'over', name: string) {
 
 export function PremiumQuestsScene(props: QuestsViewProps) {
   const th = usePremiumTheme();
+  // The words on the XP card: white on ink in the light, the card's ink in the dark.
+  const xpInk = th.scheme === 'dark' ? th.color.ink : th.color.onInkSurface;
   const styles = useStyles();
   const insets = useSafeAreaInsets();
   const art = guideSticker(props.guide);
@@ -129,14 +135,14 @@ export function PremiumQuestsScene(props: QuestsViewProps) {
           })}
         >
           <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 4 }}>
-            <Text variant="stat" color={th.color.onInkSurface}>
+            <Text variant="stat" color={xpInk}>
               {String(level.into)}
             </Text>
-            <Text variant="rowText" color={th.color.onInkSurface} style={{ opacity: 0.5 }}>
+            <Text variant="rowText" color={xpInk} style={{ opacity: 0.5 }}>
               {t({ id: 'critters.premium.quests.ofXp', message: `/ ${level.need} XP` })}
             </Text>
           </View>
-          <Text variant="captionMuted" color={th.color.onInkSurface} style={{ opacity: 0.7 }}>
+          <Text variant="captionMuted" color={xpInk} style={{ opacity: 0.7 }}>
             {unlock}
           </Text>
           <View style={styles.bar}>

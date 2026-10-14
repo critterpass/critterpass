@@ -235,6 +235,10 @@ msgstr "Collector cover"
 msgid "crew.premium.on.copied"
 msgstr "Copied"
 
+#: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
+msgid "chat.premium.copied"
+msgstr "Copied"
+
 #: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
 msgid "crew.premium.copy"
 msgstr "Copy"

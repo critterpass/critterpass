@@ -1,6 +1,7 @@
 /**
  * Where the crew sleeps on the premium map: an ink pill with a yellow square and the stay's short
- * name ("Villa"), or the bare ink square on small maps. One per map, so a `Marker` view.
+ * name ("Villa") in white in either scheme, or the bare ink square on small maps. One per map, so
+ * a `Marker` view.
  */
 import { Marker, type LngLat } from '@maplibre/maplibre-react-native';
 import { View } from 'react-native';
@@ -54,7 +55,7 @@ export function StayFlag({ lngLat, label, accessibilityLabel }: StayFlagProps) {
         {hasLabel ? (
           <>
             <View style={styles.square} />
-            <Text variant="badge" tone="onInk" numberOfLines={1}>
+            <Text variant="badge" color={MAP_MARKS.pinNumeral} numberOfLines={1}>
               {label}
             </Text>
           </>

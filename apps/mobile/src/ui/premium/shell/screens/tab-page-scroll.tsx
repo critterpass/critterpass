@@ -1,12 +1,11 @@
 /**
- * The fade under the glass tab bar on a tab's root page. iOS draws the bar as clear glass over the
- * page, so a card scrolled under it showed its words and buttons through the bar; the page fades
- * into its ground there instead, while content continues below the bar. Android's Material bar is
- * opaque and the page ends above it, so nothing is drawn there.
+ * The fade under the glass tab bar on a tab's root page. The bar floats as glass over the page (the
+ * system bar on iOS, the drawn one on Android), so a card scrolled under it showed its words and
+ * buttons through the bar; the page fades into its ground there instead, while content continues
+ * below the bar.
  */
 import { useMemo } from 'react';
 import {
-  Platform,
   ScrollView,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
@@ -31,7 +30,6 @@ export function TabPageScroll({ onScroll, ...props }: ScrollViewProps) {
     }),
     [edges.scrollProps, onScroll, track],
   );
-  if (Platform.OS !== 'ios') return <ScrollView onScroll={onScroll} {...props} />;
   const height = t.space.tabBarClearance;
   return (
     <>

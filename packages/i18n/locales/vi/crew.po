@@ -235,6 +235,10 @@ msgstr "Bìa Collector"
 msgid "crew.premium.on.copied"
 msgstr "Đã chép"
 
+#: ../../apps/mobile/src/features/crew/premium/chat/use-chat-menu.ts
+msgid "chat.premium.copied"
+msgstr "Đã sao chép"
+
 #: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
 msgid "crew.premium.copy"
 msgstr "Chép"

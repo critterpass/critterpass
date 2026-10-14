@@ -7,7 +7,6 @@
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import {
-  ScrollView,
   useWindowDimensions,
   View,
   type NativeScrollEvent,
@@ -15,7 +14,7 @@ import {
 } from 'react-native';
 
 import type { FitLine } from '@/data/fit/fit-line';
-import { IconButton, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { IconButton, PressableScale, ScrollRow, Text, usePremiumTheme } from '@/ui/premium';
 
 import { carouselCount } from '../../places/places-copy';
 import type { HubPlace } from '../../places/places-model';
@@ -89,9 +88,7 @@ export function PlaceCards(props: PlaceCardsProps) {
           {carouselCount(Math.min(index, count - 1) + 1, count).toLocaleUpperCase()}
         </Text>
       </View>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
+      <ScrollRow
         snapToInterval={step}
         decelerationRate="fast"
         onMomentumScrollEnd={onSettle}
@@ -162,7 +159,7 @@ export function PlaceCards(props: PlaceCardsProps) {
             </PressableScale>
           );
         })}
-      </ScrollView>
+      </ScrollRow>
     </View>
   );
 }

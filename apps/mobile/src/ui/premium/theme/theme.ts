@@ -4,6 +4,9 @@
  * sheets built from them are created once per scheme.
  */
 import { boxShadow, premium } from '@cp/design-tokens';
+
+import { kitShadows, type KitShadowName } from './kit-shadow';
+import { kitType } from './kit-type';
 import type {
   PremiumElevation,
   PremiumGlassKind,
@@ -18,7 +21,7 @@ export interface PremiumTheme {
   readonly accent: typeof premium.accent;
   readonly stamp: typeof premium.stamp;
   readonly signal: typeof premium.signal;
-  readonly type: typeof premium.type;
+  readonly type: typeof kitType;
   readonly radius: typeof premium.radius;
   readonly space: typeof premium.space;
   readonly size: typeof premium.size;
@@ -27,7 +30,7 @@ export interface PremiumTheme {
   readonly spring: typeof premium.spring;
   readonly motion: typeof premium.motion;
   /** Each elevation as `boxShadow` text. */
-  readonly shadow: Readonly<Record<keyof PremiumElevation, string>>;
+  readonly shadow: Readonly<Record<keyof PremiumElevation | KitShadowName, string>>;
   readonly material: PremiumMaterials;
   /** Each material's highlight, ring and drop stack as `boxShadow` text. */
   readonly materialShadow: Readonly<Record<PremiumGlassKind, string>>;
@@ -50,7 +53,7 @@ function build(scheme: PremiumScheme): PremiumTheme {
     accent: premium.accent,
     stamp: premium.stamp,
     signal: premium.signal,
-    type: premium.type,
+    type: kitType,
     radius: premium.radius,
     space: premium.space,
     size: premium.size,
@@ -58,7 +61,7 @@ function build(scheme: PremiumScheme): PremiumTheme {
     tilt: premium.tilt,
     spring: premium.spring,
     motion: premium.motion,
-    shadow: mapValues(mode.elevation, boxShadow),
+    shadow: { ...mapValues(mode.elevation, boxShadow), ...kitShadows(scheme) },
     material: mode.material,
     materialShadow: mapValues(mode.material, (m) => boxShadow(m.shadow)),
   });

@@ -10,7 +10,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { Icon, ListCard, Row, TextField, usePremiumTheme } from '@/ui/premium';
+import { Icon, ListCard, Row, SearchField, TextField, usePremiumTheme } from '@/ui/premium';
 
 import { nameProblemText, usernameText } from '../../edit-profile/edit-profile-copy';
 import {
@@ -133,7 +133,7 @@ export function AirportPremiumSheet(props: {
       onCancel={props.onClose}
       testID="you-edit-airport-sheet"
     >
-      <TextField
+      <SearchField
         accessibilityLabel={search}
         placeholder={search}
         value={query}

@@ -6,7 +6,7 @@ import { ROOM_SLEEP_CHOICES, type RoomSleepChoice } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
-import { Icon, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { Chip, Icon, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
 /* eslint-disable lingui/no-unlocalized-strings -- chip keys, never copy. */
 export const CHIPS = [
@@ -116,30 +116,18 @@ export function SleepChoices(props: {
         {CHIPS.map((chip) => {
           const on = shownChips.includes(chip);
           return (
-            <PressableScale
+            <Chip
               key={chip}
+              label={chipLabel(chip)}
+              selected={on}
+              surface="white"
+              accessibilityRole="checkbox"
+              icon={on ? 'check' : undefined}
               onPress={() =>
                 setChips(on ? shownChips.filter((entry) => entry !== chip) : [...shownChips, chip])
               }
-              accessibilityRole="checkbox"
-              accessibilityState={{ checked: on }}
               testID={`budget-chip-${chip}`}
-              style={{
-                height: 36,
-                borderRadius: 18,
-                paddingHorizontal: theme.space.rowPadH,
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: theme.space.gap4,
-                backgroundColor: on ? theme.color.ink : theme.color.card,
-                ...(on ? {} : { boxShadow: theme.shadow.float }),
-              }}
-            >
-              {on ? <Icon name="check" size={12} color={theme.color.onInk} /> : null}
-              <Text variant="pillSmall" tone={on ? 'onInk' : 'ink'}>
-                {chipLabel(chip)}
-              </Text>
-            </PressableScale>
+            />
           );
         })}
       </View>

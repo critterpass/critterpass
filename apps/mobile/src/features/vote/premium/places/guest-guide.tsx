@@ -147,7 +147,12 @@ export function GuestGuide({
                 </Text>
               </View>
               <View>
-                <Text variant="hero" numberOfLines={2} adjustsFontSizeToFit testID="guest-name">
+                <Text
+                  variant="displayLarge"
+                  numberOfLines={2}
+                  adjustsFontSizeToFit
+                  testID="guest-name"
+                >
                   {place.name}
                 </Text>
                 {place.country === null ? null : (
@@ -279,7 +284,7 @@ export function GuestGuide({
           testID="guest-save"
         />
       </View>
-      {place === null ? null : <GuestDock onPitch={pitch} onSolo={() => setSolo(true)} />}
+      {place === null || solo ? null : <GuestDock onPitch={pitch} onSolo={() => setSolo(true)} />}
       {solo && place !== null ? (
         <SoloSheet
           placeId={placeId}

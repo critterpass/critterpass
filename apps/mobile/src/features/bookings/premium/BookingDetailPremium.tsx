@@ -6,11 +6,11 @@
  * (tap for the terms, word for word) and the shared toggle. The owner edits or deletes at the foot.
  */
 import { useLingui } from '@lingui/react/macro';
-import { Alert, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Banner, EmptyState, PremiumThemeProvider, Tag, Text, usePremiumTheme } from '@/ui/premium';
-import { PushScreen } from '@/ui/premium/shell';
+import { noticeAlert, PushScreen } from '@/ui/premium/shell';
 
 import { useKindLabel } from '../detail/labels';
 import { useBookingDetail, type BookingDetail } from '../detail/use-booking-detail';
@@ -159,7 +159,11 @@ function OtherBody({ detail }: { readonly detail: Ready }) {
                     label: t({ id: 'bookings.premium.terms', message: 'Terms' }),
                     // The policy exactly as the confirmation words it.
                     onPress: () =>
-                      Alert.alert(t({ id: 'bookings.premium.terms', message: 'Terms' }), policy),
+                      void noticeAlert({
+                        title: t({ id: 'bookings.premium.terms', message: 'Terms' }),
+                        message: policy,
+                        ok: t({ id: 'bookings.options.close', message: 'Close' }),
+                      }),
                   },
                 })}
             testID="bookings-free-cancel"

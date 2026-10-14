@@ -2,14 +2,13 @@ import { useState, type ReactNode } from 'react';
 import { Image, View } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
 
-import type { PremiumTypeName } from '@cp/design-tokens';
-
 import { formerMemberLabel } from '@/lib/people/member-name';
 
 import { Icon } from '../icons/Icon';
 import { Text } from '../text/Text';
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 import { useMemberFace, type MemberFace } from './member-face';
+import type { PremiumTypeName } from '../theme/kit-type';
 
 export interface AvatarProps {
   /** The person's name: the initial is drawn from it and assistive tech reads it. */

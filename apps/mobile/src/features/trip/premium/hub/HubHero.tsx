@@ -11,6 +11,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { savedStillUri } from '@/lib/media/media-files';
 import { pickBySize } from '@/lib/media/variants';
 import { CrewStack, GlassIconButton, Text, usePremiumTheme, type CrewMember } from '@/ui/premium';
+import { StatusBarOver } from '@/ui/premium/shell';
 
 import type { HubHeader } from '../../hub/hub-model';
 import { usePhaseLine } from '../../hub/phase-line';
@@ -32,6 +33,8 @@ export interface HubHeroProps {
   readonly crew: readonly CrewMember[];
   readonly onBack: () => void;
   readonly onMenu: (() => void) | null;
+  /** The page has scrolled the hero away from under the status bar. */
+  readonly scrolledPast?: boolean;
 }
 
 function heroUri(media: MediaAsset | null, widthPt: number): string | null {
@@ -96,6 +99,8 @@ export function HubHero(props: HubHeroProps) {
       ]}
       testID="trip-hub-hero"
     >
+      {/* The clock and battery read in white over the photo, in the theme's ink once it has gone. */}
+      <StatusBarOver dark={onPhoto && props.scrolledPast !== true} />
       {onPhoto ? (
         <>
           <Image

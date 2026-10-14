@@ -1,7 +1,5 @@
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import type { ViewStyle } from 'react-native';
-
-import type { PremiumTypeName } from '@cp/design-tokens';
 
 import { Spinner } from '../feedback/Spinner';
 import { Icon } from '../icons/Icon';
@@ -9,6 +7,7 @@ import type { PremiumIconName } from '../icons/Icon';
 import { PressableScale, hitSlopFor } from '../motion/PressableScale';
 import { Text } from '../text/Text';
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
+import type { PremiumTypeName } from '../theme/kit-type';
 import type { PremiumTheme } from '../theme/theme';
 
 /**
@@ -52,7 +51,14 @@ interface Look {
 
 function sizeBox(t: PremiumTheme, size: ButtonSize): ViewStyle {
   if (size === 'large') {
-    return { height: t.size.button, borderRadius: t.radius.button, alignSelf: 'stretch' };
+    // A floor, not a height: a long label wraps onto a second line inside the pill.
+    return {
+      minHeight: t.size.button,
+      borderRadius: t.radius.button,
+      paddingHorizontal: t.space.gutter,
+      paddingVertical: t.space.gap6,
+      alignSelf: 'stretch',
+    };
   }
   if (size === 'medium') {
     return {
@@ -75,28 +81,20 @@ export function buttonLook(
   t: PremiumTheme,
   variant: ButtonVariant,
   size: ButtonSize,
-  state: { readonly pressed: boolean; readonly disabled: boolean },
+  state: { readonly pressed: boolean; readonly disabled: boolean; readonly loading?: boolean },
 ): Look {
   const c = t.color;
   if (state.disabled) return { box: { backgroundColor: c.controlDisabled }, text: c.placeholder };
   switch (variant) {
     case 'primary':
-      // The pressed pill keeps its shadow: the press scale already says it is pressed.
-      if (state.pressed) {
-        return {
-          box: {
-            backgroundColor: c.inkPressed,
-            ...(size === 'large' ? { boxShadow: t.shadow.ink } : {}),
-          },
-          text: c.onInk,
-        };
-      }
+      // Pressed, the pill sits down onto the page: the lighter ink and no drop (1.B).
+      if (state.pressed) return { box: { backgroundColor: c.inkPressed }, text: c.onInk };
       if (size === 'large') {
         return {
           box: {
             // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never rendered copy.
             backgroundImage: `linear-gradient(180deg, ${c.inkFillTop}, ${c.inkFillBottom})`,
-            boxShadow: t.shadow.ink,
+            boxShadow: state.loading === true ? t.shadow.inkLoading : t.shadow.ink,
           },
           text: c.onInk,
         };
@@ -150,7 +148,8 @@ export function Button({
   const { text: label, chevron } = pillLabel(givenLabel, givenChevron);
   const box = sizeBox(t, size);
   const shown = loading ? (loadingLabel ?? label) : label;
-  const height = Number(box.height);
+  const height = Number(box.height ?? box.minHeight);
+  const large = size === 'large';
 
   return (
     <PressableScale
@@ -168,6 +167,7 @@ export function Button({
         const look = buttonLook(t, variant, size, {
           pressed: pressed && !loading,
           disabled,
+          loading,
         });
         return (
           <View
@@ -186,7 +186,14 @@ export function Button({
             {!loading && icon !== undefined ? (
               <Icon name={icon} size={t.size.glyph} color={look.text} />
             ) : null}
-            <Text variant={TYPE_FOR_SIZE[size]} color={look.text} numberOfLines={1}>
+            <Text
+              variant={TYPE_FOR_SIZE[size]}
+              color={look.text}
+              numberOfLines={large ? 2 : 1}
+              singleLine={!large}
+              align="center"
+              style={large ? styles.wrap : null}
+            >
               {shown}
             </Text>
             {chevron && !loading ? (
@@ -198,3 +205,8 @@ export function Button({
     </PressableScale>
   );
 }
+
+const styles = StyleSheet.create({
+  // Shrinks beside the spinner or icon so a second line wraps inside the pill.
+  wrap: { flexShrink: 1 },
+});

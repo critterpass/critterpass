@@ -1,9 +1,6 @@
 /* eslint-disable lingui/no-unlocalized-strings -- the dev kit gallery's sample labels, never shipped copy. */
 import { View } from 'react-native';
 
-import { premium } from '@cp/design-tokens';
-import type { PremiumTypeName } from '@cp/design-tokens';
-
 import { Button } from '../buttons/Button';
 import { IconButton } from '../buttons/IconButton';
 import { TextButton } from '../buttons/TextButton';
@@ -11,10 +8,12 @@ import { GlassIconButton } from '../glass/GlassIconButton';
 import { GlassPill } from '../glass/GlassPill';
 import { GlassSurface } from '../glass/GlassSurface';
 import { Text } from '../text/Text';
+import { kitType } from '../theme/kit-type';
+import type { PremiumTypeName } from '../theme/kit-type';
 import { makePremiumStyles } from '../theme/PremiumThemeProvider';
 import { GalleryRow, GallerySection } from './gallery-section';
 
-const TYPE_NAMES = Object.keys(premium.type) as PremiumTypeName[];
+const TYPE_NAMES = Object.keys(kitType) as PremiumTypeName[];
 
 export function TypeSamples() {
   return (
