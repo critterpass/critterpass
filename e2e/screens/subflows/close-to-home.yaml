@@ -1,0 +1,15 @@
+appId: app.critterpass.dev
+---
+# Closes every level the last capture presented over Home, one at a time, until the app's QA
+# marker reads Home (`/`): a page pushed inside a sheet, then the sheet, at most four levels
+# (close-level.yaml). Home's link is the last resort (_shared/to-home).
+- runFlow: ../../_shared/where.yaml
+- evalScript: ${output.closedByButton = false}
+- runFlow: close-level.yaml
+- runFlow: close-level.yaml
+- runFlow: close-level.yaml
+- runFlow: close-level.yaml
+- runFlow:
+    when:
+      true: ${output.where !== '/'}
+    file: ../../_shared/to-home.yaml
