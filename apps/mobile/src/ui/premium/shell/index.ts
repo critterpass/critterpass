@@ -60,9 +60,11 @@ export type {
   ScreenWaitingProps,
 } from './screens/screen-states';
 export {
+  edgeGradient,
   PhotoHeaderScrim,
   SCROLL_EDGE_FADE,
   ScrollEdgeFade,
+  transparentOf,
   useScrollEdges,
 } from './screens/scroll-edge';
 export { TabPageScroll } from './screens/tab-page-scroll';
