@@ -11,10 +11,10 @@ export type TabSheetDetent = 'half' | 'full' | 'fit';
 
 /** The sheets inside the tab stacks, by their path under `app/(tabs)/`. */
 export const TAB_SHEETS = {
-  'wallet/bookings/add-sheet': 'half',
+  'wallet/bookings/add-sheet': 'fit',
   'wallet/bookings/paste': 'fit',
   'wallet/bookings/link-code': 'fit',
-  'wallet/bookings/mailbox': 'full',
+  'wallet/bookings/mailbox': 'fit',
   'wallet/bookings/pass/[id]': 'full',
   'wallet/money/currency': 'half',
   'wallet/money/trip': 'half',
