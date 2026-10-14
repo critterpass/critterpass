@@ -194,17 +194,20 @@ export function AddExpensePremium(props: {
                 onChangeText={(text) => state.dispatch({ type: 'description', text })}
                 autoCapitalize="sentences"
                 returnKeyType="done"
+                // The category's sticker sits inside the field, as the design draws it.
+                trailing={
+                  <PressableScale
+                    onPress={() => toggle('category')}
+                    hitSlop={SMALL_TARGET}
+                    accessibilityRole="button"
+                    testID="money-add-category"
+                  >
+                    <Tag label={categoryLabel(draft.category)} color={th.accent.pink} rotate={-4} />
+                  </PressableScale>
+                }
                 testID="money-add-description"
               />
             </View>
-            <PressableScale
-              onPress={() => toggle('category')}
-              hitSlop={SMALL_TARGET}
-              accessibilityRole="button"
-              testID="money-add-category"
-            >
-              <Tag label={categoryLabel(draft.category)} color={th.accent.pink} rotate={-4} />
-            </PressableScale>
           </View>
           {open === 'category' ? (
             <ChoiceStrip<ExpenseCategory>
