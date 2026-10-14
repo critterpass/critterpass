@@ -211,6 +211,7 @@ export function PremiumAddSheetView(props: AddSheetViewProps) {
         </View>
         {props.onSaveLater === null ? null : (
           <TextButton
+            align="center"
             label={t({ id: 'plan.add.saveLater', message: 'Just save it for later' })}
             onPress={props.onSaveLater}
             testID="plan-add-save-later"

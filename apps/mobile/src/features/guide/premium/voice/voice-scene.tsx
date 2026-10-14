@@ -217,6 +217,7 @@ export function PremiumVoiceScene(props: VoiceViewProps) {
         ) : null}
         {cannotTalk ? (
           <TextButton
+            align="center"
             label={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}
             onPress={props.onType}
             testID="guide-voice-type"

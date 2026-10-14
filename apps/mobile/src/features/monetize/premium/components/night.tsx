@@ -7,6 +7,8 @@
 import type { ReactNode } from 'react';
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
+import { StatusBarOver } from '@/ui/premium/shell';
+
 import { NIGHT } from '../monetize-palette';
 
 export { NIGHT };
@@ -39,6 +41,8 @@ export function NightGround({
         style,
       ]}
     >
+      {/* White clock and battery over the night ground, in the light scheme too. */}
+      <StatusBarOver dark />
       {(sparkles ? SPARKLES : []).map((s) => (
         <View
           key={`${s.top}-${s.left}`}

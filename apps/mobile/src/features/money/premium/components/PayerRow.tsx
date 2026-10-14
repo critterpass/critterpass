@@ -39,7 +39,9 @@ export function PayerRow(props: {
                     ? {
                         boxShadow: [ring(2.5, th.color.ground), ring(4.5, th.color.ink)].join(', '),
                       }
-                    : styles.dim,
+                    : th.scheme === 'dark'
+                      ? styles.dimDark
+                      : styles.dim,
                 ]}
               >
                 <Avatar
@@ -62,5 +64,7 @@ const styles = StyleSheet.create({
   label: { width: 56 },
   payer: { borderRadius: 18 },
   dim: { opacity: 0.45 },
+  // Faded the same way on a dark ground the faces went muddy: they stay readable there.
+  dimDark: { opacity: 0.7 },
   ringRoom: { paddingHorizontal: 5 },
 });

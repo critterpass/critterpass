@@ -283,6 +283,7 @@ export function PremiumDestinationView(props: DestinationViewProps) {
         {/* The text button hugs its label; the wrapper centres it under the pill. */}
         <View style={{ alignSelf: 'center' }}>
           <TextButton
+            align="center"
             label={t({ id: 'explore.premium.dest.solo', message: 'Plan it solo' })}
             onPress={actions.onSolo}
             testID="explore-solo"

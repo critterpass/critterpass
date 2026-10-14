@@ -1,6 +1,7 @@
 /**
  * The Pass+ gold call to action (9.10, 9.11, 9.15): 56 high, a warm gradient with a lit top edge
- * and a slow shine. Loading keeps the pill and shows the progressive verb.
+ * and a slow shine. Loading keeps the pill and shows the progressive verb. Disabled it takes the
+ * kit's disabled pill (1.B: #e9eaee with grey words), never a dimmed gold that reads as broken.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- colour values, never copy. */
 import type { ReactNode } from 'react';
@@ -38,14 +39,19 @@ export function GoldButton({
       accessibilityState={{ disabled: disabled || loading, busy: loading }}
       {...(testID === undefined ? {} : { testID })}
       style={[
-        styles.pill,
-        { height: t.size.button, borderRadius: t.radius.button, opacity: disabled ? 0.5 : 1 },
+        disabled ? [styles.shape, { backgroundColor: t.color.controlDisabled }] : styles.pill,
+        { height: t.size.button, borderRadius: t.radius.button },
       ]}
     >
-      <ShineSweep every={4200} width={80} distance={420} opacity={0.45} />
+      {disabled ? null : <ShineSweep every={4200} width={80} distance={420} opacity={0.45} />}
       <View style={styles.row}>
         {loading ? <Spinner /> : leading}
-        <Text variant="button" color={t.color.onAccent} style={styles.label} numberOfLines={1}>
+        <Text
+          variant="button"
+          color={disabled ? t.color.placeholder : t.color.onAccent}
+          style={styles.label}
+          numberOfLines={1}
+        >
           {label}
         </Text>
       </View>
@@ -54,6 +60,7 @@ export function GoldButton({
 }
 
 const styles = StyleSheet.create({
+  shape: { overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   pill: {
     overflow: 'hidden',
     alignItems: 'center',

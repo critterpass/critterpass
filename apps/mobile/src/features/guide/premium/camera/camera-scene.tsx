@@ -205,6 +205,7 @@ export function PremiumCameraScene(props: CameraViewProps) {
         {cannotScan ? (
           <View style={styles.inset}>
             <TextButton
+              align="center"
               label={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}
               onPress={props.onClose}
               testID="guide-camera-type"

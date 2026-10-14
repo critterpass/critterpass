@@ -250,6 +250,7 @@ export function PremiumPlacesListView(props: PlacesListViewProps) {
                     icon="pin"
                     trailing={
                       <TextButton
+                        align="center"
                         label={placesWords.showAgain()}
                         onPress={() => props.onUnhide(entry.poiId)}
                         testID={`places-unhide-${entry.poiId}`}

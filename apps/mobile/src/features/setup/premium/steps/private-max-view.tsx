@@ -135,6 +135,7 @@ export function PremiumPrivateMaxView(
           </View>
           {props.onCancel === undefined ? null : (
             <TextButton
+              align="center"
               label={t({ id: 'setup.budget.member.keep', message: 'Keep it as it is' })}
               onPress={props.onCancel}
               testID="budget-member-cancel"
