@@ -80,7 +80,7 @@ describe('screen checks on the premium UI', { timeout: 60_000 }, () => {
     const lightCard = light?.[0] ?? [255, 255, 255];
     // 7.10 in dark: the boarding pass is drawn light at the 20 pt gutters of the dark page.
     const pass = blank(400, 860, darkPage);
-    paint(pass, 20, 90, 380, 800, lightCard);
+    paint(pass, 20, 20, 380, 800, lightCard);
     expect(findFrame(pass, options)).toBeNull();
     // A light premium page set inside a dark border that isn't a page ground stays a frame.
     const framed = blank(400, 860, lightCard);
