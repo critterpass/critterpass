@@ -12,6 +12,7 @@ import { textLayoutProblems } from '@/lib/qa/text-layout-check';
 import { reportUiQa, UI_QA_ENABLED } from '@/lib/qa/ui-qa';
 
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
+import { useReportBodyTitle } from './body-title';
 import { markRoom, marksClipped } from './mark-room';
 
 /** Palette roles a text can take by name; any other colour is passed as `color`. */
@@ -142,6 +143,7 @@ export function Text({
   const locale = useLocale();
   const { plainGuideText, fontScale } = useThemeSettings();
   const token = theme.type[variant];
+  useReportBodyTitle(variant === 'largeTitle');
   const font = premiumFont(token, locale, plainGuideText);
   // A one-line label held to one line steps its size down to fit whole (a longer language, a
   // narrow pill or segment), as the system's controls do, instead of losing its end.
@@ -194,15 +196,11 @@ export function Text({
                   lineLimited: rest.numberOfLines !== undefined,
                   // Larger text sizes wrap labels by design (Dynamic Type).
                   singleLine: oneLine && fontScale <= 1,
+                  marksClipped:
+                    Platform.OS === 'ios' &&
+                    event.nativeEvent.lines[0] !== undefined &&
+                    marksClipped(text, event.nativeEvent.lines[0], marks.room),
                 });
-                const first = event.nativeEvent.lines[0];
-                if (
-                  Platform.OS === 'ios' &&
-                  first !== undefined &&
-                  marksClipped(text, first, marks.room)
-                ) {
-                  problems.push('TEXT_MARKS_CLIPPED');
-                }
                 for (const code of problems)
                   reportUiQa(code, rest.testID ?? text.slice(0, 40), variant);
               }

@@ -55,6 +55,7 @@ export function ReferralPremium() {
 
   return (
     <PushScreen
+      largeTitle
       title={t({ id: 'crew.referral.title', message: 'Invite friends' })}
       backLabel={t({ id: 'crew.referral.back', message: 'You' })}
       scroll={false}

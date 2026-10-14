@@ -82,6 +82,7 @@ export function DeletePremiumScreen({
 
   return (
     <PushScreen
+      largeTitle
       title={t({ id: 'you.delete.title', message: 'Delete your account?' })}
       backLabel={t({ id: 'you.delete.back', message: 'Settings' })}
       testID="you-delete"

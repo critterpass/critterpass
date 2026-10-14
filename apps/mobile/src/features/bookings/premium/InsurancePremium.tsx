@@ -106,6 +106,7 @@ export function InsurancePremium() {
   if (existing === null || editing) {
     return (
       <PushScreen
+        largeTitle
         title={title}
         backLabel={backLabel}
         scroll={false}
@@ -189,7 +190,7 @@ export function InsurancePremium() {
 
   const phone = existing.assistance_phone;
   return (
-    <PushScreen title={title} backLabel={backLabel} testID="bookings-insurance">
+    <PushScreen largeTitle title={title} backLabel={backLabel} testID="bookings-insurance">
       <View style={[styles.read, { gap: th.space.gap16 }]}>
         <View style={{ paddingHorizontal: th.space.titleGutter, paddingVertical: th.space.gap12 }}>
           <PolicyCard
