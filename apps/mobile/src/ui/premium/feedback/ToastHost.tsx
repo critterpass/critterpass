@@ -139,6 +139,9 @@ export function ToastHost({ children, bottomOffset }: ToastHostProps) {
   const reduced = usePremiumReducedMotion();
   const insets = useSafeAreaInsets();
   const [queue, setQueue] = useState<readonly QueuedToast[]>([]);
+  // The stack as sent, ahead of the render that shows it: a sheet that sends "Added" and closes in
+  // the same moment unmounts before that render, and still has to hand the toast to the page.
+  const live = useRef<readonly QueuedToast[]>([]);
   const nextId = useRef(0);
   const timers = useRef(new Map<number, ReturnType<typeof setTimeout>>());
 
@@ -146,6 +149,7 @@ export function ToastHost({ children, bottomOffset }: ToastHostProps) {
     const timer = timers.current.get(id);
     if (timer !== undefined) clearTimeout(timer);
     timers.current.delete(id);
+    live.current = dropToast(live.current, id);
     setQueue((q) => dropToast(q, id));
   }, []);
 
@@ -153,6 +157,7 @@ export function ToastHost({ children, bottomOffset }: ToastHostProps) {
     (spec: ToastSpec) => {
       nextId.current += 1;
       const id = nextId.current;
+      live.current = pushToast(live.current, { id, spec });
       setQueue((q) => pushToast(q, { id, spec }));
       timers.current.set(
         id,
@@ -187,10 +192,6 @@ export function ToastHost({ children, bottomOffset }: ToastHostProps) {
 
   // A sheet that closes with a toast still up hands it to the page underneath, so a "Saved" sent
   // just before it went down still shows.
-  const live = useRef(queue);
-  useEffect(() => {
-    live.current = queue;
-  }, [queue]);
   useEffect(
     () => () => {
       if (parent === null) return;
@@ -228,7 +229,12 @@ export function ToastHost({ children, bottomOffset }: ToastHostProps) {
             exiting={exiting}
             layout={layoutTransition(reduced)}
           >
-            <Pressable accessibilityRole="alert" onPress={() => dismiss(item.id)}>
+            {/* The id the flows find a toast by (the island toast's, which this one replaced). */}
+            <Pressable
+              accessibilityRole="alert"
+              onPress={() => dismiss(item.id)}
+              testID="island-toast-pill"
+            >
               <Toast spec={item.spec} onDone={() => dismiss(item.id)} />
             </Pressable>
           </Animated.View>

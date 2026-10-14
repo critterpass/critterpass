@@ -109,6 +109,21 @@ function queueSource() {
   return { source, send };
 }
 
+/** Sends "Added" on the sheet and closes it in the same tap, as the expense keypad does. */
+function AddAndClose({ onClose }: { readonly onClose: () => void }) {
+  const near = useToast();
+  return (
+    <Pressable
+      onPress={() => {
+        near.show({ kind: 'done', message: 'Added ₫250.000.' });
+        onClose();
+      }}
+    >
+      <Text>add and close</Text>
+    </Pressable>
+  );
+}
+
 function SheetUp({ source }: { readonly source: ExternalToastSource }) {
   const [open, setOpen] = useState(true);
   return (
@@ -124,6 +139,7 @@ function SheetUp({ source }: { readonly source: ExternalToastSource }) {
               <View testID="sheet">
                 <ToastHost bottomOffset={0}>
                   <Probe />
+                  <AddAndClose onClose={() => setOpen(false)} />
                 </ToastHost>
               </View>
             ) : null}
@@ -152,5 +168,13 @@ describe('toasts while a sheet is up', () => {
     await fireEvent.press(screen.getByText('close sheet'));
     expect(screen.queryByTestId('sheet')).toBeNull();
     expect(screen.getByText('Could not remove Hân.')).toBeTruthy();
+  });
+
+  it('hands over a toast the sheet sent in the tap that closed it', async () => {
+    const { source } = queueSource();
+    await renderWithI18n(<SheetUp source={source} />, { locale: 'en' });
+    await fireEvent.press(screen.getByText('add and close'));
+    expect(screen.queryByTestId('sheet')).toBeNull();
+    expect(screen.getByText('Added ₫250.000.')).toBeTruthy();
   });
 });
