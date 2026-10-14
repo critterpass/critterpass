@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-14.",
+  "latency_ms": 1647,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "d4f01630-15cf-4d95-a40c-9b04c6367387",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"en\":{\"line\":\"Lyon is a city in Auvergne-Rhône-Alpes, France.\",\"about\":\"Lyon is a city in the Auvergne-Rhône-Alpes region of France. It has a population of 522,250.\"},\"vi\":{\"line\":\"Lyon là một thành phố ở Auvergne-Rhône-Alpes, Pháp.\",\"about\":\"Lyon là một thành phố thuộc vùng Auvergne-Rhône-Alpes của Pháp. Thành phố có dân số 522.250 người.\"}}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 235,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 123,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-14.",
+  "latency_ms": 1107,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "5ada7f6a-a2e1-4614-b001-047bf1fff48a",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"en\":{\"line\":\"Douro Valley is a region in Portugal.\",\"about\":\"Douro Valley is a region in Portugal. It is known as a region.\"},\"vi\":{\"line\":\"Douro Valley là một vùng ở Bồ Đào Nha.\",\"about\":\"Douro Valley là một vùng ở Bồ Đào Nha. Đây được biết đến là một vùng.\"}}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 229,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 84,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

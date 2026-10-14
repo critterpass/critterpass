@@ -14,6 +14,7 @@ export {
 export * from './realtime';
 export * from './travel-data';
 export * from './media';
+export * from './destinations';
 export * from './entitlements/capability-keys';
 export * from './entitlements/errors';
 export * from './entitlements/metrics';
@@ -132,6 +133,7 @@ export {
 } from './places/categories';
 export * from './places/editorial';
 export * from './places/place-profile';
+export * from './places/estimates';
 export {
   EMPTY_HOURS,
   WEEKDAYS,

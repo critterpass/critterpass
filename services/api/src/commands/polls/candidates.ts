@@ -18,7 +18,9 @@ export interface Place {
 
 export async function resolvePlace(tx: pg.PoolClient, placeId: string): Promise<Place> {
   const { rows } = await tx.query<Place>(
-    // A day-trip area is never a place to pitch, vote on or start a trip in.
+    // A day-trip area is never a place to pitch, vote on or start a trip in. A base-set town is,
+    // even with `destinations.base_search` off: that switch only stops search offering new ones,
+    // so pitches already queued and trips already planned keep working.
     "SELECT id, slug, name, coverage FROM destinations WHERE id = $1 AND coverage <> 'area'",
     [placeId],
   );

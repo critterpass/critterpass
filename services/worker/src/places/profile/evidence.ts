@@ -1,7 +1,9 @@
 /**
  * The evidence a profile is written from, gathered in code (searches the model never writes): two
  * web searches (Vietnamese and English for a place in Vietnam), our own fetch of the top two pages
- * with the place's site first, the result snippets beside them, and the photo search.
+ * with the place's site first, the result snippets beside them, and the photo search. A popular
+ * place's run adds one search for tips under the `suggestions` policy: travel blogs, forums and
+ * social posts (captions through oEmbed, never fetched), read as snippets.
  */
 import type { ProfilePage, ProfilePlace } from '@cp/ai';
 import { isVietnam } from '@cp/domain';
@@ -9,6 +11,7 @@ import { isVietnam } from '@cp/domain';
 import { fetchTopPages } from './pages';
 import { storePhotos, type StoredPhoto } from './photos';
 import type { PlaceProfileDeps } from './run';
+import { readSocialCaptions } from './brief-evidence';
 import type { ImageHit } from './search';
 import type { ProfileTarget } from './store';
 
@@ -23,6 +26,18 @@ export function profilePlace(target: ProfileTarget): ProfilePlace {
     town: target.town,
     country: isVietnam(target.country) ? 'Vietnam' : target.country,
   };
+}
+
+/** The tips search of a popular place: blogs, forums and social posts, as snippets. */
+export async function gatherTipPages(
+  target: ProfileTarget,
+  deps: PlaceProfileDeps,
+  signal?: AbortSignal,
+): Promise<ProfilePage[]> {
+  const hits = await deps.search
+    .web(`${target.name} ${target.town} tips what to know`, 'en', signal, 'suggestions')
+    .catch(() => []);
+  return readSocialCaptions(hits.slice(0, 5), deps.fetch ?? fetch);
 }
 
 export async function gatherPages(

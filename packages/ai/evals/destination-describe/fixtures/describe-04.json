@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-14.",
+  "latency_ms": 1730,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "1f81dea1-7f03-4487-ab2a-7db5852b3c35",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"en\":{\"line\":\"Plitvice Lakes National Park is a park in Croatia.\",\"about\":\"Plitvice Lakes National Park is a park in Croatia. It is a protected natural area in the country.\"},\"vi\":{\"line\":\"Vườn quốc gia Hồ Plitvice là một công viên ở Croatia.\",\"about\":\"Vườn quốc gia Hồ Plitvice là một công viên ở Croatia. Đây là một khu vực tự nhiên được bảo vệ tại quốc gia này.\"}}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 234,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 120,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+{
+  "0f250c6d94136cfc6f95e9aa": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "critter": {
+        "type": "choice",
+        "choice": "cp-151",
+        "confidence": 0.48,
+        "probabilities": {
+          "cp-151": 0.65,
+          "cp-005": 0.34,
+          "cp-004": 0.01
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 453,
+      "output_tokens": 55
+    }
+  },
+  "4e672d4df310b6d078beb22b": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "critter": {
+        "type": "choice",
+        "choice": "cp-008",
+        "confidence": 0.94,
+        "probabilities": {
+          "cp-008": 0.96,
+          "cp-007": 0.02,
+          "cp-009": 0.02
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 454,
+      "output_tokens": 55
+    }
+  },
+  "83aad21c432cffc71e020705": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "critter": {
+        "type": "choice",
+        "choice": "cp-145",
+        "confidence": 0.96,
+        "probabilities": {
+          "cp-145": 0.98,
+          "cp-138": 0.02
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 423,
+      "output_tokens": 44
+    }
+  },
+  "cd42ba3ab9ab05c72d83ca9d": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "critter": {
+        "type": "choice",
+        "choice": "cp-145",
+        "confidence": 0.9,
+        "probabilities": {
+          "cp-145": 0.95,
+          "cp-135": 0.05
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 418,
+      "output_tokens": 44
+    }
+  },
+  "3aa7679e4b59fdd753a8fd6e": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "critter": {
+        "type": "choice",
+        "choice": "cp-067",
+        "confidence": 0.2,
+        "probabilities": {
+          "cp-068": 0.17,
+          "cp-067": 0.47,
+          "cp-069": 0.36
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 449,
+      "output_tokens": 55
+    }
+  },
+  "c0ad92fb66e36b3357513812": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "critter": {
+        "type": "choice",
+        "choice": "cp-081",
+        "confidence": 1,
+        "probabilities": {
+          "cp-081": 1,
+          "cp-079": 0,
+          "cp-136": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 455,
+      "output_tokens": 55
+    }
+  },
+  "723168e3b329a3d7fefd0355": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "critter": {
+        "type": "choice",
+        "choice": "cp-019",
+        "confidence": 1,
+        "probabilities": {
+          "cp-019": 1,
+          "cp-016": 0,
+          "cp-017": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 446,
+      "output_tokens": 55
+    }
+  },
+  "be25a12303f2509684687c68": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "critter": {
+        "type": "choice",
+        "choice": "cp-035",
+        "confidence": 0.69,
+        "probabilities": {
+          "cp-035": 0.79,
+          "cp-034": 0.21,
+          "cp-032": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 446,
+      "output_tokens": 55
+    }
+  },
+  "7294c25fdddc4c371625a50d": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "critter": {
+        "type": "choice",
+        "choice": "cp-053",
+        "confidence": 1,
+        "probabilities": {
+          "cp-053": 1,
+          "cp-052": 0,
+          "cp-055": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 450,
+      "output_tokens": 55
+    }
+  },
+  "b66399d1e9549cbd36e6e706": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "critter": {
+        "type": "choice",
+        "choice": "cp-117",
+        "confidence": 0.95,
+        "probabilities": {
+          "cp-117": 0.97,
+          "cp-115": 0.03,
+          "cp-116": 0
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 448,
+      "output_tokens": 55
+    }
+  },
+  "c4d1d867b7d6b3520223d9fc": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "critter": {
+        "type": "choice",
+        "choice": "cp-061",
+        "confidence": 0.25,
+        "probabilities": {
+          "cp-063": 0.49,
+          "cp-061": 0.5,
+          "cp-062": 0.01
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 441,
+      "output_tokens": 55
+    }
+  },
+  "239a5b8c21d09da257adae39": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "critter": {
+        "type": "choice",
+        "choice": "cp-129",
+        "confidence": 0.84,
+        "probabilities": {
+          "cp-129": 0.92,
+          "cp-144": 0.08
+        }
+      }
+    },
+    "usage": {
+      "input_tokens": 420,
+      "output_tokens": 44
+    }
+  }
+}

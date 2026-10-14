@@ -82,6 +82,53 @@ describe('place_profiles RLS: readable by every signed-in reader, written by the
     ).rejects.toThrow(/check constraint/i);
   });
 
+  it('lets every reader see the estimates and only the worker write them', async () => {
+    await withSystem(db.pool, (tx) =>
+      tx.query(
+        `UPDATE place_profiles
+            SET estimates = '{"tips": [{"value": {"en": "Go early"}, "basis": "estimate"}]}'
+          WHERE poi_id = $1`,
+        [poiId],
+      ),
+    );
+    const { rows } = await withUser(db.pool, uid, device(), (tx) =>
+      tx.query<{ basis: string }>(
+        "SELECT estimates->'tips'->0->>'basis' AS basis FROM place_profiles WHERE poi_id = $1",
+        [poiId],
+      ),
+    );
+    expect(rows).toEqual([{ basis: 'estimate' }]);
+    await expect(
+      withUser(db.pool, uid, device(), (tx) =>
+        tx.query("UPDATE place_profiles SET estimates = '{}' WHERE poi_id = $1", [poiId]),
+      ),
+    ).rejects.toThrow(/permission denied/i);
+    await expect(
+      withSystem(db.pool, (tx) =>
+        tx.query("UPDATE place_profiles SET estimates = '[]' WHERE poi_id = $1", [poiId]),
+      ),
+    ).rejects.toThrow(/check constraint/i);
+  });
+
+  it('takes estimate crowd curves beside the other sources', async () => {
+    await withSystem(db.pool, (tx) =>
+      tx.query(
+        `INSERT INTO crowd_forecasts (poi_id, dow, hourly, source, fetched_at)
+         VALUES ($1, 0, array_fill(20, ARRAY[24])::smallint[], 'estimate', now())`,
+        [poiId],
+      ),
+    );
+    await expect(
+      withSystem(db.pool, (tx) =>
+        tx.query(
+          `INSERT INTO crowd_forecasts (poi_id, dow, hourly, source, fetched_at)
+           VALUES ($1, 1, array_fill(20, ARRAY[24])::smallint[], 'guess', now())`,
+          [poiId],
+        ),
+      ),
+    ).rejects.toThrow(/check constraint/i);
+  });
+
   it('never enters the powersync publication', async () => {
     const { rows } = await db.pool.query(
       `SELECT 1 FROM pg_publication_tables WHERE pubname = 'powersync'

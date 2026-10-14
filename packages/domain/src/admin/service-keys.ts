@@ -119,6 +119,10 @@ export function serviceKeys(): Record<string, ConfigKeyDefinition> {
       'Default 15',
     ),
     'android.fsi.enabled': killSwitch('Android full-screen intent alerts'),
+    'places.estimates.enabled': killSwitch("AI estimates on popular places' profiles"),
+    'places.social_research.enabled': killSwitch(
+      'Blogs and social pages in destination briefs and place tips',
+    ),
     'ai.cap.daily_usd': spendCap('AI spend cap per day, every tier (USD)'),
     ...Object.fromEntries(
       CAPPED_TIERS.map((tier) => [

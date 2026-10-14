@@ -4,16 +4,14 @@
  * objects under the media Worker's `c/` prefix, so each URL is absolute and never expires; the app
  * caches them and prefetches a trip's to disk. Every item carries its credit and licence.
  *
- * A place's pictures come in the order it shows them (`byPlacePhotoPrecedence`): its own Commons
- * photo before generic stock. With `include=foursquare` the place's kept Foursquare photos join as
- * assets of source `foursquare`, between the two; a build that does not ask never gets a source it
- * cannot read.
+ * A place shows a photo only when it is one of its destination's popular places (`popularAmong`)
+ * and only an asset of that place itself: generic stock filed under a place ("not this place") is
+ * no longer served, and neither are Foursquare photos (`include=foursquare` is accepted and
+ * ignored, so older builds keep working). Destination subjects are answered as before.
  */
-import { withUser } from '@cp/db';
+import { popularAmong, withUser } from '@cp/db';
 import {
-  byPlacePhotoPrecedence,
   DomainError,
-  MEDIA_INCLUDE_FOURSQUARE,
   mediaSubjectKeySchema,
   type MediaAsset,
   type MediaListResponse,
@@ -26,7 +24,6 @@ import { z } from 'zod';
 
 import type { AppEnv } from '../app';
 import { requireCommandSession, type SessionResolver } from '../commands/_framework/session';
-import { readFoursquarePhotoAssets } from '../places/foursquare-photo-assets';
 
 export interface EditorialMediaDeps {
   readonly pool: pg.Pool;
@@ -40,12 +37,28 @@ const querySchema = z.object({
     .string()
     .transform((value) => [...new Set(value.split(',').map((s) => s.trim()))])
     .pipe(z.array(mediaSubjectKeySchema).min(1).max(20)),
-  /** Extra sources the caller can read, comma-separated; unknown names are ignored. */
-  include: z
-    .string()
-    .optional()
-    .transform((value) => new Set((value ?? '').split(',').map((s) => s.trim()))),
+  /** Extra sources an older build asks for (`foursquare`); accepted and ignored. */
+  include: z.string().optional(),
 });
+
+/** How the content factory titles a stock photo standing in for a place it does not show. */
+const GENERIC_TITLE_PREFIX = 'Generic, not this place: ';
+
+const POI_UUID = /^poi:([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/u;
+
+/** The subjects a read may answer: every destination, and only popular places' own subjects. */
+async function servedSubjects(tx: pg.PoolClient, subjects: readonly string[]): Promise<string[]> {
+  const poiIds = subjects.flatMap((s) => {
+    const id = POI_UUID.exec(s)?.[1];
+    return id === undefined ? [] : [id];
+  });
+  const popular = await popularAmong(tx, poiIds);
+  return subjects.filter((s) => {
+    if (!s.startsWith('poi:')) return true;
+    const id = POI_UUID.exec(s)?.[1];
+    return id !== undefined && popular.has(id);
+  });
+}
 
 interface AssetRow {
   id: string;
@@ -77,8 +90,9 @@ export async function readEditorialMedia(
             credit, attribution_required, author, source, source_url, licence, licence_url
        FROM media_assets
       WHERE status = 'ready' AND subject_keys && $1::text[]
+        AND NOT starts_with(coalesce(title, ''), $2)
       ORDER BY rank, kind, id`,
-    [subjects],
+    [subjects, GENERIC_TITLE_PREFIX],
   );
   const base = publicBaseUrl.replace(/\/+$/u, '');
   const url = (key: string) => `${base}/${key}`;
@@ -121,17 +135,15 @@ export function registerEditorialMediaRoute(
     const session = await requireCommandSession(deps.sessions, c.req.raw.headers);
     const parsed = querySchema.safeParse(c.req.query());
     if (!parsed.success) throw new DomainError('VALIDATION', { field: 'subjects' });
-    const { subjects, include } = parsed.data;
+    const { subjects } = parsed.data;
     const body = await withUser(
       deps.pool,
       session.uid,
       'unknown',
       async (tx): Promise<PlaceMediaListResponse> => {
-        const editorial = await readEditorialMedia(tx, subjects, deps.publicBaseUrl);
-        const foursquare = include.has(MEDIA_INCLUDE_FOURSQUARE)
-          ? await readFoursquarePhotoAssets(tx, subjects)
-          : [];
-        return { items: byPlacePhotoPrecedence([...editorial.items, ...foursquare]) };
+        const served = await servedSubjects(tx, subjects);
+        if (served.length === 0) return { items: [] };
+        return readEditorialMedia(tx, served, deps.publicBaseUrl);
       },
     );
     c.header('Cache-Control', 'private, max-age=3600');

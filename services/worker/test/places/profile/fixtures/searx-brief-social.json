@@ -1,0 +1,36 @@
+{
+  "source": "SearXNG JSON answer shape (searxng/searxng 2026.10) for the brief's social searches: three YouTube results as Tavily returned them for \"Đà Lạt must visit places\" on 2026-10-14.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Đà Lạt tiktok must try places",
+      "number_of_results": 3,
+      "results": [
+        {
+          "url": "https://www.youtube.com/watch?v=fpT8F4KBPh4",
+          "title": "9 BEST Things To Do In Dalat Vietnam",
+          "content": "[9:08] must-visit on your Da Lat itinerary. And at number one — the Hằng Nga  \n[9:20] Guesthouse — better known as the  Crazy House — the single most iconic  \n[9:25] and unforgettable attraction in all of Da Lat. Designed by visionary architect Đặng Việt Nga,  \n[9:33] this surreal masterpiece is unlike any building  you have ever seen. Imagine a labyrinth of organic  \n[9:40] forms — giant tree trunks, sweeping spider webs,  hidden caves, and winding narrow bridges spreading [...] [0:45] top nine must-visit attractions in Da Lat. Whether  you're a nature lover, a history enthusiast,  \n[0:52] or",
+          "engine": "bing",
+          "engines": ["bing"],
+          "category": "general"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=Dk0aDYj0F7s",
+          "title": "10 Best Things to Do in Da Lat, Vietnam",
+          "content": "1. Datanla Waterfalls & Coaster • 2. Hang Nga's Crazy House … 10. Cheo Veooo Coffee Hotel. Vietnam Walk, Da Lat Night Market - Vietnamese",
+          "engine": "bing",
+          "engines": ["bing"],
+          "category": "general"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=b-0W0xv2Ww0",
+          "title": "Top 10 Best Things To Do In Dalat, Vietnam [Đà Lạt Travel ...",
+          "content": "Valley of Love 01:39 Crazy House 02:24 Dalat Flower Park 03:09 Dalat Railway Station 03:51 Tuyen Lam Lake 04:34 Lang Biang Mountain 05:19",
+          "engine": "bing",
+          "engines": ["bing"],
+          "category": "general"
+        }
+      ]
+    }
+  }
+}
