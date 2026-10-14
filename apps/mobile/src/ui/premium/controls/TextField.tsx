@@ -1,4 +1,4 @@
-import { forwardRef, useState, type ComponentRef } from 'react';
+import { forwardRef, useState, type ComponentRef, type ReactNode } from 'react';
 import { TextInput, View } from 'react-native';
 import type { TextInputProps } from 'react-native';
 
@@ -23,6 +23,8 @@ export interface TextFieldProps extends Omit<
   readonly label?: string | undefined;
   /** A count kept inside the field on the right ("10/32", 3.08). */
   readonly counter?: string | undefined;
+  /** Something kept inside the field on the right, after the counter (the expense's category). */
+  readonly trailing?: ReactNode;
 }
 
 /**
@@ -38,6 +40,7 @@ export const TextField = forwardRef<ComponentRef<typeof TextInput>, TextFieldPro
       helper,
       label,
       counter,
+      trailing,
       accessibilityLabel,
       onFocus,
       onBlur,
@@ -143,6 +146,7 @@ export const TextField = forwardRef<ComponentRef<typeof TextInput>, TextFieldPro
               {counter}
             </Text>
           )}
+          {trailing ?? null}
         </View>
         {note === undefined ? null : (
           <Text
