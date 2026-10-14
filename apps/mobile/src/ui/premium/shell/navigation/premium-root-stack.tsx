@@ -12,6 +12,7 @@ import type { PremiumPalette, PremiumScheme } from '@cp/design-tokens';
 
 import { REDUCED_FADE_MS, usePremiumReducedMotion, usePremiumTheme } from '../..';
 import { freezeOptions, type StackState } from './freeze-behind';
+import { presentedScreenLayout } from './presented-insets';
 import { rootRouteOptions, SELF_ANIMATED_SHEET } from './presentation-options';
 
 // Area layouts import it from here.
@@ -76,7 +77,7 @@ export function PremiumRootStack() {
   );
   return (
     <NavigationThemeProvider value={theme}>
-      <Stack screenOptions={screenOptions} />
+      <Stack screenOptions={screenOptions} screenLayout={presentedScreenLayout} />
     </NavigationThemeProvider>
   );
 }

@@ -30,6 +30,8 @@ import {
   type SharedValue,
 } from 'react-native-reanimated';
 
+import { TextButtonAlignProvider } from '../../buttons/TextButton';
+
 /** Whether the build carries the keyboard controller's native module. */
 function keyboardControllerReady(): boolean {
   return TurboModuleRegistry.get('KeyboardController') != null;
@@ -64,18 +66,22 @@ export interface KeyboardStickyFooterProps {
   readonly style?: StyleProp<ViewStyle>;
 }
 
-/** A footer that rides the keyboard: the composer, a sheet's bottom action. */
+/**
+ * A footer that rides the keyboard: the composer, a sheet's bottom action. A text button in it
+ * centres under the full-width action, as in a `FooterStack`.
+ */
 export function KeyboardStickyFooter({
   children,
   openedOffset = 0,
   style,
 }: KeyboardStickyFooterProps) {
   const library = keyboardController();
-  if (library === null) return <View style={style}>{children}</View>;
+  const content = <TextButtonAlignProvider value="center">{children}</TextButtonAlignProvider>;
+  if (library === null) return <View style={style}>{content}</View>;
   const { KeyboardStickyView } = library;
   return (
     <KeyboardStickyView offset={{ closed: 0, opened: -openedOffset }} style={style}>
-      {children}
+      {content}
     </KeyboardStickyView>
   );
 }
