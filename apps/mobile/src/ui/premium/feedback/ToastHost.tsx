@@ -9,7 +9,12 @@ import {
 } from 'react';
 import type { ReactNode } from 'react';
 import { AccessibilityInfo, Pressable, View } from 'react-native';
-import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
+import Animated, {
+  withSpring,
+  withTiming,
+  type EntryExitAnimationFunction,
+  type WithSpringConfig,
+} from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { usePremiumReducedMotion } from '../motion/reduced-motion';
@@ -62,6 +67,44 @@ export interface ToastHostProps {
   readonly bottomOffset?: number;
 }
 
+/** How far a toast rises into place and sinks away. */
+const TOAST_TRAVEL = 24;
+
+type Spring = { readonly stiffness: number; readonly damping: number; readonly mass: number };
+
+/**
+ * The toast rises on the spring but reaches full opacity at once: on the spring's own curve the
+ * fade lingered for half a second, long enough to read as a washed-out toast.
+ */
+function riseIn(spring: Spring, fadeMs: number): EntryExitAnimationFunction {
+  const config: WithSpringConfig = { ...spring };
+  return () => {
+    'worklet';
+    return {
+      initialValues: { opacity: 0, transform: [{ translateY: TOAST_TRAVEL }] },
+      animations: {
+        opacity: withTiming(1, { duration: fadeMs }),
+        transform: [{ translateY: withSpring(0, config) }],
+      },
+    };
+  };
+}
+
+/** Leaving, it fades out as quickly as it came and sinks on the spring. */
+function sinkOut(spring: Spring, fadeMs: number): EntryExitAnimationFunction {
+  const config: WithSpringConfig = { ...spring };
+  return () => {
+    'worklet';
+    return {
+      initialValues: { opacity: 1, transform: [{ translateY: 0 }] },
+      animations: {
+        opacity: withTiming(0, { duration: fadeMs }),
+        transform: [{ translateY: withSpring(TOAST_TRAVEL, config) }],
+      },
+    };
+  };
+}
+
 /**
  * Holds the toast stack: toasts sit above the tab bar 14 apart, newest at the bottom, rise in and
  * leave on the Smooth spring (a 150 ms fade under Reduce Motion), and are announced to screen readers.
@@ -107,12 +150,14 @@ export function ToastHost({ children, bottomOffset }: ToastHostProps) {
 
   const entry = useMemo(() => ({ api: { show, dismiss }, parent }), [show, dismiss, parent]);
   const smooth = theme.spring.smooth;
-  const entering = reduced
-    ? reducedFadeIn()
-    : FadeInDown.springify().stiffness(smooth.stiffness).damping(smooth.damping).mass(smooth.mass);
-  const exiting = reduced
-    ? reducedFadeOut()
-    : FadeOutDown.springify().stiffness(smooth.stiffness).damping(smooth.damping).mass(smooth.mass);
+  const entering = useMemo(
+    () => (reduced ? reducedFadeIn() : riseIn(smooth, theme.motion.reduceMotionFadeMs)),
+    [reduced, smooth, theme.motion.reduceMotionFadeMs],
+  );
+  const exiting = useMemo(
+    () => (reduced ? reducedFadeOut() : sinkOut(smooth, theme.motion.reduceMotionFadeMs)),
+    [reduced, smooth, theme.motion.reduceMotionFadeMs],
+  );
 
   return (
     <ToastContext.Provider value={entry}>
