@@ -233,6 +233,7 @@ export function SheetScreen({
         {footer === undefined ? null : (
           <KeyboardStickyFooter
             openedOffset={t.space.gap8}
+            ground={t.material.sheet.fill}
             style={{
               paddingHorizontal: t.space.gutter,
               paddingBottom: t.space.gap16 + (asPage ? insets.bottom : 0),
