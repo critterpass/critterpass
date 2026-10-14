@@ -62,6 +62,10 @@ msgid "critters.hatch.guideBody"
 msgstr "{days, plural, one {Your guide for the next # day, and critter {number} in the {place} set.} other {Your guide for the next # days, and critter {number} in the {place} set.}}"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.formsCount"
+msgstr "{found} of {total} forms"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.places"
 msgstr "{found} of {total} places"
 

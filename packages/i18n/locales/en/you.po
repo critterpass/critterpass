@@ -227,6 +227,10 @@ msgstr "At least 3 characters."
 msgid "you.edit.username.tooLong"
 msgstr "At most 20 characters."
 
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
+msgid "you.premium.appearance.auto"
+msgstr "Auto"
+
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.tabs"
 msgstr "Avatar"
@@ -310,6 +314,10 @@ msgstr "Choose from Photos"
 #: ../../apps/mobile/src/features/you/premium/edit/field-sheets-premium.tsx
 msgid "you.edit.airportSearch"
 msgstr "City or airport code"
+
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
+msgid "you.premium.icon.clear"
+msgstr "Clear"
 
 #: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.formats.clock"
@@ -869,6 +877,10 @@ msgstr "Manage subscription ›"
 msgid "trip.offline.kind.maps"
 msgstr "maps"
 
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-preview.tsx
+msgid "you.premium.appIcon.maps"
+msgstr "Maps"
+
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts
 msgid "you.sound.theme.ajo"
 msgstr "Marimba lo-fi"
@@ -955,6 +967,10 @@ msgstr "Nobody else is on {name}, so it closes with you."
 #: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
 msgid "you.premium.chatty.normal"
 msgstr "Normal"
+
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-preview.tsx
+msgid "you.premium.appIcon.notes"
+msgstr "Notes"
 
 #. placeholder {0}: until ?? ''
 #: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
@@ -1094,6 +1110,10 @@ msgstr "Permissions"
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.tab.photo"
 msgstr "Photo"
+
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-preview.tsx
+msgid "you.premium.appIcon.photos"
+msgstr "Photos"
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx
 msgid "you.avatar.photoLine"

@@ -227,6 +227,10 @@ msgstr ""
 msgid "you.edit.username.tooLong"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
+msgid "you.premium.appearance.auto"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.tabs"
 msgstr ""
@@ -309,6 +313,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/edit/field-sheets-premium.tsx
 msgid "you.edit.airportSearch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
+msgid "you.premium.icon.clear"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
@@ -869,6 +877,10 @@ msgstr ""
 msgid "trip.offline.kind.maps"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-preview.tsx
+msgid "you.premium.appIcon.maps"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts
 msgid "you.sound.theme.ajo"
 msgstr ""
@@ -954,6 +966,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
 msgid "you.premium.chatty.normal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-preview.tsx
+msgid "you.premium.appIcon.notes"
 msgstr ""
 
 #. placeholder {0}: until ?? ''
@@ -1093,6 +1109,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.tab.photo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-preview.tsx
+msgid "you.premium.appIcon.photos"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx

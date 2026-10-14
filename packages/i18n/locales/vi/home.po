@@ -277,6 +277,10 @@ msgstr "Critterdex"
 msgid "home.premium.countdown.dayLetter"
 msgstr "n"
 
+#: ../../apps/mobile/src/features/home/premium/trips/trip-mini-card.tsx
+msgid "home.premium.trips.datesToVote"
+msgstr "Đang chọn ngày"
+
 #: ../../apps/mobile/src/features/home/premium/components/countdown-pill.tsx
 msgid "home.countdown.day"
 msgstr "Ngày {day}"
@@ -327,7 +331,7 @@ msgstr "Quay lại"
 
 #: ../../apps/mobile/src/features/home/premium/recovery/plain-recovery.tsx
 msgid "common.shell.errorBack"
-msgstr ""
+msgstr "Quay lại"
 
 #: ../../apps/mobile/src/features/home/premium/recovery/error-sheet.tsx
 msgid "home.premium.broke.home"
@@ -335,7 +339,7 @@ msgstr "Về trang chủ"
 
 #: ../../apps/mobile/src/features/home/premium/recovery/plain-recovery.tsx
 msgid "common.shell.errorHome"
-msgstr ""
+msgstr "Về trang chủ"
 
 #: ../../apps/mobile/src/features/home/premium/recovery/lost-link-screen.tsx
 msgid "home.premium.lost.home"
@@ -476,6 +480,10 @@ msgstr "Tiếp theo: {next}"
 msgid "home.premium.trips.ponNote"
 msgstr "Chưa có nhóm? Mình có thể dẫn bạn đi xem một nơi trong lúc bạn quyết định."
 
+#: ../../apps/mobile/src/features/home/premium/trips/trip-mini-card.tsx
+msgid "home.premium.trips.noDates"
+msgstr "Chưa có ngày"
+
 #: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.noSpacePhrases"
 msgstr "Điện thoại không đủ chỗ cho thẻ câu nói"
@@ -519,6 +527,10 @@ msgstr "Không có gì cần bạn. Tokek đang chợp mắt."
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "inbox.premium.settings"
 msgstr "Cài đặt thông báo"
+
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
+msgid "inbox.premium.notificationsOn"
+msgstr "Thông báo đã bật: điện thoại sẽ báo khi có tin mới."
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-card.tsx
 msgid "home.inbox.action.nudge"
@@ -763,7 +775,7 @@ msgstr "Chưa tải được"
 
 #: ../../apps/mobile/src/features/home/premium/recovery/plain-recovery.tsx
 msgid "common.shell.errorTitle"
-msgstr ""
+msgstr "Không tải được"
 
 #: ../../apps/mobile/src/features/home/premium/crew-switcher/crew-switcher-menu.tsx
 msgid "crew.sheet.joinFailed"
@@ -883,7 +895,7 @@ msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/home/premium/recovery/plain-recovery.tsx
 msgid "common.shell.errorRetry"
-msgstr ""
+msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/home/premium/inbox/earlier-row.tsx
 msgid "home.inbox.undoLabel"

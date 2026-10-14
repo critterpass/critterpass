@@ -685,6 +685,10 @@ msgstr "On until a week after you land"
 msgid "monetize.premium.entry.seat"
 msgstr "One seat too many"
 
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.covers.boost"
+msgstr "One trip, the crew"
+
 #: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 #: ../../apps/mobile/src/features/monetize/premium/boost-lock-alert.tsx
 msgid "monetize.boost.lockedLine"
@@ -1226,6 +1230,10 @@ msgstr "What’s in each"
 msgid "monetize.paywall.compare"
 msgstr "What’s in each ›"
 
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.covers"
+msgstr "Who it covers"
+
 #: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
 msgid "monetize.boost.whoPays"
 msgstr "Who pays"
@@ -1252,6 +1260,10 @@ msgstr "Yearly"
 msgid "monetize.plan.line.yearlyRenews"
 msgstr "Yearly · renews {date}"
 
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.covers.free"
+msgstr "You"
+
 #: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
 msgid "monetize.compare.havePass"
 msgstr "You have Pass+"
@@ -1259,6 +1271,10 @@ msgstr "You have Pass+"
 #: ../../apps/mobile/src/features/monetize/premium/paywall-parts.tsx
 msgid "monetize.paywall.yourPlan"
 msgstr "You have Pass+ · Your plan"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.covers.pass"
+msgstr "You, every crew"
 
 #: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 msgid "monetize.welcome.title"

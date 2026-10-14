@@ -684,6 +684,10 @@ msgstr ""
 msgid "monetize.premium.entry.seat"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.covers.boost"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 #: ../../apps/mobile/src/features/monetize/premium/boost-lock-alert.tsx
 msgid "monetize.boost.lockedLine"
@@ -1225,6 +1229,10 @@ msgstr ""
 msgid "monetize.paywall.compare"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.covers"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
 msgid "monetize.boost.whoPays"
 msgstr ""
@@ -1251,12 +1259,20 @@ msgstr ""
 msgid "monetize.plan.line.yearlyRenews"
 msgstr ""
 
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.covers.free"
+msgstr ""
+
 #: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
 msgid "monetize.compare.havePass"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/premium/paywall-parts.tsx
 msgid "monetize.paywall.yourPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.covers.pass"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx

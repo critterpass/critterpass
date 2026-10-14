@@ -115,6 +115,7 @@ msgid "bookings.form.arriveExample"
 msgstr "11:55"
 
 #: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/DayRows.tsx
 msgid "bookings.premium.dayExample"
 msgstr "2026-10-12"
 
@@ -184,7 +185,7 @@ msgstr "Tự nhập"
 msgid "bookings.candidate.flightNotFound"
 msgstr "Thêm ngày và chặng bay, hoặc tự nhập."
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/form-helpers.ts
 msgid "bookings.premium.missingFlight"
 msgstr "Thêm số hiệu chuyến bay để lưu"
 
@@ -204,6 +205,10 @@ msgstr "Mã hãng và số hiệu chuyến"
 msgid "bookings.candidate.duplicate"
 msgstr "Đã có trong ví."
 
+#: ../../apps/mobile/src/features/bookings/premium/components/DayRows.tsx
+msgid "bookings.premium.anotherDay"
+msgstr "Ngày khác"
+
 #: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
 msgid "bookings.premium.tileForwardSub"
 msgstr "Email nào cũng được"
@@ -215,6 +220,10 @@ msgstr "Đã duyệt. Bàn hỗ trợ sẽ gửi đúng nội dung này."
 #: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
 msgid "suppliers.cancel.loading"
 msgstr "Đang hỏi Viator bạn được hoàn bao nhiêu"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/policy-card.tsx
+msgid "bookings.premium.assistanceEyebrow"
+msgstr "HỖ TRỢ"
 
 #: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
 msgid "bookings.premium.assistancePhone"
@@ -408,6 +417,10 @@ msgstr "Sắp có — tạm thời hãy chuyển tiếp email xác nhận."
 msgid "bookings.premium.mailboxSoon"
 msgstr "Sắp có. Tạm thời hãy chuyển tiếp email xác nhận."
 
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+msgid "bookings.premium.confirmation"
+msgstr "Mã xác nhận"
+
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 #: ../../apps/mobile/src/features/bookings/premium/components/ConfirmationCode.tsx
 msgid "bookings.detail.ref"
@@ -455,7 +468,7 @@ msgstr "Nhóm thấy · chuyến bay, giờ giấc"
 msgid "bookings.detail.shareFlight"
 msgstr "Cả nhóm thấy chuyến bay này"
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/DayRows.tsx
 msgid "bookings.form.day"
 msgstr "Ngày"
 
@@ -567,7 +580,7 @@ msgstr "Sửa"
 msgid "bookings.form.editTitle"
 msgstr "Sửa đặt chỗ"
 
-#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/policy-card.tsx
 msgid "bookings.insurance.editHint"
 msgstr "Sửa hợp đồng"
 
@@ -603,11 +616,11 @@ msgstr "Lần kiểm tra đầu vào sáng mai"
 msgid "suppliers.book.first"
 msgstr "Tên"
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/form-helpers.ts
 msgid "bookings.premium.missingAirport"
 msgstr "Sửa sân bay để lưu"
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/form-helpers.ts
 msgid "bookings.premium.missingTime"
 msgstr "Sửa giờ để lưu"
 
@@ -694,7 +707,7 @@ msgstr "Đổi cửa"
 msgid "bookings.form.titleProblem"
 msgstr "Đặt cho nó một cái tên"
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/form-helpers.ts
 msgid "bookings.premium.missingTitleSave"
 msgstr "Đặt tên để lưu"
 
@@ -1040,6 +1053,10 @@ msgstr "Đang tới · ước tính"
 msgid "bookings.flight.onTime"
 msgstr "Đúng giờ"
 
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
+msgid "bookings.premium.airportTooLong"
+msgstr "Thừa một chữ cái"
+
 #: ../../apps/mobile/src/features/bookings/premium/components/ShareCard.tsx
 msgid "bookings.premium.onlyYou"
 msgstr "Chỉ bạn · ghế, thẻ lên máy bay"
@@ -1051,6 +1068,10 @@ msgstr "Mở Viator ↗"
 #: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
 msgid "bookings.premium.opensOffline"
 msgstr "Mở được khi không có sóng"
+
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+msgid "bookings.premium.optionalShort"
+msgstr "Không bắt buộc"
 
 #: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
 msgid "bookings.add.byHand"
@@ -1101,15 +1122,19 @@ msgstr "Thanh toán với Viator"
 msgid "suppliers.book.phone"
 msgstr "Số điện thoại"
 
+#: ../../apps/mobile/src/features/bookings/premium/components/DayRows.tsx
+msgid "bookings.premium.pickDay"
+msgstr "Chọn ngày"
+
 #: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.dayProblem"
 msgstr "Chọn ngày"
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/form-helpers.ts
 msgid "bookings.premium.missingDate"
 msgstr "Chọn ngày để lưu"
 
-#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/policy-card.tsx
 msgid "bookings.premium.policyNoEyebrow"
 msgstr "SỐ HỢP ĐỒNG"
 
@@ -1252,10 +1277,6 @@ msgstr "Ghế"
 msgid "bookings.flight.seat"
 msgstr "Ghế"
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
-msgid "bookings.premium.optional"
-msgstr "Ghế (không bắt buộc)"
-
 #. placeholder {0}: detail.view.seat
 #. placeholder {0}: view.seat
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
@@ -1300,6 +1321,10 @@ msgstr "Cho cả nhóm thấy những gì tìm được"
 #: ../../apps/mobile/src/features/bookings/premium/components/WalletStack.tsx
 msgid "bookings.premium.showPass"
 msgstr "Mở thẻ lên máy bay"
+
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
+msgid "bookings.premium.airportExample"
+msgstr "SIN"
 
 #: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
 msgid "bookings.candidate.check"
@@ -1467,7 +1492,7 @@ msgstr "Bảo hiểm du lịch"
 msgid "bookings.insurance.eyebrow"
 msgstr "Bảo hiểm du lịch"
 
-#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/policy-card.tsx
 msgid "bookings.premium.insuranceEyebrow"
 msgstr "BẢO HIỂM DU LỊCH"
 

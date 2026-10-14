@@ -115,6 +115,7 @@ msgid "bookings.form.arriveExample"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/DayRows.tsx
 msgid "bookings.premium.dayExample"
 msgstr ""
 
@@ -184,7 +185,7 @@ msgstr ""
 msgid "bookings.candidate.flightNotFound"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/form-helpers.ts
 msgid "bookings.premium.missingFlight"
 msgstr ""
 
@@ -204,6 +205,10 @@ msgstr ""
 msgid "bookings.candidate.duplicate"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/premium/components/DayRows.tsx
+msgid "bookings.premium.anotherDay"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
 msgid "bookings.premium.tileForwardSub"
 msgstr ""
@@ -214,6 +219,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/supplier/CancelPremium.tsx
 msgid "suppliers.cancel.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/components/policy-card.tsx
+msgid "bookings.premium.assistanceEyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
@@ -408,6 +417,10 @@ msgstr ""
 msgid "bookings.premium.mailboxSoon"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+msgid "bookings.premium.confirmation"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 #: ../../apps/mobile/src/features/bookings/premium/components/ConfirmationCode.tsx
 msgid "bookings.detail.ref"
@@ -455,7 +468,7 @@ msgstr ""
 msgid "bookings.detail.shareFlight"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/DayRows.tsx
 msgid "bookings.form.day"
 msgstr ""
 
@@ -567,7 +580,7 @@ msgstr ""
 msgid "bookings.form.editTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/policy-card.tsx
 msgid "bookings.insurance.editHint"
 msgstr ""
 
@@ -603,11 +616,11 @@ msgstr ""
 msgid "suppliers.book.first"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/form-helpers.ts
 msgid "bookings.premium.missingAirport"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/form-helpers.ts
 msgid "bookings.premium.missingTime"
 msgstr ""
 
@@ -694,7 +707,7 @@ msgstr ""
 msgid "bookings.form.titleProblem"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/form-helpers.ts
 msgid "bookings.premium.missingTitleSave"
 msgstr ""
 
@@ -1040,6 +1053,10 @@ msgstr ""
 msgid "bookings.flight.onTime"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
+msgid "bookings.premium.airportTooLong"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/premium/components/ShareCard.tsx
 msgid "bookings.premium.onlyYou"
 msgstr ""
@@ -1050,6 +1067,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/components/DocsCard.tsx
 msgid "bookings.premium.opensOffline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+msgid "bookings.premium.optionalShort"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/AddBookingPremium.tsx
@@ -1101,15 +1122,19 @@ msgstr ""
 msgid "suppliers.book.phone"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/premium/components/DayRows.tsx
+msgid "bookings.premium.pickDay"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
 msgid "bookings.form.dayProblem"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/form-helpers.ts
 msgid "bookings.premium.missingDate"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/policy-card.tsx
 msgid "bookings.premium.policyNoEyebrow"
 msgstr ""
 
@@ -1252,10 +1277,6 @@ msgstr ""
 msgid "bookings.flight.seat"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/BookingFormPremium.tsx
-msgid "bookings.premium.optional"
-msgstr ""
-
 #. placeholder {0}: detail.view.seat
 #. placeholder {0}: view.seat
 #: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
@@ -1299,6 +1320,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/components/WalletStack.tsx
 msgid "bookings.premium.showPass"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/premium/components/FlightFields.tsx
+msgid "bookings.premium.airportExample"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/components/CandidateCard.tsx
@@ -1467,7 +1492,7 @@ msgstr ""
 msgid "bookings.insurance.eyebrow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/premium/InsurancePremium.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/policy-card.tsx
 msgid "bookings.premium.insuranceEyebrow"
 msgstr ""
 

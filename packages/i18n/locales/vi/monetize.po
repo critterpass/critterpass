@@ -685,6 +685,10 @@ msgstr "Bật đến một tuần sau khi bạn hạ cánh"
 msgid "monetize.premium.entry.seat"
 msgstr "Dư một chỗ"
 
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.covers.boost"
+msgstr "Một chuyến, cả nhóm"
+
 #: ../../apps/mobile/src/features/monetize/boost/closed-copy.ts
 #: ../../apps/mobile/src/features/monetize/premium/boost-lock-alert.tsx
 msgid "monetize.boost.lockedLine"
@@ -1226,6 +1230,10 @@ msgstr "Mỗi gói có gì"
 msgid "monetize.paywall.compare"
 msgstr "Mỗi gói có gì ›"
 
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.covers"
+msgstr "Dành cho ai"
+
 #: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
 msgid "monetize.boost.whoPays"
 msgstr "Ai trả"
@@ -1252,6 +1260,10 @@ msgstr "Hằng năm"
 msgid "monetize.plan.line.yearlyRenews"
 msgstr "Hằng năm · gia hạn {date}"
 
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.covers.free"
+msgstr "Bạn"
+
 #: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
 msgid "monetize.compare.havePass"
 msgstr "Bạn đang có Pass+"
@@ -1259,6 +1271,10 @@ msgstr "Bạn đang có Pass+"
 #: ../../apps/mobile/src/features/monetize/premium/paywall-parts.tsx
 msgid "monetize.paywall.yourPlan"
 msgstr "Bạn đang có Pass+ · Gói của bạn"
+
+#: ../../apps/mobile/src/features/monetize/perks/perk-copy.ts
+msgid "monetize.compare.covers.pass"
+msgstr "Bạn, mọi nhóm"
 
 #: ../../apps/mobile/src/features/monetize/premium/welcome-premium.tsx
 msgid "monetize.welcome.title"

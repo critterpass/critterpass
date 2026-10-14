@@ -31,6 +31,11 @@ msgstr "{0, plural, other {# khoản, lọc theo người}}"
 msgid "money.premium.reward"
 msgstr "{0, plural, other {Thêm # khoản trả nữa là cả {1} người nhận {reward}.}}"
 
+#. placeholder {0}: settle.rows.length
+#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
+msgid "money.premium.squarePayments"
+msgstr "{0, plural, other {# lần trả là cả nhóm xong xuôi.}}"
+
 #. placeholder {0}: share.name
 #: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
 msgid "money.premium.payerShare"
@@ -270,6 +275,10 @@ msgstr "Số tiền đã trả"
 msgid "money.queued.editExpense"
 msgstr "Một lần sửa khoản chi"
 
+#: ../../apps/mobile/src/features/money/premium/components/PaymentOwed.tsx
+msgid "money.premium.stepAsk"
+msgstr "Nhắc {fromName} trả"
+
 #: ../../apps/mobile/src/features/money/settle/command-copy.ts
 msgid "money.pay.requested"
 msgstr "Đã nhắc {who} trả."
@@ -297,6 +306,10 @@ msgstr "Quay lại bản tổng kết"
 #: ../../apps/mobile/src/features/money/balances/use-settlement-currency.ts
 msgid "money.currency.done"
 msgstr "Số dư giờ tính bằng {currency}"
+
+#: ../../apps/mobile/src/features/money/premium/components/PaymentOwed.tsx
+msgid "money.premium.stepRecount"
+msgstr "Số dư được tính lại"
 
 #: ../../apps/mobile/src/features/money/settle/payout-labels.ts
 msgid "money.payout.field.bank"

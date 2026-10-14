@@ -227,6 +227,10 @@ msgstr "Ít nhất 3 ký tự."
 msgid "you.edit.username.tooLong"
 msgstr "Nhiều nhất 20 ký tự."
 
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
+msgid "you.premium.appearance.auto"
+msgstr "Tự động"
+
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.tabs"
 msgstr "Ảnh đại diện"
@@ -310,6 +314,10 @@ msgstr "Chọn từ Ảnh"
 #: ../../apps/mobile/src/features/you/premium/edit/field-sheets-premium.tsx
 msgid "you.edit.airportSearch"
 msgstr "Thành phố hoặc mã sân bay"
+
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-premium-screen.tsx
+msgid "you.premium.icon.clear"
+msgstr "Trong suốt"
 
 #: ../../apps/mobile/src/features/you/premium/language/language-premium-screen.tsx
 msgid "you.formats.clock"
@@ -869,6 +877,10 @@ msgstr "Quản lý gói ›"
 msgid "trip.offline.kind.maps"
 msgstr "bản đồ"
 
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-preview.tsx
+msgid "you.premium.appIcon.maps"
+msgstr "Bản đồ"
+
 #: ../../apps/mobile/src/features/you/sound/theme-names.ts
 msgid "you.sound.theme.ajo"
 msgstr "Marimba lo-fi"
@@ -955,6 +967,10 @@ msgstr "Không ai khác tham gia {name}, nên chuyến này đóng cùng bạn."
 #: ../../apps/mobile/src/features/you/premium/settings/settings-premium-screen.tsx
 msgid "you.premium.chatty.normal"
 msgstr "Vừa phải"
+
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-preview.tsx
+msgid "you.premium.appIcon.notes"
+msgstr "Ghi chú"
 
 #. placeholder {0}: until ?? ''
 #: ../../apps/mobile/src/features/you/premium/closed/closed-premium-view.tsx
@@ -1093,6 +1109,10 @@ msgstr "Quyền truy cập"
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-premium-screen.tsx
 msgid "you.avatar.tab.photo"
+msgstr "Ảnh"
+
+#: ../../apps/mobile/src/features/you/premium/app-icon/app-icon-preview.tsx
+msgid "you.premium.appIcon.photos"
 msgstr "Ảnh"
 
 #: ../../apps/mobile/src/features/you/premium/avatar/avatar-photo-panel.tsx

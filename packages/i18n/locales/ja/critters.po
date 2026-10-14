@@ -62,6 +62,10 @@ msgid "critters.hatch.guideBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.formsCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.places"
 msgstr ""
 

@@ -62,6 +62,10 @@ msgid "critters.hatch.guideBody"
 msgstr "{days, plural, other {Hướng dẫn viên của bạn trong # ngày tới, và là bạn nhỏ {number} trong bộ {place}.}}"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.formsCount"
+msgstr "{found} trên {total} dạng"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.places"
 msgstr "{found} trên {total} nơi"
 
