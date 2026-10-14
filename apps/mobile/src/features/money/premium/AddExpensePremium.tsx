@@ -141,7 +141,7 @@ export function AddExpensePremium(props: {
           contentContainerStyle={{
             gap: th.space.gap14,
             paddingTop: th.space.gap16,
-            paddingBottom: th.space.gap12,
+            paddingBottom: th.space.gap16,
           }}
         >
           <View style={styles.amount}>
@@ -240,7 +240,7 @@ export function AddExpensePremium(props: {
               setOpen(null);
             }}
           />
-          <View style={{ paddingHorizontal: th.space.gap16 }}>
+          <View style={{ paddingHorizontal: th.space.gutter }}>
             <SegmentedControl<SplitEditorMode>
               accessibilityLabel={t({ id: 'money.premium.split', message: 'How it splits' })}
               options={modes}
@@ -261,6 +261,7 @@ export function AddExpensePremium(props: {
         <View
           style={{
             paddingHorizontal: th.space.gutter,
+            paddingTop: th.space.gap8,
             paddingBottom: insets.bottom + th.space.gap8,
             gap: th.space.gap10,
           }}
