@@ -40,7 +40,12 @@ export function Doodle({
       size={size}
       // The doodle's ink outline would vanish on a dark card: in the dark the paper edge holds it.
       edge={th.scheme === 'dark'}
-      form={{ rarity: 'common', palette: { f: color, dk: color, bl: color }, edge: 'none' }}
+      form={{
+        rarity: 'common',
+        // Object doodles (bowl, boat, chat, camera) wash their shape in `accent`.
+        palette: { f: color, dk: color, bl: color, accent: color },
+        edge: 'none',
+      }}
     />
   );
 }

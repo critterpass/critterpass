@@ -96,7 +96,12 @@ export function StickerIcon({ name, size = 40, tilt = 0, tile, color, testID }: 
       kind={name}
       name={name}
       size={art}
-      form={{ rarity: 'common', palette: { f: fill, dk: fill, bl: fill }, edge: 'none' }}
+      // Object stickers wash their shape in `accent`; the rest of the set reads the fills.
+      form={{
+        rarity: 'common',
+        palette: { f: fill, dk: fill, bl: fill, accent: fill },
+        edge: 'none',
+      }}
     />
   );
   return (
