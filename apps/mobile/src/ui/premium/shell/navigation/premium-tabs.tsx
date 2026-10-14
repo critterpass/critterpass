@@ -104,7 +104,15 @@ export function PremiumTabs({
         hidden={pushed}
       >
         {items.map((tab) => (
-          <NativeTabs.Trigger key={tab.name} name={tab.name} testID={`tab-${tab.icon}`}>
+          <NativeTabs.Trigger
+            key={tab.name}
+            name={tab.name}
+            // Every tab page lays out its own insets (the drawn title under the status bar, the
+            // room above the bar). The tab turned a page's `never` back to `automatic`, which set
+            // a root page's title a row below its actions.
+            disableAutomaticContentInsets
+            testID={`tab-${tab.icon}`}
+          >
             <NativeTabs.Trigger.Icon src={TAB_ICONS[tab.icon]} renderingMode="template" />
             <NativeTabs.Trigger.Label>{tab.label}</NativeTabs.Trigger.Label>
           </NativeTabs.Trigger>

@@ -21,7 +21,6 @@ import {
 } from './header-actions';
 import { useScreenPlacement } from '../navigation/use-screen-placement';
 import { TabBarFade } from './tab-page-scroll';
-import { ScrollWalkStop } from './scroll-walk-stop';
 
 /** Spread on the screen's scroll view or list, which must be the screen's first child. */
 export interface RootScrollProps {
@@ -154,8 +153,8 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
   }, []);
 
   // The drawn title keeps the status bar clear itself: iOS adding its own inset as well (a root in
-  // a tab's native stack) set the title a row below its actions. The native tabs turn `never`
-  // back to `automatic` on the first scroll view under them, hence the `ScrollWalkStop`.
+  // a tab's native stack) set the title a row below its actions. The native tabs leave these
+  // insets alone (`disableAutomaticContentInsets` in `PremiumTabs`).
   const scrollProps = useMemo(
     (): RootScrollProps => ({
       ...KEYBOARD_TAPS,
@@ -185,8 +184,6 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
   const fade = Platform.OS === 'android' && tabRoot?.kind === 'root' && tabRoot.tab;
   return (
     <View testID={testID} style={styles.root} collapsable={false}>
-      {/* Keeps the native tabs from turning the page's own insets back to the system's. */}
-      <ScrollWalkStop />
       {children({ scrollProps, largeTitle })}
       {fade ? <TabBarFade /> : null}
       <View
