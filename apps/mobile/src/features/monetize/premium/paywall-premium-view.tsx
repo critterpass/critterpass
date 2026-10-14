@@ -62,6 +62,7 @@ export function PaywallPremiumView({
   const subscribed = phase === 'subscribed';
   const busy = phase === 'purchasing' || phase === 'verifying' || phase === 'loading';
   const [landed, setLanded] = useState(false);
+  const [lineEnd, setLineEnd] = useState<number | null>(null);
   const boostPlace = props.boostTrip?.name ?? '';
 
   // The page steps in, the visa drops (Smooth), then the stamp lands (Lively).
@@ -94,16 +95,19 @@ export function PaywallPremiumView({
         ]}
         testID="paywall"
       >
-        <View style={styles.headlineBox}>
+        <View>
           <Text
             variant="display"
             color={NIGHT.text}
             style={styles.headline}
             accessibilityRole="header"
+            onTextLayout={(event) =>
+              setLineEnd(Math.max(0, ...event.nativeEvent.lines.map((line) => line.x + line.width)))
+            }
           >
             {t({ id: 'monetize.paywall.headline', message: 'Go further\nthan free' })}
           </Text>
-          <HeadlineSparkles />
+          <HeadlineSparkles lineEnd={lineEnd} />
         </View>
         <Animated.View style={visaIn}>
           <VisaCard
@@ -293,7 +297,6 @@ const styles = StyleSheet.create({
   content: { paddingHorizontal: 24, gap: 16 },
   headline: { fontWeight: '800' },
   ftf: { position: 'absolute', left: 150, top: 168 },
-  headlineBox: { alignSelf: 'flex-start' },
   // The links keep clear of the disclosure lines under them.
   links: { flexDirection: 'row', justifyContent: 'center', gap: 20, marginBottom: 8 },
   top: {

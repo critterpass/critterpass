@@ -68,21 +68,28 @@ export function NightGlass({
 }
 
 /**
- * Two sparkles in the clear space past a headline's last letter, laid out with the headline so
- * they never land on a word whatever the screen's height or the language's length.
+ * Two sparkles in the clear space past a headline's longest line, from the headline's measured
+ * lines, so they never land on a word whatever the screen or the language. Nothing until measured.
  */
-export function HeadlineSparkles() {
+export function HeadlineSparkles({ lineEnd }: { readonly lineEnd: number | null }) {
+  if (lineEnd === null) return null;
   return (
     <>
-      <View pointerEvents="none" style={[styles.sparkle, styles.sparkleHigh]} />
-      <View pointerEvents="none" style={[styles.sparkle, styles.sparkleLow]} />
+      <View
+        pointerEvents="none"
+        style={[styles.sparkle, styles.sparkleHigh, { left: lineEnd + 22 }]}
+      />
+      <View
+        pointerEvents="none"
+        style={[styles.sparkle, styles.sparkleLow, { left: lineEnd + 48 }]}
+      />
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  sparkleHigh: { left: '100%', marginLeft: 22, top: 6, width: 6, height: 6, opacity: 0.7 },
-  sparkleLow: { left: '100%', marginLeft: 48, bottom: 12, width: 4, height: 4, opacity: 0.45 },
+  sparkleHigh: { top: 6, width: 6, height: 6, opacity: 0.7 },
+  sparkleLow: { bottom: 12, width: 4, height: 4, opacity: 0.45 },
   ground: { flex: 1, backgroundColor: NIGHT.mid },
   sparkle: { position: 'absolute', backgroundColor: NIGHT.gold, transform: [{ rotate: '45deg' }] },
 });
