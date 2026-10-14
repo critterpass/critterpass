@@ -22,7 +22,8 @@ import type { FactTiles } from '../../place-detail/context';
 import { barsLabel, hourLevels } from '../../place-detail/model';
 import { placeIcon } from '../../search/place-icons';
 import { Eyebrow, SectionLabel } from '../components/labels';
-import { PlaceThumb } from '../components/place-thumb';
+import { Doodle } from '../components/doodle';
+import { placeTint } from '../components/place-tint';
 
 export function FactTilesRow({ facts }: { readonly facts: FactTiles }) {
   const theme = usePremiumTheme();
@@ -221,21 +222,22 @@ export function NearbyRow(props: {
               testID={`place-detail-nearby-${place.poi_id}`}
             >
               <Card style={{ width: 156, overflow: 'hidden' }}>
+                {/* The kind's pastel shows from the first frame; its doodle draws on it. */}
                 <View
                   style={{
                     height: 84,
-                    backgroundColor: theme.color.control,
+                    backgroundColor: placeTint(theme, place.category),
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
                 >
-                  <PlaceThumb icon={placeIcon(place.category)} size={64} radius={0} />
+                  <Doodle name={placeIcon(place.category)} size={52} />
                 </View>
                 <View style={{ padding: theme.space.gap10, gap: 2 }}>
                   <Eyebrow
                     text={t({
-                      id: 'explore.premium.place.minutesOn',
-                      message: `${minutes} min on`,
+                      id: 'explore.premium.place.minutesFromHere',
+                      message: `${minutes} min from here`,
                     })}
                     color={theme.color.status.rain.text}
                   />
