@@ -11,9 +11,8 @@ import { fixtureTransport } from '@cp/ai/testing';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
 import { loadDraftPlaces } from '../../../src/jobs/ai/draft/load-places';
-import { placesPickJob } from '../../../src/jobs/places/pick';
 import { loadFill, runPlacePick } from '../../../src/places/pick/run';
-import { silent, startJobsHarness, until, type JobsHarness } from '../../helpers/jobs-harness';
+import { silent, startJobsHarness, type JobsHarness } from '../../helpers/jobs-harness';
 import {
   FILL,
   NAMED_IN_ORDER,
