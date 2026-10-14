@@ -166,7 +166,7 @@ export function ChangeDatesScreen({ tripId }: { readonly tripId: string }) {
               {was ?? '—'}
             </Text>
           </View>
-          <Icon name="forward" size={18} color={theme.color.muted} />
+          <Icon name="arrowRight" size={18} color={theme.color.ink} />
           <View
             style={{
               height: 44,
@@ -187,6 +187,11 @@ export function ChangeDatesScreen({ tripId }: { readonly tripId: string }) {
             month={shownMonth}
             start={picked.start}
             end={picked.end}
+            current={
+              trip.start_date === null || trip.end_date === null
+                ? null
+                : { start: trip.start_date, end: trip.end_date }
+            }
             onMonth={setMonth}
             onDay={(day) => setPicked((current) => nextRange(current, day))}
           />

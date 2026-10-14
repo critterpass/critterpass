@@ -49,9 +49,16 @@ export function CrewCodeCard({
             .filter(Boolean)
             .join(' · ')}
         </Text>
-        <Text variant="title" style={styles.code} testID="crew-settings-code">
-          {code?.code ?? t({ id: 'crew.settings.noCode', message: 'No live code' })}
-        </Text>
+        {code === null ? (
+          // No code: a plain line, not the code's spaced-out title style.
+          <Text variant="rowTitle" tone="muted" testID="crew-settings-code">
+            {t({ id: 'crew.settings.noCode', message: 'No live code' })}
+          </Text>
+        ) : (
+          <Text variant="title" style={styles.code} testID="crew-settings-code">
+            {code.code}
+          </Text>
+        )}
       </View>
       {code === null && canManage ? (
         <PressableScale

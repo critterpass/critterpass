@@ -220,6 +220,10 @@ msgstr "Thay đổi chuyến bay"
 msgid "trip.hub.homeSince"
 msgstr "Về nhà từ"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.online"
+msgstr "trong ví của bạn"
+
 #: ../../apps/mobile/src/features/trip/hub/phase-line.ts
 msgid "trip.hub.landIn"
 msgstr "Hạ cánh sau"
@@ -339,10 +343,6 @@ msgstr "Đánh giá chuyến đi"
 #: ../../apps/mobile/src/features/trip/hub/hub-disruptions.ts
 msgid "trip.hub.disruption.late"
 msgstr "Đến trễ"
-
-#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
-msgid "trip.hub.tile.online"
-msgstr "đã lưu trong ví"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-links.ts
 msgid "trip.hub.cta.plan"

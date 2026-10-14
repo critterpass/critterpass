@@ -484,7 +484,7 @@ msgstr "in the crew album"
 
 #: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
 msgid "recap.memory.missing.line"
-msgstr "It may have been removed, or this phone hasn’t got it yet."
+msgstr "It may have been removed, or the trip has not reached this phone yet."
 
 #: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.missingLine"

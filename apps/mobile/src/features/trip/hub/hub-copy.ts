@@ -50,7 +50,7 @@ export function bookingsTile(count: number, allOffline: boolean) {
         ? t({ id: 'trip.hub.tile.noBookings', message: 'Add your first booking' })
         : allOffline
           ? t({ id: 'trip.hub.tile.allOffline', message: 'all offline' })
-          : t({ id: 'trip.hub.tile.online', message: 'saved in your wallet' }),
+          : t({ id: 'trip.hub.tile.online', message: 'in your wallet' }),
   };
 }
 

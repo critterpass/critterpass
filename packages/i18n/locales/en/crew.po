@@ -560,7 +560,7 @@ msgstr "Make organiser"
 msgid "chat.header.map"
 msgstr "Map"
 
-#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+#: ../../apps/mobile/src/features/crew/premium/chat/tray-empty.tsx
 msgid "chat.premium.tray.none"
 msgstr "Meet a critter on a trip and its stickers land here."
 
@@ -651,6 +651,10 @@ msgstr "No live code"
 msgid "chat.premium.noSignal"
 msgstr "NO SIGNAL"
 
+#: ../../apps/mobile/src/features/crew/premium/chat/tray-empty.tsx
+msgid "chat.premium.tray.noneTitle"
+msgstr "No stickers yet"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
 msgid "chat.premium.tray.locked"
 msgstr "Not met yet: where to find it"
@@ -662,6 +666,10 @@ msgstr "Not now"
 #: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.notify.off"
 msgstr "Nothing"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/tray-empty.tsx
+msgid "chat.premium.tray.noRecentTitle"
+msgstr "Nothing sent yet"
 
 #: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.settings.notify"
@@ -927,7 +935,7 @@ msgstr "Sticker"
 msgid "chat.premium.composer.stickers"
 msgstr "Stickers"
 
-#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+#: ../../apps/mobile/src/features/crew/premium/chat/tray-empty.tsx
 msgid "chat.premium.tray.noRecent"
 msgstr "Stickers you send show up here."
 

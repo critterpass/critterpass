@@ -163,10 +163,6 @@ msgstr "Rẻ"
 msgid "search.none.term.chinese"
 msgstr "món Hoa"
 
-#: ../../apps/mobile/src/features/explore/search/browse-tiles.ts
-msgid "search.browse.coffee"
-msgstr "Cà phê"
-
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.meal.coffee"
 msgstr "Cà phê"
@@ -523,6 +519,10 @@ msgstr "Chay"
 #: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.term.vietnamese"
 msgstr "món Việt"
+
+#: ../../apps/mobile/src/features/explore/search/browse-tiles.ts
+msgid "search.browse.views"
+msgstr "Cảnh đẹp"
 
 #: ../../apps/mobile/src/features/explore/search/browse-tiles.ts
 msgid "search.browse.waterfalls"

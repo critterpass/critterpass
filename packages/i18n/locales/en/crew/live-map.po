@@ -109,7 +109,7 @@ msgstr "In a car"
 msgid "liveMap.editor.keepTime"
 msgstr "Keep {currentTime}"
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
 msgid "liveMap.premium.lastSeen"
 msgstr "Last seen"
 
@@ -150,7 +150,7 @@ msgstr "no ETA"
 msgid "liveMap.noTrip.title"
 msgstr "No trip on the map yet"
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.gate.notStartedTitle"
 msgstr "Not a trip day yet"
 
@@ -182,7 +182,7 @@ msgstr "On the way"
 msgid "liveMap.primer.line"
 msgstr "Only on trip days, only with this crew. Pause any time."
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
 msgid "liveMap.premium.pause"
 msgstr "Pause"
 
@@ -214,7 +214,7 @@ msgstr "Pinged everyone: {place} at {time}."
 msgid "liveMap.toast.pinged"
 msgstr "Pinged everyone."
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
 msgid "liveMap.premium.resume"
 msgstr "Resume"
 
@@ -263,11 +263,11 @@ msgstr "Sharing ends {0} at midnight"
 msgid "liveMap.status.sharing"
 msgstr "Sharing live"
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.gate.notStartedLine"
 msgstr "Sharing opens on your first trip day."
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.gate.endedLine"
 msgstr "Sharing switched itself off at midnight."
 
@@ -288,15 +288,15 @@ msgstr "The crew can see you coming. {minutes} minutes."
 msgid "liveMap.noTrip.line"
 msgstr "The crew map opens on the days of a trip you take together."
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.premium.wakesUp"
 msgstr "The map wakes up on your first trip day"
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.premium.guideName"
 msgstr "Tokek"
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.gate.endedTitle"
 msgstr "Trip days are over"
 
@@ -311,6 +311,10 @@ msgstr "Turning off live location"
 #: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
 msgid "liveMap.queued.shareOn"
 msgstr "Turning on live location"
+
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
+msgid "liveMap.premium.updatesBack"
+msgstr "Updates when you’re back"
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/MeetupEditorPremium.tsx
 msgid "liveMap.editor.useSpot"

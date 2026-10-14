@@ -1,7 +1,7 @@
 /**
  * A destination's guide page (4.04): the hero in the guide's colour with clear-glass back and ♥,
  * "Guide: Pon", the name, the guide's tagline and the guide waving; the year's crowds and the best
- * month (a month taps open its prices); the guide's first-timer picks; the crews' plans; and the
+ * month (a month taps open its prices); the guide’s first-timer picks; the crews' plans; and the
  * foot: Pitch to the crew (or pick a crew) and Plan it solo (4.07). States and words come from
  * the destination screen's container.
  */
@@ -31,6 +31,8 @@ import { MonthCard, MonthCardPending } from './month-card';
 import { PicksCarousel } from './picks-carousel';
 
 const HERO = 320;
+/** How far the first card rises over the hero's foot. */
+const HERO_OVERLAP = 28;
 /* eslint-disable-next-line lingui/no-unlocalized-strings -- a style value, never copy. */
 const GUIDE_TILT = '-6deg';
 
@@ -47,9 +49,11 @@ export function PremiumDestinationView(props: DestinationViewProps) {
       <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 120 }}>
         <View
           style={{
-            height: HERO,
+            minHeight: HERO,
             backgroundColor: guide.colour,
             paddingTop: insets.top + 64,
+            // The facts and a two-line name never run under the card that rises over the foot.
+            paddingBottom: HERO_OVERLAP + theme.space.gap16,
             paddingHorizontal: theme.space.titleGutter,
             overflow: 'hidden',
           }}
@@ -73,6 +77,35 @@ export function PremiumDestinationView(props: DestinationViewProps) {
           <Text variant="rowText" color={theme.color.onAccent} style={{ maxWidth: '52%' }}>
             {hero.tagline}
           </Text>
+          {/* The facts sit on the hero, so the month card can rise over its foot as drawn. */}
+          {hero.chips.length === 0 ? null : (
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                gap: theme.space.gap6,
+                marginTop: theme.space.gap12,
+                maxWidth: '62%',
+              }}
+            >
+              {hero.chips.map((chip) => (
+                <View
+                  key={chip.text}
+                  style={{
+                    height: 26,
+                    borderRadius: 13,
+                    paddingHorizontal: theme.space.gap10,
+                    justifyContent: 'center',
+                    backgroundColor: theme.color.card,
+                  }}
+                >
+                  <Text variant="badge" numberOfLines={1}>
+                    {chip.text}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
           <View
             pointerEvents="none"
             style={{
@@ -88,31 +121,11 @@ export function PremiumDestinationView(props: DestinationViewProps) {
         <View
           style={{
             paddingHorizontal: theme.space.gap16,
-            paddingTop: theme.space.gap16,
+            marginTop: -HERO_OVERLAP,
             gap: theme.space.gap16,
           }}
         >
           {props.offline ? <OfflinePill testID="explore-offline" /> : null}
-          {hero.chips.length === 0 ? null : (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap6 }}>
-              {hero.chips.map((chip) => (
-                <View
-                  key={chip.text}
-                  style={{
-                    height: 26,
-                    borderRadius: 13,
-                    paddingHorizontal: theme.space.gap10,
-                    justifyContent: 'center',
-                    backgroundColor: theme.color.control,
-                  }}
-                >
-                  <Text variant="badge" numberOfLines={1}>
-                    {chip.text}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          )}
           {props.loading ? (
             // The month card and the picks hold their places while the guide loads, so the page
             // keeps the design's shape instead of one line over an empty band.
@@ -137,7 +150,7 @@ export function PremiumDestinationView(props: DestinationViewProps) {
             <MonthCardPending guideName={guide.name} />
           )}
           <PicksCarousel
-            title={t({ id: 'explore.picks.title', message: `${guide.name}'s first-timer picks` })}
+            title={t({ id: 'explore.picks.title', message: `${guide.name}’s first-timer picks` })}
             picks={props.picks}
             onOpenPick={props.onOpenPick}
             onMap={props.onMap}
@@ -158,11 +171,11 @@ export function PremiumDestinationView(props: DestinationViewProps) {
                   : props.notice === 'unavailable'
                     ? t({
                         id: 'explore.dest.unavailable',
-                        message: `${guide.name}'s notes on ${hero.name} didn't load. They'll show up once this phone is back online.`,
+                        message: `${guide.name}’s notes on ${hero.name} didn’t load. They’ll show up once this phone is back online.`,
                       })
                     : t({
                         id: 'explore.limited.body',
-                        message: `No guide lives in ${hero.name} yet, so the month-by-month crowds aren't written. Flights, money and the best months are covered, and ${guide.name} plans the trip all the same.`,
+                        message: `No guide lives in ${hero.name} yet, so the month-by-month crowds aren’t written. Flights, money and the best months are covered, and ${guide.name} plans the trip all the same.`,
                       })
               }
               testID="explore-dest-notice"

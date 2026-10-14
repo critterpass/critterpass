@@ -9,7 +9,15 @@ import { ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { guideCritterKind } from '@/features/trip';
-import { Button, GuideNote, LoadingCritter, Text, TextButton, usePremiumTheme } from '@/ui/premium';
+import {
+  Button,
+  EmptyState,
+  GuideNote,
+  LoadingCritter,
+  Text,
+  TextButton,
+  usePremiumTheme,
+} from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
 import { useCompare } from '../compare/use-compare';
@@ -77,19 +85,24 @@ export function ComparePremium(props: {
         backLabel={back}
         testID="drivers-compare-empty"
       >
-        <View style={[styles.failed, { padding: th.space.gutter }]}>
-          <Text variant="body" tone="muted" align="center">
-            {t({
-              id: 'drivers.premium.compareNone',
-              message:
-                'Nobody on the shortlist yet. Save two or three drivers to compare them here.',
+        <View style={[styles.none, { paddingHorizontal: th.space.gutter }]}>
+          <EmptyState
+            title={t({
+              id: 'drivers.premium.compareNoneHead',
+              message: 'Nobody on the shortlist yet',
             })}
-          </Text>
-          <Button
-            label={t({ id: 'drivers.premium.compareFind', message: 'Find drivers' })}
-            variant="secondary"
-            onPress={compare.addAnother}
-            testID="drivers-compare-add"
+            line={t({
+              id: 'drivers.premium.compareNoneLine',
+              message: 'Save two or three drivers and they line up here side by side.',
+            })}
+            check={false}
+            action={
+              <Button
+                label={t({ id: 'drivers.premium.compareFind', message: 'Find drivers' })}
+                onPress={compare.addAnother}
+                testID="drivers-compare-add"
+              />
+            }
           />
         </View>
       </PushScreen>
@@ -201,6 +214,7 @@ export function ComparePremium(props: {
 }
 
 const styles = StyleSheet.create({
+  none: { paddingTop: 32 },
   body: { paddingTop: 8 },
   failed: { gap: 12 },
   pickRow: { flexDirection: 'row', gap: TABLE_GAP, paddingBottom: 6 },

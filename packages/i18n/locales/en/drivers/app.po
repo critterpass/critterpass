@@ -862,8 +862,8 @@ msgid "drivers.directory.emptyAny"
 msgstr "Nobody listed yet"
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
-msgid "drivers.premium.compareNone"
-msgstr "Nobody on the shortlist yet. Save two or three drivers to compare them here."
+msgid "drivers.premium.compareNoneHead"
+msgstr "Nobody on the shortlist yet"
 
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.notAgain"
@@ -1078,6 +1078,10 @@ msgstr "Runs his own listing"
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.tag.safeDriver"
 msgstr "Safe driver"
+
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+msgid "drivers.premium.compareNoneLine"
+msgstr "Save two or three drivers and they line up here side by side."
 
 #: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.saved"

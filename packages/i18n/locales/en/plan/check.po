@@ -547,8 +547,16 @@ msgid "plan.check.lessDriving.applied"
 msgstr "New order, less driving"
 
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.noSaves"
+msgstr "NO SAVES YET"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
 msgid "plan.check.balance.askedToastLine"
 msgstr "Nobody else sees it."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.nothingYet"
+msgstr "Nobody has saved a place or set a must-do yet. Their picks show up here."
 
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
 msgid "plan.check.balance.mustDoMissing"

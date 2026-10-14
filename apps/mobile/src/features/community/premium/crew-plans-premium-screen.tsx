@@ -175,7 +175,14 @@ export function CrewPlansPremiumScreen({ destination, tripId }: CrewPlansScreenP
           />
         ))}
       </ScrollRow>
-      <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap12 }}>
+      <View
+        style={{
+          paddingHorizontal: th.space.gutter,
+          gap: th.space.gap12,
+          // An empty or missing state's disc gets air under the chips instead of touching them.
+          paddingTop: page === null || plans.plans.length === 0 ? th.space.gap16 : 0,
+        }}
+      >
         {state.status === 'loading' ? (
           <View style={{ gap: th.space.gap12 }}>
             <Skeleton height={220} tone="block" radius={th.radius.cardLarge} />

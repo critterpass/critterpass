@@ -153,7 +153,7 @@ msgstr "{spoken} to {place}"
 
 #: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
 msgid "home.inbox.markedRead"
-msgstr "Marked read. The {stillNeedYou} on top still need you."
+msgstr "{stillNeedYou, plural, one {Marked read. The one on top still needs you.} other {Marked read. The # on top still need you.}}"
 
 #: ../../apps/mobile/src/features/home/premium/home-sections.tsx
 msgid "home.premium.pitchPlus"

@@ -8,7 +8,7 @@
 import { critterReactionKey, DOODLE_REACTIONS } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import * as Haptics from 'expo-haptics';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
 import Animated, {
   withSpring,
@@ -22,7 +22,6 @@ import {
   PressableScale,
   REDUCED_FADE,
   SPRINGS,
-  Text,
   makePremiumStyles,
   reducedFadeIn,
   reducedFadeOut,
@@ -34,6 +33,7 @@ import {
 import type { ReactionGroup } from '../../chat/data/use-reactions';
 import { CHAT_PAINT } from '../premium-paint';
 import type { MessageAnchor } from './message-row';
+import { MENU_ROW, MenuRow } from './menu-row';
 import { ReactionFace, reactionLabel } from './reaction-chips';
 
 /** The sticker bar's critters: Tokek cheering and thinking, Pon, the sardine, the puffin, Tokek asleep. */
@@ -58,11 +58,16 @@ const MENU_WIDTH = 250;
 /** The lifted message takes at most this share of the screen's height. */
 const PREVIEW_SHARE = 0.4;
 const BAR_HEIGHT = 54;
-const ROW = 48;
 
 const useStyles = makePremiumStyles((th) => ({
   scrim: { ...StyleSheet.absoluteFill, backgroundColor: CHAT_PAINT.menuScrim },
-  frost: { ...StyleSheet.absoluteFill, backgroundColor: th.color.ground, opacity: 0.55 },
+  // Over the header and the status bar too; with no blur on hand the frost is thick enough that
+  // the chat behind reads as shapes, not words.
+  root: { ...StyleSheet.absoluteFill, zIndex: 10 },
+  frost: { ...StyleSheet.absoluteFill, backgroundColor: th.color.ground, opacity: 0.82 },
+  lifted: { position: 'absolute' },
+  liftedShadow: { borderRadius: th.radius.banner },
+  liftedClip: { borderRadius: th.radius.banner, overflow: 'hidden' },
   bar: {
     position: 'absolute',
     height: BAR_HEIGHT,
@@ -79,13 +84,6 @@ const useStyles = makePremiumStyles((th) => ({
     borderRadius: th.radius.card,
     overflow: 'hidden',
   },
-  row: {
-    height: ROW,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: th.space.gap16,
-  },
   hairline: { height: th.size.hairline, backgroundColor: th.color.hairlineMenu },
   band: { height: 6, backgroundColor: th.color.segmentTrack },
 }));
@@ -98,7 +96,7 @@ export interface MessageMenuProps {
   readonly actions: readonly MenuAction[];
   readonly destructive: readonly MenuAction[];
   /** The lifted message, drawn by the caller at the anchor's size. */
-  readonly preview: React.ReactNode;
+  readonly preview: ReactNode;
   readonly onReact: (reaction: string) => void;
   readonly onClose: () => void;
 }
@@ -140,15 +138,18 @@ export function MessageMenu(props: MessageMenuProps) {
   const reduced = usePremiumReducedMotion();
   const window = useWindowDimensions();
   const [more, setMore] = useState(false);
+  // The lifted copy's own height once laid out: their message adds its sender's name, so it can
+  // outgrow the row; until then the row's height places the bar and the menu.
+  const [height, setHeight] = useState<number | null>(null);
   const { anchor } = props;
   const lift = props.sticker ? 150 / 112 : 1.03;
   const menuHeight =
-    ROW * (props.actions.length + props.destructive.length) +
+    MENU_ROW * (props.actions.length + props.destructive.length) +
     (props.destructive.length > 0 ? 6 : 0);
   // Keep the bar, the lifted message and the menu on screen together.
   const { top, liftedHeight } = menuPlacement({
     anchorY: anchor.y,
-    anchorHeight: anchor.height,
+    anchorHeight: height ?? anchor.height,
     lift,
     menuHeight,
     windowHeight: window.height,
@@ -164,7 +165,7 @@ export function MessageMenu(props: MessageMenuProps) {
 
   return (
     <Animated.View
-      style={StyleSheet.absoluteFill}
+      style={styles.root}
       entering={reducedFadeIn()}
       exiting={reducedFadeOut()}
       testID="chat-message-menu"
@@ -217,22 +218,35 @@ export function MessageMenu(props: MessageMenuProps) {
           </PressableScale>
         )}
       </Animated.View>
+      {/* At the row's width, so the words wrap as they did in the chat; the shadow hugs the bubble. */}
       <View
         pointerEvents="none"
-        style={{
-          position: 'absolute',
-          top,
-          left: props.mine ? undefined : anchor.x,
-          right: props.mine ? window.width - anchor.x - anchor.width : undefined,
-          maxHeight: liftedHeight / lift,
-          overflow: 'hidden',
-          transform: [{ scale: lift }],
-          // eslint-disable-next-line lingui/no-unlocalized-strings -- style keywords, never copy.
-          transformOrigin: props.mine ? 'top right' : 'top left',
-          boxShadow: props.sticker ? undefined : CHAT_PAINT.menuShadow,
-        }}
+        style={[
+          styles.lifted,
+          {
+            top,
+            left: anchor.x,
+            width: anchor.width,
+            alignItems: props.mine ? 'flex-end' : 'flex-start',
+            transform: [{ scale: lift }],
+            // eslint-disable-next-line lingui/no-unlocalized-strings -- style keywords, never copy.
+            transformOrigin: props.mine ? 'top right' : 'top left',
+          },
+        ]}
       >
-        {props.preview}
+        <View
+          style={props.sticker ? null : [styles.liftedShadow, { boxShadow: CHAT_PAINT.menuShadow }]}
+        >
+          <View
+            style={[
+              props.sticker ? null : styles.liftedClip,
+              { maxHeight: (window.height * PREVIEW_SHARE) / lift },
+            ]}
+            onLayout={(event) => setHeight(event.nativeEvent.layout.height)}
+          >
+            {props.preview}
+          </View>
+        </View>
       </View>
       <Animated.View
         entering={enter}
@@ -254,34 +268,5 @@ export function MessageMenu(props: MessageMenuProps) {
         ))}
       </Animated.View>
     </Animated.View>
-  );
-}
-
-function MenuRow({
-  action,
-  onClose,
-}: {
-  readonly action: MenuAction;
-  readonly onClose: () => void;
-}) {
-  const th = usePremiumTheme();
-  const styles = useStyles();
-  const color = action.destructive === true ? th.color.destructive.listAction : th.color.ink;
-  return (
-    <PressableScale
-      style={styles.row}
-      pressedScale={1}
-      onPress={() => {
-        onClose();
-        action.onPress();
-      }}
-      accessibilityRole="menuitem"
-      testID={`chat-action-${action.key}`}
-    >
-      <Text variant="headline" color={color} style={{ fontWeight: '400' }}>
-        {action.label}
-      </Text>
-      <Icon name={action.icon} size={18} color={color} />
-    </PressableScale>
   );
 }

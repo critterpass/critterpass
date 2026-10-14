@@ -92,6 +92,10 @@ msgstr "còn {left}"
 msgid "guide.premium.identity"
 msgstr "{name}, hướng dẫn viên AI của bạn. {modeLine}"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.placeGuide"
+msgstr "Hướng dẫn viên {place}"
+
 #: ../../apps/mobile/src/features/guide/camera/camera-screen.tsx
 msgid "guide.camera.askWithMenu"
 msgstr "{question} Thực đơn: {dishes}"
@@ -131,6 +135,10 @@ msgstr "Thêm một {name}"
 #: ../../apps/mobile/src/features/guide/chat/data/tool-steps.ts
 msgid "guide.step.cost"
 msgstr "Đang cộng chi phí"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.seesGroup"
+msgstr "Cả {count} người đều thấy"
 
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.allergies"
@@ -539,10 +547,6 @@ msgstr "Riêng tôi · chỉ bạn xem được"
 msgid "guide.premium.dietary.keep"
 msgstr "Tiếp tục sửa"
 
-#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
-msgid "guide.premium.dietary.justMe"
-msgstr "Chỉ mình tôi biết"
-
 #: ../../apps/mobile/src/features/guide/camera/menu-language.ts
 msgid "guide.camera.lang.km"
 msgstr "Tiếng Khmer"
@@ -640,6 +644,14 @@ msgstr "Chưa có câu nào"
 msgid "guide.dietary.dietNone"
 msgstr "Không kiêng"
 
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.noSignal"
+msgstr "MẤT SÓNG"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.noSignalLine"
+msgstr "Mất sóng · câu hỏi chờ gửi"
+
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.spiceNone"
 msgstr "Không cay"
@@ -672,6 +684,10 @@ msgstr "trên {limit}"
 #: ../../apps/mobile/src/features/guide/premium/camera/order-card.tsx
 msgid "guide.camera.orderLess"
 msgstr "Bớt một {name}"
+
+#: ../../apps/mobile/src/features/guide/premium/guide-top-bar.tsx
+msgid "guide.premium.seesMe"
+msgstr "Chỉ bạn thấy"
 
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
@@ -929,7 +945,7 @@ msgstr "Chia hoá đơn"
 
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.accessLabel"
-msgstr "Cầu thang, đi bộ xa, thính giác, bất cứ điều gì hướng dẫn viên nên tính đến"
+msgstr "Cầu thang, đi bộ xa, thính giác…"
 
 #: ../../apps/mobile/src/features/guide/premium/guide-offline.tsx
 msgid "guide.premium.offlineTools"

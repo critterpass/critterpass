@@ -47,6 +47,12 @@ export interface PremiumMapCanvasProps {
   readonly still?: boolean | undefined;
   readonly onRegionChange?: ((region: MapRegion) => void) | undefined;
   readonly onPressMap?: (() => void) | undefined;
+  /**
+   * The map has loaded its style and laid out its view: a camera move asked for before this can
+   * be dropped by the native map (the map then stays on its first view), so screens that fit the
+   * camera to their points fit again from here.
+   */
+  readonly onReady?: (() => void) | undefined;
   readonly testID?: string | undefined;
 }
 
@@ -62,6 +68,7 @@ export function PremiumMapCanvas({
   still = false,
   onRegionChange,
   onPressMap,
+  onReady,
   testID = 'premium-map',
 }: PremiumMapCanvasProps) {
   const theme = usePremiumTheme();
@@ -94,6 +101,7 @@ export function PremiumMapCanvas({
         touchPitch={false}
         onRegionDidChange={onRegionDidChange}
         {...(onPressMap === undefined ? {} : { onPress: () => onPressMap() })}
+        onDidFinishLoadingMap={() => onReady?.()}
         onDidFinishRenderingMapFully={() => setDrawn(style)}
       >
         <Camera ref={cameraRef} initialViewState={{ center: initialCenter, zoom: initialZoom }} />

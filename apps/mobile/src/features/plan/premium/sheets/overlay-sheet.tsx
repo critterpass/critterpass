@@ -30,7 +30,13 @@ import { useShellExtras } from '@/ui/premium/shell/shell-theme';
 
 import { useSheetDrag } from './use-sheet-drag';
 
-const TALL_TOP = 72;
+/**
+ * Where the sheet's top may rise to, under the status bar: below the page's own glass controls
+ * (44 pt at 4 pt down, and their shadow), so the sheet's edge never cuts through them.
+ */
+const PAGE_CHROME = 60;
+/** The panel's side padding; the scroll body carries it inside, so card shadows are not cut. */
+const SIDE = 18;
 
 export interface OverlaySheetProps {
   readonly title: string;
@@ -74,20 +80,23 @@ export function OverlaySheet(props: OverlaySheetProps) {
   const panelStyle = {
     marginHorizontal: theme.space.gap8,
     marginBottom: Math.max(insets.bottom, theme.space.gap8),
-    ...(tall ? { marginTop: insets.top + TALL_TOP - 54, flex: 1 } : {}),
+    ...(tall ? { flex: 1 } : {}),
     flexShrink: 1,
     borderRadius: theme.radius.sheet,
-    paddingHorizontal: 18,
     paddingTop: theme.space.gap8,
     paddingBottom: theme.space.gap16,
   };
   const body = (
-    <View style={{ gap: theme.space.gap12, paddingBottom: theme.space.gap12 }}>
+    <View
+      style={{ gap: theme.space.gap12, paddingBottom: theme.space.gap12, paddingHorizontal: SIDE }}
+    >
       {props.children}
     </View>
   );
   const sheet = (
-    <Animated.View style={[{ flex: 1, justifyContent: 'flex-end' }, lift]}>
+    <Animated.View
+      style={[{ flex: 1, justifyContent: 'flex-end', paddingTop: insets.top + PAGE_CHROME }, lift]}
+    >
       <Animated.View style={[StyleSheet.absoluteFill, drag.scrimStyle]}>
         <Pressable
           style={[StyleSheet.absoluteFill, { backgroundColor: scrim }]}
@@ -97,14 +106,11 @@ export function OverlaySheet(props: OverlaySheetProps) {
         />
       </Animated.View>
       <Animated.View
-        style={[
-          props.tall === true ? { flex: 1 } : { flexShrink: 1, maxHeight: '92%' },
-          drag.panelStyle,
-        ]}
+        style={[props.tall === true ? { flex: 1 } : { flexShrink: 1 }, drag.panelStyle]}
       >
         <SheetGround testID={props.testID} style={panelStyle}>
           <GestureDetector gesture={drag.pan}>
-            <View>
+            <View style={{ paddingHorizontal: SIDE }}>
               <View
                 style={{
                   alignSelf: 'center',
@@ -161,7 +167,13 @@ export function OverlaySheet(props: OverlaySheetProps) {
             )}
           </View>
           {props.footer === undefined ? null : (
-            <View style={{ gap: theme.space.gap6, paddingTop: theme.space.gap8 }}>
+            <View
+              style={{
+                gap: theme.space.gap6,
+                paddingTop: theme.space.gap8,
+                paddingHorizontal: SIDE,
+              }}
+            >
               {props.footer}
             </View>
           )}

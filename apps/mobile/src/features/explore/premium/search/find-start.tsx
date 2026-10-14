@@ -195,6 +195,9 @@ export function FindHint({ guideName }: { readonly guideName: string }) {
       variant="caption"
       tone="muted"
       align="center"
+      // Balanced lines: the hint never ends on one orphaned word ("post.").
+      textBreakStrategy="balanced"
+      lineBreakStrategyIOS="standard"
       style={{ paddingHorizontal: theme.space.gap8, marginTop: theme.space.gap16 }}
     >
       {t({

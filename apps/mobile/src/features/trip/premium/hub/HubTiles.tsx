@@ -83,6 +83,7 @@ export function HubTiles({ tiles, extra }: HubTilesProps) {
       node: <HubTileLook.Provider value={drawTile}>{item.node}</HubTileLook.Provider>,
     })),
   ];
+  // Two to a row; an odd last tile spans the row rather than leaving half of it empty.
   const rows: (typeof cells)[] = [];
   for (let i = 0; i < cells.length; i += 2) rows.push(cells.slice(i, i + 2));
   return (
@@ -100,7 +101,6 @@ export function HubTiles({ tiles, extra }: HubTilesProps) {
               {cell.node}
             </View>
           ))}
-          {row.length === 1 ? <View style={styles.cell} /> : null}
         </View>
       ))}
     </View>

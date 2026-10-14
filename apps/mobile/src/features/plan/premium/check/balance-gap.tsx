@@ -24,6 +24,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 
 import type { BalanceViewProps } from '../../check/balance/balance-props';
 import type { GapViewProps } from '../../check/fill-gap/gap-props';
+import { OnlyYouPill } from '../only-you-pill';
 import { barTitle } from './bar-title';
 
 const SQUARES = 8;
@@ -32,14 +33,9 @@ export function PremiumBalanceView(props: BalanceViewProps) {
   const theme = usePremiumTheme();
   const locale = useLocale();
   const offer = props.offer;
+  const title = barTitle(props.title, locale);
   return (
-    <PushScreen
-      title={barTitle(props.title, locale)}
-      subtitle={props.onlyYou}
-      backLabel={props.backLabel}
-      scroll={false}
-      testID="plan-balance"
-    >
+    <PushScreen title={title} backLabel={props.backLabel} scroll={false} testID="plan-balance">
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{
@@ -48,9 +44,17 @@ export function PremiumBalanceView(props: BalanceViewProps) {
           gap: theme.space.gap12,
         }}
       >
-        <Text variant="body" tone="muted">
-          {props.summary}
-        </Text>
+        <View style={{ alignItems: 'center' }}>
+          <OnlyYouPill />
+        </View>
+        <View style={{ gap: theme.space.gap4 }}>
+          <Text variant="largeTitle" accessibilityRole="header" singleLine={false}>
+            {title}
+          </Text>
+          <Text variant="body" tone="muted">
+            {props.summary}
+          </Text>
+        </View>
         {props.loading ? <LoadingCritter label={props.title} /> : null}
         <ListCard>
           {props.rows.map((row) => (

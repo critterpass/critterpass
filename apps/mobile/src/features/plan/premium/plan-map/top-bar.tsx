@@ -150,10 +150,10 @@ export function TopBar(props: TopBarProps) {
         )}
       </View>
       {props.chips === null ? null : (
-        // Room for the glass chips' soft shadow, kept small so the band takes few of the map's touches.
+        // The kit's room under the row: the glass chips' shadow is deeper than 12 and was cut
+        // flat along the band's foot.
         <ScrollRow
           above={4}
-          below={12}
           style={{ position: 'absolute', left: 0, right: 0, top: top + 58 }}
           contentContainerStyle={styles.chips}
         >

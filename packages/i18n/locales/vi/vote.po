@@ -254,6 +254,10 @@ msgstr "Đề xuất {0}"
 msgid "vote.premium.newPoll.ask"
 msgstr "Hỏi cả nhóm điều gì đó"
 
+#: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
+msgid "vote.premium.newPoll.askedIn"
+msgstr "Hỏi trong nhóm chat {crewName}"
+
 #: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
 msgid "vote.guest.back"
 msgstr "Quay lại"

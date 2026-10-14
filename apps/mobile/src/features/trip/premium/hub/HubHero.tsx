@@ -5,19 +5,26 @@
  */
 import type { MediaAsset } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { Image, PixelRatio, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Image, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { savedStillUri } from '@/lib/media/media-files';
-import { pickBySize } from '@/lib/media/variants';
 import { CrewStack, GlassIconButton, Text, usePremiumTheme, type CrewMember } from '@/ui/premium';
 import { StatusBarOver } from '@/ui/premium/shell';
 
 import type { HubHeader } from '../../hub/hub-model';
 import { usePhaseLine } from '../../hub/phase-line';
+import { heroStillUri } from '../components/hero-still';
 
 /** The photo's height: the 1.05 hero, tall enough for the name and the switch under it. */
 export const HUB_HERO_HEIGHT = 380;
+
+/**
+ * The page's rounded top edge over the photo (1.05): the content rises over the hero's foot on
+ * 24 pt corners instead of meeting the photo in a straight line.
+ */
+const SHEET_RADIUS = 24;
+/** How much of that edge the content under it overlaps, so the switch sits its gap under the edge. */
+const SHEET_TUCK = 16;
 
 /** The photo's fade: dark at the top for the circles, clear in the middle, dark under the name. */
 const HERO_FADE =
@@ -35,13 +42,6 @@ export interface HubHeroProps {
   readonly onMenu: (() => void) | null;
   /** The page has scrolled the hero away from under the status bar. */
   readonly scrolledPast?: boolean;
-}
-
-function heroUri(media: MediaAsset | null, widthPt: number): string | null {
-  if (media === null) return null;
-  const still = pickBySize(media.images, widthPt * PixelRatio.get());
-  if (still === undefined) return null;
-  return savedStillUri(media, still.url) ?? still.url;
 }
 
 /** The countdown (or day count) on the right; its digits re-read every second. */
@@ -83,7 +83,7 @@ export function HubHero(props: HubHeroProps) {
   const { t } = useLingui();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
-  const uri = heroUri(props.media, width);
+  const uri = heroStillUri(props.media, width);
   const onPhoto = uri !== null;
   const text = onPhoto ? th.accent.paper : th.color.ink;
   return (
@@ -92,8 +92,9 @@ export function HubHero(props: HubHeroProps) {
         styles.hero,
         onPhoto
           ? {
-              height: HUB_HERO_HEIGHT + insets.top - th.space.statusBar,
+              height: HUB_HERO_HEIGHT + SHEET_RADIUS + insets.top - th.space.statusBar,
               backgroundColor: th.color.inkSurface,
+              marginBottom: -SHEET_TUCK,
             }
           : { paddingTop: insets.top + th.space.gap6 + th.size.glassNav + th.space.gap16 },
       ]}
@@ -145,7 +146,10 @@ export function HubHero(props: HubHeroProps) {
       <View
         style={[
           styles.foot,
-          { paddingHorizontal: th.space.titleGutter, paddingBottom: onPhoto ? 34 : th.space.gap16 },
+          {
+            paddingHorizontal: th.space.titleGutter,
+            paddingBottom: onPhoto ? 34 + SHEET_RADIUS : th.space.gap16,
+          },
         ]}
       >
         <View style={styles.name}>
@@ -181,6 +185,13 @@ export function HubHero(props: HubHeroProps) {
           )}
         </View>
       </View>
+      {/* The page's ground rising over the photo's foot on rounded corners. */}
+      {onPhoto ? (
+        <View
+          pointerEvents="none"
+          style={[styles.sheetEdge, { height: SHEET_RADIUS, backgroundColor: th.color.ground }]}
+        />
+      ) : null}
     </View>
   );
 }
@@ -201,4 +212,12 @@ const styles = StyleSheet.create({
   right: { alignItems: 'flex-end', gap: 8 },
   phase: { alignItems: 'flex-end' },
   tabular: { fontVariant: ['tabular-nums'] },
+  sheetEdge: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderTopLeftRadius: SHEET_RADIUS,
+    borderTopRightRadius: SHEET_RADIUS,
+  },
 });

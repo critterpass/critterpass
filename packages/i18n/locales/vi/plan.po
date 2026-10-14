@@ -60,11 +60,6 @@ msgstr "{0}/{1} người rảnh"
 msgid "plan.card.tally"
 msgstr "{0} trên {1} người đồng ý"
 
-#. placeholder {0}: stars.starredCount
-#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
-msgid "plan.premium.ideas.starred"
-msgstr "Đã gắn sao {0}/{total}"
-
 #. placeholder {0}: wholeMoney(locale, overBy, model.currency)
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
 msgid "plan.premium.draft.over"
@@ -172,6 +167,10 @@ msgstr "Việc phải làm của {otherName}"
 #: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
 msgid "plan.tripMap.empty.noPlanLine"
 msgstr "{saved, plural, other {# nơi đã lưu trong Ý tưởng. Khi có kế hoạch, các nơi này sẽ vào từng ngày.}}"
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-parts.tsx
+msgid "plan.premium.ideas.starred"
+msgstr "Đã gắn sao {starred}/{total}"
 
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
 msgid "planDraft.coverage.missing"
@@ -379,7 +378,7 @@ msgstr "Số dư vẫn còn để thanh toán ({open} khoản mở)"
 msgid "plan.check.lessDriving.before"
 msgstr "Trước"
 
-#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+#: ../../apps/mobile/src/features/plan/premium/stop/sheet-parts.tsx
 msgid "plan.premium.item.booked"
 msgstr "Đã đặt"
 
@@ -583,6 +582,10 @@ msgstr "Ngày {0} đã soạn lại xong."
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.day.item.dayChip"
 msgstr "Ngày {dayNo}"
+
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-parts.tsx
+msgid "planDraft.change.dayOnly"
+msgstr "Ngày {n}"
 
 #: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
 msgid "plan.allDays.dayTitle"
@@ -956,7 +959,7 @@ msgstr "Chuyển sang chuyến đi tiếp theo"
 msgid "plan.premium.stop.moving"
 msgstr "Đang dời sang {time}"
 
-#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-parts.tsx
 msgid "plan.premium.ideas.mustDoLead"
 msgstr "Việc phải làm: mỗi người gắn sao một nơi."
 
@@ -1020,6 +1023,10 @@ msgstr "Không xếp gì, cố ý đấy"
 msgid "plan.allDays.preview.empty"
 msgstr "Ngày này không còn gì"
 
+#: ../../apps/mobile/src/features/plan/premium/all-days/day-tile.tsx
+msgid "plan.premium.allDays.noPins"
+msgstr "Chưa ghim chỗ nào"
+
 #: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
 msgid "plan.tripMap.empty.title"
 msgstr "Chưa lưu gì"
@@ -1061,8 +1068,8 @@ msgid "plan.settings.maxesLine"
 msgstr "Chỉ hiện tổng của cả nhóm"
 
 #: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
-#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
 #: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+#: ../../apps/mobile/src/features/plan/premium/only-you-pill.tsx
 msgid "planDraft.onlyYou"
 msgstr "Chỉ bạn thấy"
 

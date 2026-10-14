@@ -19,6 +19,8 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
+import { SCROLL_EDGE_FADE } from '@/ui/premium/shell';
+
 import { CREW_ROUTES, crewSettingsRoute } from '../../crews-sheet/routes';
 import { ChatHeaderBadge, chatMapTarget } from '../../chat/slots';
 import { headerFade } from '../premium-paint';
@@ -103,13 +105,19 @@ export function ChatHeader({ crewId, crewName, line }: ChatHeaderProps) {
   const subtitle = headerLine(line);
   return (
     <View style={[styles.root, { paddingTop: insets.top }]} testID="chat-header">
-      {/* The fade: solid ground behind the controls, clearing towards the timeline. */}
+      {/* The ground: solid behind the status bar and the controls, then clearing towards the
+          timeline just below them. */}
       <View
         pointerEvents="none"
         style={[
           StyleSheet.absoluteFill,
           {
-            experimental_backgroundImage: headerFade(th.color.ground),
+            bottom: -SCROLL_EDGE_FADE,
+            experimental_backgroundImage: headerFade(
+              th.color.ground,
+              insets.top + CHAT_HEADER_HEIGHT,
+              insets.top + CHAT_HEADER_HEIGHT + SCROLL_EDGE_FADE,
+            ),
           },
         ]}
       />

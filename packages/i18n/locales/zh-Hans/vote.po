@@ -254,6 +254,10 @@ msgstr ""
 msgid "vote.premium.newPoll.ask"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
+msgid "vote.premium.newPoll.askedIn"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
 msgid "vote.guest.back"
 msgstr ""

@@ -23,7 +23,7 @@ import { FooterStack, sheetMaterialStyle } from '@/ui/premium/shell';
 
 import type { AddSheetViewProps } from '../../add/add-look';
 import { Doodle } from '@/features/explore';
-import { dayColours } from '../map';
+import { dayInk } from '../map';
 
 const CHIP_W = 48;
 const CHIP_H = 50;
@@ -134,7 +134,7 @@ export function PremiumAddSheetView(props: AddSheetViewProps) {
           {props.dayHeader === '' ? null : (
             <Text
               variant="badge"
-              color={chosen === undefined ? theme.color.muted : dayColours(chosen.dayNo).ink}
+              color={chosen === undefined ? theme.color.muted : dayInk(chosen.dayNo, theme.scheme)}
             >
               {props.dayHeader.toLocaleUpperCase()}
             </Text>

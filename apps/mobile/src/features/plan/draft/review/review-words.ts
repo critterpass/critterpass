@@ -35,6 +35,35 @@ export function missAction(reason: MustDoMissReason): 'pick_place' | 'change_day
 
 export const ROW_BASE_DELAY_MS = 520;
 
+/**
+ * A day row's two lines. The guide's theme ("Nishiki at dusk") heads the row when the draft has
+ * one; a day drafted without a theme is headed by its first stop instead, and the line under it
+ * then carries the time and the rest, so no row ever shows an empty title or names a stop twice.
+ */
+export function dayHeading(
+  locale: string,
+  day: ReviewDay,
+): { readonly title: string; readonly detail: string } {
+  if (day.title.trim() !== '') return { title: day.title, detail: dayDetail(locale, day) };
+  const [first, ...rest] = day.stops;
+  if (first === undefined || day.lottery !== null) {
+    return {
+      title: first?.name ?? t({ id: 'planDraft.day.freeTitle', message: 'Nothing. Bliss.' }),
+      detail: dayDetail(locale, day),
+    };
+  }
+  const wd = upper(weekday(locale, day.date), locale);
+  const at = clock(locale, first.startsAt, first.tz);
+  const next = rest.map((stop) => stop.name).join(', ');
+  return {
+    title: first.name,
+    detail:
+      rest.length === 0
+        ? t({ id: 'planDraft.day.untitledOne', message: `${wd} · ${at}` })
+        : t({ id: 'planDraft.day.untitledMore', message: `${wd} · ${at}, then ${next}` }),
+  };
+}
+
 /** "FRI · Nishiki Market at 11:20, Gion" and its variants, in the viewer's language. */
 export function dayDetail(locale: string, day: ReviewDay): string {
   const wd = upper(weekday(locale, day.date), locale);

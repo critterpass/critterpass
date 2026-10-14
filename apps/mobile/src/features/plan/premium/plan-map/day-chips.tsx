@@ -5,9 +5,9 @@
  * padding, which the row reaches through so a scrolled chip runs to the screen's edge instead of
  * being cut at the padding, while the first and last chips still rest on the parent's inset.
  */
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
-import { makePremiumStyles, PressableScale, Text } from '@/ui/premium';
+import { makePremiumStyles, PressableScale, ScrollRow, Text } from '@/ui/premium';
 
 import { dayColours } from '../map';
 
@@ -28,11 +28,10 @@ export interface DayChipsProps {
   readonly bleed?: number;
 }
 
-/** Room under the chips for their card shadow, which a sideways scroller clips to its bounds. */
-const SHADOW_ROOM = 10;
-
 const useStyles = makePremiumStyles((t) => ({
-  row: { gap: t.space.gap8, paddingTop: 2, paddingBottom: SHADOW_ROOM },
+  // The row's content runs the scroller's whole width: a sideways scroller clips its content's
+  // box, so a lone chip's shadow ended in a straight line just past it.
+  row: { flexGrow: 1, alignItems: 'flex-start' },
   chip: {
     borderRadius: t.radius.field,
     alignItems: 'center',
@@ -49,12 +48,7 @@ export function DayChips({ chips, chosen, size, onChoose, bleed = 0 }: DayChipsP
   const styles = useStyles();
   const box = size === 'large' ? { width: 52, height: 54 } : { width: 46, height: 48 };
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      style={{ marginHorizontal: -bleed, marginBottom: -SHADOW_ROOM + 2 }}
-      contentContainerStyle={[styles.row, { paddingHorizontal: bleed }]}
-    >
+    <ScrollRow gap={8} bleed={bleed} contentContainerStyle={styles.row}>
       {chips.map((chip) => {
         const on = chip.dayNo === chosen;
         return (
@@ -82,6 +76,6 @@ export function DayChips({ chips, chosen, size, onChoose, bleed = 0 }: DayChipsP
           </PressableScale>
         );
       })}
-    </ScrollView>
+    </ScrollRow>
   );
 }

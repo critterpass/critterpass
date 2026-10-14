@@ -8,22 +8,25 @@
 import type { MediaAsset } from '@cp/domain';
 import { premium } from '@cp/design-tokens';
 import { memo } from 'react';
-import { Image, PixelRatio, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Image, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { savedStillUri } from '@/lib/media/media-files';
-import { pickBySize } from '@/lib/media/variants';
 import { GlassPill, Text, usePremiumTheme } from '@/ui/premium';
 
 import type { LeaveByView } from '../../leave-by/model';
+import { heroStillUri } from '../components/hero-still';
 import { LeaveByCountdown } from './LeaveByCountdown';
 
 /** The photo's height, and how far the card under it rises over it. */
 export const DAY_HERO_HEIGHT = 330;
 
+/**
+ * Dark at the top for the chips, clear through the middle, then a scrim under the headline that
+ * holds the white type on any photo, a bright beach or a sign behind it included.
+ */
 const FADE =
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, not copy
-  'linear-gradient(180deg, rgba(10,10,25,0.55) 0%, rgba(10,10,25,0.1) 40%, rgba(10,10,25,0.6) 100%)';
+  'linear-gradient(180deg, rgba(10,10,25,0.5) 0%, rgba(10,10,25,0.05) 30%, rgba(10,10,25,0.5) 58%, rgba(10,10,25,0.8) 100%)';
 
 export interface DayHeroProps {
   readonly media: MediaAsset | null;
@@ -47,12 +50,7 @@ export const DayHero = memo(function DayHero(props: DayHeroProps) {
   const th = usePremiumTheme();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
-  const still =
-    props.media === null ? undefined : pickBySize(props.media.images, width * PixelRatio.get());
-  const uri =
-    props.media === null || still === undefined
-      ? null
-      : (savedStillUri(props.media, still.url) ?? still.url);
+  const uri = heroStillUri(props.media, width);
   const white = premium.accent.paper;
   return (
     <View

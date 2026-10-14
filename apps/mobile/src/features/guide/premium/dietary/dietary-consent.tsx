@@ -1,7 +1,7 @@
 /**
  * Dietary consent first (5.21): what sharing means on a paper card (the flags the crew and guide
- * see, the notes they never do), then Share flags, Not now (back, nothing shared) or keeping it to
- * yourself (the form, not shared).
+ * see, the notes they never do), then Share flags, or Not now (the form, kept to yourself; ✕ leaves
+ * with nothing saved).
  */
 import { t } from '@lingui/core/macro';
 import { ScrollView, View } from 'react-native';
@@ -44,11 +44,10 @@ const useStyles = makePremiumStyles((th) => ({
 export function DietaryConsent({
   onShare,
   onNotNow,
-  onJustMe,
 }: {
   readonly onShare: () => void;
+  /** The form, not shared. */
   readonly onNotNow: () => void;
-  readonly onJustMe: () => void;
 }) {
   const th = usePremiumTheme();
   const styles = useStyles();
@@ -108,17 +107,11 @@ export function DietaryConsent({
           onPress={onShare}
           testID="guide-dietary-consent-yes"
         />
-        <Button
-          variant="secondary"
+        <TextButton
+          align="center"
           label={t({ id: 'guide.dietary.notNow', message: 'Not now' })}
           onPress={onNotNow}
           testID="guide-dietary-consent-no"
-        />
-        <TextButton
-          align="center"
-          label={t({ id: 'guide.premium.dietary.justMe', message: 'Keep it to myself' })}
-          onPress={onJustMe}
-          testID="guide-dietary-just-me"
         />
       </View>
     </View>

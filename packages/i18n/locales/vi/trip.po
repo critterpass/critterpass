@@ -66,6 +66,10 @@ msgid "trip.alarm.sheet.notificationTitle"
 msgstr "Là thông báo, không phải báo thức"
 
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
+msgid "trip.dayOf.premium.addPackGo"
+msgstr "Thêm vào"
+
+#: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
 msgid "trip.dayOf.premium.addPack"
 msgstr "Thêm đồ cần mang"
 
@@ -89,7 +93,7 @@ msgstr "Android chỉ đổ chuông đúng phút cho những ứng dụng bạn 
 msgid "trip.offline.backOnline"
 msgstr "Có sóng lại"
 
-#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+#: ../../apps/mobile/src/features/trip/premium/day/DayLinks.tsx
 msgid "trip.dayOf.toToday"
 msgstr "Về hôm nay"
 
@@ -222,6 +226,11 @@ msgstr "Chỉ báo thức giờ xuất phát của riêng tôi"
 msgid "trip.disruptions.late.etaStale"
 msgstr "Dự kiến gần nhất {eta}"
 
+#. placeholder {0}: view.lastSynced
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.lastSynced"
+msgstr "Đồng bộ lần cuối {0}"
+
 #: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
 msgid "trip.alarm.sheet.askTitle"
 msgstr "Cho báo thức giờ xuất phát đổ chuông?"
@@ -326,11 +335,11 @@ msgstr "Bị trễ à?"
 msgid "trip.offline.premium.saveEdit"
 msgstr "Lưu chỉnh sửa"
 
-#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+#: ../../apps/mobile/src/features/trip/premium/day/DayLinks.tsx
 msgid "trip.dayOf.toDayPlan"
 msgstr "Xem kế hoạch ngày"
 
-#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+#: ../../apps/mobile/src/features/trip/premium/day/DayLinks.tsx
 msgid "trip.dayOf.toTomorrow"
 msgstr "Xem ngày mai"
 
@@ -442,7 +451,11 @@ msgstr "Theo dõi"
 msgid "trip.offline.weak"
 msgstr "Sóng yếu"
 
-#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.premium.readyTitle"
+msgstr "Những gì dùng được khi mất sóng"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayLinks.tsx
 msgid "trip.dayOf.toOffline"
 msgstr "Những gì dùng được khi mất sóng"
 

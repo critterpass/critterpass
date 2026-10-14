@@ -49,6 +49,17 @@ describe('premiumMapStyle', () => {
     expect(paint(night, 'region-water')['fill-color']).toBe(MAP_PALETTES.night.lake);
     expect(light.layers.map((layer) => layer.id)).toEqual(night.layers.map((layer) => layer.id));
   });
+
+  it('lets the world tiles draw at street level when no region pack is drawn', () => {
+    const world = (style: ReturnType<typeof premiumMapStyle>) =>
+      style.layers.filter((layer) => 'source' in layer && layer.source === 'world');
+    const withPack = premiumMapStyle('light', 'pmtiles://example/bali.pmtiles');
+    const worldUrl = (withPack.sources['world'] as { url: string }).url;
+    const noPack = premiumMapStyle('night', worldUrl);
+    expect(world(withPack).every((layer) => layer.maxzoom === 9)).toBe(true);
+    expect(world(noPack).length).toBeGreaterThan(0);
+    expect(world(noPack).every((layer) => layer.maxzoom === undefined)).toBe(true);
+  });
 });
 
 describe('route features', () => {

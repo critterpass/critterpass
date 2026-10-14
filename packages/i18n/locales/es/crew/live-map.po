@@ -109,7 +109,7 @@ msgstr ""
 msgid "liveMap.editor.keepTime"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
 msgid "liveMap.premium.lastSeen"
 msgstr ""
 
@@ -150,7 +150,7 @@ msgstr ""
 msgid "liveMap.noTrip.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.gate.notStartedTitle"
 msgstr ""
 
@@ -182,7 +182,7 @@ msgstr ""
 msgid "liveMap.primer.line"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
 msgid "liveMap.premium.pause"
 msgstr ""
 
@@ -214,7 +214,7 @@ msgstr ""
 msgid "liveMap.toast.pinged"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
 msgid "liveMap.premium.resume"
 msgstr ""
 
@@ -263,11 +263,11 @@ msgstr ""
 msgid "liveMap.status.sharing"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.gate.notStartedLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.gate.endedLine"
 msgstr ""
 
@@ -288,15 +288,15 @@ msgstr ""
 msgid "liveMap.noTrip.line"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.premium.wakesUp"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.premium.guideName"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.gate.endedTitle"
 msgstr ""
 
@@ -310,6 +310,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
 msgid "liveMap.queued.shareOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
+msgid "liveMap.premium.updatesBack"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/MeetupEditorPremium.tsx

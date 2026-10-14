@@ -537,7 +537,15 @@ msgid "plan.check.lessDriving.applied"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.noSaves"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
 msgid "plan.check.balance.askedToastLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.nothingYet"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts

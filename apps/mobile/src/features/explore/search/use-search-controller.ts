@@ -163,7 +163,7 @@ export function useSearchController(props: SearchControllerProps) {
   const browse = (tile: BrowseTile) => {
     const list =
       tile.filter === null ? undefined : hrefFor('7c-3', { tripId, filter: tile.filter });
-    // A kind the list has no filter for (coffee, waterfalls) is asked for in words.
+    // A kind the list has no filter for (views, waterfalls) is asked for in words.
     if (list === undefined) ask(tile.label());
     else router.push(list);
   };

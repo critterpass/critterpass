@@ -1,8 +1,18 @@
 /** The stop sheet's labelled sections and its tappable rows (a change waiting, the place). */
+import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
-import { Icon, ListCard, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { Icon, ListCard, PressableScale, StatusTag, Text, usePremiumTheme } from '@/ui/premium';
+
+/** A booked stop's tag, at the body's leading edge under the title, never centred on its own. */
+export function BookedTag() {
+  return (
+    <View style={{ alignItems: 'flex-start' }}>
+      <StatusTag tone="booked" label={t({ id: 'plan.premium.item.booked', message: 'Booked' })} />
+    </View>
+  );
+}
 
 export function Section(props: { readonly label: string; readonly children: ReactNode }) {
   const theme = usePremiumTheme();

@@ -140,7 +140,6 @@ export function useOffline(
   );
   const here = started[started.length - 1] ?? items[0];
   const place = here?.poi_name ?? trip?.destination_name ?? null;
-  const time = clockIn(now, tz, locale);
   const savedAt = day === null ? null : clockIn(new Date(day.savedAt), tz, locale);
   const headline = quiet
     ? t({ id: 'trip.offline.readyHeadline', message: 'Ready for no signal' })
@@ -157,11 +156,11 @@ export function useOffline(
       : day !== null && day.missing.length > 0
         ? t({
             id: 'trip.offline.partSaved',
-            message: `${time}. Part of today was saved to your phone at ${savedAt}.`,
+            message: `Part of today was saved to your phone at ${savedAt}.`,
           })
         : t({
             id: 'trip.offline.saved',
-            message: `${time}. Today was saved to your phone at ${savedAt}.`,
+            message: `Today was saved to your phone at ${savedAt}.`,
           });
   const first = items.find((item) => item.starts_at !== null);
   const lastSynced = sync.lastSyncedAt === null ? null : clockIn(sync.lastSyncedAt, tz, locale);
@@ -178,6 +177,7 @@ export function useOffline(
             ? 'weak'
             : 'offline',
       guide: guideOr(trip?.guide_slug),
+      destinationSlug: trip?.destination_slug ?? null,
     },
     stillWorks: stillWorksLines({ day, first, tz, locale }),
     sends: state.items.map((item) => ({

@@ -7,7 +7,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- route paths, never copy. */
 import { t } from '@lingui/core/macro';
 import { router, type Href } from 'expo-router';
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -16,11 +16,12 @@ import { format } from '@cp/i18n';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
+import { exploreRoutes } from '@/features/explore';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { hrefFor } from '@/lib/navigation/screen-registry';
 import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   CritterSticker,
-  Icon,
   ListCard,
   StatusTag,
   StickerIcon,
@@ -32,6 +33,7 @@ import { confirmAlert, PushScreen } from '@/ui/premium/shell';
 import { GlassMenu } from '../plan-map/glass-menu';
 import { leaveTripCommand, setPlanChangeRuleCommand } from '../../settings/data/commands';
 import { settingsRoutes } from './routes';
+import { SettingRow } from './setting-row';
 
 function ruleWord(rule: PlanChangeRule): string {
   switch (rule) {
@@ -50,60 +52,6 @@ export function rangeText(locale: string, start: string | null, end: string | nu
     month: 'short',
     day: 'numeric',
   });
-}
-
-function SettingRow(props: {
-  /** The row's sticker tile (4.53's trip rows). */
-  readonly leading?: ReactNode;
-  readonly label: string;
-  readonly line?: string | undefined;
-  readonly value?: string | undefined;
-  readonly trailing?: ReactNode;
-  readonly onPress?: ((y: number) => void) | undefined;
-  readonly testID: string;
-}) {
-  const theme = usePremiumTheme();
-  return (
-    <Pressable
-      onPress={
-        props.onPress === undefined
-          ? undefined
-          : (event) => props.onPress?.(event.nativeEvent.pageY)
-      }
-      disabled={props.onPress === undefined}
-      accessibilityRole={props.onPress === undefined ? 'text' : 'button'}
-      accessibilityLabel={[props.label, props.line, props.value].filter(Boolean).join(', ')}
-      testID={props.testID}
-      style={({ pressed }) => ({
-        minHeight: 48,
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: theme.space.gap12,
-        paddingHorizontal: theme.space.gap16,
-        paddingVertical: theme.space.gap8,
-        backgroundColor: pressed ? theme.color.control : undefined,
-      })}
-    >
-      {props.leading}
-      <View style={{ flex: 1, minWidth: 0 }}>
-        <Text variant="body">{props.label}</Text>
-        {props.line === undefined ? null : (
-          <Text variant="captionMuted" tone="muted">
-            {props.line}
-          </Text>
-        )}
-      </View>
-      {props.value === undefined ? null : (
-        <Text variant="rowText" tone="muted" numberOfLines={1}>
-          {props.value}
-        </Text>
-      )}
-      {props.trailing ??
-        (props.onPress === undefined ? null : (
-          <Icon name="forward" size={16} color={theme.color.placeholder} />
-        ))}
-    </Pressable>
-  );
 }
 
 export function TripSettingsScreen({ tripId }: { readonly tripId: string }) {
@@ -131,6 +79,8 @@ export function TripSettingsScreen({ tripId }: { readonly tripId: string }) {
   const rule = planChangeRuleOf(trip.plan_change_rule);
   const going = plan.members.length;
   const go = (href: Href) => router.push(href);
+  // Every trip row opens where it is set or seen, so the four rows end on the same chevron.
+  const guideHref = hrefFor('3j-1', { tripId });
   const guideName = trip.guide_name ?? guide.name;
   const heroLine = dates === null ? guideName : `${dates} · ${guideName}`;
   const leaveTrip = async () => {
@@ -202,6 +152,11 @@ export function TripSettingsScreen({ tripId }: { readonly tripId: string }) {
             leading={<StickerIcon name="temple" size={36} tile={theme.color.control} />}
             label={t({ id: 'plan.settings.where', message: 'Where' })}
             value={place}
+            onPress={
+              trip.destination_id === null
+                ? undefined
+                : () => go(exploreRoutes.destination(trip.destination_id ?? '', { tripId }))
+            }
             testID="trip-settings-where"
           />
           <SettingRow
@@ -221,12 +176,15 @@ export function TripSettingsScreen({ tripId }: { readonly tripId: string }) {
             }
             label={t({ id: 'plan.settings.guide', message: 'Guide' })}
             value={guideName}
+            onPress={guideHref === undefined ? undefined : () => go(guideHref)}
             testID="trip-settings-guide"
           />
           <SettingRow
             leading={<StickerIcon name="heart" size={36} tile={theme.color.control} />}
             label={t({ id: 'plan.settings.who', message: 'Who’s coming' })}
             value={t({ id: 'plan.settings.going', message: `${going} going` })}
+            // The crew's page lists who is in and their roles.
+            onPress={() => go(`/crew/${trip.crew_id}/settings` as Href)}
             testID="trip-settings-who"
           />
         </ListCard>

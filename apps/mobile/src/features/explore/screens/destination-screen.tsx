@@ -161,15 +161,15 @@ export function DestinationScreen({ destination, tripId, crewId, View }: Destina
         backLabel={t({ id: 'explore.hero.back', message: 'Explore' })}
         title={
           base.reason === 'not_found'
-            ? t({ id: 'explore.missing.title', message: "That place isn't in the guide" })
-            : t({ id: 'explore.missing.offlineTitle', message: "This guide hasn't loaded yet" })
+            ? t({ id: 'explore.missing.title', message: 'That place isn’t in the guide' })
+            : t({ id: 'explore.missing.offlineTitle', message: 'This guide hasn’t loaded yet' })
         }
         line={
           base.reason === 'not_found'
             ? t({ id: 'explore.missing.line', message: 'Try the search. I cover most places.' })
             : t({
                 id: 'explore.missing.offlineLine',
-                message: "I need a connection the first time. After that I'm here offline.",
+                message: 'I need a connection the first time. After that I’m here offline.',
               })
         }
         onBack={back}

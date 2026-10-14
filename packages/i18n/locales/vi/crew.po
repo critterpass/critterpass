@@ -560,7 +560,7 @@ msgstr "Đặt làm người tổ chức"
 msgid "chat.header.map"
 msgstr "Bản đồ"
 
-#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+#: ../../apps/mobile/src/features/crew/premium/chat/tray-empty.tsx
 msgid "chat.premium.tray.none"
 msgstr "Gặp một sinh vật trong chuyến đi là nhãn dán của nó sẽ ở đây."
 
@@ -651,6 +651,10 @@ msgstr "Chưa có mã dùng được"
 msgid "chat.premium.noSignal"
 msgstr "MẤT SÓNG"
 
+#: ../../apps/mobile/src/features/crew/premium/chat/tray-empty.tsx
+msgid "chat.premium.tray.noneTitle"
+msgstr "Chưa có nhãn dán"
+
 #: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
 msgid "chat.premium.tray.locked"
 msgstr "Chưa gặp: tìm nó ở đâu"
@@ -662,6 +666,10 @@ msgstr "Để sau"
 #: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.premium.notify.off"
 msgstr "Không gì cả"
+
+#: ../../apps/mobile/src/features/crew/premium/chat/tray-empty.tsx
+msgid "chat.premium.tray.noRecentTitle"
+msgstr "Chưa gửi gì"
 
 #: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 msgid "crew.settings.notify"
@@ -927,7 +935,7 @@ msgstr "Nhãn dán"
 msgid "chat.premium.composer.stickers"
 msgstr "Nhãn dán"
 
-#: ../../apps/mobile/src/features/crew/premium/chat/sticker-tray.tsx
+#: ../../apps/mobile/src/features/crew/premium/chat/tray-empty.tsx
 msgid "chat.premium.tray.noRecent"
 msgstr "Nhãn dán bạn gửi sẽ hiện ở đây."
 

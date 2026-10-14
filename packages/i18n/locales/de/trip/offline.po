@@ -24,14 +24,6 @@ msgid "trip.offline.backToast"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
-msgid "trip.offline.partSaved"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
-msgid "trip.offline.saved"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
 msgid "trip.offline.gone"
 msgstr ""
 
@@ -52,6 +44,10 @@ msgid "trip.offline.headlineAt"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.partSaved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
 msgid "trip.offline.readyHeadline"
 msgstr ""
 
@@ -69,6 +65,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
 msgid "trip.offline.notSaved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/offline/offline-copy.ts

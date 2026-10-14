@@ -547,8 +547,16 @@ msgid "plan.check.lessDriving.applied"
 msgstr "Thứ tự mới, đỡ lái xe hơn"
 
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.noSaves"
+msgstr "CHƯA LƯU GÌ"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
 msgid "plan.check.balance.askedToastLine"
 msgstr "Không ai khác thấy."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.nothingYet"
+msgstr "Chưa ai lưu chỗ nào hay chọn điều nhất định phải làm. Lựa chọn của mọi người sẽ hiện ở đây."
 
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
 msgid "plan.check.balance.mustDoMissing"

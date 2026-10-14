@@ -180,13 +180,27 @@ function roadLayer(id: string, classes: readonly string[], color: unknown, width
   } as Layer;
 }
 
+const WORLD_URL = (base.sources['world'] as { url: string }).url;
+
+/**
+ * The world layers stop at town level, where a region pack takes over. With no pack drawn (none
+ * yet, or the check could not reach the tiles host) they are all the map has, so they overzoom:
+ * a street-level camera then shows the coast, the sea and the place names instead of bare ground.
+ */
+function worldAtEveryZoom(layer: Layer): Layer {
+  if (!('source' in layer) || layer.source !== 'world' || layer.maxzoom === undefined) return layer;
+  const { maxzoom: _drop, ...rest } = layer;
+  return rest;
+}
+
 /** The premium style in `mode`, its `region` source reading `regionUrl` (a `pmtiles://` url). */
 export function premiumMapStyle(mode: MapMode, regionUrl: string): StyleSpecification {
+  const all = layers(mode);
   return {
     version: base.version,
     name: `critterpass-${mode}`,
     glyphs: base.glyphs,
     sources: { ...base.sources, region: { type: 'vector', url: regionUrl } },
-    layers: layers(mode),
+    layers: regionUrl === WORLD_URL ? all.map(worldAtEveryZoom) : all,
   } as StyleSpecification;
 }

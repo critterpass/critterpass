@@ -95,3 +95,34 @@ export function StopCard({
     </View>
   );
 }
+
+const useRailStyles = makePremiumStyles((t) => ({
+  leg: { flexDirection: 'row', alignItems: 'center', height: 26, gap: 8 },
+  line: { width: 2, height: 26, backgroundColor: t.color.progressTodo },
+  bare: { height: 14 },
+}));
+
+/**
+ * The rail between two stops, under the number discs, with the leg ("Walk · 6 min"). With no leg
+ * to name (a stop with no place, a leg not worked out yet) the rail alone still joins the stops,
+ * so the cards never sit shadow on shadow.
+ */
+export function LegRail({
+  label,
+  inset,
+}: {
+  readonly label: string | null;
+  readonly inset: number;
+}) {
+  const styles = useRailStyles();
+  return (
+    <View style={[styles.leg, label === null ? styles.bare : null, { paddingStart: inset }]}>
+      <View style={[styles.line, label === null ? styles.bare : null]} />
+      {label === null ? null : (
+        <Text variant="badge" tone="muted">
+          {label}
+        </Text>
+      )}
+    </View>
+  );
+}

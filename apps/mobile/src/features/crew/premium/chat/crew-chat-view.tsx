@@ -48,7 +48,7 @@ import { useReportMessage } from './who-reacted-sheet';
 import { chatStarters } from './chat-starters';
 import './cards/register';
 import { PremiumMessageList } from './message-list';
-import type { MessageRowHandlers } from './message-row';
+import { LiftedMessage, type MessageRowHandlers } from './message-row';
 import { useChatDraft } from './use-chat-draft';
 import { useChatMenu } from './use-chat-menu';
 import { useLeftChat } from './use-left-chat';
@@ -122,9 +122,9 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
   const toggleReaction = reactions.toggle;
   const handlers = useMemo<MessageRowHandlers>(
     () => ({
-      onLongPress: (message, anchor) => {
+      onLongPress: (message, anchor, preview) => {
         Keyboard.dismiss();
-        setOverlay({ kind: 'menu', message, anchor });
+        setOverlay({ kind: 'menu', message, anchor, preview });
       },
       onRetry: (message) => void retry(message),
       onDiscard: (message) => void discard(message),
@@ -239,43 +239,45 @@ export function CrewChatView({ crewId }: { readonly crewId: string }) {
       {/* First, so a screen reader meets back and the title before the timeline; it is drawn on top
           by its own zIndex. */}
       <ChatHeader crewId={crewId} crewName={info.crewName} line={headerLine} />
-      <ChatBottom
-        list={list}
-        former={former}
-        crewName={info.crewName ?? ''}
-        onRejoin={left.onRejoin}
-        onRemove={left.onRemove}
-        inputRef={input}
-        composer={{
-          value: draft,
-          onChangeText: (text) => {
-            setDraft(text);
-            typing.notifyTyping();
-          },
-          placeholder,
-          canSend: draft.trim() !== '',
-          onSend: composer.submit,
-          trayOpen,
-          onToggleTray: toggleTray,
-          onFocus: () => setTrayOpen(false),
-          ...(media.available
-            ? {
-                onAdd: media.menu.show,
-                onMicTap: media.recorder.onMicTap,
-                onMicHoldStart: media.recorder.onHoldStart,
-                onMicHoldEnd: media.recorder.onHoldEnd,
-              }
-            : {}),
-          recording: media.recorder.state === 'holding' || media.recorder.state === 'locked',
-          recorder: media.recorder,
-          replyTo,
-          editing,
-          onCancelStrip: composer.cancelStrip,
-        }}
-        tray={tray}
-        onSendSticker={(sticker) => composer.sendSticker(sticker.form.formId, sticker.pose)}
-        onLockedSticker={(critterId) => router.push(critterRoute(critterId))}
-      />
+      <LiftedMessage.Provider value={overlay?.kind === 'menu' ? overlay.message.id : null}>
+        <ChatBottom
+          list={list}
+          former={former}
+          crewName={info.crewName ?? ''}
+          onRejoin={left.onRejoin}
+          onRemove={left.onRemove}
+          inputRef={input}
+          composer={{
+            value: draft,
+            onChangeText: (text) => {
+              setDraft(text);
+              typing.notifyTyping();
+            },
+            placeholder,
+            canSend: draft.trim() !== '',
+            onSend: composer.submit,
+            trayOpen,
+            onToggleTray: toggleTray,
+            onFocus: () => setTrayOpen(false),
+            ...(media.available
+              ? {
+                  onAdd: media.menu.show,
+                  onMicTap: media.recorder.onMicTap,
+                  onMicHoldStart: media.recorder.onHoldStart,
+                  onMicHoldEnd: media.recorder.onHoldEnd,
+                }
+              : {}),
+            recording: media.recorder.state === 'holding' || media.recorder.state === 'locked',
+            recorder: media.recorder,
+            replyTo,
+            editing,
+            onCancelStrip: composer.cancelStrip,
+          }}
+          tray={tray}
+          onSendSticker={(sticker) => composer.sendSticker(sticker.form.formId, sticker.pose)}
+          onLockedSticker={(critterId) => router.push(critterRoute(critterId))}
+        />
+      </LiftedMessage.Provider>
       <ChatOverlays
         crewId={crewId}
         overlay={overlay}

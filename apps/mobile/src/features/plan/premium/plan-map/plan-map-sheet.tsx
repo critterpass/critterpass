@@ -19,13 +19,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 
 import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from '@/ui/premium/shell';
 import { usePageSheetCovered } from '@/ui/premium/shell/screens/page-sheet-cover';
-import {
-  GlassSurface,
-  REDUCED_FADE,
-  SPRINGS,
-  usePremiumReducedMotion,
-  usePremiumTheme,
-} from '@/ui/premium';
+import { REDUCED_FADE, SPRINGS, usePremiumReducedMotion, usePremiumTheme } from '@/ui/premium';
 
 import { settleDetent, sheetHeight, type MapDetent } from '../map';
 
@@ -122,11 +116,16 @@ export function PlanMapSheet({
       accessibilityLabel={accessibilityLabel}
       testID={testID}
     >
-      <GlassSurface
-        kind="sheet"
+      {/* Opaque, as every sheet: native glass would show the map's streets through the plan. */}
+      <View
         style={[
           styles.fill,
-          { borderTopLeftRadius: t.radius.hero, borderTopRightRadius: t.radius.hero },
+          {
+            backgroundColor: t.material.sheet.fill,
+            boxShadow: t.materialShadow.sheet,
+            borderTopLeftRadius: t.radius.hero,
+            borderTopRightRadius: t.radius.hero,
+          },
         ]}
       >
         <GestureDetector gesture={pan}>
@@ -170,7 +169,7 @@ export function PlanMapSheet({
             visible={detent !== 'peek' && edges.top}
           />
         </View>
-      </GlassSurface>
+      </View>
     </Animated.View>
   );
 }
