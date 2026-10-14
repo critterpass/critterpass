@@ -47,6 +47,8 @@ interface NativeElementLike extends QaMeasurable {
   readonly __internalInstanceHandle?: FiberLike;
   readonly scrollTop?: unknown;
   readonly scrollLeft?: unknown;
+  /** The layout width, before any transform. */
+  readonly offsetWidth?: unknown;
 }
 
 interface FabricUiManager {
@@ -128,6 +130,18 @@ function atRest(fiber: FiberLike): boolean {
   return typeof top === 'number' && typeof left === 'number' && top <= 1 && left <= 1;
 }
 
+/**
+ * How much a scaled ancestor shrinks a text in the window: its measured width over its layout
+ * width (`offsetWidth`, which no transform changes). 1 when the layout width can't be read.
+ */
+export function drawnScale(fiber: FiberLike | undefined, rect: QaRect): number {
+  const width =
+    fiber === undefined ? undefined : hostState(fiber).canonical?.publicInstance?.offsetWidth;
+  if (typeof width !== 'number' || width <= 0 || rect.width <= 0) return 1;
+  const scale = rect.width / width;
+  return Math.abs(scale - 1) < 0.02 ? 1 : scale;
+}
+
 function linesOf(fiber: FiberLike): readonly QaLine[] | undefined {
   const canonical = hostState(fiber).canonical;
   return canonical ? linesByText.get(canonical) : undefined;
@@ -167,7 +181,7 @@ export function placeTree(
     texts.push({
       label: text.label,
       rect,
-      ink: inkOf(rect, text.lines),
+      ink: inkOf(rect, text.lines, drawnScale(tree.boxes[text.box], rect)),
       lineCount: text.lines?.length,
       presented: text.presented,
       screen: text.screen,

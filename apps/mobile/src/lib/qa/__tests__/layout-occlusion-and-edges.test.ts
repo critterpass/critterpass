@@ -10,6 +10,7 @@ import {
 } from '../layout-geometry';
 import { inkOf, type QaLine } from '../layout-rects';
 import { solidBand } from '../layout-grounds';
+import { drawnScale } from '../layout-scan';
 
 const window = { width: 412, height: 915 };
 const at = (x: number, y: number, width: number, height: number): QaRect => ({
@@ -139,5 +140,39 @@ describe('layout checks judge what shows', () => {
       ),
     ).toBeNull();
     expect(solidBand(undefined)).toBeNull();
+  });
+});
+
+describe('a scaled text', () => {
+  it('draws its lines at the scale its measured box shows', () => {
+    const box = at(85, 130, 144, 9);
+    expect(inkOf(box, [{ x: 0, y: 0, width: 200, height: 12 }], 0.72)).toEqual(
+      inkOf(box, [{ x: 0, y: 0, width: 144, height: 8.64 }]),
+    );
+    const glyphs = text('onboarding-name-glyphs "CRITTERPASS · PASSEPORT"', box, {
+      lines: [{ x: 0, y: 0, width: 200, height: 12 }],
+    });
+    const number = text('onboarding-pass-number', at(280, 127, 60, 12));
+    expect(codes({ texts: [glyphs, number], controls: [], window })).toEqual([
+      expect.stringContaining('TEXT_OVERLAP'),
+    ]);
+    const scaled = { ...glyphs, ink: inkOf(box, [{ x: 0, y: 0, width: 200, height: 12 }], 0.72) };
+    expect(codes({ texts: [scaled, number], controls: [], window })).toEqual([]);
+  });
+
+  it('reads the scale from the layout width no transform changes', () => {
+    const fiber = (offsetWidth: unknown) => ({
+      tag: 5,
+      type: 'RCTText',
+      memoizedProps: null,
+      stateNode: { canonical: { publicInstance: { offsetWidth } } },
+      child: null,
+      sibling: null,
+      return: null,
+    });
+    expect(drawnScale(fiber(200), at(0, 0, 144, 12))).toBeCloseTo(0.72);
+    expect(drawnScale(fiber(200), at(0, 0, 199, 12))).toBe(1);
+    expect(drawnScale(fiber(undefined), at(0, 0, 144, 12))).toBe(1);
+    expect(drawnScale(undefined, at(0, 0, 144, 12))).toBe(1);
   });
 });
