@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-  numbersIn,
+  textNumbers,
   validateDescribeReply,
   type DescribeReply,
   type DestinationFacts,
@@ -54,6 +54,6 @@ describe('validateDescribeReply', () => {
   });
 
   it('reads grouped digits as one number', () => {
-    expect(numbersIn('210,338, 10 and 1 500 m')).toEqual(['210338', '10', '1500']);
+    expect(textNumbers('210,338, 10 and 1 500 m')).toEqual(['210338', '10', '1500']);
   });
 });

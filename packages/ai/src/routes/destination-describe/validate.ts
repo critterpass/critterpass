@@ -27,17 +27,17 @@ export interface DestinationFacts {
 }
 
 /** Digit runs with their group separators removed: `210,000`, `210.000` and `210 000` → `210000`. */
-export function numbersIn(text: string): string[] {
+export function textNumbers(text: string): string[] {
   return (text.match(/\d+(?:[.,\s]\d{3}(?!\d))*/gu) ?? []).map((run) => run.replace(/\D/gu, ''));
 }
 
 /** Every number the facts allow: their numeric values and any digits in their names. */
-export function allowedNumbers(facts: DestinationFacts): Set<string> {
+export function factNumbers(facts: DestinationFacts): Set<string> {
   const values = [facts.population, facts.elevation_m].flatMap((n) =>
     n === null ? [] : [String(Math.round(n))],
   );
   const named = [facts.name, facts.local_name ?? '', facts.region ?? '', facts.country].flatMap(
-    numbersIn,
+    textNumbers,
   );
   return new Set([...values, ...named]);
 }
@@ -50,7 +50,7 @@ export function validateDescribeReply(
   reply: DescribeReply,
   facts: DestinationFacts,
 ): DescribeVerdict {
-  const allowed = allowedNumbers(facts);
+  const allowed = factNumbers(facts);
   const texts = {} as Record<DescribeLocale, { line: string; about: string }>;
   for (const locale of DESCRIBE_LOCALES) {
     const line = reply[locale].line.trim();
@@ -58,7 +58,7 @@ export function validateDescribeReply(
     if (line === '' || about === '') return { ok: false, reason: `${locale}_empty` };
     if (line.length > LINE_MAX) return { ok: false, reason: `${locale}_line_too_long` };
     if (about.length > ABOUT_MAX) return { ok: false, reason: `${locale}_about_too_long` };
-    const invented = [...numbersIn(line), ...numbersIn(about)].find((n) => !allowed.has(n));
+    const invented = [...textNumbers(line), ...textNumbers(about)].find((n) => !allowed.has(n));
     if (invented !== undefined) return { ok: false, reason: `${locale}_number_not_in_facts` };
     texts[locale] = { line, about };
   }

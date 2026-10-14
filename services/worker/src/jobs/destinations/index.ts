@@ -45,7 +45,7 @@ export function destinationsJobs(
       async handler(data, { pool, boss, logger }) {
         const summary = await runBaseBuild(pool, { dryRun: data?.dry_run === true });
         logger.info({ summary }, 'destination base set built');
-        if (summary.dryRun) return summary;
+        if (summary.dryRun) return { ...summary };
         await boss.send(DESTINATIONS_QUEUES.critterMatch, {});
         if (ai !== null) {
           const ids = await withSystem(pool, async (tx) => {
@@ -67,7 +67,7 @@ export function destinationsJobs(
             );
           }
         }
-        return summary;
+        return { ...summary };
       },
     }),
     defineJob({

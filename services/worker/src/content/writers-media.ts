@@ -64,7 +64,8 @@ export async function writeMedia(
   // The destination base set's Commons photos belong to its own builds, not to media releases.
   await tx.query(
     `DELETE FROM media_assets WHERE release_id IS DISTINCT FROM $1
-        AND release_id IS DISTINCT FROM ALL (SELECT id FROM content_releases WHERE kind = 'destinations')`,
+        AND (release_id IS NULL
+             OR release_id NOT IN (SELECT id FROM content_releases WHERE kind = 'destinations'))`,
     [releaseId],
   );
   for (const id of pending) {
