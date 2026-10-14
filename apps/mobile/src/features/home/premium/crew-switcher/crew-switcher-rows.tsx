@@ -50,7 +50,9 @@ export const useStyles = makePremiumStyles((t) => ({
     paddingHorizontal: t.space.rowPadH,
   },
   rule: { height: t.size.hairline, backgroundColor: t.color.hairlineMenu },
-  faces: { width: 52 },
+  // Three 24 pt faces overlapping by 8 (the kit's −10 at 32, in proportion): the slot holds all
+  // of them, so the last never runs into the gap before the name.
+  faces: { width: 56 },
   grow: { flex: 1 },
   badge: {
     minWidth: 20,

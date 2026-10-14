@@ -12,6 +12,8 @@ export interface OwnCalendar {
 
 function agoLabel(locale: string, at: Date, now: Date): string {
   const minutes = Math.max(0, Math.round((now.getTime() - at.getTime()) / 60_000));
+  // Under a minute the relative format says "this minute"; people say "just now".
+  if (minutes === 0) return t({ id: 'setup.when.own.justNow', message: 'just now' });
   if (minutes < 60) return format.relativeTime(locale, -minutes, 'minute', { numeric: 'auto' });
   const hours = Math.round(minutes / 60);
   if (hours < 48) return format.relativeTime(locale, -hours, 'hour', { numeric: 'auto' });

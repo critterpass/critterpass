@@ -69,9 +69,14 @@ function phoneRow(props: CalendarConnectViewProps, locale: string): CalendarRow 
     case 'synced': {
       const age =
         props.lastSyncedAt === null ? '' : relativeAge(props.lastSyncedAt, props.now, locale);
+      // Under a minute the relative format says "this minute"; people say "just now".
+      const fresh =
+        props.lastSyncedAt !== null && props.now.getTime() - props.lastSyncedAt.getTime() < 60_000;
       return {
         ...base,
-        status: t({ id: 'setup.calendar.synced', message: `Synced ${age}` }),
+        status: fresh
+          ? t({ id: 'setup.calendar.syncedJustNow', message: 'Synced just now' })
+          : t({ id: 'setup.calendar.synced', message: `Synced ${age}` }),
         statusTone: 'good',
         action: {
           label: t({ id: 'setup.premium.calendar.sync', message: 'Sync' }),
