@@ -1,0 +1,18 @@
+appId: app.critterpass.dev
+---
+# Closes the sheet or modal on top without acting in it: pulled down from its top on iOS (the
+# design's gesture for a sheet), the system back on Android.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 50%, 12%
+          end: 50%, 95%
+          duration: 400
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow: settle.yaml

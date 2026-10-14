@@ -9,12 +9,14 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible:
       id: 'home-screen|critters-hatch-later'
-    timeout: 10000
+    timeout: 6000
     optional: true
+# Where the link landed, in the flow's log.
+- runFlow: where.yaml
 - runFlow:
     when:
-      visible:
-        id: 'critters-hatch-later'
+      true: ${output.where.indexOf('/hatch') === 0 || output.where === 'unknown'}
     commands:
       - tapOn:
           id: 'critters-hatch-later'
+          optional: true

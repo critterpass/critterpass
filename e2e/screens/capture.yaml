@@ -1,0 +1,166 @@
+appId: app.critterpass.dev
+---
+# The fast capture sweep, light: screens whose state the `everyday` seed sets, each opened by its
+# link and shot once the app's QA marker reads settled (subflows/capture.yaml), seconds apiece.
+# The pages first (they stack up, each with its way back), then the sheets and modals, each closed
+# again after its shot. Destination loading is shot the moment its link opens; Crew plans for a
+# destination nobody has shared yet has no premium render and is shot by its own name. Journeys
+# (actions really tapped) stay in the other sweep flows.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
+# A destination's guide as it loads: shot before it settles.
+- openLink:
+    link: critterpass-dev://explore/da-lat
+- takeScreenshot: premium-4.04-destination-loading-light
+- runFlow:
+    file: subflows/shot.yaml
+    env:
+      CODE: '4.04'
+      NAME: destination-da-lat
+      LOOK: light
+# Crew plans with none shared yet (no premium render).
+- openLink:
+    link: critterpass-dev://community/da-lat
+- runFlow: ../_shared/settle.yaml
+- takeScreenshot: community-crew-plans-empty-light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: you/settings
+      CODE: '9.04'
+      NAME: settings
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: you/app-icon
+      CODE: '9.03'
+      NAME: app-icon
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: you/plan
+      CODE: '9.17'
+      NAME: your-plan
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: help-centre
+      CODE: '9.06'
+      NAME: help
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: help-centre/ideas
+      CODE: '9.07'
+      NAME: idea-board
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: hub/offline-storage
+      CODE: '9.05'
+      NAME: offline-storage
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: inbox
+      CODE: '3.17'
+      NAME: inbox
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: crew
+      CODE: '3.07'
+      NAME: crews
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: you/critterdex
+      CODE: '8.01'
+      NAME: critterdex
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: money/history
+      CODE: '7.23'
+      NAME: history
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: money/payout-methods
+      CODE: '7.27'
+      NAME: payout-methods
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: money/settle
+      CODE: '7.24'
+      NAME: settle
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: explore/bali
+      CODE: '4.04'
+      NAME: destination-ready
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: paywall
+      CODE: '9.10'
+      NAME: pass-plus
+      LOOK: light
+      SHEET: 'true'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: paywall/compare
+      CODE: '9.11'
+      NAME: compare
+      LOOK: light
+      SHEET: 'true'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: crew/new
+      CODE: '3.08'
+      NAME: start-crew
+      LOOK: light
+      SHEET: 'true'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: crew/invite-friends
+      CODE: '3.11'
+      NAME: invite-friends
+      LOOK: light
+      SHEET: 'true'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: you/delete
+      CODE: '9.09'
+      NAME: delete
+      LOOK: light
+      SHEET: 'true'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: money/add
+      CODE: '7.18'
+      NAME: add-expense
+      LOOK: light
+      SHEET: 'true'

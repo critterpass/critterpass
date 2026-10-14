@@ -9,13 +9,14 @@ appId: app.critterpass.dev
       SCENARIO: ${SCENARIO}
       LANG: ${output.premiumLang}
 # A trip that has turned on can show its welcome page over Home at any later step.
+- runFlow: ../../_shared/where.yaml
 - runFlow:
     when:
-      visible:
-        id: 'critters-hatch-later'
+      true: ${output.where.indexOf('/hatch') === 0 || output.where === 'unknown'}
     commands:
       - tapOn:
           id: 'critters-hatch-later'
+          optional: true
 - extendedWaitUntil:
     visible:
       id: 'home-screen'

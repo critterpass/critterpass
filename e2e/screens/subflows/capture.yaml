@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# The fast capture: opens ${ROUTE} (an in-app route, `paywall/compare`) by its link, waits until
+# the app's QA marker reads settled on that route, and shoots it as
+# `premium-${CODE}-${NAME}-${LOOK}`. A few seconds a screen, where tapping there from Home costs a
+# minute: for screens whose state the seed sets, not for journeys. ${SHEET} true closes a sheet or
+# modal again after the shot.
+- openLink:
+    link: critterpass-dev://${ROUTE}
+- extendedWaitUntil:
+    visible:
+      id: 'qa-settled'
+      text: '.*path:/${ROUTE}'
+    timeout: 12000
+    optional: true
+- takeScreenshot: premium-${CODE}-${NAME}-${LOOK}
+- runFlow:
+    when:
+      true: ${typeof SHEET !== 'undefined' && SHEET === 'true'}
+    file: ../../_shared/close-sheet.yaml
