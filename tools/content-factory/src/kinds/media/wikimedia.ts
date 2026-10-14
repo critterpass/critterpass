@@ -4,6 +4,8 @@
  * domain, CC0, CC BY and CC BY-SA files qualify; BY and BY-SA need the author, licence and a link,
  * which the credit carries and the app shows on screen. A tinted crop of a BY-SA file stays BY-SA.
  */
+import { commonsCredit, commonsLicence, stripHtml, type CommonsPage } from '@cp/domain';
+
 import { getJson, type SourceHttp } from './http';
 import type { SourceCandidate } from './pexels';
 
@@ -11,49 +13,7 @@ import type { SourceCandidate } from './pexels';
 const DOWNLOAD_PX = 1920;
 const PREVIEW_PX = 960;
 
-interface ExtValue {
-  value: string;
-}
-
-export interface CommonsPage {
-  pageid: number;
-  title: string;
-  imageinfo?: {
-    url: string;
-    thumburl?: string;
-    width: number;
-    height: number;
-    descriptionurl: string;
-    mime: string;
-    extmetadata?: Partial<
-      Record<
-        'Artist' | 'LicenseShortName' | 'LicenseUrl' | 'AttributionRequired' | 'ObjectName',
-        ExtValue
-      >
-    >;
-  }[];
-}
-
-/** Licence code for a Commons short name, or null for a licence we do not reuse (NC, ND, GFDL). */
-export function commonsLicence(shortName: string): string | null {
-  const name = shortName.trim().toLowerCase();
-  if (name === 'public domain' || name === 'pd') return 'public-domain';
-  if (name === 'cc0' || name === 'cc0 1.0') return 'cc0';
-  const match = /^cc by(-sa)? (\d\.\d)$/u.exec(name);
-  if (match === null) return null;
-  return `cc-by${match[1] ?? ''}-${match[2] ?? ''}`;
-}
-
-export function stripHtml(html: string): string {
-  return html
-    .replace(/<[^>]*>/gu, '')
-    .replace(/&amp;/gu, '&')
-    .replace(/&quot;/gu, '"')
-    .replace(/&#0?39;/gu, "'")
-    .replace(/&nbsp;/gu, ' ')
-    .replace(/\s+/gu, ' ')
-    .trim();
-}
+export { commonsLicence, stripHtml, type CommonsPage };
 
 /** What a Commons file must be to become a candidate. */
 export interface CommonsRules {
@@ -77,15 +37,10 @@ export function commonsCandidate(page: CommonsPage, rules: CommonsRules): Source
   if (info === undefined || meta === undefined || !rules.mimes.includes(info.mime)) return null;
   if (rules.landscapeOnly && (info.width < info.height || info.width < rules.minPx)) return null;
   if (Math.max(info.width, info.height) < rules.minPx) return null;
-  const shortName = meta.LicenseShortName?.value ?? '';
-  const licence = commonsLicence(shortName);
-  const author = stripHtml(meta.Artist?.value ?? '').slice(0, 200);
-  if (licence === null || author === '') return null;
-  const free = licence === 'public-domain' || licence === 'cc0';
+  const credit = commonsCredit(page);
+  if (credit === null) return null;
   const download = info.thumburl ?? info.url;
   const scale = Math.min(1, DOWNLOAD_PX / info.width);
-  const licenceUrl =
-    meta.LicenseUrl?.value ?? 'https://commons.wikimedia.org/wiki/Commons:Licensing';
   return {
     id: `wikimedia-photo-${page.pageid}`,
     kind: 'photo',
@@ -94,13 +49,13 @@ export function commonsCandidate(page: CommonsPage, rules: CommonsRules): Source
     source_url: info.descriptionurl,
     download_url: download,
     preview_url: download.replace(`/${DOWNLOAD_PX}px-`, `/${PREVIEW_PX}px-`),
-    title: stripHtml(meta.ObjectName?.value ?? page.title.replace(/^File:/u, '')).slice(0, 300),
-    author,
+    title: credit.title,
+    author: credit.author,
     author_url: null,
-    licence,
-    licence_url: licenceUrl.replace(/^http:/u, 'https:'),
-    attribution_required: !free,
-    credit: `${author} · ${free ? 'Public domain' : shortName} · Wikimedia Commons`.slice(0, 300),
+    licence: credit.licence,
+    licence_url: credit.licenceUrl,
+    attribution_required: credit.attributionRequired,
+    credit: credit.credit,
     width: Math.round(info.width * scale),
     height: Math.round(info.height * scale),
     duration_ms: null,

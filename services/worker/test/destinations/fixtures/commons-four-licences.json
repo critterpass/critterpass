@@ -1,0 +1,143 @@
+{
+  "source": "Live recording from https://commons.wikimedia.org/w/api.php (prop=imageinfo, iiprop=url|size|mime|extmetadata, iiurlwidth=1920), fields the importer reads kept",
+  "recorded_at": "2026-10-14T05:58:00Z",
+  "body": {
+    "batchcomplete": true,
+    "query": {
+      "pages": [
+        {
+          "pageid": 26206722,
+          "ns": 6,
+          "title": "File:Baalbek banner.jpg",
+          "imagerepository": "local",
+          "imageinfo": [
+            {
+              "width": 2100,
+              "height": 300,
+              "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Baalbek_banner.jpg/1920px-Baalbek_banner.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+              "url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Baalbek_banner.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+              "descriptionurl": "https://commons.wikimedia.org/wiki/File:Baalbek_banner.jpg",
+              "extmetadata": {
+                "Artist": {
+                  "value": "<ul><li><a href=\"//commons.wikimedia.org/wiki/File:Pano_Baalbek_1.jpg\" title=\"File:Pano Baalbek 1.jpg\">Pano_Baalbek_1.jpg</a>: <a href=\"//commons.wikimedia.org/wiki/User:Eusebius\" title=\"User:Eusebius\">Eusebius</a></li></ul>\n<ul><li>derivative work: <a href=\"//commons.wikimedia.org/w/index.php?title=User:Jjtkk&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Jjtkk (page does not exist)\">Jjtkk</a></li></ul>"
+                },
+                "LicenseShortName": {
+                  "value": "CC BY 3.0"
+                },
+                "LicenseUrl": {
+                  "value": "https://creativecommons.org/licenses/by/3.0"
+                },
+                "AttributionRequired": {
+                  "value": "true"
+                },
+                "ObjectName": {
+                  "value": "Baalbek banner"
+                }
+              },
+              "mime": "image/jpeg"
+            }
+          ]
+        },
+        {
+          "pageid": 26853428,
+          "ns": 6,
+          "title": "File:Heraklion banner.jpg",
+          "imagerepository": "local",
+          "imageinfo": [
+            {
+              "width": 2100,
+              "height": 302,
+              "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Heraklion_banner.jpg/1920px-Heraklion_banner.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+              "url": "https://upload.wikimedia.org/wikipedia/commons/0/05/Heraklion_banner.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+              "descriptionurl": "https://commons.wikimedia.org/wiki/File:Heraklion_banner.jpg",
+              "extmetadata": {
+                "Artist": {
+                  "value": "<a href=\"//commons.wikimedia.org/wiki/User:Tango7174\" title=\"User:Tango7174\">Tango7174</a>, <a href=\"//commons.wikimedia.org/wiki/User:NNeilAlieNN\" title=\"User:NNeilAlieNN\">NNeilAlieNN</a>"
+                },
+                "LicenseShortName": {
+                  "value": "CC BY-SA 4.0"
+                },
+                "LicenseUrl": {
+                  "value": "https://creativecommons.org/licenses/by-sa/4.0"
+                },
+                "AttributionRequired": {
+                  "value": "true"
+                },
+                "ObjectName": {
+                  "value": "Heraklion banner"
+                }
+              },
+              "mime": "image/jpeg"
+            }
+          ]
+        },
+        {
+          "pageid": 33472361,
+          "ns": 6,
+          "title": "File:WV banner Kingston upon Hull.jpg",
+          "imagerepository": "local",
+          "imageinfo": [
+            {
+              "width": 3500,
+              "height": 500,
+              "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/WV_banner_Kingston_upon_Hull.jpg/1920px-WV_banner_Kingston_upon_Hull.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+              "url": "https://upload.wikimedia.org/wikipedia/commons/5/5f/WV_banner_Kingston_upon_Hull.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+              "descriptionurl": "https://commons.wikimedia.org/wiki/File:WV_banner_Kingston_upon_Hull.jpg",
+              "extmetadata": {
+                "Artist": {
+                  "value": "User:Imagaril"
+                },
+                "LicenseShortName": {
+                  "value": "CC0"
+                },
+                "LicenseUrl": {
+                  "value": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+                },
+                "AttributionRequired": {
+                  "value": "false"
+                },
+                "ObjectName": {
+                  "value": "WV banner Kingston upon Hull"
+                }
+              },
+              "mime": "image/jpeg"
+            }
+          ]
+        },
+        {
+          "pageid": 108405968,
+          "ns": 6,
+          "title": "File:Shibam banner.png",
+          "imagerepository": "local",
+          "imageinfo": [
+            {
+              "width": 2100,
+              "height": 300,
+              "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Shibam_banner.png/1920px-Shibam_banner.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+              "url": "https://upload.wikimedia.org/wikipedia/commons/9/94/Shibam_banner.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+              "descriptionurl": "https://commons.wikimedia.org/wiki/File:Shibam_banner.png",
+              "extmetadata": {
+                "Artist": {
+                  "value": "<a href=\"https://sl.wikipedia.org/wiki/Ljuba_brank\" class=\"extiw\" title=\"sl:Ljuba brank\">Ljuba brank at Slovenian Wikipedia</a>"
+                },
+                "LicenseShortName": {
+                  "value": "GFDL"
+                },
+                "LicenseUrl": {
+                  "value": "http://www.gnu.org/copyleft/fdl.html"
+                },
+                "AttributionRequired": {
+                  "value": "true"
+                },
+                "ObjectName": {
+                  "value": "Shibam banner"
+                }
+              },
+              "mime": "image/png"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
