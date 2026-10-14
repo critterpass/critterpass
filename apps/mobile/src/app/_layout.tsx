@@ -101,6 +101,7 @@ import { PremiumThemeProvider } from '@/ui/premium';
 import { PremiumRoot } from '@/ui/premium/shell/navigation/premium-root';
 import { PrimerSheetHost } from '@/features/permissions';
 import { useNoBackAffordanceGuard } from '@/lib/qa/back-affordance';
+import { QaSettledMarker } from '@/lib/qa/settled-marker';
 import { LaunchHatch } from '@/features/onboarding/hatch/LaunchHatch';
 import { PremiumRootErrorBoundary } from '@/features/home/premium/recovery/premium-error-boundary';
 import { SessionDatabaseProvider } from '@/ui/premium/shell/session-gate';
@@ -194,6 +195,7 @@ function RootNavigator() {
   return (
     <SessionDatabaseProvider value={databaseOpen}>
       <PremiumRoot toasts={toastQueue} />
+      <QaSettledMarker />
     </SessionDatabaseProvider>
   );
 }

@@ -83,3 +83,24 @@ export function reportUiQa(code: UiQaCode, subject: string, detail?: string): vo
   sink ??= defaultSink();
   sink(`${UI_QA_TAG} ${code} ${JSON.stringify(subject)}${detail ? ` ${detail}` : ''}`);
 }
+
+/** The line that names the running JS build in the report log (./settled-marker). */
+export const QA_BUILD_TAG = '[qa-build]';
+
+/** `js:<commit>` for a device run's export (the commit inlined at export), else `js:local`. */
+export function qaBuildLabel(): string {
+  // Device runs on CI export the JS with the commit inlined.
+  const commit = process.env['EXPO_PUBLIC_JS_COMMIT'];
+  return `js:${commit || 'local'}`;
+}
+
+/**
+ * Writes `[qa-build] js:<commit>` to the console and the report log once the app has started, so
+ * a device shard can check every flow ran this run's JS without opening a screen for it.
+ */
+export function announceQaBuild(): void {
+  if (!UI_QA_ENABLED) return;
+  const line = `${QA_BUILD_TAG} ${qaBuildLabel()}`;
+  console.info(line);
+  fileSink()(line);
+}

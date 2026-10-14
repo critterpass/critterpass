@@ -3,7 +3,14 @@ import { NavigationRouteContext } from 'expo-router/build/react-navigation/core/
 import { IsFocusedContext } from 'expo-router/build/react-navigation/core/useIsFocused';
 
 import type { QaRect } from '../header-overlap';
-import { LAYOUT_SETTLE_MS, noteTextLayoutEvent, resetLayoutScan } from '../layout-scan';
+import {
+  isLayoutSettled,
+  LAYOUT_SETTLE_MS,
+  noteTextLayoutEvent,
+  resetLayoutScan,
+  scheduleLayoutScan,
+  subscribeLayoutSettled,
+} from '../layout-scan';
 import { collectLayoutTree, drawsGround, subjectWords } from '../layout-tree';
 import { setUiQaSink, UI_QA_ENABLED } from '../ui-qa';
 
@@ -250,6 +257,7 @@ describe('layout scan', () => {
     (globalThis as { event?: unknown }).event = { currentTarget: element };
     noteTextLayoutEvent();
     jest.advanceTimersByTime(LAYOUT_SETTLE_MS + 1000);
+    expect(isLayoutSettled()).toBe(UI_QA_ENABLED);
     expect(reports).toEqual(
       UI_QA_ENABLED
         ? [
@@ -262,6 +270,23 @@ describe('layout scan', () => {
           ]
         : [],
     );
+  });
+
+  it('is busy from a navigation until the next measurement, and tells its listeners', () => {
+    const root = tree([screen('index', true, [words('Home', at(20, 100, 80, 20))])]);
+    const element = (
+      root.child?.child?.child?.stateNode as { canonical: { publicInstance: unknown } }
+    ).canonical.publicInstance;
+    (globalThis as { event?: unknown }).event = { currentTarget: element };
+    const flips: boolean[] = [];
+    const stop = subscribeLayoutSettled(() => flips.push(isLayoutSettled()));
+    noteTextLayoutEvent();
+    jest.advanceTimersByTime(LAYOUT_SETTLE_MS + 1000);
+    scheduleLayoutScan();
+    expect(isLayoutSettled()).toBe(false);
+    jest.advanceTimersByTime(LAYOUT_SETTLE_MS + 1000);
+    stop();
+    expect(flips).toEqual(UI_QA_ENABLED ? [true, false, true] : []);
   });
 
   it('stays quiet without a layout event to start from', () => {

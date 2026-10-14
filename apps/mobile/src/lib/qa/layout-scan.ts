@@ -54,6 +54,28 @@ interface FabricUiManager {
 
 let root: FiberRootLike | null = null;
 let timer: ReturnType<typeof setTimeout> | null = null;
+/** Whether the focused screens were measured since the last layout or navigation (./settled-marker). */
+let settled = false;
+const settleListeners = new Set<() => void>();
+
+function setSettled(next: boolean): void {
+  if (settled === next) return;
+  settled = next;
+  for (const listener of settleListeners) listener();
+}
+
+/** True once the screens shown have been measured, until the next layout or navigation. */
+export function isLayoutSettled(): boolean {
+  return settled;
+}
+
+/** Calls `listener` each time the settled state flips; returns the unsubscribe. */
+export function subscribeLayoutSettled(listener: () => void): () => void {
+  settleListeners.add(listener);
+  return () => {
+    settleListeners.delete(listener);
+  };
+}
 /** Each native text's lines, by the instance React keeps for it across commits. */
 let linesByText = new WeakMap<object, readonly QaLine[]>();
 
@@ -222,9 +244,15 @@ function scan(): void {
     measureAll(tree.boxes, (rects) => {
       if (previous !== null && sameRects(previous, rects)) {
         judge(tree, rects);
+        setSettled(true);
         return;
       }
-      if (count >= MAX_SAMPLES) return;
+      // Still moving after every sample (a looping animation): nothing is judged, but the screen
+      // is as settled as it will get.
+      if (count >= MAX_SAMPLES) {
+        setSettled(true);
+        return;
+      }
       timer = setTimeout(() => sample(rects, count + 1), SAMPLE_MS);
     });
   };
@@ -233,7 +261,9 @@ function scan(): void {
 
 /** Measures the focused screens once their layouts have been quiet for a moment. */
 export function scheduleLayoutScan(): void {
-  if (!UI_QA_ENABLED || root === null) return;
+  if (!UI_QA_ENABLED) return;
+  setSettled(false);
+  if (root === null) return;
   if (timer !== null) clearTimeout(timer);
   timer = setTimeout(scan, LAYOUT_SETTLE_MS);
 }
@@ -269,4 +299,5 @@ export function resetLayoutScan(): void {
   timer = null;
   root = null;
   linesByText = new WeakMap();
+  settled = false;
 }
