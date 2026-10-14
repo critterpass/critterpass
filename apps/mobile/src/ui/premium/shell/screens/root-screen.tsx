@@ -45,6 +45,7 @@ import { TabBarFade } from './tab-page-scroll';
 /** Spread on the screen's scroll view or list, which must be the screen's first child. */
 export interface RootScrollProps {
   readonly contentInsetAdjustmentBehavior?: 'automatic' | 'never';
+  readonly automaticallyAdjustContentInsets?: boolean;
   /** A tap on a row while the keyboard is up acts on the row (a search list), not only closes it. */
   readonly keyboardShouldPersistTaps: 'handled';
   readonly keyboardDismissMode: 'interactive' | 'on-drag';
@@ -180,12 +181,13 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
     setCollapsed(event.nativeEvent.contentOffset.y > TITLE_ROW);
   }, []);
 
-  // The drawn title keeps the status bar clear itself: iOS adding its own inset as well set the
-  // title a row below its actions.
+  // The drawn title keeps the status bar clear itself: iOS adding its own inset as well (a root in
+  // a tab's native stack) set the title a row below its actions.
   const scrollProps = useMemo(
     (): RootScrollProps => ({
       ...KEYBOARD_TAPS,
       contentInsetAdjustmentBehavior: 'never',
+      automaticallyAdjustContentInsets: false,
       onScroll,
       scrollEventThrottle: 16,
     }),
