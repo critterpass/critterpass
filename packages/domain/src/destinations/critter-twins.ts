@@ -34,9 +34,9 @@ export function aliasKey(name: string): string {
 /** A place's own name and its English, Vietnamese and local names (other keys are not names). */
 export function placeNames(
   name: string,
-  names: Readonly<Record<string, unknown>> | null,
+  names: { readonly en?: unknown; readonly vi?: unknown; readonly local?: unknown } | null,
 ): string[] {
-  const all = [name, names?.['en'], names?.['vi'], names?.['local']];
+  const all = [name, names?.en, names?.vi, names?.local];
   return all.filter((value): value is string => typeof value === 'string' && value !== '');
 }
 
