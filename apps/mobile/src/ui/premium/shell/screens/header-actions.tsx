@@ -114,6 +114,7 @@ export function DrawnHeaderActions({ actions }: { readonly actions: readonly She
               key={action.key}
               label={action.label}
               size="medium"
+              alignSelf="center"
               onPress={action.onPress}
               {...testID}
             />
