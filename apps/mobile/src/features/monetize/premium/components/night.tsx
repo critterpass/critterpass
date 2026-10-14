@@ -22,9 +22,12 @@ const SPARKLES = [
 export function NightGround({
   children,
   style,
+  sparkles = true,
 }: {
   readonly children?: ReactNode;
   readonly style?: StyleProp<ViewStyle>;
+  /** The ground's own sparkles; off where a page scrolls text over them (it draws its own). */
+  readonly sparkles?: boolean;
 }) {
   return (
     <View
@@ -36,7 +39,7 @@ export function NightGround({
         style,
       ]}
     >
-      {SPARKLES.map((s) => (
+      {(sparkles ? SPARKLES : []).map((s) => (
         <View
           key={`${s.top}-${s.left}`}
           pointerEvents="none"
@@ -64,7 +67,22 @@ export function NightGlass({
   );
 }
 
+/**
+ * Two sparkles in the clear space past a headline's last letter, laid out with the headline so
+ * they never land on a word whatever the screen's height or the language's length.
+ */
+export function HeadlineSparkles() {
+  return (
+    <>
+      <View pointerEvents="none" style={[styles.sparkle, styles.sparkleHigh]} />
+      <View pointerEvents="none" style={[styles.sparkle, styles.sparkleLow]} />
+    </>
+  );
+}
+
 const styles = StyleSheet.create({
+  sparkleHigh: { left: '100%', marginLeft: 22, top: 6, width: 6, height: 6, opacity: 0.7 },
+  sparkleLow: { left: '100%', marginLeft: 48, bottom: 12, width: 4, height: 4, opacity: 0.45 },
   ground: { flex: 1, backgroundColor: NIGHT.mid },
   sparkle: { position: 'absolute', backgroundColor: NIGHT.gold, transform: [{ rotate: '45deg' }] },
 });
