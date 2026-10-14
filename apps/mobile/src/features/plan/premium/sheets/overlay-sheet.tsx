@@ -4,18 +4,27 @@
  * optional line, the content, and a footer that stays in view under it. Dragging the grabber band
  * down, tapping the dimmed page or the system back closes it; one holding edits (`dirty`) asks
  * before it drops them.
- * `tall` holds it near the top (the calendar sheets); otherwise it fits its content. It rides up
- * over the keyboard. A route already presented see-through over its page (`inRoute`) draws the
+ * `tall` holds it near the top (the calendar sheets, a stop's details); otherwise it fits its
+ * content. The panel is the shell's sheet material, so the page never reads through it. Content
+ * that runs on under the title or the footer fades into the sheet there instead of being cut. It
+ * rides up over the keyboard. A route already presented see-through over its page (`inRoute`) draws the
  * same sheet without opening a modal of its own.
  */
 import type { ReactNode } from 'react';
-import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Modal, Pressable, ScrollView, StyleSheet, View, type ViewStyle } from 'react-native';
 import { GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { GlassSurface, Text, usePremiumTheme } from '@/ui/premium';
-import { useKeyboardFrame, type DiscardPrompt } from '@/ui/premium/shell';
+import { Text, usePremiumTheme } from '@/ui/premium';
+import {
+  SCROLL_EDGE_FADE,
+  ScrollEdgeFade,
+  useKeyboardFrame,
+  useScrollEdges,
+  sheetMaterialStyle,
+  type DiscardPrompt,
+} from '@/ui/premium/shell';
 import { useShellExtras } from '@/ui/premium/shell/shell-theme';
 
 import { useSheetDrag } from './use-sheet-drag';
@@ -55,6 +64,20 @@ export function OverlaySheet(props: OverlaySheetProps) {
     dirty: props.dirty,
     discard: props.discard,
   });
+  const edges = useScrollEdges();
+  const tall = props.tall === true;
+  // The fades blend into the panel's own colour.
+  const ground = theme.material.sheet.fill;
+  const panelStyle = {
+    marginHorizontal: theme.space.gap8,
+    marginBottom: Math.max(insets.bottom, theme.space.gap8),
+    ...(tall ? { marginTop: insets.top + TALL_TOP - 54, flex: 1 } : {}),
+    flexShrink: 1,
+    borderRadius: theme.radius.sheet,
+    paddingHorizontal: 18,
+    paddingTop: theme.space.gap8,
+    paddingBottom: theme.space.gap16,
+  };
   const body = (
     <View style={{ gap: theme.space.gap12, paddingBottom: theme.space.gap12 }}>
       {props.children}
@@ -76,20 +99,7 @@ export function OverlaySheet(props: OverlaySheetProps) {
           drag.panelStyle,
         ]}
       >
-        <GlassSurface
-          kind="sheet"
-          testID={props.testID}
-          style={{
-            marginHorizontal: theme.space.gap8,
-            marginBottom: Math.max(insets.bottom, theme.space.gap8),
-            ...(props.tall === true ? { marginTop: insets.top + TALL_TOP - 54, flex: 1 } : {}),
-            flexShrink: 1,
-            borderRadius: theme.radius.sheet,
-            paddingHorizontal: 18,
-            paddingTop: theme.space.gap8,
-            paddingBottom: theme.space.gap16,
-          }}
-        >
+        <SheetGround testID={props.testID} style={panelStyle}>
           <GestureDetector gesture={drag.pan}>
             <View>
               <View
@@ -119,19 +129,32 @@ export function OverlaySheet(props: OverlaySheetProps) {
               </View>
             </View>
           </GestureDetector>
-          <View
-            style={{ flexShrink: 1, marginTop: 14, ...(props.tall === true ? { flex: 1 } : {}) }}
-          >
+          <View style={{ flexShrink: 1, marginTop: 14, ...(tall ? { flex: 1 } : {}) }}>
             {props.scroll === false ? (
               body
             ) : (
-              <ScrollView
-                bounces={false}
-                keyboardShouldPersistTaps="handled"
-                showsVerticalScrollIndicator={false}
-              >
-                {body}
-              </ScrollView>
+              <>
+                <ScrollView
+                  bounces={false}
+                  keyboardShouldPersistTaps="handled"
+                  showsVerticalScrollIndicator={false}
+                  {...edges.scrollProps}
+                >
+                  {body}
+                </ScrollView>
+                <ScrollEdgeFade
+                  edge="top"
+                  height={SCROLL_EDGE_FADE}
+                  color={ground}
+                  visible={edges.top}
+                />
+                <ScrollEdgeFade
+                  edge="bottom"
+                  height={SCROLL_EDGE_FADE}
+                  color={ground}
+                  visible={edges.bottom}
+                />
+              </>
             )}
           </View>
           {props.footer === undefined ? null : (
@@ -139,7 +162,7 @@ export function OverlaySheet(props: OverlaySheetProps) {
               {props.footer}
             </View>
           )}
-        </GlassSurface>
+        </SheetGround>
       </Animated.View>
     </Animated.View>
   );
@@ -148,5 +171,25 @@ export function OverlaySheet(props: OverlaySheetProps) {
     <Modal transparent visible animationType="none" onRequestClose={drag.requestClose}>
       <GestureHandlerRootView style={{ flex: 1 }}>{sheet}</GestureHandlerRootView>
     </Modal>
+  );
+}
+
+/**
+ * The sheet's panel on the shell's sheet material (`sheetMaterialStyle`), as every sheet route
+ * draws it, so a form never shows the page through it; there is no system glass under an overlay.
+ */
+function SheetGround(props: {
+  readonly style: ViewStyle;
+  readonly testID: string | undefined;
+  readonly children: ReactNode;
+}) {
+  const theme = usePremiumTheme();
+  return (
+    <View
+      testID={props.testID}
+      style={[{ boxShadow: theme.materialShadow.sheet }, sheetMaterialStyle(theme), props.style]}
+    >
+      {props.children}
+    </View>
   );
 }

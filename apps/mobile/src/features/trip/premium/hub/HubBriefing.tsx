@@ -188,7 +188,9 @@ export function HubBriefing({ state, guideKind, guideName, onAct }: HubBriefingP
 }
 
 const styles = StyleSheet.create({
-  card: { paddingTop: 14, paddingHorizontal: 16, paddingBottom: 6, marginTop: 34 },
+  // The sticker hangs over the card's top edge into the space above it (6.01), so the card sits
+  // close under the hero and the switch instead of a sticker's height below them.
+  card: { paddingTop: 14, paddingHorizontal: 16, paddingBottom: 6, marginTop: 8 },
   sticker: { position: 'absolute', right: -8, top: -34 },
   head: { flexDirection: 'row', alignItems: 'baseline', gap: 8, paddingBottom: 4 },
   titleRight: { paddingRight: 60 },

@@ -145,12 +145,10 @@ export function SharePlanPremiumScreen({ tripId }: { readonly tripId: string }) 
     <PushScreen
       title={title}
       backLabel={t({ id: 'community.back.trip', message: 'Trip' })}
+      largeTitle
       testID="share-plan"
     >
       <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap16 }}>
-        <Text variant="largeTitle" accessibilityRole="header">
-          {title}
-        </Text>
         {data === null ? (
           state.status === 'loading' ? (
             <View style={{ gap: th.space.gap12 }}>

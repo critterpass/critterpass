@@ -17,7 +17,7 @@ import {
   GuideNote,
   Icon,
   ListCard,
-  LoadingCritter,
+  Skeleton,
   OfflinePill,
   PressableScale,
   Text,
@@ -116,9 +116,22 @@ export function PremiumDestinationView(props: DestinationViewProps) {
             </View>
           )}
           {props.loading ? (
-            <LoadingCritter
-              label={t({ id: 'explore.dest.loading', message: 'Loading the guide' })}
-            />
+            // The month card and the picks hold their places while the guide loads, so the page
+            // keeps the design's shape instead of one line over an empty band.
+            <View
+              style={{ gap: theme.space.gap16 }}
+              accessible
+              accessibilityLabel={t({ id: 'explore.dest.loading', message: 'Loading the guide' })}
+              testID="explore-dest-loading"
+            >
+              <Skeleton height={112} tone="block" radius={theme.radius.card} />
+              <Skeleton width="55%" height={14} />
+              <View style={{ flexDirection: 'row', gap: theme.space.gap10, overflow: 'hidden' }}>
+                <Skeleton width={150} height={120} tone="soft" radius={theme.radius.card} />
+                <Skeleton width={150} height={120} tone="soft" radius={theme.radius.card} />
+                <Skeleton width={150} height={120} tone="soft" radius={theme.radius.card} />
+              </View>
+            </View>
           ) : null}
           {months === null ? null : <MonthCard months={months} accent={guide.colour} />}
           <PicksCarousel

@@ -416,6 +416,7 @@ msgstr "Build the proposal"
 msgid "trip.menu.cancelConfirm"
 msgstr "Call off trip"
 
+#: ../../apps/mobile/src/features/plan/premium/plan-map/stop-overlays.tsx
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.premium.item.cancel"
 msgstr "Cancel"
@@ -1515,6 +1516,10 @@ msgstr "What it changes"
 #: ../../apps/mobile/src/features/plan/premium/draft/change-day-view.tsx
 msgid "planDraft.change.what"
 msgstr "What should change?"
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.askAbout"
+msgstr "What should we know about {title}?"
 
 #: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
 msgid "plan.dates.unavailable"

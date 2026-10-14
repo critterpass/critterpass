@@ -70,7 +70,9 @@ export function PlanPremiumView({
   return (
     <PushScreen
       title={planTitle(card)}
+      subtitle={[crewName(card), month].filter((part) => part !== null).join(' · ')}
       backLabel={backLabel}
+      largeTitle
       scroll={false}
       action={{
         key: plan.saved ? 'saved' : 'save',
@@ -98,12 +100,6 @@ export function PlanPremiumView({
           style={{ gap: th.space.gap10 }}
           testID="shared-plan-hero"
         >
-          <Text variant="label" tone="muted">
-            {[crewName(card), month].filter((part) => part !== null).join(' · ')}
-          </Text>
-          <Text variant="largeTitle" accessibilityRole="header">
-            {planTitle(card)}
-          </Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: th.space.gap6 }}>
             <StatusTag tone="unopened" label={daysLabel(card.days_count)} />
             {cost === null ? null : <StatusTag tone="booked" label={cost} />}

@@ -59,6 +59,7 @@ export function SplitPage({
     >
       <View style={{ flex: 1 }}>
         <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
           style={{ flex: 1 }}
           contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap16 }}
         >

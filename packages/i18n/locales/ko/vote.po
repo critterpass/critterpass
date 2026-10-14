@@ -206,12 +206,12 @@ msgstr ""
 msgid "vote.final.tieShort"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
-msgid "vote.premium.pitch.add"
-msgstr ""
-
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
 msgid "vote.newPoll.addOption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
+msgid "vote.premium.pitch.addToVote"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/use-pitch-sheet.ts

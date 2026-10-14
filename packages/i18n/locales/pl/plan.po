@@ -416,6 +416,7 @@ msgstr ""
 msgid "trip.menu.cancelConfirm"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/plan-map/stop-overlays.tsx
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.premium.item.cancel"
 msgstr ""
@@ -1514,6 +1515,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/draft/change-day-view.tsx
 msgid "planDraft.change.what"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.askAbout"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx

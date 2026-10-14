@@ -81,6 +81,14 @@ msgstr ""
 msgid "explore.dayTrips.drafting"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.stuckLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.buildingLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-typed-link.tsx
 msgid "search.typedLink.line"
 msgstr ""
@@ -265,8 +273,16 @@ msgstr ""
 msgid "explore.premium.places.all"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.arriving"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-no-results.tsx
 msgid "search.none.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
+msgid "explore.premium.place.sparseAsk"
 msgstr ""
 
 #. placeholder {0}: props.guideName
@@ -275,7 +291,7 @@ msgid "search.premium.name.ask"
 msgstr ""
 
 #. placeholder {0}: guide.name
-#: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/place/place-dock.tsx
 msgid "explore.premium.place.ask"
 msgstr ""
 
@@ -317,7 +333,7 @@ msgstr ""
 msgid "search.offline.works.bookings"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
 msgid "explore.premium.swipe.building"
 msgstr ""
 
@@ -824,6 +840,11 @@ msgstr ""
 msgid "explore.home.savedNone"
 msgstr ""
 
+#. placeholder {0}: view.guide.name
+#: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
+msgid "explore.premium.place.sparse"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/premium/place/place-extras.tsx
 msgid "explore.offers.offline"
 msgstr ""
@@ -1143,7 +1164,7 @@ msgstr ""
 msgid "explore.premium.dest.sponsored"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
 msgid "explore.premium.swipe.retry"
 msgstr ""
 
@@ -1211,8 +1232,16 @@ msgstr ""
 msgid "explore.swipe.doneTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.arrivingLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.movesNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.stuckTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx

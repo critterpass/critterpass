@@ -81,6 +81,14 @@ msgstr "{guide} is still gathering the places here. You can add the day now and 
 msgid "explore.dayTrips.drafting"
 msgstr "{guide} is writing the plan. Add the day trip once the draft is in."
 
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.stuckLine"
+msgstr "{guideName} couldn’t finish this one. Start again for a fresh deck."
+
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.buildingLine"
+msgstr "{guideName} is picking places for the crew. It takes about {DECK_MINUTES} minutes."
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-typed-link.tsx
 msgid "search.typedLink.line"
 msgstr "{guideName} reads it and finds the places in it."
@@ -265,8 +273,16 @@ msgstr "All"
 msgid "explore.premium.places.all"
 msgstr "All"
 
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.arriving"
+msgstr "Almost there"
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-no-results.tsx
 msgid "search.none.ask"
+msgstr "Ask"
+
+#: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
+msgid "explore.premium.place.sparseAsk"
 msgstr "Ask"
 
 #. placeholder {0}: props.guideName
@@ -275,7 +291,7 @@ msgid "search.premium.name.ask"
 msgstr "Ask {0}"
 
 #. placeholder {0}: guide.name
-#: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/place/place-dock.tsx
 msgid "explore.premium.place.ask"
 msgstr "Ask {0}"
 
@@ -317,7 +333,7 @@ msgstr "Boat"
 msgid "search.offline.works.bookings"
 msgstr "Bookings"
 
-#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
 msgid "explore.premium.swipe.building"
 msgstr "Building the deck"
 
@@ -824,6 +840,11 @@ msgstr "Nothing saved yet"
 msgid "explore.home.savedNone"
 msgstr "Nothing saved yet"
 
+#. placeholder {0}: view.guide.name
+#: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
+msgid "explore.premium.place.sparse"
+msgstr "Nothing written up about this place yet. Ask {0} for its hours, prices and the best time to go."
+
 #: ../../apps/mobile/src/features/explore/premium/place/place-extras.tsx
 msgid "explore.offers.offline"
 msgstr "Offers need a connection."
@@ -1143,7 +1164,7 @@ msgstr "Sponsored"
 msgid "explore.premium.dest.sponsored"
 msgstr "Sponsored"
 
-#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
 msgid "explore.premium.swipe.retry"
 msgstr "Start again"
 
@@ -1211,9 +1232,17 @@ msgstr "That’s a link"
 msgid "explore.swipe.doneTitle"
 msgstr "That's the deck"
 
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.arrivingLine"
+msgstr "The cards are on their way to your phone."
+
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.movesNone"
 msgstr "The day is free: nothing moves."
+
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.stuckTitle"
+msgstr "The deck didn’t come"
 
 #: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
 msgid "explore.home.empty"

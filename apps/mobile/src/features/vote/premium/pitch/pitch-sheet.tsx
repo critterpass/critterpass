@@ -1,8 +1,8 @@
 /**
  * Pitch a place, in the premium look (undesigned; a native sheet built from the kit): the place
  * search on top, the matches as rows while typing, the picked place's pitch streaming in, other
- * places to try, and "Add" in the header once the pitch has landed. A place already on the board
- * says so and leads back to it.
+ * places to try, and "Add to the vote" at the sheet's foot once the pitch has landed (3b-3). A
+ * place already on the board says so and leads back to it.
  */
 import { useLingui } from '@lingui/react/macro';
 import { StyleSheet, View } from 'react-native';
@@ -47,17 +47,20 @@ export function PremiumPitchSheet({ crewId, placeId }: PitchSheetProps) {
       {...(picked === null
         ? {}
         : {
-            verb: {
-              label: sheet.onBoard
-                ? t({ id: 'vote.premium.pitch.back', message: 'Done' })
-                : t({ id: 'vote.premium.pitch.add', message: 'Add' }),
-              onPress: async () => {
-                await sheet.addToVote();
-                return false;
-              },
-              disabled: state.phase === 'streaming' || sheet.adding,
-              testID: 'pitch-add',
-            },
+            // The sheet's one action at its foot, as 3b-3 sets it (the founder moved it there).
+            footer: (
+              <Button
+                label={
+                  sheet.onBoard
+                    ? t({ id: 'vote.premium.pitch.back', message: 'Done' })
+                    : t({ id: 'vote.premium.pitch.addToVote', message: 'Add to the vote' })
+                }
+                onPress={() => void sheet.addToVote()}
+                disabled={state.phase === 'streaming'}
+                loading={sheet.adding}
+                testID="pitch-add"
+              />
+            ),
           })}
       testID="pitch-sheet"
     >

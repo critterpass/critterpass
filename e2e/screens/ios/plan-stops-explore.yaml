@@ -1,0 +1,306 @@
+appId: app.critterpass.dev
+---
+# The iPhone's plan, trip and explore screens, in light. The `everyday` trip: the hub, the plan at
+# half with a stop's menu lifted from its card and each of its rows (the details sheet, its foot,
+# the share sheet, the guide asked about the stop, the removal's question), the plan check, then
+# Find and the places it reaches (Swipe together, a place). The `vote` crew: Pitch a place with
+# its fact tags and Add at the foot. Nothing is changed: every sheet and question is left unsaved.
+- runFlow:
+    file: ../subflows/start.yaml
+    env:
+      SCENARIO: everyday
+- runFlow: ../subflows/plan-open-hub.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'trip-hub'
+    commands:
+      - runFlow:
+          file: ../subflows/shot.yaml
+          env:
+            CODE: '6.01'
+            NAME: hub
+            LOOK: light
+      - runFlow: ../../_shared/back.yaml
+- runFlow: ../subflows/plan-open-map.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'plan-map-search'
+    commands:
+      - swipe:
+          start: 50%, 82%
+          end: 50%, 45%
+          duration: 600
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-add-bar'
+          timeout: 10000
+          optional: true
+      # The menu itself, lifted where the stop sat.
+      - runFlow:
+          when:
+            visible:
+              id: 'timeline-stop-.*'
+          commands:
+            - tapOn:
+                id: 'timeline-stop-.*'
+                index: 0
+            - extendedWaitUntil:
+                visible:
+                  id: 'stop-menu'
+                timeout: 10000
+                optional: true
+            - runFlow:
+                file: ../subflows/shot.yaml
+                env:
+                  CODE: '4.29'
+                  NAME: stop-menu
+                  LOOK: light
+            # A tap on the dimmed page beside the menu closes it with nothing run.
+            - tapOn:
+                point: 92%, 97%
+      # See the details: the stop's sheet, then its foot (comments over Save).
+      - runFlow:
+          file: ../subflows/plan-stop-action.yaml
+          env:
+            ITEM: details
+            NAME: details
+            LOOK: light
+      - runFlow:
+          when:
+            visible:
+              id: 'plan-item-save'
+          commands:
+            - scroll
+            - runFlow:
+                file: ../subflows/shot.yaml
+                env:
+                  CODE: '4.29'
+                  NAME: stop-details-foot
+                  LOOK: light
+            # Dragging the sheet down by its title closes it (nothing changed, nothing asked).
+            - swipe:
+                start: 50%, 12%
+                end: 50%, 95%
+                duration: 500
+            - waitForAnimationToEnd
+      # Move to another day and Change time open the same sheet.
+      - runFlow:
+          file: ../subflows/plan-stop-action.yaml
+          env:
+            ITEM: move
+            NAME: move
+            LOOK: light
+      - runFlow:
+          when:
+            visible:
+              id: 'plan-item-save'
+          commands:
+            # Dragging the sheet down by its title closes it (nothing changed, nothing asked).
+            - swipe:
+                start: 50%, 12%
+                end: 50%, 95%
+                duration: 500
+            - waitForAnimationToEnd
+      - runFlow:
+          file: ../subflows/plan-stop-action.yaml
+          env:
+            ITEM: time
+            NAME: time
+            LOOK: light
+      - runFlow:
+          when:
+            visible:
+              id: 'plan-item-save'
+          commands:
+            # Dragging the sheet down by its title closes it (nothing changed, nothing asked).
+            - swipe:
+                start: 50%, 12%
+                end: 50%, 95%
+                duration: 500
+            - waitForAnimationToEnd
+      # Remove: the question first; Cancel keeps the stop.
+      - runFlow:
+          file: ../subflows/plan-stop-action.yaml
+          env:
+            ITEM: remove
+            NAME: remove
+            LOOK: light
+      - tapOn:
+          text: 'Cancel'
+          optional: true
+      - waitForAnimationToEnd
+      # Ask the guide: the guide with a question about the stop waiting in its composer.
+      - runFlow:
+          file: ../subflows/plan-stop-action.yaml
+          env:
+            ITEM: ask
+            NAME: ask
+            LOOK: light
+      - runFlow:
+          when:
+            notVisible:
+              id: 'plan-map-search'
+          commands:
+            - runFlow: ../../_shared/back.yaml
+      - waitForAnimationToEnd
+      # Share last: the system share sheet over the map, then away.
+      - runFlow:
+          file: ../subflows/plan-stop-action.yaml
+          env:
+            ITEM: share
+            NAME: share
+            LOOK: light
+      # The share sheet slides up after the menu has gone.
+      - extendedWaitUntil:
+          notVisible:
+            id: 'plan-add-bar'
+          timeout: 5000
+          optional: true
+      - runFlow:
+          file: ../subflows/shot.yaml
+          env:
+            CODE: '4.29'
+            NAME: stop-share-sheet
+            LOOK: light
+      - runFlow:
+          when:
+            notVisible:
+              id: 'plan-add-bar'
+          commands:
+            - runFlow:
+                when:
+                  platform: Android
+                commands:
+                  - back
+            - runFlow:
+                when:
+                  platform: iOS
+                commands:
+                  - swipe:
+                      start: 50%, 55%
+                      end: 50%, 98%
+                      duration: 400
+      - waitForAnimationToEnd
+      # The plan check's page.
+      - runFlow:
+          file: ../subflows/plan-more.yaml
+          env:
+            ITEM: check
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-check-card-.*|plan-check-notice'
+          timeout: 45000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'plan-check'
+          commands:
+            - runFlow:
+                file: ../subflows/shot.yaml
+                env:
+                  CODE: '4.43'
+                  NAME: plan-check
+                  LOOK: light
+            - runFlow: ../../_shared/back.yaml
+- runFlow:
+    file: ../subflows/plan-find.yaml
+    env:
+      LOOK: light
+# Swipe together whatever its state (building, stuck, the deck), from Find's tile.
+- runFlow: ../subflows/plan-open-map.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'plan-map-search'
+    commands:
+      - tapOn:
+          id: 'plan-map-search'
+      - extendedWaitUntil:
+          visible:
+            id: 'search-tile-swipe'
+          timeout: 10000
+          optional: true
+      - hideKeyboard
+      - tapOn:
+          id: 'search-tile-swipe'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'swipe-building|swipe-stuck|swipe-deck|swipe-summary'
+          timeout: 15000
+          optional: true
+      - runFlow:
+          file: ../subflows/shot.yaml
+          env:
+            CODE: '4.42'
+            NAME: swipe-now
+            LOOK: light
+      - runFlow:
+          when:
+            visible:
+              id: 'swipe-why-open'
+          commands:
+            - tapOn:
+                id: 'swipe-why-open'
+            - runFlow:
+                file: ../subflows/shot.yaml
+                env:
+                  CODE: '4.42'
+                  NAME: swipe-why
+                  LOOK: light
+      - runFlow:
+          when:
+            visible:
+              id: 'swipe-close'
+          commands:
+            - tapOn:
+                id: 'swipe-close'
+- runFlow:
+    file: ../../_shared/start-as.yaml
+    env:
+      SCENARIO: vote
+      LANG: en
+- scrollUntilVisible:
+    element:
+      id: 'board-pitch'
+    timeout: 20000
+    centerElement: true
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'board-pitch'
+    commands:
+      - tapOn:
+          id: 'board-pitch'
+      - extendedWaitUntil:
+          visible:
+            id: 'pitch-search'
+          timeout: 10000
+      - tapOn:
+          id: 'pitch-search'
+      - inputText: 'hoi an'
+      - extendedWaitUntil:
+          visible:
+            id: 'pitch-result-0'
+          timeout: 15000
+          optional: true
+      - tapOn:
+          id: 'pitch-result-0'
+          optional: true
+      - hideKeyboard
+      - extendedWaitUntil:
+          visible:
+            id: 'pitch-add'
+            enabled: true
+          timeout: 60000
+          optional: true
+      - runFlow:
+          file: ../subflows/shot.yaml
+          env:
+            CODE: '3b-3'
+            NAME: pitch
+            LOOK: light

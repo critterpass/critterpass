@@ -47,6 +47,9 @@ export const planMapCopy = {
     move: () => t({ id: 'plan.premium.stop.move', message: 'Move to another day' }),
     time: () => t({ id: 'plan.premium.stop.time', message: 'Change time' }),
     ask: (guide: string) => t({ id: 'plan.premium.stop.ask', message: `Ask ${guide} about it` }),
+    // Waits in the guide's composer for her to send or change.
+    askAbout: (title: string) =>
+      t({ id: 'plan.premium.stop.askAbout', message: `What should we know about ${title}?` }),
     share: () => t({ id: 'plan.premium.stop.share', message: 'Share' }),
     remove: () => t({ id: 'plan.premium.stop.remove', message: 'Remove from plan' }),
     removed: (title: string) =>

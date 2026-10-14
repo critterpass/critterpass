@@ -244,6 +244,8 @@ export function usePlaceDetail({ placeId, row, profile = null, tripId, onBack }:
     view,
     further: {
       placeId,
+      // Still reading what the guide knows about it (its context).
+      loading: read.status === 'loading',
       name: row.name,
       profile: ready,
       organiser: plan.organiser,

@@ -1,0 +1,28 @@
+appId: app.critterpass.dev
+---
+# On the plan map at half: opens the first stop's menu from its card and picks ${ITEM} (details,
+# move, time, ask, share or remove), then shoots what it opened as ${NAME}. Each row must act once
+# the menu has gone.
+- runFlow:
+    when:
+      visible:
+        id: 'timeline-stop-.*'
+    commands:
+      - tapOn:
+          id: 'timeline-stop-.*'
+          index: 0
+      - extendedWaitUntil:
+          visible:
+            id: 'stop-menu-${ITEM}'
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'stop-menu-${ITEM}'
+          optional: true
+      # The row runs once the menu's fade out ends.
+      - waitForAnimationToEnd
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '4.29'
+            NAME: stop-${NAME}

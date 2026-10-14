@@ -2,7 +2,8 @@
  * The plan check in the premium look (4.43), reached from the plan map's check line and the ⋯:
  * each problem as the fix panel the design opens under a day (its tags, what's wrong, the one-line
  * fix, and Fix it or Suggest, another way, Leave it), what to know, balancing the crew, and Fix
- * all. The ask card and every action come from the shared `CheckScreen`.
+ * all. Until it has run it says what it looks at; then its result line takes that place. The ask
+ * card and every action come from the shared `CheckScreen`.
  */
 import { t } from '@lingui/core/macro';
 import { ScrollView, View } from 'react-native';
@@ -37,22 +38,26 @@ export function PremiumCheckView(props: CheckViewProps) {
       testID="plan-check"
     >
       <ScrollView
+        // Starts under the see-through bar, as the shell's own scrolling body does.
+        contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{
           paddingHorizontal: theme.space.gutter,
           paddingVertical: theme.space.gap16,
           gap: theme.space.gap12,
         }}
       >
-        <Text variant="body" tone="muted">
-          {props.body}
-        </Text>
-        {props.ask}
-        {props.state === 'loading' ? <LoadingCritter label={props.status} /> : null}
-        {props.notice === null ? null : (
+        {/* What the check looks at, until it says how it went (running, failed, all good). */}
+        {props.notice === null ? (
+          <Text variant="body" tone="muted">
+            {props.body}
+          </Text>
+        ) : (
           <Text variant="body" testID="plan-check-notice">
             {props.notice}
           </Text>
         )}
+        {props.ask}
+        {props.state === 'loading' ? <LoadingCritter label={props.status} /> : null}
         {props.cards.map((card) => (
           <View
             key={card.id}

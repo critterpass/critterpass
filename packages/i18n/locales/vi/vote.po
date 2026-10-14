@@ -206,13 +206,13 @@ msgstr "Nếu hòa, {tiePlace} thắng: rẻ hơn {0} cho {count} người bay t
 msgid "vote.final.tieShort"
 msgstr "Nếu hòa, {tiePlace} thắng."
 
-#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
-msgid "vote.premium.pitch.add"
-msgstr "Thêm"
-
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
 msgid "vote.newPoll.addOption"
 msgstr "Thêm lựa chọn"
+
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
+msgid "vote.premium.pitch.addToVote"
+msgstr "Thêm vào bình chọn"
 
 #: ../../apps/mobile/src/features/vote/board/use-pitch-sheet.ts
 msgid "vote.pitch.add"

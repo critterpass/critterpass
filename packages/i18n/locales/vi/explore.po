@@ -81,6 +81,14 @@ msgstr "{guide} vẫn đang gom các địa điểm ở đây. Bạn cứ thêm 
 msgid "explore.dayTrips.drafting"
 msgstr "{guide} đang viết kế hoạch. Hãy thêm chuyến đi trong ngày khi bản nháp xong."
 
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.stuckLine"
+msgstr "{guideName} chưa làm xong bộ thẻ này. Bắt đầu lại để có bộ mới."
+
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.buildingLine"
+msgstr "{guideName} đang chọn địa điểm cho cả nhóm. Mất khoảng {DECK_MINUTES} phút."
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-typed-link.tsx
 msgid "search.typedLink.line"
 msgstr "{guideName} sẽ đọc và tìm các địa điểm trong đó."
@@ -265,8 +273,16 @@ msgstr "Tất cả"
 msgid "explore.premium.places.all"
 msgstr "Tất cả"
 
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.arriving"
+msgstr "Sắp xong rồi"
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-no-results.tsx
 msgid "search.none.ask"
+msgstr "Hỏi"
+
+#: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
+msgid "explore.premium.place.sparseAsk"
 msgstr "Hỏi"
 
 #. placeholder {0}: props.guideName
@@ -275,7 +291,7 @@ msgid "search.premium.name.ask"
 msgstr "Hỏi {0}"
 
 #. placeholder {0}: guide.name
-#: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/place/place-dock.tsx
 msgid "explore.premium.place.ask"
 msgstr "Hỏi {0}"
 
@@ -317,7 +333,7 @@ msgstr "Thuyền"
 msgid "search.offline.works.bookings"
 msgstr "Đặt chỗ"
 
-#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
 msgid "explore.premium.swipe.building"
 msgstr "Đang xếp bộ thẻ"
 
@@ -824,6 +840,11 @@ msgstr "Chưa lưu gì"
 msgid "explore.home.savedNone"
 msgstr "Chưa lưu gì"
 
+#. placeholder {0}: view.guide.name
+#: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
+msgid "explore.premium.place.sparse"
+msgstr "Chưa có thông tin gì về nơi này. Hỏi {0} về giờ mở cửa, giá và lúc nên đến."
+
 #: ../../apps/mobile/src/features/explore/premium/place/place-extras.tsx
 msgid "explore.offers.offline"
 msgstr "Cần kết nối mạng để xem ưu đãi."
@@ -1143,7 +1164,7 @@ msgstr "Được tài trợ"
 msgid "explore.premium.dest.sponsored"
 msgstr "Được tài trợ"
 
-#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
 msgid "explore.premium.swipe.retry"
 msgstr "Bắt đầu lại"
 
@@ -1211,9 +1232,17 @@ msgstr "Đây là một đường link"
 msgid "explore.swipe.doneTitle"
 msgstr "Hết bộ thẻ rồi"
 
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.arrivingLine"
+msgstr "Các thẻ đang về điện thoại của bạn."
+
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.movesNone"
 msgstr "Ngày này còn trống: không có gì phải dời."
+
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.stuckTitle"
+msgstr "Bộ thẻ chưa tới"
 
 #: ../../apps/mobile/src/features/explore/premium/home/explore-home-page.tsx
 msgid "explore.home.empty"

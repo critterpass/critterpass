@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     justifyContent: 'space-between',
   },
-  title: { paddingRight: 44 },
+  // Clear of the tilted 40 pt sticker at the corner.
+  title: { paddingRight: 52 },
   sticker: { position: 'absolute', right: 10, top: 8 },
 });
