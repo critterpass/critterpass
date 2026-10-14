@@ -114,7 +114,7 @@ export const swipeTitle = () => t({ id: 'explore.trip.swipeTitle', message: 'Swi
 export const swipeBody = (count: number) =>
   t({
     id: 'explore.trip.swipeBody',
-    message: `Can't agree? ${count} places, everyone swipes, matches go to Ideas.`,
+    message: `Can’t agree? ${count} places, everyone swipes, matches go to Ideas.`,
   });
 
 export function swipePill(live: SwipeLive): string {
