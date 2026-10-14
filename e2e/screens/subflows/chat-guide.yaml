@@ -20,6 +20,12 @@ appId: app.critterpass.dev
                   id: 'guide-empty'
                 timeout: 10000
                 optional: true
+            # The starters show with the keyboard down (hiding it is no system back on iOS).
+            - runFlow:
+                when:
+                  platform: iOS
+                commands:
+                  - hideKeyboard
             - runFlow:
                 file: shot.yaml
                 env:
