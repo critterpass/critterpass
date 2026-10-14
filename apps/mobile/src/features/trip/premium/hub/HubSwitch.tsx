@@ -8,8 +8,11 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
-/** Room above and below the chips for their float shadow (8 down + 20 blur − 6 spread). */
-const SHADOW_ROOM = 24;
+/**
+ * Room above and below the chips for their shadows: the chosen chip's ink shadow reaches 38 pt
+ * under it (16 down + 32 blur − 10 spread), the others' float 22.
+ */
+const SHADOW_ROOM = 40;
 
 export interface HubDoor {
   readonly key: 'plan' | 'map' | 'money';
