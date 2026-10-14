@@ -21,15 +21,31 @@ appId: app.critterpass.dev
     env:
       TAB: pass
       LABEL: Pass
+# Scrolled to the middle of the screen first: at the page's foot the row sits under the tab bar,
+# and a tap there lands on the bar.
 - scrollUntilVisible:
     element:
       id: 'you-profile-critterdex'
     direction: DOWN
     timeout: 15000
+    centerElement: true
     optional: true
 - tapOn:
     id: 'you-profile-critterdex'
     optional: true
+# Where the page can't lift the row clear of the bar, the dex opens by its link.
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex|critters-egg-hatch'
+    timeout: 8000
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-dex|critters-egg-hatch'
+    file: ../_shared/open-link.yaml
+    env:
+      URL: critterpass-dev://you/critterdex
 - extendedWaitUntil:
     visible:
       id: 'critters-egg-hatch'
