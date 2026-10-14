@@ -11,16 +11,21 @@ import Animated, {
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 
 export interface SpinnerProps {
-  /** Head colour. @default the theme's on-ink colour */
+  /**
+   * What it spins on: the page's ground or a card (`ground`, an ink head), or an ink pill, a photo
+   * or a dark viewer (`ink`, a white head). @default 'ground'
+   */
+  readonly surface?: 'ground' | 'ink';
+  /** Head colour. @default the surface's */
   readonly color?: string;
-  /** Track colour. @default the theme's spinner track */
+  /** Track colour. @default the surface's */
   readonly trackColor?: string;
   /** @default 16 */
   readonly size?: number;
 }
 
 /** The 16 pt loading ring (2.5 track, solid head) the loading pill shows beside its verb. */
-export function Spinner({ color, trackColor, size }: SpinnerProps) {
+export function Spinner({ surface = 'ground', color, trackColor, size }: SpinnerProps) {
   const t = usePremiumTheme();
   const side = size ?? t.size.spinner;
   const turn = useSharedValue(0);
@@ -37,7 +42,10 @@ export function Spinner({ color, trackColor, size }: SpinnerProps) {
   }, [turn, t.motion.spinnerTurnMs]);
 
   const spin = useAnimatedStyle(() => ({ transform: [{ rotate: `${turn.value * 360}deg` }] }));
-  const track = trackColor ?? t.color.spinnerTrack;
+  // A white head on the ground vanished (a drafting step in progress, a search row loading).
+  const onInk = surface === 'ink';
+  const head = color ?? (onInk ? t.color.onInk : t.color.ink);
+  const track = trackColor ?? (onInk ? t.color.spinnerTrack : t.color.control);
 
   return (
     <Animated.View
@@ -49,7 +57,7 @@ export function Spinner({ color, trackColor, size }: SpinnerProps) {
           borderRadius: side / 2,
           borderWidth: t.size.spinnerRing,
           borderColor: track,
-          borderTopColor: color ?? t.color.onInk,
+          borderTopColor: head,
         },
         spin,
       ]}

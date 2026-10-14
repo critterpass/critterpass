@@ -36,6 +36,12 @@ export interface ButtonProps {
   /** A ⌄ after the label: the pill opens a picker (the currency chip). */
   readonly chevron?: boolean;
   readonly accessibilityHint?: string;
+  /**
+   * Where the pill sits across its parent. A large button stretches; a medium or small pill starts
+   * its column (`flex-start`), which in a row puts it at the row's top: a pill beside text in a row
+   * passes `auto` to follow the row's `alignItems`. Layout can't tell a row parent from a column one.
+   */
+  readonly alignSelf?: NonNullable<ViewStyle['alignSelf']>;
   readonly testID?: string;
 }
 
@@ -124,6 +130,7 @@ export function Button({
   icon,
   chevron = false,
   accessibilityHint,
+  alignSelf,
   testID,
 }: ButtonProps) {
   const t = usePremiumTheme();
@@ -140,7 +147,7 @@ export function Button({
       accessibilityLabel={shown}
       {...(accessibilityHint === undefined ? {} : { accessibilityHint })}
       accessibilityState={{ busy: loading }}
-      style={box.alignSelf === 'stretch' ? { alignSelf: 'stretch' } : { alignSelf: 'flex-start' }}
+      style={{ alignSelf: alignSelf ?? box.alignSelf ?? 'flex-start' }}
     >
       {({ pressed }) => {
         // Loading keeps the variant's own fill; only the spinner says it is busy.

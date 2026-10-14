@@ -1,9 +1,10 @@
 import { useLingui } from '@lingui/react/macro';
-import { Redirect } from 'expo-router';
+import { Redirect, useRootNavigationState } from 'expo-router';
 import { NativeTabs } from 'expo-router/native-tabs';
 import { Platform, StyleSheet, View } from 'react-native';
 
 import { useGateDecision } from '@/lib/navigation/gates';
+import { tabBarHidden } from '@/lib/navigation/tab-bar';
 
 import { usePremiumTheme } from '../..';
 import { GUIDE_BAND, GuideBandContext } from './guide-band';
@@ -41,7 +42,7 @@ export interface PremiumTabsProps {
  * that minimises to the active tab's icon while content scrolls down, and Tokek as the separate
  * search-role circle on the right; selecting it is refused natively, and its press opens the guide
  * sheet instead of a tab. On Android it is the Material bottom bar, with the guide as a floating
- * button above it.
+ * button above it. A page pushed inside a tab's stack hides the bar (`lib/navigation/tab-bar.ts`).
  */
 export function PremiumTabs({
   gated = true,
@@ -54,6 +55,8 @@ export function PremiumTabs({
   const { color } = usePremiumTheme();
   const appGuide = useGuideActions();
   const actions = guideOverride ?? appGuide;
+  // A page pushed inside a tab's stack has no tab bar (nor Android's guide button over it).
+  const pushed = tabBarHidden(useRootNavigationState());
 
   if (gated && decision.kind === 'wait') return null;
   if (gated && decision.kind === 'redirect') return <Redirect href={decision.href} />;
@@ -79,6 +82,7 @@ export function PremiumTabs({
           indicatorColor={color.control}
           {...(Platform.OS === 'android' ? { backgroundColor: color.card } : {})}
           labelVisibilityMode="labeled"
+          hidden={pushed}
         >
           {items.map((tab) => (
             <NativeTabs.Trigger key={tab.name} name={tab.name} testID={`tab-${tab.icon}`}>
@@ -99,7 +103,7 @@ export function PremiumTabs({
           </NativeTabs.Trigger>
         </NativeTabs>
       </GuideBandContext.Provider>
-      {ios ? null : <GuideFab actions={actions} />}
+      {ios || pushed ? null : <GuideFab actions={actions} />}
     </View>
   );
 }

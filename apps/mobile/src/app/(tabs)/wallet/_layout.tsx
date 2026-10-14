@@ -7,7 +7,7 @@ import { deviceMoneyServices } from '@/features/money/data/device-services';
 import { MoneyServicesProvider } from '@/features/money/data/services';
 import { registerMoneyScreens } from '@/features/money/routes';
 import { LocalFirstGate } from '@/features/trip/hub/local-first-gate';
-import { sheetRouteOptions } from '@/ui/premium/shell';
+import { tabSheetOptions } from '@/ui/premium/shell';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
 
 import { getOcr } from '../../../../modules/cp-ocr';
@@ -19,7 +19,7 @@ export const unstable_settings = { initialRouteName: 'money/index' };
 
 /**
  * The WALLET tab: BOOKINGS | MONEY. Money's Balances opens first and the switch swaps the halves in
- * place; Budget pushes inside the tab (it keeps the tab bar), the trip and currency pickers are
+ * place; Budget pushes inside the tab (the tab bar hides, as on every push), the trip and currency pickers are
  * native sheets. The bookings half registers its own screens under `bookings/`.
  */
 export default function WalletLayout() {
@@ -32,8 +32,11 @@ export default function WalletLayout() {
         <PremiumStack>
           <PremiumStackScreen name="money/index" options={WALLET_HALF_OPTIONS} />
           <PremiumStackScreen name="bookings" options={WALLET_HALF_OPTIONS} />
-          <PremiumStackScreen name="money/currency" options={sheetRouteOptions('half')} />
-          <PremiumStackScreen name="money/trip" options={sheetRouteOptions('half')} />
+          <PremiumStackScreen
+            name="money/currency"
+            options={tabSheetOptions('wallet/money/currency')}
+          />
+          <PremiumStackScreen name="money/trip" options={tabSheetOptions('wallet/money/trip')} />
         </PremiumStack>
       </MoneyServicesProvider>
     </LocalFirstGate>
