@@ -8,17 +8,9 @@
 import { z } from 'zod';
 
 import type { PoiCategory } from './categories';
+import { PLACE_BEST_TIMES, placeEstimatesWireSchema } from './estimates';
 
-export const PLACE_BEST_TIMES = [
-  'early_morning',
-  'morning',
-  'midday',
-  'afternoon',
-  'sunset',
-  'evening',
-  'after_dark',
-] as const;
-export type PlaceBestTime = (typeof PLACE_BEST_TIMES)[number];
+export { PLACE_BEST_TIMES, type PlaceBestTime } from './estimates';
 
 /** What food is to a visit: a full meal, coffee or a snack, or nothing. */
 export const PLACE_MEAL_ROLES = ['meal', 'light', 'none'] as const;
@@ -94,6 +86,8 @@ export const placeProfileWireSchema = z.discriminatedUnion('status', [
       }),
     ),
     photos: z.array(z.object({ url: z.string(), sourcePage: z.string() })),
+    /** A popular place's estimates, each labelled; null (or absent) for every other place. */
+    estimates: placeEstimatesWireSchema.nullable().optional(),
     sources: z.array(z.object({ url: z.string(), title: z.string() })),
     generatedAt: z.string(),
   }),

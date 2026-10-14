@@ -8,10 +8,11 @@ import type Anthropic from '@anthropic-ai/sdk';
 import { PLACE_BEST_TIMES, PLACE_FACT_KINDS, PLACE_MEAL_ROLES } from '@cp/domain';
 
 import type { GatewayInput } from '../../client';
+import { ESTIMATE_RULES, estimatesFormat } from './estimates';
 
 export const PLACE_PROFILE_ROUTES = { pro: 'place.profile', fast: 'place.profile_fast' } as const;
 export type PlaceProfileTier = keyof typeof PLACE_PROFILE_ROUTES;
-export const PLACE_PROFILE_PROMPT_VERSION = 'place-profile@1';
+export const PLACE_PROFILE_PROMPT_VERSION = 'place-profile@2';
 
 export type ProfileLocale = 'en' | 'vi';
 
@@ -40,8 +41,10 @@ const lines = (locales: readonly ProfileLocale[], max: number) => ({
   properties: Object.fromEntries(locales.map((l) => [l, { type: 'string', maxLength: max }])),
 });
 
+/** `estimates` adds the popular-place estimates to the reply (./estimates.ts). */
 export function placeProfileFormat(
   locales: readonly ProfileLocale[],
+  estimates = false,
 ): Anthropic.Messages.JSONOutputFormat {
   return {
     type: 'json_schema',
@@ -58,8 +61,10 @@ export function placeProfileFormat(
         'meal_role',
         'dish',
         'facts',
+        ...(estimates ? ['estimates'] : []),
       ],
       properties: {
+        ...(estimates ? { estimates: estimatesFormat(locales) } : {}),
         decision: { type: 'string', enum: ['write', 'decline'] },
         why_go: lines(locales, 140),
         best_time: lines(locales, 80),
@@ -96,7 +101,7 @@ const LANGUAGE_RULES: Readonly<Record<ProfileLocale, string>> = {
   ].join('\n'),
 };
 
-export function placeProfileRules(locales: readonly ProfileLocale[]): string {
+export function placeProfileRules(locales: readonly ProfileLocale[], estimates = false): string {
   return [
     'You write the short page for one place in CritterPass, a group-trip app. You read the web pages',
     'given as data; they are your only knowledge of this place. Never use what you remember about it.',
@@ -126,6 +131,13 @@ export function placeProfileRules(locales: readonly ProfileLocale[]): string {
     '- Write only what the pages support. No numbers the pages do not state.',
     '- If the pages are not about this exact place (same name and city), decision is decline.',
     '- No superlatives the pages do not make; no names of people; no booking or tour sellers.',
+    ...(estimates
+      ? [
+          '- The estimates below are the one place where you may go beyond the pages.',
+          '',
+          ESTIMATE_RULES,
+        ]
+      : []),
   ].join('\n');
 }
 
@@ -139,10 +151,12 @@ export function renderProfilePages(pages: readonly ProfilePage[]): string {
     .join('\n\n');
 }
 
+/** `estimates`: the place is popular, so the reply also carries its estimates. */
 export function buildPlaceProfileRequest(
   place: ProfilePlace,
   pages: readonly ProfilePage[],
   locales: readonly ProfileLocale[],
+  estimates = false,
 ): GatewayInput {
   const where = place.country === null ? place.town : `${place.town}, ${place.country}`;
   const user = [
@@ -154,8 +168,8 @@ export function buildPlaceProfileRequest(
     'Write the profile as JSON.',
   ].join('\n');
   return {
-    system: placeProfileRules(locales),
+    system: placeProfileRules(locales, estimates),
     messages: [{ role: 'user', content: user }],
-    outputFormat: placeProfileFormat(locales),
+    outputFormat: placeProfileFormat(locales, estimates),
   };
 }

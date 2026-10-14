@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek flash through its Anthropic-format API (route place.profile_fast, with estimates) for Bảo Đại Summer Palace, Đà Lạt, 2026-10-14.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "2af0b9be-a040-46a1-9dd3-22af3adf5859",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"decision\":\"write\",\"why_go\":{\"en\":\"A group walks through the last emperor's summer villa on a pine hill, with 25 rooms of original furniture, royal items and old photographs.\",\"vi\":\"Cả nhóm dạo qua dinh nghỉ dưỡng của vị vua cuối cùng trên đồi thông, gồm 25 phòng còn gần như nguyên vẹn nội thất, vật dụng hoàng gia và ảnh tư liệu xưa.\"},\"best_time\":{\"en\":\"Early morning or late afternoon, for fewer crowds and good light\",\"vi\":\"Sáng sớm hoặc chiều muộn, vắng khách và ánh sáng đẹp\"},\"crowd\":{\"en\":\"Tour groups fill it from late morning; quieter early or after mid-afternoon\",\"vi\":\"Đông khách theo đoàn từ cuối buổi sáng; sáng sớm hoặc sau giữa chiều thì vắng hơn\"},\"best_times\":[\"early_morning\",\"afternoon\"],\"visit_min\":60,\"meal_role\":\"none\",\"dish\":null,\"facts\":[{\"kind\":\"entry\",\"en\":\"Adult ticket 60.000 đ; children 1–1.2m 40.000 đ, under 1m free\",\"vi\":\"Vé người lớn 60.000 đ; trẻ em 1–1,2m 40.000 đ, dưới 1m miễn phí\",\"source_url\":\"https://agotourist.com/dinh-bao-dai-da-lat-dinh-iii/\",\"quote\":\"Người lớn: 60.000 đ/vé Trẻ em (1 – 1,2m): 40.000 đ/vé Trẻ em dưới 1m: Được miễn phí.\"},{\"kind\":\"hours\",\"en\":\"Open 07:00 – 17:30 every day, holidays included\",\"vi\":\"Mở cửa 07:00 – 17:30 tất cả các ngày, kể cả ngày lễ\",\"source_url\":\"https://agotourist.com/dinh-bao-dai-da-lat-dinh-iii/\",\"quote\":\"Thời gian mở cửa, 07:00 – 17:30 tất cả các ngày trong tuần, kể cả ngày lễ.\"},{\"kind\":\"dress\",\"en\":\"Wear the shoe covers provided inside to protect the wooden floors\",\"vi\":\"Mang bọc giày được phát khi vào trong để bảo vệ sàn gỗ\",\"source_url\":\"https://agotourist.com/dinh-bao-dai-da-lat-dinh-iii/\",\"quote\":\"Du khách được yêu cầu mang bọc giày khi vào bên trong để bảo vệ sàn gỗ.\"},{\"kind\":\"know\",\"en\":\"Tour groups arrive from late morning; come early or after mid-afternoon\",\"vi\":\"Khách đoàn tới từ cuối buổi sáng; nên đến sớm hoặc sau giữa chiều\",\"source_url\":\"https://viet-go.com/en/attractions/bao-dai-summer-palace\",\"quote\":\"It gets busy with tour groups from late morning; arrive early or come after mid-afternoon for a quieter visit.\"}],\"estimates\":{\"visit\":{\"en\":\"About an hour for the rooms and gardens\",\"source_url\":\"https://viet-go.com/en/attractions/bao-dai-summer-palace\",\"quote\":\"Allow about an hour to see the rooms and the gardens.\"},\"best_time\":{\"en\":\"Early morning or late afternoon, for fewer crowds and good light\",\"source_url\":\"https://agotourist.com/dinh-bao-dai-da-lat-dinh-iii/\",\"quote\":\"Nên đi vào buổi sáng sớm hoặc chiều muộn để tránh đông khách và có ánh sáng đẹp để chụp ảnh khu vườn và mặt tiền của dinh.\"},\"busy\":[{\"days\":\"every_day\",\"from\":10,\"to\":14,\"note\":\"tour groups from late morning\"},{\"days\":\"every_day\",\"from\":7,\"to\":9,\"note\":\"quiet early hours\"},{\"days\":\"every_day\",\"from\":15,\"to\":17,\"note\":\"quieter after mid-afternoon\"}],\"busy_source_url\":\"https://viet-go.com/en/attractions/bao-dai-summer-palace\",\"busy_quote\":\"It gets busy with tour groups from late morning; arrive early or come after mid-afternoon for a quieter visit.\",\"fee\":{\"en\":\"60.000 đ\",\"vi\":\"60.000 đ\",\"source_url\":\"https://agotourist.com/dinh-bao-dai-da-lat-dinh-iii/\",\"quote\":\"Người lớn: 60.000 đ/vé\"},\"tips\":[{\"en\":\"Come early or after mid-afternoon to dodge the tour groups\",\"vi\":\"Đến sớm hoặc sau giữa chiều để tránh khách đoàn\",\"source_url\":\"https://viet-go.com/en/attractions/bao-dai-summer-palace\",\"quote\":\"It gets busy with tour groups from late morning; arrive early or come after mid-afternoon for a quieter visit.\"},{\"en\":\"Morning or late afternoon light is best for photos of the garden and facade\",\"vi\":\"Ánh sáng sáng sớm hoặc chiều muộn đẹp nhất để chụp vườn và mặt tiền dinh\",\"source_url\":\"https://agotourist.com/dinh-bao-dai-da-lat-dinh-iii/\",\"quote\":\"Nên đi vào buổi sáng sớm hoặc chiều muộn để tránh đông khách và có ánh sáng đẹp để chụp ảnh khu vườn và mặt tiền của dinh.\"},{\"en\":\"Shoe covers are handed out inside; keep them on over the wooden floors\",\"vi\":\"Bọc giày được phát khi vào trong; nhớ mang khi bước trên sàn gỗ\",\"source_url\":\"https://agotourist.com/dinh-bao-dai-da-lat-dinh-iii/\",\"quote\":\"Du khách được yêu cầu mang bọc giày khi vào bên trong để bảo vệ sàn gỗ.\"}],\"dress\":{\"en\":\"Shoe covers are provided and required inside to protect the floors\",\"vi\":\"Bọc giày được phát và phải mang khi vào trong để bảo vệ sàn\",\"source_url\":\"https://viet-go.com/en/attractions/bao-dai-summer-palace\",\"quote\":\"To protect the historical floors, visitors must wear shoe covers provided by the park.\"}}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 2431,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 256,
+        "output_tokens": 1479,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

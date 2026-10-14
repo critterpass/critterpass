@@ -1,0 +1,86 @@
+{
+  "source": "Live recording from TypeSafe Jev (route place.labels, estimate questions) for the same place, 2026-10-14.",
+  "response": {
+    "status": 200,
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "visit": {
+          "type": "choice",
+          "choice": "under_1h",
+          "confidence": 0.47,
+          "probabilities": {
+            "under_30": 0,
+            "under_1h": 0.56,
+            "1_2h": 0.44,
+            "2_4h": 0,
+            "half_day": 0,
+            "full_day": 0
+          }
+        },
+        "best_early_morning": {
+          "type": "noul",
+          "noul": 0.96
+        },
+        "best_morning": {
+          "type": "noul",
+          "noul": 0.86
+        },
+        "best_midday": {
+          "type": "noul",
+          "noul": 0.1
+        },
+        "best_afternoon": {
+          "type": "noul",
+          "noul": 0.74
+        },
+        "best_sunset": {
+          "type": "noul",
+          "noul": 0.64
+        },
+        "best_evening": {
+          "type": "noul",
+          "noul": 0.42
+        },
+        "best_after_dark": {
+          "type": "noul",
+          "noul": 0.07
+        },
+        "busy_0": {
+          "type": "choice",
+          "choice": "busy",
+          "confidence": 1,
+          "probabilities": {
+            "quiet": 0,
+            "moderate": 0,
+            "busy": 1
+          }
+        },
+        "busy_1": {
+          "type": "choice",
+          "choice": "quiet",
+          "confidence": 0.98,
+          "probabilities": {
+            "quiet": 0.99,
+            "moderate": 0,
+            "busy": 0.01
+          }
+        },
+        "busy_2": {
+          "type": "choice",
+          "choice": "quiet",
+          "confidence": 0.98,
+          "probabilities": {
+            "quiet": 0.99,
+            "moderate": 0,
+            "busy": 0.01
+          }
+        }
+      },
+      "usage": {
+        "input_tokens": 978,
+        "output_tokens": 324
+      }
+    }
+  }
+}

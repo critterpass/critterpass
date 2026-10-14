@@ -7,9 +7,15 @@
  */
 import { readFileSync } from 'node:fs';
 
-import { createDecisionClient, createGateway, translatePlaceProfile } from '@cp/ai';
+import { checkEstimates, createDecisionClient, createGateway, translatePlaceProfile } from '@cp/ai';
 import { withSystem } from '@cp/db';
-import { PLACES_QUEUES, type PlaceProfileText } from '@cp/domain';
+import {
+  peakHour,
+  placeEstimatesSchema,
+  PLACES_QUEUES,
+  type PlaceEstimates,
+  type PlaceProfileText,
+} from '@cp/domain';
 import sharp from 'sharp';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
@@ -63,12 +69,19 @@ function network() {
         new Response(new Uint8Array(photo), { headers: { 'content-type': 'image/jpeg' } }),
       );
     }
-    if (url.includes('typesafe.ai')) return Promise.resolve(json('jev-place-labels'));
+    if (url.includes('typesafe.ai')) {
+      return Promise.resolve(
+        json(body.includes('busy_windows') ? 'jev-place-estimates' : 'jev-place-labels'),
+      );
+    }
     if (url.includes('deepseek.com')) {
       if (body.includes('"web_search_20250305"'))
         return Promise.resolve(json('deepseek-profile-check'));
       if (body.includes('You translate the short page')) {
         return Promise.resolve(json('deepseek-profile-translate-fr'));
+      }
+      if (body.includes('"estimates"')) {
+        return Promise.resolve(json('deepseek-profile-write-estimates'));
       }
       return Promise.resolve(json('deepseek-profile-write'));
     }
@@ -237,6 +250,100 @@ describe('places.profile for one place', { timeout: 60_000 }, () => {
     expect(await saveProfileTranslation(harness.pool, palace, 'fr', fr.text, 0)).toBe(false);
     const saved = (await row(palace))?.['texts'] as Record<string, unknown>;
     expect(Object.keys(saved).sort()).toEqual(['en', 'fr', 'vi']);
+  });
+});
+
+describe('estimates for a popular place', { timeout: 60_000 }, () => {
+  it('stores labelled estimates and estimate busy curves for a must-see only', async () => {
+    const popular = await place('Bảo Đại Summer Palace', 'Dinh Bảo Đại', { must_see: true });
+    const net = network();
+    const report = await runPlaceProfile(harness.pool, deps(net).value, { poiId: popular });
+    expect(report).toMatchObject({ outcome: 'ready', estimateDays: 7 });
+
+    const estimates = (await row(popular))?.['estimates'] as PlaceEstimates;
+    expect(placeEstimatesSchema.parse(estimates)).toEqual(estimates);
+    expect(estimates.fee).toMatchObject({ value: { en: '60.000 đ' }, basis: 'cited' });
+    expect(estimates.busy?.value).toContainEqual({
+      days: 'every_day',
+      from: 10,
+      to: 14,
+      level: 'busy',
+    });
+    expect(estimates.tips.length).toBeGreaterThan(0);
+    const curves = await withSystem(harness.pool, async (tx) => {
+      const { rows } = await tx.query<{ dow: number; hourly: number[] }>(
+        `SELECT dow, hourly FROM crowd_forecasts
+          WHERE poi_id = $1 AND source = 'estimate' ORDER BY dow`,
+        [popular],
+      );
+      return rows;
+    });
+    expect(curves.map((c) => c.dow)).toEqual([0, 1, 2, 3, 4, 5, 6]);
+    expect(peakHour(curves[0]?.hourly ?? [])).toBe(10);
+
+    // A second, forced run replaces the curves as a set instead of adding to them.
+    await runPlaceProfile(harness.pool, deps(network()).value, { poiId: popular, force: true });
+    const { rows } = await withSystem(harness.pool, (tx) =>
+      tx.query(`SELECT 1 FROM crowd_forecasts WHERE poi_id = $1 AND source = 'estimate'`, [
+        popular,
+      ]),
+    );
+    expect(rows).toHaveLength(7);
+  });
+
+  it('asks nothing extra for a place outside the popular set, or with the switch off', async () => {
+    const net = network();
+    const report = await runPlaceProfile(harness.pool, deps(net).value, {
+      poiId: palace,
+      force: true,
+    });
+    expect(report).toMatchObject({ outcome: 'ready', estimateDays: null });
+    expect((await row(palace))?.['estimates']).toEqual({});
+
+    const quiet = await place('Đà Lạt Flower Gardens', 'Vườn hoa Đà Lạt', { must_see: true });
+    await harness.pool.query(
+      `INSERT INTO ops.ops_config (key, value) VALUES ('places.estimates.enabled', 'false')`,
+    );
+    try {
+      const off = await runPlaceProfile(harness.pool, deps(network()).value, { poiId: quiet });
+      expect(off).toMatchObject({ outcome: 'ready', estimateDays: null });
+    } finally {
+      await harness.pool.query(`DELETE FROM ops.ops_config WHERE key = 'places.estimates.enabled'`);
+    }
+  });
+
+  it('keeps an uncited fee, and a fee cited from a social page, as an estimate', () => {
+    const pages = [
+      { url: 'https://www.tiktok.com/@a/video/1', title: '', text: 'Tickets 50,000 VND each.' },
+    ];
+    const line = (en: string, url: string | null, quote: string | null) => ({
+      en,
+      vi: en,
+      source_url: url,
+      quote,
+    });
+    const checked = checkEstimates(
+      {
+        visit: line('About an hour', null, null),
+        best_time: line('Early morning', null, null),
+        busy: [],
+        busy_source_url: null,
+        busy_quote: null,
+        fee: line('50,000 VND', pages[0]?.url ?? null, 'Tickets 50,000 VND each.'),
+        tips: [line('Bring cash', null, null), line('Arrive by 7', null, null)],
+        dress: null,
+      },
+      pages,
+      ['en', 'vi'],
+    );
+    expect(checked?.fee).toEqual({
+      value: { en: '50,000 VND', vi: '50,000 VND' },
+      basis: 'estimate',
+    });
+    // A tip with a number is dropped: numbers belong only in the fee and the visit length.
+    expect(checked?.tips).toEqual([
+      { value: { en: 'Bring cash', vi: 'Bring cash' }, basis: 'estimate' },
+    ]);
   });
 });
 

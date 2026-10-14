@@ -133,6 +133,7 @@ export {
 } from './places/categories';
 export * from './places/editorial';
 export * from './places/place-profile';
+export * from './places/estimates';
 export {
   EMPTY_HOURS,
   WEEKDAYS,

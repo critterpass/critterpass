@@ -10,6 +10,7 @@
  */
 import {
   buildPlaceProfileRequest,
+  checkEstimates,
   checkPlaceProfileReply,
   checkSecondSource,
   isDeclined,
@@ -18,6 +19,7 @@ import {
   parseStructuredText,
   PLACE_PROFILE_ROUTES,
   textOf,
+  typeEstimates,
   wantsSecondSource,
   type DecisionClient,
   type Gateway,
@@ -34,6 +36,7 @@ import {
 import type pg from 'pg';
 
 import type { AvatarMediaStore } from '../../jobs/avatar/media-store';
+import { saveProfileEstimates, wantsEstimates } from './estimates-store';
 import { findPhotoHits, gatherPages, keepPhotos, profilePlace } from './evidence';
 import type { ImageHit, PlaceSearch } from './search';
 import {
@@ -76,6 +79,8 @@ export type PlaceProfileReport =
       readonly dropped: number;
       readonly photos: number;
       readonly secondSource: boolean;
+      /** Weekdays given an estimated busy curve; null when the place gets no estimates. */
+      readonly estimateDays: number | null;
       readonly costMicros: number;
       readonly seconds: number;
     };
@@ -133,6 +138,7 @@ export async function runPlaceProfile(
     usage,
   ).catch(() => null);
   const hitsP = findPhotoHits(target, deps, signal).catch(() => [] as ImageHit[]);
+  const estimating = await wantsEstimates(pool, target.id);
 
   const pages = await gatherPages(target, deps, signal);
   const searchSeconds = seconds(started);
@@ -148,7 +154,7 @@ export async function runPlaceProfile(
   const write = await deps.gateway.callModel(
     PLACE_PROFILE_ROUTES[deps.tier],
     {
-      ...buildPlaceProfileRequest(place, pages, locales),
+      ...buildPlaceProfileRequest(place, pages, locales, estimating),
       ...(signal === undefined ? {} : { signal }),
     },
     usage,
@@ -191,6 +197,27 @@ export async function runPlaceProfile(
     timings: { search_s: searchSeconds, text_s: seconds(started) },
   });
 
+  let estimateDays: number | null = null;
+  let estimateCost = 0;
+  const checkedEstimates = estimating
+    ? checkEstimates((raw as { estimates?: unknown }).estimates, pages, locales)
+    : null;
+  if (checkedEstimates !== null) {
+    const typed = await typeEstimates(deps.decisions, target, checkedEstimates, usage).catch(
+      () => null,
+    );
+    if (typed !== null) {
+      estimateCost = typed.costMicros;
+      estimateDays = await saveProfileEstimates(
+        pool,
+        target.id,
+        typed.estimates,
+        typed.costMicros,
+        now(),
+      );
+    }
+  }
+
   let second: SecondSourceResult | null = null;
   let final = checked;
   const asksSecond =
@@ -225,7 +252,8 @@ export async function runPlaceProfile(
     dropped: final.dropped.length,
     photos: photos.length,
     secondSource: asksSecond,
-    costMicros: write.costMicros + labelCost + (second?.costMicros ?? 0),
+    estimateDays,
+    costMicros: write.costMicros + labelCost + estimateCost + (second?.costMicros ?? 0),
     seconds: seconds(started),
   };
 }
