@@ -37,6 +37,21 @@ function initialVariant(size: number, large: number, small: number): PremiumType
   return 'avatarInitial';
 }
 
+/** The largest avatar the design draws (the member page, 3.14) and its initial. */
+const PROFILE_SIDE = 76;
+const PROFILE_INITIAL = 40;
+
+/**
+ * The initial's size for a circle past the large token's: it grows with the circle up to the
+ * member page's 40 pt in a 76 circle, instead of staying 14 pt in the middle of a big disc.
+ */
+export function initialSize(side: number, large: number, largeInitial: number): number | undefined {
+  if (side <= large) return undefined;
+  const grown =
+    largeInitial + ((side - large) * (PROFILE_INITIAL - largeInitial)) / (PROFILE_SIDE - large);
+  return Math.round(Math.min(grown, side * 0.55));
+}
+
 /** First letter of a name, uppercased for its own locale. */
 export function initialOf(name: string): string {
   const first = Array.from(name.trim())[0] ?? '';
@@ -102,11 +117,15 @@ export function Avatar({
   const [loaded, setLoaded] = useState<string | null>(null);
   const fill = avatarFill(name, face, key !== null && failed === key);
   const initial = initialOf(name);
+  const grown = initialSize(side, t.size.avatarLarge, t.type.avatarInitialLarge.size);
   const initialText = (
     <Text
       variant={initialVariant(side, t.size.avatarLarge, t.size.avatarSmall)}
       tone="onAccent"
       accessible={false}
+      style={
+        grown === undefined ? undefined : { fontSize: grown, lineHeight: Math.round(grown * 1.15) }
+      }
     >
       {initial}
     </Text>
@@ -175,22 +194,28 @@ export interface CrewStackProps {
   readonly testID?: string;
 }
 
-/** Overlapping crew avatars (−10 overlap, ground-colour ring), folding the rest into "+N". */
+/**
+ * Overlapping crew avatars (−10 overlap at 32 pt, in proportion for other sizes; ground-colour
+ * ring), folding the rest into "+N".
+ */
 export function CrewStack({ members, accessibilityLabel, max = 6, size, testID }: CrewStackProps) {
   const t = usePremiumTheme();
   const side = size ?? t.size.avatar;
   const shown = members.slice(0, max);
   const rest = members.length - shown.length;
+  // The design's −10 is for 32 pt faces: smaller faces overlap as much in proportion, so their
+  // initials stay readable.
+  const overlap = Math.round((t.size.stackOverlap * side) / t.size.avatar);
   return (
     <View
       testID={testID}
       accessible
       accessibilityRole="image"
       accessibilityLabel={accessibilityLabel}
-      style={{ flexDirection: 'row', paddingEnd: t.size.stackOverlap }}
+      style={{ flexDirection: 'row', paddingEnd: overlap }}
     >
       {shown.map((m) => (
-        <View key={m.id} style={{ marginEnd: -t.size.stackOverlap }}>
+        <View key={m.id} style={{ marginEnd: -overlap }}>
           <Avatar name={m.name} color={m.color} uid={m.uid ?? m.id} size={side} ringed />
         </View>
       ))}
