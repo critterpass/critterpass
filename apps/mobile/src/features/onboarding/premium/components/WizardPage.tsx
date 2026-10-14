@@ -28,6 +28,9 @@ export interface WizardPageProps {
   readonly testID?: string;
 }
 
+/** How far above the footer the page's content fades into its ground. */
+const FOOTER_FADE = 20;
+
 export function WizardPage({
   step,
   header,
@@ -42,7 +45,8 @@ export function WizardPage({
   const insets = useSafeAreaInsets();
   const keyboard = useKeyboardFrame();
   const [footerHeight, setFooterHeight] = useState(0);
-  const closedPad = Math.max(insets.bottom, theme.space.gap16);
+  // Clear of the home indicator (or Android's gesture bar) by a little, as the other footers sit.
+  const closedPad = Math.max(insets.bottom + theme.space.gap8, theme.space.gap16);
   const openPad = theme.space.gap8;
   // Over the keys the home indicator is hidden, so the docked footer drops its bottom inset.
   const footerPad = useAnimatedStyle(() => ({
@@ -91,6 +95,19 @@ export function WizardPage({
               footerPad,
             ]}
           >
+            {/* The content fades into the footer's ground instead of being cut at its top edge. */}
+            <View
+              pointerEvents="none"
+              style={{
+                position: 'absolute',
+                top: -FOOTER_FADE,
+                left: 0,
+                right: 0,
+                height: FOOTER_FADE,
+                // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never copy.
+                experimental_backgroundImage: `linear-gradient(180deg, ${theme.color.ground}00 0%, ${theme.color.ground} 100%)`,
+              }}
+            />
             <View style={{ gap: theme.space.gap8 }} onLayout={onFooterLayout}>
               {footer}
             </View>

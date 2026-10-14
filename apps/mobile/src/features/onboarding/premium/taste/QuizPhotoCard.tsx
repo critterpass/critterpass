@@ -5,7 +5,7 @@
  * the same words. Picked, it stays; the other card flings away on the Lively spring (Reduce Motion
  * fades it).
  */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -25,7 +25,7 @@ import {
 } from '@/ui/premium';
 
 import { cardArt } from '../../taste/card-art';
-import { quizPhoto } from '../../taste/quiz-photos';
+import { photoTop, quizPhoto } from '../../taste/quiz-photos';
 import type { QuizSide } from '../../taste/use-taste-quiz';
 import { PHOTO_INK, PHOTO_SHADE } from '../components/onboarding-colours';
 
@@ -54,6 +54,7 @@ export function QuizPhotoCard({
   const left = side === 'left';
   const art = cardArt(questionId, side);
   const photo = quizPhoto(questionId, side);
+  const [frame, setFrame] = useState({ width: 0, height: 0 });
   useEffect(() => {
     if (!flung) {
       away.value = 0;
@@ -100,18 +101,39 @@ export function QuizPhotoCard({
               minHeight: left ? 218 : 200,
               borderRadius: inner,
               overflow: 'hidden',
-              backgroundColor: left ? theme.accent.sun : theme.accent.sky,
+              // Under a photo the field is ink: a colour edge showed past the photo's antialiased
+              // edge on the tilted card.
+              backgroundColor:
+                photo !== null
+                  ? theme.color.inkSurface
+                  : left
+                    ? theme.accent.sun
+                    : theme.accent.sky,
               justifyContent: 'flex-end',
               alignItems: left ? 'flex-start' : 'flex-end',
               padding: 18,
+            }}
+            onLayout={(event) => {
+              const { width, height } = event.nativeEvent.layout;
+              setFrame({ width, height });
             }}
           >
             {photo === null ? null : (
               <>
                 <Image
-                  source={photo}
+                  source={photo.source}
                   resizeMode="cover"
-                  style={StyleSheet.absoluteFill}
+                  style={
+                    frame.width === 0
+                      ? StyleSheet.absoluteFill
+                      : {
+                          position: 'absolute',
+                          left: 0,
+                          width: frame.width,
+                          height: Math.max(frame.height, frame.width / photo.aspect),
+                          top: photoTop(photo, frame),
+                        }
+                  }
                   accessibilityIgnoresInvertColors
                 />
                 <View
