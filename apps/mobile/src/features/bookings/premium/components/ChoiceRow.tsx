@@ -16,14 +16,17 @@ export function ChoiceRow<Value extends string | number>(props: {
   readonly value: Value;
   readonly onPick: (value: Value) => void;
   readonly testID: string;
+  /** The row's side margin: it bleeds out of the page's 16 pt padding by default. */
+  readonly inset?: number;
 }) {
   const th = usePremiumTheme();
   return (
     <ScrollRow
       keyboardShouldPersistTaps="handled"
       gap={th.space.gap6}
-      contentContainerStyle={{ paddingHorizontal: th.space.gutter }}
-      style={styles.row}
+      contentContainerStyle={{ paddingHorizontal: th.space.gap16 }}
+      // Edge to edge: the first chip lines up with the labels and fields at 16 (7.04).
+      style={[styles.row, { marginHorizontal: props.inset ?? -th.space.gap16 }]}
       testID={props.testID}
     >
       {props.choices.map((choice) => (

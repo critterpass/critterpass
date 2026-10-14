@@ -12,16 +12,18 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { premium } from '@cp/design-tokens';
 import Animated, { SlideOutRight } from 'react-native-reanimated';
 
-import { guideCritterKind, IconTile, turn, type LineIconName } from '@/features/trip';
+import { guideCritterKind } from '@/features/trip';
 import {
   Banner,
   Button,
   exitTransition,
   GuideNote,
+  Icon,
   layoutTransition,
-  PressableScale,
+  ListCard,
+  Row,
+  StickerIcon,
   Text,
-  TextButton,
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
@@ -32,6 +34,7 @@ import type { ImportChannel } from '../add/view-types';
 import { useAddBooking } from '../add/use-add-booking';
 import { useWalletGuide, WalletGuideProvider } from '../data/wallet-guide';
 import { BOOKINGS_ROUTES } from '../routes';
+import { AddTile } from './components/AddTile';
 import { CandidateCard } from './components/CandidateCard';
 import { useAddressCopiedToast } from './components/ConfirmationCode';
 
@@ -46,48 +49,6 @@ const SHEET_ROUTES = {
   link: BOOKINGS_ROUTES.linkCode,
   mailbox: BOOKINGS_ROUTES.mailbox,
 } as const;
-
-function Tile(props: {
-  readonly icon: LineIconName;
-  readonly tint: { bg: string; text: string };
-  readonly label: string;
-  readonly sub: string;
-  readonly tilt: number;
-  readonly onPress: () => void;
-  readonly testID: string;
-}) {
-  const th = usePremiumTheme();
-  return (
-    <PressableScale
-      style={styles.tileCell}
-      onPress={props.onPress}
-      accessibilityRole="button"
-      accessibilityLabel={props.label}
-      testID={props.testID}
-    >
-      <View
-        style={[
-          styles.tile,
-          {
-            borderRadius: th.radius.card,
-            backgroundColor: th.color.card,
-            boxShadow: th.shadow.card,
-          },
-        ]}
-      >
-        <View style={{ transform: [turn(props.tilt)] }}>
-          <IconTile name={props.icon} bg={props.tint.bg} color={props.tint.text} size={44} />
-        </View>
-        <View>
-          <Text variant="rowTitle">{props.label}</Text>
-          <Text variant="captionMuted" tone="muted">
-            {props.sub}
-          </Text>
-        </View>
-      </View>
-    </PressableScale>
-  );
-}
 
 function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
   const th = usePremiumTheme();
@@ -110,27 +71,24 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
       ]}
     >
       <View style={styles.tiles}>
-        <Tile
-          icon="chat"
-          tint={th.color.status.rain}
+        <AddTile
+          sticker="chat"
           label={t({ id: 'bookings.premium.tileForward', message: 'Forward' })}
           sub={t({ id: 'bookings.premium.tileForwardSub', message: 'Any email' })}
           tilt={-6}
           onPress={channel('forward')}
           testID="bookings-add-forward"
         />
-        <Tile
-          icon="scan"
-          tint={th.color.status.voteOpen}
+        <AddTile
+          sticker="camera"
           label={t({ id: 'bookings.premium.tileScan', message: 'Scan' })}
           sub={t({ id: 'bookings.premium.tileScanSub', message: 'Paper or screen' })}
           tilt={5}
           onPress={channel('scan')}
           testID="bookings-add-scan"
         />
-        <Tile
-          icon="link"
-          tint={th.color.status.booked}
+        <AddTile
+          sticker="ticket"
           label={t({ id: 'bookings.premium.tilePaste', message: 'Paste' })}
           sub={t({ id: 'bookings.premium.tilePasteSub', message: 'A link or code' })}
           tilt={-4}
@@ -157,12 +115,12 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
           {/* The whole address on one line: no tracking, and it shrinks before it cuts. */}
           <Text
             variant="mono"
-            style={styles.addressText}
             numberOfLines={1}
             adjustsFontSizeToFit
             minimumFontScale={0.75}
             ellipsizeMode="middle"
             selectable
+            style={[styles.addressText, styles.asWritten]}
           >
             {p.address}
           </Text>
@@ -249,20 +207,23 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
         }}
         testID="bookings-add-footnote"
       />
-      <View style={styles.links}>
-        <TextButton
-          label={t({ id: 'bookings.add.byHand', message: 'Or type it in by hand' })}
-          align="center"
+      {/* The quieter ways in, as rows on one card: typing it in, and a code from the inbox. */}
+      <ListCard>
+        <Row
+          title={t({ id: 'bookings.add.byHand', message: 'Or type it in by hand' })}
+          leading={<StickerIcon name="check" size={30} tilt={-6} />}
+          trailing={<Icon name="forward" size={16} color={th.color.muted} />}
           onPress={p.onTypeIn}
           testID="bookings-add-by-hand"
         />
-        <TextButton
-          label={t({ id: 'bookings.add.linkCode', message: 'Got a code? Link your email' })}
-          align="center"
+        <Row
+          title={t({ id: 'bookings.add.linkCode', message: 'Got a code? Link your email' })}
+          leading={<StickerIcon name="lock" size={30} tilt={6} />}
+          trailing={<Icon name="forward" size={16} color={th.color.muted} />}
           onPress={p.onLinkCode}
           testID="bookings-add-link-code"
         />
-      </View>
+      </ListCard>
     </ScrollView>
   );
 }
@@ -297,8 +258,6 @@ export function AddBookingPremium({ start }: { readonly start?: string | undefin
 const styles = StyleSheet.create({
   body: { paddingTop: 8, paddingBottom: 40 },
   tiles: { flexDirection: 'row', gap: 10 },
-  tileCell: { flex: 1 },
-  tile: { height: 120, padding: 12, justifyContent: 'space-between' },
   address: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -308,7 +267,6 @@ const styles = StyleSheet.create({
     paddingRight: 8,
   },
   addressText: { flex: 1, minWidth: 0, letterSpacing: 0 },
-  // Each link is a 44 pt target with no gap between them; the top margin gives the first word the
-  // same distance from the note as the second has from the first.
-  links: { alignItems: 'center', marginTop: 8 },
+  // An address is written as it is (the mono face sets capitals by default).
+  asWritten: { textTransform: 'none' },
 });
