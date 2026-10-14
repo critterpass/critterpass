@@ -25,15 +25,18 @@ import type {
   TraySticker,
 } from '../../chat/data/use-sticker-tray';
 import { plainFormSpec, stickerArtKind } from '../../chat/data/use-sticker-form';
+import { TrayEmpty } from './tray-empty';
 
 const TILE = 76;
 const ART = 68;
 
 const useStyles = makePremiumStyles((th) => ({
-  // The tray sits in the page under the composer: the page's ground, cut off from the chat by the
-  // composer's hairline, so it never reads as a white slab ending short of the screen's corners.
+  // The tray is a card panel under the composer with rounded top corners, down to the screen's
+  // bottom edge (its height takes the home indicator's inset).
   tray: {
-    backgroundColor: th.color.ground,
+    backgroundColor: th.color.card,
+    borderTopLeftRadius: th.radius.cardLarge,
+    borderTopRightRadius: th.radius.cardLarge,
     paddingTop: th.space.gap12,
   },
   tabs: {
@@ -241,14 +244,7 @@ export function StickerTray({ tray, height, bottomInset, onSend, onLocked }: Sti
       )}
       <ScrollView contentContainerStyle={[styles.grid, { paddingBottom: bottomInset }]}>
         {stickers.length === 0 ? (
-          <Text variant="caption" tone="muted" style={{ padding: th.space.gap16 }}>
-            {tray.tabs.length === 0
-              ? t({
-                  id: 'chat.premium.tray.none',
-                  message: 'Meet a critter on a trip and its stickers land here.',
-                })
-              : t({ id: 'chat.premium.tray.noRecent', message: 'Stickers you send show up here.' })}
-          </Text>
+          <TrayEmpty met={tray.tabs.length > 0} />
         ) : (
           stickers.map((sticker) => (
             <StickerTile
