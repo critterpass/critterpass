@@ -21,6 +21,7 @@ import {
 import { PushScreen } from '@/ui/premium/shell';
 
 import type { ChangesReviewViewProps } from '../../review/changes-review-props';
+import { onlyYouText } from '../only-you-pill';
 
 export function PremiumChangesView(props: ChangesReviewViewProps) {
   const theme = usePremiumTheme();
@@ -30,7 +31,7 @@ export function PremiumChangesView(props: ChangesReviewViewProps) {
   return (
     <PushScreen
       title={title}
-      {...(props.onlyYou === null ? {} : { subtitle: props.onlyYou })}
+      {...(props.onlyYou === null ? {} : { subtitle: onlyYouText() })}
       backLabel={props.backLabel}
       scroll={false}
       testID="plan-review"

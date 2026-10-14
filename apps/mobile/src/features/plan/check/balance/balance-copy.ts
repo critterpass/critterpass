@@ -12,7 +12,14 @@ export function balanceTitle(): string {
   return t({ id: 'plan.check.balance.title', message: 'WHOSE PICKS\nMADE IT' });
 }
 
-export function balanceSummary(mustDosIn: boolean, even: boolean): string {
+export function balanceSummary(mustDosIn: boolean, even: boolean, nothingYet = false): string {
+  // No saves and no must-dos: "even" and "all in" would be true of nothing at all.
+  if (nothingYet) {
+    return t({
+      id: 'plan.check.balance.nothingYet',
+      message: 'Nobody has saved a place or set a must-do yet. Their picks show up here.',
+    });
+  }
   if (mustDosIn && even) {
     return t({
       id: 'plan.check.balance.allIn',
@@ -39,6 +46,7 @@ export function mustDoLine(title: string, placed: boolean): string {
 }
 
 export function savesIn(placed: number, saved: number): string {
+  if (saved === 0) return t({ id: 'plan.check.balance.noSaves', message: 'NO SAVES YET' });
   const k = String(placed);
   return t({
     id: 'plan.check.balance.savesIn',

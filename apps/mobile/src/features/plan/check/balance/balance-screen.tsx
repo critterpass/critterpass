@@ -147,7 +147,15 @@ export function BalanceScreen({
       onBack={() => goBackOr(checkRoutes.check(tripId))}
       onlyYou={copy.onlyYouLabel()}
       title={copy.balanceTitle()}
-      summary={balance === null ? '' : copy.balanceSummary(balance.mustDosIn, balance.even)}
+      summary={
+        balance === null
+          ? ''
+          : copy.balanceSummary(
+              balance.mustDosIn,
+              balance.even,
+              balance.members.every((member) => member.saved === 0 && member.mustDo === null),
+            )
+      }
       loading={!loaded}
       rows={(balance?.members ?? []).map((member) => ({
         key: member.uid,

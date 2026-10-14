@@ -58,7 +58,8 @@ export function PremiumDaySummary(props: { readonly day: ReviewDay; readonly loc
   const theme = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
   const n = day.dayNo;
-  const title = day.title;
+  // A day drafted without a theme is just "Day 2": its stops are listed right under it.
+  const title = day.title.trim();
   const stops = day.stops
     .map((stop) => `${clock(locale, stop.startsAt, stop.tz)} ${stop.name}`)
     .join(' · ');
@@ -71,7 +72,9 @@ export function PremiumDaySummary(props: { readonly day: ReviewDay; readonly loc
       <Card testID="change-day-summary">
         <View style={styles.summary}>
           <Text variant="headline">
-            {t({ id: 'planDraft.change.dayTitle', message: `Day ${n} · ${title}` })}
+            {title === ''
+              ? t({ id: 'planDraft.change.dayOnly', message: `Day ${n}` })
+              : t({ id: 'planDraft.change.dayTitle', message: `Day ${n} · ${title}` })}
           </Text>
           <Text variant="rowText" tone="muted">
             {stops === ''
