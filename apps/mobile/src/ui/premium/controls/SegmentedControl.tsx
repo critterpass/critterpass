@@ -27,6 +27,11 @@ export interface SegmentedControlProps<Value extends string> {
    * that leaves the control its own width. Without it the control fills its parent's width.
    */
   readonly hug?: boolean;
+  /**
+   * `ink`: the ink thumb with white text, as the design sets a small control inside a settings row
+   * (9.04 How chatty); `light` is the white thumb of a page's own switch. @default 'light'
+   */
+  readonly thumb?: 'light' | 'ink';
   readonly testID?: string;
 }
 
@@ -42,6 +47,7 @@ export function SegmentedControl<Value extends string>({
   onChange,
   accessibilityLabel,
   hug = false,
+  thumb: thumbTone = 'light',
   testID,
 }: SegmentedControlProps<Value>) {
   const t = usePremiumTheme();
@@ -81,6 +87,7 @@ export function SegmentedControl<Value extends string>({
     w.set(withSpring(target.width, SPRINGS.snappy));
   }, [target.x, target.width, reduced, x, w]);
   const thumb = useAnimatedStyle(() => ({ left: x.value, width: w.value }));
+  const ink = thumbTone === 'ink';
 
   return (
     <View
@@ -107,7 +114,7 @@ export function SegmentedControl<Value extends string>({
             borderRadius: hug
               ? t.radius.pillSmall - t.space.segmentTrackPad
               : t.radius.segmentInner,
-            backgroundColor: t.color.segmentThumb,
+            backgroundColor: ink ? t.color.inkSurface : t.color.segmentThumb,
             boxShadow: t.shadow.segmentThumb,
           },
           thumb,
@@ -178,6 +185,7 @@ export function SegmentedControl<Value extends string>({
             <Text
               variant="segment"
               tone={selected ? 'ink' : 'inkSecondary'}
+              {...(selected && ink ? { color: t.color.onInkSurface } : {})}
               align="center"
               numberOfLines={hug ? 1 : 2}
               style={labelSize}
