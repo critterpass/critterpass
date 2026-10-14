@@ -3,6 +3,7 @@
 export {
   KeyboardAwareScroll,
   KeyboardDismissArea,
+  KeyboardFooterScope,
   KeyboardStickyFooter,
   PremiumKeyboardProvider,
   useKeyboardFrame,
