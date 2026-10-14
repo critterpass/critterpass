@@ -14,11 +14,14 @@
  *   background sits right above it (the keyboard pushed a footer up and left a black gap).
  * - EMPTY_SCREEN: almost every row of the screen is bare background (content that never drew).
  * - SHEET_TOP_GAP: an open sheet is empty for a tall band under its grabber (./screen-sheet-checks).
+ * - SHADOW_CUT and CARD_AT_EDGE: a shadow cut flat by the row or box it sits in, and a card set
+ *   against the screen's edge with no gutter (./screen-edge-checks).
  *
  * Pure functions over decoded pixels, so they run on the shards without the workspace installed.
  */
 import type { RgbaImage } from './png';
 import { isInsetSheetOverDimmedPage, screenGrounds } from './screen-checks-premium';
+import { findCardAtEdge, findShadowCut } from './screen-edge-checks';
 import { findSheetTopGap } from './screen-sheet-checks';
 import {
   colourDistance,
@@ -36,7 +39,13 @@ import {
 export { colourDistance, hex, LIMITS, parseHex, type Rgb } from './screen-pixels';
 export { screenGrounds } from './screen-checks-premium';
 
-export type ScreenCheckCode = 'SCREEN_FRAME' | 'KEYBOARD_BAND' | 'EMPTY_SCREEN' | 'SHEET_TOP_GAP';
+export type ScreenCheckCode =
+  | 'SCREEN_FRAME'
+  | 'KEYBOARD_BAND'
+  | 'EMPTY_SCREEN'
+  | 'SHEET_TOP_GAP'
+  | 'SHADOW_CUT'
+  | 'CARD_AT_EDGE';
 
 export interface ScreenFinding {
   readonly code: ScreenCheckCode;
@@ -263,5 +272,7 @@ export function checkScreen(image: RgbaImage, options: ScreenCheckOptions): Scre
     findKeyboardBand(image),
     empty,
     findSheetTopGap(image, options.premiumGrounds),
+    findShadowCut(image),
+    findCardAtEdge(image, keyboardTop(image) ?? image.height),
   ].filter((finding): finding is ScreenFinding => finding !== null);
 }
