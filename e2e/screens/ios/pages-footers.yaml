@@ -1,0 +1,53 @@
+appId: app.critterpass.dev
+---
+# The iPhone sweep's pages, headers and footers, in light: floating glass headers, the status bar
+# and the Dynamic Island's inset, and footers pinned over scrolled content. The guide's draft and
+# the proposal builder, a solo trip's setup and its dates with the pinned button, the trip hub, the
+# plan on its map with the day sheet at half, and the wallet's add page.
+- runFlow:
+    file: ../subflows/start.yaml
+    env:
+      SCENARIO: draft_ready
+- runFlow:
+    file: ../subflows/plan-draft.yaml
+    env:
+      LOOK: light
+- runFlow:
+    file: ../subflows/start.yaml
+    env:
+      SCENARIO: crew_with_code
+- runFlow:
+    file: ../subflows/plan-solo-setup.yaml
+    env:
+      LOOK: light
+- runFlow:
+    file: ../subflows/start.yaml
+    env:
+      SCENARIO: trip_today
+- runFlow:
+    file: ../subflows/trip-open-hub.yaml
+    env:
+      ZOOM: ''
+- runFlow:
+    when:
+      visible:
+        id: 'trip-hub'
+    commands:
+      - runFlow:
+          file: ../subflows/shot.yaml
+          env:
+            CODE: '6.01'
+            NAME: hub
+            LOOK: light
+- runFlow:
+    file: ../subflows/start.yaml
+    env:
+      SCENARIO: everyday
+- runFlow:
+    file: ../subflows/plan-map.yaml
+    env:
+      LOOK: light
+- runFlow:
+    file: ../subflows/wallet-empty.yaml
+    env:
+      LOOK: light

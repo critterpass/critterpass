@@ -259,7 +259,11 @@ The scripts live in `tools/scripts/ci-device/`.
 
 `e2e/screens/` captures the premium design | device sheets, one flow per journey part:
 `first-run`, `home`, `plan-vote`, `plan`, `chat`, `critters`, `trip`, `wallet` and `pass` (light,
-then dark for each part's key screens), and `vi` and `vi-trip` in Vietnamese. Each starts from a
+then dark for each part's key screens), `vi` and `vi-trip` in Vietnamese, and `long-data`: the
+long real data the demo world's short names never test, from the `week_crew` and `week_solo` seeds
+(a locked seven-day trip at the places with the longest names and no photos, for a crew of five
+whose given names and crew name are as long as the app allows, so a long forward address, and for
+a crew of one), each shot named with `-long` after its state. Each starts from a
 seed scenario (`subflows/start.yaml`, `_shared/start-as.yaml`) or a cleared install
 (`subflows/fresh.yaml`) and is a capture sweep: a state that does not come up is skipped, never
 failed. `subflows/shot.yaml` names each screenshot `premium-<code>-<state>-<look>`, so compare mode
@@ -269,6 +273,12 @@ pairs it with `docs/design-renders/premium/<code>.png` and titles it from that f
 The sweep runs:
 
 - on demand: `gh workflow run device.yml -f preset=sweep -f platform=android -f shards=7 [-f pr=<n>]`;
+- on an iPhone: `gh workflow run device.yml -f preset=sweep -f platform=ios [-f pr=<n>]` runs the
+  short iOS set in `e2e/screens/ios-sweep.txt` on two shards (the five macOS runners are shared):
+  native sheets and their grabber, keyboards, floating headers under the status bar and footers
+  pinned over content (`e2e/screens/ios/`), and `long-data`. The founder's iPhone found what the
+  Android sweep passed (a sheet's doubled top inset, titles under the clock), so this leg runs
+  before every TestFlight build (see the release gate);
 - every night on main (the `schedule` trigger): the whole sweep on Android, and its English flows
   (`vi*.yaml` left out) on one iOS shard, posting the sheets, the check findings and the coverage
   report to the open "Nightly UI sweep" issue.
@@ -436,7 +446,13 @@ on both platforms with the new builds:
 # Both find the e2e-test build that matches the native fingerprint (see Builds above):
 gh workflow run device.yml -f preset=happy -f platform=android
 gh workflow run device.yml -f preset=happy -f platform=ios -f shards=3
+# Then the iPhone leg of the UI sweep (two shards), once the happy runs have left the macOS runners:
+gh workflow run device.yml -f preset=sweep -f platform=ios
 ```
+
+The build goes out only when the happy runs pass and the iPhone sweep shows no `[ui-qa]` report or
+screen-check finding: the layout checks (overlap, clipping, a text at a card's edge or under the
+status bar, a sheet's empty top) run on that leg against iOS's own sheets, safe areas and keyboard.
 
 Add `-f pr=<n>` to post the report to a pull request instead of the issue, and `-f flows=...` to run
 some of the flows.

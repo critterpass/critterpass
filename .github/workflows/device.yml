@@ -176,6 +176,12 @@ jobs:
             echo "$line" >> "$GITHUB_STEP_SUMMARY"
           fi
           if [ "$preset" = sweep ]; then
+            # The iPhone leg on its own: the short iOS set (e2e/screens/ios-sweep.txt), sized to two
+            # of the five macOS runners whatever the shards input says.
+            if [ -z "$flows" ] && [ "$platform" = ios ]; then
+              flows=$(grep -v '^[[:space:]]*#' e2e/screens/ios-sweep.txt | grep -v '^[[:space:]]*$' | tr '\n' ' ')
+              shards=2
+            fi
             # Every screen in both languages; sheets unless screenshots alone were asked for.
             [ -z "$flows" ] && flows='e2e/screens/*.yaml'
             [ "$mode" = flows ] && mode=compare
