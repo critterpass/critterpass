@@ -1,0 +1,86 @@
+appId: app.critterpass.dev
+---
+# The week of a crew of five, from Home, in ${LOOK}: Home's trip card (3.02), the hub (6.01), the
+# crew chat (5.01), one day of the plan at half (4.26) and the add-a-booking page with the crew's
+# forward address (7.03). Ends on Home.
+- extendedWaitUntil:
+    visible:
+      id: 'home-next-up'
+    timeout: 20000
+    optional: true
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '3.02'
+      NAME: trip-card
+- runFlow:
+    file: trip-open-hub.yaml
+    env:
+      ZOOM: ''
+- runFlow:
+    when:
+      visible:
+        id: 'trip-hub'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '6.01'
+            NAME: hub
+- runFlow: ../../_shared/to-home.yaml
+- runFlow: chat-open-crew.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'chat-screen'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '5.01'
+            NAME: crew-chat
+- runFlow: ../../_shared/to-home.yaml
+- runFlow: plan-open-map.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'plan-map-search'
+    commands:
+      # Peek to half: the sheet is dragged up by its head.
+      - swipe:
+          start: 50%, 82%
+          end: 50%, 45%
+          duration: 600
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-add-bar'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '4.26'
+            NAME: day-half
+- runFlow: ../../_shared/to-home.yaml
+# A week with nothing booked opens the wallet on the add page, the forward address on it.
+- runFlow:
+    file: wallet-open.yaml
+    env:
+      HALF: bookings
+      LABEL: Bookings
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-add-(forward|scan|paste)'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'bookings-add-(forward|scan|paste)'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '7.03'
+            NAME: add-page
+- runFlow: ../../_shared/to-home.yaml

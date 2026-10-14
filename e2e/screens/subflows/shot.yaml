@@ -2,6 +2,8 @@ appId: app.critterpass.dev
 ---
 # One design | device screenshot: `premium-<code>-<name>-<look>`, which compare mode pairs with
 # docs/design-renders/premium/<code>.png. ${CODE} is the design code (3.01), ${NAME} a short state
-# name, ${LOOK} light or dark.
+# name, ${LOOK} light or dark. ${DATA}, when a flow sets it (`long`), follows the name, so a capture
+# with long real data sits beside the same state with the short demo data.
+- evalScript: "${output.shotData = typeof DATA === 'undefined' || DATA === '' ? '' : '-' + DATA}"
 - waitForAnimationToEnd
-- takeScreenshot: premium-${CODE}-${NAME}-${LOOK}
+- takeScreenshot: premium-${CODE}-${NAME}${output.shotData}-${LOOK}
