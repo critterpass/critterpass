@@ -7,12 +7,16 @@
  */
 import { View } from 'react-native';
 
+import { useBackAffordance } from '@/lib/qa/back-affordance';
+
 import { useSaveStep } from '../../save/use-save-step';
 import { PremiumIssuedView } from '../issued/PremiumIssuedPage';
 import { PremiumSaveSheet } from './PremiumSaveSheet';
 
 export function PremiumSavePage() {
   const { flow, state, focused, notNow, phone } = useSaveStep();
+  // The sheet's "Not now" and the dim page above it close it: that is this page's way back.
+  useBackAffordance(focused);
   return (
     <View style={{ flex: 1 }} testID="onboarding-save">
       <PremiumIssuedView choreography={false} />
