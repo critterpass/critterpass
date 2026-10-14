@@ -55,6 +55,9 @@ function Field({
   );
 }
 
+/** The issued pass's room between its fields and the MRZ, where the stamps land. */
+const ISSUED_STAMP_BAND = 44;
+
 export function PassPaper({
   facts,
   name,
@@ -166,7 +169,14 @@ export function PassPaper({
             {issued ? <View style={{ width: '100%', flexDirection: 'row' }}>{style}</View> : null}
           </View>
         </View>
-        <View style={{ borderTopWidth: 1.5, borderStyle: 'dashed', borderColor: PAPER_INK.slot }}>
+        {/* The issued pass keeps the guilloche band above its MRZ (2.11): the stamps land there,
+            on the paper and the code, never on the printed words. */}
+        <View
+          style={[
+            { borderTopWidth: 1.5, borderStyle: 'dashed', borderColor: PAPER_INK.slot },
+            issued ? { marginTop: ISSUED_STAMP_BAND } : null,
+          ]}
+        >
           {facts.mrz.map((line) => (
             <Text key={line} variant="mono" color={PAPER_INK.label} numberOfLines={1}>
               {line}
