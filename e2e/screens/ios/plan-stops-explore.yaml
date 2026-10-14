@@ -79,10 +79,9 @@ appId: app.critterpass.dev
                   CODE: '4.29'
                   NAME: stop-details-foot
                   LOOK: light
-            - swipe:
-                start: 50%, 9%
-                end: 50%, 95%
-                duration: 400
+            # A tap on the dimmed page above the sheet closes it (nothing changed, nothing asked).
+            - tapOn:
+                point: 50%, 5%
             - waitForAnimationToEnd
       # Move to another day and Change time open the same sheet.
       - runFlow:
@@ -96,10 +95,9 @@ appId: app.critterpass.dev
             visible:
               id: 'plan-item-save'
           commands:
-            - swipe:
-                start: 50%, 9%
-                end: 50%, 95%
-                duration: 400
+            # A tap on the dimmed page above the sheet closes it (nothing changed, nothing asked).
+            - tapOn:
+                point: 50%, 5%
             - waitForAnimationToEnd
       - runFlow:
           file: ../subflows/plan-stop-action.yaml
@@ -112,10 +110,9 @@ appId: app.critterpass.dev
             visible:
               id: 'plan-item-save'
           commands:
-            - swipe:
-                start: 50%, 9%
-                end: 50%, 95%
-                duration: 400
+            # A tap on the dimmed page above the sheet closes it (nothing changed, nothing asked).
+            - tapOn:
+                point: 50%, 5%
             - waitForAnimationToEnd
       # Share: the system share sheet over the map.
       - runFlow:
