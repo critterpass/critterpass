@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-14.",
+  "latency_ms": 1602,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "ec1e5553-64cf-4390-9b92-489a3cfb05cb",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"en\":{\"line\":\"Takayama is a town in Gifu, Japan.\",\"about\":\"Takayama is a town in the Gifu region of Japan. It is home to 84,419 people.\"},\"vi\":{\"line\":\"Takayama là một thị trấn ở Gifu, Nhật Bản.\",\"about\":\"Takayama là một thị trấn ở vùng Gifu, Nhật Bản. Nơi đây có 84.419 người sinh sống.\"}}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 230,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 110,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

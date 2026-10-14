@@ -22,8 +22,6 @@ export interface DestinationFacts {
   readonly region: string | null;
   readonly population: number | null;
   readonly elevation_m: number | null;
-  readonly lat: number;
-  readonly lng: number;
 }
 
 /** Digit runs with their group separators removed: `210,000`, `210.000` and `210 000` → `210000`. */

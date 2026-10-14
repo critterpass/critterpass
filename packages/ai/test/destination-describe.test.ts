@@ -15,8 +15,6 @@ const facts: DestinationFacts = {
   region: 'Bình Định Province',
   population: 210338,
   elevation_m: 10,
-  lat: 13.77,
-  lng: 109.22,
 };
 
 const reply = (enAbout: string, viAbout = 'Thành phố biển ở tỉnh Bình Định.'): DescribeReply => ({

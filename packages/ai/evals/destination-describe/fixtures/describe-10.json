@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-14.",
+  "latency_ms": 1214,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "abb0513c-629f-4d21-a582-14d48cff2e55",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"en\":{\"line\":\"Ko Lanta is an island in Krabi, Thailand.\",\"about\":\"Ko Lanta is an island in the Krabi region of Thailand.\"},\"vi\":{\"line\":\"Ko Lanta là một đảo ở Krabi, Thái Lan.\",\"about\":\"Ko Lanta là một đảo thuộc vùng Krabi của Thái Lan.\"}}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 232,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 84,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

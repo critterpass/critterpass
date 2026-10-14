@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-14.",
+  "latency_ms": 1223,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "62dad142-374a-4a31-8fe6-6907452df14c",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"en\":{\"line\":\"Hallstatt is a village in Upper Austria, Austria.\",\"about\":\"Hallstatt is a village in Upper Austria, Austria. It has a population of 746.\"},\"vi\":{\"line\":\"Hallstatt là một ngôi làng ở Upper Austria, Áo.\",\"about\":\"Hallstatt là một ngôi làng ở Upper Austria, Áo. Nơi đây có 746 người sinh sống.\"}}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 230,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 92,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

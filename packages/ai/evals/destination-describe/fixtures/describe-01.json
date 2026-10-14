@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-14.",
+  "latency_ms": 1617,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "5478c27c-6706-479a-b987-8e1e5a0b432e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"en\":{\"line\":\"Quy Nhon is a city in Gia Lai, Vietnam.\",\"about\":\"Quy Nhon is a city in the Gia Lai region of Vietnam. It is home to 210,338 people.\"},\"vi\":{\"line\":\"Quy Nhơn là một thành phố ở Gia Lai, Việt Nam.\",\"about\":\"Quy Nhơn là một thành phố thuộc vùng Gia Lai, Việt Nam. Nơi đây có 210.338 người sinh sống.\"}}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 364,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 114,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

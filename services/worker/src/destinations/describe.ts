@@ -78,8 +78,6 @@ export async function describeBaseDestination(
     region: row.admin1,
     population: row.population,
     elevation_m: null,
-    lat: Math.round(row.lat * 100) / 100,
-    lng: Math.round(row.lng * 100) / 100,
   });
   if (!verdict.ok) return { outcome: 'rejected', reason: verdict.reason };
   await withSystem(pool, (tx) =>
