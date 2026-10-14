@@ -144,12 +144,14 @@ export function PremiumChangesView(props: ChangesReviewViewProps) {
                 {props.vote.canVote ? (
                   <View style={{ flexDirection: 'row', gap: theme.space.gap8 }}>
                     <Button
+                      alignSelf="auto"
                       size="small"
                       label={t({ id: 'plan.premium.review.yes', message: 'Yes' })}
                       onPress={props.vote.onYes}
                       testID="plan-review-yes"
                     />
                     <Button
+                      alignSelf="auto"
                       size="small"
                       variant="control"
                       label={t({ id: 'plan.premium.review.no', message: 'No' })}

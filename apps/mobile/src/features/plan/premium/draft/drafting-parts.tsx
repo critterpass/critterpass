@@ -35,11 +35,7 @@ export function StepMark({ status }: { readonly status: StepRow['status'] }) {
       </View>
     );
   }
-  // The running step turns in ink on the track the waiting rings use (the kit's default head is
-  // white, for the ink pill, and vanished on the white card).
-  if (status === 'running') {
-    return <Spinner size={DISC} color={theme.color.ink} trackColor={theme.color.progressTodo} />;
-  }
+  if (status === 'running') return <Spinner size={DISC} />;
   return (
     <View
       style={{

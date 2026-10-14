@@ -178,11 +178,7 @@ export function FindNames(props: FindNamesProps) {
                 title={place.name}
                 meta={place.address ?? undefined}
                 icon="pin"
-                trailing={
-                  props.pickingLive === place.fsqPlaceId ? (
-                    <Spinner color={theme.color.ink} trackColor={theme.color.progressTodo} />
-                  ) : undefined
-                }
+                trailing={props.pickingLive === place.fsqPlaceId ? <Spinner /> : undefined}
                 onPress={props.pickingLive === null ? () => props.onPickLive(place) : undefined}
                 testID={`search-more-${place.fsqPlaceId}`}
               />

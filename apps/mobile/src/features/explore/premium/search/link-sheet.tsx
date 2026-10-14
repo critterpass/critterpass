@@ -162,6 +162,7 @@ export function PremiumLinkSheet(props: LinkSheetProps) {
                   />
                 ) : match.kind === 'ambiguous' ? (
                   <Button
+                    alignSelf="auto"
                     size="small"
                     variant="control"
                     label={t({ id: 'search.link.pickOne', message: 'Pick one' })}

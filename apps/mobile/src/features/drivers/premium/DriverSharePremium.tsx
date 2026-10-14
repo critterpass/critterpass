@@ -104,6 +104,7 @@ function DriverShareSheet({ view }: { readonly view: DriverShareView }) {
                 {view.url.replace(/^https:\/\//u, '')}
               </Text>
               <Button
+                alignSelf="auto"
                 label={t({ id: 'drivers.share.copy', message: 'Copy' })}
                 size="small"
                 variant="secondary"

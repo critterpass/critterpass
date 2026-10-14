@@ -58,6 +58,7 @@ export function GuideDock({ guideName, critter, text, action, testID }: GuideDoc
       </Text>
       {action === undefined ? null : (
         <Button
+          alignSelf="auto"
           label={action.label}
           size="small"
           onPress={action.onPress}

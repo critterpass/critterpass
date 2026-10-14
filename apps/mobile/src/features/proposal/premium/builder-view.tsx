@@ -147,6 +147,7 @@ export function PremiumBuilderView(props: BuilderViewProps) {
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: th.space.gap8 }}>
             {props.previews.map((p) => (
               <Button
+                alignSelf="auto"
                 key={p.uid}
                 label={t({ id: 'proposal.build.previewAs', message: `Preview as ${p.name}` })}
                 variant="control"

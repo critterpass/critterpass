@@ -140,6 +140,7 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
             const on = p.tags.includes(tag);
             return (
               <Button
+                alignSelf="auto"
                 key={tag}
                 label={on ? `✓ ${i18n._(TAG_LABELS[tag])}` : i18n._(TAG_LABELS[tag])}
                 size="small"
