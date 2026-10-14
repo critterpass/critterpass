@@ -9,7 +9,8 @@
 import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -32,6 +33,7 @@ import { SectionLabel } from '../components/labels';
 import { PlaceResultRow } from '../components/place-result-row';
 import { FactTilesRow, KnowBeforeCard, NearbyRow, WhenItFitsCard } from './place-sections';
 import { PlaceOffersCard, ReportPlaceProfile } from './place-extras';
+import { PlaceDockEdge, PlaceTopEdge } from './place-edges';
 import { PlaceHeroPhoto } from './place-hero-photo';
 import { PremiumRemoveForEveryone } from './remove-for-everyone';
 
@@ -51,9 +53,17 @@ export function PlacePage(props: PlaceDetailInput) {
     return href === undefined ? undefined : () => router.push(href);
   };
   const guide = { kind: view.guide.kind, name: view.guide.name };
+  const y = useSharedValue(0);
+  const onScroll = useAnimatedScrollHandler((event) => {
+    y.set(event.contentOffset.y);
+  });
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.ground }} testID="place-detail">
-      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 110 }}>
+      <Animated.ScrollView
+        onScroll={onScroll}
+        scrollEventThrottle={16}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 110 }}
+      >
         <View style={{ height: HERO, overflow: 'hidden' }}>
           <PlaceHeroPhoto
             photo={view.photo}
@@ -180,7 +190,9 @@ export function PlacePage(props: PlaceDetailInput) {
           )}
           {further.profile === null ? null : <ReportPlaceProfile poiId={further.placeId} />}
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
+      <PlaceTopEdge y={y} solidFrom={HERO - OVERLAP} />
+      <PlaceDockEdge dockHeight={theme.size.button} />
       <View
         pointerEvents="box-none"
         style={[
