@@ -206,13 +206,13 @@ msgstr "A tie goes to {tiePlace}: it's {0} cheaper for the {count} flying from {
 msgid "vote.final.tieShort"
 msgstr "A tie goes to {tiePlace}."
 
-#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
-msgid "vote.premium.pitch.add"
-msgstr "Add"
-
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
 msgid "vote.newPoll.addOption"
 msgstr "Add an answer"
+
+#: ../../apps/mobile/src/features/vote/premium/pitch/pitch-sheet.tsx
+msgid "vote.premium.pitch.addToVote"
+msgstr "Add to the vote"
 
 #: ../../apps/mobile/src/features/vote/board/use-pitch-sheet.ts
 msgid "vote.pitch.add"
