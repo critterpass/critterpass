@@ -91,6 +91,12 @@ export const DECISION_THRESHOLDS: Readonly<Record<DecisionRoute, DecisionThresho
     jev: { yes: 0.7, no: 0.3, minConfidence: 0.3 },
     fast: TWIN_BAND,
   },
+  // A base-set destination's neighbour critter among the nearest few: an unsure answer gives the
+  // globally nearest critter instead.
+  'destination.critter': {
+    jev: { yes: 0.5, no: 0.5, minConfidence: 0.5 },
+    fast: TWIN_BAND,
+  },
 };
 
 export function decisionBand(route: DecisionRoute, answeredBy: DecisionAnswerer): DecisionBand {

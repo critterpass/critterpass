@@ -13,8 +13,10 @@
  *
  * A new Overture-only place below `MIN_INSERT_CONFIDENCE` is not inserted: sampled in Hội An,
  * Mexico City and London, rows under 0.3 are mostly online-only sellers, home services and
- * mislabelled pages. A row already stored is still updated (its score lands, and search ranks it
- * last), and nothing is ever deleted, since trips, must-dos, spawns and editorial reference POI ids.
+ * mislabelled pages. The ingest itself now passes only lean rows here (`isLeanOvertureRow`, whose
+ * floor is higher). A row already stored is still updated (its score lands, and search ranks it
+ * last); ingest never deletes: rows outside the lean rule go through the operator prune
+ * (`./prune.ts`), which keeps every referenced row.
  */
 import {
   canonicalTz,

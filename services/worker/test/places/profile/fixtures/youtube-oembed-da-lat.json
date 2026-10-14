@@ -1,0 +1,59 @@
+{
+  "source": "Live recordings of YouTube oEmbed for the social results, 2026-10-14, keyed by video URL.",
+  "responses": {
+    "https://www.youtube.com/watch?v=fpT8F4KBPh4": {
+      "status": 200,
+      "body": {
+        "title": "9 BEST Things To Do In Dalat Vietnam",
+        "author_name": "10Minutes-Travel ",
+        "author_url": "https://www.youtube.com/@10minutestravel",
+        "type": "video",
+        "height": 113,
+        "width": 200,
+        "version": "1.0",
+        "provider_name": "YouTube",
+        "provider_url": "https://www.youtube.com/",
+        "thumbnail_height": 360,
+        "thumbnail_width": 480,
+        "thumbnail_url": "https://i.ytimg.com/vi/fpT8F4KBPh4/hqdefault.jpg",
+        "html": "<iframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/fpT8F4KBPh4?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"9 BEST Things To Do In Dalat Vietnam\"></iframe>"
+      }
+    },
+    "https://www.youtube.com/watch?v=b-0W0xv2Ww0": {
+      "status": 200,
+      "body": {
+        "title": "Top 10 Best Things To Do In Dalat, Vietnam [Đà Lạt Travel Guide 2026]",
+        "author_name": "Vacation Idea",
+        "author_url": "https://www.youtube.com/@OnVacationIdea",
+        "type": "video",
+        "height": 113,
+        "width": 200,
+        "version": "1.0",
+        "provider_name": "YouTube",
+        "provider_url": "https://www.youtube.com/",
+        "thumbnail_height": 360,
+        "thumbnail_width": 480,
+        "thumbnail_url": "https://i.ytimg.com/vi/b-0W0xv2Ww0/hqdefault.jpg",
+        "html": "<iframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/b-0W0xv2Ww0?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"Top 10 Best Things To Do In Dalat, Vietnam [Đà Lạt Travel Guide 2026]\"></iframe>"
+      }
+    },
+    "https://www.youtube.com/watch?v=Dk0aDYj0F7s": {
+      "status": 200,
+      "body": {
+        "title": "10 Best Things to Do in Da Lat, Vietnam",
+        "author_name": "1001nights",
+        "author_url": "https://www.youtube.com/@1001nights",
+        "type": "video",
+        "height": 113,
+        "width": 200,
+        "version": "1.0",
+        "provider_name": "YouTube",
+        "provider_url": "https://www.youtube.com/",
+        "thumbnail_height": 360,
+        "thumbnail_width": 480,
+        "thumbnail_url": "https://i.ytimg.com/vi/Dk0aDYj0F7s/hqdefault.jpg",
+        "html": "<iframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/Dk0aDYj0F7s?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"10 Best Things to Do in Da Lat, Vietnam\"></iframe>"
+      }
+    }
+  }
+}

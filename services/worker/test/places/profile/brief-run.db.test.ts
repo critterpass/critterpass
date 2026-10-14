@@ -32,7 +32,15 @@ const PAGES: Readonly<Record<string, string>> = {
 let harness: JobsHarness;
 let daLat: DaLat;
 
-function network() {
+/** Searches the brief adds for blogs and social posts get the recorded social answer. */
+const SOCIAL_QUERY = /tiktok|reddit|blog|check in/u;
+const OEMBEDS = (
+  JSON.parse(file('youtube-oembed-da-lat.json')) as {
+    responses: Record<string, { status: number; body: unknown }>;
+  }
+).responses;
+
+function network(options: { social?: boolean } = {}) {
   const calls: string[] = [];
   const json = (name: string) => {
     const { status, body } = (
@@ -46,7 +54,20 @@ function network() {
   const send = (input: unknown): Promise<Response> => {
     const url = input instanceof Request ? input.url : String(input);
     calls.push(url);
-    if (url.startsWith(`${SEARX}/search`)) return Promise.resolve(json('searx-brief-web'));
+    if (url.startsWith(`${SEARX}/search`)) {
+      const query = new URL(url).searchParams.get('q') ?? '';
+      return Promise.resolve(
+        json(SOCIAL_QUERY.test(query) ? 'searx-brief-social' : 'searx-brief-web'),
+      );
+    }
+    if (url.startsWith('https://www.youtube.com/oembed')) {
+      const recorded = OEMBEDS[new URL(url).searchParams.get('url') ?? ''];
+      return Promise.resolve(
+        recorded === undefined
+          ? new Response('not found', { status: 404 })
+          : new Response(JSON.stringify(recorded.body), { status: recorded.status }),
+      );
+    }
     const page = PAGES[url];
     if (page !== undefined) {
       return Promise.resolve(
@@ -54,7 +75,11 @@ function network() {
       );
     }
     if (url.includes('typesafe.ai')) return Promise.resolve(json('jev-brief-tiebreak'));
-    if (url.includes('deepseek.com')) return Promise.resolve(json('deepseek-brief-write'));
+    if (url.includes('deepseek.com')) {
+      return Promise.resolve(
+        json(options.social === true ? 'deepseek-brief-write-social' : 'deepseek-brief-write'),
+      );
+    }
     return Promise.resolve(new Response('not found', { status: 404 }));
   };
   return { fetch: send as typeof fetch, calls };
@@ -204,6 +229,56 @@ describe(
           source_url: null,
         },
       ]);
+    });
+
+    it('names places travellers post about, kept only on our rows, never fetching the post', async () => {
+      const net = network({ social: true });
+      const report = await runDestinationBrief(harness.pool, deps(net), {
+        destinationId: daLat.destinationId,
+        force: true,
+      });
+      expect(report).toMatchObject({ outcome: 'ready' });
+      // The YouTube results are read through oEmbed only, never fetched as pages.
+      expect(net.calls.some((url) => url.startsWith('https://www.youtube.com/oembed'))).toBe(true);
+      expect(net.calls.some((url) => url.startsWith('https://www.youtube.com/watch'))).toBe(false);
+
+      const { rows } = await harness.pool.query<{
+        essentials: { poi_id: string; sources: { url: string }[] }[];
+      }>('SELECT essentials FROM destination_briefs WHERE destination_id = $1', [
+        daLat.destinationId,
+      ]);
+      const essentials = rows[0]?.essentials ?? [];
+      const { rows: places } = await harness.pool.query<{
+        id: string;
+        name: string;
+        category: string;
+      }>('SELECT id, name, category FROM pois WHERE destination_id = $1', [daLat.destinationId]);
+      const byId = new Map(places.map((place) => [place.id, place]));
+      // Every stored name is one of our rows; the station the video names is no essential.
+      expect(essentials.every((e) => byId.has(e.poi_id))).toBe(true);
+      expect(essentials.some((e) => byId.get(e.poi_id)?.category === 'transit')).toBe(false);
+      const fromVideo = essentials.filter((e) =>
+        e.sources[0]?.url.startsWith('https://www.youtube.com/'),
+      );
+      expect(fromVideo.map((e) => byId.get(e.poi_id)?.name)).toContain('Datanla Waterfall');
+    });
+
+    it('reads no social post when the switch is off', async () => {
+      await harness.pool.query(
+        `INSERT INTO ops.ops_config (key, value) VALUES ('places.social_research.enabled', 'false')`,
+      );
+      try {
+        const net = network({ social: true });
+        await runDestinationBrief(harness.pool, deps(net), {
+          destinationId: daLat.destinationId,
+          force: true,
+        });
+        expect(net.calls.some((url) => url.includes('youtube.com'))).toBe(false);
+      } finally {
+        await harness.pool.query(
+          `DELETE FROM ops.ops_config WHERE key = 'places.social_research.enabled'`,
+        );
+      }
     });
 
     it('calls nothing for a fresh brief, a spent cap or a reviewed brief', async () => {

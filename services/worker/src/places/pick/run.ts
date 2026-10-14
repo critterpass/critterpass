@@ -9,40 +9,32 @@
  * ranks made before the set arrived are cleared, so its recommended places are the editors' alone.
  */
 import { nameWellKnownPlaces, type Gateway, type NamedPlace } from '@cp/ai';
-import { LOW_QUALITY, MIN_CURATED_PLACES, pickCoverage, QUALITY_SCORE, withSystem } from '@cp/db';
+import { MIN_CURATED_PLACES, pickCoverage, withSystem } from '@cp/db';
 import type pg from 'pg';
 
 import type { JobLogger } from '../../boss/define-job';
-import { CANDIDATE_COLUMNS, candidateOf, namedCandidates, type CandidateRow } from './candidates';
+import { namedCandidates } from './candidates';
 import { matchNamedPlace, plainWords, type PickCandidate } from './match';
-import { PICK_BUCKETS, PICK_TARGET, rankPicks, type PickBucket, type RankedPick } from './select';
+import {
+  FILL_OVERSAMPLE,
+  loadFill,
+  PICK_TARGET,
+  rankPicks,
+  writePicks,
+} from '../profile/brief-picks';
 
-/** Rows read per bucket for each seat it may fill (dedupe drops some). */
-const FILL_OVERSAMPLE = 3;
-
-/** A food row whose name says coffee or tea: the open data has no cafe category. */
-const CAFE_NAME = String.raw`(^|[^a-z])(cafe|coffee|caphe|ca phe|kafe|kopi|roastery|roasters|tea|tiem tra)([^a-z]|$)`;
-
-const BUCKET_FILTER: Readonly<Record<PickBucket, string>> = {
-  sights: `p.category IN ('temple_shrine', 'museum', 'nature', 'beach')`,
-  food: `p.category = 'food' AND app.unaccent_immutable(lower(p.name)) !~ '${CAFE_NAME}'`,
-  cafe: `p.category = 'food' AND app.unaccent_immutable(lower(p.name)) ~ '${CAFE_NAME}'`,
-  market: `p.category = 'market'`,
-  nightlife: `p.category = 'nightlife'`,
-  shopping: `p.category = 'shopping'`,
-};
-
-/** The kinds of place any bucket holds; the others are never read for the fill. */
-const FILL_CATEGORIES = [
-  'temple_shrine',
-  'museum',
-  'nature',
-  'beach',
-  'food',
-  'market',
-  'nightlife',
-  'shopping',
-];
+/** Removes every rank of the destination; returns how many rows held one. */
+export async function clearPicks(tx: pg.PoolClient, destinationId: string): Promise<number> {
+  await tx.query(`SELECT pg_advisory_xact_lock(hashtextextended('places.pick:' || $1, 0))`, [
+    destinationId,
+  ]);
+  const cleared = await tx.query(
+    `UPDATE pois SET pick_rank = NULL, pick_source = NULL
+      WHERE destination_id = $1 AND pick_rank IS NOT NULL`,
+    [destinationId],
+  );
+  return cleared.rowCount ?? 0;
+}
 
 export interface PlacePickDeps {
   /** Absent without a model key: the picks are then the open-data fill alone. */
@@ -111,89 +103,7 @@ export async function matchNamedPlaces(
   return matched;
 }
 
-/**
- * How many of a destination's best open-data rows the fill looks at. A metro's catalogue holds
- * a few hundred thousand rows; reading each one per bucket ran past the statement timeout. The
- * fill reads the best rows once, in the order `pois_destination_browse_idx` keeps them, and
- * splits them into buckets: a bucket's places below the best ten thousand would never
- * make the list anyway.
- */
-export const FILL_SCAN = 10_000;
-
-const BUCKET_OF = `CASE ${PICK_BUCKETS.map(
-  (bucket) => `WHEN ${BUCKET_FILTER[bucket]} THEN '${bucket}'`,
-).join(' ')} END`;
-
-/** Each bucket's best open-data rows: quality first, then the rows that say more about themselves. */
-export async function loadFill(
-  tx: pg.PoolClient,
-  destinationId: string,
-  perBucket: number,
-  scan: number = FILL_SCAN,
-): Promise<Record<PickBucket, PickCandidate[]>> {
-  const { rows } = await tx.query<CandidateRow & { bucket: PickBucket }>(
-    `WITH best AS (
-       SELECT ${CANDIDATE_COLUMNS}, ${BUCKET_OF} AS bucket,
-              (jsonb_path_exists(p.hours, '$.weekly.*[*]'))::int + (p.website IS NOT NULL)::int
-                + (p.phone IS NOT NULL)::int AS detail
-         FROM pois p
-        WHERE p.destination_id = $1 AND p.status = 'active' AND p.merged_into_id IS NULL
-          AND p.curation <> 'editorial' AND NOT ${LOW_QUALITY} AND p.brand IS NULL
-          AND p.category = ANY($3::text[])
-        ORDER BY (p.curation = 'editorial') DESC, ${QUALITY_SCORE} DESC
-        LIMIT $4
-     ), ranked AS (
-       SELECT best.*,
-              row_number() OVER (PARTITION BY bucket ORDER BY quality DESC, detail DESC, id) AS n
-         FROM best WHERE bucket IS NOT NULL
-     )
-     SELECT * FROM ranked WHERE n <= $2 ORDER BY bucket, n`,
-    [destinationId, perBucket, FILL_CATEGORIES, scan],
-  );
-  const fill = Object.fromEntries(PICK_BUCKETS.map((bucket) => [bucket, []])) as unknown as Record<
-    PickBucket,
-    PickCandidate[]
-  >;
-  for (const row of rows) fill[row.bucket].push(candidateOf(row));
-  return fill;
-}
-
-/** Replaces the destination's ranks with `picks`; one writer at a time per destination. */
-export async function writePicks(
-  tx: pg.PoolClient,
-  destinationId: string,
-  picks: readonly RankedPick[],
-): Promise<void> {
-  await tx.query(`SELECT pg_advisory_xact_lock(hashtextextended('places.pick:' || $1, 0))`, [
-    destinationId,
-  ]);
-  const ids = picks.map((pick) => pick.id);
-  await tx.query(
-    `UPDATE pois SET pick_rank = NULL, pick_source = NULL
-      WHERE destination_id = $1 AND pick_rank IS NOT NULL AND id <> ALL($2::uuid[])`,
-    [destinationId, ids],
-  );
-  await tx.query(
-    `UPDATE pois p SET pick_rank = v.rank, pick_source = v.source
-       FROM unnest($1::uuid[], $2::int[], $3::text[]) AS v(id, rank, source)
-      WHERE p.id = v.id
-        AND (p.pick_rank IS DISTINCT FROM v.rank OR p.pick_source IS DISTINCT FROM v.source)`,
-    [ids, picks.map((pick) => pick.rank), picks.map((pick) => pick.source)],
-  );
-}
-
-/** Removes every rank of the destination; returns how many rows held one. */
-export async function clearPicks(tx: pg.PoolClient, destinationId: string): Promise<number> {
-  await tx.query(`SELECT pg_advisory_xact_lock(hashtextextended('places.pick:' || $1, 0))`, [
-    destinationId,
-  ]);
-  const cleared = await tx.query(
-    `UPDATE pois SET pick_rank = NULL, pick_source = NULL
-      WHERE destination_id = $1 AND pick_rank IS NOT NULL`,
-    [destinationId],
-  );
-  return cleared.rowCount ?? 0;
-}
+export { FILL_SCAN, loadFill, writePicks } from '../profile/brief-picks';
 
 export async function runPlacePick(
   pool: pg.Pool,

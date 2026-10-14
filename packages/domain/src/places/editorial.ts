@@ -7,6 +7,7 @@
 import { z } from 'zod';
 
 import { appLocaleSchema } from '../locale/app-locale';
+import { ESTIMATE_BASES } from './estimates';
 
 export const editorialPhotoSchema = z
   .object({
@@ -38,6 +39,7 @@ export const editorialTextSchema = z
     entry_short: z.string().min(1).max(12),
     dress_short: z.string().min(1).max(12),
     know_before: z.array(placeKnowSchema).max(5),
+    tips: z.array(z.string().min(1)).max(5),
   })
   .partial()
   .strict();
@@ -48,6 +50,43 @@ export type EditorialText = z.infer<typeof editorialTextSchema>;
 export const editorialTranslationsSchema = z.partialRecord(appLocaleSchema, editorialTextSchema);
 
 export type EditorialTranslations = z.infer<typeof editorialTranslationsSchema>;
+
+/**
+ * A fact a curated place's researcher stated: `cited` when it was read on the page `source_url`
+ * names, `estimate` when it could not be confirmed (shown as an estimate, never as fact).
+ */
+export const curatedFactSchema = z
+  .object({
+    text: z.string().min(1).max(160),
+    basis: z.enum(ESTIMATE_BASES),
+    source_url: z.string().min(1).optional(),
+  })
+  .strict();
+
+export type CuratedFact = z.infer<typeof curatedFactSchema>;
+
+/**
+ * What an agent-curated place adds to its note (`pois.editorial.curated`), written by the curated
+ * places loader for a destination's most visited places. Its presence makes the place popular in
+ * its destination, ranked by `rank`. The note's own lines (`why_go`, `best_time`, `crowd_hint`,
+ * `tips`, `time_needed_min`) hold the rest; `crowd_hint` is then an estimate (`crowd_basis`).
+ * Open data stays the source of the place's name, point and address.
+ */
+export const curatedNoteSchema = z
+  .object({
+    /** 1-based order of the place among its destination's curated places. */
+    rank: z.number().int().positive(),
+    fee: curatedFactSchema.optional(),
+    hours: curatedFactSchema.optional(),
+    crowd_basis: z.enum(ESTIMATE_BASES).optional(),
+    dress: z.string().min(1).max(160).optional(),
+    getting_there: z.string().min(1).max(200).optional(),
+    /** The pages the researcher read for this place. */
+    sources: z.array(z.string().min(1)).max(8).optional(),
+  })
+  .strict();
+
+export type CuratedNote = z.infer<typeof curatedNoteSchema>;
 
 export const editorialOverlaySchema = z
   .object({
@@ -71,6 +110,8 @@ export const editorialOverlaySchema = z
     know_before: z.array(placeKnowSchema).max(5).optional(),
     /** The note's lines in other languages; read through `localizedEditorial`. */
     i18n: editorialTranslationsSchema.optional(),
+    /** Set on an agent-curated place only. */
+    curated: curatedNoteSchema.optional(),
   })
   .strict();
 

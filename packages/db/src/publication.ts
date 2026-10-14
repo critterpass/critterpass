@@ -122,6 +122,8 @@ import * as schema from './schema';
  * when they open, and the link's sealed token must never replicate.
  * `recap_links` (packages/db/src/schema/recap.ts) is read over HTTP only: the recap's share sheet
  * asks for its live links when it opens, and a link's token hash must never replicate.
+ * `local_guides` (packages/db/src/schema/local-guides.ts) is RLS "R" but read over HTTP only
+ * (`GET /v1/destinations/{id}/guides`): a destination's guides are fetched when a screen shows them.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -164,6 +166,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'journey_checks',
   'la_object_states',
   'la_push_to_start_tokens',
+  'local_guides',
   'mapbox_geocode_usage',
   'media_assets',
   'media_objects',

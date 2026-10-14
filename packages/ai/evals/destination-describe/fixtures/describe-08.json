@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-14.",
+  "latency_ms": 1660,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "6322c59a-13fa-4fe5-b93b-a85e9398b4c8",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"en\":{\"line\":\"San Diego is a city in California, United States.\",\"about\":\"San Diego is a city in the region of California in the United States. It has a population of 1,386,932.\"},\"vi\":{\"line\":\"San Diego là một thành phố ở California, Hoa Kỳ.\",\"about\":\"San Diego là một thành phố thuộc vùng California, Hoa Kỳ. Thành phố có dân số 1.386.932 người.\"}}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 230,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 109,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

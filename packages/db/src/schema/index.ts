@@ -130,6 +130,7 @@ export { placeCards } from './place-cards';
 export { placeProfiles, placeSearchPace } from './place-profiles';
 export { destinationBriefs } from './destination-briefs';
 export { destinationHomeLinks, destinationLinkRuns } from './destination-travel';
+export { localGuides } from './local-guides';
 export * from './explore';
 export * from './planning';
 export { ballots, pitches, pollOptions, pollReveals, polls } from './polls';

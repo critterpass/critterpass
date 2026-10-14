@@ -25,6 +25,7 @@ and the one-table summary.
 | [App Clip built behind a flag](20260928-app-clip-built-behind-a-flag.md) | D15: native clip built now, offered only with `links.app_clip` on |
 | [Guide voice font: Mynerve](20260930-guide-voice-mynerve.md) | Founder decision (not a spike): Mynerve replaces Caveat so the guide speaks Vietnamese (superseded by Borel) |
 | [Guide voice font: Borel](20260930-guide-voice-borel.md) | Founder decision (not a spike): Borel replaces Mynerve; voice token 16/1.5 |
+| [Agent-curated places and local guides](20261014-agent-curated-places-and-local-guides.md) | Founder decision (not a spike): curated places as reviewed notes on open-data rows; local guides with published business data only (C0) |
 
 ## Spike results
 
@@ -71,3 +72,13 @@ the terms, with Mapbox or by changing the behaviour, in the legal review before 
 - **§1.9**: queries only in response to user actions, no automated queries. A timer-driven meet-up
   ETA re-query needs confirmation from Mapbox, or it re-queries only when a client reports a new
   location fix.
+
+## Places and destinations, 2026-10-14
+
+No ADR: the founder's direction is recorded in the product decision log
+([D38 and D39](../product-decisions.md)). Places stay our own lean open-data index (Overture and
+OSM, travel kinds above a confidence floor, ingested and refreshed only where trips and pitches
+go); Foursquare and machine picks are retired; places carry no photo unless a curated one exists
+for a popular place; AI estimates for popular places are labelled as estimates. A base set of
+about 5,000 destinations, each matched to one of the 151 critters, feeds the vote. Google Maps
+Platform is not used: Vietnam is a prohibited territory under its terms.

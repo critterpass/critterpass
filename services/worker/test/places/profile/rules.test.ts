@@ -1,8 +1,6 @@
-import sharp from 'sharp';
 import { describe, expect, it } from 'vitest';
 
 import { pageWindow } from '../../../src/places/profile/pages';
-import { resizePhoto } from '../../../src/places/profile/photos';
 import { skipReason } from '../../../src/places/profile/run';
 import { enginesFor, isExcludedUrl } from '../../../src/places/profile/search';
 import type { ProfileTarget } from '../../../src/places/profile/store';
@@ -77,28 +75,34 @@ describe('place search pacing and screening', () => {
     }
     expect(isExcludedUrl('https://agotourist.com/dinh-bao-dai-da-lat-dinh-iii/')).toBe(false);
   });
+
+  it('reads social posts and forums for suggestions only; suppliers stay out of both', () => {
+    for (const url of [
+      'https://www.tiktok.com/@traveller/video/7300000000000000000',
+      'https://www.youtube.com/watch?v=abcdefghijk',
+      'https://www.instagram.com/p/abc/',
+      'https://www.reddit.com/r/VietNam/comments/abc',
+    ]) {
+      expect(isExcludedUrl(url, 'facts'), url).toBe(true);
+      expect(isExcludedUrl(url, 'suggestions'), url).toBe(false);
+    }
+    for (const url of [
+      'https://www.tripadvisor.com/Attraction_Review-g293922',
+      'https://www.agoda.com/x',
+      'https://foursquare.com/v/abc',
+      'https://i.pinimg.com/736x/aa.jpg',
+    ]) {
+      expect(isExcludedUrl(url, 'suggestions'), url).toBe(true);
+    }
+    expect(isExcludedUrl('https://someones-travel-blog.example/da-lat', 'suggestions')).toBe(false);
+  });
 });
 
-describe('page text and photos', () => {
+describe('page text', () => {
   it("starts a page's window shortly before its first mention of the place, accents folded", () => {
     const text = `${'x '.repeat(2_000)}Giá vé Dinh Bao Dai III: 60.000 đ ${'y '.repeat(10)}`;
     const window = pageWindow(text, ['Dinh Bảo Đại III']);
     expect(window).toContain('Dinh Bao Dai III: 60.000');
     expect(window.length).toBeLessThan(800);
-  });
-
-  it('resizes a photo to 480 px wide and refuses a thumbnail', async () => {
-    const big = await sharp({
-      create: { width: 1600, height: 1200, channels: 3, background: '#2a6' },
-    })
-      .png()
-      .toBuffer();
-    const small = await sharp({
-      create: { width: 120, height: 90, channels: 3, background: '#2a6' },
-    })
-      .png()
-      .toBuffer();
-    expect(await resizePhoto(big)).toMatchObject({ width: 480, height: 360 });
-    expect(await resizePhoto(small)).toBeNull();
   });
 });

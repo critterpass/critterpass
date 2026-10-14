@@ -43,6 +43,8 @@ import { mapRegionRegisterJob, placesJobs } from './jobs/places';
 import { placePickDeps, placesPickJob } from './jobs/places/pick';
 import { destinationBriefJobs } from './places/profile/brief-jobs';
 import { placeProfileDeps, placeProfileJobs } from './places/profile/jobs';
+import { placesPruneJob } from './jobs/places/prune';
+import { curatedOsmLookupJob } from './jobs/places/curated-osm-lookup';
 import { tripPlacesRefreshJob } from './jobs/places/trip-refresh';
 import { planningJobs } from './jobs/planning';
 import { communityJobs } from './jobs/community';
@@ -88,6 +90,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     anonGcJob(),
     ...placesJobs(),
     mapRegionRegisterJob({ tilesBaseUrl: env.TILES_BASE_URL }),
+    curatedOsmLookupJob(),
     accountPurgeJob(),
     ...accountExportJobs(env),
     fixesTtlJob(),
@@ -122,7 +125,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     ...placeProfileJobs(profileDeps),
     ...destinationBriefJobs(profileDeps, env.PLACES_BRIEF_DAILY_CAP_USD),
     tripPlacesRefreshJob(),
-    ...draftJobs(env, { pool, assertRouteOn, telemetry: llmObservability, placePicks }),
+    ...draftJobs(env, { pool, assertRouteOn, telemetry: llmObservability }),
     ...moneyJobs(env, { pool, assertRouteOn, telemetry: llmObservability }),
     ...bookingsJobs(env, pool, assertRouteOn, llmObservability),
     ...billingJobs(processEnv, logger, deps.metrics),
@@ -146,6 +149,11 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     ),
     ...(await import('./jobs/proposal')).proposalJobs(env, pool, aiSwitches, llmObservability),
     ...(await import('./jobs/critters')).critterJobs(),
+    ...(await import('./jobs/destinations')).destinationsJobs(env, {
+      pool,
+      assertRouteOn,
+      telemetry: llmObservability,
+    }),
     ...(await import('./jobs/help')).helpJobs(
       { ...processEnv, ...env },
       { pool, assertRouteOn, telemetry: llmObservability },
@@ -201,6 +209,18 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
       }),
     );
   }
+  jobs.push(
+    placesPruneJob({
+      dump:
+        backupStore && env.BACKUP_DATABASE_URL
+          ? {
+              databaseUrl: env.BACKUP_DATABASE_URL,
+              store: backupStore,
+              pgDump: [env.BACKUP_PG_DUMP_PATH],
+            }
+          : undefined,
+    }),
+  );
   jobs.push(
     serviceHealthJob({ redis: deps.opsRedis, env, storagePool: deps.storagePool }),
     vendorUsageJob({ redis: deps.opsRedis, env }),

@@ -14,6 +14,7 @@ export {
 export * from './realtime';
 export * from './travel-data';
 export * from './media';
+export * from './destinations';
 export * from './entitlements/capability-keys';
 export * from './entitlements/errors';
 export * from './entitlements/metrics';
@@ -132,6 +133,7 @@ export {
 } from './places/categories';
 export * from './places/editorial';
 export * from './places/place-profile';
+export * from './places/estimates';
 export {
   EMPTY_HOURS,
   WEEKDAYS,
@@ -151,10 +153,12 @@ export { openSpans, openThrough, type OpenSpan } from './places/open-spans';
 export { DEFAULT_VISIT_MIN, visitMinutes } from './places/visit-minutes';
 export * from './places/shown-names';
 export * from './places/osm';
+export * from './places/lean';
 export * from './places/foursquare';
 export * from './places/foursquare-match';
 export * from './places/foursquare-photos';
 export * from './places/queues';
+export * from './places/nominatim-result';
 export * from './places/trip-place-events';
 export { CANONICAL_TZ_PATTERN, canonicalTz, timeZoneIdSchema } from './time/canonical-tz';
 export { TZ_ALIASES, TZDATA_VERSION } from './time/tz-aliases';

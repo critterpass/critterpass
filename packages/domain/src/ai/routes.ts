@@ -82,6 +82,10 @@ export const AI_ROUTES = [
   'place.profile_translate',
   // A destination's essentials, eateries and stay prices from web pages (system usage).
   'destination.brief',
+  // A base-set destination's facts-only line and about text, and Vietnam's one-time picks per
+  // province from a closed list (system usage).
+  'destination.describe',
+  'destination.vn_picks',
   // Jev 1.13 typed decisions, each with a fast-tier twin.
   'guide.chime_in_classifier',
   'help.intent_classifier',
@@ -94,6 +98,7 @@ export const AI_ROUTES = [
   'place.labels',
   'must_do.resolve',
   'redraft.note_intent',
+  'destination.critter',
 ] as const;
 export const aiRouteSchema = z.enum(AI_ROUTES);
 export type AiRoute = z.infer<typeof aiRouteSchema>;
@@ -111,6 +116,7 @@ export const DECISION_ROUTES = [
   'place.labels',
   'must_do.resolve',
   'redraft.note_intent',
+  'destination.critter',
 ] as const satisfies readonly AiRoute[];
 export type DecisionRoute = (typeof DECISION_ROUTES)[number];
 

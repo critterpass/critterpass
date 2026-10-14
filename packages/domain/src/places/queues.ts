@@ -25,6 +25,8 @@ export const PLACES_QUEUES = {
   destinationBrief: 'places.destination_brief',
   briefTranslate: 'places.brief_translate',
   homeLink: 'places.home_link',
+  prune: 'places.prune',
+  curatedOsmLookup: 'places.curated_osm_lookup',
 } as const;
 
 export const PLACES_QUEUE_SPECS = {
@@ -109,6 +111,23 @@ export const PLACES_QUEUE_SPECS = {
     retryDelay: 120,
     expireInSeconds: 5 * 60,
   },
+  // Operator only: one run at a time, never retried by itself (a rerun reads the kept set again).
+  // Dumping and deleting about ten million rows in paced batches takes a few hours.
+  'places.prune': {
+    policy: 'singleton',
+    retryLimit: 0,
+    expireInSeconds: 8 * 60 * 60,
+  },
+  // Operator only, keyed by destination and place: one OpenStreetMap lookup per curated place the
+  // loader found no row for. One at a time, as Nominatim allows one request a second; outcomes kept
+  // two weeks for the operator's report.
+  'places.curated_osm_lookup': {
+    policy: 'stately',
+    retryLimit: 2,
+    retryDelay: 120,
+    expireInSeconds: 5 * 60,
+    keepCompletedSeconds: 14 * 24 * 60 * 60,
+  },
 } as const satisfies Record<string, Partial<QueueSpec>>;
 
 export function placesQueueSpecs(
@@ -137,7 +156,24 @@ export const PLACES_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof PLACES_QUEU
     'places.brief_translate': "Translates a destination brief's lines into a reader's language",
     'places.home_link':
       'Writes the ways to reach a destination from a home city, with cited time and cost estimates',
+    'places.prune':
+      'Deletes places outside the lean rule or the destinations in use, keeping every referenced one',
+    'places.curated_osm_lookup':
+      'Finds a curated place no row carries in OpenStreetMap and adds it with its curated note',
   };
+
+/** The `places.curated_osm_lookup` singleton key: one lookup per curated place at a time. */
+export function curatedOsmLookupKey(slug: string, name: string): string {
+  return `curated-osm:${slug}:${name}`;
+}
+
+export const placesPruneJobSchema = z
+  .object({
+    /** Counts only; a run deletes only when this is explicitly false. */
+    dry_run: z.boolean().default(true),
+  })
+  .nullish();
+export type PlacesPruneJob = z.output<typeof placesPruneJobSchema>;
 
 export const foursquareMatchJobSchema = z.object({
   /** One destination slug; unset = every destination with curated places. */

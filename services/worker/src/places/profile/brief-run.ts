@@ -2,9 +2,11 @@
  * One destination's brief run (`places.destination_brief`): the searches and our own fetch of the
  * top pages, one structured write (pro tier) that names the essentials, eateries and stay prices
  * with a quote from a cited page each, cite-or-drop, then the names matched to our rows (close
- * calls to Jev; a name no row carries is dropped). The essentials and eateries lead the
- * destination's picks and the open-data fill tops up the kinds they lack (`pick/select.ts`); the
- * stay bands also go to the cost indices as web estimates. A curated destination, an editorial
+ * calls to Jev; a name no row carries is dropped). Travel blogs, forums and social posts are read
+ * for which places to name (`places.social_research.enabled`); stay prices never come from them.
+ * The essentials and eateries lead the destination's picks and the open-data fill tops up the
+ * kinds they lack (`./brief-picks.ts`); the stay bands also go to the cost indices as web
+ * estimates. A curated destination, an editorial
  * brief, a brief still fresh (unless forced) or a spent daily cap ends the run before any call.
  */
 import {
@@ -22,10 +24,9 @@ import { withSystem } from '@cp/db';
 import { profileSourceLocales } from '@cp/domain';
 import type pg from 'pg';
 
-import { loadFill, writePicks } from '../pick/run';
-import { PICK_TARGET, rankPicks } from '../pick/select';
 import { briefDestination, gatherBriefPages } from './brief-evidence';
 import { matchBriefLeads } from './brief-match';
+import { FILL_OVERSAMPLE, loadFill, PICK_TARGET, rankPicks, writePicks } from './brief-picks';
 import {
   briefSpentTodayMicros,
   loadBriefTarget,
@@ -35,7 +36,7 @@ import {
   saveStayEstimates,
   type BriefTarget,
 } from './brief-store';
-import type { PlaceSearch } from './search';
+import { researchPolicy, type PlaceSearch } from './search';
 
 export interface DestinationBriefDeps {
   readonly gateway: Pick<Gateway, 'callModel'>;
@@ -66,8 +67,6 @@ export type DestinationBriefReport =
       readonly costMicros: number;
       readonly seconds: number;
     };
-
-const FILL_OVERSAMPLE = 3;
 
 /** Why a run would not start, or null when it should. */
 export function briefSkipReason(
@@ -115,7 +114,7 @@ export async function runDestinationBrief(
     return { outcome: 'declined', reason, costMicros };
   };
 
-  const pages = await gatherBriefPages(target, deps, signal);
+  const pages = await gatherBriefPages(target, deps, signal, await researchPolicy(pool));
   const searchSeconds = seconds(started);
   if (pages.length === 0) return end('no_pages', 0);
   const write = await deps.gateway.callModel(

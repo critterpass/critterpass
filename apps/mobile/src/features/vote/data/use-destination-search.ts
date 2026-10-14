@@ -17,6 +17,10 @@ export interface PlaceResult {
   readonly coverage: 'live' | 'guest';
   readonly guide: string;
   readonly locals: readonly string[];
+  /** A facts-only line under the name (AI-written from Wikidata and GeoNames facts). */
+  readonly line?: string | null;
+  /** The media subject of its photo (`destination:<slug>`), when it has a ready one. */
+  readonly photo?: string | null;
 }
 
 export interface PlaceSearchState {

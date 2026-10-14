@@ -144,6 +144,11 @@ export function SearchPlaces({ crewId }: { readonly crewId: string | undefined }
                   </View>
                   <View style={{ flex: 1, minWidth: 0 }}>
                     <ResultName name={result.name} typed={query} />
+                    {result.line === undefined || result.line === null ? null : (
+                      <Text variant="caption" numberOfLines={1}>
+                        {result.line}
+                      </Text>
+                    )}
                     <Text variant="caption" tone="muted" numberOfLines={1}>
                       {[where, detail].filter(Boolean).join(' · ')}
                     </Text>

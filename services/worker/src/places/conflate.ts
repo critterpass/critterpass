@@ -12,6 +12,9 @@
  * instead.
  */
 import { mapSourceCategoriesToTaxonomy, type PoiCategory, type PoiSourceIds } from '@cp/domain';
+import { trigramSimilarity } from '@cp/planner';
+
+export { trigramSimilarity };
 
 export interface ConflationCandidate {
   readonly sourceId: string;
@@ -64,26 +67,6 @@ export function haversineDistanceM(
   const lat2 = toRadians(b.lat);
   const h = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
   return 2 * EARTH_RADIUS_M * Math.asin(Math.sqrt(Math.min(1, h)));
-}
-
-function paddedTrigrams(text: string): ReadonlySet<string> {
-  const normalised = `  ${text.toLowerCase().trim()}  `;
-  const grams = new Set<string>();
-  for (let index = 0; index <= normalised.length - 3; index += 1) {
-    grams.add(normalised.slice(index, index + 3));
-  }
-  return grams;
-}
-
-/** Jaccard similarity over padded 3-grams, in `[0, 1]`; same shape as `pg_trgm`'s `similarity()`. */
-export function trigramSimilarity(a: string, b: string): number {
-  const gramsA = paddedTrigrams(a);
-  const gramsB = paddedTrigrams(b);
-  if (gramsA.size === 0 || gramsB.size === 0) return 0;
-  let common = 0;
-  for (const gram of gramsA) if (gramsB.has(gram)) common += 1;
-  const union = gramsA.size + gramsB.size - common;
-  return union === 0 ? 0 : common / union;
 }
 
 /** Two categories may describe the same place if equal, or either failed to map (stays permissive). */

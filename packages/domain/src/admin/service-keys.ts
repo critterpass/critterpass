@@ -119,6 +119,18 @@ export function serviceKeys(): Record<string, ConfigKeyDefinition> {
       'Default 15',
     ),
     'android.fsi.enabled': killSwitch('Android full-screen intent alerts'),
+    'places.estimates.enabled': killSwitch("AI estimates on popular places' profiles"),
+    'places.osm_fallback.enabled': killSwitch(
+      'OpenStreetMap lookup when a place search inside a destination finds nothing',
+    ),
+    'places.osm_fallback.daily_cap': opsSetting(
+      z.number().int().min(0).max(20_000),
+      'OpenStreetMap lookups a day for place searches that find nothing (public Nominatim)',
+      'Default 1000; Nominatim allows one request a second',
+    ),
+    'places.social_research.enabled': killSwitch(
+      'Blogs and social pages in destination briefs and place tips',
+    ),
     'ai.cap.daily_usd': spendCap('AI spend cap per day, every tier (USD)'),
     ...Object.fromEntries(
       CAPPED_TIERS.map((tier) => [

@@ -1,0 +1,66 @@
+appId: app.critterpass.dev
+---
+# 3b-7 → 3b-8 for a base-set town: search finds Quy Nhơn by its unaccented name with its
+# facts-only line under the name, opens its page (its own neighbour critter guides it) and starts
+# a solo trip there, so a town outside the 61 places can be picked like any other.
+#
+# Data: a fresh account onboards; needs an api with the destination base set built (staging).
+- launchApp:
+    clearState: true
+- runFlow: ../home/subflows/onboard.yaml
+- openLink: critterpass-dev://places/search
+- extendedWaitUntil:
+    visible:
+      id: 'place-search-field'
+    timeout: 15000
+- inputText: 'quy nhon'
+- extendedWaitUntil:
+    visible: 'Quy Nhơn'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: 3b-7-base-town
+- tapOn:
+    id: 'place-result-.*'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'guest-brief|explore-destination'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: 3b-8-base-town
+- runFlow:
+    when:
+      visible:
+        id: 'guest-brief'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'guest-solo'
+      - tapOn:
+          id: 'guest-solo'
+      - tapOn:
+          id: 'solo-start'
+- runFlow:
+    when:
+      visible:
+        id: 'explore-destination'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'explore-solo'
+          direction: DOWN
+          timeout: 30000
+      - tapOn:
+          id: 'explore-solo'
+      - extendedWaitUntil:
+          visible:
+            id: 'explore-solo-confirm'
+          timeout: 10000
+      - tapOn:
+          id: 'explore-solo-start'
+- extendedWaitUntil:
+    visible:
+      id: 'when-cta|when-pick-week'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: 3c-3-base-town-setup

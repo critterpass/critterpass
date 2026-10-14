@@ -1,15 +1,15 @@
 /**
- * One place's profile run (`places.profile`). Jev's labels, the web search with our own fetch of
- * the top two pages, and the photos start together; only the write waits for the pages. The
- * checked text is saved (and readable) as soon as the write is done; the second source runs only
- * when the write proposed a fee, hours or a closure for a kind that has them, and the photos land
- * last: they are downloaded only once the profile is accepted, so a declined run stores none. A
- * reviewed note always wins: such a place, a skipped kind, an existing profile (unless forced) or a
+ * One place's profile run (`places.profile`). Jev's labels and the web search with our own fetch of
+ * the top two pages start together; only the write waits for the pages. The checked text is saved
+ * (and readable) as soon as the write is done; the second source runs only when the write proposed
+ * a fee, hours or a closure for a kind that has them. A profile is text only: no image is searched
+ * for, downloaded or stored. A reviewed note always wins: such a place, a skipped kind, an existing profile (unless forced) or a
  * spent daily cap ends the run before anything is called; a spent cap is marked on the place so
  * its readers queue nothing more until the cap resets at midnight UTC.
  */
 import {
   buildPlaceProfileRequest,
+  checkEstimates,
   checkPlaceProfileReply,
   checkSecondSource,
   isDeclined,
@@ -18,6 +18,7 @@ import {
   parseStructuredText,
   PLACE_PROFILE_ROUTES,
   textOf,
+  typeEstimates,
   wantsSecondSource,
   type DecisionClient,
   type Gateway,
@@ -33,16 +34,15 @@ import {
 } from '@cp/domain';
 import type pg from 'pg';
 
-import type { AvatarMediaStore } from '../../jobs/avatar/media-store';
-import { findPhotoHits, gatherPages, keepPhotos, profilePlace } from './evidence';
-import type { ImageHit, PlaceSearch } from './search';
+import { saveProfileEstimates, wantsEstimates } from './estimates-store';
+import { gatherPages, gatherTipPages, profilePlace } from './evidence';
+import { researchPolicy, type PlaceSearch } from './search';
 import {
   loadProfileTarget,
   markCapped,
   markRunEnded,
   markRunStarted,
   saveProfileFacts,
-  saveProfilePhotos,
   saveProfileText,
   spentTodayMicros,
   type ProfileTarget,
@@ -52,8 +52,6 @@ export interface PlaceProfileDeps {
   readonly gateway: Pick<Gateway, 'callModel'>;
   readonly decisions: Pick<DecisionClient, 'decide'>;
   readonly search: PlaceSearch;
-  /** The media bucket; without it the profile has no photos. */
-  readonly store?: Pick<AvatarMediaStore, 'put'> | undefined;
   readonly tier: PlaceProfileTier;
   readonly dailyCapMicros: number;
   readonly fetch?: typeof fetch;
@@ -74,8 +72,9 @@ export type PlaceProfileReport =
       readonly outcome: 'ready';
       readonly facts: number;
       readonly dropped: number;
-      readonly photos: number;
       readonly secondSource: boolean;
+      /** Weekdays given an estimated busy curve; null when the place gets no estimates. */
+      readonly estimateDays: number | null;
       readonly costMicros: number;
       readonly seconds: number;
     };
@@ -132,9 +131,15 @@ export async function runPlaceProfile(
     },
     usage,
   ).catch(() => null);
-  const hitsP = findPhotoHits(target, deps, signal).catch(() => [] as ImageHit[]);
+  const estimating = await wantsEstimates(pool, target.id);
+  const tipsP =
+    estimating && (await researchPolicy(pool)) === 'suggestions'
+      ? gatherTipPages(target, deps, signal)
+      : Promise.resolve([]);
 
-  const pages = await gatherPages(target, deps, signal);
+  const facts = await gatherPages(target, deps, signal);
+  const seen = new Set(facts.map((p) => p.url));
+  const pages = [...facts, ...(await tipsP).filter((p) => !seen.has(p.url))];
   const searchSeconds = seconds(started);
   if (pages.length === 0) {
     await markRunEnded(pool, target.id, {
@@ -148,7 +153,7 @@ export async function runPlaceProfile(
   const write = await deps.gateway.callModel(
     PLACE_PROFILE_ROUTES[deps.tier],
     {
-      ...buildPlaceProfileRequest(place, pages, locales),
+      ...buildPlaceProfileRequest(place, pages, locales, estimating),
       ...(signal === undefined ? {} : { signal }),
     },
     usage,
@@ -191,6 +196,27 @@ export async function runPlaceProfile(
     timings: { search_s: searchSeconds, text_s: seconds(started) },
   });
 
+  let estimateDays: number | null = null;
+  let estimateCost = 0;
+  const checkedEstimates = estimating
+    ? checkEstimates((raw as { estimates?: unknown }).estimates, pages, locales)
+    : null;
+  if (checkedEstimates !== null) {
+    const typed = await typeEstimates(deps.decisions, target, checkedEstimates, usage).catch(
+      () => null,
+    );
+    if (typed !== null) {
+      estimateCost = typed.costMicros;
+      estimateDays = await saveProfileEstimates(
+        pool,
+        target.id,
+        typed.estimates,
+        typed.costMicros,
+        now(),
+      );
+    }
+  }
+
   let second: SecondSourceResult | null = null;
   let final = checked;
   const asksSecond =
@@ -217,15 +243,13 @@ export async function runPlaceProfile(
     });
   }
 
-  const photos = await keepPhotos(target.id, await hitsP, deps, signal).catch(() => []);
-  await saveProfilePhotos(pool, target.id, photos, { photos_s: seconds(started) });
   return {
     outcome: 'ready',
     facts: final.facts.length,
     dropped: final.dropped.length,
-    photos: photos.length,
     secondSource: asksSecond,
-    costMicros: write.costMicros + labelCost + (second?.costMicros ?? 0),
+    estimateDays,
+    costMicros: write.costMicros + labelCost + estimateCost + (second?.costMicros ?? 0),
     seconds: seconds(started),
   };
 }

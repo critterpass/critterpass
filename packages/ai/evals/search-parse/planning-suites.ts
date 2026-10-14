@@ -1,7 +1,15 @@
 /**
  * The route suites dispatched by name from ../lib/runner.ts: plain-words search, link import, crew
- * compromise, place facts research and menu reading.
+ * compromise, place facts research, menu reading, and base-set destination texts and critters.
  */
+import {
+  DESTINATION_CRITTER_SUITE,
+  runDestinationCritterSuite,
+} from '../destination-critter/suite';
+import {
+  DESTINATION_DESCRIBE_SUITE,
+  runDestinationDescribeSuite,
+} from '../destination-describe/suite';
 import { FACTS_RESEARCH_SUITE, runFactsResearchSuite } from '../facts-research/suite';
 import { LINK_EXTRACT_SUITE, runLinkExtractSuite } from '../link-extract/suite';
 import type { RunOptions, SuiteReport } from '../lib/runner';
@@ -19,4 +27,6 @@ export const PLANNING_SUITES: Readonly<
   [FACTS_RESEARCH_SUITE]: runFactsResearchSuite,
   [PROVIDER_EXTRACT_SUITE]: runProviderExtractSuite,
   [MENU_SUITE]: runMenuSuite,
+  [DESTINATION_DESCRIBE_SUITE]: runDestinationDescribeSuite,
+  [DESTINATION_CRITTER_SUITE]: runDestinationCritterSuite,
 };

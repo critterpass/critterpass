@@ -37,6 +37,8 @@ export const placeProfiles = pgTable('place_profiles', {
   sources: jsonb('sources').notNull().default([]),
   secondSource: jsonb('second_source'),
   photos: jsonb('photos').notNull().default([]),
+  /** A popular place's labelled estimates (`@cp/domain` places/estimates.ts); `{}` elsewhere. */
+  estimates: jsonb('estimates').notNull().default({}),
   model: text('model'),
   costMicros: bigint('cost_micros', { mode: 'number' }).notNull().default(0),
   timings: jsonb('timings').notNull().default({}),

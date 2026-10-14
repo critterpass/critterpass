@@ -163,6 +163,18 @@ streams:
     queries:
       - SELECT * FROM guides
       # A day-trip area is never a city: installed builds offer every synced destination as a place
-      # to go, so an area is read over the api only.
-      - SELECT * FROM destinations WHERE coverage <> 'area'
+      # to go, so an area is read over the api only. The base set (about 5,000 towns) is searched
+      # over the api too; a base town reaches only the phones of crews whose trips, board options
+      # or pitches name it.
+      - SELECT * FROM destinations WHERE coverage <> 'area' AND origin <> 'base'
+      - |
+        SELECT * FROM destinations
+        WHERE origin = 'base' AND id IN (SELECT destination_id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM destinations
+        WHERE origin = 'base'
+          AND id IN (SELECT ref_id FROM poll_options WHERE crew_id IN my_crews AND kind = 'destination')
+      - |
+        SELECT * FROM destinations
+        WHERE origin = 'base' AND id IN (SELECT destination_id FROM pitches WHERE crew_id IN my_crews)
       - SELECT *, key AS id FROM client_config

@@ -2,7 +2,7 @@
  * Publishes a `media` release: one `media_assets` row per kept item, keyed by its source file.
  * Metadata (subjects, rank, credit, licence) updates in place; a row whose download URL changed
  * goes back to pending. Rows the release no longer has are removed (their stored files are never
- * read again). Every row that is not ready gets a `media.ingest` job in the same transaction.
+ * read again), except the destination base set's photos, which its builds own. Every row that is not ready gets a `media.ingest` job in the same transaction.
  * A place's photo names the place by its source ref (`poi:fsq-os-<id>`, `poi:overture-<id>`,
  * `poi:editorial-<id>`); it is stored under this
  * environment's POI id (`poi:<uuid>`), the subject the app reads. A ref with no active POI here is
@@ -61,7 +61,13 @@ export async function writeMedia(
     const row = rows[0];
     if (row !== undefined && row.status !== 'ready') pending.push(row.id);
   }
-  await tx.query('DELETE FROM media_assets WHERE release_id IS DISTINCT FROM $1', [releaseId]);
+  // The destination base set's Commons photos belong to its own builds, not to media releases.
+  await tx.query(
+    `DELETE FROM media_assets WHERE release_id IS DISTINCT FROM $1
+        AND (release_id IS NULL
+             OR release_id NOT IN (SELECT id FROM content_releases WHERE kind = 'destinations'))`,
+    [releaseId],
+  );
   for (const id of pending) {
     await sendInTx(tx, MEDIA_INGEST_QUEUE, { asset_id: id }, { singletonKey: id });
   }
