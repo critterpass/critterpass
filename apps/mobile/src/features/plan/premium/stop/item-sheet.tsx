@@ -13,22 +13,14 @@ import { View } from 'react-native';
 
 import { crewColour } from '@/features/vote';
 import { useLocale } from '@/lib/i18n/use-locale';
-import {
-  Button,
-  CrewStack,
-  ListCard,
-  StatusTag,
-  Text,
-  TextButton,
-  usePremiumTheme,
-} from '@/ui/premium';
+import { Button, CrewStack, ListCard, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 import { confirmAlert } from '@/ui/premium/shell';
 
 import { clock, clockRange } from '../../day/format';
 import { confirmWords, useFactWords } from '../../day/item-words';
 import type { ChangePreview, ItemDetailSheetProps } from '../../day/item-sheet-look';
 import { OverlaySheet } from '../sheets/overlay-sheet';
-import { LinkRow, Section } from './sheet-parts';
+import { BookedTag, LinkRow, Section } from './sheet-parts';
 import { TimeRows } from './time-rows';
 
 export function PremiumItemSheet(props: ItemDetailSheetProps) {
@@ -146,9 +138,7 @@ export function PremiumItemSheet(props: ItemDetailSheetProps) {
       testID="plan-item-sheet"
     >
       {props.lead ?? null}
-      {item.lock === 'booking' ? (
-        <StatusTag tone="booked" label={t({ id: 'plan.premium.item.booked', message: 'Booked' })} />
-      ) : null}
+      {item.lock === 'booking' ? <BookedTag /> : null}
       {props.suggestion == null ? null : (
         <LinkRow
           title={props.suggestion.line}
