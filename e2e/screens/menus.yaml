@@ -88,17 +88,23 @@ appId: app.critterpass.dev
       KEY: ask
       EXPECT: 'guide-.*'
 # Back to the plan by the guide's close button (on Android the system back left the guide up with
-# the question in its composer), then the system back for whatever is left.
+# the question in its composer). The day sheet can come back collapsed: drawn up to half again.
 - tapOn:
     id: 'guide-close'
     optional: true
-- repeat:
-    times: 2
-    while:
+- extendedWaitUntil:
+    visible:
+      id: 'plan-map-search'
+    timeout: 10000
+- runFlow:
+    when:
       notVisible:
         id: 'timeline-stop-.*'
     commands:
-      - runFlow: ../_shared/back.yaml
+      - swipe:
+          start: 50%, 82%
+          end: 50%, 45%
+          duration: 600
 - extendedWaitUntil:
     visible:
       id: 'timeline-stop-.*'
