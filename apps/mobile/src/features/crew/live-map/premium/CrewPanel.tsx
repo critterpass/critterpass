@@ -9,7 +9,6 @@ import { StyleSheet, View } from 'react-native';
 
 import { crewAccent } from '@/features/trip';
 import {
-  Avatar,
   Button,
   CrewStack,
   PressableScale,
@@ -20,6 +19,7 @@ import {
 } from '@/ui/premium';
 
 import type { LiveMapModel } from '../model';
+import { MemberRows } from './crew-panel-rows';
 
 function MeetupCard({ m }: { readonly m: LiveMapModel }) {
   const th = usePremiumTheme();
@@ -118,10 +118,18 @@ function MeetupCard({ m }: { readonly m: LiveMapModel }) {
   );
 }
 
-export function CrewPanel({ m }: { readonly m: LiveMapModel }) {
+export function CrewPanel({
+  m,
+  bottomInset,
+}: {
+  readonly m: LiveMapModel;
+  /** The home bar's height: the panel's ground runs under it, its buttons sit above it. */
+  readonly bottomInset: number;
+}) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const meSharing = m.view?.me?.sharing ?? 'off';
+  const actionSize = m.offline ? ({ size: 'medium', alignSelf: 'stretch' } as const) : {};
   const footer =
     m.endsOn === null
       ? ''
@@ -131,7 +139,10 @@ export function CrewPanel({ m }: { readonly m: LiveMapModel }) {
         });
   return (
     <View
-      style={[styles.panel, { backgroundColor: th.color.ground, gap: th.space.gap10 }]}
+      style={[
+        styles.panel,
+        { backgroundColor: th.color.ground, gap: th.space.gap10, paddingBottom: 12 + bottomInset },
+      ]}
       testID="live-map-panel"
     >
       <View style={[styles.grabber, { backgroundColor: th.color.outlineEmpty }]} />
@@ -168,75 +179,7 @@ export function CrewPanel({ m }: { readonly m: LiveMapModel }) {
       ) : (
         <MeetupCard m={m} />
       )}
-      {m.offline ? (
-        <Text variant="headline" testID="live-map-last-seen">
-          {t({ id: 'liveMap.premium.lastSeen', message: 'Last seen' })}
-        </Text>
-      ) : null}
-      <View style={{ gap: th.space.gap8 }}>
-        {m.rows.map((row) => {
-          const person = row.people[0];
-          const mine = person?.isMe === true;
-          const faded = person !== undefined && (person.sharing === 'paused' || person.stale);
-          return (
-            <View
-              key={row.key}
-              accessible
-              accessibilityLabel={row.spoken}
-              style={[
-                styles.member,
-                {
-                  borderRadius: th.radius.field,
-                  backgroundColor: th.color.card,
-                  boxShadow: th.shadow.float,
-                },
-                faded ? styles.faded : null,
-              ]}
-              testID={`live-map-row-${row.key}`}
-            >
-              <View style={styles.faces}>
-                {row.people.slice(0, 2).map((p, index) => (
-                  <View key={p.uid} style={index === 0 ? null : styles.overlap}>
-                    <Avatar
-                      name={p.name}
-                      color={crewAccent(p.joinIndex)}
-                      uid={p.uid}
-                      size={30}
-                      ringed
-                    />
-                  </View>
-                ))}
-              </View>
-              <View style={styles.flex}>
-                <Text variant="rowTitle" numberOfLines={1}>
-                  {row.title}
-                </Text>
-                <Text variant="captionMuted" tone="muted" numberOfLines={1}>
-                  {row.status}
-                </Text>
-              </View>
-              {mine && m.gate === 'open' && meSharing !== 'off' ? (
-                <Button
-                  alignSelf="auto"
-                  label={
-                    meSharing === 'paused'
-                      ? t({ id: 'liveMap.premium.resume', message: 'Resume' })
-                      : t({ id: 'liveMap.premium.pause', message: 'Pause' })
-                  }
-                  size="small"
-                  variant={meSharing === 'paused' ? 'primary' : 'control'}
-                  onPress={m.togglePause}
-                  testID="live-map-pause"
-                />
-              ) : (
-                <Text variant="rowTextStrong" style={styles.tabular}>
-                  {row.clock ?? '–'}
-                </Text>
-              )}
-            </View>
-          );
-        })}
-      </View>
+      <MemberRows m={m} meSharing={meSharing} />
       {m.locationOff ? (
         <TextButton
           label={t({ id: 'liveMap.premium.turnOnLocation', message: 'Turn on location' })}
@@ -245,7 +188,9 @@ export function CrewPanel({ m }: { readonly m: LiveMapModel }) {
         />
       ) : null}
       <View style={styles.actions}>
-        <View style={styles.flex}>
+        {/* Offline both wait (6.12): the two drop to the smaller pill and share the row, so
+            "Ping all · queued" stays on one line. */}
+        <View style={m.offline ? styles.wide : styles.flex}>
           <Button
             label={
               m.offline
@@ -253,6 +198,7 @@ export function CrewPanel({ m }: { readonly m: LiveMapModel }) {
                 : t({ id: 'liveMap.actions.pingAll', message: 'Ping all' })
             }
             variant="secondary"
+            {...actionSize}
             disabled={m.offline || m.pinging}
             onPress={() => m.ping('ping')}
             testID="live-map-ping"
@@ -261,6 +207,7 @@ export function CrewPanel({ m }: { readonly m: LiveMapModel }) {
         <View style={styles.wide}>
           <Button
             label={t({ id: 'liveMap.actions.onMyWay', message: "I'm on my way" })}
+            {...actionSize}
             disabled={m.offline || m.pinging}
             // eslint-disable-next-line lingui/no-unlocalized-strings -- a ping kind, not copy
             onPress={() => m.ping('on_my_way')}
@@ -278,7 +225,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 32,
     paddingHorizontal: 20,
     paddingTop: 8,
-    paddingBottom: 12,
   },
   grabber: { alignSelf: 'center', width: 40, height: 5, borderRadius: 3 },
   card: { padding: 14, gap: 8 },
@@ -288,16 +234,5 @@ const styles = StyleSheet.create({
   tabular: { fontVariant: ['tabular-nums'] },
   lane: { height: 34, justifyContent: 'center' },
   track: { position: 'absolute', left: 0, right: 0, height: 3, borderRadius: 2 },
-  member: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    paddingVertical: 9,
-    paddingLeft: 10,
-    paddingRight: 14,
-  },
-  faces: { flexDirection: 'row', width: 44 },
-  overlap: { marginLeft: -16 },
-  faded: { opacity: 0.55 },
   actions: { flexDirection: 'row', gap: 10, paddingTop: 4 },
 });
