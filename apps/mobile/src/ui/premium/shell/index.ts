@@ -49,6 +49,8 @@ export { useCoverPageSheet, usePageSheetCovered } from './screens/page-sheet-cov
 export type { ModalSheetProps } from './screens/modal-sheet';
 export { PushScreen } from './screens/push-screen';
 export type { PushScreenProps } from './screens/push-screen';
+export { PageFooter } from './screens/page-footer';
+export type { PageFooterProps } from './screens/page-footer';
 export { RootScreen } from './screens/root-screen';
 export { PresentedState, ScreenMissing, ScreenWaiting } from './screens/screen-states';
 export type {
