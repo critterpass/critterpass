@@ -257,11 +257,16 @@ jobs:
           SHARDS: ${{ steps.settings.outputs.shards }}
         run: pnpm exec tsx tools/scripts/ci-device/plan-shards.ts --platform android --shards "$SHARDS" --flows "$FLOWS"
 
-  # The JS export takes minutes: it runs in its own job, while the shards set up and boot their
-  # simulators and emulators (each waits for the artifact: ci-device/wait-bundles.sh).
+  # The JS export takes minutes: it runs in its own job from the start, beside prepare, while the
+  # shards set up and boot their simulators and emulators (each waits for the artifact:
+  # ci-device/wait-bundles.sh). It reads the platforms the way prepare's Settings step does.
   bundles:
     name: bundles (this commit's JS)
-    needs: prepare
+    if: >-
+      github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' ||
+      (github.event.pull_request.head.repo.full_name == github.repository &&
+       contains(github.event.pull_request.labels.*.name, 'device-run') &&
+       (github.event.action != 'labeled' || github.event.label.name == 'device-run'))
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -271,12 +276,28 @@ jobs:
       - uses: actions/setup-node@v7
         with: { node-version: 24, cache: pnpm }
       - run: pnpm install --frozen-lockfile
+      - name: Platforms and commit
+        id: plan
+        env:
+          EVENT: ${{ github.event_name }}
+          SCHEDULE: ${{ github.event.schedule }}
+          IN_PLATFORM: ${{ inputs.platform }}
+        run: |
+          platform=$IN_PLATFORM
+          [ "$EVENT" = pull_request ] && platform=android
+          [ "$EVENT" = schedule ] && platform=$([ "$SCHEDULE" = '0 22 * * *' ] && echo android || echo both)
+          {
+            echo "ios=$([ "$platform" != android ] && echo true || echo false)"
+            echo "android=$([ "$platform" != ios ] && echo true || echo false)"
+            # The commit prepare passes to the shards (the same checkout).
+            echo "js_commit=$(git rev-parse --short=12 HEAD)"
+          } >> "$GITHUB_OUTPUT"
       - name: Export the JS bundles
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          IOS: ${{ needs.prepare.outputs.ios }}
-          ANDROID: ${{ needs.prepare.outputs.android }}
-          EXPO_PUBLIC_JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
+          IOS: ${{ steps.plan.outputs.ios }}
+          ANDROID: ${{ steps.plan.outputs.android }}
+          EXPO_PUBLIC_JS_COMMIT: ${{ steps.plan.outputs.js_commit }}
         working-directory: apps/mobile
         run: |
           export APP_VARIANT=development NODE_ENV=production
