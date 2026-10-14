@@ -185,6 +185,13 @@ export function HubHero(props: HubHeroProps) {
           )}
         </View>
       </View>
+      {/* The page's ground rising over the photo's foot on rounded corners. */}
+      {onPhoto ? (
+        <View
+          pointerEvents="none"
+          style={[styles.sheetEdge, { height: SHEET_RADIUS, backgroundColor: th.color.ground }]}
+        />
+      ) : null}
     </View>
   );
 }
