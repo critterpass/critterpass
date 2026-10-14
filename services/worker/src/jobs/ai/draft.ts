@@ -25,7 +25,6 @@ import type pg from 'pg';
 
 import { defineAgentJob, type AgentJobDefinition } from '../../ai/job-runner';
 import type { AnyJobDefinition } from '../../boss';
-import type { PlacePickDeps } from '../../places/pick/run';
 import { webClosureCheck } from './draft/closures';
 import { registerDraftPushes } from './draft/pushes';
 import { firstDraftAsk, planDayGroups, savedAreas } from './draft/day-groups';
@@ -40,7 +39,7 @@ import {
   type DraftModelFactory,
 } from './draft/job-context';
 import { persistDraft, type DraftToSave } from './draft/persist';
-import { draftSummary, ensurePlacePicks } from './draft/place-picks';
+import { awaitDestinationBrief, draftSummary } from './draft/place-picks';
 import { noClosureCheck, prefetch, type ClosureCheck } from './draft/prefetch';
 import { outlineStage, type Outline } from './draft/skeleton';
 import {
@@ -63,7 +62,6 @@ export interface DraftJobDeps {
   readonly model?: DraftModelFactory | undefined;
   readonly closures?: ClosureCheck;
   readonly slots?: SlotCheck;
-  readonly placePicks?: PlacePickDeps | undefined;
 }
 
 export function gatewayDraftModel(gateway: Pick<Gateway, 'callModel'>) {
@@ -85,12 +83,12 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
           await hint(ctx, 'read_profiles', 'running');
           const { trip, held } = await load(ctx);
           const groups = await planDayGroups(ctx.pool, firstDraftAsk(trip, held));
-          // A destination without a curated set is drafted from its picks: make them first.
+          // A destination without a curated set is drafted from what its brief recommends.
           for (const id of new Set([
             trip.destinationId,
             ...groups.groups.map((g) => g.destinationId),
           ])) {
-            await ensurePlacePicks(ctx.pool, deps.placePicks, id, ctx.logger, ctx.boss);
+            await awaitDestinationBrief(ctx.pool, id, ctx.logger);
           }
           const label = readProfilesLabel(trip);
           await hint(ctx, 'read_profiles', 'done', label);
@@ -261,7 +259,6 @@ export interface DraftJobsDeps {
   readonly assertRouteOn: AssertRouteOn;
   readonly telemetry?: Telemetry | undefined;
   readonly closures?: ClosureCheck;
-  readonly placePicks?: PlacePickDeps | undefined;
 }
 
 /**
@@ -291,7 +288,6 @@ export function draftJobs(env: DraftJobsEnv, deps: DraftJobsDeps): AnyJobDefinit
   return [
     draftJob({
       model,
-      placePicks: deps.placePicks,
       ...(closures === undefined ? {} : { closures }),
     }),
     redraftJob({ model, decisions }),

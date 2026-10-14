@@ -123,7 +123,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     ...placeProfileJobs(profileDeps),
     ...destinationBriefJobs(profileDeps, env.PLACES_BRIEF_DAILY_CAP_USD),
     tripPlacesRefreshJob(),
-    ...draftJobs(env, { pool, assertRouteOn, telemetry: llmObservability, placePicks }),
+    ...draftJobs(env, { pool, assertRouteOn, telemetry: llmObservability }),
     ...moneyJobs(env, { pool, assertRouteOn, telemetry: llmObservability }),
     ...bookingsJobs(env, pool, assertRouteOn, llmObservability),
     ...billingJobs(processEnv, logger, deps.metrics),

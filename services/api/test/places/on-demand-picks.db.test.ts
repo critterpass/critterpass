@@ -1,7 +1,7 @@
 /**
  * A trip set to a destination queues what that destination lacks, against real Postgres and a
- * real pg-boss producer: its open-data ingest when it has almost no places, its machine picks
- * when it has places but neither a curated set nor picks, and nothing when it has either.
+ * real pg-boss producer: its open-data ingest when it has almost no places, never machine picks
+ * (retired: a destination's brief recommends its places).
  */
 import { randomUUID } from 'node:crypto';
 
@@ -12,7 +12,7 @@ import type { PgBoss } from 'pg-boss';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { startJobProducer } from '../../src/jobs/producer';
-import { onDemandIngestHook, queuePickWhenNeeded } from '../../src/places/on-demand-ingest';
+import { onDemandIngestHook } from '../../src/places/on-demand-ingest';
 
 let postgres: StartedPostgreSqlContainer;
 let pool: pg.Pool;
@@ -83,37 +83,25 @@ afterAll(async () => {
 });
 
 describe('a trip set to a destination', () => {
-  it('queues the picks of one with places but nothing recommended, once', async () => {
+  it('queues no picks for one with places but nothing recommended', async () => {
     const daLat = await destination('vn-da-lat', 60);
     await destinationSet(await tripTo(daLat));
-    expect(await jobs('places.pick')).toEqual([{ destination: 'vn-da-lat' }]);
+    expect(await jobs('places.pick')).toEqual([]);
     expect(await jobs('places.ingest')).toEqual([]);
-    // A second trip while that run waits adds nothing.
-    await destinationSet(await tripTo(daLat));
-    expect(await jobs('places.pick')).toHaveLength(1);
-
-    // Once it has picks there is nothing to queue.
-    await pool.query(
-      `UPDATE pois SET pick_rank = 1, pick_source = 'fill'
-        WHERE id = (SELECT id FROM pois WHERE destination_id = $1 LIMIT 1)`,
-      [daLat],
-    );
-    expect(await withSystem(pool, (tx) => queuePickWhenNeeded(tx, daLat))).toBe(false);
   });
 
-  it('queues the ingest, not the picks, of one with almost no places', async () => {
+  it('queues the ingest, and no picks, of one with almost no places', async () => {
     const town = await destination('vn-small-town', 3);
     await destinationSet(await tripTo(town));
     expect(await jobs('places.ingest')).toEqual([{ slug: 'vn-small-town' }]);
-    expect(await jobs('places.pick')).toHaveLength(1);
+    expect(await jobs('places.pick')).toEqual([]);
   });
 
-  it('queues nothing for one with a curated set', async () => {
+  it('queues neither for one with a curated set', async () => {
     const hoiAn = await destination('vn-hoi-an', 50, 'editorial');
     await destinationSet(await tripTo(hoiAn));
-    expect(await jobs('places.pick')).toHaveLength(1);
+    expect(await jobs('places.pick')).toEqual([]);
     expect(await jobs('places.ingest')).toHaveLength(1);
-    expect(await withSystem(pool, (tx) => queuePickWhenNeeded(tx, hoiAn))).toBe(false);
   });
 
   it('warms the profiles of every pitched or planned destination, once while one waits', async () => {

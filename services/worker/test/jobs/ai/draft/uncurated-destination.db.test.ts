@@ -1,7 +1,8 @@
 /**
- * Drafting where our editors have curated nothing: the draft's places are the destination's
- * machine picks (made first when a draft starts before they exist), planned with the usual hours
- * and visit length of their kind, with the well-known ones ahead of the open-data fill. A curated
+ * Drafting where our editors have curated nothing: the draft's places are the ones the
+ * destination's brief recommends (a draft that starts while the brief is being written waits for
+ * it, and queues no pick job of its own), planned with the usual hours and visit length of their
+ * kind, with the well-known ones ahead of the open-data fill. A curated
  * destination still drafts from its editorial set alone. And a day the draft left empty is still
  * a day of the version: the organiser can redraft it.
  */
@@ -12,14 +13,14 @@ import { fixtureTransport } from '@cp/ai/testing';
 import { withSystem } from '@cp/db';
 import type { Itinerary } from '@cp/domain';
 import { dayWindow, scheduleDay } from '@cp/planner';
-import type { PgBoss } from 'pg-boss';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import type { AgentStepContext } from '../../../../src/ai/job-runner';
 import { load } from '../../../../src/jobs/ai/draft/job-context';
 import { loadDraftPlaces } from '../../../../src/jobs/ai/draft/load-places';
 import { persistDraft } from '../../../../src/jobs/ai/draft/persist';
-import { ensurePlacePicks, tooFewCandidates } from '../../../../src/jobs/ai/draft/place-picks';
+import { awaitDestinationBrief, tooFewCandidates } from '../../../../src/jobs/ai/draft/place-picks';
+import { runPlacePick } from '../../../../src/places/pick/run';
 import { loadBaseDraft } from '../../../../src/jobs/ai/draft/redraft-store';
 import { deckCandidates } from '../../../../src/jobs/ai/swipe-deck';
 import { silent, startJobsHarness, type JobsHarness } from '../../../helpers/jobs-harness';
@@ -56,11 +57,6 @@ function stepContext(input: unknown): AgentStepContext {
     usage: {},
   } as unknown as AgentStepContext;
 }
-
-/** A named answer never asks the job to pick again. */
-const noQueue = {
-  send: () => Promise.reject(new Error('no pick should be queued')),
-} as unknown as Pick<PgBoss, 'send'>;
 
 const recorded = () =>
   createGateway({ apiKey: 'fixture-key', fetch: fixtureTransport(['place-picks-da-lat']).fetch });
@@ -99,19 +95,43 @@ describe('a draft in a destination without a curated set', () => {
     expect(tooFewCandidates(input)).toBe(true);
   });
 
-  it('makes the picks first, then drafts from them', async () => {
-    const report = await ensurePlacePicks(
+  it('waits for the brief while it is being written, and for nothing without one', async () => {
+    expect(await awaitDestinationBrief(harness.pool, daLat.destinationId, silent)).toBe('none');
+    await harness.pool.query(
+      "INSERT INTO destination_briefs (destination_id, status) VALUES ($1, 'pending')",
+      [daLat.destinationId],
+    );
+    const fast = { waitMs: 300, pollMs: 50 };
+    expect(await awaitDestinationBrief(harness.pool, daLat.destinationId, silent, fast)).toBe(
+      'timeout',
+    );
+    const waiting = awaitDestinationBrief(harness.pool, daLat.destinationId, silent, {
+      waitMs: 10_000,
+      pollMs: 50,
+    });
+    await harness.pool.query(
+      "UPDATE destination_briefs SET status = 'ready' WHERE destination_id = $1",
+      [daLat.destinationId],
+    );
+    expect(await waiting).toBe('ready');
+    await harness.pool.query('DELETE FROM destination_briefs WHERE destination_id = $1', [
+      daLat.destinationId,
+    ]);
+  });
+
+  it('drafts from the places the brief recommends', async () => {
+    // The brief writes the destination's recommended places (named leads, then the open-data fill).
+    const report = await runPlacePick(
       harness.pool,
       { gateway: recorded() },
-      daLat.destinationId,
+      { destinationId: daLat.destinationId },
       silent,
-      noQueue,
     );
     expect(report).toMatchObject({ status: 'picked', matched: NAMED_IN_ORDER.length });
-    // Once picked there is nothing to make.
-    expect(
-      await ensurePlacePicks(harness.pool, {}, daLat.destinationId, silent, noQueue),
-    ).toBeNull();
+    // Once there is something recommended the draft waits for nothing.
+    expect(await awaitDestinationBrief(harness.pool, daLat.destinationId, silent)).toBe(
+      'not_needed',
+    );
 
     const places = await loadDraftPlaces(harness.pool, daLat.destinationId, []);
     const names = places.map((poi) => poi.name);

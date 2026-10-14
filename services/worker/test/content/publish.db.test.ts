@@ -8,7 +8,6 @@ import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { enqueue } from '../../src/boss';
 import { contentJobs, publishRelease } from '../../src/content';
 import { contentPublishJob } from '../../src/content/publish';
-import { PLACES_PICK_QUEUE, placesPickJob } from '../../src/jobs/places/pick';
 import { startJobsHarness, until, type JobsHarness } from '../helpers/jobs-harness';
 
 let harness: JobsHarness;
@@ -456,30 +455,31 @@ describe('content.publish', () => {
     expect((await stored()).rows.map((row) => row.xmin)).toEqual(first.rows.map((row) => row.xmin));
   });
 
-  it('has the picks of every destination a places release wrote to made again', async () => {
+  it('queues no machine picks after a places release', async () => {
     // An open-data warung the pick job chose before Bali had any curated place.
     await harness.pool.query(
       `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids, pick_rank, pick_source)
        SELECT id, 'Warung Bu Made', 'food', -8.65, 115.13, '{"fsq_os": "warung-bu-made"}', 7, 'fill'
          FROM destinations WHERE slug = 'bali'`,
     );
-    const boss = await harness.startRuntime([...contentJobs(), placesPickJob({})]);
-    await enqueue(boss, contentPublishJob(), {
+    const boss = await harness.startRuntime([...contentJobs()]);
+    const publishJob = contentPublishJob();
+    await enqueue(boss, publishJob, {
       release_id: await approved('places', 2, [poi('fsq_os:uluwatu', 'Pura Luhur Uluwatu', null)]),
     });
-    let output: Record<string, unknown> | undefined;
     await until(async () => {
-      const jobs = await boss.findJobs(PLACES_PICK_QUEUE, { data: { destination: 'bali' } });
-      output = jobs.find((job) => job.state === 'completed')?.output as
-        Record<string, unknown> | undefined;
-      return output !== undefined;
+      const jobs = await boss.findJobs(publishJob.queue);
+      return jobs.some((job) => job.state === 'completed');
     }, 60_000);
-    // Forced: Bali is still far from a curated set, so its one open-data place is ranked afresh.
-    expect(output).toMatchObject({ destination: 'bali', status: 'picked', total: 1 });
+    const { rows: picks } = await harness.pool.query(
+      "SELECT 1 FROM pgboss.job WHERE name = 'places.pick'",
+    );
+    expect(picks).toEqual([]);
+    // The destination's brief rewrites its picks; a release leaves them as they were.
     const { rows } = await harness.pool.query<{ name: string; pick_rank: number }>(
       'SELECT name, pick_rank FROM pois WHERE pick_rank IS NOT NULL',
     );
-    expect(rows).toEqual([{ name: 'Warung Bu Made', pick_rank: 1 }]);
+    expect(rows).toEqual([{ name: 'Warung Bu Made', pick_rank: 7 }]);
   });
 
   it('leaves a place alone when a later release says the same and rewrites one that changed', async () => {
