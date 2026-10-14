@@ -17,58 +17,22 @@ import {
   Button,
   CritterSticker,
   GlassIconButton,
-  Icon,
   ListCard,
   OfflinePill,
-  Spinner,
   Text,
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { VISIBLE_STEP_IDS, type StepRow } from '../../draft/data/job';
+import { VISIBLE_STEP_IDS } from '../../draft/data/job';
 import { lineFor, titleFor, type DraftingViewProps } from '../../draft/drafting/drafting-props';
-import { dayCardLabel, failLine, stepLine } from '../../draft/drafting/step-copy';
+import { failLine, stepLine } from '../../draft/drafting/step-copy';
 import { draftingBackLabel } from '../../draft/review/draft-copy';
-import { dayColours } from '../map';
+import { DayStickers, StepMark } from './drafting-parts';
 import { confirmAlert } from '@/ui/premium/shell';
 
-const DISC = 22;
-/* eslint-disable-next-line lingui/no-unlocalized-strings -- sticker tilts, never copy. */
-const TILTS = ['-3deg', '3deg'] as const;
-
-function StepMark({ status }: { readonly status: StepRow['status'] }) {
-  const theme = usePremiumTheme();
-  if (status === 'done') {
-    return (
-      <View
-        style={{
-          width: DISC,
-          height: DISC,
-          borderRadius: DISC / 2,
-          backgroundColor: theme.accent.mint,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Icon name="check" size={13} color={theme.color.onAccent} stroke={3} />
-      </View>
-    );
-  }
-  if (status === 'running') return <Spinner size={DISC} />;
-  return (
-    <View
-      style={{
-        width: DISC,
-        height: DISC,
-        borderRadius: DISC / 2,
-        borderWidth: status === 'failed' ? 2.5 : 2,
-        borderColor:
-          status === 'failed' ? theme.color.destructive.fieldRing : theme.color.progressTodo,
-      }}
-    />
-  );
-}
+/** The status bar band the scrolled page fades under. */
+const TOP_FADE = 12;
 
 export function PremiumDraftingView({
   guide,
@@ -124,6 +88,10 @@ export function PremiumDraftingView({
           paddingBottom: theme.space.gap16,
           gap: theme.space.gap16,
           alignItems: 'stretch',
+          // A short page sits in the middle of the room above the buttons, not at its top with a
+          // dead band under it.
+          flexGrow: 1,
+          justifyContent: 'center',
         }}
       >
         <View style={{ alignItems: 'center' }}>
@@ -190,33 +158,22 @@ export function PremiumDraftingView({
             ))}
           </ListCard>
         )}
-        {working && dayCards.length > 0 ? (
-          <View
-            style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap8 }}
-            testID="drafting-days"
-          >
-            {dayCards.map((day, index) => (
-              <View
-                key={day.dayNo}
-                style={{
-                  paddingVertical: theme.space.gap8,
-                  paddingHorizontal: theme.space.gap12,
-                  borderRadius: theme.radius.tag,
-                  borderWidth: 2.5,
-                  borderColor: theme.accent.stickerEdge,
-                  backgroundColor: dayColours(day.dayNo).fill,
-                  boxShadow: theme.shadow.sticker,
-                  transform: [{ rotate: TILTS[index % 2] ?? TILTS[0] }],
-                }}
-              >
-                <Text variant="caption" color={theme.color.onAccent}>
-                  {dayCardLabel(day, locale)}
-                </Text>
-              </View>
-            ))}
-          </View>
-        ) : null}
+        {working && dayCards.length > 0 ? <DayStickers days={dayCards} locale={locale} /> : null}
       </ScrollView>
+      {slow ? null : (
+        <View
+          pointerEvents="none"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: insets.top + TOP_FADE,
+            // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never copy.
+            experimental_backgroundImage: `linear-gradient(180deg, ${theme.color.ground} ${String(Math.round((insets.top / (insets.top + TOP_FADE)) * 100))}%, ${theme.color.ground}00)`,
+          }}
+        />
+      )}
       <View
         style={{
           paddingHorizontal: theme.space.titleGutter,
