@@ -5,10 +5,9 @@
  * says how it is earned.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- CSS values and the Pass+ brand mark, never copy. */
-import type { AppIconBaseId } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
-import { Image, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -28,32 +27,19 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { APP_ICON_PREVIEWS, type AppIconLook } from '../../app-icon/app-icon-previews';
+import type { AppIconLook } from '../../app-icon/app-icon-previews';
 import { useAppIconPicker } from '../../app-icon/use-app-icon-picker';
 import { useIconNames } from '../../app-icon/icon-names';
 import { deviceAppIcon } from '../../app-icon/device';
 import { AppIconLapseRevert } from '../../app-icon/lapse-revert';
 import type { IconChoice } from '../../app-icon/picker-model';
+import { AppIconPreview, ICON_CORNER, IconImage } from './app-icon-preview';
 
 /** A locked style's no-shake: three quick legs, then a settle. */
 const SHAKE_LEG_MS = 50;
 const SHAKE_SETTLE_MS = 100;
-const CORNER = 0.225;
 const STYLE_ICON = 60;
 const EARNED_ICON = 52;
-const PREVIEW_ICON = 56;
-
-function IconImage({ id, look, size }: { id: AppIconBaseId; look: AppIconLook; size: number }) {
-  const preview = APP_ICON_PREVIEWS[id];
-  if (preview === undefined) return null;
-  return (
-    <Image
-      source={preview[look]}
-      style={{ width: size, height: size, borderRadius: size * CORNER }}
-      accessibilityIgnoresInvertColors
-    />
-  );
-}
 
 function EarnedTile({
   choice,
@@ -150,50 +136,7 @@ export function AppIconPremiumScreen() {
           paddingTop: th.space.gap8,
         }}
       >
-        <View
-          style={{
-            height: 226,
-            borderRadius: 30,
-            overflow: 'hidden',
-            backgroundColor: th.accent.sky,
-            experimental_backgroundImage:
-              'linear-gradient(180deg, rgba(10,20,40,.1), rgba(10,20,40,.3))',
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            padding: 20,
-            gap: 22,
-            justifyContent: 'center',
-            alignContent: 'center',
-          }}
-          testID="you-app-icon-preview"
-        >
-          {Array.from({ length: 8 }, (_, index) =>
-            index === 1 ? (
-              <View
-                key="ours"
-                style={{
-                  transform: [{ scale: 1.06 }],
-                  borderRadius: PREVIEW_ICON * CORNER + 3,
-                  borderWidth: 3,
-                  borderColor: th.accent.stickerEdge,
-                  boxShadow: th.shadow.raised,
-                }}
-              >
-                <IconImage id={current} look={look} size={PREVIEW_ICON} />
-              </View>
-            ) : (
-              <View
-                key={index}
-                style={{
-                  width: PREVIEW_ICON,
-                  height: PREVIEW_ICON,
-                  borderRadius: 15,
-                  backgroundColor: th.color.spinnerTrack,
-                }}
-              />
-            ),
-          )}
-        </View>
+        <AppIconPreview id={current} look={look} />
         {problem === null ? null : (
           <Text variant="caption" color={th.color.destructive.helper} testID="you-app-icon-problem">
             {problem === 'failed'
@@ -205,7 +148,8 @@ export function AppIconPremiumScreen() {
           </Text>
         )}
         <Card padded>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          {/* Four columns, as the design sets the styles: a short list starts at the left. */}
+          <View style={{ flexDirection: 'row' }}>
             {model.styles.map((choice) => {
               const selected = choice.state === 'in_use';
               return (
@@ -217,6 +161,7 @@ export function AppIconPremiumScreen() {
                   disabled={switching !== null}
                   onPress={() => void choose(choice)}
                   style={{
+                    width: '25%',
                     alignItems: 'center',
                     gap: th.space.gap4,
                     opacity: switching === choice.id ? 0.5 : 1,
@@ -225,10 +170,11 @@ export function AppIconPremiumScreen() {
                 >
                   <View
                     style={{
-                      borderRadius: STYLE_ICON * CORNER + 5,
+                      borderRadius: STYLE_ICON * ICON_CORNER + 5,
+                      // Every style lifts off the card as an icon tile; the chosen one wears the ring.
                       boxShadow: selected
-                        ? `0 0 0 3px ${th.color.ground}, 0 0 0 5.5px ${th.color.ink}`
-                        : undefined,
+                        ? `0 0 0 3px ${th.color.card}, 0 0 0 5.5px ${th.color.ink}`
+                        : th.shadow.raised,
                     }}
                   >
                     <IconImage id={choice.id} look={look} size={STYLE_ICON} />
