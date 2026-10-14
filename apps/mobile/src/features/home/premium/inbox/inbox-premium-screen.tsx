@@ -9,7 +9,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useContext, useState, type ReactNode } from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import {
@@ -44,6 +44,8 @@ const useStyles = makePremiumStyles((t) => ({
   cards: { gap: t.space.gap10 },
   label: { marginTop: t.space.gap8, marginStart: 6 },
   loading: { gap: t.space.gap10 },
+  // The first-time page fills the screen, so its ask sits at the foot (3.18).
+  fill: { flexGrow: 1 },
 }));
 
 export function InboxPremiumScreen() {
@@ -67,10 +69,13 @@ export function InboxPremiumScreen() {
 function InboxPage({
   title,
   action,
+  fill = false,
   children,
 }: {
   readonly title: string;
   readonly action?: ShellAction;
+  /** The content fills the screen's height (the first-time page pins its ask to the foot). */
+  readonly fill?: boolean;
   readonly children: ReactNode;
 }) {
   const styles = useStyles();
@@ -80,9 +85,19 @@ function InboxPage({
       title={title}
       backLabel={t({ id: 'home.premium.inbox.back', message: 'Home' })}
       {...(action === undefined ? {} : { action })}
+      scroll={!fill}
       testID="inbox-screen"
     >
-      <View style={styles.content}>{children}</View>
+      {fill ? (
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          contentContainerStyle={[styles.content, styles.fill]}
+        >
+          {children}
+        </ScrollView>
+      ) : (
+        <View style={styles.content}>{children}</View>
+      )}
     </PushScreen>
   );
 }
@@ -107,8 +122,17 @@ function InboxContent({ title }: { readonly title: string }) {
   if (inbox.total > 0 && !held) setHeld(true);
   const firstTime = inbox.loaded && inbox.total === 0 && !held;
   const needs = inbox.needsYou;
+  const settings: ShellAction = {
+    key: 'settings',
+    label: t({ id: 'inbox.premium.settings', message: 'Notification settings' }),
+    sfSymbol: 'gearshape',
+    glyph: 'gear',
+    onPress: () => router.push('/you/pings'),
+    testID: 'inbox-first-settings',
+  };
+  const action = firstTime ? settings : inbox.unread ? markAll : undefined;
   return (
-    <InboxPage title={title} {...(inbox.unread && !firstTime ? { action: markAll } : {})}>
+    <InboxPage title={title} fill={firstTime} {...(action === undefined ? {} : { action })}>
       {!inbox.loaded ? (
         <View style={styles.loading}>
           <Skeleton height={120} radius={22} tone="block" />

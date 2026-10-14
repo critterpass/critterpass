@@ -169,9 +169,17 @@ export function PremiumInboxCard({
             </View>
           )}
           <View style={styles.grow}>
-            <Text variant="headline">{copy.title}</Text>
+            {/* Balanced lines beside the inline action: no one-word last line ("go."). */}
+            <Text variant="headline" textBreakStrategy="balanced" lineBreakStrategyIOS="push-out">
+              {copy.title}
+            </Text>
             {body === undefined ? null : (
-              <Text variant="note" tone="muted">
+              <Text
+                variant="note"
+                tone="muted"
+                textBreakStrategy="balanced"
+                lineBreakStrategyIOS="push-out"
+              >
                 {body}
               </Text>
             )}
