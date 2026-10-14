@@ -379,6 +379,10 @@ msgstr ""
 msgid "critters.queued.homeOn"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.loadingTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.hardest"
 msgstr ""

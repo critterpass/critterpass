@@ -571,12 +571,17 @@ msgid "money.queued.addExpense"
 msgstr "Khoản chi: {what}"
 
 #: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/MoneySheets.tsx
 msgid "money.premium.noTripLine"
 msgstr "Khoản chi thuộc về một chuyến đi. Tạo chuyến đi với nhóm, rồi thêm vào đây."
 
 #: ../../apps/mobile/src/features/money/premium/components/SettledSquare.tsx
 msgid "money.premium.export"
 msgstr "Xuất để lưu trữ"
+
+#: ../../apps/mobile/src/features/money/premium/MoneySheets.tsx
+msgid "money.premium.tripsLoading"
+msgstr "Đang tìm các chuyến đi của bạn…"
 
 #: ../../apps/mobile/src/features/money/components/category.ts
 msgid "money.category.food"

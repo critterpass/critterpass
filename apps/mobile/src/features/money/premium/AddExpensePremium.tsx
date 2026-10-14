@@ -81,7 +81,8 @@ export function AddExpensePremium(props: {
         <View
           style={[styles.root, { backgroundColor: th.color.ground, paddingTop: insets.top + 80 }]}
         >
-          {state.loading ? (
+          {/* "No trip" only once the context says so: a ready context still seeding waits. */}
+          {state.loading || ctx.status === 'ready' ? (
             <View style={{ padding: th.space.gutter, gap: th.space.gap12 }}>
               <Skeleton height={60} radius={th.radius.card} />
               <Skeleton height={240} radius={th.radius.card} />

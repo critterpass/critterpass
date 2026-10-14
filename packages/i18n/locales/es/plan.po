@@ -756,6 +756,10 @@ msgstr ""
 msgid "planDraft.diff.failed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.missingLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
 msgid "common.missing.line"
 msgstr ""
@@ -1071,6 +1075,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.day.item.maps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/fix-panel.tsx
@@ -1437,6 +1445,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
 msgid "plan.premium.lessDriving.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.missingTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx

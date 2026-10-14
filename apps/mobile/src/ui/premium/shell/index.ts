@@ -47,6 +47,13 @@ export type { ModalSheetProps } from './screens/modal-sheet';
 export { PushScreen } from './screens/push-screen';
 export type { PushScreenProps } from './screens/push-screen';
 export { RootScreen } from './screens/root-screen';
+export { PresentedState, ScreenMissing, ScreenWaiting } from './screens/screen-states';
+export type {
+  PresentedStateKind,
+  PresentedStateProps,
+  ScreenMissingProps,
+  ScreenWaitingProps,
+} from './screens/screen-states';
 export {
   PhotoHeaderScrim,
   SCROLL_EDGE_FADE,

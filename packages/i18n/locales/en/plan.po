@@ -756,6 +756,10 @@ msgstr "In the car: about {before} → {after}"
 msgid "planDraft.diff.failed"
 msgstr "It didn’t count. Try again, maybe with another reason."
 
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.missingLine"
+msgstr "It may have been cancelled. Close this and check your trips."
+
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
 msgid "common.missing.line"
 msgstr "It may have been removed, or this phone hasn’t got it yet."
@@ -1072,6 +1076,10 @@ msgstr "Open"
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.day.item.maps"
 msgstr "Open in maps"
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.loading"
+msgstr "Opening the dates…"
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/fix-panel.tsx
 msgid "plan.premium.fix.otherWays"
@@ -1438,6 +1446,10 @@ msgstr "This isn’t here any more"
 #: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
 msgid "plan.premium.lessDriving.none"
 msgstr "This order is already the shortest without moving anything booked."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.missingTitle"
+msgstr "This trip isn't here any more"
 
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.day.item.bookingLine"

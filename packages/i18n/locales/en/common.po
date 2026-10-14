@@ -68,6 +68,10 @@ msgstr "Calendar"
 msgid "permissions.camera.title"
 msgstr "Camera"
 
+#: ../../apps/mobile/src/ui/premium/shell/screens/screen-states.tsx
+msgid "common.premium.screen.close"
+msgstr "Close"
+
 #: ../../apps/mobile/src/ui/premium/stickers/TierLabel.tsx
 msgid "common.critter.tierCommon"
 msgstr "Common"
@@ -104,6 +108,10 @@ msgstr "freeze"
 msgid "common.shell.fabHelp"
 msgstr "Get help"
 
+#: ../../apps/mobile/src/ui/premium/shell/screens/screen-states.tsx
+msgid "common.premium.screen.waiting"
+msgstr "Getting it ready…"
+
 #: ../../apps/mobile/src/lib/permissions/primer-copy.ts
 msgid "permissions.microphone.body"
 msgstr "Hold to talk instead of typing. Only while you hold the button."
@@ -115,6 +123,10 @@ msgstr "Home"
 #: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
 msgid "motion.motionLab.toast"
 msgstr "Island toast"
+
+#: ../../apps/mobile/src/ui/premium/shell/screens/screen-states.tsx
+msgid "common.premium.screen.missingLine"
+msgstr "It may have moved or been removed. Close this and open it again."
 
 #: ../../apps/mobile/src/lib/permissions/primer-copy.ts
 msgid "permissions.locationAlways.title"
@@ -179,6 +191,10 @@ msgstr "Not asked yet"
 #: ../../apps/mobile/src/lib/permissions/primer-copy.ts
 msgid "permissions.state.restricted"
 msgstr "Not available on this phone"
+
+#: ../../apps/mobile/src/ui/premium/shell/screens/screen-states.tsx
+msgid "common.premium.screen.missingTitle"
+msgstr "Nothing here"
 
 #: ../../apps/mobile/src/lib/permissions/primer-copy.ts
 msgid "permissions.state.off"
