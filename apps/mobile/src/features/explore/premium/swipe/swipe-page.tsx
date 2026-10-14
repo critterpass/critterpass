@@ -2,8 +2,8 @@
  * Swipe together (4.42), full screen with its ✕: "Swipe together" and how far through the deck you
  * are, the matches so far (♥ n, opening Ideas), the card stack (the place's photo or its kind, its
  * name, the guide's line and who else said yes) that votes on a drag or the ✕ / ✓ buttons, "Why
- * this?" for the guide's reasons, the MATCH stamp when enough of the crew said yes, the deck still
- * being built, and the summary at the end. Who is swiping right now is never shown. Every read and
+ * this?" for the guide's reasons (offered only when she gave some), the MATCH stamp when enough of
+ * the crew said yes, the deck still being built (or stuck), and the summary at the end. Who is swiping right now is never shown. Every read and
  * vote is `useSwipeScreen`'s.
  */
 import { useLingui } from '@lingui/react/macro';
@@ -17,14 +17,12 @@ import {
   GlassPill,
   GuideNote,
   IconButton,
-  LoadingCritter,
   OfflinePill,
   PhotoLayer,
   RectStamp,
   StampMoment,
   SwipeDeck,
   Text,
-  TextButton,
   usePremiumTheme,
   type SwipeDeckHandle,
 } from '@/ui/premium';
@@ -34,12 +32,16 @@ import { whyWords } from '../../components/why-words';
 import { useSwipeScreen, type SwipeScreenProps } from '../../use-swipe-screen';
 import { placeIcon } from '../../search/place-icons';
 import { Doodle } from '../components/doodle';
+import { placeTint } from '../components/place-tint';
 import { SwipeSummary } from './swipe-summary';
+import { SwipeWaiting } from './swipe-waiting';
 import { useDeckCards } from './use-deck-cards';
 
 const FLY_MS = 450;
 const NO_CARDS: readonly SwipeCardFace[] = [];
 const HEART = '♥';
+/** Room the name band takes at the card's foot, so a doodle centres in what stays in view. */
+const NAME_BAND = 110;
 
 function CardFace({ face }: { readonly face: SwipeCardFace }) {
   const theme = usePremiumTheme();
@@ -62,7 +64,17 @@ function CardFace({ face }: { readonly face: SwipeCardFace }) {
         }}
       >
         {face.photo === null ? (
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          // No photo: the kind's doodle on the kind's pastel, above the name band.
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingBottom: NAME_BAND,
+              backgroundColor: placeTint(theme, face.category),
+            }}
+            testID="swipe-card-doodle"
+          >
             <Doodle name={placeIcon(face.category)} size={140} />
           </View>
         ) : (
@@ -115,6 +127,11 @@ export function SwipePage(props: SwipeScreenProps) {
   const vote = (face: SwipeCardFace, verdict: 'yes' | 'no') =>
     setTimeout(() => view.onSwipe(face.poiId, verdict), FLY_MS);
   const cards = useDeckCards(stage.kind === 'deck' ? stage.ahead : NO_CARDS);
+  // The guide's reasons for the top card; a card she gave none for offers no "Why this?".
+  const whyText =
+    stage.kind === 'deck'
+      ? [...whyWords(stage.why, view.guide.name), stage.top.note ?? ''].filter(Boolean).join(' ')
+      : '';
   return (
     <StampMoment
       landed={match !== null}
@@ -147,9 +164,14 @@ export function SwipePage(props: SwipeScreenProps) {
           <Text variant="headline">
             {t({ id: 'explore.trip.swipeTitle', message: 'Swipe together' })}
           </Text>
-          <Text variant="captionMuted" tone="muted">
-            {t({ id: 'explore.premium.swipe.progress', message: `${view.done} of ${view.total}` })}
-          </Text>
+          {view.total === 0 ? null : (
+            <Text variant="captionMuted" tone="muted">
+              {t({
+                id: 'explore.premium.swipe.progress',
+                message: `${view.done} of ${view.total}`,
+              })}
+            </Text>
+          )}
         </View>
         <GlassPill
           label={`${HEART} ${String(view.matchCount)}`}
@@ -164,17 +186,7 @@ export function SwipePage(props: SwipeScreenProps) {
       ) : null}
       <View style={{ flex: 1, padding: theme.space.titleGutter }}>
         {stage.kind === 'building' ? (
-          <View style={{ flex: 1, justifyContent: 'center', gap: theme.space.gap16 }}>
-            <LoadingCritter
-              label={t({ id: 'explore.premium.swipe.building', message: 'Building the deck' })}
-            />
-            {stage.onRetry === undefined ? null : (
-              <TextButton
-                label={t({ id: 'explore.premium.swipe.retry', message: 'Start again' })}
-                onPress={stage.onRetry}
-              />
-            )}
-          </View>
+          <SwipeWaiting wait={stage.wait} guide={view.guide} onRetry={stage.onRetry} />
         ) : stage.kind === 'deck' ? (
           <SwipeDeck
             ref={deck}
@@ -199,15 +211,13 @@ export function SwipePage(props: SwipeScreenProps) {
           />
         )}
       </View>
-      {stage.kind === 'deck' && view.whyOpen ? (
-        <View style={{ paddingHorizontal: theme.space.gap16 }}>
+      {whyText !== '' && view.whyOpen ? (
+        <View style={{ paddingHorizontal: theme.space.gap16, paddingTop: theme.space.gap8 }}>
           <GuideNote
             name={view.guide.name}
             critter={view.guide.kind}
             showName={false}
-            text={[...whyWords(stage.why, view.guide.name), stage.top.note ?? '']
-              .filter(Boolean)
-              .join(' ')}
+            text={whyText}
             testID="swipe-why"
           />
         </View>
@@ -231,11 +241,13 @@ export function SwipePage(props: SwipeScreenProps) {
             onPress={() => deck.current?.vote('out')}
             testID="swipe-no"
           />
-          <GlassPill
-            label={t({ id: 'explore.premium.swipe.why', message: 'Why this?' })}
-            onPress={() => view.onWhy(!view.whyOpen)}
-            testID="swipe-why-open"
-          />
+          {whyText === '' ? null : (
+            <GlassPill
+              label={t({ id: 'explore.premium.swipe.why', message: 'Why this?' })}
+              onPress={() => view.onWhy(!view.whyOpen)}
+              testID="swipe-why-open"
+            />
+          )}
           <IconButton
             icon="check"
             size={62}
