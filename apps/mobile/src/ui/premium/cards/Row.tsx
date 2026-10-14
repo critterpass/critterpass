@@ -22,6 +22,11 @@ export interface RowProps {
   readonly testID?: string | undefined;
 }
 
+/** A slot holds something to draw (an empty one adds no gap). */
+function shown(node: ReactNode): boolean {
+  return node !== undefined && node !== null && node !== false && node !== '';
+}
+
 /** A list row for `ListCard`: leading badge or avatar, title and subtitle, trailing tag or time. */
 export function Row({
   title,
@@ -51,7 +56,8 @@ export function Row({
         backgroundColor: pressed ? t.color.control : undefined,
       }}
     >
-      {leading}
+      {/* Wrapped so a pill or tag that starts its column (Button, Tag) still centres in the row. */}
+      {shown(leading) ? <View>{leading}</View> : null}
       <View style={{ flex: 1 }}>
         <Text variant={person ? 'rowText' : 'rowTitle'}>{title}</Text>
         {subtitle === undefined ? null : (
@@ -65,7 +71,7 @@ export function Row({
           {trailingText}
         </Text>
       )}
-      {trailing}
+      {shown(trailing) ? <View>{trailing}</View> : null}
     </View>
   );
 
