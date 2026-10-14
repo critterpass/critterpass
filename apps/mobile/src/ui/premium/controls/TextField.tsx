@@ -25,11 +25,14 @@ export interface TextFieldProps extends Omit<
  */
 export const TextField = forwardRef<ComponentRef<typeof TextInput>, TextFieldProps>(
   function TextField(
-    { error, helper, accessibilityLabel, onFocus, onBlur, editable, ...input },
+    { error, helper, accessibilityLabel, onFocus, onBlur, onChangeText, editable, ...input },
     ref,
   ) {
     const t = usePremiumTheme();
     const [focused, setFocused] = useState(false);
+    // Placeholder words are regular, typed words medium (U5): an uncontrolled field tracks its own.
+    const [typed, setTyped] = useState((input.defaultValue ?? '') !== '');
+    const filled = input.value === undefined ? typed : input.value !== '';
     const field = t.type.field;
     const outline =
       error !== undefined
@@ -63,6 +66,10 @@ export const TextField = forwardRef<ComponentRef<typeof TextInput>, TextFieldPro
             placeholderTextColor={t.color.placeholder}
             selectionColor={t.color.caret}
             cursorColor={t.color.caret}
+            onChangeText={(text) => {
+              setTyped(text !== '');
+              onChangeText?.(text);
+            }}
             onFocus={(e) => {
               setFocused(true);
               onFocus?.(e);
@@ -73,7 +80,7 @@ export const TextField = forwardRef<ComponentRef<typeof TextInput>, TextFieldPro
             }}
             style={{
               fontSize: field.size,
-              fontWeight: field.weight,
+              fontWeight: filled ? field.weight : '400',
               color: t.color.ink,
               paddingVertical: t.space.rowPadV,
             }}

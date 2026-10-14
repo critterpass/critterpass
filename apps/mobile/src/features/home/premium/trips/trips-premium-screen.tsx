@@ -50,6 +50,7 @@ const useStyles = makePremiumStyles((t) => ({
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: t.space.gap10 },
   half: { width: '48.5%' },
   filter: { alignSelf: 'flex-start' },
+  titleBleed: { marginHorizontal: -t.space.gutter },
 }));
 
 export function TripsPremiumScreen() {
@@ -107,7 +108,8 @@ export function TripsPremiumScreen() {
     >
       {({ scrollProps, largeTitle }) => (
         <TabPageScroll {...scrollProps} contentContainerStyle={styles.content}>
-          {largeTitle}
+          {/* The drawn title keeps its own 24 pt inset from the screen edge, not from the gutter. */}
+          {largeTitle === null ? null : <View style={styles.titleBleed}>{largeTitle}</View>}
           {!trips.loaded ? (
             <View style={{ gap: theme.space.gap16 }} testID="trip-list-loading">
               <Skeleton height={312} radius={34} tone="block" />

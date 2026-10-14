@@ -39,9 +39,6 @@ export interface PremiumTextProps extends Omit<RNTextProps, 'allowFontScaling'> 
 }
 
 /** Labels set inside a control (button, pill, segment, tag, badge): one line by design. */
-/** The smallest a one-line label shrinks to before it is cut. */
-const LABEL_FIT_FLOOR = 0.75;
-
 const ONE_LINE_VARIANTS: ReadonlySet<PremiumTypeName> = new Set<PremiumTypeName>([
   'button',
   'buttonSmall',
@@ -57,6 +54,20 @@ const ONE_LINE_VARIANTS: ReadonlySet<PremiumTypeName> = new Set<PremiumTypeName>
   'placeTag',
   'tier',
 ]);
+
+/**
+ * How far a one-line label held to one line may shrink to fit whole. Only labels in a slot of fixed
+ * width step down: a segment a little (its neighbours share the track), a badge, tier or place tag
+ * further. Button, pill and chip labels keep their size: their pill grows with the label, and a
+ * full-width button wraps a long label onto a second line, so one screen never shows its actions
+ * at different sizes.
+ */
+const LABEL_FIT_FLOOR: Partial<Record<PremiumTypeName, number>> = {
+  segment: 0.9,
+  badge: 0.75,
+  tier: 0.75,
+  placeTag: 0.75,
+};
 
 /** The children as one string, or `null` when they hold elements (nested styled spans). */
 function plainText(children: ReactNode): string | null {
@@ -127,6 +138,23 @@ function markRoomStyle(
 }
 
 /**
+ * Room above a Borel line, as the design pads every guide line (4 at 15 pt): Borel's ascenders and
+ * Vietnamese marks reach above the 1.5 line box the guide is set in.
+ */
+const BOREL_TOP_EM = 0.27;
+
+function borelRoomStyle(
+  size: number,
+  scale: number,
+  style: StyleProp<TextStyle>,
+): { readonly room: number; readonly style: TextStyle } {
+  const flat: TextStyle = StyleSheet.flatten(style) ?? {};
+  const own = points(flat.paddingTop, flat.paddingVertical, flat.padding);
+  const room = Math.round((flat.fontSize ?? size) * scale * BOREL_TOP_EM);
+  return { room, style: { paddingTop: own + room } };
+}
+
+/**
  * Premium text: one type token per use, SF Pro (system) unless the token is the guide's voice or a
  * code. Dynamic Type scales it natively up to the token's cap, so display type never outgrows its
  * hero while body copy follows the phone.
@@ -147,22 +175,19 @@ export function Text({
   const token = theme.type[variant];
   useReportBodyTitle(variant === 'largeTitle');
   const font = premiumFont(token, locale, plainGuideText);
-  // A one-line label held to one line steps its size down to fit whole (a longer language, a
-  // narrow pill or segment), as the system's controls do, instead of losing its end.
+  // A label in a fixed slot held to one line steps its size down a little to fit whole (a longer
+  // language), as the system's segments do, instead of losing its end.
+  const floor = LABEL_FIT_FLOOR[variant];
   const fit =
-    rest.numberOfLines === 1 &&
-    ONE_LINE_VARIANTS.has(variant) &&
-    rest.adjustsFontSizeToFit === undefined
-      ? { adjustsFontSizeToFit: true, minimumFontScale: LABEL_FIT_FLOOR }
+    rest.numberOfLines === 1 && floor !== undefined && rest.adjustsFontSizeToFit === undefined
+      ? { adjustsFontSizeToFit: true, minimumFontScale: floor }
       : {};
   const text = plainText(rest.children);
-  const marks = markRoomStyle(
-    text,
-    token.size,
-    token.lineHeight,
-    Math.min(fontScale, token.maxScale),
-    style,
-  );
+  const scale = Math.min(fontScale, token.maxScale);
+  const borel = token.family === 'guide' && font.fontFamily !== undefined;
+  const marks = borel
+    ? borelRoomStyle(token.size, scale, style)
+    : markRoomStyle(text, token.size, token.lineHeight, scale, style);
 
   return (
     <RNText
@@ -198,8 +223,10 @@ export function Text({
                   lineLimited: rest.numberOfLines !== undefined,
                   // Larger text sizes wrap labels by design (Dynamic Type).
                   singleLine: oneLine && fontScale <= 1,
+                  // Borel's metrics aren't SF Pro's that the check reads; its room is fixed above.
                   marksClipped:
                     Platform.OS === 'ios' &&
+                    !borel &&
                     event.nativeEvent.lines[0] !== undefined &&
                     marksClipped(text, event.nativeEvent.lines[0], marks.room),
                 });

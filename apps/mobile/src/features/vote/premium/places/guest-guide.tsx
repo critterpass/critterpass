@@ -147,7 +147,12 @@ export function GuestGuide({
                 </Text>
               </View>
               <View>
-                <Text variant="hero" numberOfLines={2} adjustsFontSizeToFit testID="guest-name">
+                <Text
+                  variant="displayLarge"
+                  numberOfLines={2}
+                  adjustsFontSizeToFit
+                  testID="guest-name"
+                >
                   {place.name}
                 </Text>
                 {place.country === null ? null : (

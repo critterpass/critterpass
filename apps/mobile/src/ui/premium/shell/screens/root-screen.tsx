@@ -26,6 +26,7 @@ import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 
 import {
   GlassSurface,
+  kitType,
   REDUCED_FADE_MS,
   SPRINGS,
   Text,
@@ -71,6 +72,8 @@ export interface RootScreenProps {
   readonly children: (bindings: RootScrollBindings) => ReactNode;
   readonly testID?: string;
 }
+
+const PREMIUM_LARGE_TITLE = kitType.largeTitle.size;
 
 /** The drawn title row's height, after which the title has left and the bar shows it. */
 const TITLE_ROW = 52;
@@ -138,7 +141,12 @@ function NativeRootScreen({ title, actions, children, testID }: RootScreenParts)
       headerShadowVisible: false,
       headerLargeTitleShadowVisible: false,
       headerTintColor: ink,
-      headerLargeTitleStyle: { color: ink, fontWeight: '700' as const },
+      // 32/700 as the design's root title; the system bar keeps its own tracking and inset.
+      headerLargeTitleStyle: {
+        color: ink,
+        fontWeight: '700' as const,
+        fontSize: PREMIUM_LARGE_TITLE,
+      },
       headerTitleStyle: { color: ink },
     }),
     [title, ink],

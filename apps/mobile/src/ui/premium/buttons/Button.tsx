@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import type { ViewStyle } from 'react-native';
 
 import { Spinner } from '../feedback/Spinner';
@@ -51,7 +51,14 @@ interface Look {
 
 function sizeBox(t: PremiumTheme, size: ButtonSize): ViewStyle {
   if (size === 'large') {
-    return { height: t.size.button, borderRadius: t.radius.button, alignSelf: 'stretch' };
+    // A floor, not a height: a long label wraps onto a second line inside the pill.
+    return {
+      minHeight: t.size.button,
+      borderRadius: t.radius.button,
+      paddingHorizontal: t.space.gutter,
+      paddingVertical: t.space.gap6,
+      alignSelf: 'stretch',
+    };
   }
   if (size === 'medium') {
     return {
@@ -149,7 +156,8 @@ export function Button({
   const { text: label, chevron } = pillLabel(givenLabel, givenChevron);
   const box = sizeBox(t, size);
   const shown = loading ? (loadingLabel ?? label) : label;
-  const height = Number(box.height);
+  const height = Number(box.height ?? box.minHeight);
+  const large = size === 'large';
 
   return (
     <PressableScale
@@ -185,7 +193,14 @@ export function Button({
             {!loading && icon !== undefined ? (
               <Icon name={icon} size={t.size.glyph} color={look.text} />
             ) : null}
-            <Text variant={TYPE_FOR_SIZE[size]} color={look.text} numberOfLines={1}>
+            <Text
+              variant={TYPE_FOR_SIZE[size]}
+              color={look.text}
+              numberOfLines={large ? 2 : 1}
+              singleLine={!large}
+              align="center"
+              style={large ? styles.wrap : null}
+            >
               {shown}
             </Text>
             {chevron && !loading ? (
@@ -197,3 +212,8 @@ export function Button({
     </PressableScale>
   );
 }
+
+const styles = StyleSheet.create({
+  // Shrinks beside the spinner or icon so a second line wraps inside the pill.
+  wrap: { flexShrink: 1 },
+});
