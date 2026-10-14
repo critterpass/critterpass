@@ -1,7 +1,7 @@
 ---
 phase: 2
 title: Destination base set and critter match
-status: pending
+status: in_progress
 depends_on: [1]
 lane: A
 tasks: 7
@@ -85,49 +85,49 @@ Done when (staging): 4,500–5,500 destination rows; ≥ 85 % of base rows have 
 - Steps: as Architecture; `ON CONFLICT (slug)` in `app.sync_place_destinations()` must not touch rows whose `origin = 'base'` (a later critter city with the same slug updates only critter columns): amend the function in the same migration.
 - Tests: `pnpm test:remote @cp/db -- destinations-base` (app_user reads base rows, cannot write; admin_reader sees the new columns; the sync function leaves a base row's text, photo and match alone).
 - Done when: migration applies on a staging branch from the PR head; mirror matches.
-- Status: todo
+- Status: done — 3d8d18a59 (applied on staging 14 Oct)
 
 ### T2 — Base-set builder
 - Files: `services/worker/src/destinations/base/{geonames,wikidata,join,rank,upsert,run,cli}.ts`, `services/worker/src/jobs/destinations/index.ts`, `packages/domain/src/destinations/queues.ts`, tests with recorded fixtures.
 - Steps: 1. Download GeoNames `cities15000.zip`, `cities5000.zip` (VN rows only), `countryInfo.txt`, `admin1CodesASCII.txt` to the worker's temp dir. 2. Wikidata SPARQL in batches (≤ 5 parallel, 60 s each, retry on 429) for the candidate recipe with labels (en, vi, local), P625, P17, P1082, P18, P948, sitelinks. 3. Join, dedupe, rank, cap (pure functions in `packages/domain/src/destinations/`). 4. Upsert through a temp table + one `INSERT … ON CONFLICT` (not row by row); enrich existing rows by the rule above. 5. Queue photos (T3), matching (T4) and texts (T6) for new or changed rows. 6. Summary row in the job result: counts per country, VN count, unmatched critter cities.
 - Tests: `pnpm --filter @cp/domain test -- destinations` (join on QID and on name+distance, dedupe, cap with floor and VN limit, slug collision); `pnpm test:remote @cp/worker -- destinations/upsert` (existing seed/critter/area rows keep slug, name, coverage, set, critter).
 - Done when: a staging run lands 4,500–5,500 rows and a second run changes no slug.
-- Status: todo
+- Status: done — 61dc37f3f (staging dry run: 5,000 kept, VN 300; the writing run waits for the merge and the PowerSync redeploy)
 
 ### T3 — Licensed photos
 - Files: `services/worker/src/destinations/base/photos.ts`, `packages/domain/src/media/commons-licence.ts` (moved from `tools/content-factory/src/kinds/media/wikimedia.ts`, which imports it), tests.
 - Steps: Commons `imageinfo&iiprop=extmetadata|url` in batches of 50; keep allowed licences; write `media_assets` (pending) under one `content_releases` row per build (`kind = 'destinations'`); queue `media.ingest` at 2 a second.
 - Tests: `pnpm --filter @cp/domain test -- commons-licence` (NC/ND/unknown rejected; author and credit strings built); recorded Commons fixture for three licences.
 - Done when: ≥ 85 % of base rows show a ready hero on staging (`GET /v1/media?subjects=destination:<slug>`).
-- Status: todo
+- Status: done — 7edd1f18e (ready-hero share measured after the staging run)
 
 ### T4 — Critter coordinates and matching
 - Files: `packages/domain/src/destinations/{critter-match,critter-regions}.ts`, `packages/ai/src/routes/destination-critter/**`, `packages/ai/evals/destination-critter/**`, `services/worker/src/destinations/match.ts`, routing and route registry lines.
 - Steps: 1. A critter's point = the centre of its own destination row after T2 enrichment; critter cities T2 could not place are listed in the build summary and placed by the hand table `critter-regions.ts` (region critters such as the Mekong and Borneo sets, single places such as Keukenhof and Sidi Bou Said, plus admin1 → critter overrides for US, CN, IN, AU, BR, ID, MY, TH; a code table, not a dataset). 2. Pure matcher per the Requirements order. 3. Jev residual with candidate keys only; below the route's confidence floor → nearest globally. 4. Writes `critter_key`, `critter_match`; never re-matches `seed`/`critter` rows.
 - Tests: `pnpm --filter @cp/domain test -- critter-match` (single-critter country, Kalimantan → Borneo by override, island, near tie → residual, no-critter country → global nearest); eval suite (12 cases) for `destination.critter`.
 - Done when: 100 % of base rows carry a critter and method; residual share recorded in the PR (expected 10–20 %).
-- Status: todo
+- Status: done — b46063436
 
 ### T5 — Vietnam top-up
 - Files: `services/worker/src/destinations/base/vn-topup{,-cli}.ts`, `packages/ai/src/routes/destination-vn-picks/**` (a third route, `destination.vn_picks`, pro tier, structured, registered with the other two).
 - Steps: per GeoNames admin1 of Vietnam (towns did not move in the 2025 province merger), the 15 most populous candidates from `cities5000` → pro tier picks up to 4 travel-worthy ids from that closed list with a one-line reason; picked rows get `origin = 'base'`, `names.source = 'vn_pick'`, kept by every rebuild. Controller spot-checks the list once (on the founder's behalf) and records it in the PR.
 - Tests: unit test that output ids outside the candidate list are dropped.
 - Done when: Vietnam has ≥ 200 rows and the PR has the spot-check note.
-- Status: todo
+- Status: done — 8cdec6616 (dry-run list of 102 picks in plans/reports/critterpass-builder-medium-261014-1237-destinations-vietnam-picks-report.md for the spot check)
 
 ### T6 — Facts-only text
 - Files: `packages/ai/src/routes/destination-describe/**`, `packages/ai/evals/destination-describe/**`, `services/worker/src/destinations/describe.ts`, env line.
 - Steps: per Requirements; en and vi at build; other app languages fall back to en; daily cap; `report_content` is not added (YAGNI).
 - Tests: validator unit test (a number or year not in the facts → rejected); eval suite (10 destinations, en + vi).
 - Done when: ≥ 98 % of base rows have `texts.en.line` and `texts.vi.line`; cost recorded in the PR.
-- Status: todo
+- Status: done — 383ed94cf
 
 ### T7 — Search, vote, pitch and sync
 - Files: `services/api/src/routes/places-search.ts`, `services/api/src/commands/polls/candidates.ts`, `services/api/src/explore/destination-route.ts`, `infra/powersync/streams/core.yaml`, generated sync and mobile schema files, `apps/mobile/src/features/vote/premium/places/search-places.tsx`, `apps/mobile/src/features/vote/data/*`, `e2e/vote/search-base-town.yaml`.
 - Steps: 1. Api per Architecture. 2. Streams per Architecture; re-run `pnpm tsx infra/powersync/build-config.ts` and the synced-schema generator. 3. The search row shows `line` under the name (existing `Text` variants; one line, `numberOfLines={1}`); photos already come through `useDestinationMedia`. 4. Device flow: search "Quy Nhơn", pitch it, see it in the poll with its photo and guide.
 - Tests: `pnpm --filter @cp/api test -- places-search` (base rows found by unaccented and Vietnamese names, ranked after exact matches, hidden with the switch off, area rows still excluded); `sync-streams-parameter-bounds` replay with base rows referenced by trips, polls and pitches (`pnpm test:remote @cp/db -- sync-streams-parameter-bounds`).
 - Done when: Android device run of `e2e/vote` green with design | device sheets; `ui-reviewed` applied by the controller.
-- Status: todo
+- Status: done — 37e4319d4, ca2f1b4a1 (Android device run after the staging base-set run)
 
 ## Risks
 
