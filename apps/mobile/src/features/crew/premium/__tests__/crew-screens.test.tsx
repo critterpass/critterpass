@@ -9,7 +9,7 @@ import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import type { ReactElement } from 'react';
-import { Alert } from 'react-native';
+import { ActionSheetIOS, Alert } from 'react-native';
 
 import {
   openTestLocalFirst,
@@ -236,7 +236,16 @@ describe("the crew's pages", () => {
     await seed(stack.db);
     await renderCrew(<CrewSettingsPremium />);
     await screen.findByTestId('crew-settings-name');
-    await fireEvent.press(screen.getByText('Nothing'));
+    // The level row opens the system action sheet; the user picks its third option, Nothing.
+    const sheet = jest
+      .spyOn(ActionSheetIOS, 'showActionSheetWithOptions')
+      .mockImplementation((options, pick) => {
+        expect(options.options[2]).toBe('Nothing');
+        pick(2);
+      });
+    await fireEvent.press(screen.getByTestId('crew-settings-notify'));
+    expect(sheet).toHaveBeenCalledTimes(1);
+    sheet.mockRestore();
     await waitFor(async () =>
       expect(await queuedPayload('set_crew_notify')).toEqual({ crew_id: BALI, level: 'off' }),
     );

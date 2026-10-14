@@ -81,13 +81,13 @@ export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
         <Text variant="label" tone="muted" align="center">
           {t({ id: 'crew.premium.on.kicker', message: 'Crew made' })}
         </Text>
-        {/* Balanced lines, so a long name never leaves "on" alone on the last line. */}
+        {/* Balanced lines: a long name breaks in the middle, never leaving "on" alone. */}
         <Text
           variant="display"
           align="center"
           accessibilityRole="header"
           textBreakStrategy="balanced"
-          lineBreakStrategyIOS="standard"
+          lineBreakStrategyIOS="push-out"
         >
           {t({ id: 'crew.premium.on.title', message: `${name} is on` })}
         </Text>
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   },
   grow: { flex: 1 },
   kicker: { letterSpacing: 2.6 },
-  eyebrow: { letterSpacing: 1.2 },
+  eyebrow: { letterSpacing: 1.6 },
   crestDisc: { ...StyleSheet.absoluteFill, borderRadius: 30, opacity: 0.24 },
   perforation: { borderTopWidth: 2, borderStyle: 'dashed' },
   notch: { position: 'absolute', top: -12, width: 24, height: 24, borderRadius: 12 },

@@ -15,6 +15,7 @@ import {
   Icon,
   PressableScale,
   Skeleton,
+  StickerIcon,
   Text,
   TextButton,
   TextField,
@@ -79,13 +80,22 @@ export function PayoutMethodsPremium() {
         bottomOffset={th.size.button + th.space.gap12 + th.space.gap16}
         contentContainerStyle={{ paddingTop: 8, paddingBottom: 40, gap: th.space.gap16 }}
       >
-        <View style={{ paddingHorizontal: th.space.titleGutter, gap: th.space.gap4 }}>
-          <Text variant="largeTitle" accessibilityRole="header">
-            {t({ id: 'money.settle.payYou', message: 'How people pay you' })}
-          </Text>
-          <Text variant="label" tone="muted">
-            {t({ id: 'money.premium.onlyPayer', message: 'Only the person paying sees these.' })}
-          </Text>
+        {/* Under the centred "Payout methods" bar, the page's own title and the lock (7.27). */}
+        <View style={[styles.head, { paddingHorizontal: th.space.titleGutter }]}>
+          <View style={[styles.flex, { gap: th.space.gap4 }]}>
+            <Text
+              variant="emptyTitle"
+              accessibilityRole="header"
+              textBreakStrategy="balanced"
+              lineBreakStrategyIOS="standard"
+            >
+              {t({ id: 'money.settle.payYou', message: 'How people pay you' })}
+            </Text>
+            <Text variant="label" tone="muted">
+              {t({ id: 'money.premium.onlyPayer', message: 'Only the person paying sees these.' })}
+            </Text>
+          </View>
+          <StickerIcon name="lock" size={64} tilt={8} color={th.accent.mint} />
         </View>
         {methods.loading ? (
           <View style={{ paddingHorizontal: th.space.gutter }}>
@@ -149,7 +159,16 @@ export function PayoutMethodsPremium() {
                         <View style={[styles.check, { backgroundColor: th.color.ink }]}>
                           <Icon name="check" size={14} color={th.color.onInk} />
                         </View>
-                      ) : null}
+                      ) : open ? null : (
+                        <Button
+                          alignSelf="auto"
+                          label={t({ id: 'money.premium.payoutAddAction', message: 'Add' })}
+                          variant="control"
+                          size="small"
+                          onPress={() => methods.pick(kind)}
+                          testID={`money-payout-add-${kind}`}
+                        />
+                      )}
                     </View>
                   </PressableScale>
                   {open && fields.length > 0 ? (
@@ -216,6 +235,7 @@ export function PayoutMethodsPremium() {
 }
 
 const styles = StyleSheet.create({
+  head: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   card: { overflow: 'hidden' },
   row: {
     flexDirection: 'row',

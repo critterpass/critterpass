@@ -16,6 +16,9 @@ import {
 import { memberAccent } from '../components/member-colour';
 import type { SwitcherCrew } from './use-crew-switcher';
 
+/** Faces a crew row shows: three 24 pt avatars overlapping by 10 fill the 52 pt slot. */
+const FACES = 3;
+
 export const useStyles = makePremiumStyles((t) => ({
   scrim: {
     position: 'absolute',
@@ -95,13 +98,14 @@ export function CrewLine({
     >
       <View style={styles.row}>
         <View style={styles.faces}>
+          {/* Three faces and no count chip (3.07): the slot is fixed, so every crew name lines up. */}
           <CrewStack
-            members={crew.members.map((m) => ({
+            members={crew.members.slice(0, FACES).map((m) => ({
               id: m.userId,
               name: m.name,
               color: memberAccent(t, m.colour),
             }))}
-            max={3}
+            max={FACES}
             size={24}
             accessibilityLabel={sub}
           />

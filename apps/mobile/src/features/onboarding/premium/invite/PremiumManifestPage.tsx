@@ -70,14 +70,13 @@ export function PremiumManifestPage() {
         <View
           style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 4 }}
         >
+          {/* The manifest's mono header prints in capitals, the count on the right (5 OF 6). */}
           <Text variant="mono" tone="muted" numberOfLines={1} style={{ flex: 1 }}>
-            {copy.eyebrow}
+            {copy.eyebrow.toLocaleUpperCase()}
           </Text>
-          {copy.count === null ? null : (
-            <Text variant="mono" tone="muted">
-              {copy.count}
-            </Text>
-          )}
+          <Text variant="mono" tone="muted">
+            {copy.count.toLocaleUpperCase()}
+          </Text>
         </View>
         <ListCard testID="invite-manifest">
           {members.map((member) => (
@@ -99,7 +98,7 @@ export function PremiumManifestPage() {
               </Text>
               {member.isOrganiser ? (
                 <Text variant="caption" tone="muted">
-                  {t({ id: 'onboarding.premium.manifest.organiser', message: 'Organiser' })}
+                  {t({ id: 'onboarding.premium.manifest.organiser', message: 'organiser' })}
                 </Text>
               ) : member.isNewcomer ? (
                 <Text variant="caption" tone="muted">

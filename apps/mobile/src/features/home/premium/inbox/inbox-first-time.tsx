@@ -1,34 +1,33 @@
 /**
- * The inbox before anything has arrived (3.18): three example cards stepping back, the bell, what
- * will land here, and the one ask that matters: "Allow notifications" (the system prompt), or not
- * now (stay here). A phone that already allows them gets no ask.
+ * The inbox before anything has arrived (3.18): the All / Crew / Guides filter, three example cards
+ * stepping back, the bell sticker, what will land here, and at the foot the one ask that matters:
+ * "Allow notifications" (the system prompt), or not now (stay here). A phone that already allows
+ * them gets no ask.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- transform values, never copy. */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
+import { useState } from 'react';
 import { View } from 'react-native';
 
 import { usePermission } from '@/lib/permissions';
-import { Button, TextButton, Text, makePremiumStyles, usePremiumTheme } from '@/ui/premium';
+import {
+  Button,
+  SegmentedControl,
+  StickerIcon,
+  TextButton,
+  Text,
+  makePremiumStyles,
+  usePremiumTheme,
+} from '@/ui/premium';
 
 import { ExampleGhostCard } from '../components/example-ghost-card';
-import { HomeGlyph } from '../components/home-glyph';
 
 const useStyles = makePremiumStyles((t) => ({
-  root: { gap: t.space.gap16 },
+  root: { flex: 1, gap: t.space.gap16 },
   examples: { gap: t.space.gap8 },
-  bell: {
-    alignSelf: 'center',
-    width: 92,
-    height: 92,
-    borderRadius: 46,
-    backgroundColor: t.color.banner.guide.bg,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: t.space.gap16,
-    transform: [{ rotate: '-8deg' }],
-  },
+  bell: { alignSelf: 'center', marginTop: t.space.gap16 },
   words: { gap: 6, paddingHorizontal: t.space.gap8 },
+  grow: { flex: 1 },
 }));
 
 export function InboxFirstTime() {
@@ -38,8 +37,21 @@ export function InboxFirstTime() {
   const notifications = usePermission('notifications');
   const granted = notifications.report?.status === 'granted';
   const example = t({ id: 'inbox.premium.example', message: 'Example' });
+  // Nothing has arrived under any filter yet; the filter is there as it will be once things land.
+  const [filter, setFilter] = useState<'all' | 'crew' | 'guides'>('all');
   return (
     <View style={styles.root} testID="inbox-first-time">
+      <SegmentedControl
+        options={[
+          { value: 'all' as const, label: t({ id: 'home.inbox.all', message: 'All' }) },
+          { value: 'crew' as const, label: t({ id: 'home.inbox.crew', message: 'Crew' }) },
+          { value: 'guides' as const, label: t({ id: 'home.inbox.guides', message: 'Guides' }) },
+        ]}
+        value={filter}
+        onChange={setFilter}
+        accessibilityLabel={t({ id: 'home.inbox.filters', message: 'Show' })}
+        testID="inbox-first-filter"
+      />
       <View style={styles.examples}>
         <ExampleGhostCard
           step={0}
@@ -71,7 +83,7 @@ export function InboxFirstTime() {
         accessibilityElementsHidden
         importantForAccessibility="no-hide-descendants"
       >
-        <HomeGlyph name="bell" size={52} color={theme.color.banner.guide.text} stroke={2.2} />
+        <StickerIcon name="bell" size={64} tilt={-8} />
       </View>
       <View style={styles.words}>
         <Text variant="emptyTitle" accessibilityRole="header" align="center">
@@ -85,6 +97,7 @@ export function InboxFirstTime() {
           })}
         </Text>
       </View>
+      <View style={styles.grow} />
       {granted ? null : (
         <View>
           <Button

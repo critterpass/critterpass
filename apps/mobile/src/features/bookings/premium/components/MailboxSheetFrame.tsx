@@ -1,14 +1,23 @@
 /**
  * The mailbox sheet's frame (7.05) inside its native form sheet route: the sheet material under
  * the content, below the system grabber on iOS and with a drawn grabber on Android. And the
- * "With Pass+" badge under its actions, and the forward address to copy.
+ * "With Pass+" badge under its actions, and the forward address row to copy.
  */
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 
 import { useBackAffordance } from '@/lib/qa/back-affordance';
-import { buttonLook, PressableScale, Text, usePremiumTheme, type PremiumTheme } from '@/ui/premium';
+import { IconTile } from '@/features/trip';
+import {
+  Button,
+  ListCard,
+  PressableScale,
+  Row,
+  Text,
+  usePremiumTheme,
+  type PremiumTheme,
+} from '@/ui/premium';
 import { sheetMaterialStyle } from '@/ui/premium/shell';
 
 /**
@@ -55,48 +64,41 @@ export function MailboxPassBadge(props: {
 }
 
 /**
- * The forward address as a secondary pill that copies it. An address runs long, so its words keep
- * the pill's side padding and step down in size to fit whole.
+ * The forward address while no mailbox can be connected yet: the wallet's "Forward the email" row,
+ * the address cut in the middle under it (the crew's name and the domain stay readable) and Copy.
  */
 export function MailboxAddressPill(props: {
   readonly address: string;
   readonly onCopy: () => void;
 }) {
   const th = usePremiumTheme();
+  const { t } = useLingui();
   return (
-    <PressableScale
-      onPress={props.onCopy}
-      accessibilityRole="button"
-      accessibilityLabel={props.address}
-      testID="bookings-mailbox-address"
-    >
-      {({ pressed }) => {
-        const look = buttonLook(th, 'secondary', 'large', { pressed, disabled: false });
-        return (
-          <View
-            style={[
-              styles.address,
-              {
-                height: th.size.button,
-                borderRadius: th.radius.button,
-                paddingHorizontal: th.space.pillPadH,
-              },
-              look.box,
-            ]}
-          >
-            {/* One line, cut in the middle: both the crew's name and the domain stay readable. */}
-            <Text variant="headline" color={look.text} numberOfLines={1} ellipsizeMode="middle">
-              {props.address}
-            </Text>
-          </View>
-        );
-      }}
-    </PressableScale>
+    <ListCard radius={th.radius.cardRow}>
+      <Row
+        title={t({ id: 'bookings.premium.forwardEmail', message: 'Forward the email' })}
+        subtitle={props.address}
+        subtitleCut="middle"
+        leading={
+          <IconTile name="link" bg={th.color.status.rain.bg} color={th.color.status.rain.text} />
+        }
+        trailing={
+          <Button
+            label={t({ id: 'bookings.add.copy', message: 'Copy' })}
+            variant="control"
+            size="small"
+            onPress={props.onCopy}
+            testID="bookings-mailbox-copy"
+          />
+        }
+        onPress={props.onCopy}
+        testID="bookings-mailbox-address"
+      />
+    </ListCard>
   );
 }
 
 const styles = StyleSheet.create({
-  address: { alignItems: 'center', justifyContent: 'center' },
   fill: { flex: 1 },
   // Clears the system grabber on iOS (it draws over the sheet's top band).
   sheet: { paddingTop: 24 },

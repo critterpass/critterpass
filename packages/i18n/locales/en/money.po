@@ -24,14 +24,12 @@ msgstr "{0, plural, one {# EXPENSE} other {# EXPENSES}}"
 msgid "money.premium.everyExpenseSub"
 msgstr "{0, plural, one {# item, filter by person} other {# items, filter by person}}"
 
-#. placeholder {0}: settle.open
-#. placeholder {1}: settle.people
-#. placeholder {2}: guide.name
-#. placeholder {3}: settle.people
-#. placeholder {4}: guide.name
-#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
+#. placeholder {0}: props.open
+#. placeholder {1}: props.people
+#. placeholder {2}: props.people
+#: ../../apps/mobile/src/features/money/premium/components/SettleExtras.tsx
 msgid "money.premium.reward"
-msgstr "{0, plural, one {One more payment and all {1} of you get the Settled {2}.} other {# more payments and all {3} of you get the Settled {4}.}}"
+msgstr "{0, plural, one {One more payment and all {1} of you get the {reward}.} other {# more payments and all {2} of you get the {reward}.}}"
 
 #. placeholder {0}: share.name
 #: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
@@ -95,6 +93,10 @@ msgstr "{editor} deleted it · {on}"
 #: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
 msgid "money.detail.editedBy"
 msgstr "{editor} edited it · {on}"
+
+#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
+msgid "money.premium.paymentPeople"
+msgstr "{from} → {to}"
 
 #. placeholder {0}: status.label
 #: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
@@ -198,6 +200,10 @@ msgstr "A spreadsheet of every expense"
 msgid "money.payout.field.account"
 msgstr "Account number"
 
+#: ../../apps/mobile/src/features/money/premium/PayoutMethodsPremium.tsx
+msgid "money.premium.payoutAddAction"
+msgstr "Add"
+
 #: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.addEmpty"
 msgstr "Add"
@@ -210,6 +216,7 @@ msgstr "Add {short}"
 msgid "money.typeLines.add"
 msgstr "Add a line"
 
+#: ../../apps/mobile/src/features/money/premium/components/SettleExtras.tsx
 #: ../../apps/mobile/src/features/money/premium/HistoryPremium.tsx
 #: ../../apps/mobile/src/features/money/premium/MoneyHomeScreen.tsx
 msgid "money.empty.add"
@@ -550,6 +557,10 @@ msgstr "Everyone got a reminder today already."
 msgid "money.typeLines.everyone"
 msgstr "Everyone had it"
 
+#: ../../apps/mobile/src/features/money/premium/components/SettleExtras.tsx
+msgid "money.settle.nothing"
+msgstr "Everyone is square. Add what the crew spends and I keep who owes who."
+
 #: ../../apps/mobile/src/features/money/premium/components/RoomSplitSection.tsx
 msgid "money.rooms.evenLine"
 msgstr "Everyone pays the same, and the split stops following the rooms."
@@ -570,7 +581,7 @@ msgstr "Expense deleted. Balances re-count."
 msgid "money.queued.addExpense"
 msgstr "Expense: {what}"
 
-#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/AddExpenseWaiting.tsx
 #: ../../apps/mobile/src/features/money/premium/MoneySheets.tsx
 msgid "money.premium.noTripLine"
 msgstr "Expenses belong to a trip. Start one with the crew, then add it here."
@@ -742,11 +753,19 @@ msgstr "Name the payer sees"
 msgid "money.premium.newTitle"
 msgstr "New expense · {0}"
 
+#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+msgid "money.premium.budget.noneOrganiser"
+msgstr "No crew budget yet. Set one and I keep the crew on track against it."
+
+#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+msgid "money.premium.budget.none"
+msgstr "No crew budget yet. The organiser can set one for the trip."
+
 #: ../../apps/mobile/src/features/money/premium/HistoryPremium.tsx
 msgid "money.history.emptyTitle"
 msgstr "No expenses yet"
 
-#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/AddExpenseWaiting.tsx
 msgid "money.premium.noTripTitle"
 msgstr "No trip to add it to"
 
@@ -779,9 +798,9 @@ msgstr "Nothing to export yet."
 msgid "money.settle.none"
 msgstr "Nothing to settle"
 
-#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
-msgid "money.settle.nothing"
-msgstr "Nothing to settle. Everyone is square."
+#: ../../apps/mobile/src/features/money/premium/components/SettleExtras.tsx
+msgid "money.settle.nothingTitle"
+msgstr "Nothing to settle"
 
 #: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
 msgid "money.premium.nudge"
@@ -1015,6 +1034,11 @@ msgstr "Settle up"
 #: ../../apps/mobile/src/features/money/premium/PaymentPremium.tsx
 msgid "money.premium.paymentGoneLine"
 msgstr "Settle up shows what is still open."
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/money/premium/components/SettleExtras.tsx
+msgid "money.premium.rewardName"
+msgstr "Settled {0}"
 
 #: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
 msgid "money.premium.noTrip"

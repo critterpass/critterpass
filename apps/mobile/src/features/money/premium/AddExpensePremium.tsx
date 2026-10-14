@@ -9,23 +9,22 @@ import type { ExpenseCategory } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
 import {
   Button,
-  EmptyState,
   hitSlopFor,
   PressableScale,
   SegmentedControl,
-  Skeleton,
   Tag,
   Text,
   TextField,
   usePremiumTheme,
 } from '@/ui/premium';
-import { askToDiscard, FullScreen } from '@/ui/premium/shell';
+import { askToDiscard, FullScreen, useKeyboardFrame } from '@/ui/premium/shell';
 
 import { daysBackOf } from '../add-expense/spent-day';
 import { sharesByMember, type SplitEditorMode } from '../add-expense/draft';
@@ -33,6 +32,7 @@ import { useAddExpense } from '../add-expense/use-add-expense';
 import { CATEGORY_ORDER, useCategoryLabel } from '../components/category';
 import { MONEY_FALLBACK } from '../routes';
 import { formatPlain, symbolOf } from '../format';
+import { AddExpenseWaiting } from './components/AddExpenseWaiting';
 import { AmountKeypad } from './components/AmountKeypad';
 import { ChoiceStrip } from './components/ChoiceStrip';
 import { PayerRow } from './components/PayerRow';
@@ -56,6 +56,8 @@ export function AddExpensePremium(props: {
   const state = useAddExpense(props.editId, props.prefillName, props.tripId);
   const categoryLabel = useCategoryLabel();
   const [open, setOpen] = useState<Open>(null);
+  const keyboard = useKeyboardFrame();
+  const padStyle = useAnimatedStyle(() => ({ opacity: 1 - keyboard.progress.get() }));
   const { draft, ctx } = state;
   const closeLabel = t({ id: 'money.premium.close', message: 'Close' });
   // Any change from where the draft started asks first: payer, split, category and day too.
@@ -77,27 +79,10 @@ export function AddExpensePremium(props: {
 
   if (state.loading || ctx.crew === null || ctx.trip === null || !state.ready) {
     return (
-      <FullScreen closeLabel={closeLabel} overPhoto={false} testID="money-add-waiting">
-        <View
-          style={[styles.root, { backgroundColor: th.color.ground, paddingTop: insets.top + 80 }]}
-        >
-          {/* "No trip" only once the context says so: a ready context still seeding waits. */}
-          {state.loading || ctx.status === 'ready' ? (
-            <View style={{ padding: th.space.gutter, gap: th.space.gap12 }}>
-              <Skeleton height={60} radius={th.radius.card} />
-              <Skeleton height={240} radius={th.radius.card} />
-            </View>
-          ) : (
-            <EmptyState
-              title={t({ id: 'money.premium.noTripTitle', message: 'No trip to add it to' })}
-              line={t({
-                id: 'money.premium.noTripLine',
-                message: 'Expenses belong to a trip. Start one with the crew, then add it here.',
-              })}
-            />
-          )}
-        </View>
-      </FullScreen>
+      <AddExpenseWaiting
+        closeLabel={closeLabel}
+        seeding={state.loading || ctx.status === 'ready'}
+      />
     );
   }
   const members = ctx.members.filter((member) => draft.memberIds.includes(member.userId));
@@ -119,7 +104,15 @@ export function AddExpensePremium(props: {
         ]}
       >
         <View style={[styles.top, { paddingLeft: 80, paddingRight: th.space.gutter }]}>
-          <Text variant="label" tone="muted" style={styles.flex} numberOfLines={1}>
+          <Text
+            variant="label"
+            tone="muted"
+            align="center"
+            style={styles.flex}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.8}
+          >
             {state.editing
               ? t({ id: 'money.premium.editTitle', message: `Edit expense · ${ctx.crew.name}` })
               : t({ id: 'money.premium.newTitle', message: `New expense · ${ctx.crew.name}` })}
@@ -157,7 +150,7 @@ export function AddExpensePremium(props: {
                 })}
                 testID="money-add-currency"
               >
-                <Text variant="title" tone="placeholder">
+                <Text variant="display" tone="placeholder" style={styles.mark}>
                   {symbolOf(draft.currency)}
                 </Text>
               </PressableScale>
@@ -267,10 +260,13 @@ export function AddExpensePremium(props: {
             gap: th.space.gap10,
           }}
         >
-          <AmountKeypad
-            onKey={(key) => state.dispatch({ type: 'key', key })}
-            deleteLabel={t({ id: 'money.premium.delete', message: 'Delete a digit' })}
-          />
+          {/* The pad stands down while the keyboard types the note: its top row would peek over it. */}
+          <Animated.View style={padStyle}>
+            <AmountKeypad
+              onKey={(key) => state.dispatch({ type: 'key', key })}
+              deleteLabel={t({ id: 'money.premium.delete', message: 'Delete a digit' })}
+            />
+          </Animated.View>
           <Button
             label={state.labels.cta}
             disabled={state.amountMinor === 0n || state.sent}
@@ -289,7 +285,9 @@ const styles = StyleSheet.create({
   flex: { flex: 1, minWidth: 0 },
   top: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 44 },
   amount: { alignItems: 'center', gap: 2, paddingHorizontal: 20 },
-  amountRow: { flexDirection: 'row', alignItems: 'baseline', gap: 6 },
+  // The currency mark about half the digits' height, raised to their top (7.18).
+  amountRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 6 },
+  mark: { marginTop: 12 },
   tabular: { fontVariant: ['tabular-nums'] },
   what: { flexDirection: 'row', alignItems: 'center', gap: 10 },
 });

@@ -439,6 +439,7 @@ msgstr "Copy"
 
 #: ../../apps/mobile/src/features/bookings/premium/AddBookingSheet.tsx
 #: ../../apps/mobile/src/features/bookings/premium/components/EmptyBookings.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/MailboxSheetFrame.tsx
 msgid "bookings.add.copy"
 msgstr "Copy"
 
@@ -644,6 +645,7 @@ msgid "bookings.add.copiedToast"
 msgstr "Forward any confirmation to that address."
 
 #: ../../apps/mobile/src/features/bookings/premium/components/EmptyBookings.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/MailboxSheetFrame.tsx
 msgid "bookings.premium.forwardEmail"
 msgstr "Forward the email"
 

@@ -107,7 +107,7 @@ export function EditProfilePremiumScreen() {
       label: t({ id: 'you.edit.languages', message: 'Languages' }),
       value:
         draft === null || draft.languages.length === 0
-          ? t({ id: 'you.edit.languages.none', message: 'Add the languages you speak' })
+          ? t({ id: 'you.edit.languages.none', message: 'Add languages' })
           : edit.languagesText(draft.languages),
       note: null,
     },

@@ -23,7 +23,8 @@ export function SettleRemindFooter({
       style={{
         paddingHorizontal: th.space.titleGutter,
         paddingTop: th.space.gap8,
-        paddingBottom: Math.max(insets.bottom, th.space.gap12),
+        // A little room over the home indicator, not flush on it.
+        paddingBottom: insets.bottom > 0 ? insets.bottom + th.space.gap6 : th.space.gap12,
         gap: th.space.gap8,
       }}
     >

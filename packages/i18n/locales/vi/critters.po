@@ -55,7 +55,7 @@ msgstr "{count} người trong nhóm"
 
 #: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
 msgid "quests.header.eyebrow"
-msgstr "{crewName} · Cấp nhóm {lvl}"
+msgstr "{crewName} · cấp nhóm {lvl}"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.guideBody"
@@ -67,7 +67,7 @@ msgstr "{found} trên {total} nơi"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.homeCount"
-msgstr "{found}/{total} · Bộ quê nhà"
+msgstr "{found}/{total} · bộ quê nhà"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.setCount"
@@ -191,6 +191,11 @@ msgstr "/ {0} XP"
 #: ../../apps/mobile/src/features/critters/premium/hatch/hatch-scene.tsx
 msgid "critters.premium.hatch.setTag"
 msgstr "#{0} trong bộ {1}"
+
+#. placeholder {0}: card.reward.xp
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.xpShort"
+msgstr "+{0} XP"
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.xp"
@@ -517,6 +522,10 @@ msgstr "Để sau vậy"
 msgid "critters.legendary.intro"
 msgstr "Bạn nhỏ huyền thoại chỉ xuất hiện một ngày trong năm, hoặc cho thử thách khó nhất của một nơi. Không mua được, cũng không đổi được."
 
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.critterShort"
+msgstr "Huyền thoại"
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.legendaryMode"
 msgstr "Huyền thoại"
@@ -694,19 +703,6 @@ msgstr "Đã đặt nhắc"
 msgid "critters.legendary.remindersOn"
 msgstr "Đã bật nhắc"
 
-#. placeholder {0}: card.reward.xp
-#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
-msgid "quests.reward.xp"
-msgstr "Thưởng · +{0} XP"
-
-#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
-msgid "quests.reward.critter"
-msgstr "Thưởng · critter huyền thoại"
-
-#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
-msgid "quests.reward.settled"
-msgstr "Thưởng · Tokek Sòng Phẳng"
-
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.sayHi"
 msgstr "Chào một câu"
@@ -718,6 +714,10 @@ msgstr "Tìm một nơi"
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptySearchBody"
 msgstr "Tìm theo quốc gia hoặc thành phố, như Việt Nam hay Hội An."
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.settledShort"
+msgstr "Tokek Sòng Phẳng"
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.share"

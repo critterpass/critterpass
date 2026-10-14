@@ -20,11 +20,11 @@ import { GuideNote, PressableScale, Text, makePremiumStyles, usePremiumTheme } f
 import type { HomeView } from '../data/use-home-state';
 import { guideArt } from '../guide-art';
 import { dismissTipCommand } from '../home-commands';
-import { useOfflineLine, useOfflineLineCopy } from '../offline-line';
 import { crewInviteRoute, HOME_ROUTES, homeRoutes } from '../routes';
 import { homeVoteSlot } from '../slots';
 import type { OpenTripRow } from '../data/home-queries';
 import { BackHero } from './components/back-hero';
+import { OfflineStatus } from './components/offline-status';
 import { StepCard } from './components/step-card';
 import { SavedLinkNote } from './components/saved-link-note';
 import { TripCollageCard } from './components/trip-collage-card';
@@ -140,32 +140,6 @@ function NoTripSection({ crewId }: { readonly crewId: string }) {
   );
 }
 
-function OfflineLine({ trip, now }: { readonly trip: HomeTripInput | null; readonly now: Date }) {
-  const { t } = useLingui();
-  const copy = useOfflineLineCopy();
-  const { held, line } = useOfflineLine(trip, now);
-  if (held) {
-    return (
-      <Text variant="caption" tone="muted" testID="home-sync-held">
-        {t({
-          id: 'home.offline.held',
-          message: "Some changes can't be sent yet. We'll keep trying when the app is opened.",
-        })}
-      </Text>
-    );
-  }
-  if (line === null) return null;
-  return (
-    <Text
-      variant="caption"
-      tone="muted"
-      testID={line.kind === 'ready' ? 'home-offline-ready' : 'home-offline-pending'}
-    >
-      {copy(line)}
-    </Text>
-  );
-}
-
 export interface CrewSectionProps {
   readonly view: HomeView;
   readonly openTrip: OpenTripRow | null;
@@ -231,7 +205,7 @@ export function CrewSection({ view, openTrip, now }: CrewSectionProps) {
       />
       {trip === null ? null : <TripCollageCard trip={trip} going={going} now={now} />}
       {trip === null ? null : <SavedLinkNote tripId={trip.id} />}
-      <OfflineLine trip={trip} now={now} />
+      <OfflineStatus trip={trip} now={now} />
       {home.mode === 'no_trip' ? <NoTripSection crewId={crew.id} /> : null}
       {recent === null ? null : (
         <BackHero

@@ -6,7 +6,7 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { guideCritterKind, LineIcon } from '@/features/trip';
 import { CritterSticker, PressableScale, StickerIcon, Text, usePremiumTheme } from '@/ui/premium';
@@ -64,6 +64,39 @@ function Tile(props: {
   );
 }
 
+/** Joins every character so the address only breaks where it must, never at its own dots. */
+const WORD_JOINER = '\u2060';
+/** The one place a long address may break: before its "@", so the domain stays whole. */
+const BREAK = '\u200B';
+
+function keptWhole(address: string): string {
+  return address
+    .split('@')
+    .map((part) => [...part].join(WORD_JOINER))
+    .join(`${BREAK}@${WORD_JOINER}`);
+}
+
+/** The forward note with the crew's address set bold (1.06), kept whole on its line. */
+function ForwardNote(props: { readonly address: string; readonly note: string }) {
+  const at = props.note.indexOf(props.address);
+  if (at < 0) {
+    return (
+      <Text variant="note" tone="inkSecondary" style={styles.note}>
+        {props.note}
+      </Text>
+    );
+  }
+  return (
+    <Text variant="note" tone="inkSecondary" style={styles.note}>
+      {props.note.slice(0, at)}
+      <Text variant="note" style={styles.address}>
+        {keptWhole(props.address)}
+      </Text>
+      {props.note.slice(at + props.address.length)}
+    </Text>
+  );
+}
+
 function Body() {
   const th = usePremiumTheme();
   const { t } = useLingui();
@@ -107,12 +140,13 @@ function Body() {
             size={34}
             pose="point"
           />
-          <Text variant="note" tone="inkSecondary" style={{ flex: 1 }}>
-            {t({
+          <ForwardNote
+            address={channels.address}
+            note={t({
               id: 'bookings.premium.forwardNote',
               message: `Forward to ${channels.address} and I'll file it.`,
             })}
-          </Text>
+          />
           <PressableScale
             onPress={channels.forward}
             accessibilityRole="button"
@@ -142,3 +176,8 @@ export function AddBookingSheet() {
     </WalletGuideProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  note: { flex: 1 },
+  address: { fontWeight: '600' },
+});

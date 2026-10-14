@@ -439,6 +439,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/AddBookingSheet.tsx
 #: ../../apps/mobile/src/features/bookings/premium/components/EmptyBookings.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/MailboxSheetFrame.tsx
 msgid "bookings.add.copy"
 msgstr ""
 
@@ -644,6 +645,7 @@ msgid "bookings.add.copiedToast"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/premium/components/EmptyBookings.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/MailboxSheetFrame.tsx
 msgid "bookings.premium.forwardEmail"
 msgstr ""
 

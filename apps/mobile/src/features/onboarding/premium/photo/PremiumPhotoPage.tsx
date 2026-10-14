@@ -147,6 +147,9 @@ export function PremiumPhotoPage() {
       </View>
       <ScrollRow
         gap={theme.space.gap10}
+        // Reaches through the page's gutter, so the picked face's ring and the last face's
+        // shadow are not cut at the padding.
+        bleed={theme.space.titleGutter}
         // 6 above and below the faces, as the row kept; its ring and shadow room sits inside.
         style={{
           marginTop: theme.space.gap6 - ROW_ROOM_ABOVE,

@@ -18,7 +18,7 @@ export interface BalanceLine {
   readonly joinIndex: number;
   readonly me: boolean;
   readonly netMinor: bigint;
-  /** Bar length against the largest balance on the same side, 0 to 1. */
+  /** Bar length against the largest balance on either side, 0 to 1. */
   readonly fraction: number;
   readonly direction: 'owed' | 'owes' | 'even';
 }
@@ -91,12 +91,12 @@ export function buildBalances(input: BalancesInput): BalancesModel {
   for (const id of nets.keys()) if (!ids.includes(id)) ids.push(id);
   if (!ids.includes(input.uid)) ids.unshift(input.uid);
 
-  let maxOwed = 0n;
-  let maxOwes = 0n;
+  // One scale for both sides, so a bar's length compares across owing and owed.
+  let maxAbs = 0n;
   for (const id of ids) {
     const net = nets.get(id) ?? 0n;
-    if (net > maxOwed) maxOwed = net;
-    if (-net > maxOwes) maxOwes = -net;
+    const abs = net < 0n ? -net : net;
+    if (abs > maxAbs) maxAbs = abs;
   }
   const lines = ids.map((id): BalanceLine => {
     const member = input.members.find((candidate) => candidate.userId === id);
@@ -107,7 +107,7 @@ export function buildBalances(input: BalancesInput): BalancesModel {
       joinIndex: member?.joinIndex ?? 0,
       me: id === input.uid,
       netMinor: net,
-      fraction: net > 0n ? ratio(net, maxOwed) : ratio(net, maxOwes),
+      fraction: ratio(net, maxAbs),
       direction: net > 0n ? 'owed' : net < 0n ? 'owes' : 'even',
     };
   });

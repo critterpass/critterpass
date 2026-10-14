@@ -2,8 +2,8 @@
  * The sticker shelf on the PASS's Critterdex, under the cards and above the sets (undesigned in the
  * premium set; built from the kit's sticker and card): the Settled Tokek of every trip the crew
  * squared up and each crew level's sticker, newest first, in a row that scrolls sideways. Tapping
- * one opens how it was earned. With none yet, the card says how to earn one. Stickers are rewards,
- * so they never count in the dex.
+ * one opens how it was earned. With none yet there is no shelf: the design's dex has no place for
+ * an empty one. Stickers are rewards, so they never count in the dex.
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
@@ -48,10 +48,11 @@ export interface StickerShelfViewProps {
   readonly onOpen: (item: ShelfItem) => void;
 }
 
-/** The shelf over a list of stickers; an empty list tells how to earn the first. */
+/** The shelf over a list of stickers; nothing until the first one is earned. */
 export function StickerShelfView({ items, onOpen }: StickerShelfViewProps) {
   const styles = useStyles();
   const { t, i18n } = useLingui();
+  if (items.length === 0) return null;
   return (
     <View style={styles.card} testID="sticker-shelf">
       {/* The card's inset sits on a wrapper, so the words themselves keep clear of its edges. */}
@@ -60,56 +61,45 @@ export function StickerShelfView({ items, onOpen }: StickerShelfViewProps) {
           {t({ id: 'stickers.shelf.title', message: 'Stickers' }).toLocaleUpperCase(i18n.locale)}
         </Text>
       </View>
-      {items.length === 0 ? (
-        <View style={styles.head}>
-          <Text variant="rowText" tone="muted" singleLine={false} testID="sticker-shelf-empty">
-            {t({
-              id: 'stickers.shelf.empty',
-              message: 'Settle a trip to the last payment or level up your crew to earn one.',
-            })}
-          </Text>
-        </View>
-      ) : (
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.row}
-        >
-          {items.map((item) => {
-            const art = guideArt(item.guide);
-            const name = stickerName(i18n, item);
-            return (
-              <PressableScale
-                key={item.id}
-                accessibilityRole="button"
-                accessibilityLabel={name}
-                onPress={() => onOpen(item)}
-                style={styles.item}
-                testID={`sticker-shelf-${item.id}`}
-              >
-                <View>
-                  <CritterSticker
-                    kind={art.kind}
-                    name={art.name}
-                    size={ART}
-                    pose={item.kind === 'special' ? 'wave' : 'cheer'}
-                  />
-                  {item.kind === 'crew_level' && item.level !== null ? (
-                    <View style={styles.badge}>
-                      <Text variant="avatarInitialSmall" tone="onAccent">
-                        {String(item.level)}
-                      </Text>
-                    </View>
-                  ) : null}
-                </View>
-                <Text variant="captionMuted" tone="inkSecondary" numberOfLines={1}>
-                  {name}
-                </Text>
-              </PressableScale>
-            );
-          })}
-        </ScrollView>
-      )}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.row}
+      >
+        {items.map((item) => {
+          const art = guideArt(item.guide);
+          const name = stickerName(i18n, item);
+          return (
+            <PressableScale
+              key={item.id}
+              accessibilityRole="button"
+              accessibilityLabel={name}
+              onPress={() => onOpen(item)}
+              style={styles.item}
+              testID={`sticker-shelf-${item.id}`}
+            >
+              <View>
+                <CritterSticker
+                  kind={art.kind}
+                  name={art.name}
+                  size={ART}
+                  pose={item.kind === 'special' ? 'wave' : 'cheer'}
+                />
+                {item.kind === 'crew_level' && item.level !== null ? (
+                  <View style={styles.badge}>
+                    <Text variant="avatarInitialSmall" tone="onAccent">
+                      {String(item.level)}
+                    </Text>
+                  </View>
+                ) : null}
+              </View>
+              <Text variant="captionMuted" tone="inkSecondary" numberOfLines={1}>
+                {name}
+              </Text>
+            </PressableScale>
+          );
+        })}
+      </ScrollView>
     </View>
   );
 }

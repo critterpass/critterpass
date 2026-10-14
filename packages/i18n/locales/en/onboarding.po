@@ -61,6 +61,10 @@ msgid "onboarding.invite.problem.referralTitle"
 msgstr "{inviter} sent you"
 
 #: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.countIn"
+msgstr "{members} in"
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
 msgid "onboarding.invite.manifest.someWaiting"
 msgstr "{members} in. {waiting} more invites haven’t been opened yet."
 
@@ -815,7 +819,7 @@ msgstr "or"
 
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumManifestPage.tsx
 msgid "onboarding.premium.manifest.organiser"
-msgstr "Organiser"
+msgstr "organiser"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.packedDays.short"

@@ -5,7 +5,6 @@
  * offline queue. Leaving with unsaved changes asks first (`leaving`), then the page goes back.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and command names, never copy. */
-import { airportDataset } from '@cp/content/airports';
 import type { SetHomeAirportPayload, UpdateProfilePayload } from '@cp/domain';
 import { usePreventRemove } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -61,11 +60,7 @@ interface SavedRow {
   readonly username_changed_at: string | null;
 }
 
-export function airportLabel(iata: string | null): string {
-  if (iata === null) return '';
-  const airport = airportDataset().airports.find((row) => row.iata === iata);
-  return airport === undefined ? iata : `${iata} · ${airport.name}`;
-}
+export { airportLabel } from './airport-label';
 
 export type EditingField = 'name' | 'username' | 'home-airport' | 'languages' | null;
 

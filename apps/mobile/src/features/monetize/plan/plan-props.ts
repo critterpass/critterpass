@@ -1,4 +1,5 @@
 import type { RestoreState } from '../data/use-billing';
+import type { CompareRowSpec } from '../perks/perk-copy';
 import type { BoostLine, PlanModel } from './plan-model';
 
 export interface PlanViewProps {
@@ -7,6 +8,8 @@ export interface PlanViewProps {
   /** The store's price for the current plan, when it has one. */
   readonly price: string | null;
   readonly boosts: readonly BoostLine[];
+  /** What each plan includes, row by row (the free plan lists its own column). */
+  readonly compare: readonly CompareRowSpec[];
   readonly restore: RestoreState;
   /** False where there is no store to restore from or manage in. */
   readonly storeAvailable: boolean;

@@ -187,6 +187,7 @@ msgstr "Thêm từ màn hình chính"
 msgid "home.premium.savedLink.add"
 msgstr "Thêm vào ý tưởng"
 
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.all"
 msgstr "Tất cả"
@@ -255,6 +256,7 @@ msgstr "Chưa tham gia được chuyến đi. Thử lại nhé."
 msgid "home.widgets.countdown"
 msgstr "Đếm ngược"
 
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.crew"
 msgstr "Nhóm"
@@ -298,6 +300,10 @@ msgstr "Công cụ nhà phát triển"
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.earlier"
 msgstr "Trước đó"
+
+#: ../../apps/mobile/src/features/home/premium/recovery/lost-link-screen.tsx
+msgid "home.premium.lost.tripsSub"
+msgstr "Mọi chuyến đi bạn tham gia"
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 msgid "inbox.premium.example"
@@ -347,6 +353,7 @@ msgstr "Đã hiểu"
 msgid "home.premium.switcher.joinFailedOk"
 msgstr "Đã hiểu"
 
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "home.inbox.guides"
 msgstr "Hướng dẫn viên"
@@ -621,6 +628,7 @@ msgstr "Cài đặt"
 msgid "home.premium.back.settle"
 msgstr "Thanh toán với nhóm"
 
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 #: ../../apps/mobile/src/features/home/premium/trips/trips-premium-screen.tsx
 msgid "home.inbox.filters"
@@ -658,7 +666,7 @@ msgstr "Nhỏ · ai nợ ai, và một lời nhắc"
 msgid "home.widgets.crewLine"
 msgstr "Nhỏ hoặc vừa · mọi người gần điểm hẹn"
 
-#: ../../apps/mobile/src/features/home/premium/home-sections.tsx
+#: ../../apps/mobile/src/features/home/premium/components/offline-status.tsx
 msgid "home.offline.held"
 msgstr "Một số thay đổi chưa gửi được. Mở lại ứng dụng, chúng tôi sẽ thử gửi tiếp."
 
@@ -976,6 +984,10 @@ msgstr "Nhóm đang giữ chỗ cho bạn trên CritterPass. {url}"
 #: ../../apps/mobile/src/features/home/premium/home-premium-screen.tsx
 msgid "home.header.yourCrews"
 msgstr "Nhóm của bạn"
+
+#: ../../apps/mobile/src/features/home/premium/recovery/lost-link-screen.tsx
+msgid "home.premium.lost.homeSub"
+msgstr "Nhóm của bạn và những gì sắp tới"
 
 #: ../../apps/mobile/src/features/home/premium/trips/empty-passport.tsx
 msgid "home.premium.trips.firstStamp"

@@ -198,7 +198,10 @@ export function PremiumCodePage() {
           >
             {/* Clear of the guide sticker that hangs over the card's top right. */}
             <Text variant="mono" tone="muted" numberOfLines={1} style={{ paddingEnd: 72 }}>
-              {t({ id: 'onboarding.invite.code.found', message: `Found it · ${inviter}’s crew` })}
+              {t({
+                id: 'onboarding.invite.code.found',
+                message: `Found it · ${inviter}’s crew`,
+              }).toLocaleUpperCase()}
             </Text>
             <Text variant="largeTitle" numberOfLines={2}>
               {crew}

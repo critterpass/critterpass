@@ -32,14 +32,13 @@ import { useScreenInsets } from '@/ui/premium/shell';
 import type { PaywallViewProps } from '../paywall/paywall-props';
 import { entryPointOf } from '../paywall/use-paywall-record';
 import { useRestoreLine } from '../paywall/purchase-lines';
-import { GoldButton } from './components/gold-button';
 import { InkStamp } from './components/ink-stamp';
 import { HeadlineSparkles, NIGHT, NightGround } from './components/night';
 import { PurchaseFooter } from './components/purchase-footer';
 import { StampSlam } from './components/stamp-slam';
 import { VisaCard } from './components/visa-card';
 import { EntryChip } from './entry-chip';
-import { BoostRow, PlanTiles } from './paywall-parts';
+import { BoostRow, PaywallAction, PlanTiles } from './paywall-parts';
 import { PAPER } from './monetize-palette';
 
 /** The paywall from props, so its states can be shown without a store. */
@@ -197,33 +196,20 @@ export function PaywallPremiumView({
             onPeriod={props.onPeriod}
           />
         ) : null}
-        <Text variant="caption" color={NIGHT.textMuted} align="center">
+        <Text variant="caption" color={NIGHT.textMuted} align="center" textBreakStrategy="balanced">
           {t({
             id: 'monetize.premium.critters',
             message: 'Critters are never for sale. You earn every one.',
           })}
         </Text>
-        {subscribed ? (
-          <GoldButton
-            label={t({ id: 'monetize.paywall.yourPlan', message: 'You have Pass+ · Your plan' })}
-            onPress={props.onPlan}
-            testID="paywall-plan"
-          />
-        ) : phase === 'verify_failed' ? (
-          <GoldButton
-            label={t({ id: 'monetize.paywall.checkAgain', message: 'Check again' })}
-            onPress={props.onCheckAgain}
-            testID="paywall-check-again"
-          />
-        ) : (
-          <GoldButton
-            label={buyLabel}
-            onPress={props.onBuy}
-            loading={busy}
-            disabled={!model.canBuy}
-            testID="paywall-buy"
-          />
-        )}
+        <PaywallAction
+          subscribed={subscribed}
+          verifyFailed={phase === 'verify_failed'}
+          buyLabel={buyLabel}
+          busy={busy}
+          canBuy={model.canBuy}
+          props={props}
+        />
         <View style={styles.links}>
           {props.boostTrip !== null && boost !== null ? (
             <TextButton

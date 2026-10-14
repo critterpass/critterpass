@@ -12,6 +12,8 @@ import { CritterSticker, Icon, Tag, Text, usePremiumTheme } from '@/ui/premium';
 
 export interface CrewTicketProps {
   readonly crew: string;
+  /** The invite's code, printed top right like a booking reference; the crew's name without one. */
+  readonly code?: string | null;
   readonly placeCode: string;
   readonly place: string | null;
   readonly facts: readonly { readonly label: string; readonly value: string }[];
@@ -25,6 +27,7 @@ export interface CrewTicketProps {
 
 export function CrewTicket({
   crew,
+  code = null,
   placeCode,
   place,
   facts,
@@ -64,15 +67,20 @@ export function CrewTicket({
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
+            gap: theme.space.gap12,
             paddingHorizontal: 18,
             paddingTop: 6,
           }}
         >
-          <Text variant="mono" tone="muted">
-            {t({ id: 'onboarding.invite.ticket.head', message: 'CritterPass Air · crew ticket' })}
+          {/* A ticket's mono header prints in capitals. */}
+          <Text variant="mono" tone="muted" numberOfLines={1} style={{ flexShrink: 1 }}>
+            {t({
+              id: 'onboarding.invite.ticket.head',
+              message: 'CritterPass Air · crew ticket',
+            }).toLocaleUpperCase()}
           </Text>
           <Text variant="mono" tone="muted" numberOfLines={1} style={{ maxWidth: '40%' }}>
-            {crew}
+            {(code ?? crew).toLocaleUpperCase()}
           </Text>
         </View>
         <View
@@ -143,7 +151,8 @@ export function CrewTicket({
           {facts.map((fact) => (
             <View key={fact.label} style={{ flex: 1 }}>
               <Text variant="captionMuted">{fact.label}</Text>
-              <Text variant="headline" numberOfLines={1} adjustsFontSizeToFit>
+              {/* Every value at the same size: a long one wraps rather than shrinking alone. */}
+              <Text variant="headline" numberOfLines={2}>
                 {fact.value}
               </Text>
             </View>

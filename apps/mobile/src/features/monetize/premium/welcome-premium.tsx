@@ -217,6 +217,7 @@ export function WelcomePremium() {
       <View style={{ paddingHorizontal: 24, paddingBottom: insets.bottom + 12, gap: 6 }}>
         {props.onPickIcon === undefined ? null : (
           <GoldButton
+            onNight
             label={t({ id: 'monetize.premium.tryStamp', message: 'Try the Stamp icon' })}
             onPress={props.onPickIcon}
             leading={

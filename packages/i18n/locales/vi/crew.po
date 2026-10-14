@@ -182,6 +182,7 @@ msgstr "Quay lại bàn phím"
 msgid "chat.premium.attach.camera"
 msgstr "Máy ảnh"
 
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 #: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
 #: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
 #: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
@@ -738,6 +739,10 @@ msgstr "Đã ghim vào chuyến đi"
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
 msgid "chat.premium.starter.place"
 msgstr "Đề xuất một nơi để đi"
+
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
+msgid "crew.premium.settings.planTrip"
+msgstr "Lên kế hoạch chuyến đi"
 
 #: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx
 msgid "crew.referral.shareMessage"

@@ -108,7 +108,19 @@ function Summary({ budget }: { readonly budget: Ready }) {
           </View>
         )}
       </View>
-      {planned === null ? null : (
+      {planned === null ? (
+        <Text variant="rowText" tone="inkSecondary" testID="money-budget-none">
+          {budget.organiser
+            ? t({
+                id: 'money.premium.budget.noneOrganiser',
+                message: 'No crew budget yet. Set one and I keep the crew on track against it.',
+              })
+            : t({
+                id: 'money.premium.budget.none',
+                message: 'No crew budget yet. The organiser can set one for the trip.',
+              })}
+        </Text>
+      ) : (
         <BudgetBar inkShare={inkShare} planAt={planAt} over={over !== null} days={budget.days} />
       )}
       {pace === null ? null : (
@@ -229,16 +241,18 @@ export function BudgetPremium() {
   }
   const day = budget.today;
   const { days } = budget;
-  const subtitle =
+  const when =
     day === 0
       ? t({ id: 'money.budget.before', message: 'Before the trip' })
       : day > budget.days
         ? t({ id: 'money.budget.after', message: 'Trip over' })
         : t({ id: 'money.budget.day', message: `Day ${day} of ${days}` });
+  // "Budget" over "Bali · Day 5 of 8" (7.29): the place rides in the subtitle, not the title.
+  const subtitle = budget.place === '' ? when : `${budget.place} · ${when}`;
   return (
     <WalletGuideProvider tripId={budget.tripId}>
       <PushScreen
-        title={budget.title}
+        title={title}
         subtitle={subtitle}
         backLabel={backLabel}
         scroll={false}

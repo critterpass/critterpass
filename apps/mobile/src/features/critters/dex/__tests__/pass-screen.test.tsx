@@ -121,7 +121,7 @@ describe('PASS tab Critterdex', () => {
     expect(screen.getByText('1 of 2 places')).toBeTruthy();
     await waitFor(() => expect(screen.getByText('Maya has 14')).toBeTruthy());
     expect(screen.getByText('Vietnam')).toBeTruthy();
-    expect(screen.getByText('1/3 · Home set')).toBeTruthy();
+    expect(screen.getByText('1/3 · home set')).toBeTruthy();
   });
 
   it('never renders the name of a critter the viewer has not verified', async () => {

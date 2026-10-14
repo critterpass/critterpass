@@ -8,6 +8,7 @@ msgstr ""
 "Language: zh-Hans\n"
 
 #: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/components/free-plan-list.tsx
 msgid "monetize.compare.no"
 msgstr ""
 
@@ -114,6 +115,7 @@ msgid "monetize.card.chip.redrafts"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/premium/compare-premium.tsx
+#: ../../apps/mobile/src/features/monetize/premium/components/free-plan-list.tsx
 msgid "monetize.compare.yes"
 msgstr ""
 
@@ -338,7 +340,7 @@ msgid "monetize.plan.change"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
-#: ../../apps/mobile/src/features/monetize/premium/paywall-premium-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-parts.tsx
 msgid "monetize.paywall.checkAgain"
 msgstr ""
 
@@ -664,6 +666,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/premium/boost-card-premium.tsx
 msgid "monetize.card.covered"
+msgstr ""
+
+#: ../../apps/mobile/src/features/monetize/premium/components/free-plan-list.tsx
+msgid "monetize.plan.freeIncludes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/monetize/premium/boost-premium.tsx
@@ -1249,7 +1255,7 @@ msgstr ""
 msgid "monetize.compare.havePass"
 msgstr ""
 
-#: ../../apps/mobile/src/features/monetize/premium/paywall-premium-view.tsx
+#: ../../apps/mobile/src/features/monetize/premium/paywall-parts.tsx
 msgid "monetize.paywall.yourPlan"
 msgstr ""
 

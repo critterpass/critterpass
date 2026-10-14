@@ -31,8 +31,8 @@ import { Polaroid } from './polaroid';
 import { useHasTripPhoto } from './trip-photo';
 
 const useStyles = makePremiumStyles((t) => ({
-  // At least the collage's height; larger type grows the card and the "going" row stays under
-  // the words instead of over them.
+  // At least the collage's height; larger type grows the card. The "going" row sits in the words'
+  // column, right under the pills (3.02), so it never runs under the front photo.
   card: {
     minHeight: 256,
     borderRadius: 30,
@@ -46,12 +46,12 @@ const useStyles = makePremiumStyles((t) => ({
   hero: { lineHeight: 63 },
   pills: { flexDirection: 'row', flexWrap: 'wrap', gap: t.space.gap6 },
   going: {
-    marginTop: 'auto',
-    paddingTop: t.space.gap8,
+    paddingTop: t.space.gap4,
     flexDirection: 'row',
     alignItems: 'center',
     gap: t.space.gap8,
   },
+  shrink: { flexShrink: 1 },
   collage: { position: 'absolute', top: 0, end: 0, width: 190, height: 256 },
   photo1: { position: 'absolute', top: 30, end: 16 },
   photo2: { position: 'absolute', top: 96, end: 72 },
@@ -165,20 +165,23 @@ export function TripCollageCard({
             )}
             {progress > 0 ? <PlanRingPill percent={progress} testID="home-plan-progress" /> : null}
           </View>
+          {count === 0 ? null : (
+            <View style={styles.going}>
+              <CrewStack
+                members={going}
+                size={26}
+                max={5}
+                accessibilityLabel={t({
+                  id: 'home.premium.goingSpoken',
+                  message: `${count} going`,
+                })}
+              />
+              <Text variant="label" tone="muted" numberOfLines={1} style={styles.shrink}>
+                {t({ id: 'home.premium.going', message: `${count} going` })}
+              </Text>
+            </View>
+          )}
         </View>
-        {count === 0 ? null : (
-          <View style={styles.going}>
-            <CrewStack
-              members={going}
-              size={26}
-              max={5}
-              accessibilityLabel={t({ id: 'home.premium.goingSpoken', message: `${count} going` })}
-            />
-            <Text variant="label" tone="muted">
-              {t({ id: 'home.premium.going', message: `${count} going` })}
-            </Text>
-          </View>
-        )}
       </View>
     </ZoomLink>
   );

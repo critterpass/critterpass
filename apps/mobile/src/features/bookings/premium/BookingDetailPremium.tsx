@@ -33,9 +33,13 @@ function FlightBody({ detail }: { readonly detail: Ready }) {
   const view = detail.view;
   if (view === null) return null;
   const tz = detail.tz;
+  // The ticket's pill already says the status; the line under it carries only what follows
+  // ("Updated 14:02"), never the status again.
+  const [statusLabel = '', ...more] = detail.status?.split(' · ') ?? [];
+  const extra = more.join(' · ');
   return (
     <>
-      <View style={{ paddingHorizontal: th.space.gap16 }}>
+      <View style={{ paddingHorizontal: th.space.gutter }}>
         {/* The scannable card stays light in dark mode (1.13). */}
         <PremiumThemeProvider scheme="light">
           <FlightTicket
@@ -44,8 +48,7 @@ function FlightBody({ detail }: { readonly detail: Ready }) {
             departs={clock(locale, view.departsAt, tz)}
             arrives={clock(locale, view.arrivesAt, tz)}
             boards={clock(locale, view.boardsAt, tz)}
-            statusLabel={detail.status?.split(' · ')[0] ?? ''}
-            notch={th.color.ground}
+            statusLabel={statusLabel}
           />
         </PremiumThemeProvider>
       </View>
@@ -61,9 +64,9 @@ function FlightBody({ detail }: { readonly detail: Ready }) {
               "Cancelled by the airline. You're owed a free change or a refund: ask the airline.",
           })}
         </Text>
-      ) : detail.status === null ? null : (
+      ) : extra === '' ? null : (
         <Text variant="caption" tone="muted" style={{ paddingHorizontal: th.space.titleGutter }}>
-          {detail.status}
+          {extra}
         </Text>
       )}
       <ConfirmationCodeCard code={detail.booking.supplierRef} />

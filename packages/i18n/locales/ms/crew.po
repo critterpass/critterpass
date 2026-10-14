@@ -182,6 +182,7 @@ msgstr ""
 msgid "chat.premium.attach.camera"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
 #: ../../apps/mobile/src/features/crew/premium/crew-settings-screen.tsx
 #: ../../apps/mobile/src/features/crew/premium/member-sheet.tsx
 #: ../../apps/mobile/src/features/crew/premium/start-crew-sheet.tsx
@@ -737,6 +738,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-starters.ts
 msgid "chat.premium.starter.place"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/premium/components/crew-settings-cards.tsx
+msgid "crew.premium.settings.planTrip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/premium/referral-screen.tsx

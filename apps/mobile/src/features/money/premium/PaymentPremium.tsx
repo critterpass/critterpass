@@ -168,32 +168,52 @@ export function PaymentPremium({
         bottomOffset={th.size.button + th.space.gap12 + th.space.gap16}
         contentContainerStyle={{ paddingTop: 8, paddingBottom: 40, gap: th.space.gap16 }}
       >
-        <View style={[styles.who, { paddingHorizontal: th.space.titleGutter }]}>
-          <Avatar
-            name={other}
-            color={crewAccent(pay.joinIndexOf(row.role === 'payer' ? row.toId : row.fromId))}
-            uid={row.role === 'payer' ? row.toId : row.fromId}
-            size={56}
-            ringed
-          />
-          <PrivateContent>
-            <Text
-              variant="hero"
-              align="center"
-              style={styles.tabular}
-              testID="money-payment-amount"
-            >
-              {amount}
-            </Text>
-          </PrivateContent>
-          <Text variant="body" tone="muted" align="center">
-            {row.role === 'payer'
-              ? t({ id: 'money.premium.toWhom', message: `to ${toName}` })
-              : row.role === 'payee'
-                ? t({ id: 'money.pay.titleOwed', message: `${payer} owes you` })
+        {row.role === 'payee' ? (
+          // Owed to you (7.26): the payer and what they owe as one header block.
+          <View style={[styles.owedHead, { paddingHorizontal: th.space.titleGutter }]}>
+            <Avatar
+              name={fromName}
+              color={crewAccent(pay.joinIndexOf(row.fromId))}
+              uid={row.fromId}
+              size={56}
+            />
+            <View style={styles.flex}>
+              <Text variant="emptyTitle" accessibilityRole="header">
+                {t({ id: 'money.pay.titleOwed', message: `${payer} owes you` })}
+              </Text>
+              <PrivateContent>
+                <Text variant="title" style={styles.tabular} testID="money-payment-amount">
+                  {amount}
+                </Text>
+              </PrivateContent>
+            </View>
+          </View>
+        ) : (
+          <View style={[styles.who, { paddingHorizontal: th.space.titleGutter }]}>
+            <Avatar
+              name={other}
+              color={crewAccent(pay.joinIndexOf(row.role === 'payer' ? row.toId : row.fromId))}
+              uid={row.role === 'payer' ? row.toId : row.fromId}
+              size={56}
+              ringed
+            />
+            <PrivateContent>
+              <Text
+                variant="hero"
+                align="center"
+                style={styles.tabular}
+                testID="money-payment-amount"
+              >
+                {amount}
+              </Text>
+            </PrivateContent>
+            <Text variant="body" tone="muted" align="center">
+              {row.role === 'payer'
+                ? t({ id: 'money.premium.toWhom', message: `to ${toName}` })
                 : t({ id: 'money.pay.titleOther', message: `${payer} pays ${payee}` })}
-          </Text>
-        </View>
+            </Text>
+          </View>
+        )}
         {paying ? <Paying pay={pay} /> : null}
         {row.role === 'payer' && row.status === 'marked_paid' ? (
           <Text
@@ -241,5 +261,7 @@ export function PaymentPremium({
 
 const styles = StyleSheet.create({
   who: { alignItems: 'center', gap: 6 },
+  owedHead: { flexDirection: 'row', alignItems: 'center', gap: 14 },
+  flex: { flex: 1, minWidth: 0 },
   tabular: { fontVariant: ['tabular-nums'] },
 });

@@ -19,7 +19,6 @@ import {
   Row,
   StatusTag,
   Text,
-  TextButton,
   usePremiumTheme,
   useToast,
 } from '@/ui/premium';
@@ -59,6 +58,16 @@ export function ReferralPremium() {
       title={t({ id: 'crew.referral.title', message: 'Invite friends' })}
       backLabel={t({ id: 'crew.referral.back', message: 'You' })}
       scroll={false}
+      action={{
+        key: 'terms',
+        label: t({ id: 'crew.referral.terms', message: 'Referral terms' }),
+        // eslint-disable-next-line lingui/no-unlocalized-strings -- an SF Symbol name, never copy.
+        sfSymbol: 'doc.text',
+        glyph: 'forward',
+        text: true,
+        onPress: () => void services.openUrl(REFERRAL_TERMS_URL),
+        testID: 'referral-terms',
+      }}
       testID="referral-dashboard"
     >
       <ScrollView
@@ -178,11 +187,6 @@ export function ReferralPremium() {
             </ListCard>
           </>
         )}
-        <TextButton
-          label={t({ id: 'crew.referral.terms', message: 'Referral terms' })}
-          onPress={() => void services.openUrl(REFERRAL_TERMS_URL)}
-          testID="referral-terms"
-        />
       </ScrollView>
       <View
         style={[

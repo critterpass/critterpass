@@ -9,14 +9,12 @@ import { useLingui } from '@lingui/react/macro';
 import { useMemo } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
-import { crewAccent } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
-  Avatar,
+  Button,
   Chip,
   EmptyState,
   PressableScale,
-  ring,
   ROW_ROOM_ABOVE,
   ROW_ROOM_BELOW,
   ScrollRow,
@@ -28,6 +26,7 @@ import { PushScreen } from '@/ui/premium/shell';
 
 import { groupByDay, type ExpenseItem } from '../data/expense-items';
 import { calendarDate, formatAmount } from '../format';
+import { RingedAvatar } from './components/RingedAvatar';
 import { useHistory } from '../history/use-history';
 import { ExpenseRow } from './components/ExpenseRow';
 
@@ -82,23 +81,7 @@ export function HistoryPremium() {
             accessibilityState={{ selected }}
             testID={`money-history-member-${member.userId}`}
           >
-            <View
-              style={[
-                styles.avatarRing,
-                selected
-                  ? {
-                      boxShadow: [ring(2.5, th.color.ground), ring(4.5, th.color.ink)].join(', '),
-                    }
-                  : { opacity: filter.memberId === null ? 1 : 0.45 },
-              ]}
-            >
-              <Avatar
-                name={member.name}
-                color={crewAccent(member.joinIndex)}
-                uid={member.userId}
-                size={36}
-              />
-            </View>
+            <RingedAvatar member={member} ringed={selected} dimmed={filter.memberId !== null} />
           </PressableScale>
         );
       })}
@@ -124,7 +107,11 @@ export function HistoryPremium() {
         data={none ? [] : groups}
         keyExtractor={(group) => group.localDate}
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerStyle={{ gap: th.space.gap16, paddingBottom: th.space.gap16 }}
+        contentContainerStyle={[
+          { gap: th.space.gap16, paddingBottom: th.space.gap16 },
+          // With nothing to list, the empty state sits in the page's middle, not under the title.
+          groups.length === 0 || none ? styles.grow : null,
+        ]}
         {...(none ? {} : { ListHeaderComponent: filters })}
         ListEmptyComponent={
           history.loading ? (
@@ -133,13 +120,22 @@ export function HistoryPremium() {
               <Skeleton height={180} radius={th.radius.card} />
             </View>
           ) : history.items.length === 0 ? (
-            <EmptyState
-              title={t({ id: 'money.history.emptyTitle', message: 'No expenses yet' })}
-              line={t({
-                id: 'money.history.emptyLine',
-                message: 'Add one, or scan a receipt, and it shows here for the whole crew.',
-              })}
-            />
+            <View style={styles.middle}>
+              <EmptyState
+                title={t({ id: 'money.history.emptyTitle', message: 'No expenses yet' })}
+                line={t({
+                  id: 'money.history.emptyLine',
+                  message: 'Add one, or scan a receipt, and it shows here for the whole crew.',
+                })}
+                action={
+                  <Button
+                    label={t({ id: 'money.empty.add', message: 'Add an expense' })}
+                    onPress={history.onAdd}
+                    testID="money-history-empty-add"
+                  />
+                }
+              />
+            </View>
           ) : (
             <Text variant="body" tone="muted" align="center" testID="money-history-nomatch">
               {t({ id: 'money.history.noMatch', message: 'Nothing matches that filter.' })}
@@ -189,7 +185,9 @@ export function HistoryPremium() {
 const styles = StyleSheet.create({
   // 4 pt above and below the chips; the row's own room for the chosen ring sits inside it.
   filters: { marginTop: 4 - ROW_ROOM_ABOVE, marginBottom: 4 - ROW_ROOM_BELOW },
-  avatarRing: { borderRadius: 18 },
+  grow: { flexGrow: 1 },
+  // A little above the true middle reads as centred under the title.
+  middle: { flex: 1, justifyContent: 'center', paddingBottom: 64 },
   dayHead: { flexDirection: 'row', justifyContent: 'space-between' },
   card: { overflow: 'hidden' },
   tabular: { fontVariant: ['tabular-nums'] },

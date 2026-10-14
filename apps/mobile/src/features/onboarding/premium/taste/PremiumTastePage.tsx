@@ -65,8 +65,15 @@ export function PremiumTastePage() {
     return (
       <WizardPage
         backLabel={backLabel}
+        // The summary closes the quiz, so its counter reads the quiz's last step (6 of 6), never
+        // jumping back to the wizard's count between the questions and Home.
         header={
-          <WizardHeader current={3} total={4} backLabel={backLabel} onBack={() => router.back()} />
+          <WizardHeader
+            current={quiz.quiz.length}
+            total={quiz.quiz.length}
+            backLabel={backLabel}
+            onBack={() => router.back()}
+          />
         }
         testID="onboarding-taste"
         footer={
@@ -145,7 +152,12 @@ export function PremiumTastePage() {
           </Text>
         </View>
       </View>
-      <View key={question.id} style={{ gap: theme.space.gap10 }} testID="taste-quiz">
+      {/* The top card sits clear of Tokek's line: the guide hanging off its corner rises 34 pt. */}
+      <View
+        key={question.id}
+        style={{ gap: theme.space.gap10, marginTop: theme.space.gap12 }}
+        testID="taste-quiz"
+      >
         <QuizPhotoCard
           side="left"
           label={left.label}

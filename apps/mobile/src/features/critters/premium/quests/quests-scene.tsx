@@ -88,8 +88,8 @@ export function PremiumQuestsScene(props: QuestsViewProps) {
   const next = level.nextStickerLevel;
   const eyebrow =
     crewName === ''
-      ? t({ id: 'quests.header.levelOnly', message: `Crew lvl ${lvl}` })
-      : t({ id: 'quests.header.eyebrow', message: `${crewName} · Crew lvl ${lvl}` });
+      ? t({ id: 'quests.header.levelOnly', message: `Crew level ${lvl}` })
+      : t({ id: 'quests.header.eyebrow', message: `${crewName} · crew level ${lvl}` });
   const unlock = t({ id: 'quests.header.unlock', message: `Level ${next} unlocks a crew sticker` });
   const fraction = level.need > 0 ? Math.min(1, level.into / level.need) : 0;
   const featured =

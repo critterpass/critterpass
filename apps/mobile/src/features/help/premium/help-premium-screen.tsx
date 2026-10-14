@@ -164,6 +164,11 @@ export function HelpPremiumScreen() {
             <ListCard>
               <Row
                 title={t({ id: 'help.hub.report', message: 'Report a problem' })}
+                subtitle={
+                  hub.shakeToReport
+                    ? t({ id: 'help.premium.reportCaptionShake', message: 'Or shake any screen' })
+                    : t({ id: 'help.premium.reportCaption', message: 'What went wrong, and where' })
+                }
                 leading={<Tile sticker="heart" color={th.accent.pink} />}
                 trailing={chevron}
                 onPress={hub.onReport}
@@ -188,6 +193,7 @@ export function HelpPremiumScreen() {
                       subtitle: t({
                         id: 'help.premium.suggestCaption',
                         message: plural(hub.ideasToVote, {
+                          0: 'Be the first to suggest one',
                           one: 'Vote on # idea',
                           other: 'Vote on # ideas',
                         }),

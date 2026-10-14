@@ -181,6 +181,10 @@ msgstr ""
 msgid "you.pings.always"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
+msgid "you.profile.noTags"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.app"
 msgstr ""
@@ -745,6 +749,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/profile/retake-premium-sheet.tsx
 msgid "you.premium.retake.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/premium/delete/delete-hold-ring.tsx
+msgid "you.delete.keepHolding"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/offline/offline-storage-screen.tsx

@@ -75,6 +75,7 @@ export function LostLinkScreen() {
     transform: [{ translateY: -9 * lift.value }, { rotate: `${-2 + 4 * lift.value}deg` }],
   }));
   const home = () => router.replace('/');
+  const chevron = <Icon name="forward" size={16} color={theme.color.placeholder} />;
   return (
     <FullScreen
       closeLabel={t({ id: 'home.premium.lost.close', message: 'Close' })}
@@ -110,6 +111,8 @@ export function LostLinkScreen() {
         <ListCard radius={theme.radius.cardRow}>
           <Row
             title={t({ id: 'home.premium.lost.home', message: 'Go to Home' })}
+            subtitle={t({ id: 'home.premium.lost.homeSub', message: 'Your crews and what’s next' })}
+            trailing={chevron}
             leading={
               <View style={[styles.tile, { backgroundColor: theme.color.control }]}>
                 <Icon name="home" size={18} />
@@ -120,6 +123,8 @@ export function LostLinkScreen() {
           />
           <Row
             title={t({ id: 'home.premium.lost.trips', message: 'Search your trips' })}
+            subtitle={t({ id: 'home.premium.lost.tripsSub', message: 'Every trip you’re part of' })}
+            trailing={chevron}
             leading={
               <View style={[styles.tile, { backgroundColor: theme.color.status.rain.bg }]}>
                 <HomeGlyph name="search" size={18} color={theme.color.status.rain.text} />
@@ -131,6 +136,7 @@ export function LostLinkScreen() {
         </ListCard>
         <View style={styles.grow} />
         <TextButton
+          align="center"
           label={t({ id: 'home.premium.lost.report', message: 'Tell us this link is broken' })}
           onPress={() =>
             router.push({

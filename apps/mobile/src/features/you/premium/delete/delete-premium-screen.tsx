@@ -10,12 +10,13 @@ import { Pressable, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Button, Card, Tag, Text, TextButton, usePremiumTheme } from '@/ui/premium';
-import { HoldToConfirm, PushScreen } from '@/ui/premium/shell';
+import { PushScreen } from '@/ui/premium/shell';
 
 import type { AccountServices } from '../../account/account-services';
 import { useDeleteAccount } from '../../account/use-delete-account';
 import { amountText } from '../../account/amount-text';
 import { ClosedPremiumView } from '../closed/closed-premium-view';
+import { DeleteHoldRing } from './delete-hold-ring';
 import { PreflightNotes } from './preflight-notes';
 
 export function DeletePremiumScreen({
@@ -94,42 +95,45 @@ export function DeletePremiumScreen({
             message: 'Here’s what goes with you, and what the crew keeps.',
           })}
         </Text>
-        <Card padded>
-          <Tag
-            label={t({ id: 'you.delete.goes', message: 'Goes' })}
-            color={th.accent.pink}
-            rotate={-3}
-          />
-          <Text variant="note" tone="inkSecondary" style={{ marginTop: 8 }}>
-            {t({
-              id: 'you.delete.goes.pass',
-              message: 'Your pass, your critters and your stamps',
-            })}
-            {'\n'}
-            {t({
-              id: 'you.delete.goes.profile',
-              message: 'Your profile, uploads and chat messages',
-            })}
-          </Text>
-        </Card>
-        <Card padded>
-          <Tag
-            label={t({ id: 'you.delete.keeps', message: 'The crew keeps' })}
-            color={th.accent.mint}
-            rotate={3}
-          />
-          <Text variant="note" tone="inkSecondary" style={{ marginTop: 8 }}>
-            {t({
-              id: 'you.delete.keeps.plans',
-              message: 'Plans you helped make, shown as “former member”',
-            })}
-            {'\n'}
-            {t({
-              id: 'you.delete.keeps.expenses',
-              message: 'Expenses you added, so Balances still add up',
-            })}
-          </Text>
-        </Card>
+        {/* What goes and what stays, side by side (9.09). */}
+        <View style={{ flexDirection: 'row', gap: th.space.gap10 }}>
+          <Card padded style={{ flex: 1 }}>
+            <Tag
+              label={t({ id: 'you.delete.goes', message: 'Goes' })}
+              color={th.accent.pink}
+              rotate={-3}
+            />
+            <Text variant="note" tone="inkSecondary" style={{ marginTop: 8 }}>
+              {t({
+                id: 'you.delete.goes.pass',
+                message: 'Your pass, your critters and your stamps',
+              })}
+              {'\n\n'}
+              {t({
+                id: 'you.delete.goes.profile',
+                message: 'Your profile, uploads and chat messages',
+              })}
+            </Text>
+          </Card>
+          <Card padded style={{ flex: 1 }}>
+            <Tag
+              label={t({ id: 'you.delete.keeps', message: 'The crew keeps' })}
+              color={th.accent.mint}
+              rotate={3}
+            />
+            <Text variant="note" tone="inkSecondary" style={{ marginTop: 8 }}>
+              {t({
+                id: 'you.delete.keeps.plans',
+                message: 'Plans you helped make, shown as “former member”',
+              })}
+              {'\n\n'}
+              {t({
+                id: 'you.delete.keeps.expenses',
+                message: 'Expenses you added, so Balances still add up',
+              })}
+            </Text>
+          </Card>
+        </View>
         {owed.map((balance) => (
           <View
             key={`${balance.crew_id}-${balance.currency}`}
@@ -185,7 +189,7 @@ export function DeletePremiumScreen({
           </Text>
         )}
         <View style={{ marginTop: th.space.gap16, gap: th.space.gap10 }}>
-          <HoldToConfirm
+          <DeleteHoldRing
             label={
               d.busy
                 ? t({ id: 'you.delete.closing', message: 'Closing your account…' })
@@ -218,7 +222,7 @@ export function DeletePremiumScreen({
               })}
             </Text>
           ) : null}
-          <Text variant="captionMuted" tone="muted" align="center">
+          <Text variant="captionMuted" tone="muted" align="center" textBreakStrategy="balanced">
             {closes}
           </Text>
           <Pressable

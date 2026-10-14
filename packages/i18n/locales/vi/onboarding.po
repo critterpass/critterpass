@@ -61,6 +61,10 @@ msgid "onboarding.invite.problem.referralTitle"
 msgstr "{inviter} mời bạn"
 
 #: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.countIn"
+msgstr "{members} người đã vào"
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
 msgid "onboarding.invite.manifest.someWaiting"
 msgstr "{members} người đã vào. Còn {waiting} lời mời chưa được mở."
 
@@ -815,7 +819,7 @@ msgstr "hoặc"
 
 #: ../../apps/mobile/src/features/onboarding/premium/invite/PremiumManifestPage.tsx
 msgid "onboarding.premium.manifest.organiser"
-msgstr "Người tổ chức"
+msgstr "người tổ chức"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.packedDays.short"

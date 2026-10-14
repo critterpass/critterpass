@@ -6,7 +6,7 @@
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { WalletGuideProvider } from '@/features/bookings';
 import { WalletHalfSwitchPremium } from '@/features/bookings';
@@ -129,20 +129,17 @@ export function MoneyHomeScreen() {
   const { t } = useLingui();
   const state = useBalancesScreen();
   const addLabel = t({ id: 'money.empty.add', message: 'Add an expense' });
+  // The same two circles as the Bookings half, so the header doesn't jump on the switch.
   const actions: ShellAction[] = [
-    ...(Platform.OS === 'ios'
-      ? [
-          {
-            key: 'search',
-            label: t({ id: 'money.premium.search', message: 'Every expense' }),
-            // It opens every expense, not a search: a list, not a magnifying glass.
-            sfSymbol: 'list.bullet' as const,
-            glyph: 'more' as const,
-            onPress: balancesNav.history,
-            testID: 'money-search',
-          },
-        ]
-      : []),
+    {
+      key: 'search',
+      label: t({ id: 'money.premium.search', message: 'Every expense' }),
+      // The design's magnifier (7.16): finding an expense is the full list with its filters.
+      sfSymbol: 'magnifyingglass',
+      glyph: 'search',
+      onPress: balancesNav.history,
+      testID: 'money-search',
+    },
     {
       key: 'add',
       label: addLabel,

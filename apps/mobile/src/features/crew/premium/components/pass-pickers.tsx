@@ -101,9 +101,11 @@ export function CoverPicker({
 }) {
   const th = usePremiumTheme();
   return (
+    // Reaches through the page's gutter, so the books past the sixth scroll in from the screen's
+    // edge instead of being cut at the padding.
     <ScrollRow
       gap={12}
-      bleed={12}
+      bleed={th.space.gutter}
       contentContainerStyle={styles.covers}
       style={styles.coverStrip}
       testID={testID}

@@ -439,6 +439,7 @@ msgstr "Chép"
 
 #: ../../apps/mobile/src/features/bookings/premium/AddBookingSheet.tsx
 #: ../../apps/mobile/src/features/bookings/premium/components/EmptyBookings.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/MailboxSheetFrame.tsx
 msgid "bookings.add.copy"
 msgstr "Chép"
 
@@ -644,6 +645,7 @@ msgid "bookings.add.copiedToast"
 msgstr "Chuyển tiếp mọi email xác nhận tới địa chỉ đó."
 
 #: ../../apps/mobile/src/features/bookings/premium/components/EmptyBookings.tsx
+#: ../../apps/mobile/src/features/bookings/premium/components/MailboxSheetFrame.tsx
 msgid "bookings.premium.forwardEmail"
 msgstr "Chuyển tiếp email"
 
