@@ -9,7 +9,13 @@ import Animated, { interpolate, useAnimatedStyle } from 'react-native-reanimated
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { usePremiumTheme } from '@/ui/premium';
-import { KeyboardAwareScroll, KeyboardStickyFooter, useKeyboardFrame } from '@/ui/premium/shell';
+import {
+  KeyboardAwareScroll,
+  KeyboardStickyFooter,
+  SCROLL_EDGE_FADE,
+  ScrollEdgeFade,
+  useKeyboardFrame,
+} from '@/ui/premium/shell';
 
 import { WizardHeader } from './WizardHeader';
 
@@ -71,18 +77,22 @@ export function WizardPage({
             {...(onBack === undefined ? {} : { onBack })}
           />
         ))}
-      <KeyboardAwareScroll
-        keyboardShouldPersistTaps="handled"
-        bottomOffset={bottomOffset}
-        contentContainerStyle={{
-          paddingHorizontal: theme.space.titleGutter,
-          paddingTop: theme.space.gap16,
-          paddingBottom: theme.space.gap16,
-          gap: theme.space.gap16,
-        }}
-      >
-        {children}
-      </KeyboardAwareScroll>
+      {/* What scrolls up under the header fades into its ground instead of being cut at its edge. */}
+      <View style={{ flex: 1 }}>
+        <KeyboardAwareScroll
+          keyboardShouldPersistTaps="handled"
+          bottomOffset={bottomOffset}
+          contentContainerStyle={{
+            paddingHorizontal: theme.space.titleGutter,
+            paddingTop: theme.space.gap16,
+            paddingBottom: theme.space.gap16,
+            gap: theme.space.gap16,
+          }}
+        >
+          {children}
+        </KeyboardAwareScroll>
+        <ScrollEdgeFade edge="top" height={SCROLL_EDGE_FADE} />
+      </View>
       {footer === undefined ? null : (
         <KeyboardStickyFooter openedOffset={theme.space.gap8}>
           <Animated.View
