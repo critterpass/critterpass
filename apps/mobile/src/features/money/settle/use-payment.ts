@@ -13,6 +13,7 @@ import type { SendResult } from '@/data/commands/client';
 import { useCommand } from '@/data/commands/use-command';
 import { goBackOr } from '@/lib/navigation/back';
 import { toast, useCommandFeedback, type CommandFeedbackCopy } from '@/motion/island-toast';
+import { systemConfirmsCopy } from '@/ui/premium';
 
 import { buildBalances } from '../balances/model';
 import {
@@ -205,7 +206,10 @@ export function usePayment(id: string, routeTripId: string | null = null) {
     onDispute: (note?: string) => onSimple('dispute', note),
     onCopy: (text: string) => {
       void services.copy(text);
-      toast.show({ id: 'money-copied', title: t({ id: 'money.pay.copied', message: 'Copied' }) });
+      // Android 13 and later confirm a copy themselves.
+      if (!systemConfirmsCopy()) {
+        toast.show({ id: 'money-copied', title: t({ id: 'money.pay.copied', message: 'Copied' }) });
+      }
     },
     onOpen: (url: string) => void services.openUrl(url),
   } as const;

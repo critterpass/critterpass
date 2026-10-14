@@ -117,6 +117,7 @@ export type { BannerProps, BannerTone, OfflinePillProps } from './feedback/Banne
 export { Toast, toastText } from './feedback/Toast';
 export type { ToastProps, ToastSpec } from './feedback/Toast';
 export { ToastHost, useToast } from './feedback/ToastHost';
+export { systemConfirmsCopy } from './feedback/system-copy';
 export { ExternalToasts } from './feedback/external-toasts';
 export type { ExternalToast, ExternalToastSource } from './feedback/external-toasts';
 export type { ToastHostProps, UseToastOptions } from './feedback/ToastHost';

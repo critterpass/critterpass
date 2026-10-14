@@ -8,7 +8,7 @@ import { router } from 'expo-router';
 import type { ComponentRef, RefObject } from 'react';
 import type { TextInput } from 'react-native';
 
-import { useToast } from '@/ui/premium';
+import { systemConfirmsCopy, useToast } from '@/ui/premium';
 import { confirmAlert } from '@/ui/premium/shell';
 
 import { whereRoute } from '@/features/critters';
@@ -60,14 +60,16 @@ export function useChatMenu(deps: ChatMenuDeps) {
         if (message.refId !== null) router.push(whereRoute(message.refId));
       },
       showWho: () => deps.setOverlay({ kind: 'who', message }),
-      // iOS shows nothing when an app copies: the toast says it happened.
+      // iOS shows nothing when an app copies: the toast says it happened. Android 13 and later
+      // confirm it themselves.
       copy: () =>
-        void Clipboard.setStringAsync(message.body).then(() =>
+        void Clipboard.setStringAsync(message.body).then(() => {
+          if (systemConfirmsCopy()) return;
           toast.show({
             kind: 'done',
             message: t({ id: 'chat.premium.copied', message: 'Copied' }),
-          }),
-        ),
+          });
+        }),
       edit: () => {
         deps.setEditing(message);
         deps.setDraft(message.body);
