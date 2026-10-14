@@ -196,7 +196,7 @@ export function AddExpensePremium(props: {
             <View style={styles.flex}>
               <TextField
                 accessibilityLabel={t({ id: 'money.premium.what', message: 'What was it?' })}
-                placeholder={t({ id: 'money.premium.what', message: 'What was it?' })}
+                label={t({ id: 'money.premium.what', message: 'What was it?' })}
                 value={draft.description}
                 onChangeText={(text) => state.dispatch({ type: 'description', text })}
                 autoCapitalize="sentences"

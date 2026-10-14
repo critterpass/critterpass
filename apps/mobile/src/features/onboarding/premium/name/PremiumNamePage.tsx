@@ -3,6 +3,7 @@
  * typed (the MRZ rewrites itself), Tokek reacts once typing pauses, and Next docks on the
  * keyboard. At the pass's 24-letter limit the field turns pink, says so, and offers shorter names.
  */
+import { GIVEN_NAME_MAX, givenNameLength } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
@@ -70,6 +71,9 @@ export function PremiumNamePage() {
       </Text>
       <TextField
         accessibilityLabel={t({ id: 'onboarding.name.label', message: 'Your first name' })}
+        label={t({ id: 'onboarding.premium.name.fieldLabel', message: 'Name' })}
+        // The count shows once the name reaches what a pass can print (2.06).
+        counter={limit ? `${String(givenNameLength(name))}/${String(GIVEN_NAME_MAX)}` : undefined}
         value={name}
         onChangeText={step.onChange}
         key={step.focusReady ? 'focus' : 'wait'}

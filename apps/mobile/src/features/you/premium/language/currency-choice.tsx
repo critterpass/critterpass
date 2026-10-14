@@ -14,8 +14,8 @@ import {
   Icon,
   ListCard,
   Row,
+  SearchField,
   Text,
-  TextField,
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
@@ -42,7 +42,7 @@ export function CurrencyChoice(props: {
       style={{ gap: th.space.gap8 }}
       testID="you-currency-sheet"
     >
-      <TextField
+      <SearchField
         value={query}
         onChangeText={setQuery}
         placeholder={t({ id: 'you.currency.search', message: 'Currency code, like SGD' })}

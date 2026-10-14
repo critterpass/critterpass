@@ -68,6 +68,10 @@ msgstr "Calendar"
 msgid "permissions.camera.title"
 msgstr "Camera"
 
+#: ../../apps/mobile/src/ui/premium/controls/SearchField.tsx
+msgid "common.premium.search.clear"
+msgstr "Clear"
+
 #: ../../apps/mobile/src/ui/premium/shell/screens/screen-states.tsx
 msgid "common.premium.screen.close"
 msgstr "Close"

@@ -21,13 +21,13 @@ import {
   Icon,
   ListCard,
   Row,
+  SearchField,
   StickerIcon,
+  type StickerIconName,
   Text,
   TextButton,
-  TextField,
   usePremiumReducedMotion,
   usePremiumTheme,
-  type StickerIconName,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
@@ -120,7 +120,7 @@ export function HelpPremiumScreen() {
           </View>
           <CritterSticker kind="gecko" name="Tokek" pose="point" size={96} />
         </View>
-        <TextField
+        <SearchField
           value={hub.query}
           onChangeText={hub.onQuery}
           placeholder={t({ id: 'help.hub.search', message: 'Refunds, offline maps, splitting…' })}

@@ -693,6 +693,10 @@ msgstr "Museums"
 msgid "onboarding.tag.museums.short"
 msgstr "Museums"
 
+#: ../../apps/mobile/src/features/onboarding/premium/name/PremiumNamePage.tsx
+msgid "onboarding.premium.name.fieldLabel"
+msgstr "Name"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.nature.short"
 msgstr "Nature"

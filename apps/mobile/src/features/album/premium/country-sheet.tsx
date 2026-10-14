@@ -8,7 +8,7 @@ import { View } from 'react-native';
 
 import { countryList, regionName } from '@/features/onboarding';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { ListCard, Row, TextField } from '@/ui/premium';
+import { ListCard, Row, SearchField } from '@/ui/premium';
 
 import { PremiumSheet } from './premium-sheet';
 
@@ -29,7 +29,7 @@ export function PremiumCountrySheet(props: {
       testID="country-picker"
     >
       <View style={{ gap: 12 }}>
-        <TextField
+        <SearchField
           value={query}
           onChangeText={setQuery}
           placeholder={search}

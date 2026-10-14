@@ -79,7 +79,7 @@ function DriverShareSheet({ view }: { readonly view: DriverShareView }) {
               id: 'drivers.share.nameLabel',
               message: 'Driver or guide’s first name',
             })}
-            placeholder={t({
+            label={t({
               id: 'drivers.share.nameLabel',
               message: 'Driver or guide’s first name',
             })}

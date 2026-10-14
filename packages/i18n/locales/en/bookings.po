@@ -386,6 +386,7 @@ msgid "bookings.pass.close"
 msgstr "Close"
 
 #: ../../apps/mobile/src/features/bookings/premium/booking-options.ts
+#: ../../apps/mobile/src/features/bookings/premium/BookingDetailPremium.tsx
 msgid "bookings.options.close"
 msgstr "Close"
 

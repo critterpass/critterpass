@@ -21,10 +21,10 @@ import {
   ListCard,
   LoadingCritter,
   PressableScale,
+  SearchField,
   Tag,
   Text,
   TextButton,
-  TextField,
   usePremiumTheme,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
@@ -169,7 +169,7 @@ export function PremiumPlacesListView(props: PlacesListViewProps) {
           </PressableScale>
         ) : (
           <View style={{ marginHorizontal: theme.space.gap16 }}>
-            <TextField
+            <SearchField
               value={props.query ?? ''}
               onChangeText={props.onQuery}
               placeholder={placesWords.findHere(props.destinationName)}

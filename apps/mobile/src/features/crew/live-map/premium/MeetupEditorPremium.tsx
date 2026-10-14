@@ -14,9 +14,9 @@ import {
   GlassIconButton,
   Icon,
   PressableScale,
+  SearchField,
   SegmentedControl,
   Text,
-  TextField,
   usePremiumTheme,
 } from '@/ui/premium';
 
@@ -133,7 +133,7 @@ export function MeetupEditorPremium(props: {
             testID="live-meetup-cancel"
           />
         </View>
-        <TextField
+        <SearchField
           value={query}
           onChangeText={setQuery}
           placeholder={t({ id: 'liveMap.editor.search', message: 'Search places' })}

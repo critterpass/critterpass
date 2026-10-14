@@ -68,6 +68,10 @@ msgstr ""
 msgid "permissions.camera.title"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/premium/controls/SearchField.tsx
+msgid "common.premium.search.clear"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/premium/shell/screens/screen-states.tsx
 msgid "common.premium.screen.close"
 msgstr ""

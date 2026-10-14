@@ -50,7 +50,7 @@ export function BookFlowPremium({
   ) => (
     <TextField
       accessibilityLabel={label}
-      placeholder={label}
+      label={label}
       value={details[key]}
       onChangeText={(value) => set({ [key]: value })}
       testID={`supplier-book-${key}`}

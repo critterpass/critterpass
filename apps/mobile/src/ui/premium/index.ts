@@ -79,6 +79,8 @@ export { SegmentedControl } from './controls/SegmentedControl';
 export type { SegmentedControlProps, SegmentOption } from './controls/SegmentedControl';
 export { Stepper } from './controls/Stepper';
 export type { StepperProps } from './controls/Stepper';
+export { SearchField } from './controls/SearchField';
+export type { SearchFieldProps } from './controls/SearchField';
 export { TextField } from './controls/TextField';
 export type { TextFieldProps } from './controls/TextField';
 export { Toggle } from './controls/Toggle';

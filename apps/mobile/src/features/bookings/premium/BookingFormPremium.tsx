@@ -138,7 +138,7 @@ export function BookingFormPremium(props: {
         ) : (
           <TextField
             accessibilityLabel={t({ id: 'bookings.form.what', message: 'What is it' })}
-            placeholder={t({ id: 'bookings.form.what', message: 'What is it' })}
+            label={t({ id: 'bookings.form.what', message: 'What is it' })}
             value={draft.title}
             onChangeText={(text) => onChange({ title: text })}
             autoCapitalize="sentences"
@@ -209,7 +209,7 @@ export function BookingFormPremium(props: {
         {draft.kind === 'stay' ? (
           <TextField
             accessibilityLabel={t({ id: 'bookings.form.checkOut', message: 'Check-out day' })}
-            placeholder={t({ id: 'bookings.form.checkOut', message: 'Check-out day' })}
+            label={t({ id: 'bookings.form.checkOut', message: 'Check-out day' })}
             value={draft.endDate}
             onChangeText={(endDate) => onChange({ endDate })}
             keyboardType="numbers-and-punctuation"
@@ -228,7 +228,7 @@ export function BookingFormPremium(props: {
         ) : (
           <TextField
             accessibilityLabel={t({ id: 'bookings.form.where', message: 'Where' })}
-            placeholder={t({ id: 'bookings.form.where', message: 'Where' })}
+            label={t({ id: 'bookings.form.where', message: 'Where' })}
             value={draft.location}
             onChangeText={(location) => onChange({ location })}
             testID="bookings-form-where"
@@ -236,7 +236,7 @@ export function BookingFormPremium(props: {
         )}
         <TextField
           accessibilityLabel={t({ id: 'bookings.form.ref', message: 'Confirmation code' })}
-          placeholder={t({ id: 'bookings.form.ref', message: 'Confirmation code' })}
+          label={t({ id: 'bookings.form.ref', message: 'Confirmation code' })}
           value={draft.ref}
           onChangeText={(ref) => onChange({ ref: ref.toUpperCase() })}
           autoCapitalize="characters"
@@ -247,7 +247,7 @@ export function BookingFormPremium(props: {
         />
         <TextField
           accessibilityLabel={t({ id: 'bookings.form.notes', message: 'Notes' })}
-          placeholder={t({ id: 'bookings.form.notes', message: 'Notes' })}
+          label={t({ id: 'bookings.form.notes', message: 'Notes' })}
           value={draft.notes}
           onChangeText={(notes) => onChange({ notes })}
           multiline
