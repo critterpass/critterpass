@@ -1,7 +1,7 @@
 ---
 phase: 1
 title: Decisions, contracts and the photo stop
-status: done
+status: in_progress
 depends_on: []
 lane: B
 tasks: 3
@@ -51,7 +51,7 @@ Done when: no profile run searches or downloads an image; no api response carrie
 - Steps: 1. Remove the image search and download (`run.ts:135,220-221`, `evidence.ts:68-90`, `photos.ts`). 2. Readers return no profile photo: `profile.ts:134` drops `photos`; `place-photo.ts` returns the Commons/Foursquare/stock order without the profile step; `coverOf` (`picks.ts:84`) falls back to the destination's `media_assets` hero or none. 3. One-off worker CLI lists and deletes every object under `c/place-profiles/` (batched, dry-run flag, prints counts) and sets `photos = '[]'`; run on staging, record counts in the PR. The column stays until phase 5.
 - Tests: `pnpm --filter @cp/worker test -- profile` (a run makes no image-search call: the search double records none); `pnpm --filter @cp/api test -- places/profile` (response has no photos).
 - Done when: staging bucket listing under the prefix is empty; a fresh profile run on staging stores text only.
-- Status: done — 8c15203f7
+- Status: done — 8c15203f7 (code and dry run; the staging delete waits for the founder's go)
 
 ### T2 — Decision log and ADRs
 - Goal: the founder's 14 Oct decisions are the contract.
