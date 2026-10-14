@@ -17,20 +17,29 @@ export function useMapCamera(input: {
   readonly detent: MapDetent;
   readonly height: number;
   readonly reduced: boolean;
+  /** The map has loaded (`PremiumMapCanvas` `onReady`): a fit before it may be dropped. */
+  readonly ready: boolean;
 }): void {
-  const { camera, points, detent, height, reduced } = input;
+  const { camera, points, detent, height, reduced, ready } = input;
   const signature = JSON.stringify(points);
   useEffect(() => {
     const bounds = boundsOf(points);
-    if (bounds === null) return;
-    camera.current?.fitBounds(bounds, {
-      padding:
-        detent === 'full'
-          ? { top: 56, bottom: height - FULL_SHEET_TOP + 12, left: 24, right: 24 }
-          : cameraPadding(detent, height),
-      duration: reduced ? 0 : 500,
-    });
+    if (bounds === null || !ready) return;
+    try {
+      // Typed void, the native move is a promise: a map torn down mid-move rejects it, and the
+      // next fit (or the next mount) frames the map again.
+      const move: unknown = camera.current?.fitBounds(bounds, {
+        padding:
+          detent === 'full'
+            ? { top: 56, bottom: height - FULL_SHEET_TOP + 12, left: 24, right: 24 }
+            : cameraPadding(detent, height),
+        duration: reduced ? 0 : 500,
+      });
+      Promise.resolve(move).catch(() => undefined);
+    } catch {
+      // The native camera is not attached yet: `ready` runs this again once it is.
+    }
     // The signature stands for the points.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [signature, detent, height, reduced]);
+  }, [signature, detent, height, reduced, ready]);
 }

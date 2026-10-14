@@ -101,7 +101,8 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
       }),
     [model.days, model.ideas, model.center, day, detent],
   );
-  useMapCamera({ camera, points, detent, height, reduced });
+  const [mapReady, setMapReady] = useState(false);
+  useMapCamera({ camera, points, detent, height, reduced, ready: mapReady });
 
   const back = () => (router.canGoBack() ? router.back() : router.replace(`/hub/${tripId}`));
   const today = data.today ?? undefined;
@@ -128,13 +129,17 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
     <View style={styles.screen} testID="trip-map">
       <PremiumMapCanvas
         cameraRef={camera}
+        // The first view before the camera fits: the stay, the destination, or what it will frame.
         initialCenter={
-          stay === null ? [model.center?.[0] ?? 0, model.center?.[1] ?? 0] : [stay.lng, stay.lat]
+          stay === null
+            ? [...(model.center ?? points[0] ?? ([0, 0] as const))]
+            : [stay.lng, stay.lat]
         }
         destinationSlug={model.destinationSlug}
         localRegionUri={model.regionUri}
         still={detent === 'full'}
         onPressMap={() => setPicked(null)}
+        onReady={() => setMapReady(true)}
       >
         <PlacesLayer places={layer.places} onPick={setPicked} />
         <PlanRouteLayer
