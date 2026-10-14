@@ -39,6 +39,8 @@ import {
   NativeHeaderActions,
   type ShellAction,
 } from './header-actions';
+import { useScreenPlacement } from '../navigation/use-screen-placement';
+import { TabBarFade } from './tab-page-scroll';
 
 /** Spread on the screen's scroll view or list, which must be the screen's first child. */
 export interface RootScrollProps {
@@ -196,9 +198,13 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
     </View>
   );
 
+  // A tab's root page fades into its ground under Android's drawn bar.
+  const tabRoot = useScreenPlacement();
+  const fade = Platform.OS === 'android' && tabRoot?.kind === 'root' && tabRoot.tab;
   return (
     <View testID={testID} style={styles.root} collapsable={false}>
       {children({ scrollProps, largeTitle })}
+      {fade ? <TabBarFade /> : null}
       <View
         pointerEvents="box-none"
         style={[styles.bar, { height: barTop + t.size.glassNav + t.space.gap8 }]}

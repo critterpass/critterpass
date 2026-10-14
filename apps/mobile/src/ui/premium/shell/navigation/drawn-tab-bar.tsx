@@ -58,6 +58,11 @@ export function drawnBarFrame(
   };
 }
 
+/** How far above the screen's bottom edge the bar's top sits: the page fades out up to there. */
+export function drawnBarTop(bottomInset: number): number {
+  return Math.max(BAR_BOTTOM, bottomInset + NAV_CLEARANCE) + BAR_HEIGHT;
+}
+
 export interface DrawnTabBarProps extends BottomTabBarProps {
   /** The tab routes in bar order, with their icon and label. */
   readonly tabs: readonly {
