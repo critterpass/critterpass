@@ -4,12 +4,15 @@ appId: app.critterpass.dev
 # own (the track, `board-slide`, is one element), so the drag starts where the knob rests: low on
 # the screen at the left, about 87% down on the gate's phones, a little higher or lower when the
 # pass above it wraps differently. The drag starts on the knob's left edge, off the arrow icon at
-# its centre, and runs at the pace of a thumb. Each try runs only while the boarded egg hasn't shown.
+# its centre. A busy emulator can drop most of a quick drag, so a slower one follows. Each try
+# waits for the screen to settle and runs only while the boarded egg hasn't shown.
 - runFlow:
     when:
       notVisible:
         id: 'board-egg'
     commands:
+      - waitForAnimationToEnd:
+          timeout: 5000
       - swipe:
           start: 8%, 87%
           end: 96%, 87%
@@ -21,6 +24,21 @@ appId: app.critterpass.dev
       notVisible:
         id: 'board-egg'
     commands:
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - swipe:
+          start: 8%, 87%
+          end: 96%, 87%
+          duration: 2000
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    when:
+      notVisible:
+        id: 'board-egg'
+    commands:
+      - waitForAnimationToEnd:
+          timeout: 5000
       - swipe:
           start: 8%, 84%
           end: 96%, 84%
@@ -32,6 +50,8 @@ appId: app.critterpass.dev
       notVisible:
         id: 'board-egg'
     commands:
+      - waitForAnimationToEnd:
+          timeout: 5000
       - swipe:
           start: 8%, 90%
           end: 96%, 90%
@@ -43,20 +63,11 @@ appId: app.critterpass.dev
       notVisible:
         id: 'board-egg'
     commands:
-      - swipe:
-          start: 8%, 80%
-          end: 96%, 80%
-          duration: 600
       - waitForAnimationToEnd:
-          timeout: 3000
-- runFlow:
-    when:
-      notVisible:
-        id: 'board-egg'
-    commands:
+          timeout: 5000
       - swipe:
           start: 13%, 87%
           end: 96%, 87%
-          duration: 600
+          duration: 1200
       - waitForAnimationToEnd:
           timeout: 3000
