@@ -155,6 +155,12 @@ appId: app.critterpass.dev
     visible:
       id: 'trip-day|trip-hub|home-screen|tab-home|critters-hatch-later'
     timeout: 60000
+# Home draws first and the app may then bring the day back on its own: give it the moment.
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day|trip-hub'
+    timeout: 10000
+    optional: true
 - runFlow:
     when:
       notVisible:

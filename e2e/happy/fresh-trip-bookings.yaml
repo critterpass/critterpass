@@ -242,7 +242,12 @@ appId: app.critterpass.dev
 - takeScreenshot: premium-7-bookings-plan
 - runFlow: subflows/leave-plan.yaml
 - runFlow: subflows/dismiss-visit-offer.yaml
-# Deleting the cable car ride: it leaves the wallet at once, with no card left behind.
+# Deleting the cable car ride: it leaves the wallet at once, with no card left behind. The hub
+# covers the tab bar, so back to Your trips first.
+- runFlow:
+    file: ../_shared/back-to.yaml
+    env:
+      MARK: 'trip-list-row-.*|home-screen'
 - runFlow:
     file: ../_shared/tab.yaml
     env:

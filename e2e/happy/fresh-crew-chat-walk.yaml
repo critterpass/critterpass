@@ -94,7 +94,7 @@ appId: app.critterpass.dev
     id: 'chat-react-🔥'
 - extendedWaitUntil:
     visible:
-      text: '1 (reacted|đã thả cảm xúc)'
+      text: '.* · 1'
     timeout: 20000
 - waitForAnimationToEnd
 
