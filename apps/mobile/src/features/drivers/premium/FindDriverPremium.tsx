@@ -46,8 +46,8 @@ export function FindDriverPremium({
       : `${dayLabel(first.date, locale)}`;
   return (
     <PushScreen
+      largeTitle
       title={t({ id: 'drivers.find.title', message: 'Find a driver' })}
-      subtitle={back}
       backLabel={back}
       scroll={false}
       testID="drivers-find"
