@@ -10,6 +10,7 @@ import { tagWords } from '@/features/onboarding';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   CrewStack,
+  EmptySlot,
   Icon,
   ListCard,
   RoundStamp,
@@ -164,6 +165,16 @@ export function ProfileSections(props: ProfileSectionsProps) {
             rotate={index % 2 === 0 ? -2 : 3}
           />
         ))}
+        {model.tags.length === 0 ? (
+          // No answers yet: a tag's dashed slot, which opens the this-or-that cards.
+          <Pressable
+            accessibilityRole="button"
+            onPress={props.onRetake}
+            testID="you-profile-no-tags"
+          >
+            <EmptySlot label={t({ id: 'you.profile.noTags', message: 'Answer six quick picks' })} />
+          </Pressable>
+        ) : null}
       </View>
 
       <SectionHead title={t({ id: 'you.profile.yourCrews', message: 'Your crews' })} />

@@ -182,7 +182,7 @@ export function SettingsPremiumScreen({
                   }}
                 >
                   <Text variant="noteAction" tone="onAccent">
-                    {`${plan.label} ›`}
+                    {plan.label}
                   </Text>
                 </PressableScale>
               ),
