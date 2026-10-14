@@ -18,6 +18,7 @@ import {
   InsideCardContext,
   pushedInsideCard,
 } from './stack-cards';
+import { noteMoveLanded } from './tab-bar-after-push';
 import { fromNative } from './use-screen-placement';
 
 export interface PremiumStackProps {
@@ -113,13 +114,21 @@ export function PremiumStack({ navigator, children }: PremiumStackProps) {
     <>
       <StatusBar barStyle={scheme === 'dark' ? 'light-content' : 'dark-content'} animated />
       <InsideCardContext value={insideCard}>
-        <Stack screenOptions={screenOptions} screenLayout={screenLayout} UNSTABLE_router={router}>
+        <Stack
+          screenOptions={screenOptions}
+          screenLayout={screenLayout}
+          UNSTABLE_router={router}
+          screenListeners={LANDINGS}
+        >
           {screens}
         </Stack>
       </InsideCardContext>
     </>
   );
 }
+
+/** A page that has appeared tells the iPhone's tab bar a move inside its tab has landed. */
+const LANDINGS = { transitionEnd: noteMoveLanded } as const;
 
 /** Re-exported so area layouts declare premium screens without importing the router twice. */
 export const PremiumStackScreen = Stack.Screen;

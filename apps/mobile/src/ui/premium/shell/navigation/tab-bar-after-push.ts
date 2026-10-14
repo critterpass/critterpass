@@ -1,14 +1,31 @@
 /**
- * The iPhone's tab bar on a page pushed inside a tab (a booking, adding one). iOS 26's navigation
- * controller shows the system tab bar again as a push or a pop inside the tab lands, so a bar
- * hidden as the push started was back over the page (with the page's footer sitting on it). The
- * bar is therefore hidden again once each move inside the tab has landed: it is let go as the move
- * starts (the system is showing it then anyway) and hidden after it.
+ * The iPhone's tab bar on a page pushed inside a tab (a booking, adding one). iOS 26 shows the
+ * system tab bar again as a page inside the tab appears (a push, a pop, a sheet going down), so a
+ * bar hidden as the push started was back over the page, with the page's footer sitting on it. The
+ * bar is therefore hidden once each move inside the tab has landed: it is let go as the move starts
+ * (the system is showing it then anyway) and hidden when the page has appeared (`noteMoveLanded`,
+ * from the premium stacks), or after `PUSH_LANDS_MS` at the latest.
  */
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 
-/** A push or pop inside a tab's stack has landed by then. */
-export const PUSH_LANDS_MS = 450;
+/** A move inside a tab's stack that never reports its landing has landed by then. */
+export const PUSH_LANDS_MS = 900;
+
+let landings = 0;
+const listeners = new Set<() => void>();
+
+/** A page in a premium stack has finished appearing (its transition ended). */
+export function noteMoveLanded(): void {
+  landings += 1;
+  for (const listener of listeners) listener();
+}
+
+function subscribe(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+const landingCount = () => landings;
 
 interface KeyedRoute {
   readonly key?: string | undefined;
@@ -37,10 +54,15 @@ export function focusedPath(state: KeyedState | undefined): string {
 /** Whether to ask the system tab bar to hide: on a pushed page, after each move has landed. */
 export function useTabBarHiddenAfterMoves(pushed: boolean, path: string): boolean {
   const [landed, setLanded] = useState<string | null>(null);
+  const count = useSyncExternalStore(subscribe, landingCount, landingCount);
+  const [startedAt, setStartedAt] = useState({ path, count });
+  if (startedAt.path !== path) setStartedAt({ path, count });
   useEffect(() => {
     if (!pushed) return undefined;
     const timer = setTimeout(() => setLanded(path), PUSH_LANDS_MS);
     return () => clearTimeout(timer);
   }, [pushed, path]);
-  return pushed && landed === path;
+  // A page appeared since this move started: the move has landed.
+  const appeared = startedAt.path === path && count > startedAt.count;
+  return pushed && (landed === path || appeared);
 }

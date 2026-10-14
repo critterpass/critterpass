@@ -1,7 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, renderHook } from '@testing-library/react-native';
 
-import { focusedPath, PUSH_LANDS_MS, useTabBarHiddenAfterMoves } from '../tab-bar-after-push';
+import {
+  focusedPath,
+  noteMoveLanded,
+  PUSH_LANDS_MS,
+  useTabBarHiddenAfterMoves,
+} from '../tab-bar-after-push';
 
 describe('focusedPath', () => {
   it('follows the focused route down every level', () => {
@@ -56,6 +61,20 @@ describe('useTabBarHiddenAfterMoves', () => {
     expect(result.current).toBe(false);
     await act(() => {
       jest.advanceTimersByTime(PUSH_LANDS_MS);
+    });
+    expect(result.current).toBe(true);
+  });
+
+  it('hides the bar as soon as the pushed page has appeared', async () => {
+    const { result, rerender } = await renderHook(
+      ({ pushed, path }: { pushed: boolean; path: string }) =>
+        useTabBarHiddenAfterMoves(pushed, path),
+      { initialProps: { pushed: false, path: 'wallet' } },
+    );
+    await rerender({ pushed: true, path: 'wallet/add' });
+    expect(result.current).toBe(false);
+    await act(() => {
+      noteMoveLanded();
     });
     expect(result.current).toBe(true);
   });
