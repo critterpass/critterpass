@@ -81,7 +81,7 @@ export const SYNCED_TABLE_COLUMNS = {
   date_window_options:
     'trip_id position:integer kind start_date end_date free_count:integer member_count:integer missing_member_ids missed_must_do_ids ask_user_id ask_status price_delta_minor:integer currency season_score:integer reason is_pick:integer computed_at created_at updated_at',
   destinations:
-    'slug name country coverage colour currency best_months tz geofence critter_set_id critter_key drive_factor:real created_at updated_at',
+    'slug name country coverage colour currency best_months tz geofence critter_set_id critter_key drive_factor:real place_bounds origin wikidata_qid geonames_id:integer country_code admin1 kind lat:real lng:real population:integer names base_rank:real critter_match texts base_built_at search_name created_at updated_at',
   devices:
     'user_id platform bundle_id os_version app_version locale tz permission_state attribution capabilities la_enabled:integer la_frequent:integer foreground:integer last_seen_at created_at updated_at',
   disruptions:

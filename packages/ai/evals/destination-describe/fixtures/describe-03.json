@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-14.",
+  "latency_ms": 1266,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "56209c48-4a75-4516-95a5-206760bcfdb7",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"en\":{\"line\":\"Lý Sơn is an island in Quang Ngai, Vietnam.\",\"about\":\"Lý Sơn is an island in the Quang Ngai region of Vietnam.\"},\"vi\":{\"line\":\"Lý Sơn là một hòn đảo ở Quảng Ngãi, Việt Nam.\",\"about\":\"Lý Sơn là một hòn đảo thuộc vùng Quảng Ngãi, Việt Nam.\"}}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 234,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 98,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

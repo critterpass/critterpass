@@ -1,0 +1,159 @@
+# Facts-only destination texts: one base-set destination each, with its Wikidata and GeoNames facts.
+# A case passes when both languages come back within their lengths with no number the facts lack.
+# `seeded` cases replay an inline model slip the validator must reject.
+- id: describe-01
+  description: Vietnamese coastal city with population
+  facts:
+    {
+      name: 'Quy Nhon',
+      local_name: 'Quy Nhơn',
+      kind: city,
+      country: Vietnam,
+      region: Gia Lai,
+      population: 210338,
+      elevation_m: null,
+    }
+- id: describe-02
+  description: mountain town, small population
+  facts:
+    {
+      name: 'Sa Pa',
+      local_name: 'Sa Pa',
+      kind: town,
+      country: Vietnam,
+      region: Lao Cai,
+      population: 10554,
+      elevation_m: null,
+    }
+- id: describe-03
+  description: island with no population
+  facts:
+    {
+      name: 'Lý Sơn',
+      local_name: null,
+      kind: island,
+      country: Vietnam,
+      region: Quang Ngai,
+      population: null,
+      elevation_m: null,
+    }
+- id: describe-04
+  description: national park, no numbers at all
+  facts:
+    {
+      name: 'Plitvice Lakes National Park',
+      local_name: null,
+      kind: park,
+      country: Croatia,
+      region: null,
+      population: null,
+      elevation_m: null,
+    }
+- id: describe-05
+  description: big European city
+  facts:
+    {
+      name: 'Lyon',
+      local_name: null,
+      kind: city,
+      country: France,
+      region: Auvergne-Rhône-Alpes,
+      population: 522250,
+      elevation_m: null,
+    }
+- id: describe-06
+  description: wine region
+  facts:
+    {
+      name: 'Douro Valley',
+      local_name: null,
+      kind: region,
+      country: Portugal,
+      region: null,
+      population: null,
+      elevation_m: null,
+    }
+- id: describe-07
+  description: village with a tiny population
+  facts:
+    {
+      name: 'Hallstatt',
+      local_name: null,
+      kind: village,
+      country: Austria,
+      region: Upper Austria,
+      population: 746,
+      elevation_m: null,
+    }
+- id: describe-08
+  description: US city with a large population
+  facts:
+    {
+      name: 'San Diego',
+      local_name: null,
+      kind: city,
+      country: United States,
+      region: California,
+      population: 1386932,
+      elevation_m: null,
+    }
+- id: describe-09
+  description: Japanese town
+  facts:
+    {
+      name: 'Takayama',
+      local_name: null,
+      kind: town,
+      country: Japan,
+      region: Gifu,
+      population: 84419,
+      elevation_m: null,
+    }
+- id: describe-10
+  description: Thai island
+  facts:
+    {
+      name: 'Ko Lanta',
+      local_name: null,
+      kind: island,
+      country: Thailand,
+      region: Krabi,
+      population: null,
+      elevation_m: null,
+    }
+- id: describe-11
+  description: seeded slip, a founding year the facts do not hold
+  seeded: true
+  facts:
+    {
+      name: 'Hoi An',
+      local_name: 'Hội An',
+      kind: town,
+      country: Vietnam,
+      region: Da Nang City,
+      population: 32757,
+      elevation_m: null,
+    }
+  reply:
+    en:
+      {
+        line: 'Old trading port in central Vietnam',
+        about: 'Founded in 1595, Hoi An is a riverside town of 32,757 people.',
+      }
+    vi: { line: 'Phố cổ miền Trung', about: 'Thị trấn ven sông với 32.757 dân.' }
+- id: describe-12
+  description: seeded slip, a rounded population
+  seeded: true
+  facts:
+    {
+      name: 'Lyon',
+      local_name: null,
+      kind: city,
+      country: France,
+      region: null,
+      population: 522250,
+      elevation_m: null,
+    }
+  reply:
+    en: { line: 'City in eastern France', about: 'About 500,000 people live in Lyon.' }
+    vi: { line: 'Thành phố ở miền đông nước Pháp', about: 'Lyon có khoảng 522.250 dân.' }

@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-14.",
+  "latency_ms": 1256,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "20cc2064-89d8-4c4f-b390-b03d5ff6c0c4",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"en\":{\"line\":\"Sa Pa is a town in Lao Cai, Vietnam.\",\"about\":\"Sa Pa is a town in the Lao Cai region of Vietnam. It has a population of 10,554.\"},\"vi\":{\"line\":\"Sa Pa là một thị trấn ở Lào Cai, Việt Nam.\",\"about\":\"Sa Pa là một thị trấn thuộc tỉnh Lào Cai, Việt Nam. Nơi đây có 10.554 người sinh sống.\"}}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 232,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 109,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+# Neighbour critters for base-set destinations the distance rule could not settle: each case is a
+# destination, the candidate critters the matcher offers and the keys a person would accept. A case
+# passes when Jev's confident pick is one of them, or, when Jev is unsure, when the nearest option
+# (what the destination then gets) is one of them.
+- id: critter-01
+  description: town between Hội An and Đà Nẵng
+  destination: { name: 'Điện Bàn', country: Vietnam, region: Da Nang City, kind: town }
+  options:
+    - { key: cp-151, home: 'Đà Nẵng', country: Vietnam, distance_km: 13 }
+    - { key: cp-005, home: 'Hội An', country: Vietnam, distance_km: 12 }
+    - { key: cp-004, home: 'Huế', country: Vietnam, distance_km: 95 }
+  accept: [cp-005, cp-151]
+- id: critter-02
+  description: Mekong delta city far from Sài Gòn
+  destination: { name: 'Cần Thơ', country: Vietnam, region: Can Tho City, kind: city }
+  options:
+    - { key: cp-008, home: Mekong, country: Vietnam, distance_km: 0 }
+    - { key: cp-007, home: 'Sài Gòn', country: Vietnam, distance_km: 130 }
+    - { key: cp-009, home: 'Phú Quốc', country: Vietnam, distance_km: 200 }
+  accept: [cp-008]
+- id: critter-03
+  description: Peruvian city far from Cusco
+  destination: { name: Arequipa, country: Peru, region: Arequipa, kind: city }
+  options:
+    - { key: cp-145, home: Cusco, country: Peru, distance_km: 330 }
+    - { key: cp-138, home: 'Torres del Paine', country: Chile, distance_km: 3900 }
+  accept: [cp-145]
+- id: critter-04
+  description: Lima, the only Peruvian critter far away
+  destination: { name: Lima, country: Peru, region: Lima, kind: city }
+  options:
+    - { key: cp-145, home: Cusco, country: Peru, distance_km: 570 }
+    - { key: cp-135, home: Cartagena, country: Colombia, distance_km: 2500 }
+  accept: [cp-145]
+- id: critter-05
+  description: Yangon, a country with no critter
+  destination: { name: Yangon, country: Myanmar, region: Yangon, kind: city }
+  options:
+    - { key: cp-068, home: Chiang Mai, country: Thailand, distance_km: 500 }
+    - { key: cp-067, home: Bangkok, country: Thailand, distance_km: 570 }
+    - { key: cp-069, home: Phuket, country: Thailand, distance_km: 1000 }
+  accept: [cp-068, cp-067]
+- id: critter-06
+  description: Brunei, a country with no critter, beside Malaysian Borneo
+  destination: { name: Bandar Seri Begawan, country: Brunei, region: Brunei-Muara, kind: city }
+  options:
+    - { key: cp-081, home: Borneo, country: Malaysia, distance_km: 170 }
+    - { key: cp-079, home: Kuala Lumpur, country: Malaysia, distance_km: 1500 }
+    - { key: cp-136, home: Bohol, country: Philippines, distance_km: 1100 }
+  accept: [cp-081]
+- id: critter-07
+  description: Spanish island between the Mallorca and Tenerife critters
+  destination: { name: Ibiza, country: Spain, region: Balearic Islands, kind: island }
+  options:
+    - { key: cp-019, home: Mallorca, country: Spain, distance_km: 140 }
+    - { key: cp-016, home: Barcelona, country: Spain, distance_km: 290 }
+    - { key: cp-017, home: Madrid, country: Spain, distance_km: 470 }
+  accept: [cp-019]
+- id: critter-08
+  description: Turkish coastal town between Bodrum and Izmir
+  destination: { name: Kuşadası, country: Turkey, region: Aydın, kind: town }
+  options:
+    - { key: cp-035, home: Izmir, country: Turkey, distance_km: 70 }
+    - { key: cp-034, home: Bodrum, country: Turkey, distance_km: 90 }
+    - { key: cp-032, home: Antalya, country: Turkey, distance_km: 380 }
+  accept: [cp-035, cp-034]
+- id: critter-09
+  description: Scottish Highlands town nearer Loch Ness than Edinburgh
+  destination: { name: Inverness, country: United Kingdom, region: Scotland, kind: city }
+  options:
+    - { key: cp-053, home: Loch Ness, country: United Kingdom, distance_km: 20 }
+    - { key: cp-052, home: Edinburgh, country: United Kingdom, distance_km: 160 }
+    - { key: cp-055, home: Lake District, country: United Kingdom, distance_km: 350 }
+  accept: [cp-053]
+- id: critter-10
+  description: Swiss town between Interlaken and Lucerne
+  destination: { name: Brienz, country: Switzerland, region: Bern, kind: town }
+  options:
+    - { key: cp-117, home: Interlaken, country: Switzerland, distance_km: 18 }
+    - { key: cp-115, home: Lucerne, country: Switzerland, distance_km: 35 }
+    - { key: cp-116, home: Zermatt, country: Switzerland, distance_km: 75 }
+  accept: [cp-117]
+- id: critter-11
+  description: Japanese city near Osaka and Kyoto
+  destination: { name: Nara, country: Japan, region: Nara, kind: city }
+  options:
+    - { key: cp-063, home: Osaka, country: Japan, distance_km: 28 }
+    - { key: cp-061, home: Kyoto, country: Japan, distance_km: 35 }
+    - { key: cp-062, home: Tokyo, country: Japan, distance_km: 370 }
+  accept: [cp-063, cp-061]
+- id: critter-12
+  description: Australian city far from Sydney
+  destination: { name: Melbourne, country: Australia, region: Victoria, kind: city }
+  options:
+    - { key: cp-129, home: Sydney, country: Australia, distance_km: 710 }
+    - { key: cp-144, home: Queenstown, country: New Zealand, distance_km: 2000 }
+  accept: [cp-129]
