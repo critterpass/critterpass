@@ -1,7 +1,7 @@
 /**
  * A destination browse against real Postgres carries what a pin shows of a place the phone never
  * synced (hours, must-see, pick rank, why-go and best-time lines in the reader's language where
- * stored, the AI profile's first photo where the place page shows that profile), leads with the
+ * stored; no profile photo, as those were found by web search with no licence), leads with the
  * curated places and then the machine picks by rank, and fills a map page past the 50 a name
  * search returns.
  */
@@ -194,17 +194,9 @@ describe('a destination browse', () => {
     );
   });
 
-  it("carries a ready profile's first photo, and none where the page shows no profile", async () => {
+  it('offers no stored profile photo, even where a ready profile lists one', async () => {
     const page = await search({ destinationId: daNang, limit: MAX_BROWSE_LIMIT });
-    const photoOf = (name: string) => page.find((item) => item.name === name)?.photo;
-    expect(photoOf('Dragon Bridge')).toEqual({
-      url: `${MEDIA_HOST}/c/place-profiles/dragon/1.jpg`,
-      sourcePage: 'https://commons.example/dragon',
-    });
-    // A reviewed place's page shows the editors' note and media; a pending profile shows nothing.
-    expect(photoOf('Marble Mountains')).toBeNull();
-    expect(photoOf('Han Market')).toBeNull();
-    expect(photoOf('Lookout 00')).toBeNull();
+    expect(page.filter((item) => item.photo !== null)).toEqual([]);
   });
 
   it('fills a map page past 50 places, while a name search stays at 50', async () => {

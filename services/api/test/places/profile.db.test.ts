@@ -2,7 +2,7 @@
  * A place page's AI profile on a migrated Postgres with a real pg-boss producer: a place without
  * one queues one job (and only one while it waits), a ready profile answers in the reader's
  * language or in English while its translation is queued, each fact saying whether a second
- * source backs it, a place stopped at the worker's spent daily cap queues nothing until the cap
+ * source backs it and no photo served, a place stopped at the worker's spent daily cap queues nothing until the cap
  * resets, and a place with a reviewed note never gets a profile or a job.
  */
 import { randomUUID } from 'node:crypto';
@@ -153,12 +153,8 @@ describe('GET /v1/places/{id} profile', () => {
           secondSource: 'single',
         },
       ],
-      photos: [
-        {
-          url: `https://media.example.test/c/place-profiles/${id}/1.jpg`,
-          sourcePage: 'https://example.vn/a',
-        },
-      ],
+      // A stored photo found by web search has no licence we could check: none is served.
+      photos: [],
     });
     expect(await jobs('places.profile_translate', id)).toEqual([]);
 

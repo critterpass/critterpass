@@ -1,14 +1,12 @@
 /**
  * `place_profiles` reads and writes for the profile jobs, all as app_system. A run writes its row in
  * steps: pending when it starts, ready with the text as soon as the write is checked, then the
- * second-source facts, then the photos, so a reader gets the text without waiting for the rest.
+ * second-source facts, so a reader gets the text without waiting for them. No photo is written.
  */
 import type { KeptFact, DroppedFact, SecondSourceAnswer } from '@cp/ai';
 import { withSystem } from '@cp/db';
 import type { PlaceProfileText } from '@cp/domain';
 import type pg from 'pg';
-
-import type { StoredPhoto } from './photos';
 
 export interface ProfileTarget {
   readonly id: string;
@@ -194,21 +192,6 @@ export async function saveProfileFacts(pool: pg.Pool, poiId: string, w: FactsWri
         w.costMicros,
         JSON.stringify(w.timings),
       ],
-    ),
-  );
-}
-
-export async function saveProfilePhotos(
-  pool: pg.Pool,
-  poiId: string,
-  photos: readonly StoredPhoto[],
-  timings: Readonly<Record<string, number>>,
-): Promise<void> {
-  await withSystem(pool, (tx) =>
-    tx.query(
-      `UPDATE place_profiles SET photos = $2, timings = timings || $3, updated_at = now()
-        WHERE poi_id = $1`,
-      [poiId, JSON.stringify(photos), JSON.stringify(timings)],
     ),
   );
 }

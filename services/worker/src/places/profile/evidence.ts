@@ -1,15 +1,14 @@
 /**
  * The evidence a profile is written from, gathered in code (searches the model never writes): two
  * web searches (Vietnamese and English for a place in Vietnam), our own fetch of the top two pages
- * with the place's site first, the result snippets beside them, and the photo search.
+ * with the place's site first, and the result snippets beside them. No image is searched for or
+ * downloaded: a web image carries no licence we can check.
  */
 import type { ProfilePage, ProfilePlace } from '@cp/ai';
 import { isVietnam } from '@cp/domain';
 
 import { fetchTopPages } from './pages';
-import { storePhotos, type StoredPhoto } from './photos';
 import type { PlaceProfileDeps } from './run';
-import type { ImageHit } from './search';
 import type { ProfileTarget } from './store';
 
 const PAGES_READ = 2;
@@ -63,33 +62,4 @@ export async function gatherPages(
     ...(signal === undefined ? {} : { signal }),
   });
   return [...pages, ...snippets];
-}
-
-/** The image search for the place's photos; nothing is downloaded yet. */
-export async function findPhotoHits(
-  target: ProfileTarget,
-  deps: PlaceProfileDeps,
-  signal?: AbortSignal,
-): Promise<ImageHit[]> {
-  if (deps.store === undefined) return [];
-  const language = isVietnam(target.country) ? 'vi' : 'all';
-  return deps.search.images(`${target.nameLocal ?? target.name} ${target.town}`, language, signal);
-}
-
-/**
- * Downloads and stores the photos of an accepted profile only, so a declined or failed run leaves
- * nothing in the media bucket.
- */
-export async function keepPhotos(
-  poiId: string,
-  hits: readonly ImageHit[],
-  deps: PlaceProfileDeps,
-  signal?: AbortSignal,
-): Promise<StoredPhoto[]> {
-  if (deps.store === undefined || hits.length === 0) return [];
-  return storePhotos(poiId, hits, {
-    store: deps.store,
-    ...(deps.fetch === undefined ? {} : { fetch: deps.fetch }),
-    ...(signal === undefined ? {} : { signal }),
-  });
 }

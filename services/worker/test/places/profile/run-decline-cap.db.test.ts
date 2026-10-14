@@ -1,6 +1,6 @@
 /**
  * A profile run that ends without a profile on a migrated Postgres, with SearXNG replayed at the
- * network edge: a declined run downloads and stores no photo, and a run stopped at the spent daily
+ * network edge: a declined run searches for and stores no image, and a run stopped at the spent daily
  * cap marks the place so nothing queues it again until the cap resets at midnight UTC.
  */
 import { readFileSync } from 'node:fs';
@@ -44,7 +44,6 @@ function network() {
 }
 
 function deps(net: ReturnType<typeof network>, dailyCapMicros: number) {
-  const puts: string[] = [];
   const gateway = createGateway({ apiKey: 'fixture-key', fetch: net.fetch, maxAttempts: 1 });
   const value: PlaceProfileDeps = {
     gateway,
@@ -56,17 +55,11 @@ function deps(net: ReturnType<typeof network>, dailyCapMicros: number) {
       pool: harness.pool,
       fetch: net.fetch,
     }),
-    store: {
-      put: (key) => {
-        puts.push(key);
-        return Promise.resolve();
-      },
-    },
     tier: 'fast',
     dailyCapMicros,
     fetch: net.fetch,
   };
-  return { value, puts };
+  return { value };
 }
 
 async function place(name: string): Promise<string> {
@@ -105,18 +98,18 @@ afterAll(async () => {
 });
 
 describe('places.profile without a profile', { timeout: 60_000 }, () => {
-  it('stores no photo for a declined place', async () => {
+  it('searches for no image and stores no photo for a declined place', async () => {
     const id = await place('Hẻm Không Tên');
     const net = network();
-    const { value, puts } = deps(net, 1_000_000);
+    const { value } = deps(net, 1_000_000);
     expect(await runPlaceProfile(harness.pool, value, { poiId: id })).toEqual({
       outcome: 'declined',
       reason: 'no_pages',
       costMicros: 0,
     });
-    // Let the image search that started beside the web search settle.
-    await new Promise((resolve) => setTimeout(resolve, 200));
-    expect(puts).toEqual([]);
+    expect(net.calls.some((u) => new URL(u).searchParams.get('categories') === 'images')).toBe(
+      false,
+    );
     // Only the searches and the labelling model were called: no image was downloaded.
     const downloads = net.calls.filter(
       (url) => !url.startsWith(`${SEARX}/search`) && !/typesafe|deepseek/u.test(url),
