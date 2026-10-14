@@ -7,7 +7,7 @@ jest.unmock('expo-router');
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
-import { Slot } from 'expo-router';
+import { router, Slot, Stack, Tabs, useLocalSearchParams } from 'expo-router';
 import { Text } from 'react-native';
 import type * as ReactNativeModule from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -51,6 +51,11 @@ const named = (name: string) =>
     return <Text>{`${name} screen`}</Text>;
   };
 
+function HomeWithNotice() {
+  const { notice } = useLocalSearchParams<{ notice?: string }>();
+  return <Text>{`home screen ${notice ?? ''}`}</Text>;
+}
+
 beforeAll(() => {
   i18n.loadAndActivate({ locale: 'en', messages: {} });
 });
@@ -71,5 +76,43 @@ describe('root route', () => {
     await act(async () => {});
     expect(screen.getByText('home screen')).toBeTruthy();
     expect(screen.queryByText('dev screen')).toBeNull();
+  });
+
+  it('goes back to the tabs on Home when / opens over a running app', async () => {
+    await renderRouter(
+      {
+        _layout: () => <Stack screenOptions={{ headerShown: false }} />,
+        index: RootIndex,
+        '(tabs)/_layout': () => (
+          <Tabs screenOptions={{ headerShown: false }}>
+            <Tabs.Screen name="index" />
+            <Tabs.Screen name="trips" />
+          </Tabs>
+        ),
+        '(tabs)/index': HomeWithNotice,
+        '(tabs)/trips': named('trips'),
+        page: named('page'),
+      },
+      { initialUrl: '/' },
+    );
+    await act(async () => {});
+    await act(async () => {
+      router.navigate('/trips');
+      await Promise.resolve();
+    });
+    await act(async () => {
+      router.push('/page');
+      await Promise.resolve();
+    });
+    expect(screen.getByText('page screen')).toBeTruthy();
+    // A warm bare link: the router opens `/` over what is on screen.
+    await act(async () => {
+      router.push('/?notice=link_unknown');
+      await Promise.resolve();
+    });
+    await act(async () => {});
+    expect(screen.getByText('home screen link_unknown')).toBeTruthy();
+    expect(screen.queryByText('page screen')).toBeNull();
+    expect(router.canGoBack()).toBe(false);
   });
 });
