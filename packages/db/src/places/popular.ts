@@ -3,8 +3,8 @@
  * that get AI estimates (busy times, visit length, best time, tips, fee) and curated photos.
  *
  * Per destination, active and not merged into another row, in this order: the editors'
- * essentials, the ready brief's essentials by rank, the brief's eateries in their order, then the
- * editors' must-sees. Transit, stays and health places never count. At most `POPULAR_LIMIT`.
+ * essentials, the agent-curated places by their rank (`editorial.curated`), the ready brief's
+ * essentials by rank, the brief's eateries in their order, then the editors' must-sees. Transit, stays and health places never count. At most `POPULAR_LIMIT`.
  * The profile warm-up, the estimates, the media proposals and `/v1/media` all read this one set.
  */
 import type pg from 'pg';
@@ -29,15 +29,19 @@ export const POPULAR_PLACES_SQL = `
       FROM pois p
      WHERE p.destination_id = $1 AND (p.editorial->>'essential')::boolean IS TRUE
     UNION ALL
-    SELECT (e.value->>'poi_id')::uuid, 2, coalesce((e.value->>'rank')::bigint, e.ordinality)
+    SELECT p.id, 2, coalesce((p.editorial->'curated'->>'rank')::bigint, 0)
+      FROM pois p
+     WHERE p.destination_id = $1 AND jsonb_typeof(p.editorial->'curated') = 'object'
+    UNION ALL
+    SELECT (e.value->>'poi_id')::uuid, 3, coalesce((e.value->>'rank')::bigint, e.ordinality)
       FROM brief, jsonb_array_elements(brief.essentials) WITH ORDINALITY AS e(value, ordinality)
      WHERE e.value->>'poi_id' ~* '^[0-9a-f-]{36}$'
     UNION ALL
-    SELECT (e.value->>'poi_id')::uuid, 3, e.ordinality
+    SELECT (e.value->>'poi_id')::uuid, 4, e.ordinality
       FROM brief, jsonb_array_elements(brief.eateries) WITH ORDINALITY AS e(value, ordinality)
      WHERE e.value->>'poi_id' ~* '^[0-9a-f-]{36}$'
     UNION ALL
-    SELECT p.id, 4, 0
+    SELECT p.id, 5, 0
       FROM pois p
      WHERE p.destination_id = $1 AND (p.editorial->>'must_see')::boolean IS TRUE
   ),

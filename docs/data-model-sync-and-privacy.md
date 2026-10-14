@@ -257,6 +257,7 @@ Phase owns the migration that creates the table (later phases may add columns vi
 | Planning and places (plan `261003-2300-planning-places-v2`, phase 2) | `trip_ideas`, `place_stances`, `place_hides`, `plan_legs`, `plan_checks`, `plan_check_issues`, `member_asks`, `route_cache`, `climate_normals`; columns `plan_items.custom_place`, `destinations.drive_factor`, `crowd_forecasts.approved_at`/`crew_count` |
 | Trip areas: day trips and several stops | `destination_links` (C0, read by the api only, not published), `trip_stops` (C1, `crews` stream); columns `plan_days.destination_id`; coverage `area`, the link modes and source `link` on `plan_legs`, event `trip.areas_changed`, config `trip.areas` |
 | Travel estimates from cited pages | `destination_link_runs` (C0, server-only), `destination_home_links` (C0, read by the api only, not published; keyed by a home city's airport code and a destination, no person or trip) |
+| Agent-curated places and local guides | `local_guides` (C0, read by the api only, not published: public business information about named guides, only what they publish to sell guiding, never contact or private details; no user, crew or trip linked, so account deletion does not touch it; a guide is hidden or removed on request, a removed row keeping only its profile page so no load lists it again); column `pois.editorial.curated` (C0, the place's row) |
 
 Phases 01–07, 19, 42, 50, 51, 53, 54 create no tables (42 uses `guide_messages`/`phrase_progress`; 19 exports to PostHog/Grafana).
 

@@ -707,6 +707,19 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  // Local tour guides (class R, listed rows only, read through the destination guides route; the
+  // count probe answers one row whenever the table is readable).
+  local_guides: {
+    selectProbe: { sql: 'SELECT count(*) FROM local_guides', params: () => [] },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
   // The worker's record of a destination's links run (server-only, class S).
   destination_link_runs: {
     selectProbe: { sql: 'SELECT 1 FROM destination_link_runs LIMIT 1', params: () => [] },

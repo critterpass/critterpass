@@ -1,6 +1,6 @@
 /**
- * The popular set on the real schema: the editors' essentials, the ready brief's essentials by
- * rank, its eateries, then the editors' must-sees; transit, stays, health, closed and merged rows
+ * The popular set on the real schema: the editors' essentials, the agent-curated places by rank,
+ * the ready brief's essentials by rank, its eateries, then the editors' must-sees; transit, stays, health, closed and merged rows
  * never count; at most forty per destination.
  */
 import type pg from 'pg';
@@ -74,6 +74,8 @@ beforeAll(async () => {
     essential: await place(town, 'editors essential', { essential: true, must_see: true }),
     briefFirst: await place(town, 'brief first', { must_see: true }),
     unknown: await place(town, 'not mentioned'),
+    curatedSecond: await place(town, 'curated second', { curated: { rank: 2 } }),
+    curatedFirst: await place(town, 'curated first', { must_see: true, curated: { rank: 1 } }),
     station: await place(town, 'bus station', { essential: true }, { category: 'transit' }),
     hotel: await place(town, 'hotel', { must_see: true }, { category: 'stay' }),
     clinic: await place(town, 'clinic', { must_see: true }, { category: 'health' }),
@@ -106,9 +108,11 @@ afterAll(async () => {
 });
 
 describe('popular places', () => {
-  it('orders essentials, brief essentials, eateries, then must-sees, each place once', async () => {
+  it('orders essentials, curated places, brief essentials, eateries, then must-sees, each place once', async () => {
     expect(await names(town)).toEqual([
       'editors essential',
+      'curated first',
+      'curated second',
       'brief first',
       'brief second',
       'eatery',
@@ -132,7 +136,13 @@ describe('popular places', () => {
     await pool.query(`UPDATE destination_briefs SET status = 'failed' WHERE destination_id = $1`, [
       town,
     ]);
-    expect(await names(town)).toEqual(['editors essential', 'brief first', 'must-see']);
+    expect(await names(town)).toEqual([
+      'editors essential',
+      'curated first',
+      'curated second',
+      'brief first',
+      'must-see',
+    ]);
     await pool.query(`UPDATE destination_briefs SET status = 'ready' WHERE destination_id = $1`, [
       town,
     ]);
