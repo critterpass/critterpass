@@ -12,10 +12,24 @@ appId: app.critterpass.dev
     file: subflows/start.yaml
     env:
       SCENARIO: everyday
-# A destination's guide as it loads: shot before it settles.
+# A destination's guide as it loads: shot while its loading page shows, once the page's push
+# has finished (iOS: mid-push the page under it shows along the edge). A guide that loads before
+# the page is up has no loading shot.
 - openLink:
     link: critterpass-dev://explore/vn-da-lat
-- takeScreenshot: premium-4.04-destination-loading-light
+- extendedWaitUntil:
+    visible:
+      id: 'explore-dest-loading'
+    timeout: 4000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'explore-dest-loading'
+    commands:
+      - waitForAnimationToEnd:
+          timeout: 600
+      - takeScreenshot: premium-4.04-destination-loading-light
 - extendedWaitUntil:
     visible:
       id: 'explore-picks|explore-months|explore-destination-missing'
@@ -30,6 +44,12 @@ appId: app.critterpass.dev
 # Crew plans with none shared yet (no premium render).
 - openLink:
     link: critterpass-dev://community/vn-da-lat
+# Its empty state, not the skeleton it shows while the shared plans load.
+- extendedWaitUntil:
+    visible:
+      id: 'crew-plans-empty|crew-plans-missing'
+    timeout: 20000
+    optional: true
 - runFlow: ../_shared/settle.yaml
 - takeScreenshot: community-crew-plans-empty-light
 - runFlow:
@@ -186,3 +206,4 @@ appId: app.critterpass.dev
       LOOK: light
       SHEET: 'true'
       READY: 'guide-phrase-show'
+- runFlow: subflows/capture-done.yaml

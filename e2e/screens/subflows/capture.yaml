@@ -6,7 +6,10 @@ appId: app.critterpass.dev
 # `premium-${CODE}-${NAME}-${LOOK}`. A few seconds a screen, where tapping there from Home costs a
 # minute: for screens whose state the seed sets, not for journeys. ${SHEET} true means the screen
 # was opened over Home: after the shot the app is back on Home with nothing over it
-# (close-to-home.yaml), so the next sheet never opens inside a stale one.
+# (close-to-home.yaml), so the next sheet never opens inside a stale one. A screen that never
+# showed is still shot (its screenshot shows what came up instead) and named in
+# ${output.captureMissing}, which capture-done.yaml fails the flow on once every capture ran.
+- evalScript: "${output.captureMissing = output.captureMissing || ''}"
 - openLink:
     link: critterpass-dev://${ROUTE}
 - runFlow:
@@ -18,6 +21,12 @@ appId: app.critterpass.dev
             id: '${READY}'
           timeout: 25000
           optional: true
+      - runFlow:
+          when:
+            notVisible:
+              id: '${READY}'
+          commands:
+            - evalScript: "${output.captureMissing = output.captureMissing + ' ' + CODE + '-' + NAME}"
       - runFlow: ../../_shared/settle.yaml
 - runFlow:
     when:
@@ -29,6 +38,13 @@ appId: app.critterpass.dev
             text: '.*path:/${ROUTE}'
           timeout: 12000
           optional: true
+      - runFlow:
+          when:
+            notVisible:
+              id: 'qa-settled'
+              text: '.*path:/${ROUTE}'
+          commands:
+            - evalScript: "${output.captureMissing = output.captureMissing + ' ' + CODE + '-' + NAME}"
 - takeScreenshot: premium-${CODE}-${NAME}-${LOOK}
 - runFlow:
     when:
