@@ -54,14 +54,20 @@ export const TextField = forwardRef<ComponentRef<typeof TextInput>, TextFieldPro
     const [typed, setTyped] = useState((input.defaultValue ?? '') !== '');
     const filled = input.value === undefined ? typed : input.value !== '';
     const field = t.type.field;
+    // Every ring is drawn inside the field, so focusing one never makes it wider than the fields
+    // beside it.
     const outline =
       error !== undefined
-        ? ring(t.size.focusRing, t.color.destructive.fieldRing)
+        ? ring(t.size.focusRing, t.color.destructive.fieldRing, true)
         : focused
-          ? ring(t.size.focusRing, t.color.ink)
+          ? ring(t.size.focusRing, t.color.ink, true)
           : ring(t.size.fieldBorder, t.color.fieldBorder, true);
     const note = error ?? helper;
     const showLabel = label !== undefined && (filled || focused);
+    // Once the label rides above the value it says what the field holds: a placeholder repeating it
+    // goes (a different hint stays).
+    const hint = placeholder ?? label;
+    const shownHint = showLabel && (placeholder === undefined || placeholder === label) ? '' : hint;
 
     return (
       <View style={{ gap: t.space.helperOffset }}>
@@ -86,7 +92,7 @@ export const TextField = forwardRef<ComponentRef<typeof TextInput>, TextFieldPro
                   ? { tone: 'muted' as const }
                   : { color: t.color.destructive.helper })}
                 numberOfLines={1}
-                style={{ paddingTop: t.space.gap8 }}
+                style={{ paddingTop: t.space.gap6 }}
               >
                 {label}
               </Text>
@@ -94,9 +100,7 @@ export const TextField = forwardRef<ComponentRef<typeof TextInput>, TextFieldPro
             <TextInput
               ref={ref}
               {...input}
-              {...((placeholder ?? label) === undefined
-                ? {}
-                : { placeholder: placeholder ?? label })}
+              {...(shownHint === undefined ? {} : { placeholder: shownHint })}
               editable={editable}
               accessibilityLabel={accessibilityLabel}
               {...(error === undefined ? {} : { accessibilityHint: error })}
@@ -121,8 +125,11 @@ export const TextField = forwardRef<ComponentRef<typeof TextInput>, TextFieldPro
                 fontSize: field.size,
                 fontWeight: filled ? field.weight : '400',
                 color: t.color.ink,
+                // Android's own side padding set the value 4 dp in from the label above it.
+                paddingHorizontal: 0,
+                // The label and value fit the 52 field: it doesn't grow as the label appears.
                 paddingTop: showLabel ? 0 : t.space.rowPadV,
-                paddingBottom: showLabel ? t.space.gap8 : t.space.rowPadV,
+                paddingBottom: showLabel ? t.space.gap6 : t.space.rowPadV,
               }}
             />
           </View>
