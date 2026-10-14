@@ -1,8 +1,7 @@
 appId: app.critterpass.dev
 ---
 # The Critterdex in ${LOOK}, from Home and back to Home: the dex pushed from the passport's
-# Critterdex row (8.01), a critter's detail (8.02, the critter here now, else the first cell) and,
-# in light, the legendary calendar (8.08).
+# Critterdex row (8.01) and the hatched critter's page (8.02).
 - runFlow:
     file: ../../_shared/tab.yaml
     env:
@@ -52,65 +51,34 @@ appId: app.critterpass.dev
             CODE: '8.01'
             NAME: critterdex
             LOOK: ${LOOK}
-      - runFlow:
-          when:
-            true: ${LOOK == 'light'}
-          commands:
-            - runFlow:
-                when:
-                  visible:
-                    id: 'critters-legendary-banner'
-                commands:
-                  - tapOn:
-                      id: 'critters-legendary-banner'
-                  - extendedWaitUntil:
-                      visible:
-                        id: 'critters-legendaries'
-                      timeout: 10000
-                      optional: true
-                  - runFlow:
-                      file: shot.yaml
-                      env:
-                        CODE: '8.08'
-                        NAME: legendary-calendar
-                        LOOK: ${LOOK}
-                  - runFlow:
-                      when:
-                        visible:
-                          id: 'critters-legendaries'
-                      commands:
-                        - runFlow:
-                            file: ../../_shared/tap.yaml
-                            env:
-                              ID: 'critters-legendaries-back'
-                              LABEL: 'Back'
-      # A critter's detail: the one here now, else the first cell of the sets.
+      # The hatched critter's page, from its found form on the here-now card. The hatch reaches
+      # the dex once the api has it (the egg card goes); an unfound form opens where to meet it
+      # instead, which is stepped back from.
+      - extendedWaitUntil:
+          notVisible:
+            id: 'critters-egg-hatch'
+          timeout: 30000
+          optional: true
+      - tapOn:
+          id: 'critters-here-now-common'
+          optional: true
       - runFlow:
           when:
             visible:
-              id: 'critters-here-now-.*'
+              id: 'critters-where'
           commands:
-            - tapOn:
-                id: 'critters-here-now-.*'
-      - runFlow:
-          when:
-            notVisible:
-              id: 'critters-detail'
-          commands:
-            - scrollUntilVisible:
-                element:
-                  id: 'critters-cell-.*'
-                direction: DOWN
-                timeout: 10000
-                optional: true
-            - tapOn:
-                id: 'critters-cell-.*'
-                optional: true
+            - runFlow: ../../_shared/back.yaml
       - extendedWaitUntil:
           visible:
             id: 'critters-detail'
           timeout: 10000
           optional: true
+      - runFlow:
+          when:
+            notVisible:
+              id: 'critters-detail'
+          commands:
+            - evalScript: "${output.captureMissing = (output.captureMissing || '') + ' 8.02-critter-detail-' + LOOK}"
       - runFlow:
           when:
             visible:
@@ -132,14 +100,10 @@ appId: app.critterpass.dev
     times: 3
     while:
       visible:
-        id: 'critters-dex|critters-detail|critters-legendaries'
+        id: 'critters-dex|critters-detail|critters-where'
     commands:
       - runFlow: ../../_shared/back.yaml
-- runFlow:
-    file: ../../_shared/tab.yaml
-    env:
-      TAB: home
-      LABEL: Home
+- runFlow: ../../_shared/home-link.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-screen'

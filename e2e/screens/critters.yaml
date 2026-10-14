@@ -1,10 +1,10 @@
 appId: app.critterpass.dev
 ---
-# Premium captures for critters and memories (design part 8): a Vietnamese crew's trip that is on
-# today. Its egg hatches from the Critterdex (8.05); then the Critterdex
-# (8.01), a critter (8.02), the legendary calendar (8.08), crew quests (8.07) and the trip journal
-# (8.12) in light, and again in dark but for the hatch and the calendar. A capture sweep: every
-# step after the setup is conditional or optional.
+# Premium captures for critters (design part 8): a Vietnamese crew's trip that is on today. Its egg
+# hatches from the Critterdex (8.05); then the Critterdex (8.01) and the hatched critter's page
+# (8.02) in light, and again in dark but for the hatch. Crew quests, the trip journal and the
+# legendary calendar open by their links in links-trip.yaml. The flow fails at the end when the
+# hatch or the critter's page never showed (subflows/capture-done.yaml).
 - runFlow:
     file: ../_shared/start-as.yaml
     env:
@@ -46,6 +46,8 @@ appId: app.critterpass.dev
     file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://you/critterdex
+- evalScript: "${output.captureMissing = output.captureMissing || ''}"
+- evalScript: ${output.hatchTapped = false}
 - extendedWaitUntil:
     visible:
       id: 'critters-egg-hatch'
@@ -58,6 +60,7 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'critters-egg-hatch'
+      - evalScript: ${output.hatchTapped = true}
       - extendedWaitUntil:
           visible:
             id: 'critters-hatched'
@@ -84,11 +87,7 @@ appId: app.critterpass.dev
         id: 'critters-dex|critters-hatch'
     commands:
       - runFlow: ../_shared/back.yaml
-- runFlow:
-    file: ../_shared/tab.yaml
-    env:
-      TAB: home
-      LABEL: Home
+- runFlow: ../_shared/home-link.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-screen'
@@ -98,9 +97,10 @@ appId: app.critterpass.dev
     env:
       LOOK: light
 - runFlow:
-    file: subflows/chat-critters-trip.yaml
-    env:
-      LOOK: light
+    when:
+      true: ${!output.hatchTapped}
+    commands:
+      - evalScript: "${output.captureMissing = output.captureMissing + ' 8.05-egg-hatch'}"
 - runFlow:
     file: subflows/appearance.yaml
     env:
@@ -109,7 +109,4 @@ appId: app.critterpass.dev
     file: subflows/chat-critters-dex.yaml
     env:
       LOOK: dark
-- runFlow:
-    file: subflows/chat-critters-trip.yaml
-    env:
-      LOOK: dark
+- runFlow: subflows/capture-done.yaml
