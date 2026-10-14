@@ -1,12 +1,5 @@
 import { Stack } from 'expo-router';
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactElement,
-  type ReactNode,
-} from 'react';
+import { useCallback, useMemo, useState, type ReactElement, type ReactNode } from 'react';
 import {
   Platform,
   StyleSheet,
@@ -14,25 +7,12 @@ import {
   type NativeScrollEvent,
   type NativeSyntheticEvent,
 } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 
-import {
-  GlassSurface,
-  kitType,
-  REDUCED_FADE_MS,
-  SPRINGS,
-  Text,
-  usePremiumReducedMotion,
-  usePremiumTheme,
-} from '../..';
+import { GlassSurface, kitType, reducedFadeIn, reducedFadeOut, Text, usePremiumTheme } from '../..';
 import {
   capActions,
   DrawnHeaderActions,
@@ -167,16 +147,7 @@ function NativeRootScreen({ title, actions, children, testID }: RootScreenParts)
 function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) {
   const t = usePremiumTheme();
   const insets = useSafeAreaInsets();
-  const reduced = usePremiumReducedMotion();
   const [collapsed, setCollapsed] = useState(false);
-  const shown = useSharedValue(0);
-
-  useEffect(() => {
-    const to = collapsed ? 1 : 0;
-    shown.value = reduced
-      ? withTiming(to, { duration: REDUCED_FADE_MS })
-      : withSpring(to, SPRINGS.snappy);
-  }, [collapsed, reduced, shown]);
 
   const onScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     setCollapsed(event.nativeEvent.contentOffset.y > TITLE_ROW);
@@ -195,7 +166,6 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
     }),
     [onScroll],
   );
-  const barTitle = useAnimatedStyle(() => ({ opacity: shown.value }));
   const barTop = insets.top;
   const largeTitle = (
     <View style={{ paddingTop: barTop + t.space.gap6, paddingHorizontal: t.space.titleGutter }}>
@@ -228,13 +198,22 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
         {collapsed ? (
           <GlassSurface kind="regular" style={StyleSheet.absoluteFill} testID="root-bar" />
         ) : null}
-        <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, barTitle]}>
-          <View style={[styles.barTitle, { top: barTop }]}>
-            <Text variant="rowTitle" numberOfLines={1}>
-              {title}
-            </Text>
-          </View>
-        </Animated.View>
+        {/* Mounted only while collapsed: a faded-out copy of the title would still sit over the
+            large title's row for screen readers and the layout checks. */}
+        {collapsed ? (
+          <Animated.View
+            entering={reducedFadeIn()}
+            exiting={reducedFadeOut()}
+            pointerEvents="none"
+            style={StyleSheet.absoluteFill}
+          >
+            <View style={[styles.barTitle, { top: barTop }]}>
+              <Text variant="rowTitle" numberOfLines={1}>
+                {title}
+              </Text>
+            </View>
+          </Animated.View>
+        ) : null}
         <View
           style={[styles.barActions, { top: barTop + t.space.gap6 - 2, right: t.space.gutter }]}
         >
