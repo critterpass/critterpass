@@ -4,12 +4,23 @@
  * researchers' checker checks it; a line that fails is reported and left out, never half-loaded.
  * Fees and hours keep how they are known: `cited` with the page they were read on, otherwise an
  * estimate. The busy line is always an estimate.
+ *
+ * A second version of the file adds what the planner lays out days with: the place's area, its
+ * times of day, busy windows, taste tags, how known it is, its rank among a first visit's
+ * essentials, whether it works in the rain, how many itinerary pages include it, what a place to
+ * eat serves, and the places it pairs with. Each is optional, so a first-version line still loads.
  */
 import {
+  busyWindowSchema,
+  CURATED_PROMINENCE,
   curatedNoteSchema,
+  MAX_BUSY_WINDOWS,
+  PLACE_BEST_TIMES,
   POI_CATEGORIES,
+  TASTE_TAGS,
   type CuratedFact,
   type CuratedNote,
+  type CuratedPair,
   type EditorialText,
 } from '@cp/domain';
 import { z } from 'zod';
@@ -45,6 +56,17 @@ export const curatedPlaceRowSchema = z
     dress: z.string().trim().max(160).nullable().optional(),
     getting_there: line(200),
     sources: z.array(url).min(1),
+    area: line(80).optional(),
+    best_times: z.array(z.enum(PLACE_BEST_TIMES)).min(1).max(3).optional(),
+    busy_windows: z.array(busyWindowSchema).max(MAX_BUSY_WINDOWS).optional(),
+    tags: z.array(z.enum(TASTE_TAGS)).min(1).max(4).optional(),
+    prominence: z.enum(CURATED_PROMINENCE).optional(),
+    essential_rank: z.number().int().min(1).max(8).nullable().optional(),
+    indoor: z.boolean().optional(),
+    blog_count: z.number().int().min(0).optional(),
+    meal_role: z.enum(['meal', 'light']).optional(),
+    dish: line(80).optional(),
+    pairs_with: z.array(line(200)).max(3).optional(),
   })
   .refine((row) => row.tips_en.length === row.tips_vi.length, {
     message: 'tips_en and tips_vi hold the same tips',
@@ -78,13 +100,32 @@ export interface CuratedNoteLines {
     readonly time_needed_min: number;
     readonly tips: readonly string[];
     readonly curated: CuratedNote;
+    /** Set with an essential rank: one of the places a first visit is built around. */
+    readonly must_see?: true;
+    readonly essential?: true;
   };
   readonly vi: Pick<EditorialText, 'why_go' | 'tips'>;
 }
 
-/** What one curated line writes into its place's note; `rank` is its order in the file. */
-export function curatedNoteLines(row: CuratedPlaceRow, rank: number): CuratedNoteLines {
+/** A name in the one form the researchers' checker compares names in. */
+export const curatedNameKey = (name: string) => name.trim().toLowerCase();
+
+/**
+ * What one curated line writes into its place's note; `rank` is its order in the file, and
+ * `placed` the rows the file's other lines were matched to (by `curatedNameKey`), so a place it
+ * pairs with carries that row's id.
+ */
+export function curatedNoteLines(
+  row: CuratedPlaceRow,
+  rank: number,
+  placed: ReadonlyMap<string, string> = new Map(),
+): CuratedNoteLines {
   const dress = row.dress?.trim() ?? '';
+  const essentialRank = row.essential_rank ?? undefined;
+  const pairs = (row.pairs_with ?? []).map((name): CuratedPair => {
+    const poiId = placed.get(curatedNameKey(name));
+    return poiId === undefined ? { name } : { name, poi_id: poiId };
+  });
   const curated = curatedNoteSchema.parse({
     rank,
     fee: fact(row.entry_fee),
@@ -93,6 +134,16 @@ export function curatedNoteLines(row: CuratedPlaceRow, rank: number): CuratedNot
     ...(dress === '' ? {} : { dress }),
     getting_there: row.getting_there,
     sources: [...new Set(row.sources)].slice(0, 8),
+    ...(row.best_times === undefined ? {} : { best_times: [...new Set(row.best_times)] }),
+    ...(row.meal_role === undefined ? {} : { meal_role: row.meal_role }),
+    ...(row.dish === undefined ? {} : { dish: row.dish }),
+    ...(essentialRank === undefined ? {} : { essential_rank: essentialRank }),
+    ...(row.tags === undefined ? {} : { tags: [...new Set(row.tags)] }),
+    ...(row.area === undefined ? {} : { area: row.area }),
+    ...(row.prominence === undefined ? {} : { prominence: row.prominence }),
+    ...(row.indoor === undefined ? {} : { indoor: row.indoor }),
+    ...(row.blog_count === undefined ? {} : { blog_count: row.blog_count }),
+    ...(pairs.length === 0 ? {} : { pairs_with: pairs }),
   });
   return {
     lines: {
@@ -102,6 +153,7 @@ export function curatedNoteLines(row: CuratedPlaceRow, rank: number): CuratedNot
       time_needed_min: row.visit_minutes,
       tips: row.tips_en,
       curated,
+      ...(essentialRank === undefined ? {} : { must_see: true, essential: true }),
     },
     vi: { why_go: row.why_go_vi, tips: row.tips_vi },
   };
