@@ -11,6 +11,10 @@ msgstr ""
 msgid "drivers.share.lastKnown"
 msgstr " · last known"
 
+#: ../../apps/mobile/src/features/drivers/shared/whatsapp-copy.ts
+msgid "drivers.wa.overtime"
+msgstr " And what do you charge an hour for overtime?"
+
 #: ../../apps/mobile/src/features/drivers/shared/price-text.ts
 msgid "drivers.price.question"
 msgstr " You wrote \"{words}\". What is the price for {people} of us for a day?"
@@ -158,6 +162,26 @@ msgstr "{name} decides. Nothing about him is public until he confirms on his own
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.title"
 msgstr "{name} wants {driver} to drive"
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.clear"
+msgstr "{name}’s cheapest, and everything’s said."
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.notSaid"
+msgstr "{name}’s cheapest, but {count} things aren’t said yet. Ask before you pick."
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.overtimeUnknown"
+msgstr "{name}’s cheapest, but {day} runs longer than his price covers and he hasn’t said what overtime costs."
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.overHours"
+msgstr "{name}’s cheapest, but {day} runs longer than his price covers: count the overtime."
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.seats"
+msgstr "{name}’s cheapest, but you’d need {cars} cars."
 
 #: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.savedNumber"
@@ -640,6 +664,14 @@ msgstr "Here are the days we need you, with times and pickups: {url}"
 msgid "drivers.detail.firstLine"
 msgstr "Hi {first}, I found you on CritterPass. Are you free to drive our group?"
 
+#: ../../apps/mobile/src/features/drivers/shared/whatsapp-copy.ts
+msgid "drivers.wa.ask"
+msgstr "Hi {name}, thanks! Does your price include {list}?{overtime}"
+
+#: ../../apps/mobile/src/features/drivers/shared/whatsapp-copy.ts
+msgid "drivers.wa.askOvertime"
+msgstr "Hi {name}, thanks!{overtime}"
+
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
 msgid "drivers.replied.confirmMessagePrice"
 msgstr "Hi {name}, the crew said yes to {price} a day. We’d like to book you for:\n"
@@ -651,6 +683,13 @@ msgid "drivers.replied.confirmMessage"
 msgstr "Hi {name}, the crew said yes. We’d like to book you for:\n"
 "{lines}\n"
 "Can you confirm?"
+
+#. placeholder {0}: lines.join('\n')
+#: ../../apps/mobile/src/features/drivers/shared/whatsapp-copy.ts
+msgid "drivers.wa.tell"
+msgstr "Hi {name}, we’d like to book you for:\n"
+"{0}\n"
+"Does that work for you?"
 
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.premium.howWas"

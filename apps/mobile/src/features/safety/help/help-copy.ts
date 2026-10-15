@@ -1,4 +1,5 @@
 /** How far the nearest facility is, in the words both Help pages use. */
+import { msg } from '@lingui/core/macro';
 import type { useLingui } from '@lingui/react/macro';
 
 import { distanceIn } from '@/lib/i18n/formats';
@@ -11,14 +12,14 @@ export function facilityDetail(
 ): string {
   if (facility.minutes !== null) {
     const minutes = facility.minutes;
-    return t({ id: 'safety.help.byCar', message: `${minutes} min by car` });
+    return t(msg({ id: 'safety.help.byCar', message: `${minutes} min by car` }));
   }
   if (facility.distanceM !== null) {
     const away = distanceIn(facility.distanceM);
     const n = away.value.toFixed(1);
     return away.unit === 'mi'
-      ? t({ id: 'safety.help.awayMiles', message: `${n} mi away` })
-      : t({ id: 'safety.help.away', message: `${n} km away` });
+      ? t(msg({ id: 'safety.help.awayMiles', message: `${n} mi away` }))
+      : t(msg({ id: 'safety.help.away', message: `${n} km away` }));
   }
   return facility.phone ?? '';
 }

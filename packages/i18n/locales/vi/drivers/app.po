@@ -11,6 +11,10 @@ msgstr ""
 msgid "drivers.share.lastKnown"
 msgstr " · lần cuối biết được"
 
+#: ../../apps/mobile/src/features/drivers/shared/whatsapp-copy.ts
+msgid "drivers.wa.overtime"
+msgstr " Còn làm thêm giờ thì anh tính bao nhiêu một tiếng ạ?"
+
 #: ../../apps/mobile/src/features/drivers/shared/price-text.ts
 msgid "drivers.price.question"
 msgstr " Bạn viết \"{words}\". Giá cho {people} người bọn mình đi một ngày là bao nhiêu?"
@@ -158,6 +162,26 @@ msgstr "{name} tự quyết định. Không có gì về anh ấy được công
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.title"
 msgstr "{name} muốn {driver} lái xe"
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.clear"
+msgstr "{name} rẻ nhất, và đã nói rõ mọi thứ."
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.notSaid"
+msgstr "{name} rẻ nhất, nhưng còn {count} điều chưa nói rõ. Hỏi trước khi chọn nhé."
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.overtimeUnknown"
+msgstr "{name} rẻ nhất, nhưng {day} kéo dài hơn số giờ trong giá và anh ấy chưa nói giá làm thêm giờ."
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.overHours"
+msgstr "{name} rẻ nhất, nhưng {day} kéo dài hơn số giờ trong giá: nhớ tính cả giờ làm thêm."
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.seats"
+msgstr "{name} rẻ nhất, nhưng bạn sẽ cần {cars} xe."
 
 #: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.savedNumber"
@@ -640,6 +664,14 @@ msgstr "Đây là những ngày tụi mình cần anh/chị, kèm giờ và đi�
 msgid "drivers.detail.firstLine"
 msgstr "Chào {first}, mình tìm thấy anh/chị trên CritterPass. Anh/chị có rảnh để chở nhóm mình không?"
 
+#: ../../apps/mobile/src/features/drivers/shared/whatsapp-copy.ts
+msgid "drivers.wa.ask"
+msgstr "Chào {name}, cảm ơn anh! Giá của anh đã gồm {list} chưa ạ?{overtime}"
+
+#: ../../apps/mobile/src/features/drivers/shared/whatsapp-copy.ts
+msgid "drivers.wa.askOvertime"
+msgstr "Chào {name}, cảm ơn anh!{overtime}"
+
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
 msgid "drivers.replied.confirmMessagePrice"
 msgstr "Chào {name}, cả nhóm đã đồng ý với giá {price} một ngày. Tụi mình muốn đặt anh/chị cho:\n"
@@ -651,6 +683,13 @@ msgid "drivers.replied.confirmMessage"
 msgstr "Chào {name}, cả nhóm đã đồng ý. Tụi mình muốn đặt anh/chị cho:\n"
 "{lines}\n"
 "Anh/chị xác nhận giúp nhé?"
+
+#. placeholder {0}: lines.join('\n')
+#: ../../apps/mobile/src/features/drivers/shared/whatsapp-copy.ts
+msgid "drivers.wa.tell"
+msgstr "Chào {name}, bọn mình muốn đặt anh cho:\n"
+"{0}\n"
+"Anh có chạy được không ạ?"
 
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.premium.howWas"

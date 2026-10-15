@@ -6,6 +6,7 @@ import {
   type CompareRisk,
   type DriverCard,
 } from '@cp/domain';
+import { msg } from '@lingui/core/macro';
 import type { useLingui } from '@lingui/react/macro';
 
 import type { ShortlistDriver } from '../shared/api';
@@ -89,33 +90,43 @@ export function riskLine(
   switch (risk.kind) {
     case 'overtime_unknown': {
       const day = dayLabel(risk.date, locale);
-      return t({
-        id: 'drivers.risk.overtimeUnknown',
-        message: `${name}’s cheapest, but ${day} runs longer than his price covers and he hasn’t said what overtime costs.`,
-      });
+      return t(
+        msg({
+          id: 'drivers.risk.overtimeUnknown',
+          message: `${name}’s cheapest, but ${day} runs longer than his price covers and he hasn’t said what overtime costs.`,
+        }),
+      );
     }
     case 'over_hours': {
       const day = dayLabel(risk.date, locale);
-      return t({
-        id: 'drivers.risk.overHours',
-        message: `${name}’s cheapest, but ${day} runs longer than his price covers: count the overtime.`,
-      });
+      return t(
+        msg({
+          id: 'drivers.risk.overHours',
+          message: `${name}’s cheapest, but ${day} runs longer than his price covers: count the overtime.`,
+        }),
+      );
     }
     case 'seats_short': {
       const cars = risk.cars;
-      return t({
-        id: 'drivers.risk.seats',
-        message: `${name}’s cheapest, but you’d need ${cars} cars.`,
-      });
+      return t(
+        msg({
+          id: 'drivers.risk.seats',
+          message: `${name}’s cheapest, but you’d need ${cars} cars.`,
+        }),
+      );
     }
     case 'not_said': {
       const count = risk.count;
-      return t({
-        id: 'drivers.risk.notSaid',
-        message: `${name}’s cheapest, but ${count} things aren’t said yet. Ask before you pick.`,
-      });
+      return t(
+        msg({
+          id: 'drivers.risk.notSaid',
+          message: `${name}’s cheapest, but ${count} things aren’t said yet. Ask before you pick.`,
+        }),
+      );
     }
     case 'all_clear':
-      return t({ id: 'drivers.risk.clear', message: `${name}’s cheapest, and everything’s said.` });
+      return t(
+        msg({ id: 'drivers.risk.clear', message: `${name}’s cheapest, and everything’s said.` }),
+      );
   }
 }

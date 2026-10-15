@@ -6,3 +6,52 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.disclosure.continue"
+msgstr "Tiếp tục"
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.disclosure.body"
+msgstr "CritterPass dùng dữ liệu vị trí để tìm thổ địa quanh bạn, giữ bản đồ của nhóm luôn mới và báo đúng giờ cần đi, kể cả khi ứng dụng đã đóng hoặc không dùng đến."
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.sheet.settingsBody"
+msgstr "Quyền này đang tắt trong Cài đặt. Bật lên ở đó rồi quay lại ngay nhé."
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.disclosure.title"
+msgstr "Vị trí khi chạy nền"
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.disclosure.decline"
+msgstr "Không, cảm ơn"
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+#: ../../apps/mobile/src/features/permissions/visit-consent-sheet.tsx
+msgid "permissions.sheet.notNow"
+msgstr "Để sau"
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.disclosure.limits"
+msgstr "Chỉ vào những ngày đi chơi, không bao giờ khi ở nhà. Bọn mình chỉ giữ những nơi bạn đã ghé, không lưu đường đi theo tọa độ. Tắt bất cứ lúc nào trong Cài đặt hoặc từ thông báo ngày đi."
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.primer.openSettings"
+msgstr "Mở Cài đặt"
+
+#: ../../apps/mobile/src/features/permissions/visit-consent-sheet.tsx
+msgid "permissions.visits.title"
+msgstr "Ghi nhớ những nơi bạn ghé"
+
+#: ../../apps/mobile/src/features/permissions/visit-consent-sheet.tsx
+msgid "permissions.visits.bodyReached"
+msgstr "Những nơi trong kế hoạch mà bạn thật sự đến, không lưu đường đi theo tọa độ. Chúng dùng cho nhiệm vụ, huy hiệu và điểm chuyến đi, và được xóa 30 ngày sau khi chuyến đi kết thúc."
+
+#: ../../apps/mobile/src/features/permissions/visit-consent-sheet.tsx
+msgid "permissions.visits.control"
+msgstr "Tắt bất cứ lúc nào trong Cài đặt. Những lượt ghé đã lưu vẫn xóa được."
+
+#: ../../apps/mobile/src/features/permissions/visit-consent-sheet.tsx
+msgid "permissions.visits.accept"
+msgstr "Bật lên"

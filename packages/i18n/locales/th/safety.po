@@ -35,8 +35,20 @@ msgstr ""
 msgid "safety.map.distanceMiles"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/help/help-copy.ts
+msgid "safety.help.byCar"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.stepSent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-copy.ts
+msgid "safety.help.away"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-copy.ts
+msgid "safety.help.awayMiles"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx

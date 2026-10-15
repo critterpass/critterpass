@@ -904,6 +904,10 @@ msgstr ""
 msgid "critters.queued.hatch"
 msgstr ""
 
+#: ../../apps/mobile/src/app/(modal)/hatch/[tripId].tsx
+msgid "critters.premium.hatch.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.readyTitle"
 msgstr ""

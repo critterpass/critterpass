@@ -6,3 +6,52 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: th\n"
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.disclosure.continue"
+msgstr ""
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.disclosure.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.sheet.settingsBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.disclosure.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.disclosure.decline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+#: ../../apps/mobile/src/features/permissions/visit-consent-sheet.tsx
+msgid "permissions.sheet.notNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.disclosure.limits"
+msgstr ""
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.primer.openSettings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/permissions/visit-consent-sheet.tsx
+msgid "permissions.visits.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/permissions/visit-consent-sheet.tsx
+msgid "permissions.visits.bodyReached"
+msgstr ""
+
+#: ../../apps/mobile/src/features/permissions/visit-consent-sheet.tsx
+msgid "permissions.visits.control"
+msgstr ""
+
+#: ../../apps/mobile/src/features/permissions/visit-consent-sheet.tsx
+msgid "permissions.visits.accept"
+msgstr ""

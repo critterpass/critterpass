@@ -11,6 +11,10 @@ msgstr ""
 msgid "drivers.share.lastKnown"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/shared/whatsapp-copy.ts
+msgid "drivers.wa.overtime"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/shared/price-text.ts
 msgid "drivers.price.question"
 msgstr ""
@@ -157,6 +161,26 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.clear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.notSaid"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.overtimeUnknown"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.overHours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.seats"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
@@ -640,12 +664,25 @@ msgstr ""
 msgid "drivers.detail.firstLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/shared/whatsapp-copy.ts
+msgid "drivers.wa.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/shared/whatsapp-copy.ts
+msgid "drivers.wa.askOvertime"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
 msgid "drivers.replied.confirmMessagePrice"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
 msgid "drivers.replied.confirmMessage"
+msgstr ""
+
+#. placeholder {0}: lines.join('\n')
+#: ../../apps/mobile/src/features/drivers/shared/whatsapp-copy.ts
+msgid "drivers.wa.tell"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx

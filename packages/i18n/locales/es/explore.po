@@ -323,6 +323,11 @@ msgstr ""
 msgid "explore.dayTrips.moved"
 msgstr ""
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.beach"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.beach"
 msgstr ""
@@ -542,6 +547,11 @@ msgstr ""
 msgid "explore.dayTrips.mode.flight"
 msgstr ""
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.food"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.food"
 msgstr ""
@@ -578,6 +588,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.halfDay"
+msgstr ""
+
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.health"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts
@@ -716,6 +731,11 @@ msgstr ""
 msgid "explore.premium.dest.map"
 msgstr ""
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.market"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.market"
 msgstr ""
@@ -736,6 +756,11 @@ msgstr ""
 msgid "explore.queued.move"
 msgstr ""
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.museum"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.museum"
 msgstr ""
@@ -748,12 +773,22 @@ msgstr ""
 msgid "search.name.alike"
 msgstr ""
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.nature"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.nature"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-sections.tsx
 msgid "explore.premium.place.nearby"
+msgstr ""
+
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.nightlife"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts
@@ -935,6 +970,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
 msgid "vote.guest.pitch"
+msgstr ""
+
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.other"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts
@@ -1138,6 +1178,11 @@ msgstr ""
 msgid "explore.premium.detail.share"
 msgstr ""
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.shopping"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.shopping"
 msgstr ""
@@ -1186,6 +1231,11 @@ msgstr ""
 msgid "explore.queued.swipeStart"
 msgstr ""
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.stay"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.stay"
 msgstr ""
@@ -1208,6 +1258,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.temple"
+msgstr ""
+
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.templeShrine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-extras.tsx
@@ -1353,6 +1408,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/data/areas/travel-line.ts
 msgid "explore.dayTrips.mode.train"
+msgstr ""
+
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.transit"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts

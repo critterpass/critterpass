@@ -323,6 +323,11 @@ msgstr "Back"
 msgid "explore.dayTrips.moved"
 msgstr "Back in Ideas: {names}"
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.beach"
+msgstr "Beach"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.beach"
 msgstr "Beach"
@@ -542,6 +547,11 @@ msgstr "Finding the places"
 msgid "explore.dayTrips.mode.flight"
 msgstr "Flight"
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.food"
+msgstr "Food"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.food"
 msgstr "Food"
@@ -579,6 +589,11 @@ msgstr "Guide: {0}"
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.halfDay"
 msgstr "Half day"
+
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.health"
+msgstr "Health"
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.health"
@@ -716,6 +731,11 @@ msgstr "Map"
 msgid "explore.premium.dest.map"
 msgstr "Map ›"
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.market"
+msgstr "Market"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.market"
 msgstr "Market"
@@ -736,6 +756,11 @@ msgstr "Move"
 msgid "explore.queued.move"
 msgstr "Moving a saved place"
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.museum"
+msgstr "Museum"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.museum"
 msgstr "Museum"
@@ -748,6 +773,11 @@ msgstr "Name the new list"
 msgid "search.name.alike"
 msgstr "Names a bit like it"
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.nature"
+msgstr "Nature"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.nature"
 msgstr "Nature"
@@ -755,6 +785,11 @@ msgstr "Nature"
 #: ../../apps/mobile/src/features/explore/premium/place/place-sections.tsx
 msgid "explore.premium.place.nearby"
 msgstr "Next, nearby"
+
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.nightlife"
+msgstr "Nightlife"
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.nightlife"
@@ -936,6 +971,11 @@ msgstr "Pitch {0} to"
 #: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
 msgid "vote.guest.pitch"
 msgstr "Pitch to the crew"
+
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.other"
+msgstr "Place"
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.other"
@@ -1138,6 +1178,11 @@ msgstr "Set home airport"
 msgid "explore.premium.detail.share"
 msgstr "Share"
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.shopping"
+msgstr "Shopping"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.shopping"
 msgstr "Shopping"
@@ -1186,6 +1231,11 @@ msgstr "Start again"
 msgid "explore.queued.swipeStart"
 msgstr "Starting a swipe session"
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.stay"
+msgstr "Stay"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.stay"
 msgstr "Stay"
@@ -1209,6 +1259,11 @@ msgstr "Tap the heart on a place or a destination and it lands here."
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.temple"
 msgstr "Temple"
+
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.templeShrine"
+msgstr "Temple or shrine"
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-extras.tsx
 msgid "explore.profile.reported"
@@ -1354,6 +1409,11 @@ msgstr "Tour"
 #: ../../apps/mobile/src/data/areas/travel-line.ts
 msgid "explore.dayTrips.mode.train"
 msgstr "Train"
+
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.transit"
+msgstr "Transit"
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.transit"

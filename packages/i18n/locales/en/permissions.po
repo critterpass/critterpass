@@ -6,3 +6,52 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.disclosure.continue"
+msgstr "Continue"
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.disclosure.body"
+msgstr "CritterPass collects location data to find critters near you, keep your crew map current and time your leave-by alerts, even when the app is closed or not in use."
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.sheet.settingsBody"
+msgstr "It is switched off in Settings. Turn it on there and come straight back."
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.disclosure.title"
+msgstr "Location in the background"
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.disclosure.decline"
+msgstr "No thanks"
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+#: ../../apps/mobile/src/features/permissions/visit-consent-sheet.tsx
+msgid "permissions.sheet.notNow"
+msgstr "Not now"
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.disclosure.limits"
+msgstr "Only on trip days, never at home. We keep the places you checked in at, never a trail of coordinates. Turn it off any time in Settings or from the trip-day notification."
+
+#: ../../apps/mobile/src/features/permissions/primer-sheet.tsx
+msgid "permissions.primer.openSettings"
+msgstr "Open Settings"
+
+#: ../../apps/mobile/src/features/permissions/visit-consent-sheet.tsx
+msgid "permissions.visits.title"
+msgstr "Remember places you visit"
+
+#: ../../apps/mobile/src/features/permissions/visit-consent-sheet.tsx
+msgid "permissions.visits.bodyReached"
+msgstr "The places on your plan that you actually reach, never a trail of coordinates. They power quests, awards and your trip rating, and are deleted 30 days after the trip ends."
+
+#: ../../apps/mobile/src/features/permissions/visit-consent-sheet.tsx
+msgid "permissions.visits.control"
+msgstr "Turn it off any time in Settings. Visits already saved stay deletable."
+
+#: ../../apps/mobile/src/features/permissions/visit-consent-sheet.tsx
+msgid "permissions.visits.accept"
+msgstr "Turn on"

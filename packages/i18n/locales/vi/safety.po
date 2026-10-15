@@ -35,9 +35,21 @@ msgstr "Cách bạn {km} dặm"
 msgid "safety.map.distanceMiles"
 msgstr "Cách bạn {km} dặm theo đường thẳng."
 
+#: ../../apps/mobile/src/features/safety/help/help-copy.ts
+msgid "safety.help.byCar"
+msgstr "{minutes} phút đi xe"
+
 #: ../../apps/mobile/src/features/safety/sos/sos-copy.ts
 msgid "safety.sos.stepSent"
 msgstr "{n, plural, one {Đã gửi SOS cho người bạn đồng hành duy nhất} other {Đã gửi SOS cho cả # người}}"
+
+#: ../../apps/mobile/src/features/safety/help/help-copy.ts
+msgid "safety.help.away"
+msgstr "Cách {n} km"
+
+#: ../../apps/mobile/src/features/safety/help/help-copy.ts
+msgid "safety.help.awayMiles"
+msgstr "Cách {n} dặm"
 
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.open24"

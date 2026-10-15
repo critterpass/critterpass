@@ -2,6 +2,8 @@ import { defineConfig } from '@lingui/conf';
 import { formatter } from '@lingui/format-po';
 
 import {
+  areaSourcesOutside,
+  permissionSources,
   driverAndSiteCatalogs,
   driverPlan,
   driversCatalog,
@@ -222,7 +224,7 @@ export default defineConfig({
     {
       name: 'permissions',
       path: 'locales/{locale}/permissions',
-      include: [`${repoRootPrefix}/apps/mobile/src/ui/permission-primer/**`],
+      include: permissionSources,
       exclude: testFileExcludes,
     },
     ...areas.map((area) => ({
@@ -231,13 +233,8 @@ export default defineConfig({
       include: [
         `${repoRootPrefix}/apps/mobile/src/app/${area}/**`,
         `${repoRootPrefix}/apps/mobile/src/features/${area}/**`,
-        // The plan's shared reader, editor and commands word the outbox and stop names.
-        ...(area === 'plan' ? [`${repoRootPrefix}/apps/mobile/src/data/plan/**`] : []),
-        // A trip's areas word the travel line the plan and Explore both show.
-        ...(area === 'explore' ? [`${repoRootPrefix}/apps/mobile/src/data/areas/**`] : []),
+        ...(areaSourcesOutside[area] ?? []),
         ...(area === 'go' ? [goButtonSource] : []),
-        // The launch screen's passport stamp opens onboarding.
-        ...(area === 'onboarding' ? [`${repoRootPrefix}/apps/mobile/src/features/launch/**`] : []),
       ],
       exclude:
         area === 'crew'

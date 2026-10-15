@@ -323,6 +323,11 @@ msgstr "Quay lại"
 msgid "explore.dayTrips.moved"
 msgstr "Quay về Ý tưởng: {names}"
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.beach"
+msgstr "Bãi biển"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.beach"
 msgstr "Bãi biển"
@@ -542,6 +547,11 @@ msgstr "Đang tìm các địa điểm"
 msgid "explore.dayTrips.mode.flight"
 msgstr "Máy bay"
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.food"
+msgstr "Ăn uống"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.food"
 msgstr "Ăn uống"
@@ -579,6 +589,11 @@ msgstr "Hướng dẫn viên: {0}"
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.halfDay"
 msgstr "Nửa ngày"
+
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.health"
+msgstr "Y tế"
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.health"
@@ -716,6 +731,11 @@ msgstr "Bản đồ"
 msgid "explore.premium.dest.map"
 msgstr "Bản đồ ›"
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.market"
+msgstr "Chợ"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.market"
 msgstr "Chợ"
@@ -736,6 +756,11 @@ msgstr "Chuyển"
 msgid "explore.queued.move"
 msgstr "Chuyển một địa điểm đã lưu"
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.museum"
+msgstr "Bảo tàng"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.museum"
 msgstr "Bảo tàng"
@@ -748,6 +773,11 @@ msgstr "Đặt tên cho danh sách mới"
 msgid "search.name.alike"
 msgstr "Những tên hơi giống"
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.nature"
+msgstr "Thiên nhiên"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.nature"
 msgstr "Thiên nhiên"
@@ -755,6 +785,11 @@ msgstr "Thiên nhiên"
 #: ../../apps/mobile/src/features/explore/premium/place/place-sections.tsx
 msgid "explore.premium.place.nearby"
 msgstr "Kế tiếp, gần đây"
+
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.nightlife"
+msgstr "Về đêm"
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.nightlife"
@@ -936,6 +971,11 @@ msgstr "Đề xuất {0} cho"
 #: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
 msgid "vote.guest.pitch"
 msgstr "Giới thiệu cho nhóm"
+
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.other"
+msgstr "Địa điểm"
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.other"
@@ -1138,6 +1178,11 @@ msgstr "Chọn sân bay gần nhà"
 msgid "explore.premium.detail.share"
 msgstr "Chia sẻ"
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.shopping"
+msgstr "Mua sắm"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.shopping"
 msgstr "Mua sắm"
@@ -1186,6 +1231,11 @@ msgstr "Bắt đầu lại"
 msgid "explore.queued.swipeStart"
 msgstr "Bắt đầu một phiên quẹt"
 
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.stay"
+msgstr "Chỗ ở"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.stay"
 msgstr "Chỗ ở"
@@ -1208,6 +1258,11 @@ msgstr "Chạm vào trái tim ở một địa điểm hay điểm đến, nó s
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.temple"
+msgstr "Đền chùa"
+
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.templeShrine"
 msgstr "Đền chùa"
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-extras.tsx
@@ -1354,6 +1409,11 @@ msgstr "Tour"
 #: ../../apps/mobile/src/data/areas/travel-line.ts
 msgid "explore.dayTrips.mode.train"
 msgstr "Tàu"
+
+#: ../../apps/mobile/src/data/places/usePlaceSearch.ts
+#: ../../apps/mobile/src/data/places/useRegionPack.ts
+msgid "places.category.transit"
+msgstr "Di chuyển"
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.transit"
