@@ -17,6 +17,8 @@ const CORE_PER_DAY = 5;
 
 const CORE = new WeakMap<object, readonly string[]>();
 
+const essentialOrder = (poi: DraftPoi) => poi.essentialRank ?? Number.MAX_SAFE_INTEGER;
+
 /** The trip's core must-sees, the one to place first leading: ids of the pool's activities. */
 export function coreMustSees(
   input: Pick<DraftPlanInput, 'pools' | 'pois' | 'travel' | 'frame'>,
@@ -30,7 +32,14 @@ export function coreMustSees(
   const ranked = input.pools.activities
     .filter((poi) => (poi.mustSee || poi.essential === true) && foodRole(poi) === null)
     .map((poi, rank) => ({ poi, rank, worth: worth(poi), first: poi.essential === true ? 0 : 1 }))
-    .sort((a, b) => a.first - b.first || b.worth - a.worth || a.rank - b.rank);
+    .sort(
+      (a, b) =>
+        a.first - b.first ||
+        // The essentials in the order the researchers ranked them, where they did.
+        (a.first === 0 ? essentialOrder(a.poi) - essentialOrder(b.poi) : 0) ||
+        b.worth - a.worth ||
+        a.rank - b.rank,
+    );
   const essentials = ranked.filter((entry) => entry.first === 0).length;
   const core = ranked
     .slice(0, Math.max(essentials, input.frame.dates.length * CORE_PER_DAY))

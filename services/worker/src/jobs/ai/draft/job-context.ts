@@ -32,6 +32,7 @@ import { NO_GROUPS, planDayGroups, type GroupsPlan } from './day-groups';
 import { groupInputs } from './group-inputs';
 import { loadDraftTrip, type DraftTripData } from './load';
 import { loadDraftPlaces, loadWishCandidates } from './load-places';
+import { loadFirstVisit } from './first-visit';
 import { buildPlanInput, tripDates, wishOffer } from './plan-input';
 import type { PrefetchResult } from './prefetch';
 import { savedWishAnswers } from './redraft-store';
@@ -175,6 +176,7 @@ export async function load(
       ctx.pool,
       places.map((poi) => poi.id),
     ),
+    firstVisit: await loadFirstVisit(ctx.pool, trip.destinationId),
   });
   // Once the outline has run, every later step plans with the guide's answers to the wishes. A
   // redraft has no outline of its own: it plans with the answers saved with the version it redoes.

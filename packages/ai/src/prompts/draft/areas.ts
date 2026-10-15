@@ -1,8 +1,9 @@
 /**
  * Where places are, in words the guide can plan with. The guide never sees a coordinate, so
  * without this it cannot know that two museums are a street apart and the lunch it picked is
- * across the island. Code groups the places a draft may use into areas (every place within a
- * short ride of the area's first place), names each by a letter and its best-known places, and
+ * across the island. Code groups the places a draft may use into areas (the destination's named
+ * areas where researchers placed them, else every place within a short ride of the area's first
+ * place), names each by a letter, its name and its best-known places, and
  * tells the guide how far apart the areas are. Which stops may share a day is still checked by the
  * planner afterwards (the hop rule).
  */
@@ -30,6 +31,8 @@ export interface Areas {
 
 interface Area {
   readonly label: string;
+  /** The destination's own name for the area, where its places carry one (`DraftPoi.area`). */
+  readonly name: string | null;
   readonly seed: DraftPoi;
   readonly places: DraftPoi[];
 }
@@ -87,10 +90,21 @@ export function areasOf(input: Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>
     }
     return best?.area;
   };
-  for (const poi of planned(input)) {
+  // Places the researchers put in a named area of the destination share it: the named areas are
+  // laid out first, then every other place joins the nearest area within reach, or starts one.
+  const all = planned(input);
+  for (const poi of all) {
+    const name = poi.area ?? null;
+    if (name === null) continue;
+    const named = areas.find((area) => area.name === name);
+    if (named !== undefined) named.places.push(poi);
+    else areas.push({ label: label(areas.length), name, seed: poi, places: [poi] });
+  }
+  for (const poi of all) {
+    if ((poi.area ?? null) !== null) continue;
     const home = nearest(poi);
     if (home !== undefined) home.places.push(poi);
-    else areas.push({ label: label(areas.length), seed: poi, places: [poi] });
+    else areas.push({ label: label(areas.length), name: null, seed: poi, places: [poi] });
   }
   const byPlace = new Map<string, string>();
   for (const area of areas) for (const poi of area.places) byPlace.set(poi.id, area.label);
@@ -105,7 +119,7 @@ export function areasOf(input: Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>
     const names = area.places.slice(0, 2).map((poi) => poi.name);
     const nearby = near.length > 0 ? near.join(', ') : 'no other area';
     return {
-      line: `- Area ${area.label}: ${area.places.length} places, e.g. ${names.join('; ')} | near: ${nearby}`,
+      line: `- Area ${area.label}${area.name === null ? '' : ` (${area.name})`}: ${area.places.length} places, e.g. ${names.join('; ')} | near: ${nearby}`,
       link: `- Area ${area.label} | near: ${nearby}`,
     };
   });

@@ -29,7 +29,13 @@ import {
 } from '@cp/planner';
 import type pg from 'pg';
 
-import { essentialRankOf, tagsWithCurated, typedFactsWithCurated } from './curated-facts';
+import {
+  curatedMustSee,
+  curatedPlaceFacts,
+  essentialRankOf,
+  tagsWithCurated,
+  typedFactsWithCurated,
+} from './curated-facts';
 
 export const TYPED_PLACES_KEY = 'planner.typed_places';
 
@@ -160,12 +166,17 @@ function toDraftPoi(row: PoiRow, typed: boolean): DraftPoi {
     editorial: row.curation === 'editorial',
     // Where nothing is curated, the well-known places the model named stand in for must-sees, so
     // the sights a town is known for take their seats before the open-data fill.
-    mustSee: editorial.must_see === true || row.pick_source === 'named',
+    // A curated place the itinerary pages agree on is one too.
+    mustSee: editorial.must_see === true || row.pick_source === 'named' || curatedMustSee(curated),
     // The handful a first visit should hold (our editors flag at most fifteen a destination).
-    ...(editorial.essential === true ? { essential: true } : {}),
+    // A curated place ranked among a first visit's essentials is one of them too.
+    ...(editorial.essential === true || curated?.essential_rank !== undefined
+      ? { essential: true }
+      : {}),
     detail: filled + (known ? 1 : 0),
     whyGo: text(editorial.why_go),
     bestTime: text(editorial.best_time),
+    ...curatedPlaceFacts(curated),
   });
   if (!typed) return poi;
   return withTypedFacts(poi, {

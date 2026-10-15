@@ -21,6 +21,7 @@ import { createGateway, runDraftPlan, type DraftModel } from '@cp/ai';
 import { createPool, withSystem } from '@cp/db';
 import type pg from 'pg';
 
+import { loadFirstVisit } from '../../src/jobs/ai/draft/first-visit';
 import { loadDraftPlaces } from '../../src/jobs/ai/draft/load';
 import { buildPlanInput } from '../../src/jobs/ai/draft/plan-input';
 import { loadRoutedPairs } from '../../src/jobs/ai/draft/road-minutes';
@@ -119,6 +120,7 @@ async function benchDestination(
     places.map((poi) => poi.id),
   );
   const route = await skeletonRoute(pool);
+  const firstVisit = await loadFirstVisit(pool, destination.id);
   const ranks = await curatedRanks(
     pool,
     places.map((poi) => poi.id),
@@ -134,6 +136,7 @@ async function benchDestination(
       skeletonRoute: route,
       closures: [],
       routed,
+      firstVisit,
     });
     let days: ScoredDay[];
     try {

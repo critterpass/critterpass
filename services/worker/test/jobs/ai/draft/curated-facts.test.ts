@@ -8,6 +8,8 @@ import { withTypedFacts, type DraftPoi, type ProfileFacts } from '@cp/planner';
 import { describe, expect, it } from 'vitest';
 
 import {
+  curatedMustSee,
+  curatedPlaceFacts,
   essentialRankOf,
   tagsWithCurated,
   typedFactsWithCurated,
@@ -99,5 +101,39 @@ describe('a curated place’s typed facts', () => {
       dish: 'phở',
     });
     expect(typedFactsWithCurated(null, curated({}))).toBeNull();
+  });
+});
+
+describe('what a curated line tells the planner beyond typed facts', () => {
+  it('counts essentials, icons and places on three or more pages among the must-sees', () => {
+    expect(curatedMustSee(curated({ essential_rank: 5 }))).toBe(true);
+    expect(curatedMustSee(curated({ prominence: 'icon' }))).toBe(true);
+    expect(curatedMustSee(curated({ blog_count: 3 }))).toBe(true);
+    expect(curatedMustSee(curated({ prominence: 'popular', blog_count: 2 }))).toBe(false);
+    expect(curatedMustSee(null)).toBe(false);
+  });
+
+  it('carries the area, standing, pages, rain fit and the matched pairs only', () => {
+    expect(
+      curatedPlaceFacts(
+        curated({
+          area: 'Center and Xuan Huong Lake',
+          prominence: 'local_favourite',
+          blog_count: 0,
+          indoor: true,
+          pairs_with: [
+            { name: 'Dalat Market', poi_id: '0199b000-0000-7000-8000-000000000001' },
+            { name: 'Unmatched' },
+          ],
+        }),
+      ),
+    ).toEqual({
+      area: 'Center and Xuan Huong Lake',
+      prominence: 'local_favourite',
+      blogCount: 0,
+      indoor: true,
+      pairsWith: ['0199b000-0000-7000-8000-000000000001'],
+    });
+    expect(curatedPlaceFacts(curated({}))).toEqual({});
   });
 });

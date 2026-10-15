@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-15.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "dac82746-f8c6-4b00-8c97-977c73d4a012",
+        "id": "2087b464-e435-4b9a-9f69-a15bcae2c273",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Slow Đà Lạt Day\",\n  \"summary\": \"A gentle day around the market, the square and a long lunch, with the pagoda kept for its morning calm.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The market is the city's heartbeat, so we start here and let the morning unfold slowly.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p8\",\n      \"note\": \"Kept for its quiet morning light and the slow climb up to the mosaic dragon.\",\n      \"must_do_id\": \"p8\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"p157\",\n      \"note\": \"Lunch stays as planned: nem nướng is a sit-down treat worth lingering over.\",\n      \"must_do_id\": \"p157\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The square is an easy wander after lunch, no rush, just local life and a photo or two.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is a proper sit-down at Góc Hà Thành, because a slow day deserves a long table.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Slow Sips and Sơn Trà Skies\",\n  \"summary\": \"A gentle day around the same leafy corner of town, with one temple, one square, and plenty of time to sit, eat, and watch the light change.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p8\",\n      \"note\": \"Morning light on the mosaics is the whole point, so we go early and take our time. No rush, just tiles and quiet.\",\n      \"must_do_id\": \"p8\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays because a slower day still needs a proper sit-down. The nem nướng here is worth lingering over.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p14\",\n      \"note\": \"We keep the square for sunset, not as a checklist stop. One slow loop, watch the sky do its thing.\",\n      \"must_do_id\": \"p14\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is a long, easy sit-down because you asked for slow. Order like you mean it.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1,
+          "input_tokens": 1297,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2688,
-          "output_tokens": 384,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 350,
           "service_tier": "standard"
         }
       }
