@@ -15,7 +15,7 @@
  * the clear-glass buttons read on a light sky.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- colour and gradient syntax, never copy */
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   StyleSheet,
   type LayoutChangeEvent,
@@ -152,27 +152,33 @@ export function edgesOf(
   viewport: number,
   content: number,
   topAfter: number,
+  bottomBefore = 0,
 ): { readonly top: boolean; readonly bottom: boolean } {
   return {
     top: offset > topAfter + SLACK,
-    bottom: viewport > 0 && offset + viewport < content - SLACK,
+    bottom: viewport > 0 && offset + viewport - bottomBefore < content - SLACK,
   };
 }
 
 /**
  * Tracks a scroll view's edges. `topAfter` is the offset after which the top counts as covered (a
- * hero's height, so a photo under the header never gets the ground's fade).
+ * hero's height, so a photo under the header never gets the ground's fade). `bottomBefore` is how
+ * far above the bottom edge something floats over the page (a glass bar the content runs under),
+ * so content that fits the viewport but ends under it still counts as covered.
  */
-export function useScrollEdges({ topAfter = 0 }: { readonly topAfter?: number } = {}): ScrollEdges {
+export function useScrollEdges({
+  topAfter = 0,
+  bottomBefore = 0,
+}: { readonly topAfter?: number; readonly bottomBefore?: number } = {}): ScrollEdges {
   const metrics = useRef({ offset: 0, viewport: 0, content: 0 });
   const [state, setState] = useState({ top: false, bottom: false });
   const update = useCallback(() => {
     const { offset, viewport, content } = metrics.current;
-    const next = edgesOf(offset, viewport, content, topAfter);
+    const next = edgesOf(offset, viewport, content, topAfter, bottomBefore);
     setState((current) =>
       current.top === next.top && current.bottom === next.bottom ? current : next,
     );
-  }, [topAfter]);
+  }, [topAfter, bottomBefore]);
   const scrollProps = useMemo(
     () => ({
       onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -201,6 +207,13 @@ export function useScrollEdges({ topAfter = 0 }: { readonly topAfter?: number } 
   );
   return { top: state.top, bottom: state.bottom, scrollProps };
 }
+
+/**
+ * A page that draws its own scroll view inside a shell screen (`PushScreen scroll={false}` with a
+ * `KeyboardAwareScroll`) reports its edges here, so the screen still grounds its bar when the
+ * content scrolls under it (a focused field scrolled up by the keyboard).
+ */
+export const PageScrollEdgesContext = createContext<ScrollEdges['scrollProps'] | null>(null);
 
 const styles = StyleSheet.create({
   band: { position: 'absolute', left: 0, right: 0, zIndex: 1 },
