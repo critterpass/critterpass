@@ -7,9 +7,9 @@ appId: app.critterpass.dev
     id: 'dev-seed-live-map-open'
 - runFlow:
     when:
-      visible: '(?i)while using the app|only this time|allow'
+      visible: '(?i)while using.the.app|only.this.time|allow'
     commands:
-      - tapOn: '(?i)while using the app|only this time|allow'
+      - tapOn: '(?i)while using.the.app|only.this.time|allow'
 - extendedWaitUntil:
     visible:
       id: 'live-map-screen'

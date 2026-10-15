@@ -122,6 +122,8 @@ appId: app.critterpass.dev
       CODE: '7.27'
       NAME: payout-methods
       LOOK: light
+      # Settled on the route is not loaded: the methods arrive a moment after the page shows.
+      READY: 'money-payout-kind-.*'
 - runFlow:
     file: subflows/capture.yaml
     env:

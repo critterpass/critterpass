@@ -101,7 +101,7 @@ appId: app.critterpass.dev
           timeout: 15000
       - scrollUntilVisible:
           element:
-            text: '(?i)expense: banh mi'
+            text: '(?i)expense: banh.mi'
           timeout: 10000
       - waitForAnimationToEnd:
           timeout: 5000

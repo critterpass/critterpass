@@ -52,4 +52,29 @@ describe('tab bar under the router', () => {
     await act(() => router.back());
     expect(screen.getByTestId('bar').props.children).toBe('shown');
   });
+
+  it('hides for a page a link opens in a tab after a page over the tabs', async () => {
+    await renderRouter(
+      {
+        _layout: stack,
+        inbox: () => <Text>inbox</Text>,
+        '(tabs)/_layout': TabsWithBar,
+        '(tabs)/index': () => <Text>home</Text>,
+        '(tabs)/wallet/_layout': stack,
+        '(tabs)/wallet/bookings/_layout': stack,
+        '(tabs)/wallet/bookings/index': () => <Text>bookings</Text>,
+        '(tabs)/wallet/bookings/archive': () => <Text>archive</Text>,
+      },
+      { initialUrl: '/' },
+    );
+    await act(() => {
+      jest.runOnlyPendingTimers();
+    });
+    // The link to the tab from the inbox puts the tabs on the root stack a second time.
+    await act(() => router.navigate('/inbox'));
+    await act(() => router.navigate('/wallet/bookings'));
+    expect(screen.getByTestId('bar').props.children).toBe('shown');
+    await act(() => router.navigate('/wallet/bookings/archive'));
+    expect(screen.getByTestId('bar').props.children).toBe('hidden');
+  });
 });

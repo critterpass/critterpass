@@ -60,7 +60,7 @@ appId: app.critterpass.dev
     visible:
       id: 'you-pings-budget'
     timeout: 15000
-- assertVisible: 'ABOUT 10 A DAY'
+- assertVisible: 'ABOUT 10.A.DAY'
 - assertVisible: 'Every message'
 - waitForAnimationToEnd:
     timeout: 6000

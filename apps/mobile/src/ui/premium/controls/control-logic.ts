@@ -29,6 +29,12 @@ export function segmentFrames(
 /** How far a segmented control's labels may shrink, all together, to stay on one line each. */
 export const SEGMENT_FIT_FLOOR = 0.8;
 
+/**
+ * How far they shrink to keep equal shares. Past this the segments take shares by their labels
+ * instead: shrunk to the floor in equal shares, Vietnamese labels read two sizes under English.
+ */
+export const SEGMENT_EVEN_FLOOR = 0.9;
+
 export interface SegmentFit {
   /** Each segment's share of the track. */
   readonly weights: readonly number[];
@@ -38,7 +44,7 @@ export interface SegmentFit {
 
 /**
  * How a full-width segmented control fits its labels on one line each, at one size: first in the
- * shares it was given, shrinking every label alike down to `SEGMENT_FIT_FLOOR`; when that is not
+ * shares it was given, shrinking every label alike down to `SEGMENT_EVEN_FLOOR`; when that is not
  * enough (a long Vietnamese label beside short ones), the segments take shares by their labels'
  * widths instead, and every label shrinks alike to fit those. `natural` holds each label's
  * one-line width at full size, `pad` the room a segment keeps either side of its label.
@@ -59,7 +65,7 @@ export function fitSegments(input: {
     1,
     ...frames.map((frame, at) => Math.max(0, frame.width - pad * 2) / (labels[at] ?? 1)),
   );
-  if (given >= SEGMENT_FIT_FLOOR) return { weights, scale: given };
+  if (given >= SEGMENT_EVEN_FLOOR) return { weights, scale: given };
   const inner = Math.max(0, width - trackPad * 2 - pad * 2 * labels.length);
   const total = labels.reduce((sum, n) => sum + n, 0);
   const scale = Math.max(SEGMENT_FIT_FLOOR, Math.min(1, inner / total));

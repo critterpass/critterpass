@@ -88,13 +88,13 @@ appId: app.critterpass.dev
             CODE: '7.15'
             NAME: options
             LOOK: ${LOOK}
-      # Closed without choosing: Close on the iPhone's action sheet, back on Android's list.
+      # Closed without choosing: Close on the iPhone's sheet, back on Android's.
       - runFlow:
           when:
             platform: iOS
           commands:
             - tapOn:
-                text: 'Close|Cancel|Đóng|Huỷ'
+                id: 'premium-options-close'
                 optional: true
       - runFlow:
           when:

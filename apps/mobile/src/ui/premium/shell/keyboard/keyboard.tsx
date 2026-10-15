@@ -29,6 +29,7 @@ import {
   type SharedValue,
 } from 'react-native-reanimated';
 
+import { PageScrollEdgesContext, type ScrollEdges } from '../screens/scroll-edge';
 import { FooterSpaceContext } from './keyboard-footer';
 import { keyboardController } from './keyboard-library';
 
@@ -63,11 +64,13 @@ export function KeyboardAwareScroll({
 }: KeyboardAwareScrollProps) {
   const library = keyboardController();
   const footer = useContext(FooterSpaceContext)?.height ?? 0;
+  const page = useContext(PageScrollEdgesContext);
   const shared: ScrollViewProps = {
     keyboardDismissMode: Platform.OS === 'ios' ? 'interactive' : 'on-drag',
     keyboardShouldPersistTaps: 'handled',
     contentInsetAdjustmentBehavior: 'automatic',
     ...props,
+    ...(page === null ? {} : withPageEdges(page, props)),
   };
   if (library === null) {
     return (
@@ -82,6 +85,25 @@ export function KeyboardAwareScroll({
       {children}
     </KeyboardAwareScrollView>
   );
+}
+
+/** The form's own scroll handlers, and the screen's that grounds its bar over the form. */
+function withPageEdges(page: ScrollEdges['scrollProps'], props: ScrollViewProps): ScrollViewProps {
+  return {
+    scrollEventThrottle: props.scrollEventThrottle ?? page.scrollEventThrottle,
+    onScroll: (event) => {
+      props.onScroll?.(event);
+      page.onScroll(event);
+    },
+    onLayout: (event) => {
+      props.onLayout?.(event);
+      page.onLayout(event);
+    },
+    onContentSizeChange: (width, height) => {
+      props.onContentSizeChange?.(width, height);
+      page.onContentSizeChange(width, height);
+    },
+  };
 }
 
 /**

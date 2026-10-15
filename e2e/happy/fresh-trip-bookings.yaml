@@ -41,8 +41,8 @@ appId: app.critterpass.dev
 - takeScreenshot: premium-7-bookings-paste-sheet
 - runFlow: subflows/paste-booking.yaml
 - assertVisible: '.*9G ?956.*'
-- assertVisible: '(?i)ready to add.*'
-- assertNotVisible: '(?i)found in your crew.*'
+- assertVisible: '(?i)ready.to.add.*'
+- assertNotVisible: '(?i)found in.your.crew.*'
 - waitForAnimationToEnd
 - takeScreenshot: premium-7-bookings-flight-candidate
 - tapOn:
@@ -144,7 +144,7 @@ appId: app.critterpass.dev
     timeout: 30000
 # A booking typed in by hand is in the wallet at once, before the server has answered.
 - extendedWaitUntil:
-    visible: '(?i).*ba na cable car.*'
+    visible: '(?i).*ba na.cable.car.*'
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: premium-7-bookings-wallet
@@ -263,9 +263,9 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'wallet-switch-bookings'
 - extendedWaitUntil:
-    visible: '(?i).*ba na cable car.*'
+    visible: '(?i).*ba na.cable.car.*'
     timeout: 30000
-- tapOn: '(?i).*ba na cable car.*'
+- tapOn: '(?i).*ba na.cable.car.*'
 - waitForAnimationToEnd
 - tapOn:
     id: 'bookings-open-details'
@@ -273,7 +273,7 @@ appId: app.critterpass.dev
     visible:
       id: 'bookings-detail'
     timeout: 15000
-- assertVisible: '(?i).*ba na cable car.*'
+- assertVisible: '(?i).*ba na.cable.car.*'
 - scrollUntilVisible:
     element:
       id: 'bookings-delete'
@@ -286,7 +286,7 @@ appId: app.critterpass.dev
     id: 'bookings-delete'
 # A system alert asks first.
 - extendedWaitUntil:
-    visible: 'Delete this booking\?'
+    visible: 'Delete.this.booking\?'
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: premium-7.15-delete-confirm-light
@@ -295,7 +295,7 @@ appId: app.critterpass.dev
     visible:
       id: 'bookings-wallet-.*'
     timeout: 20000
-- assertNotVisible: '(?i).*ba na cable car.*'
+- assertNotVisible: '(?i).*ba na.cable.car.*'
 - waitForAnimationToEnd
 - takeScreenshot: premium-7-bookings-after-delete
 - runFlow: subflows/open-trip-hub.yaml
@@ -323,7 +323,7 @@ appId: app.critterpass.dev
     visible:
       id: 'bookings-wallet-.*'
     timeout: 20000
-- assertNotVisible: '(?i).*ba na cable car.*'
-- assertNotVisible: '(?i).*(didn.t go through|not in the wallet).*'
+- assertNotVisible: '(?i).*ba na.cable.car.*'
+- assertNotVisible: '(?i).*(didn.t.go.through|not in.the.wallet).*'
 - waitForAnimationToEnd
 - takeScreenshot: premium-7-bookings-after-delete-settled

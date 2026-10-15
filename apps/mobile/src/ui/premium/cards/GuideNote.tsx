@@ -4,6 +4,7 @@ import { View, type LayoutChangeEvent } from 'react-native';
 import { PressableScale } from '../motion/PressableScale';
 import { CritterSticker } from '../stickers/CritterSticker';
 import { Text } from '../text/Text';
+import { tieLastWords } from '../text/widow-tie';
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 import type { PremiumTheme } from '../theme/theme';
 
@@ -130,7 +131,8 @@ export const GuideNote = memo(function GuideNote({
                 {'\u00a0 '}
               </Text>
             ) : null}
-            {text}
+            {/* The name and the note are one paragraph, which the kit's Text cannot tie itself. */}
+            {tieLastWords(text)}
           </Text>
         </View>
         {stacked ? pill : null}

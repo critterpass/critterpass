@@ -99,7 +99,7 @@ appId: app.critterpass.dev
       PICK_DAYS: 3
 - assertVisible:
     id: 'picker-length'
-    text: '3 days .*'
+    text: '3.days..*'
 - assertVisible:
     id: 'picker-lock'
     text: ${output.lockLabel}

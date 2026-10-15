@@ -17,7 +17,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - takeScreenshot: day-hub
 # Day 1, or day 2 when the run crosses midnight in Vietnam.
-- assertVisible: '(?i).*day [12] of 3.*'
+- assertVisible: '(?i).*day [12].of.3.*'
 - assertVisible:
     id: 'trip-briefing-.*'
 # The day's entries sit under the briefing and the tiles.
@@ -64,7 +64,7 @@ appId: app.critterpass.dev
       visible:
         id: 'trip-day-to-today'
     commands:
-      - assertVisible: '(?i)tomorrow · .*'
+      - assertVisible: '(?i)tomorrow.·..*'
       - runFlow: subflows/dismiss-visit-offer.yaml
       - tapOn:
           id: 'trip-day-to-today'

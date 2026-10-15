@@ -109,7 +109,7 @@ appId: app.critterpass.dev
       id: 'trip-hub-planning'
     direction: DOWN
     timeout: 15000
-- assertVisible: '.*Đang bình chọn.*'
+- assertVisible: '.*Đang.bình.chọn.*'
 - assertNotVisible: '.*ACTIVITY\..*'
 - waitForAnimationToEnd
 - takeScreenshot: premium-6.01-fresh-voting-vi

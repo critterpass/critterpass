@@ -206,12 +206,23 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
   const tabRoot = useScreenPlacement();
   const barShown = useContext(TabBarShownContext);
   const fade = Platform.OS === 'android' && (barShown ?? (tabRoot?.kind === 'root' && tabRoot.tab));
+  const groundBar = Platform.OS === 'ios';
   return (
     <View testID={testID} style={styles.root} collapsable={false}>
       {children({ scrollProps, largeTitle })}
       {fade ? <TabBarFade continues={edges.bottom} /> : null}
-      {/* The content fades out under the collapsed bar instead of meeting its edge in a line. */}
-      {collapsed ? (
+      {/* The content fades out under the collapsed bar instead of meeting its edge in a line. On
+          iOS the bar is the page's own ground fading out, as the system's scroll edge: the glass
+          slab ended in a hard line, lighter than the page in dark and a pastel band in light. */}
+      {collapsed && groundBar ? (
+        <ScrollEdgeFade
+          edge="top"
+          height={barHeight + SCROLL_EDGE_FADE}
+          solid={barHeight}
+          testID="root-bar"
+        />
+      ) : null}
+      {collapsed && !groundBar ? (
         <ScrollEdgeFade
           edge="top"
           offset={barHeight}
@@ -222,7 +233,7 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
       <View pointerEvents="box-none" style={[styles.bar, { height: barHeight }]}>
         {/* Glass never fades (the system stops drawing it below full opacity): it comes and goes
             whole, and only the title fades. */}
-        {collapsed ? (
+        {collapsed && !groundBar ? (
           <GlassSurface kind="regular" style={StyleSheet.absoluteFill} testID="root-bar" />
         ) : null}
 
@@ -256,7 +267,8 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   // A floor, not a height: the title grows with larger text instead of clipping.
   largeTitle: { minHeight: TITLE_ROW - 6 },
-  bar: { position: 'absolute', top: 0, left: 0, right: 0 },
+  // Over the scroll edge's band (zIndex 1), so the collapsed title isn't drawn under the ground.
+  bar: { position: 'absolute', top: 0, left: 0, right: 0, zIndex: 2 },
   barTitle: {
     position: 'absolute',
     left: 0,

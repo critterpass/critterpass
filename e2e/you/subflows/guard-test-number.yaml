@@ -16,7 +16,7 @@ appId: app.critterpass.dev
           optional: true
       - runFlow:
           when:
-            notVisible: '(?i).*cp test sign-out.*'
+            notVisible: '(?i).*cp.test.sign-out.*'
           commands:
             - assertTrue:
                 condition: ${false}

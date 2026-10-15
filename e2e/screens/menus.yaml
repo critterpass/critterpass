@@ -152,7 +152,7 @@ appId: app.critterpass.dev
 - runFlow: subflows/plan-home.yaml
 - runFlow: subflows/chat-open-crew.yaml
 - longPressOn:
-    text: '.*Uluwatu at sunset.*'
+    text: '.*Uluwatu.at.sunset.*'
 - extendedWaitUntil:
     visible:
       id: 'chat-action-copy'
@@ -186,6 +186,6 @@ appId: app.critterpass.dev
       - extendedWaitUntil:
           visible:
             id: 'chat-input'
-            text: '.*Uluwatu at sunset.*'
+            text: '.*Uluwatu.at.sunset.*'
           timeout: 8000
       - eraseText: 60

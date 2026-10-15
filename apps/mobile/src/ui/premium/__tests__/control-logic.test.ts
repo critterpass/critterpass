@@ -88,6 +88,13 @@ describe('fitSegments', () => {
     expect(fit.weights).toEqual([52, 172, 62]);
   });
 
+  it('sizes the segments to their labels before shrinking them past a step', () => {
+    // "Nói nhiều" beside "Ít nói": equal shares would need 0.85; label shares keep full size.
+    const fit = fitSegments({ ...base, weights: [1, 1, 1], natural: [60, 129, 70] });
+    expect(fit.scale).toBe(1);
+    expect(fit.weights).toEqual([72, 141, 82]);
+  });
+
   it('never shrinks below the floor', () => {
     const fit = fitSegments({ ...base, weights: [1, 1], natural: [300, 300] });
     expect(fit.scale).toBe(SEGMENT_FIT_FLOOR);

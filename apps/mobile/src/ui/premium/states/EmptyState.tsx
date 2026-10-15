@@ -10,7 +10,10 @@ export interface EmptyStateProps {
   readonly line: string;
   /** The critter in the disc. @default the sleeping gecko */
   readonly critter?: { readonly kind: string; readonly name: string };
-  /** The tilted check sticker on the disc's shoulder ("all done"). @default true */
+  /**
+   * The tilted check sticker on the disc's shoulder, for a state that means "all done" (all caught
+   * up, all square, all rated). Nothing yet, gone or failed states leave it off. @default false
+   */
   readonly check?: boolean;
   /** A way forward under the line (a button), so the screen never dead-ends. */
   readonly action?: ReactNode;
@@ -37,16 +40,17 @@ const INLINE_SCALE = 0.6;
 const OPTICAL_SHIFT: Readonly<Record<string, number>> = { gecko: 0.045 };
 
 /**
- * The empty state: a 180 white disc holding a 140 sleeping critter with a tilted check sticker, a
- * 26/700 headline, a 14/1.45 muted line and the way forward. Past items ("Earlier") follow it on
- * the screen. Screens with nothing else to show `fill` the space; a section among others is
- * `inline`. Every empty or error state is built from it rather than a bare grey line.
+ * The empty state: a 180 white disc holding a 140 sleeping critter (a tilted check sticker when
+ * it is all done), a 26/700 headline, a 14/1.45 muted line and the way forward. Past items
+ * ("Earlier") follow it on the screen. Screens with nothing else to show `fill` the space; a
+ * section among others is `inline`. Every empty or error state is built from it rather than a
+ * bare grey line.
  */
 export function EmptyState({
   title,
   line,
   critter,
-  check = true,
+  check = false,
   action,
   size = 'page',
   fill = false,
@@ -91,7 +95,9 @@ export function EmptyState({
             name={critter?.name ?? title}
             size={critterSize}
             pose="sleep"
-            edge={false}
+            // On the dark disc the art's black outline and sleep mark sank into it: the die-cut
+            // edge keeps them apart, as the check's own edge does.
+            edge={t.scheme === 'dark'}
           />
         </View>
         {check ? (

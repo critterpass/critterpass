@@ -36,7 +36,7 @@ appId: app.critterpass.dev
       # A form the flow typed into asks before it closes: its changes are thrown away.
       - runFlow:
           when:
-            visible: 'Discard your changes\?'
+            visible: 'Discard.your.changes\?'
           commands:
             - tapOn: 'DISCARD|Discard'
             - runFlow: ../../_shared/settle.yaml

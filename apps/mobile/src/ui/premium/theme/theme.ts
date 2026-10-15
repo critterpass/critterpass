@@ -45,11 +45,25 @@ function mapValues<K extends string, V, R>(
   return out;
 }
 
+/**
+ * App-side corrections to the dark palette: the skeleton greys sat a shade off the dark card, so a
+ * waiting card read as an empty slab. Each takes the next step up among the palette's own greys,
+ * which keeps the light look's step between a card and the shapes waiting on it.
+ */
+function darkSkeleton(color: PremiumPalette): Partial<PremiumPalette> {
+  return {
+    skeletonFrom: color.progressTodo,
+    skeletonTo: color.stepLine,
+    skeletonBar: color.progressTodo,
+    skeletonBarSoft: color.skeletonFrom,
+  };
+}
+
 function build(scheme: PremiumScheme): PremiumTheme {
   const mode = premium.modes[scheme];
   return Object.freeze({
     scheme,
-    color: mode.color,
+    color: scheme === 'dark' ? { ...mode.color, ...darkSkeleton(mode.color) } : mode.color,
     accent: premium.accent,
     stamp: premium.stamp,
     signal: premium.signal,
@@ -62,9 +76,28 @@ function build(scheme: PremiumScheme): PremiumTheme {
     spring: premium.spring,
     motion: premium.motion,
     shadow: { ...mapValues(mode.elevation, boxShadow), ...kitShadows(scheme) },
-    material: mode.material,
+    material: kitMaterials(mode.material),
     materialShadow: mapValues(mode.material, (m) => boxShadow(m.shadow)),
   });
+}
+
+/**
+ * Clear glass, app-side: the token's dark tint and 72% fallback fill read as solid dark discs on
+ * Android (no blur behind them) and vanished into a dark map or camera on iOS (only the rim was
+ * left). A neutral mid-grey reads as glass on both a bright sky and a dark backdrop, as the
+ * renders draw it (6.04 over a sky, 5.16 over a camera), and keeps white glyphs legible.
+ */
+const CLEAR_GLASS = withAlpha(premium.modes.light.color.muted, 0.45);
+
+/** A `#rrggbb` token colour at an opacity. */
+function withAlpha(hex: string, alpha: number): string {
+  const n = Number.parseInt(hex.slice(1), 16);
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- colour syntax, never copy.
+  return `rgba(${String(n >> 16)},${String((n >> 8) & 255)},${String(n & 255)},${String(alpha)})`;
+}
+
+function kitMaterials(materials: PremiumMaterials): PremiumMaterials {
+  return { ...materials, clear: { ...materials.clear, tint: CLEAR_GLASS, fill: CLEAR_GLASS } };
 }
 
 export const PREMIUM_THEMES: Readonly<Record<PremiumScheme, PremiumTheme>> = {

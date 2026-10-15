@@ -18,6 +18,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { qaToastHold } from '@/lib/qa/capture-hold';
+
 import { usePremiumReducedMotion } from '../motion/reduced-motion';
 import { layoutTransition, reducedFadeIn, reducedFadeOut } from '../motion/springs';
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
@@ -161,7 +163,7 @@ export function ToastHost({ children, bottomOffset }: ToastHostProps) {
       setQueue((q) => pushToast(q, { id, spec }));
       timers.current.set(
         id,
-        setTimeout(() => dismiss(id), toastHold(spec, theme.motion.toastHoldMs)),
+        setTimeout(() => dismiss(id), qaToastHold(toastHold(spec, theme.motion.toastHoldMs))),
       );
       AccessibilityInfo.announceForAccessibility(toastText(spec));
       return id;

@@ -14,6 +14,8 @@ import { scheduleOnRN } from 'react-native-worklets';
 
 import { tokens } from '@cp/design-tokens';
 
+import { qaZoomMs } from '@/lib/qa/capture-hold';
+
 import type { ActiveZoom, Rect } from './use-shared-source';
 import {
   HOP_PRE_BEAT_MS,
@@ -64,7 +66,12 @@ function ZoomClone({ zoom, fallback }: { readonly zoom: ActiveZoom; readonly fal
     }
     progress.value = withDelay(
       plan.delayMs,
-      withTiming(1, { duration: inward ? plan.durationMs : UNZOOM_MS, easing: standard }, done),
+      withTiming(
+        1,
+        // A capture can slow the next zoom in enough to shoot it mid-way (development builds only).
+        { duration: inward ? qaZoomMs(plan.durationMs) : UNZOOM_MS, easing: standard },
+        done,
+      ),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps -- one animation per zoom (keyed by `key`)
   }, []);

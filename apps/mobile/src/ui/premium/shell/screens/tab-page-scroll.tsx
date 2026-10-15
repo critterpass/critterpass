@@ -22,8 +22,11 @@ import { usePremiumTheme } from '../..';
 import { drawnBarTop } from '../navigation/drawn-tab-bar';
 import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from './scroll-edge';
 
-/** How far above the bar a card running on under it fades out (a shorter fade read as a cut). */
-const RUN_ON_FADE = 56;
+/**
+ * How far above the bar a card running on under it fades out: long enough not to read as a cut,
+ * short enough that a solid button resting just above the bar keeps its full colour.
+ */
+const RUN_ON_FADE = 32;
 
 /**
  * Android's drawn bar: the page under it fades into the ground, solid up to the bar's top. While
@@ -59,7 +62,11 @@ export function TabPageScroll({
   ...props
 }: ScrollViewProps) {
   const t = usePremiumTheme();
-  const edges = useScrollEdges();
+  const height = t.space.tabBarClearance;
+  const solid = height - SCROLL_EDGE_FADE * 2;
+  // The system bar floats over the page's foot: a page that fits the screen but whose last card
+  // ends under the bar fades there too, at rest.
+  const edges = useScrollEdges({ bottomBefore: solid });
   const own = edges.scrollProps;
   // The root screen tracks the same edges (Android's fade under the drawn bar): both hear them.
   const handlers = useMemo(
@@ -80,7 +87,6 @@ export function TabPageScroll({
     }),
     [own, onScroll, onLayout, onContentSizeChange],
   );
-  const height = t.space.tabBarClearance;
   return (
     <>
       <ScrollView {...props} {...handlers} />
@@ -88,7 +94,7 @@ export function TabPageScroll({
         <ScrollEdgeFade
           edge="bottom"
           height={height}
-          solid={height - SCROLL_EDGE_FADE * 2}
+          solid={solid}
           visible={edges.bottom}
           testID="tab-bar-fade"
         />

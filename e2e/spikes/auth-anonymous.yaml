@@ -25,21 +25,21 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'dev-nav-spikes-auth'
 - extendedWaitUntil:
-    visible: 'S-AUTH on device spike'
+    visible: 'S-AUTH on.device.spike'
     timeout: 20000
-- tapOn: 'Sign in anonymously'
+- tapOn: 'Sign.in.anonymously'
 - extendedWaitUntil:
-    visible: 'anonymous sign-in ok'
+    visible: 'anonymous.sign-in.ok'
     timeout: 15000
 - takeScreenshot: auth-anonymous-signed-in
 - tapOn: 'Send code'
 - extendedWaitUntil:
-    visible: 'OTP captured from server'
+    visible: 'OTP captured.from.server'
     timeout: 15000
 - takeScreenshot: auth-otp-captured
 - tapOn: 'Verify code'
 - extendedWaitUntil:
-    visible: 'phone verify ok'
+    visible: 'phone.verify.ok'
     timeout: 15000
 - assertVisible: 'isAnonymous: false'
 - assertVisible: 'unchanged'

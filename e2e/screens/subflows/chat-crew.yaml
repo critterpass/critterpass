@@ -1,8 +1,8 @@
 appId: app.critterpass.dev
 ---
 # The Bali crew's chat in ${LOOK}, from Home and back to Home: the chat (5.01; in dark also the
-# Foundations dark chat, 1.10), the long-press menu (5.04), the keyboard up with a draft that is
-# then sent, the sticker tray (5.08) and, in light, a sticker sent (5.09; only when the tray holds
+# Foundations dark chat, 1.10), the long-press menu (5.04), the keyboard up over an empty
+# composer, the sticker tray (5.08) and, in light, a sticker sent (5.09; only when the tray holds
 # one: a seed whose critters were never met has none), the microphone-off sheet
 # (5.05) and, on Android, the offline chat with a queued message (5.03).
 - runFlow: chat-open-crew.yaml
@@ -29,7 +29,7 @@ appId: app.critterpass.dev
                   LOOK: ${LOOK}
       # Long-press a crewmate's message: the lifted bubble, the reaction bar and the menu.
       - longPressOn:
-          text: '.*Uluwatu at sunset.*'
+          text: '.*Uluwatu.at.sunset.*'
           optional: true
       - extendedWaitUntil:
           visible:
@@ -60,7 +60,8 @@ appId: app.critterpass.dev
                   - tapOn:
                       point: '50%,8%'
             - runFlow: ../../_shared/settle.yaml
-      # The keyboard up with a draft, then the draft sent to the crew.
+      # The keyboard up over an empty composer: nothing is typed or sent, so no draft or new
+      # message is left in this shot or the sticker tray's.
       - runFlow:
           when:
             visible:
@@ -68,27 +69,13 @@ appId: app.critterpass.dev
           commands:
             - tapOn:
                 id: 'chat-input'
-            - inputText: 'Sunset works for me'
-            # On iOS the first tap after the menu closes can land on its fading backdrop: the
-            # field is tapped again when the draft didn't arrive.
-            - runFlow:
-                when:
-                  notVisible:
-                    text: '.*Sunset works for me.*'
-                commands:
-                  - runFlow: ../../_shared/settle.yaml
-                  - tapOn:
-                      id: 'chat-input'
-                  - inputText: 'Sunset works for me'
+            - runFlow: ../../_shared/settle.yaml
             - runFlow:
                 file: shot.yaml
                 env:
                   CODE: '5.01'
                   NAME: keyboard
                   LOOK: ${LOOK}
-            - tapOn:
-                id: 'chat-send'
-                optional: true
       # The sticker tray swaps in for the keyboard.
       - tapOn:
           id: 'chat-sticker-button'

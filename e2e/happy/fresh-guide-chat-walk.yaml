@@ -50,7 +50,7 @@ appId: app.critterpass.dev
 - inputText: 'Da Nang co mon gi ngon?'
 - waitForAnimationToEnd
 - takeScreenshot: premium-5.14-walk-guide-draft-keyboard-vi
-- assertVisible: 'Da Nang co mon gi ngon\?'
+- assertVisible: 'Da Nang co mon.gi.ngon\?'
 # The composer's send carries no id: it is the button labelled Hỏi (Ask).
 - tapOn: 'Hỏi'
 - extendedWaitUntil:
@@ -104,7 +104,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'guide-composer'
 - inputText: 'How do I thank a driver in Bali?'
-- assertVisible: 'How do I thank a driver in Bali\?'
+- assertVisible: 'How do I thank a driver.in.Bali\?'
 - tapOn: 'Ask'
 - extendedWaitUntil:
     visible:

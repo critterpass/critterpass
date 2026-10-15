@@ -19,6 +19,13 @@ describe('scroll edges', () => {
     expect(edgesOf(0, 0, 1200, 0).bottom).toBe(false);
   });
 
+  it('covers the bottom when content that fits ends under a bar floating over the foot', () => {
+    expect(edgesOf(0, 600, 560, 0, 62).bottom).toBe(true);
+    expect(edgesOf(0, 600, 500, 0, 62).bottom).toBe(false);
+    // Scrolled to the end past the bar's own inset: the last card rests above the bar.
+    expect(edgesOf(483, 600, 1000, 0, 62).bottom).toBe(false);
+  });
+
   it('fades to the same colour at no opacity, never through grey', () => {
     expect(transparentOf('#f5f5f7')).toBe('rgba(245,245,247,0)');
     expect(transparentOf('#fff')).toBe('rgba(255,255,255,0)');

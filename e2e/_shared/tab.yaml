@@ -4,6 +4,19 @@ appId: app.critterpass.dev
 # in the hierarchy it is tapped by its title, in English or Vietnamese (${LABEL} is kept for
 # callers; the titles come from the app's catalogs).
 - evalScript: "${output.tabTitle = ({ home: 'Home|Trang chủ', trips: 'Trips|Chuyến đi', wallet: 'Wallet|Ví', pass: 'Pass' })[TAB] || LABEL}"
+# The iPhone's bar minimises to the active tab's lens while content scrolls down, and stays so on
+# the next tab: the lens (bottom left) is tapped to bring the tabs back first, only while Tokek's
+# circle shows beside it (a pushed page has neither).
+- runFlow:
+    when:
+      platform: iOS
+      notVisible: '${output.tabTitle}'
+      visible:
+        id: 'guide-circle'
+    commands:
+      - tapOn:
+          point: '12%,94%'
+      - runFlow: settle.yaml
 - runFlow:
     file: tap.yaml
     env:

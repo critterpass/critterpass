@@ -85,6 +85,9 @@ export const SearchField = forwardRef<ComponentRef<typeof TextInput>, SearchFiel
         <Icon name="search" size={17} stroke={2.4} color={th.color.muted} />
         <TextInput
           ref={setRefs}
+          // A search is no form to fill: iOS otherwise floats its AutoFill bubble over the field.
+          autoComplete="off"
+          textContentType="none"
           {...input}
           {...(value === undefined ? {} : { value })}
           onChangeText={change}

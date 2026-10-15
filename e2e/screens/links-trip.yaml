@@ -3,7 +3,8 @@ appId: app.critterpass.dev
 # The fast capture of a trip under way, by link: a Vietnamese crew's Đà Nẵng trip that is on today
 # (`trip_today`). Its id is read once from the hub (subflows/trip-id.yaml), then each of the trip's
 # pages opens by its link and is shot once the app's QA marker reads settled on it, seconds apiece
-# (subflows/capture.yaml): the hub, the forecast, what works offline, crew quests, the trip journal,
+# (subflows/capture.yaml): the hub, the forecast, what works offline, today's page, the crew map
+# with sharing off, crew quests, the trip journal,
 # the plan and its days, Find, day trips, setup and its steps, the crew balance check, trip settings, the
 # drivers, the recap and the free first trip's end; the legendary calendar, the help page and
 # getting around. Then dark for the hub, the plan, the forecast, quests and the journal, and last
@@ -37,6 +38,23 @@ appId: app.critterpass.dev
       CODE: '6.15'
       NAME: offline-top
       LOOK: light
+# Today's page, and the crew map, which a new account sees with its sharing off (the primer).
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: hub/${output.tripId}/day/today
+      CODE: '6.04'
+      NAME: day-of-link
+      LOOK: light
+      READY: 'trip-day'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: map/${output.tripId}
+      CODE: '6.11'
+      NAME: sharing-off-link
+      LOOK: light
+      READY: 'live-map-(primer|screen)'
 - runFlow:
     file: subflows/capture.yaml
     env:

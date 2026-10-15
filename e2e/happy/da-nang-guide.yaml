@@ -98,14 +98,14 @@ appId: app.critterpass.dev
 # on a finalist closes the vote at once: the winner is revealed without a showdown.
 - scrollUntilVisible:
     element:
-      text: '(?i)đà nẵng, 0 votes'
+      text: '(?i)đà nẵng,.0.votes'
     timeout: 20000
     centerElement: true
 - waitForAnimationToEnd
-- tapOn: '(?i)đà nẵng, 0 votes'
+- tapOn: '(?i)đà nẵng,.0.votes'
 - extendedWaitUntil:
     visible:
-      text: '(?i)đà nẵng, 1 vote, your vote'
+      text: '(?i)đà nẵng, 1 vote,.your.vote'
     timeout: 15000
 - retry:
     maxRetries: 2

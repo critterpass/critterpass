@@ -19,7 +19,7 @@ appId: app.critterpass.dev
     timeout: 15000
 - extendedWaitUntil:
     visible:
-      text: '.*Rin still has to say if they are in.*'
+      text: '.*Rin still has to say if they.are.in.*'
     timeout: 30000
 - tapOn:
     id: 'chat-input'
@@ -28,13 +28,13 @@ appId: app.critterpass.dev
     id: 'chat-send'
 - extendedWaitUntil:
     visible:
-      text: '.*landing at six.*'
+      text: '.*landing.at.six.*'
     timeout: 10000
 - extendedWaitUntil:
     visible:
       text: '.*(Sent|Read by).*'
     timeout: 30000
-- assertNotVisible: 'Waiting for signal'
+- assertNotVisible: 'Waiting.for.signal'
 - takeScreenshot: premium-5.03-chat-sent-light
 # The keyboard closes on the first step back, the chat on the next.
 - runFlow:
@@ -52,6 +52,6 @@ appId: app.critterpass.dev
       LABEL: 'Crew chat'
 - extendedWaitUntil:
     visible:
-      text: '.*Got it, see you there.*'
+      text: '.*Got it, see.you.there.*'
     timeout: 30000
-- assertVisible: '.*landing at six.*'
+- assertVisible: '.*landing.at.six.*'

@@ -55,7 +55,7 @@ appId: app.critterpass.dev
 # A system alert asks first; its button repeats the words of the one under it, so the alert's is
 # matched in the case the platform draws it (Android's dialog buttons are upper case).
 - extendedWaitUntil:
-    visible: '(?i)tell the crew you can.t make it\?'
+    visible: '(?i)tell the crew you can.t.make.it\?'
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: premium-4.51-cant-make-it-light
@@ -63,17 +63,17 @@ appId: app.critterpass.dev
     when:
       platform: Android
     commands:
-      - tapOn: 'I CAN.T MAKE IT'
+      - tapOn: 'I CAN.T.MAKE.IT'
 - runFlow:
     when:
       platform: iOS
     commands:
       - tapOn:
-          text: 'I can.t make it'
+          text: 'I can.t.make.it'
           index: 1
 - extendedWaitUntil:
     visible:
-      text: '(?i)you said you can.t make it.*'
+      text: '(?i)you said you can.t.make.it.*'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-3-after-declining
@@ -91,12 +91,12 @@ appId: app.critterpass.dev
 # The worker builds the re-split after the reply; the row turns into its link when it syncs.
 - extendedWaitUntil:
     visible:
-      text: '(?i).*see what changes.*'
+      text: '(?i).*see.what.changes.*'
     timeout: 180000
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-6-friend-out
 - tapOn:
-    text: '(?i).*see what changes.*'
+    text: '(?i).*see.what.changes.*'
 - extendedWaitUntil:
     visible:
       id: 'proposal-dropout'
@@ -133,11 +133,11 @@ appId: app.critterpass.dev
     id: 'tracker-lock'
 # A system alert asks first.
 - extendedWaitUntil:
-    visible: '(?i).*yes, lock it in.*'
+    visible: '(?i).*yes, lock.it.in.*'
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-6-lock-alone
-- tapOn: '(?i)yes, lock it in'
+- tapOn: '(?i)yes, lock.it.in'
 - extendedWaitUntil:
     visible:
       id: 'tracker-confirmed'

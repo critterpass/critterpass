@@ -171,13 +171,13 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'money-detail-delete'
 - extendedWaitUntil:
-    visible: '(?i)delete this expense\?'
+    visible: '(?i)delete.this.expense\?'
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: money-delete-confirm
 - tapOn: '(?i)cancel'
 - extendedWaitUntil:
-    notVisible: '(?i)delete this expense\?'
+    notVisible: '(?i)delete.this.expense\?'
     timeout: 10000
 - assertNotVisible: '.*\$.*'
 - runFlow: ../_shared/back.yaml
@@ -199,7 +199,7 @@ appId: app.critterpass.dev
     id: 'money-budget-spent'
     text: '.*₫ ?10,600,000.*'
 # Day 1, or day 2 when the run crosses midnight in Vietnam.
-- assertVisible: '(?i).*day [12] of 3.*'
+- assertVisible: '(?i).*day [12].of.3.*'
 - assertNotVisible:
     id: 'money-budget-none'
 - assertNotVisible: '.*\$.*'

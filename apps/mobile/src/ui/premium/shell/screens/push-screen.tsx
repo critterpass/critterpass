@@ -1,5 +1,5 @@
 import { router, Stack } from 'expo-router';
-import { useMemo, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -16,10 +16,16 @@ import {
   NativeLeadingControl,
 } from './header-actions';
 import type { ShellAction } from './header-actions';
-import { CrumbBar, HeaderBar, HeaderTitle } from './header-bar';
+import { CrumbBar, HeaderBar } from './header-bar';
 import { PageFooter } from './page-footer';
 import { useBodyTitle, useHeaderLeavesWithPage } from './push-screen-hooks';
-import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from './scroll-edge';
+import { usePushScreenOptions } from './push-screen-options';
+import {
+  PageScrollEdgesContext,
+  SCROLL_EDGE_FADE,
+  ScrollEdgeFade,
+  useScrollEdges,
+} from './scroll-edge';
 
 export interface PushScreenProps {
   /** The centred inline title (19/700) and the muted line under it (12/400). */
@@ -120,33 +126,27 @@ export function PushScreen({
   // The native back or toolbar ✕ is the way back; a drawn back or ✕ registers itself.
   useBackAffordance(!headerless && !drawnBar && (nativeBack || drawnControl !== null));
 
-  const ink = t.color.ink;
-  const nativeOptions = useMemo(
-    () => ({
-      headerShown: true,
-      title,
-      headerTitle: () => <HeaderTitle title={title} subtitle={subtitle} />,
-      headerTitleAlign: 'center' as const,
-      headerTransparent: true,
-      headerShadowVisible: false,
-      headerBackButtonDisplayMode: 'minimal' as const,
-      headerBackVisible: nativeBack,
-      headerTintColor: ink,
-    }),
-    [title, subtitle, nativeBack, ink],
-  );
-  // No native title left mounted under the status bar once the page draws its own bar.
-  const drawnOptions = useMemo(
-    () => ({ headerShown: false, title, headerTitle: () => null }),
-    [title],
-  );
-
-  const edges = useScrollEdges();
-  const content = <BodyTitleContext value={reportBodyTitle}>{children}</BodyTitleContext>;
   // Under the transparent native bar (iOS) the page keeps the status bar and the bar clear itself
   // (the system's own inset is lost on a scroll view its controller doesn't track).
   const underNativeBar = !drawnBar && !headerless;
   const barGround = insets.top + NATIVE_BAR_HEIGHT;
+  // A page with its own scroll view under the native bar reports its edges; that view keeps the
+  // system's inset, so it rests at minus the bar's height.
+  const ownScroll = !scroll && underNativeBar;
+  const edges = useScrollEdges(ownScroll ? { topAfter: -barGround } : {});
+  const options = usePushScreenOptions(underNativeBar, {
+    title,
+    ...(subtitle === undefined ? {} : { subtitle }),
+    back: nativeBack,
+    ink: t.color.ink,
+  });
+  const content = (
+    <BodyTitleContext value={reportBodyTitle}>
+      <PageScrollEdgesContext value={ownScroll ? edges.scrollProps : null}>
+        {children}
+      </PageScrollEdgesContext>
+    </BodyTitleContext>
+  );
   const footed = footer !== undefined;
   // With a footer the scroll view ends above it: the footer keeps the home indicator's room.
   const foot = footed ? t.space.gap16 : insets.bottom + t.space.gap16;
@@ -176,15 +176,13 @@ export function PushScreen({
   // Under a drawn bar the content fades into the ground as it scrolls up under it; under the
   // transparent native bar (iOS) the status bar and the bar get the ground (solid), then a short
   // fade. A headerless page's hero runs to the top.
-  const topFade = headerless ? null : underNativeBar ? (
+  const topFade = headerless ? null : (
     <ScrollEdgeFade
       edge="top"
-      height={barGround + SCROLL_EDGE_FADE}
-      solid={barGround}
+      height={(underNativeBar ? barGround : 0) + SCROLL_EDGE_FADE}
+      solid={underNativeBar ? barGround : 0}
       visible={edges.top}
     />
-  ) : (
-    <ScrollEdgeFade edge="top" height={SCROLL_EDGE_FADE} visible={edges.top} />
   );
   const leadingNode =
     drawnControl === null ? null : (
@@ -259,7 +257,7 @@ export function PushScreen({
       testID={testID}
       style={[styles.root, grounded ? { backgroundColor: t.color.ground } : null]}
     >
-      <Stack.Screen options={underNativeBar ? nativeOptions : drawnOptions} />
+      <Stack.Screen options={options} />
       {headerless ? null : bar}
       {scroll ? (
         <View style={styles.body}>
@@ -270,6 +268,7 @@ export function PushScreen({
       ) : (
         body
       )}
+      {ownScroll ? topFade : null}
       {footed ? <PageFooter>{footer}</PageFooter> : null}
       {headerless ? (
         <View

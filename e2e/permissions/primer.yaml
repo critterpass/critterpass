@@ -36,7 +36,7 @@ appId: app.critterpass.dev
 - tapOn:
     text: 'Don.t Allow'
 - extendedWaitUntil:
-    visible: '.*Off\. I.ll ask on your trip.*'
+    visible: '.*Off\. I.ll ask on.your.trip.*'
     timeout: 10000
 - assertVisible:
     id: 'primer-location'
