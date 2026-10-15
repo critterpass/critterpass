@@ -194,7 +194,8 @@ function coverWash(cover: CrewCover): string {
 const styles = StyleSheet.create({
   root: { flex: 1 },
   body: { flex: 1 },
-  header: { flexDirection: 'row', alignItems: 'center', paddingBottom: 8 },
+  // Over the body, so the ✕'s shadow falls on the fade instead of being cut by it.
+  header: { flexDirection: 'row', alignItems: 'center', paddingBottom: 8, zIndex: 1 },
   title: { flex: 1, textAlign: 'center' },
   stage: { height: 270, alignItems: 'center', justifyContent: 'center' },
   wash: { ...StyleSheet.absoluteFill },
