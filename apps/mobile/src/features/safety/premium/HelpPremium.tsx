@@ -9,8 +9,16 @@ import type { HelpProblem } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
-import { IconTile, type LineIconName } from '@/features/trip';
-import { Button, PressableScale, StatusTag, Text, TextButton, usePremiumTheme } from '@/ui/premium';
+import {
+  Button,
+  PressableScale,
+  StatusTag,
+  StickerIcon,
+  Text,
+  TextButton,
+  usePremiumTheme,
+  type StickerIconName,
+} from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
 import { facilityDetail } from '../help/help-copy';
@@ -20,10 +28,11 @@ import { HelpConsent, HelpPhrase, HelpShare } from './HelpParts';
 import { PhraseBig } from './PhraseBig';
 import { SosAlertAccess } from './SosAlertAccess';
 
-const PROBLEM_ICON: Readonly<Record<HelpProblem, LineIconName>> = {
-  hurt: 'shield',
+/** The design's colour stickers for the four doors: a pink heart, a mint wallet, a blue pin, a taxi. */
+const PROBLEM_STICKER: Readonly<Record<HelpProblem, StickerIconName>> = {
+  hurt: 'heart',
   lost_stolen: 'wallet',
-  lost: 'map',
+  lost: 'pin',
   missed_ride: 'car',
 };
 
@@ -149,11 +158,11 @@ export function HelpPremium() {
                   },
                 ]}
               >
-                <IconTile
-                  name={PROBLEM_ICON[problem.id]}
-                  bg={th.color.control}
-                  color={th.color.ink}
+                <StickerIcon
+                  name={PROBLEM_STICKER[problem.id]}
                   size={32}
+                  tilt={-6}
+                  {...(problem.id === 'lost' ? { color: th.accent.sky } : {})}
                 />
                 <Text variant="rowTextStrong" style={styles.flex} numberOfLines={2}>
                   {problem.label}
