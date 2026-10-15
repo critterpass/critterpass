@@ -19,7 +19,7 @@ import { ChoiceChip } from './choice-chip';
 function Section({ title, children }: { readonly title: string; readonly children: ReactNode }) {
   const th = usePremiumTheme();
   return (
-    <View style={{ gap: th.space.gap10 }}>
+    <View style={{ gap: th.space.gap8 }}>
       <Text variant="label" tone="muted">
         {title}
       </Text>
@@ -68,10 +68,11 @@ export function DietaryForm({
     <KeyboardAwareScroll
       {...scrollProps}
       contentContainerStyle={{
-        paddingTop: insets.top + 64,
+        // As drawn: the whole form fits above Save on a phone, the title just under the ✕ row.
+        paddingTop: insets.top + 56,
         paddingHorizontal: 24,
         paddingBottom: 24,
-        gap: th.space.gap16,
+        gap: th.space.gap14,
       }}
       testID="guide-dietary"
     >
