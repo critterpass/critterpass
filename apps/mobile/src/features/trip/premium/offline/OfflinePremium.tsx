@@ -50,7 +50,7 @@ export function OfflinePremium({ tripId }: { readonly tripId: string }) {
   const backLabel = t({ id: 'trip.offline.backToTrip', message: 'Trip' });
   if (view === null) {
     return (
-      <PushScreen title={title} backLabel={backLabel} testID="trip-offline-page">
+      <PushScreen title={title} largeTitle backLabel={backLabel} testID="trip-offline-page">
         {null}
       </PushScreen>
     );
@@ -65,29 +65,32 @@ export function OfflinePremium({ tripId }: { readonly tripId: string }) {
           : t({ id: 'trip.offline.noSignal', message: 'No signal' });
   const waiting = view.sends.filter((line) => !line.sent);
   return (
-    <PushScreen title={title} backLabel={backLabel} testID="trip-offline-page">
-      <View style={[styles.body, { paddingHorizontal: th.space.gutter, gap: th.space.gap16 }]}>
-        <View style={styles.top}>
-          <View style={[styles.chip, { backgroundColor: th.color.inkSurface }]}>
-            <View
-              style={[
-                styles.dot,
-                {
-                  backgroundColor:
-                    view.card.chip === 'online' || view.card.chip === 'back'
-                      ? th.accent.mint
-                      : th.accent.tangerine,
-                },
-              ]}
-            />
-            <Text variant="caption" color={th.color.onInkSurface}>
-              {chip}
-            </Text>
-          </View>
-          <Text variant="caption" tone="muted">
-            {view.card.eyebrow}
+    <PushScreen
+      title={title}
+      subtitle={view.card.eyebrow}
+      largeTitle
+      badge={
+        <View style={[styles.chip, { backgroundColor: th.color.inkSurface }]}>
+          <View
+            style={[
+              styles.dot,
+              {
+                backgroundColor:
+                  view.card.chip === 'online' || view.card.chip === 'back'
+                    ? th.accent.mint
+                    : th.accent.tangerine,
+              },
+            ]}
+          />
+          <Text variant="caption" color={th.color.onInkSurface}>
+            {chip}
           </Text>
         </View>
+      }
+      backLabel={backLabel}
+      testID="trip-offline-page"
+    >
+      <View style={[styles.body, { paddingHorizontal: th.space.gutter, gap: th.space.gap16 }]}>
         <View
           style={[
             styles.polaroid,
@@ -242,7 +245,6 @@ export function OfflinePremium({ tripId }: { readonly tripId: string }) {
 
 const styles = StyleSheet.create({
   body: { paddingTop: 8 },
-  top: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   chip: {
     height: 32,
     borderRadius: 16,
