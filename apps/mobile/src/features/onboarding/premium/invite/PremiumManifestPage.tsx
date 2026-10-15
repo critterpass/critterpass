@@ -137,13 +137,16 @@ export function PremiumManifestPage() {
             </View>
           ) : null}
         </ListCard>
-        {/* The stamp lands over the manifest's foot, Tokek cheering beside it (2.19). */}
+        {/*
+          The stamp lands on the manifest's bottom edge, Tokek cheering beside it (2.19). It only
+          grazes the last row, below its label, so "just now" by the newcomer's name stays readable.
+        */}
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            marginTop: -56,
+            marginTop: -16,
             zIndex: 3,
           }}
         >
@@ -159,7 +162,7 @@ export function PremiumManifestPage() {
               top={t({ id: 'onboarding.premium.manifest.admitted', message: 'Admitted' })}
               {...(preview?.crew_name == null ? {} : { bottom: preview.crew_name })}
               ink="pink"
-              size={170}
+              size={156}
               rotate={-12}
               paper
               testID="invite-manifest-stamp"
