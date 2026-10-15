@@ -56,6 +56,12 @@ interface NavState {
   readonly routes: readonly StateRoute[];
 }
 
+/** The root navigation state, as the router hands it over. */
+interface RootState {
+  readonly index?: number | undefined;
+  readonly routes?: readonly StateRoute[] | undefined;
+}
+
 function isSheet(path: string): boolean {
   return Object.hasOwn(TAB_SHEETS, path);
 }
@@ -76,23 +82,30 @@ function holdsPush(prefix: string, level: NavState): boolean {
  * any page on the focused tab's stacks that is neither one of its roots nor a sheet is a push,
  * also one a link opened as the first page of its stack.
  */
-export function tabBarHidden(
-  root: { readonly routes?: readonly StateRoute[] | undefined } | undefined,
-): boolean {
+export function tabBarHidden(root: RootState | undefined): boolean {
   const tab = focusedTab(root);
   if (tab === undefined) return false;
   return holdsPush('', { index: 0, routes: [tab] });
 }
 
 /** The focused tab's route, read through the router's own root route. */
-function focusedTab(
-  root: { readonly routes?: readonly StateRoute[] | undefined } | undefined,
-): StateRoute | undefined {
+function focusedTab(root: RootState | undefined): StateRoute | undefined {
   // Before the container has state (the first frame) there is no tab yet. The router's own root
   // route holds the app's root stack.
   const top = root?.routes;
-  const app = top?.length === 1 && top[0]?.name === ROUTER_ROOT ? top[0].state?.routes : top;
-  const tabs = app?.find((route) => route.name === TABS)?.state;
+  const app =
+    top?.length === 1 && top[0]?.name === ROUTER_ROOT
+      ? top[0].state
+      : { index: root?.index, routes: top ?? [] };
+  // A link to a tab page from a page over the tabs (the inbox) pushes the tabs again: the bar
+  // belongs to the copy on screen, the last one up to the root's focused page, not the first.
+  const routes = app?.routes ?? [];
+  let tabs: NavState | undefined;
+  for (let at = Math.min(app?.index ?? routes.length - 1, routes.length - 1); at >= 0; at -= 1) {
+    if (routes[at]?.name !== TABS) continue;
+    tabs = routes[at]?.state;
+    break;
+  }
   return tabs?.routes[tabs.index ?? 0];
 }
 
@@ -101,9 +114,7 @@ function focusedTab(
  * tab's pages in the same window as its native sheets, so it drew on top of a sheet's lower half;
  * it steps away while one is up (the iPhone's system bar sits under its sheets by itself).
  */
-export function tabSheetUp(
-  root: { readonly routes?: readonly StateRoute[] | undefined } | undefined,
-): boolean {
+export function tabSheetUp(root: RootState | undefined): boolean {
   let route = focusedTab(root);
   let path = route?.name ?? '';
   while (route?.state !== undefined) {
