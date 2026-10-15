@@ -7,6 +7,7 @@
  */
 import type {
   ClosureRecord,
+  CuratedProminence,
   DraftDay,
   DraftItem,
   Hours,
@@ -63,6 +64,17 @@ export interface DraftPoi {
   readonly dish?: string | null;
   /** Its place among the destination's essentials (1 first); null when it is not one. */
   readonly essentialRank?: number | null;
+  /**
+   * What the researchers' line for a curated place says (`editorial.curated`): the destination's
+   * area it is in, named as the destination's itinerary names it; how well known it is; how many
+   * itinerary pages include it; whether it works on a rainy day; and the places people combine
+   * with it on one outing (our ids).
+   */
+  readonly area?: string | null;
+  readonly prominence?: CuratedProminence | null;
+  readonly blogCount?: number | null;
+  readonly indoor?: boolean | null;
+  readonly pairsWith?: readonly string[];
 }
 
 export interface DraftMustDo {
