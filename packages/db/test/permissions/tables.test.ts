@@ -52,6 +52,7 @@ const TABLE_RULES: readonly TableRule[] = [
   ['codes', 'system only'],
   ['crew_year_grants', 'crew billing', 'crews'],
   ['date_window_options', 'crew read-only'],
+  ['destination_itineraries', 'read-only, never synced'],
   ['expense_shares', 'crew read-only'],
   ['feedback_tickets', 'owner only'],
   ['flight_watches', 'sealed', null],
