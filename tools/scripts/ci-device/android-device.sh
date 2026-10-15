@@ -47,6 +47,10 @@ still_status_bar() {
   device device_config put privacy camera_mic_icons_enabled false >/dev/null 2>&1 || true
   device device_config put systemui clipboard_overlay_enabled false >/dev/null 2>&1 || true
   device settings put global sysui_demo_allowed 1 || true
+  # Right after a reboot SystemUI takes `enter` but drops what follows it: the clock froze at the
+  # boot's own time (2:13). Wait for its process, then send the clock again once the rest landed.
+  for _ in $(seq 1 30); do device pidof com.android.systemui >/dev/null 2>&1 && break; sleep 1; done
+  sleep 3
   demo enter
   demo clock -e hhmm 0941
   # One broadcast per network: wifi without its "no internet" mark, mobile without a data type.
@@ -54,6 +58,7 @@ still_status_bar() {
   demo network -e mobile show -e level 4 -e datatype none -e fully true
   demo battery -e level 100 -e plugged false
   demo notifications -e visible false
+  demo clock -e hhmm 0941
 }
 still_status_bar
 device cmd uimode night "$([ "${APPEARANCE:-light}" = dark ] && echo yes || echo no)"
