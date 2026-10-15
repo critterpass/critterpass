@@ -164,6 +164,10 @@ msgstr "{minutes} phút"
 msgid "plan.premium.ideas.theirs"
 msgstr "Việc phải làm của {otherName}"
 
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.underWay"
+msgstr "{place} đang diễn ra nên không huỷ được nữa. Chuyến đi tự kết thúc sau ngày cuối."
+
 #: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
 msgid "plan.tripMap.empty.noPlanLine"
 msgstr "{saved, plural, other {# nơi đã lưu trong Ý tưởng. Khi có kế hoạch, các nơi này sẽ vào từng ngày.}}"
@@ -1435,6 +1439,10 @@ msgstr "Kế hoạch sắp tới rồi"
 msgid "plan.settings.trip"
 msgstr "Chuyến đi"
 
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.notNow"
+msgstr "Ở bước này chưa huỷ chuyến đi được. Thử lại khi kế hoạch đã chốt."
+
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
 msgid "plan.premium.map.wholeTrip"
 msgstr "Cả chuyến đi"
@@ -1458,6 +1466,14 @@ msgstr "Nội dung này không còn ở đây"
 #: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
 msgid "plan.premium.lessDriving.none"
 msgstr "Thứ tự này đã ngắn nhất mà không phải dời gì đã đặt."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.already"
+msgstr "Chuyến đi này đã huỷ rồi."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.over"
+msgstr "Chuyến đi này đã xong, không còn gì để huỷ."
 
 #: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
 msgid "plan.dates.missingTitle"

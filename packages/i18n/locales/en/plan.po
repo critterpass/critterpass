@@ -164,6 +164,10 @@ msgstr "{minutes} min"
 msgid "plan.premium.ideas.theirs"
 msgstr "{otherName}’s must-do"
 
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.underWay"
+msgstr "{place} is under way, so it can’t be called off now. It wraps up by itself after the last day."
+
 #: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
 msgid "plan.tripMap.empty.noPlanLine"
 msgstr "{saved, plural, one {One place is saved in Ideas. It goes onto a day once there is a plan.} other {# places are saved in Ideas. They go onto days once there is a plan.}}"
@@ -1435,6 +1439,10 @@ msgstr "The plan is on its way"
 msgid "plan.settings.trip"
 msgstr "The trip"
 
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.notNow"
+msgstr "The trip can’t be called off at this step. Try again once the plan is settled."
+
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
 msgid "plan.premium.map.wholeTrip"
 msgstr "The whole trip"
@@ -1458,6 +1466,14 @@ msgstr "This isn’t here any more"
 #: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
 msgid "plan.premium.lessDriving.none"
 msgstr "This order is already the shortest without moving anything booked."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.already"
+msgstr "This trip is already called off."
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.over"
+msgstr "This trip is over, so there’s nothing left to call off."
 
 #: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
 msgid "plan.dates.missingTitle"

@@ -164,6 +164,10 @@ msgstr ""
 msgid "plan.premium.ideas.theirs"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.underWay"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
 msgid "plan.tripMap.empty.noPlanLine"
 msgstr ""
@@ -1435,6 +1439,10 @@ msgstr ""
 msgid "plan.settings.trip"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.notNow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
 msgid "plan.premium.map.wholeTrip"
 msgstr ""
@@ -1457,6 +1465,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
 msgid "plan.premium.lessDriving.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.already"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.over"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
