@@ -6,6 +6,7 @@ import { View } from 'react-native';
 
 import {
   Icon,
+  NoPhoto,
   PhotoLayer,
   PREMIUM_THEMES,
   PressableScale,
@@ -15,11 +16,8 @@ import {
 
 import type { SwipeCardFace } from '../../swipe-view-props';
 import { placeIcon } from '../../search/place-icons';
-import { Doodle } from '../components/doodle';
-import { placeTint } from '../components/place-tint';
+import { placeAccent } from '../components/place-tint';
 
-/** Room the name band takes at the card's foot, so a doodle centres in what stays in view. */
-const NAME_BAND = 110;
 const VOTE = 62;
 
 const BAND_INK = PREMIUM_THEMES.light.color.inkSurface;
@@ -45,18 +43,14 @@ export function CardFace({ face }: { readonly face: SwipeCardFace }) {
         }}
       >
         {face.photo === null ? (
-          // No photo: the kind's doodle on the kind's pastel, above the name band.
-          <View
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              paddingBottom: NAME_BAND,
-              backgroundColor: placeTint(theme, face.category),
-            }}
-            testID="swipe-card-doodle"
-          >
-            <Doodle name={placeIcon(face.category)} size={140} />
+          // No photo: the kit's no-photo art in the kind's colour, its pattern under the name band.
+          <View style={{ flex: 1 }} testID="swipe-card-doodle">
+            <NoPhoto
+              doodle={placeIcon(face.category)}
+              accent={placeAccent(face.category)}
+              size="card"
+              seed={face.poiId}
+            />
           </View>
         ) : (
           <PhotoLayer media={face.photo} creditAt="top" />
