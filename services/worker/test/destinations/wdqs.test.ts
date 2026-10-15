@@ -51,14 +51,12 @@ describe('WDQS replies', () => {
     expect(stub.calls()).toBe(4);
   });
 
-  it('pages a type by sitelink bands that cover every count once', () => {
-    expect(SITELINK_BANDS[0]?.[0]).toBe(10);
+  it('pages the candidates by sitelink bands that cover every count once', () => {
+    expect(SITELINK_BANDS[0]?.[0]).toBe(5);
     for (let i = 1; i < SITELINK_BANDS.length; i += 1) {
       expect(SITELINK_BANDS[i]?.[0]).toBe(SITELINK_BANDS[i - 1]?.[1]);
     }
     expect(SITELINK_BANDS.at(-1)?.[1]).toBeNull();
-    expect(candidateQuery('Q515', [12, 15])).toContain(
-      'FILTER(?sitelinks >= 12 && ?sitelinks < 15)',
-    );
+    expect(candidateQuery([12, 15])).toContain('FILTER(?sitelinks >= 12 && ?sitelinks < 15)');
   });
 });

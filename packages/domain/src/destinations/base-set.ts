@@ -29,6 +29,8 @@ export interface BaseCandidate {
   readonly population: number | null;
   /** Wikipedia and sister-project sitelinks: 0 for a GeoNames-only row. */
   readonly sitelinks: number;
+  /** Wikivoyage editions with an article on it: 0 or absent for a GeoNames-only row. */
+  readonly wikivoyage?: number;
   /** The Commons file of its Wikivoyage banner (P948), else its image (P18). */
   readonly photoFile: string | null;
   readonly elevationM?: number | null;
