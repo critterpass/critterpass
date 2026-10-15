@@ -17,7 +17,7 @@ appId: app.critterpass.dev
       LOOK: ${LOOK}
 # The + grows into the add sheet; "Forward" copies the crew's address and says so in a toast (the
 # island toast, not the sheet's own "address" lines). The sheet is pulled down again. The link
-# first asks the app to keep the next toasts up for 15 s (apps/mobile/src/lib/qa/toast-hold): the
+# first asks the app to keep the next toasts up for 15 s (apps/mobile/src/lib/qa/capture-hold): the
 # tap alone outlasts a toast's four seconds on an Android runner.
 - runFlow:
     file: ../../_shared/open-link.yaml

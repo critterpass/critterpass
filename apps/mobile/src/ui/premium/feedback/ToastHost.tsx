@@ -18,7 +18,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { qaToastHold } from '@/lib/qa/toast-hold';
+import { qaToastHold } from '@/lib/qa/capture-hold';
 
 import { usePremiumReducedMotion } from '../motion/reduced-motion';
 import { layoutTransition, reducedFadeIn, reducedFadeOut } from '../motion/springs';

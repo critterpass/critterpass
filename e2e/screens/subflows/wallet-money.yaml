@@ -18,7 +18,7 @@ appId: app.critterpass.dev
       LOOK: ${LOOK}
 # Add an expense: 250,000 on the pad; in light it is saved (a test coffee), in dark closed unsaved.
 # The link asks the app to keep the next toasts up for 15 s, so the saved toast is still there
-# after the tap (apps/mobile/src/lib/qa/toast-hold).
+# after the tap (apps/mobile/src/lib/qa/capture-hold).
 - runFlow:
     file: ../../_shared/open-link.yaml
     env:

@@ -3,7 +3,7 @@ import { useEffect, useSyncExternalStore } from 'react';
 import { Linking, StyleSheet, View } from 'react-native';
 
 import { isLayoutSettled, subscribeLayoutSettled } from './layout-settled';
-import { readQaToastHoldLink } from './toast-hold';
+import { readCaptureHoldLink } from './capture-hold';
 import { announceQaBuild, qaBuildLabel, UI_QA_ENABLED } from './ui-qa';
 
 /**
@@ -21,10 +21,10 @@ export function QaSettledMarker() {
   useEffect(() => {
     announceQaBuild();
   }, []);
-  // Capture links can ask for toasts that stay up long enough to be shot (./toast-hold).
+  // Capture links can ask for a toast or a zoom held long enough to be shot (./capture-hold).
   useEffect(() => {
     if (!UI_QA_ENABLED) return undefined;
-    const subscription = Linking.addEventListener('url', ({ url }) => readQaToastHoldLink(url));
+    const subscription = Linking.addEventListener('url', ({ url }) => readCaptureHoldLink(url));
     return () => subscription.remove();
   }, []);
   if (!UI_QA_ENABLED) return null;
