@@ -28,6 +28,23 @@ appId: app.critterpass.dev
     optional: true
 # Where it landed, in the flow's log.
 - runFlow: where.yaml
+# The iPhone's bar can minimise to Trips' lens while the tab look still finds the hidden Home
+# title, so nothing was tapped and Trips stays: the lens (or Home, where the bar is whole) is tapped
+# and Home once more.
+- runFlow:
+    when:
+      platform: iOS
+      true: ${output.where === '/trips'}
+    commands:
+      - tapOn:
+          point: '12%,94%'
+      - runFlow: settle.yaml
+      - runFlow:
+          file: tab.yaml
+          env:
+            TAB: home
+            LABEL: Home
+      - runFlow: where.yaml
 - runFlow:
     when:
       true: ${output.where.indexOf('/hatch') === 0 || output.where === 'unknown'}
