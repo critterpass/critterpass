@@ -6,10 +6,10 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { Stack } from 'expo-router';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { Button, Card, Tag, Text, TextButton, usePremiumTheme } from '@/ui/premium';
+import { Button, Card, Icon, ListCard, Row, Tag, Text, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
 import type { AccountServices } from '../../account/account-services';
@@ -225,23 +225,23 @@ export function DeletePremiumScreen({
           <Text variant="captionMuted" tone="muted" align="center" textBreakStrategy="balanced">
             {closes}
           </Text>
-          <Pressable
-            accessibilityRole="button"
-            onPress={d.download.onPress}
-            testID="you-delete-download"
-          >
-            <Text variant="caption" tone="muted" align="center">
-              {`${t({ id: 'you.delete.downloadFirst', message: 'Download my data first' })} · ${d.download.line}`}
-            </Text>
-          </Pressable>
-          <View style={{ alignItems: 'center' }}>
-            <TextButton
-              align="center"
-              label={t({ id: 'you.delete.keep', message: 'Keep my account' })}
-              onPress={d.onKeep}
-              testID="you-delete-keep"
+          {/* The two ways out of here read as actions: the download as a row, keeping as a pill. */}
+          <ListCard>
+            <Row
+              title={t({ id: 'you.delete.downloadFirst', message: 'Download my data first' })}
+              subtitle={d.download.line}
+              leading={<Icon name="download" size={20} color={th.color.ink} />}
+              trailing={<Icon name="forward" size={16} color={th.color.muted} />}
+              onPress={d.download.onPress}
+              testID="you-delete-download"
             />
-          </View>
+          </ListCard>
+          <Button
+            variant="secondary"
+            label={t({ id: 'you.delete.keep', message: 'Keep my account' })}
+            onPress={d.onKeep}
+            testID="you-delete-keep"
+          />
         </View>
       </View>
     </PushScreen>
