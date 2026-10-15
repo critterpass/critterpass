@@ -5,17 +5,19 @@ appId: app.critterpass.dev
 # ${ZOOM} names the screenshot taken right after the tap, while the card still grows into the hub
 # (empty: none). For that shot a link first asks the app to run the next zoom over 12 s
 # (apps/mobile/src/lib/qa/capture-hold): the tap alone outlasts the half-second zoom on a runner.
-- runFlow:
-    when:
-      true: ${ZOOM != ''}
-    commands:
-      - openLink:
-          link: critterpass-dev://trips?qaZoomMs=12000
+# The hold link goes to Home itself, after the tab tap: sent to the Trips tab first, it left Home
+# without its card and the rest of the flow off the hub.
 - runFlow:
     file: ../../_shared/tab.yaml
     env:
       TAB: home
       LABEL: Home
+- runFlow:
+    when:
+      true: ${ZOOM != ''}
+    commands:
+      - openLink:
+          link: critterpass-dev:///?qaZoomMs=12000
 - runFlow:
     when:
       visible:
