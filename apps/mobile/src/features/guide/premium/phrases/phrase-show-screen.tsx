@@ -133,8 +133,8 @@ export function PremiumPhraseShowScreen() {
         )}
       </Pressable>
       <View style={[styles.foot, { paddingBottom: insets.bottom + 24 }]}>
-        <View style={styles.guide} pointerEvents="none">
-          <CritterSticker kind="gecko" name="Tokek" size={96} pose="point" />
+        <View style={[styles.guide, { bottom: insets.bottom + 8 }]} pointerEvents="none">
+          <CritterSticker kind="gecko" name="Tokek" size={76} pose="point" />
         </View>
         {speech.speak === null ? null : (
           <PressableScale
@@ -185,7 +185,8 @@ export function PremiumPhraseShowScreen() {
 const styles = StyleSheet.create({
   chip: { position: 'absolute', zIndex: 1 },
   body: { flex: 1, paddingHorizontal: 30 },
-  foot: { alignItems: 'flex-start', gap: 14, paddingHorizontal: 30 },
+  // As drawn: the play row well clear of the caption, the guide at the foot inside the gutter.
+  foot: { alignItems: 'flex-start', gap: 44, paddingHorizontal: 30 },
   play: { flexDirection: 'row', alignItems: 'center', gap: 14 },
   playDisc: {
     width: 64,
@@ -209,8 +210,7 @@ const styles = StyleSheet.create({
   pauseBar: { width: 6, height: 22, borderRadius: 2 },
   guide: {
     position: 'absolute',
-    right: 12,
-    bottom: 60,
+    right: 28,
     transform: [{ rotate: `${GUIDE_TILT}deg` }],
   },
 });
