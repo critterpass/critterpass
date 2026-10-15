@@ -262,10 +262,11 @@ appId: app.critterpass.dev
                 commands:
                   - tapOn:
                       id: 'money-settle-kind-.*'
+                  # The page shows before its methods arrive: wait for a method row.
                   - extendedWaitUntil:
                       visible:
-                        id: 'money-payout-methods'
-                      timeout: 10000
+                        id: 'money-payout-kind-.*'
+                      timeout: 15000
                       optional: true
                   - runFlow:
                       file: shot.yaml
