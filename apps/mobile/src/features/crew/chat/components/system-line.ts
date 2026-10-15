@@ -51,7 +51,7 @@ export function systemLine(
     case 'rsvp_maybe':
       return t({ id: 'chat.system.rsvpMaybe', message: `${name} is a maybe` });
     case 'rsvp_out':
-      return t({ id: 'chat.system.rsvpOut', message: `${name} can't make it` });
+      return t({ id: 'chat.system.rsvpOut', message: `${name} can’t make it` });
     case 'rsvp_waitlisted':
       return t({ id: 'chat.system.rsvpWaitlisted', message: `${name} is on the waitlist` });
     case 'trip_locked':

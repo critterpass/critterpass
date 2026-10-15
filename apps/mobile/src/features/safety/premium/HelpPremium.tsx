@@ -48,7 +48,7 @@ export function HelpPremium() {
     { id: 'hurt', label: t({ id: 'safety.help.hurt', message: 'Hurt or sick' }) },
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a problem id, never copy
     { id: 'lost_stolen', label: t({ id: 'safety.help.lostStolen', message: 'Lost or stolen' }) },
-    { id: 'lost', label: t({ id: 'safety.help.imLost', message: "I'm lost" }) },
+    { id: 'lost', label: t({ id: 'safety.help.imLost', message: 'I’m lost' }) },
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a problem id, never copy
     { id: 'missed_ride', label: t({ id: 'safety.help.missedRide', message: 'Missed a ride' }) },
   ];
@@ -81,7 +81,7 @@ export function HelpPremium() {
             </Text>
             {model.placeLabel === null ? null : (
               <Text variant="rowText" tone="muted">
-                {t({ id: 'safety.premium.youreOn', message: `You're on ${model.placeLabel}.` })}
+                {t({ id: 'safety.premium.youreOn', message: `You’re on ${model.placeLabel}.` })}
               </Text>
             )}
           </View>

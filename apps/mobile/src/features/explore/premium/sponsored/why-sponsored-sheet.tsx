@@ -26,11 +26,11 @@ export function PremiumWhySponsoredSheet(props: {
   const lines = [
     t({
       id: 'explore.sponsored.paid',
-      message: `${partner} paid for this spot in the list. It is marked SPONSORED so you can tell it from the guide's own picks.`,
+      message: `${partner} paid for this spot in the list. It is marked SPONSORED so you can tell it from the guide’s own picks.`,
     }),
     t({
       id: 'explore.sponsored.contextual',
-      message: `You see it because you're looking at ${place}. It isn't chosen from anything about you, and we don't track you for it.`,
+      message: `You see it because you’re looking at ${place}. It isn’t chosen from anything about you, and we don’t track you for it.`,
     }),
     t({
       id: 'explore.sponsored.neutral',

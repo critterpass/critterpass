@@ -2,7 +2,7 @@
  * Crew can't agree posts what the screen says: the chosen way against leaving the place out
  * ("Suggest the first one", "…the second one"), or the guide's two ways against each other; the
  * options read from the api skip what this build does not know; and who has not said reads the
- * way the render does ("Rin and you haven't said").
+ * way the render does ("Rin and you haven’t said").
  */
 import { i18n as lingui } from '@lingui/core';
 import { beforeAll, describe, expect, it } from '@jest/globals';
@@ -66,8 +66,8 @@ describe('split decisions', () => {
   it('says who has not said, with you last', () => {
     const list = (names: readonly string[]) => names.join(' and ');
     const name = (uid: string) => (uid === 'r' ? 'Rin' : uid);
-    expect(silentLine(['me', 'r'], 'me', name, list)).toBe("Rin and you haven't said");
-    expect(silentLine(['r'], 'me', name, list)).toBe("Rin hasn't said");
+    expect(silentLine(['me', 'r'], 'me', name, list)).toBe("Rin and you haven’t said");
+    expect(silentLine(['r'], 'me', name, list)).toBe("Rin hasn’t said");
     expect(silentLine(['me'], 'me', name, list)).toBe('You haven’t said');
     expect(silentLine([], 'me', name, list)).toBeNull();
   });

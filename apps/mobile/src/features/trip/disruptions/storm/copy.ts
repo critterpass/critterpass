@@ -227,7 +227,7 @@ export function seatLine(state: SeatState, booker: string, mine: boolean, date: 
     case 'seats_not_confirmed':
       return t({
         id: 'trip.disruptions.storm.seat.notConfirmed',
-        message: `Seats for ${date} weren't confirmed. The old booking is kept.`,
+        message: `Seats for ${date} weren’t confirmed. The old booking is kept.`,
       });
     case 'moved':
       return t({

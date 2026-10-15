@@ -59,7 +59,7 @@ export function PremiumVoiceConsent({
           <Text variant="body" tone="inkSecondary" align="center">
             {t({
               id: 'guide.voice.consentBody',
-              message: `When you talk, what you say can be sent to a speech service to be written down, and ${guideName}'s replies are read out by a voice service. The words land in your chat like anything you type.`,
+              message: `When you talk, what you say can be sent to a speech service to be written down, and ${guideName}’s replies are read out by a voice service. The words land in your chat like anything you type.`,
             })}
           </Text>
         </View>

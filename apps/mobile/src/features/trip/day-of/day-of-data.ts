@@ -260,7 +260,7 @@ export function alarmNoteFor(
   if (status.mode === 'notification') {
     const text = t({
       id: 'trip.alarm.note.notification',
-      message: `You'll get a notification at ${at}, not an alarm.`,
+      message: `You’ll get a notification at ${at}, not an alarm.`,
     });
     if (nativeAuthorization === 'notDetermined') {
       return {

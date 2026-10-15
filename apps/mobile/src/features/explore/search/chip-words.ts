@@ -97,7 +97,7 @@ export function chipLabel(chip: SearchChip, words: ChipWords): string {
         const place = words.placeName(chip.params.poi_id) ?? '';
         return t({ id: 'search.chip.fromPlace', message: `≤ ${minutes} min from ${place}` });
       }
-      return t({ id: 'search.chip.fromRoute', message: `≤ ${minutes} min off the day's route` });
+      return t({ id: 'search.chip.fromRoute', message: `≤ ${minutes} min off the day’s route` });
     }
     case 'exclude_days': {
       const only = onlyDayLeft(chip.params.day_ids, words.days);

@@ -58,10 +58,10 @@ export function PremiumOfferCard({ message }: ChatCardProps) {
   const inLabel =
     left === 1
       ? t({ id: 'guide.offer.inOne', message: 'I’m in · 1 slot left' })
-      : t({ id: 'guide.offer.inMany', message: `I'm in · ${left} slots left` });
+      : t({ id: 'guide.offer.inMany', message: `I’m in · ${left} slots left` });
   const status =
     offer.state === 'mine'
-      ? t({ id: 'guide.offer.mine', message: `You're in · ${offer.taken} of ${offer.total} taken` })
+      ? t({ id: 'guide.offer.mine', message: `You’re in · ${offer.taken} of ${offer.total} taken` })
       : offer.state === 'full'
         ? t({ id: 'guide.offer.full', message: 'Every slot is taken' })
         : offer.state === 'expired'

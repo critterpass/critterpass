@@ -154,7 +154,7 @@ export function HubBriefing({ state, guideKind, guideName, onAct }: HubBriefingP
         <>
           <View style={[styles.head, styles.titleRight]}>
             <Text variant="headline" accessibilityRole="header">
-              {t({ id: 'trip.briefing.premium.title', message: `${guideName}'s briefing` })}
+              {t({ id: 'trip.briefing.premium.title', message: `${guideName}’s briefing` })}
             </Text>
             {state.kind === 'ready' ? (
               <Text variant="caption" tone="muted">

@@ -202,7 +202,7 @@ export function PremiumVoiceScene(props: VoiceViewProps) {
             <Text variant="captionMuted" tone="muted">
               {t({
                 id: 'guide.voice.micDeniedBody',
-                message: `${props.guideName} can't hear you without the microphone. Turn it on in Settings, or type your question.`,
+                message: `${props.guideName} can’t hear you without the microphone. Turn it on in Settings, or type your question.`,
               })}
             </Text>
             {props.onOpenSettings === undefined ? null : (

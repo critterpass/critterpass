@@ -94,7 +94,7 @@ export function activityLine(row: Pick<ActivityRow, 'verb' | 'actor_name'>): str
     case 'rejected':
       return t({ id: 'trip.hub.ticker.rejected', message: `${name} turned down a change` });
     case 'undid':
-      return t({ id: 'trip.hub.ticker.undid', message: `${name} undid a guide's change` });
+      return t({ id: 'trip.hub.ticker.undid', message: `${name} undid a guide’s change` });
     case 'edited':
       return t({ id: 'trip.hub.ticker.edited', message: `${name} edited the plan` });
     case 'rsvped':

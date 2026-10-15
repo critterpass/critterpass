@@ -53,7 +53,7 @@ describe('timeline', () => {
     await renderChat(<CrewChatView crewId={CREW} />, s);
 
     expect(await screen.findByText(/^the bali six$/iu)).toBeTruthy();
-    expect(await screen.findByText("3 people · Tokek's in here")).toBeTruthy();
+    expect(await screen.findByText("3 people · Tokek’s in here")).toBeTruthy();
     expect(await screen.findByText('Leo joined the crew')).toBeTruthy();
     expect(screen.getByText('who’s up for the spa on day 3?')).toBeTruthy();
     expect(screen.getByText('Message deleted')).toBeTruthy();

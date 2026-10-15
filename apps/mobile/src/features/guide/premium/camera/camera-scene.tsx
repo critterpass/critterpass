@@ -190,7 +190,7 @@ export function PremiumCameraScene(props: CameraViewProps) {
             <Text variant="captionMuted" tone="muted">
               {t({
                 id: 'guide.camera.deniedBody',
-                message: `${props.guideName} can't see the menu without the camera. Turn it on in Settings, or type a dish name in the chat.`,
+                message: `${props.guideName} can’t see the menu without the camera. Turn it on in Settings, or type a dish name in the chat.`,
               })}
             </Text>
             {props.onOpenSettings === undefined ? null : (

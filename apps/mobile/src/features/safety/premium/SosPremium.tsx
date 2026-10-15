@@ -112,7 +112,7 @@ export function SosReady({ props }: { readonly props: SosViewProps }) {
           <Text variant="headline" testID="sos-stale">
             {t({
               id: 'safety.sos.staleQuestion',
-              message: "Your SOS didn't reach the crew in time. Are you still in trouble?",
+              message: 'Your SOS didn’t reach the crew in time. Are you still in trouble?',
             })}
           </Text>
         ) : (
@@ -134,7 +134,7 @@ export function SosReady({ props }: { readonly props: SosViewProps }) {
                 size={30}
               />
               <Text variant="label" tone="muted">
-                {t({ id: 'safety.sos.onIt', message: `${guideName}'s on it` })}
+                {t({ id: 'safety.sos.onIt', message: `${guideName}’s on it` })}
               </Text>
             </View>
             {model.steps.map((step) => (
@@ -160,7 +160,7 @@ export function SosReady({ props }: { readonly props: SosViewProps }) {
         )}
         {model.role === 'sender' && model.escalated && !model.reachedNobody ? (
           <Text variant="headline" testID="sos-escalated">
-            {t({ id: 'safety.sos.noAnswer', message: `No one's answered yet. Call ${general}?` })}
+            {t({ id: 'safety.sos.noAnswer', message: `No one’s answered yet. Call ${general}?` })}
           </Text>
         ) : null}
         {model.role === 'sender' && model.state === 'open' && model.reachedNobody ? (

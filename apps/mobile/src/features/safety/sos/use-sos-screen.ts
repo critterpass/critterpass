@@ -36,7 +36,7 @@ function presetWords(preset: string | null, t: ReturnType<typeof useLingui>['t']
     case 'fell':
       return t({ id: 'safety.preset.fell', message: 'I fell' });
     case 'lost':
-      return t({ id: 'safety.preset.lost', message: "I'm lost" });
+      return t({ id: 'safety.preset.lost', message: 'I’m lost' });
     case 'need_ride':
       return t({ id: 'safety.preset.ride', message: 'Need a ride' });
     case null:
@@ -132,9 +132,9 @@ export function useSosScreen() {
             result.kind === 'queued'
               ? t({
                   id: 'safety.sos.knowsQueued',
-                  message: `${name} hears you're coming the moment you have signal.`,
+                  message: `${name} hears you’re coming the moment you have signal.`,
                 })
-              : t({ id: 'safety.sos.knows', message: `${name} knows you're coming.` }),
+              : t({ id: 'safety.sos.knows', message: `${name} knows you’re coming.` }),
         }),
       );
     },
@@ -157,7 +157,7 @@ export function useSosScreen() {
         .then((result) => {
           const outcome = report(result, {
             offlineCapable: true,
-            refused: t({ id: 'safety.sos.resendFailed', message: "Your SOS didn't go out." }),
+            refused: t({ id: 'safety.sos.resendFailed', message: 'Your SOS didn’t go out.' }),
           });
           if (outcome === 'done' || outcome === 'queued') {
             router.replace(safetyRoutes.sos(fresh, true));

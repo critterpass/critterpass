@@ -96,7 +96,7 @@ export function useSosSend(): SosSendState {
       const body =
         link === null
           ? t({ id: 'safety.sms.body', message: 'SOS: I need help. Please call me.' })
-          : t({ id: 'safety.sms.bodyWhere', message: `SOS: I need help. I'm here: ${link}` });
+          : t({ id: 'safety.sms.bodyWhere', message: `SOS: I need help. I’m here: ${link}` });
       void Linking.openURL(
         smsUrl(
           { numbers: phones, body },
@@ -112,7 +112,7 @@ export function useSosSend(): SosSendState {
   const countdown = useCountdown(once.fire);
   const presets: readonly { id: SosPreset; label: string }[] = [
     { id: 'fell', label: t({ id: 'safety.preset.fell', message: 'I fell' }) },
-    { id: 'lost', label: t({ id: 'safety.preset.lost', message: "I'm lost" }) },
+    { id: 'lost', label: t({ id: 'safety.preset.lost', message: 'I’m lost' }) },
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a preset id, never copy.
     { id: 'need_ride', label: t({ id: 'safety.preset.ride', message: 'Need a ride' }) },
   ];

@@ -135,7 +135,7 @@ export function useChecklistScreen(options: ChecklistOptions = {}): ChecklistScr
   const titles: Readonly<Record<HelpProblem, string>> = {
     hurt: t({ id: 'safety.help.hurt', message: 'Hurt or sick' }),
     lost_stolen: t({ id: 'safety.help.lostStolen', message: 'Lost or stolen' }),
-    lost: t({ id: 'safety.help.imLost', message: "I'm lost" }),
+    lost: t({ id: 'safety.help.imLost', message: 'I’m lost' }),
     missed_ride: t({ id: 'safety.help.missedRide', message: 'Missed a ride' }),
   };
   const deskText = t({

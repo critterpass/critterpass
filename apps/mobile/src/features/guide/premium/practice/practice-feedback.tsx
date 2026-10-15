@@ -93,7 +93,7 @@ export function PremiumPracticeFeedback(props: {
             tone="error"
             text={t({
               id: 'guide.practice.micDeniedBody',
-              message: `${guideName} can't hear you without the microphone. Turn it on in Settings, or say it and tap "I said it".`,
+              message: `${guideName} can’t hear you without the microphone. Turn it on in Settings, or say it and tap "I said it".`,
             })}
             {...(props.onOpenSettings === undefined
               ? {}

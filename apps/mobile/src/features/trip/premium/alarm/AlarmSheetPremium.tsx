@@ -21,7 +21,7 @@ function useSheetCopy(kind: AlarmSheetKind, guideName: string) {
         title: t({ id: 'trip.alarm.sheet.askTitle', message: 'Let leave-by alarms ring?' }),
         body: t({
           id: 'trip.alarm.sheet.askBody',
-          message: `They ring through silent mode and Focus, only at leave-by times, and only if you're not up yet. ${guideName} stops ringing the moment you tap I'm up.`,
+          message: `They ring through silent mode and Focus, only at leave-by times, and only if you’re not up yet. ${guideName} stops ringing the moment you tap I’m up.`,
         }),
         primary: t({ id: 'trip.alarm.sheet.askAllow', message: 'Allow alarms' }),
       };
@@ -40,7 +40,7 @@ function useSheetCopy(kind: AlarmSheetKind, guideName: string) {
         title: t({ id: 'trip.alarm.sheet.deniedTitle', message: 'Alarms are off' }),
         body: t({
           id: 'trip.alarm.sheet.deniedBody',
-          message: `This phone won't ring for leave-bys. ${guideName} rings here while the app is open, and your crew gets a nudge to knock if you sleep through.`,
+          message: `This phone won’t ring for leave-bys. ${guideName} rings here while the app is open, and your crew gets a nudge to knock if you sleep through.`,
         }),
         primary: t({ id: 'trip.alarm.sheet.deniedOpen', message: 'Open Settings' }),
       };

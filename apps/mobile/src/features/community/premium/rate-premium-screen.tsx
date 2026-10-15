@@ -198,7 +198,7 @@ export function RatePremiumScreen({ tripId }: { readonly tripId: string }) {
             tone="error"
             text={t({
               id: 'community.rate.rejected',
-              message: `${card.name}: that tip didn't make it through. Try without names or numbers.`,
+              message: `${card.name}: that tip didn’t make it through. Try without names or numbers.`,
             })}
             testID={`rate-rejected-${card.poi_id}`}
           />

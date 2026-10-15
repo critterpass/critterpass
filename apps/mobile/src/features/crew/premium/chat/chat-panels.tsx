@@ -129,7 +129,7 @@ export function ReadOnlyBar({
         </View>
         <View style={{ flex: 1 }}>
           <Text variant="rowTitle">
-            {t({ id: 'chat.premium.former.title', message: `You're not in ${crewName} now` })}
+            {t({ id: 'chat.premium.former.title', message: `You’re not in ${crewName} now` })}
           </Text>
           <Text variant="caption" tone="muted">
             {t({

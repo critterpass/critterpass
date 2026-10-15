@@ -6,10 +6,10 @@ export function useTrailOff(guideName: string, limit: number): string {
   return limit === 30
     ? t({
         id: 'guide.limit.trailOff30',
-        message: `That's my thirtieth answer today, and the free ones are used up. I'll be back at midnight, or…`,
+        message: `That’s my thirtieth answer today, and the free ones are used up. I’ll be back at midnight, or…`,
       })
     : t({
         id: 'guide.limit.trailOff',
-        message: `That's all my free answers for today. ${guideName} will be back at midnight, or…`,
+        message: `That’s all my free answers for today. ${guideName} will be back at midnight, or…`,
       });
 }
