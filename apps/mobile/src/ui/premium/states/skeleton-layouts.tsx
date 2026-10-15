@@ -130,18 +130,21 @@ export function WaitingLayout({ label, rows = 4, photo = true, testID }: Waiting
           overflow: 'hidden',
           paddingHorizontal: t.space.gutter,
           paddingTop: t.space.gap8,
-          paddingBottom: t.space.gap16,
+          // The card shadow falls about 36 pt (14 down, 34 blur, -12 spread): the clip keeps all of it.
+          paddingBottom: SHADOW_ROOM,
         }}
       >
         {photo ? <SkeletonPhoto height={240} /> : null}
         <SkeletonList rows={rows} />
       </View>
-      <View style={{ paddingHorizontal: t.space.gutter }}>
+      <View style={{ paddingHorizontal: t.space.gutter, marginTop: t.space.gap16 - SHADOW_ROOM }}>
         <LoadingCritter label={label} {...(testID === undefined ? {} : { testID })} />
       </View>
     </View>
   );
 }
+
+const SHADOW_ROOM = 40;
 
 const styles = StyleSheet.create({
   grow: { flex: 1 },
