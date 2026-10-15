@@ -51,6 +51,11 @@ export const PREMIUM_GLYPHS = {
   },
   expand: { d: 'M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7', stroke: 2.6 },
   heart: { d: 'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z', stroke: 2.2 },
+  heartFill: {
+    d: 'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z',
+    stroke: 0,
+    fill: true,
+  },
   lock: {
     d: 'M7 11h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2zM8 11V8a4 4 0 0 1 8 0v3',
     stroke: 2.4,
