@@ -1,0 +1,21 @@
+appId: app.critterpass.dev
+---
+# The finished old-flow trip (four days in Đà Lạt, drafted and locked in alone with the planning
+# redesign off on this phone), then the phone follows the shared config (on) and the new screens
+# are walked read in Vietnamese (`new-a-vi-…`).
+- runFlow:
+    file: old-flow-subflows/old-flow-trip.yaml
+    env:
+      SHOTS: old-a-vi-00-setup
+      START_OFFSET_DAYS: 17
+- runFlow:
+    file: old-flow-subflows/planning-redesign.yaml
+    env:
+      MODE: 'follow'
+      SHOT: new-a-vi-00-redesign-follows-config
+- runFlow: plan-edits-subflows/in-vietnamese.yaml
+- runFlow:
+    file: old-flow-subflows/new-plan-screens.yaml
+    env:
+      SHOTS: new-a-vi
+      DAYS: 4

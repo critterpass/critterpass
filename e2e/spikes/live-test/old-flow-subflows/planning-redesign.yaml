@@ -1,0 +1,45 @@
+appId: app.critterpass.dev
+---
+# From Home: sets Developer tools' planning redesign choice for this phone and returns to Home.
+# ${MODE} is `off` (the earlier plan screens, whatever the shared config says) or `follow` (the
+# shared config, which is on). ${SHOT} names the screenshot of the section after the choice. With
+# `follow` the section must then say ON, from the synced config: otherwise the walk that follows
+# would not be on the new screens.
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-trips|dev-tools-entry'
+    times: 6
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- tapOn:
+    id: 'tab-home'
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'dev-tools-entry'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: ${'dev-planning-redesign-' + MODE}
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: ${'dev-planning-redesign-' + MODE}
+- extendedWaitUntil:
+    visible:
+      id: ${MODE === 'off' ? 'dev-planning-redesign-state-off' :'dev-planning-redesign-state-on'}
+    timeout: 15000
+- assertVisible:
+    id: ${MODE === 'off' ? 'dev-planning-redesign-source-override' :'dev-planning-redesign-source-config'}
+- takeScreenshot: ${SHOT}
+- runFlow: ../../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'tab-trips|dev-tools-entry'
+    timeout: 15000

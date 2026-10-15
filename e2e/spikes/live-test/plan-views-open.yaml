@@ -1,0 +1,607 @@
+appId: app.critterpass.dev
+---
+# Live walk, plan views, what the first two walks left open, on a fresh locked five-day Bali plan:
+# the places list and map with their filters and sorts, a search in the guide's own example words,
+# an address, Ideas placed by the guide, a reorder on a day with no must-do, the move from all
+# days, Explore in the trip, and the plan check's fix-all with its review. Shots are
+# `plan-views-open-<nn>-<what>`; a step the app refuses is optional, so the walk goes on.
+- runFlow:
+    file: plan-views-subflows/locked-bali-plan.yaml
+    env:
+      SHOTS: plan-views-open-00-setup
+- extendedWaitUntil:
+    visible:
+      id: 'home-mode-.*'
+    timeout: 60000
+- runFlow: ../../happy/subflows/dismiss-visit-offer.yaml
+- runFlow: ../../_shared/planning-redesign-on.yaml
+- runFlow: plan-views-subflows/back-to-trip-map.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 60000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 6000
+    optional: true
+# The places list: a kind chip, the plan chip, the nearest sort, two rows saved for later.
+- tapOn:
+    id: 'trip-map-list'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'places-list'
+    timeout: 30000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 5000
+    optional: true
+- tapOn:
+    text: '(?i)^food$'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 3000
+    optional: true
+- takeScreenshot: plan-views-open-01-places-list-food
+- scroll
+- takeScreenshot: plan-views-open-02-places-list-food-lower
+- scrollUntilVisible:
+    element:
+      id: 'places-sort'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'places-sort'
+    optional: true
+- tapOn:
+    id: 'places-sort-nearest'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 3000
+    optional: true
+- takeScreenshot: plan-views-open-03-places-list-food-nearest
+- tapOn:
+    text: '(?i)^in the plan.*'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 3000
+    optional: true
+- takeScreenshot: plan-views-open-04-places-list-in-the-plan
+- tapOn:
+    id: 'places-plan-row'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: plan-views-open-05-places-plan-row-tapped
+- runFlow:
+    when:
+      notVisible:
+        id: 'places-list'
+    commands:
+      - back
+      - waitForAnimationToEnd
+- tapOn:
+    text: '(?i)^all( [0-9]+)?$'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 3000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'places-suggests-2'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- swipe:
+    from:
+      id: 'places-suggests-1'
+    direction: RIGHT
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 2500
+    optional: true
+- swipe:
+    from:
+      id: 'places-suggests-2'
+    direction: RIGHT
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 2500
+    optional: true
+- takeScreenshot: plan-views-open-06-places-two-rows-saved
+- scrollUntilVisible:
+    element:
+      id: 'places-sort'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    text: '(?i)^food$'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 2000
+    optional: true
+- tapOn:
+    id: 'places-to-map'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'places-peek-count'
+    timeout: 45000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 8000
+    optional: true
+- takeScreenshot: plan-views-open-07-places-map-food
+- tapOn:
+    point: 50%, 40%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: plan-views-open-08-places-map-food-tapped
+- swipe:
+    start: 50%, 40%
+    end: 20%, 30%
+    duration: 800
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 5000
+    optional: true
+- takeScreenshot: plan-views-open-09-places-map-moved
+# The search: one of the guide's own examples, then an address.
+- runFlow: plan-views-subflows/search-again.yaml
+- hideKeyboard
+- tapOn:
+    text: '.*waterfall without the crowds.*'
+    optional: true
+- takeScreenshot: plan-views-open-10-example-tapped
+- extendedWaitUntil:
+    visible:
+      id: 'search-plain-results|search-no-results'
+    timeout: 90000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: plan-views-open-11-example-answer
+- hideKeyboard
+- runFlow:
+    when:
+      visible:
+        id: 'search-plain-add-0'
+    commands:
+      - scroll
+      - takeScreenshot: plan-views-open-12-example-answer-lower
+      - scrollUntilVisible:
+          element:
+            id: 'search-plain-add-0'
+          direction: UP
+          timeout: 8000
+          optional: true
+      - tapOn:
+          id: 'search-plain-add-0'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-add-confirm'
+          timeout: 20000
+          optional: true
+      - takeScreenshot: plan-views-open-13-add-sheet-from-example
+      - tapOn:
+          id: 'plan-add-confirm'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-views-wait'
+          timeout: 5000
+          optional: true
+      - takeScreenshot: plan-views-open-14-added-from-example
+- runFlow: plan-views-subflows/search-again.yaml
+- inputText: 'Jalan Hanoman 10 Ubud'
+- extendedWaitUntil:
+    visible:
+      id: 'search-addresses'
+    timeout: 25000
+    optional: true
+- hideKeyboard
+- takeScreenshot: plan-views-open-15-address-results
+- scroll
+- takeScreenshot: plan-views-open-16-address-results-lower
+- runFlow:
+    when:
+      visible:
+        id: 'search-address-0'
+    commands:
+      - tapOn:
+          id: 'search-address-0'
+      - extendedWaitUntil:
+          visible:
+            id: 'search-drop-pin-add'
+          timeout: 15000
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-views-wait'
+          timeout: 4000
+          optional: true
+      - takeScreenshot: plan-views-open-17-address-drop-pin
+      - tapOn:
+          id: 'search-drop-pin-add'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-views-wait'
+          timeout: 5000
+          optional: true
+      - takeScreenshot: plan-views-open-18-address-added
+# Ideas: the saved places, placed by the guide, and the review of what it did.
+- runFlow: plan-views-subflows/back-to-trip-map.yaml
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'trip-map-all-days'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-full'
+    timeout: 10000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'trip-map-ideas'
+    direction: DOWN
+    timeout: 8000
+    optional: true
+- tapOn:
+    id: 'trip-map-ideas'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-ideas'
+    timeout: 15000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 3000
+    optional: true
+- takeScreenshot: plan-views-open-19-ideas
+- tapOn:
+    id: 'plan-ideas-place'
+    optional: true
+- takeScreenshot: plan-views-open-20-placing-at-once
+- extendedWaitUntil:
+    visible:
+      id: 'plan-placing'
+    timeout: 15000
+    optional: true
+- takeScreenshot: plan-views-open-21-placing
+- extendedWaitUntil:
+    visible:
+      id: 'plan-review-title|plan-placing-action'
+    timeout: 120000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 3000
+    optional: true
+- takeScreenshot: plan-views-open-22-placing-result
+- runFlow:
+    when:
+      visible:
+        id: 'plan-placing-action'
+    commands:
+      - tapOn:
+          id: 'plan-placing-action'
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-review-title'
+          timeout: 20000
+          optional: true
+      - takeScreenshot: plan-views-open-23-placing-action-tapped
+- runFlow:
+    when:
+      visible:
+        id: 'plan-review'
+    commands:
+      - scroll
+      - takeScreenshot: plan-views-open-24-placing-review-lower
+      - tapOn:
+          id: 'plan-review-send|plan-review-apply-now'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-views-wait'
+          timeout: 6000
+          optional: true
+      - takeScreenshot: plan-views-open-25-placing-review-kept
+# A reorder on a day with no must-do: day 3, the second stop above the first, then the first below.
+- runFlow: plan-views-subflows/back-to-trip-map.yaml
+- tapOn:
+    id: 'trip-map-day-chips-3'
+    optional: true
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
+    timeout: 10000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 3000
+    optional: true
+- tapOn:
+    id: 'trip-map-open-day'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: plan-views-open-26-day-3-before
+- scrollUntilVisible:
+    element:
+      id: 'stop-2'
+    direction: DOWN
+    timeout: 8000
+    centerElement: true
+    optional: true
+- takeScreenshot: plan-views-open-27-day-3-before-drag
+- swipe:
+    from:
+      id: 'stop-2'
+    direction: UP
+    duration: 9000
+    optional: true
+- takeScreenshot: plan-views-open-28-drag-up-at-once
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 6000
+    optional: true
+- takeScreenshot: plan-views-open-29-drag-up-settled
+- swipe:
+    from:
+      id: 'stop-1'
+    direction: DOWN
+    duration: 9000
+    optional: true
+- takeScreenshot: plan-views-open-30-drag-down-at-once
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 6000
+    optional: true
+- takeScreenshot: plan-views-open-31-drag-down-settled
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-all-days'
+    direction: UP
+    timeout: 10000
+    optional: true
+- takeScreenshot: plan-views-open-32-day-3-after-drags
+# All days: hold a day's card below its sketch, pick a stop, a day, read the preview, confirm.
+- tapOn:
+    id: 'day-plan-all-days'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'all-days'
+    timeout: 15000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: plan-views-open-33-all-days
+- longPressOn:
+    point: 75%, 43%
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: plan-views-open-34-all-days-card-held
+- runFlow:
+    when:
+      notVisible:
+        id: 'move-stop-sheet'
+    commands:
+      - longPressOn:
+          id: 'all-days-card-3'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: plan-views-open-35-all-days-card-held-again
+- runFlow:
+    when:
+      visible:
+        id: 'move-stop-sheet'
+    commands:
+      - tapOn:
+          id: 'move-stop-[0-9a-f].*'
+          index: 0
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - takeScreenshot: plan-views-open-36-move-stop-picked
+      - tapOn:
+          id: 'move-stop-days-5'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: plan-views-open-37-move-preview
+      - tapOn:
+          id: 'move-preview-confirm|move-preview-ok'
+          optional: true
+      - takeScreenshot: plan-views-open-38-move-confirmed-at-once
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-views-wait'
+          timeout: 6000
+          optional: true
+      - takeScreenshot: plan-views-open-39-all-days-after-move
+- runFlow:
+    when:
+      visible:
+        id: 'move-stop-sheet'
+    commands:
+      - back
+      - waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 40000
+    optional: true
+- takeScreenshot: plan-views-open-40-all-days-40-seconds-on
+# Explore in the trip, from the hub.
+- runFlow: plan-views-subflows/back-to-trip-map.yaml
+- back
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-explore'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- tapOn:
+    id: 'trip-hub-explore'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'explore-trip'
+    timeout: 30000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'explore-trip-(gap-when|gaps-full|gaps-empty)'
+    timeout: 45000
+    optional: true
+- takeScreenshot: plan-views-open-41-explore-in-trip
+- scroll
+- takeScreenshot: plan-views-open-42-explore-in-trip-lower
+# The plan check: fix all of them, review first.
+- runFlow: plan-views-subflows/back-to-trip-map.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-check'
+    timeout: 60000
+    optional: true
+- takeScreenshot: plan-views-open-43-trip-map-check-line
+- runFlow:
+    when:
+      visible: '(?i)^check$'
+    commands:
+      - tapOn: '(?i)^check$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-check-title'
+    timeout: 60000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 3000
+    optional: true
+- takeScreenshot: plan-views-open-44-plan-check
+- tapOn:
+    id: 'plan-check-fix-all'
+    optional: true
+- takeScreenshot: plan-views-open-45-fix-all-at-once
+- extendedWaitUntil:
+    visible:
+      id: 'plan-review-title'
+    timeout: 120000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 3000
+    optional: true
+- takeScreenshot: plan-views-open-46-fix-all-review
+- runFlow:
+    when:
+      visible:
+        id: 'plan-review'
+    commands:
+      - scroll
+      - takeScreenshot: plan-views-open-47-fix-all-review-lower
+      - scroll
+      - takeScreenshot: plan-views-open-48-fix-all-review-end
+      - tapOn:
+          id: 'plan-review-send|plan-review-apply-now'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-views-wait'
+          timeout: 6000
+          optional: true
+      - takeScreenshot: plan-views-open-49-fix-all-kept
+- runFlow: plan-views-subflows/back-to-trip-map.yaml
+- takeScreenshot: plan-views-open-50-trip-map-after-fix-all
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 60000
+    optional: true
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'trip-map-all-days'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-full'
+    timeout: 10000
+    optional: true
+- takeScreenshot: plan-views-open-51-whole-trip-a-minute-after-fix-all

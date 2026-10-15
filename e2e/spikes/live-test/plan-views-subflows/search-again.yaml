@@ -1,0 +1,28 @@
+appId: app.critterpass.dev
+---
+# The search field, empty and focused, from wherever the last step left the walk: the open search
+# is cleared, otherwise the trip map's search bar is tapped again.
+- runFlow:
+    when:
+      notVisible:
+        id: 'search-screen'
+    commands:
+      - runFlow: back-to-trip-map.yaml
+      - tapOn:
+          id: 'trip-map-search'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'search-screen'
+          timeout: 15000
+          optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'search-clear'
+    commands:
+      - tapOn:
+          id: 'search-clear'
+- tapOn:
+    id: 'search-field'
+    optional: true
