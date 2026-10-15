@@ -1,3 +1,3 @@
-import { PhoneScreen } from '@/features/onboarding/phone/PhoneScreen';
+import { PremiumPhonePage } from '@/features/onboarding/premium/phone/PremiumPhonePage';
 
-export default PhoneScreen;
+export default PremiumPhonePage;

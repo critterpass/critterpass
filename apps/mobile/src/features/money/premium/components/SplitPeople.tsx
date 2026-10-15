@@ -18,7 +18,6 @@ export interface SplitPeopleProps {
   readonly draft: ExpenseDraft;
   readonly members: readonly MoneyMember[];
   readonly perMember: ReadonlyMap<string, bigint> | null;
-  readonly crewCurrency: string;
   readonly onToggle: (userId: string) => void;
   readonly onStep: (userId: string, delta: 1 | -1) => void;
   readonly onFocus: (userId: string | null) => void;
@@ -31,7 +30,16 @@ export function SplitPeople(props: SplitPeopleProps) {
   const { draft, members } = props;
   if (draft.mode === 'equal') {
     return (
-      <View style={[styles.wrap, { gap: th.space.gap10, paddingHorizontal: th.space.gutter }]}>
+      <View
+        style={[
+          styles.wrap,
+          {
+            gap: th.space.gap10,
+            paddingHorizontal: th.space.gutter,
+            paddingTop: th.space.gap4,
+          },
+        ]}
+      >
         {members.map((member) => {
           const inSplit = draft.included.includes(member.userId);
           return (
@@ -44,7 +52,12 @@ export function SplitPeople(props: SplitPeopleProps) {
               testID={`money-split-toggle-${member.userId}`}
             >
               <View style={[styles.person, inSplit ? null : styles.out]}>
-                <Avatar name={member.name} color={crewAccent(member.joinIndex)} size={36} />
+                <Avatar
+                  name={member.name}
+                  color={crewAccent(member.joinIndex)}
+                  uid={member.userId}
+                  size={36}
+                />
                 <Text variant="badge" tone="inkSecondary" numberOfLines={1}>
                   {member.name}
                 </Text>
@@ -94,14 +107,19 @@ export function SplitPeople(props: SplitPeopleProps) {
               index === 0 ? null : { borderTopWidth: 0.5, borderTopColor: th.color.hairline },
             ]}
           >
-            <Avatar name={member.name} color={crewAccent(member.joinIndex)} size={28} />
+            <Avatar
+              name={member.name}
+              color={crewAccent(member.joinIndex)}
+              uid={member.userId}
+              size={28}
+            />
             <View style={styles.flex}>
               <Text variant="rowTextStrong" numberOfLines={1}>
                 {member.name}
               </Text>
               {share === null ? null : (
                 <Text variant="captionMuted" tone="muted">
-                  {formatAmount(share, props.crewCurrency, locale)}
+                  {formatAmount(share, draft.currency, locale)}
                 </Text>
               )}
             </View>
@@ -154,7 +172,8 @@ export function SplitPeople(props: SplitPeopleProps) {
 }
 
 const styles = StyleSheet.create({
-  wrap: { flexDirection: 'row', flexWrap: 'wrap' },
+  // Centred under the split switch, so one person in the split never strands at the left edge.
+  wrap: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' },
   person: { alignItems: 'center', gap: 4, width: 52 },
   out: { opacity: 0.4 },
   card: { overflow: 'hidden' },

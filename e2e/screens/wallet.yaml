@@ -1,0 +1,18 @@
+appId: app.critterpass.dev
+---
+# Design | device captures for the premium UI's wallet: bookings and money. First a crew with
+# nothing in its wallet (the demo crew's Bali trip): the empty states, the + becoming the add sheet,
+# adding a booking. Then a crew with a stay, tomorrow's flight and two expenses (Đà Nẵng): the
+# stack, a flight and a stay, insurance, balances, adding an expense, settling up and the budget,
+# in light and then dark (the dark flight detail keeps its light boarding card). Receipt scans,
+# rooms and a cancelled flight need a camera or a booking no seed makes: not captured here.
+# The Đà Nẵng crew's wallet is wallet-trip.yaml, and the dark pass wallet-dark.yaml (shards of
+# their own).
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
+- runFlow:
+    file: subflows/wallet-empty.yaml
+    env:
+      LOOK: light

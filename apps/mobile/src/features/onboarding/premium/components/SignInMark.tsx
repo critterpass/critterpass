@@ -6,7 +6,7 @@
 import { Canvas, Group, Path } from '@shopify/react-native-skia';
 import { View } from 'react-native';
 
-import { APPLE_PATH, GOOGLE_PATHS } from '../../save/ProviderMark';
+import { APPLE_PATH, GOOGLE_PATHS } from './provider-paths';
 import { GOOGLE_COLOURS } from './onboarding-colours';
 
 export function SignInMark({

@@ -1,9 +1,13 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { WhereScreen } from '@/features/critters/where/where-screen';
+import { PremiumWhereScreen } from '@/features/critters/premium/where/where-screen';
+
+function useFormId(): string {
+  const { formId } = useLocalSearchParams<{ formId: string }>();
+  return typeof formId === 'string' ? formId : '';
+}
 
 /** Where, when and how to meet one form. */
-export default function CritterWhereRoute() {
-  const { formId } = useLocalSearchParams<{ formId: string }>();
-  return <WhereScreen formId={typeof formId === 'string' ? formId : ''} />;
+export default function WhereRoute() {
+  return <PremiumWhereScreen formId={useFormId()} />;
 }

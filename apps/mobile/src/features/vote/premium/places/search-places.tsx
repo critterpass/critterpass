@@ -15,13 +15,14 @@ import { useCommand } from '@/data/commands/use-command';
 import { useGuidesPerCity } from '@/data/guides';
 import { regionName } from '@/features/onboarding';
 import { toast } from '@/motion';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   CritterSticker,
   GlassIconButton,
   GlassSurface,
   GuideNote,
+  Icon,
   ListCard,
   PressableScale,
   StatusTag,
@@ -33,19 +34,11 @@ import { KeyboardStickyFooter } from '@/ui/premium/shell';
 import { useDestinationSearch, type PlaceResult } from '../../data/use-destination-search';
 import { requestPlaceCommand } from '../../data/vote-commands';
 import { guideOr } from '../../format';
-import { unguidedCountry } from '../../places/search-sheet';
+import { unguidedCountry } from '../../data/use-destination-search';
 import { voteRoutes } from '../../routes';
+import { ResultName } from './result-name';
 
-function ResultName({ name, typed }: { readonly name: string; readonly typed: string }) {
-  const lead = typed.trim();
-  const starts = lead !== '' && name.toLocaleLowerCase().startsWith(lead.toLocaleLowerCase());
-  return (
-    <Text variant="headline" numberOfLines={1}>
-      {starts ? name.slice(0, lead.length) : ''}
-      <Text variant="body">{starts ? name.slice(lead.length) : name}</Text>
-    </Text>
-  );
-}
+const FIELD_H = 50;
 
 export function SearchPlaces({ crewId }: { readonly crewId: string | undefined }) {
   const theme = usePremiumTheme();
@@ -83,7 +76,12 @@ export function SearchPlaces({ crewId }: { readonly crewId: string | undefined }
         contentContainerStyle={{
           paddingTop: insets.top + theme.space.gap6,
           paddingHorizontal: theme.space.gap16,
-          paddingBottom: theme.space.gap16,
+          // Room for the docked field, so the last result ends above it rather than under it.
+          paddingBottom:
+            FIELD_H +
+            Math.max(insets.bottom, theme.space.gap12) +
+            theme.space.gap16 +
+            theme.space.gap8,
           gap: theme.space.gap16,
         }}
       >
@@ -107,15 +105,17 @@ export function SearchPlaces({ crewId }: { readonly crewId: string | undefined }
               const detail =
                 result.coverage === 'live'
                   ? t({ id: 'vote.search.liveGuide', message: `${guide} guides here` })
-                  : count === 1
-                    ? t({ id: 'vote.search.localOne', message: '1 local to find' })
-                    : t({ id: 'vote.search.localMany', message: `${count} locals to find` });
+                  : count === 0
+                    ? null
+                    : count === 1
+                      ? t({ id: 'vote.search.localOne', message: '1 local to find' })
+                      : t({ id: 'vote.search.localMany', message: `${count} locals to find` });
               return (
                 <PressableScale
                   key={result.place_id}
                   onPress={() => open(result)}
                   accessibilityRole="button"
-                  accessibilityLabel={`${result.name}, ${detail}`}
+                  accessibilityLabel={[result.name, where, detail].filter(Boolean).join(', ')}
                   testID={`place-result-${result.place_id}`}
                   style={{
                     flexDirection: 'row',
@@ -150,7 +150,7 @@ export function SearchPlaces({ crewId }: { readonly crewId: string | undefined }
                       </Text>
                     )}
                     <Text variant="caption" tone="muted" numberOfLines={1}>
-                      {where === null ? detail : `${where} · ${detail}`}
+                      {[where, detail].filter(Boolean).join(' · ')}
                     </Text>
                   </View>
                   <StatusTag
@@ -195,7 +195,7 @@ export function SearchPlaces({ crewId }: { readonly crewId: string | undefined }
           <Text variant="body" testID="place-search-offline">
             {t({
               id: 'vote.search.offline',
-              message: "You're offline. Search comes back with the connection.",
+              message: 'You’re offline. Search comes back with the connection.',
             })}
           </Text>
         ) : null}
@@ -203,7 +203,7 @@ export function SearchPlaces({ crewId }: { readonly crewId: string | undefined }
           <Text variant="body" testID="place-search-failed">
             {t({
               id: 'vote.pitch.searchFailed',
-              message: "Search didn't answer. Try again in a moment.",
+              message: 'Search didn’t answer. Try again in a moment.',
             })}
           </Text>
         ) : null}
@@ -225,26 +225,36 @@ export function SearchPlaces({ crewId }: { readonly crewId: string | undefined }
           </View>
         ) : null}
       </ScrollView>
-      <KeyboardStickyFooter openedOffset={theme.space.gap16}>
+      {/* The home-indicator room is the footer's own padding, so it tucks under the keyboard
+          and the field sits 16 pt above it, not 50. */}
+      <KeyboardStickyFooter
+        openedOffset={theme.space.gap16}
+        style={{
+          paddingTop: theme.space.gap8,
+          paddingBottom: Math.max(insets.bottom, theme.space.gap12),
+        }}
+      >
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             gap: theme.space.gap8,
             paddingHorizontal: theme.space.gap12,
-            paddingBottom: Math.max(insets.bottom, theme.space.gap12),
           }}
         >
           <GlassSurface
             kind="regular"
             style={{
               flex: 1,
-              height: 50,
-              borderRadius: 25,
-              justifyContent: 'center',
+              height: FIELD_H,
+              borderRadius: FIELD_H / 2,
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: theme.space.gap8,
               paddingHorizontal: theme.space.gap16,
             }}
           >
+            <Icon name="search" size={17} color={theme.color.muted} />
             <TextInput
               value={query}
               onChangeText={setQuery}
@@ -258,9 +268,17 @@ export function SearchPlaces({ crewId }: { readonly crewId: string | undefined }
               placeholderTextColor={theme.color.placeholder}
               selectionColor={theme.color.caret}
               clearButtonMode="while-editing"
+              // A search is no form to fill: iOS otherwise floats its AutoFill bubble over the field.
+              autoComplete="off"
+              textContentType="none"
               accessibilityLabel={t({ id: 'vote.search.label', message: 'A city or a country' })}
               testID="place-search-field"
-              style={[theme.type.field, { color: theme.color.ink, padding: 0 }]}
+              style={{
+                flex: 1,
+                fontSize: theme.type.field.size,
+                color: theme.color.ink,
+                padding: 0,
+              }}
             />
           </GlassSurface>
           <GlassIconButton

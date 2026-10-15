@@ -6,7 +6,8 @@
  * Reads every downloaded shard artifact (`device-<platform>-shard-<n>/`): the flows that failed,
  * timed out or passed only on their retry (their JUnit reports, ./flow-attempts), the screen-check
  * findings (`screen-checks.log`) and the app's `[ui-qa]`
- * reports (`ui-qa.log`). With --coverage, appends the sweep coverage report.
+ * reports (`ui-qa.log`). With --coverage, appends what the run's screenshots captured against the
+ * premium designs, per platform, and the sweep coverage report.
  *
  * A shard that stops before its flows (the emulator never installed, the app crashed on launch)
  * uploads no report, and often no artifact at all. So the summary is checked against the plan: the
@@ -19,7 +20,13 @@ import { parseArgs } from 'node:util';
 
 import { reportedOutcome } from './flow-attempts';
 import type { ShardMatrix } from './plan-shards';
-import { coverage, formatCoverage } from './sweep-coverage';
+import {
+  coverage,
+  formatCoverage,
+  formatRunCoverage,
+  renderCodes,
+  runShots,
+} from './sweep-coverage';
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '../../..');
 
@@ -145,7 +152,7 @@ export function formatSummary(shards: readonly ShardFindings[]): string {
     ...(noResult.length
       ? [`- Flows with no result (their shard stopped first): **${String(noResult.length)}**`]
       : []),
-    `- Screen-check findings (SCREEN_FRAME, KEYBOARD_BAND, EMPTY_SCREEN): **${String(checks.length)}**`,
+    `- Screen-check findings (SCREEN_FRAME, KEYBOARD_BAND, EMPTY_SCREEN, SHEET_TOP_GAP): **${String(checks.length)}**`,
     `- \`[ui-qa]\` report lines: **${String(uiQa.length)}**`,
     '',
   );
@@ -171,7 +178,10 @@ function main(): void {
   const root = positionals[0];
   if (!root) throw new Error('Usage: run-summary <shards dir> [--coverage] [--out file]');
   let text = formatSummary(readShards(path.resolve(root), planFromEnv()));
-  if (values.coverage) text += `\n${formatCoverage(coverage(REPO_ROOT))}`;
+  if (values.coverage) {
+    text += `\n${formatRunCoverage(runShots(path.resolve(root)), renderCodes(REPO_ROOT))}`;
+    text += `\n${formatCoverage(coverage(REPO_ROOT))}`;
+  }
   if (values.out) writeFileSync(values.out, text);
   else console.log(text);
 }

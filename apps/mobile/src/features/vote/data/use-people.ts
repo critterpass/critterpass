@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import { useLiveRows } from './live-rows';
 import { PEOPLE_SQL, PEOPLE_TABLES } from './poll-queries';
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName } from '@/lib/people/member-name';
 
 export interface Person {
   readonly id: string;

@@ -9,8 +9,8 @@ import { premium } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { ScrollView, Share, StyleSheet, useWindowDimensions, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { PrivateContent } from '@/features/help';
 import { goBackOr } from '@/lib/navigation/back';
 import {
   GlassIconButton,
@@ -19,7 +19,7 @@ import {
   Text,
   usePremiumTheme,
 } from '@/ui/premium';
-import { FullScreen } from '@/ui/premium/shell';
+import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
 import { useBoardingPass } from '../boarding-pass/use-boarding-pass';
 import { BOOKINGS_ROUTES } from '../routes';
@@ -46,11 +46,12 @@ function Stub({
   );
 }
 
-function PassCard({ bookingId }: { readonly bookingId: string }) {
+type BoardingPass = ReturnType<typeof useBoardingPass>;
+
+function PassCard({ pass }: { readonly pass: BoardingPass }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const { width } = useWindowDimensions();
-  const pass = useBoardingPass(bookingId);
   const { leg, booking } = pass;
   const code = Math.min(width - 120, 220);
   const stub = [
@@ -131,18 +132,27 @@ function PassCard({ bookingId }: { readonly bookingId: string }) {
       {stub.length === 0 ? null : <Stub fields={stub} />}
       <View style={[styles.divider, { borderColor: th.color.fieldBorder }]} />
       <View style={styles.codeWrap}>
-        <PassCode
-          payload={pass.payload}
-          size={code}
-          missing={t({
-            id: 'bookings.pass.noCode',
-            message: 'No code saved yet. It saves when this phone next has signal.',
-          })}
-        />
-        {booking?.supplierRef == null ? null : (
-          <Text variant="mono" tone="muted">
-            {booking.supplierRef}
+        <PrivateContent>
+          <PassCode
+            payload={pass.payload}
+            size={code}
+            missing={t({
+              id: 'bookings.pass.noCode',
+              message: 'No code saved yet. It saves when this phone next has signal.',
+            })}
+          />
+        </PrivateContent>
+        {pass.passenger === null || pass.passenger === '' ? null : (
+          <Text variant="rowTextStrong" testID="bookings-pass-passenger">
+            {pass.passenger}
           </Text>
+        )}
+        {booking?.supplierRef == null ? null : (
+          <PrivateContent>
+            <Text variant="mono" tone="muted">
+              {booking.supplierRef}
+            </Text>
+          </PrivateContent>
         )}
       </View>
     </View>
@@ -152,7 +162,7 @@ function PassCard({ bookingId }: { readonly bookingId: string }) {
 export function BoardingPassPremium({ bookingId }: { readonly bookingId: string }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   const pass = useBoardingPass(bookingId);
   const [bright, setBright] = useState(true);
   const share = () => {
@@ -202,7 +212,7 @@ export function BoardingPassPremium({ bookingId }: { readonly bookingId: string 
         >
           {/* The pass stays light in dark mode: scanners and gate agents read it. */}
           <PremiumThemeProvider scheme="light">
-            <PassCard bookingId={bookingId} />
+            <PassCard pass={pass} />
           </PremiumThemeProvider>
           <Text variant="label" align="center" color={th.accent.paper} style={styles.soft}>
             {t({ id: 'bookings.pass.offline', message: 'Saved on this phone · works offline' })}

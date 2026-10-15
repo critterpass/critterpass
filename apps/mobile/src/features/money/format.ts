@@ -69,7 +69,7 @@ export function symbolOf(currency: string): string {
 }
 
 /**
- * Short amount for chips, rows and buttons: "Rp 1.08M", "Rp 450K", "US$68". Below ten thousand an
+ * Short amount for chips, rows and buttons: "Rp 1.08M", "Rp 450k", "US$68". Below ten thousand an
  * amount with cents keeps all of them ("US$6.40", "US$186.40", never "US$6.4" or a rounded
  * "US$186"), and a whole amount stays whole; from ten thousand up it is the compact form.
  */
@@ -83,7 +83,7 @@ export function formatShort(amountMinor: bigint, currency: string, locale: strin
   const digits = decimals > 0 && abs % shownUnit !== 0n ? decimals : 0;
   const body =
     major >= 10_000
-      ? compactNumber(locale, major)
+      ? thousandsMark(compactNumber(locale, major))
       : format.number(locale, major, {
           minimumFractionDigits: digits,
           maximumFractionDigits: digits,
@@ -93,6 +93,11 @@ export function formatShort(amountMinor: bigint, currency: string, locale: strin
   if (symbolTrails(currency, locale)) return `${sign}${body}\u00a0${symbol}`;
   const spaced = /[A-Za-z]$/u.test(symbol) ? `${symbol} ` : symbol;
   return `${sign}${spaced}${body}`;
+}
+
+/** The design writes thousands with a small k ("Rp 450k") and millions with a capital M. */
+function thousandsMark(compact: string): string {
+  return compact.replace(/K$/u, 'k');
 }
 
 /**

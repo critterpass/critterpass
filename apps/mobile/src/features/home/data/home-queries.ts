@@ -6,6 +6,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import type { HomeTripInput, TripStatus } from '@cp/domain';
 
+import { shortName } from '@/lib/people/member-name';
+
 import { ACT_INBOX_ITEM, DISMISS_TIP } from '../home-commands';
 
 export const PENDING_ACTS = `SELECT json_extract(envelope, '$.payload.item_id') FROM commands
@@ -120,7 +122,7 @@ export interface GuideCellRow {
 }
 
 export function firstName(name: string | null | undefined): string {
-  return name?.trim().split(/\s+/u)[0] ?? '';
+  return name === null || name === undefined || name.trim() === '' ? '' : shortName(name);
 }
 
 /** The crew Home shows: the one a link asked for, else the chosen one, else the first joined. */

@@ -5,7 +5,12 @@
  * once; a full room refuses the move without a command; a member sees the plan read-only and can
  * ask to swap.
  */
+// The app's own database module loads the native driver; these tests run on the test stack.
+jest.mock('@/data/powersync/db', () => ({}));
 jest.mock('expo-router', () => ({
+  // The premium pages declare their native header through the stack's screen.
+  Stack: Object.assign(() => null, { Screen: () => null }),
+  usePreventRemove: () => undefined,
   useIsFocused: () => true,
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => false },
 }));
@@ -44,8 +49,9 @@ import {
   sceneFrame,
   TRIP_ID,
   WINSTON,
-} from '../../scenes/fixtures';
+} from '../../test-support/setup-fixtures';
 import { moveGuest } from '../model';
+import { RoomsPremiumView } from '../../premium/rooms/rooms-premium-view';
 import { nothingToDecide, RoomsStep, toggleChip } from '../rooms-step';
 
 const METRICS = {
@@ -114,14 +120,14 @@ async function renderRooms(uid: string) {
         <GestureHandlerRootView>
           <LocalFirstProvider value={stack.value}>
             <ScreenJoltProvider>
-              <RoomsStep trip={trip} shell={sceneFrame(trip, 'rooms')} />
+              <RoomsStep trip={trip} shell={sceneFrame(trip, 'rooms')} View={RoomsPremiumView} />
             </ScreenJoltProvider>
           </LocalFirstProvider>
         </GestureHandlerRootView>
       </SafeAreaProvider>
     </I18nProvider>,
   );
-  await screen.findByTestId('setup-rooms-room-room-1');
+  await screen.findByTestId('setup-rooms');
   return stack;
 }
 
@@ -135,15 +141,27 @@ async function queued(db: TestLocalFirst['db'], cmd: string) {
   );
 }
 
-describe('organiser moves people', () => {
-  it('queues the move on the plan version and redraws the rooms and the price', async () => {
-    const { db } = await renderRooms(WINSTON);
-    // Dev joined after the rooms were made, so Jordan has room 3 alone and pays more.
-    expect(screen.getByTestId('setup-rooms-unplaced')).toBeTruthy();
-    expect(screen.getByTestId('setup-rooms-price-low')).toBeTruthy();
+/** In the rooms editor: tap a person, then the room they go to. */
+async function move(uid: string, roomKey: string) {
+  await fireEvent.press(await screen.findByTestId(`setup-rooms-person-${uid}`));
+  await fireEvent.press(screen.getByTestId(`setup-rooms-room-${roomKey}`));
+}
 
-    await fireEvent.press(screen.getByTestId(`setup-rooms-person-${DEV}`));
-    await fireEvent.press(await screen.findByTestId('setup-rooms-move-room-3'));
+/** The plan's row for a room names who sleeps there. */
+const inRoom = (roomKey: string, name: string) =>
+  within(screen.getByTestId(`setup-rooms-row-stay-1-${roomKey}`)).queryAllByLabelText(
+    new RegExp(`\\b${name}\\b`, 'u'),
+  ).length > 0;
+
+describe('organiser moves people', () => {
+  it('queues the move on the plan version and redraws the rooms', async () => {
+    const { db } = await renderRooms(WINSTON);
+    await fireEvent.press(await screen.findByTestId('setup-rooms-adjust'));
+    // Dev joined after the rooms were made: he waits to be placed.
+    expect(await screen.findByTestId('setup-rooms-unplaced')).toBeTruthy();
+    await move(DEV, 'room-3');
+    expect(screen.queryByTestId('setup-rooms-unplaced')).toBeNull();
+    await fireEvent.press(screen.getByTestId('setup-rooms-editor-save'));
 
     await waitFor(async () => expect(await queued(db, 'set_room_assignment')).toHaveLength(1));
     const [payload] = await queued(db, 'set_room_assignment');
@@ -156,35 +174,22 @@ describe('organiser moves people', () => {
         { stay_key: 'stay-1', room_key: 'room-3', uids: [JORDAN, DEV] },
       ],
     });
-    await waitFor(() =>
-      expect(
-        within(screen.getByTestId('setup-rooms-room-room-3')).getByTestId(
-          `setup-rooms-person-${DEV}`,
-        ),
-      ).toBeTruthy(),
-    );
-    // Every room now has two people at the same price: one price for everyone.
-    expect(screen.queryByTestId('setup-rooms-unplaced')).toBeNull();
-    expect(screen.getByTestId('setup-rooms-price-each')).toBeTruthy();
+    await waitFor(() => expect(inRoom('room-3', 'Dev')).toBe(true));
   });
 
   it('bases the next move on the queued one', async () => {
     const { db } = await renderRooms(WINSTON);
-    await fireEvent.press(screen.getByTestId(`setup-rooms-person-${RIN}`));
-    await fireEvent.press(await screen.findByTestId('setup-rooms-move-room-3'));
+    await fireEvent.press(await screen.findByTestId('setup-rooms-adjust'));
+    await move(RIN, 'room-3');
+    await fireEvent.press(screen.getByTestId('setup-rooms-editor-save'));
     await waitFor(async () => expect(await queued(db, 'set_room_assignment')).toHaveLength(1));
     // The screen reads its queued moves back from the database a moment after they are written,
     // and a move starts from the plan on screen: until Rin shows in room 3, room 1 still looks
     // full and would refuse Dev without a command.
-    await waitFor(() =>
-      expect(
-        within(screen.getByTestId('setup-rooms-room-room-3')).getByTestId(
-          `setup-rooms-person-${RIN}`,
-        ),
-      ).toBeTruthy(),
-    );
-    await fireEvent.press(screen.getByTestId(`setup-rooms-person-${DEV}`));
-    await fireEvent.press(await screen.findByTestId('setup-rooms-move-room-1'));
+    await waitFor(() => expect(inRoom('room-3', 'Rin')).toBe(true));
+    await fireEvent.press(await screen.findByTestId('setup-rooms-adjust'));
+    await move(DEV, 'room-1');
+    await fireEvent.press(screen.getByTestId('setup-rooms-editor-save'));
     await waitFor(async () => expect(await queued(db, 'set_room_assignment')).toHaveLength(2));
     const [, second] = await queued(db, 'set_room_assignment');
     expect(second).toMatchObject({ base_version: 5 });
@@ -197,8 +202,8 @@ describe('organiser moves people', () => {
 
   it('refuses a full room without sending anything', async () => {
     const { db } = await renderRooms(WINSTON);
-    await fireEvent.press(screen.getByTestId(`setup-rooms-person-${MAYA}`));
-    await fireEvent.press(await screen.findByTestId('setup-rooms-move-room-2'));
+    await fireEvent.press(await screen.findByTestId('setup-rooms-adjust'));
+    await move(MAYA, 'room-2');
     expect(await screen.findByTestId('setup-rooms-full')).toBeTruthy();
     expect(await queued(db, 'set_room_assignment')).toHaveLength(0);
   });
@@ -207,8 +212,8 @@ describe('organiser moves people', () => {
 describe('member view', () => {
   it('is read-only and asks the organiser to swap', async () => {
     const { db } = await renderRooms(MAYA);
-    await fireEvent.press(screen.getByTestId(`setup-rooms-person-${RIN}`));
-    expect(screen.queryByTestId('setup-rooms-move-room-3')).toBeNull();
+    expect(await screen.findByTestId('setup-rooms-ask-swap')).toBeTruthy();
+    expect(screen.queryByTestId('setup-rooms-adjust')).toBeNull();
     expect(screen.queryByTestId('setup-rooms-lock')).toBeNull();
 
     await fireEvent.press(screen.getByTestId('setup-rooms-ask-swap'));
@@ -220,7 +225,7 @@ describe('member view', () => {
 
   it('queues their room wishes', async () => {
     const { db } = await renderRooms(MAYA);
-    await fireEvent.press(screen.getByTestId('setup-rooms-chip-light_sleeper'));
+    await fireEvent.press(await screen.findByTestId('setup-rooms-chip-light_sleeper'));
     await waitFor(async () =>
       expect(await queued(db, 'set_room_prefs')).toEqual([
         { trip_id: TRIP_ID, chips: ['light_sleeper'] },
@@ -241,7 +246,11 @@ describe('no stay prices', () => {
           <GestureHandlerRootView>
             <LocalFirstProvider value={stack.value}>
               <ScreenJoltProvider>
-                <RoomsStep trip={trip} shell={{ ...sceneFrame(trip, 'rooms'), onSelectStep }} />
+                <RoomsStep
+                  trip={trip}
+                  shell={{ ...sceneFrame(trip, 'rooms'), onSelectStep }}
+                  View={RoomsPremiumView}
+                />
               </ScreenJoltProvider>
             </LocalFirstProvider>
           </GestureHandlerRootView>
@@ -290,7 +299,11 @@ describe('a stay pick the server refused after it was queued', () => {
             <LocalFirstProvider value={stack.value}>
               <TravelDataReaderProvider value={costs}>
                 <ScreenJoltProvider>
-                  <RoomsStep trip={trip} shell={sceneFrame(trip, 'rooms')} />
+                  <RoomsStep
+                    trip={trip}
+                    shell={sceneFrame(trip, 'rooms')}
+                    View={RoomsPremiumView}
+                  />
                 </ScreenJoltProvider>
               </TravelDataReaderProvider>
             </LocalFirstProvider>
@@ -307,7 +320,7 @@ describe('a stay pick the server refused after it was queued', () => {
       [JSON.stringify({ reason: 'stay_unavailable', stay: 'hostel' })],
     );
     const notice = await screen.findByTestId('setup-rooms-notice');
-    expect(notice.props.children).toBe(
+    expect(notice).toHaveTextContent(
       'That stay has no price for this trip right now, so it wasn’t picked. Try another.',
     );
     await fireEvent.press(option);

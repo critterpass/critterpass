@@ -4,7 +4,7 @@
  * saved on the device (only ids and addresses may be kept, and those come from the server).
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports.
-jest.mock('expo-file-system', () => require('@/ui/media/test-support/memory-file-system'));
+jest.mock('expo-file-system', () => require('@/lib/test-support/memory-file-system'));
 
 import { foursquarePhotoAsset, type PlaceMediaAsset } from '@cp/domain';
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
@@ -17,7 +17,7 @@ import {
   savedMediaUri,
   savedStillUri,
 } from '@/lib/media/media-files';
-import { downloads, reset, seed } from '@/ui/media/test-support/memory-file-system';
+import { downloads, reset, seed } from '@/lib/test-support/memory-file-system';
 
 import { isGenericPlacePhoto, resetPlacePhotos } from '@/data/media/place-photo-store';
 import { screenCredits, tilePhoto, usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';

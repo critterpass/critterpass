@@ -6,7 +6,7 @@
 import { generateUuidV7 } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { Redirect, router } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ComponentType } from 'react';
 import { Image, Linking } from 'react-native';
 
 import type { SendResult } from '@/data/commands/client';
@@ -16,21 +16,23 @@ import { useFlag } from '@/lib/analytics/flags';
 import { goBackOr } from '@/lib/navigation/back';
 import { useCommandFeedback, type CommandFeedbackCopy } from '@/motion/island-toast';
 
-import { MONEY_FALLBACK, MoneyNoTripScreen, MoneyScreenLoading } from '../components/screen-states';
+import { MONEY_FALLBACK } from '../routes';
 import { addExpenseCommand, commitReceiptCommand } from '../data/commands';
 import { selectTrip, useSelectedTrip } from '../data/selected-trip';
 import { useMoneyServices } from '../data/services';
 import { useMoneyContext } from '../data/use-money-context';
 import { useSendOnce } from '../data/use-send-once';
 import { MONEY_ROUTES } from '../routes';
-import { MemberPicker } from './MemberPicker';
+import type { MemberPickerProps } from './member-pick';
 import { receiptView, toCommitPayload } from './review-model';
-import { ScanView, type ScanViewProps } from './ScanView';
+import type { ScanViewProps } from './view-types';
+import type { TypeLinesEditorProps } from './view-types';
 import { TypeLinesScreen } from './TypeLinesScreen';
 import { useReceiptQueueDrain } from './receipt-queue';
 import { useReviewScene } from './use-review-scene';
 import { useScan, useWaitedTooLong } from './use-scan';
 import { WalletGuideProvider } from '@/features/bookings';
+import { PREMIUM_SCAN_LOOK } from '../premium/receipt/scan-look';
 
 /** The receipt was already turned into its expense (an earlier SPLIT IT whose answer was lost). */
 function alreadyCommitted(result: SendResult): boolean {
@@ -41,14 +43,18 @@ function alreadyCommitted(result: SendResult): boolean {
   );
 }
 
-export function ScanScreen({
-  tripId: routeTripId = null,
-  panelFor,
-}: {
-  readonly tripId?: string | null;
-  /** Draws the review and failure sheets in another look. */
-  readonly panelFor?: ScanViewProps['panelFor'];
-}) {
+/** Everything the scan draws (the premium look's pieces). */
+export interface ScanLook {
+  readonly View: ComponentType<ScanViewProps>;
+  readonly Picker: ComponentType<MemberPickerProps>;
+  readonly TypeLinesEditor: ComponentType<TypeLinesEditorProps>;
+  readonly Loading: ComponentType;
+  readonly NoTrip: ComponentType<{ readonly crew: boolean }>;
+}
+
+export function ScanScreen({ tripId: routeTripId = null }: { readonly tripId?: string | null }) {
+  const look = PREMIUM_SCAN_LOOK;
+  const { View: SceneView, Picker, Loading, NoTrip } = look;
   const services = useMoneyServices();
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a flag key, not copy
   const enabled = useFlag('money.receipts');
@@ -91,10 +97,18 @@ export function ScanScreen({
     },
   });
   if (!enabled || services.reader === null) return <Redirect href={addRoute(null)} />;
-  if (ctx.status === 'loading' || ctx.uid === null) return <MoneyScreenLoading />;
-  if (ctx.trip === null) return <MoneyNoTripScreen crew={ctx.crew !== null} />;
+  if (ctx.status === 'loading' || ctx.uid === null) return <Loading />;
+  if (ctx.trip === null) return <NoTrip crew={ctx.crew !== null} />;
   if (scan.state.step === 'typing') {
-    return <TypeLinesScreen ctx={ctx} parsed={scene.parsed} receiptId={scan.state.receiptId} />;
+    return (
+      <TypeLinesScreen
+        ctx={ctx}
+        parsed={scene.parsed}
+        receiptId={scan.state.receiptId}
+        Editor={look.TypeLinesEditor}
+        Picker={Picker}
+      />
+    );
   }
 
   // A step that went through says so and leaves for the balances; one that did not says so, and
@@ -181,7 +195,7 @@ export function ScanScreen({
   return (
     <WalletGuideProvider tripId={ctx.trip?.id ?? null}>
       <>
-        <ScanView
+        <SceneView
           scene={scene.build({
             onCommit: () => void onCommit(),
             onEven: () => void onEven(),
@@ -205,10 +219,9 @@ export function ScanScreen({
           onType={typeItIn}
           onRetake={scan.retake}
           onSettings={() => void Linking.openSettings()}
-          panelFor={panelFor}
         />
         {picker === 'payer' ? (
-          <MemberPicker
+          <Picker
             title={t({ id: 'money.scan.whoPaid', message: 'Who paid?' })}
             members={ctx.splitMembers}
             selected={[scene.payerId]}
@@ -220,7 +233,7 @@ export function ScanScreen({
             onClose={() => setPicker(null)}
           />
         ) : pickerLine !== null ? (
-          <MemberPicker
+          <Picker
             title={pickerLine.label}
             members={ctx.splitMembers}
             selected={scene.assignments[pickerLine.line_id] ?? null}

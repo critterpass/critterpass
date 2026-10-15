@@ -7,15 +7,15 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.title"
 msgstr "{days, plural, one {{guideName} is drafting your day} other {{guideName} is drafting your # days}}"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.offline"
 msgstr "{days, plural, one {I’ll start on your day as soon as you’re back online.} other {I’ll start on your # days as soon as you’re back online.}}"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.failedTitle"
 msgstr "{guideName} couldn’t finish"
 
@@ -63,10 +63,6 @@ msgstr "Checking opening hours"
 msgid "planDraft.working.season"
 msgstr "Checking the season"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.leave"
-msgstr "Come back later"
-
 #: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
 msgid "planDraft.dayCard"
 msgstr "Day {n} · {theme}"
@@ -75,11 +71,7 @@ msgstr "Day {n} · {theme}"
 msgid "planDraft.dayCard.outlined"
 msgstr "Day {n} · outlined"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.again"
-msgstr "Draft again"
-
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.stoppedTitle"
 msgstr "Draft stopped"
 
@@ -87,7 +79,7 @@ msgstr "Draft stopped"
 msgid "planDraft.step.food"
 msgstr "Finding {dietary} food for {name}"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.blocked"
 msgstr "I can’t start this draft yet. Finish setup and try again."
 
@@ -99,19 +91,19 @@ msgstr "I couldn’t reach my notes. Try again."
 msgid "planDraft.fail.places"
 msgstr "I don’t know enough places there yet."
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.noDates"
 msgstr "Lock the dates first, then I’ll draft."
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.failed"
 msgstr "Nobody saw it and nothing was used up. Want me to try again?"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.stopped"
 msgstr "Nobody saw it. Start again whenever you like."
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.blockedTitle"
 msgstr "Not quite ready"
 
@@ -135,11 +127,7 @@ msgstr "Setting the pace"
 msgid "planDraft.fail.setup"
 msgstr "Setup isn’t finished yet."
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.cancel"
-msgstr "Stop drafting"
-
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.slow"
 msgstr "Taking longer than usual. You can leave: I’ll tell you when it’s ready."
 
@@ -147,15 +135,11 @@ msgstr "Taking longer than usual. You can leave: I’ll tell you when it’s rea
 msgid "planDraft.fail.other"
 msgstr "This step didn’t work out."
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.line"
 msgstr "This takes a few minutes. You can leave: I’ll tell you when it’s ready, and you see it before anyone else."
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.retry"
-msgstr "Try again"
-
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.offlineTitle"
 msgstr "Waiting for signal"
 

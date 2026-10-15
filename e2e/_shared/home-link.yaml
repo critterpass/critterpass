@@ -1,0 +1,54 @@
+appId: app.critterpass.dev
+---
+# Brings Home to the front from whatever screen or sheet is showing, in seconds, and never fails:
+# the caller checks for `home-screen` and falls back to stepping back. Trips' link closes what is
+# over the tabs and opens the Trips tab, then the Home tab is tapped: Home's own link (`/`) lands on
+# a blank page while the app runs. The device run pre-approves the app's link schemes
+# (ci-device/ios-device.sh), so no "Open in" prompt is waited for. A trip that has turned on can
+# show its welcome page over Home.
+- openLink:
+    link: critterpass-dev://trips
+# Waited for by Trips' own content: the tabs show at once, and Home tapped before the link lands is
+# undone by it (Trips opens after the tap).
+- extendedWaitUntil:
+    visible:
+      id: 'trip-list-row-.*|trip-list-empty|trip-hub'
+    timeout: 10000
+    optional: true
+- runFlow: settle.yaml
+- runFlow:
+    file: tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen|critters-hatch-later'
+    timeout: 8000
+    optional: true
+# Where it landed, in the flow's log.
+- runFlow: where.yaml
+# The iPhone's bar can minimise to Trips' lens while the tab look still finds the hidden Home
+# title, so nothing was tapped and Trips stays: the lens (or Home, where the bar is whole) is tapped
+# and Home once more.
+- runFlow:
+    when:
+      platform: iOS
+      true: ${output.where === '/trips'}
+    commands:
+      - tapOn:
+          point: '12%,94%'
+      - runFlow: settle.yaml
+      - runFlow:
+          file: tab.yaml
+          env:
+            TAB: home
+            LABEL: Home
+      - runFlow: where.yaml
+- runFlow:
+    when:
+      true: ${output.where.indexOf('/hatch') === 0 || output.where === 'unknown'}
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'
+          optional: true

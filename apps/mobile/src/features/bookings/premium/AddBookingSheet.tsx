@@ -1,24 +1,27 @@
 /**
  * "Add a booking" (1.06): the sheet the wallet's `+` grows into. One choice, so half height and no
  * verb: forward an email (copies the crew's address), scan a ticket, or add one by hand. Nothing
- * is typed here, so it closes without asking.
+ * is typed here, so it closes without asking. It is the native form sheet alone: no drawn morph
+ * runs before or after it.
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import { guideCritterKind, IconTile, LineIcon, turn, type LineIconName } from '@/features/trip';
-import { CritterSticker, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { guideCritterKind, LineIcon } from '@/features/trip';
+import { CritterSticker, PressableScale, StickerIcon, Text, usePremiumTheme } from '@/ui/premium';
+import type { StickerIconName } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
 
 import { useWalletContext } from '../data/use-wallet-context';
 import { useWalletGuide, WalletGuideProvider } from '../data/wallet-guide';
+import { BOOKINGS_ROUTES } from '../routes';
+import { leaveSheetThen } from './sheet-handoff';
 import { useAddChannels } from './use-add-channels';
 
 function Tile(props: {
-  readonly icon: LineIconName;
-  readonly bg: string;
-  readonly color: string;
+  /** The tile's colour sticker (1.06: a chat bubble, a camera, a wallet). */
+  readonly icon: StickerIconName;
   readonly label: string;
   /** Degrees the doodle leans. */
   readonly tilt: number;
@@ -46,14 +49,51 @@ function Tile(props: {
           paddingHorizontal: th.space.gap8,
         }}
       >
-        <View style={{ transform: [turn(props.tilt)] }}>
-          <IconTile name={props.icon} bg={props.bg} color={props.color} size={52} />
-        </View>
+        <StickerIcon
+          name={props.icon}
+          size={52}
+          tilt={props.tilt}
+          // 1.06 draws the by-hand wallet in sun yellow, not the hub's mint.
+          {...(props.icon === 'wallet' ? { color: th.accent.sun } : {})}
+        />
         <Text variant="label" align="center" numberOfLines={2}>
           {props.label}
         </Text>
       </View>
     </PressableScale>
+  );
+}
+
+/** Joins every character so the address only breaks where it must, never at its own dots. */
+const WORD_JOINER = '\u2060';
+/** The one place a long address may break: before its "@", so the domain stays whole. */
+const BREAK = '\u200B';
+
+function keptWhole(address: string): string {
+  return address
+    .split('@')
+    .map((part) => [...part].join(WORD_JOINER))
+    .join(`${BREAK}@${WORD_JOINER}`);
+}
+
+/** The forward note with the crew's address set bold (1.06), kept whole on its line. */
+function ForwardNote(props: { readonly address: string; readonly note: string }) {
+  const at = props.note.indexOf(props.address);
+  if (at < 0) {
+    return (
+      <Text variant="note" tone="inkSecondary" style={styles.note}>
+        {props.note}
+      </Text>
+    );
+  }
+  return (
+    <Text variant="note" tone="inkSecondary" style={styles.note}>
+      {props.note.slice(0, at)}
+      <Text variant="note" style={styles.address}>
+        {keptWhole(props.address)}
+      </Text>
+      {props.note.slice(at + props.address.length)}
+    </Text>
   );
 }
 
@@ -63,36 +103,29 @@ function Body() {
   const context = useWalletContext();
   const guide = useWalletGuide();
   const channels = useAddChannels(context);
-  // A choice leaves the sheet first, so the next screen or the scanner opens over the wallet.
-  const then = (action: () => void) => () => {
-    router.back();
-    action();
-  };
+  // A choice lowers the sheet first, then the next page pushes over the wallet. Scanning opens
+  // the add page with the scanner up, so what was read shows there as it arrives.
+  const then = (action: () => void) => () => leaveSheetThen(action);
+  const scan = () => router.push({ pathname: BOOKINGS_ROUTES.add, params: { start: 'scan' } });
   return (
     <View style={{ gap: th.space.gap16, paddingBottom: th.space.gap16 }}>
       <View style={{ flexDirection: 'row', gap: th.space.gap10 }}>
         <Tile
-          icon="mail"
-          bg={th.color.status.rain.bg}
-          color={th.color.status.rain.text}
+          icon="chat"
           label={t({ id: 'bookings.premium.forwardAnEmail', message: 'Forward an email' })}
           tilt={-6}
           onPress={channels.forward}
           testID="bookings-add-forward"
         />
         <Tile
-          icon="scan"
-          bg={th.color.status.voteOpen.bg}
-          color={th.color.status.voteOpen.text}
+          icon="camera"
           label={t({ id: 'bookings.premium.scanATicket', message: 'Scan a ticket' })}
           tilt={5}
-          onPress={then(channels.scan)}
+          onPress={then(scan)}
           testID="bookings-add-scan"
         />
         <Tile
-          icon="receipt"
-          bg={th.color.status.maybe.bg}
-          color={th.color.status.maybe.text}
+          icon="wallet"
           label={t({ id: 'bookings.premium.byHand', message: 'Add by hand' })}
           tilt={-4}
           onPress={then(channels.byHand)}
@@ -107,12 +140,13 @@ function Body() {
             size={34}
             pose="point"
           />
-          <Text variant="note" tone="inkSecondary" style={{ flex: 1 }}>
-            {t({
+          <ForwardNote
+            address={channels.address}
+            note={t({
               id: 'bookings.premium.forwardNote',
               message: `Forward to ${channels.address} and I'll file it.`,
             })}
-          </Text>
+          />
           <PressableScale
             onPress={channels.forward}
             accessibilityRole="button"
@@ -142,3 +176,8 @@ export function AddBookingSheet() {
     </WalletGuideProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  note: { flex: 1 },
+  address: { fontWeight: '600' },
+});

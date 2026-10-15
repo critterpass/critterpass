@@ -8,6 +8,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { dataOf } from '@/data/travel-data/freshness';
 import { useTravelRead } from '@/data/travel-data/use-travel-read';
+import { shortName } from '@/lib/people/member-name';
 
 import { useLiveRows } from '../data/live-rows';
 import type { BoardIdea, MyVote } from './board';
@@ -65,7 +66,7 @@ export function useBoard(): Board {
     for (const vote of crewmates) {
       const name = byId.get(vote.user_id);
       if (name === undefined || name === '') continue;
-      out.set(vote.idea_id, [...(out.get(vote.idea_id) ?? []), name.split(/\s+/u)[0] ?? name]);
+      out.set(vote.idea_id, [...(out.get(vote.idea_id) ?? []), shortName(name)]);
     }
     return out;
   }, [crewmates, names]);

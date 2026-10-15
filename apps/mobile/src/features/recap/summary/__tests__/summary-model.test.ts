@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import { readAward, readRecap } from '../../data/recap-rows';
-import { awardRows, ME, RECEIPT, recapRow, STATS } from '../../dev/recap-fixtures';
+import { awardRows, ME, RECEIPT, recapRow, STATS } from '../../test-support/recap-fixtures';
 import { buildSummaryModel, type SummaryInput } from '../summary-model';
 
 function input(over: Partial<SummaryInput> = {}): SummaryInput {

@@ -9,6 +9,7 @@
 import { generateUuidV7 } from '@cp/domain';
 import { useMemo, useState } from 'react';
 
+import { shortName } from '@/lib/people/member-name';
 import { useCommand } from '@/data/commands/use-command';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useGuideText } from '@/lib/i18n/guide-text';
@@ -23,7 +24,7 @@ import { walletHref } from '../../hub/hub-links';
 import { TRIPS_TAB } from '../../hub/routes';
 import { castStormBallotCommand, holdStormSeatsCommand } from '../commands';
 import { stormModel, type BallotRowData, type PollRowData, type StormRowData } from './model';
-import type { StormViewProps } from './storm-view';
+import type { StormViewProps } from './view-types';
 
 const STORM_SQL = `SELECT d.id, d.trip_id, d.status, d.cause, d.title, d.summary, d.facts, d.options,
     d.source_snapshot, d.chosen_option_id, d.i18n
@@ -48,6 +49,8 @@ interface TripRow {
   readonly guide_name: string | null;
 }
 
+/** The buyer as the crew calls them, or '' with no name. */
+const shortOrEmpty = (name: string) => (name.trim() === '' ? '' : shortName(name));
 export function useStormScreen({ pollId }: { readonly pollId: string }): StormViewProps {
   const me = useOwnerUid();
   const syncPhase = useSyncPhase();
@@ -92,7 +95,7 @@ export function useStormScreen({ pollId }: { readonly pollId: string }): StormVi
       ? null
       : {
           id: buyer.buyer_id,
-          name: people.find((p) => p.id === buyer.buyer_id)?.name ?? '',
+          name: shortOrEmpty(people.find((p) => p.id === buyer.buyer_id)?.name ?? ''),
           me: buyer.buyer_id === me,
         };
   return {

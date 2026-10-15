@@ -1,38 +1,36 @@
 /**
- * NEAR ME's map (an undesigned state): every place on the trip where a critter lives, each pin
- * naming the place and the rarest tier still waiting there. Nothing without a trip or its pack.
+ * NEAR ME's map (undesigned; the premium spot map): every place on the trip where a critter lives,
+ * each pin's dot in the rarest tier still waiting there, a found-everything place saying so.
+ * Nothing without a trip or its spots.
  */
-import { upper } from '@cp/i18n';
+import { View } from 'react-native';
 
-import { useLocale } from '@/lib/i18n/use-locale';
-import { Stack } from '@/ui/layout/Stack';
-import { Text } from '@/ui/text/Text';
-import { useTheme } from '@/ui/theme';
+import { Text } from '@/ui/premium';
 
-import { SpotMap } from './spot-map';
+import { PremiumSpotMap } from '../premium/where/spot-map';
 import { useNearSpots } from './use-where';
 import { allFound, spotsMapLabel } from './where-copy';
 
 const HEIGHT = 240;
 
 export function NearMap({ watching }: { readonly watching: boolean }) {
-  const theme = useTheme();
-  const locale = useLocale();
   const { spots, trip, position } = useNearSpots(watching);
   if (!watching || spots.length === 0) return null;
+  const label = spotsMapLabel();
   return (
-    <Stack gap="8" testID="critters-near-map">
-      <Text variant="eyebrow" color={theme.semantic.text.secondary}>
-        {upper(spotsMapLabel(), locale)}
+    <View style={{ gap: 8 }} testID="critters-near-map">
+      <Text variant="label" tone="muted">
+        {label}
       </Text>
-      <SpotMap
-        spots={spots.map((spot) => ({ ...spot, tier: spot.unfound }))}
+      <PremiumSpotMap
+        spots={spots}
+        rarity="common"
         position={position}
         slug={trip.slug}
-        placeName={trip.name}
-        foundLabel={allFound()}
         height={HEIGHT}
+        label={label}
+        foundLabel={allFound()}
       />
-    </Stack>
+    </View>
   );
 }

@@ -40,10 +40,6 @@ export const SHELL_SIZE = {
   guideCircleBorder: 3,
   /** Tokek inside the circle. */
   guideCritter: 46,
-  /** Material bottom navigation height, which the Android guide button floats above. */
-  androidTabBar: 80,
-  /** The Android guide button's margin from the bar and the screen edge. */
-  androidFabMargin: 16,
 } as const;
 
 export function useShellExtras(): ShellExtras {

@@ -72,6 +72,17 @@ export function framePoints(input: {
   return input.center === null ? [] : [input.center];
 }
 
+/** The map's first view before the camera fits: the stay, the destination, or what it frames. */
+export function firstView(
+  stay: { readonly lat: number; readonly lng: number } | null,
+  center: Coord | null,
+  points: readonly Coord[],
+): [number, number] {
+  if (stay !== null) return [stay.lng, stay.lat];
+  const [lng, lat] = center ?? points[0] ?? [0, 0];
+  return [lng, lat];
+}
+
 /** The bounds around points, `[west, south, east, north]`; a single point gets a little room. */
 export function boundsOf(points: readonly Coord[]): [number, number, number, number] | null {
   if (points.length === 0) return null;

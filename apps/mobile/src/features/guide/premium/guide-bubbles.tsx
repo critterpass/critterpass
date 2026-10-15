@@ -7,7 +7,7 @@ import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { Avatar, CritterSticker, Text, makePremiumStyles, usePremiumTheme } from '@/ui/premium';
 
 const useStyles = makePremiumStyles((th) => ({
@@ -79,7 +79,11 @@ export function GuideQuestion({
 }: {
   readonly text: string;
   /** A crewmate's question; null for the asker's own. */
-  readonly author: { readonly name: string; readonly color: string } | null;
+  readonly author: {
+    readonly name: string;
+    readonly color: string;
+    readonly uid?: string;
+  } | null;
   readonly faded?: boolean;
   readonly testID?: string;
 }) {
@@ -95,7 +99,7 @@ export function GuideQuestion({
   }
   return (
     <View style={styles.row} testID={testID}>
-      <Avatar name={author.name} color={author.color} size={28} />
+      <Avatar name={author.name} color={author.color} uid={author.uid} size={28} />
       <View style={styles.theirs}>
         <Text variant="body">{text}</Text>
       </View>

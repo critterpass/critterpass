@@ -1,8 +1,10 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { SupplierBookSheet } from '@/features/bookings/supplier/sheets';
+import { SupplierBookPremium } from '@/features/bookings/premium/supplier/supplier-sheets';
+
+function SupplierRoute() {
+  return <SupplierBookPremium params={useLocalSearchParams()} />;
+}
 
 /** Booking a Viator activity in the app: hold, traveller, Viator's payment form, result. */
-export default function SupplierBookRoute() {
-  return <SupplierBookSheet params={useLocalSearchParams()} />;
-}
+export default SupplierRoute;

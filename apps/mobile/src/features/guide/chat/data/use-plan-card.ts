@@ -74,3 +74,31 @@ export function usePlanCard(tripId: string | null, changesetId: string): PlanCar
   const view = useChangeset(tripId, changesetId);
   return useMemo(() => toPlanCard(changesetId, view), [changesetId, view]);
 }
+
+export type PlanCardOutcome = 'open' | 'sent' | 'applied' | 'closed';
+
+export function outcomeOf(state: PlanCardModel['state']): PlanCardOutcome {
+  if (state === 'draft') return 'open';
+  if (state === 'voting') return 'sent';
+  if (state === 'approved' || state === 'applying') return 'applied';
+  return 'closed';
+}
+
+/** "+$22" (whole units), or null when nobody's share moves or it differs per person. */
+export function costLine(model: PlanCardModel, locale: string): string | null {
+  if (model.eachMinor === null || model.currency === null || model.eachMinor === 0) return null;
+  try {
+    const digits =
+      new Intl.NumberFormat('en', { style: 'currency', currency: model.currency }).resolvedOptions()
+        .maximumFractionDigits ?? 2;
+    // The sign is written here: Hermes on iPhone has no `signDisplay`.
+    const amount = new Intl.NumberFormat(locale, {
+      style: 'currency',
+      currency: model.currency,
+      maximumFractionDigits: 0,
+    }).format(Math.abs(model.eachMinor) / 10 ** digits);
+    return `${model.eachMinor < 0 ? '-' : '+'}${amount}`;
+  } catch {
+    return null;
+  }
+}

@@ -8,32 +8,11 @@ msgstr ""
 "Language: nl\n"
 
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
-#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
 msgid "trip.alarm.snoozeNote"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 msgid "trip.alarm.guideLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
-msgid "trip.alarm.sheet.notificationTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
-msgid "trip.alarm.sheet.deniedTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
-msgid "trip.alarm.sheet.askAllow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
-msgid "trip.alarm.sheet.exactOpen"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
-msgid "trip.alarm.sheet.exactBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
@@ -44,21 +23,12 @@ msgstr ""
 msgid "trip.alarm.titleBeThere"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
-msgid "trip.alarm.close"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 msgid "trip.alarm.crewPinged"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
-msgid "trip.alarm.sheet.notificationOk"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 #: ../../apps/mobile/src/features/trip/alarm/alarm-runtime.tsx
-#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
 msgid "trip.alarm.imUp"
 msgstr ""
 
@@ -74,22 +44,6 @@ msgstr ""
 msgid "trip.alarm.eyebrowPlace"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
-msgid "trip.alarm.sheet.askTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
-msgid "trip.alarm.pingedLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
-msgid "trip.alarm.sheet.notificationBody"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
-msgid "trip.alarm.sheet.deniedOpen"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 msgid "trip.alarm.pickupPlace"
 msgstr ""
@@ -98,27 +52,13 @@ msgstr ""
 msgid "trip.alarm.pickup"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
-msgid "trip.alarm.sheet.exactTitle"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
-#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
 msgid "trip.alarm.slide"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 #: ../../apps/mobile/src/features/trip/alarm/alarm-runtime.tsx
-#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
 msgid "trip.alarm.snooze"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
-msgid "trip.alarm.sheet.askBody"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
-msgid "trip.alarm.sheet.deniedBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts

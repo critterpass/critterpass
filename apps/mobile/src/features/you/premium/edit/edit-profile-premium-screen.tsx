@@ -22,14 +22,14 @@ import { confirmAlert, PushScreen } from '@/ui/premium/shell';
 import { languageChoices } from '../../language/language-names';
 import { YOU_ROUTES } from '../../routes';
 import { nameProblemText, usernameText } from '../../edit-profile/edit-profile-copy';
-import {
-  AirportSheet,
-  LanguagesSheet,
-  NameSheet,
-  UsernameSheet,
-} from '../../edit-profile/field-sheets';
 import { airportLabel, useEditProfile } from '../../edit-profile/use-edit-profile';
 import { useAppearanceWords } from './appearance-copy';
+import {
+  AirportPremiumSheet,
+  LanguagesPremiumSheet,
+  NamePremiumSheet,
+  UsernamePremiumSheet,
+} from './field-sheets-premium';
 import { DataPage } from './data-page';
 
 /* eslint-disable lingui/no-unlocalized-strings -- routes, never copy. */
@@ -107,7 +107,7 @@ export function EditProfilePremiumScreen() {
       label: t({ id: 'you.edit.languages', message: 'Languages' }),
       value:
         draft === null || draft.languages.length === 0
-          ? t({ id: 'you.edit.languages.none', message: 'Add the languages you speak' })
+          ? t({ id: 'you.edit.languages.none', message: 'Add languages' })
           : edit.languagesText(draft.languages),
       note: null,
     },
@@ -143,9 +143,21 @@ export function EditProfilePremiumScreen() {
             photoUri={edit.photoUri}
             onChangePhoto={() => router.push(YOU_ROUTES.avatar)}
           />
-          <Text variant="caption" tone="muted" style={{ paddingHorizontal: th.space.titleGutter }}>
-            {t({ id: 'you.premium.crewsSee', message: 'This page is all your crews ever see' })}
-          </Text>
+          {/* Centred under the page with the crew glyph, as the design says who sees it. */}
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: th.space.gap6,
+              paddingHorizontal: th.space.titleGutter,
+            }}
+          >
+            <Icon name="people" size={14} color={th.color.muted} />
+            <Text variant="caption" tone="muted" align="center">
+              {t({ id: 'you.premium.crewsSee', message: 'This page is all your crews ever see' })}
+            </Text>
+          </View>
           {edit.problem === null ? null : (
             <Text
               variant="caption"
@@ -185,7 +197,7 @@ export function EditProfilePremiumScreen() {
               <Row
                 title={t({ id: 'you.premium.appearance', message: 'Appearance' })}
                 subtitle={appearanceWords[appearance]}
-                leading={<Tile glyph="expand" color={th.color.ink} />}
+                leading={<Tile glyph="appearance" color={th.color.ink} />}
                 trailing={chevron}
                 onPress={() => router.push(APPEARANCE_ROUTE)}
                 testID="you-edit-appearance"
@@ -195,7 +207,7 @@ export function EditProfilePremiumScreen() {
         </View>
       </PushScreen>
       {edit.editing === 'name' && draft !== null ? (
-        <NameSheet
+        <NamePremiumSheet
           value={draft.name}
           onDone={(name) => {
             edit.setEdits((e) => ({ ...e, name }));
@@ -205,7 +217,7 @@ export function EditProfilePremiumScreen() {
         />
       ) : null}
       {edit.editing === 'username' && saved !== null && draft !== null ? (
-        <UsernameSheet
+        <UsernamePremiumSheet
           saved={saved}
           draft={draft}
           onDone={(next) => {
@@ -216,7 +228,7 @@ export function EditProfilePremiumScreen() {
         />
       ) : null}
       {edit.editing === 'home-airport' ? (
-        <AirportSheet
+        <AirportPremiumSheet
           onDone={(iata) => {
             edit.setEdits((e) => ({ ...e, homeAirport: iata }));
             edit.setEditing(null);
@@ -225,7 +237,7 @@ export function EditProfilePremiumScreen() {
         />
       ) : null}
       {edit.editing === 'languages' && draft !== null ? (
-        <LanguagesSheet
+        <LanguagesPremiumSheet
           value={draft.languages}
           choices={languageChoices(locale).map((choice) => ({
             code: choice.code,

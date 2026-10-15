@@ -4,7 +4,7 @@
  */
 import { useEffect, useState } from 'react';
 
-import { useStoryClock } from '@/ui/story/story-clock';
+import { useStoryClock } from '@/lib/story/story-clock';
 
 export function useClockReached(at: number): boolean {
   const clock = useStoryClock();

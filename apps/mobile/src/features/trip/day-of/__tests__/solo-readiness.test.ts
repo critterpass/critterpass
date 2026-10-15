@@ -49,7 +49,7 @@ describe('the readiness line', () => {
       'Not up yet',
     );
     const up = heroCopy(view([person('me', true, true)]), now, 'Tokek', 'en');
-    expect(up.readinessLabel).toBe("You're up");
+    expect(up.readinessLabel).toBe('You’re up');
     expect(up.readinessDetail).not.toMatch(/everyone/iu);
   });
 

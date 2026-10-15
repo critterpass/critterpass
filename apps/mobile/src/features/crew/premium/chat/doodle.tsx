@@ -4,7 +4,7 @@
  */
 import { premium } from '@cp/design-tokens';
 
-import { CritterSticker } from '@/ui/premium';
+import { CritterSticker, usePremiumTheme } from '@/ui/premium';
 
 export type DoodleName =
   | 'heart'
@@ -32,13 +32,20 @@ export function Doodle({
   readonly color: string;
   readonly size: number;
 }) {
+  const th = usePremiumTheme();
   return (
     <CritterSticker
       kind={name}
       name={name}
       size={size}
-      edge={false}
-      form={{ rarity: 'common', palette: { f: color, dk: color, bl: color }, edge: 'none' }}
+      // The doodle's ink outline would vanish on a dark card: in the dark the paper edge holds it.
+      edge={th.scheme === 'dark'}
+      form={{
+        rarity: 'common',
+        // Object doodles (bowl, boat, chat, camera) wash their shape in `accent`.
+        palette: { f: color, dk: color, bl: color, accent: color },
+        edge: 'none',
+      }}
     />
   );
 }

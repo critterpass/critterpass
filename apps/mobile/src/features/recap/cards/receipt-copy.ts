@@ -6,7 +6,7 @@
 import type { RecapReceipt } from '@cp/domain';
 import { plural, t } from '@lingui/core/macro';
 
-import type { ReceiptLine } from '@/ui/documents/Receipt';
+import type { ReceiptLine } from './receipt-line';
 
 import { wholeMoney } from '../summary/summary-copy';
 

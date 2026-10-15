@@ -3,17 +3,31 @@
  * server gave it), Copy link, and the apps to send it with: WhatsApp and Messages open with the
  * invite written, Telegram and Mail too where the phone has them, More is the system share sheet
  * (also the fallback when an app cannot open). An organiser without a live code mints one here.
- * Nobody who has not joined is named. The caller's own unanswered in-app invites can be sent again
+ * "Copied" holds as long as a toast, then cross-fades back. With no code yet there is nothing to
+ * send, so the apps stay hidden. Nobody who has not joined is named. The caller's own unanswered in-app invites can be sent again
  * (now, or at the invitee's usual hour).
  */
 import { t } from '@lingui/core/macro';
+import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams } from 'expo-router';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import Animated from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { Button, Card, GuideNote, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import {
+  Button,
+  Card,
+  enterTransition,
+  GuideNote,
+  hitSlopFor,
+  PressableScale,
+  Text,
+  usePremiumReducedMotion,
+  usePremiumTheme,
+} from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
 
 import { composeUrl } from '../invite-composer/compose';
@@ -34,7 +48,17 @@ export function InviteSheet() {
   const detail = useCrewDetail(crewId);
   const services = useCrewServices();
   const commands = useContext(LocalFirstContext)?.commands ?? null;
+  const reduced = usePremiumReducedMotion();
   const [copied, setCopied] = useState(false);
+  useEffect(() => {
+    if (!copied) return;
+    const timer = setTimeout(() => setCopied(false), th.motion.toastHoldMs);
+    return () => clearTimeout(timer);
+  }, [copied, th.motion.toastHoldMs]);
+  const copy = (link: string) => {
+    void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    void services.copy(link).then(() => setCopied(true));
+  };
   const [minting, setMinting] = useState(false);
   const code = detail.code?.code ?? null;
   const crewName = detail.crew?.name ?? '';
@@ -71,18 +95,16 @@ export function InviteSheet() {
 
   const unanswered = useResendInvites(crewId, detail.uid);
   const valid = codeValidLine(detail.code?.expires_at ?? null, locale);
+  const insets = useSafeAreaInsets();
   return (
     <SheetScreen
+      title={t({ id: 'crew.premium.invite.title', message: `Invite to ${crewName}` })}
+      subtitle={
+        valid ?? t({ id: 'crew.premium.invite.noCode', message: 'There’s no live code right now.' })
+      }
       cancelLabel={t({ id: 'crew.premium.close', message: 'Close' })}
       testID="crew-invite"
     >
-      <Text variant="emptyTitle" accessibilityRole="header">
-        {t({ id: 'crew.premium.invite.title', message: `Invite to ${crewName}` })}
-      </Text>
-      <Text variant="body" tone="muted" style={styles.sub}>
-        {valid ??
-          t({ id: 'crew.premium.invite.noCode', message: 'There’s no live code right now.' })}
-      </Text>
       <Card style={[styles.codeCard, { gap: th.space.gap14 }]} radius={th.radius.cardLarge}>
         {url === null ? (
           <View style={styles.grow}>
@@ -116,52 +138,70 @@ export function InviteSheet() {
               <PressableScale
                 accessibilityRole="button"
                 accessibilityLabel={t({ id: 'crew.premium.invite.copyLink', message: 'Copy link' })}
-                onPress={() => void services.copy(url).then(() => setCopied(true))}
+                onPress={() => copy(url)}
+                hitSlop={COPY_SLOP}
                 style={[styles.copy, { backgroundColor: th.color.control }]}
                 testID="crew-invite-copy"
               >
-                <Text variant="pillSmall">
-                  {copied
-                    ? t({ id: 'crew.premium.on.copied', message: 'Copied' })
-                    : t({ id: 'crew.premium.invite.copyLink', message: 'Copy link' })}
-                </Text>
+                <Animated.View key={copied ? 'copied' : 'copy'} entering={enterTransition(reduced)}>
+                  <Text variant="pillSmall">
+                    {copied
+                      ? t({ id: 'crew.premium.on.copied', message: 'Copied' })
+                      : t({ id: 'crew.premium.invite.copyLink', message: 'Copy link' })}
+                  </Text>
+                </Animated.View>
               </PressableScale>
             </View>
           </>
         )}
       </Card>
-      <Text variant="label" tone="muted" style={styles.sendLabel}>
-        {t({ id: 'crew.premium.invite.sendWith', message: 'Send with' })}
-      </Text>
-      <View style={styles.apps}>
-        <ShareTarget
-          label="WhatsApp"
-          icon="send"
-          tint={th.accent.mint}
-          onPress={() => send('wa')}
-          testID="crew-invite-wa"
-        />
-        <ShareTarget
-          label={t({ id: 'crew.premium.share.messages', message: 'Messages' })}
-          icon="send"
-          tint={th.color.toggleOn}
-          onPress={() => send('imsg')}
-          testID="crew-invite-imsg"
-        />
-        <ShareTarget label="Telegram" icon="send" tint={th.accent.sky} onPress={() => send('tg')} />
-        <ShareTarget
-          label={t({ id: 'crew.premium.share.mail', message: 'Mail' })}
-          icon="send"
-          tint={th.color.status.rain.text}
-          onPress={() => send('mail')}
-        />
-        <ShareTarget
-          label={t({ id: 'crew.premium.share.more', message: 'More' })}
-          icon="more"
-          onPress={() => send('more')}
-          testID="crew-invite-more"
-        />
-      </View>
+      {url === null ? null : (
+        <>
+          <Text variant="label" tone="muted" style={styles.sendLabel}>
+            {t({ id: 'crew.premium.invite.sendWith', message: 'Send with' })}
+          </Text>
+          <View style={styles.apps}>
+            <ShareTarget
+              label="WhatsApp"
+              letter="W"
+              tile
+              tint={th.accent.mint}
+              onPress={() => send('wa')}
+              testID="crew-invite-wa"
+            />
+            <ShareTarget
+              label={t({ id: 'crew.premium.share.messages', message: 'Messages' })}
+              letter="M"
+              tile
+              tint={th.color.toggleOn}
+              onPress={() => send('imsg')}
+              testID="crew-invite-imsg"
+            />
+            <ShareTarget
+              label="Telegram"
+              letter="T"
+              tile
+              tint={th.accent.sky}
+              onPress={() => send('tg')}
+            />
+            <ShareTarget
+              label={t({ id: 'crew.premium.share.mail', message: 'Mail' })}
+              letter="@"
+              tile
+              tint={MAIL_BLUE}
+              onPress={() => send('mail')}
+            />
+            <ShareTarget
+              label={t({ id: 'crew.premium.share.more', message: 'More' })}
+              icon="more"
+              tile
+              tint={th.color.placeholder}
+              onPress={() => send('more')}
+              testID="crew-invite-more"
+            />
+          </View>
+        </>
+      )}
       {unanswered.count > 0 ? (
         <ResendCard
           count={unanswered.count}
@@ -178,13 +218,21 @@ export function InviteSheet() {
           })}
         />
       )}
+      {/* The last card keeps clear of the home indicator. */}
+      <View style={{ height: insets.bottom + th.space.gap8 }} />
     </SheetScreen>
   );
 }
 
+/** The design's Mail tile: a lighter blue than Telegram's sky beside it. */
+// eslint-disable-next-line critterpass/no-literal-style, lingui/no-unlocalized-strings -- a colour pending a token
+const MAIL_BLUE = '#5aa0f0';
+
+/** The 34 pt pill still takes a 44 pt tap. */
+const COPY_SLOP = hitSlopFor(0, 34);
+
 const styles = StyleSheet.create({
-  sub: { marginTop: 4, marginBottom: 16 },
-  codeCard: { flexDirection: 'row', alignItems: 'center', padding: 16 },
+  codeCard: { flexDirection: 'row', alignItems: 'center', padding: 16, marginTop: 8 },
   grow: { flex: 1, gap: 6 },
   code: { letterSpacing: 2.4 },
   copy: {

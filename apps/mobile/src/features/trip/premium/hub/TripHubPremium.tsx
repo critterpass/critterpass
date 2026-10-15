@@ -6,10 +6,12 @@
  * and bookings. The trip's one way out (call off, delete, leave) sits behind the ⋯ circle.
  */
 import { useLingui } from '@lingui/react/macro';
+import { useState } from 'react';
 import { router } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { shortName } from '@/lib/people/member-name';
 import { heroAt } from '@/data/media/use-subject-media';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
@@ -22,7 +24,13 @@ import {
   Text,
   usePremiumTheme,
 } from '@/ui/premium';
-import { confirmAlert, ZoomTarget } from '@/ui/premium/shell';
+import {
+  confirmAlert,
+  SCROLL_EDGE_FADE,
+  ScrollEdgeFade,
+  useScrollEdges,
+  ZoomTarget,
+} from '@/ui/premium/shell';
 
 import { tripDates } from '../../hub/hub-copy';
 import type { HubHeader } from '../../hub/hub-model';
@@ -69,6 +77,13 @@ export function TripHubPremium({ tripId, onBack }: TripHubPremiumProps) {
   const insets = useSafeAreaInsets();
   const hub = useTripHub(tripId, null);
   const { trip } = hub;
+  // Once the hero has scrolled up under the status bar, the page grounds the status bar (the
+  // clock sat over the briefing) and goes back to the theme's status bar content.
+  const [heroHeight, setHeroHeight] = useState(0);
+  // The ground comes in while the hero's title is still clear of the clock, not after it passed.
+  const edges = useScrollEdges({
+    topAfter: Math.max(0, heroHeight - insets.top - HERO_TITLE_ROOM),
+  });
   const removal = useTripRemoval({
     tripId,
     status: trip?.status ?? '',
@@ -84,7 +99,7 @@ export function TripHubPremium({ tripId, onBack }: TripHubPremiumProps) {
   const loading = !hub.rows.loaded || trip === null;
   const crew = hub.rows.members.map((member, index) => ({
     id: member.user_id,
-    name: member.display_name ?? '',
+    name: (member.display_name ?? '').trim() === '' ? '' : shortName(member.display_name),
     color: crewAccent(index),
   }));
   const tile = (key: string) => hub.builtTiles.find((item) => item.key === key)?.onPress;
@@ -128,19 +143,23 @@ export function TripHubPremium({ tripId, onBack }: TripHubPremiumProps) {
   return (
     <View style={[styles.root, { backgroundColor: th.color.ground }]} testID="trip-hub">
       <ScrollView
+        {...edges.scrollProps}
         contentContainerStyle={{ paddingBottom: insets.bottom + 40, gap: th.space.gap16 }}
         contentInsetAdjustmentBehavior="never"
       >
         <ZoomTarget zoomId={tripZoomId(tripId)}>
-          <HubHero
-            destination={hub.destination}
-            caption={caption}
-            header={hub.header}
-            media={heroAt(hub.heroMedia.items)}
-            crew={crew}
-            onBack={onBack}
-            onMenu={onMenu}
-          />
+          <View onLayout={(event) => setHeroHeight(event.nativeEvent.layout.height)}>
+            <HubHero
+              destination={hub.destination}
+              caption={caption}
+              header={hub.header}
+              media={heroAt(hub.heroMedia.items)}
+              crew={crew}
+              onBack={onBack}
+              onMenu={onMenu}
+              scrolledPast={edges.top}
+            />
+          </View>
         </ZoomTarget>
         {doors.length > 0 ? <HubSwitch doors={doors} /> : null}
         {hub.offlinePill === null ? null : (
@@ -159,7 +178,7 @@ export function TripHubPremium({ tripId, onBack }: TripHubPremiumProps) {
               tone="info"
               text={t({
                 id: 'trip.hub.premium.offlineDay',
-                message: "No signal. Today's plan, passes and phrases are saved on this phone.",
+                message: 'No signal. Today’s plan, passes and phrases are saved on this phone.',
               })}
               action={{
                 label: t({ id: 'trip.hub.premium.offlineOpen', message: 'Open' }),
@@ -216,9 +235,20 @@ export function TripHubPremium({ tripId, onBack }: TripHubPremiumProps) {
           </>
         )}
       </ScrollView>
+      <ScrollEdgeFade
+        edge="top"
+        height={insets.top + SCROLL_EDGE_FADE * 2}
+        // Opaque through a band under the clock, so a row passing under it never ghosts through.
+        solid={insets.top + SCROLL_EDGE_FADE}
+        visible={edges.top}
+        testID="trip-hub-top-ground"
+      />
     </View>
   );
 }
+
+/** How far above the hero's foot its title starts. */
+const HERO_TITLE_ROOM = 150;
 
 const styles = StyleSheet.create({
   root: { flex: 1 },

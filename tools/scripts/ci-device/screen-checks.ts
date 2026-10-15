@@ -9,15 +9,27 @@
  *   fills the screen's middle. The designed presenter scale under an open sheet (.93,
  *   docs/design-system.md) is allowed: an inset of that size that stops where a full-width sheet
  *   starts, rather than running on down the sheet's sides. So is an iOS 26 inset sheet over the
- *   dimmed page: the dimmed page runs on above the sheet's top, where no screen sits inside it.
+ *   dimmed page: the dimmed page runs on above the sheet's top, where no screen sits inside it. And
+ *   a card of the other scheme on its page (the light boarding pass on the dark page), and a
+ *   scrim (an action sheet's dimming) over a premium page, gutters and middle darkened alike.
  * - KEYBOARD_BAND: with the keyboard up, a full-width band of one colour that isn't the screen's
  *   background sits right above it (the keyboard pushed a footer up and left a black gap).
  * - EMPTY_SCREEN: almost every row of the screen is bare background (content that never drew).
+ * - SHEET_TOP_GAP: an open sheet is empty for a tall band under its grabber (./screen-sheet-checks).
+ * - SHADOW_CUT and CARD_AT_EDGE: a shadow cut flat by the row or box it sits in, and a card set
+ *   against the screen's edge with no gutter (./screen-edge-checks).
  *
  * Pure functions over decoded pixels, so they run on the shards without the workspace installed.
  */
 import type { RgbaImage } from './png';
-import { isInsetSheetOverDimmedPage, screenGrounds } from './screen-checks-premium';
+import {
+  isInsetSheetOverDimmedPage,
+  isOtherSchemeCardOnPage,
+  isScrimOverPremiumPage,
+  screenGrounds,
+} from './screen-checks-premium';
+import { findCardAtEdge, findShadowCut } from './screen-edge-checks';
+import { findSheetTopGap } from './screen-sheet-checks';
 import {
   colourDistance,
   dominant,
@@ -34,7 +46,13 @@ import {
 export { colourDistance, hex, LIMITS, parseHex, type Rgb } from './screen-pixels';
 export { screenGrounds } from './screen-checks-premium';
 
-export type ScreenCheckCode = 'SCREEN_FRAME' | 'KEYBOARD_BAND' | 'EMPTY_SCREEN';
+export type ScreenCheckCode =
+  | 'SCREEN_FRAME'
+  | 'KEYBOARD_BAND'
+  | 'EMPTY_SCREEN'
+  | 'SHEET_TOP_GAP'
+  | 'SHADOW_CUT'
+  | 'CARD_AT_EDGE';
 
 export interface ScreenFinding {
   readonly code: ScreenCheckCode;
@@ -139,6 +157,8 @@ export function findFrame(image: RgbaImage, options: ScreenCheckOptions): Screen
   if (isPresenterUnderSheet(image, rows, inset, frameColour)) return null;
   if (isSheetAroundInsetCard(image, rows, frameColour)) return null;
   if (isInsetSheetOverDimmedPage(image, rows, inset, frameColour)) return null;
+  if (isOtherSchemeCardOnPage(frameColour, grounds, options)) return null;
+  if (isScrimOverPremiumPage(image, rows, frameColour, options)) return null;
   return {
     code: 'SCREEN_FRAME',
     detail: `a ${hex(dominant(edges))} frame ${String(Math.round(inset))}px wide runs down both sides (${String(Math.round((insets.length / rows.length) * 100))}% of the screen); the screen background is ${hex(grounds[0] ?? options.background)}`,
@@ -256,7 +276,12 @@ export function findEmptyScreen(image: RgbaImage): ScreenFinding | null {
 
 export function checkScreen(image: RgbaImage, options: ScreenCheckOptions): ScreenFinding[] {
   const empty = options.sparseByDesign === true ? null : findEmptyScreen(image);
-  return [findFrame(image, options), findKeyboardBand(image), empty].filter(
-    (finding): finding is ScreenFinding => finding !== null,
-  );
+  return [
+    findFrame(image, options),
+    findKeyboardBand(image),
+    empty,
+    findSheetTopGap(image, options.premiumGrounds),
+    findShadowCut(image),
+    findCardAtEdge(image, keyboardTop(image) ?? image.height),
+  ].filter((finding): finding is ScreenFinding => finding !== null);
 }

@@ -38,9 +38,6 @@ const useStyles = makePremiumStyles((t) => ({
   },
   cards: { gap: t.space.gap16 + t.space.gap12 },
   footer: {
-    position: 'absolute',
-    left: t.space.gutter,
-    right: t.space.gutter,
     flexDirection: 'row',
     gap: t.space.gap10,
   },
@@ -144,9 +141,11 @@ export function PremiumShowdownView({ poll }: { readonly poll: PollView }) {
   const lines = useFinalLines(poll, places, people);
   const { cast } = useCastBallot(poll);
   const header = useHeader(poll);
+  // A vote still on its board has no two places to set against each other: it opens the board.
   useEffect(() => {
     if (poll.status === 'closed') router.replace(voteRoutes.reveal(poll.id));
-  }, [poll.status, poll.id]);
+    else if (poll.stage === 'board') router.replace(voteRoutes.board(poll.id));
+  }, [poll.status, poll.stage, poll.id]);
   const [first, second] = poll.options;
   if (first === undefined || second === undefined) return <ShowdownMissing />;
 
@@ -175,7 +174,7 @@ export function PremiumShowdownView({ poll }: { readonly poll: PollView }) {
   const note =
     lines.tieFull ??
     (poll.canVote && poll.myOptionId === null
-      ? t({ id: 'vote.showdown.hint', message: "You haven't voted yet. Tap a side." })
+      ? t({ id: 'vote.showdown.hint', message: 'You haven’t voted yet. Tap a side.' })
       : null);
 
   const button = (option: PollOptionView) => {
@@ -198,20 +197,28 @@ export function PremiumShowdownView({ poll }: { readonly poll: PollView }) {
     );
   };
 
-  const footerBottom = insets.bottom + theme.space.gap16;
   return (
     <PushScreen
       title={header.title}
       subtitle={header.subtitle}
       backLabel={t({ id: 'vote.premium.back', message: 'Back' })}
       scroll={false}
+      // The two votes stand on the page's ground under the cards, never over the guide's note.
+      footer={
+        poll.canVote ? (
+          <View style={styles.footer} testID="showdown-footer">
+            {button(first)}
+            {button(second)}
+          </View>
+        ) : undefined
+      }
       testID="showdown"
     >
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={[
           styles.content,
-          { paddingBottom: footerBottom + theme.size.button + theme.space.gap16 },
+          { paddingBottom: poll.canVote ? theme.space.gap16 : insets.bottom + theme.space.gap16 },
         ]}
         testID="showdown-body"
       >
@@ -225,12 +232,6 @@ export function PremiumShowdownView({ poll }: { readonly poll: PollView }) {
           />
         )}
       </ScrollView>
-      {poll.canVote ? (
-        <View style={[styles.footer, { bottom: footerBottom }]} testID="showdown-footer">
-          {button(first)}
-          {button(second)}
-        </View>
-      ) : null}
     </PushScreen>
   );
 }

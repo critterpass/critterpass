@@ -2,9 +2,8 @@
 import { useLingui } from '@lingui/react/macro';
 import { StyleSheet, View } from 'react-native';
 
-import { IconTile } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { Text, usePremiumTheme } from '@/ui/premium';
+import { StickerIcon, Text, usePremiumTheme } from '@/ui/premium';
 
 import { estimateMinor } from '../../budget/estimates';
 import type { BudgetState } from '../../budget/use-budget';
@@ -52,7 +51,7 @@ export function BudgetCategories({ budget }: { readonly budget: Ready }) {
               ]}
               testID={`money-budget-category-${line.category}`}
             >
-              <IconTile name={look.icon} bg={look.bg} color={look.color} size={40} />
+              <StickerIcon name={look.icon} size={40} tile={look.bg} />
               <Text variant="rowTitle" style={styles.flex}>
                 {label(line.category)}
               </Text>

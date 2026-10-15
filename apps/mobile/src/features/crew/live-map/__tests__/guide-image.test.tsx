@@ -7,7 +7,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { render, screen, waitFor, within } from '@testing-library/react-native';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { GuideImage } from '../map/guide-image';
 

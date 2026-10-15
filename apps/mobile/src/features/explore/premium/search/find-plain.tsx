@@ -29,9 +29,9 @@ import {
 import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 
 import { chipLabel, type ChipWords } from '../../search/chip-words';
-import { closeLine, droppedWords } from '../../search/plain-close';
+import { closeLine, droppedWords } from '../../search/no-results-words';
 import { chipKey } from '../../search/plain-filters';
-import type { PlainRow } from '../../search/plain-results';
+import type { PlainRow } from '../../search/use-plain-section';
 import { PlaceResultRow } from '../components/place-result-row';
 
 const CHIP_HEIGHT = 30;
@@ -149,7 +149,7 @@ export function PlainList(props: PlainListProps) {
           paddingHorizontal: theme.space.gap8,
         }}
       >
-        <Text variant="headline" testID="search-plain-count" style={{ flexShrink: 1 }}>
+        <Text variant="headline" testID="search-plain-count" style={{ flex: 1 }}>
           {props.heading ??
             t({
               id: 'search.plain.count',
@@ -158,6 +158,7 @@ export function PlainList(props: PlainListProps) {
         </Text>
         {props.onMap === undefined ? null : (
           <SegmentedControl
+            hug
             options={[
               { value: 'list', label: t({ id: 'search.plain.list', message: 'List' }) },
               { value: 'map', label: t({ id: 'search.plain.map', message: 'Map' }) },

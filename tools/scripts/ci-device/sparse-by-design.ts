@@ -79,6 +79,10 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     "render 3g-1 Crew chat: the timeline grows up from the composer, so a new crew's chat with its first message is the day label, one bubble and the composer",
   ],
   [
+    '5.01-walk-first-message-light',
+    "premium render 5.01 Crew chat: the timeline grows up from the composer, so a new crew's chat with its first message is the header, one bubble and the composer",
+  ],
+  [
     'walk-guide-asked',
     'render 3j-1 Guide chat: a thread a moment after its first question is the header, the question and the answer starting to type',
   ],
@@ -89,6 +93,10 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
   [
     '3f-6-after-apply',
     "render 3f-6 Who's in: crew of two with the friend out: two rows and the lock note, honest and complete",
+  ],
+  [
+    '3f-7-real-applied',
+    'premium dropout page after applying, crew of two with nothing shared to change: who replied, one line, the keep-in-chat row and the applied line, honest and complete',
   ],
   [
     '3k-9-on-time',
@@ -105,6 +113,14 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
   [
     '3k-9-loading',
     'the standard loading skeleton (ui/states/Skeleton card preset) under the back control while the running-late row syncs',
+  ],
+  [
+    '4.43-plan-check-light',
+    'premium render 4.43 Plan check while the check runs or with nothing to fix: the title, two lines and the "Whose picks made it" row',
+  ],
+  [
+    '4.28-all-days-light',
+    "premium render 4.28 All days on a three-day trip: the guide's note, three day tiles and the Ideas line fill the top of the page",
   ],
   [
     '7h-1-running',

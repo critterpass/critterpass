@@ -6,6 +6,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- CSS gradients, never copy. */
 import type { HomeTripInput } from '@cp/domain';
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
@@ -82,7 +83,10 @@ export function BackHero({ trip, daysHome, onRecap, onSettle, onNext }: BackHero
         />
         <View style={styles.words}>
           <Text variant="label" style={styles.eyebrow}>
-            {t({ id: 'home.premium.back.eyebrow', message: `Home ${daysHome} days` })}
+            {t({
+              id: 'home.premium.back.eyebrow',
+              message: plural(daysHome, { one: 'Home # day', other: 'Home # days' }),
+            })}
           </Text>
           <Text variant="display" accessibilityRole="header" style={styles.title}>
             {t({ id: 'home.premium.back.title', message: `${place} is a memory now` })}

@@ -1,0 +1,27 @@
+appId: app.critterpass.dev
+---
+# Design | device captures with long real data, in light: what the demo data's short names never
+# test. First a crew of five (four with given names as long as a pass allows, a crew name as long as
+# a crew name may be, so a long forward address) on a locked seven-day trip at places with long
+# names and no photos (the api's `week_crew` seed): Home's trip card, the trip hub, the crew chat,
+# the plan's day list and the add-a-booking page with the forward address. Then the same week for a
+# crew of one (`week_solo`): Home, its invite sheet and the hub. Every shot carries `-long` (or
+# `-long-solo`) after its state.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: week_crew
+- runFlow:
+    file: subflows/long-data-crew.yaml
+    env:
+      LOOK: light
+      DATA: long
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: week_solo
+- runFlow:
+    file: subflows/long-data-solo.yaml
+    env:
+      LOOK: light
+      DATA: long-solo

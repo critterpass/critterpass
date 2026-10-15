@@ -6,35 +6,3 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: it\n"
-
-#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
-msgid "explore.sponsored.paid"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
-msgid "explore.sponsored.passPlus"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
-msgid "explore.sponsored.seePassPlus"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
-msgid "explore.sponsored.tag"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
-msgid "explore.sponsored.neutral"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
-msgid "explore.sponsored.why"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
-msgid "explore.sponsored.sheetTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
-msgid "explore.sponsored.contextual"
-msgstr ""

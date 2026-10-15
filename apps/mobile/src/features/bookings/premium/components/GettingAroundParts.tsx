@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { Button, Skeleton, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 
-import type { GettingAroundViewProps } from '../../getting-around/GettingAroundView';
+import type { GettingAroundViewProps } from '../../getting-around/view-types';
 
 type Ride = NonNullable<GettingAroundViewProps['ride']>;
 
@@ -123,6 +123,7 @@ export function LaterLegs({ later }: { readonly later: GettingAroundViewProps['l
           </View>
           {leg.openLabel === null ? null : (
             <Button
+              alignSelf="auto"
               label={leg.openLabel}
               size="small"
               loading={leg.opening === true}

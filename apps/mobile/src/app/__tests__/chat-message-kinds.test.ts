@@ -17,8 +17,8 @@ import { MEMBER_MESSAGE_TYPES, MESSAGE_TYPES } from '@cp/domain';
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
-import { chatCard } from '@/features/crew/chat/cards/registry';
-import '@/features/crew/chat/media/register';
+import { premiumCard } from '@/features/crew/premium/chat/cards/registry';
+import '@/features/crew/premium/chat/cards/register';
 import '@/features/guide/chat/register';
 import '@/features/monetize/register';
 import '@/features/money/chat/register';
@@ -26,7 +26,7 @@ import '@/features/plan/review/register-chat-card';
 import '@/features/proposal/register';
 import '@/features/vote/register';
 
-/** The modules that register chat cards: the root layout loads each (the chat screen, its media). */
+/** The modules that register chat cards: the root layout loads each (the chat's own media cards load with the chat). */
 const CARD_REGISTRATIONS = [
   '@/features/vote/register',
   '@/features/guide/chat/register',
@@ -36,7 +36,7 @@ const CARD_REGISTRATIONS = [
   '@/features/proposal/register',
 ];
 
-const DRAWN_BY_THE_CHAT = new Set(['text', 'system']);
+const DRAWN_BY_THE_CHAT = new Set(['text', 'system', 'sticker']);
 
 function repoRoot(): string {
   let dir = __dirname;
@@ -117,7 +117,7 @@ describe('chat message kinds the server writes', () => {
     expect(kinds).toContain('expense');
     for (const kind of kinds) expect(MESSAGE_TYPES).toContain(kind);
     const missing = [...kinds].filter(
-      (kind) => !DRAWN_BY_THE_CHAT.has(kind) && chatCard(kind) === undefined,
+      (kind) => !DRAWN_BY_THE_CHAT.has(kind) && premiumCard(kind) === undefined,
     );
     expect(missing).toEqual([]);
   });

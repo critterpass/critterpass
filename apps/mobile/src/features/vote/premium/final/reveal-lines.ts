@@ -8,7 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { originCity } from '../../data/use-final';
 import type { PollView } from '../../data/poll-view';
 import { money } from '../../format';
-import { pollScore } from '../../poll/poll-result';
+import { pollScore } from '../../data/poll-view';
 import type { RevealOutcome } from './reveal-outcome';
 
 export interface RevealNote {

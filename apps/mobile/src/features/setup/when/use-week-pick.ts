@@ -6,7 +6,7 @@
  */
 import { useMemo, useRef, useState } from 'react';
 
-import type { DragHandlers } from './day-grid';
+import type { DragHandlers } from '../premium/calendar/day-grid';
 import type { HeatMonth } from './model';
 import {
   bestWindows,

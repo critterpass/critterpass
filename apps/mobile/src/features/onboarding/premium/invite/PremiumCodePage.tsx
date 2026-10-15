@@ -1,6 +1,6 @@
 /**
  * 2.15 / 2.16 "Got a code?": six tiles (the real code alphabet: no 0, 1, I, L, O or U), the
- * system paste control (nothing is read until it is tapped), the crew card rising when the code is
+ * "Paste a link" pill (nothing is read until it is tapped), the crew card rising when the code is
  * found, a pink shake and one line when it is wrong, and joining (the waitlist on a full trip).
  * Problems a join can't fix show in place with their one way forward.
  */
@@ -74,37 +74,22 @@ export function PremiumCodePage() {
       header={
         <View>
           <WizardHeader label="" backLabel={backLabel} onBack={() => router.back()} />
-          {Clipboard.isPasteButtonAvailable ? (
-            <View style={{ position: 'absolute', right: theme.space.gutter, bottom: 5 }}>
-              <Clipboard.ClipboardPasteButton
-                acceptedContentTypes={['url', 'plain-text']}
-                displayMode="iconAndLabel"
-                backgroundColor={theme.color.card}
-                foregroundColor={theme.color.ink}
-                cornerStyle="capsule"
-                style={{ width: 132, height: 34 }}
-                onPress={(data) => {
-                  if (data.type === 'text') entry.onPaste(data.text);
-                }}
-              />
-            </View>
-          ) : (
-            // Where the system paste control is missing (Android), the design's floating pill
-            // reads the clipboard only when tapped.
-            <View style={{ position: 'absolute', right: theme.space.gutter, bottom: 5 }}>
-              <Button
-                label={t({ id: 'onboarding.premium.code.pasteLink', message: 'Paste a link' })}
-                variant="floating"
-                size="small"
-                onPress={() => {
-                  void Clipboard.getStringAsync().then((text) => {
-                    if (text !== '') entry.onPaste(text);
-                  });
-                }}
-                testID="invite-code-paste"
-              />
-            </View>
-          )}
+          {/* The design's floating glass pill on both platforms. The system paste control
+              can't carry the design's label or glass and draws its own tinted box, so the
+              pill reads the clipboard only when tapped (iOS asks once to allow the paste). */}
+          <View style={{ position: 'absolute', right: theme.space.gutter, bottom: 5 }}>
+            <Button
+              label={t({ id: 'onboarding.premium.code.pasteLink', message: 'Paste a link' })}
+              variant="floating"
+              size="small"
+              onPress={() => {
+                void Clipboard.getStringAsync().then((text) => {
+                  if (text !== '') entry.onPaste(text);
+                });
+              }}
+              testID="invite-code-paste"
+            />
+          </View>
         </View>
       }
       testID="invite-code-screen"
@@ -184,7 +169,13 @@ export function PremiumCodePage() {
         </View>
       ) : null}
       {entry.wrong ? (
-        <Text variant="helper" color={theme.color.destructive.helper} testID="invite-code-wrong">
+        <Text
+          variant="helper"
+          color={theme.color.destructive.helper}
+          textBreakStrategy="balanced"
+          lineBreakStrategyIOS="push-out"
+          testID="invite-code-wrong"
+        >
           {t({
             id: 'onboarding.premium.code.wrong',
             message: 'No crew uses that code. Check each one: codes never use 0, O, 1, I, L or U.',
@@ -199,6 +190,8 @@ export function PremiumCodePage() {
       {entry.found && problem === null ? (
         <Animated.View
           {...(reduced ? {} : { entering: FadeInDown.springify() })}
+          // With no "Pasted from" line between, the card keeps the sticker off the code boxes.
+          style={entry.pastedFrom === null ? { marginTop: theme.space.gap16 } : null}
           testID="invite-code-found"
         >
           <View
@@ -211,8 +204,12 @@ export function PremiumCodePage() {
               gap: theme.space.gap6,
             }}
           >
-            <Text variant="mono" tone="muted">
-              {t({ id: 'onboarding.invite.code.found', message: `Found it · ${inviter}’s crew` })}
+            {/* Clear of the guide sticker that hangs over the card's top right. */}
+            <Text variant="mono" tone="muted" numberOfLines={1} style={{ paddingEnd: 72 }}>
+              {t({
+                id: 'onboarding.invite.code.found',
+                message: `Found it · ${inviter}’s crew`,
+              }).toLocaleUpperCase()}
             </Text>
             <Text variant="largeTitle" numberOfLines={2}>
               {crew}
@@ -224,14 +221,16 @@ export function PremiumCodePage() {
                   <View
                     key={chip}
                     style={{
-                      height: 26,
+                      minHeight: 26,
                       paddingHorizontal: 10,
                       borderRadius: 13,
                       backgroundColor: theme.color.control,
                       justifyContent: 'center',
                     }}
                   >
-                    <Text variant="caption">{chip}</Text>
+                    <Text variant="caption" numberOfLines={1}>
+                      {chip}
+                    </Text>
                   </View>
                 ))}
             </View>
@@ -264,7 +263,7 @@ export function PremiumCodePage() {
               </Text>
             </View>
           </View>
-          <View pointerEvents="none" style={{ position: 'absolute', right: -6, top: -38 }}>
+          <View pointerEvents="none" style={{ position: 'absolute', right: -6, top: -30 }}>
             <CritterSticker kind={guide.kind} name={guide.name} size={86} pose="wave" />
           </View>
         </Animated.View>

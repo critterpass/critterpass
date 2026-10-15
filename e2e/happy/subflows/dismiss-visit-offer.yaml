@@ -1,10 +1,12 @@
 appId: app.critterpass.dev
 ---
 # The visit history offer, if it is up (it rises on the trip's own screen once the trip is on, see
-# answer-visit-offer.yaml): NOT NOW puts it away.
+# answer-visit-offer.yaml): Not now puts it away.
 - runFlow:
     when:
-      visible: 'NOT NOW'
+      visible:
+        id: 'visit-consent-decline'
     commands:
-      - tapOn: 'NOT NOW'
+      - tapOn:
+          id: 'visit-consent-decline'
       - waitForAnimationToEnd

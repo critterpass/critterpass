@@ -1,0 +1,14 @@
+appId: app.critterpass.dev
+---
+# Premium design | device capture of first run and joining (2.01–2.19): the pass flow on a cleared
+# install, then joining a crew by code and by link on another cleared install. A capture sweep:
+# a state that does not come up is skipped, never failed. Light only (a cleared install has no
+# appearance choice); the dark keys are captured by home.yaml and pass.yaml.
+# The phone sits in Hồ Chí Minh City, so home base's "Airports near you" lists Vietnam's airports
+# (a runner's own place is Mountain View or Washington), away from every seeded trip's city.
+- setLocation:
+    latitude: 10.7769
+    longitude: 106.7009
+- runFlow: subflows/fresh.yaml
+- runFlow: subflows/first-run-pass.yaml
+- runFlow: subflows/first-run-invite.yaml

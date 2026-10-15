@@ -4,7 +4,7 @@ import { PremiumBuilderView } from './builder-view';
 import { PremiumReplyBySheet } from './reply-by-sheet';
 import { PremiumSendProgress } from './send-progress';
 
-/** The proposal builder's faces in the premium look (the route picks them when premium is on). */
+/** The proposal builder's faces in the premium look. */
 export const PREMIUM_BUILDER_VIEWS: BuilderViews = {
   Builder: PremiumBuilderView,
   Alone: PremiumAloneView,

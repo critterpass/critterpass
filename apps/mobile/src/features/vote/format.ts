@@ -5,8 +5,8 @@
 import { formatNarrowCurrency } from '@cp/cost-engine';
 import { format } from '@cp/i18n';
 
-import { guideColour, guideSticker, isGuideStickerId } from '@/ui/avatar/guides';
-import type { GuideId } from '@/ui/people/GuideLine';
+import { guideColour, guideSticker, isGuideStickerId } from '@/ui/premium/stickers/guides';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 export function guideOr(value: string | null | undefined, fallback: GuideId = 'tokek'): GuideId {
   return isGuideStickerId(value) ? value : fallback;

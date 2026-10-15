@@ -7,7 +7,6 @@
  */
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
-import type { ReactNode } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { useWalletGuide } from '@/features/bookings';
@@ -24,27 +23,11 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { FailureSheetProps } from '../../receipt/FailureSheet';
-import type { LineAssignSheetProps } from '../../receipt/LineAssignSheet';
-import type { ScanScene } from '../../receipt/ScanView';
+import type { FailureSheetProps } from '../../receipt/view-types';
+import type { LineAssignSheetProps } from '../../receipt/view-types';
+import { ScanSheet as Sheet } from './scan-sheet';
 
-function Sheet({ children, testID }: { readonly children: ReactNode; readonly testID: string }) {
-  const th = usePremiumTheme();
-  return (
-    <View
-      style={[
-        styles.sheet,
-        { backgroundColor: th.color.ground, borderTopLeftRadius: 34, borderTopRightRadius: 34 },
-      ]}
-      testID={testID}
-    >
-      <View style={[styles.grabber, { backgroundColor: th.color.outlineEmpty }]} />
-      {children}
-    </View>
-  );
-}
-
-function ReceiptFailure(props: FailureSheetProps) {
+export function ReceiptFailure(props: FailureSheetProps) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const guide = useWalletGuide();
@@ -127,7 +110,7 @@ function ReceiptFailure(props: FailureSheetProps) {
   );
 }
 
-function ReceiptReview(props: LineAssignSheetProps) {
+export function ReceiptReview(props: LineAssignSheetProps) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const count = props.rows.length;
@@ -215,6 +198,7 @@ function ReceiptReview(props: LineAssignSheetProps) {
                         <Avatar
                           name={member.name}
                           color={crewAccent(member.joinIndex)}
+                          uid={member.userId}
                           size={22}
                           ringed
                         />
@@ -263,16 +247,7 @@ function ReceiptReview(props: LineAssignSheetProps) {
   );
 }
 
-/** The premium sheet for a scene, or null to keep the camera's own panel. */
-export function premiumScanPanel(scene: ScanScene): ReactNode | null {
-  if (scene.kind === 'review') return <ReceiptReview {...scene.review} />;
-  if (scene.kind === 'failure') return <ReceiptFailure {...scene.failure} />;
-  return null;
-}
-
 const styles = StyleSheet.create({
-  sheet: { padding: 20, paddingTop: 8, gap: 12, maxHeight: 620 },
-  grabber: { alignSelf: 'center', width: 36, height: 5, borderRadius: 3 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   flex: { flex: 1, minWidth: 0 },
   card: { padding: 14, gap: 10 },

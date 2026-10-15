@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# The crew's id into ${output.crewId} (empty when its chat didn't open), for captures that open the
+# crew's pages by their links: the crew chat from Home's chat card, its route read from the QA
+# marker (`/crew/<id>/chat`), then back to Home.
+- evalScript: ${output.crewId = ''}
+- tapOn:
+    id: 'home-chat'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'qa-settled'
+      text: '.*path:/crew/.*'
+    timeout: 10000
+    optional: true
+- runFlow: ../../_shared/where.yaml
+- evalScript: "${output.crewId = output.where.indexOf('/crew/') === 0 ? output.where.split('/')[2] : ''}"
+- evalScript: "${console.log('crew id ' + (output.crewId || 'none'))}"
+- evalScript: "${output.captureMissing = (output.captureMissing || '') + (output.crewId ? '' : ' crew-id')}"
+- runFlow: ../../_shared/home-link.yaml

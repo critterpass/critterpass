@@ -6,18 +6,17 @@ import { tasteFromAnswers, type GeoHint } from '@cp/domain';
 
 import { onboardingQuiz } from '../content';
 import { clearDraftForTests, readDraft, updateDraft } from '../flow-controller/draft-store';
-import { HomeScreen } from '../home/HomeScreen';
+import { PremiumHomePage } from '../premium/home/PremiumHomePage';
 import { homeResults } from '../home/home-search';
-import { TasteScreen } from '../taste/TasteScreen';
+import { PremiumTastePage } from '../premium/taste/PremiumTastePage';
 import { airportDataset } from '../content';
 import { fakeServices, renderOnboarding } from '../test-support/harness';
 
-const activate = (element: Parameters<typeof fireEvent>[0]) =>
-  fireEvent(element, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });
+const activate = (element: Parameters<typeof fireEvent.press>[0]) => fireEvent.press(element);
 
 async function pick(side: 'left' | 'right') {
   jest.useFakeTimers();
-  await activate(screen.getAllByTestId(`taste-card-${side}`)[0]!);
+  await activate(screen.getAllByTestId(`quiz-card-${side}`)[0]!);
   await act(async () => {
     jest.advanceTimersByTime(600);
     await Promise.resolve();
@@ -38,8 +37,8 @@ beforeEach(() => {
 
 describe('3a-4 this or that', () => {
   it('turns six answers into the expected tags, stamped onto the pass', async () => {
-    await renderOnboarding(<TasteScreen />);
-    expect(screen.getByTestId('taste-counter')).toHaveTextContent('1 OF 6');
+    await renderOnboarding(<PremiumTastePage />);
+    expect(screen.getByTestId('taste-counter')).toHaveTextContent(/^1 of 6$/i);
     const sides = ['left', 'right', 'left', 'right', 'left', 'right'] as const;
     for (const side of sides) await pick(side);
     const answers = readDraft()!.answers;
@@ -54,20 +53,20 @@ describe('3a-4 this or that', () => {
   });
 
   it('undoes the last answer and skips a question without a tag', async () => {
-    await renderOnboarding(<TasteScreen />);
+    await renderOnboarding(<PremiumTastePage />);
     await pick('left');
     expect(readDraft()!.answers).toHaveLength(1);
     await activate(screen.getByTestId('taste-undo'));
     expect(readDraft()!.answers).toHaveLength(0);
     await activate(screen.getByTestId('taste-skip'));
     expect(readDraft()!.answers).toEqual([{ q_id: onboardingQuiz()[0]!.id, value: 'skip' }]);
-    expect(screen.getByTestId('taste-counter')).toHaveTextContent('2 OF 6');
+    expect(screen.getByTestId('taste-counter')).toHaveTextContent(/^2 of 6$/i);
   });
 
   it('keeps undo and skip out of an answer that is still landing', async () => {
-    await renderOnboarding(<TasteScreen />);
+    await renderOnboarding(<PremiumTastePage />);
     jest.useFakeTimers();
-    await activate(screen.getAllByTestId('taste-card-left')[0]!);
+    await activate(screen.getAllByTestId('quiz-card-left')[0]!);
     // The card is in the air: its answer is the only thing written when it lands.
     await activate(screen.getByTestId('taste-skip'));
     await activate(screen.getByTestId('taste-undo'));
@@ -80,7 +79,7 @@ describe('3a-4 this or that', () => {
   });
 
   it('summarises an all-skipped quiz and can start over', async () => {
-    await renderOnboarding(<TasteScreen />);
+    await renderOnboarding(<PremiumTastePage />);
     for (let i = 0; i < 6; i++) await activate(screen.getByTestId('taste-skip'));
     expect(screen.getByText('All skipped. The guides will learn as you go.')).toBeTruthy();
     await activate(screen.getByTestId('taste-retake'));
@@ -101,7 +100,7 @@ describe('3a-5 home base', () => {
   });
 
   it('searches offline, puts SIN first for Sing, and inks the stamp', async () => {
-    await renderOnboarding(<HomeScreen />);
+    await renderOnboarding(<PremiumHomePage />);
     await fireEvent.changeText(screen.getByTestId('home-search'), 'Sing');
     const rows = screen.getAllByTestId(/^home-row-/u).map((row) => row.props.testID as string);
     expect(rows[0]).toBe('home-row-SIN');
@@ -117,7 +116,7 @@ describe('3a-5 home base', () => {
   it('never writes the typed text back into the search field', async () => {
     // A value set from state can land after the next keystroke on a busy JS thread and reorder
     // the letters on an iPhone ("Sngi" for "Sing"): the native field keeps what was typed.
-    await renderOnboarding(<HomeScreen />);
+    await renderOnboarding(<PremiumHomePage />);
     await fireEvent.changeText(screen.getByTestId('home-search'), 'Sing');
     expect(screen.getByTestId('home-search').props.value).toBeUndefined();
     expect(screen.getAllByTestId(/^home-row-/u)[0]?.props.testID).toBe('home-row-SIN');
@@ -125,7 +124,7 @@ describe('3a-5 home base', () => {
 
   it('shows the hint’s nearest airports with a drive time from another country', async () => {
     const services = fakeServices({ geoHint: () => Promise.resolve(SINGAPORE) });
-    await renderOnboarding(<HomeScreen />, { services });
+    await renderOnboarding(<PremiumHomePage />, { services });
     await act(async () => {
       await Promise.resolve();
     });
@@ -136,7 +135,7 @@ describe('3a-5 home base', () => {
 
   it('works with no signal and no hint, and says when nothing matches', async () => {
     const services = fakeServices({ geoHint: () => Promise.reject(new Error('offline')) });
-    await renderOnboarding(<HomeScreen />, { services });
+    await renderOnboarding(<PremiumHomePage />, { services });
     expect(screen.queryAllByTestId(/^home-row-/u)).toHaveLength(0);
     await fireEvent.changeText(screen.getByTestId('home-search'), 'lon');
     expect(screen.getByTestId('home-row-LON')).toBeTruthy();

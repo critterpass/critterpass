@@ -16,7 +16,7 @@ import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
 import { feedback, toast } from '@/motion';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { createProposalCommand, lockInPlanCommand, sendProposalCommand } from '../data/commands';
 import { instantDate, instantDateTime } from '../data/format';
@@ -37,7 +37,7 @@ import {
   sendPlan,
 } from './model';
 import { proposalIdOf, toWire, type BuilderConfig } from './model';
-import { LEGACY_VIEWS, type BuilderViews } from './views';
+import type { BuilderViews } from './views';
 
 const STAYS_SQL = `SELECT id, title, free_cancel_until FROM bookings
   WHERE trip_id = ? AND type = 'stay' AND status = 'booked' AND deleted_at IS NULL
@@ -46,10 +46,10 @@ const BUILDABLE = new Set(['draft_review', 'proposed']);
 
 export function BuilderScreen({
   tripId,
-  views = LEGACY_VIEWS,
+  views,
 }: {
   readonly tripId: string;
-  readonly views?: BuilderViews;
+  readonly views: BuilderViews;
 }) {
   const { Builder, Alone, Sent, ReplyBy } = views;
   useTripStreams(tripId);

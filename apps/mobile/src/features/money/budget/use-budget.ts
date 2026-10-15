@@ -90,6 +90,8 @@ export function useBudget() {
   return {
     kind: 'ready',
     tripId,
+    /** Where the trip goes ("Bali"), empty when it has no place yet. */
+    place,
     title:
       place === ''
         ? t({ id: 'money.budget.titleNoPlace', message: 'Trip budget' })

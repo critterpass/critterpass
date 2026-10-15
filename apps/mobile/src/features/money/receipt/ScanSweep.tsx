@@ -20,7 +20,6 @@ import Animated, {
 
 import { useScreenActive } from '@/lib/time/use-screen-active';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
-import { makeStyles, useTheme } from '@/ui/theme';
 
 /** The design's sweep: 3200 ms top to bottom. */
 export const SWEEP_MS = 3200;
@@ -34,36 +33,40 @@ export interface SweepLine {
   readonly tone: 'read' | 'locked' | 'grey';
 }
 
-const useStyles = makeStyles((t) => ({
+/** The sweep's colours in another look: the line and its glow, a read line, an unreadable one. */
+export interface SweepTint {
+  readonly sweep: string;
+  readonly read: string;
+  readonly grey: string;
+}
+
+const styles = StyleSheet.create({
   sweep: {
     position: 'absolute',
     start: 0,
     end: 0,
-    height: t.space['4'] - 1,
-    backgroundColor: t.semantic.state.success,
-    shadowColor: t.semantic.state.success,
+    height: 3,
     shadowOpacity: 0.9,
-    shadowRadius: t.space['12'],
+    shadowRadius: 12,
     shadowOffset: { width: 0, height: 0 },
-    elevation: t.space['8'],
+    elevation: 8,
   },
-  box: { position: 'absolute', borderRadius: t.radius.xs },
-}));
+  box: { position: 'absolute', borderRadius: 4 },
+});
 
 function Highlight({
   line,
   progress,
   reduced,
+  tint,
 }: {
   readonly line: SweepLine;
   readonly progress: SharedValue<number>;
   readonly reduced: boolean;
+  readonly tint: SweepTint;
 }) {
-  const styles = useStyles();
-  const theme = useTheme();
   const [x, y, w, h] = line.box;
-  const colour =
-    line.tone === 'grey' ? theme.semantic.text.tertiary : theme.semantic.action.primary;
+  const colour = line.tone === 'grey' ? tint.grey : tint.read;
   const style = useAnimatedStyle(() => ({
     opacity: reduced || line.tone !== 'read' || progress.value >= y ? 0.55 : 0,
   }));
@@ -90,15 +93,16 @@ export function ScanSweep({
   sweeping,
   stutter = false,
   children,
+  tint,
   testID,
 }: {
   readonly lines: readonly SweepLine[];
   readonly sweeping: boolean;
   readonly stutter?: boolean;
   readonly children: ReactNode;
+  readonly tint: SweepTint;
   readonly testID?: string;
 }) {
-  const styles = useStyles();
   const reduced = useReducedImpactMotion();
   const progress = useSharedValue(reduced ? 1 : 0);
   // The line sweeps only while the scan is the screen in front.
@@ -132,9 +136,15 @@ export function ScanSweep({
       {children}
       <View style={StyleSheet.absoluteFill} pointerEvents="none">
         {lines.map((line) => (
-          <Highlight key={line.id} line={line} progress={progress} reduced={reduced} />
+          <Highlight key={line.id} line={line} progress={progress} reduced={reduced} tint={tint} />
         ))}
-        <Animated.View style={[styles.sweep, sweepStyle]} />
+        <Animated.View
+          style={[
+            styles.sweep,
+            { backgroundColor: tint.sweep, shadowColor: tint.sweep },
+            sweepStyle,
+          ]}
+        />
       </View>
     </View>
   );

@@ -11,16 +11,16 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { usePlaceSearch, type SearchedPlace } from '@/data/places/usePlaceSearch';
 import {
   Button,
+  GlassIconButton,
   Icon,
   PressableScale,
+  SearchField,
   SegmentedControl,
   Text,
-  TextButton,
-  TextField,
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { MeetupChoice } from '../panel/meetup-editor';
+import type { MeetupChoice } from '../panel/view-types';
 
 const WHEN = [15, 30, 60] as const;
 const KEEP = 'keep';
@@ -126,13 +126,14 @@ export function MeetupEditorPremium(props: {
               ? t({ id: 'liveMap.editor.createTitle', message: 'Set a meet-up' })
               : t({ id: 'liveMap.editor.moveTitle', message: 'Move the meet-up' })}
           </Text>
-          <TextButton
+          <GlassIconButton
+            icon="close"
             label={t({ id: 'liveMap.premium.cancel', message: 'Cancel' })}
             onPress={props.onDismiss}
             testID="live-meetup-cancel"
           />
         </View>
-        <TextField
+        <SearchField
           value={query}
           onChangeText={setQuery}
           placeholder={t({ id: 'liveMap.editor.search', message: 'Search places' })}

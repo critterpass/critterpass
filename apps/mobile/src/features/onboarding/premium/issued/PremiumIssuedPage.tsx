@@ -17,6 +17,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 import {
   Button,
   CritterSticker,
@@ -160,6 +161,8 @@ export function PremiumIssuedView({ choreography, footer }: PremiumIssuedViewPro
 }
 
 export function PremiumIssuedPage() {
+  // Onboarding is done and is not re-entered: the pass draws no back, and Android's back is held.
+  useNoBackByDesign();
   useHoldBack();
   const choreography = useIssuedArrival();
   const pass = useIssuedPass();

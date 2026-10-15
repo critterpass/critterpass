@@ -1,6 +1,6 @@
 import { StampsScreen } from '@/features/you/history/stamps-screen';
+import { StampsPremiumView } from '@/features/you/premium/history/stamps-premium-view';
 
-/** Every stamp, from the profile's "ALL n ›". */
 export default function StampsRoute() {
-  return <StampsScreen />;
+  return <StampsScreen View={StampsPremiumView} />;
 }

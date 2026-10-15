@@ -7,7 +7,6 @@ import Animated from 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import {
-  IslandToast,
   LOOP_PRESET_IDS,
   SOUND_CUE_IDS,
   impact,
@@ -23,8 +22,7 @@ import {
   type SlowmoMultiplier,
   type SoundCueId,
 } from '@/motion';
-import { makeStyles, Scaffold, Text, useTheme } from '@/ui';
-import { reportTruncatedToastTitle } from '@/ui/qa/toast-title-check';
+import { makeStyles, Scaffold, Text, useTheme } from '@/features/dev-tools/dev-kit';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -229,7 +227,6 @@ export default function MotionLabScreen() {
             <ToastDemoButton />
             <LongToastDemoButton />
           </ScrollView>
-          <IslandToast Text={Text} onTitleLayout={reportTruncatedToastTitle} />
         </Scaffold>
       </SafeAreaProvider>
     </GestureHandlerRootView>

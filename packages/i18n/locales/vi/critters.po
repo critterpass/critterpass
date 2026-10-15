@@ -26,6 +26,11 @@ msgstr "{0, plural, one {Dành thời gian ở một trong các địa điểm t
 msgid "critters.where.step.stay"
 msgstr "{0, plural, other {Ở lại khoảng # phút, mở CritterPass.}}"
 
+#. placeholder {0}: item.place
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.when"
+msgstr "{0} · {date}"
+
 #. placeholder {0}: level.into
 #. placeholder {1}: level.need
 #: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
@@ -50,11 +55,15 @@ msgstr "{count} người trong nhóm"
 
 #: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
 msgid "quests.header.eyebrow"
-msgstr "{crewName} · Cấp nhóm {lvl}"
+msgstr "{crewName} · cấp nhóm {lvl}"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.guideBody"
 msgstr "{days, plural, other {Hướng dẫn viên của bạn trong # ngày tới, và là bạn nhỏ {number} trong bộ {place}.}}"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.formsCount"
+msgstr "{found} trên {total} dạng"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.places"
@@ -62,7 +71,7 @@ msgstr "{found} trên {total} nơi"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.homeCount"
-msgstr "{found}/{total} · Bộ quê nhà"
+msgstr "{found}/{total} · bộ quê nhà"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.setCount"
@@ -140,7 +149,6 @@ msgstr "{place} đang yên dần"
 msgid "critters.dex.legendaryTitle"
 msgstr "{placeLine}, {span}"
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.eyebrowTierAt"
 msgstr "{tier} · {place}"
@@ -153,7 +161,6 @@ msgstr "{tier} · gặp ở {city}"
 msgid "critters.where.eyebrow"
 msgstr "Dạng {tier}"
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.eyebrowTier"
 msgstr "Dạng {tier}"
@@ -188,6 +195,11 @@ msgstr "/ {0} XP"
 #: ../../apps/mobile/src/features/critters/premium/hatch/hatch-scene.tsx
 msgid "critters.premium.hatch.setTag"
 msgstr "#{0} trong bộ {1}"
+
+#. placeholder {0}: card.reward.xp
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.xpShort"
+msgstr "+{0} XP"
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.xp"
@@ -235,6 +247,7 @@ msgid "critters.legendary.any"
 msgstr "Ngày"
 
 #: ../../apps/mobile/src/features/critters/critters-copy.ts
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
 #: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
 #: ../../apps/mobile/src/features/critters/premium/legendary/legendary-calendar-screen.tsx
 msgid "critters.back"
@@ -248,6 +261,7 @@ msgstr "Quay lại"
 msgid "critters.detail.classicLook"
 msgstr "Về lại diện mạo cũ"
 
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
 #: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
 #: ../../apps/mobile/src/features/critters/premium/legendary/legendary-calendar-screen.tsx
 msgid "critters.premium.backToDex"
@@ -293,6 +307,10 @@ msgstr "Đã huỷ một lời nhắc huyền thoại"
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.pending"
 msgstr "Đang kiểm tra"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.checking"
+msgstr "Đang ghi nhận. Chút nữa là vào hộ chiếu của bạn."
 
 #: ../../apps/mobile/src/features/critters/premium/encounter/live-scene.tsx
 msgid "critters.premium.encounter.close"
@@ -373,6 +391,10 @@ msgstr "Khám phá ở quê nhà: tắt"
 #: ../../apps/mobile/src/features/critters/data/commands.ts
 msgid "critters.queued.homeOn"
 msgstr "Khám phá ở quê nhà: bật"
+
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.loadingTitle"
+msgstr "Đang tìm sticker…"
 
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.hardest"
@@ -459,6 +481,14 @@ msgstr "Trứng sẽ nở khi bạn hạ cánh ở {place}."
 msgid "critters.premium.detail.missingLine"
 msgstr "Nó không có trên điện thoại này. Critterdex của bạn có mọi sinh vật bạn đã gặp."
 
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.missingLine"
+msgstr "Có thể nó đã bị xoá, hoặc máy này chưa tải về."
+
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
+msgid "critters.premium.page.missingLine"
+msgstr "Có thể nó chưa đồng bộ. Critterdex của bạn có mọi bạn nhỏ bạn đã gặp."
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.legendaryBody"
 msgstr "Bạn ấy chỉ xuất hiện lúc này, và chỉ với ai chịu ở lại. Đứng yên, bạn ấy sẽ lại gần."
@@ -499,6 +529,10 @@ msgstr "Để sau vậy"
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.intro"
 msgstr "Bạn nhỏ huyền thoại chỉ xuất hiện một ngày trong năm, hoặc cho thử thách khó nhất của một nơi. Không mua được, cũng không đổi được."
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.critterShort"
+msgstr "Huyền thoại"
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.legendaryMode"
@@ -602,6 +636,10 @@ msgstr "Không có sóng. Bạn nhỏ sẽ vào thẻ của bạn khi có mạng
 msgid "critters.dex.emptyNearTitle"
 msgstr "Quanh đây chưa có ai"
 
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
+msgid "critters.premium.page.missingTitle"
+msgstr "Chưa có trên điện thoại này"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptyFoundTitle"
 msgstr "Chưa kết bạn với ai"
@@ -618,7 +656,6 @@ msgstr "Thông báo đang tắt, nên lời nhắc sẽ nằm trong hộp thư c
 msgid "critters.encounter.reminderDenied"
 msgstr "Thông báo đang tắt nên chúng tôi không nhắc được. Hãy bật trong Cài đặt."
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.ok"
 msgstr "OK"
@@ -674,19 +711,6 @@ msgstr "Đã đặt nhắc"
 msgid "critters.legendary.remindersOn"
 msgstr "Đã bật nhắc"
 
-#. placeholder {0}: card.reward.xp
-#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
-msgid "quests.reward.xp"
-msgstr "Thưởng · +{0} XP"
-
-#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
-msgid "quests.reward.critter"
-msgstr "Thưởng · critter huyền thoại"
-
-#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
-msgid "quests.reward.settled"
-msgstr "Thưởng · Tokek Sòng Phẳng"
-
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.sayHi"
 msgstr "Chào một câu"
@@ -698,6 +722,10 @@ msgstr "Tìm một nơi"
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptySearchBody"
 msgstr "Tìm theo quốc gia hoặc thành phố, như Việt Nam hay Hội An."
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.settledShort"
+msgstr "Tokek Sòng Phẳng"
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.share"
@@ -711,7 +739,6 @@ msgstr "Chia sẻ với nhóm"
 msgid "critters.hatch.later"
 msgstr "Để sau dẫn tôi đi dạo"
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.eyebrow"
 msgstr "Đã lẩn mất"
@@ -760,10 +787,13 @@ msgstr "Chúng đến cùng những nơi chúng sống. Hãy xem lại sau lần
 msgid "critters.premium.detail.missingTitle"
 msgstr "Sinh vật này đã đi lang thang"
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.title"
 msgstr "Bạn này đã lẩn mất"
+
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.missingTitle"
+msgstr "Sticker này không có ở đây"
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.today"
@@ -785,12 +815,10 @@ msgstr "Hoàn tác"
 msgid "critters.dex.locked"
 msgstr "Một thổ địa chưa gặp ở {city}"
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.body"
 msgstr "Mình chưa xác nhận được lần gặp đó nên bạn ấy không ở lại. Quay lại thử lần nữa nhé."
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.bodyAt"
 msgstr "Mình chưa xác nhận được lần gặp ở {place} nên bạn ấy không ở lại. Quay lại thử lần nữa nhé."
@@ -876,6 +904,10 @@ msgstr "Trứng của bạn đã nở"
 msgid "critters.queued.hatch"
 msgstr "Trứng của bạn đã nở"
 
+#: ../../apps/mobile/src/app/(modal)/hatch/[tripId].tsx
+msgid "critters.premium.hatch.loading"
+msgstr "Trứng của bạn đang nở…"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.readyTitle"
 msgstr "Trứng đang lắc lư"
@@ -891,7 +923,3 @@ msgstr "Hướng dẫn viên đã về lại diện mạo cũ"
 #: ../../apps/mobile/src/features/critters/data/commands.ts
 msgid "critters.queued.skin"
 msgstr "Diện mạo hướng dẫn viên của bạn"
-
-#: ../../apps/mobile/src/features/critters/dex/profile-entry.tsx
-msgid "critters.dex.openProfile"
-msgstr "Hồ sơ của bạn"

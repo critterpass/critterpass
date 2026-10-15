@@ -1,0 +1,60 @@
+appId: app.critterpass.dev
+---
+# A new poll in ${LOOK}, from Home: the crew chat's + menu, its Poll entry and the new-poll sheet
+# (4.01) with a question typed, closed unposted. Ends on Home.
+- runFlow: chat-open-crew.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'chat-attach'
+    commands:
+      - tapOn:
+          id: 'chat-attach'
+      - extendedWaitUntil:
+          visible:
+            id: 'chat-attach-poll'
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'chat-attach-poll'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'new-poll-question'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'new-poll-question'
+          commands:
+            - tapOn:
+                id: 'new-poll-question'
+            - inputText: 'Dinner tonight?'
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '4.01'
+                  NAME: new-poll
+      # Closed unposted, step by step back to the chat (the keyboard, then the sheet): a lone
+      # Cancel tap could miss under the keyboard and leave the sheet up for every later step.
+      - repeat:
+          while:
+            visible:
+              id: 'new-poll-question'
+          times: 3
+          commands:
+            - runFlow:
+                when:
+                  visible:
+                    id: 'sheet-cancel'
+                commands:
+                  - tapOn:
+                      id: 'sheet-cancel'
+            - runFlow:
+                when:
+                  visible:
+                    id: 'new-poll-question'
+                file: ../../_shared/back.yaml
+            - runFlow: ../../_shared/settle.yaml
+- runFlow: plan-home.yaml

@@ -15,7 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon, ListCard, Spinner, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 
-import type { PlacingViewProps } from '../../ideas/placing/placing-view';
+import type { PlacingViewProps } from '../../ideas/placing/placing-props';
 import { MAP_MARKS, PremiumMapCanvas } from '../map';
 
 const DISC = 22;
@@ -141,7 +141,7 @@ export function PremiumPlacingView(props: PlacingViewProps) {
                   <Icon name="check" size={12} color={theme.color.onInk} />
                 </View>
               ) : line.status === 'running' ? (
-                <Spinner size={DISC} color={theme.color.ink} trackColor={theme.color.fieldBorder} />
+                <Spinner size={DISC} />
               ) : (
                 <View
                   style={{

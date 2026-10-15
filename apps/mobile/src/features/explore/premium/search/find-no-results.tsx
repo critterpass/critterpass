@@ -9,6 +9,7 @@ import type { ReactNode } from 'react';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -16,6 +17,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import {
   Card,
   CritterSticker,
@@ -28,7 +30,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { hoursAndMinutes, nearestLine, wayOutWords } from '../../search/no-results';
+import { hoursAndMinutes, nearestLine, wayOutWords } from '../../search/no-results-words';
 import type { PlainAnswer, WayOut } from '../../search/plain-filters';
 import { Doodle, type DoodleName } from '../components/doodle';
 import { GuideDock } from '../components/guide-dock';
@@ -54,15 +56,20 @@ function ThinkingGuide({
 }) {
   const theme = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const y = useSharedValue(0);
   useEffect(() => {
-    if (reduced) return;
+    if (!looping) {
+      cancelAnimation(y);
+      y.value = 0;
+      return;
+    }
     // The design's slow bob: up and back on the Smooth spring, over and over.
     y.value = withRepeat(
       withSequence(withSpring(-BOB, SPRINGS.smooth), withSpring(0, SPRINGS.smooth)),
       -1,
     );
-  }, [reduced, y]);
+  }, [looping, y]);
   const bob = useAnimatedStyle(() => ({ transform: [{ translateY: y.value }] }));
   return (
     <View

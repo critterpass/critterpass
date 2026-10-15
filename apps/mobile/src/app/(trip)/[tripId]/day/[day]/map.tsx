@@ -1,9 +1,14 @@
-import { useLocalSearchParams } from 'expo-router';
+import { Redirect, useLocalSearchParams } from 'expo-router';
 
-import { DayMapScreen } from '@/features/plan/day-plan/day-map-screen';
+import { tripPlanRoutes } from '@/features/plan/hub/routes';
 
-/** One day's map, open full screen (7b-2): `/{tripId}/day/{n}/map`. */
-export default function PlanDayMapRoute() {
+function useDayParams() {
   const { tripId, day } = useLocalSearchParams<{ tripId: string; day: string }>();
-  return <DayMapScreen tripId={tripId} dayNo={Number(day)} />;
+  return { tripId, dayNo: Number(day) };
+}
+
+/** The plan is one map: a day's map is that map on the day, the sheet at peek (4.25). */
+export default function DayMapRoute() {
+  const { tripId, dayNo } = useDayParams();
+  return <Redirect href={tripPlanRoutes.map(tripId, { day: dayNo, sheet: 'peek' })} />;
 }

@@ -7,41 +7,29 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: ja\n"
 
+#. placeholder {0}: hub.ideasToVote
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.suggestCaption"
+msgstr ""
+
 #. placeholder {0}: b.left
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.premium.ideas.votesLeft"
 msgstr ""
 
-#. placeholder {0}: props.votesLeft
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "help.ideas.votesLeft"
-msgstr "{0, plural, other {残り#票}}"
-
 #. placeholder {0}: match.count
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, other {#票}}"
 
-#. js-lingui-generated-id
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
-msgstr "{others, plural, other {{first}ほか#件も}}"
-
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "help.ideas.suggest"
-msgstr "+ アイデアを提案"
-
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footerEmail"
 msgstr "2日以内に、担当者がメールで返信します。"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footerInbox"
 msgstr "2日以内に、担当者があなたの受信箱で返信します。"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footer"
 msgstr "2日以内に、担当者が返信します。"
@@ -50,19 +38,18 @@ msgstr "2日以内に、担当者が返信します。"
 msgid "help.queued.unvote"
 msgstr "取り消した投票"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.about"
 msgstr "概要"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-parts.tsx
 msgid "help.feedback.addPhoto"
 msgstr "写真を追加"
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.askHuman"
 msgstr "スタッフに聞く"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.askHuman"
 msgstr "スタッフに聞く"
@@ -71,35 +58,41 @@ msgstr "スタッフに聞く"
 msgid "help.premium.guideLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
-msgid "help.sent.done"
-msgstr "設定に戻る"
-
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.bug"
 msgstr "不具合"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.ideas.building"
 msgstr "開発中"
+
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
+msgid "help.premium.suggestCancel"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.critters"
 msgstr "クリッター"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.declined"
 msgstr "見送り"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.device"
 msgstr "端末情報"
 
-#. placeholder {0}: props.articleTitle
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
+msgid "help.premium.sentDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
+msgid "help.premium.articleLoading"
+msgstr ""
+
+#. placeholder {0}: form.articleTitle
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.fromArticle"
 msgstr "「{0}」より"
 
@@ -115,28 +108,24 @@ msgstr "むむっ"
 msgid "help.feedback.topic.guideChat"
 msgstr "ガイドチャット"
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.back"
+msgstr "ヘルプ"
+
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
+msgid "help.feedback.back"
 msgstr "ヘルプ"
 
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.premium.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.back"
 msgstr "ヘルプ"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
-msgid "help.feedback.back"
-msgstr "ヘルプ"
-
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
-msgid "help.hub.title"
-msgstr "ヘルプとフィードバック"
-
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.centre"
 msgstr "ヘルプセンター"
@@ -149,23 +138,27 @@ msgstr ""
 msgid "help.premium.heading"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.howsItGoing"
 msgstr "使い心地はどう？"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.hq"
 msgstr "本部 · 投稿"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.noneShippedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.titleLabel"
 msgstr "ひとことで"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.includeDevice"
 msgstr "端末情報を含める"
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.missingBody"
 msgstr "次にオンラインになったとき、ヘルプセンターと一緒に届きます。"
 
@@ -173,17 +166,20 @@ msgstr "次にオンラインになったとき、ヘルプセンターと一緒
 msgid "help.premium.shakeLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
+msgid "help.premium.feedbackKeep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.discard"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.discardTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.ideas.open"
 msgstr "確認中"
 
@@ -195,74 +191,60 @@ msgstr "大好き"
 msgid "help.feedback.mood.meh"
 msgstr "まあまあ"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.merged"
 msgstr "統合済み"
-
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
-msgid "help.suggest.postAnyway"
-msgstr "別の内容なので投稿する"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.money"
 msgstr "お金"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.new"
 msgstr "新着"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
-msgid "help.suggest.eyebrow"
-msgstr "新しいアイデア"
-
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.no"
 msgstr "いいえ"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
-msgid "help.ideas.none"
-msgstr "まだアイデアはありません。最初の1つになろう。"
+msgid "help.ideas.noneTitle"
+msgstr ""
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.noResults"
 msgstr "一致する内容はヘルプセンターにまだありません。"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
-msgid "help.ideas.noneShipped"
-msgstr "ここからリリースされたものはまだありません。"
+msgid "help.ideas.noneShippedTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.okay"
 msgstr "ふつう"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
-msgid "help.hub.reportShake"
-msgstr "または画面をシェイク"
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.reportCaptionShake"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.other"
 msgstr "その他"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.pinned"
 msgstr "ピン済み"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.title"
 msgstr "ボードにピンしました"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.queued"
 msgstr "ピンしました。オンラインに戻ると投稿され、担当者が読みます。"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.ideas.planned"
 msgstr "予定"
 
@@ -270,59 +252,58 @@ msgstr "予定"
 msgid "help.feedback.topic.planning"
 msgstr "計画"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.post"
 msgstr "投稿 · 郵便"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.post"
 msgstr "投稿する"
 
-#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+#: ../../apps/mobile/src/features/help/ideas/use-idea-board.ts
 msgid "help.ideas.posted"
 msgstr "「新着」に投稿しました。動きがあればTokekがお知らせします。"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.rate"
 msgstr "アプリを評価"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.received"
 msgstr "受信済み"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.search"
 msgstr "返金、オフライン地図、割り勘…"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-parts.tsx
 msgid "help.feedback.removePhoto"
 msgstr "この写真を削除"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
+msgid "help.feedback.titleProblem"
+msgstr "問題を報告"
+
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.report"
 msgstr "問題を報告"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
-msgid "help.feedback.titleProblem"
-msgstr "問題を報告"
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
+msgid "help.feedback.title"
+msgstr "フィードバックを送る"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.feedback"
 msgstr "フィードバックを送る"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
-msgid "help.feedback.title"
-msgstr "フィードバックを送る"
-
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.send"
 msgstr "送信"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
+msgid "help.premium.sentTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.back"
 msgstr "設定"
@@ -331,172 +312,149 @@ msgstr "設定"
 msgid "help.premium.shake"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.shipped"
 msgstr "リリース済み"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.shippedTab"
 msgstr "リリース済み"
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.english"
 msgstr "今のところ英語で表示しています"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.english"
 msgstr "今のところ英語で表示しています"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
-msgid "help.hub.guideLine"
-msgstr "何か壊れた？足りないものがある？教えてね。そのまま担当者に届けます。"
-
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.matchMany"
 msgstr "このあたりに近いかも。投票すると早く実現します。"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.matchOne"
 msgstr "これに近いかも。投票すると早く実現します。"
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.stuck"
 msgstr "まだ解決しない？"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
-#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
-msgid "help.hub.suggest"
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
+msgid "help.feedback.titleIdea"
 msgstr "機能を提案"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
-msgid "help.feedback.titleIdea"
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.hub.suggest"
 msgstr "機能を提案"
 
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.premium.suggest"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.title"
 msgstr "アイデアを提案"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.rateCaption"
 msgstr "10秒で終わります"
 
-#. placeholder {0}: props.name
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#. placeholder {0}: sent.name
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.thanks"
 msgstr "{0}さん、ありがとう。一つひとつ担当者が読んでいます。追加で知りたいことがあれば聞きますし、直ったらTokekがお知らせします。"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.thanksNoName"
 msgstr "ありがとう。一つひとつ担当者が読んでいます。追加で知りたいことがあれば聞きますし、直ったらTokekがお知らせします。"
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.thanks"
 msgstr "ありがとう。文章の改善に役立てます。"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.tooBig"
 msgstr "写真が大きすぎて送れません。スクリーンショットで試してね。"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.offlineTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.offline"
 msgstr "オンラインに戻るとボードが開きます。"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.articlesOffline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.missingTitle"
 msgstr "この記事はまだありません"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.toHumans"
 msgstr "担当者へ"
 
-#. placeholder {0}: row.teamNote
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "help.ideas.teamNote"
-msgstr "Tokek: {0}"
-
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.top"
 msgstr "人気"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.underReview"
 msgstr "審査中"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.vote"
 msgstr "投票 ▲"
 
-#. placeholder {0}: hub.ideasToVote
-#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
-msgid "help.premium.suggestCaption"
-msgstr ""
-
-#. placeholder {0}: props.ideasToVote
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
-msgid "help.hub.suggestCaption"
-msgstr "{0}件のアイデアに投票"
-
 #. placeholder {0}: idea.title
-#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+#: ../../apps/mobile/src/features/help/ideas/use-idea-board.ts
 msgid "help.ideas.votedFor"
 msgstr "{0}に投票しました。これで{count}票です。"
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.helpful"
 msgstr "役に立ちましたか？"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.placeholderProblem"
 msgstr "何が起きましたか？どうなると思っていましたか？"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.placeholderIdea"
 msgstr "CritterPassに次は何をしてほしい？"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.reportCaption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.descriptionLabel"
 msgstr "どんな機能？ 任意"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.feedbackCaption"
 msgstr "好きなこと、困っていること"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.placeholder"
 msgstr "好きなこと、困っていること…"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.title"
 msgstr "次は何？"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.tabs"
 msgstr "アイデアの絞り込み"
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.yes"
 msgstr "はい"
 
-#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+#: ../../apps/mobile/src/features/help/ideas/use-idea-board.ts
 msgid "help.ideas.outOfVotes"
 msgstr "今月の{IDEA_VOTE_BUDGET}票を使い切りました。1票取り消すと移せます。"
 
@@ -504,11 +462,11 @@ msgstr "今月の{IDEA_VOTE_BUDGET}票を使い切りました。1票取り消�
 msgid "help.queued.idea"
 msgstr "ボードへのアイデア"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.note"
 msgstr "あなたのメモ"
 
-#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.discardLine"
 msgstr ""
 
@@ -516,10 +474,14 @@ msgstr ""
 msgid "help.queued.feedback"
 msgstr "担当者へのメモ"
 
-#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+#: ../../apps/mobile/src/features/help/feedback/use-feedback-form.ts
 msgid "help.feedback.notSaved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
 msgstr "アイデアへの投票"
+
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.noneLine"
+msgstr ""

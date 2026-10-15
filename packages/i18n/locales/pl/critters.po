@@ -26,6 +26,11 @@ msgstr ""
 msgid "critters.where.step.stay"
 msgstr ""
 
+#. placeholder {0}: item.place
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.when"
+msgstr ""
+
 #. placeholder {0}: level.into
 #. placeholder {1}: level.need
 #: ../../apps/mobile/src/features/critters/premium/quests/quests-scene.tsx
@@ -54,6 +59,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.guideBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.formsCount"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
@@ -140,7 +149,6 @@ msgstr ""
 msgid "critters.dex.legendaryTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.eyebrowTierAt"
 msgstr ""
@@ -153,7 +161,6 @@ msgstr ""
 msgid "critters.where.eyebrow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.eyebrowTier"
 msgstr ""
@@ -187,6 +194,11 @@ msgstr ""
 #. placeholder {1}: props.setName
 #: ../../apps/mobile/src/features/critters/premium/hatch/hatch-scene.tsx
 msgid "critters.premium.hatch.setTag"
+msgstr ""
+
+#. placeholder {0}: card.reward.xp
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.xpShort"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
@@ -235,6 +247,7 @@ msgid "critters.legendary.any"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/critters-copy.ts
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
 #: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
 #: ../../apps/mobile/src/features/critters/premium/legendary/legendary-calendar-screen.tsx
 msgid "critters.back"
@@ -248,6 +261,7 @@ msgstr ""
 msgid "critters.detail.classicLook"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
 #: ../../apps/mobile/src/features/critters/premium/detail/critter-detail-screen.tsx
 #: ../../apps/mobile/src/features/critters/premium/legendary/legendary-calendar-screen.tsx
 msgid "critters.premium.backToDex"
@@ -292,6 +306,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.pending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.checking"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/premium/encounter/live-scene.tsx
@@ -372,6 +390,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/data/commands.ts
 msgid "critters.queued.homeOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.loadingTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
@@ -459,6 +481,14 @@ msgstr ""
 msgid "critters.premium.detail.missingLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.missingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
+msgid "critters.premium.page.missingLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.legendaryBody"
 msgstr ""
@@ -498,6 +528,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.intro"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.critterShort"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
@@ -602,6 +636,10 @@ msgstr ""
 msgid "critters.dex.emptyNearTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/premium/components/page-states.tsx
+msgid "critters.premium.page.missingTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptyFoundTitle"
 msgstr ""
@@ -618,7 +656,6 @@ msgstr ""
 msgid "critters.encounter.reminderDenied"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.ok"
 msgstr ""
@@ -674,19 +711,6 @@ msgstr ""
 msgid "critters.legendary.remindersOn"
 msgstr ""
 
-#. placeholder {0}: card.reward.xp
-#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
-msgid "quests.reward.xp"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
-msgid "quests.reward.critter"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
-msgid "quests.reward.settled"
-msgstr ""
-
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.sayHi"
 msgstr ""
@@ -697,6 +721,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptySearchBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/premium/quests/quest-row.tsx
+msgid "quests.reward.settledShort"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
@@ -711,7 +739,6 @@ msgstr ""
 msgid "critters.hatch.later"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.eyebrow"
 msgstr ""
@@ -760,9 +787,12 @@ msgstr ""
 msgid "critters.premium.detail.missingTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/premium/stickers/sticker-detail-sheet.tsx
+msgid "stickers.detail.missingTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
@@ -785,12 +815,10 @@ msgstr ""
 msgid "critters.dex.locked"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.body"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
 #: ../../apps/mobile/src/features/critters/premium/dex/dex-extras.tsx
 msgid "critters.slipped.bodyAt"
 msgstr ""
@@ -876,6 +904,10 @@ msgstr ""
 msgid "critters.queued.hatch"
 msgstr ""
 
+#: ../../apps/mobile/src/app/(modal)/hatch/[tripId].tsx
+msgid "critters.premium.hatch.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.readyTitle"
 msgstr ""
@@ -890,8 +922,4 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/data/commands.ts
 msgid "critters.queued.skin"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/dex/profile-entry.tsx
-msgid "critters.dex.openProfile"
 msgstr ""

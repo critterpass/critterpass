@@ -1,9 +1,9 @@
 /**
- * Voice notes in the crew chat on the real local-first stack, with the media api answered by
+ * Voice notes in the premium crew chat on the real local-first stack, with the media api answered by
  * recorded responses and the file cache and player as device doubles: a note plays from a local
  * copy of its signed read URL (downloaded once), shows its progress and length (from the player
  * when the attachment has none), starts over once finished, plays at 1.5× on request, and a note
- * that cannot be fetched says so and plays on a retry.
+ * that cannot be fetched says so and plays on a retry. A note still playing stops with the chat.
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- FlashList cannot run under Jest; see the double's header
 jest.mock('@shopify/flash-list', () => require('../../test-support/flash-list-double'));
@@ -17,7 +17,7 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
-import { CrewChat } from '../../components/chat-screen';
+import { CrewChatView } from '../../../premium/chat/crew-chat-view';
 import { CREW, MAYA, renderChat, seedCrew, seedMessage } from '../../test-support/chat-harness';
 import {
   deviceDouble,
@@ -27,7 +27,6 @@ import {
 } from '../../test-support/media-doubles';
 import { ChatMediaProvider } from '../media-services';
 import { clearReadUrlCache } from '../read-urls';
-import '../register';
 
 let stack: TestLocalFirst | null = null;
 let api: RecordedMediaApi;
@@ -53,7 +52,9 @@ const foundersNote = {
   peaks: [0.2, 1, 0.5, 0.3],
 };
 
-async function chatWithNote(attachment: object): Promise<{ id: string; media: DeviceDouble }> {
+async function chatWithNote(
+  attachment: object,
+): Promise<{ id: string; media: DeviceDouble; unmount: () => Promise<void> }> {
   stack = await openTestLocalFirst({ holdUploads: true });
   await seedCrew(stack);
   const id = await seedMessage(stack, {
@@ -63,13 +64,13 @@ async function chatWithNote(attachment: object): Promise<{ id: string; media: De
     attachments: [attachment],
   });
   const media = deviceDouble(api);
-  await renderChat(
+  const { unmount } = await renderChat(
     <ChatMediaProvider services={media}>
-      <CrewChat crewId={CREW} />
+      <CrewChatView crewId={CREW} />
     </ChatMediaProvider>,
     stack,
   );
-  return { id, media };
+  return { id, media, unmount };
 }
 
 /**
@@ -148,5 +149,13 @@ describe('voice note playback', () => {
     clearReadUrlCache();
     await fireEvent.press(screen.getByTestId(`chat-voice-play-${id}`));
     await waitFor(() => expect(media.players[0]?.playing).toBe(true));
+  });
+
+  it('stops a note still playing when the chat closes', async () => {
+    const { id, media, unmount } = await chatWithNote({ ...foundersNote, duration_ms: 4200 });
+    await fireEvent.press(await screen.findByTestId(`chat-voice-play-${id}`));
+    await waitFor(() => expect(media.players[0]?.playing).toBe(true));
+    await unmount();
+    expect(media.players[0]).toMatchObject({ playing: false, released: true });
   });
 });

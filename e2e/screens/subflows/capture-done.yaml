@@ -1,0 +1,10 @@
+appId: app.critterpass.dev
+---
+# The end of a capture sweep: fails the flow, once every screenshot is taken, when a capture's
+# screen never showed (subflows/capture.yaml names it in ${output.captureMissing}), so a sweep that
+# skipped designs reads as failed rather than passed with fewer shots.
+- evalScript: "${output.captureMissing = output.captureMissing || ''}"
+- evalScript: "${console.log('captures that never showed:' + (output.captureMissing || ' none'))}"
+- assertTrue:
+    condition: ${output.captureMissing === ''}
+    label: Every captured screen showed (missing:${output.captureMissing})

@@ -8,6 +8,7 @@ import { View } from 'react-native';
 
 import { Icon, Text, usePremiumTheme } from '@/ui/premium';
 import { MONETIZE_INK } from './monetize-palette';
+import { PAUSE_HATCH } from './repeating-gradient';
 
 export interface PauseMonthBar {
   readonly label: string;
@@ -15,8 +16,6 @@ export interface PauseMonthBar {
   readonly paused: boolean;
   readonly trip?: boolean;
 }
-
-const HATCH = 'repeating-linear-gradient(135deg, rgba(138,106,12,0.18) 0 3px, transparent 3px 6px)';
 
 export function PauseMonthBars({ months }: { readonly months: readonly PauseMonthBar[] }) {
   const { t } = useLingui();
@@ -45,7 +44,7 @@ export function PauseMonthBars({ months }: { readonly months: readonly PauseMont
               backgroundColor: m.paused ? 'transparent' : MONETIZE_INK.monthOn,
               ...(m.paused
                 ? {
-                    experimental_backgroundImage: HATCH,
+                    experimental_backgroundImage: PAUSE_HATCH,
                     boxShadow: 'inset 0 0 0 1.5px rgba(138,106,12,0.35)',
                   }
                 : {}),

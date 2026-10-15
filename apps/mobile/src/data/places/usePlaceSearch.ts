@@ -9,6 +9,7 @@
  * `sessionHeaders()`, as the app's other api reads do.
  */
 import { CATEGORY_ICON_KEYS, poiCategorySchema, type PoiCategory } from '@cp/domain';
+import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { useNetworkState } from 'expo-network';
 import { useCallback, useEffect, useState } from 'react';
@@ -52,18 +53,18 @@ export interface UsePlaceSearchResult {
 
 function categoryLabel(category: PoiCategory, t: ReturnType<typeof useLingui>['t']): string {
   const labels: Readonly<Record<PoiCategory, string>> = {
-    temple_shrine: t({ id: 'places.category.templeShrine', message: 'Temple or shrine' }),
-    food: t({ id: 'places.category.food', message: 'Food' }),
-    market: t({ id: 'places.category.market', message: 'Market' }),
-    nature: t({ id: 'places.category.nature', message: 'Nature' }),
-    beach: t({ id: 'places.category.beach', message: 'Beach' }),
-    museum: t({ id: 'places.category.museum', message: 'Museum' }),
-    nightlife: t({ id: 'places.category.nightlife', message: 'Nightlife' }),
-    shopping: t({ id: 'places.category.shopping', message: 'Shopping' }),
-    transit: t({ id: 'places.category.transit', message: 'Transit' }),
-    stay: t({ id: 'places.category.stay', message: 'Stay' }),
-    health: t({ id: 'places.category.health', message: 'Health' }),
-    other: t({ id: 'places.category.other', message: 'Place' }),
+    temple_shrine: t(msg({ id: 'places.category.templeShrine', message: 'Temple or shrine' })),
+    food: t(msg({ id: 'places.category.food', message: 'Food' })),
+    market: t(msg({ id: 'places.category.market', message: 'Market' })),
+    nature: t(msg({ id: 'places.category.nature', message: 'Nature' })),
+    beach: t(msg({ id: 'places.category.beach', message: 'Beach' })),
+    museum: t(msg({ id: 'places.category.museum', message: 'Museum' })),
+    nightlife: t(msg({ id: 'places.category.nightlife', message: 'Nightlife' })),
+    shopping: t(msg({ id: 'places.category.shopping', message: 'Shopping' })),
+    transit: t(msg({ id: 'places.category.transit', message: 'Transit' })),
+    stay: t(msg({ id: 'places.category.stay', message: 'Stay' })),
+    health: t(msg({ id: 'places.category.health', message: 'Health' })),
+    other: t(msg({ id: 'places.category.other', message: 'Place' })),
   };
   return labels[category];
 }

@@ -8,16 +8,23 @@ import { useContext, useEffect, useRef, useState } from 'react';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useAnalytics } from '@/lib/analytics';
+import { shortName } from '@/lib/people/member-name';
 
 import { useInviteServices } from './invite-services';
 import { useInviteSession } from './invite-session';
-import type { ManifestMember } from './ManifestGrid';
 import { manifestCopy } from './manifest-copy';
 import { watchCrewMembers, type MemberRow } from './manifest-query';
 import { HANDOFF_ROUTES, tripPlanRoute } from './routes';
 
+export interface ManifestMember {
+  readonly userId: string;
+  readonly name: string;
+  readonly isNewcomer: boolean;
+  readonly isOrganiser: boolean;
+}
+
 function firstName(name: string | null): string {
-  return name?.trim().split(/\s+/u)[0] ?? '?';
+  return name === null || name.trim() === '' ? '?' : shortName(name);
 }
 
 export function useManifest() {

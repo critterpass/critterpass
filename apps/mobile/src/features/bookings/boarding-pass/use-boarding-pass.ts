@@ -61,6 +61,11 @@ export function useBoardingPass(bookingId: string) {
     arrives: arrives === null ? '' : clock(locale, arrives, tz),
     boards: leg?.boarding_at == null ? '' : clock(locale, leg.boarding_at, tz),
     payload: entry?.barcode?.payload ?? null,
+    /** Whose pass it is, by their full name, as a pass reads. */
+    passenger:
+      booking === null
+        ? null
+        : (context.members.find((member) => member.userId === booking.ownerId)?.name ?? null),
     fields,
   };
 }

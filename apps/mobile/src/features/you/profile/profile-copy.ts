@@ -2,6 +2,8 @@
 import { format } from '@cp/i18n';
 import { plural, t } from '@lingui/core/macro';
 
+import { regionName } from '@/features/onboarding';
+
 import type { CrewLine, ProfileStamp } from './profile-model';
 
 const MONTH_YEAR: Intl.DateTimeFormatOptions = { month: 'short', year: 'numeric', timeZone: 'UTC' };
@@ -107,4 +109,9 @@ export function crewLineText(line: CrewLine, locale: string): string {
     case 'none':
       return t({ id: 'you.profile.crew.none', message: 'No trips yet' });
   }
+}
+
+/** A stamp's place: a self-reported trip names its country in the phone's language. */
+export function stampTitle(stamp: ProfileStamp, locale: string): string {
+  return stamp.kind === 'self' ? (regionName(stamp.title, locale) ?? stamp.title) : stamp.title;
 }

@@ -16,11 +16,10 @@ jest.mock('@maplibre/maplibre-react-native', () => {
     Layer: () => null,
   };
 });
-jest.mock('expo-router', () => ({
-  useIsFocused: () => true,
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn() },
-  useLocalSearchParams: jest.fn(() => ({ tripId: '0199a6f0-0000-7000-8000-00000000e001' })),
-}));
+// The map's Boost entry and plan links reach the billing module and the device database opener,
+// which Jest cannot load; the screen reads the test database through its provider.
+jest.mock('react-native-purchases', () => ({ __esModule: true, default: {} }));
+jest.mock('@/data/powersync/db', () => ({}));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { screen, waitFor } from '@testing-library/react-native';
@@ -33,6 +32,8 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
 import {
   DEV,
+  MAYA,
+  RIN,
   fakeServices,
   recordedSnapshot,
   renderLiveMap,
@@ -53,26 +54,27 @@ afterEach(async () => {
 });
 
 describe('pins and rows', () => {
-  it('bunches Maya and Rin into one pill with a spoken label, and greys a stale pin', async () => {
+  it('bunches Maya and Rin into one row, and greys a stale crewmate', async () => {
     const s = await open();
     await seedTrip(s);
     await renderLiveMap(s, fakeServices({ answer: recordedSnapshot() }));
-    expect(await screen.findByLabelText('Maya and Rin, Karsa Spa, 3 minutes away')).toBeTruthy();
-    expect(screen.getByText('MAYA + RIN')).toBeTruthy();
+    expect(await screen.findByTestId(`live-map-row-${MAYA}+${RIN}`)).toBeTruthy();
     // Jordan's last fix is 12 minutes old.
     expect(screen.getAllByText('Last seen 12 min ago').length).toBeGreaterThan(0);
-    expect(screen.getByText('5 of 5 sharing · trip days only')).toBeTruthy();
+    expect(screen.getByText('The Bali Six')).toBeTruthy();
+    expect(screen.getByText(' · 5 of 5 sharing')).toBeTruthy();
   });
 
   it('lists each person with an arrival clock in the trip zone', async () => {
     const s = await open();
     await seedTrip(s);
     await renderLiveMap(s, fakeServices({ answer: recordedSnapshot() }));
-    await screen.findByTestId('live-row-0199a6f0-0000-7000-8000-0000000000a3');
+    await screen.findByTestId('live-map-row-0199a6f0-0000-7000-8000-0000000000a3');
     // Alex: 17 minutes from 16:38 local.
     expect(screen.getByLabelText('Alex, At Warung Pondok, 900 m, 17 minutes away')).toBeTruthy();
-    expect(screen.getByText('MEET-UP · 17:00')).toBeTruthy();
-    expect(screen.getByText('Sharing switches itself off on Oct 19 at midnight.')).toBeTruthy();
+    expect(screen.getByText('Meet-up at Campuhan Ridge')).toBeTruthy();
+    expect(screen.getAllByText('17:00').length).toBeGreaterThan(0);
+    expect(screen.getByText('Sharing ends Oct 19 at midnight')).toBeTruthy();
   });
 });
 
@@ -86,8 +88,8 @@ describe('states', () => {
         answer: { status: 402, body: { error: { code: 'ENTITLEMENT_REQUIRED', message: 'x' } } },
       }),
     );
-    expect(await screen.findByText(/^see the crew live$/i)).toBeTruthy();
-    expect(screen.queryByTestId('live-bunch')).toBeNull();
+    expect(await screen.findByTestId('live-map-gate-boost')).toBeTruthy();
+    expect(screen.queryByTestId('live-map-panel')).toBeNull();
   });
 
   it('explains when the trip days have not started', async () => {
@@ -104,8 +106,9 @@ describe('states', () => {
         },
       }),
     );
-    expect(await screen.findByText(/^not a trip day yet$/i)).toBeTruthy();
-    expect(await screen.findByText(/Sharing opens on Oct 15\./)).toBeTruthy();
+    expect(await screen.findByText('The map wakes up on your first trip day')).toBeTruthy();
+    expect(screen.getByText('Sharing opens on your first trip day.')).toBeTruthy();
+    expect(screen.queryByTestId('live-map-panel')).toBeNull();
   });
 
   it('keeps last-known pins offline with the time of the last update', async () => {
@@ -114,7 +117,8 @@ describe('states', () => {
     s.network.set(false);
     await renderLiveMap(s, fakeServices({ answer: null }));
     expect(await screen.findByText('Offline · waiting for the crew')).toBeTruthy();
-    expect(screen.getByText('Pings need a signal.')).toBeTruthy();
+    expect(screen.getByText('Last seen')).toBeTruthy();
+    expect(screen.getByText('Ping all · queued')).toBeTruthy();
   });
 });
 

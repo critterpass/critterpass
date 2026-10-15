@@ -102,7 +102,9 @@ export function EmptyBookings(props: EmptyBookingsProps) {
       <ListCard radius={th.radius.cardRow} style={{ marginHorizontal: th.space.gap16 }}>
         <Row
           title={t({ id: 'bookings.premium.forwardEmail', message: 'Forward the email' })}
-          {...(props.address === null ? {} : { subtitle: props.address })}
+          {...(props.address === null
+            ? {}
+            : { subtitle: props.address, subtitleCut: 'middle' as const })}
           leading={
             <IconTile name="link" bg={th.color.status.rain.bg} color={th.color.status.rain.text} />
           }
@@ -133,7 +135,7 @@ export function EmptyBookings(props: EmptyBookingsProps) {
         />
         <Row
           title={t({ id: 'bookings.premium.byHand', message: 'Add by hand' })}
-          leading={<IconTile name="receipt" bg={th.color.control} color={th.color.ink} />}
+          leading={<IconTile name="edit" bg={th.color.control} color={th.color.ink} />}
           trailing={<Icon name="forward" size={14} color={th.color.outlineEmpty} />}
           onPress={props.onByHand}
           testID="bookings-channel-hand"

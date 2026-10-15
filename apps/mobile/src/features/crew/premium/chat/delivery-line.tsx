@@ -8,6 +8,9 @@ import { View } from 'react-native';
 
 import { Icon, PressableScale, Text, makePremiumStyles, usePremiumTheme } from '@/ui/premium';
 
+import { useActiveLocale } from '@/lib/i18n/use-locale';
+
+import { timeOf } from '../../chat/components/format';
 import type { ChatMessage } from '../../chat/data/rows';
 
 const useStyles = makePremiumStyles((th) => ({
@@ -36,12 +39,8 @@ const useStyles = makePremiumStyles((th) => ({
   },
 }));
 
-function clock(iso: string): string {
-  const date = new Date(iso);
-  return Number.isNaN(date.getTime())
-    ? ''
-    : // eslint-disable-next-line lingui/no-unlocalized-strings -- Intl option values, never copy.
-      date.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+function clock(iso: string, locale: string): string {
+  return Number.isNaN(Date.parse(iso)) ? '' : timeOf(iso, locale);
 }
 
 /** Why a send was refused, in the sender's words. */
@@ -49,16 +48,16 @@ export function failureLine(code: string | undefined): string {
   if (code === 'PAYLOAD_TOO_LARGE') {
     return t({
       id: 'chat.premium.failed.tooBig',
-      message: "Didn't send · too big for this signal",
+      message: 'Didn’t send · too big for this signal',
     });
   }
   if (code === 'FORBIDDEN') {
     return t({
       id: 'chat.premium.failed.forbidden',
-      message: "Didn't send · you can't post here now",
+      message: 'Didn’t send · you can’t post here now',
     });
   }
-  return t({ id: 'chat.premium.failed', message: "Didn't send" });
+  return t({ id: 'chat.premium.failed', message: 'Didn’t send' });
 }
 
 export function DeliveryLine({
@@ -74,6 +73,7 @@ export function DeliveryLine({
 }) {
   const th = usePremiumTheme();
   const styles = useStyles();
+  const locale = useActiveLocale();
   if (message.deleted) return null;
   if (message.status === 'failed') {
     return (
@@ -131,7 +131,7 @@ export function DeliveryLine({
       </Text>
     );
   }
-  const time = clock(message.createdAt);
+  const time = clock(message.createdAt, locale);
   return (
     <View style={styles.line}>
       <Icon name="check" size={12} color={th.color.status.booked.text} />

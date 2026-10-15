@@ -1,0 +1,173 @@
+appId: app.critterpass.dev
+---
+# The wallet of a crew with nothing in it yet (the demo crew's Bali trip), in ${LOOK}: empty
+# bookings (7.01), the + becoming the add sheet (1.06) and its forward toast (1.03), the add page
+# (7.03), the mailbox sheet (7.05), adding by hand with the keyboard up (7.04), and the empty
+# ledger (7.16). Nothing is saved.
+- runFlow:
+    file: wallet-open.yaml
+    env:
+      HALF: bookings
+      LABEL: Bookings
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '7.01'
+      NAME: empty
+      LOOK: ${LOOK}
+# The + grows into the add sheet; "Forward" copies the crew's address and says so in a toast (the
+# island toast, not the sheet's own "address" lines). The sheet is pulled down again. The link
+# first asks the app to keep the next toasts up for 15 s (apps/mobile/src/lib/qa/capture-hold): the
+# tap alone outlasts a toast's four seconds on an Android runner.
+- runFlow:
+    file: ../../_shared/open-link.yaml
+    env:
+      URL: critterpass-dev://wallet/bookings?qaToastHold=15000
+- runFlow:
+    file: ../../_shared/tap.yaml
+    env:
+      ID: 'bookings-add'
+      LABEL: 'Add a booking'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-add-(hand|forward)'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'bookings-add-(hand|forward)'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '1.06'
+            NAME: add-sheet
+            LOOK: ${LOOK}
+      # The tap waits as little as it can; the toast is held for the shot, then tapped away.
+      - tapOn:
+          id: 'bookings-add-forward'
+          optional: true
+          retryTapIfNoChange: false
+          waitToSettleTimeoutMs: 500
+      - extendedWaitUntil:
+          visible:
+            id: 'island-toast-pill'
+          timeout: 6000
+          optional: true
+      - takeScreenshot: premium-1.03-forward-toast-${LOOK}
+      - tapOn:
+          id: 'island-toast-pill'
+          optional: true
+- runFlow:
+    file: ../../_shared/back-to.yaml
+    env:
+      MARK: 'bookings-wallet-empty'
+# The add page (7.03) and adding by hand (7.04), each opened by its link (the wallet's own rows sit
+# under the tab bar on a short phone), and the mailbox sheet (7.05) from the add page; each is left
+# by stepping back to the empty wallet. Nothing is saved.
+- runFlow:
+    file: ../../_shared/open-link.yaml
+    env:
+      URL: critterpass-dev://wallet/bookings/add
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-add-(forward|scan|paste)'
+    timeout: 10000
+    optional: true
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '7.03'
+      NAME: add-page
+      LOOK: ${LOOK}
+# The mailbox sheet from the add page's guide note, as a person opens it (its link is the fallback).
+- tapOn:
+    text: 'Find bookings in.my.email'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-mailbox'
+    timeout: 8000
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'bookings-mailbox'
+    file: ../../_shared/open-link.yaml
+    env:
+      URL: critterpass-dev://wallet/bookings/mailbox
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-mailbox-provider-.*|bookings-mailbox-on'
+    timeout: 10000
+    optional: true
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '7.05'
+      NAME: mailbox
+      LOOK: ${LOOK}
+- tapOn:
+    id: 'bookings-mailbox-close'
+    optional: true
+- runFlow:
+    file: ../../_shared/back-to.yaml
+    env:
+      MARK: 'bookings-wallet-empty'
+# Adding by hand: the form, then a flight's airport field with the keyboard up. Left unsaved.
+- runFlow:
+    file: ../../_shared/open-link.yaml
+    env:
+      URL: critterpass-dev://wallet/bookings/edit/new
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-form'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'bookings-form'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '7.04'
+            NAME: by-hand
+            LOOK: ${LOOK}
+      - tapOn:
+          id: 'bookings-form-kind-flight'
+          optional: true
+      - tapOn:
+          id: 'bookings-form-from'
+          optional: true
+      - inputText: 'Denpasar'
+      - extendedWaitUntil:
+          visible:
+            id: 'bookings-form-did-you-mean'
+          timeout: 5000
+          optional: true
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '7.04'
+            NAME: flight-keyboard
+            LOOK: ${LOOK}
+      - hideKeyboard:
+          optional: true
+- runFlow:
+    file: ../../_shared/back-to.yaml
+    env:
+      MARK: 'bookings-wallet-empty'
+- runFlow:
+    file: wallet-open.yaml
+    env:
+      HALF: money
+      LABEL: Money
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '7.16'
+      NAME: empty-ledger
+      LOOK: ${LOOK}

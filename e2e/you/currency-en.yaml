@@ -14,7 +14,7 @@ appId: app.critterpass.dev
     visible:
       id: 'onboarding-open'
     timeout: 60000
-- runFlow: ../home/subflows/onboard.yaml
+- runFlow: ../happy/subflows/onboard.yaml
 - runFlow:
     file: ../_shared/seed-demo.yaml
     env:
@@ -71,11 +71,11 @@ appId: app.critterpass.dev
     id: 'you-profile-settings'
 - scrollUntilVisible:
     element:
-      text: 'Language and currency.*'
+      text: 'Language.and.currency.*'
     direction: DOWN
     timeout: 20000
 - tapOn:
-    text: 'Language and currency.*'
+    text: 'Language.and.currency.*'
 - extendedWaitUntil:
     visible:
       id: 'you-currency'
@@ -101,16 +101,16 @@ appId: app.critterpass.dev
     id: 'you-currency-USD'
 - extendedWaitUntil:
     visible:
-      text: 'USD · chosen by you'
+      text: 'USD · chosen.by.you'
     timeout: 10000
 - tapOn: 'BOTH'
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3n-8-real-both
 # Back on the Wallet, the expense row and the hero show the home amount.
-- runFlow: ../screens/sweep/subflows/back.yaml
-- runFlow: ../screens/sweep/subflows/back.yaml
-- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../_shared/back.yaml
+- runFlow: ../_shared/back.yaml
+- runFlow: ../_shared/back.yaml
 - tapOn:
     id: 'tab-wallet'
 - extendedWaitUntil:

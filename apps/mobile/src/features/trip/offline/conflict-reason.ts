@@ -30,7 +30,7 @@ const REASONS: Readonly<Record<string, MessageDescriptor>> = {
 
 const OTHER = msg({
   id: 'trip.offline.reason.other',
-  message: "It couldn't be saved. Try it again",
+  message: 'It couldn’t be saved. Try it again',
 });
 
 export function conflictReason(code: string): MessageDescriptor {

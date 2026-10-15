@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 
 import { defineClientCommand } from '@/data/commands/summaries';
 import { watchRows } from '@/data/status/watch-rows';
+import { shortName } from '@/lib/people/member-name';
 
 /** Mints (once) or returns the caller's referral code; online only. */
 export const MINT_REFERRAL_CODE = defineClientCommand<Record<string, never>>({
@@ -80,7 +81,7 @@ export function watchReferrals(
           friends: friends.flatMap((row) => {
             const status = friendStatus(row.status, row.reward_kind);
             if (status === null) return [];
-            const first = row.display_name?.trim().split(/\s+/u)[0] ?? null;
+            const first = row.display_name?.trim() ? shortName(row.display_name) : null;
             return [{ id: row.id, name: first, status }];
           }),
           stamps: stamps[0]?.n ?? 0,

@@ -1,0 +1,25 @@
+appId: app.critterpass.dev
+---
+# Taps ${ID}, or the element labelled ${LABEL} when the id is not in the hierarchy (iOS 26 toolbar
+# items and native tab bar items are reached by their label). Nothing happens when neither shows.
+# One tap only: once the id's tap opens a screen, the id is gone, and the label could then match
+# something on that screen (the guide circle's "Ask Tokek" is also its composer's placeholder).
+- evalScript: ${output.tapById = false}
+- runFlow:
+    when:
+      visible:
+        id: '${ID}'
+    commands:
+      - evalScript: ${output.tapById = true}
+      - tapOn:
+          id: '${ID}'
+- runFlow:
+    when:
+      true: ${!output.tapById}
+      notVisible:
+        id: '${ID}'
+    commands:
+      - tapOn:
+          text: '${LABEL}'
+          optional: true
+- runFlow: settle.yaml

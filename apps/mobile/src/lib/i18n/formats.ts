@@ -1,8 +1,8 @@
 /**
  * How the person wants clock times and distances written (3n-8 FORMATS): 12- or 24-hour, km or
  * mi. Set from their synced settings by the data layer; every clock and distance in the app reads
- * it, and `useFormats()` redraws a screen when it changes. Unset, a clock follows the language's
- * own habit and distances read in kilometres.
+ * it, and `useFormats()` redraws a screen when it changes. Unset, clocks are 24-hour in every
+ * language (the app's rule; Settings can choose 12-hour) and distances read in kilometres.
  */
 import { useSyncExternalStore } from 'react';
 
@@ -10,7 +10,7 @@ export type TimeFormat = '12h' | '24h';
 export type DistanceUnit = 'km' | 'mi';
 
 export interface Formats {
-  /** Null: the language's own habit ("14:30" in Vietnamese, "2:30 PM" in US English). */
+  /** Null: not chosen yet, written 24-hour ("14:30") in every language. */
   readonly time: TimeFormat | null;
   readonly distance: DistanceUnit;
 }
@@ -41,12 +41,17 @@ export function useFormats(): Formats {
   );
 }
 
+/** The clock the app writes: the one chosen in Settings, else 24-hour. */
+export function effectiveTimeFormat(formats: Formats = current): TimeFormat {
+  return formats.time ?? '24h';
+}
+
 /**
- * The `Intl.DateTimeFormat` option for the chosen clock, to spread into a time's options:
- * `{ hour: '2-digit', minute: '2-digit', ...clockOption() }`. Empty when the language decides.
+ * The `Intl.DateTimeFormat` option for the app's clock, to spread into a time's options:
+ * `{ hour: '2-digit', minute: '2-digit', ...clockOption() }`.
  */
-export function clockOption(formats: Formats = current): { hour12?: boolean } {
-  return formats.time === null ? {} : { hour12: formats.time === '12h' };
+export function clockOption(formats: Formats = current): { readonly hour12: boolean } {
+  return { hour12: effectiveTimeFormat(formats) === '12h' };
 }
 
 const clockFormats = new Map<string, Intl.DateTimeFormat>();

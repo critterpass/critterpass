@@ -5,45 +5,30 @@ import {
   ThemeProvider as NavigationThemeProvider,
 } from 'expo-router';
 import type { NativeStackNavigationOptions } from 'expo-router/native-stack';
-import { getFocusedRouteNameFromRoute } from 'expo-router/react-navigation';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
-import { SHEET_GROUPS, SHEET_ROUTES } from '@/lib/navigation/sheet-routes';
+import { openedPath, presentationOf, type OpenedRoute } from '@/lib/navigation/presentation';
 import type { PremiumPalette, PremiumScheme } from '@cp/design-tokens';
 
 import { REDUCED_FADE_MS, usePremiumReducedMotion, usePremiumTheme } from '../..';
+import { freezeOptions, type StackState } from './freeze-behind';
+import { oneCardRouter } from './one-card-router';
+import { presentedLayoutFor, type LayoutRoute } from './presented-insets';
+import { rootRouteOptions, SELF_ANIMATED_SHEET } from './presentation-options';
 
-type FocusedRouteInput = Parameters<typeof getFocusedRouteNameFromRoute>[0];
+// Area layouts import it from here.
+export { SELF_ANIMATED_SHEET };
 
-/** The route the native stack hands an options function: its key may be missing until it mounts. */
-interface GroupRoute {
-  readonly name: string;
-  readonly key: string | undefined;
-}
+type RootRoute = OpenedRoute & { readonly key?: string | undefined };
 
-/**
- * A screen of the current UI that animates itself as a sheet (`ui/sheet`) is presented at once and
- * see-through, so its own rise plays over the page that opened it.
- */
-export const SELF_ANIMATED_SHEET = {
-  presentation: 'transparentModal',
-  animation: 'none',
-  contentStyle: { backgroundColor: 'transparent' },
-} as const satisfies NativeStackNavigationOptions;
+/** A page pushed after a sheet shows inside it (iOS): it lays out from the sheet's top. */
+const ROOT_LAYOUT = presentedLayoutFor(
+  // The route itself: a group's presentation is read from the stack it holds.
+  (route) => rootRouteOptions(route as LayoutRoute & RootRoute).presentation,
+);
 
-/** A group holding sheet routes: opened on one of its sheets, it is presented like `(modal)`. */
-function sheetGroupOptions({
-  route,
-}: {
-  readonly route: GroupRoute;
-}): NativeStackNavigationOptions {
-  // The focused child is read from the route object itself (its private child state), so it is
-  // passed as is; only its optional `key` differs from the reader's declared input.
-  const opened = getFocusedRouteNameFromRoute(route as FocusedRouteInput);
-  return opened !== undefined && SHEET_ROUTES.has(`${route.name}/${opened}`)
-    ? SELF_ANIMATED_SHEET
-    : {};
-}
+/** A group opened over a sheet replaces the sheet (`oneCardRoutes`). */
+const ROOT_ROUTER = oneCardRouter((route) => presentationOf(openedPath(route)));
 
 /** The navigation library's colours for the premium palette, so no default white or grey flashes. */
 function navigationTheme(scheme: PremiumScheme, color: PremiumPalette) {
@@ -64,28 +49,49 @@ function navigationTheme(scheme: PremiumScheme, color: PremiumPalette) {
 /**
  * The premium root navigator: the native stack (glass back, edge swipe, large titles, form sheets,
  * the zoom transition). Details push here above the tabs, so the tab bar leaves with the page under
- * the push. Screens draw their own header through the shell's screen scaffolds; Reduce Motion
- * turns every push into a 150 ms cross-fade.
+ * the push. A group opened on one of its sheet or modal routes is presented natively the way that
+ * route is (`lib/navigation/presentation.ts`): a form sheet with its detents and swipe down, the
+ * page sheet, or a full-screen cover; screens that still draw their own entrance get a see-through
+ * card. Screens draw their own header through the shell's screen scaffolds; Reduce Motion turns
+ * every push and rise into a 150 ms cross-fade. Pages hidden under two or more pages freeze.
  */
 export function PremiumRootStack() {
   const { scheme, color } = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
   const theme = useMemo(() => navigationTheme(scheme, color), [scheme, color]);
+  const screenOptions = useCallback(
+    ({
+      route,
+      navigation,
+    }: {
+      readonly route: RootRoute;
+      readonly navigation: { readonly getState: () => StackState<RootRoute> };
+    }): NativeStackNavigationOptions => {
+      const presented = rootRouteOptions(route);
+      const selfAnimated = presented.animation === 'none';
+      return {
+        headerShown: false,
+        contentStyle: { backgroundColor: color.ground },
+        ...presented,
+        ...freezeOptions(
+          route,
+          navigation.getState(),
+          (above) => rootRouteOptions(above).presentation,
+        ),
+        ...(reduced && !selfAnimated
+          ? { animation: 'fade', animationDuration: REDUCED_FADE_MS }
+          : {}),
+      };
+    },
+    [color.ground, reduced],
+  );
   return (
     <NavigationThemeProvider value={theme}>
       <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: color.ground },
-          ...(reduced ? { animation: 'fade', animationDuration: REDUCED_FADE_MS } : {}),
-        }}
-      >
-        {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route group name, not copy */}
-        <Stack.Screen name="(modal)" options={SELF_ANIMATED_SHEET} />
-        {SHEET_GROUPS.map((name) => (
-          <Stack.Screen key={name} name={name} options={sheetGroupOptions} />
-        ))}
-      </Stack>
+        screenOptions={screenOptions}
+        screenLayout={ROOT_LAYOUT}
+        UNSTABLE_router={ROOT_ROUTER}
+      />
     </NavigationThemeProvider>
   );
 }

@@ -5,7 +5,7 @@
 import { format } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName } from '@/lib/people/member-name';
 
 import type { MemoryMoment, MemoryReactionChip } from './memory-model';
 

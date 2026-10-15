@@ -42,10 +42,13 @@ export function useNameStep(): NameStep {
   const locale = useLocale();
   const draft = usePassDraft() ?? ensureDraft();
   const [name, setName] = useState(draft.given_name);
-  const [reaction, setReaction] = useState<{ trigger: TokekLineTrigger; pick: number }>({
-    trigger: 'intro',
-    pick: 0,
-  });
+  // Tokek's line is about the name as it stood when he reacted: it keeps still while the next
+  // letters go in, rather than rewriting (and re-wrapping) itself on every keystroke.
+  const [reaction, setReaction] = useState<{
+    trigger: TokekLineTrigger;
+    pick: number;
+    name: string;
+  }>({ trigger: 'intro', pick: 0, name: '' });
   const reactions = useRef(0);
 
   // The field mounts again with autoFocus once the page is in (it takes no ref), unless the user
@@ -66,7 +69,11 @@ export function useNameStep(): NameStep {
     const timer = setTimeout(() => {
       const trigger = nameReaction(name, BLOCKED_NAME_WORDS);
       reactions.current += 1;
-      setReaction({ trigger, pick: reactions.current % Math.max(1, tokekLineCount(trigger)) });
+      setReaction({
+        trigger,
+        pick: reactions.current % Math.max(1, tokekLineCount(trigger)),
+        name: name.trim(),
+      });
     }, reactionDelayMs(name));
     return () => clearTimeout(timer);
   }, [name]);
@@ -93,7 +100,7 @@ export function useNameStep(): NameStep {
     onChange,
     problem,
     next,
-    line: tokekLine(reaction.trigger, locale, { name: name.trim() }, reaction.pick),
+    line: tokekLine(reaction.trigger, locale, { name: reaction.name }, reaction.pick),
     focusReady,
     onFocus: () => {
       userFocused.current = true;

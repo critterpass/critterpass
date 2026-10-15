@@ -28,6 +28,15 @@ function planChange(body: string, locale: string): string {
   return [parsed.title, day, parsed.time].filter((part) => part !== null && part !== '').join(', ');
 }
 
+/** Members who joined one after another, as one line: "Maya, Jordan and Alex joined the crew". */
+export function joinedLine(names: readonly (string | null | undefined)[], locale = 'en'): string {
+  const list = format.list(
+    locale,
+    names.map((who) => firstName(who) ?? t({ id: 'chat.system.someone', message: 'Someone' })),
+  );
+  return t({ id: 'chat.system.joinedMany', message: `${list} joined the crew` });
+}
+
 export function systemLine(
   refKind: string | null,
   who: string | null | undefined,
@@ -45,13 +54,13 @@ export function systemLine(
     case 'rejoin_asked':
       return t({ id: 'chat.system.rejoinAsked', message: `${name} would like to rejoin the crew` });
     case 'trip_settled':
-      return t({ id: 'chat.system.tripSettled', message: "All square: everyone's settled up" });
+      return t({ id: 'chat.system.tripSettled', message: 'All square: everyone’s settled up' });
     case 'rsvp_in':
       return t({ id: 'chat.system.rsvpIn', message: `${name} is in` });
     case 'rsvp_maybe':
       return t({ id: 'chat.system.rsvpMaybe', message: `${name} is a maybe` });
     case 'rsvp_out':
-      return t({ id: 'chat.system.rsvpOut', message: `${name} can't make it` });
+      return t({ id: 'chat.system.rsvpOut', message: `${name} can’t make it` });
     case 'rsvp_waitlisted':
       return t({ id: 'chat.system.rsvpWaitlisted', message: `${name} is on the waitlist` });
     case 'trip_locked':

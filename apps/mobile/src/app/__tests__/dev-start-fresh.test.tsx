@@ -16,7 +16,7 @@ import { fireEvent } from '@testing-library/react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
-import { renderUi } from '@/ui/test-support/render';
+import { renderUi } from '@/lib/test-support/render-ui';
 
 import DevStartFreshSheet from '../(dev)/start-fresh';
 

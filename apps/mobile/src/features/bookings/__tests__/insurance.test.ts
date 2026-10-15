@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { LAB_POLICY } from '../dev/lab-fixtures';
+import { LAB_POLICY } from '../test-support/lab-fixtures';
 import { assistancePhoneFrom, pickPolicy, policyNumberFrom } from '../insurance/insurance-data';
 
 describe('insurance scan', () => {

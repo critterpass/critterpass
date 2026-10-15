@@ -4,11 +4,21 @@ appId: app.critterpass.dev
 # crew: four crewmates, a confirmed trip three weeks out and the crew's destination vote on its
 # board. Ends on Home. Needs an api with DEV_SEED_ENABLED on.
 - runFlow:
-    file: ../../screens/sweep/subflows/start.yaml
+    file: ../../happy/subflows/fresh-install.yaml
     env:
       LANG: ${LANG}
-- runFlow: ../../home/subflows/onboard.yaml
+- runFlow: ../../happy/subflows/onboard.yaml
 - runFlow:
     file: ../../_shared/seed-demo.yaml
     env:
       SEED: dev-seed-demo-vote
+# The store's language: switched in Settings, then back to Home.
+- runFlow:
+    when:
+      true: ${LANG != 'en'}
+    commands:
+      - runFlow:
+          file: ../../_shared/switch-language.yaml
+          env:
+            LANG: ${LANG}
+      - runFlow: ../../_shared/to-home.yaml

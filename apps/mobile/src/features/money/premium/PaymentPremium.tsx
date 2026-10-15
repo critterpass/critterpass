@@ -7,7 +7,8 @@
  */
 import type { PaymentMethod } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { amountText } from '@/data/money/amount-digits';
 import { PrivateContent } from '@/features/help';
@@ -23,7 +24,7 @@ import {
   TextField,
   usePremiumTheme,
 } from '@/ui/premium';
-import { KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
+import { KeyboardAwareScroll, KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
 
 import { formatAmountShown } from '../format';
 import { usePayoutKindLabel } from '../settle/payout-labels';
@@ -126,6 +127,9 @@ export function PaymentPremium({
   readonly tripId?: string | null;
 }) {
   const th = usePremiumTheme();
+  const insets = useSafeAreaInsets();
+  // Clears the home indicator with the keyboard down, and sits a gap above the keyboard when up.
+  const footerPad = Math.max(insets.bottom, th.space.gap12);
   const { t } = useLingui();
   const locale = useLocale();
   const pay = usePayment(id, tripId);
@@ -160,37 +164,56 @@ export function PaymentPremium({
   const amount = formatAmountShown(row.amountMinor, row.currency, locale);
   return (
     <PushScreen title={title} backLabel={title} scroll={false} testID="money-payment">
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        keyboardDismissMode="interactive"
-        keyboardShouldPersistTaps="handled"
+      <KeyboardAwareScroll
+        bottomOffset={th.size.button + th.space.gap12 + th.space.gap16}
         contentContainerStyle={{ paddingTop: 8, paddingBottom: 40, gap: th.space.gap16 }}
       >
-        <View style={[styles.who, { paddingHorizontal: th.space.titleGutter }]}>
-          <Avatar
-            name={other}
-            color={crewAccent(pay.joinIndexOf(row.role === 'payer' ? row.toId : row.fromId))}
-            size={56}
-            ringed
-          />
-          <PrivateContent>
-            <Text
-              variant="hero"
-              align="center"
-              style={styles.tabular}
-              testID="money-payment-amount"
-            >
-              {amount}
-            </Text>
-          </PrivateContent>
-          <Text variant="body" tone="muted" align="center">
-            {row.role === 'payer'
-              ? t({ id: 'money.premium.toWhom', message: `to ${toName}` })
-              : row.role === 'payee'
-                ? t({ id: 'money.pay.titleOwed', message: `${payer} owes you` })
+        {row.role === 'payee' ? (
+          // Owed to you (7.26): the payer and what they owe as one header block.
+          <View style={[styles.owedHead, { paddingHorizontal: th.space.titleGutter }]}>
+            <Avatar
+              name={fromName}
+              color={crewAccent(pay.joinIndexOf(row.fromId))}
+              uid={row.fromId}
+              size={56}
+            />
+            <View style={styles.flex}>
+              <Text variant="emptyTitle" accessibilityRole="header">
+                {t({ id: 'money.pay.titleOwed', message: `${payer} owes you` })}
+              </Text>
+              <PrivateContent>
+                <Text variant="title" style={styles.tabular} testID="money-payment-amount">
+                  {amount}
+                </Text>
+              </PrivateContent>
+            </View>
+          </View>
+        ) : (
+          <View style={[styles.who, { paddingHorizontal: th.space.titleGutter }]}>
+            <Avatar
+              name={other}
+              color={crewAccent(pay.joinIndexOf(row.role === 'payer' ? row.toId : row.fromId))}
+              uid={row.role === 'payer' ? row.toId : row.fromId}
+              size={56}
+              ringed
+            />
+            <PrivateContent>
+              <Text
+                variant="hero"
+                align="center"
+                style={styles.tabular}
+                testID="money-payment-amount"
+              >
+                {amount}
+              </Text>
+            </PrivateContent>
+            <Text variant="body" tone="muted" align="center">
+              {row.role === 'payer'
+                ? t({ id: 'money.premium.toWhom', message: `to ${toName}` })
                 : t({ id: 'money.pay.titleOther', message: `${payer} pays ${payee}` })}
-          </Text>
-        </View>
+            </Text>
+          </View>
+        )}
         {paying ? <Paying pay={pay} /> : null}
         {row.role === 'payer' && row.status === 'marked_paid' ? (
           <Text
@@ -206,13 +229,13 @@ export function PaymentPremium({
           </Text>
         ) : null}
         {row.role === 'payee' ? <PaymentOwed pay={pay} /> : null}
-      </ScrollView>
+      </KeyboardAwareScroll>
       {paying ? (
-        <KeyboardStickyFooter>
+        <KeyboardStickyFooter openedOffset={th.space.gap12 - footerPad}>
           <View
             style={{
               paddingHorizontal: th.space.titleGutter,
-              paddingBottom: th.space.gap12,
+              paddingBottom: footerPad,
               gap: th.space.gap6,
             }}
           >
@@ -238,5 +261,7 @@ export function PaymentPremium({
 
 const styles = StyleSheet.create({
   who: { alignItems: 'center', gap: 6 },
+  owedHead: { flexDirection: 'row', alignItems: 'center', gap: 14 },
+  flex: { flex: 1, minWidth: 0 },
   tabular: { fontVariant: ['tabular-nums'] },
 });

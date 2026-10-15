@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { hrefFor } from '@/lib/navigation/screen-registry';
+import { shortName } from '@/lib/people/member-name';
 import { Text } from '@/ui/premium';
 
 import { crewAccent } from '@/features/crew';
@@ -111,8 +112,9 @@ export function usePremiumGuideMeter(input: {
             holder === undefined
               ? null
               : {
-                  name: holder.display_name?.split(' ')[0] ?? '?',
+                  name: shortName(holder.display_name),
                   color: crewAccent(null, holder.join_index),
+                  ...(holderId === null ? {} : { uid: holderId }),
                 }
           }
           {...(input.crewId === null
@@ -146,11 +148,11 @@ export function usePremiumGuideMeter(input: {
             : queue.problem === 'offline'
               ? t({
                   id: 'guide.queued.offline',
-                  message: "That needs a connection. Try again when you're back online.",
+                  message: 'That needs a connection. Try again when you’re back online.',
                 })
               : t({
                   id: 'guide.queued.refused',
-                  message: "That question couldn't be saved for later.",
+                  message: 'That question couldn’t be saved for later.',
                 })}
         </Text>
       )}

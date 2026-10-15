@@ -1,12 +1,11 @@
 /**
- * A destination's guide page (4.04): the hero in the guide's colour with clear-glass back and ♥,
+ * A destination's guide page (4.04): the hero in the guide’s colour with light glass back and ♥,
  * "Guide: Pon", the name, the guide's tagline and the guide waving; the year's crowds and the best
- * month (a month taps open its prices); the guide's first-timer picks; the crews' plans; and the
- * foot: Pitch to the crew (or pick a crew) and Plan it solo (4.07). States and words follow the
- * same container as the current look.
+ * month (a month taps open its prices); the guide’s first-timer picks; the crews' plans; and the
+ * foot: Pitch to the crew (or pick a crew) and Plan it solo (4.07). States: the screen's container.
  */
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -15,26 +14,44 @@ import {
   CritterSticker,
   GlassIconButton,
   GuideNote,
-  Icon,
-  ListCard,
-  LoadingCritter,
+  Skeleton,
   OfflinePill,
   PressableScale,
   Text,
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
+import { SCROLL_EDGE_FADE, ScrollEdgeFade } from '@/ui/premium/shell';
 import { SoloPassSheet } from '@/features/vote';
 
-import type { DestinationViewProps } from '../../components/destination-view';
-import { Doodle } from '../components/doodle';
-import { MonthCard } from './month-card';
+import type { DestinationViewProps } from '../../screens/destination-view-props';
+import { CrewPlansRow } from './crew-plans-row';
+import { destinationNoticeText } from './destination-notice';
+import { MonthCard, MonthCardPending } from './month-card';
 import { PicksCarousel } from './picks-carousel';
 
 const HERO = 320;
+/** How far the first card rises over the hero's foot. */
+const HERO_OVERLAP = 28;
 /* eslint-disable-next-line lingui/no-unlocalized-strings -- a style value, never copy. */
 const GUIDE_TILT = '-6deg';
 
+/** The dock: the 56 pt button, a 4 pt gap and the 44 pt text button under it. */
+const DOCK_HEIGHT = 104;
+/* eslint-disable lingui/no-unlocalized-strings -- style values, never copy. */
+const styles = StyleSheet.create({
+  heroDots: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    experimental_backgroundImage:
+      'radial-gradient(circle, rgba(26,20,48,0.09) 1.2px, transparent 1.7px)',
+    experimental_backgroundSize: '12px 12px',
+  },
+});
+/* eslint-enable lingui/no-unlocalized-strings */
 export function PremiumDestinationView(props: DestinationViewProps) {
   const theme = usePremiumTheme();
   const insets = useSafeAreaInsets();
@@ -43,35 +60,81 @@ export function PremiumDestinationView(props: DestinationViewProps) {
   const guide = hero.guide;
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.ground }} testID="explore-destination">
-      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 120 }}>
+      {/* The last card ends clear of the dock and its fade, not under them. */}
+      <ScrollView
+        contentContainerStyle={{
+          paddingBottom: insets.bottom + theme.space.gap8 + DOCK_HEIGHT + SCROLL_EDGE_FADE,
+        }}
+      >
         <View
           style={{
-            height: HERO,
+            minHeight: HERO,
             backgroundColor: guide.colour,
             paddingTop: insets.top + 64,
+            // The facts and a two-line name never run under the card that rises over the foot.
+            paddingBottom: HERO_OVERLAP + theme.space.gap16,
             paddingHorizontal: theme.space.titleGutter,
             overflow: 'hidden',
           }}
         >
+          {/* The drawn hero's fine dot grid over the guide's colour. */}
+          <View pointerEvents="none" style={styles.heroDots} />
           <Text variant="badge" color={theme.color.onAccent}>
             {t({
               id: 'explore.premium.dest.guide',
               message: `Guide: ${guide.name}`,
             }).toLocaleUpperCase()}
           </Text>
-          <Text
-            variant="hero"
-            color={theme.color.onAccent}
-            numberOfLines={2}
-            adjustsFontSizeToFit
-            style={{ maxWidth: '62%' }}
-            testID="explore-dest-name"
-          >
-            {hero.name}
-          </Text>
+          {hero.name === '' && props.loading ? (
+            // The name's place holds while the guide loads, so the hero never opens on a gap.
+            <View style={{ paddingVertical: theme.space.gap8, gap: theme.space.gap8 }}>
+              <Skeleton width="50%" height={44} radius={12} tone="soft" />
+            </View>
+          ) : (
+            <Text
+              variant="hero"
+              color={theme.color.onAccent}
+              numberOfLines={2}
+              adjustsFontSizeToFit
+              style={{ maxWidth: '62%' }}
+              testID="explore-dest-name"
+            >
+              {hero.name}
+            </Text>
+          )}
           <Text variant="rowText" color={theme.color.onAccent} style={{ maxWidth: '52%' }}>
             {hero.tagline}
           </Text>
+          {/* The facts sit on the hero, so the month card can rise over its foot as drawn. */}
+          {hero.chips.length === 0 ? null : (
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                gap: theme.space.gap6,
+                marginTop: theme.space.gap12,
+                // Below the guide's sticker the facts have the row: two chips fit on one line.
+                maxWidth: '80%',
+              }}
+            >
+              {hero.chips.map((chip) => (
+                <View
+                  key={chip.text}
+                  style={{
+                    height: 26,
+                    borderRadius: 13,
+                    paddingHorizontal: theme.space.gap10,
+                    justifyContent: 'center',
+                    backgroundColor: theme.color.card,
+                  }}
+                >
+                  <Text variant="badge" numberOfLines={1}>
+                    {chip.text}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
           <View
             pointerEvents="none"
             style={{
@@ -87,103 +150,48 @@ export function PremiumDestinationView(props: DestinationViewProps) {
         <View
           style={{
             paddingHorizontal: theme.space.gap16,
-            paddingTop: theme.space.gap16,
+            marginTop: -HERO_OVERLAP,
             gap: theme.space.gap16,
           }}
         >
           {props.offline ? <OfflinePill testID="explore-offline" /> : null}
-          {hero.chips.length === 0 ? null : (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap6 }}>
-              {hero.chips.map((chip) => (
-                <View
-                  key={chip.text}
-                  style={{
-                    height: 26,
-                    borderRadius: 13,
-                    paddingHorizontal: theme.space.gap10,
-                    justifyContent: 'center',
-                    backgroundColor: theme.color.control,
-                  }}
-                >
-                  <Text variant="badge" numberOfLines={1}>
-                    {chip.text}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          )}
           {props.loading ? (
-            <LoadingCritter
-              label={t({ id: 'explore.dest.loading', message: 'Loading the guide' })}
-            />
+            // The month card and the picks hold their places while the guide loads, so the page
+            // keeps the design's shape instead of one line over an empty band.
+            <View
+              style={{ gap: theme.space.gap16 }}
+              accessible
+              accessibilityLabel={t({ id: 'explore.dest.loading', message: 'Loading the guide' })}
+              testID="explore-dest-loading"
+            >
+              <Skeleton height={112} tone="block" radius={theme.radius.card} />
+              <Skeleton width="55%" height={14} />
+              <View style={{ flexDirection: 'row', gap: theme.space.gap10, overflow: 'hidden' }}>
+                <Skeleton width={150} height={120} tone="soft" radius={theme.radius.card} />
+                <Skeleton width={150} height={120} tone="soft" radius={theme.radius.card} />
+                <Skeleton width={150} height={120} tone="soft" radius={theme.radius.card} />
+              </View>
+            </View>
           ) : null}
-          {months === null ? null : <MonthCard months={months} accent={guide.colour} />}
+          {months !== null ? (
+            <MonthCard months={months} accent={guide.colour} />
+          ) : props.loading || props.notice !== null ? null : (
+            <MonthCardPending guideName={guide.name} />
+          )}
           <PicksCarousel
-            title={t({ id: 'explore.picks.title', message: `${guide.name}'s first-timer picks` })}
+            title={t({ id: 'explore.picks.title', message: `${guide.name}’s first-timer picks` })}
             picks={props.picks}
             onOpenPick={props.onOpenPick}
             onMap={props.onMap}
           />
           {props.onCrewPlans === undefined ? null : (
-            <ListCard>
-              <PressableScale
-                onPress={props.onCrewPlans}
-                accessibilityRole="button"
-                testID="explore-crew-plans"
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: theme.space.gap12,
-                  padding: theme.space.gap12,
-                }}
-              >
-                <View
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: 10.8,
-                    backgroundColor: theme.color.status.tangerine.bg,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Doodle name="ticket" size={30} />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text variant="rowTitle">
-                    {t({ id: 'explore.premium.find.crewPlans', message: 'Crew plans' })}
-                  </Text>
-                  <Text variant="captionMuted" tone="muted">
-                    {t({
-                      id: 'explore.premium.find.crewPlansLine',
-                      message: `How other crews did ${hero.name}`,
-                    })}
-                  </Text>
-                </View>
-                <Icon name="forward" size={16} color={theme.color.placeholder} />
-              </PressableScale>
-            </ListCard>
+            <CrewPlansRow placeName={hero.name} onPress={props.onCrewPlans} />
           )}
           {props.notice === null ? null : (
             <GuideNote
               name={guide.name}
               critter={guide.kind}
-              text={
-                props.notice === 'writing'
-                  ? t({
-                      id: 'explore.dest.writing',
-                      message: `${guide.name} is still writing up ${hero.name}: the month-by-month crowds land here. The places are already on the map.`,
-                    })
-                  : props.notice === 'unavailable'
-                    ? t({
-                        id: 'explore.dest.unavailable',
-                        message: `${guide.name}'s notes on ${hero.name} didn't load. They'll show up once this phone is back online.`,
-                      })
-                    : t({
-                        id: 'explore.limited.body',
-                        message: `No guide lives in ${hero.name} yet, so the month-by-month crowds aren't written. Flights, money and the best months are covered, and ${guide.name} plans the trip all the same.`,
-                      })
-              }
+              text={destinationNoticeText(props.notice, guide, hero)}
               testID="explore-dest-notice"
             />
           )}
@@ -207,6 +215,12 @@ export function PremiumDestinationView(props: DestinationViewProps) {
           ) : null}
         </View>
       </ScrollView>
+      <ScrollEdgeFade
+        edge="bottom"
+        height={insets.bottom + theme.space.gap8 + DOCK_HEIGHT + SCROLL_EDGE_FADE}
+        // Opaque behind the whole dock: content never reads half under the button.
+        solid={insets.bottom + theme.space.gap8 + DOCK_HEIGHT}
+      />
       <View
         pointerEvents="box-none"
         style={{
@@ -221,7 +235,7 @@ export function PremiumDestinationView(props: DestinationViewProps) {
       >
         <GlassIconButton
           icon="back"
-          kind="clear"
+          kind="nav"
           label={hero.backLabel}
           onPress={hero.onBack}
           testID="explore-back"
@@ -229,7 +243,7 @@ export function PremiumDestinationView(props: DestinationViewProps) {
         {hero.onToggleSave === undefined ? null : (
           <GlassIconButton
             icon="heart"
-            kind="clear"
+            kind="nav"
             label={
               hero.saved === true
                 ? t({ id: 'explore.premium.dest.saved', message: 'Saved. Tap to remove' })
@@ -240,33 +254,38 @@ export function PremiumDestinationView(props: DestinationViewProps) {
           />
         )}
       </View>
-      <View
-        style={{
-          position: 'absolute',
-          left: theme.space.titleGutter,
-          right: theme.space.titleGutter,
-          bottom: insets.bottom + theme.space.gap8,
-          gap: theme.space.gap4,
-          alignItems: 'center',
-        }}
-      >
-        <View style={{ alignSelf: 'stretch' }}>
-          <Button
-            label={t({ id: 'vote.guest.pitch', message: 'Pitch to the crew' })}
-            onPress={actions.onPitch}
-            disabled={actions.mode === 'crews'}
-            testID="explore-pitch"
-          />
+      {/* The solo sheet stands over the page alone: the footer steps out under it. */}
+      {actions.mode === 'solo' ? null : (
+        <View
+          style={{
+            position: 'absolute',
+            zIndex: 2,
+            left: theme.space.titleGutter,
+            right: theme.space.titleGutter,
+            bottom: insets.bottom + theme.space.gap8,
+            gap: theme.space.gap4,
+            alignItems: 'center',
+          }}
+        >
+          <View style={{ alignSelf: 'stretch' }}>
+            <Button
+              label={t({ id: 'vote.guest.pitch', message: 'Pitch to the crew' })}
+              onPress={actions.onPitch}
+              disabled={actions.mode === 'crews'}
+              testID="explore-pitch"
+            />
+          </View>
+          {/* The text button hugs its label; the wrapper centres it under the pill. */}
+          <View style={{ alignSelf: 'center' }}>
+            <TextButton
+              align="center"
+              label={t({ id: 'explore.premium.dest.solo', message: 'Plan it solo' })}
+              onPress={actions.onSolo}
+              testID="explore-solo"
+            />
+          </View>
         </View>
-        {/* The text button hugs its label; the wrapper centres it under the pill. */}
-        <View style={{ alignSelf: 'center' }}>
-          <TextButton
-            label={t({ id: 'explore.premium.dest.solo', message: 'Plan it solo' })}
-            onPress={actions.onSolo}
-            testID="explore-solo"
-          />
-        </View>
-      </View>
+      )}
       {actions.mode === 'solo' ? (
         <SoloPassSheet
           placeName={hero.name}

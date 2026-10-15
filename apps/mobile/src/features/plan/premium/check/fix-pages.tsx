@@ -1,7 +1,7 @@
 /**
- * Two of the guide's fixes in the premium look: less driving (4.45: "3 h 50 → 2 h 40" in the car,
- * the new order with what moved and what's booked) and rain and crowds (4.46: the swaps, each
- * ticked to keep). Each has the privacy chip, its primary action and "Send to the crew first".
+ * Two of the guide's fixes: less driving (4.45: "3 h 50 → 2 h 40" in the car, the BEFORE / AFTER
+ * routes, the new order with what moved and what's booked) and rain and crowds (4.46: the chart,
+ * the swaps, each ticked to keep). Each has the privacy chip, its primary action and "Send to the crew first".
  * Reads and commands are the shared screens'.
  */
 import { useLingui } from '@lingui/react/macro';
@@ -21,8 +21,9 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import type { LessDrivingViewProps } from '../../check/less-driving/less-driving-view';
-import type { RainViewProps } from '../../check/rain-crowds/rain-view';
+import type { LessDrivingViewProps } from '../../check/less-driving/less-driving-props';
+import type { RainViewProps } from '../../check/rain-crowds/rain-props';
+import { RouteSketches, SwapChart } from './fix-sketches';
 
 function FixPage(props: {
   readonly backLabel: string;
@@ -48,7 +49,10 @@ function FixPage(props: {
       scroll={false}
       testID={props.testID}
     >
-      <ScrollView contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}>
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}
+      >
         {props.children}
       </ScrollView>
       {props.primary === null && props.send === null ? null : (
@@ -72,6 +76,7 @@ function FixPage(props: {
           )}
           {props.send === null ? null : (
             <TextButton
+              align="center"
               label={props.sendLabel}
               onPress={props.send}
               testID={`${props.testID}-send`}
@@ -130,6 +135,7 @@ export function PremiumLessDrivingView(props: LessDrivingViewProps) {
               })}
             </Text>
           </View>
+          <RouteSketches before={props.beforeStops} after={props.afterStops} stay={props.stay} />
           <ListCard>
             {props.rows.map((row, index) => (
               <View
@@ -206,6 +212,7 @@ export function PremiumRainView(props: RainViewProps) {
       <Text variant="caption" tone="muted">
         {props.source}
       </Text>
+      {props.chart === null ? null : <SwapChart {...props.chart} />}
       {props.state === 'loading' ? <LoadingCritter label={props.title} /> : null}
       {props.state === 'none' ? (
         <Text variant="body">

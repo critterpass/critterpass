@@ -14,11 +14,10 @@ import { useCommand } from '@/data/commands/use-command';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
-import type { PauseMonth } from '@/ui/monetize/PauseBars';
 
 import { perkLines } from '../perks/perk-copy';
 import { MONETIZE_ROUTES } from '../routes';
-import type { CancelViewProps } from './cancel-view';
+import type { CancelViewProps, PauseMonth } from './cancel-props';
 import { pauseResumeDate } from './plan-model';
 import { useRecheckOnReturn } from './use-billing-issue';
 import { usePlan } from './use-plan';

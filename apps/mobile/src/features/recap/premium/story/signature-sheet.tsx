@@ -7,14 +7,11 @@ import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
 import { PremiumSheet } from '@/features/album';
-import { SignatureLayer } from '@/ui/documents/SignatureLayer';
+import { SignaturePad } from '../../signature/signature-pad';
 import { Button, Text } from '@/ui/premium';
 
-import {
-  PAD_HEIGHT,
-  useSignatureForm,
-  type SignatureSheetProps,
-} from '../../signature/signature-sheet';
+import { PAD_HEIGHT, useSignatureForm } from '../../signature/signature-form';
+import { type SignatureSheetProps } from '../../story/story-look';
 
 export function PremiumSignatureSheet(props: SignatureSheetProps) {
   const form = useSignatureForm(props);
@@ -32,7 +29,7 @@ export function PremiumSignatureSheet(props: SignatureSheetProps) {
         })}
       </Text>
       <View onLayout={(event) => form.setWidth(event.nativeEvent.layout.width)}>
-        <SignatureLayer
+        <SignaturePad
           name={props.name}
           value={form.value}
           onChange={form.setValue}

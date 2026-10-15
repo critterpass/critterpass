@@ -40,7 +40,7 @@ function Field({
 }) {
   const theme = usePremiumTheme();
   return (
-    <View style={{ minWidth: '40%', flexGrow: 1 }}>
+    <View style={{ flex: 1, minWidth: 0 }}>
       <Text variant="badge" color={PAPER_INK.label}>
         {label}
       </Text>
@@ -54,6 +54,9 @@ function Field({
     </View>
   );
 }
+
+/** The issued pass's room between its fields and the MRZ, where the stamps land. */
+const ISSUED_STAMP_BAND = 44;
 
 export function PassPaper({
   facts,
@@ -70,6 +73,13 @@ export function PassPaper({
   const issued = size === 'issued';
   const photo = issued ? { w: 92, h: 114 } : { w: 68, h: 84 };
   const face = facts.face;
+  const style = (
+    <Field
+      label={labels.style}
+      value={facts.style ?? labels.weWillAsk}
+      pending={facts.style === null}
+    />
+  );
   return (
     <PrivateContent>
       <View
@@ -88,7 +98,7 @@ export function PassPaper({
           <Text variant="mono" color={PAPER_INK.label}>
             {labels.head}
           </Text>
-          <Text variant="mono" color={PAPER_INK.label}>
+          <Text variant="mono" color={PAPER_INK.label} testID="onboarding-pass-number">
             {syncing ? `${facts.number} · ${labels.syncing}` : facts.number}
           </Text>
         </View>
@@ -138,28 +148,44 @@ export function PassPaper({
                 </Text>
               )}
             </View>
-            <Field
-              label={labels.home}
-              value={facts.home ?? labels.notYet}
-              pending={facts.home === null}
-            />
-            {issued ? (
+            {/* Two columns (2.05 HOME | STYLE, 2.11 HOME | ISSUED), then the issued pass's style
+                across: one column grew the card until the stamps landed on the words. */}
+            <View style={{ width: '100%', flexDirection: 'row', gap: theme.space.gap12 }}>
               <Field
-                label={labels.issued}
-                value={facts.issued ?? labels.notYet}
-                pending={facts.issued === null}
+                label={labels.home}
+                value={facts.home ?? labels.notYet}
+                pending={facts.home === null}
               />
-            ) : null}
-            <Field
-              label={labels.style}
-              value={facts.style ?? labels.weWillAsk}
-              pending={facts.style === null}
-            />
+              {issued ? (
+                <Field
+                  label={labels.issued}
+                  value={facts.issued ?? labels.notYet}
+                  pending={facts.issued === null}
+                />
+              ) : (
+                style
+              )}
+            </View>
+            {issued ? <View style={{ width: '100%', flexDirection: 'row' }}>{style}</View> : null}
           </View>
         </View>
-        <View style={{ borderTopWidth: 1.5, borderStyle: 'dashed', borderColor: PAPER_INK.slot }}>
+        {/* The issued pass keeps the guilloche band above its MRZ (2.11): the stamps land there,
+            on the paper and the code, never on the printed words. */}
+        <View
+          style={[
+            { borderTopWidth: 1.5, borderStyle: 'dashed', borderColor: PAPER_INK.slot },
+            issued ? { marginTop: ISSUED_STAMP_BAND } : null,
+          ]}
+        >
           {facts.mrz.map((line) => (
-            <Text key={line} variant="mono" color={PAPER_INK.label} numberOfLines={1}>
+            <Text
+              key={line}
+              variant="mono"
+              color={PAPER_INK.label}
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.6}
+            >
               {line}
             </Text>
           ))}

@@ -4,7 +4,7 @@ import type { ReactElement } from 'react';
 
 import { renderWithI18n } from '../../../lib/i18n/testing';
 import { ThemeProvider } from '../../../lib/theme';
-import { setUiQaSink } from '../../qa/ui-qa';
+import { setUiQaSink } from '../../../lib/qa/ui-qa';
 import { Text } from '../text/Text';
 
 let reports: string[] = [];

@@ -28,7 +28,7 @@ import type {
   PastTripRow,
   StampRow,
 } from './profile-queries';
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName } from '@/lib/people/member-name';
 
 /** Travel style tags shown, as designed; the quiz can give many more. */
 export const TAGS_SHOWN = 5;

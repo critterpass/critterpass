@@ -1,0 +1,25 @@
+appId: app.critterpass.dev
+---
+# A fresh start on Home with nothing stacked under it: the app is relaunched (the same account)
+# and Home's trip card waited for. After a crew page opened by its link, the crew area's own stack
+# keeps its first screen (the drawn crew switcher) under every later link.
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen|critters-hatch-later'
+    timeout: 30000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'
+- extendedWaitUntil:
+    visible:
+      id: 'home-next-up|home-in-trip'
+    timeout: 30000
+    optional: true
+- runFlow: ../../_shared/settle.yaml

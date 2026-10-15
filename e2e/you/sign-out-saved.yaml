@@ -12,13 +12,13 @@ appId: app.critterpass.dev
 - runFlow: subflows/saved-test-account.yaml
 
 # Home → profile → Settings → Sign out.
-- runFlow: ../screens/sweep/subflows/home.yaml
-- extendedWaitUntil:
-    visible:
-      id: 'home-header-profile'
-    timeout: 30000
-- tapOn:
-    id: 'home-header-profile'
+- runFlow: ../_shared/to-home.yaml
+# The profile is the PASS tab.
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: pass
+      LABEL: Pass
 - extendedWaitUntil:
     visible:
       id: 'you-profile-settings'
@@ -64,10 +64,10 @@ appId: app.critterpass.dev
 # Signed in, the app opens on Home (never on a link the app was opened with before).
 - extendedWaitUntil:
     visible:
-      id: 'home-header-crew-name'
+      id: 'home-crew-switcher'
     timeout: 90000
 - extendedWaitUntil:
-    visible: '(?i).*cp test sign-out.*'
+    visible: '(?i).*cp.test.sign-out.*'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: en-sign-in-crew-back

@@ -9,7 +9,7 @@ import { useLiveRows } from '../data/live-rows';
 import type { SosModel } from '../sos/sos-model';
 import { useSos } from '../sos/use-sos';
 import { mapCentre, straightLine, type Point } from './walking-route';
-import { plainTilesUrl, useRegionTiles } from '@/ui/map/region-pack';
+import { plainTilesUrl, useRegionTiles } from '@/lib/maps/region-pack';
 
 const SLUG_SQL = `
   SELECT d.slug, d.name, t.destination_id FROM trips t JOIN destinations d ON d.id = t.destination_id
@@ -37,6 +37,8 @@ export interface SessionMap {
   /** The destination has no region pack yet: the map says so, by the destination's name. */
   readonly regionPackAwaited: boolean;
   readonly destinationName: string | null;
+  /** The trip's destination, whose region pack the premium map draws. */
+  readonly destinationSlug: string | null;
   /** The incident is over (or was never alerted): the map has nothing live to show. */
   readonly ended: boolean;
 }
@@ -72,6 +74,7 @@ export function useSessionMap(sosId: string | null): SessionMap {
     regionSourceUrl: plainTilesUrl(tiles),
     regionPackAwaited: tiles.awaited,
     destinationName: dest?.name ?? null,
+    destinationSlug: dest?.slug ?? null,
     ended: model !== null && model.state !== 'open',
   };
 }

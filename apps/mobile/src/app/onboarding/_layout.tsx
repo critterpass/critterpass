@@ -1,35 +1,22 @@
-import { Stack } from 'expo-router/js-stack';
-
 import { deviceOnboardingServices } from '@/features/onboarding/device-services';
 import { OnboardingServicesProvider } from '@/features/onboarding/services';
-import { usePremiumUi } from '@/lib/premium-ui';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell';
 
 import { getOcr } from '../../../modules/cp-ocr';
 import { getSubjectLift } from '../../../modules/cp-subject-lift';
 
 /**
- * The pass flow (3a-1 … 3a-9): full-screen pages, no headers; the pages carry their own chrome.
- * Page one fades in over the splash's opened passport (its pass card lands where the page grew
- * to), rather than sliding in over it. From the issued pass on there is no way back into the pages
- * that made it: the swipe is off there, and the page takes Android's back button. The premium pages
- * ride the native stack with the same rules; the save sheet draws over the issued pass itself.
+ * The pass flow: full-screen pages on the native stack, no headers; the pages carry their own
+ * chrome. From the issued pass on there is no way back into the pages that made it: the swipe is
+ * off there, and the page takes Android's back button. The save sheet draws over the issued pass.
  */
 export default function OnboardingLayout() {
-  const premium = usePremiumUi();
   return (
     <OnboardingServicesProvider services={deviceOnboardingServices(getSubjectLift(), getOcr())}>
-      {premium ? (
-        <PremiumStack>
-          <PremiumStackScreen name="issued" options={{ gestureEnabled: false }} />
-          <PremiumStackScreen name="save" options={{ animation: 'fade', gestureEnabled: false }} />
-        </PremiumStack>
-      ) : (
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="name" options={{ animation: 'fade' }} />
-          <Stack.Screen name="issued" options={{ gestureEnabled: false }} />
-        </Stack>
-      )}
+      <PremiumStack>
+        <PremiumStackScreen name="issued" options={{ animation: 'fade', gestureEnabled: false }} />
+        <PremiumStackScreen name="save" options={{ animation: 'fade', gestureEnabled: false }} />
+      </PremiumStack>
     </OnboardingServicesProvider>
   );
 }

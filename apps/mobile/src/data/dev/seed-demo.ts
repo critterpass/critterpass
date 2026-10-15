@@ -22,6 +22,8 @@ export const DEMO_SCENARIOS = [
   'crew_with_code',
   'solo_today',
   'solo_tomorrow',
+  'week_crew',
+  'week_solo',
 ] as const;
 export type DemoScenario = (typeof DEMO_SCENARIOS)[number];
 

@@ -14,16 +14,18 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { hrefFor } from '@/lib/navigation/screen-registry';
-import { guideColour } from '@/ui/avatar/guides';
+import { guideColour } from '@/ui/premium/stickers/guides';
 
-import { guideAvatarId, useModeLine } from '../components/guide-header';
-import type { QuickAction } from '../components/guide-sheet-view';
+import { guideAvatarId } from './guide-avatar';
+
 import { rateGuideAnswerCommand } from './guide-commands';
 import { useHandedQuestion } from './handed-question';
 import { useLiveQuery } from './live-rows';
 import { useGuideContext } from './use-guide-context';
 import { useGuideThread } from './use-guide-thread';
 import { useGuideTurn } from './use-guide-turn';
+import type { GuideTripContext } from './use-guide-context';
+import { unbroken } from '../components/mode-line';
 
 interface NameRow {
   readonly user_id: string;
@@ -193,3 +195,39 @@ export function useGuideSheet({ tripId, initialMode, onDietary }: GuideSheetInpu
 }
 
 export type GuideSheetState = ReturnType<typeof useGuideSheet>;
+
+export interface QuickAction {
+  readonly id: string;
+  readonly label: string;
+  readonly onPress: () => void;
+}
+
+function dateRange(start: string | null, end: string | null, locale: string): string | null {
+  if (start === null) return null;
+  const fmt = (iso: string, withMonth: boolean) =>
+    new Intl.DateTimeFormat(locale, {
+      day: 'numeric',
+      ...(withMonth ? { month: 'short' } : {}),
+      timeZone: 'UTC',
+    }).format(new Date(`${iso}T00:00:00Z`));
+  if (end === null || end === start) return fmt(start, true);
+  const sameMonth = start.slice(0, 7) === end.slice(0, 7);
+  return `${fmt(start, true)}–${sameMonth ? fmt(end, false) : fmt(end, true)}`;
+}
+
+export function useModeLine(mode: GuideThreadMode, trip: GuideTripContext | null): string {
+  const { t, i18n } = useLingui();
+  if (mode === 'group' && trip !== null) {
+    const count = trip.crewSize;
+    return t({
+      id: 'guide.header.group',
+      message: `Group mode · all ${count} can see this`,
+    });
+  }
+  const range = trip === null ? null : dateRange(trip.startDate, trip.endDate, i18n.locale);
+  const dates = range === null ? null : unbroken(range);
+  const place = [trip?.destination ?? null, dates].filter(Boolean).join(', ');
+  return place === ''
+    ? t({ id: 'guide.header.private', message: 'Just me · only you can see this' })
+    : t({ id: 'guide.header.privateTrip', message: `Just me · ${place}` });
+}

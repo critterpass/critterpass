@@ -10,7 +10,7 @@
 import { inboxActionSchema, type InboxAction } from '@cp/domain';
 import { useMemo } from 'react';
 
-import { PENDING_ACTS } from '../data/home-queries';
+import { firstName, PENDING_ACTS } from '../data/home-queries';
 import { useLiveRows } from '../data/watch-query';
 
 export const EARLIER_PAGE = 50;
@@ -124,7 +124,7 @@ export function toInboxItem(row: InboxRow): InboxItem {
     kind: row.kind,
     source,
     actorId: row.actor_id,
-    actorName: row.actor_name?.trim().split(/\s+/u)[0] ?? '',
+    actorName: firstName(row.actor_name),
     actorJoinIndex: Number(row.actor_join_index ?? 0),
     crewId: row.crew_id,
     crewName: row.crew_name ?? '',

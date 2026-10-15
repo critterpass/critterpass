@@ -1,6 +1,6 @@
 /** The trip area's public entry for other features: the hub's tile registry and its compact row. */
 export { HubTile, registerHubTile, useRegisteredHubTiles, type HubTileProps } from './hub/tiles';
-export { NextRow, type HubNext } from './hub/next-row';
+export type { HubNext } from './hub/next-row';
 export {
   crewAccent,
   guideCritterKind,
@@ -21,4 +21,4 @@ export {
   type SavedDay,
 } from './bundle/bundle-manager';
 export { useTripDayServices } from './bundle/services';
-export type { SavedTrip } from './bundle/storage-settings';
+export type { SavedTrip } from './bundle/saved-trip';

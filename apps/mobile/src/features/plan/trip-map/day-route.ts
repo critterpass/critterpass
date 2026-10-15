@@ -22,7 +22,7 @@ import type { LegPaths } from '@/data/legs/version-leg-paths';
 import { LEGS_SQL } from '@/data/legs/use-day-legs';
 import { useLegsPending } from '@/data/legs/use-legs-pending';
 import { useLiveRows } from '@/data/plan/live-rows';
-import type { RouteDay } from '@/ui/map/planning';
+import type { RouteDay } from '@/ui/premium/planning/planning-shapes';
 
 import { mappedStops, type TripDay } from './trip-days';
 

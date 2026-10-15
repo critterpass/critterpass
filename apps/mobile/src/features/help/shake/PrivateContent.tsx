@@ -5,8 +5,7 @@
 import { useSyncExternalStore, type ReactNode } from 'react';
 import { View, type StyleProp, type ViewStyle } from 'react-native';
 
-import { Text } from '@/ui/text/Text';
-import { makeStyles } from '@/ui/theme';
+import { makePremiumStyles, Text } from '@/ui/premium';
 
 import { maskStore, type MaskMode } from './mask';
 
@@ -14,15 +13,15 @@ export function useMasking(): MaskMode | null {
   return useSyncExternalStore(maskStore.subscribe, maskStore.get, maskStore.get);
 }
 
-const useStyles = makeStyles((t) => ({
+const useStyles = makePremiumStyles((t) => ({
   cover: {
     position: 'absolute',
     top: 0,
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: t.semantic.bg.control,
-    borderRadius: t.radius.sm,
+    backgroundColor: t.color.control,
+    borderRadius: 8,
   },
   screen: {
     position: 'absolute',
@@ -30,10 +29,10 @@ const useStyles = makeStyles((t) => ({
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: t.semantic.bg.base,
+    backgroundColor: t.color.ground,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: t.size.gutter,
+    padding: t.space.gutter,
   },
 }));
 

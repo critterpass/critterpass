@@ -15,7 +15,7 @@ import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import type { RestoreState } from '../../data/use-billing';
 import { paywallModel, type PaywallInput } from '../paywall-model';
-import { PaywallView } from '../paywall-view';
+import { PaywallPremiumView } from '../../premium/paywall-premium-view';
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -62,21 +62,24 @@ async function show(input: Partial<PaywallInput> = {}, restore: RestoreState = {
       <SafeAreaProvider initialMetrics={METRICS}>
         <GestureHandlerRootView>
           <ScreenJoltProvider>
-            <PaywallView
-              model={model}
-              holder="Winston"
-              store="app_store"
-              passPerks={[]}
-              boostPerks={[]}
-              firstTripFree={null}
-              boostTrip={null}
-              restore={restore}
-              onPeriod={jest.fn()}
-              onCompare={jest.fn()}
-              onBoost={jest.fn()}
-              onTerms={jest.fn()}
-              onPrivacy={jest.fn()}
-              {...handlers}
+            <PaywallPremiumView
+              dismiss={jest.fn()}
+              props={{
+                model,
+                holder: 'Winston',
+                store: 'app_store',
+                passPerks: [],
+                boostPerks: [],
+                firstTripFree: null,
+                boostTrip: null,
+                restore,
+                onPeriod: jest.fn(),
+                onCompare: jest.fn(),
+                onBoost: jest.fn(),
+                onTerms: jest.fn(),
+                onPrivacy: jest.fn(),
+                ...handlers,
+              }}
             />
           </ScreenJoltProvider>
         </GestureHandlerRootView>
@@ -86,7 +89,7 @@ async function show(input: Partial<PaywallInput> = {}, restore: RestoreState = {
   return handlers;
 }
 
-describe('PaywallView', () => {
+describe('the paywall', () => {
   it('buys the chosen plan and states its renewal terms with the store price', async () => {
     const { onBuy } = await show();
     expect(screen.getByTestId('paywall-disclosure-line').props.children).toContain('EUR 29.99');
@@ -99,7 +102,9 @@ describe('PaywallView', () => {
 
   it('says purchases are not available and cannot be pressed without a store price', async () => {
     await show({ products: { status: 'unavailable' } });
-    expect(screen.getByTestId('paywall-phase-unavailable')).toBeTruthy();
+    expect(screen.getByTestId('paywall-disclosure-phase').props.children).toContain(
+      'Purchases aren’t available',
+    );
     expect(screen.getByTestId('paywall-buy').props.accessibilityState).toMatchObject({
       disabled: true,
     });
@@ -109,7 +114,9 @@ describe('PaywallView', () => {
 
   it('cannot start a second purchase while one waits on approval', async () => {
     await show({ purchase: { status: 'pending', productKey: 'pass_yearly' } });
-    expect(screen.getByTestId('paywall-phase-pending')).toBeTruthy();
+    expect(screen.getByTestId('paywall-disclosure-phase').props.children).toContain(
+      'Waiting for approval',
+    );
     expect(screen.getByTestId('paywall-buy').props.accessibilityState).toMatchObject({
       disabled: true,
     });

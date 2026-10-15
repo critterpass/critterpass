@@ -87,9 +87,15 @@ export function later(): string {
   return t({ id: 'critters.hatch.later', message: 'Show me around later' });
 }
 
-export function pendingNote(): string {
-  return t({
-    id: 'critters.hatch.pending',
-    message: 'No signal. It joins your pass once you’re back online.',
-  });
+/** Why the entry is not on the pass yet: no signal, or (online) the server is still checking it. */
+export function pendingNote(offline: boolean): string {
+  return offline
+    ? t({
+        id: 'critters.hatch.pending',
+        message: 'No signal. It joins your pass once you’re back online.',
+      })
+    : t({
+        id: 'critters.hatch.checking',
+        message: 'Checking it in. It joins your pass in a moment.',
+      });
 }

@@ -29,6 +29,8 @@ import {
 
 import type { SeatedMember } from '../boost/boost-model';
 import { seatColour } from './components/crew-colours';
+import { PAPER } from './monetize-palette';
+import { paperGrain } from './repeating-gradient';
 
 export function EntryStampCard({
   place,
@@ -52,7 +54,7 @@ export function EntryStampCard({
       accessible
       accessibilityLabel={`${place}. ${until}`}
     >
-      <Text variant="mono" color={th.color.status.voteOpen.text} style={styles.entryHead}>
+      <Text variant="mono" color={PAPER.stampInk} style={styles.entryHead}>
         {upper(t({ id: 'monetize.premium.entryHead', message: 'Trip boost · Entry' }), locale)}
       </Text>
       <Text
@@ -66,8 +68,10 @@ export function EntryStampCard({
       </Text>
       <Text
         variant="noteAction"
-        color={th.color.status.voteOpen.text}
+        color={PAPER.stampInk}
         numberOfLines={2}
+        // Beside the critter the date and its reason take two lines, as the stamp is set.
+        singleLine={false}
         style={styles.entryUntil}
       >
         {until}
@@ -178,7 +182,7 @@ function FanSeat({
   }));
   return (
     <Animated.View style={[styles.seat, style]}>
-      <Avatar name={member.name} color={seatColour(th, index)} size={40} />
+      <Avatar name={member.name} color={seatColour(th, index)} uid={member.uid} size={40} />
       {split && share !== null ? (
         <Text variant="badge" style={styles.heavy}>
           {share}
@@ -220,8 +224,7 @@ const styles = StyleSheet.create({
     height: 148,
     borderRadius: 20,
     padding: 16,
-    experimental_backgroundImage:
-      'repeating-linear-gradient(115deg, rgba(23,20,42,0.035) 0 1px, transparent 1px 6px)',
+    experimental_backgroundImage: paperGrain(),
     transform: [{ rotate: '-1.5deg' }],
     marginTop: 8,
   },

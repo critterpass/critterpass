@@ -4,13 +4,12 @@
  * sync), who owes what (by room for a stay split by room; the payer's row in green with what they get back, a left-out row faded),
  * the changes as a timeline, then Edit and Delete for whoever may change it. Delete asks once.
  */
-import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { StyleSheet, View } from 'react-native';
 
 import { useMoneyDisplay } from '@/data/money';
 import { PrivateContent } from '@/features/help';
-import { crewAccent, IconTile, turn } from '@/features/trip';
+import { crewAccent, turn } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   Avatar,
@@ -18,16 +17,18 @@ import {
   EmptyState,
   Skeleton,
   StatusTag,
+  StickerIcon,
   Text,
   usePremiumTheme,
 } from '@/ui/premium';
 import { confirmAlert, PushScreen } from '@/ui/premium/shell';
 
 import { useCategoryLabel } from '../components/category';
-import { rateText, useFieldLabel } from '../expense-detail/detail-copy';
+import { expenseDayText, rateText } from '../expense-detail/detail-copy';
 import { useExpenseDetail, type ExpenseDetail } from '../expense-detail/use-expense-detail';
 import { formatAmount, formatAmountShown } from '../format';
 import { categoryLook } from './components/category-look';
+import { ExpenseChanges as Changes } from './components/ExpenseChanges';
 import { RoomSplitSection } from './components/RoomSplitSection';
 
 type Ready = Extract<ExpenseDetail, { kind: 'ready' }>;
@@ -73,6 +74,7 @@ function Shares({ detail }: { readonly detail: Ready }) {
               <Avatar
                 name={share.name}
                 color={crewAccent(joinIndex.get(share.userId) ?? 0)}
+                uid={share.userId}
                 size={28}
               />
               <Text variant="rowText" color={tone} style={styles.flex} numberOfLines={1}>
@@ -80,56 +82,14 @@ function Shares({ detail }: { readonly detail: Ready }) {
                   ? t({ id: 'money.premium.payerShare', message: `${share.name} · paid` })
                   : share.name}
               </Text>
-              <Text variant="rowTextStrong" color={tone} style={styles.tabular}>
-                {value}
-              </Text>
+              <PrivateContent>
+                <Text variant="rowTextStrong" color={tone} style={styles.tabular}>
+                  {value}
+                </Text>
+              </PrivateContent>
             </View>
           );
         })}
-      </View>
-    </View>
-  );
-}
-
-function Changes({ detail }: { readonly detail: Ready }) {
-  const th = usePremiumTheme();
-  const { t } = useLingui();
-  const locale = useLocale();
-  const fieldLabel = useFieldLabel();
-  const added = detail.added;
-  if (detail.history.length === 0 && added === null) return null;
-  const adder = added?.name ?? '';
-  const addedOn =
-    added === null
-      ? ''
-      : format.date(locale, new Date(added.at), { day: 'numeric', month: 'short' });
-  return (
-    <View style={{ gap: th.space.gap8, paddingHorizontal: th.space.titleGutter }}>
-      <Text variant="label" tone="muted">
-        {t({ id: 'money.detail.history', message: 'Changes' })}
-      </Text>
-      <View style={[styles.timeline, { borderLeftColor: th.color.fieldBorder }]}>
-        {detail.history.map((edit) => {
-          const on = format.date(locale, new Date(edit.at), { day: 'numeric', month: 'short' });
-          const editor = edit.editorName;
-          const what = format.list(locale, edit.fields.map(fieldLabel));
-          const line =
-            edit.kind === 'deleted'
-              ? t({ id: 'money.detail.deletedBy', message: `${editor} deleted it · ${on}` })
-              : what === ''
-                ? t({ id: 'money.detail.editedBy', message: `${editor} edited it · ${on}` })
-                : t({ id: 'money.detail.changedBy', message: `${editor} changed ${what} · ${on}` });
-          return (
-            <Text key={edit.id} variant="caption" testID={`money-detail-edit-${edit.id}`}>
-              {line}
-            </Text>
-          );
-        })}
-        {added === null ? null : (
-          <Text variant="caption" testID="money-detail-added">
-            {t({ id: 'money.premium.detail.addedBy', message: `${adder} added it · ${addedOn}` })}
-          </Text>
-        )}
       </View>
     </View>
   );
@@ -177,14 +137,7 @@ export function ExpenseDetailPremium({
     item.crewAmountMinor !== null && item.currency !== currency
       ? `≈ ${formatAmount(item.crewAmountMinor, currency, locale)}`
       : null;
-  const when =
-    item.spentAt === ''
-      ? ''
-      : format.date(locale, new Date(item.spentAt), {
-          weekday: 'short',
-          day: 'numeric',
-          month: 'short',
-        });
+  const when = item.localDate === '' ? '' : expenseDayText(locale, item.localDate);
   const sub = [
     converted,
     payer === '' ? null : t({ id: 'money.row.paid', message: `${payer} paid` }),
@@ -209,7 +162,34 @@ export function ExpenseDetailPremium({
       if (yes) void detail.confirmDelete();
     });
   return (
-    <PushScreen title={backLabel} backLabel={backLabel} testID="money-expense-detail">
+    <PushScreen
+      title={backLabel}
+      backLabel={backLabel}
+      // Edit and Delete stand at the page's foot on its ground, as the design pins them.
+      footer={
+        detail.canChange ? (
+          <View style={styles.pair}>
+            <View style={styles.flex}>
+              <Button
+                label={t({ id: 'money.detail.edit', message: 'Edit' })}
+                variant="secondary"
+                onPress={detail.onEdit}
+                testID="money-detail-edit"
+              />
+            </View>
+            <View style={styles.flex}>
+              <Button
+                label={t({ id: 'money.detail.delete', message: 'Delete' })}
+                variant="destructive"
+                onPress={askDelete}
+                testID="money-detail-delete"
+              />
+            </View>
+          </View>
+        ) : undefined
+      }
+      testID="money-expense-detail"
+    >
       <View style={[styles.body, { gap: th.space.gap16 }]}>
         <View style={[styles.head, { paddingHorizontal: th.space.titleGutter }]}>
           <View style={styles.flex}>
@@ -236,8 +216,9 @@ export function ExpenseDetailPremium({
               )}
             </PrivateContent>
           </View>
-          <View style={{ transform: [turn(8)] }}>
-            <IconTile name={look.icon} bg={look.bg} color={look.color} size={64} />
+          {/* The bare sticker leaning back, as the design draws it (no tile behind it). */}
+          <View style={{ transform: [turn(-10)] }}>
+            <StickerIcon name={look.icon} size={72} />
           </View>
         </View>
         <View style={[styles.tags, { paddingHorizontal: th.space.titleGutter }]}>
@@ -258,26 +239,6 @@ export function ExpenseDetailPremium({
         </View>
         <RoomSplitSection detail={detail} fallback={<Shares detail={detail} />} />
         <Changes detail={detail} />
-        {detail.canChange ? (
-          <View style={[styles.pair, { paddingHorizontal: th.space.gutter }]}>
-            <View style={styles.flex}>
-              <Button
-                label={t({ id: 'money.detail.edit', message: 'Edit' })}
-                variant="secondary"
-                onPress={detail.onEdit}
-                testID="money-detail-edit"
-              />
-            </View>
-            <View style={styles.flex}>
-              <Button
-                label={t({ id: 'money.detail.delete', message: 'Delete' })}
-                variant="destructive"
-                onPress={askDelete}
-                testID="money-detail-delete"
-              />
-            </View>
-          </View>
-        ) : null}
       </View>
     </PushScreen>
   );
@@ -298,6 +259,5 @@ const styles = StyleSheet.create({
   },
   faded: { opacity: 0.5 },
   tabular: { fontVariant: ['tabular-nums'] },
-  timeline: { borderLeftWidth: 2, paddingLeft: 14, gap: 10 },
   pair: { flexDirection: 'row', gap: 8 },
 });

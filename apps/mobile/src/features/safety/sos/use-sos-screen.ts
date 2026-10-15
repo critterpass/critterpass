@@ -14,15 +14,15 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { goBackOr } from '@/lib/navigation/back';
 import { useCommandFeedback } from '@/motion/island-toast';
-import { guideSticker } from '@/ui/avatar/guides';
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { guideSticker } from '@/ui/premium/stickers/guides';
+import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 
 import { telUrl } from '../format';
 import { resolveSosCommand, respondSosCommand, triggerSosCommand } from '../commands';
 import { deviceHelpApi } from '../data/help-api';
 import { useHelpHub } from '../help/use-help-hub';
 import { safetyRoutes } from '../routes';
-import type { SosViewProps } from './sos-view';
+import type { SosViewProps } from './view-types';
 import { senderBubble } from './sos-model';
 import { useSos } from './use-sos';
 import { useFormats } from '@/lib/i18n/formats';
@@ -36,7 +36,7 @@ function presetWords(preset: string | null, t: ReturnType<typeof useLingui>['t']
     case 'fell':
       return t({ id: 'safety.preset.fell', message: 'I fell' });
     case 'lost':
-      return t({ id: 'safety.preset.lost', message: "I'm lost" });
+      return t({ id: 'safety.preset.lost', message: 'I’m lost' });
     case 'need_ride':
       return t({ id: 'safety.preset.ride', message: 'Need a ride' });
     case null:
@@ -132,9 +132,9 @@ export function useSosScreen() {
             result.kind === 'queued'
               ? t({
                   id: 'safety.sos.knowsQueued',
-                  message: `${name} hears you're coming the moment you have signal.`,
+                  message: `${name} hears you’re coming the moment you have signal.`,
                 })
-              : t({ id: 'safety.sos.knows', message: `${name} knows you're coming.` }),
+              : t({ id: 'safety.sos.knows', message: `${name} knows you’re coming.` }),
         }),
       );
     },
@@ -157,7 +157,7 @@ export function useSosScreen() {
         .then((result) => {
           const outcome = report(result, {
             offlineCapable: true,
-            refused: t({ id: 'safety.sos.resendFailed', message: "Your SOS didn't go out." }),
+            refused: t({ id: 'safety.sos.resendFailed', message: 'Your SOS didn’t go out.' }),
           });
           if (outcome === 'done' || outcome === 'queued') {
             router.replace(safetyRoutes.sos(fresh, true));

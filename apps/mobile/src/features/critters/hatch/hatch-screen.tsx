@@ -10,19 +10,19 @@ import { format } from '@cp/i18n';
 import { router } from 'expo-router';
 import { useEffect, type ComponentType, type ReactNode } from 'react';
 
+import { useOnline } from '@/data/places/server-name-search';
 import { clockOption } from '@/lib/i18n/formats';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { music } from '@/motion';
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
-import { Scaffold } from '@/ui/surface/Scaffold';
-import { guidesOfSameCountry } from '@/ui/avatar/guides';
+import { useNoBackByDesign } from '@/lib/qa/back-affordance';
+import { guidesOfSameCountry } from '@/ui/premium/stickers/guides';
 
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { type FormRow } from '../data/queries';
 import { formSpec } from '../dex/dex-model';
 import { deviceTimeZone, markHatchSeen } from './hatch-model';
-import { HatchView, type HatchViewProps } from './hatch-view';
+import { type HatchViewProps } from './hatch-model';
 
 /** How long the ceremony waits for its trip's rows before giving up on them. */
 export const MISSING_GRACE_MS = 3000;
@@ -112,19 +112,20 @@ function hatchTheme(slug: string | null): string | null {
 
 export function HatchScreen({
   tripId,
-  View = HatchView,
+  View,
   loading,
 }: {
   readonly tripId: string;
-  /** The view that plays the ceremony (the premium one draws the same props). */
-  readonly View?: ComponentType<HatchViewProps>;
+  /** The view that plays the ceremony. */
+  readonly View: ComponentType<HatchViewProps>;
   /** Drawn until the trip's row is read. */
-  readonly loading?: ReactNode;
+  readonly loading: ReactNode;
 }) {
   // The ceremony's ways out are its own: SAY HI and "Show me around later".
   useNoBackByDesign();
   const uid = useOwnerUid();
   const locale = useLocale();
+  const online = useOnline();
   const { rows, loaded } = useLiveRows<HatchRow>(
     HATCH_SQL,
     uid === null ? null : [uid, tripId],
@@ -142,10 +143,7 @@ export function HatchScreen({
   }, [missing]);
   // The route is a see-through card: until the trip's row is read it shows the page, never nothing
   // (an empty card would look like the screen below while swallowing its taps).
-  if (!loaded || row === undefined) {
-    if (loading !== undefined) return <>{loading}</>;
-    return <Scaffold variant="dark" edges={['top', 'bottom']} testID="critters-hatch-loading" />;
-  }
+  if (!loaded || row === undefined) return <>{loading}</>;
   const isGuide = row.critter_key !== null && row.critter_key === row.hero_critter_key;
   const verifiedName = row.verification === 'verified' ? row.critter_name : null;
   const form =
@@ -187,6 +185,7 @@ export function HatchScreen({
       no={row.set_no === 0 ? null : row.set_no}
       setName={row.set_name ?? row.place ?? ''}
       pending={row.hatched_at === null || row.verification !== 'verified'}
+      offline={!online}
       onSayHi={sayHi === undefined ? null : () => router.replace(sayHi)}
       onLater={() => router.back()}
       onRevealed={() => {

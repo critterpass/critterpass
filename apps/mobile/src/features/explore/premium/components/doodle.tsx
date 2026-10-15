@@ -6,7 +6,7 @@
 import { Canvas, Group, Path } from '@shopify/react-native-skia';
 import { View } from 'react-native';
 
-import { DOODLES, type DoodleName } from '@/ui/icons/generated';
+import { DOODLES, type DoodleName } from '@/ui/premium/icons/doodles/generated';
 import { usePremiumTheme } from '@/ui/premium';
 
 export type { DoodleName };

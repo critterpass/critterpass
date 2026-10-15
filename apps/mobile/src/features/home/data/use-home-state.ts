@@ -36,7 +36,7 @@ import {
   type TripRow,
 } from './home-queries';
 import { useLiveRows } from './watch-query';
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName } from '@/lib/people/member-name';
 
 export interface HomeMember {
   readonly userId: string;

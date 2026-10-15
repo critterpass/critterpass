@@ -7,8 +7,12 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: id\n"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.lastKnown"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/shared/whatsapp-copy.ts
+msgid "drivers.wa.overtime"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/shared/price-text.ts
@@ -38,21 +42,15 @@ msgstr ""
 msgid "drivers.replied.perDay"
 msgstr ""
 
-#. placeholder {0}: leg.name
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.assigned"
-msgstr "{0} menyopir hari ini"
-
 #. placeholder {0}: dayLabel(long.date, locale)
 #. placeholder {1}: hoursFigure(long.hours, locale)
 #. placeholder {2}: hoursFigure(includedHours, locale)
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/use-pick-days-view.ts
 msgid "drivers.pick.overtime"
 msgstr "{0} berlangsung {1} jam. Harga {name} mencakup {2}."
 
 #. placeholder {0}: required.length - left.length
 #. placeholder {1}: required.length
-#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.count"
 msgstr "{0} dari {1} dicek"
@@ -60,14 +58,9 @@ msgstr "{0} dari {1} dicek"
 #. placeholder {0}: day.window.start
 #. placeholder {1}: day.window.end
 #. placeholder {2}: hoursFigure(day.hours, locale)
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/use-pick-days-view.ts
 msgid "drivers.pick.window"
 msgstr "{0}–{1} · {2} jam"
-
-#. placeholder {0}: plan.guide.name
-#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
-msgid "drivers.ask.title"
-msgstr "Postingan {0}"
 
 #. placeholder {0}: money(card.overtime_minor, card.currency, locale) ?? ''
 #: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
@@ -94,8 +87,8 @@ msgstr ""
 msgid "drivers.price.perHour"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
-msgid "drivers.pick.set"
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.pickIntro"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/share/share-text.ts
@@ -106,7 +99,6 @@ msgstr ""
 msgid "drivers.card.daysFrom"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CheckParts.tsx
 msgid "drivers.check.missing"
 msgstr "Ada {count} hal yang tidak ada di pesannya. Mau aku tuliskan pertanyaannya?"
@@ -123,15 +115,18 @@ msgstr ""
 msgid "drivers.card.titlePlain"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.opened"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
+msgid "drivers.premium.ask.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/offline/use-ride-back.ts
 msgid "drivers.offline.included"
 msgstr "{included} termasuk"
 
-#: ../../apps/mobile/src/features/drivers/intake/check/includes-line.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CheckParts.tsx
 msgid "drivers.check.notIncl"
 msgstr "{item} terpisah"
@@ -144,25 +139,23 @@ msgstr ""
 msgid "drivers.premium.loved"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.lovedValue"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.loved"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/column-head.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.missing"
 msgstr "{missing} kurang"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
+#: ../../apps/mobile/src/features/drivers/shared/vehicle-line.ts
 msgid "drivers.card.car"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.intro"
 msgstr ""
 
@@ -170,18 +163,33 @@ msgstr ""
 msgid "drivers.card.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.clear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.notSaid"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.overtimeUnknown"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.overHours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/compare/compare-model.ts
+msgid "drivers.risk.seats"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.savedNumber"
 msgstr "Nomor, mobil, dan pelat {name}"
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.quote"
 msgstr ""
-
-#. placeholder {0}: gap.km
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.dayOut"
-msgstr "{place} sekitar {0} km jauhnya dan harinya panjang. Aplikasi ojek online jarang menunggu atau menjemput di sana. Kebanyakan crew menyewa sopir seharian."
 
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.price.car"
@@ -203,24 +211,22 @@ msgstr ""
 msgid "drivers.card.price.trip"
 msgstr ""
 
+#: ../../apps/mobile/src/features/drivers/shared/vehicle-line.ts
+msgid "drivers.card.seats"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.check.seats"
 msgstr "{seats} kursi"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
-msgid "drivers.card.seats"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
+#: ../../apps/mobile/src/features/drivers/pick/use-pick-days-view.ts
 msgid "drivers.pick.takenBy"
 msgstr "{takenBy} sudah dipesan"
 
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.card.trips"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.addDay"
 msgstr "+ Hari"
@@ -229,12 +235,10 @@ msgstr "+ Hari"
 msgid "drivers.compare.yes"
 msgstr "✓Ya"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.sevenPlus"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.tipBy"
 msgstr ""
@@ -267,55 +271,51 @@ msgstr "Pesan sopir yang kamu bagikan"
 msgid "drivers.share.entry"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
+msgid "drivers.premium.addPrivacy"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.premium.add"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.addBudget"
 msgstr "Tambah budget"
 
-#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
+msgid "drivers.add.title"
+msgstr "Tambah sopir"
+
 #: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
 msgid "drivers.back.add"
 msgstr "Tambah sopir"
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
-msgid "drivers.add.title"
-msgstr "Tambah sopir"
-
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 msgid "drivers.compare.addAnother"
 msgstr "Tambah satu lagi untuk dibandingkan"
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.addContact"
 msgstr "Tambahkan"
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.noPhone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.bahasa"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
-#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.add"
 msgstr "Tambah ke perbandingan"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.shortlist"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.confirm"
 msgstr "Tambahkan ke pilihan"
@@ -325,35 +325,33 @@ msgid "drivers.queued.shortlist"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.saved"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/check/ask-driver-box.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.askVerb"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/premium/components/CheckParts.tsx
 msgid "drivers.check.ask"
 msgstr "Tanya {name}"
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.ask"
 msgstr "Tanyakan untukku"
 
-#: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.askPrice"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.ask"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.priceAsk"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.tours"
 msgstr "Pesan tur privat"
@@ -362,28 +360,30 @@ msgstr "Pesan tur privat"
 msgid "drivers.premium.browse"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.private"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.call"
 msgstr "Telepon"
 
-#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.note"
 msgstr "Telepon pakai sinyal, bukan data. Pesannya terkirim begitu kamu online lagi."
 
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.premium.cancel"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.cancel"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.cancelTitle"
 msgstr ""
 
@@ -399,15 +399,15 @@ msgstr "Mobil"
 msgid "drivers.compare.car"
 msgstr "Mobil"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.rerate"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.edit"
 msgstr "Ubah bagian ini"
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.badge.check"
 msgstr "Cek"
 
@@ -415,7 +415,6 @@ msgstr "Cek"
 msgid "drivers.premium.compareNoneTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/FindDriverParts.tsx
 msgid "drivers.find.compare"
 msgstr "Bandingkan"
@@ -425,47 +424,36 @@ msgstr "Bandingkan"
 msgid "drivers.premium.compareTitle"
 msgstr ""
 
-#. placeholder {0}: drivers.length
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
-msgid "drivers.compare.title"
-msgstr "Bandingkan {0}"
-
-#: ../../apps/mobile/src/features/drivers/compare/column-head.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.complete"
 msgstr "Lengkap"
 
 #. placeholder {0}: left.length
-#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.confirmMore"
 msgstr "Konfirmasi {0} lagi"
 
-#: ../../apps/mobile/src/features/drivers/intake/check/check-dot.tsx
-msgid "drivers.check.confirmLine"
-msgstr "Konfirmasi baris ini"
-
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.contact"
 msgstr "Kontak"
 
-#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.copied"
 msgstr "Tersalin"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.copy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.footnote"
 msgstr "Salin pesan apa pun dari WhatsApp atau Facebook dan tempel di sini. Aku hanya membaca yang kamu kirim."
 
-#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.intro"
 msgstr "Salin dan posting sendiri di grup. CritterPass tidak pernah posting di sana dan tidak pernah membacanya."
 
-#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.copy"
 msgstr "Salin postingan"
 
@@ -473,15 +461,14 @@ msgstr "Salin postingan"
 msgid "drivers.detail.shortlistFailed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.badge.unread"
 msgstr "Tak terbaca"
 
-#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
 msgid "drivers.unread.title"
 msgstr "Tak bisa dibaca"
@@ -494,13 +481,10 @@ msgstr ""
 msgid "drivers.card.covers"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.loved"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.back"
 msgstr ""
@@ -509,19 +493,8 @@ msgstr ""
 msgid "drivers.premium.cutOff"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
-msgid "drivers.unread.cutOff"
-msgstr "Terpotong di sini"
-
-#. placeholder {0}: first.dayNo
-#. placeholder {1}: first.theme ?? dayLabel(first.date, locale)
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
-msgid "drivers.find.back"
-msgstr "Hari {0} · {1}"
-
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.day"
 msgstr ""
 
@@ -529,33 +502,32 @@ msgstr ""
 msgid "drivers.share.dayNo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.dayTrips"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.days"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.discard"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.draft"
 msgstr "Buat draf"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-#: ../../apps/mobile/src/features/drivers/directory/DriverCard.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.card.role"
 msgstr ""
 
 #. placeholder {0}: current.area
-#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.area"
 msgstr "Sopir · {0}"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.nameLabel"
 msgstr ""
 
@@ -563,25 +535,23 @@ msgstr ""
 msgid "drivers.premium.navTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.directory"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.directory"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.intro"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.screenshotDetail"
 msgstr "Taruh atau pilih"
 
@@ -606,25 +576,18 @@ msgstr "Tiket masuk"
 msgid "drivers.tag.fairPrice"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
-#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.back.find"
 msgstr "Cari sopir"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.back"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.title"
-msgstr "Cari sopir"
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.find"
 msgstr "Cari sopir"
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
@@ -635,31 +598,21 @@ msgstr ""
 msgid "drivers.verdict.fine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.fix"
 msgstr "Perbaiki"
 
 #: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
-#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.intro"
 msgstr "Harga tetap, dipesan dan dibayar ke penyedia. Judul, foto, dan rating milik mereka, kata per kata."
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
-msgid "drivers.find.legs"
-msgstr "Untuk rute ini"
-
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.found"
 msgstr "Sudah dapat sendiri"
 
-#. placeholder {0}: card.currency
 #. placeholder {0}: tour.currency
-#. placeholder {1}: card.price_from
 #. placeholder {1}: tour.price_from
 #: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
-#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.price"
 msgstr "Mulai {0} {1}"
 
@@ -671,15 +624,11 @@ msgstr ""
 msgid "drivers.premium.fromKlook"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
-msgid "drivers.tours.from"
-msgstr "Dari Viator"
-
 #: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 msgid "drivers.premium.fromViator"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.contactDetail"
 msgstr "Dari WhatsApp"
 
@@ -687,8 +636,7 @@ msgstr "Dari WhatsApp"
 msgid "drivers.include.fuel"
 msgstr "Bensin"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.back"
 msgstr ""
 
@@ -704,17 +652,24 @@ msgstr ""
 msgid "drivers.tag.greatPhotos"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/check/price-notes.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CheckParts.tsx
 msgid "drivers.check.priceAskWords"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet.tsx
+#: ../../apps/mobile/src/features/drivers/share/use-driver-share.ts
 msgid "drivers.share.message"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.firstLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/shared/whatsapp-copy.ts
+msgid "drivers.wa.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/shared/whatsapp-copy.ts
+msgid "drivers.wa.askOvertime"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
@@ -725,21 +680,24 @@ msgstr ""
 msgid "drivers.replied.confirmMessage"
 msgstr ""
 
+#. placeholder {0}: lines.join('\n')
+#: ../../apps/mobile/src/features/drivers/shared/whatsapp-copy.ts
+msgid "drivers.wa.tell"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.premium.howWas"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
 msgid "drivers.unread.body"
 msgstr "Aku tidak menemukan nama, nomor, atau harga sopir di situ."
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.noChase"
 msgstr ""
 
 #. placeholder {0}: plan.area
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.askBody"
 msgstr "Aku tulis postingan untuk grup {0}. Kamu yang posting."
@@ -748,33 +706,35 @@ msgstr "Aku tulis postingan untuk grup {0}. Kamu yang posting."
 msgid "drivers.replied.tellBody"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.tellBody"
 msgstr "Aku tulis dengan tanggal dan titik jemput. Kamu yang kirim."
 
 #: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
-#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.added"
 msgstr "Sudah dibandingkan"
 
-#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
-msgid "drivers.rate.invite"
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
+msgid "drivers.premium.inviteTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
+msgid "drivers.rate.invite"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.cancelled"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.sent"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.invite"
 msgstr ""
 
@@ -782,15 +742,18 @@ msgstr ""
 msgid "drivers.queued.invite"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
-msgid "drivers.check.title"
-msgstr "Sudah benar?"
-
 #: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.premium.checkTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
+msgid "drivers.premium.keepInvite"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.keep"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.toursBody"
 msgstr "Klook dan Viator, harga tetap per mobil"
@@ -799,15 +762,19 @@ msgstr "Klook dan Viator, harga tetap per mobil"
 msgid "drivers.tag.knewTheSpots"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.language"
 msgstr "Bahasa postingan"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.pickDiscardTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quote"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quoteAnyone"
 msgstr ""
 
@@ -815,43 +782,35 @@ msgstr ""
 msgid "drivers.compare.licence"
 msgstr "Lisensi"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.copied"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.expires"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.listed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.directoryBody"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.since"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
-msgid "drivers.directory.loading"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 msgid "drivers.compare.loading"
 msgstr "Memuat daftar pilihan"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
-#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.loading"
 msgstr "Mencari mobil privat"
 
@@ -859,32 +818,31 @@ msgstr "Mencari mobil privat"
 msgid "drivers.verdict.loved"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.create"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.making"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.needsSignal"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.kindText"
 msgstr "Pesan"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.message"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.messageLabel"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.contactName"
 msgstr "Nama"
 
@@ -892,15 +850,11 @@ msgstr "Nama"
 msgid "drivers.line.name"
 msgstr "Nama"
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.title"
-msgstr "Butuh sopir di sini?"
-
-#: ../../apps/mobile/src/features/drivers/invite/InviteScreen.tsx
+#: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.badge.new"
 msgstr "Baru"
 
@@ -908,62 +862,47 @@ msgstr "Baru"
 msgid "drivers.tag.newCar"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.emptyLineNone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.emptyLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.noDays"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.emptyTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/price-cell.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.askPriceHint"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.noRide"
-msgstr "Tanpa kendaraan"
-
-#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
-msgid "drivers.load.offlineTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.shortlistOffline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.empty"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.emptyAny"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
-msgid "drivers.premium.compareNone"
+msgid "drivers.premium.compareNoneHead"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.verdict.notAgain"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.notClaimed"
 msgstr ""
 
@@ -971,29 +910,19 @@ msgstr ""
 msgid "drivers.compare.notIncl"
 msgstr "Belum termasuk"
 
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.notNow"
-msgstr "Nanti saja"
-
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
-msgid "drivers.rate.missingTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.notOpened"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/compare/not-said-cell.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.notSaid"
 msgstr "Belum disebut"
 
-#: ../../apps/mobile/src/features/drivers/compare/not-said-cell.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CompareTable.tsx
 msgid "drivers.compare.notSaidHint"
 msgstr "Belum disebut. Tanyakan lewat WhatsApp"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.nudge"
 msgstr ""
 
@@ -1009,26 +938,19 @@ msgstr ""
 msgid "drivers.tag.onTime"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.shortlisted"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.tip"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
-msgid "drivers.detail.tip"
-msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.intro"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.open"
 msgstr ""
 
@@ -1036,31 +958,24 @@ msgstr ""
 msgid "drivers.premium.openKlook"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
-msgid "drivers.tours.openViator"
-msgstr "Buka Viator"
-
 #: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 msgid "drivers.premium.openViator"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 #: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.back"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.ours"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.report.line"
 msgstr ""
@@ -1083,16 +998,15 @@ msgstr "Lembur per jam"
 msgid "drivers.include.parking"
 msgstr "Parkir"
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.paste"
 msgstr "Tempel"
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.foundBody"
 msgstr "Tempel pesan, taruh tangkapan layar, bagikan kontak"
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.pastePlaceholder"
 msgstr "Tempel tulisan sopir, atau tautan ke postingannya"
 
@@ -1100,13 +1014,9 @@ msgstr "Tempel tulisan sopir, atau tautan ke postingannya"
 msgid "drivers.tag.patient"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.paused"
 msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/compare/pick-row.tsx
-msgid "drivers.compare.pick"
-msgstr "Pilih"
 
 #. placeholder {0}: driver.name
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
@@ -1117,19 +1027,10 @@ msgstr ""
 msgid "drivers.replied.pick"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
-msgid "drivers.pick.label"
-msgstr "Pilih {name}"
-
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
-msgid "drivers.pick.eyebrow"
-msgstr "Pilih {name}"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.noDays"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.intro"
 msgstr "Pilih rutenya, lalu dari mana sopirnya. Kamu bisa campur sumber dan membandingkannya nanti."
@@ -1146,21 +1047,9 @@ msgstr ""
 msgid "drivers.premium.klookSearch"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
-msgid "drivers.tours.klookLink"
-msgstr "Sewa mobil plus sopir di Klook ↗"
-
 #: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 msgid "drivers.premium.viatorSearch"
 msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
-msgid "drivers.tours.viatorLink"
-msgstr "Sopir privat di Viator ↗"
-
-#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
-msgid "drivers.tours.title"
-msgstr "Tur privat"
 
 #: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
 msgid "drivers.premium.toursTitle"
@@ -1171,12 +1060,11 @@ msgstr ""
 msgid "drivers.replied.quote"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.rate"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.title"
 msgstr ""
 
@@ -1184,44 +1072,38 @@ msgstr ""
 msgid "drivers.rate.notEligible"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.read"
 msgstr "Baca"
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.loadingDays"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.report.confirm"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.report"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.reportTip"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.report.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revoke"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.emptyLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.own"
 msgstr ""
@@ -1230,23 +1112,23 @@ msgstr ""
 msgid "drivers.tag.safeDriver"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
-msgid "drivers.rate.save"
+#: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
+msgid "drivers.premium.compareNoneLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.saved"
 msgstr "Tersimpan di HP-mu"
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.queued"
 msgstr "Tersimpan. Aku baca begitu kamu online lagi."
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.screenshot"
 msgstr "Tangkapan layar"
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.kindImage"
 msgstr "Tangkapan layar"
 
@@ -1254,7 +1136,7 @@ msgstr "Tangkapan layar"
 msgid "drivers.premium.see"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.whatsapp"
 msgstr ""
 
@@ -1266,48 +1148,40 @@ msgstr ""
 msgid "drivers.pick.asked"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.setVerb"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.titleAnyone"
 msgstr ""
 
-#. placeholder {0}: item.shared_by_name ?? ''
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
-msgid "drivers.add.sharedBy"
-msgstr "dibagikan oleh {0}"
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
+msgid "drivers.premium.add.sharedBy"
+msgstr ""
 
-#. placeholder {0}: plan.guide.name
-#. placeholder {1}: items.length
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
-msgid "drivers.add.shared"
-msgstr "Dibagikan ke {0} · {1}"
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
+msgid "drivers.premium.add.shared"
+msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.premium.shortlist"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
-msgid "drivers.find.shortlist"
-msgstr "Pilihan"
-
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
-msgid "drivers.back.shortlist"
-msgstr "Daftar pilihan"
-
 #. placeholder {0}: props.drivers.length
 #: ../../apps/mobile/src/features/drivers/premium/components/FindDriverParts.tsx
 msgid "drivers.premium.shortlistCount"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/AddDriverParts.tsx
 msgid "drivers.add.badge.shortlisted"
 msgstr "Masuk pilihan"
 
-#: ../../apps/mobile/src/features/drivers/directory/DirectoryView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
 msgid "drivers.directory.widen"
 msgstr ""
@@ -1315,10 +1189,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/drivers/compare/use-compare.ts
 msgid "drivers.compare.shows"
 msgstr "Ditunjukkan"
-
-#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
-msgid "drivers.load.failedLine"
-msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/intake/check/card-copy.ts
 msgid "drivers.line.languages"
@@ -1332,24 +1202,22 @@ msgstr "Bahasa"
 msgid "drivers.compare.supplierChecks"
 msgstr "Dicek penyedia"
 
-#: ../../apps/mobile/src/features/drivers/compare/CompareScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 msgid "drivers.compare.more"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.taken"
 msgstr "Terisi"
 
-#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.tapSlot"
 msgstr "Ketuk sorotan untuk mengubahnya"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revokeConfirm"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.intro"
 msgstr "Ketuk tiap baris untuk mengonfirmasi atau memperbaikinya. Belum ada yang sampai ke crew sebelum kamu melakukannya."
@@ -1358,11 +1226,11 @@ msgstr "Ketuk tiap baris untuk mengonfirmasi atau memperbaikinya. Belum ada yang
 msgid "drivers.replied.tell"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.tell"
 msgstr "Kabari {name} lewat WhatsApp"
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.pasteDetail"
 msgstr "Teks atau tautan"
 
@@ -1370,7 +1238,7 @@ msgstr "Teks atau tautan"
 msgid "drivers.detail.reported"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.failed"
 msgstr "Belum berhasil. Coba lagi sebentar lagi."
 
@@ -1378,17 +1246,13 @@ msgstr "Belum berhasil. Coba lagi sebentar lagi."
 msgid "drivers.pick.error.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
-msgid "drivers.load.failedTitle"
-msgstr ""
-
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.premium.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/check/CheckCardScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/CheckCardPremium.tsx
 msgid "drivers.check.error"
 msgstr "Belum tersimpan. Cek koneksimu lalu coba lagi."
@@ -1397,31 +1261,35 @@ msgstr "Belum tersimpan. Cek koneksimu lalu coba lagi."
 msgid "drivers.pick.error.signal"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
+msgid "drivers.premium.pickDiscardLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.pasteLabel"
 msgstr "Pesan dari sopir"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.revoked"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.expired"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.expires"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.until"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.cancelLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/invite/InviteView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/InvitePremium.tsx
 msgid "drivers.invite.message"
 msgstr ""
 
@@ -1430,19 +1298,10 @@ msgid "drivers.pick.error.moved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/PrivateToursPremium.tsx
-#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
 msgid "drivers.tours.down"
 msgstr "Penyedia sedang tidak merespons. Coba lagi sebentar lagi."
 
-#: ../../apps/mobile/src/features/drivers/private-tours/PrivateToursScreen.tsx
-msgid "drivers.tours.theirWords"
-msgstr "Kata mereka"
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.noApp"
-msgstr "Di sini tidak ada aplikasi ojek online, dan hari ini jarak antar tempatnya jauh. Kebanyakan crew menyewa sopir seharian."
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
+#: ../../apps/mobile/src/features/drivers/premium/DriverSharePremium.tsx
 msgid "drivers.share.quoteHint"
 msgstr ""
 
@@ -1450,22 +1309,18 @@ msgstr ""
 msgid "drivers.pick.error.gone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.unavailable"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
-msgid "drivers.load.offlineLine"
-msgstr ""
-
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.premium.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.savedPickups"
 msgstr "Jemputan dan titik hari ini"
 
@@ -1477,47 +1332,41 @@ msgstr "Tol"
 msgid "drivers.compare.tolls"
 msgstr "Tol"
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.back.trip"
 msgstr "Trip"
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.trips"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
-#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
-#: ../../apps/mobile/src/features/drivers/shared/load-failed.tsx
-msgid "drivers.load.retry"
-msgstr ""
-
 #: ../../apps/mobile/src/features/drivers/premium/ComparePremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DirectoryPremium.tsx
+#: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.premium.retry"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
+#: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
+msgid "drivers.load.retry"
+msgstr ""
+
 #: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
 msgid "drivers.unread.another"
 msgstr "Coba tangkapan layar lain"
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.askBody"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/intake/check/couldnt-read.tsx
 #: ../../apps/mobile/src/features/drivers/premium/components/CouldntRead.tsx
 msgid "drivers.unread.type"
 msgstr "Ketik sisanya"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/components/OurDriverCard.tsx
 msgid "drivers.ours.waiting"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/directory/DetailView.tsx
 #: ../../apps/mobile/src/features/drivers/premium/DriverDetailPremium.tsx
 msgid "drivers.detail.priceNote"
 msgstr ""
@@ -1526,11 +1375,11 @@ msgstr ""
 msgid "drivers.line.includes"
 msgstr "Yang termasuk dalam harga"
 
-#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.savedTerms"
 msgstr "Yang kalian sepakati"
 
-#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.whatsapp"
 msgstr "WhatsApp"
 
@@ -1538,34 +1387,29 @@ msgstr "WhatsApp"
 msgid "drivers.line.phone"
 msgstr "WhatsApp"
 
-#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.whatsappLater"
 msgstr "WhatsApp · nanti"
 
-#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.contactPhone"
 msgstr "Nomor WhatsApp, dengan kode negara"
 
-#: ../../apps/mobile/src/features/drivers/ask/AskForMeScreen.tsx
+#: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.ask.after"
 msgstr "Kalau ada yang membalas, bagikan pesannya ke aku. Aku ambil detailnya."
 
-#: ../../apps/mobile/src/features/drivers/pick/PickDaysView.tsx
+#: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.title"
 msgstr "Rute yang mana?"
 
-#: ../../apps/mobile/src/features/drivers/ours/OurDriversScreen.tsx
+#: ../../apps/mobile/src/features/drivers/ours/use-our-drivers-actions.ts
 msgid "drivers.ours.nudgeUsed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverScreen.tsx
 msgid "drivers.rate.missingLine"
 msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/leg-card/DriverLegCard.tsx
-msgid "drivers.leg.why.late"
-msgstr "Kalian pulang malam dari {place}, dan aplikasi ojek online jarang menjemput di sana malam hari. Sopir untuk malam itu jalan pulang yang aman."
 
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.titleMine"
@@ -1576,7 +1420,6 @@ msgid "drivers.queued.rate"
 msgstr ""
 
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
-#: ../../apps/mobile/src/features/drivers/rating/RateDriverView.tsx
 msgid "drivers.rate.intro"
 msgstr ""
 
@@ -1584,11 +1427,10 @@ msgstr ""
 msgid "drivers.queued.report"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/offline/RideBackCard.tsx
+#: ../../apps/mobile/src/features/drivers/premium/RideBackCardPremium.tsx
 msgid "drivers.offline.title"
 msgstr "Jemputan pulangmu"
 
-#: ../../apps/mobile/src/features/drivers/find/FindDriverScreen.tsx
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.shortlistFailed"
 msgstr ""

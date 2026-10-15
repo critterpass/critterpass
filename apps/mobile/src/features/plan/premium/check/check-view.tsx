@@ -2,7 +2,8 @@
  * The plan check in the premium look (4.43), reached from the plan map's check line and the ⋯:
  * each problem as the fix panel the design opens under a day (its tags, what's wrong, the one-line
  * fix, and Fix it or Suggest, another way, Leave it), what to know, balancing the crew, and Fix
- * all. The ask card and every action come from the shared `CheckScreen`.
+ * all. Until it has run it says what it looks at; then its result line takes that place. The ask
+ * card and every action come from the shared `CheckScreen`.
  */
 import { t } from '@lingui/core/macro';
 import { ScrollView, View } from 'react-native';
@@ -15,12 +16,13 @@ import {
   LoadingCritter,
   PressableScale,
   Text,
+  SkeletonList,
   usePremiumTheme,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 import { useLocale } from '@/lib/i18n/use-locale';
 
-import type { CheckViewProps } from '../../check/check-view';
+import type { CheckViewProps } from '../../check/check-props';
 import { barTitle } from './bar-title';
 
 export function PremiumCheckView(props: CheckViewProps) {
@@ -31,22 +33,46 @@ export function PremiumCheckView(props: CheckViewProps) {
   return (
     <PushScreen
       title={barTitle(props.title, locale)}
-      subtitle={barTitle(props.status, locale)}
+      // While it checks, the title already says so: no "Checking…" under "Checking the plan".
+      {...(props.checking === true ? {} : { subtitle: barTitle(props.status, locale) })}
       backLabel={props.backLabel}
       scroll={false}
       testID="plan-check"
     >
-      <ScrollView contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}>
-        <Text variant="body" tone="muted" style={{ paddingHorizontal: theme.space.gap8 }}>
-          {props.body}
-        </Text>
-        {props.ask}
-        {props.state === 'loading' ? <LoadingCritter label={props.status} /> : null}
-        {props.notice === null ? null : (
+      <ScrollView
+        // Starts under the see-through bar, as the shell's own scrolling body does.
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{
+          paddingHorizontal: theme.space.gutter,
+          paddingVertical: theme.space.gap16,
+          gap: theme.space.gap12,
+        }}
+      >
+        {/* What the check looks at, until it says how it went (running, failed, all good). */}
+        {props.notice === null ? (
+          <Text variant="body" tone="muted">
+            {props.body}
+          </Text>
+        ) : (
           <Text variant="body" testID="plan-check-notice">
             {props.notice}
           </Text>
         )}
+        {props.ask}
+        {props.state === 'loading' ? <LoadingCritter label={props.status} /> : null}
+        {props.state === 'ready' && props.checking === true && props.cards.length === 0 ? (
+          // The result's place, held by the kit's rows with the guide at work right under them.
+          <View style={{ gap: theme.space.gap16 }}>
+            <SkeletonList rows={3} />
+            <LoadingCritter
+              label={t({
+                id: 'plan.premium.check.looking',
+                message: 'Hours, drives and saves, day by day…',
+              })}
+              testID="plan-check-waiting"
+            />
+          </View>
+        ) : null}
         {props.cards.map((card) => (
           <View
             key={card.id}
@@ -110,6 +136,7 @@ export function PremiumCheckView(props: CheckViewProps) {
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap6 }}>
               {card.fixLabel === null ? null : (
                 <Button
+                  alignSelf="auto"
                   size="small"
                   label={card.fixLabel}
                   onPress={card.onFix}
@@ -119,6 +146,7 @@ export function PremiumCheckView(props: CheckViewProps) {
               )}
               {card.detail?.onUse == null ? null : (
                 <Button
+                  alignSelf="auto"
                   size="small"
                   variant="control"
                   label={card.detail.useLabel}
@@ -127,6 +155,7 @@ export function PremiumCheckView(props: CheckViewProps) {
               )}
               {card.detail == null ? null : (
                 <Button
+                  alignSelf="auto"
                   size="small"
                   variant="control"
                   label={t({ id: 'plan.premium.check.leave', message: 'Leave it' })}
@@ -138,7 +167,7 @@ export function PremiumCheckView(props: CheckViewProps) {
         ))}
         {props.know.length === 0 ? null : (
           <View style={{ gap: theme.space.gap8 }}>
-            <Text variant="label" tone="muted" style={{ paddingHorizontal: theme.space.gap8 }}>
+            <Text variant="label" tone="muted">
               {t({ id: 'plan.check.toKnow', message: 'To know' })}
             </Text>
             <ListCard>

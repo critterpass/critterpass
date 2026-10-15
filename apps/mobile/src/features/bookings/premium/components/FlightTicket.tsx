@@ -26,8 +26,6 @@ export interface FlightTicketProps {
   readonly arrives: string;
   readonly boards: string;
   readonly statusLabel: string;
-  /** The page's ground, for the perforation's notches. */
-  readonly notch: string;
 }
 
 function toneOf(chip: FlightChip): StatusTone {
@@ -157,9 +155,11 @@ export function FlightTicket(props: FlightTicketProps) {
         </Text>
       </View>
       <View style={styles.perforation}>
-        <View style={[styles.notch, styles.notchLeft, { backgroundColor: props.notch }]} />
+        {/* The notches take the card's own (light) ground, so in dark mode the card reads as one
+            paper ticket (1.13) instead of showing two black holes. */}
+        <View style={[styles.notch, styles.notchLeft, { backgroundColor: th.color.ground }]} />
         <View style={[styles.dash, { borderColor: th.color.fieldBorder }]} />
-        <View style={[styles.notch, styles.notchRight, { backgroundColor: props.notch }]} />
+        <View style={[styles.notch, styles.notchRight, { backgroundColor: th.color.ground }]} />
       </View>
       <View style={styles.stub}>
         <StubCell
@@ -225,8 +225,10 @@ const styles = StyleSheet.create({
   notch: { position: 'absolute', width: 24, height: 24, borderRadius: 12, top: 0 },
   notchLeft: { left: -12 },
   notchRight: { right: -12 },
-  stub: { flexDirection: 'row', paddingTop: 12, paddingHorizontal: 18, paddingBottom: 16, gap: 6 },
-  cell: { flex: 1 },
+  stub: { flexDirection: 'row', paddingTop: 12, paddingHorizontal: 18, paddingBottom: 16, gap: 12 },
+  // Each column grows from its own label's width, so a long one ("LÊN MÁY BAY") never runs into
+  // the next.
+  cell: { flexGrow: 1, flexShrink: 1 },
   cellHead: { flexDirection: 'row', alignItems: 'center', gap: 3 },
   caps: { letterSpacing: 0.8 },
   stubValue: { marginTop: 2 },

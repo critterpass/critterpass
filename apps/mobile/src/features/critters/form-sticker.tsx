@@ -7,7 +7,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import type { Pose } from '@cp/critter-art';
 
-import { Sticker } from '@/ui/sticker/Sticker';
+import { Sticker } from '@/ui/premium/stickers/art/Sticker';
 
 import { artKind } from './art-kind';
 import { unknownName } from './critters-copy';

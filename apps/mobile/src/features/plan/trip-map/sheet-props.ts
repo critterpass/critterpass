@@ -6,7 +6,7 @@ import type { TripIdeaView } from '@/data/ideas/use-trip-ideas';
 import type { LegPaths } from '@/data/legs/version-leg-paths';
 import type { PendingReview } from '@/data/plan/use-pending-reviews';
 import type { PlanMember } from '@/data/plan/use-trip-plan';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 import type { DayRoute } from './day-route';
 import type { CuratedPlace } from './map-places';

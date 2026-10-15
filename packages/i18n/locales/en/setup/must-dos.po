@@ -19,30 +19,6 @@ msgstr "{fit, plural, one {It fits.} other {All # fit.}}"
 msgid "setup.mustDos.line.fit"
 msgstr "{fit} fit."
 
-#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
-msgid "setup.addMustDo.found"
-msgstr "{guideName} found"
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.draftWriting"
-msgstr "{guideName} is drafting. See how far"
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.writingLine"
-msgstr "{guideName} is writing the draft. It takes a few minutes; you can leave and come back."
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.readyLine"
-msgstr "{guideName}’s draft is ready for you."
-
-#: ../../apps/mobile/src/features/setup/must-dos/typing-row.tsx
-msgid "setup.mustDos.typing"
-msgstr "{name} is typing"
-
-#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
-msgid "setup.addMustDo.prompt"
-msgstr "{name}, what’s the one thing {place} isn’t complete without?"
-
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.line.open"
 msgstr "{open, plural, one {I'll find a day for the other one in the draft.} other {I'll find days for the other # in the draft.}}"
@@ -50,10 +26,6 @@ msgstr "{open, plural, one {I'll find a day for the other one in the draft.} oth
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.line.openAll"
 msgstr "{open, plural, one {Noted. I'll find its day in the draft.} other {Noted. I'll find their days in the draft.}}"
-
-#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
-msgid "setup.addMustDo.header"
-msgstr "{place} · Must-dos"
 
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.line.tight"
@@ -67,34 +39,6 @@ msgstr "{title} tickets are a lottery. Each of you enters on the official site. 
 msgid "setup.mustDos.line.waiting"
 msgstr "{waitingCount, plural, one {One more to come.} other {# more to come.}}"
 
-#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
-msgid "setup.addMustDo.search"
-msgstr "A place or your own words"
-
-#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
-msgid "setup.addMustDo.returnKey"
-msgstr "Add"
-
-#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
-msgid "setup.addMustDo.keepA11y"
-msgstr "Add “{typed}” as you typed it"
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.exampleA11y"
-msgstr "Add {name} as a must-do"
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.addAnother"
-msgstr "Add another"
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.addYours"
-msgstr "Add your must-do"
-
-#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
-msgid "setup.addMustDo.as"
-msgstr "As {name}"
-
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.bookAhead"
 msgstr "Book ahead"
@@ -106,18 +50,6 @@ msgstr "Checking them against the dates."
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.clash"
 msgstr "Clash"
-
-#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
-msgid "setup.addMustDo.closed"
-msgstr "Closed on your dates"
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.draft"
-msgstr "Draft my trip"
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.draftWithout"
-msgstr "Draft without one"
 
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.entriesClose"
@@ -131,96 +63,23 @@ msgstr "Fits"
 msgid "setup.mustDos.pill.fitsDay"
 msgstr "Fits day {day}"
 
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.examples"
-msgstr "For example"
-
-#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+#: ../../apps/mobile/src/features/setup/must-dos/more-places.ts
 msgid "setup.addMustDo.more.resolving"
 msgstr "Getting this place ready…"
-
-#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
-msgid "setup.addMustDo.keep"
-msgstr "Keep it just as you typed it"
-
-#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
-msgid "setup.addMustDo.loading"
-msgstr "Looking for places"
-
-#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
-msgid "setup.addMustDo.more.searching"
-msgstr "Looking further"
 
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.lottery"
 msgstr "Lottery"
 
-#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
-msgid "setup.addMustDo.more.title"
-msgstr "More places"
-
 #: ../../apps/mobile/src/features/setup/must-dos/add-must-do-sheet.tsx
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.title"
 msgstr "Must-dos"
 
-#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
-msgid "setup.addMustDo.noResults"
-msgstr "No place matches that in {place}. Keep it in your own words."
-
-#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
-msgid "setup.addMustDo.offline"
-msgstr "No signal, so no new places. Keep your own words and it sends when you’re back."
-
-#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
-msgid "setup.addMustDo.offlineSaved"
-msgstr "No signal: these are the places on your phone. Your pick sends when you’re back."
-
-#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+#: ../../apps/mobile/src/features/setup/must-dos/more-places.ts
 msgid "setup.addMustDo.more.offline"
 msgstr "No signal. Try again when you’re back online."
 
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.line.empty"
-msgstr "Nobody’s added one yet. Start with yours."
-
-#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
-msgid "setup.addMustDo.more.attribution"
-msgstr "Powered by Foursquare"
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
-msgid "setup.mustDos.row.remind"
-msgstr "Remind me to enter"
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
-msgid "setup.mustDos.row.remove"
-msgstr "Remove"
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.seeDraft"
-msgstr "See the draft"
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.seeTrip"
-msgstr "See the trip"
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
-msgid "setup.mustDos.row.pending"
-msgstr "Sends when you’re back online"
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.doneLineMember"
-msgstr "Setup’s done. {guideName} is drafting the trip with {organiser}."
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.doneLine"
-msgstr "Setup’s done. {guideName} starts the draft from here."
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.plannedLine"
-msgstr "Setup’s finished and the plan is made."
-
-#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+#: ../../apps/mobile/src/features/setup/must-dos/more-places.ts
 msgid "setup.addMustDo.more.unavailable"
 msgstr "This place can’t be saved: CritterPass keeps only places from open map data. Keep it in your own words instead."
 
@@ -228,14 +87,6 @@ msgstr "This place can’t be saved: CritterPass keeps only places from open map
 msgid "setup.mustDos.pill.tight"
 msgstr "Tight"
 
-#: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
-msgid "setup.mustDos.row.pendingA11y"
-msgstr "Waiting to send"
-
-#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+#: ../../apps/mobile/src/features/setup/must-dos/more-places.ts
 msgid "setup.addMustDo.more.loading"
 msgstr "We’re still gathering places in {place}. Try this one again in a few minutes."
-
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.line"
-msgstr "What the trip isn’t complete without. Up to five each."

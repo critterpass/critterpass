@@ -22,3 +22,5 @@ export function registerAttachEntry(entry: AttachEntry): () => void {
 export function attachEntries(): readonly AttachEntry[] {
   return [...entries.values()];
 }
+
+export type AttachChoice = 'library' | 'camera' | 'voice';

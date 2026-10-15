@@ -3,6 +3,7 @@
 export {
   KeyboardAwareScroll,
   KeyboardDismissArea,
+  KeyboardFooterScope,
   KeyboardStickyFooter,
   PremiumKeyboardProvider,
   useKeyboardFrame,
@@ -13,25 +14,79 @@ export type {
   KeyboardStickyFooterProps,
 } from './keyboard/keyboard';
 export { PremiumStack, PremiumStackScreen } from './navigation/premium-stack';
+export type { PremiumStackProps } from './navigation/premium-stack';
+export {
+  presentationOptions,
+  presentedScreenOptions,
+  SELF_ANIMATED_SHEET,
+  tabSheetOptions,
+} from './navigation/presentation-options';
+export { leadingControlFor, useScreenPlacement } from './navigation/use-screen-placement';
+export { SHEET_TOP_CLEARANCE, useScreenInsets, useShownAsSheet } from './navigation/screen-insets';
+export type { LeadingControl } from './navigation/use-screen-placement';
 export { GUIDE_TRIGGER_ROUTE, PREMIUM_TABS, PremiumTabs } from './navigation/premium-tabs';
 export type { PremiumTabsProps } from './navigation/premium-tabs';
 export { useGuideActions } from './navigation/guide-circle';
 export type { GuideActions } from './navigation/guide-circle';
-export { confirmAlert } from './screens/alerts';
+export { confirmAlert, noticeAlert, optionsAlert } from './screens/alerts';
+export { DialogHost } from './screens/dialog-host';
+export { StatusBarGround, StatusBarOver } from './screens/status-bar-over';
+export type { DialogOption } from './screens/dialog-queue';
 export type { TwoChoiceAlert } from './screens/alerts';
 export { askToDiscard, sheetLeaveDecision, useDirtySheetGuard } from './screens/dirty-sheet';
 export type { DirtySheetGuard, DiscardPrompt } from './screens/dirty-sheet';
 export { FULL_SCREEN_ROUTE_OPTIONS, FullScreen } from './screens/full-screen';
 export type { FullScreenProps } from './screens/full-screen';
 export type { ShellAction, ToolbarIcon } from './screens/header-actions';
+export { HeaderBar, HeaderTitle } from './screens/header-bar';
+export type { HeaderBarProps } from './screens/header-bar';
+export { FooterStack } from './screens/footer-stack';
+export type { FooterStackProps } from './screens/footer-stack';
 export { HOLD_TO_CONFIRM_MS, HoldToConfirm } from './screens/hold-to-confirm';
 export type { HoldToConfirmProps } from './screens/hold-to-confirm';
+export { ModalSheet } from './screens/modal-sheet';
+export { useCoverPageSheet, usePageSheetCovered } from './screens/page-sheet-cover';
+export type { ModalSheetProps } from './screens/modal-sheet';
 export { PushScreen } from './screens/push-screen';
 export type { PushScreenProps } from './screens/push-screen';
+export { PageFooter } from './screens/page-footer';
+export { ScrollWalkStop } from './screens/scroll-walk-stop';
+export type { PageFooterProps } from './screens/page-footer';
 export { RootScreen } from './screens/root-screen';
+export { PresentedState, ScreenMissing, ScreenWaiting } from './screens/screen-states';
+export type {
+  PresentedStateKind,
+  PresentedStateProps,
+  ScreenMissingProps,
+  ScreenWaitingProps,
+} from './screens/screen-states';
+export {
+  BAR_OVER_EDGE,
+  edgeGradient,
+  PhotoHeaderScrim,
+  SCROLL_EDGE_FADE,
+  ScrollEdgeFade,
+  transparentOf,
+  useScrollEdges,
+} from './screens/scroll-edge';
+export { TabPageScroll } from './screens/tab-page-scroll';
+export type {
+  PhotoHeaderScrimProps,
+  ScrollEdgeFadeProps,
+  ScrollEdges,
+} from './screens/scroll-edge';
 export type { RootScreenProps, RootScrollBindings, RootScrollProps } from './screens/root-screen';
-export { SheetScreen, sheetMaterialStyle, sheetRouteOptions } from './screens/sheet-screen';
+export { SheetHeader } from './screens/sheet-header';
+export type { SheetHeaderProps } from './screens/sheet-header';
+export {
+  SheetScreen,
+  sheetDetentOptions,
+  sheetMaterialStyle,
+  sheetRouteOptions,
+} from './screens/sheet-screen';
 export type { SheetDetent, SheetScreenProps, SheetVerb } from './screens/sheet-screen';
+export { DatabaseWait, SessionDatabaseProvider, SessionGate } from './session-gate';
+export type { DatabaseWaitProps, SessionGateProps } from './session-gate';
 export { PlusSheetMorph } from './zoom/plus-sheet-morph';
 export type { MorphRect, PlusSheetMorphProps } from './zoom/plus-sheet-morph';
 export { ZOOM_DESTINATION_OPTIONS, ZoomLink, ZoomTarget } from './zoom/zoom-link';

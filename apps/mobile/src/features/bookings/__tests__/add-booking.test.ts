@@ -1,6 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { addressLines, copyFitsBeside } from '../add/address-lines';
 import {
   addPayload,
   fxSnapshotFor,
@@ -8,7 +7,7 @@ import {
   toCandidateView,
   travellersFor,
 } from '../candidates/candidate-model';
-import { LAB_CANDIDATES, LAB_MEMBERS, LAB_UID, labCandidate } from '../dev/lab-fixtures';
+import { LAB_CANDIDATES, LAB_MEMBERS, LAB_UID, labCandidate } from '../test-support/lab-fixtures';
 import { parseMailboxReturn } from '../mailbox/oauth';
 import { mailboxStatus } from '../mailbox/use-mailbox';
 import { pasteBody } from '../paste/paste-kind';
@@ -158,23 +157,5 @@ describe('mailbox', () => {
       kind: 'failed',
       provider: null,
     });
-  });
-});
-
-describe('the forward address', () => {
-  it('breaks only at the @, and puts COPY under an address too long to sit beside it', () => {
-    expect(addressLines('bali-six@in.critterpass.app')).toEqual([
-      'bali-six',
-      '@in.critterpass.app',
-    ]);
-    expect(addressLines('no-domain')).toEqual(['no-domain', '']);
-    // An iPhone-width pill is about 324 points inside its padding.
-    expect(copyFitsBeside('bali-six@in.critterpass.app', 324)).toBe(true);
-    const staging = 'bali-demo-crew-a7635@in.staging.critterpass.app';
-    expect(copyFitsBeside(staging, 324)).toBe(true);
-    expect(copyFitsBeside(staging, 300)).toBe(false);
-    expect(copyFitsBeside('the-head-still-didnt-look-so-goo-5ee57@in.critterpass.app', 324)).toBe(
-      false,
-    );
   });
 });

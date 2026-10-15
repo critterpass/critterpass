@@ -9,6 +9,7 @@
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 
+import { shortName } from '@/lib/people/member-name';
 import { commandOutcome } from '@/data/commands/outcome';
 import { useCommand } from '@/data/commands/use-command';
 import { useSyncPhase } from '@/data/status/use-sync-status';
@@ -22,7 +23,7 @@ import { guideName, guideOr } from '../../hub/guide';
 import { tripDayRoute, TRIPS_TAB } from '../../hub/routes';
 import { chooseLateOptionCommand } from '../commands';
 import { lateLines } from './copy';
-import type { LateViewProps } from './late-view';
+import type { LateViewProps } from './view-types';
 import { lateModel, type LateRowData } from './model';
 
 const LATE_SQL = `SELECT id, trip_id, kind, status, title, summary, affected, facts, options,
@@ -40,7 +41,7 @@ const GUIDE_SQL = `SELECT g.slug AS guide_slug, g.name AS guide_name, dest.slug 
 const NAMES_SQL = `SELECT u.id, coalesce(u.display_name, '') AS name FROM users u
   WHERE u.id IN (SELECT value FROM json_each(?))`;
 
-interface PlaceRow {
+export interface PlaceRow {
   readonly id: string;
   readonly name: string;
   readonly lat: number;
@@ -49,7 +50,16 @@ interface PlaceRow {
 
 export type KnownLate = ReturnType<typeof useKnownLate>;
 
-export function useKnownLate(id: string) {
+/** What a running-late screen draws: the view's props, the place, the phone's dot and the map. */
+export interface LateScene {
+  readonly props: Omit<LateViewProps, 'map'>;
+  readonly place: PlaceRow | undefined;
+  readonly fix: { readonly lat: number; readonly lng: number } | null;
+  readonly offline: boolean;
+  readonly destinationSlug: string | null;
+}
+
+export function useKnownLate(id: string): LateScene {
   const me = useOwnerUid();
   const words = useGuideText();
   const syncPhase = useSyncPhase();
@@ -82,7 +92,10 @@ export function useKnownLate(id: string) {
     state: !late.loaded ? 'loading' : model === null ? 'missing' : 'ready',
     model: model,
     reason: row === null ? '' : (words('disruption', row, 'summary') ?? row.summary),
-    lateNames: party.map((p) => p.name).filter((name) => name !== ''),
+    lateNames: party
+      .map((p) => p.name)
+      .filter((name) => name.trim() !== '')
+      .map((name) => shortName(name)),
     guide: guide,
     guideName: guideName(guide, trip?.guide_name),
     sending: sending,

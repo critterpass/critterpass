@@ -10,7 +10,7 @@ import { useRef } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { RideBackCard } from '@/features/drivers';
+import { RideBackCardPremium } from '@/features/drivers';
 import { PremiumMapCanvas, StayFlag } from '@/features/plan';
 import { IconTile } from '@/features/trip';
 import {
@@ -25,6 +25,7 @@ import {
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
+import { StatusBarGround } from '@/ui/premium/shell';
 
 import { useGettingAroundScreen } from '../getting-around/use-getting-around-screen';
 import { LaterLegs, PhraseCard, RideCard } from './components/GettingAroundParts';
@@ -106,6 +107,8 @@ export function GettingAroundPremium(input: {
           </PremiumMapCanvas>
         )}
       </View>
+      {/* The clock and battery sit on a fade of the ground, not straight on the map's labels. */}
+      <StatusBarGround />
       <View style={[styles.header, { top: insets.top + 6, paddingHorizontal: th.space.gutter }]}>
         <GlassIconButton
           icon="back"
@@ -115,7 +118,14 @@ export function GettingAroundPremium(input: {
         />
         {p.header === null ? null : (
           <View style={[styles.pill, { backgroundColor: th.color.inkSurface }]}>
-            <Text variant="pillSmall" color={th.color.onInkSurface} numberOfLines={1}>
+            {/* A route between two long names takes a second line rather than losing its end. */}
+            <Text
+              variant="pillSmall"
+              color={th.color.onInkSurface}
+              numberOfLines={2}
+              singleLine={false}
+              style={styles.pillText}
+            >
               {p.header}
             </Text>
           </View>
@@ -133,7 +143,7 @@ export function GettingAroundPremium(input: {
             gap: th.space.gap12,
           }}
         >
-          {p.tripId === null ? null : <RideBackCard tripId={p.tripId} date={p.today} />}
+          {p.tripId === null ? null : <RideBackCardPremium tripId={p.tripId} date={p.today} />}
           {p.transfer === null ? null : (
             <PressableScale
               onPress={p.transfer.onOpen}
@@ -173,6 +183,7 @@ export function GettingAroundPremium(input: {
             <View style={styles.row}>
               {journey.startedAt === null ? (
                 <Button
+                  alignSelf="auto"
                   label={t({ id: 'suppliers.journey.start', message: "I'm in the car" })}
                   size="medium"
                   variant="secondary"
@@ -221,12 +232,14 @@ const styles = StyleSheet.create({
   },
   pill: {
     flex: 1,
-    height: 34,
+    minHeight: 34,
     borderRadius: 12,
     paddingHorizontal: 14,
+    paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  pillText: { textAlign: 'center' },
   spacer: { width: 44 },
   sheet: {
     flex: 1,

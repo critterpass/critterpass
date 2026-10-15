@@ -11,7 +11,7 @@ import { Keyboard, Pressable, TextInput, View } from 'react-native';
 
 import { Icon, ring, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 import { premiumFont } from '@/ui/premium/text/Text';
-import { useBackAffordance } from '@/ui/qa/back-affordance';
+import { useBackAffordance } from '@/lib/qa/back-affordance';
 
 import { SearchGlyph } from '../components/search-glyph';
 

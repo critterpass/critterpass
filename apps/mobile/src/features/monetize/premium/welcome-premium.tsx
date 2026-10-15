@@ -15,10 +15,9 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { mrzLine } from '@/ui/documents/mrz';
+import { mrzLine } from '@/lib/documents/mrz';
 import {
   CritterSticker,
   Icon,
@@ -30,7 +29,8 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { useScreenInsets } from '@/ui/premium/shell';
+import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 
 import { useWelcomeScreen } from '../welcome/use-welcome-screen';
 import { Confetti } from './components/confetti';
@@ -48,7 +48,7 @@ export function WelcomePremium() {
   const { t, i18n } = useLingui();
   const th = usePremiumTheme();
   const locale = useLocale();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   const reduced = usePremiumReducedMotion();
   const props = useWelcomeScreen();
   const name = props.name.trim();
@@ -217,6 +217,7 @@ export function WelcomePremium() {
       <View style={{ paddingHorizontal: 24, paddingBottom: insets.bottom + 12, gap: 6 }}>
         {props.onPickIcon === undefined ? null : (
           <GoldButton
+            onNight
             label={t({ id: 'monetize.premium.tryStamp', message: 'Try the Stamp icon' })}
             onPress={props.onPickIcon}
             leading={

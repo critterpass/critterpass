@@ -1,0 +1,42 @@
+appId: app.critterpass.dev
+---
+# Opens the ${TAB} tab (home, trips, wallet or pass) of the system tab bar. When the tab's id is not
+# in the hierarchy it is tapped by its title, in English or Vietnamese (${LABEL} is kept for
+# callers; the titles come from the app's catalogs).
+- evalScript: "${output.tabTitle = ({ home: 'Home|Trang chủ', trips: 'Trips|Chuyến đi', wallet: 'Wallet|Ví', pass: 'Pass' })[TAB] || LABEL}"
+# The iPhone's bar minimises to the active tab's lens while content scrolls down, and stays so on
+# the next tab: the lens (bottom left) is tapped to bring the tabs back first, only while Tokek's
+# circle shows beside it (a pushed page has neither).
+- runFlow:
+    when:
+      platform: iOS
+      notVisible: '${output.tabTitle}'
+      visible:
+        id: 'guide-circle'
+    commands:
+      - tapOn:
+          point: '12%,94%'
+      - runFlow: settle.yaml
+- runFlow:
+    file: tap.yaml
+    env:
+      ID: 'tab-${TAB}'
+      LABEL: '${output.tabTitle}'
+# The bar can minimise just after that look, as the tab a link opened settles (Trips after
+# home-link.yaml's link): then neither the id nor the title was there to tap, and the tabs still
+# show only the lens. Opened and tapped again in that state alone.
+- runFlow:
+    when:
+      platform: iOS
+      notVisible: '${output.tabTitle}'
+      visible:
+        id: 'guide-circle'
+    commands:
+      - tapOn:
+          point: '12%,94%'
+      - runFlow: settle.yaml
+      - runFlow:
+          file: tap.yaml
+          env:
+            ID: 'tab-${TAB}'
+            LABEL: '${output.tabTitle}'

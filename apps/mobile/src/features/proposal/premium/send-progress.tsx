@@ -9,7 +9,7 @@ import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { crewColour } from '@/features/vote';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Avatar,
   Button,
@@ -21,7 +21,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { SendProgressProps } from '../builder/send-progress';
+import type { SendProgressProps } from '../builder/views';
 
 export function PremiumSendProgress(props: SendProgressProps) {
   const th = usePremiumTheme();
@@ -64,7 +64,12 @@ export function PremiumSendProgress(props: SendProgressProps) {
                 testID={`sent-${person.uid}`}
                 variant="person"
                 leading={
-                  <Avatar name={person.name} color={crewColour(person.joinIndex)} size={32} />
+                  <Avatar
+                    name={person.name}
+                    color={crewColour(person.joinIndex)}
+                    uid={person.uid}
+                    size={32}
+                  />
                 }
                 title={person.name}
                 subtitle={

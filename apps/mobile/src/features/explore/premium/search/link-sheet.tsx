@@ -8,7 +8,7 @@
 import { t } from '@lingui/core/macro';
 import { Image, ScrollView, View } from 'react-native';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   GuideNote,
@@ -20,10 +20,11 @@ import {
   Toggle,
   usePremiumTheme,
 } from '@/ui/premium';
+import { sheetMaterialStyle } from '@/ui/premium/shell';
 
 import { fromWhere, guideReadLine, stopLine } from '../../search/link-copy';
-import type { LinkSheetProps } from '../../search/link-sheet';
-import { couldBe } from '../../search/match-row';
+import type { LinkSheetProps } from '../../search/link-screen';
+import { couldBe } from '../../search/could-be';
 
 const THUMB_W = 72;
 const THUMB_H = 96;
@@ -41,6 +42,8 @@ export function PremiumLinkSheet(props: LinkSheetProps) {
   const author = source?.author ?? null;
   return (
     <ScrollView
+      // The native form sheet is see-through: its material is drawn here.
+      style={[{ flex: 1 }, sheetMaterialStyle(theme)]}
       contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}
       testID="search-link-sheet"
     >
@@ -159,6 +162,7 @@ export function PremiumLinkSheet(props: LinkSheetProps) {
                   />
                 ) : match.kind === 'ambiguous' ? (
                   <Button
+                    alignSelf="auto"
                     size="small"
                     variant="control"
                     label={t({ id: 'search.link.pickOne', message: 'Pick one' })}
@@ -166,6 +170,7 @@ export function PremiumLinkSheet(props: LinkSheetProps) {
                   />
                 ) : (
                   <TextButton
+                    align="center"
                     label={t({ id: 'search.link.search', message: 'Search' })}
                     onPress={() => props.onSearch(match.label)}
                   />
@@ -202,12 +207,14 @@ export function PremiumLinkSheet(props: LinkSheetProps) {
         )}
         {chosen === 0 || props.dayLabel === null ? null : (
           <TextButton
+            align="center"
             label={t({ id: 'search.link.putOnDay', message: `Or put them on ${day}` })}
             onPress={props.onPutOnDay}
             testID="search-link-put-on-day"
           />
         )}
         <TextButton
+          align="center"
           label={t({ id: 'search.link.screenshot', message: 'Add a screenshot instead' })}
           onPress={props.onScreenshot}
           testID="search-link-screenshot"

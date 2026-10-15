@@ -123,6 +123,16 @@ export function forecastDays(snapshots: readonly SnapshotRow[], today: string): 
     });
 }
 
+/**
+ * The one day the strip inverts in ink: the wettest of the wet days, the earliest on a tie, so a
+ * run of rainy days still points at the one most likely to change the plan. Null when none is wet.
+ */
+export function standoutDay(days: readonly ForecastDay[]): string | null {
+  let pick: ForecastDay | null = null;
+  for (const day of days) if (day.wet && (pick === null || day.rainPct > pick.rainPct)) pick = day;
+  return pick?.date ?? null;
+}
+
 export function forecastModel(
   snapshots: readonly SnapshotRow[],
   watch: readonly WatchRowData[],

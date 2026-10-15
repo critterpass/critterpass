@@ -7,31 +7,23 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: tr\n"
 
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.or"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
-msgid "search.plain.count"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
-msgid "search.plain.softMisses"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.widenCount"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.relatedCount"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.relatedLate"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.widenAreas"
 msgstr ""
 
@@ -59,26 +51,6 @@ msgstr ""
 msgid "search.queued.pingTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
-msgid "search.link.found"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
-msgid "search.chips.eyebrow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/typed-link-card.tsx
-msgid "search.typedLink.line"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
-msgid "search.offline.works.waits"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/name-results.tsx
-msgid "search.name.kindBelow"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/search/search-rows.ts
 msgid "search.row.kilometres"
 msgstr ""
@@ -87,20 +59,20 @@ msgstr ""
 msgid "search.row.metres"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.minutes"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/plain-section.tsx
+#: ../../apps/mobile/src/features/explore/search/use-plain-section.ts
 msgid "search.plain.drive"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/plain-section.tsx
-msgid "search.plain.walk"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/use-offline-rows.ts
 msgid "search.offline.walk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/use-plain-section.ts
+msgid "search.plain.walk"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/use-search-controller.ts
@@ -113,10 +85,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.end.placedAndIdeas"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
-msgid "search.offline.works.places"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
@@ -151,74 +119,27 @@ msgstr ""
 msgid "search.queued.idea"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/link-paste.tsx
-msgid "search.paste.placeholder"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.attr.view"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+#: ../../apps/mobile/src/features/explore/search/plain-examples.ts
 msgid "search.examples.crowds"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/name-results.tsx
-#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
-msgid "search.row.add"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.pinLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
-msgid "search.link.screenshot"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
-#: ../../apps/mobile/src/features/explore/search/link-paste.tsx
-#: ../../apps/mobile/src/features/explore/search/typed-link-card.tsx
-msgid "search.clipboard.add"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
-msgid "search.pin.add"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.addedToast"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/address-section.tsx
-msgid "search.address.eyebrow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
-msgid "search.none.ask"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
-msgid "search.name.ask"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
-msgid "search.examples.eyebrow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/search-header.tsx
-msgid "search.field.back"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
-msgid "search.offline.back"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.term.bar"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+#: ../../apps/mobile/src/features/explore/search/browse-tiles.ts
 msgid "search.browse.beaches"
 msgstr ""
 
@@ -226,15 +147,11 @@ msgstr ""
 msgid "search.chip.category.beach"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
-msgid "search.offline.works.bookings"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.meal.breakfast"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.term.cafe"
 msgstr ""
 
@@ -242,48 +159,24 @@ msgstr ""
 msgid "search.chip.attr.cheap"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
-msgid "search.name.noneLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.term.chinese"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/search-header.tsx
-msgid "search.field.clear"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/plain-close.tsx
-msgid "search.close.heading"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
-msgid "search.browse.coffee"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.meal.coffee"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+#: ../../apps/mobile/src/features/explore/search/could-be.ts
 msgid "search.link.couldBe"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+#: ../../apps/mobile/src/features/explore/search/could-be.ts
 msgid "search.link.couldBeNear"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/match-row.tsx
-msgid "search.link.notFound"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.end.dayFailed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/name-results.tsx
-msgid "search.name.incomplete"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
@@ -302,20 +195,11 @@ msgstr ""
 msgid "search.chip.meal.drinks"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
-msgid "search.pin.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.pin"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
-msgid "search.name.noneAddressLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+#: ../../apps/mobile/src/features/explore/search/browse-tiles.ts
 msgid "search.browse.food"
 msgstr ""
 
@@ -367,18 +251,6 @@ msgstr ""
 msgid "search.link.from.googleMaps"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
-msgid "search.offline.from"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
-msgid "search.offline.fromNoDate"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
-msgid "search.clipboard.eyebrow"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.attr.kids"
 msgstr ""
@@ -407,8 +279,8 @@ msgstr ""
 msgid "search.link.read.video"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 #: ../../apps/mobile/src/features/explore/search/search-rows.ts
+#: ../../apps/mobile/src/features/explore/search/use-plain-section.ts
 msgid "search.row.inPlan"
 msgstr ""
 
@@ -416,7 +288,6 @@ msgstr ""
 msgid "search.scope.map"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/name-results.tsx
 #: ../../apps/mobile/src/features/explore/search/search-rows.ts
 msgid "search.row.saved"
 msgstr ""
@@ -425,20 +296,16 @@ msgstr ""
 msgid "search.chip.attr.indoor"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.term.italian"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.term.japanese"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.attr.late"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
-msgid "search.plain.list"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
@@ -449,15 +316,11 @@ msgstr ""
 msgid "search.chip.meal.lunch"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
-msgid "search.plain.map"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.market"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.term.mexican"
 msgstr ""
 
@@ -465,16 +328,8 @@ msgstr ""
 msgid "search.weekday.mon"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/name-results.tsx
-msgid "search.more.eyebrow"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.museum"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/name-results.tsx
-msgid "search.name.alike"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
@@ -493,20 +348,8 @@ msgstr ""
 msgid "search.chip.category.nightlife"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
-msgid "search.name.noneNamed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
-msgid "search.name.none"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.end.noRoom"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
-msgid "search.offline.banner"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/use-pick-live.ts
@@ -521,48 +364,16 @@ msgstr ""
 msgid "search.link.end.dayFailedLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/link-paste.tsx
-msgid "search.paste.nothingCopied"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
-msgid "search.name.noneAddress"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
-msgid "search.none.leadPlain"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
-msgid "search.none.leadMinutes"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
-msgid "search.none.titleHere"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
-msgid "search.none.titleIn"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
-msgid "search.none.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/plain-close.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.close.line"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/plain-close.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.close.lineWithout"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.end.saveFailedLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
-msgid "search.offline.count"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/use-link-screen.ts
@@ -573,7 +384,7 @@ msgstr ""
 msgid "search.chip.openPast"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/plain-section.tsx
+#: ../../apps/mobile/src/features/explore/search/use-plain-section.ts
 msgid "search.plain.openTill"
 msgstr ""
 
@@ -581,64 +392,12 @@ msgstr ""
 msgid "search.offline.openAsOf"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
-msgid "search.none.askLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
-msgid "search.browse.eyebrow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/link-paste.tsx
-msgid "search.paste.screenshot"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
-msgid "search.link.putOnDay"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.attr.outdoor"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/link-paste.tsx
-msgid "search.paste.paste"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
-msgid "search.clipboard.pasteLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/link-paste.tsx
-msgid "search.paste.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/match-row.tsx
-msgid "search.link.pickOne"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/address-section.tsx
-msgid "search.address.hint"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.other"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/name-results.tsx
-msgid "search.name.kindPlaces"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
-msgid "search.offline.queuedLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/name-results.tsx
-msgid "search.more.attribution"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
-msgid "search.offline.queued"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
@@ -649,36 +408,12 @@ msgstr ""
 msgid "search.link.reading"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
-msgid "search.chip.remove"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/search/weekday-names.ts
 msgid "search.weekday.sat"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+#: ../../apps/mobile/src/features/explore/search/plain-examples.ts
 msgid "search.examples.saturday"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/match-row.tsx
-msgid "search.link.saveToggle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/match-row.tsx
-msgid "search.link.save"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
-msgid "search.link.saveToIdeas"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/match-row.tsx
-msgid "search.link.saved"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
-msgid "search.offline.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
@@ -689,14 +424,6 @@ msgstr ""
 msgid "search.link.noPicker"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/match-row.tsx
-msgid "search.link.search"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/search-header.tsx
-msgid "search.field.placeholder"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.proposedToast"
 msgstr ""
@@ -705,19 +432,15 @@ msgstr ""
 msgid "search.chip.category.shopping"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
-msgid "search.plain.view"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+#: ../../apps/mobile/src/features/explore/search/plain-examples.ts
 msgid "search.examples.dinner"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+#: ../../apps/mobile/src/features/explore/search/plain-examples.ts
 msgid "search.examples.dinnerNoStay"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+#: ../../apps/mobile/src/features/explore/search/browse-tiles.ts
 msgid "search.browse.spa"
 msgstr ""
 
@@ -745,7 +468,7 @@ msgstr ""
 msgid "search.link.reason.removed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+#: ../../apps/mobile/src/features/explore/search/browse-tiles.ts
 msgid "search.browse.temples"
 msgstr ""
 
@@ -753,62 +476,32 @@ msgstr ""
 msgid "search.chip.category.temple"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/link-paste.tsx
-msgid "search.paste.notLink"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/search/use-pick-live.ts
 msgid "search.more.unavailable"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/plain-close.tsx
-msgid "search.plain.failed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/typed-link-card.tsx
-msgid "search.typedLink.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.limit"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.nearest"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.nearestPlace"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
-msgid "search.offline.works.plan"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/name-results.tsx
-msgid "search.name.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.private"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/name-results.tsx
-msgid "search.name.arriving"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/search/weekday-names.ts
 msgid "search.weekday.thu"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.related"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
-#: ../../apps/mobile/src/features/explore/search/name-results.tsx
-#: ../../apps/mobile/src/features/explore/search/plain-close.tsx
-msgid "search.link.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/weekday-names.ts
@@ -823,11 +516,15 @@ msgstr ""
 msgid "search.chip.attr.vegetarian"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.term.vietnamese"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+#: ../../apps/mobile/src/features/explore/search/browse-tiles.ts
+msgid "search.browse.views"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/browse-tiles.ts
 msgid "search.browse.waterfalls"
 msgstr ""
 
@@ -835,29 +532,12 @@ msgstr ""
 msgid "search.weekday.wed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
-msgid "search.pin.name"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+#: ../../apps/mobile/src/features/explore/search/plain-examples.ts
 msgid "search.examples.rain"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/pick-one-sheet.tsx
-msgid "search.link.pickTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+#: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.widen"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
-msgid "search.offline.works"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/link-paste.tsx
-#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
-msgid "search.link.worksWith"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts

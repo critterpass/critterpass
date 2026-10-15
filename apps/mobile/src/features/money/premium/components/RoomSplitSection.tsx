@@ -157,6 +157,7 @@ export function RoomSplitSection({
       {detail.canChange && evenEach !== null ? (
         <View style={styles.center}>
           <TextButton
+            align="center"
             label={t({
               id: 'money.rooms.splitEvenly',
               message: `Split evenly instead · ${formatAmount(evenEach, currency, locale)} each`,

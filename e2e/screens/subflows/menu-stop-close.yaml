@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# Closes a stop's sheet without saving: dragged down by its title on iOS, the system back on
+# Android, and "Discard" if it asks.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 50%, 12%
+          end: 50%, 95%
+          duration: 500
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      visible: 'Discard.*'
+    commands:
+      - tapOn: 'Discard.*'
+- extendedWaitUntil:
+    visible:
+      id: 'timeline-stop-.*'
+    timeout: 10000

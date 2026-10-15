@@ -19,7 +19,6 @@ import {
   Row,
   StatusTag,
   Text,
-  TextButton,
   usePremiumTheme,
   useToast,
 } from '@/ui/premium';
@@ -55,9 +54,20 @@ export function ReferralPremium() {
 
   return (
     <PushScreen
+      largeTitle
       title={t({ id: 'crew.referral.title', message: 'Invite friends' })}
       backLabel={t({ id: 'crew.referral.back', message: 'You' })}
       scroll={false}
+      action={{
+        key: 'terms',
+        label: t({ id: 'crew.referral.terms', message: 'Referral terms' }),
+        // eslint-disable-next-line lingui/no-unlocalized-strings -- an SF Symbol name, never copy.
+        sfSymbol: 'doc.text',
+        glyph: 'forward',
+        text: true,
+        onPress: () => void services.openUrl(REFERRAL_TERMS_URL),
+        testID: 'referral-terms',
+      }}
       testID="referral-dashboard"
     >
       <ScrollView
@@ -128,12 +138,24 @@ export function ReferralPremium() {
         </View>
 
         {url === null ? (
-          <Text variant="caption" tone="muted" testID="referral-link-pending">
-            {t({
-              id: 'crew.referral.linkPending',
-              message: 'Your link appears once you’re online and your pass is saved.',
-            })}
-          </Text>
+          // The link row keeps its place while the link can't be made yet, so the page holds its
+          // shape offline instead of ending on a loose line.
+          <View
+            style={[styles.link, { backgroundColor: th.color.card, boxShadow: th.shadow.card }]}
+          >
+            <Text
+              variant="caption"
+              tone="muted"
+              style={styles.grow}
+              singleLine={false}
+              testID="referral-link-pending"
+            >
+              {t({
+                id: 'crew.referral.linkPending',
+                message: 'Your link appears once you’re online and your pass is saved.',
+              })}
+            </Text>
+          </View>
         ) : (
           <View
             style={[styles.link, { backgroundColor: th.color.card, boxShadow: th.shadow.card }]}
@@ -177,11 +199,6 @@ export function ReferralPremium() {
             </ListCard>
           </>
         )}
-        <TextButton
-          label={t({ id: 'crew.referral.terms', message: 'Referral terms' })}
-          onPress={() => void services.openUrl(REFERRAL_TERMS_URL)}
-          testID="referral-terms"
-        />
       </ScrollView>
       <View
         style={[

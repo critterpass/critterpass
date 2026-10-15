@@ -1,33 +1,30 @@
-import { useLocalSearchParams } from 'expo-router';
+/* eslint-disable lingui/no-unlocalized-strings -- a route path and params, never copy. */
+import { Redirect, useLocalSearchParams } from 'expo-router';
 
-import { CalendarWriterProvider, calendarWriter } from '@/features/plan';
-import { DayPlanScreen } from '@/features/plan/day-plan/day-plan-screen';
 import { dateParam } from '@/features/plan/trip-map/chosen-day';
 
-import { nativeCpCalendarModule } from '../../../../../../modules/cp-calendar/src/CpCalendarModule';
+type DayParams = {
+  tripId: string;
+  day: string;
+  date?: string;
+  item?: string;
+};
 
-const writer = calendarWriter(nativeCpCalendarModule);
-
-/**
- * One day of the trip plan (`/{tripId}/day/{n}`): the day plan (7b-1).
- * `?item={stable_id}` opens that item's sheet on arrival. The day plan also opens on a day named
- * by its date (`/{tripId}/day/2026-10-07`, or `?date=`), for a link that knows the date only.
- */
-export default function PlanDayRoute() {
-  const { tripId, day, date, item } = useLocalSearchParams<{
-    tripId: string;
-    day: string;
-    date?: string;
-    item?: string;
-  }>();
+/** The plan is one map: a day is that map with the day at half (4.26). */
+export default function DayRoute() {
+  const { tripId, day, date, item } = useLocalSearchParams<DayParams>();
+  const onDate = dateParam(date) ?? dateParam(day);
   return (
-    <CalendarWriterProvider value={writer}>
-      <DayPlanScreen
-        tripId={tripId}
-        dayNo={Number(day)}
-        date={dateParam(date) ?? dateParam(day)}
-        item={item}
-      />
-    </CalendarWriterProvider>
+    <Redirect
+      href={{
+        pathname: '/[tripId]/plan/map',
+        params: {
+          tripId,
+          sheet: 'half',
+          ...(onDate === null ? { day } : { date: onDate }),
+          ...(item === undefined ? {} : { item }),
+        },
+      }}
+    />
   );
 }

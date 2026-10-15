@@ -25,6 +25,9 @@ const useStyles = makePremiumStyles((th) => ({
     backgroundColor: th.color.segmentTrack,
   },
   dot: { width: 7, height: 7, borderRadius: 4, backgroundColor: th.signal.offlineDot },
+  faces: { flexDirection: 'row' },
+  overlap: { marginStart: -6 },
+  pillText: { flexShrink: 1 },
   pill: {
     alignSelf: 'center',
     flexDirection: 'row',
@@ -90,15 +93,27 @@ export function NoSignalChip() {
   );
 }
 
+export interface PillFace {
+  readonly who: string;
+  readonly uid: string | null;
+  readonly color: string;
+}
+
 export function SystemPill({
   text,
   who,
+  uid,
   color,
+  faces,
   onPress,
 }: {
   readonly text: string;
   readonly who: string | null;
+  /** The named member's user id, for their face. */
+  readonly uid?: string | null;
   readonly color: string;
+  /** Several members on one line (joins in a row): their faces overlap, in place of one. */
+  readonly faces?: readonly PillFace[];
   readonly onPress?: () => void;
 }) {
   const styles = useStyles();
@@ -110,13 +125,26 @@ export function SystemPill({
       accessibilityRole={onPress === undefined ? 'text' : 'button'}
       accessibilityLabel={text}
     >
-      {who === null ? null : <Avatar name={who} color={color} size={20} />}
-      <Text variant="captionMuted" tone="inkSecondary" numberOfLines={2}>
+      {faces !== undefined ? (
+        <View style={styles.faces}>
+          {faces.slice(0, MAX_FACES).map((face, index) => (
+            <View key={face.uid ?? String(index)} style={index === 0 ? null : styles.overlap}>
+              <Avatar name={face.who} color={face.color} uid={face.uid} size={20} />
+            </View>
+          ))}
+        </View>
+      ) : who === null ? null : (
+        <Avatar name={who} color={color} uid={uid} size={20} />
+      )}
+      <Text variant="captionMuted" tone="inkSecondary" numberOfLines={2} style={styles.pillText}>
         {text}
       </Text>
     </PressableScale>
   );
 }
+
+/** A joined line shows at most this many faces; the names still list everyone. */
+const MAX_FACES = 4;
 
 export function OfflineMarker() {
   const th = usePremiumTheme();

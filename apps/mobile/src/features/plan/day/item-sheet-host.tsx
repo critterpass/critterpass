@@ -14,36 +14,31 @@
 import type { PlanOp, PlanPush } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import type { ComponentType } from 'react';
 import { View } from 'react-native';
 
 import { useLiveRows } from '@/data/plan/live-rows';
 import { dayItems, type DayItem } from '@/data/plan/plan-model';
 import { moveToDayOp, removeOp, resizeOp, type DaySlot } from '@/data/plan/plan-ops';
-import { pushOf, useVersionPushes } from '@/data/plan/plan-pushes';
+import { pushOf } from '@/data/plan/plan-pushes';
 import type { EditOutcome, PlanEditorEvents } from '@/data/plan/use-plan-editor';
 import type { TripPlan } from '@/data/plan/use-trip-plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
-import { guideSticker } from '@/ui/avatar/guides';
-import { useTheme } from '@/ui/theme';
+import { guideSticker } from '@/ui/premium/stickers/guides';
+import { usePremiumTheme } from '@/ui/premium';
 
-import { ItemComments } from '../collab/item-comments';
-import { ClashCard } from '../overlay/clash-card';
 import { useResolveClash } from '../overlay/data/use-personal-plan';
 import { usePersonalLayer } from '../trip-map/personal-layer';
 import { isReadOnly } from '../trip-map/use-trip-map-data';
 import { retime, type Retime, type Travel } from '../day-plan/reschedule';
-import { closeGap, outOfPlaceOn } from './close-gap';
 import { travelMinutes } from './fit-check';
 import { dayName } from './format';
-import { ItemDetailSheet, type ItemDetailSheetProps } from './item-detail-sheet';
+import { type ItemSheetLook, isStopOfToday } from './item-sheet-look';
 import { nowMinOn, pastTimePreview } from './past-time';
-import { pushedBack } from './pushed-back';
-import { gapLine, retimePreview } from './retime-copy';
+import { retimePreview } from './retime-copy';
 import { openInMaps, openSuggestion } from './item-sheet-links';
 import { placeRoute, reviewRoute } from './routes';
-import { isStopOfToday, StopDayActions } from './stop-day-actions';
+import { useMustDoMine, useTakeOff } from './use-take-off';
 
 export interface ItemSheetEditor {
   readonly submit: (
@@ -62,7 +57,7 @@ export function ItemSheetHost({
   editor,
   travel,
   onClose,
-  look = {},
+  look,
 }: {
   readonly plan: TripPlan;
   readonly item: DayItem;
@@ -71,31 +66,16 @@ export function ItemSheetHost({
   /** Minutes between two stops (stored legs when the screen has them); straight-line otherwise. */
   readonly travel?: Travel;
   readonly onClose: () => void;
-  /** How the sheet and its parts are drawn; the logic is the same in every look. */
-  readonly look?: {
-    readonly Sheet?: ComponentType<ItemDetailSheetProps>;
-    readonly DayActions?: typeof StopDayActions;
-    readonly Clash?: typeof ClashCard;
-    readonly Comments?: typeof ItemComments;
-  };
+  /** How the sheet and its parts are drawn. */
+  readonly look: ItemSheetLook;
 }) {
-  const {
-    Sheet = ItemDetailSheet,
-    DayActions = StopDayActions,
-    Clash = ClashCard,
-    Comments = ItemComments,
-  } = look;
+  const { Sheet, DayActions, Clash, Comments } = look;
   const { t } = useLingui();
   const locale = useLocale();
-  const theme = useTheme();
+  const theme = usePremiumTheme();
   const tripId = plan.trip?.id ?? '';
   const tz = plan.trip?.tz ?? item.tz;
-  const mustDoId = plan.itemRows.find((row) => row.stable_id === item.stableId)?.must_do_id ?? null;
-  const owner = useLiveRows<{ owner_id: string | null }>(
-    'SELECT owner_id FROM must_dos WHERE id = ?',
-    mustDoId === null ? null : [mustDoId],
-    ['must_dos'],
-  );
+  const mustDoMine = useMustDoMine(plan, item);
   const price = useLiveRows<{ price_level: number | null }>(
     'SELECT price_level FROM pois WHERE id = ?',
     item.poiId === null ? null : [item.poiId],
@@ -129,21 +109,9 @@ export function ItemSheetHost({
     const result = timed(change);
     return result?.ok === true ? result.ops : [];
   };
-  // Taking the stop off its day: later stops that sit later than they belong move back earlier.
+  // Taking the stop off its day puts back what it pushed (else closes the gap it leaves).
   const here = dayItems(plan.state, item.dayNo, plan.display, tz);
-  const straightHere = travelMinutes(here);
-  const gap = closeGap(
-    here,
-    item.stableId,
-    slot,
-    travel ?? ((from, next) => straightHere(from.stableId, next.stableId) ?? 0),
-    outOfPlaceOn(slot.date, tz),
-  );
-  // What this stop pushed when it came in: taking it off puts exactly those back (else the gap rule).
-  const kept = useVersionPushes(plan.versionId);
-  const back = plan.mode === 'draft' ? null : pushedBack(kept, item.stableId, plan.state);
-  const takeOff = back?.ops ?? gap.ops;
-  const backLine = (day?: string) => back?.line ?? gapLine(gap, day);
+  const { ops: takeOff, line: backLine } = useTakeOff(plan, item, slot, travel);
   const suggestionId = plan.proposed.has(item.stableId)
     ? openSuggestion(plan, item.stableId)
     : null;
@@ -194,7 +162,7 @@ export function ItemSheetHost({
       readOnly={readOnly}
       priceLevel={price.rows[0]?.price_level ?? null}
       removeLine={backLine()}
-      mustDoMine={owner.rows[0]?.owner_id != null && owner.rows[0].owner_id === plan.uid}
+      mustDoMine={mustDoMine}
       suggestion={
         suggestionId === null
           ? null
@@ -216,7 +184,7 @@ export function ItemSheetHost({
         onDraft || readOnly ? null : clash === null ? (
           dayActions
         ) : (
-          <View style={{ gap: theme.space['12'] }}>
+          <View style={{ gap: theme.space.gap12 }}>
             <Clash
               clash={clash}
               label={item.title}

@@ -31,7 +31,7 @@ export function stepText(step: ChecklistStep, i18n: I18n): string {
             }),
           );
     case 'call_number':
-      return i18n._(msg({ id: 'safety.step.call', message: `If it's serious, call ${number}.` }));
+      return i18n._(msg({ id: 'safety.step.call', message: `If it’s serious, call ${number}.` }));
     case 'phrase':
       return i18n._(
         msg({ id: 'safety.step.phrase', message: `Show them: "${phrase}" (${gloss}).` }),
@@ -40,7 +40,7 @@ export function stepText(step: ChecklistStep, i18n: I18n): string {
       return i18n._(
         msg({
           id: 'safety.step.insurance',
-          message: "Call your insurer's assistance line; the number is on your policy card.",
+          message: 'Call your insurer’s assistance line; the number is on your policy card.',
         }),
       );
     case 'ops_clinic':
@@ -51,7 +51,7 @@ export function stepText(step: ChecklistStep, i18n: I18n): string {
       return i18n._(
         msg({
           id: 'safety.step.freezeCards',
-          message: "Freeze your cards in your bank's app first.",
+          message: 'Freeze your cards in your bank’s app first.',
         }),
       );
     case 'police_report':

@@ -7,6 +7,8 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer: SQL and a file key. */
 
+import { shortName } from '@/lib/people/member-name';
+
 export const CREWS_SNAPSHOT_KEY = 'crews';
 export const CREWS_SCHEMA_VERSION = 1;
 
@@ -40,7 +42,7 @@ export function crewDirectory(rows: readonly CrewDirectoryRow[]): CrewDirectory 
     const name = row.crew_name?.trim() ?? '';
     if (name === '') continue;
     const crew = (crews[row.crew_id] ??= { name, members: {} });
-    const first = row.display_name?.trim().split(/\s+/)[0] ?? '';
+    const first = row.display_name?.trim() ? shortName(row.display_name) : '';
     if (row.user_id !== null && first !== '') crew.members[row.user_id] = { first_name: first };
   }
   return crews;

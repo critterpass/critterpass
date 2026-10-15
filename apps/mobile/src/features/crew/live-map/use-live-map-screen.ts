@@ -32,8 +32,8 @@ import { useTripCrew } from './data/use-trip-crew';
 import { buildLiveView } from './data/view-model';
 import { useLiveMapServices, type OwnFix } from './data/services';
 import type { LiveMapModel, Overlay } from './model';
-import type { MeetupChoice } from './panel/meetup-editor';
-import { pingToast } from './panel/ping-actions';
+import type { MeetupChoice } from './panel/view-types';
+import { pingToast } from './ping-toast';
 
 const TICK_MS = 15_000;
 const NO_MEMBERS: ReadonlyMap<string, LiveMember> = new Map<string, LiveMember>();
@@ -200,7 +200,7 @@ export function useLiveMapScreen(tripId: string): LiveMapModel {
             id: 'live-ping-offline',
             title: t({
               id: 'liveMap.toast.pingOffline',
-              message: "Couldn't reach the crew. Try again.",
+              message: 'Couldn’t reach the crew. Try again.',
             }),
           });
         }

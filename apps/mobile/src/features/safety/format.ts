@@ -3,11 +3,11 @@ import { clockOption } from '@/lib/i18n/formats';
 /* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
 /** A clock time in the reader's locale ("4:42 PM", "16:42"). */
 export function clockTime(at: number | string, locale: string): string {
-  return new Date(at).toLocaleTimeString(locale, {
+  return new Intl.DateTimeFormat(locale, {
     hour: 'numeric',
     minute: '2-digit',
     ...clockOption(),
-  });
+  }).format(new Date(at));
 }
 
 /** A `tel:` link for a printed number ("+65 6812 3456"). */

@@ -4,13 +4,13 @@ appId: app.critterpass.dev
 # a few messages, and Home's chat button opens the crew chat once the crewmates' messages are in.
 - launchApp:
     clearState: true
-- runFlow: ../../home/subflows/onboard.yaml
+- runFlow: ../../happy/subflows/onboard.yaml
 - runFlow:
     file: ../../_shared/seed-demo.yaml
     env:
       SEED: dev-seed-demo
 - tapOn:
-    id: 'home-header-chat'
+    id: 'home-chat'
 - extendedWaitUntil:
     visible:
       id: 'chat-composer'
@@ -18,5 +18,5 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible:
       # iOS reads a bubble as one line ("Maya, 14:02: Rin still…").
-      text: '.*Rin still has to say if they are in.*'
+      text: '.*Rin still has to say if they.are.in.*'
     timeout: 20000

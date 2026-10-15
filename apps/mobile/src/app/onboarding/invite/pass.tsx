@@ -1,3 +1,3 @@
-import { PassScreen } from '@/features/onboarding/invited/PassScreen';
+import { PremiumInvitePassPage } from '@/features/onboarding/premium/invite/PremiumInvitePassPage';
 
-export default PassScreen;
+export default PremiumInvitePassPage;

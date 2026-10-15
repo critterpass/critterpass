@@ -1,0 +1,18 @@
+appId: app.critterpass.dev
+---
+# Opens the first stop's menu on the plan map at half and taps its ${KEY} row (details, move, time,
+# ask, share or remove), then requires what that row promises: an element with an id matching
+# ${EXPECT} within eight seconds. A row that does nothing fails the flow here.
+- tapOn:
+    id: 'timeline-stop-.*'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'stop-menu-${KEY}'
+    timeout: 8000
+- tapOn:
+    id: 'stop-menu-${KEY}'
+- extendedWaitUntil:
+    visible:
+      id: '${EXPECT}'
+    timeout: 8000

@@ -6,7 +6,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
-import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import {
   Avatar,
@@ -17,10 +17,11 @@ import {
   makePremiumStyles,
   usePremiumReducedMotion,
   usePremiumTheme,
+  popIn,
 } from '@/ui/premium';
 
-import { restingAngle, type AwardsCardProps } from '../../../cards/awards-card';
-import type { ReceiptCardProps } from '../../../cards/receipt-card';
+import { restingAngle, type AwardsCardProps } from '../../../story/story-card-views';
+import type { ReceiptCardProps } from '../../../story/story-card-views';
 import { CardFrame } from './card-frame';
 import { useClockReached } from './use-clock';
 
@@ -81,6 +82,7 @@ export function PremiumAwardsCard({ eyebrow, headline, awards }: AwardsCardProps
             <Avatar
               name={award.initial}
               color={award.mine ? th.accent.sun : th.accent.sky}
+              uid={award.userId}
               size={44}
             />
             <View style={{ flex: 1 }}>
@@ -150,7 +152,7 @@ export function PremiumReceiptCard(props: ReceiptCardProps) {
         </View>
         {props.paidLabel !== null && stamped ? (
           <Animated.View
-            entering={reduced ? FadeIn.duration(150) : ZoomIn.springify().damping(12)}
+            entering={popIn(reduced, 'lively')}
             style={{ position: 'absolute', right: -6, bottom: 24 }}
             testID="recap-receipt-paid"
           >

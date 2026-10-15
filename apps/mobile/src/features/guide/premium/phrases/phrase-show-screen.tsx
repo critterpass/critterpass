@@ -1,25 +1,26 @@
 /**
- * Phrase show mode (5.23): the phrase huge in white on ink with its translation under it, the
- * language on a glass chip, "Play it out loud" in the phone's voice, the guide pointing at it, the
- * screen at full brightness. Tapping anywhere goes back; ✕ stays top-left (Foundations).
+ * Phrase show mode (5.23), a full-screen cover: the phrase huge in white on ink with its
+ * translation in quotes under it, the language in its own name on a glass pill, "Play it out loud"
+ * beside its play disc in the phone's voice, the guide pointing at it, the screen at full
+ * brightness and the status bar in white. Tapping anywhere goes back; ✕ stays top-left
+ * (Foundations), so the language pill takes the other corner.
  */
 import { t } from '@lingui/core/macro';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { goBackOr } from '@/lib/navigation/back';
 import {
   CritterSticker,
   GlassPill,
-  Icon,
   PressableScale,
   Text,
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
-import { FullScreen } from '@/ui/premium/shell';
+import { FullScreen, StatusBarOver, useScreenInsets } from '@/ui/premium/shell';
 
+import { useLanguageNames } from '../../camera/menu-language';
 import { usePractiseHref } from '../../phrases/practise-link';
 import { usePhraseSpeech } from '../../phrases/use-phrase-speech';
 import { PHRASE_PAINT } from '../guide-paint';
@@ -27,12 +28,38 @@ import { PHRASE_PAINT } from '../guide-paint';
 /** The pointing guide leans in, as drawn. */
 const GUIDE_TILT = -8;
 
-function languageName(lang: string, locale: string): string {
-  try {
-    return new Intl.DisplayNames([locale], { type: 'language' }).of(lang) ?? lang;
-  } catch {
-    return lang;
-  }
+/**
+ * Each language in its own words, the way the person the phrase is shown to reads it. Names, not
+ * app copy: they read the same in every app language.
+ */
+/* eslint-disable lingui/no-unlocalized-strings -- language autonyms, the same in every language */
+const AUTONYMS: Readonly<Record<string, string>> = {
+  id: 'Bahasa Indonesia',
+  ms: 'Bahasa Melayu',
+  vi: 'Tiếng Việt',
+  th: 'ภาษาไทย',
+  ja: '日本語',
+  ko: '한국어',
+  zh: '中文',
+  km: 'ភាសាខ្មែរ',
+  lo: 'ພາສາລາວ',
+  tl: 'Filipino',
+  en: 'English',
+  pt: 'Português',
+  es: 'Español',
+  fr: 'Français',
+  it: 'Italiano',
+  de: 'Deutsch',
+};
+/* eslint-enable lingui/no-unlocalized-strings */
+
+/** The language's own name, else the app's name for it, else null (no pill rather than a code). */
+export function languagePillText(
+  lang: string,
+  names: Readonly<Record<string, string>>,
+): string | null {
+  const base = (lang.split('-')[0] ?? lang).toLowerCase();
+  return AUTONYMS[base] ?? names[base] ?? null;
 }
 
 export function PremiumPhraseShowScreen() {
@@ -47,9 +74,10 @@ export function PremiumPhraseShowScreen() {
   const lang = params.lang ?? 'en';
   const gloss = params.gloss ?? '';
   const th = usePremiumTheme();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   const { width } = useWindowDimensions();
   const speech = usePhraseSpeech(phrase, lang);
+  const pill = languagePillText(lang, useLanguageNames());
   const practice = usePractiseHref(
     params.practise === '1' ? { tripId: params.tripId ?? null } : undefined,
     lang,
@@ -69,9 +97,15 @@ export function PremiumPhraseShowScreen() {
           style={[StyleSheet.absoluteFill, { experimental_backgroundImage: PHRASE_PAINT.glow }]}
         />
       </View>
-      <View style={[styles.chip, { top: insets.top + 8 }]} pointerEvents="none">
-        <GlassPill label={languageName(lang, 'en')} kind="clear" />
-      </View>
+      <StatusBarOver dark />
+      {pill === null ? null : (
+        <View
+          style={[styles.chip, { top: insets.top + th.space.gap6, right: th.space.gutter }]}
+          pointerEvents="none"
+        >
+          <GlassPill label={pill} kind="clear" />
+        </View>
+      )}
       <Pressable
         style={[styles.body, { paddingTop: insets.top + 140 }]}
         accessibilityRole="button"
@@ -94,13 +128,13 @@ export function PremiumPhraseShowScreen() {
             color={th.color.onInkSurface}
             style={{ marginTop: 20, opacity: 0.7, fontStyle: 'italic' }}
           >
-            {gloss}
+            {t({ id: 'guide.premium.phrase.gloss', message: `“${gloss}”` })}
           </Text>
         )}
       </Pressable>
       <View style={[styles.foot, { paddingBottom: insets.bottom + 24 }]}>
-        <View style={styles.guide} pointerEvents="none">
-          <CritterSticker kind="gecko" name="Tokek" size={96} pose="point" />
+        <View style={[styles.guide, { bottom: insets.bottom + 8 }]} pointerEvents="none">
+          <CritterSticker kind="gecko" name="Tokek" size={76} pose="point" />
         </View>
         {speech.speak === null ? null : (
           <PressableScale
@@ -111,11 +145,14 @@ export function PremiumPhraseShowScreen() {
             testID="guide-phrase-play"
           >
             <View style={[styles.playDisc, { backgroundColor: th.accent.sun }]}>
-              <Icon
-                name={speech.speaking ? 'minus' : 'forward'}
-                size={26}
-                color={th.color.onAccent}
-              />
+              {speech.speaking ? (
+                <View style={styles.pause}>
+                  <View style={[styles.pauseBar, { backgroundColor: th.color.onAccent }]} />
+                  <View style={[styles.pauseBar, { backgroundColor: th.color.onAccent }]} />
+                </View>
+              ) : (
+                <View style={[styles.triangle, { borderLeftColor: th.color.onAccent }]} />
+              )}
             </View>
             <Text variant="rowText" color={th.color.onInkSurface} style={{ opacity: 0.75 }}>
               {t({ id: 'guide.premium.phrase.play', message: 'Play it out loud' })}
@@ -124,12 +161,17 @@ export function PremiumPhraseShowScreen() {
         )}
         {practice === undefined ? null : (
           <TextButton
+            align="center"
             label={t({ id: 'guide.phrase.practise', message: 'Practise saying it' })}
             onPress={() => router.replace(practice)}
             testID="guide-phrase-show-practise"
           />
         )}
-        <Text variant="captionMuted" color={th.color.onInkSurface} style={{ opacity: 0.55 }}>
+        <Text
+          variant="captionMuted"
+          color={th.color.onInkSurface}
+          style={{ opacity: 0.55, alignSelf: 'flex-start' }}
+        >
           {t({
             id: 'guide.premium.phrase.hint',
             message: 'Brightness up · tap anywhere to close',
@@ -141,10 +183,11 @@ export function PremiumPhraseShowScreen() {
 }
 
 const styles = StyleSheet.create({
-  chip: { position: 'absolute', alignSelf: 'center' },
+  chip: { position: 'absolute', zIndex: 1 },
   body: { flex: 1, paddingHorizontal: 30 },
-  foot: { alignItems: 'center', gap: 14 },
-  play: { alignItems: 'center', gap: 8 },
+  // As drawn: the play row well clear of the caption, the guide at the foot inside the gutter.
+  foot: { alignItems: 'flex-start', gap: 44, paddingHorizontal: 30 },
+  play: { flexDirection: 'row', alignItems: 'center', gap: 14 },
   playDisc: {
     width: 64,
     height: 64,
@@ -152,10 +195,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  // The play glyph: a triangle a little right of centre, as a play mark sits optically.
+  triangle: {
+    width: 0,
+    height: 0,
+    marginLeft: 5,
+    borderLeftWidth: 20,
+    borderTopWidth: 12,
+    borderBottomWidth: 12,
+    borderTopColor: 'transparent',
+    borderBottomColor: 'transparent',
+  },
+  pause: { flexDirection: 'row', gap: 6 },
+  pauseBar: { width: 6, height: 22, borderRadius: 2 },
   guide: {
     position: 'absolute',
-    right: 12,
-    bottom: 60,
+    right: 28,
     transform: [{ rotate: `${GUIDE_TILT}deg` }],
   },
 });

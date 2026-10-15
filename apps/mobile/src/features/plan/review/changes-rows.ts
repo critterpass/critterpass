@@ -15,7 +15,8 @@ import { weekdayOf } from '../day/format';
 import { dayTileColour } from '../overview/model/day-colour';
 import { changeReason, leftLine, needsMoveExplainer, placedReason, wasLine } from './changes-copy';
 import { driverPickName } from './chat-card-title';
-import type { ChangeRow, NeedsYouRow } from './changes-review-view';
+import type { NeedsYouRow } from './changes-review-props';
+import type { ChangeRow } from './changes-review-props';
 import type { LeftForYou } from './data/use-review-extras';
 import type { ChangeCard } from './model/review-model';
 

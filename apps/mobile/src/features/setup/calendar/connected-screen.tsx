@@ -6,14 +6,9 @@
  */
 import { t } from '@lingui/core/macro';
 import { useEffect, useRef, useState, type ComponentType } from 'react';
-import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { goBackOr } from '@/lib/navigation/back';
-import { PillButton } from '@/ui/buttons/PillButton';
-import { Scaffold } from '@/ui/surface/Scaffold';
-import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
 
 import { connectCalendarCommand } from '../data/commands';
 import type { OAuthReturn } from './oauth';
@@ -24,16 +19,6 @@ export interface CalendarConnectedViewProps {
   readonly outcome: Outcome;
   readonly onDone: () => void;
 }
-
-const useStyles = makeStyles((th) => ({
-  content: {
-    flex: 1,
-    paddingHorizontal: th.space['20'],
-    paddingTop: th.space['32'],
-    gap: th.space['12'],
-  },
-  footer: { paddingHorizontal: th.space['20'], paddingBottom: th.space['8'] },
-}));
 
 /** What the page says for each way the sign-in came back, for either look. */
 export function connectedWords(outcome: Outcome): {
@@ -73,39 +58,13 @@ export function connectedWords(outcome: Outcome): {
   }[outcome];
 }
 
-export function CalendarConnectedView({ outcome, onDone }: CalendarConnectedViewProps) {
-  const styles = useStyles();
-  const theme = useTheme();
-  const copy = connectedWords(outcome);
-  return (
-    <Scaffold variant="dark" edges={['top', 'bottom']} testID={`calendar-connected-${outcome}`}>
-      <View style={styles.content}>
-        <Text variant="h1" accessibilityRole="header">
-          {copy.title}
-        </Text>
-        <Text variant="body" color={theme.semantic.text.secondary}>
-          {copy.line}
-        </Text>
-      </View>
-      <View style={styles.footer}>
-        <PillButton
-          label={t({ id: 'setup.connected.back', message: 'Back to setup' })}
-          onPress={onDone}
-          disabled={outcome === 'connecting'}
-          testID="calendar-connected-back"
-        />
-      </View>
-    </Scaffold>
-  );
-}
-
 export function CalendarConnectedScreen({
   result,
-  View = CalendarConnectedView,
+  View,
 }: {
   readonly result: OAuthReturn;
-  /** How the page is drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<CalendarConnectedViewProps>;
+  /** How the page is drawn. */
+  readonly View: ComponentType<CalendarConnectedViewProps>;
 }) {
   const { send } = useCommand(connectCalendarCommand);
   const [outcome, setOutcome] = useState<Outcome>(

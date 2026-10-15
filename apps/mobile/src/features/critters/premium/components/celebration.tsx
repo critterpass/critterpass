@@ -34,6 +34,13 @@ function wedges(size: number) {
   return path;
 }
 
+/** An `rgba()` colour at zero alpha ("rgba(84,214,164,.25)" → "rgba(84,214,164,0)"). */
+function clearOf(color: string): string {
+  const match = /^rgba\(([^,]+),([^,]+),([^,]+),[^)]+\)$/u.exec(color.replace(/\s/gu, ''));
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS colour, never copy.
+  return match === null ? 'transparent' : `rgba(${match[1]},${match[2]},${match[3]},0)`;
+}
+
 export function Rays({
   size = 700,
   color,
@@ -49,6 +56,9 @@ export function Rays({
 }) {
   const { width } = useWindowDimensions();
   const path = useMemo(() => wedges(size), [size]);
+  // The fade ends in the ray's own colour at zero alpha: plain `transparent` is clear black, and
+  // the gradient towards it greys the rays into muddy bands.
+  const clear = useMemo(() => clearOf(color), [color]);
   return (
     <Spin
       ms={ms}
@@ -65,7 +75,7 @@ export function Rays({
           <RadialGradient
             c={vec(size / 2, size / 2)}
             r={size / 2}
-            colors={['transparent', color, color, 'transparent']}
+            colors={[clear, color, color, clear]}
             positions={[0, 0.18, 0.4, 0.62]}
           />
         </Path>

@@ -148,6 +148,7 @@ export function PremiumTicketPage() {
             </Text>
             <CrewTicket
               crew={model.crewName ?? ''}
+              code={entry.code}
               placeCode={placeCode(model.place, locale)}
               place={model.place}
               dateTag={facts.dates}
@@ -202,6 +203,7 @@ export function PremiumTicketPage() {
           />
           <View style={{ alignItems: 'center' }}>
             <TextButton
+              align="center"
               label={t({
                 id: 'onboarding.invite.ticket.lookAround',
                 message: 'Just look around first',

@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { OffersScreen } from '@/features/bookings/supplier/OffersScreen';
+import { SupplierOffersPremium } from '@/features/bookings/premium/supplier/supplier-sheets';
 
 type Params = {
   tripId?: string;
@@ -11,19 +11,9 @@ type Params = {
   stableId?: string;
 };
 
-/** Where to book one activity: live supplier offers, or partner links while those are off. */
-export default function SupplierOfferRoute() {
-  const params = useLocalSearchParams<Params>();
-  return (
-    <OffersScreen
-      params={{
-        tripId: params.tripId ?? '',
-        name: params.name ?? '',
-        date: params.date,
-        destinationRef: params.destinationRef,
-        currency: params.currency,
-        stableId: params.stableId,
-      }}
-    />
-  );
+function SupplierRoute() {
+  return <SupplierOffersPremium params={useLocalSearchParams<Params>()} />;
 }
+
+/** Where to book one activity: live supplier offers, or partner links while those are off. */
+export default SupplierRoute;

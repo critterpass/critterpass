@@ -5,9 +5,6 @@
  * too; someone on the trip, or on a trip not locked in yet, never does; someone waiting for a
  * seat reads their place instead.
  */
-jest.mock('../fade-in-view', () => ({
-  FadeInView: ({ children }: { children: unknown }) => children,
-}));
 
 import { afterAll, afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
@@ -20,7 +17,10 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import type { SyncTransport, TransportResponse } from '@/data/powersync/transport';
 import { motionFreeze } from '@/motion/slowmo';
 
-import { HomeScreen } from '../home-screen';
+// The store SDK is a native boundary Home never calls here.
+jest.mock('react-native-purchases', () => ({ __esModule: true, default: {} }));
+
+import { HomePremiumScreen } from '../premium/home-premium-screen';
 import { renderHome, seedCrew, seedTrip, TRIP, until } from '../test-support/home-harness';
 
 const DAY = 86_400_000;
@@ -100,7 +100,7 @@ describe('a crew member who is not on the trip', () => {
     });
     const s = await open(api.transport);
     await seedTripWith(s, 'in_trip', null);
-    await renderHome(<HomeScreen />, s);
+    await renderHome(<HomePremiumScreen />, s);
     await until(() => screen.queryByTestId('home-join-trip') !== null);
     // The card's headline face sets its line in capitals.
     expect(screen.getByText(/^the bali six is in bali right now\.$/i)).toBeTruthy();
@@ -122,7 +122,7 @@ describe('a crew member who is not on the trip', () => {
   it('offers a confirmed trip to someone who said out', async () => {
     const s = await open();
     await seedTripWith(s, 'confirmed', { rsvp: 'out' });
-    await renderHome(<HomeScreen />, s);
+    await renderHome(<HomePremiumScreen />, s);
     await until(() => screen.queryByTestId('home-join-trip') !== null);
     expect(screen.getByText(/^the bali six is going to bali\.$/i)).toBeTruthy();
   });
@@ -130,7 +130,7 @@ describe('a crew member who is not on the trip', () => {
   it('shows their place in line instead once they wait for a seat', async () => {
     const s = await open();
     await seedTripWith(s, 'in_trip', { rsvp: 'waitlisted', position: 2 });
-    await renderHome(<HomeScreen />, s);
+    await renderHome(<HomePremiumScreen />, s);
     await until(() => screen.queryByTestId(`waitlist-${TRIP}`) !== null);
     expect(screen.getByText('You’re number 2 for a seat on Bali')).toBeTruthy();
     expect(screen.queryByTestId('home-join-trip')).toBeNull();
@@ -141,7 +141,7 @@ describe('everyone else', () => {
   it('shows no card to someone on the trip', async () => {
     const s = await open();
     await seedTripWith(s, 'in_trip', { rsvp: 'in' });
-    await renderHome(<HomeScreen />, s);
+    await renderHome(<HomePremiumScreen />, s);
     await until(() => screen.queryByTestId('home-in-trip') !== null);
     expect(screen.queryByTestId('home-join-trip')).toBeNull();
   });
@@ -149,7 +149,7 @@ describe('everyone else', () => {
   it('shows no card while the trip is still proposed', async () => {
     const s = await open();
     await seedTripWith(s, 'proposed', null);
-    await renderHome(<HomeScreen />, s);
+    await renderHome(<HomePremiumScreen />, s);
     await until(() => screen.queryByTestId('home-mode-everyday') !== null);
     expect(screen.queryByTestId('home-join-trip')).toBeNull();
   });

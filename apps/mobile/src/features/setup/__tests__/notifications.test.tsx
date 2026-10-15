@@ -31,7 +31,7 @@ import {
   SETUP_ASK_CATEGORY,
   SetupNotificationActions,
 } from '../notifications';
-import { TRIP_ID } from '../scenes/fixtures';
+import { TRIP_ID } from '../test-support/setup-fixtures';
 import { renderSetup } from '../test-support/setup-harness';
 
 const ASK_ID = '0199a6f0-0000-7000-8000-00000000f001';

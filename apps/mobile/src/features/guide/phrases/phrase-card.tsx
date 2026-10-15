@@ -8,13 +8,8 @@
  * practice on this phrase (an undesigned link, logged in docs/undesigned-states.md).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths, never copy. */
-import { useLingui } from '@lingui/react/macro';
 import { router, type Href } from 'expo-router';
-import { Pressable } from 'react-native';
-
-import { Stack, Text, useTheme } from '@/ui';
-import { TextLink } from '@/ui/buttons/TextLink';
-import { PhraseCard as PhraseCardSurface } from '@/ui/trip/PhraseCard';
+import type { ComponentType } from 'react';
 
 import { usePractiseHref, type PractiseFrom } from './practise-link';
 
@@ -34,6 +29,8 @@ export interface PhraseCardProps {
   /** Offers practising this phrase out loud (never on the practice screen's own card). */
   readonly practise?: PractiseFrom;
   readonly testID?: string;
+  /** The card's drawing. */
+  readonly View: ComponentType<PhraseCardViewProps>;
 }
 
 export function showModeHref(
@@ -54,7 +51,7 @@ export function showModeHref(
   };
 }
 
-export interface PhraseCardViewProps extends Omit<PhraseCardProps, 'audioKey'> {
+export interface PhraseCardViewProps extends Omit<PhraseCardProps, 'audioKey' | 'View'> {
   /** Opens phrase practice on this phrase; absent when practice is not offered here. */
   readonly onPractise?: (() => void) | undefined;
   readonly playerState: PhrasePlayerState;
@@ -64,78 +61,7 @@ export interface PhraseCardViewProps extends Omit<PhraseCardProps, 'audioKey'> {
   readonly deviceVoice?: boolean;
 }
 
-export function PhraseCardView({
-  phrase,
-  lang,
-  gloss,
-  eyebrow,
-  tone = 'paper',
-  testID = 'guide-phrase-card',
-  playerState,
-  onPlay,
-  deviceVoice = false,
-  practise,
-  onPractise,
-}: PhraseCardViewProps) {
-  const { t } = useLingui();
-  const theme = useTheme();
-  return (
-    <Stack gap="6">
-      <Pressable
-        accessibilityRole="button"
-        accessibilityHint={t({
-          id: 'guide.phrase.showHint',
-          message: 'Opens the phrase full screen to show',
-        })}
-        onPress={() => router.push(showModeHref(phrase, lang, gloss, practise))}
-      >
-        <PhraseCardSurface
-          phrase={phrase}
-          lang={lang}
-          translation={`“${gloss}”`}
-          tone={tone}
-          playing={playerState === 'playing'}
-          testID={testID}
-          {...(eyebrow === undefined ? {} : { eyebrow })}
-          {...(onPlay === undefined ? {} : { onPlay })}
-        />
-      </Pressable>
-      {playerState === 'loading' ? (
-        <Text variant="caption" color={theme.semantic.text.secondary} testID="guide-phrase-loading">
-          {t({ id: 'guide.phrase.loading', message: 'Getting the audio…' })}
-        </Text>
-      ) : deviceVoice ? (
-        <Text
-          variant="caption"
-          color={theme.semantic.text.secondary}
-          testID="guide-phrase-device-voice"
-        >
-          {t({ id: 'guide.phrase.deviceVoice', message: "Read in your phone's voice" })}
-        </Text>
-      ) : playerState === 'unavailable' ? (
-        <Text
-          variant="caption"
-          color={theme.semantic.text.secondary}
-          testID="guide-phrase-unavailable"
-        >
-          {t({
-            id: 'guide.phrase.unavailable',
-            message: "The audio isn't on this phone yet. Tap the card to show it instead.",
-          })}
-        </Text>
-      ) : null}
-      {onPractise === undefined ? null : (
-        <TextLink
-          label={t({ id: 'guide.phrase.practise', message: 'Practise saying it' })}
-          onPress={onPractise}
-          testID={`${testID}-practise`}
-        />
-      )}
-    </Stack>
-  );
-}
-
-export function PhraseCard({ audioKey = null, ...props }: PhraseCardProps) {
+export function PhraseCard({ audioKey = null, View, ...props }: PhraseCardProps) {
   const practice = usePractiseHref(props.practise, props.lang, props.phrase);
   const onPractise = practice === undefined ? undefined : () => router.push(practice);
   const player = usePhrasePlayer(audioKey);
@@ -144,7 +70,7 @@ export function PhraseCard({ audioKey = null, ...props }: PhraseCardProps) {
   const unplayable = audioKey === null || player.state === 'unavailable';
   if (unplayable && speech.speak !== null) {
     return (
-      <PhraseCardView
+      <View
         {...props}
         playerState={speech.speaking ? 'playing' : 'idle'}
         onPractise={onPractise}
@@ -154,7 +80,7 @@ export function PhraseCard({ audioKey = null, ...props }: PhraseCardProps) {
     );
   }
   return (
-    <PhraseCardView
+    <View
       {...props}
       playerState={player.state}
       onPractise={onPractise}

@@ -1,9 +1,13 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { SetScreen } from '@/features/critters/dex/set-screen';
+import { PremiumSetScreen } from '@/features/critters/premium/set/set-screen';
+
+function useSetId(): string {
+  const { setId } = useLocalSearchParams<{ setId: string }>();
+  return typeof setId === 'string' ? setId : '';
+}
 
 /** One place set (3l-8). */
-export default function CritterSetRoute() {
-  const { setId } = useLocalSearchParams<{ setId: string }>();
-  return <SetScreen setId={typeof setId === 'string' ? setId : ''} />;
+export default function SetRoute() {
+  return <PremiumSetScreen setId={useSetId()} />;
 }

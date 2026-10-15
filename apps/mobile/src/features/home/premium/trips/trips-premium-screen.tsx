@@ -5,10 +5,11 @@
  * spring; with no trips the page is the empty passport. The ink `+` starts a vote in the crew.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths, filter values and SF Symbols. */
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
@@ -20,7 +21,7 @@ import {
   makePremiumStyles,
   usePremiumTheme,
 } from '@/ui/premium';
-import { RootScreen, type ShellAction } from '@/ui/premium/shell';
+import { RootScreen, TabPageScroll, type ShellAction } from '@/ui/premium/shell';
 
 import { tripDay } from '../../format';
 import { guideArt } from '../../guide-art';
@@ -48,6 +49,7 @@ const useStyles = makePremiumStyles((t) => ({
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: t.space.gap10 },
   half: { width: '48.5%' },
   filter: { alignSelf: 'flex-start' },
+  titleBleed: { marginHorizontal: -t.space.gutter },
 }));
 
 export function TripsPremiumScreen() {
@@ -104,8 +106,9 @@ export function TripsPremiumScreen() {
       testID="trip-list"
     >
       {({ scrollProps, largeTitle }) => (
-        <ScrollView {...scrollProps} contentContainerStyle={styles.content}>
-          {largeTitle}
+        <TabPageScroll {...scrollProps} contentContainerStyle={styles.content}>
+          {/* The drawn title keeps its own 24 pt inset from the screen edge, not from the gutter. */}
+          {largeTitle === null ? null : <View style={styles.titleBleed}>{largeTitle}</View>}
           {!trips.loaded ? (
             <View style={{ gap: theme.space.gap16 }} testID="trip-list-loading">
               <Skeleton height={312} radius={34} tone="block" />
@@ -159,7 +162,7 @@ export function TripsPremiumScreen() {
                     <Text variant="label" tone="muted">
                       {t({
                         id: 'home.premium.trips.comingCount',
-                        message: `${comingCount} trips`,
+                        message: plural(comingCount, { one: '# trip', other: '# trips' }),
                       })}
                     </Text>
                   </View>
@@ -212,7 +215,7 @@ export function TripsPremiumScreen() {
               )}
             </>
           )}
-        </ScrollView>
+        </TabPageScroll>
       )}
     </RootScreen>
   );

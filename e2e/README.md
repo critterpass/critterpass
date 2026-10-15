@@ -1,8 +1,19 @@
 # Maestro flows
 
-One folder per area (`e2e/<area>/*.yaml`); `subflows/` and `_shared/` hold pieces other flows
-run, and `spikes/` holds exploratory flows outside the suite. Flows named `*-ios.yaml` or
-`*-android.yaml` run on that platform only.
+Every flow drives the premium UI, the app's only UI. `e2e/happy/` is the release gate,
+`e2e/screens/` the design | device sweep, and the area folders keep the flows for what neither
+covers (links, location, permissions, notifications, Live Activities, offline restore, sign-in);
+`subflows/` and `_shared/` hold pieces other flows run, and `spikes/` holds the native-surface spikes
+outside the suite. Flows named `*-ios.yaml` or `*-android.yaml` run on that platform only.
+
+### Shared helpers
+
+Shared helpers in `_shared/`: `tap.yaml` (an id, or the label when an iOS 26 toolbar or tab bar item
+has no id in the hierarchy), `tab.yaml` (the system tab bar), `back.yaml` (one step back: the edge
+swipe on iOS, the system back on Android), `back-to.yaml` (Cancel, ✕ or back until a mark shows),
+`to-home.yaml`, `open-dev-tools.yaml` (Home's "Developer tools" entry at its foot, never
+`openLink`), `open-link.yaml`, `switch-language.yaml` (PASS → Settings → Language) and
+`seed-demo.yaml`.
 
 ## Device runs on GitHub Actions
 
@@ -14,7 +25,7 @@ x86_64 Google APIs image). No local simulator is involved.
 ### Triggering
 
 - **Manually:** Actions → device → Run workflow, or
-  `gh workflow run device.yml -f platform=ios -f flows="e2e/smoke e2e/home"`.
+  `gh workflow run device.yml -f platform=android -f flows="e2e/smoke e2e/happy/chat.yaml"`.
 - **On a pull request:** add the `device-run` label. The run covers the three default journeys
   (`e2e/happy/onboarding.yaml`, `vote.yaml` and `money.yaml`: the short, stable ones) on Android in
   `flows` mode, one a shard, and repeats on every push while the label stays. It is not a required
@@ -44,7 +55,7 @@ as an annotation and in the job summary. In `capture` and `compare` modes the im
 orphan `screenshots` branch under `<pr>/run-<run id>/`, and one comment on the pull request
 embeds them.
 
-Every screenshot a shard takes also goes through three pixel checks
+Every screenshot a shard takes also goes through six pixel checks
 (`tools/scripts/ci-device/screen-checks.ts`), and any finding fails the shard like a `[ui-qa]`
 report, lands in `screen-checks.log` and is listed at the top of the pull request comment:
 
@@ -54,13 +65,48 @@ report, lands in `screen-checks.log` and is listed at the top of the pull reques
 - `KEYBOARD_BAND`: with the keyboard up, a full-width band of one colour that isn't the screen's
   own background sits right above it (a footer pushed up with a black gap under it).
 - `EMPTY_SCREEN`: under a quarter of the screen's rows show anything but its background.
+- `SHEET_TOP_GAP`: an open sheet is empty for more than 5% of the screen under its grabber (or its
+  top edge, for a sheet drawn without one): the top safe-area inset applied again inside the sheet,
+  or a sheet whose body never drew. Its header row belongs right under the grabber.
+- `SHADOW_CUT`: a soft shadow stops in a straight line over the ground it was fading into: the
+  scroll row or box it sits in clips it (a chip row's shadows cut flat under the chips).
+- `CARD_AT_EDGE`: a card's rounded corners sit at the screen's side, with no gutter.
+
+Content under the status bar is judged in the app instead (`TEXT_UNDER_STATUS_BAR`, below): from
+pixels alone a title under the clock can't be told reliably from a full-bleed photo or map, and
+the status bar's height differs per phone.
 
 `pnpm tsx tools/scripts/ci-device/screen-scan.ts <dir>` runs them on any folder of screenshots.
 
-The app's own `[ui-qa]` reports come from dev and e2e builds (`apps/mobile/src/ui/qa`): cut or
+The app's own `[ui-qa]` reports come from dev and e2e builds (`apps/mobile/src/lib/qa`): cut or
 split text, one-line labels that wrapped, stickers without their edge or image, Home header controls
 that overlap or leave the screen, pushed screens with no back or close control, and icons that
-draw nothing. A label the design does set on two lines says so on its `Text` with
+draw nothing. Once a screen's layouts settle, its focused screens are also measured whole
+(`layout-scan.ts`, read from React's committed tree, so no component opts in):
+
+- `TEXT_OVERLAP`: two texts' glyphs drawn over each other (where the words of each line draw,
+  without the leading a caption and its value share by design).
+- `TEXT_OVER_CONTROL`: a text and a control it is not part of drawn over each other (an eyebrow
+  under the back button, a title under a row's more button). A control laid over the whole text
+  (a tap area over a card) is the text's own row.
+- `TEXT_CLIPPED`: a text cut by an ancestor with `overflow: 'hidden'`.
+- `TEXT_PAST_PADDING`: a text closer than 6 pt to the edge of the card it sits on (a surface with
+  a ground and all four corners rounded, at least 120 × 56 pt).
+- `TEXT_UNDER_STATUS_BAR`: a text above the top safe-area inset before anyone scrolls.
+- `TEXT_SQUEEZED`: a text wrapped into four lines or more in under 40% of a card at least 280 pt
+  wide (a guide's note whose action took most of the row).
+- `CONTROL_MISALIGNED`: a text button stacked under a wide button with centred words, on the same
+  surface, with its words off that centre (a "Cancel" set at the left edge under a centred primary).
+
+What a surface drawn later covers is not judged (the card behind in a deck, the page under a
+sheet, a panel over a photo, a card-sized control), a text its clip shows less than half of (the
+reels of a rolling number) is judged only where its window shows it, nor are the words drawn into
+artwork (a view read as one image, such
+as a stamp). Content in a scroll view is only judged against the screen's fixed parts while it is
+at rest and the fixed part is in the top 30% (a floating header), so content scrolling under a
+header or sitting under a footer is not reported; map labels are never compared. Each report names
+the screen (route) and the text's testID or nearest testID ancestor with its words (digits as `#`).
+A label the design does set on two lines says so on its `Text` with
 `singleLine={false}`, the one exemption from the wrap check; `git grep 'singleLine={false}'` lists
 every one for review. A screen that is sparse on purpose opts out of `EMPTY_SCREEN` (and only that
 check) in `tools/scripts/ci-device/sparse-by-design.ts`, the pixel checks' counterpart: its shot
@@ -112,9 +158,10 @@ The local tools publish the current JS to the shared `e2e-test` update channel, 
 once could load each other's JS. The workflow never publishes an update:
 
 1. The prepare job finds the newest e2e-test build for the native fingerprint (or takes
-   `build_url`), exports this commit's JS once per platform with `expo export:embed --bytecode`
-   (Hermes, the development variant, the commit inlined as `EXPO_PUBLIC_JS_COMMIT`) and plans
-   the shards.
+   `build_url`) and plans the shards. Beside it from the run's start, the bundles job exports this
+   commit's JS once per platform with `expo export:embed --bytecode` (Hermes, the development
+   variant, the commit inlined as `EXPO_PUBLIC_JS_COMMIT`) while the shards boot their simulators
+   and emulators, which wait for it (`tools/scripts/ci-device/wait-bundles.sh`).
 2. Each iOS shard copies the simulator `.app`, replaces `main.jsbundle` and its assets, sets
    `EXUpdatesEnabled` to false and `EXUpdatesCheckOnLaunch` to `NEVER` in `Expo.plist`, re-signs
    it ad hoc and installs it on its own fresh simulator.
@@ -125,15 +172,27 @@ once could load each other's JS. The workflow never publishes an update:
    since the build are missing on Android (they live in the APK's compiled resources); iOS gets
    them with the bundle.
 
-The prepare job fails when the exported bundle does not carry the commit, and every shard
-first runs `tools/scripts/ci-device/js-commit.yaml`, which reads the Developer tools build marker
-(`update:embedded js:<commit>`) to prove the app runs this run's JS.
+The bundles job fails when the exported bundle does not carry the commit, and every shard fails
+unless the app ran this run's JS in every flow: dev and e2e builds log `[qa-build] js:<commit>`
+when they start, into the report log the `[ui-qa]` scan reads after each flow
+(`tools/scripts/ci-device/js-commit-proof.ts`), so no flow opens Developer tools for it.
+
+### The settled marker
+
+Dev and e2e builds draw a 2pt invisible box at the screen's bottom-left corner
+(`apps/mobile/src/lib/qa/settled-marker.tsx`): its id is `qa-settled` once the layout scan has
+measured the screens shown, `qa-busy` from the next layout or navigation until then, and its label
+is `js:<commit> path:<route>`. `_shared/settle.yaml` waits on it before every screenshot and after
+taps, instead of `waitForAnimationToEnd` (which compares screenshots until two agree, seconds a
+frame on a runner without a GPU), and `_shared/where.yaml` reads the route into `${output.where}`
+so a flow can branch with a script condition: a `when: visible` on an element that is not there
+waits out Maestro's seven-second lookup.
 
 ### Shards planned by time
 
 `tools/scripts/ci-device/plan-shards.ts` balances a run's shards by total flow time, not by count:
 the longest flow first, each to the shard with the least time so far. The times are the median
-minutes of each flow's passing Android runs in the release gate's reports, kept in
+minutes of each flow's passing Android runs in the release gate's reports and of the sweep's flows, kept in
 `tools/scripts/ci-device/flow-durations.ts`; a flow with no row counts as five minutes. The plan
 step prints each shard's flows and their minutes.
 
@@ -223,30 +282,54 @@ The scripts live in `tools/scripts/ci-device/`.
 
 ## UI sweep
 
-`e2e/screens/sweep/` visits every user-facing screen and sheet the app can reach, in English and
-Vietnamese: one flow per demo seed scenario (`onboarding`, `first-run` for an account with no crew,
-then the `everyday`, `inbox`, `caught_up`, `vote` and `vote_final` seeds of
-`e2e/_shared/seed-demo.yaml`), with the keyboard up wherever a screen has a field. Screens no seed
-reaches are swept from their developer labs (`labs-*` scenarios, Android only): they run the areas'
-own `${PREFIX}` scene subflows, or `subflows/lab-scene.yaml` for one scene, with the sweep's
-language, and the coverage report follows those files for their screenshots. The steps live in
-`subflows/<scenario>.yaml` and name each screenshot `<lang>-<design id>-<state>` (or a route name
-for screens without a design), so `compare` mode pairs it with its render. The top-level flows are
-generated: after adding a scenario, run `pnpm tsx tools/scripts/ci-device/sweep-coverage.ts
---write`. The sweep runs:
+`e2e/screens/` captures the premium design | device sheets, one flow per journey part:
+`first-run`, `home`, `plan-vote`, `plan`, `chat`, `critters`, `trip`, `wallet` and `pass` (light,
+then dark for each part's key screens), `vi` and `vi-trip` in Vietnamese, and `long-data`: the
+long real data the demo world's short names never test, from the `week_crew` and `week_solo` seeds
+(a locked seven-day trip at the places with the longest names and no photos, for a crew of five
+whose given names and crew name are as long as the app allows, so a long forward address, and for
+a crew of one), each shot named with `-long` after its state. Each starts from a
+seed scenario (`subflows/start.yaml`, `_shared/start-as.yaml`) or a cleared install
+(`subflows/fresh.yaml`) and is a capture sweep: a state that does not come up is skipped, never
+failed. `subflows/shot.yaml` names each screenshot `premium-<code>-<state>-<look>`, so compare mode
+pairs it with `docs/design-renders/premium/<code>.png` and titles it from that folder's
+`screens.json`.
 
-- on demand: `gh workflow run device.yml -f preset=sweep -f platform=android -f shards=7 [-f pr=<n>]`;
+The sweep runs:
+
+- on demand: `gh workflow run device.yml -f preset=sweep -f platform=android [-f pr=<n>]`, on
+  sixteen shards balanced by flow time (the longest flows are split into light and dark halves,
+  `*-dark.yaml`);
+- on an iPhone: `gh workflow run device.yml -f preset=sweep -f platform=ios [-f pr=<n>]` runs the
+  short iOS set in `e2e/screens/ios-sweep.txt` on four shards (one of the five macOS runners
+  stays free for CI's macOS jobs):
+  native sheets and their grabber, keyboards, floating headers under the status bar and footers
+  pinned over content (`e2e/screens/ios/`), the link captures (`capture`, `links-trip`,
+  `links-home`: every trip page, Home and the tabs, dark for the main ones) and the wallet and
+  first-run journeys, so it shoots every screen the Android sweep shoots in light. The founder's iPhone found what the
+  Android sweep passed (a sheet's doubled top inset, titles under the clock), so this leg runs
+  before every TestFlight build (see the release gate);
 - every night on main (the `schedule` trigger): the whole sweep on Android, and its English flows
-  (without the Android-only `labs-*`) on one iOS shard, posting the sheets, the check findings and the coverage report to the open
-  "Nightly UI sweep" issue.
+  (`vi*.yaml` left out) on one iOS shard, posting the sheets, the check findings and the coverage
+  report to the open "Nightly UI sweep" issue.
 
-`sweep-coverage.ts` (no flags) prints the coverage report: the screens the app registers
-(`registerScreens`) and the routes under `apps/mobile/src/app` with no sweep screenshot. Every
-route is listed in its `ROUTE_SHOTS` table with the screenshots that show it, or why the sweep can't
-reach it. Gaps don't fail CI (other areas add screens at their own pace); they show in every sweep
-comment, so add the missing steps to the sweep when a new screen or route appears there.
+Two sweep flows are not journeys. `capture.yaml` is the fast capture: each screen the seed sets is
+opened by its link (`subflows/capture.yaml`: `openLink critterpass-dev://<route>`, wait for
+`qa-settled` on that route, shoot), seconds a screen; add a screen there when its state needs no
+taps. `links-trip.yaml` and `links-home.yaml` do the same for a trip's pages and the crew's, with the
+ids read from the QA marker (`subflows/trip-id.yaml`, `subflows/crew-id.yaml`). A capture whose
+screen never showed is still shot and named in the flow's log, and `subflows/capture-done.yaml`
+fails the flow once every screenshot is taken, so a sweep that skipped designs never reads as
+passed. `menus.yaml` long-presses the crew chat's message and a plan stop and taps every row of each
+menu, and fails when a row shows nothing (no strip, toast, sheet, question or screen).
 
-Section 7 planning screens (`7a-1` … `7i-2`) name shots `<lang>-7x-n-<state>` like every design id (`en-7b-1-day`, `vi-7f-1-add`); a state the design does not draw keeps the nearest 7x id plus a state suffix (`en-7b-1-member-suggest`), never an old `3d`/`3e` id.
+Every sweep comment lists what the run's screenshots captured against the premium designs, per
+platform ("This run captured"), above the sweep's own coverage report.
+`pnpm tsx tools/scripts/ci-device/sweep-coverage.ts` prints the coverage report: the premium
+designs (`screens.json`) the sweep never shoots, and the routes under `apps/mobile/src/app` with no
+sweep shot. Every route is listed in its `ROUTE_SHOTS` table with the design codes that show it, or
+why the sweep can't reach it. Gaps don't fail CI; they show in every sweep comment, so add the
+missing steps to `e2e/screens` when a new screen or route appears there.
 
 ## Starting a flow: "start as"
 
@@ -303,50 +386,35 @@ the scenario yet".
 
 ## Journeys
 
-`e2e/journeys/` holds one flow per user journey, each under four minutes of flow time, by ids
-only (a label is used where a control has no id, never text that comes from staging data):
+`e2e/journeys/` holds the user journeys the release gate does not walk, by ids only (a label is
+used where a control has no id, never text that comes from staging data):
 
-| Flow         | Start                  | Journey                                                                                         |
-| ------------ | ---------------------- | ----------------------------------------------------------------------------------------------- |
-| `onboarding` | fresh install, real UI | name → avatar → taste → home → pass issued → Home → the session survives a relaunch             |
-| `home`       | start as `inbox`       | countdown, tip and bell → inbox → answer the card → UNDO the guide's change → TRIPS, WALLET, PASS |
-| `money`      | start as `trip_today`  | add ₫450,000 split by share → its detail → Settle up → request a payment → confirm it arrived    |
-| `vote`       | start as `vote`        | pitch Cusco → it joins the board → vote for it → GO TO FINAL → the last ballot → reveal → SET UP |
-| `chat`       | start as `everyday`    | send → it is taken (reactions offered) → reply with its quote → a poll and a vote → an @mention  |
-| `bookings`   | start as `trip_today`  | WALLET → BOOKINGS → paste the flight home → ADD → its details → an activity by hand → delete it  |
-| `trip-day`   | start as `trip_today`  | TRIPS hub → day-of → I'M UP → pack list tick → a flight typed in → I LANDED → relaunch → tick kept |
-| `plan-edit`  | start as `trip_today`  | PLAN → day 1 → search → add a stop → move it to day 2 → a place saved to Ideas → relaunch keeps it |
-| `guide`      | start as `everyday`    | guide button → ask → streamed answer → JUST ME has its own thread → GROUP brings it back          |
-| `join-by-code` | start as `crew_with_code` for the code, then a fresh install in Vietnamese | splash "Got a code?" → code → JOIN → name and home → pass issued → manifest → Home shows the crew |
-| `invite-link` | fresh install, real UI, the test number | organiser starts a crew → fresh install opened by the crew link → ticket → pass → saved with a phone → manifest → Home shows the crew |
+| Flow      | Start                                   | Journey                                                                                   |
+| --------- | --------------------------------------- | ----------------------------------------------------------------------------------------- |
 | `account` | fresh install, real UI, the test number | crew → sign out warns → pass saved with a phone → sign out → sign in → delete → restore → crew back |
-| `first-trip` | fresh install, real UI, home Ho Chi Minh City | START A CREW → Đà Nẵng locked in → dates, budget in đồng, rooms, a must-do → the guide's draft → a day changed → LOCK IT IN → trip hub |
-| `proposal` | start as `draft_ready` | the friend joins → SEND THE PLAN → build → send → tracker: no reply → the friend boards → drops out → change list applied |
-| `join-under-way` | start as `trip_today` | crew settings → remove a crewmate (frees a seat) → the friend joins with the code → an expense by share has their row |
-| `critters` | start as `trip_today` | PASS → the egg card's button → the ceremony to its reveal → FOUND → the set page → hub → QUESTS |
-| `paywall` | start as `everyday` | PASS face → Settings → plan chip → Your plan (free) → the paywall → What's in each → back (nothing bought: the only store is the real one) |
-| `suppliers` | start as `trip_today` | day plan search → a museum's page → Tickets and tours → OPEN KLOOK → the browser takes over → back, no error on the card |
+| `paywall` | start as `everyday`                     | PASS → Settings → plan chip → Your plan (free) → the paywall → What's in each → back (nothing bought) |
 
 ```sh
-gh workflow run device.yml --ref <branch> -f platform=android -f mode=flows -f shards=2 \
-  -f flows="e2e/journeys/onboarding.yaml e2e/journeys/home.yaml"
+gh workflow run device.yml --ref <branch> -f platform=android -f mode=flows -f shards=1 \
+  -f flows="e2e/journeys/account.yaml e2e/journeys/paywall.yaml"
 ```
 
-Shared controls answer under their owner's id: a `Composer`'s field, "+" and send are
-`<id>-field`, `<id>-attach` and `<id>-send`; a `Segmented` option is `<id>-<value>`
-(`wallet-switch-bookings`, `guide-modes-private`); a `ConfirmSheet`'s buttons are `<id>-confirm` and
-`<id>-cancel`; a `SettingsGroup` row is `settings-row-<key>` (the chat's `settings-row-reply`,
-`settings-row-poll`); a `TileGrid` tile is `tile-<key>` (`tile-paste`).
+Shared controls answer under their owner's id: a `SegmentedControl` option is `<id>-<value>`
+(`wallet-switch-bookings`, `guide-mode-private`, `money-add-mode-weights`); a `Stepper`'s buttons
+are `<id>-up` and `<id>-down`; a `ChoiceRow` chip is `<id>-<value>` (`bookings-form-days-<date>`);
+a `GlassMenu` item is `<id>-<key>` (`stop-menu-move`); a month grid's arrows are `<id>-previous`
+and `<id>-next` (`picker-next`). A premium `Composer`'s field carries the composer's id and its
+send is the button labelled with its verb ("Ask", "Send"); a `GuideNote`'s button has no id and is
+tapped by its label inside the note. System alerts (`confirmAlert`) are matched by their title and
+buttons.
 
-`invite-link` and `account` save a pass with the staging test number (`OTP_TEST_CODE`), free it
-first and erase their account at the end (`journeys/subflows/free-test-number.yaml`,
-`erase-test-account.yaml`): keep the two on one shard, since each would erase the other's account.
-`first-trip` waits for staging's AI draft and a redraft, so it runs longer than four minutes.
+`account` saves a pass with the staging test number (`OTP_TEST_CODE`), frees it first and erases
+its account at the end (`journeys/subflows/free-test-number.yaml`, `erase-test-account.yaml`).
 
-A new journey starts with `_shared/start-as.yaml` (`onboarding`, `invite-link`, `account` and
-`first-trip` walk the real screens: an account, a saved pass or an empty Home is their subject),
-brings other people in through the runner's `friend` and `trip-day` scenarios, and adds a seed
-scenario (with its database test) when no existing one holds the state it needs.
+A new journey starts with `_shared/start-as.yaml` (a fresh install only when an account, a saved
+pass or an empty Home is its subject), brings other people in through the runner's `friend` and
+`trip-day` scenarios, and adds a seed scenario (with its database test) when no existing one holds
+the state it needs.
 
 ## Release gate (happy paths)
 
@@ -366,7 +434,7 @@ staging's AI, so those flows allow a few minutes for them.
 | Flow | Start | Journey |
 | --- | --- | --- |
 | `onboarding` | fresh install | name → avatar → taste → home → pass issued → Home, and the session survives a relaunch |
-| `fresh-home-trip` | fresh install | a crew under a long name → PITCH A PLACE → Home and the TRIPS hub with a trip still voting, in English and Vietnamese |
+| `fresh-home-trip` | fresh install | a crew under a long name → Pitch a place → Home and the trip's hub still voting, in English and Vietnamese |
 | `fresh-join-code` | fresh install, twice | the organiser starts a crew → a second new account → splash "Got a code?" → JOIN → name and home → ISSUE → manifest |
 | `fresh-trip-under-way` | fresh install | crew of one from Ho Chi Minh City → Đà Nẵng from today, 3 days, budget in ₫ → draft → LOCK IT IN alone → Home and the TRIPS hub show the trip as on |
 | `home-inbox` | `inbox` | Home's countdown, plan progress, tip and bell → inbox → answer a card → undo |
@@ -377,18 +445,18 @@ staging's AI, so those flows allow a few minutes for them.
 | `drafting` | `vote_final` | setup, then the draft ready → private review → change a day → keep |
 | `money`, `by-share` | `caught_up` | add an expense → balances → settle up; an expense split by share |
 | `bookings` | `caught_up` | paste a confirmation → candidate → ADD → wallet stack → the flight's details |
-| `suppliers` | `caught_up` | activity cards → OPEN KLOOK → click recorded → the partner redirect |
-| `trip-day` | `caught_up` | hub → day-of → pack list tick → relaunch → offline card |
-| `critters` | `crew_with_code` | PASS Critterdex synced → FOUND empty → a set page → Explore at home kept after a relaunch |
+| `suppliers` | `caught_up` | Developer tools' supplier page → the live offer → Open Klook → click recorded → the partner redirect |
+| `trip-day` | `caught_up` | Your trips → hub → day-of → pack list tick → relaunch → offline card |
+| `critters` | `crew_with_code` | PASS → Critterdex synced → Found empty → a set page → Explore at home kept after a relaunch |
 | `fresh-chat` | `crew_with_code` | a pitch and an expense post their cards → a text and a voice note in the chat |
-| `fresh-crew-chat-walk` | `crew_with_code` | the organiser's first message and a pitch → a friend joins in Vietnamese and reads, reacts, mentions → an expense card |
+| `fresh-crew-chat-walk` | `crew_with_code` | the organiser's first message and a pitch → a friend joins in Vietnamese and reads, replies, reacts → an expense card |
 | `fresh-guide-chat-walk` | `crew_with_code` | the guide chat in Vietnamese, then in English after a restart |
 | `fresh-join-code-vi` | `crew_with_code` | the friend of `fresh-join-code`, reading the app in Vietnamese from the splash on |
 | `da-nang-guide` | `crew_with_code` | Đà Nẵng pitched by Chà Vá → vote → final → setup → the guide sheet is Chà Vá's |
 | `fresh-setup` | `crew_with_code` | one place locked in → dates marked free by hand → locked → budget |
 | `fresh-setup-vnd` | `crew_with_code` | Đà Nẵng locked in → dates from tomorrow, 3 days → budget in ₫ locks first time → rooms |
 | `fresh-solo-confirm` | `crew_with_code` | one place → setup → the guide's draft → LOCK IT IN alone → Home counts down |
-| `fresh-wallet` | `crew_with_code` | a solo trip to Hội An → Money in VND → BOOKINGS/MONEY → forward address → an expense → SAVE |
+| `fresh-wallet` | `crew_with_code` | a solo trip to Hội An → Money in VND → Bookings and Money halves → forward address → insurance → an expense |
 | `fresh-uncurated-draft` | `crew_with_code` | Đà Lạt (open-data places only) two weeks out, one typed must-do → a stop on every day → CHANGE A DAY → KEEP IT → Explore picks |
 | `fresh-proposal` | `draft_ready` | a friend joins → BUILD THE PROPOSAL → SEND → the friend boards from chat → the organiser locks in |
 | `fresh-dropout` | `draft_ready` | the same proposal → the friend boards, then drops out → APPLY CHANGES → locked alone |
@@ -396,9 +464,10 @@ staging's AI, so those flows allow a few minutes for them.
 | `fresh-trip-bookings` | `solo_today` | paste the flight and a stay → READY TO ADD → the forward address → a flight and an activity by hand → wallet, details in airport time, hub count → delete leaves no card |
 | `fresh-trip-money` | `solo_today` | three typed expenses in ₫ → SPENT SO FAR, LATEST, history, detail, the budget on day 1 of 3 |
 | `fresh-trip-day` | `solo_today` | hub on day 1 of 3 → day-of screen → pack list → background and reopen → relaunch → the briefing settles |
-| `fresh-trip-plan` | `solo_today` | PLAN → day 1's plan → search → ADD → moved to day 2 → a place saved in Ideas → the plan check → relaunch keeps it |
-| `fresh-critters` | `solo_today` | PASS → the egg → arriving hatches it → the critter and quest screens |
-| `fresh-trip-landing` | `solo_tomorrow` | its flight today typed in by hand → I LANDED → Home turns to the trip being on |
+| `fresh-trip-plan` | `solo_today` | the plan map → day 1 → Find → Add to plan → All days moves it to day 2 → a place saved in Ideas → the plan check → relaunch keeps it |
+| `fresh-critters` | `solo_today` | the Critterdex → the egg → arriving hatches it → the critter and quest screens |
+| `fresh-trip-landing` | `solo_tomorrow` | its flight today typed in by hand → I landed → Home turns to the trip being on |
+| `boarding-pass-ios` | `trip_tomorrow` | Wallet → Bookings → the flight on top → its details and documents (iOS gate) |
 
 The `happy` preset records every flow on video (`screenrecord` in three-minute segments on Android,
 `simctl io recordVideo` on iOS; `tools/scripts/ci-device/screen-video.ts`) and the publish job builds
@@ -419,7 +488,13 @@ on both platforms with the new builds:
 # Both find the e2e-test build that matches the native fingerprint (see Builds above):
 gh workflow run device.yml -f preset=happy -f platform=android
 gh workflow run device.yml -f preset=happy -f platform=ios -f shards=3
+# Then the iPhone leg of the UI sweep (four shards), once the happy runs have left the macOS runners:
+gh workflow run device.yml -f preset=sweep -f platform=ios
 ```
+
+The build goes out only when the happy runs pass and the iPhone sweep shows no `[ui-qa]` report or
+screen-check finding: the layout checks (overlap, clipping, a text at a card's edge or under the
+status bar, a sheet's empty top) run on that leg against iOS's own sheets, safe areas and keyboard.
 
 Add `-f pr=<n>` to post the report to a pull request instead of the issue, and `-f flows=...` to run
 some of the flows.
@@ -443,12 +518,17 @@ some of the flows.
   hierarchy: find it by the parent's label, or put the id on the accessible view.
 - iOS reads a grouped element as one label ("Winston, 17:07: Fushimi Inari at sunrise", "Day 1,
   Sat, …", an address with its copy hint): match text with `'.*…'` on both sides.
-- A `Sheet`'s root id is not in iOS's hierarchy: wait on `<id>-panel`.
+- A sheet's root id can be missing from iOS's hierarchy: wait on a control inside it.
+- iOS 26 toolbar items and native tab bar items are reached by their label: run
+  `_shared/tap.yaml` or `_shared/tab.yaml`, which fall back to the label when the id is not there.
 - An element behind a footer, a keyboard or below the fold still counts as visible: hide the
   keyboard and `scrollUntilVisible` before tapping, and never trust an unscrolled tap on a long
-  list (the dev gallery: `e2e/home/subflows/pick-gallery-locale.yaml`).
+  list.
 - Once a trip turns on, its welcome page (`critters-hatch-later`) can come up over Home at any
   later step: wait for Home or the page, and pass it.
+- Every `when: visible` on an element that is not there, and every `when: notVisible` on one that
+  is, waits up to seven seconds: branch on the platform, a script, or the route from
+  `_shared/where.yaml` where you can.
 
 ## UI review gate
 

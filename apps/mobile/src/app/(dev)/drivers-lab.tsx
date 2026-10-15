@@ -2,10 +2,8 @@ import { router } from 'expo-router';
 import { ScrollView } from 'react-native';
 
 import { useWalletContext } from '@/features/bookings/data/use-wallet-context';
-import { PICK_SCENE_NAMES } from '@/features/drivers/pick/dev/pick-scenes';
 import { driversRoute, type DriverScreen } from '@/features/drivers/shared/routes';
-import { Stack, Text } from '@/ui';
-import { ListCard } from '@/ui/cards/ListCard';
+import { ListCard, Stack, Text } from '@/features/dev-tools/dev-kit';
 
 const SCREENS: readonly { readonly screen: DriverScreen; readonly label: string }[] = [
   { screen: 'index', label: 'Find a driver (6a-2)' },
@@ -16,7 +14,7 @@ const SCREENS: readonly { readonly screen: DriverScreen; readonly label: string 
   { screen: 'tours', label: 'Private tours (6f-1)' },
 ];
 
-/** The driver screens on this account's current trip, live, then the pick sheet's fixed scenes. */
+/** The driver screens on this account's current trip, live. */
 export default function DriversLab() {
   const { trip } = useWalletContext();
   const tripId = trip?.id ?? null;
@@ -36,17 +34,6 @@ export default function DriversLab() {
                 );
             }}
             testID={`drivers-lab-${screen}`}
-          />
-        ))}
-        {PICK_SCENE_NAMES.map((name) => (
-          <ListCard
-            key={name}
-            title={name}
-            chevron
-            onPress={() =>
-              router.push({ pathname: '/(dev)/drivers-pick-scene', params: { scene: name } })
-            }
-            testID={`drivers-lab-${name}`}
           />
         ))}
       </Stack>

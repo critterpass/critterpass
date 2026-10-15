@@ -8,12 +8,20 @@ import { router } from 'expo-router';
 import { useEffect } from 'react';
 import { Keyboard, View } from 'react-native';
 
-import { Button, EmptySlot, GuideNote, Tag, Text, TextButton, usePremiumTheme } from '@/ui/premium';
+import {
+  Button,
+  CritterSticker,
+  EmptySlot,
+  GuideNote,
+  Tag,
+  Text,
+  TextButton,
+  usePremiumTheme,
+} from '@/ui/premium';
 
 import { tokekLine } from '../../content';
 import { guideFacts } from '../../guide-faces';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { cardArt } from '../../taste/card-art';
 import { quizCardWords } from '../../taste/quiz-copy';
 import { tagWords } from '../../taste/tag-labels';
 import { useTasteQuiz } from '../../taste/use-taste-quiz';
@@ -57,8 +65,15 @@ export function PremiumTastePage() {
     return (
       <WizardPage
         backLabel={backLabel}
+        // The summary closes the quiz, so its counter reads the quiz's last step (6 of 6), never
+        // jumping back to the wizard's count between the questions and Home.
         header={
-          <WizardHeader current={3} total={4} backLabel={backLabel} onBack={() => router.back()} />
+          <WizardHeader
+            current={quiz.quiz.length}
+            total={quiz.quiz.length}
+            backLabel={backLabel}
+            onBack={() => router.back()}
+          />
         }
         testID="onboarding-taste"
         footer={
@@ -69,6 +84,7 @@ export function PremiumTastePage() {
               testID="taste-done"
             />
             <TextButton
+              align="center"
               label={t({ id: 'onboarding.taste.retake', message: 'Start over' })}
               onPress={quiz.restart}
               testID="taste-retake"
@@ -128,16 +144,25 @@ export function PremiumTastePage() {
         <Text variant="largeTitle" accessibilityRole="header">
           {t({ id: 'onboarding.taste.title', message: 'This or that' })}
         </Text>
-        <Text variant="guide" color={theme.color.banner.guide.text}>
-          {tokekLine(quiz.lastTrigger, locale)}
-        </Text>
+        {/* Tokek's line leads with its small doodle, pointing at the cards (2.07). */}
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.space.gap8 }}>
+          <CritterSticker kind={tokek.kind} name={tokek.name} size={34} pose="point" />
+          <Text variant="guide" color={theme.color.banner.guide.text} style={{ flex: 1 }}>
+            {tokekLine(quiz.lastTrigger, locale)}
+          </Text>
+        </View>
       </View>
-      <View key={question.id} style={{ gap: theme.space.gap10 }} testID="taste-quiz">
+      {/* The top card sits clear of Tokek's line: the guide hanging off its corner rises 34 pt. */}
+      <View
+        key={question.id}
+        style={{ gap: theme.space.gap10, marginTop: theme.space.gap12 }}
+        testID="taste-quiz"
+      >
         <QuizPhotoCard
           side="left"
           label={left.label}
           line={left.line}
-          pose={cardArt(question.id, 'left').pose}
+          questionId={question.id}
           guide={tokek}
           flung={quiz.flinging === 'right'}
           onPick={quiz.pick}
@@ -168,7 +193,7 @@ export function PremiumTastePage() {
           side="right"
           label={right.label}
           line={right.line}
-          pose={cardArt(question.id, 'right').pose}
+          questionId={question.id}
           guide={tokek}
           flung={quiz.flinging === 'left'}
           onPick={quiz.pick}

@@ -1,14 +1,10 @@
-import { Stack } from 'expo-router/js-stack';
+/* eslint-disable lingui/no-unlocalized-strings -- route names, not copy. */
 import { useMemo } from 'react';
 
 import { BookingsServicesProvider } from '@/features/bookings/data/services';
 import { deviceBookingsServices } from '@/features/bookings/data/device-services';
-import { pushTransition } from '@/lib/navigation/transitions';
-import { usePremiumUi } from '@/lib/premium-ui';
-import { useMotionMode } from '@/motion/motion-mode';
-import { sheetRouteOptions } from '@/ui/premium/shell';
+import { tabSheetOptions } from '@/ui/premium/shell';
 import { PremiumStack, PremiumStackScreen } from '@/ui/premium/shell/navigation/premium-stack';
-import { useTheme } from '@/ui/theme';
 
 import { getOcr } from '../../../../../modules/cp-ocr';
 
@@ -16,24 +12,30 @@ import { getOcr } from '../../../../../modules/cp-ocr';
 export const unstable_settings = { initialRouteName: 'index' };
 
 /**
- * The BOOKINGS half of the Wallet tab: the stack, a booking, adding one and the archive push
- * inside the tab; the boarding pass rises over it as a modal route. The premium UI uses the native
- * stack, with the `+` sheet as a half-height form sheet.
+ * The BOOKINGS half of the Wallet tab on the native stack: a booking, adding one and the archive
+ * push inside the tab; the `+` sheet, paste, the link code and the mailbox are native form sheets,
+ * and the boarding pass is a tall native sheet with its ✕ that swipes down.
  */
 export default function BookingsLayout() {
-  const { motion } = useTheme();
-  const [motionMode] = useMotionMode();
   const services = useMemo(() => deviceBookingsServices(getOcr()), []);
-  const premium = usePremiumUi();
   return (
     <BookingsServicesProvider services={services}>
-      {premium ? (
-        <PremiumStack>
-          <PremiumStackScreen name="add-sheet" options={sheetRouteOptions('half')} />
-        </PremiumStack>
-      ) : (
-        <Stack screenOptions={pushTransition(motion, motionMode !== 'full')} />
-      )}
+      <PremiumStack>
+        <PremiumStackScreen
+          name="add-sheet"
+          options={tabSheetOptions('wallet/bookings/add-sheet')}
+        />
+        <PremiumStackScreen name="paste" options={tabSheetOptions('wallet/bookings/paste')} />
+        <PremiumStackScreen
+          name="link-code"
+          options={tabSheetOptions('wallet/bookings/link-code')}
+        />
+        <PremiumStackScreen name="mailbox" options={tabSheetOptions('wallet/bookings/mailbox')} />
+        <PremiumStackScreen
+          name="pass/[id]"
+          options={tabSheetOptions('wallet/bookings/pass/[id]')}
+        />
+      </PremiumStack>
     </BookingsServicesProvider>
   );
 }

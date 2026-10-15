@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# The dark half of wallet.yaml, split off so the two halves run on separate shards: the Đà Nẵng
+# crew's bookings and money, in dark, on a fresh `trip_tomorrow` account.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: trip_tomorrow
+- runFlow:
+    file: subflows/appearance.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/wallet-bookings.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/wallet-money.yaml
+    env:
+      LOOK: dark

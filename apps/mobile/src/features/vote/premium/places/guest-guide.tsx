@@ -13,13 +13,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { Doodle } from '@/features/explore';
-import { DEFAULT_GUIDE_ID, guideSticker } from '@/ui/avatar/guides';
-import { MediaLayer } from '@/ui/media/MediaLayer';
+import { DEFAULT_GUIDE_ID, guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   CritterSticker,
   GlassIconButton,
   ListCard,
+  PhotoLayer,
   PressableScale,
   Text,
   usePremiumTheme,
@@ -28,8 +28,8 @@ import {
 import { useDestinationSlug } from '../../data/use-destination-slug';
 import { useMyUid } from '../../data/use-my-uid';
 import { useMyCrews, usePlaceSave } from '../../data/use-place-save';
-import { useGuestBrief } from '../../places/brief-stream';
-import { useCityGuide } from '../../places/guest-guide-page';
+import { useGuestBrief } from '../../places/use-guest-brief';
+import { useCityGuide } from '../../places/city-guide';
 import { voteRoutes } from '../../routes';
 import { useGuestFacts } from './guest-facts';
 import { GuestDock } from './guest-dock';
@@ -83,14 +83,10 @@ export function GuestGuide({
               <Doodle name="temple" size={150} accent={theme.accent.sun} />
             </View>
           ) : (
-            <MediaLayer
+            <PhotoLayer
               media={photo}
-              surface="accent"
-              accent={theme.accent.sun}
-              tone="colour"
               creditAt="bottom"
               creditInset={OVERLAP + theme.space.gap8}
-              dots={false}
               testID="guest-photo"
             />
           )}
@@ -117,7 +113,7 @@ export function GuestGuide({
             state.phase === 'error' ? (
               <View style={{ gap: theme.space.gap8 }} testID="guest-error">
                 <Text variant="body">
-                  {t({ id: 'vote.guest.error', message: "This place didn't load. Try again?" })}
+                  {t({ id: 'vote.guest.error', message: 'This place didn’t load. Try again?' })}
                 </Text>
                 <Button
                   label={t({ id: 'vote.guest.retryPlace', message: 'Try again' })}
@@ -151,7 +147,12 @@ export function GuestGuide({
                 </Text>
               </View>
               <View>
-                <Text variant="hero" numberOfLines={2} adjustsFontSizeToFit testID="guest-name">
+                <Text
+                  variant="displayLarge"
+                  numberOfLines={2}
+                  adjustsFontSizeToFit
+                  testID="guest-name"
+                >
                   {place.name}
                 </Text>
                 {place.country === null ? null : (
@@ -283,7 +284,7 @@ export function GuestGuide({
           testID="guest-save"
         />
       </View>
-      {place === null ? null : <GuestDock onPitch={pitch} onSolo={() => setSolo(true)} />}
+      {place === null || solo ? null : <GuestDock onPitch={pitch} onSolo={() => setSolo(true)} />}
       {solo && place !== null ? (
         <SoloSheet
           placeId={placeId}

@@ -1,19 +1,17 @@
 /**
- * The setup steps drawn in the premium look: the dates step, the budget step (the organiser's
- * sweet spot, a member's private max with how they sleep) and the must-dos. The rooms step's
- * premium look is the wallet's rooms view. Each wraps the shared step container, so reads and
- * commands stay the same.
+ * The setup steps' pages: the dates step, the budget step (the organiser's sweet spot, a member's
+ * private max with how they sleep), the rooms and the must-dos. Each wraps the shared step
+ * container, so reads and commands stay the same.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useMemo, type ReactNode } from 'react';
+import { useMemo } from 'react';
 
 import { Button, Card, Text, usePremiumTheme } from '@/ui/premium';
 
 import { BudgetStep, type BudgetLook } from '../../budget/budget-step';
-import type { PrivateMaxViewProps } from '../../budget/private-max-view';
+import type { PrivateMaxViewProps } from '../../budget/budget-props';
 import { MustDosStep } from '../../must-dos/must-dos-step';
 import type { StepProps } from '../../shell/frame';
-import type { WizardStep } from '../../shell/steps';
 import { WhenStep, type WhenSheets } from '../../when/when-step';
 import { PremiumCalendarConnectView } from '../calendar/connect-sheet';
 import { PremiumManualDaysView } from '../calendar/manual-days-sheet';
@@ -22,6 +20,8 @@ import { PremiumBudgetView } from './budget-view';
 import { PremiumMustDosView } from './must-dos-view';
 import { PremiumPrivateMaxView } from './private-max-view';
 import { PremiumWhenView } from './when-view';
+import { PremiumRoomsStep } from '../rooms/premium-rooms-step';
+import type { SetupStepViews } from '../../shell/setup-screen';
 
 function OwnMaxCard({ set, onChange }: { readonly set: boolean; readonly onChange: () => void }) {
   const theme = usePremiumTheme();
@@ -40,6 +40,7 @@ function OwnMaxCard({ set, onChange }: { readonly set: boolean; readonly onChang
         {t({ id: 'setup.budget.member.yourMax', message: 'Your max' })}
       </Text>
       <Button
+        alignSelf="auto"
         size="small"
         variant="control"
         label={
@@ -48,6 +49,7 @@ function OwnMaxCard({ set, onChange }: { readonly set: boolean; readonly onChang
             : t({ id: 'setup.budget.own.add', message: 'Add yours' })
         }
         onPress={onChange}
+        testID="budget-own-max-change"
       />
     </Card>
   );
@@ -78,8 +80,10 @@ function PremiumMustDosStep(props: StepProps) {
   return <MustDosStep {...props} View={PremiumMustDosView} />;
 }
 
-export const PREMIUM_STEP_VIEWS: Partial<Record<WizardStep, (props: StepProps) => ReactNode>> = {
+/** Every setup step's page; the rooms pages are who sleeps where (7.07–7.09). */
+export const PREMIUM_STEP_VIEWS: SetupStepViews = {
   when: PremiumWhenStep,
   budget: PremiumBudgetStep,
+  rooms: PremiumRoomsStep,
   must_dos: PremiumMustDosStep,
 };

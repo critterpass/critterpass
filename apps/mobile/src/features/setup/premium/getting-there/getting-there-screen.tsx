@@ -16,7 +16,7 @@ import { format } from '@cp/i18n';
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Avatar,
   Button,
@@ -178,7 +178,7 @@ export function GettingThereScreen({ tripId }: { readonly tripId: string }) {
                 }}
               >
                 {face === undefined ? null : (
-                  <Avatar name={face.name} color={face.color} size={34} />
+                  <Avatar name={face.name} color={face.color} uid={member.uid} size={34} />
                 )}
                 <View style={{ flex: 1, minWidth: 0 }}>
                   <Text variant="rowTextStrong" numberOfLines={1}>

@@ -5,7 +5,7 @@
 import { t } from '@lingui/core/macro';
 import { StyleSheet, View } from 'react-native';
 
-import { Card, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { Card, hitSlopFor, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
 import type { CodeRow } from '../../crews-sheet/crew-data';
 import { qrChannelLink } from '../../invite-composer/qr-path';
@@ -49,9 +49,16 @@ export function CrewCodeCard({
             .filter(Boolean)
             .join(' · ')}
         </Text>
-        <Text variant="title" style={styles.code} testID="crew-settings-code">
-          {code?.code ?? t({ id: 'crew.settings.noCode', message: 'No live code' })}
-        </Text>
+        {code === null ? (
+          // No code: a plain line, not the code's spaced-out title style.
+          <Text variant="rowTitle" tone="muted" testID="crew-settings-code">
+            {t({ id: 'crew.settings.noCode', message: 'No live code' })}
+          </Text>
+        ) : (
+          <Text variant="title" style={styles.code} testID="crew-settings-code">
+            {code.code}
+          </Text>
+        )}
       </View>
       {code === null && canManage ? (
         <PressableScale
@@ -59,6 +66,7 @@ export function CrewCodeCard({
           accessibilityLabel={t({ id: 'crew.settings.rotate', message: 'New code' })}
           onPress={onMint}
           disabled={minting}
+          hitSlop={PILL_SLOP}
           style={[styles.pill, { backgroundColor: th.color.control }]}
           testID="crew-settings-mint"
         >
@@ -75,6 +83,7 @@ export function CrewCodeCard({
           }
           onPress={onShare}
           onLongPress={canManage ? onNewCode : undefined}
+          hitSlop={PILL_SLOP}
           style={[styles.pill, { backgroundColor: th.color.control }]}
           testID="crew-settings-rotate"
         >
@@ -84,6 +93,9 @@ export function CrewCodeCard({
     </Card>
   );
 }
+
+/** The 34 pt pill still takes a 44 pt tap. */
+const PILL_SLOP = hitSlopFor(0, 34);
 
 const styles = StyleSheet.create({
   codeCard: { flexDirection: 'row', alignItems: 'center', padding: 14, gap: 12 },

@@ -53,7 +53,8 @@ function DocRow(props: {
             {...(props.saved
               ? { tone: 'muted' as const }
               : { color: th.color.status.tangerine.text })}
-            numberOfLines={1}
+            // What to do next reads whole: it may take a second line, never a cut.
+            numberOfLines={props.saved ? 1 : 2}
           >
             {props.sub}
           </Text>

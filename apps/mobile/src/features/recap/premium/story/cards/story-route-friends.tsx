@@ -5,20 +5,21 @@
  * floating beside them, and the longest leg on a card.
  */
 import { View } from 'react-native';
-import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import { Float } from '@/features/critters';
-import { useStoryClock } from '@/ui/story/story-clock';
+import { useStoryClock } from '@/lib/story/story-clock';
 import {
   CritterSticker,
   Text,
   makePremiumStyles,
   usePremiumReducedMotion,
   usePremiumTheme,
+  riseIn,
 } from '@/ui/premium';
 
-import type { CrittersCardProps } from '../../../cards/critters-card';
-import { stopTimes, type RouteCardProps } from '../../../cards/route-card';
+import type { CrittersCardProps } from '../../../story/story-card-views';
+import { stopTimes, type RouteCardProps } from '../../../story/story-card-views';
 import { CardFrame, FormSticker } from './card-frame';
 import { useClockReached } from './use-clock';
 
@@ -85,10 +86,7 @@ function Stop({
   const shown = useClockReached(at);
   if (!shown) return <View style={{ height: 44 }} />;
   return (
-    <Animated.View
-      entering={reduced ? FadeIn.duration(150) : FadeInDown.springify().damping(16)}
-      style={styles.stop}
-    >
+    <Animated.View entering={riseIn(reduced)} style={styles.stop}>
       <View
         style={[
           styles.dot,

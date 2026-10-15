@@ -6,14 +6,14 @@
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { WalletGuideProvider } from '@/features/bookings';
 import { WalletHalfSwitchPremium } from '@/features/bookings';
 import { Button, OfflinePill, Skeleton, Text, usePremiumTheme } from '@/ui/premium';
-import { RootScreen, type ShellAction } from '@/ui/premium/shell';
+import { RootScreen, TabPageScroll, type ShellAction } from '@/ui/premium/shell';
 
-import { tripLabel } from '../balances/TripSheet';
+import { tripLabel } from '../balances/trip-label';
 import {
   balancesNav,
   useBalancesScreen,
@@ -94,6 +94,7 @@ function Ready({ state }: { readonly state: BalancesReady }) {
               {t({ id: 'money.latest', message: 'Latest' })}
             </Text>
             <Button
+              alignSelf="auto"
               label={t({ id: 'money.latest.all', message: 'See all' })}
               variant="control"
               size="small"
@@ -128,19 +129,17 @@ export function MoneyHomeScreen() {
   const { t } = useLingui();
   const state = useBalancesScreen();
   const addLabel = t({ id: 'money.empty.add', message: 'Add an expense' });
+  // The same two circles as the Bookings half, so the header doesn't jump on the switch.
   const actions: ShellAction[] = [
-    ...(Platform.OS === 'ios'
-      ? [
-          {
-            key: 'search',
-            label: t({ id: 'money.premium.search', message: 'Every expense' }),
-            sfSymbol: 'magnifyingglass' as const,
-            glyph: 'more' as const,
-            onPress: balancesNav.history,
-            testID: 'money-search',
-          },
-        ]
-      : []),
+    {
+      key: 'search',
+      label: t({ id: 'money.premium.search', message: 'Every expense' }),
+      // The design's magnifier (7.16): finding an expense is the full list with its filters.
+      sfSymbol: 'magnifyingglass',
+      glyph: 'search',
+      onPress: balancesNav.history,
+      testID: 'money-search',
+    },
     {
       key: 'add',
       label: addLabel,
@@ -160,7 +159,7 @@ export function MoneyHomeScreen() {
         testID={`money-${state.kind}`}
       >
         {({ scrollProps, largeTitle }) => (
-          <ScrollView
+          <TabPageScroll
             {...scrollProps}
             contentContainerStyle={{ paddingBottom: th.space.tabBarClearance, gap: th.space.gap16 }}
           >
@@ -193,7 +192,7 @@ export function MoneyHomeScreen() {
             ) : (
               <Ready state={state} />
             )}
-          </ScrollView>
+          </TabPageScroll>
         )}
       </RootScreen>
     </WalletGuideProvider>

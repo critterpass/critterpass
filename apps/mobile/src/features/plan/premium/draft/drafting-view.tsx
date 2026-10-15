@@ -12,63 +12,30 @@ import Animated, { FadeOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   CritterSticker,
   GlassIconButton,
-  Icon,
   ListCard,
   OfflinePill,
-  Spinner,
   Text,
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { VISIBLE_STEP_IDS, type StepRow } from '../../draft/data/job';
-import { lineFor, titleFor, type DraftingViewProps } from '../../draft/drafting/drafting-view';
-import { dayCardLabel, failLine, stepLine } from '../../draft/drafting/step-copy';
+import { VISIBLE_STEP_IDS } from '../../draft/data/job';
+import { lineFor, titleFor, type DraftingViewProps } from '../../draft/drafting/drafting-props';
+import { failLine, stepLine } from '../../draft/drafting/step-copy';
 import { draftingBackLabel } from '../../draft/review/draft-copy';
-import { dayColours } from '../map';
-import { confirmAlert } from '@/ui/premium/shell';
-
-const DISC = 22;
-/* eslint-disable-next-line lingui/no-unlocalized-strings -- sticker tilts, never copy. */
-const TILTS = ['-3deg', '3deg'] as const;
-
-function StepMark({ status }: { readonly status: StepRow['status'] }) {
-  const theme = usePremiumTheme();
-  if (status === 'done') {
-    return (
-      <View
-        style={{
-          width: DISC,
-          height: DISC,
-          borderRadius: DISC / 2,
-          backgroundColor: theme.accent.mint,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Icon name="check" size={13} color={theme.color.onAccent} stroke={3} />
-      </View>
-    );
-  }
-  if (status === 'running') return <Spinner size={DISC} />;
-  return (
-    <View
-      style={{
-        width: DISC,
-        height: DISC,
-        borderRadius: DISC / 2,
-        borderWidth: status === 'failed' ? 2.5 : 2,
-        borderColor:
-          status === 'failed' ? theme.color.destructive.fieldRing : theme.color.progressTodo,
-      }}
-    />
-  );
-}
+import { DayStickers, StepMark } from './drafting-parts';
+import {
+  confirmAlert,
+  FooterStack,
+  SCROLL_EDGE_FADE,
+  ScrollEdgeFade,
+  useScrollEdges,
+} from '@/ui/premium/shell';
 
 export function PremiumDraftingView({
   guide,
@@ -87,6 +54,7 @@ export function PremiumDraftingView({
   const insets = useSafeAreaInsets();
   const locale = useLocale();
   const sticker = guideSticker(guide);
+  const edges = useScrollEdges();
   const rows = steps.filter((row) => (VISIBLE_STEP_IDS as readonly string[]).includes(row.id));
   const working = phase.kind === 'running' || phase.kind === 'starting' || phase.kind === 'done';
   const slow = phase.kind === 'running' && phase.slow;
@@ -118,12 +86,17 @@ export function PremiumDraftingView({
         </View>
       ) : null}
       <ScrollView
+        {...edges.scrollProps}
         contentContainerStyle={{
           paddingTop: slow ? theme.space.gap16 : insets.top + theme.space.gap16 * 3,
           paddingHorizontal: theme.space.gutter,
           paddingBottom: theme.space.gap16,
           gap: theme.space.gap16,
           alignItems: 'stretch',
+          // A short page sits in the middle of the room above the buttons, not at its top with a
+          // dead band under it.
+          flexGrow: 1,
+          justifyContent: 'center',
         }}
       >
         <View style={{ alignItems: 'center' }}>
@@ -190,39 +163,20 @@ export function PremiumDraftingView({
             ))}
           </ListCard>
         )}
-        {working && dayCards.length > 0 ? (
-          <View
-            style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap8 }}
-            testID="drafting-days"
-          >
-            {dayCards.map((day, index) => (
-              <View
-                key={day.dayNo}
-                style={{
-                  paddingVertical: theme.space.gap8,
-                  paddingHorizontal: theme.space.gap12,
-                  borderRadius: theme.radius.tag,
-                  borderWidth: 2.5,
-                  borderColor: theme.accent.stickerEdge,
-                  backgroundColor: dayColours(day.dayNo).fill,
-                  boxShadow: theme.shadow.sticker,
-                  transform: [{ rotate: TILTS[index % 2] ?? TILTS[0] }],
-                }}
-              >
-                <Text variant="caption" color={theme.color.onAccent}>
-                  {dayCardLabel(day, locale)}
-                </Text>
-              </View>
-            ))}
-          </View>
-        ) : null}
+        {working && dayCards.length > 0 ? <DayStickers days={dayCards} locale={locale} /> : null}
       </ScrollView>
-      <View
+      {/* Scrolled, the page fades out under the status bar instead of running under the clock. */}
+      <ScrollEdgeFade
+        edge="top"
+        height={insets.top + SCROLL_EDGE_FADE}
+        solid={insets.top}
+        visible={!slow && edges.top}
+      />
+      <FooterStack
+        gap={theme.space.gap4}
         style={{
           paddingHorizontal: theme.space.titleGutter,
           paddingBottom: insets.bottom + theme.space.gap16,
-          gap: theme.space.gap4,
-          alignItems: 'center',
         }}
       >
         {phase.kind === 'failed' || phase.kind === 'cancelled' ? (
@@ -260,6 +214,7 @@ export function PremiumDraftingView({
             </View>
             {phase.kind === 'offline' ? null : (
               <TextButton
+                align="center"
                 label={t({ id: 'plan.premium.drafting.cancel', message: 'Cancel the draft' })}
                 onPress={() =>
                   void confirmAlert({
@@ -285,7 +240,7 @@ export function PremiumDraftingView({
             )}
           </>
         )}
-      </View>
+      </FooterStack>
     </Animated.View>
   );
 }

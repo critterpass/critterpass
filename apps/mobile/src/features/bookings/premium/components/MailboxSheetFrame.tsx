@@ -1,62 +1,20 @@
 /**
- * The mailbox sheet's frame (7.05): the native page sheet on iOS; on Android a sheet over a scrim
- * that keeps clear of the status bar. And the "With Pass+" badge under its actions.
+ * The mailbox sheet's parts (7.05): the "With Pass+" badge under its actions, and the forward
+ * address row to copy.
  */
 import { useLingui } from '@lingui/react/macro';
-import type { ReactNode } from 'react';
-import { Modal, Platform, Pressable, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { StyleSheet, View } from 'react-native';
 
-import { PressableScale, Text, usePremiumTheme, type PremiumTheme } from '@/ui/premium';
-
-/** The sheet frame: the native page sheet on iOS, a sheet over a scrim on Android. */
-export function MailboxSheetFrame(props: {
-  readonly onClose: () => void;
-  readonly children: ReactNode;
-}) {
-  const th = usePremiumTheme();
-  const insets = useSafeAreaInsets();
-  const ios = Platform.OS === 'ios';
-  const sheet = (
-    <View
-      style={[
-        styles.sheet,
-        { backgroundColor: th.material.sheet.fill },
-        ios
-          ? styles.fill
-          : {
-              marginTop: insets.top + th.space.gap16,
-              borderTopLeftRadius: th.radius.sheet,
-              borderTopRightRadius: th.radius.sheet,
-              boxShadow: th.materialShadow.sheet,
-            },
-      ]}
-    >
-      <View style={[styles.grabber, { backgroundColor: th.color.outlineEmpty }]} />
-      {props.children}
-    </View>
-  );
-  return (
-    <Modal
-      visible
-      transparent={!ios}
-      statusBarTranslucent
-      animationType="slide"
-      presentationStyle={ios ? 'pageSheet' : 'overFullScreen'}
-      onRequestClose={props.onClose}
-      testID="bookings-mailbox"
-    >
-      {ios ? (
-        sheet
-      ) : (
-        <View style={[styles.fill, { backgroundColor: th.color.scrim }]}>
-          <Pressable style={styles.fill} onPress={props.onClose} accessible={false} />
-          {sheet}
-        </View>
-      )}
-    </Modal>
-  );
-}
+import { IconTile } from '@/features/trip';
+import {
+  Button,
+  ListCard,
+  PressableScale,
+  Row,
+  Text,
+  usePremiumTheme,
+  type PremiumTheme,
+} from '@/ui/premium';
 
 export function MailboxPassBadge(props: {
   readonly th: PremiumTheme;
@@ -84,9 +42,41 @@ export function MailboxPassBadge(props: {
   );
 }
 
+/**
+ * The forward address while no mailbox can be connected yet: the wallet's "Forward the email" row,
+ * the address cut in the middle under it (the crew's name and the domain stay readable) and Copy.
+ */
+export function MailboxAddressPill(props: {
+  readonly address: string;
+  readonly onCopy: () => void;
+}) {
+  const th = usePremiumTheme();
+  const { t } = useLingui();
+  return (
+    <ListCard radius={th.radius.cardRow}>
+      <Row
+        title={t({ id: 'bookings.premium.forwardEmail', message: 'Forward the email' })}
+        subtitle={props.address}
+        subtitleCut="middle"
+        leading={
+          <IconTile name="link" bg={th.color.status.rain.bg} color={th.color.status.rain.text} />
+        }
+        trailing={
+          <Button
+            label={t({ id: 'bookings.add.copy', message: 'Copy' })}
+            variant="control"
+            size="small"
+            onPress={props.onCopy}
+            testID="bookings-mailbox-copy"
+          />
+        }
+        onPress={props.onCopy}
+        testID="bookings-mailbox-address"
+      />
+    </ListCard>
+  );
+}
+
 const styles = StyleSheet.create({
-  fill: { flex: 1 },
-  sheet: { paddingTop: 12, flexShrink: 1 },
-  grabber: { width: 36, height: 5, borderRadius: 3, alignSelf: 'center', marginBottom: 14 },
   badge: { height: 26, paddingHorizontal: 10, borderRadius: 13, justifyContent: 'center' },
 });

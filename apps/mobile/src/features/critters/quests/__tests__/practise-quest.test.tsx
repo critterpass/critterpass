@@ -11,7 +11,7 @@ import { fireEvent, render, screen } from '@testing-library/react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { QuestCardView } from '../quest-card-view';
+import { QuestRow as QuestCardRow } from '../../premium/quests/quest-row';
 import { buildQuestsModel, type QuestRow } from '../quests-model';
 
 const NOW = new Date('2026-10-02T05:00:00Z');
@@ -66,9 +66,9 @@ async function show(
     <I18nProvider i18n={i18n}>
       <SafeAreaProvider initialMetrics={METRICS}>
         <GestureHandlerRootView>
-          <QuestCardView
+          <QuestCardRow
+            featured={false}
             card={quest}
-            guide={{ kind: 'chava', name: 'Chà Vá' }}
             onSignUp={() => undefined}
             onPractise={onPractise}
           />

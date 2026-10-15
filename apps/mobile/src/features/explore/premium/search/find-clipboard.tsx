@@ -1,13 +1,12 @@
 /**
  * The link you copied, on the empty Find (4.30): its thumb, "TIKTOK YOU COPIED", the post's title
- * and Add. On iOS, before anything is read, the card holds the system paste control instead (no
- * paste alert, nothing read before a tap).
+ * and Add. On iOS, before anything is read, the card holds the kit's paste pill instead (nothing
+ * read before a tap).
  */
 import { t } from '@lingui/core/macro';
-import * as Clipboard from 'expo-clipboard';
 import { Image, View } from 'react-native';
 
-import { Button, Card, Text, usePremiumTheme } from '@/ui/premium';
+import { Button, Card, PasteButton, Text, usePremiumTheme } from '@/ui/premium';
 
 import type { ClipboardCardState } from '../../search/use-clipboard-link';
 import { Doodle } from '../components/doodle';
@@ -25,8 +24,6 @@ const PLATFORM: Readonly<Record<string, string>> = {
 
 const THUMB = 48;
 const THUMB_DOODLE = 34;
-const PASTE_WIDTH = 120;
-const PASTE_HEIGHT = 36;
 
 export function FindClipboard(props: {
   readonly state: ClipboardCardState;
@@ -46,16 +43,12 @@ export function FindClipboard(props: {
             {t({ id: 'search.clipboard.pasteLine', message: 'Paste the link to add its places.' })}
           </Text>
         </View>
-        {Clipboard.isPasteButtonAvailable ? (
-          <Clipboard.ClipboardPasteButton
-            acceptedContentTypes={['url', 'plain-text']}
-            displayMode="iconAndLabel"
-            style={{ width: PASTE_WIDTH, height: PASTE_HEIGHT }}
-            onPress={(data) => {
-              if (data.type === 'text') props.onPasted(data.text);
-            }}
-          />
-        ) : null}
+        <PasteButton
+          label={t({ id: 'search.paste.paste', message: 'Paste' })}
+          variant="primary"
+          onPaste={props.onPasted}
+          testID="search-clipboard-paste-button"
+        />
       </Card>
     );
   }

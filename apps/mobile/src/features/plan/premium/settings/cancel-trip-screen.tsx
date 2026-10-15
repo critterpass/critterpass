@@ -16,7 +16,15 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
-import { Button, ListCard, Skeleton, Text, usePremiumTheme } from '@/ui/premium';
+import {
+  Button,
+  ListCard,
+  Skeleton,
+  StickerIcon,
+  Text,
+  usePremiumTheme,
+  type StickerIconName,
+} from '@/ui/premium';
 import { HoldToConfirm, PushScreen } from '@/ui/premium/shell';
 
 import { money } from '@/features/vote';
@@ -25,6 +33,16 @@ import { cancelTripCommand } from '../../settings/data/commands';
 import { useCancelSummary } from '../../settings/data/use-settings-reads';
 
 type Consequence = CancelSummaryResult['consequences'][number];
+
+/** Each consequence's sticker tile, as the design gives every row one. */
+const CONSEQUENCE_ICON: Readonly<Record<Consequence['kind'], StickerIconName>> = {
+  booking_refund: 'bed',
+  booking_kept: 'wallet',
+  booking_ask: 'chat',
+  boost_moves: 'ticket',
+  money_stays: 'wallet',
+  chat_stays: 'chat',
+};
 
 function consequenceText(
   locale: string,
@@ -71,6 +89,34 @@ function consequenceText(
         title: t({ id: 'plan.cancel.chat', message: 'Chat and photos' }),
         line: t({ id: 'plan.cancel.chatLine', message: 'Stay where they are' }),
       };
+  }
+}
+
+/**
+ * Why the hold pill is off when the server says the trip can't be cancelled: an organiser cancels
+ * only before the trip starts, so a trip under way runs to its end and a finished one has nothing
+ * left to call off.
+ */
+function notCancellableLine(status: string, place: string): string {
+  switch (status) {
+    case 'in_trip':
+      return t({
+        id: 'plan.cancel.underWay',
+        message: `${place} is under way, so it can’t be called off now. It wraps up by itself after the last day.`,
+      });
+    case 'post_trip':
+    case 'archived':
+      return t({
+        id: 'plan.cancel.over',
+        message: 'This trip is over, so there’s nothing left to call off.',
+      });
+    case 'cancelled':
+      return t({ id: 'plan.cancel.already', message: 'This trip is already called off.' });
+    default:
+      return t({
+        id: 'plan.cancel.notNow',
+        message: 'The trip can’t be called off at this step. Try again once the plan is settled.',
+      });
   }
 }
 
@@ -150,16 +196,25 @@ export function CancelTripScreen({ tripId }: { readonly tripId: string }) {
                   testID={`cancel-trip-${line.kind}`}
                   style={{
                     minHeight: 62,
-                    justifyContent: 'center',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: theme.space.gap12,
                     paddingHorizontal: theme.space.rowPadH,
                   }}
                 >
-                  <Text variant="rowTitle" numberOfLines={1}>
-                    {words.title}
-                  </Text>
-                  <Text variant="captionMuted" tone="muted">
-                    {words.line}
-                  </Text>
+                  <StickerIcon
+                    name={CONSEQUENCE_ICON[line.kind]}
+                    size={36}
+                    tile={theme.color.control}
+                  />
+                  <View style={{ flex: 1, minWidth: 0 }}>
+                    <Text variant="rowTitle" numberOfLines={1}>
+                      {words.title}
+                    </Text>
+                    <Text variant="captionMuted" tone="muted">
+                      {words.line}
+                    </Text>
+                  </View>
                 </View>
               );
             })}
@@ -174,6 +229,11 @@ export function CancelTripScreen({ tripId }: { readonly tripId: string }) {
           gap: theme.space.gap8,
         }}
       >
+        {data !== null && !data.cancellable ? (
+          <Text variant="caption" tone="muted" align="center" testID="cancel-trip-not-cancellable">
+            {notCancellableLine(plan.trip?.status ?? '', place)}
+          </Text>
+        ) : null}
         <HoldToConfirm
           label={t({ id: 'plan.cancel.hold', message: `Hold to cancel ${place}` })}
           onConfirm={() => void confirm()}

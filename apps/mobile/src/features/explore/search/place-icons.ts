@@ -1,5 +1,5 @@
 /** The doodle for a place's category in search rows. */
-import type { DoodleName } from '@/ui/icons/generated';
+import type { DoodleName } from '@/ui/premium/icons/doodles/generated';
 
 const ICONS: Readonly<Record<string, DoodleName>> = {
   food: 'food',

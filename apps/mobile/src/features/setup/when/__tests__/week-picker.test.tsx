@@ -4,14 +4,25 @@
  * range, the ghost after a first tap locks as it stands (another tap re-picks its last day), days
  * before today can't be picked, and Clear starts over.
  */
+// The app's own database module loads the native driver; these tests run on the test stack.
+jest.mock('@/data/powersync/db', () => ({}));
+jest.mock('expo-router', () => ({
+  useIsFocused: () => true,
+  // The premium pages declare their native header through the stack's screen.
+  Stack: Object.assign(() => null, { Screen: () => null }),
+  usePathname: () => '/',
+  useLocalSearchParams: () => ({}),
+  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
+}));
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
+import type { AccessibilityState } from 'react-native';
 
 import { renderSetup } from '../../test-support/setup-harness';
-import { BEST } from '../fixtures';
+import { BEST } from '../../test-support/when-fixtures';
 import { heatMonths, initialMonth } from '../model';
-import { WeekPicker } from '../week-picker';
+import { PremiumWeekPicker as WeekPicker } from '../../premium/calendar/week-picker-sheet';
 
 const SPAN = { from: '2026-10-01', to: '2027-01-31' };
 // The suggested week falls in a later month than today's.
@@ -33,19 +44,25 @@ function picker(onLock: (start: string, end: string) => void, today?: string) {
   );
 }
 
+const state = (date: string) =>
+  (screen.getByTestId(`picker-day-${date}`).props as { accessibilityState?: AccessibilityState })
+    .accessibilityState;
+const selected = (date: string) => state(date)?.selected === true;
+const closed = (date: string) => state(date)?.disabled === true;
+
 describe('picking days', () => {
-  it('opens on the suggested month and turns back to this month for screen readers', async () => {
+  it('opens on the suggested month and turns back to this month', async () => {
     const onLock = jest.fn();
     await renderSetup(picker(onLock));
     expect(screen.getByText(/november 2026/iu)).toBeTruthy();
-    await fireEvent(screen.getByTestId('picker-month'), 'accessibilityAction', {
-      nativeEvent: { actionName: 'decrement' },
-    });
+    await fireEvent.press(screen.getByTestId('picker-previous'));
     expect(await screen.findByText(/october 2026/iu)).toBeTruthy();
-    await fireEvent.press(screen.getByTestId('heat-pick-2026-10-02'));
-    await fireEvent.press(screen.getByTestId('heat-pick-2026-10-06'));
-    expect(screen.getByLabelText('October 2, first day')).toBeTruthy();
-    expect(screen.getByLabelText('October 6, last day')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('picker-day-2026-10-02'));
+    await fireEvent.press(screen.getByTestId('picker-day-2026-10-06'));
+    expect(selected('2026-10-02')).toBe(true);
+    expect(selected('2026-10-04')).toBe(true);
+    expect(selected('2026-10-06')).toBe(true);
+    expect(selected('2026-10-07')).toBe(false);
     await fireEvent.press(await screen.findByTestId('picker-lock'));
     await waitFor(() => expect(onLock).toHaveBeenCalledWith('2026-10-02', '2026-10-06'));
   });
@@ -54,11 +71,11 @@ describe('picking days', () => {
     const onLock = jest.fn();
     // With today known it opens on this month.
     await renderSetup(picker(onLock, '2026-10-01'));
-    await fireEvent.press(await screen.findByTestId('heat-pick-2026-10-02'));
+    await fireEvent.press(await screen.findByTestId('picker-day-2026-10-02'));
     expect(screen.getByTestId('picker-ghost')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('picker-lock'));
     await waitFor(() => expect(onLock).toHaveBeenCalledWith('2026-10-02', '2026-10-04'));
-    await fireEvent.press(screen.getByTestId('heat-pick-2026-10-07'));
+    await fireEvent.press(screen.getByTestId('picker-day-2026-10-07'));
     expect(screen.queryByTestId('picker-ghost')).toBeNull();
     await fireEvent.press(screen.getByTestId('picker-lock'));
     await waitFor(() => expect(onLock).toHaveBeenLastCalledWith('2026-10-02', '2026-10-07'));
@@ -66,10 +83,10 @@ describe('picking days', () => {
 
   it('can’t pick a day before today, and clears back to nothing picked', async () => {
     await renderSetup(picker(jest.fn(), '2026-10-05'));
-    expect(await screen.findByTestId('heat-2026-10-04')).toBeTruthy();
-    expect(screen.queryByTestId('heat-pick-2026-10-04')).toBeNull();
-    await fireEvent.press(screen.getByTestId('heat-pick-2026-10-05'));
-    await fireEvent.press(screen.getByTestId('heat-pick-2026-10-07'));
+    expect(await screen.findByTestId('picker-day-2026-10-04')).toBeTruthy();
+    expect(closed('2026-10-04')).toBe(true);
+    await fireEvent.press(screen.getByTestId('picker-day-2026-10-05'));
+    await fireEvent.press(screen.getByTestId('picker-day-2026-10-07'));
     expect(screen.getByTestId('picker-lock')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('picker-clear'));
     expect(screen.queryByTestId('picker-lock')).toBeNull();
@@ -80,17 +97,13 @@ describe('picking days', () => {
 describe('a trip of one', () => {
   it('shows no counts: nothing under the dates and no "can make it" line', async () => {
     await renderSetup(picker(jest.fn(), '2026-10-05'));
-    await fireEvent(screen.getByTestId('picker-month'), 'accessibilityAction', {
-      nativeEvent: { actionName: 'decrement' },
-    });
-    await fireEvent.press(await screen.findByTestId('heat-pick-2026-10-08'));
+    await fireEvent.press(await screen.findByTestId('picker-day-2026-10-08'));
     expect(screen.getByTestId('picker-length')).toBeTruthy();
     expect(screen.queryByTestId('picker-free')).toBeNull();
     expect(screen.queryByText('0/1')).toBeNull();
     expect(screen.queryByText('1/1')).toBeNull();
-    // A day already past is a plain day that cannot be picked.
-    expect(screen.queryByTestId('heat-pick-2026-10-02')).toBeNull();
-    expect(screen.getByLabelText('October 2')).toBeTruthy();
+    // A day already past cannot be picked.
+    expect(closed('2026-10-02')).toBe(true);
   });
 });
 
@@ -132,12 +145,7 @@ describe('the month it opens on', () => {
       />,
     );
     expect(screen.getByText(/october 2026/iu)).toBeTruthy();
-    // Paged on, "Today" brings her back.
-    await fireEvent(screen.getByTestId('picker-month'), 'accessibilityAction', {
-      nativeEvent: { actionName: 'increment' },
-    });
+    await fireEvent.press(screen.getByTestId('picker-next'));
     expect(await screen.findByText(/november 2026/iu)).toBeTruthy();
-    await fireEvent.press(screen.getByTestId('picker-today'));
-    expect(await screen.findByText(/october 2026/iu)).toBeTruthy();
   });
 });

@@ -4,16 +4,18 @@
  * days, sharing and the trip's settings). At peek the filter chips sit under it; at half the ⋯
  * gives way to the Ideas count (4.26); at full the chrome steps away for the island strip.
  */
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
+  Chip,
   CritterSticker,
   GlassIconButton,
   GlassSurface,
   Icon,
   makePremiumStyles,
   PressableScale,
+  ScrollRow,
   Text,
   usePremiumTheme,
 } from '@/ui/premium';
@@ -72,16 +74,7 @@ const useStyles = makePremiumStyles((t) => ({
     overflow: 'hidden',
   },
   chips: { gap: t.space.gap6, paddingHorizontal: t.space.gap16 },
-  chip: {
-    height: 34,
-    borderRadius: 17,
-    paddingHorizontal: 13,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: t.space.gap6,
-  },
-  chipOn: { backgroundColor: t.color.inkSurface },
-  dot: { width: 8, height: 8, borderRadius: 4 },
+  dot: { width: 8, height: 8, borderRadius: 4, marginLeft: 6 },
   count: {
     width: 44,
     height: 44,
@@ -114,7 +107,14 @@ export function TopBar(props: TopBarProps) {
         >
           <GlassSurface kind="nav" interactive style={styles.pill}>
             <Icon name="search" size={17} color={t.color.muted} />
-            <Text variant="body" tone="inkSecondary" numberOfLines={1} style={styles.pillText}>
+            <Text
+              variant="body"
+              tone="inkSecondary"
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.8}
+              style={styles.pillText}
+            >
               {props.placeholder}
             </Text>
             <View style={styles.guide}>
@@ -150,48 +150,31 @@ export function TopBar(props: TopBarProps) {
         )}
       </View>
       {props.chips === null ? null : (
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
+        // The kit's room under the row: the glass chips' shadow is deeper than 12 and was cut
+        // flat along the band's foot.
+        <ScrollRow
+          above={4}
           style={{ position: 'absolute', left: 0, right: 0, top: top + 58 }}
           contentContainerStyle={styles.chips}
         >
           {props.chips.map((chip) => (
-            <PressableScale
+            <Chip
               key={chip.key}
+              label={chip.count === undefined ? chip.label : `${chip.label} ${String(chip.count)}`}
+              selected={chip.selected}
+              size="hub"
+              surface="glass"
+              leading={
+                chip.dayNo === undefined ? undefined : (
+                  <View style={[styles.dot, { backgroundColor: dayColours(chip.dayNo).fill }]} />
+                )
+              }
               onPress={() => props.onChip(chip.key)}
-              accessibilityRole="button"
-              accessibilityState={{ selected: chip.selected }}
-              accessibilityLabel={chip.label}
               testID={`plan-map-chip-${chip.key}`}
-            >
-              {chip.selected ? (
-                <View style={[styles.chip, styles.chipOn]}>
-                  <ChipBody chip={chip} on />
-                </View>
-              ) : (
-                <GlassSurface kind="nav" style={styles.chip}>
-                  <ChipBody chip={chip} on={false} />
-                </GlassSurface>
-              )}
-            </PressableScale>
+            />
           ))}
-        </ScrollView>
+        </ScrollRow>
       )}
-    </>
-  );
-}
-
-function ChipBody({ chip, on }: { readonly chip: FilterChip; readonly on: boolean }) {
-  const styles = useStyles();
-  return (
-    <>
-      {chip.dayNo === undefined ? null : (
-        <View style={[styles.dot, { backgroundColor: dayColours(chip.dayNo).fill }]} />
-      )}
-      <Text variant="segment" tone={on ? 'onInk' : 'ink'} numberOfLines={1}>
-        {chip.count === undefined ? chip.label : `${chip.label} ${String(chip.count)}`}
-      </Text>
     </>
   );
 }

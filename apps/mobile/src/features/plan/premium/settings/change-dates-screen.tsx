@@ -25,6 +25,7 @@ import {
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
+import { PresentedState } from '@/ui/premium/shell';
 
 import { lockTripDatesCommand } from '@/features/setup';
 import { createPollCommand, crewColour } from '@/features/vote';
@@ -54,7 +55,32 @@ export function ChangeDatesScreen({ tripId }: { readonly tripId: string }) {
     picked.start !== null && picked.end !== null ? { start: picked.start, end: picked.end } : null;
   const impact = useDatesImpact(tripId, range);
   const close = () => router.back();
-  if (trip === null) return null;
+  if (trip === null) {
+    return (
+      <PresentedState
+        closeLabel={t({ id: 'plan.dates.close', message: 'Close' })}
+        state={
+          plan.loaded
+            ? {
+                kind: 'missing',
+                title: t({
+                  id: 'plan.dates.missingTitle',
+                  message: 'This trip isn’t here any more',
+                }),
+                line: t({
+                  id: 'plan.dates.missingLine',
+                  message: 'It may have been cancelled. Close this and check your trips.',
+                }),
+              }
+            : {
+                kind: 'waiting',
+                label: t({ id: 'plan.dates.loading', message: 'Opening the dates…' }),
+              }
+        }
+        testID="change-dates-state"
+      />
+    );
+  }
   const was = rangeText(locale, trip.start_date, trip.end_date);
   const next = range === null ? null : rangeText(locale, range.start, range.end);
   const shownMonth = month ?? (trip.start_date ?? new Date().toISOString()).slice(0, 7);
@@ -140,7 +166,7 @@ export function ChangeDatesScreen({ tripId }: { readonly tripId: string }) {
               {was ?? '—'}
             </Text>
           </View>
-          <Icon name="forward" size={18} color={theme.color.muted} />
+          <Icon name="arrowRight" size={18} color={theme.color.ink} />
           <View
             style={{
               height: 44,
@@ -161,6 +187,11 @@ export function ChangeDatesScreen({ tripId }: { readonly tripId: string }) {
             month={shownMonth}
             start={picked.start}
             end={picked.end}
+            current={
+              trip.start_date === null || trip.end_date === null
+                ? null
+                : { start: trip.start_date, end: trip.end_date }
+            }
             onMonth={setMonth}
             onDay={(day) => setPicked((current) => nextRange(current, day))}
           />
@@ -186,6 +217,7 @@ export function ChangeDatesScreen({ tripId }: { readonly tripId: string }) {
             testID="change-dates-ask"
           />
           <TextButton
+            align="center"
             label={t({ id: 'plan.dates.now', message: 'Change it now' })}
             onPress={() => void changeNow()}
             disabled={range === null || lock.pending || move.pending}

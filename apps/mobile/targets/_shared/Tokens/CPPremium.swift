@@ -315,7 +315,7 @@ public enum CPPremium {
         colorSegmentThumb: cpPremiumColor("#3d404c"),
         colorToggleOn: cpPremiumColor("#34c77b"),
         colorToggleOff: cpPremiumColor("rgba(120,120,128,.32)"),
-        colorToggleKnob: cpPremiumColor("#1c1d24"),
+        colorToggleKnob: cpPremiumColor("#ffffff"),
         colorCaret: cpPremiumColor("#4f86ff"),
         colorOnAccent: cpPremiumColor("#17142a"),
         colorOnInk: cpPremiumColor("#15161b"),

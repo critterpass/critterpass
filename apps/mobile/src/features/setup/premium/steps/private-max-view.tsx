@@ -23,7 +23,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { PrivateMaxViewProps } from '../../budget/private-max-view';
+import type { PrivateMaxViewProps } from '../../budget/budget-props';
 import { approxIn } from '../../budget/fx-preview';
 import { currencySymbol, fractionDigits, money } from '../../budget/model';
 import { setRoomPrefsCommand } from '../../data/commands';
@@ -135,6 +135,7 @@ export function PremiumPrivateMaxView(
           </View>
           {props.onCancel === undefined ? null : (
             <TextButton
+              align="center"
               label={t({ id: 'setup.budget.member.keep', message: 'Keep it as it is' })}
               onPress={props.onCancel}
               testID="budget-member-cancel"

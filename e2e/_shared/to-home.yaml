@@ -1,0 +1,27 @@
+appId: app.critterpass.dev
+---
+# Back to Home, whatever screen or sheet the last steps ended on: Home's link brings it to the
+# front (a run of backs can leave the app from a tab's root, and a sheet can hide the tab bar).
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-screen'
+    commands:
+      - openLink:
+          link: critterpass-dev://
+      - runFlow:
+          when:
+            visible: 'Open'
+          commands:
+            - tapOn: 'Open'
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 15000

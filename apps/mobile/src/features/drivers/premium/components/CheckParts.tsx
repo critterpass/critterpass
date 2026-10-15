@@ -181,10 +181,11 @@ export function AskBar(props: {
       <Text variant="caption" style={styles.flex}>
         {t({
           id: 'drivers.check.missing',
-          message: `${count} things aren't in his message. Want me to write the question?`,
+          message: `${count} things aren’t in his message. Want me to write the question?`,
         })}
       </Text>
       <Button
+        alignSelf="auto"
         label={t({ id: 'drivers.check.ask', message: `Ask ${name}` })}
         size="small"
         disabled={url === null}

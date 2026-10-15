@@ -1,6 +1,6 @@
 import { SignOutScreen } from '@/features/you/account/sign-out-screen';
+import { SignOutPremiumView } from '@/features/you/premium/account/sign-out-premium-view';
 
-/** Settings › Account › Sign out. */
 export default function SignOutRoute() {
-  return <SignOutScreen />;
+  return <SignOutScreen View={SignOutPremiumView} />;
 }

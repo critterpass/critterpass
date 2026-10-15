@@ -1,10 +1,12 @@
 /**
  * A white card of key / value rows (7.06, 7.13): the key muted on the left at a fixed width, the
  * value strong on the right side, hairlines between rows. Empty values are left out, never shown
- * as a blank row. A row with `onPress` is a button (copy a code, open the terms).
+ * as a blank row. A row with `onPress` is a button (copy a code, open the terms); a `private`
+ * value is covered in a problem report's screenshot.
  */
 import { StyleSheet, View } from 'react-native';
 
+import { PrivateContent } from '@/features/help';
 import { PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
 export interface KeyValue {
@@ -12,6 +14,8 @@ export interface KeyValue {
   readonly label: string;
   readonly value: string;
   readonly mono?: boolean;
+  /** A confirmation code or a price: covered in a problem report's screenshot. */
+  readonly private?: boolean;
   readonly onPress?: () => void;
 }
 
@@ -39,6 +43,16 @@ export function KeyValueCard({
       {...(testID === undefined ? {} : { testID })}
     >
       {shown.map((row, index) => {
+        const value = (
+          <Text
+            variant="rowTextStrong"
+            style={row.private === true ? null : styles.value}
+            {...(row.mono === true ? { variant: 'mono' as const } : {})}
+            selectable
+          >
+            {row.value}
+          </Text>
+        );
         const line = (
           <View
             style={[
@@ -49,14 +63,11 @@ export function KeyValueCard({
             <Text variant="caption" tone="muted" style={styles.key}>
               {row.label}
             </Text>
-            <Text
-              variant="rowTextStrong"
-              style={styles.value}
-              {...(row.mono === true ? { variant: 'mono' as const } : {})}
-              selectable
-            >
-              {row.value}
-            </Text>
+            {row.private === true ? (
+              <PrivateContent style={styles.value}>{value}</PrivateContent>
+            ) : (
+              value
+            )}
           </View>
         );
         return row.onPress === undefined ? (

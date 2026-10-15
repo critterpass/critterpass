@@ -1,6 +1,6 @@
 /**
  * The crew live map's pure data: folding snapshots and publications (a paused or ended share
- * drops the pin at once), bunching and staleness in the view, status lines, glide easing, and
+ * drops the pin at once), bunching and staleness in the view, status lines, and
  * trails that live in screen memory only: folding a scooter ride never touches storage.
  */
 // Storage spies: every export of the key-value store and the file system, wrapped so the trail
@@ -31,7 +31,6 @@ import { applyLiveMessage, fromSnapshot } from '../data/live-state';
 import { foldTrails, useTrails, visibleTrails } from '../data/use-trails';
 import type { TripCrew } from '../data/use-trip-crew';
 import { buildLiveView } from '../data/view-model';
-import { glideAt, glideDuration, MAX_GLIDE_MS } from '../map/use-glide';
 import { ALEX, DEV, JORDAN, MAYA, NOW, RIN, TRIP } from '../test-support/ids';
 import recorded from '../test-support/snapshot.fixture.json';
 
@@ -140,16 +139,6 @@ describe('live view', () => {
     expect(statusLine(jordan!, 'Asia/Makassar', 'en', NOW)).toBe('Last seen 12 min ago');
     const alex = view.people.find((person) => person.uid === ALEX);
     expect(statusLine(alex!, 'Asia/Makassar', 'en', NOW)).toBe('At Warung Pondok, 900 m');
-  });
-});
-
-describe('glide', () => {
-  it('glides over the time between fixes, at most 1.5 s, easing out', () => {
-    const from = { lat: 0, lng: 0, at: 0 };
-    expect(glideDuration(from, { lat: 1, lng: 1, at: 5000 })).toBe(MAX_GLIDE_MS);
-    expect(glideDuration(from, { lat: 1, lng: 1, at: 800 })).toBe(800);
-    expect(glideAt(from, { lat: 1, lng: 2, at: 1 }, 1)).toEqual([2, 1]);
-    expect(glideAt(from, { lat: 1, lng: 2, at: 1 }, 0.5)[1]).toBeCloseTo(0.75);
   });
 });
 

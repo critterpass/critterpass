@@ -15,9 +15,8 @@ import {
   type VisitCandidate,
 } from '@/lib/location';
 import { getPermissionStore } from '@/lib/permissions';
-import { VisitConsentSheet } from '@/ui/permission-primer';
-import { Scaffold, Text } from '@/ui';
-import { PillButton } from '@/ui/buttons/PillButton';
+import { VisitConsentSheet } from '@/features/permissions';
+import { PillButton, Scaffold, Text } from '@/features/dev-tools/dev-kit';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.

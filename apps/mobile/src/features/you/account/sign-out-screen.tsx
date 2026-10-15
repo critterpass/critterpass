@@ -1,18 +1,21 @@
 /** Sign out: confirm, then sign out on the server, clear this phone and restart at the welcome screen. */
 /* eslint-disable lingui/no-unlocalized-strings -- result kinds, wire values and test ids, never copy. */
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
 
 import { deviceAccountServices, type AccountServices } from './account-services';
-import { SignOutView } from './sign-out-view';
+import { type SignOutViewProps } from './sign-out-props';
 import { usePassSaved } from './use-account';
 
 const SAVE_PASS_ROUTE = '/onboarding/save';
 
 export function SignOutScreen({
   services = deviceAccountServices,
+  View,
 }: {
   readonly services?: AccountServices;
+  /** The page drawn over this logic. */
+  readonly View: ComponentType<SignOutViewProps>;
 }) {
   const saved = usePassSaved(services);
   const [busy, setBusy] = useState(false);
@@ -29,7 +32,7 @@ export function SignOutScreen({
   };
 
   return (
-    <SignOutView
+    <View
       saved={saved}
       busy={busy}
       problem={problem}

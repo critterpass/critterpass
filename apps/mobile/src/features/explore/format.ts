@@ -10,7 +10,7 @@ import {
   guideSticker,
   type GuideStickerId,
   isGuideStickerId,
-} from '@/ui/avatar/guides';
+} from '@/ui/premium/stickers/guides';
 
 /** "Apr" (short), "April" (long) or "A" (narrow) for month 1–12. */
 export function monthName(

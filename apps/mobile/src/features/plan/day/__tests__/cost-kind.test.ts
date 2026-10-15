@@ -4,7 +4,7 @@
  */
 import { describe, expect, it } from '@jest/globals';
 
-import { costKind } from '../item-facts';
+import { costKind } from '../item-words';
 
 describe('what a stop’s cost line says', () => {
   it('never calls an unpriced place free', () => {

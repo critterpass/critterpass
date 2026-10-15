@@ -90,12 +90,77 @@ export function screenGrounds(
   const byMiddle = exactly(middle);
   if (byMiddle !== undefined) return byMiddle;
   const across = rows.flatMap((y) => rowSamples(image, y, 0, 1, 60));
+  // A premium card is no current-UI ground, however close (the dark card sits within reach of it).
   const current = across.filter(
-    (colour) => colourDistance(colour, options.background) <= LIMITS.sameColour,
+    (colour) =>
+      colourDistance(colour, options.background) <= LIMITS.sameColour &&
+      exactly(colour) === undefined,
   );
   if (current.length > across.length * CURRENT_GROUND_SHARE) return [options.background];
   const sides = commonest(
     rows.flatMap((y) => [pixel(image, 0, y), pixel(image, image.width - 1, y)]),
   );
   return exactly(sides) ?? [options.background];
+}
+
+/**
+ * A card of the other scheme on its page: the frame's colour is exactly one scheme's page ground,
+ * while the screen's middle reads as the other scheme (the boarding pass, drawn light on the dark
+ * page by design). Its page shows at the card's gutter on both sides, which is no frame.
+ */
+export function isOtherSchemeCardOnPage(
+  frameColour: Rgb,
+  middleGrounds: Grounds,
+  options: ScreenCheckOptions,
+): boolean {
+  const families = options.premiumGrounds ?? [];
+  // The middle must read as a premium scheme itself: a premium ground framing the current UI is
+  // a frame.
+  if (!families.includes(middleGrounds)) return false;
+  return families.some((family) => {
+    const page = family[0];
+    if (page === undefined || family === middleGrounds) return false;
+    const otherScheme = !family.some((ground) =>
+      middleGrounds.some((middle) => colourDistance(ground, middle) <= LIMITS.exactGround),
+    );
+    return otherScheme && colourDistance(frameColour, page) <= LIMITS.exactGround;
+  });
+}
+
+/** How dark a scrim can make a light ground (iOS action sheets and alerts dim by about a fifth). */
+const SCRIM_FACTOR = { min: 0.35, max: 0.95, spread: 0.03 } as const;
+
+/** The factor a uniform scrim darkened `ground` by to give `colour`, or null when it isn't one. */
+function scrimFactor(colour: Rgb, ground: Rgb): number | null {
+  if (Math.min(...ground) < 128) return null;
+  const ratios = colour.map((channel, index) => channel / (ground[index] ?? 1));
+  const low = Math.min(...ratios);
+  const high = Math.max(...ratios);
+  if (high - low > SCRIM_FACTOR.spread || low < SCRIM_FACTOR.min || high > SCRIM_FACTOR.max)
+    return null;
+  return (low + high) / 2;
+}
+
+/**
+ * A scrim over a premium page (an action sheet or alert dimming everything under it): the "frame"
+ * is the page's ground in its side gutters, darkened by the same factor as the screen's middle, so
+ * nothing is framed. A frame drawn over an undimmed page leaves the middle on its own ground.
+ */
+export function isScrimOverPremiumPage(
+  image: RgbaImage,
+  rows: readonly number[],
+  frameColour: Rgb,
+  options: ScreenCheckOptions,
+): boolean {
+  const grounds = (options.premiumGrounds ?? []).flat();
+  const frameFactors = grounds.flatMap((ground) => scrimFactor(frameColour, ground) ?? []);
+  if (frameFactors.length === 0) return false;
+  const middle = commonest(rows.flatMap((y) => rowSamples(image, y, 0.3, 0.7, 20)));
+  return grounds.some((ground) => {
+    const factor = scrimFactor(middle, ground);
+    return (
+      factor !== null &&
+      frameFactors.some((frame) => Math.abs(frame - factor) <= SCRIM_FACTOR.spread)
+    );
+  });
 }

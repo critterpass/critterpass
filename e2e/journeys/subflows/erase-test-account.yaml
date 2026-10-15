@@ -7,7 +7,7 @@ appId: app.critterpass.dev
 # stops the run before anything is erased. Run from Home or from the name page.
 - runFlow: ../../you/subflows/guard-test-number.yaml
 # A cold start by a screen link, then back to the tab bar and the entry on Home.
-- runFlow: ../../home/subflows/open-dev-tools.yaml
+- runFlow: ../../_shared/open-dev-tools.yaml
 - scrollUntilVisible:
     element:
       id: 'dev-nav-start-fresh'

@@ -6,74 +6,54 @@
  */
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
+import { router } from 'expo-router';
+import { useEffect } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import { premium } from '@cp/design-tokens';
+import Animated, { SlideOutRight } from 'react-native-reanimated';
 
-import { guideCritterKind, IconTile, turn, type LineIconName } from '@/features/trip';
+import { guideCritterKind } from '@/features/trip';
 import {
   Banner,
   Button,
+  exitTransition,
   GuideNote,
-  PressableScale,
+  Icon,
+  layoutTransition,
+  ListCard,
+  Row,
   Text,
-  TextButton,
+  usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { LinkCodeFlow } from '../add/LinkCodeFlow';
-import { PasteFlow } from '../add/PasteFlow';
 import { useScanLine } from '../add/scan-line';
-import type { ImportChannel } from '../add/ImportTiles';
+import type { ImportChannel } from '../add/view-types';
 import { useAddBooking } from '../add/use-add-booking';
 import { useWalletGuide, WalletGuideProvider } from '../data/wallet-guide';
+import { BOOKINGS_ROUTES } from '../routes';
+import { AddTile } from './components/AddTile';
 import { CandidateCard } from './components/CandidateCard';
-import { MailboxPremium } from './MailboxPremium';
+import { useAddressCopiedToast } from './components/ConfirmationCode';
 
-function Tile(props: {
-  readonly icon: LineIconName;
-  readonly tint: { bg: string; text: string };
-  readonly label: string;
-  readonly sub: string;
-  readonly tilt: number;
-  readonly onPress: () => void;
-  readonly testID: string;
-}) {
-  const th = usePremiumTheme();
-  return (
-    <PressableScale
-      style={styles.tileCell}
-      onPress={props.onPress}
-      accessibilityRole="button"
-      accessibilityLabel={props.label}
-      testID={props.testID}
-    >
-      <View
-        style={[
-          styles.tile,
-          {
-            borderRadius: th.radius.card,
-            backgroundColor: th.color.card,
-            boxShadow: th.shadow.card,
-          },
-        ]}
-      >
-        <View style={{ transform: [turn(props.tilt)] }}>
-          <IconTile name={props.icon} bg={props.tint.bg} color={props.tint.text} size={44} />
-        </View>
-        <View>
-          <Text variant="rowTitle">{props.label}</Text>
-          <Text variant="captionMuted" tone="muted">
-            {props.sub}
-          </Text>
-        </View>
-      </View>
-    </PressableScale>
-  );
-}
+/** An added booking slides off to the right on Smooth. */
+const SLIDE_OUT = SlideOutRight.springify()
+  .stiffness(premium.spring.smooth.stiffness)
+  .damping(premium.spring.smooth.damping)
+  .mass(premium.spring.smooth.mass);
+
+const SHEET_ROUTES = {
+  paste: BOOKINGS_ROUTES.paste,
+  link: BOOKINGS_ROUTES.linkCode,
+  mailbox: BOOKINGS_ROUTES.mailbox,
+} as const;
 
 function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
+  const copied = useAddressCopiedToast();
+  const reduced = usePremiumReducedMotion();
   const guide = useWalletGuide();
   const p = add.props;
   const scanLine = useScanLine(p.scan);
@@ -89,31 +69,25 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
         { paddingHorizontal: th.space.gutter, gap: th.space.gap14 },
       ]}
     >
-      <Text variant="largeTitle" accessibilityRole="header">
-        {t({ id: 'bookings.add.title', message: 'Add a booking' })}
-      </Text>
       <View style={styles.tiles}>
-        <Tile
-          icon="chat"
-          tint={th.color.status.rain}
+        <AddTile
+          sticker="chat"
           label={t({ id: 'bookings.premium.tileForward', message: 'Forward' })}
           sub={t({ id: 'bookings.premium.tileForwardSub', message: 'Any email' })}
           tilt={-6}
           onPress={channel('forward')}
           testID="bookings-add-forward"
         />
-        <Tile
-          icon="scan"
-          tint={th.color.status.voteOpen}
+        <AddTile
+          sticker="camera"
           label={t({ id: 'bookings.premium.tileScan', message: 'Scan' })}
           sub={t({ id: 'bookings.premium.tileScanSub', message: 'Paper or screen' })}
           tilt={5}
           onPress={channel('scan')}
           testID="bookings-add-scan"
         />
-        <Tile
-          icon="link"
-          tint={th.color.status.booked}
+        <AddTile
+          sticker="ticket"
           label={t({ id: 'bookings.premium.tilePaste', message: 'Paste' })}
           sub={t({ id: 'bookings.premium.tilePasteSub', message: 'A link or code' })}
           tilt={-4}
@@ -137,14 +111,24 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
             },
           ]}
         >
-          <Text variant="mono" style={styles.flex} numberOfLines={1} selectable>
+          {/* The whole address on one line: no tracking, and it shrinks before it cuts. */}
+          <Text
+            variant="mono"
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.75}
+            ellipsizeMode="middle"
+            selectable
+            style={[styles.addressText, styles.asWritten]}
+          >
             {p.address}
           </Text>
           <Button
             label={t({ id: 'bookings.premium.copy', message: 'Copy' })}
             size="small"
             variant="control"
-            onPress={() => void p.onCopy(p.address ?? '')}
+            alignSelf="auto"
+            onPress={() => copied(p.onCopy(p.address ?? ''))}
             testID="bookings-add-copy"
           />
         </View>
@@ -183,16 +167,22 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
       )}
       <View style={{ gap: th.space.gap10 }} testID="bookings-candidates">
         {p.candidates.map((view) => (
-          <CandidateCard
+          // Added slides out to the right, ignored fades; the list closes the gap (7.03, Smooth).
+          <Animated.View
             key={view.id}
-            view={view}
-            split={p.splits[view.id] ?? view.canSplit}
-            tz={p.tz}
-            onSplit={(next) => p.onSplit(view.id, next)}
-            onAdd={() => p.onAdd(view.id)}
-            onIgnore={() => p.onIgnore(view.id)}
-            onByHand={() => p.onByHand(view.id)}
-          />
+            exiting={!reduced && p.leaving[view.id] === 'add' ? SLIDE_OUT : exitTransition(reduced)}
+            {...(reduced ? {} : { layout: layoutTransition(false) })}
+          >
+            <CandidateCard
+              view={view}
+              split={p.splits[view.id] ?? view.canSplit}
+              tz={p.tz}
+              onSplit={(next) => p.onSplit(view.id, next)}
+              onAdd={() => p.onAdd(view.id)}
+              onIgnore={() => p.onIgnore(view.id)}
+              onByHand={() => p.onByHand(view.id)}
+            />
+          </Animated.View>
         ))}
       </View>
       <GuideNote
@@ -216,18 +206,24 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
         }}
         testID="bookings-add-footnote"
       />
-      <View style={styles.links}>
-        <TextButton
-          label={t({ id: 'bookings.add.byHand', message: 'Or type it in by hand' })}
+      {/* The quieter ways in, as rows on one card: typing it in (a pencil), and a code from the
+          inbox (the mail bubble Forward wears). */}
+      <ListCard>
+        <Row
+          title={t({ id: 'bookings.add.byHand', message: 'Or type it in by hand' })}
+          leading={<Icon name="edit" size={22} color={th.color.ink} />}
+          trailing={<Icon name="forward" size={16} color={th.color.muted} />}
           onPress={p.onTypeIn}
           testID="bookings-add-by-hand"
         />
-        <TextButton
-          label={t({ id: 'bookings.add.linkCode', message: 'Got a code? Link your email' })}
+        <Row
+          title={t({ id: 'bookings.add.linkCode', message: 'Got a code? Link your email' })}
+          leading={<Icon name="chat" size={22} color={th.color.ink} />}
+          trailing={<Icon name="forward" size={16} color={th.color.muted} />}
           onPress={p.onLinkCode}
           testID="bookings-add-link-code"
         />
-      </View>
+      </ListCard>
     </ScrollView>
   );
 }
@@ -235,30 +231,25 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
 export function AddBookingPremium({ start }: { readonly start?: string | undefined }) {
   const { t } = useLingui();
   const add = useAddBooking(start);
+  const { sheet, setSheet } = add;
+  // Paste, the link code and the mailbox are native form sheets over this page (a tile, a link
+  // below, or `start` from another page).
+  useEffect(() => {
+    if (sheet === null) return;
+    setSheet(null);
+    router.push(SHEET_ROUTES[sheet]);
+  }, [sheet, setSheet]);
   const back = t({ id: 'bookings.back', message: 'Bookings' });
   return (
     <WalletGuideProvider tripId={add.guideTripId}>
       <PushScreen
         title={t({ id: 'bookings.add.title', message: 'Add a booking' })}
         backLabel={back}
+        largeTitle
         scroll={false}
         testID="bookings-add"
       >
         <Body add={add} />
-        {add.sheet === 'paste' ? (
-          <PasteFlow tripId={add.tripId} onDone={() => add.setSheet(null)} />
-        ) : null}
-        {add.sheet === 'link' ? (
-          <LinkCodeFlow crewId={add.crewId} onDone={() => add.setSheet(null)} />
-        ) : null}
-        {add.sheet === 'mailbox' ? (
-          <MailboxPremium
-            status={add.mailbox.status}
-            address={add.address}
-            onChanged={add.mailbox.reload}
-            onClose={() => add.setSheet(null)}
-          />
-        ) : null}
       </PushScreen>
     </WalletGuideProvider>
   );
@@ -267,8 +258,6 @@ export function AddBookingPremium({ start }: { readonly start?: string | undefin
 const styles = StyleSheet.create({
   body: { paddingTop: 8, paddingBottom: 40 },
   tiles: { flexDirection: 'row', gap: 10 },
-  tileCell: { flex: 1 },
-  tile: { height: 120, padding: 12, justifyContent: 'space-between' },
   address: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -277,6 +266,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 8,
   },
-  flex: { flex: 1, minWidth: 0 },
-  links: { alignItems: 'center', gap: 4 },
+  addressText: { flex: 1, minWidth: 0, letterSpacing: 0 },
+  // An address is written as it is (the mono face sets capitals by default).
+  asWritten: { textTransform: 'none' },
 });

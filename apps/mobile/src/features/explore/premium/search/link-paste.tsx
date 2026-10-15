@@ -1,29 +1,35 @@
 /**
  * Add from a link before there is a link, in the premium look (4.32's sheet opened from the
  * clipboard card with nothing to read yet; undesigned): "Paste what you saved", the field with the
- * system Paste control where it exists (a Paste pill elsewhere), why it can't read what is there,
+ * kit's Paste pill, why it can't read what is there,
  * "Add from it" once the text holds a link, a screenshot as the other way in, and what it works
  * with. The candidates a mention could be (Pick one) open over the found places as a sheet of up to
  * three, each with its photo where there is one and the photo credit the sources ask for.
  */
 import { t } from '@lingui/core/macro';
-import * as Clipboard from 'expo-clipboard';
 import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { screenCredits } from '@/data/media/use-place-tile-photos';
 import { OverlaySheet } from '@/features/plan';
-import { Button, ListCard, Text, TextButton, TextField, usePremiumTheme } from '@/ui/premium';
+import {
+  Button,
+  ListCard,
+  PasteButton,
+  Text,
+  TextButton,
+  TextField,
+  usePremiumTheme,
+} from '@/ui/premium';
+import { sheetMaterialStyle } from '@/ui/premium/shell';
 
 import { typedLink } from '../../search/clipboard';
-import type { LinkPasteProps } from '../../search/link-paste';
-import type { PickOneSheetProps } from '../../search/pick-one-sheet';
+import type { LinkPasteProps } from '../../search/link-screen';
+import type { PickOneSheetProps } from '../../search/link-screen';
 import { placeIcon } from '../../search/place-icons';
 import { PlaceResultRow } from '../components/place-result-row';
 
 const CREDIT_SEPARATOR = ' · ';
-const PASTE_WIDTH = 120;
-const PASTE_HEIGHT = 44;
 
 export function PremiumLinkPaste(props: LinkPasteProps) {
   const theme = usePremiumTheme();
@@ -34,20 +40,15 @@ export function PremiumLinkPaste(props: LinkPasteProps) {
     setText(value);
     setEmpty(false);
   };
-  const paste = () => {
-    void props.readClipboard().then((copied) => {
-      if (copied === null || copied.trim() === '') setEmpty(true);
-      else typed(copied.trim());
-    });
-  };
   const placeholder = t({ id: 'search.paste.placeholder', message: 'A TikTok, post or map link' });
-  const systemPaste = props.pasteControl !== false && Clipboard.isPasteButtonAvailable;
   const wrong = text.trim() !== '' && link === null;
   const add = () => {
     if (link !== null) props.onAdd(link.url);
   };
   return (
     <ScrollView
+      // The native form sheet is see-through: its material is drawn here.
+      style={[{ flex: 1 }, sheetMaterialStyle(theme)]}
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}
       testID="search-link-paste"
@@ -70,23 +71,13 @@ export function PremiumLinkPaste(props: LinkPasteProps) {
             testID="search-link-paste-field"
           />
         </View>
-        {systemPaste ? (
-          <Clipboard.ClipboardPasteButton
-            acceptedContentTypes={['url', 'plain-text']}
-            displayMode="iconAndLabel"
-            style={{ width: PASTE_WIDTH, height: PASTE_HEIGHT }}
-            onPress={(data) => {
-              if (data.type === 'text') typed(data.text.trim());
-            }}
-          />
-        ) : (
-          <Button
-            size="small"
-            label={t({ id: 'search.paste.paste', message: 'Paste' })}
-            onPress={paste}
-            testID="search-link-paste-button"
-          />
-        )}
+        <PasteButton
+          label={t({ id: 'search.paste.paste', message: 'Paste' })}
+          variant="primary"
+          onPaste={typed}
+          onEmpty={() => setEmpty(true)}
+          testID="search-link-paste-button"
+        />
       </View>
       {wrong || empty || props.problem !== null ? (
         <Text variant="caption" tone="muted" testID="search-link-paste-note">
@@ -113,6 +104,7 @@ export function PremiumLinkPaste(props: LinkPasteProps) {
           />
         </View>
         <TextButton
+          align="center"
           label={t({ id: 'search.paste.screenshot', message: 'Or pick a screenshot' })}
           onPress={props.onScreenshot}
           testID="search-link-paste-screenshot"

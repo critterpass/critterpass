@@ -9,6 +9,7 @@ import { router, usePathname } from 'expo-router';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   Easing,
   useAnimatedStyle,
   useSharedValue,
@@ -28,6 +29,7 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { FullScreen } from '@/ui/premium/shell';
 
 import { HomeGlyph } from '../components/home-glyph';
@@ -44,12 +46,13 @@ const useStyles = makePremiumStyles((t) => ({
   },
   art: { height: 220, alignItems: 'center', justifyContent: 'center' },
   pin: { position: 'absolute', end: 96, top: 30, transform: [{ rotate: '12deg' }] },
+  // A soft ground shadow under the critter, not a solid bar that reads as a loading line.
   shadow: {
-    width: 120,
-    height: 14,
-    borderRadius: 60,
-    backgroundColor: t.color.hairline,
-    marginTop: 4,
+    width: 140,
+    height: 22,
+    marginTop: 0,
+    experimental_backgroundImage:
+      'radial-gradient(closest-side, rgba(23,20,42,0.16), rgba(23,20,42,0))',
   },
   tile: { width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   grow: { flex: 1 },
@@ -60,21 +63,27 @@ export function LostLinkScreen() {
   const theme = usePremiumTheme();
   const insets = useSafeAreaInsets();
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const { t } = useLingui();
   const path = usePathname();
   const lift = useSharedValue(0);
   useEffect(() => {
-    if (reduced) return;
+    if (!looping) {
+      cancelAnimation(lift);
+      lift.value = 0;
+      return;
+    }
     lift.value = withRepeat(
       withTiming(1, { duration: FLOAT_MS, easing: Easing.inOut(Easing.sin) }),
       -1,
       true,
     );
-  }, [lift, reduced]);
+  }, [lift, looping]);
   const float = useAnimatedStyle(() => ({
     transform: [{ translateY: -9 * lift.value }, { rotate: `${-2 + 4 * lift.value}deg` }],
   }));
   const home = () => router.replace('/');
+  const chevron = <Icon name="forward" size={16} color={theme.color.placeholder} />;
   return (
     <FullScreen
       closeLabel={t({ id: 'home.premium.lost.close', message: 'Close' })}
@@ -110,6 +119,8 @@ export function LostLinkScreen() {
         <ListCard radius={theme.radius.cardRow}>
           <Row
             title={t({ id: 'home.premium.lost.home', message: 'Go to Home' })}
+            subtitle={t({ id: 'home.premium.lost.homeSub', message: 'Your crews and what’s next' })}
+            trailing={chevron}
             leading={
               <View style={[styles.tile, { backgroundColor: theme.color.control }]}>
                 <Icon name="home" size={18} />
@@ -120,6 +131,8 @@ export function LostLinkScreen() {
           />
           <Row
             title={t({ id: 'home.premium.lost.trips', message: 'Search your trips' })}
+            subtitle={t({ id: 'home.premium.lost.tripsSub', message: 'Every trip you’re part of' })}
+            trailing={chevron}
             leading={
               <View style={[styles.tile, { backgroundColor: theme.color.status.rain.bg }]}>
                 <HomeGlyph name="search" size={18} color={theme.color.status.rain.text} />
@@ -131,6 +144,7 @@ export function LostLinkScreen() {
         </ListCard>
         <View style={styles.grow} />
         <TextButton
+          align="center"
           label={t({ id: 'home.premium.lost.report', message: 'Tell us this link is broken' })}
           onPress={() =>
             router.push({

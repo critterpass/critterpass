@@ -9,7 +9,7 @@ import { CritterSticker, PressableScale, Text, makePremiumStyles } from '@/ui/pr
 const useStyles = makePremiumStyles((t) => ({
   tile: {
     flex: 1,
-    height: 118,
+    minHeight: 118,
     borderRadius: t.radius.cardRow,
     backgroundColor: t.color.card,
     boxShadow: t.shadow.card,

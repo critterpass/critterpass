@@ -8,15 +8,15 @@
 import { useEffect, useState } from 'react';
 import { Image, PixelRatio, View } from 'react-native';
 
-import type { GuideStickerInfo } from '@/ui/avatar/guides';
-import { renderStickerPng } from '@/ui/sticker/export-png';
-import { nearestBucket } from '@/ui/sticker/bucket';
-import { specKey } from '@/ui/sticker/spec-key';
+import type { GuideStickerInfo } from '@/ui/premium/stickers/guides';
+import { renderStickerPng } from '@/ui/premium/stickers/art/export-png';
+import { nearestBucket } from '@/ui/premium/stickers/art/bucket';
+import { specKey } from '@/ui/premium/stickers/art/spec-key';
 import {
   DEFAULT_STICKER_EDGE,
   getDefaultSkiaCache,
   getDefaultSkiaEngine,
-} from '@/ui/sticker/Sticker';
+} from '@/ui/premium/stickers/art/Sticker';
 
 export type GuidePngRenderer = (kind: string, sizePt: number) => Promise<Uint8Array>;
 

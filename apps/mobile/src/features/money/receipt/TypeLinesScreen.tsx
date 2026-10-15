@@ -4,28 +4,33 @@
  */
 import { generateUuidV7 } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { useRef, useState } from 'react';
+import { useRef, useState, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { goBackOr } from '@/lib/navigation/back';
 import { useCommandFeedback } from '@/motion/island-toast';
 
 import { pressKey } from '../add-expense/draft';
-import { MONEY_FALLBACK } from '../components/screen-states';
+import { MONEY_FALLBACK } from '../routes';
 import { addExpenseCommand } from '../data/commands';
 import type { MoneyContext } from '../data/use-money-context';
-import { MemberPicker } from './MemberPicker';
+import type { MemberPickerProps } from './member-pick';
 import type { ParsedReceipt } from './review-model';
-import { TypeLinesEditor } from './TypeLinesEditor';
+import type { TypeLinesEditorProps } from './view-types';
 import { prefillLines, typedPayload, typedShares, type TypedLine } from './type-lines-model';
 
 export function TypeLinesScreen({
   ctx,
   parsed,
+  Editor,
+  Picker,
 }: {
   readonly ctx: MoneyContext;
   readonly parsed: ParsedReceipt | null;
   readonly receiptId: string | null;
+  /** The editor and the who-had-it picker the scan's look draws. */
+  readonly Editor: ComponentType<TypeLinesEditorProps>;
+  readonly Picker: ComponentType<MemberPickerProps>;
 }) {
   const { t } = useLingui();
   const { report } = useCommandFeedback();
@@ -79,7 +84,7 @@ export function TypeLinesScreen({
   const pickerLine = lines.find((line) => line.id === picker) ?? null;
   return (
     <>
-      <TypeLinesEditor
+      <Editor
         lines={lines}
         currency={currency}
         totalMinor={totalMinor}
@@ -112,7 +117,7 @@ export function TypeLinesScreen({
         onCommit={() => void commit()}
       />
       {pickerLine === null ? null : (
-        <MemberPicker
+        <Picker
           title={
             pickerLine.label === ''
               ? t({ id: 'money.typeLines.who', message: 'Who had it?' })

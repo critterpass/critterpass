@@ -2,8 +2,8 @@
 import { useLingui } from '@lingui/react/macro';
 
 import { monthShort } from '../../format';
-import type { GuestPlace } from '../../places/brief-stream';
-import { fxLine } from '../../places/guest-guide-page';
+import type { GuestPlace } from '../../places/use-guest-brief';
+import { fxLine } from '../../places/city-guide';
 
 export interface GuestFact {
   readonly key: string;

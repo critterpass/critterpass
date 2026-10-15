@@ -71,6 +71,26 @@ export const exploreSubAreas = {
   'trip-explore': [`${exploreRoot}/trip-explore/**`],
 } as const;
 
+// Copy an area words from outside its `app/<area>` and `features/<area>` folders.
+const appSrc = `${repoRootPrefix}/apps/mobile/src`;
+export const areaSourcesOutside: Readonly<Record<string, readonly string[]>> = {
+  // The plan's shared reader, editor and commands word the outbox and stop names.
+  plan: [`${appSrc}/data/plan/**`],
+  // A trip's areas word the travel line the plan and Explore both show; the place search and
+  // region packs word the place categories.
+  explore: [`${appSrc}/data/areas/**`, `${appSrc}/data/places/**`],
+  // The hatch is a modal route.
+  critters: [`${appSrc}/app/(modal)/hatch/**`],
+  // The launch screen's passport stamp opens onboarding.
+  onboarding: [`${appSrc}/features/launch/**`],
+};
+
+// The permission primers and the consent sheets (location in the background, visits).
+export const permissionSources = [
+  `${appSrc}/ui/permission-primer/**`,
+  `${appSrc}/features/permissions/**`,
+];
+
 // The section 7 planning kit keeps its own catalogs: `planning/kit` for the shared planning
 // components, the map sheet and the planning map layers, `planning/fit` for the lines that say when
 // a place fits, so the planning lanes never extract into `common`.

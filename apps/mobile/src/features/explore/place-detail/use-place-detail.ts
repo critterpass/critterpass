@@ -1,5 +1,5 @@
 /**
- * The place page's data and actions (7e-1, 7e-2), shared by both looks of the page: the place from
+ * The place page's data and actions (7e-1, 7e-2): the place from
  * the device (so a saved destination's places open offline), and inside a trip when it fits, its
  * fact tiles, what is nearby and similar and where the crew stands, from the api. ADD opens Add to
  * plan (7f-1) at the slot it names.
@@ -20,6 +20,7 @@ import { goHref } from '@/features/go';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
+import { shortName } from '@/lib/people/member-name';
 import { useExploreStream } from '../data/use-explore-stream';
 import { usePlaceLive } from '../data/use-place-live';
 import { guideFor, poiSubject } from '../format';
@@ -37,9 +38,11 @@ import {
   savedByLabel,
   splitCountLabel,
 } from './model';
-import type { PlaceDetailViewProps } from './place-detail-view';
+
 import { areaFromAddress, sellsTickets } from './place-facts';
 import { useIdeaSave } from './use-idea-save';
+
+import type { PlaceDetailViewProps } from './place-detail-props';
 
 export interface PlaceDetailInput {
   readonly placeId: string;
@@ -100,7 +103,7 @@ export function usePlaceDetail({ placeId, row, profile = null, tripId, onBack }:
       ? []
       : [{ key: member.uid, name: member.name, joinIndex: member.joinIndex }];
   });
-  const firstNames = savers.map((member) => member.name.split(' ')[0] ?? member.name);
+  const firstNames = savers.map((member) => shortName(member.name));
   const stances = context?.stances ?? null;
   // The tag opens Crew can't agree; where that has nothing to open (a crew of two) it is left out.
   const splitHref =
@@ -124,7 +127,7 @@ export function usePlaceDetail({ placeId, row, profile = null, tripId, onBack }:
       : context !== null && best === null && context.facts?.hoursKnown === false
         ? t({
             id: 'explore.detail.hoursUnknown',
-            message: "Its hours aren't known, so I can't fit it yet.",
+            message: 'Its hours aren’t known, so I can’t fit it yet.',
           })
         : null;
   const stopName = (stableId: string) => {
@@ -241,6 +244,8 @@ export function usePlaceDetail({ placeId, row, profile = null, tripId, onBack }:
     view,
     further: {
       placeId,
+      // Still reading what the guide knows about it (its context).
+      loading: read.status === 'loading',
       name: row.name,
       profile: ready,
       organiser: plan.organiser,

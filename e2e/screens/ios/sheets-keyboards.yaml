@@ -1,0 +1,22 @@
+appId: app.critterpass.dev
+---
+# The iPhone sweep's sheets and keyboards, in light: what only iOS draws its own way (native form
+# sheets and their grabber, the safe areas inside a sheet, the keyboard and its suggestion strip).
+# The pitch sheet over the keyboard and a destination's pitch card, and the crew chat with the
+# keyboard and the sticker tray. The guide's chat sheet and Find are in guide-find.yaml.
+- runFlow:
+    file: ../subflows/start.yaml
+    env:
+      SCENARIO: crew_with_code
+- runFlow:
+    file: ../subflows/plan-places.yaml
+    env:
+      LOOK: light
+- runFlow:
+    file: ../subflows/start.yaml
+    env:
+      SCENARIO: everyday
+- runFlow:
+    file: ../subflows/chat-crew.yaml
+    env:
+      LOOK: light

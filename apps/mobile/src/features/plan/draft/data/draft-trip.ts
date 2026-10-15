@@ -6,13 +6,13 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
-import { isGuideStickerId } from '@/ui/avatar/guides';
-import type { GuideId } from '@/ui/people/GuideLine';
+import { isGuideStickerId } from '@/ui/premium/stickers/guides';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 import { redraftQuota, type RedraftQuota } from './quota';
 import { useLiveRows } from './rows';
 import type { Person, SetupNow } from './version';
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName, shortName } from '@/lib/people/member-name';
 
 export interface DraftTrip {
   readonly tripId: string;
@@ -95,7 +95,7 @@ const ME_SQL = 'SELECT value FROM local_state WHERE id = ?';
 const ME_TABLES = ['local_state'];
 
 export function firstName(displayName: string | null): string {
-  return displayName?.trim().split(/\s+/u)[0] ?? '';
+  return displayName == null || displayName.trim() === '' ? '' : shortName(displayName);
 }
 
 export function toDraftTrip(

@@ -6,8 +6,7 @@
  * area registers it), and the media api client (uploads
  * and signed read URLs) the album shares with chat.
  */
-export { registerChatCard, type ChatCardProps, type ChatCardRenderer } from './chat/cards/registry';
-export { registerAttachEntry, type AttachEntry } from './chat/media/attach-menu';
+export { registerAttachEntry, type AttachEntry } from './chat/media/attach-entries';
 export type { MediaHttp, PickedPhoto } from './chat/media/media-services';
 export { readUrl, useReadUrl } from './chat/media/read-urls';
 export { uploadAttachment, type UploadInput, type UploadOutcome } from './chat/media/upload';
@@ -24,7 +23,11 @@ export {
 export { WaitlistSheet } from './seat-limit/WaitlistSheet';
 export { Doodle, type DoodleName } from './premium/chat/doodle';
 export { crewAccent } from './premium/crew-colour';
-export { registerPremiumChatCard, type PremiumChatCard } from './premium/chat/cards/registry';
+export {
+  registerPremiumChatCard,
+  type ChatCardProps,
+  type PremiumChatCard,
+} from './premium/chat/cards/registry';
 export { ACCEPT_INVITE, SET_ACTIVE_CREW } from './crews-sheet/crew-commands';
 export { useCrews } from './crews-sheet/crew-data';
 export {

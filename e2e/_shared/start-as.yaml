@@ -5,7 +5,9 @@ appId: app.critterpass.dev
 #
 #   ${SCENARIO}  everyday | inbox | caught_up | vote | vote_final (the Bali demo world), or
 #                trip_today | trip_tomorrow | draft_ready | draft_today | crew_with_code |
-#                solo_today | solo_tomorrow (a Vietnamese crew's own)
+#                solo_today | solo_tomorrow (a Vietnamese crew's own), or week_crew |
+#                week_solo (a locked week at long-named places without photos, for a crew of
+#                five or of one: the sweep's long real data)
 #   ${LANG}      en (default) or vi
 #
 # The install is cleared and launched with the request as a launch argument; the dev build's
@@ -50,9 +52,36 @@ appId: app.critterpass.dev
           id: 'start-as-code'
       # iOS copies a spoken label: the code is its last six characters.
       - evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
-- tapOn:
-    id: 'start-as-ready'
+# The first launch on a fresh simulator can drop this tap (the app's window has no input focus
+# yet): it is tapped again while Home has not come up.
+- retry:
+    maxRetries: 2
+    commands:
+      - tapOn:
+          id: 'start-as-ready'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'home-screen|tab-home'
+          timeout: 20000
+# A plain relaunch drops the launch argument: an in-app restart later (an account switch) would
+# read it again and start another seeded account instead of a new one.
+- stopApp
+- launchApp
+- runFlow: settle.yaml
 - extendedWaitUntil:
     visible:
-      id: 'tab-home'
+      id: 'home-screen|tab-home|critters-hatch-later|visit-consent-decline'
+    timeout: 60000
+# A trip that has turned on can show its welcome page over Home at any later step.
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen|visit-consent-decline'
     timeout: 30000

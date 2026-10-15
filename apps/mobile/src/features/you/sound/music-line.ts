@@ -3,7 +3,7 @@ import { useLingui } from '@lingui/react/macro';
 
 import { useActiveGuide } from '@/lib/navigation/active-guide';
 import { music } from '@/motion/music';
-import { guidesOfSameCountry } from '@/ui/avatar/guides';
+import { guidesOfSameCountry } from '@/ui/premium/stickers/guides';
 
 import { themeStyleName } from './theme-names';
 import { themeToPlay, useThemeChoice } from './theme-choice';

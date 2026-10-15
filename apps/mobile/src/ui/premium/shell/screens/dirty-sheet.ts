@@ -45,6 +45,12 @@ export function askToDiscard(prompt: DiscardPrompt): Promise<boolean> {
 export interface DirtySheetGuard {
   /** Run the sheet's verb: leaving afterwards does not ask. */
   readonly commit: (verb: () => void | Promise<void>) => Promise<void>;
+  /**
+   * Leaves the sheet after its verb kept the edits: the hold comes off first and `go` (usually
+   * `router.back()`) runs once it is off, so the removal it starts is never caught as a discard,
+   * whenever the navigator reports it.
+   */
+  readonly leave: (go: () => void) => void;
 }
 
 /**
@@ -86,5 +92,27 @@ export function useDirtySheetGuard(dirty: boolean, prompt: DiscardPrompt): Dirty
     }
   }, []);
 
-  return { commit };
+  // `leave` asks for the hold to come off and keeps `go` until the render that took it off.
+  const pendingLeave = useRef<(() => void) | null>(null);
+  const holding = dirty && !released;
+  const holdingRef = useRef(holding);
+  useEffect(() => {
+    holdingRef.current = holding;
+    if (holding || pendingLeave.current === null) return;
+    const go = pendingLeave.current;
+    pendingLeave.current = null;
+    // The navigator learns that the hold is off on its own next render: go one frame later.
+    const frame = requestAnimationFrame(go);
+    return () => cancelAnimationFrame(frame);
+  }, [holding]);
+  const leave = useCallback((go: () => void) => {
+    if (!holdingRef.current) {
+      go();
+      return;
+    }
+    pendingLeave.current = go;
+    setReleased(true);
+  }, []);
+
+  return { commit, leave };
 }

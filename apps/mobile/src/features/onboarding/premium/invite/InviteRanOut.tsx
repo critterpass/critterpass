@@ -170,6 +170,7 @@ export function InviteRanOut({
         </ListCard>
         <View style={{ alignItems: 'center' }}>
           <TextButton
+            align="center"
             label={t({ id: 'onboarding.premium.ranOut.lookAround', message: 'Look around first' })}
             onPress={leave}
             testID="invite-look-around"

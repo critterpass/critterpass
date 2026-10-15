@@ -48,6 +48,8 @@ describe('the hub while the crew agrees on a plan', () => {
     const vote = { label: 'Voting', href: '/' as const };
     expect(hubPlanning(view({ kind: 'vote' }), vote)).toEqual(vote);
     expect(hubPlanning(null, vote)).toEqual(vote);
+    const noted = { ...vote, note: 'The crew is still picking where to go.' };
+    expect(hubPlanning(null, noted)).toEqual(noted);
   });
 
   it('never opens the empty plan for a member before the plan is sent', () => {

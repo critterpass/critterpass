@@ -19,21 +19,21 @@ describe('crew trip dates and code expiry', () => {
 
   it('writes a range inside one month once, and across months in full', () => {
     expect(tripDatesLine(trip('planning', '2026-11-12', '2026-11-19'), NOW, 'en')).toBe(
-      'Nov 12–19',
+      '12–19 Nov',
     );
     expect(tripDatesLine(trip('planning', '2026-10-30', '2026-11-02'), NOW, 'en')).toBe(
-      'Oct 30 – Nov 2',
+      '30 Oct – 2 Nov',
     );
-    expect(tripDatesLine(trip('planning', '2026-11-12', null), NOW, 'en')).toBe('Nov 12');
+    expect(tripDatesLine(trip('planning', '2026-11-12', null), NOW, 'en')).toBe('12 Nov');
     expect(tripDatesLine(trip('planning', null, null), NOW, 'en')).toBeNull();
   });
 
   it('adds the day the crew is on while the trip runs, kept inside the trip', () => {
     expect(tripDatesLine(trip('in_trip', '2026-10-12', '2026-10-19'), NOW, 'en')).toBe(
-      'Oct 12–19 · day 4 of 8',
+      '12–19 Oct · day 4 of 8',
     );
     expect(tripDatesLine(trip('in_trip', '2026-10-01', '2026-10-05'), NOW, 'en')).toBe(
-      'Oct 1–5 · day 5 of 5',
+      '1–5 Oct · day 5 of 5',
     );
   });
 

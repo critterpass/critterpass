@@ -38,8 +38,14 @@ const useStyles = makePremiumStyles((th) => ({
     backgroundColor: th.color.card,
     boxShadow: th.shadow.card,
   },
+  homeHead: { flexDirection: 'row', alignItems: 'baseline', gap: th.space.gap8 },
+  homeName: { flex: 1 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', rowGap: 6 },
-  cell: { width: '20%', height: 50, alignItems: 'center', justifyContent: 'center' },
+  // A set smaller than a row spreads its few cells across the card (8.01), not left-packed.
+  gridFew: { justifyContent: 'space-evenly' },
+  // Five to a row. A hair under a fifth: Android's layout rounds five 20% cells past the row's
+  // width and wrapped the fifth, so the set ran in four columns with the right of the card empty.
+  cell: { width: '19.9%', height: 50, alignItems: 'center', justifyContent: 'center' },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -117,13 +123,15 @@ export function HomeSetCard({
       accessibilityLabel={`${set.name}, ${count}`}
       testID="critters-home-set"
     >
-      <View>
-        <Text variant="headline">{set.name}</Text>
+      <View style={styles.homeHead}>
+        <Text variant="headline" numberOfLines={1} style={styles.homeName}>
+          {set.name}
+        </Text>
         <Text variant="captionMuted" tone="muted">
           {count}
         </Text>
       </View>
-      <View style={styles.grid}>
+      <View style={[styles.grid, set.cells.length < 5 ? styles.gridFew : null]}>
         {set.cells.map((cell) => (
           <View key={cell.id} style={styles.cell} testID={`critters-cell-${cell.no}`}>
             <CellArt cell={cell} size={46} maskSize={42} />

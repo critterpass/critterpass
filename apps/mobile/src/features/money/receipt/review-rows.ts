@@ -6,7 +6,7 @@
 import { toCrewShares, type FxContext } from '@cp/cost-engine';
 
 import type { MoneyMember } from '../data/context';
-import type { ReviewRow } from './LineAssignSheet';
+import type { ReviewRow } from './view-types';
 import { receiptShares, shareGroups, type Assignments, type ParsedReceipt } from './review-model';
 
 export interface ReviewCopy {

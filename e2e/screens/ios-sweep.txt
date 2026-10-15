@@ -1,0 +1,27 @@
+# The iPhone leg of the UI sweep (device.yml `sweep` preset with platform=ios and no flows): the
+# screens whose layout iOS draws its own way plus every other screen the Android sweep shoots in
+# light (by link where a link reaches it), about thirty-five minutes of flows a shard, balanced by
+# recorded flow time over the iOS jobs' max-parallel. Every e2e/screens flow runs on Android; long
+# real data (long-data.yaml) and the dark and Vietnamese journeys stay there.
+#
+# Sheets (the grabber, the safe areas inside a native sheet) and keyboards.
+e2e/screens/ios/sheets-keyboards.yaml
+e2e/screens/ios/guide-find.yaml
+# Floating headers, the status bar and footers pinned over scrolled content.
+e2e/screens/ios/pages-footers.yaml
+e2e/screens/ios/hub-wallet.yaml
+# The fast capture: screens the seed sets, each opened by its link; every trip page and Home and
+# the tabs by their links (light, and dark for Home, the tabs and the trip's main pages).
+e2e/screens/capture.yaml
+e2e/screens/links-trip.yaml
+e2e/screens/links-home.yaml
+# Journeys whose screens need taps: the wallet of a crew with bookings and expenses, the first
+# run from the splash to the issued pass, the critters through the hatch and the Critterdex (8.02,
+# 8.05), the trip before and on its days (9.19, 6.10, 6.22; the offline pages stay on Android,
+# whose runner can cut the network), and the plan's stops, Swipe together and the plan check
+# (4.42, 4.43).
+e2e/screens/wallet-trip.yaml
+e2e/screens/first-run.yaml
+e2e/screens/critters.yaml
+e2e/screens/trip.yaml
+e2e/screens/ios/plan-stops-explore.yaml

@@ -18,7 +18,7 @@ import {
   type TestLocalFirst,
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
-import { ExpenseListRow } from '../components/ExpenseListRow';
+import { ExpenseRow } from '../premium/components/ExpenseRow';
 
 import { applyMoneyDisplay, clearMoneyDisplayOverride } from '@/data/money/use-money-display';
 import { currentFormats } from '@/lib/i18n/formats';
@@ -87,7 +87,7 @@ function show(stack: TestLocalFirst) {
       >
         <GestureHandlerRootView>
           <LocalFirstProvider value={stack.value}>
-            <ExpenseListRow item={ITEM} crewCurrency="IDR" onOpen={() => undefined} testID="row" />
+            <ExpenseRow item={ITEM} crewCurrency="IDR" onOpen={() => undefined} testID="row" />
           </LocalFirstProvider>
         </GestureHandlerRootView>
       </SafeAreaProvider>

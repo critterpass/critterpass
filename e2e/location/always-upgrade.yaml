@@ -28,19 +28,19 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible:
       id: 'dev-location-permission'
-      text: 'location: granted wiu'
+      text: 'location: granted.wiu'
     timeout: 15000
 - tapOn:
     id: 'dev-location-always'
 - extendedWaitUntil:
     visible:
-      text: '(Allow all the time|Continue)'
+      text: '(Allow all.the.time|Continue)'
     timeout: 10000
 - takeScreenshot: always-upgrade-primer
 - tapOn:
-    text: '(Allow all the time|Continue)'
+    text: '(Allow all.the.time|Continue)'
 - tapOn:
-    text: '(Change to Always Allow|Allow all the time)'
+    text: '(Change to.Always.Allow|Allow all.the.time)'
 # Android 11+ grants Always on the app's location settings page; back returns to the app.
 - runFlow:
     when:
@@ -50,5 +50,5 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible:
       id: 'dev-location-permission'
-      text: 'location: granted always'
+      text: 'location: granted.always'
     timeout: 20000

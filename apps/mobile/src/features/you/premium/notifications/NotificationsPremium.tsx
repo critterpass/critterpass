@@ -10,7 +10,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { guideCritterKind } from '@/features/trip';
 import { usePermission } from '@/lib/permissions';
-import { Banner, Stepper, Text, usePremiumTheme } from '@/ui/premium';
+import { Banner, Card, Stepper, Text, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
 import { clampBudget, BUDGET_MAX, BUDGET_MIN } from '../../ping-settings/ping-prefs';
@@ -101,7 +101,8 @@ export function NotificationsPremium() {
           guideKind={guideCritterKind(null)}
           guideName={t({ id: 'you.premium.pings.guide', message: 'Tokek' })}
         />
-        <View style={styles.stepRow}>
+        {/* On a card like every other setting: the stepper's control fill vanished on the ground. */}
+        <Card padded style={styles.stepRow}>
           <Text variant="body" style={styles.flex}>
             {t({ id: 'you.pings.budgetLabel', message: 'Pings per day' })}
           </Text>
@@ -113,7 +114,7 @@ export function NotificationsPremium() {
             accessibilityLabel={t({ id: 'you.pings.budgetLabel', message: 'Pings per day' })}
             testID="you-pings-budget"
           />
-        </View>
+        </Card>
         <View style={{ gap: th.space.gap8 }}>
           <Text variant="label" tone="muted" style={styles.indent}>
             {t({ id: 'you.pings.always', message: 'Always gets through' })}
@@ -208,7 +209,7 @@ export function NotificationsPremium() {
 const styles = StyleSheet.create({
   body: { paddingTop: 8, paddingBottom: 40 },
   flex: { flex: 1, minWidth: 0 },
-  stepRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 12 },
+  stepRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   indent: { paddingHorizontal: 12 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   chip: {

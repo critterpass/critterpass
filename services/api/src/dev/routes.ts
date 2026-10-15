@@ -75,6 +75,9 @@ export async function seedDemoFor(
       scenario === 'vote' || scenario === 'vote_final'
         ? await ensureDemoVote(tx, world, uid, scenario === 'vote' ? 'board' : 'final', now)
         : null;
+    // The seed writes stops straight into the plan, not through the events that queue the trip's
+    // place cards, so the cards (names, coordinates for the map pins) are refreshed here.
+    await tx.query('SELECT app.refresh_trip_places($1)', [world.tripId]);
     return {
       crew_id: world.crewId,
       trip_id: world.tripId,

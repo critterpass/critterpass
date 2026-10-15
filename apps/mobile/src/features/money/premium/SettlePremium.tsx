@@ -7,15 +7,17 @@
  */
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
+import { PrivateContent } from '@/features/help';
 import { useWalletGuide, WalletGuideProvider } from '@/features/bookings';
-import { crewAccent, guideCritterKind, IconTile, LineIcon } from '@/features/trip';
+import { crewAccent, guideCritterKind } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   Avatar,
   Button,
   CritterSticker,
+  Icon,
   PressableScale,
   Skeleton,
   Text,
@@ -25,10 +27,12 @@ import { PushScreen } from '@/ui/premium/shell';
 
 import { memberName } from '../data/context';
 import { formatAmount } from '../format';
-import type { SettleRowModel } from '../settle/model';
+import { nettedSummary, type SettleRowModel } from '../settle/model';
 import { usePayoutKindLabel } from '../settle/payout-labels';
 import { useSettle, type SettleState } from '../settle/use-settle';
+import { NothingToSettle, SettleReward } from './components/SettleExtras';
 import { SettledSquare } from './components/SettledSquare';
+import { SettleRemindFooter } from './components/SettleRemindFooter';
 
 type Ready = Extract<SettleState, { kind: 'ready' }>;
 
@@ -67,7 +71,14 @@ function useStatus() {
   };
 }
 
-function PaymentCard({ settle, row }: { readonly settle: Ready; readonly row: SettleRowModel }) {
+/** One payment on Settle up (also what the privacy test renders). */
+export function PaymentCard({
+  settle,
+  row,
+}: {
+  readonly settle: Pick<Ready, 'members' | 'onRow' | 'onNudge'>;
+  readonly row: SettleRowModel;
+}) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const locale = useLocale();
@@ -79,7 +90,6 @@ function PaymentCard({ settle, row }: { readonly settle: Ready; readonly row: Se
   return (
     <PressableScale
       onPress={() => settle.onRow(row)}
-      pressedScale={0.98}
       accessibilityRole="button"
       accessibilityLabel={t({
         id: 'money.premium.paymentLabel',
@@ -97,19 +107,27 @@ function PaymentCard({ settle, row }: { readonly settle: Ready; readonly row: Se
           },
         ]}
       >
-        <Avatar name={from} color={crewAccent(index(row.fromId))} size={36} />
-        <LineIcon name="navigate" size={16} color={th.color.placeholder} />
-        <Avatar name={to} color={crewAccent(index(row.toId))} size={28} />
+        <Avatar name={from} color={crewAccent(index(row.fromId))} uid={row.fromId} size={36} />
+        <Icon name="arrowRight" size={16} color={th.color.placeholder} />
+        <Avatar name={to} color={crewAccent(index(row.toId))} uid={row.toId} size={28} />
         <View style={styles.flex}>
-          <Text variant="navTitle" style={styles.tabular}>
-            {amount}
-          </Text>
-          <Text variant="helper" color={status.color}>
-            {status.label}
+          <PrivateContent>
+            <Text variant="navTitle" style={styles.tabular}>
+              {amount}
+            </Text>
+          </PrivateContent>
+          {/* Who pays whom by name: two crewmates can share an initial ("T → T"). */}
+          <Text variant="helper" tone="muted" numberOfLines={1}>
+            {t({ id: 'money.premium.paymentPeople', message: `${from} → ${to}` })}
+            {' · '}
+            <Text variant="helper" color={status.color}>
+              {status.label}
+            </Text>
           </Text>
         </View>
         {row.actions.includes('nudge') ? (
           <Button
+            alignSelf="auto"
             label={t({ id: 'money.premium.nudge', message: 'Nudge' })}
             size="small"
             onPress={() => settle.onNudge(row)}
@@ -126,13 +144,22 @@ function Open({ settle }: { readonly settle: Ready }) {
   const { t } = useLingui();
   const guide = useWalletGuide();
   const kindLabel = usePayoutKindLabel();
-  const line = t({
-    id: 'money.premium.netted',
-    message: plural(settle.rows.length, {
-      one: `${settle.expenses} expenses, down to one payment.`,
-      other: `${settle.expenses} expenses, down to # payments.`,
-    }),
-  });
+  const line =
+    nettedSummary(settle.expenses, settle.rows.length) === 'netted'
+      ? t({
+          id: 'money.premium.netted',
+          message: plural(settle.rows.length, {
+            one: `${settle.expenses} expenses, down to one payment.`,
+            other: `${settle.expenses} expenses, down to # payments.`,
+          }),
+        })
+      : t({
+          id: 'money.premium.squarePayments',
+          message: plural(settle.rows.length, {
+            one: 'One payment squares everyone up.',
+            other: '# payments square everyone up.',
+          }),
+        });
   return (
     <View style={{ gap: th.space.gap16 }}>
       <View style={[styles.guideLine, { paddingHorizontal: th.space.titleGutter }]}>
@@ -172,48 +199,7 @@ function Open({ settle }: { readonly settle: Ready }) {
           })}
         </Text>
       </View>
-      {settle.open > 0 ? (
-        <View
-          style={[
-            styles.reward,
-            {
-              marginHorizontal: th.space.gutter,
-              borderRadius: th.radius.card,
-              borderColor: th.color.outlineEmpty,
-              backgroundColor: th.color.card,
-            },
-          ]}
-          testID="money-settle-reward"
-        >
-          <IconTile name="star" bg={th.color.control} color={th.stamp.green.text} size={48} />
-          <Text variant="rowText" style={styles.flex}>
-            {t({
-              id: 'money.premium.reward',
-              message: plural(settle.open, {
-                one: `One more payment and all ${settle.people} of you get the Settled ${guide.name}.`,
-                other: `# more payments and all ${settle.people} of you get the Settled ${guide.name}.`,
-              }),
-            })}
-          </Text>
-        </View>
-      ) : null}
-      <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap8 }}>
-        <Button
-          label={t({ id: 'money.settle.remind', message: 'Remind everyone' })}
-          disabled={!settle.canRemind || settle.offline}
-          loading={settle.reminding}
-          onPress={settle.onRemind}
-          testID="money-settle-remind"
-        />
-        {settle.offline ? (
-          <Text variant="caption" tone="muted" align="center">
-            {t({
-              id: 'money.premium.remindOffline',
-              message: 'Reminders go out when you’re back online.',
-            })}
-          </Text>
-        ) : null}
-      </View>
+      {settle.open > 0 ? <SettleReward open={settle.open} people={settle.people} /> : null}
     </View>
   );
 }
@@ -226,8 +212,14 @@ export function SettlePremium({ tripId = null }: { readonly tripId?: string | nu
   const backLabel = t({ id: 'money.back', message: 'Money' });
   return (
     <WalletGuideProvider tripId={settle.kind === 'ready' ? settle.tripId : null}>
-      <PushScreen title={title} backLabel={backLabel} testID="money-settle">
-        <View style={styles.body}>
+      <PushScreen
+        largeTitle
+        title={title}
+        backLabel={backLabel}
+        scroll={false}
+        testID="money-settle"
+      >
+        <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={styles.body}>
           {settle.kind === 'loading' ? (
             <View style={{ padding: th.space.gutter, gap: th.space.gap10 }}>
               <Skeleton height={62} radius={th.radius.card} />
@@ -241,24 +233,22 @@ export function SettlePremium({ tripId = null }: { readonly tripId?: string | nu
             settle.expenses > 0 ? (
               <SettledSquare settle={settle} />
             ) : (
-              <Text variant="body" tone="muted" align="center" style={{ padding: th.space.gutter }}>
-                {t({
-                  id: 'money.settle.nothing',
-                  message: 'Nothing to settle. Everyone is square.',
-                })}
-              </Text>
+              <NothingToSettle />
             )
           ) : (
             <Open settle={settle} />
           )}
-        </View>
+        </ScrollView>
+        {settle.kind === 'ready' && settle.rows.length > 0 ? (
+          <SettleRemindFooter settle={settle} />
+        ) : null}
       </PushScreen>
     </WalletGuideProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  body: { paddingTop: 8, paddingBottom: 24 },
+  body: { flexGrow: 1, paddingTop: 8, paddingBottom: 24 },
   flex: { flex: 1, minWidth: 0 },
   tabular: { fontVariant: ['tabular-nums'] },
   guideLine: { flexDirection: 'row', alignItems: 'center', gap: 10 },
@@ -270,13 +260,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
   },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  reward: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    borderWidth: 1.5,
-    borderStyle: 'dashed',
-    paddingVertical: 12,
-    paddingHorizontal: 14,
-  },
 });

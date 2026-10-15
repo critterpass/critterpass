@@ -1,9 +1,14 @@
 import { useLocalSearchParams } from 'expo-router';
 
 import { DropoutScreen } from '@/features/proposal';
+import { PremiumDropoutView } from '@/features/proposal/premium/dropout-view';
 
-/** A member's dropout and the re-split it proposes (`/proposal/{id}/dropout?uid=`). */
-export default function ProposalDropoutRoute() {
+function useDropoutParams() {
   const { id, uid } = useLocalSearchParams<{ id: string; uid: string }>();
-  return <DropoutScreen proposalId={id} uid={uid} />;
+  return { proposalId: id, uid };
+}
+
+/** The dropout as a pushed page with its glass back. */
+export default function DropoutRoute() {
+  return <DropoutScreen {...useDropoutParams()} View={PremiumDropoutView} />;
 }

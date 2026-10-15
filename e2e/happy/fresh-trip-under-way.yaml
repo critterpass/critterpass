@@ -37,27 +37,24 @@ appId: app.critterpass.dev
       - takeScreenshot: under-way-home-in-trip
 - runFlow: subflows/dismiss-visit-offer.yaml
 # TRIPS: the hub for a trip that is on, day 1 of 3.
-- tapOn:
-    id: 'tab-trips'
-- extendedWaitUntil:
-    visible:
-      id: 'trip-hub-header-.*'
-    timeout: 30000
+- runFlow: subflows/open-trip-hub.yaml
 - waitForAnimationToEnd
 # The visit offer can rise over the hub as it opens; iOS hides what is under a sheet.
 - runFlow: subflows/dismiss-visit-offer.yaml
 - takeScreenshot: under-way-hub
-- assertVisible:
-    id: 'trip-hub-header-in'
 # Day 1, or day 2 when the run crosses midnight in Vietnam.
-- assertVisible: '(?i).*day [12] of 3.*'
-- assertVisible:
-    id: 'trip-hub-next'
+- assertVisible: '(?i).*day [12].of.3.*'
+# The day's entries sit under the briefing and the tiles.
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-(next|today)'
+    direction: DOWN
+    timeout: 15000
 - assertVisible:
     id: 'trip-hub-tiles'
 - scrollUntilVisible:
     element:
-      id: 'trip-hub-tile-plan'
+      id: 'trip-hub-door-plan|trip-hub-tile-plan'
     direction: DOWN
     timeout: 10000
 - waitForAnimationToEnd

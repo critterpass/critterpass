@@ -20,7 +20,8 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import type { ChangesReviewViewProps } from '../../review/changes-review-view';
+import type { ChangesReviewViewProps } from '../../review/changes-review-props';
+import { onlyYouText } from '../only-you-pill';
 
 export function PremiumChangesView(props: ChangesReviewViewProps) {
   const theme = usePremiumTheme();
@@ -30,12 +31,19 @@ export function PremiumChangesView(props: ChangesReviewViewProps) {
   return (
     <PushScreen
       title={title}
-      {...(props.onlyYou === null ? {} : { subtitle: props.onlyYou })}
+      {...(props.onlyYou === null ? {} : { subtitle: onlyYouText() })}
       backLabel={props.backLabel}
       scroll={false}
       testID="plan-review"
     >
-      <ScrollView contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}>
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{
+          paddingHorizontal: theme.space.gutter,
+          paddingVertical: theme.space.gap16,
+          gap: theme.space.gap12,
+        }}
+      >
         {props.state === 'loading' ? (
           <LoadingCritter
             label={t({ id: 'plan.premium.review.loading', message: 'Reading the changes' })}
@@ -49,14 +57,10 @@ export function PremiumChangesView(props: ChangesReviewViewProps) {
           </Text>
         ) : (
           <>
-            <Text
-              variant="display"
-              accessibilityRole="header"
-              style={{ paddingHorizontal: theme.space.gap8 }}
-            >
+            <Text variant="display" accessibilityRole="header">
               {props.title}
             </Text>
-            <Text variant="body" tone="muted" style={{ paddingHorizontal: theme.space.gap8 }}>
+            <Text variant="body" tone="muted">
               {props.summary}
             </Text>
             {props.notice === null ? null : (
@@ -142,12 +146,14 @@ export function PremiumChangesView(props: ChangesReviewViewProps) {
                 {props.vote.canVote ? (
                   <View style={{ flexDirection: 'row', gap: theme.space.gap8 }}>
                     <Button
+                      alignSelf="auto"
                       size="small"
                       label={t({ id: 'plan.premium.review.yes', message: 'Yes' })}
                       onPress={props.vote.onYes}
                       testID="plan-review-yes"
                     />
                     <Button
+                      alignSelf="auto"
                       size="small"
                       variant="control"
                       label={t({ id: 'plan.premium.review.no', message: 'No' })}
@@ -191,6 +197,7 @@ export function PremiumChangesView(props: ChangesReviewViewProps) {
         )}
         {props.ask == null ? null : (
           <TextButton
+            align="center"
             label={props.ask.label}
             onPress={props.ask.onPress}
             disabled={props.ask.disabled}

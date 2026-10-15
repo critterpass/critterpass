@@ -20,15 +20,17 @@ appId: app.critterpass.dev
 - openLink: critterpass-dev://trips
 - extendedWaitUntil:
     visible:
-      id: 'tab-home'
+      id: 'tab-home|home-screen|trip-list-row-.*|trip-list-empty|trip-hub'
     timeout: 30000
-- tapOn:
-    id: 'tab-home'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
 - scrollUntilVisible:
     element:
       id: 'board-lock-in'
     timeout: 30000
-    centerElement: true
 - waitForAnimationToEnd
 - tapOn:
     id: 'board-lock-in'
@@ -39,10 +41,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'reveal-set-up'
-- extendedWaitUntil:
-    visible:
-      id: 'setup-step-when'
-    timeout: 20000
+- runFlow: subflows/open-setup-when.yaml
 # Days by hand, whatever this phone's calendar already shared on the way in. The step re-lays
 # itself as the shared days sync, which can scroll the row away under a tap: try again then.
 - retry:
@@ -76,7 +75,7 @@ appId: app.critterpass.dev
       id: 'when-cta|when-pick-week'
     timeout: 60000
 - assertNotVisible:
-    text: '(?i)nobody has shared their days yet.*'
+    text: '(?i)nobody has shared their.days.yet.*'
 - runFlow: subflows/lock-dates.yaml
 - extendedWaitUntil:
     visible:

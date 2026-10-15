@@ -7,15 +7,15 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: id\n"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.failedTitle"
 msgstr ""
 
@@ -63,10 +63,6 @@ msgstr ""
 msgid "planDraft.working.season"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.leave"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
 msgid "planDraft.dayCard"
 msgstr ""
@@ -75,11 +71,7 @@ msgstr ""
 msgid "planDraft.dayCard.outlined"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.again"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.stoppedTitle"
 msgstr ""
 
@@ -87,7 +79,7 @@ msgstr ""
 msgid "planDraft.step.food"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.blocked"
 msgstr ""
 
@@ -99,19 +91,19 @@ msgstr ""
 msgid "planDraft.fail.places"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.noDates"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.stopped"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.blockedTitle"
 msgstr ""
 
@@ -135,11 +127,7 @@ msgstr ""
 msgid "planDraft.fail.setup"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.cancel"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.slow"
 msgstr ""
 
@@ -147,15 +135,11 @@ msgstr ""
 msgid "planDraft.fail.other"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.line"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.retry"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-props.ts
 msgid "planDraft.drafting.offlineTitle"
 msgstr ""
 

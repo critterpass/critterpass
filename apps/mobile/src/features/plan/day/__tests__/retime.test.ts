@@ -6,8 +6,7 @@
 import { i18n } from '@lingui/core';
 import { beforeAll, describe, expect, it } from '@jest/globals';
 
-import type { DayItem, LockKind } from '@/data/plan/plan-model';
-import { minutesOnDay } from '@/data/plan/plan-model';
+import { type DayItem, type LockKind, minutesOnDay } from '@/data/plan/plan-model';
 
 import { isPinned, moveInOrder, reschedule, retime } from '../../day-plan/reschedule';
 import { retimePreview } from '../retime-copy';

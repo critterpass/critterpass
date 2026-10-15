@@ -12,12 +12,12 @@ import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 import { feedback, toast, useMotionMode } from '@/motion';
-import { guideSticker } from '@/ui/avatar/guides';
-import { Sticker } from '@/ui/sticker/Sticker';
+import { guideSticker } from '@/ui/premium/stickers/guides';
+import { Sticker } from '@/ui/premium/stickers/art/Sticker';
 
 import { signupQuestCommand } from './commands';
 import { useLiveRows } from './live-rows';
-import { guideOfSlug, QuestsView, type QuestsViewProps } from './quests-view';
+import { guideOfSlug, type QuestsViewProps } from './quests-model';
 import { useBefriendSpot } from './use-befriend-spot';
 import { useQuests } from './use-quests';
 import { useRewardReveal } from './use-reward-reveal';
@@ -31,11 +31,11 @@ const NO_PARAMS: readonly unknown[] = [];
 /* eslint-enable lingui/no-unlocalized-strings */
 
 export function QuestsScreen({
-  View = QuestsView,
+  View,
 }: {
-  /** The view that draws the quests (the premium one takes the same props). */
-  readonly View?: ComponentType<QuestsViewProps>;
-} = {}) {
+  /** The view that draws the quests. */
+  readonly View: ComponentType<QuestsViewProps>;
+}) {
   const { tripId } = useLocalSearchParams<{ tripId: string }>();
   const id = typeof tripId === 'string' && tripId.length > 0 ? tripId : null;
   useTripStreams(id);

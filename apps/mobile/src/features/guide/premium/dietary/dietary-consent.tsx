@@ -1,11 +1,10 @@
 /**
  * Dietary consent first (5.21): what sharing means on a paper card (the flags the crew and guide
- * see, the notes they never do), then Share flags, Not now (back, nothing shared) or keeping it to
- * yourself (the form, not shared).
+ * see, the notes they never do), then Share flags, or Not now (the form, kept to yourself; ✕ leaves
+ * with nothing saved).
  */
 import { t } from '@lingui/core/macro';
 import { ScrollView, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Doodle } from '@/features/crew';
 import {
@@ -17,6 +16,7 @@ import {
   makePremiumStyles,
   usePremiumTheme,
 } from '@/ui/premium';
+import { useScreenInsets } from '@/ui/premium/shell';
 
 const useStyles = makePremiumStyles((th) => ({
   card: {
@@ -44,21 +44,20 @@ const useStyles = makePremiumStyles((th) => ({
 export function DietaryConsent({
   onShare,
   onNotNow,
-  onJustMe,
 }: {
   readonly onShare: () => void;
+  /** The form, not shared. */
   readonly onNotNow: () => void;
-  readonly onJustMe: () => void;
 }) {
   const th = usePremiumTheme();
   const styles = useStyles();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   return (
     <View style={{ flex: 1 }} testID="guide-dietary-consent">
       <ScrollView contentContainerStyle={{ paddingTop: insets.top + 64, paddingBottom: 24 }}>
         <View style={{ paddingHorizontal: 24, flexDirection: 'row', alignItems: 'flex-start' }}>
           <Text variant="largeTitle" style={{ flex: 1 }}>
-            {t({ id: 'guide.dietary.title', message: 'Food and access needs' })}
+            {t({ id: 'guide.premium.dietary.title', message: 'Food and getting around' })}
           </Text>
           <Doodle name="food" color={th.accent.tangerine} size={96} />
         </View>
@@ -76,7 +75,7 @@ export function DietaryConsent({
             {t({
               id: 'guide.dietary.consentBody',
               message:
-                'They see only your diet and "no" flags for allergies, so the guide can pick places that work for everyone. Your notes and your avoid list stay with you. You can stop sharing any time, and the flags are deleted.',
+                'They see only your diet and “no” flags for allergies, so the guide can pick places that work for everyone. Your notes and your avoid list stay with you. You can stop sharing any time, and the flags are deleted.',
             })}
           </Text>
           <View style={styles.tags} accessibilityElementsHidden>
@@ -108,16 +107,11 @@ export function DietaryConsent({
           onPress={onShare}
           testID="guide-dietary-consent-yes"
         />
-        <Button
-          variant="secondary"
+        <TextButton
+          align="center"
           label={t({ id: 'guide.dietary.notNow', message: 'Not now' })}
           onPress={onNotNow}
           testID="guide-dietary-consent-no"
-        />
-        <TextButton
-          label={t({ id: 'guide.premium.dietary.justMe', message: 'Keep it to myself' })}
-          onPress={onJustMe}
-          testID="guide-dietary-just-me"
         />
       </View>
     </View>

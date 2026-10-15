@@ -63,14 +63,26 @@ describe('balances model', () => {
     expect(model.hero).toEqual({ kind: 'owed', amountMinor: 18640n });
   });
 
-  it('normalises bar lengths per side against that side’s largest balance', () => {
+  it('draws both sides on one scale, against the largest balance either way', () => {
     const model = buildBalances({ ...base, ledger });
     const fraction = (name: string) => model.lines.find((line) => line.name === name)?.fraction;
     expect(fraction('You')).toBe(1);
     expect(fraction('Maya')).toBe(0.219);
-    expect(fraction('Alex')).toBe(1);
-    expect(fraction('Rin')).toBe(0.434);
+    expect(fraction('Rin')).toBe(0.219);
+    expect(fraction('Jordan')).toBe(0.494);
+    expect(fraction('Alex')).toBe(0.505);
     expect(fraction('Dev')).toBe(0);
+  });
+
+  it('keeps the largest debt at full length when it outweighs every credit', () => {
+    const model = buildBalances({
+      ...base,
+      ledger: [entry('alex', 'you', 5000), entry('alex', 'maya', 5000)],
+    });
+    const fraction = (name: string) => model.lines.find((line) => line.name === name)?.fraction;
+    expect(fraction('Alex')).toBe(1);
+    expect(fraction('You')).toBe(0.5);
+    expect(fraction('Maya')).toBe(0.5);
   });
 
   it('settles the design nets in three taps', () => {

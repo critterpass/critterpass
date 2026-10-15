@@ -3,6 +3,7 @@
  * (TODAY, then the weekday within the week, then the date), the "NEW" divider before the first
  * crewmate message past the read marker, and each message flagged as the start or continuation of
  * a run from the same sender (runs break at a day, the divider, a system row or after 5 minutes).
+ * Members joining one after another fold into one row ("Maya, Jordan and Alex joined the crew").
  */
 /* eslint-disable lingui/no-unlocalized-strings -- row kinds and keys, never copy. */
 import type { ChatMessage } from '../data/rows';
@@ -20,7 +21,15 @@ export type TimelineRow =
       readonly first: boolean;
       /** Last of a run: gets the bubble's tail corner. */
       readonly last: boolean;
+      /** Joins in a row, this one first, folded into one line (two or more). */
+      readonly joined?: readonly ChatMessage[];
     };
+
+const JOINED = 'member_joined';
+
+function isJoin(message: ChatMessage): boolean {
+  return message.senderKind === 'system' && message.refKind === JOINED;
+}
 
 const dayFormats = new Map<string, Intl.DateTimeFormat>();
 
@@ -84,6 +93,15 @@ export function buildTimelineRows(
       rows.push({ kind: 'unread', key: 'unread' });
       unreadPlaced = true;
       broke = true;
+    }
+    const lastRow = rows.at(-1);
+    if (!broke && isJoin(message) && lastRow?.kind === 'message' && isJoin(lastRow.message)) {
+      rows[rows.length - 1] = {
+        ...lastRow,
+        joined: [...(lastRow.joined ?? [lastRow.message]), message],
+      };
+      previous = message;
+      continue;
     }
     const continues = !broke && previous !== null && sameRun(previous, message);
     if (continues) {

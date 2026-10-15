@@ -11,7 +11,7 @@ import { PushScreen } from '@/ui/premium/shell';
 
 import { usePlaceRow } from '../../place-detail/remote-place';
 import { useTripFacts } from '../../place-queries';
-import type { PlaceScreenProps } from '../../screens/place-screen';
+
 import { PlacePage } from './place-page';
 
 const goBack = () => goBackOr();
@@ -44,7 +44,7 @@ export function PremiumPlaceScreen(props: PlaceScreenProps) {
           <EmptyState
             title={t({
               id: 'explore.place.goneTitle',
-              message: "This place isn't listed any more",
+              message: 'This place isn’t listed any more',
             })}
             line={t({
               id: 'explore.place.goneLine',
@@ -55,12 +55,12 @@ export function PremiumPlaceScreen(props: PlaceScreenProps) {
           />
         ) : (
           <EmptyState
-            title={t({ id: 'explore.place.failedTitle', message: "This place didn't load" })}
+            title={t({ id: 'explore.place.failedTitle', message: 'This place didn’t load' })}
             line={
               place.offline
                 ? t({
                     id: 'explore.place.missingOffline',
-                    message: "I need a connection the first time. After that it's here offline.",
+                    message: 'I need a connection the first time. After that it’s here offline.',
                   })
                 : t({
                     id: 'explore.place.failedLine',
@@ -79,4 +79,11 @@ export function PremiumPlaceScreen(props: PlaceScreenProps) {
       </View>
     </PushScreen>
   );
+}
+
+export interface PlaceScreenProps {
+  readonly placeId: string;
+  /** The destination the place was opened from, so its places sync before the row is known. */
+  readonly destinationId?: string | undefined;
+  readonly tripId?: string | undefined;
 }

@@ -1,16 +1,15 @@
 /**
  * Before the guide first listens (5.15's first step, undesigned): the guide in its white disc,
- * what talking sends where, Turn on voice, and Type instead. Nothing listens until the yes lands.
+ * what talking sends where, centred above Turn on voice and Type instead. Nothing listens until the yes lands.
  */
 import { t } from '@lingui/core/macro';
 import { Stack } from 'expo-router';
 import { View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Button, CritterSticker, Text, TextButton, usePremiumTheme } from '@/ui/premium';
-import { FullScreen } from '@/ui/premium/shell';
+import { Button, CritterSticker, Text, usePremiumTheme } from '@/ui/premium';
+import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
-import type { VoiceConsentViewProps } from '../../voice/voice-consent-view';
+import type { VoiceConsentViewProps } from '../../voice/voice-gate';
 
 export function PremiumVoiceConsent({
   guideName,
@@ -20,7 +19,7 @@ export function PremiumVoiceConsent({
   pending = null,
 }: VoiceConsentViewProps) {
   const th = usePremiumTheme();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   return (
     <FullScreen
       closeLabel={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}
@@ -36,10 +35,10 @@ export function PremiumVoiceConsent({
           paddingTop: insets.top + 64,
           paddingHorizontal: 24,
           paddingBottom: insets.bottom + 16,
-          justifyContent: 'space-between',
         }}
       >
-        <View style={{ gap: 16 }}>
+        {/* Centred in the room above the actions, as the voice scene it opens is. */}
+        <View style={{ flex: 1, justifyContent: 'center', gap: 16 }}>
           <View
             style={{
               alignSelf: 'center',
@@ -54,13 +53,13 @@ export function PremiumVoiceConsent({
           >
             <CritterSticker kind={guideKind ?? 'gecko'} name={guideName} size={132} pose="wave" />
           </View>
-          <Text variant="largeTitle">
+          <Text variant="largeTitle" align="center">
             {t({ id: 'guide.voice.consentTitle', message: `Talk with ${guideName} out loud?` })}
           </Text>
-          <Text variant="body" tone="inkSecondary">
+          <Text variant="body" tone="inkSecondary" align="center">
             {t({
               id: 'guide.voice.consentBody',
-              message: `When you talk, what you say can be sent to a speech service to be written down, and ${guideName}'s replies are read out by a voice service. The words land in your chat like anything you type.`,
+              message: `When you talk, what you say can be sent to a speech service to be written down, and ${guideName}’s replies are read out by a voice service. The words land in your chat like anything you type.`,
             })}
           </Text>
         </View>
@@ -79,13 +78,12 @@ export function PremiumVoiceConsent({
             loading={pending !== null}
             testID="guide-voice-consent-yes"
           />
-          <View style={{ alignItems: 'center' }}>
-            <TextButton
-              label={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}
-              onPress={onType}
-              testID="guide-voice-consent-no"
-            />
-          </View>
+          <Button
+            variant="secondary"
+            label={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}
+            onPress={onType}
+            testID="guide-voice-consent-no"
+          />
         </View>
       </View>
     </FullScreen>

@@ -28,6 +28,7 @@ const ROW = {
   liveMap: 'live_map',
   icons: 'icons',
   sponsored: 'sponsored',
+  covers: 'covers',
 } as const;
 /* eslint-enable lingui/no-unlocalized-strings */
 
@@ -189,6 +190,18 @@ export function compareRows(perks: readonly Perk[]): CompareRowSpec[] {
         shown,
         on.has(KEY.passPlusNoSponsored) ? text(NONE) : shown,
         on.has(KEY.boostNoSponsored) ? text(NONE) : shown,
+      ],
+    });
+  }
+  // Under any perk, who each one is for: the difference the two paid plans are built on.
+  if (rows.length > 0) {
+    rows.push({
+      id: ROW.covers,
+      label: msg({ id: 'monetize.compare.covers', message: 'Who it covers' }),
+      cells: [
+        text(msg({ id: 'monetize.compare.covers.free', message: 'You' })),
+        text(msg({ id: 'monetize.compare.covers.pass', message: 'You, every crew' })),
+        text(msg({ id: 'monetize.compare.covers.boost', message: 'One trip, the crew' })),
       ],
     });
   }

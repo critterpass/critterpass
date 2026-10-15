@@ -1,52 +1,76 @@
 appId: app.critterpass.dev
 ---
-# Picks ${DAY} (YYYY-MM-DD) for the booking form's day (`bookings-form-date`). On iOS the keyboard
-# left up by the field typed before is put away first: with it up the form's scroll ends above the
-# SAVE footer, and a Day field behind the footer still counts as visible to Maestro, so the tap
-# landed on the footer. The field is then scrolled to the middle of the form. The day is
-# a month grid in a sheet that opens on the picked day's month, else the trip's, which can be
-# another month than ${DAY}'s: the sheet is paged to that month and the day tapped by its id. The
-# sheet closes on the pick.
-- evalScript: ${var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.bookingDayMonth = '(?i)' + months[Number(DAY.slice(5, 7)) - 1] + ' ' + DAY.slice(0, 4)}
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - hideKeyboard
+# Sets ${DAY} (YYYY-MM-DD) as the booking form's day. The Day row (`bookings-form-day`) opens the
+# trip's own days as chips under it (`bookings-form-days-<date>`, open from the start while no day
+# is set); a day outside them goes through "Another day" (`bookings-form-days-other`) to the typed
+# Day field (`bookings-form-date`), which also shows by itself for a trip without days or a booking
+# already on another day. The keyboard left up by the field typed before is put away first: with it
+# up the form's footer sits over the Day row and takes the tap.
+- hideKeyboard
 - scrollUntilVisible:
     element:
-      id: 'bookings-form-date'
+      id: 'bookings-form-day|bookings-form-date'
     direction: DOWN
     timeout: 10000
+    visibilityPercentage: 100
     centerElement: true
-- tapOn:
-    id: 'bookings-form-date'
-- extendedWaitUntil:
-    visible:
-      id: 'bookings-date-month'
-    timeout: 10000
-- waitForAnimationToEnd
-- repeat:
-    while:
+# The chips, when the Day row shows and they are closed.
+- runFlow:
+    when:
+      visible:
+        id: 'bookings-form-day'
       notVisible:
-        id: 'bookings-date-month'
-        text: ${output.bookingDayMonth}
-    times: 2
+        id: 'bookings-form-days-other'
     commands:
       - tapOn:
-          id: 'bookings-date-previous'
-- repeat:
-    while:
-      notVisible:
-        id: 'bookings-date-month'
-        text: ${output.bookingDayMonth}
-    times: 12
+          id: 'bookings-form-day'
+# The chip row scrolls sideways: the day's chip may start past the screen's edge.
+- runFlow:
+    when:
+      visible:
+        id: 'bookings-form-days-other'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'bookings-form-days-${DAY}'
+          direction: RIGHT
+          timeout: 5000
+          optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'bookings-form-days-${DAY}'
     commands:
       - tapOn:
-          id: 'bookings-date-next'
-- tapOn:
-    id: 'bookings-date-${DAY}'
-- extendedWaitUntil:
-    notVisible:
-      id: 'bookings-date-sheet'
-    timeout: 10000
+          id: 'bookings-form-days-${DAY}'
+      - assertNotVisible:
+          id: 'bookings-form-days-other'
+- runFlow:
+    when:
+      visible:
+        id: 'bookings-form-days-other'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'bookings-form-days-other'
+          direction: RIGHT
+          timeout: 5000
+          optional: true
+      - tapOn:
+          id: 'bookings-form-days-other'
+- runFlow:
+    when:
+      visible:
+        id: 'bookings-form-date'
+    commands:
+      - tapOn:
+          id: 'bookings-form-date'
+      - eraseText: 12
+      - inputText: ${DAY}
+      # Put away, the keyboard leaves the next field clear of the form's footer.
+      - hideKeyboard
+      - assertVisible:
+          id: 'bookings-form-date'
+          text: ${DAY}
+- assertVisible:
+    id: 'bookings-form-day|bookings-form-date'

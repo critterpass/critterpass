@@ -3,21 +3,18 @@
  * Pass+ and worn-critter stickers, the three counts over a dashed rule, and the machine line.
  */
 import { useLingui } from '@lingui/react/macro';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
-import { Tag, Text, TierLabel, usePremiumTheme } from '@/ui/premium';
+import { PrivateContent } from '@/features/help';
+import { GUILLOCHE } from '@/features/monetize';
+import { hitSlopFor, PressableScale, Tag, Text, TierLabel, usePremiumTheme } from '@/ui/premium';
 
 import { statLabel } from '../../profile/profile-copy';
 import type { ProfileModel } from '../../profile/profile-model';
-import { PASS_PAPER } from '../pass-paper';
+import { PASS_PAPER, paperOf } from '../pass-paper';
 import { PremiumProfileFace } from './profile-face';
 
 const FACE = 82;
-/* eslint-disable lingui/no-unlocalized-strings -- a CSS pattern, never copy. */
-const GUILLOCHE =
-  'repeating-radial-gradient(circle at 20% 120%, rgba(23,20,42,.04) 0 1px, transparent 1px 7px)';
-/* eslint-enable lingui/no-unlocalized-strings */
-
 export interface PassportCardProps {
   readonly model: ProfileModel;
   readonly photoUri: string | null;
@@ -50,7 +47,7 @@ export function PassportCard({ model, photoUri, onPassPlus }: PassportCardProps)
         marginHorizontal: th.space.gutter,
         borderRadius: th.radius.cardLarge + 2,
         padding: th.space.gap16,
-        backgroundColor: th.accent.paper,
+        backgroundColor: paperOf(th),
         experimental_backgroundImage: GUILLOCHE,
         boxShadow: th.shadow.card,
         gap: th.space.gap14,
@@ -68,7 +65,9 @@ export function PassportCard({ model, photoUri, onPassPlus }: PassportCardProps)
           <Text
             variant="largeTitle"
             color={PASS_PAPER.ink}
-            numberOfLines={1}
+            numberOfLines={2}
+            adjustsFontSizeToFit
+            minimumFontScale={0.6}
             accessibilityRole="header"
             testID="you-profile-name"
           >
@@ -81,15 +80,18 @@ export function PassportCard({ model, photoUri, onPassPlus }: PassportCardProps)
           )}
           <View style={{ flexDirection: 'row', gap: th.space.gap6, marginTop: th.space.gap4 }}>
             {model.passPlus ? (
-              <Pressable
+              <PressableScale
                 onPress={onPassPlus}
                 disabled={onPassPlus === undefined}
                 accessibilityRole="button"
+                // eslint-disable-next-line lingui/no-unlocalized-strings -- the Pass+ brand mark, never copy.
+                accessibilityLabel="Pass+"
+                hitSlop={hitSlopFor(52, 24)}
                 testID="you-profile-pass-plus"
               >
                 {/* eslint-disable-next-line lingui/no-unlocalized-strings -- the Pass+ brand mark, never copy. */}
                 <Tag label="Pass+" color={th.accent.sun} rotate={-3} />
-              </Pressable>
+              </PressableScale>
             ) : null}
             {model.ring === null ? null : <TierLabel tier={model.ring} />}
           </View>
@@ -120,15 +122,28 @@ export function PassportCard({ model, photoUri, onPassPlus }: PassportCardProps)
           testID="you-profile-stat-critters"
         />
       </View>
-      <Text
-        variant="mono"
-        color={PASS_PAPER.label}
-        numberOfLines={2}
-        accessibilityLabel={t({ id: 'you.premium.mrz', message: 'Machine-readable line' })}
-        testID="you-profile-mrz"
-      >
-        {`${model.mrz}\n${t({ id: 'you.premium.since', message: `SINCE ${model.sinceYear}` })}`}
-      </Text>
+      {/* The machine line is covered in a problem report's screenshot. */}
+      {/* One printed line: the machine line, set small enough to fit whole, and SINCE at the right. */}
+      <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: th.space.gap12 }}>
+        <View style={{ flex: 1, minWidth: 0 }}>
+          <PrivateContent>
+            <Text
+              variant="mono"
+              color={PASS_PAPER.label}
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.6}
+              accessibilityLabel={t({ id: 'you.premium.mrz', message: 'Machine-readable line' })}
+              testID="you-profile-mrz"
+            >
+              {model.mrz}
+            </Text>
+          </PrivateContent>
+        </View>
+        <Text variant="mono" color={PASS_PAPER.label} numberOfLines={1}>
+          {t({ id: 'you.premium.since', message: `SINCE ${model.sinceYear}` })}
+        </Text>
+      </View>
     </View>
   );
 }

@@ -75,7 +75,9 @@ function TopCard({
   const done = () => onGone();
   const commit = (vote: SwipeVote) => onCommitted(vote);
 
-  const flyOff = (vote: SwipeVote) => {
+  // A flick hands its speed on to the fly-off or the snap-back, so the card never stalls and then
+  // speeds up again.
+  const flyOff = (vote: SwipeVote, velocity = 0) => {
     'worklet';
     const dir = vote === 'in' ? 1 : -1;
     if (reduced) {
@@ -89,21 +91,21 @@ function TopCard({
     if (vote === 'in') stamp.set(withSpring(1, SPRINGS.lively));
     y.set(withSpring(W.flyY, SPRINGS.smooth));
     x.set(
-      withSpring(dir * W.flyX, SPRINGS.smooth, (finished) => {
+      withSpring(dir * W.flyX, { ...SPRINGS.smooth, velocity }, (finished) => {
         if (finished) scheduleOnRN(done);
       }),
     );
   };
 
-  const release = (vote: SwipeVote | null) => {
+  const release = (vote: SwipeVote | null, velocity: number) => {
     'worklet';
     if (vote === null) {
-      x.set(withSpring(0, SPRINGS.snappy));
+      x.set(withSpring(0, { ...SPRINGS.snappy, velocity }));
       return;
     }
     busy.set(true);
     scheduleOnRN(commit, vote);
-    flyOff(vote);
+    flyOff(vote, velocity);
   };
 
   useImperativeHandle(handleRef, () => ({
@@ -135,7 +137,7 @@ function TopCard({
     .onEnd((event) => {
       'worklet';
       if (busy.get()) return;
-      release(swipeVerdict(event.translationX, event.velocityX, width.get()));
+      release(swipeVerdict(event.translationX, event.velocityX, width.get()), event.velocityX);
     });
 
   const cardStyle = useAnimatedStyle(() => {

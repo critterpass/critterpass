@@ -6,9 +6,11 @@
  */
 import { DRIVER_TAGS, DRIVER_VERDICTS, type DriverVerdict } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { crewAccent, turn } from '@/features/trip';
+import { shortName } from '@/lib/people/member-name';
 import {
   Avatar,
   Button,
@@ -18,7 +20,7 @@ import {
   TextField,
   usePremiumTheme,
 } from '@/ui/premium';
-import { KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
+import { KeyboardAwareScroll, KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
 
 import { TAG_LABELS, VERDICT_LABELS } from '../rating/labels';
 import { useRateDriver } from '../rating/use-rate-driver';
@@ -26,6 +28,7 @@ import { useRateDriver } from '../rating/use-rate-driver';
 export function RateDriverPremium(input: { readonly tripId: string; readonly providerId: string }) {
   const th = usePremiumTheme();
   const { t, i18n } = useLingui();
+  const insets = useSafeAreaInsets();
   const rate = useRateDriver(input);
   const back = t({ id: 'drivers.rate.back', message: 'Our drivers' });
   if (rate.kind !== 'ready') {
@@ -47,7 +50,7 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
                     id: 'drivers.premium.offline',
                     message: 'This needs signal. Try again when you have some.',
                   })
-                : t({ id: 'drivers.premium.failed', message: "That didn't load. Try again." })}
+                : t({ id: 'drivers.premium.failed', message: 'That didn’t load. Try again.' })}
             </Text>
             <Button
               label={t({ id: 'drivers.premium.retry', message: 'Try again' })}
@@ -68,7 +71,11 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
     );
   }
   const p = rate.props;
-  const name = p.name;
+  // The card shows his full name; the lines about him use the name he goes by.
+  const fullName = p.name;
+  const name = shortName(fullName);
+  // The footer clears the home indicator while the keyboard is down and sits a gap above it up.
+  const footerPad = Math.max(insets.bottom, th.space.gap12);
   const days = p.days
     .map((day) => t({ id: 'drivers.rate.day', message: `Day ${day}` }))
     .join(' + ');
@@ -79,10 +86,8 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
       scroll={false}
       testID="drivers-rate"
     >
-      <ScrollView
-        keyboardDismissMode="interactive"
-        keyboardShouldPersistTaps="handled"
-        contentInsetAdjustmentBehavior="automatic"
+      <KeyboardAwareScroll
+        bottomOffset={th.size.button + th.space.gap12 + th.space.gap16}
         contentContainerStyle={[
           styles.body,
           { paddingHorizontal: th.space.gutter, gap: th.space.gap14 },
@@ -98,9 +103,9 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
             },
           ]}
         >
-          <Avatar name={name} color={crewAccent(5)} size={62} ringed />
+          <Avatar name={fullName} color={crewAccent(5)} size={62} ringed />
           <Text variant="headline" color={th.color.onAccent}>
-            {name}
+            {fullName}
           </Text>
           {days === '' ? null : (
             <Text variant="badge" color={th.color.onAccent}>
@@ -114,7 +119,7 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
         <Text variant="rowText" tone="muted">
           {t({
             id: 'drivers.rate.intro',
-            message: `Your crew's rating and tags go on ${name}'s listing if he's listed. Nothing about you does.`,
+            message: `Your crew’s rating and tags go on ${name}’s listing if he’s listed. Nothing about you does.`,
           })}
         </Text>
         <View style={styles.verdicts} accessibilityRole="radiogroup">
@@ -135,6 +140,7 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
             const on = p.tags.includes(tag);
             return (
               <Button
+                alignSelf="auto"
                 key={tag}
                 label={on ? `✓ ${i18n._(TAG_LABELS[tag])}` : i18n._(TAG_LABELS[tag])}
                 size="small"
@@ -160,9 +166,9 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
             testID="drivers-rate-invite"
           />
         )}
-      </ScrollView>
-      <KeyboardStickyFooter>
-        <View style={{ paddingHorizontal: th.space.titleGutter, paddingBottom: th.space.gap12 }}>
+      </KeyboardAwareScroll>
+      <KeyboardStickyFooter openedOffset={th.space.gap12 - footerPad}>
+        <View style={{ paddingHorizontal: th.space.titleGutter, paddingBottom: footerPad }}>
           <Button
             label={
               p.saved

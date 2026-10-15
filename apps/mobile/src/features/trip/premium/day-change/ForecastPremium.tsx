@@ -2,21 +2,23 @@
  * The forecast (6.06): "Checked 07:30" in the header, "The rest of the trip" with the guide's line,
  * the days as a strip (the wet one inverted in ink), then what could change the plan, one row per
  * risk with its dot and status (Plan B in ink, Watching, Go, Set). A risk with an open storm
- * decision opens it. All clear says so; an old check says it is the last one seen.
+ * decision opens it. All clear says so, above the GO and SET rows it is made of; no days yet says
+ * the forecast has not come in; an old check says it is the last one seen.
  */
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   OfflinePill,
   PressableScale,
+  ScrollRow,
   Skeleton,
   StatusTag,
+  type StatusTone,
   Text,
   usePremiumTheme,
-  type StatusTone,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
@@ -27,10 +29,14 @@ import {
   guideLine,
   percent,
 } from '../../disruptions/forecast/copy';
-import type { ForecastViewProps } from '../../disruptions/forecast/forecast-view';
-import type { WatchEntry } from '../../disruptions/forecast/model';
+import type { ForecastViewProps } from '../../disruptions/forecast/view-types';
+import { standoutDay, type WatchEntry } from '../../disruptions/forecast/model';
 import { useForecastScreen } from '../../disruptions/forecast/use-forecast-screen';
 import { LineIcon } from '../components/LineIcon';
+import { NoteCard } from './forecast-note-card';
+
+/** A day's tile in the strip at its narrowest (6.06: six days across the screen). */
+const DAY_WIDTH = 56;
 
 const TONE: Readonly<Record<WatchEntry['status'], StatusTone>> = {
   plan_b: 'unopened',
@@ -55,13 +61,23 @@ function useStatusWord() {
   };
 }
 
-function Body({ props }: { readonly props: ForecastViewProps }) {
+/** The forecast page once its rows are read (also what the screen tests render). */
+export function ForecastReady({ props }: { readonly props: ForecastViewProps }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const locale = useLocale();
   const statusWord = useStatusWord();
   const lines = forecastLines();
   const { model } = props;
+  const { width } = useWindowDimensions();
+  const standout = standoutDay(model.days);
+  // The days share the row's width when they fit, so a short forecast fills the strip instead of
+  // bunching at its start; a long one keeps the 56 pt day and scrolls.
+  const span = width - th.space.gutter * 2;
+  const dayWidth = Math.max(
+    DAY_WIDTH,
+    Math.floor((span - th.space.gap6 * (model.days.length - 1)) / Math.max(1, model.days.length)),
+  );
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
@@ -79,15 +95,19 @@ function Body({ props }: { readonly props: ForecastViewProps }) {
           {guideLine()}
         </Text>
       </View>
-      {model.days.length === 0 ? null : (
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ gap: th.space.gap6 }}
+      {model.days.length === 0 ? (
+        <NoteCard icon="calendar" testID="forecast-no-days">
+          {lines.noForecast}
+        </NoteCard>
+      ) : (
+        <ScrollRow
+          // Bleeds through the page's gutter, so a scrolled day runs to the screen's edge.
+          gap={th.space.gap6}
+          bleed={th.space.gutter}
           testID="forecast-days"
         >
           {model.days.map((day) => {
-            const risky = day.wet;
+            const risky = day.date === standout;
             const fg = risky ? th.color.onInk : th.color.ink;
             return (
               <View
@@ -95,9 +115,10 @@ function Body({ props }: { readonly props: ForecastViewProps }) {
                 style={[
                   styles.day,
                   {
+                    width: dayWidth,
                     borderRadius: th.radius.field,
                     backgroundColor: risky ? th.color.ink : th.color.card,
-                    boxShadow: risky ? th.shadow.ink : th.shadow.card,
+                    boxShadow: th.shadow.card,
                   },
                 ]}
                 testID={`forecast-day-${day.date}`}
@@ -113,7 +134,7 @@ function Body({ props }: { readonly props: ForecastViewProps }) {
                     },
                   )}
                 </Text>
-                <LineIcon name={risky ? 'rain' : 'sun'} size={24} color={fg} />
+                <LineIcon name={day.wet ? 'rain' : 'sun'} size={24} color={fg} />
                 <Text variant="headline" color={fg}>
                   {day.highC === null ? '–' : degrees(day.highC, locale)}
                 </Text>
@@ -123,7 +144,7 @@ function Body({ props }: { readonly props: ForecastViewProps }) {
               </View>
             );
           })}
-        </ScrollView>
+        </ScrollRow>
       )}
       <Text variant="label" tone="muted">
         {lines.section}
@@ -133,11 +154,12 @@ function Body({ props }: { readonly props: ForecastViewProps }) {
           {lines.stale}
         </Text>
       ) : null}
-      {model.allClear && model.watch.length === 0 ? (
-        <Text variant="body" tone="inkSecondary" testID="forecast-all-clear">
+      {model.allClear ? (
+        <NoteCard icon="shield" testID="forecast-all-clear">
           {lines.allClear}
-        </Text>
-      ) : (
+        </NoteCard>
+      ) : null}
+      {model.watch.length === 0 ? null : (
         <View
           style={[
             styles.card,
@@ -192,7 +214,6 @@ function Body({ props }: { readonly props: ForecastViewProps }) {
               <PressableScale
                 key={entry.row.id}
                 onPress={() => props.onOpenStorm(pollId)}
-                pressedScale={0.99}
                 accessibilityRole="button"
                 testID={`forecast-watch-${entry.row.id}`}
               >
@@ -233,7 +254,7 @@ export function ForecastPremium({ tripId }: { readonly tripId: string }) {
           <Skeleton height={180} radius={th.radius.cardRow} />
         </View>
       ) : (
-        <Body props={props} />
+        <ForecastReady props={props} />
       )}
     </PushScreen>
   );
@@ -241,7 +262,7 @@ export function ForecastPremium({ tripId }: { readonly tripId: string }) {
 
 const styles = StyleSheet.create({
   body: { paddingTop: 8, paddingBottom: 40 },
-  day: { width: 56, alignItems: 'center', gap: 4, paddingVertical: 10 },
+  day: { alignItems: 'center', gap: 4, paddingVertical: 10 },
   soft: { opacity: 0.75 },
   card: { paddingHorizontal: 14, paddingVertical: 2 },
   risk: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 11 },

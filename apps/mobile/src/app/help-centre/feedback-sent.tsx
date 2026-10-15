@@ -1,6 +1,4 @@
-import { SentScreen } from '@/features/help/feedback/sent-screen';
+import { FeedbackSentPremiumScreen } from '@/features/help/premium/feedback-sent-premium-screen';
 
 /** Feedback sent (3p-3). */
-export default function FeedbackSentRoute() {
-  return <SentScreen />;
-}
+export default FeedbackSentPremiumScreen;

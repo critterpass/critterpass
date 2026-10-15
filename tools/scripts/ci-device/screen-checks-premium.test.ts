@@ -73,6 +73,28 @@ describe('screen checks on the premium UI', { timeout: 60_000 }, () => {
     expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
   });
 
+  it('reads the dark card as a premium card, not the current UI ground it sits close to', () => {
+    // The swipe deck building: one tall dark card fills the screen inside the dark ground's gutters.
+    const options = { background: BG, premiumGrounds: premiumGrounds() };
+    expect(findFrame(load('deck-building-dark'), options)).toBeNull();
+  });
+
+  it('leaves a light pass on the dark page, and still flags a dark band around the light page', () => {
+    const options = { background: BG, premiumGrounds: premiumGrounds() };
+    const [light, dark] = premiumGrounds();
+    const darkPage = dark?.[0] ?? [0, 0, 0];
+    const lightCard = light?.[0] ?? [255, 255, 255];
+    // 7.10 in dark: the boarding pass is drawn light at the 20 pt gutters of the dark page.
+    const pass = blank(400, 860, darkPage);
+    paint(pass, 20, 20, 380, 800, lightCard);
+    expect(findFrame(pass, options)).toBeNull();
+    // A light premium page set inside a dark border that isn't a page ground stays a frame.
+    const framed = blank(400, 860, lightCard);
+    paint(framed, 0, 0, 20, 860, [40, 10, 10]);
+    paint(framed, 380, 0, 400, 860, [40, 10, 10]);
+    expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
+  });
+
   it('allows an inset sheet over the dimmed page, and not the same inset from the top', () => {
     // The iOS 26 guide sheet, lifted by the keyboard, 8 pt in from the dimmed page.
     const options = { background: BG, premiumGrounds: premiumGrounds() };
@@ -92,5 +114,23 @@ describe('screen checks on the premium UI', { timeout: 60_000 }, () => {
     paint(tall, 8, 64, 392, 860, [248, 248, 250]);
     for (let y = 100; y < 820; y += 24) paint(tall, 30, y, 300, y + 12, [60, 60, 70]);
     expect(findFrame(tall, options)).toBeNull();
+  });
+  it('reads an action sheet scrim over a premium page as no frame, but not a frame on the page', () => {
+    const options = { background: BG, premiumGrounds: premiumGrounds() };
+    // A booking's action sheet: its scrim greys the page's 20 pt gutters and its cards alike.
+    expect(findFrame(load('scrim-action-sheet-options'), options)).toBeNull();
+    const dim = (colour: Rgb): Rgb => [
+      Math.round(colour[0] * 0.8),
+      Math.round(colour[1] * 0.8),
+      Math.round(colour[2] * 0.8),
+    ];
+    const ground: Rgb = [0xf5, 0xf5, 0xf7];
+    const card: Rgb = [0xff, 0xff, 0xff];
+    // The same grey frame around an undimmed page is still a frame.
+    const framed = blank(400, 860, ground);
+    for (let y = 90; y < 820; y += 70) paint(framed, 19, y, 381, y + 60, card);
+    paint(framed, 0, 0, 19, 860, dim(ground));
+    paint(framed, 381, 0, 400, 860, dim(ground));
+    expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
   });
 });

@@ -156,7 +156,12 @@ export function PlanRouteLayer({
           type="circle"
           filter={['==', ['get', 'kind'], 'pin']}
           paint={{
-            'circle-radius': radius + 2,
+            'circle-radius': [
+              'case',
+              ['>', ['length', ['get', 'label']], 2],
+              radius + 6,
+              radius + 2,
+            ],
             'circle-color': MAP_MARKS.pinShadow,
             'circle-blur': 0.6,
             'circle-translate': [0, 3],
@@ -174,7 +179,15 @@ export function PlanRouteLayer({
           id={`${id}-pin`}
           type="circle"
           paint={{
-            'circle-radius': ['case', ['==', ['get', 'kind'], 'dot'], 5, radius - 2.5],
+            // A shared pin ("1·3") widens a little so both numbers sit inside its ring.
+            'circle-radius': [
+              'case',
+              ['==', ['get', 'kind'], 'dot'],
+              5,
+              ['>', ['length', ['get', 'label']], 2],
+              radius + 1.5,
+              radius - 2.5,
+            ],
             'circle-color': ['get', 'color'],
             'circle-stroke-color': MAP_MARKS.pinRing,
             'circle-stroke-width': ['case', ['==', ['get', 'kind'], 'dot'], 2, 2.5],

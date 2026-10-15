@@ -7,41 +7,29 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: th\n"
 
+#. placeholder {0}: hub.ideasToVote
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.suggestCaption"
+msgstr ""
+
 #. placeholder {0}: b.left
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.premium.ideas.votesLeft"
 msgstr ""
 
-#. placeholder {0}: props.votesLeft
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "help.ideas.votesLeft"
-msgstr "{0, plural, other {เหลือ # โหวต}}"
-
 #. placeholder {0}: match.count
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.matchMeta"
 msgstr "{0, plural, other {# โหวต}}"
 
-#. js-lingui-generated-id
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "{others, plural, one {{first} and # other too} other {{first} and # others too}}"
-msgstr "{others, plural, other {{first} และอีก # คนด้วย}}"
-
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "help.ideas.suggest"
-msgstr "+ เสนอไอเดีย"
-
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footerEmail"
 msgstr "ทีมงานตอบกลับทางอีเมลภายในสองวัน"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footerInbox"
 msgstr "ทีมงานตอบกลับในกล่องข้อความของคุณภายในสองวัน"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.footer"
 msgstr "ทีมงานตอบกลับภายในสองวัน"
@@ -50,19 +38,18 @@ msgstr "ทีมงานตอบกลับภายในสองวัน
 msgid "help.queued.unvote"
 msgstr "โหวตที่ถอนคืน"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.about"
 msgstr "เกี่ยวกับ"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-parts.tsx
 msgid "help.feedback.addPhoto"
 msgstr "เพิ่มรูปภาพ"
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.askHuman"
 msgstr "ถามทีมงาน"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.askHuman"
 msgstr "ถามทีมงาน"
@@ -71,35 +58,41 @@ msgstr "ถามทีมงาน"
 msgid "help.premium.guideLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
-msgid "help.sent.done"
-msgstr "กลับไปที่การตั้งค่า"
-
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.bug"
 msgstr "บั๊ก"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.ideas.building"
 msgstr "กำลังสร้าง"
+
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
+msgid "help.premium.suggestCancel"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.critters"
 msgstr "Critters"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.declined"
 msgstr "ไม่รับ"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.device"
 msgstr "ข้อมูลอุปกรณ์"
 
-#. placeholder {0}: props.articleTitle
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
+msgid "help.premium.sentDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
+msgid "help.premium.articleLoading"
+msgstr ""
+
+#. placeholder {0}: form.articleTitle
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.fromArticle"
 msgstr "จาก “{0}”"
 
@@ -115,28 +108,24 @@ msgstr "grr"
 msgid "help.feedback.topic.guideChat"
 msgstr "แชตกับไกด์"
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.back"
+msgstr "ช่วยเหลือ"
+
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
+msgid "help.feedback.back"
 msgstr "ช่วยเหลือ"
 
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.premium.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.back"
 msgstr "ช่วยเหลือ"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
-msgid "help.feedback.back"
-msgstr "ช่วยเหลือ"
-
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
-msgid "help.hub.title"
-msgstr "ช่วยเหลือและความคิดเห็น"
-
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.centre"
 msgstr "ศูนย์ช่วยเหลือ"
@@ -149,23 +138,27 @@ msgstr ""
 msgid "help.premium.heading"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.howsItGoing"
 msgstr "เป็นยังไงบ้าง?"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.hq"
 msgstr "สำนักงานใหญ่ · ไปรษณีย์"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.noneShippedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.titleLabel"
 msgstr "สรุปสั้น ๆ"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.includeDevice"
 msgstr "แนบข้อมูลอุปกรณ์"
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.missingBody"
 msgstr "จะมาพร้อมศูนย์ช่วยเหลือเมื่อคุณออนไลน์ครั้งหน้า"
 
@@ -173,17 +166,20 @@ msgstr "จะมาพร้อมศูนย์ช่วยเหลือเ
 msgid "help.premium.shakeLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
+msgid "help.premium.feedbackKeep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.discard"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.discardTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.ideas.open"
 msgstr "กำลังพิจารณา"
 
@@ -195,74 +191,60 @@ msgstr "ชอบมาก"
 msgid "help.feedback.mood.meh"
 msgstr "เฉย ๆ"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.merged"
 msgstr "รวมแล้ว"
-
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
-msgid "help.suggest.postAnyway"
-msgstr "ของฉันต่างออกไป โพสต์เลย"
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.money"
 msgstr "เงิน"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.new"
 msgstr "ใหม่"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
-msgid "help.suggest.eyebrow"
-msgstr "ไอเดียใหม่"
-
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.no"
 msgstr "ไม่"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
-msgid "help.ideas.none"
-msgstr "ยังไม่มีไอเดีย ของคุณอาจเป็นอันแรกก็ได้"
+msgid "help.ideas.noneTitle"
+msgstr ""
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.noResults"
 msgstr "ศูนย์ช่วยเหลือยังไม่มีเรื่องที่ตรงกับคำค้นนี้"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
-msgid "help.ideas.noneShipped"
-msgstr "ยังไม่มีอะไรที่ส่งมอบจากตรงนี้"
+msgid "help.ideas.noneShippedTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.mood.okay"
 msgstr "โอเค"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
-msgid "help.hub.reportShake"
-msgstr "หรือเขย่าเครื่องในหน้าไหนก็ได้"
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.reportCaptionShake"
+msgstr ""
 
 #: ../../apps/mobile/src/features/help/feedback/labels.ts
 msgid "help.feedback.topic.other"
 msgstr "อื่น ๆ"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.pinned"
 msgstr "ปักหมุดแล้ว"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.title"
 msgstr "ปักหมุดบนบอร์ดแล้ว"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.queued"
 msgstr "ปักหมุดแล้ว จะโพสต์เมื่อคุณกลับมาออนไลน์ แล้วทีมงานจะอ่านทันที"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.ideas.planned"
 msgstr "วางแผนไว้"
 
@@ -270,59 +252,58 @@ msgstr "วางแผนไว้"
 msgid "help.feedback.topic.planning"
 msgstr "การวางแผน"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.post"
 msgstr "โพสต์ · Courrier"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.post"
 msgstr "โพสต์เลย"
 
-#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+#: ../../apps/mobile/src/features/help/ideas/use-idea-board.ts
 msgid "help.ideas.posted"
 msgstr "โพสต์ไว้ใต้ ใหม่ แล้ว Tokek จะบอกคุณถ้ามีความคืบหน้า"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.rate"
 msgstr "ให้คะแนนแอป"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.received"
 msgstr "ได้รับแล้ว"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.search"
 msgstr "การคืนเงิน แผนที่ออฟไลน์ การหารค่าใช้จ่าย…"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-parts.tsx
 msgid "help.feedback.removePhoto"
 msgstr "ลบรูปนี้"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
+msgid "help.feedback.titleProblem"
+msgstr "แจ้งปัญหา"
+
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.report"
 msgstr "แจ้งปัญหา"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
-msgid "help.feedback.titleProblem"
-msgstr "แจ้งปัญหา"
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
+msgid "help.feedback.title"
+msgstr "ส่งความคิดเห็น"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.feedback"
 msgstr "ส่งความคิดเห็น"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
-msgid "help.feedback.title"
-msgstr "ส่งความคิดเห็น"
-
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.send"
 msgstr "ส่งเลย"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
+msgid "help.premium.sentTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.back"
 msgstr "การตั้งค่า"
@@ -331,172 +312,149 @@ msgstr "การตั้งค่า"
 msgid "help.premium.shake"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.shipped"
 msgstr "ส่งมอบแล้ว"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.shippedTab"
 msgstr "ส่งมอบแล้ว"
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.english"
 msgstr "แสดงเป็นภาษาอังกฤษไปก่อน"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.english"
 msgstr "แสดงเป็นภาษาอังกฤษไปก่อน"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
-msgid "help.hub.guideLine"
-msgstr "มีอะไรพัง หรืออะไรขาดไปหรือเปล่า? บอกฉันได้เลย ฉันจะส่งต่อให้ทีมงานทันที"
-
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.matchMany"
 msgstr "ดูเหมือนอันใดอันหนึ่งนี้ โหวตให้แล้วจะมาถึงเร็วขึ้น"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.matchOne"
 msgstr "ดูเหมือนอันนี้ โหวตให้แล้วจะมาถึงเร็วขึ้น"
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.stuck"
 msgstr "ยังติดอยู่ไหม?"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
-#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
-msgid "help.hub.suggest"
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
+msgid "help.feedback.titleIdea"
 msgstr "เสนอฟีเจอร์"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
-msgid "help.feedback.titleIdea"
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.hub.suggest"
 msgstr "เสนอฟีเจอร์"
 
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.premium.suggest"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.title"
 msgstr "เสนอไอเดีย"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.rateCaption"
 msgstr "ใช้เวลาสิบวินาที"
 
-#. placeholder {0}: props.name
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#. placeholder {0}: sent.name
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.thanks"
 msgstr "ขอบคุณนะ {0} ทีมงานอ่านทุกข้อความ ถ้าต้องการข้อมูลเพิ่มเราจะถาม และ Tokek จะบอกคุณเมื่อแก้เสร็จแล้ว"
 
-#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-sent-premium-screen.tsx
 msgid "help.sent.thanksNoName"
 msgstr "ขอบคุณนะ ทีมงานอ่านทุกข้อความ ถ้าต้องการข้อมูลเพิ่มเราจะถาม และ Tokek จะบอกคุณเมื่อแก้เสร็จแล้ว"
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.thanks"
 msgstr "ขอบคุณนะ ช่วยให้เราปรับถ้อยคำได้ดีขึ้น"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.tooBig"
 msgstr "รูปนี้ใหญ่เกินกว่าจะส่งได้ ลองใช้ภาพหน้าจอแทนนะ"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.offlineTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.offline"
 msgstr "บอร์ดจะเปิดเมื่อคุณกลับมาออนไลน์"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.articlesOffline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.missingTitle"
 msgstr "บทความนี้ยังไม่มา"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.toHumans"
 msgstr "ถึงทีมงาน"
 
-#. placeholder {0}: row.teamNote
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
-msgid "help.ideas.teamNote"
-msgstr "Tokek: {0}"
-
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.top"
 msgstr "ยอดนิยม"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.underReview"
 msgstr "กำลังตรวจสอบ"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.vote"
 msgstr "โหวต ▲"
 
-#. placeholder {0}: hub.ideasToVote
-#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
-msgid "help.premium.suggestCaption"
-msgstr ""
-
-#. placeholder {0}: props.ideasToVote
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
-msgid "help.hub.suggestCaption"
-msgstr "โหวตให้ {0} ไอเดีย"
-
 #. placeholder {0}: idea.title
-#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+#: ../../apps/mobile/src/features/help/ideas/use-idea-board.ts
 msgid "help.ideas.votedFor"
 msgstr "โหวตให้ {0} แล้ว รวมเป็น {count}"
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.helpful"
 msgstr "เป็นประโยชน์ไหม?"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.placeholderProblem"
 msgstr "เกิดอะไรขึ้น และคุณคาดหวังอะไร?"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.placeholderIdea"
 msgstr "CritterPass ควรทำอะไรต่อไป?"
 
-#: ../../apps/mobile/src/features/help/ideas/SuggestSheet.tsx
+#: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
+msgid "help.premium.reportCaption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/premium/suggest-idea-sheet.tsx
 msgid "help.suggest.descriptionLabel"
 msgstr "มันจะทำอะไร? ไม่บังคับ"
 
-#: ../../apps/mobile/src/features/help/hub/HubView.tsx
 #: ../../apps/mobile/src/features/help/premium/help-premium-screen.tsx
 msgid "help.hub.feedbackCaption"
 msgstr "สิ่งที่คุณชอบ สิ่งที่ทำให้หงุดหงิด"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.placeholder"
 msgstr "สิ่งที่คุณชอบ สิ่งที่ทำให้หงุดหงิด…"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.title"
 msgstr "อะไรจะมาต่อ?"
 
-#: ../../apps/mobile/src/features/help/ideas/BoardView.tsx
 #: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
 msgid "help.ideas.tabs"
 msgstr "ไอเดียไหน"
 
-#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+#: ../../apps/mobile/src/features/help/premium/article-premium-screen.tsx
 msgid "help.article.yes"
 msgstr "ใช่"
 
-#: ../../apps/mobile/src/features/help/ideas/board-screen.tsx
+#: ../../apps/mobile/src/features/help/ideas/use-idea-board.ts
 msgid "help.ideas.outOfVotes"
 msgstr "คุณใช้โหวตครบ {IDEA_VOTE_BUDGET} ครั้งของเดือนนี้แล้ว ถอนคืนหนึ่งโหวตเพื่อย้ายไปที่อื่น"
 
@@ -504,11 +462,11 @@ msgstr "คุณใช้โหวตครบ {IDEA_VOTE_BUDGET} ครั้�
 msgid "help.queued.idea"
 msgstr "ไอเดียของคุณสำหรับบอร์ด"
 
-#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.note"
 msgstr "ข้อความของคุณ"
 
-#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+#: ../../apps/mobile/src/features/help/premium/feedback-premium-screen.tsx
 msgid "help.feedback.discardLine"
 msgstr ""
 
@@ -516,10 +474,14 @@ msgstr ""
 msgid "help.queued.feedback"
 msgstr "ข้อความของคุณถึงทีมงาน"
 
-#: ../../apps/mobile/src/features/help/feedback/feedback-screen.tsx
+#: ../../apps/mobile/src/features/help/feedback/use-feedback-form.ts
 msgid "help.feedback.notSaved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/help/ideas/commands.ts
 msgid "help.queued.vote"
 msgstr "โหวตของคุณให้ไอเดีย"
+
+#: ../../apps/mobile/src/features/help/premium/idea-board-premium-screen.tsx
+msgid "help.ideas.noneLine"
+msgstr ""

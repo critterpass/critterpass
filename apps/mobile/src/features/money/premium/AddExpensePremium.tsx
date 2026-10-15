@@ -9,29 +9,38 @@ import type { ExpenseCategory } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
 import {
   Button,
-  EmptyState,
+  hitSlopFor,
   PressableScale,
   SegmentedControl,
-  Skeleton,
   Tag,
   Text,
   TextField,
   usePremiumTheme,
 } from '@/ui/premium';
-import { askToDiscard, FullScreen } from '@/ui/premium/shell';
+import {
+  askToDiscard,
+  FullScreen,
+  SCROLL_EDGE_FADE,
+  ScrollEdgeFade,
+  useKeyboardFrame,
+  useScrollEdges,
+} from '@/ui/premium/shell';
 
 import { daysBackOf } from '../add-expense/spent-day';
 import { sharesByMember, type SplitEditorMode } from '../add-expense/draft';
 import { useAddExpense } from '../add-expense/use-add-expense';
 import { CATEGORY_ORDER, useCategoryLabel } from '../components/category';
-import { MONEY_FALLBACK } from '../components/screen-states';
+import { MONEY_FALLBACK } from '../routes';
 import { formatPlain, symbolOf } from '../format';
+import { AddExpenseWaiting } from './components/AddExpenseWaiting';
+import { AmountHero } from './components/AmountHero';
 import { AmountKeypad } from './components/AmountKeypad';
 import { ChoiceStrip } from './components/ChoiceStrip';
 import { PayerRow } from './components/PayerRow';
@@ -39,6 +48,9 @@ import { SpentDayLine } from './components/SpentDayLine';
 import { SplitPeople } from './components/SplitPeople';
 
 type Open = 'currency' | 'category' | 'day' | null;
+
+/** The category tag is smaller than a finger: reach 44 pt around it. */
+const SMALL_TARGET = hitSlopFor(28, 28);
 
 export function AddExpensePremium(props: {
   readonly editId: string | null;
@@ -52,9 +64,13 @@ export function AddExpensePremium(props: {
   const state = useAddExpense(props.editId, props.prefillName, props.tripId);
   const categoryLabel = useCategoryLabel();
   const [open, setOpen] = useState<Open>(null);
+  const keyboard = useKeyboardFrame();
+  const edges = useScrollEdges();
+  const padStyle = useAnimatedStyle(() => ({ opacity: 1 - keyboard.progress.get() }));
   const { draft, ctx } = state;
   const closeLabel = t({ id: 'money.premium.close', message: 'Close' });
-  const dirty = draft.digits !== '' || draft.description.trim() !== '';
+  // Any change from where the draft started asks first: payer, split, category and day too.
+  const dirty = state.dirty;
   const close = () => {
     if (!dirty) {
       goBackOr(MONEY_FALLBACK);
@@ -72,26 +88,10 @@ export function AddExpensePremium(props: {
 
   if (state.loading || ctx.crew === null || ctx.trip === null || !state.ready) {
     return (
-      <FullScreen closeLabel={closeLabel} overPhoto={false} testID="money-add-waiting">
-        <View
-          style={[styles.root, { backgroundColor: th.color.ground, paddingTop: insets.top + 80 }]}
-        >
-          {state.loading ? (
-            <View style={{ padding: th.space.gutter, gap: th.space.gap12 }}>
-              <Skeleton height={60} radius={th.radius.card} />
-              <Skeleton height={240} radius={th.radius.card} />
-            </View>
-          ) : (
-            <EmptyState
-              title={t({ id: 'money.premium.noTripTitle', message: 'No trip to add it to' })}
-              line={t({
-                id: 'money.premium.noTripLine',
-                message: 'Expenses belong to a trip. Start one with the crew, then add it here.',
-              })}
-            />
-          )}
-        </View>
-      </FullScreen>
+      <AddExpenseWaiting
+        closeLabel={closeLabel}
+        seeding={state.loading || ctx.status === 'ready'}
+      />
     );
   }
   const members = ctx.members.filter((member) => draft.memberIds.includes(member.userId));
@@ -113,13 +113,22 @@ export function AddExpensePremium(props: {
         ]}
       >
         <View style={[styles.top, { paddingLeft: 80, paddingRight: th.space.gutter }]}>
-          <Text variant="label" tone="muted" style={styles.flex} numberOfLines={1}>
+          <Text
+            variant="label"
+            tone="muted"
+            align="center"
+            style={styles.flex}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.8}
+          >
             {state.editing
               ? t({ id: 'money.premium.editTitle', message: `Edit expense · ${ctx.crew.name}` })
               : t({ id: 'money.premium.newTitle', message: `New expense · ${ctx.crew.name}` })}
           </Text>
           {state.editing ? null : (
             <Button
+              alignSelf="auto"
               label={t({ id: 'money.premium.scanInstead', message: 'Scan instead' })}
               variant="floating"
               size="small"
@@ -128,140 +137,131 @@ export function AddExpensePremium(props: {
             />
           )}
         </View>
-        <ScrollView
-          style={styles.flex}
-          keyboardShouldPersistTaps="handled"
-          keyboardDismissMode="interactive"
-          contentContainerStyle={{
-            gap: th.space.gap14,
-            paddingTop: th.space.gap16,
-            paddingBottom: th.space.gap12,
-          }}
-        >
-          <View style={styles.amount}>
-            <View style={styles.amountRow}>
-              <PressableScale
-                onPress={() => toggle('currency')}
-                accessibilityRole="button"
-                accessibilityLabel={t({
-                  id: 'money.premium.currency',
-                  message: `Currency, ${draft.currency}`,
-                })}
-                testID="money-add-currency"
-              >
-                <Text variant="title" tone="placeholder">
-                  {symbolOf(draft.currency)}
-                </Text>
-              </PressableScale>
-              <Text
-                variant="hero"
-                numberOfLines={1}
-                adjustsFontSizeToFit
-                minimumFontScale={0.5}
-                style={styles.tabular}
-                testID="money-add-amount"
-              >
-                {amount}
-              </Text>
+        <View style={styles.flex}>
+          <ScrollView
+            {...edges.scrollProps}
+            style={styles.flex}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="interactive"
+            contentContainerStyle={{
+              gap: th.space.gap12,
+              paddingTop: th.space.gap8,
+              paddingBottom: th.space.gap16,
+            }}
+          >
+            <AmountHero
+              amount={amount}
+              currency={draft.currency}
+              locale={locale}
+              approx={state.labels.approx}
+              onCurrency={() => toggle('currency')}
+            />
+            {open === 'currency' ? (
+              <ChoiceStrip
+                choices={state.currencies.map((code) => ({
+                  value: code,
+                  label: `${symbolOf(code)} ${code}`,
+                }))}
+                value={draft.currency}
+                onPick={(currency) => {
+                  state.dispatch({ type: 'currency', currency });
+                  setOpen(null);
+                }}
+                testID="money-add-currencies"
+              />
+            ) : null}
+            <View style={[styles.what, { paddingHorizontal: th.space.gutter }]}>
+              <View style={styles.flex}>
+                <TextField
+                  accessibilityLabel={t({ id: 'money.premium.what', message: 'What was it?' })}
+                  label={t({ id: 'money.premium.what', message: 'What was it?' })}
+                  value={draft.description}
+                  onChangeText={(text) => state.dispatch({ type: 'description', text })}
+                  autoCapitalize="sentences"
+                  returnKeyType="done"
+                  // The category's sticker sits inside the field, as the design draws it.
+                  trailing={
+                    <PressableScale
+                      onPress={() => toggle('category')}
+                      hitSlop={SMALL_TARGET}
+                      accessibilityRole="button"
+                      testID="money-add-category"
+                    >
+                      <Tag
+                        label={categoryLabel(draft.category)}
+                        color={th.accent.pink}
+                        rotate={-4}
+                      />
+                    </PressableScale>
+                  }
+                  testID="money-add-description"
+                />
+              </View>
             </View>
-            {state.labels.approx === undefined ? null : (
-              <Text variant="rowText" tone="muted">
-                {state.labels.approx}
-              </Text>
-            )}
-          </View>
-          {open === 'currency' ? (
-            <ChoiceStrip
-              choices={state.currencies.map((code) => ({
-                value: code,
-                label: `${symbolOf(code)} ${code}`,
-              }))}
-              value={draft.currency}
-              onPick={(currency) => {
-                state.dispatch({ type: 'currency', currency });
+            {open === 'category' ? (
+              <ChoiceStrip<ExpenseCategory>
+                choices={CATEGORY_ORDER.map((category) => ({
+                  value: category,
+                  label: categoryLabel(category),
+                }))}
+                value={draft.category}
+                onPick={(category) => {
+                  state.dispatch({ type: 'category', category });
+                  setOpen(null);
+                }}
+                testID="money-add-categories"
+              />
+            ) : null}
+            <PayerRow
+              members={members}
+              payerId={draft.payerId}
+              onPayer={(userId) => state.dispatch({ type: 'payer', userId })}
+            />
+            <SpentDayLine
+              daysBack={daysBack}
+              open={open === 'day'}
+              onToggle={() => toggle('day')}
+              onPick={(back) => {
+                state.setDay(back);
                 setOpen(null);
               }}
-              testID="money-add-currencies"
             />
-          ) : null}
-          <View style={[styles.what, { paddingHorizontal: th.space.gutter }]}>
-            <View style={styles.flex}>
-              <TextField
-                accessibilityLabel={t({ id: 'money.premium.what', message: 'What was it?' })}
-                placeholder={t({ id: 'money.premium.what', message: 'What was it?' })}
-                value={draft.description}
-                onChangeText={(text) => state.dispatch({ type: 'description', text })}
-                autoCapitalize="sentences"
-                returnKeyType="done"
-                testID="money-add-description"
+            <View style={{ paddingHorizontal: th.space.gutter }}>
+              <SegmentedControl<SplitEditorMode>
+                accessibilityLabel={t({ id: 'money.premium.split', message: 'How it splits' })}
+                options={modes}
+                value={draft.mode}
+                onChange={(mode) => state.dispatch({ type: 'mode', mode })}
+                testID="money-add-mode"
               />
             </View>
-            <PressableScale
-              onPress={() => toggle('category')}
-              accessibilityRole="button"
-              testID="money-add-category"
-            >
-              <Tag label={categoryLabel(draft.category)} color={th.accent.pink} rotate={-4} />
-            </PressableScale>
-          </View>
-          {open === 'category' ? (
-            <ChoiceStrip<ExpenseCategory>
-              choices={CATEGORY_ORDER.map((category) => ({
-                value: category,
-                label: categoryLabel(category),
-              }))}
-              value={draft.category}
-              onPick={(category) => {
-                state.dispatch({ type: 'category', category });
-                setOpen(null);
-              }}
-              testID="money-add-categories"
+            <SplitPeople
+              draft={draft}
+              members={members}
+              perMember={sharesByMember(draft)}
+              onToggle={(userId) => state.dispatch({ type: 'toggle', userId })}
+              onStep={(userId, delta) => state.dispatch({ type: 'weight', userId, delta })}
+              onFocus={(userId) => state.dispatch({ type: 'focus', userId })}
             />
-          ) : null}
-          <PayerRow
-            members={members}
-            payerId={draft.payerId}
-            onPayer={(userId) => state.dispatch({ type: 'payer', userId })}
-          />
-          <SpentDayLine
-            daysBack={daysBack}
-            open={open === 'day'}
-            onToggle={() => toggle('day')}
-            onPick={(back) => {
-              state.setDay(back);
-              setOpen(null);
-            }}
-          />
-          <View style={{ paddingHorizontal: th.space.gap16 }}>
-            <SegmentedControl<SplitEditorMode>
-              accessibilityLabel={t({ id: 'money.premium.split', message: 'How it splits' })}
-              options={modes}
-              value={draft.mode}
-              onChange={(mode) => state.dispatch({ type: 'mode', mode })}
-              testID="money-add-mode"
-            />
-          </View>
-          <SplitPeople
-            draft={draft}
-            members={members}
-            perMember={sharesByMember(draft)}
-            crewCurrency={state.crewCurrency}
-            onToggle={(userId) => state.dispatch({ type: 'toggle', userId })}
-            onStep={(userId, delta) => state.dispatch({ type: 'weight', userId, delta })}
-            onFocus={(userId) => state.dispatch({ type: 'focus', userId })}
-          />
-        </ScrollView>
+          </ScrollView>
+          {/* With a big crew the split row runs under the pad: it fades there, so it reads as more. */}
+          <ScrollEdgeFade edge="bottom" height={SCROLL_EDGE_FADE} visible={edges.bottom} />
+        </View>
         <View
           style={{
             paddingHorizontal: th.space.gutter,
+            paddingTop: th.space.gap8,
             paddingBottom: insets.bottom + th.space.gap8,
             gap: th.space.gap10,
           }}
         >
-          <AmountKeypad
-            onKey={(key) => state.dispatch({ type: 'key', key })}
-            deleteLabel={t({ id: 'money.premium.delete', message: 'Delete a digit' })}
-          />
+          {/* The pad stands down while the keyboard types the note: its top row would peek over it. */}
+          <Animated.View style={padStyle}>
+            <AmountKeypad
+              onKey={(key) => state.dispatch({ type: 'key', key })}
+              deleteLabel={t({ id: 'money.premium.delete', message: 'Delete a digit' })}
+            />
+          </Animated.View>
           <Button
             label={state.labels.cta}
             disabled={state.amountMinor === 0n || state.sent}
@@ -279,8 +279,5 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   flex: { flex: 1, minWidth: 0 },
   top: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 44 },
-  amount: { alignItems: 'center', gap: 2, paddingHorizontal: 20 },
-  amountRow: { flexDirection: 'row', alignItems: 'baseline', gap: 6 },
-  tabular: { fontVariant: ['tabular-nums'] },
   what: { flexDirection: 'row', alignItems: 'center', gap: 10 },
 });

@@ -1,5 +1,5 @@
 /**
- * DROP A PIN's state, shared by both looks of the sheet: where the pin stands as the map moves
+ * DROP A PIN's state: where the pin stands as the map moves
  * under it, the name, and ADD TO IDEAS saving it to the trip's Ideas as a pin (`save_idea{pin}`),
  * which works offline from the queue.
  */

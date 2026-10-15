@@ -7,6 +7,16 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: de\n"
 
+#. placeholder {0}: stop.nights
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.nights"
+msgstr ""
+
+#. placeholder {0}: stops.length
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.stopCount"
+msgstr ""
+
 #. placeholder {0}: money(locale, track.minMinor, currency)
 #. placeholder {1}: money(locale, track.maxMinor, currency)
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
@@ -45,11 +55,6 @@ msgstr ""
 msgid "setup.premium.mustDos.typing"
 msgstr ""
 
-#. placeholder {0}: stop.nights
-#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
-msgid "setup.premium.route.nights"
-msgstr ""
-
 #. placeholder {0}: band.set
 #. placeholder {1}: band.of
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
@@ -78,11 +83,6 @@ msgstr ""
 msgid "setup.premium.rooms.split"
 msgstr ""
 
-#. placeholder {0}: stops.length
-#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
-msgid "setup.premium.route.title"
-msgstr ""
-
 #. placeholder {0}: model.place
 #. placeholder {1}: model.score.won
 #. placeholder {2}: model.score.next
@@ -101,8 +101,8 @@ msgstr ""
 msgid "setup.premium.rooms.firstGo"
 msgstr ""
 
-#. placeholder {0}: model.guideName
-#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/setup/premium/steps/window-option-card.tsx
 msgid "setup.premium.when.option.pick"
 msgstr ""
 
@@ -114,16 +114,8 @@ msgstr ""
 msgid "setup.manual.dayA11y"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/shell/setup-shell.tsx
-msgid "setup.shell.back"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.checklist.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
-msgid "setup.tag.won"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
@@ -166,10 +158,6 @@ msgstr ""
 msgid "setup.mustDos.readyLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
-msgid "setup.tag.doneA11y"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.thingsLeft"
 msgstr ""
@@ -190,16 +178,16 @@ msgstr ""
 msgid "setup.rooms.a11y.person"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-msgid "setup.status.here"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-msgid "setup.status.away"
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.privacy"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
 msgid "setup.addMustDo.header"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.nightCount"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
@@ -224,6 +212,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.line.stops"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/crew-sees.tsx
@@ -269,6 +265,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.memberLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
@@ -346,7 +346,6 @@ msgid "setup.premium.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.home"
 msgstr ""
 
@@ -378,10 +377,6 @@ msgstr ""
 msgid "setup.premium.manual.brush"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.budget"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.row.budget"
 msgstr ""
@@ -402,8 +397,18 @@ msgstr ""
 msgid "setup.push.notMovable"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.notMovable"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
 msgid "setup.premium.rooms.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
+msgid "setup.premium.cancel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
@@ -431,15 +436,14 @@ msgstr ""
 msgid "setup.when.picker.clear"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
-#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.sheet.close"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
-#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
 msgid "setup.premium.calendar.close"
 msgstr ""
 
@@ -475,6 +479,10 @@ msgstr ""
 msgid "setup.premium.rooms.discard"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.discard"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
 msgid "setup.premium.rooms.discardTitle"
 msgstr ""
@@ -493,6 +501,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
 msgid "setup.mustDos.draftWithout"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.ask.discardTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
@@ -572,6 +584,10 @@ msgstr ""
 msgid "setup.push.freed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.freed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.partLine.days"
 msgstr ""
@@ -595,10 +611,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
 msgid "setup.premium.chip.ground"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-msgid "setup.back.home"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
@@ -630,7 +642,6 @@ msgid "setup.premium.chip.snore"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.line"
 msgstr ""
 
@@ -648,6 +659,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
 msgid "setup.premium.rooms.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.keepEditing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
@@ -673,8 +688,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 #: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
 #: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.loading"
 msgstr ""
 
@@ -745,10 +758,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.step"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.mustDos"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
@@ -847,6 +856,10 @@ msgstr ""
 msgid "setup.calendar.promise"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.words"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
 msgid "setup.budget.typed.labelAlone"
 msgstr ""
@@ -907,6 +920,10 @@ msgstr ""
 msgid "setup.premium.month.previous"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.line"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 msgid "setup.calendar.syncing"
 msgstr ""
@@ -933,10 +950,6 @@ msgstr ""
 #. placeholder {0}: at + 1
 #: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
 msgid "setup.premium.rooms.tileEach"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.rooms"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
@@ -993,6 +1006,10 @@ msgstr ""
 msgid "setup.mustDos.seeTrip"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.send"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/premium/steps/must-do-card.tsx
 msgid "setup.mustDos.row.pending"
 msgstr ""
@@ -1018,7 +1035,6 @@ msgid "setup.premium.pill.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.voteOpen.line"
 msgstr ""
 
@@ -1074,14 +1090,6 @@ msgstr ""
 msgid "setup.premium.budget.stays"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.a11y"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.a11yDone"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.line.budgetLocked"
 msgstr ""
@@ -1096,6 +1104,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 msgid "setup.calendar.synced"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.syncedJustNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.thanks"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
@@ -1163,12 +1179,7 @@ msgstr ""
 msgid "setup.premium.row.route"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
-msgid "setup.premium.route.line"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.voteOpen.title"
 msgstr ""
 
@@ -1180,12 +1191,7 @@ msgstr ""
 msgid "setup.calendar.device"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-msgid "setup.status.stepRefused"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.title"
 msgstr ""
 
@@ -1229,10 +1235,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
 msgid "setup.mustDos.line"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.when"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
@@ -1282,7 +1284,6 @@ msgid "setup.when.locked.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
-#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.sheet.notYours"
 msgstr ""
 
@@ -1356,4 +1357,8 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.budgetDefault"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.ask.discardLine"
 msgstr ""

@@ -8,6 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -53,13 +54,21 @@ function SweepBar() {
   const styles = useStyles();
   const reduced = usePremiumReducedMotion();
   const x = useSharedValue(0);
+  const width = useSharedValue(0);
   useEffect(() => {
-    if (reduced) return;
-    x.value = withRepeat(withTiming(1, { duration: SWEEP_MS }), -1, true);
+    if (reduced) {
+      cancelAnimation(x);
+      x.set(0);
+      return;
+    }
+    x.set(withRepeat(withTiming(1, { duration: SWEEP_MS }), -1, true));
   }, [reduced, x]);
-  const moving = useAnimatedStyle(() => ({ marginStart: `${x.value * 55}%` }));
+  // The fill slides on the UI thread (a transform), never re-laying out the bar each frame.
+  const moving = useAnimatedStyle(() => ({
+    transform: [{ translateX: x.get() * 0.55 * width.get() }],
+  }));
   return (
-    <View style={styles.track}>
+    <View style={styles.track} onLayout={(e) => width.set(e.nativeEvent.layout.width)}>
       <Animated.View style={[styles.fill, moving]} />
     </View>
   );

@@ -7,10 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
-#: ../../apps/mobile/src/features/plan/add/who-going.tsx
-msgid "plan.add.who.some"
-msgstr "{count} going ›"
-
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.dayHeader.free"
 msgstr "{dayLabel} · FREE DAY"
@@ -87,21 +83,13 @@ msgstr "A travel day"
 msgid "plan.add.why.driveAbout"
 msgstr "About {minutes} min by car"
 
-#: ../../apps/mobile/src/features/plan/add/add-block.tsx
-msgid "plan.add.nearby.add"
-msgstr "Add it too"
-
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.add"
-msgstr "ADD TO {dayLabel} · {time}"
+msgstr "Add to {dayLabel} · {time}"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.addAnyway"
-msgstr "ADD TO {dayLabel} ANYWAY"
-
-#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
-msgid "plan.add.eyebrow"
-msgstr "ADD TO THE PLAN"
+msgstr "Add to {dayLabel} anyway"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.line.inPlan"
@@ -156,29 +144,13 @@ msgstr "Dry {from}–{to}"
 msgid "plan.add.why.dryMornings"
 msgstr "Dry mornings in {month}"
 
-#: ../../apps/mobile/src/features/plan/add/who-going.tsx
-msgid "plan.add.who.everyone"
-msgstr "Everyone ›"
-
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.waiting"
-msgstr "FINDING THE BEST TIME…"
-
-#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
-msgid "plan.add.saveLater"
-msgstr "Just save it for later"
-
-#: ../../apps/mobile/src/features/plan/add/who-going.tsx
-msgid "plan.add.who.justYou"
-msgstr "Just you"
-
-#: ../../apps/mobile/src/features/plan/add/add-block.tsx
-msgid "plan.add.nearby.drop"
-msgstr "Leave it out"
+msgstr "Finding the best time…"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.move"
-msgstr "MOVE IT TO {dayLabel} · {time}"
+msgstr "Move it to {dayLabel} · {time}"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.block.new"
@@ -218,7 +190,7 @@ msgstr "Opens at {time}"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.pickElsewhere"
-msgstr "PICK ANOTHER DAY OR TIME"
+msgstr "Pick another day or time"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.quiet"
@@ -234,7 +206,7 @@ msgstr "Right after {a}"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.ideas"
-msgstr "SAVE TO IDEAS"
+msgstr "Save to Ideas"
 
 #: ../../apps/mobile/src/features/plan/add/use-save-to-ideas.ts
 msgid "plan.add.savedToastShared"
@@ -244,22 +216,13 @@ msgstr "Saved to Ideas, where the crew sees it. It goes in a day once someone pl
 msgid "plan.add.seeIdeas"
 msgstr "SEE IDEAS"
 
-#. placeholder {0}: props.useStart.time
-#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
-msgid "plan.add.useStart"
-msgstr "Start at {0} instead"
-
-#: ../../apps/mobile/src/features/plan/add/add-block.tsx
-msgid "plan.add.time.a11y"
-msgstr "Starts {time}. Change the time"
-
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.suggest"
-msgstr "SUGGEST FOR {dayLabel} · {time}"
+msgstr "Suggest for {dayLabel} · {time}"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.cta.suggestAnyway"
-msgstr "SUGGEST FOR {dayLabel} ANYWAY"
+msgstr "Suggest for {dayLabel} anyway"
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.voteNote"
@@ -273,10 +236,6 @@ msgstr "The plan isn’t shared yet. Save it to Ideas and it’s there when it i
 msgid "plan.add.why.meal"
 msgstr "Timed for a meal"
 
-#: ../../apps/mobile/src/features/plan/add/who-going.tsx
-msgid "plan.add.who.title"
-msgstr "WHO’S GOING"
-
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.title"
-msgstr "WHY {time}"
+msgstr "Why {time}"

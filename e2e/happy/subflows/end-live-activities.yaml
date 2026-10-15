@@ -10,26 +10,12 @@ appId: app.critterpass.dev
       platform: iOS
     commands:
       - stopApp
-      - openLink: critterpass-dev://trips
-      - runFlow:
-          when:
-            visible: 'Open'
-          commands:
-            - tapOn: 'Open'
+      - launchApp
       - extendedWaitUntil:
           visible:
-            id: 'tab-home'
+            id: 'home-screen|tab-home|trip-hub|critters-hatch-later'
           timeout: 30000
-      - tapOn:
-          id: 'tab-home'
-      - scrollUntilVisible:
-          element:
-            id: 'dev-tools-entry'
-          direction: DOWN
-          timeout: 30000
-      - tapOn:
-          id: 'dev-tools-entry'
-      # The entry sits about forty cards down the Developer tools list.
+      - runFlow: ../../_shared/open-dev-tools.yaml
       - scrollUntilVisible:
           element:
             id: 'dev-nav-live-activities'

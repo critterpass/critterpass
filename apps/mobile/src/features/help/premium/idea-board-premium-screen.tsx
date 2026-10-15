@@ -10,6 +10,7 @@ import { FlatList, Pressable, View } from 'react-native';
 
 import {
   Button,
+  EmptyState,
   Icon,
   SegmentedControl,
   StatusTag,
@@ -22,9 +23,8 @@ import {
 import { PushScreen } from '@/ui/premium/shell';
 
 import type { BoardStatus } from '../ideas/board';
-import { useIdeaBoard } from '../ideas/board-screen';
-import type { BoardRow } from '../ideas/BoardView';
-import { SuggestSheet } from '../ideas/SuggestSheet';
+import { useIdeaBoard, type BoardRow } from '../ideas/use-idea-board';
+import { SuggestIdeaSheet } from './suggest-idea-sheet';
 
 function useStatusWords(): (status: BoardStatus) => { tone: StatusTone; label: string } {
   const { t } = useLingui();
@@ -85,7 +85,7 @@ function IdeaCard({ row, onVote }: { readonly row: BoardRow; readonly onVote: ()
         }}
         testID={`help-idea-vote-${row.id}`}
       >
-        <Icon name="expand" size={14} color={row.voted ? th.color.onInk : th.color.ink} />
+        <Icon name="arrowUp" size={14} color={row.voted ? th.color.onInk : th.color.ink} />
         <Text variant="stepperValue" color={row.voted ? th.color.onInk : th.color.ink}>
           {String(row.count)}
         </Text>
@@ -120,6 +120,7 @@ function Board() {
   return (
     <>
       <PushScreen
+        largeTitle
         title={t({ id: 'help.ideas.title', message: 'What’s next?' })}
         action={{
           key: 'votes-left',
@@ -149,6 +150,14 @@ function Board() {
         }}
         backLabel={t({ id: 'help.ideas.back', message: 'Help' })}
         scroll={false}
+        // On the page's ground under the list, so the last idea always clears it.
+        footer={
+          <Button
+            label={t({ id: 'help.premium.suggest', message: 'Suggest an idea' })}
+            onPress={() => b.setSuggesting(true)}
+            testID="help-ideas-suggest"
+          />
+        }
         testID="help-ideas"
       >
         <FlatList
@@ -156,9 +165,9 @@ function Board() {
           data={b.board.loaded ? b.rows : []}
           keyExtractor={(row) => row.id}
           contentContainerStyle={{
+            flexGrow: 1,
             padding: th.space.gutter,
             gap: th.space.gap8,
-            paddingBottom: 120,
           }}
           ListHeaderComponent={
             <View style={{ marginBottom: th.space.gap8 }}>
@@ -179,35 +188,44 @@ function Board() {
             </View>
           }
           ListEmptyComponent={
-            <Text variant="body" tone="muted" align="center" testID="help-ideas-empty">
-              {b.board.unavailable
-                ? t({
-                    id: 'help.ideas.offline',
-                    message: 'The board opens once you’re back online.',
-                  })
-                : b.tab === 'shipped'
-                  ? t({ id: 'help.ideas.noneShipped', message: 'Nothing shipped from here yet.' })
-                  : t({
-                      id: 'help.ideas.none',
-                      message: 'No ideas yet. Yours could be the first.',
-                    })}
-            </Text>
+            // Undesigned: the kit's empty state, in the optical centre of the room left.
+            <View style={{ flexGrow: 1 }}>
+              <EmptyState
+                fill
+                check={false}
+                critter={{ kind: 'gecko', name: 'Tokek' }}
+                title={
+                  b.board.unavailable
+                    ? t({ id: 'help.ideas.offlineTitle', message: 'The board is offline' })
+                    : b.tab === 'shipped'
+                      ? t({ id: 'help.ideas.noneShippedTitle', message: 'Nothing shipped yet' })
+                      : t({ id: 'help.ideas.noneTitle', message: 'No ideas yet' })
+                }
+                line={
+                  b.board.unavailable
+                    ? t({
+                        id: 'help.ideas.offline',
+                        message: 'The board opens once you’re back online.',
+                      })
+                    : b.tab === 'shipped'
+                      ? t({
+                          id: 'help.ideas.noneShippedLine',
+                          message: 'Ideas from this board land here once they’re built.',
+                        })
+                      : t({
+                          id: 'help.ideas.noneLine',
+                          message: 'Yours could be the first. Suggest one and everyone can vote.',
+                        })
+                }
+                testID="help-ideas-empty"
+              />
+            </View>
           }
           renderItem={({ item }) => <IdeaCard row={item} onVote={() => void b.onVote(item.id)} />}
         />
-        <View
-          style={{ position: 'absolute', left: 24, right: 24, bottom: 40 }}
-          pointerEvents="box-none"
-        >
-          <Button
-            label={t({ id: 'help.premium.suggest', message: 'Suggest an idea' })}
-            onPress={() => b.setSuggesting(true)}
-            testID="help-ideas-suggest"
-          />
-        </View>
       </PushScreen>
       {b.suggesting ? (
-        <SuggestSheet
+        <SuggestIdeaSheet
           title={b.title}
           onTitle={b.setTitle}
           description={b.description}

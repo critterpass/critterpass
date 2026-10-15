@@ -1,21 +1,21 @@
 /**
- * Find a driver's pieces (6.19): a source card (tilted sticker tile, title, line and its small
- * action) and the ink shortlist bar docked at the bottom with the sun Compare.
+ * Find a driver's pieces (6.19): a source card (its sticker or the guide, title, line and its
+ * small action) and the ink shortlist bar docked at the bottom with the sun Compare.
  */
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
+import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { crewAccent, IconTile, turn, type LineIconName } from '@/features/trip';
+import { crewAccent } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { CrewStack, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
 import type { ShortlistDriver } from '../../shared/api';
 
 export function Source(props: {
-  readonly icon: LineIconName;
-  readonly tint: { bg: string; text: string };
-  readonly tilt: number;
+  /** The card's art: a tilted sticker, or the guide for the post it writes. */
+  readonly art: ReactNode;
   readonly title: string;
   readonly body: string;
   readonly cta: string;
@@ -41,9 +41,7 @@ export function Source(props: {
           },
         ]}
       >
-        <View style={{ transform: [turn(props.tilt)] }}>
-          <IconTile name={props.icon} bg={props.tint.bg} color={props.tint.text} size={50} />
-        </View>
+        <View style={styles.art}>{props.art}</View>
         <View style={styles.flex}>
           <Text variant="headline">{props.title}</Text>
           <Text variant="caption" tone="muted">
@@ -120,6 +118,7 @@ export function ShortlistBar(props: {
 const styles = StyleSheet.create({
   flex: { flex: 1, minWidth: 0 },
   source: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12 },
+  art: { width: 54, alignItems: 'center' },
   cta: { height: 32, borderRadius: 16, paddingHorizontal: 12, justifyContent: 'center' },
   bar: {
     position: 'absolute',

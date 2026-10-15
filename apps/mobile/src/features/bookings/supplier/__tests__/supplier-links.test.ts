@@ -17,8 +17,8 @@ import {
   subIdFrom,
   type PartnerLinkDeps,
 } from '../data/partner-link';
-import { remainingLabel } from '../HoldTimer';
-import { parsePaymentMessage } from '../PaymentWebView';
+import { remainingLabel } from '../hold-left';
+import { parsePaymentMessage } from '../payment-page';
 
 function deps(online: SendResult, queued: SendResult = { kind: 'queued', opId: 'q' }) {
   const log: string[] = [];

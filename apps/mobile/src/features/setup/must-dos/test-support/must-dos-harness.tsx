@@ -17,7 +17,16 @@ import type { TestLocalFirst } from '@/data/powersync/test-support/local-first-f
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { SetupServicesProvider, type ApiRead, type SetupServices } from '../../data/services';
-import { ALEX, DEV, JORDAN, MAYA, RIN, SCENE_NOW, TRIP_ID, WINSTON } from '../../scenes/fixtures';
+import {
+  ALEX,
+  DEV,
+  JORDAN,
+  MAYA,
+  RIN,
+  SCENE_NOW,
+  TRIP_ID,
+  WINSTON,
+} from '../../test-support/setup-fixtures';
 
 configure({ asyncUtilTimeout: 5000 });
 

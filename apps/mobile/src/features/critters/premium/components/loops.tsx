@@ -18,6 +18,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { REDUCED_FADE, SPRINGS, usePremiumReducedMotion } from '@/ui/premium';
 
 const inOut = Easing.inOut(Easing.quad);
@@ -25,9 +26,11 @@ const inOut = Easing.inOut(Easing.quad);
 /** A 0→1→0 clock over `ms`, forever; still at 0 under Reduce Motion. */
 function useCycle(ms: number, delayMs = 0) {
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const p = useSharedValue(0);
   useEffect(() => {
-    if (reduced) {
+    if (!looping) {
+      cancelAnimation(p);
       p.value = 0;
       return undefined;
     }
@@ -42,7 +45,7 @@ function useCycle(ms: number, delayMs = 0) {
       ),
     );
     return () => cancelAnimation(p);
-  }, [reduced, ms, delayMs, p]);
+  }, [looping, ms, delayMs, p]);
   return p;
 }
 
@@ -70,12 +73,17 @@ export function Bob({ children, style, ms = 2400 }: LoopProps & { readonly ms?: 
 /** Hop: squash .9, leap −14 stretched 1.05, land .94, rest (the encounter critter). */
 export function Hop({ children, style, ms = 2800 }: LoopProps & { readonly ms?: number }) {
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const p = useSharedValue(0);
   useEffect(() => {
-    if (reduced) return undefined;
+    if (!looping) {
+      cancelAnimation(p);
+      p.value = 0;
+      return undefined;
+    }
     p.value = withRepeat(withTiming(1, { duration: ms, easing: Easing.linear }), -1);
     return () => cancelAnimation(p);
-  }, [reduced, ms, p]);
+  }, [looping, ms, p]);
   const animated = useAnimatedStyle(() => {
     const t = p.value;
     let ty = 0;
@@ -106,15 +114,20 @@ export function Ping({
   readonly delayMs?: number;
 }) {
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const p = useSharedValue(0);
   useEffect(() => {
-    if (reduced) return undefined;
+    if (!looping) {
+      cancelAnimation(p);
+      p.value = 0;
+      return undefined;
+    }
     p.value = withDelay(
       delayMs,
       withRepeat(withTiming(1, { duration: ms, easing: Easing.out(Easing.quad) }), -1),
     );
     return () => cancelAnimation(p);
-  }, [reduced, ms, delayMs, p]);
+  }, [looping, ms, delayMs, p]);
   const animated = useAnimatedStyle(() =>
     reduced
       ? { opacity: 0.6 }
@@ -126,12 +139,17 @@ export function Ping({
 /** Turns its child once every `ms` (the celebration rays); still under Reduce Motion. */
 export function Spin({ children, style, ms }: LoopProps & { readonly ms: number }) {
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const p = useSharedValue(0);
   useEffect(() => {
-    if (reduced) return undefined;
+    if (!looping) {
+      cancelAnimation(p);
+      p.value = 0;
+      return undefined;
+    }
     p.value = withRepeat(withTiming(1, { duration: ms, easing: Easing.linear }), -1);
     return () => cancelAnimation(p);
-  }, [reduced, ms, p]);
+  }, [looping, ms, p]);
   const animated = useAnimatedStyle(() => ({ transform: [{ rotate: `${360 * p.value}deg` }] }));
   return (
     <Animated.View pointerEvents="none" style={[style, animated]}>

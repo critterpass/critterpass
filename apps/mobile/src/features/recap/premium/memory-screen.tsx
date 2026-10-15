@@ -8,22 +8,23 @@ import { t } from '@lingui/core/macro';
 import { Stack } from 'expo-router';
 import { useContext } from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
-import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Animated from 'react-native-reanimated';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { goBackOr } from '@/lib/navigation/back';
 import {
   Avatar,
   Button,
+  EmptyState,
   GlassPill,
   LoadingCritter,
   RoundStamp,
   Text,
   TextButton,
   usePremiumReducedMotion,
+  popIn,
 } from '@/ui/premium';
-import { FullScreen } from '@/ui/premium/shell';
+import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
 import { useLiveRows } from '../data/live-rows';
 import { reactionA11y, reactionLabel } from '../memory/memory-copy';
@@ -45,13 +46,18 @@ function Chip({ chip }: { readonly chip: MemoryReactionChip }) {
   const reduced = usePremiumReducedMotion();
   return (
     <Animated.View
-      entering={reduced ? FadeIn.duration(150) : ZoomIn.springify()}
+      entering={popIn(reduced, 'lively')}
       style={styles.reaction}
       accessible
       accessibilityLabel={reactionA11y(chip)}
       testID={`memory-reaction-${chip.key}`}
     >
-      <Avatar name={chip.name} color={chip.colour ?? RECAP_PAINT.glassOnPhoto} size={24} />
+      <Avatar
+        name={chip.name}
+        color={chip.colour ?? RECAP_PAINT.glassOnPhoto}
+        uid={chip.userId}
+        size={24}
+      />
       <Text variant="rowTextStrong" color={RECAP_PAINT.onPhoto}>
         {reactionLabel(chip)}
       </Text>
@@ -60,7 +66,7 @@ function Chip({ chip }: { readonly chip: MemoryReactionChip }) {
 }
 
 function MemoryScene({ m }: { readonly m: MemoryScreenState }) {
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   const date = stampDate(m.memory.local_date);
   return (
     <FullScreen
@@ -125,6 +131,7 @@ function MemoryScene({ m }: { readonly m: MemoryScreenState }) {
         )}
         <View style={{ alignItems: 'center' }}>
           <TextButton
+            align="center"
             label={t({ id: 'recap.premium.memory.share', message: 'Share the memory' })}
             onPress={() => m.setSharing(true)}
             color={RECAP_PAINT.shareOnPhoto}
@@ -154,16 +161,40 @@ function MemoryScene({ m }: { readonly m: MemoryScreenState }) {
   );
 }
 
+/** Loading the memory; once read and not on this phone, "not here" with the way Home. */
 function Loading({ loaded }: { readonly loaded: boolean }) {
+  if (!loaded) {
+    return (
+      <LoadingCritter
+        label={t({ id: 'recap.memory.loading', message: 'Loading the memory' })}
+        testID="memory-waiting"
+      />
+    );
+  }
   return (
-    <LoadingCritter
-      label={
-        loaded
-          ? t({ id: 'recap.memory.missing.title', message: 'This memory isn’t here' })
-          : t({ id: 'recap.memory.loading', message: 'Loading the memory' })
-      }
-      testID={loaded ? 'memory-missing' : 'memory-waiting'}
-    />
+    <FullScreen
+      closeLabel={t({ id: 'recap.link.back', message: 'Home' })}
+      onClose={() => goBackOr()}
+      testID="memory-missing"
+    >
+      <View style={styles.missing}>
+        <EmptyState
+          title={t({ id: 'recap.memory.missing.title', message: 'This memory isn’t here' })}
+          line={t({
+            id: 'recap.memory.missing.line',
+            message: 'It may have been removed, or the trip has not reached this phone yet.',
+          })}
+          check={false}
+          action={
+            <Button
+              label={t({ id: 'album.premium.missing.home', message: 'Go to Home' })}
+              onPress={() => goBackOr()}
+              testID="memory-missing-back"
+            />
+          }
+        />
+      </View>
+    </FullScreen>
   );
 }
 
@@ -200,6 +231,7 @@ export function PremiumMemoryScreen({
 }
 
 const styles = StyleSheet.create({
+  missing: { flex: 1, justifyContent: 'center', paddingHorizontal: 24 },
   eyebrow: { position: 'absolute', alignSelf: 'center' },
   stamp: { position: 'absolute', right: 24 },
   foot: { flex: 1, justifyContent: 'flex-end', paddingHorizontal: 24, gap: 12 },

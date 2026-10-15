@@ -6,19 +6,13 @@
  * crew chat, the guide's live line above the crew chat composer, and the device's phrase audio.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
-import { t } from '@lingui/core/macro';
 import type { Href } from 'expo-router';
 import { createElement } from 'react';
 
-import {
-  registerChatCard,
-  registerChatComposerHint,
-  registerPremiumChatCard,
-} from '@/features/crew';
+import { registerChatComposerHint, registerPremiumChatCard } from '@/features/crew';
 import { registerScreens } from '@/lib/navigation/screen-registry';
 
-import { GuideChatHint } from '../crew-mention/guide-chat-hint';
-import { GuideOfferCard } from '../crew-mention/offer-card';
+import { PremiumGuideChatHint } from '../premium/crew/crew-hint';
 import { PremiumOfferCard } from '../premium/offer/offer-card';
 import { devicePhraseAudio } from '../phrases/device-phrase-audio';
 import { providePhraseAudio } from '../phrases/phrase-audio';
@@ -104,12 +98,6 @@ registerScreens({
     }),
 });
 
-registerChatCard('guide_offer', {
-  Component: (props) => createElement(GuideOfferCard, props),
-  estimateHeight: () => 150,
-  a11yLabel: (message) => t({ id: 'guide.offer.label', message: `Guide offer: ${message.body}` }),
-});
-
 registerPremiumChatCard('guide_offer', {
   render: (message, mine) => createElement(PremiumOfferCard, { message, mine }),
 });
@@ -117,7 +105,7 @@ registerPremiumChatCard('guide_offer', {
 registerChatComposerHint(({ crewId }) =>
   createElement(GuideServicesProvider, {
     services: deviceGuideServices,
-    children: createElement(GuideChatHint, { crewId }),
+    children: createElement(PremiumGuideChatHint, { crewId }),
   }),
 );
 

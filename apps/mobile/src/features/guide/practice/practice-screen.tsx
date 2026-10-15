@@ -6,7 +6,15 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, api paths and wire values, never copy. */
 import { msg } from '@lingui/core/macro';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ComponentType,
+  type ReactNode,
+} from 'react';
 
 import { sessionHeaders } from '@/data/app-session/device-session';
 import { defineClientCommand } from '@/data/commands/summaries';
@@ -15,11 +23,10 @@ import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
-import { SessionWaiting } from '@/ui/states/SessionWaiting';
 
 import { useLiveQuery } from '../chat/data/live-rows';
 import { useGuideContext } from '../chat/data/use-guide-context';
-import { PhraseCard } from '../phrases/phrase-card';
+import { PhraseCard, type PhraseCardViewProps } from '../phrases/phrase-card';
 import { refusalOf, useVoiceConsent, withVoiceConsent } from '../voice/voice-consent';
 import { sttToken, type VoiceSpeech } from '../voice/voice-screen';
 import {
@@ -36,7 +43,7 @@ import {
   type PracticePhrase,
   type PracticeState,
 } from './practice-model';
-import { PracticeView } from './practice-view';
+import type { PracticeLists } from './practice-model';
 
 export const recordPhrasePracticeCommand = defineClientCommand<
   PracticeRecord & { readonly trip_id: string | null }
@@ -91,18 +98,28 @@ export interface PracticeScreenProps {
   readonly startText: string | null;
   /** Null in a build without the speech module: practice counts by "I said it" only. */
   readonly speech: Pick<VoiceSpeech, 'listen' | 'endSession'> | null;
+  /** The page's drawing. */
+  readonly View: ComponentType<PracticeViewProps>;
+  /** The phrase card's drawing, with the page's. */
+  readonly CardView: ComponentType<PhraseCardViewProps>;
+  /** Shown while the session opens. */
+  readonly waiting: ReactNode;
 }
 
 export function PracticeScreen(props: PracticeScreenProps) {
   const localFirst = useContext(LocalFirstContext);
-  return localFirst === null ? (
-    <SessionWaiting testID="guide-practice-waiting" />
-  ) : (
-    <OpenPracticeScreen {...props} />
-  );
+  return localFirst === null ? props.waiting : <OpenPracticeScreen {...props} />;
 }
 
-function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScreenProps) {
+function OpenPracticeScreen({
+  tripId,
+  language,
+  startText,
+  speech,
+  View,
+  CardView,
+  waiting,
+}: PracticeScreenProps) {
   const context = useGuideContext(tripId);
   const consent = useVoiceConsent();
   const syncPhase = useSyncPhase();
@@ -190,9 +207,10 @@ function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScr
     setChosen(phrase.id);
     run(controller.current, phrase);
   };
-  if (cards === null) return null;
+  // The cards' first read: the same wait as the session's, never a blank sheet.
+  if (cards === null) return <>{waiting}</>;
   return (
-    <PracticeView
+    <View
       guideName={context.guideName}
       lists={lists}
       current={phrase}
@@ -205,6 +223,7 @@ function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScr
             gloss={phrase.gloss}
             audioKey={phrase.audioKey}
             testID="guide-practice-card"
+            View={CardView}
           />
         )
       }
@@ -228,4 +247,30 @@ function OpenPracticeScreen({ tripId, language, startText, speech }: PracticeScr
       onOpenSettings={() => void openPermissionSettings('microphone')}
     />
   );
+}
+
+export interface PracticeViewProps {
+  readonly guideName: string;
+  readonly lists: PracticeLists;
+  /** The phrase being practised; null when the trip has no phrases yet. */
+  readonly current: PracticePhrase | null;
+  /** The current phrase's card, with its play button. */
+  readonly card: ReactNode;
+  readonly state: PracticeState;
+  /** The pronunciation check is on. */
+  readonly checking: boolean;
+  /** The check was turned on without the voice consent: the question shows under the switch. */
+  readonly consent: {
+    readonly onAgree: () => void;
+    readonly onNotNow: () => void;
+    /** The yes is on its way to the server, or waiting for a connection to go. */
+    readonly pending?: 'sending' | 'needs_connection' | null;
+  } | null;
+  readonly onChecking: (on: boolean) => void;
+  readonly onPick: (id: string) => void;
+  readonly onListen: () => void;
+  readonly onCheck: () => void;
+  readonly onSaid: () => void;
+  readonly onNext: () => void;
+  readonly onOpenSettings?: () => void;
 }

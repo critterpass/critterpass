@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useMemo } from 'react';
 
-import { AddDriverScreen } from '@/features/drivers/intake/AddDriverScreen';
+import { AddDriverPremium } from '@/features/drivers/premium/AddDriverPremium';
 
 import { getOcr } from '../../../../../modules/cp-ocr';
 
@@ -9,5 +9,6 @@ import { getOcr } from '../../../../../modules/cp-ocr';
 export default function AddDriverRoute() {
   const { tripId, days } = useLocalSearchParams<{ tripId: string; days?: string }>();
   const ocr = useMemo(() => getOcr(), []);
-  return <AddDriverScreen tripId={tripId ?? ''} ocr={ocr} {...(days ? { days } : {})} />;
+  const props = { tripId: tripId ?? '', ocr, ...(days ? { days } : {}) };
+  return <AddDriverPremium {...props} />;
 }

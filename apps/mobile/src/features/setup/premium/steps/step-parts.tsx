@@ -4,13 +4,19 @@
  * step's headline with its line.
  */
 import type { ReactNode } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLingui } from '@lingui/react/macro';
 
 import { Card, Text, usePremiumTheme } from '@/ui/premium';
-import { PushScreen } from '@/ui/premium/shell';
+import {
+  FooterStack,
+  PushScreen,
+  SCROLL_EDGE_FADE,
+  ScrollEdgeFade,
+  useScrollEdges,
+} from '@/ui/premium/shell';
 
 import { CHECKLIST_ROWS, type ChecklistRowKey } from '../../data/checklist';
 import { rowTitle } from '../checklist/copy';
@@ -26,6 +32,7 @@ export function StepPage(props: {
   const theme = usePremiumTheme();
   const insets = useSafeAreaInsets();
   const { t } = useLingui();
+  const edges = useScrollEdges();
   return (
     <PushScreen
       title={props.title}
@@ -35,29 +42,34 @@ export function StepPage(props: {
       testID={props.testID}
     >
       <ScrollView
+        {...edges.scrollProps}
         contentInsetAdjustmentBehavior="automatic"
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
           paddingHorizontal: theme.space.gap16,
           paddingTop: theme.space.gap8,
-          paddingBottom: theme.space.gap16,
+          // The last card scrolls clear of the footer's fade.
+          paddingBottom: props.footer == null ? theme.space.gap16 : SCROLL_EDGE_FADE,
           gap: theme.space.gap16,
         }}
       >
         {props.children}
       </ScrollView>
       {props.footer === undefined || props.footer === null ? null : (
-        <View
+        <FooterStack
+          gap={theme.space.gap4}
           style={{
             paddingHorizontal: theme.space.titleGutter,
             paddingTop: theme.space.gap8,
             paddingBottom: insets.bottom + theme.space.gap12,
-            gap: theme.space.gap4,
-            alignItems: 'center',
           }}
         >
+          {/* The page fades out above the footer instead of ending in a hard cut across a card. */}
+          <View pointerEvents="none" style={styles.aboveFooter}>
+            <ScrollEdgeFade edge="bottom" height={SCROLL_EDGE_FADE} visible={edges.bottom} />
+          </View>
           {props.footer}
-        </View>
+        </FooterStack>
       )}
     </PushScreen>
   );
@@ -116,3 +128,13 @@ export function StepHeadline(props: { readonly title: string; readonly line?: st
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  aboveFooter: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: '100%',
+    height: SCROLL_EDGE_FADE,
+  },
+});

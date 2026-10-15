@@ -1,11 +1,3 @@
-jest.mock('expo-router', () => ({
-  useIsFocused: () => true,
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
-  useLocalSearchParams: jest.fn(() => ({})),
-  Link: ({ children }: { children: unknown }) => children,
-  Redirect: () => null,
-}));
-
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, screen } from '@testing-library/react-native';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -22,15 +14,17 @@ import type {
 import { isOnboardingComplete, setOnboardingComplete } from '@/lib/links/pending';
 
 import { clearDraftForTests, readDraft, updateDraft } from '../flow-controller/draft-store';
-import { IssuedScreen } from '../issued/IssuedScreen';
-import { PHONE_ADVANCE_MS, PhoneScreen } from '../phone/PhoneScreen';
+import { PremiumIssuedPage } from '../premium/issued/PremiumIssuedPage';
+import { PremiumPhonePage } from '../premium/phone/PremiumPhonePage';
+import { PHONE_ADVANCE_MS } from '../phone/use-phone-step';
 import { countryList, formatE164, resendWaitS, toE164 } from '../phone/phone-number';
-import { SaveScreen } from '../save/SaveScreen';
+import { PremiumSavePage } from '../premium/save/PremiumSavePage';
 import { fakeServices, recordingAnalytics, renderOnboarding } from '../test-support/harness';
 import type { OnboardingServices } from '../services';
 
-const activate = (element: Parameters<typeof fireEvent>[0]) =>
-  fireEvent(element, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });
+/** The code's own field (its boxes are a button that focuses it). */
+const codeField = () => screen.getAllByLabelText('Verification code').at(-1)!;
+const activate = (element: Parameters<typeof fireEvent.press>[0]) => fireEvent.press(element);
 
 const flush = () =>
   act(async () => {
@@ -54,6 +48,7 @@ beforeEach(() => {
   jest.mocked(router.replace).mockClear();
   jest.mocked(router.back).mockClear();
   jest.mocked(useLocalSearchParams).mockReturnValue({});
+  jest.mocked(router.canGoBack).mockReturnValue(true);
 });
 afterEach(() => {
   jest.useRealTimers();
@@ -62,9 +57,8 @@ afterEach(() => {
 describe('3a-6 pass issued', () => {
   it('prints the finished pass with SYNCING until the number arrives', async () => {
     const analytics = recordingAnalytics();
-    await renderOnboarding(<IssuedScreen />, { analytics });
-    expect(screen.getByTestId('onboarding-pass-number')).toHaveTextContent('CP-····');
-    expect(screen.getByText('SYNCING', { includeHiddenElements: true })).toBeTruthy();
+    await renderOnboarding(<PremiumIssuedPage />, { analytics });
+    expect(screen.getByTestId('onboarding-pass-number')).toHaveTextContent(/CP-····.*syncing/iu);
     expect(analytics.events.map((e) => e.event)).toContain('pass_issued');
     await activate(screen.getByTestId('onboarding-issued-save'));
     expect(router.push).toHaveBeenCalledWith('/onboarding/save');
@@ -72,7 +66,7 @@ describe('3a-6 pass issued', () => {
 
   it('leads on instead of offering to save again once the pass is saved', async () => {
     updateDraft((d) => ({ ...d, saved: true, step: 'saved' }));
-    await renderOnboarding(<IssuedScreen />);
+    await renderOnboarding(<PremiumIssuedPage />);
     expect(screen.getByTestId('pass-saved-tick')).toBeTruthy();
     expect(screen.queryByTestId('onboarding-issued-save')).toBeNull();
     await activate(screen.getByTestId('onboarding-issued-next'));
@@ -81,9 +75,9 @@ describe('3a-6 pass issued', () => {
 
   it('shows the reserved number once it is on the pass', async () => {
     updateDraft((d) => ({ ...d, number: 'CP-0427' }));
-    await renderOnboarding(<IssuedScreen />);
+    await renderOnboarding(<PremiumIssuedPage />);
     expect(screen.getByTestId('onboarding-pass-number')).toHaveTextContent('CP-0427');
-    expect(screen.queryByText('SYNCING', { includeHiddenElements: true })).toBeNull();
+    expect(screen.getByTestId('onboarding-pass-number')).not.toHaveTextContent(/syncing/iu);
   });
 });
 
@@ -112,7 +106,7 @@ function googleStopping(code: string) {
 describe('3a-7 save your pass', () => {
   it('links Google, ticks SAVED and moves on to permissions', async () => {
     jest.useFakeTimers();
-    await renderOnboarding(<SaveScreen />);
+    await renderOnboarding(<PremiumSavePage />);
     await activate(screen.getByTestId('save-google'));
     await flush();
     expect(screen.getByTestId('pass-saved-tick')).toBeTruthy();
@@ -128,7 +122,7 @@ describe('3a-7 save your pass', () => {
     [{ kind: 'error', code: 'NETWORK' } as const, /No signal right now/u],
     [{ kind: 'different_emails_not_allowed' } as const, /different email/u],
   ])('explains a failed link (%o)', async (outcome, line) => {
-    await renderOnboarding(<SaveScreen />, {
+    await renderOnboarding(<PremiumSavePage />, {
       services: withAuth({ linkGoogle: () => Promise.resolve(outcome) }),
     });
     await activate(screen.getByTestId('save-google'));
@@ -137,7 +131,7 @@ describe('3a-7 save your pass', () => {
   });
 
   it('stays put when the provider sheet is cancelled', async () => {
-    await renderOnboarding(<SaveScreen />, {
+    await renderOnboarding(<PremiumSavePage />, {
       services: withAuth({ linkGoogle: () => Promise.resolve({ kind: 'cancelled' }) }),
     });
     await activate(screen.getByTestId('save-google'));
@@ -148,7 +142,7 @@ describe('3a-7 save your pass', () => {
 
   it('explains and reports a Google sheet that ended without an account', async () => {
     const { services, reported } = googleStopping('SIGN_IN_CANCELLED');
-    await renderOnboarding(<SaveScreen />, { services });
+    await renderOnboarding(<PremiumSavePage />, { services });
     await activate(screen.getByTestId('save-google'));
     await flush();
     expect(screen.getByTestId('save-error')).toHaveTextContent(/Google sign-in didn’t finish/u);
@@ -159,7 +153,7 @@ describe('3a-7 save your pass', () => {
   it('goes back to where it was opened for someone who already has a pass', async () => {
     jest.useFakeTimers();
     setOnboardingComplete(true);
-    await renderOnboarding(<SaveScreen />);
+    await renderOnboarding(<PremiumSavePage />);
     await activate(screen.getByTestId('save-google'));
     await flush();
     await act(async () => {
@@ -172,7 +166,7 @@ describe('3a-7 save your pass', () => {
 
   it('returns from “Not now” without walking a finished pass through permissions', async () => {
     setOnboardingComplete(true);
-    await renderOnboarding(<SaveScreen />);
+    await renderOnboarding(<PremiumSavePage />);
     await activate(screen.getByTestId('save-not-now'));
     expect(router.back).toHaveBeenCalledTimes(1);
     expect(router.replace).not.toHaveBeenCalled();
@@ -182,7 +176,7 @@ describe('3a-7 save your pass', () => {
     jest.useFakeTimers();
     let answer: (outcome: { kind: 'linked' }) => void = () => undefined;
     const linkGoogle = () => new Promise<{ kind: 'linked' }>((resolve) => (answer = resolve));
-    await renderOnboarding(<SaveScreen />, { services: withAuth({ linkGoogle }) });
+    await renderOnboarding(<PremiumSavePage />, { services: withAuth({ linkGoogle }) });
     await activate(screen.getByTestId('save-google'));
     await fireEvent.press(screen.getByTestId('save-sheet-scrim', { includeHiddenElements: true }));
     await act(async () => {
@@ -202,7 +196,7 @@ describe('3a-7 save your pass', () => {
   });
 
   it('lets the user skip saving for now', async () => {
-    await renderOnboarding(<SaveScreen />);
+    await renderOnboarding(<PremiumSavePage />);
     await activate(screen.getByTestId('save-not-now'));
     expect(readDraft()?.step).toBe('saved');
     expect(router.replace).toHaveBeenCalledWith('/onboarding/permissions');
@@ -228,7 +222,7 @@ describe('3a-8 phone sign-in', () => {
   });
 
   async function sendCode(services: OnboardingServices, number = '91234567') {
-    await renderOnboarding(<PhoneScreen />, { services });
+    await renderOnboarding(<PremiumPhonePage />, { services });
     await fireEvent.changeText(screen.getByTestId('phone-number'), number);
     await activate(screen.getByTestId('phone-send'));
     await flush();
@@ -237,7 +231,7 @@ describe('3a-8 phone sign-in', () => {
   it('sends the code on WhatsApp, verifies it and goes back to its caller after the clap', async () => {
     jest.useFakeTimers();
     const analytics = recordingAnalytics();
-    await renderOnboarding(<PhoneScreen />, { analytics });
+    await renderOnboarding(<PremiumPhonePage />, { analytics });
     await fireEvent.changeText(screen.getByTestId('phone-number'), '91234567');
     await activate(screen.getByTestId('phone-send'));
     await flush();
@@ -245,7 +239,7 @@ describe('3a-8 phone sign-in', () => {
       'Code sent to +65 9123 4567 on WhatsApp',
     );
     expect(screen.getByTestId('phone-resend')).toHaveTextContent(/30/u);
-    await fireEvent.changeText(screen.getByLabelText('Verification code'), '419203');
+    await fireEvent.changeText(codeField(), '419203');
     await flush();
     expect(readDraft()?.saved).toBe(true);
     expect(router.back).not.toHaveBeenCalled();
@@ -265,14 +259,14 @@ describe('3a-8 phone sign-in', () => {
     // The stack as the app has it: the save page stays mounted under the phone page it pushed.
     await renderOnboarding(
       <>
-        <SaveScreen />
-        <PhoneScreen />
+        <PremiumSavePage />
+        <PremiumPhonePage />
       </>,
     );
     await fireEvent.changeText(screen.getByTestId('phone-number'), '91234567');
     await activate(screen.getByTestId('phone-send'));
     await flush();
-    await fireEvent.changeText(screen.getByLabelText('Verification code'), '419203');
+    await fireEvent.changeText(codeField(), '419203');
     await flush();
     expect(screen.getByTestId('pass-saved-tick')).toBeTruthy();
     await act(async () => {
@@ -303,7 +297,7 @@ describe('3a-8 phone sign-in', () => {
     [{ kind: 'too_many_attempts' } as const, /Too many tries/u],
   ])('explains a wrong code (%o)', async (outcome: VerifyOtpOutcome, line) => {
     await sendCode(withAuth({ verifyOtp: () => Promise.resolve(outcome) }));
-    await fireEvent.changeText(screen.getByLabelText('Verification code'), '000000');
+    await fireEvent.changeText(codeField(), '000000');
     await flush();
     expect(screen.getByTestId('phone-problem')).toHaveTextContent(line);
     await activate(screen.getByTestId('phone-change'));
@@ -316,11 +310,11 @@ describe('3a-8 phone sign-in', () => {
       Promise.resolve(answers.shift() ?? { kind: 'verified' }),
     );
     await sendCode(withAuth({ verifyOtp }));
-    await fireEvent.changeText(screen.getByLabelText('Verification code'), '000000');
+    await fireEvent.changeText(codeField(), '000000');
     await flush();
     expect(screen.getByTestId('phone-problem')).toHaveTextContent(/doesn’t match/u);
-    expect(screen.getByLabelText('Verification code')).toHaveProp('value', '');
-    await fireEvent.changeText(screen.getByLabelText('Verification code'), '419203');
+    expect(codeField()).toHaveProp('value', '');
+    await fireEvent.changeText(codeField(), '419203');
     await flush();
     expect(verifyOtp).toHaveBeenLastCalledWith(expect.objectContaining({ code: '419203' }));
     expect(screen.queryByTestId('phone-problem')).toBeNull();
@@ -333,11 +327,11 @@ describe('3a-8 phone sign-in', () => {
       Promise.resolve(answers.shift() ?? { kind: 'verified' }),
     );
     await sendCode(withAuth({ verifyOtp }));
-    await fireEvent.changeText(screen.getByLabelText('Verification code'), '419203');
+    await fireEvent.changeText(codeField(), '419203');
     await flush();
     // Not the line about a code that was never sent: the code arrived, the check did not.
     expect(screen.getByTestId('phone-problem')).toHaveTextContent(/couldn’t check that code/u);
-    expect(screen.getByLabelText('Verification code')).toHaveProp('value', '419203');
+    expect(codeField()).toHaveProp('value', '419203');
     await activate(screen.getByTestId('phone-verify-retry'));
     await flush();
     expect(verifyOtp).toHaveBeenCalledTimes(2);
@@ -349,7 +343,7 @@ describe('3a-8 phone sign-in', () => {
   it('tells a returning user when Google sign-in stops, instead of just resetting the button', async () => {
     jest.mocked(useLocalSearchParams).mockReturnValue({ mode: 'returning' });
     const { services, reported } = googleStopping('SIGN_IN_CANCELLED');
-    await renderOnboarding(<PhoneScreen />, { services });
+    await renderOnboarding(<PremiumPhonePage />, { services });
     await activate(screen.getByTestId('phone-google'));
     await flush();
     expect(screen.getByTestId('phone-save-error')).toHaveTextContent(
@@ -360,7 +354,7 @@ describe('3a-8 phone sign-in', () => {
 
   it('says Google sign-in is unavailable on a phone without Play services', async () => {
     const { services, reported } = googleStopping('PLAY_SERVICES_NOT_AVAILABLE');
-    await renderOnboarding(<PhoneScreen />, { services });
+    await renderOnboarding(<PremiumPhonePage />, { services });
     await activate(screen.getByTestId('phone-google'));
     await flush();
     expect(screen.getByTestId('phone-save-error')).toHaveTextContent(/isn’t available/u);
@@ -378,8 +372,8 @@ describe('3a-8 phone sign-in', () => {
     const restart = jest.fn();
     const services = { ...withAuth({ verifyOtp, signInReturningPhone }), restart };
     await sendCode(services);
-    expect(screen.getByText('WELCOME BACK')).toBeTruthy();
-    await fireEvent.changeText(screen.getByLabelText('Verification code'), '419203');
+    expect(screen.getByText(/^Welcome\s+back$/u)).toBeTruthy();
+    await fireEvent.changeText(codeField(), '419203');
     await flush();
     expect(signInReturningPhone).toHaveBeenCalledWith(expect.objectContaining({ code: '419203' }));
     // The save call would move the number onto this phone's new pass: never made here.
@@ -404,7 +398,7 @@ describe('3a-8 phone sign-in', () => {
       restart,
     };
     await sendCode(services);
-    await fireEvent.changeText(screen.getByLabelText('Verification code'), '419203');
+    await fireEvent.changeText(codeField(), '419203');
     await flush();
     await act(async () => {
       jest.advanceTimersByTime(PHONE_ADVANCE_MS);

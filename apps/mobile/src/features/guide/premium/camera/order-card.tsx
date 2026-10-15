@@ -15,7 +15,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { MenuOrderCardProps } from '../../camera/menu-order-card';
+import type { MenuOrderCardProps } from '../../camera/camera-view-props';
 import { MENU_ORDER_MAX } from '../../camera/menu-scan';
 
 const useStyles = makePremiumStyles((th) => ({
@@ -124,6 +124,7 @@ export function PremiumOrderCard(props: MenuOrderCardProps) {
           />
         )}
         <TextButton
+          align="center"
           label={t({ id: 'guide.camera.orderAsk', message: `Ask ${guideName} what to order` })}
           onPress={props.onAsk}
           testID="guide-camera-order-ask"

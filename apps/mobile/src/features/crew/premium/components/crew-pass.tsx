@@ -30,7 +30,8 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
-import { guideSticker } from '@/ui/avatar/guides';
+import { useIdleLoopRunning } from '@/motion/idle-pause';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { passInk } from '../crew-look';
 
@@ -71,6 +72,7 @@ export function CrewPass({
 }: CrewPassProps) {
   const th = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const look = passInk(cover);
   const sticker = guideSticker(art);
   const fill = useSharedValue(look.fill);
@@ -90,7 +92,7 @@ export function CrewPass({
   }, [art, reduced, slap]);
 
   useEffect(() => {
-    if (reduced || !idle) {
+    if (!looping || !idle) {
       bob.value = withTiming(0, REDUCED_FADE);
       return;
     }
@@ -101,7 +103,7 @@ export function CrewPass({
       ),
       -1,
     );
-  }, [reduced, idle, bob]);
+  }, [looping, idle, bob]);
 
   const book = useAnimatedStyle(() => ({
     backgroundColor: fill.value,
@@ -146,8 +148,9 @@ export function CrewPass({
           </Text>
           <View style={styles.seats}>
             {filled.map((seat) => (
-              <View key={seat.id} style={[styles.seat, { borderColor: look.fill }]}>
-                <Avatar name={seat.name} color={seat.color} size={18} />
+              // A white ring, so a face the cover's own colour still reads on it (orange on orange).
+              <View key={seat.id} style={[styles.seat, { borderColor: th.accent.stickerEdge }]}>
+                <Avatar name={seat.name} color={seat.color} uid={seat.id} size={18} />
               </View>
             ))}
             {Array.from({ length: open }, (_, i) => (
@@ -165,7 +168,12 @@ export function CrewPass({
           </Text>
           <View style={styles.seats}>
             {filled.map((seat) => (
-              <Avatar key={seat.id} name={seat.name} color={seat.color} size={24} />
+              <View
+                key={seat.id}
+                style={[styles.seatLarge, { borderColor: th.accent.stickerEdge }]}
+              >
+                <Avatar name={seat.name} color={seat.color} uid={seat.id} size={24} />
+              </View>
             ))}
           </View>
         </View>
@@ -217,6 +225,7 @@ const styles = StyleSheet.create({
   name: { letterSpacing: 1.2 },
   seats: { flexDirection: 'row', gap: 3, alignItems: 'center' },
   seat: { borderWidth: 1.5, borderRadius: 11 },
+  seatLarge: { borderWidth: 2, borderRadius: 14 },
   open: { width: 18, height: 18, borderRadius: 9, borderWidth: 1.5, borderStyle: 'dashed' },
   code: { letterSpacing: 4 },
 });

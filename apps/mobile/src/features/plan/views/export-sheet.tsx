@@ -9,18 +9,12 @@
 import { plural, t } from '@lingui/core/macro';
 import * as Clipboard from 'expo-clipboard';
 import * as Linking from 'expo-linking';
-import { useContext, useState } from 'react';
-import { View } from 'react-native';
+import { useContext, useState, type ComponentType } from 'react';
 
 import type { CalendarFeedIssued } from '@cp/domain';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { toast } from '@/motion/island-toast';
-import { TextLink } from '@/ui/buttons/TextLink';
-import { PillButton } from '@/ui/buttons/PillButton';
-import { Sheet } from '@/ui/sheet/Sheet';
-import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
 
 import {
   CREATE_CALENDAR_FEED,
@@ -29,15 +23,6 @@ import {
   type CalendarWriter,
   type DeviceCalendarEvent,
 } from './data/calendar-export';
-
-const useStyles = makeStyles((th) => ({
-  body: { paddingHorizontal: th.size.gutter, paddingBottom: th.space['24'], gap: th.space['12'] },
-  note: {
-    backgroundColor: th.semantic.bg.raised,
-    borderRadius: th.radius.lg,
-    padding: th.space['12'],
-  },
-}));
 
 export type ExportStatus =
   'idle' | 'writing' | 'written' | 'denied' | 'subscribing' | 'needs_signal' | 'revoked';
@@ -87,74 +72,9 @@ function statusText(status: ExportStatus, written: number): string | null {
   }
 }
 
-export function ExportSheetView(props: ExportSheetViewProps) {
-  const styles = useStyles();
-  const theme = useTheme();
-  const note = statusText(props.status, props.written);
-  const count = props.eventCount;
-  const subscribe = (
-    <PillButton
-      label={t({ id: 'plan.export.subscribe', message: 'Subscribe in my calendar' })}
-      variant={props.canWrite ? 'secondary' : 'primary'}
-      block
-      loading={props.status === 'subscribing'}
-      onPress={props.onSubscribe}
-      testID="plan-export-subscribe"
-    />
-  );
-  return (
-    <Sheet
-      detents={['fit']}
-      title={t({ id: 'plan.export.title', message: 'Put the plan in your calendar' })}
-      onDismiss={props.onClose}
-      testID="plan-export"
-    >
-      <View style={styles.body}>
-        <Text variant="body" color={theme.semantic.text.secondary}>
-          {props.canWrite
-            ? t({
-                id: 'plan.export.bodyWrite',
-                message: plural(count, {
-                  one: 'Add your # plan once, or subscribe so your calendar follows every change the crew makes.',
-                  other:
-                    'Add your # plans once, or subscribe so your calendar follows every change the crew makes.',
-                }),
-              })
-            : t({
-                id: 'plan.export.bodySubscribe',
-                message:
-                  'Subscribe and your calendar follows every change the crew makes, just for your plans.',
-              })}
-        </Text>
-        {props.canWrite ? (
-          <PillButton
-            label={t({ id: 'plan.export.write', message: 'Add to my calendar' })}
-            block
-            loading={props.status === 'writing'}
-            disabled={count === 0}
-            onPress={props.onWrite}
-            testID="plan-export-write"
-          />
-        ) : null}
-        {subscribe}
-        <TextLink
-          label={t({ id: 'plan.export.copy', message: 'Copy the link' })}
-          onPress={props.onCopy}
-          testID="plan-export-copy"
-        />
-        <TextLink
-          label={t({ id: 'plan.export.revoke', message: 'Turn the link off' })}
-          onPress={props.onRevoke}
-          testID="plan-export-revoke"
-        />
-        {note === null ? null : (
-          <View style={styles.note} testID={`plan-export-${props.status}`}>
-            <Text variant="bodySm">{note}</Text>
-          </View>
-        )}
-      </View>
-    </Sheet>
-  );
+/** The words a status note says, shared by both looks. */
+export function exportStatusText(status: ExportStatus, written: number): string | null {
+  return statusText(status, written);
 }
 
 /** The sheet wired to the command client, the native writer and the calendar app. */
@@ -163,11 +83,14 @@ export function ExportSheet({
   events,
   writer,
   onClose,
+  View: SheetView,
 }: {
   readonly tripId: string;
   readonly events: readonly DeviceCalendarEvent[];
   readonly writer: CalendarWriter | null;
   readonly onClose: () => void;
+  /** How the sheet is drawn; the commands, writer and statuses stay here. */
+  readonly View: ComponentType<ExportSheetViewProps>;
 }) {
   const commands = useContext(LocalFirstContext)?.commands ?? null;
   const [status, setStatus] = useState<ExportStatus>('idle');
@@ -183,7 +106,7 @@ export function ExportSheet({
   };
 
   return (
-    <ExportSheetView
+    <SheetView
       canWrite={writer !== null}
       eventCount={events.length}
       status={status}

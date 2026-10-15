@@ -7,91 +7,50 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: it\n"
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
-msgid "trip.lockScreen.eyebrow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/crew-live-preview.tsx
-msgid "trip.lockScreen.preview.boost"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
-msgid "trip.lockScreen.offer.boost"
-msgstr ""
-
-#. placeholder {0}: boost.price
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
-msgid "trip.lockScreen.offer.boostPrice"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
-msgid "trip.lockScreen.asking"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
-msgid "trip.lockScreen.done"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
-msgid "trip.lockScreen.offer.quiet"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/crew-live-preview.tsx
-msgid "trip.lockScreen.preview.meetUp"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/crew-live-preview.tsx
-msgid "trip.lockScreen.preview.meetUpAt"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.unavailable.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.offer.line"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.started.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.offer.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.noMeetup.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.unavailable.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.unavailable.switchedOff"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.noMeetup.line"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.started.later"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.started.now"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.thisTrip"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
-msgid "trip.lockScreen.retry"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.unavailable.offline"
 msgstr ""

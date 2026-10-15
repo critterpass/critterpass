@@ -9,10 +9,10 @@
  * - `KeyboardAwareScroll` for forms: keeps the focused field above the keyboard, drags it away;
  * - `useKeyboardFrame` for a screen that lays itself out around the keyboard on the UI thread.
  *
- * Native form sheets on iOS move with the keyboard by themselves: don't add an avoider inside one.
+ * A native form sheet below full height moves up with the keyboard by itself (iOS): the sticky
+ * footer measures where it sits and rises only by what the keyboard still covers.
  */
-import { useEffect, type ReactNode } from 'react';
-import type * as KeyboardControllerModule from 'react-native-keyboard-controller';
+import { useContext, useEffect, type ReactNode } from 'react';
 import {
   Keyboard,
   Platform,
@@ -29,51 +29,22 @@ import {
   type SharedValue,
 } from 'react-native-reanimated';
 
-import { keyboardControllerReady } from '@/lib/premium-ui';
+import { PageScrollEdgesContext, type ScrollEdges } from '../screens/scroll-edge';
+import { FooterSpaceContext } from './keyboard-footer';
+import { keyboardController } from './keyboard-library';
 
-type KeyboardController = typeof KeyboardControllerModule;
-
-let controller: KeyboardController | null | undefined;
-
-/** The library, or null on a build without its native module. */
-function keyboardController(): KeyboardController | null {
-  if (controller === undefined) {
-    controller = keyboardControllerReady()
-      ? // eslint-disable-next-line @typescript-eslint/no-require-imports -- loaded only when the native module exists
-        (require('react-native-keyboard-controller') as KeyboardController)
-      : null;
-  }
-  return controller;
-}
+export {
+  footerRise,
+  KeyboardFooterScope,
+  KeyboardStickyFooter,
+  type KeyboardStickyFooterProps,
+} from './keyboard-footer';
 
 export function PremiumKeyboardProvider({ children }: { readonly children: ReactNode }) {
   const library = keyboardController();
   if (library === null) return <>{children}</>;
   const { KeyboardProvider } = library;
   return <KeyboardProvider>{children}</KeyboardProvider>;
-}
-
-export interface KeyboardStickyFooterProps {
-  readonly children: ReactNode;
-  /** Gap kept between the footer and the keyboard while it is up (the composer's breathing room). */
-  readonly openedOffset?: number;
-  readonly style?: StyleProp<ViewStyle>;
-}
-
-/** A footer that rides the keyboard: the composer, a sheet's bottom action. */
-export function KeyboardStickyFooter({
-  children,
-  openedOffset = 0,
-  style,
-}: KeyboardStickyFooterProps) {
-  const library = keyboardController();
-  if (library === null) return <View style={style}>{children}</View>;
-  const { KeyboardStickyView } = library;
-  return (
-    <KeyboardStickyView offset={{ closed: 0, opened: -openedOffset }} style={style}>
-      {children}
-    </KeyboardStickyView>
-  );
 }
 
 export interface KeyboardAwareScrollProps extends ScrollViewProps {
@@ -92,11 +63,14 @@ export function KeyboardAwareScroll({
   ...props
 }: KeyboardAwareScrollProps) {
   const library = keyboardController();
+  const footer = useContext(FooterSpaceContext)?.height ?? 0;
+  const page = useContext(PageScrollEdgesContext);
   const shared: ScrollViewProps = {
     keyboardDismissMode: Platform.OS === 'ios' ? 'interactive' : 'on-drag',
     keyboardShouldPersistTaps: 'handled',
     contentInsetAdjustmentBehavior: 'automatic',
     ...props,
+    ...(page === null ? {} : withPageEdges(page, props)),
   };
   if (library === null) {
     return (
@@ -107,10 +81,34 @@ export function KeyboardAwareScroll({
   }
   const { KeyboardAwareScrollView } = library;
   return (
-    <KeyboardAwareScrollView bottomOffset={bottomOffset} {...shared}>
+    // The footer riding the keyboard covers the form's end: the form scrolls on past it.
+    <KeyboardAwareScrollView
+      bottomOffset={bottomOffset + footer}
+      extraKeyboardSpace={footer}
+      {...shared}
+    >
       {children}
     </KeyboardAwareScrollView>
   );
+}
+
+/** The form's own scroll handlers, and the screen's that grounds its bar over the form. */
+function withPageEdges(page: ScrollEdges['scrollProps'], props: ScrollViewProps): ScrollViewProps {
+  return {
+    scrollEventThrottle: props.scrollEventThrottle ?? page.scrollEventThrottle,
+    onScroll: (event) => {
+      props.onScroll?.(event);
+      page.onScroll(event);
+    },
+    onLayout: (event) => {
+      props.onLayout?.(event);
+      page.onLayout(event);
+    },
+    onContentSizeChange: (width, height) => {
+      props.onContentSizeChange?.(width, height);
+      page.onContentSizeChange(width, height);
+    },
+  };
 }
 
 /**

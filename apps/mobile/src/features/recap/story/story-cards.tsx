@@ -9,8 +9,8 @@ import { format, type DistanceUnit } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 
-import { guideSticker } from '@/ui/avatar/guides';
-import type { GuideId } from '@/ui/people/GuideLine';
+import { guideSticker } from '@/ui/premium/stickers/guides';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 import {
   receiptFooter,
@@ -19,7 +19,7 @@ import {
   receiptSubtitle,
   yourShare,
 } from '../cards/receipt-copy';
-import { ROUTE_CARD_MS } from '../cards/route-card';
+import { ROUTE_CARD_MS } from './story-card-views';
 import { artKind } from '../data/critter-art';
 import { inkOnPaper, stampInkOnPaper } from '../data/paper-ink';
 import type { StrokeFetch } from '../signature/stroke-store';
@@ -42,7 +42,7 @@ import {
   travellersChip,
   tripDates,
 } from './story-copy';
-import { CURRENT_CARD_VIEWS, type StoryCardViews } from './story-card-views';
+import type { StoryCardViews } from './story-card-views';
 import { awardCards, signers } from './story-people';
 import type { RecapLive } from './use-recap-channel';
 import type { StoryData } from './use-story-data';
@@ -69,7 +69,7 @@ export interface StoryCardsInput {
   /** The traveller has no signature yet: SIGN IT follows the stamp page. */
   readonly canSign?: boolean;
   readonly loadStroke?: StrokeFetch;
-  readonly views?: StoryCardViews;
+  readonly views: StoryCardViews;
 }
 
 function upperPlace(summary: SummaryModel): string {
@@ -78,7 +78,7 @@ function upperPlace(summary: SummaryModel): string {
 
 export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
   const { data, summary, guide, locale, unit } = input;
-  const V = input.views ?? CURRENT_CARD_VIEWS;
+  const V = input.views;
   const recap = data.recap;
   const stats = recap?.stats ?? null;
   if (recap === null || stats === null) return [];

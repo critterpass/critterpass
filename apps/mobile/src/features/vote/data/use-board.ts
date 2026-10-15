@@ -6,7 +6,7 @@
 import type { HomeVoteSlot } from '@cp/domain';
 import { useMemo } from 'react';
 
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import { useGuidesPerCity } from '@/data/guides';
 
 import { guideColour, guideOr } from '../format';

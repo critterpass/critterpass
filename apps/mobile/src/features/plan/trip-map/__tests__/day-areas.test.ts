@@ -15,7 +15,6 @@ import type { DayItem } from '@/data/plan/plan-model';
 import { withArea } from '../format';
 import { dayChips } from '../sheet-copy';
 import { buildTripDays, dayAreaMarks, mapAreaOf, type TripDay } from '../trip-days';
-import { viewPoints } from '../trip-map-camera';
 
 const CUSCO = 'cusco';
 const MACHU = 'machu';
@@ -134,23 +133,6 @@ describe('the map of a day', () => {
     stay: null,
     area: { id: MACHU, name: 'Machu Picchu', link },
   } as unknown as TripDay;
-  const model = { days: [cityDay, tripDay], ideas: [], center: null };
-
-  it('frames a day-trip day with no point of the base city', () => {
-    expect(viewPoints(model, tripDay)).toEqual([[-72.545, -13.1631]]);
-  });
-
-  it('frames the first stop for the whole trip: a day trip is reached by choosing its day', () => {
-    expect(viewPoints(model, null)).toEqual([[-71.9785, -13.5165]]);
-  });
-
-  it("frames an empty day trip on its own area, never on the city's saved places", () => {
-    const empty = { ...tripDay, stops: [] } as TripDay;
-    const saved = [{ lat: HOTEL.lat, lng: HOTEL.lng }] as never;
-    expect(viewPoints({ days: [empty], ideas: saved, center: [-72.5, -13.2] }, empty)).toEqual([
-      [-72.5, -13.2],
-    ]);
-  });
 
   it("picks the area's pack for a day in it and the trip's for the others", () => {
     const trip = { id: CUSCO, slug: 'cusco' };

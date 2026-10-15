@@ -7,11 +7,11 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import { TRIP_SETUP_STEPS, type TripSetupStep } from '@cp/domain';
 
-import { isGuideStickerId } from '@/ui/avatar/guides';
-import type { GuideId } from '@/ui/people/GuideLine';
+import { isGuideStickerId } from '@/ui/premium/stickers/guides';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 import { useLiveRows } from './rows';
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName, shortName } from '@/lib/people/member-name';
 
 export interface SetupMember {
   readonly uid: string;
@@ -110,7 +110,7 @@ function stepOf(value: string | null): TripSetupStep {
 }
 
 export function firstName(displayName: string | null): string {
-  return displayName?.trim().split(/\s+/u)[0] ?? '';
+  return displayName == null || displayName.trim() === '' ? '' : shortName(displayName);
 }
 
 export function toSetupTrip(

@@ -11,12 +11,22 @@
 /* eslint-disable @typescript-eslint/no-require-imports -- the native module loads lazily, so a build without it keeps working. */
 import { isDevice } from 'expo-device';
 import { useIsFocused } from 'expo-router';
-import { Component, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
+import {
+  Component,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
 import { StyleSheet } from 'react-native';
 import type * as NitroModulesModule from 'react-native-nitro-modules';
 import type * as VisionCameraModule from 'react-native-vision-camera';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
+import { usePresented } from '@/lib/navigation/use-presented';
+import { asksByItself, cameraAccessStep } from '@/lib/permissions/camera-access';
 
 import { useInFront } from '../data/app-front';
 import { watchQuery } from '../data/live-rows';
@@ -112,10 +122,16 @@ function Preview({
   const device = camera.useCameraDevice('back');
   const [started, setStarted] = useState(false);
   const { canRequestPermission, requestPermission, hasPermission } = permission;
+  // Asked in context, the traveller having just opened an encounter, but only once the screen has
+  // finished presenting: on iOS an ask raised mid-presentation took the screen down until answered.
+  const presented = usePresented();
+  const asked = useRef(false);
   useEffect(() => {
-    // Asked here, in context: the traveller has just opened an encounter.
-    if (canRequestPermission) void requestPermission().catch(onError);
-  }, [canRequestPermission, requestPermission, onError]);
+    const step = cameraAccessStep({ hasPermission, canRequestPermission, asking: false });
+    if (!asksByItself(step, false, presented, asked.current)) return;
+    asked.current = true;
+    void requestPermission().catch(onError);
+  }, [hasPermission, canRequestPermission, presented, requestPermission, onError]);
   // Refused for good (nothing left to ask): the illustration, and the camera let go.
   const refused = !hasPermission && !canRequestPermission;
   useEffect(() => {

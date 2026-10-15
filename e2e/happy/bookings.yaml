@@ -15,8 +15,9 @@ appId: app.critterpass.dev
     visible:
       id: 'bookings-add'
     timeout: 20000
-# Android shows the tile's title; iOS reads the tile whole ("PASTE, A link or code").
-- tapOn: 'PASTE.*'
+# The add page's Paste row opens the paste sheet.
+- tapOn:
+    id: 'bookings-add-paste'
 - extendedWaitUntil:
     visible:
       id: 'bookings-paste-field'
@@ -24,7 +25,7 @@ appId: app.critterpass.dev
 - evalScript: ${output.day = new Date(Date.now() + 21 * 86400000).toISOString().slice(0, 10)}
 - evalScript: ${output.paste = 'Singapore Airlines booking confirmed. Booking reference K7Q2PX. Passenger WINSTON. Flight SQ 938 from Singapore (SIN) to Denpasar Bali (DPS) on ' + output.day + ', departs 09:10, arrives 11:55.'}
 # Android: the runner turns the soft keyboard off, so typed keys go straight into the field and no
-# keyboard panel is left over READ IT; it comes back after the send.
+# keyboard panel is left over the sheet's Read it; it comes back after the send.
 - runFlow:
     when:
       platform: Android
@@ -73,30 +74,54 @@ appId: app.critterpass.dev
 - openLink: critterpass-dev://wallet/bookings
 - extendedWaitUntil:
     visible:
-      id: 'bookings-stack'
+      id: 'bookings-next-up|bookings-wallet-stack|bookings-stack'
     timeout: 30000
 - assertVisible: '.*SQ ?938.*'
 # The open card is the flight card; with no pass scanned it offers none.
 - extendedWaitUntil:
     visible:
-      id: 'bookings-flight'
+      id: 'bookings-next-up'
     timeout: 15000
 - assertNotVisible:
-    id: 'bookings-flight-pass'
+    id: 'bookings-next-up-pass'
 - tapOn:
     id: 'bookings-open-details'
 - extendedWaitUntil:
     visible:
       id: 'bookings-detail'
     timeout: 15000
-- assertVisible: '.*K7Q2PX.*'
+# The flight's details have no reference row; the reference the guide read is in its edit form.
+- runFlow:
+    when:
+      notVisible: '.*K7Q2PX.*'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'bookings-edit'
+          direction: DOWN
+          timeout: 15000
+      - tapOn:
+          id: 'bookings-edit'
+      - scrollUntilVisible:
+          element:
+            id: 'bookings-form-ref'
+          direction: DOWN
+          timeout: 15000
+      - assertVisible:
+          id: 'bookings-form-ref'
+          text: '.*K7Q2PX.*'
+      - runFlow: ../_shared/back.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'bookings-detail'
+          timeout: 15000
 # The details sit in the Wallet tab: their last rows (EDIT, DELETE) end above the tab bar and its
 # guide button.
 - scrollUntilVisible:
     element:
-      id: 'bookings-detail-delete'
+      id: 'bookings-delete'
     direction: DOWN
     visibilityPercentage: 100
     timeout: 15000
 - waitForAnimationToEnd
-- takeScreenshot: bookings-detail-end
+- takeScreenshot: premium-7.10-detail-end-light

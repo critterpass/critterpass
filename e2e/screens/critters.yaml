@@ -1,0 +1,113 @@
+appId: app.critterpass.dev
+---
+# Premium captures for critters (design part 8): a Vietnamese crew's trip that is on today. Its egg
+# hatches from the Critterdex (8.05); then the Critterdex (8.01) and the hatched critter's page
+# (8.02) in light, and again in dark but for the hatch. Crew quests, the trip journal and the
+# legendary calendar open by their links in links-trip.yaml. The flow fails at the end when the
+# hatch or the critter's page never showed (subflows/capture-done.yaml).
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: trip_today
+      LANG: en
+# The trip is on today, so the dex offers its egg (Hatch it): the hatch plays (8.05), then Later
+# goes back to the dex and the flow returns Home. The hatch never opens over Home by itself.
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 30000
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: pass
+      LABEL: Pass
+# Scrolled to the middle of the screen first: at the page's foot the row sits under the tab bar,
+# and a tap there lands on the bar.
+- scrollUntilVisible:
+    element:
+      id: 'you-profile-critterdex'
+    direction: DOWN
+    timeout: 15000
+    centerElement: true
+    optional: true
+- tapOn:
+    id: 'you-profile-critterdex'
+    optional: true
+# Where the page can't lift the row clear of the bar, the dex opens by its link.
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex|critters-egg-hatch'
+    timeout: 8000
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-dex|critters-egg-hatch'
+    file: ../_shared/open-link.yaml
+    env:
+      URL: critterpass-dev://you/critterdex
+- evalScript: "${output.captureMissing = output.captureMissing || ''}"
+- evalScript: ${output.hatchTapped = false}
+- extendedWaitUntil:
+    visible:
+      id: 'critters-egg-hatch'
+    timeout: 20000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'critters-egg-hatch'
+    commands:
+      - tapOn:
+          id: 'critters-egg-hatch'
+      - evalScript: ${output.hatchTapped = true}
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-hatched'
+          timeout: 30000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-hatch'
+          commands:
+            - runFlow:
+                file: subflows/shot.yaml
+                env:
+                  CODE: '8.05'
+                  NAME: egg-hatch
+                  LOOK: light
+            - tapOn:
+                id: 'critters-hatch-later'
+                optional: true
+- repeat:
+    times: 3
+    while:
+      visible:
+        id: 'critters-dex|critters-hatch'
+    commands:
+      - runFlow: ../_shared/back.yaml
+- runFlow: ../_shared/home-link.yaml
+- runFlow: subflows/visit-consent.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 15000
+- runFlow:
+    file: subflows/chat-critters-dex.yaml
+    env:
+      LOOK: light
+- runFlow:
+    when:
+      true: ${!output.hatchTapped}
+    commands:
+      - evalScript: "${output.captureMissing = output.captureMissing + ' 8.05-egg-hatch'}"
+- runFlow:
+    file: subflows/appearance.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/chat-critters-dex.yaml
+    env:
+      LOOK: dark
+- runFlow: subflows/capture-done.yaml

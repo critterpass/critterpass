@@ -7,6 +7,16 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: stop.nights
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.nights"
+msgstr "{0, plural, one {# night} other {# nights}}"
+
+#. placeholder {0}: stops.length
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.stopCount"
+msgstr "{0, plural, one {# stop} other {# stops}}"
+
 #. placeholder {0}: money(locale, track.minMinor, currency)
 #. placeholder {1}: money(locale, track.maxMinor, currency)
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
@@ -45,11 +55,6 @@ msgstr "{0} is picking the stay. The rooms show up here."
 msgid "setup.premium.mustDos.typing"
 msgstr "{0} is typing…"
 
-#. placeholder {0}: stop.nights
-#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
-msgid "setup.premium.route.nights"
-msgstr "{0} nights"
-
 #. placeholder {0}: band.set
 #. placeholder {1}: band.of
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
@@ -78,11 +83,6 @@ msgstr "{0} setup"
 msgid "setup.premium.rooms.split"
 msgstr "{0} split"
 
-#. placeholder {0}: stops.length
-#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
-msgid "setup.premium.route.title"
-msgstr "{0} stops, {placed} nights"
-
 #. placeholder {0}: model.place
 #. placeholder {1}: model.score.won
 #. placeholder {2}: model.score.next
@@ -101,8 +101,8 @@ msgstr "{0}–{1} each, estimate"
 msgid "setup.premium.rooms.firstGo"
 msgstr "{0}'s first go"
 
-#. placeholder {0}: model.guideName
-#: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/setup/premium/steps/window-option-card.tsx
 msgid "setup.premium.when.option.pick"
 msgstr "{0}'s pick"
 
@@ -114,17 +114,9 @@ msgstr "{count, plural, other {# going}}"
 msgid "setup.manual.dayA11y"
 msgstr "{dayName}, {state}"
 
-#: ../../apps/mobile/src/features/setup/shell/setup-shell.tsx
-msgid "setup.shell.back"
-msgstr "{destination} setup"
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.checklist.title"
 msgstr "{destination} setup"
-
-#: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
-msgid "setup.tag.won"
-msgstr "{destination} won {won}–{next}"
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.line.freeDays"
@@ -166,10 +158,6 @@ msgstr "{guideName} redrafts as the rest come in"
 msgid "setup.mustDos.readyLine"
 msgstr "{guideName}’s draft is ready for you."
 
-#: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
-msgid "setup.tag.doneA11y"
-msgstr "{label}, done"
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.thingsLeft"
 msgstr "{left, plural, one {One thing left for you} other {# things left for you}}"
@@ -190,17 +178,17 @@ msgstr "{name}, what’s the one thing {place} isn’t complete without?"
 msgid "setup.rooms.a11y.person"
 msgstr "{name}. Tap to move to another room."
 
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-msgid "setup.status.here"
-msgstr "{organiser} is setting up right now."
-
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-msgid "setup.status.away"
-msgstr "{organiser} runs setup. Your part is below."
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.privacy"
+msgstr "{organiser} only hears whether the week works. Never what the block is."
 
 #: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
 msgid "setup.addMustDo.header"
 msgstr "{place} · Must-dos"
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.nightCount"
+msgstr "{placed, plural, one {# night} other {# nights}}"
 
 #: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
 msgid "setup.when.windowPill"
@@ -225,6 +213,14 @@ msgstr "{sketched} of {days} days sketched"
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.line.stops"
 msgstr "{stops, plural, other {# stops}}"
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.title"
+msgstr "{stopsLabel}, {nightsLabel}"
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.line"
+msgstr "{totalNights, plural, one {The trip has # night to place.} other {The trip has # nights to place.}}"
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/crew-sees.tsx
 msgid "setup.premium.calendar.dayA11y"
@@ -270,6 +266,10 @@ msgstr "About {estimate} a room a night, estimate in {code}"
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.memberLine"
 msgstr "About a minute. Nobody sees your numbers."
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.title"
+msgstr "About your maybe days"
 
 #: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
 msgid "setup.addMustDo.returnKey"
@@ -346,7 +346,6 @@ msgid "setup.premium.back"
 msgstr "Back"
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.home"
 msgstr "Back home"
 
@@ -378,10 +377,6 @@ msgstr "Booked"
 msgid "setup.premium.manual.brush"
 msgstr "Brush"
 
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.budget"
-msgstr "Budget"
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.row.budget"
 msgstr "Budget"
@@ -402,8 +397,18 @@ msgstr "Calendar access is off"
 msgid "setup.push.notMovable"
 msgstr "Can’t move it"
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.notMovable"
+msgstr "Can’t move it"
+
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
 msgid "setup.premium.rooms.cancel"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
+#: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
+msgid "setup.premium.cancel"
 msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
@@ -431,15 +436,14 @@ msgstr "Cheapest"
 msgid "setup.when.picker.clear"
 msgstr "Clear"
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
-#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.sheet.close"
 msgstr "Close"
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/calendar/manual-days-sheet.tsx
 #: ../../apps/mobile/src/features/setup/premium/calendar/week-picker-sheet.tsx
-#: ../../apps/mobile/src/features/setup/premium/must-dos/add-must-do-sheet.tsx
 msgid "setup.premium.calendar.close"
 msgstr "Close"
 
@@ -475,6 +479,10 @@ msgstr "Day 1 waits for the last arrival, so nobody misses the first dinner."
 msgid "setup.premium.rooms.discard"
 msgstr "Discard"
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.discard"
+msgstr "Discard"
+
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
 msgid "setup.premium.rooms.discardTitle"
 msgstr "Discard these moves?"
@@ -494,6 +502,10 @@ msgstr "Draft with what we have"
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
 msgid "setup.mustDos.draftWithout"
 msgstr "Draft without one"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.ask.discardTitle"
+msgstr "Drop what you wrote?"
 
 #: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
 msgid "setup.premium.rooms.estimate"
@@ -572,6 +584,10 @@ msgstr "Free days"
 msgid "setup.push.freed"
 msgstr "Freed it"
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.freed"
+msgstr "Freed it"
+
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.partLine.days"
 msgstr "From your calendar or by hand"
@@ -596,10 +612,6 @@ msgstr "Google Calendar"
 #: ../../apps/mobile/src/features/setup/premium/steps/sleep-choices.tsx
 msgid "setup.premium.chip.ground"
 msgstr "Ground floor"
-
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-msgid "setup.back.home"
-msgstr "Home"
 
 #: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
 msgid "setup.way.pick"
@@ -630,7 +642,6 @@ msgid "setup.premium.chip.snore"
 msgstr "I snore, honestly"
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.line"
 msgstr "It shows up once your phone has synced. Try again in a moment."
 
@@ -648,6 +659,10 @@ msgstr "Just one stop"
 
 #: ../../apps/mobile/src/features/setup/premium/rooms/rooms-editor.tsx
 msgid "setup.premium.rooms.keep"
+msgstr "Keep editing"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.keepEditing"
 msgstr "Keep editing"
 
 #: ../../apps/mobile/src/features/setup/premium/steps/private-max-view.tsx
@@ -673,8 +688,6 @@ msgstr "Loading"
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 #: ../../apps/mobile/src/features/setup/premium/getting-there/getting-there-screen.tsx
 #: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.loading"
 msgstr "Loading trip setup"
 
@@ -746,10 +759,6 @@ msgstr "Most I’d spend, each"
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.step"
 msgstr "Moving setup along"
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.mustDos"
-msgstr "Must-dos"
 
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
 msgid "setup.mustDos.title"
@@ -847,6 +856,10 @@ msgstr "One stop so far"
 msgid "setup.calendar.promise"
 msgstr "Only free and busy days leave your phone. Titles, places and people stay here."
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.words"
+msgstr "Or tell {name} in your words"
+
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
 msgid "setup.budget.typed.labelAlone"
 msgstr "Or type an amount"
@@ -907,6 +920,10 @@ msgstr "Powered by Foursquare"
 msgid "setup.premium.month.previous"
 msgstr "Previous month"
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.line"
+msgstr "Quick one: your maybe block is the only thing between the crew and {place}. Could you free it?"
+
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 msgid "setup.calendar.syncing"
 msgstr "Reading your free days…"
@@ -934,10 +951,6 @@ msgstr "Room {0}"
 #: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
 msgid "setup.premium.rooms.tileEach"
 msgstr "Room {0}, each"
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.rooms"
-msgstr "Rooms"
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.row.rooms"
@@ -993,6 +1006,10 @@ msgstr "See the draft"
 msgid "setup.mustDos.seeTrip"
 msgstr "See the trip"
 
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.send"
+msgstr "Send"
+
 #: ../../apps/mobile/src/features/setup/premium/steps/must-do-card.tsx
 msgid "setup.mustDos.row.pending"
 msgstr "Sends when you’re back online"
@@ -1018,7 +1035,6 @@ msgid "setup.premium.pill.eyebrow"
 msgstr "Setup checklist · {position} of {total}"
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.voteOpen.line"
 msgstr "Setup opens once the crew has picked a place. Finish the vote from Home."
 
@@ -1074,14 +1090,6 @@ msgstr "Starred"
 msgid "setup.premium.budget.stays"
 msgstr "Stays"
 
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.a11y"
-msgstr "Step {n}, {title}"
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.a11yDone"
-msgstr "Step {n}, {title}, done"
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.line.budgetLocked"
 msgstr "Sweet spot set"
@@ -1097,6 +1105,14 @@ msgstr "Sync"
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 msgid "setup.calendar.synced"
 msgstr "Synced {age}"
+
+#: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
+msgid "setup.calendar.syncedJustNow"
+msgstr "Synced just now"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.ask.thanks"
+msgstr "Thanks. I’ll only tell {organiser} whether the week works."
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/connect-sheet.tsx
 msgid "setup.calendar.oauthFailed"
@@ -1163,12 +1179,7 @@ msgstr "The rooms stay as they were."
 msgid "setup.premium.row.route"
 msgstr "The route"
 
-#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
-msgid "setup.premium.route.line"
-msgstr "The trip has {totalNights} nights to place."
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.voteOpen.title"
 msgstr "The vote isn’t over yet"
 
@@ -1180,12 +1191,7 @@ msgstr "Then any order"
 msgid "setup.calendar.device"
 msgstr "This phone’s calendar"
 
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
-msgid "setup.status.stepRefused"
-msgstr "This step isn’t finished for the whole crew yet, so setup is still here."
-
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
-#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.title"
 msgstr "This trip isn’t here yet"
 
@@ -1230,10 +1236,6 @@ msgstr "What the crew sees"
 #: ../../apps/mobile/src/features/setup/premium/steps/must-dos-view.tsx
 msgid "setup.mustDos.line"
 msgstr "What the trip isn’t complete without. Up to five each."
-
-#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
-msgid "setup.stepper.when"
-msgstr "When"
 
 #: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
 msgid "setup.when.title"
@@ -1282,7 +1284,6 @@ msgid "setup.when.locked.line"
 msgstr "You’re going {range}."
 
 #: ../../apps/mobile/src/features/setup/premium/must-dos/sheet-waiting.tsx
-#: ../../apps/mobile/src/features/setup/shell/sheet-waiting.tsx
 msgid "setup.sheet.notYours"
 msgstr "You’re not part of this trip’s setup, so there’s nothing to do here."
 
@@ -1357,3 +1358,7 @@ msgstr "Your stay pick"
 #: ../../apps/mobile/src/features/setup/data/commands.ts
 msgid "setup.queued.budgetDefault"
 msgstr "Your usual max"
+
+#: ../../apps/mobile/src/features/setup/premium/ask/ask-sheet.tsx
+msgid "setup.premium.ask.discardLine"
+msgstr "Your words aren’t sent to {name}."

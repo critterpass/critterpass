@@ -7,6 +7,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useEffect, useState } from 'react';
 import { Linking } from 'react-native';
 
+import { shortName } from '@/lib/people/member-name';
 import { useCommand } from '@/data/commands/use-command';
 import { feedback, toast } from '@/motion';
 
@@ -45,7 +46,7 @@ export function useDriverDetail(tripId: string, listingId: string) {
     feedback.emit('error');
     toast.show({
       id: 'drivers-shortlist',
-      title: t({ id: 'drivers.detail.shortlistFailed', message: "Couldn't add him. Try again." }),
+      title: t({ id: 'drivers.detail.shortlistFailed', message: 'Couldn’t add him. Try again.' }),
     });
   }
 
@@ -59,7 +60,7 @@ export function useDriverDetail(tripId: string, listingId: string) {
 
   const message = () => {
     if (driver === null) return;
-    const first = driver.display_name.split(' ')[0] ?? driver.display_name;
+    const first = shortName(driver.display_name);
     void Linking.openURL(
       whatsAppLink(
         driver.phone_e164,

@@ -129,7 +129,7 @@ export function ReadOnlyBar({
         </View>
         <View style={{ flex: 1 }}>
           <Text variant="rowTitle">
-            {t({ id: 'chat.premium.former.title', message: `You're not in ${crewName} now` })}
+            {t({ id: 'chat.premium.former.title', message: `You’re not in ${crewName} now` })}
           </Text>
           <Text variant="caption" tone="muted">
             {t({
@@ -210,7 +210,11 @@ export function ChatWelcome({
 }: {
   readonly crewName: string;
   readonly madeBy: string | null;
-  readonly members: readonly { readonly name: string; readonly color: string }[];
+  readonly members: readonly {
+    readonly name: string;
+    readonly uid: string;
+    readonly color: string;
+  }[];
   readonly guideName: string;
   readonly starters: readonly Starter[];
 }) {
@@ -231,7 +235,7 @@ export function ChatWelcome({
                 top: 35 + Math.sin(angle) * 40,
               }}
             >
-              <Avatar name={member.name} color={member.color} size={40} ringed />
+              <Avatar name={member.name} color={member.color} uid={member.uid} size={40} ringed />
             </View>
           );
         })}
@@ -266,7 +270,7 @@ export function ChatWelcome({
           {t({
             id: 'chat.premium.welcome.hello',
             message:
-              "Hi all! I'm your guide in here. Mention me with @ and I'll pitch in. Where to start?",
+              'Hi all! I’m your guide in here. Mention me with @ and I’ll pitch in. Where to start?',
           })}
         </Text>
       </View>
@@ -287,7 +291,7 @@ export function ChatWelcome({
       <Text variant="caption" tone="placeholder" align="center">
         {t({
           id: 'chat.premium.welcome.footnote',
-          message: "Messages stay on everyone's phone, offline too",
+          message: 'Messages stay on everyone’s phone, offline too',
         })}
       </Text>
     </View>

@@ -8,11 +8,11 @@ import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { Button, CritterSticker, OfflinePill, Text, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import type { AloneViewProps } from '../builder/alone-view';
+import type { AloneViewProps } from '../builder/views';
 import { lockTitle } from '../labels';
 
 export function PremiumAloneView(props: AloneViewProps) {

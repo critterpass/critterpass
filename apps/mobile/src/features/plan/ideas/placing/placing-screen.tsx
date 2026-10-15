@@ -19,8 +19,8 @@ import { usePlanGuide } from '../../plan-guide';
 import { ideaIcon } from '../idea-icon';
 import { backToIdeas } from '../ideas-copy';
 import { ideasRoute } from '../routes';
-import type { MapPin } from './placing-map';
-import { PlacingView, type PlacingLine, type PlacingViewProps } from './placing-view';
+import type { MapPin } from './placing-props';
+import { type PlacingLine, type PlacingViewProps } from './placing-props';
 import { isFinished, PLACING_STEPS } from './progress';
 import {
   dayNames,
@@ -38,12 +38,12 @@ const REVIEW_ID = '7h-7';
 export function PlacingScreen({
   tripId,
   jobId,
-  View = PlacingView,
+  View,
 }: {
   readonly tripId: string;
   readonly jobId: string;
-  /** How the wait is drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<PlacingViewProps>;
+  /** How the wait is drawn. */
+  readonly View: ComponentType<PlacingViewProps>;
 }) {
   const locale = useLocale();
   const state = usePlacingJob(jobId);

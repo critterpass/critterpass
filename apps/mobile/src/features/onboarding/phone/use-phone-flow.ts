@@ -12,12 +12,14 @@ import { useEffect, useState } from 'react';
 
 import type { ReturningSignInOutcome, SendOtpOutcome, VerifyOtpOutcome } from '@/data/auth';
 import { feedback } from '@/motion/feedback';
-import type { CodeStatus } from '@/ui/inputs/CodeBoxes';
 
 import type { useSaveFlow } from '../save/use-save-flow';
 import { markReturningInstall } from '../splash/returning-marker';
 import type { OnboardingAuth } from '../services';
 import { formatNational, resendWaitS, toE164, typedNumber } from './phone-number';
+
+/** How the code boxes read: still typing, accepted or refused. */
+export type CodeStatus = 'idle' | 'valid' | 'invalid';
 
 export type PhoneProblem =
   | 'invalid_number'

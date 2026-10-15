@@ -6,11 +6,19 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
-import { Button, Icon, Text, usePremiumTheme } from '@/ui/premium';
+import {
+  Button,
+  Icon,
+  Text,
+  enterTransition,
+  exitTransition,
+  usePremiumReducedMotion,
+  usePremiumTheme,
+} from '@/ui/premium';
 
-import type { IssueCardProps } from '../../check/issue-card';
+import type { IssueCardProps } from '../../check/check-props';
 
 export interface DayFix {
   readonly card: IssueCardProps;
@@ -24,13 +32,14 @@ export function FixPanel(props: {
   readonly inset?: boolean;
 }) {
   const theme = usePremiumTheme();
+  const reduced = usePremiumReducedMotion();
   const { t } = useLingui();
   const { card } = props.fix;
   const pink = theme.color.status.voteOpen;
   return (
     <Animated.View
-      entering={FadeIn}
-      exiting={FadeOut}
+      entering={enterTransition(reduced)}
+      exiting={exitTransition(reduced)}
       testID={`trip-fix-${card.id}`}
       style={{
         marginHorizontal: props.inset === false ? 0 : theme.space.gap12,
@@ -75,6 +84,7 @@ export function FixPanel(props: {
       >
         {card.fixLabel === null ? null : (
           <Button
+            alignSelf="auto"
             size="small"
             label={card.fixLabel}
             onPress={card.onFix}
@@ -83,6 +93,7 @@ export function FixPanel(props: {
           />
         )}
         <Button
+          alignSelf="auto"
           size="small"
           variant="control"
           label={t({ id: 'plan.premium.fix.otherWays', message: 'Other ways' })}
@@ -90,6 +101,7 @@ export function FixPanel(props: {
           testID={`trip-fix-other-${card.id}`}
         />
         <Button
+          alignSelf="auto"
           size="small"
           variant="control"
           label={t({ id: 'plan.premium.check.leave', message: 'Leave it' })}

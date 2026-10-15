@@ -6,8 +6,9 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
+import { compareRows } from '../perks/perk-copy';
 import { MONETIZE_ROUTES } from '../routes';
-import type { PlanViewProps } from './plan-view';
+import type { PlanViewProps } from './plan-props';
 import { useRecheckOnReturn } from './use-billing-issue';
 import { usePlan } from './use-plan';
 
@@ -32,6 +33,7 @@ export function usePlanScreen(): PlanViewProps {
     plan,
     price: plan?.manageHere === true ? (offer?.priceString ?? null) : null,
     boosts,
+    compare: compareRows(rows.perks),
     restore,
     storeAvailable: store !== null,
     onBack: () => {

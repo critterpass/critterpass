@@ -11,7 +11,7 @@ import type { ReactNode } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   Card,
@@ -25,9 +25,8 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { changeCardWords } from '../../draft/redraft/change-card';
-import { metricWords } from '../../draft/redraft/metric-chips';
-import type { RedraftDiffViewProps } from '../../draft/redraft/redraft-diff-view';
+import { changeCardWords, metricWords } from '../../draft/redraft/redraft-words';
+import type { RedraftDiffViewProps } from '../../draft/redraft/redraft-props';
 
 export function PremiumRedraftView(props: RedraftDiffViewProps) {
   const theme = usePremiumTheme();
@@ -44,7 +43,10 @@ export function PremiumRedraftView(props: RedraftDiffViewProps) {
       scroll={false}
       testID="redraft-screen"
     >
-      <ScrollView contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}>
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}
+      >
         {body}
       </ScrollView>
       {foot === null ? null : (
@@ -222,6 +224,7 @@ export function PremiumRedraftView(props: RedraftDiffViewProps) {
         />
       </View>
       <TextButton
+        align="center"
         label={
           old === ''
             ? t({ id: 'planDraft.diff.putBackDay', message: 'Put the day back' })

@@ -8,12 +8,14 @@ import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
 import { Modal, StyleSheet, View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withTiming,
 } from 'react-native-reanimated';
 
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   Avatar,
@@ -28,7 +30,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { SeatCapViewProps } from '../seat-cap/seat-cap-view';
+import type { SeatCapViewProps } from '../seat-cap/seat-cap-props';
 import { seatColour } from './components/crew-colours';
 import { ModalSheet } from './components/modal-sheet';
 import { MONETIZE_INK, MONETIZE_TIMING } from './monetize-palette';
@@ -37,12 +39,17 @@ const ARC = [14, 4, 0, 0, 4, 14];
 
 function Newcomer({ name }: { readonly name: string }) {
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const th = usePremiumTheme();
   const y = useSharedValue(0);
   useEffect(() => {
-    if (reduced) return;
+    if (!looping) {
+      cancelAnimation(y);
+      y.set(0);
+      return;
+    }
     y.set(withRepeat(withTiming(-6, { duration: MONETIZE_TIMING.newcomerBob }), -1, true));
-  }, [reduced, y]);
+  }, [looping, y]);
   const style = useAnimatedStyle(() => ({ transform: [{ translateY: y.value }] }));
   return (
     <Animated.View style={[styles.newcomer, style]}>
@@ -92,6 +99,7 @@ export function SeatCapPremium(props: SeatCapViewProps) {
             />
             <View style={{ alignItems: 'center' }}>
               <TextButton
+                align="center"
                 label={t({ id: 'monetize.seatCap.keep', message: `Keep it at ${cap}` })}
                 onPress={props.onKeep}
                 testID="seat-cap-keep"
@@ -128,7 +136,7 @@ export function SeatCapPremium(props: SeatCapViewProps) {
                     transform: [{ translateY: ARC[i % ARC.length] ?? 0 }],
                   }}
                 >
-                  <Avatar name={member.name} color={seatColour(th, i)} size={40} />
+                  <Avatar name={member.name} color={seatColour(th, i)} uid={member.uid} size={40} />
                   <Text variant="badge" tone="placeholder">
                     {String(i + 1)}
                   </Text>

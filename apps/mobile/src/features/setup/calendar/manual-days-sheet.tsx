@@ -5,47 +5,21 @@
  * a glyph and a label, and Maybe a dashed edge, so none is colour alone. Save queues
  * `set_availability` (works offline).
  */
-import { format } from '@cp/i18n';
-import { t } from '@lingui/core/macro';
 import { useEffect, useState, type ComponentType } from 'react';
-import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
-import { useLocale } from '@/lib/i18n/use-locale';
-import { PillButton } from '@/ui/buttons/PillButton';
-import { ChoiceChip } from '@/ui/chips/ChoiceChip';
-import { Row } from '@/ui/layout/Row';
-import { PressScale } from '@/ui/press/PressScale';
-import { Sheet } from '@/ui/sheet/Sheet';
-import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
 
 import { setAvailabilityCommand } from '../data/commands';
 import { useSetupServices } from '../data/services';
-import { monthLabel, weekdayLetters } from '../when/copy';
-import { DayGrid, weeksOfDates } from '../when/day-grid';
-import { MonthTitle } from '../when/month-pager';
 import {
   loadMarks,
   manualPayload,
-  monthCount,
-  monthGrid,
   saveMarks,
   type ManualMark,
   type ManualMarks,
 } from './manual-days';
-import { DayFace, GLYPH, markWord, Swatch } from './manual-day-face';
 import { syncRange } from './sync-plan';
-import { useManualPaint } from './use-manual-paint';
-
-const TOOLS: readonly ManualMark[] = ['free', 'maybe', 'busy'];
-
-const useStyles = makeStyles((th) => ({
-  body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'], gap: th.space['12'] },
-  row: { gap: th.space['8'], flexWrap: 'wrap' },
-  legend: { gap: th.space['12'], flexWrap: 'wrap' },
-}));
 
 export interface ManualDaysViewProps {
   /** First and last dates that can be marked (today to the horizon). */
@@ -62,122 +36,16 @@ export interface ManualDaysViewProps {
   readonly initialTool?: ManualMark | undefined;
 }
 
-export function ManualDaysView(props: ManualDaysViewProps) {
-  const styles = useStyles();
-  const theme = useTheme();
-  const locale = useLocale();
-  const [tool, setTool] = useState<ManualMark>(props.initialTool ?? 'free');
-  const pages = monthCount(props.from, props.to);
-  const grid = monthGrid(props.from, props.page);
-  const open = (date: string) => date >= props.from && date <= props.to;
-  const { paint, onDrag } = useManualPaint(props.marks, tool, open, props.onMarks);
-  const step = (by: 1 | -1) => props.onPage(Math.max(0, Math.min(pages - 1, props.page + by)));
-  const heading = t({ id: 'setup.manual.title', message: 'Mark your days' });
-  return (
-    <Sheet
-      detents={['fit']}
-      onDismiss={props.onDismiss}
-      accessibilityLabel={heading}
-      testID="manual-days"
-    >
-      <View style={styles.body}>
-        <Text variant="h3" accessibilityRole="header">
-          {heading}
-        </Text>
-        <Text variant="body" color={theme.semantic.text.secondary}>
-          {t({
-            id: 'setup.manual.paintLine',
-            message:
-              'Pick Free, Maybe or Busy, then tap or drag across days. Paint a day again to clear it.',
-          })}
-        </Text>
-        <Row style={styles.row}>
-          {TOOLS.map((option) => (
-            <ChoiceChip
-              key={option}
-              label={`${GLYPH[option]} ${markWord(option)}`}
-              selected={tool === option}
-              tilt={0}
-              onPress={() => setTool(option)}
-              testID={`manual-tool-${option}`}
-            />
-          ))}
-        </Row>
-        <MonthTitle
-          title={monthLabel(locale, grid.year, grid.month)}
-          index={props.page}
-          count={pages}
-          onStep={step}
-          todayIndex={0}
-          onToday={() => props.onPage(0)}
-          variant="title"
-          testID="manual-days"
-        />
-        <DayGrid
-          weekdays={weekdayLetters(locale)}
-          weeks={weeksOfDates(grid.leadingBlanks, grid.days)}
-          onSwipe={pages > 1 ? step : undefined}
-          onDrag={onDrag}
-          renderDay={(date) => {
-            const mark = props.marks[date];
-            const face = <DayFace date={date} mark={mark} open={open(date)} />;
-            if (!open(date)) return face;
-            const dayName = format.date(locale, new Date(Date.parse(date) + 12 * 3_600_000), {
-              day: 'numeric',
-              month: 'long',
-              timeZone: 'UTC',
-            });
-            const state = markWord(mark);
-            return (
-              <PressScale
-                widthClass="narrow"
-                accessibilityLabel={t({
-                  id: 'setup.manual.dayA11y',
-                  message: `${dayName}, ${state}`,
-                })}
-                onPress={() => paint(date)}
-                testID={`manual-day-${date}`}
-              >
-                {face}
-              </PressScale>
-            );
-          }}
-          testID="manual-days-grid"
-        />
-        <Row style={styles.legend}>
-          {TOOLS.map((mark) => (
-            <Row key={mark} gap="6" align="center">
-              <Swatch mark={mark} />
-              <Text variant="caption">{`${GLYPH[mark]} ${markWord(mark)}`}</Text>
-            </Row>
-          ))}
-        </Row>
-        <PillButton
-          label={t({ id: 'setup.manual.save', message: 'Save my days' })}
-          onPress={props.onSave}
-          loading={props.saving}
-          testID="manual-days-save"
-        />
-      </View>
-    </Sheet>
-  );
-}
-
 export interface ManualDaysSheetProps {
   readonly tripId: string;
   readonly onDismiss: () => void;
   /** The member's zone (the device's by default). */
   readonly tz?: string;
-  /** How the sheet is drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<ManualDaysViewProps>;
+  /** How the sheet is drawn. */
+  readonly View: ComponentType<ManualDaysViewProps>;
 }
 
-export function ManualDaysSheet({
-  tripId,
-  onDismiss,
-  tz,
-  View: Look = ManualDaysView,
-}: ManualDaysSheetProps) {
+export function ManualDaysSheet({ tripId, onDismiss, tz, View: Look }: ManualDaysSheetProps) {
   const { db } = useLocalFirst();
   const services = useSetupServices();
   const { send } = useCommand(setAvailabilityCommand);

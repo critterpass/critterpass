@@ -5,7 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import type { MessageType, StoredAttachment } from '@cp/domain';
-import { memberName } from '@/ui/people/member-name';
+import { memberName } from '@/lib/people/member-name';
 
 const UUID = /^[0-9a-f-]{36}$/iu;
 

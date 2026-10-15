@@ -1,7 +1,7 @@
 /**
- * What a pass shows, as plain values for any page that draws it (the premium paper pass reads
- * these; the current card has its own view): the number, the photo (a guide's face or the real
- * photo), the printed fields with their "not yet" states, and the MRZ lines.
+ * What a pass shows, as plain values for any page that draws it (the paper pass reads these): the
+ * number, the photo (a guide's face or the real photo), the printed fields with their "not yet"
+ * states, and the MRZ lines.
  */
 import { t } from '@lingui/core/macro';
 
@@ -10,15 +10,42 @@ import {
   homeBaseFor,
   mrzLines,
   PASS_NUMBER_PLACEHOLDER,
+  passStyleTags,
+  tasteFromAnswers,
   type PassDraft,
 } from '@cp/domain';
 import { format, upper } from '@cp/i18n';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
-import { airportDataset } from './content';
-import { PASS_DATE, styleTagsOf } from './pass-view';
+import { airportDataset, onboardingQuiz } from './content';
 import { tagWords } from './taste/tag-labels';
+
+/** The issue date as the pass prints it. */
+export const PASS_DATE: Intl.DateTimeFormatOptions = {
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- Intl option values.
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+};
+
+/**
+ * The issue date as a passport prints it: day, month, year ("14 Oct 2026"), whatever the locale's
+ * own order, except where the locale writes the year first (ja, ko, zh), which keeps its form.
+ */
+export function passDate(locale: string, at: Date): string {
+  const parts = new Intl.DateTimeFormat(locale, PASS_DATE).formatToParts(at);
+  const first = parts.find((part) => part.type !== 'literal');
+  if (first?.type === 'year') return format.date(locale, at, PASS_DATE);
+  const of = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((part) => part.type === type)?.value ?? '';
+  return [of('day'), of('month'), of('year')].join(' ');
+}
+
+/** The travel-style tags the taste answers give the pass. */
+export function styleTagsOf(draft: PassDraft) {
+  return passStyleTags(tasteFromAnswers(onboardingQuiz(), draft.answers).tags);
+}
 
 export type PassFace =
   | {
@@ -63,8 +90,7 @@ export function passFacts(draft: PassDraft, locale: string, stampCount = 0): Pas
     name: draft.given_name,
     home: home === null ? null : home.city,
     homeCode: home?.iata ?? null,
-    issued:
-      draft.issued_at === null ? null : format.date(locale, new Date(draft.issued_at), PASS_DATE),
+    issued: draft.issued_at === null ? null : passDate(locale, new Date(draft.issued_at)),
     style: tags.length === 0 ? null : tags.map((tag) => tagWords(tag).short).join(' · '),
     mrz: mrzLines({
       givenName: draft.given_name,

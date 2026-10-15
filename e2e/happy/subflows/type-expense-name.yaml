@@ -1,22 +1,9 @@
 appId: app.critterpass.dev
 ---
-# On the keypad: opens "What was it?", replaces the name (the guide suggests the plan's place of
-# the hour) with ${NAME} and closes the sheet. ${SHOT}, when set, names a screenshot of the sheet with
-# the name typed and the keyboard up.
+# On Add an expense: types ${NAME} into "What was it?" and puts the keyboard away. ${SHOT}, when set,
+# names a screenshot with the name typed and the keyboard up.
 - tapOn:
-    id: 'money-add-details-row'
-- extendedWaitUntil:
-    visible:
-      id: 'money-add-name'
-    timeout: 10000
-- waitForAnimationToEnd
-- runFlow:
-    when:
-      visible: 'Clear'
-    commands:
-      - tapOn: 'Clear'
-- tapOn:
-    id: 'money-add-name'
+    id: 'money-add-description'
 - inputText: ${NAME}
 - waitForAnimationToEnd
 - runFlow:
@@ -24,10 +11,5 @@ appId: app.critterpass.dev
       true: ${typeof SHOT !== 'undefined' && SHOT !== ''}
     commands:
       - takeScreenshot: ${SHOT}
-- tapOn:
-    id: 'money-add-details-done'
-- extendedWaitUntil:
-    notVisible:
-      id: 'money-add-name'
-    timeout: 10000
+- hideKeyboard
 - waitForAnimationToEnd

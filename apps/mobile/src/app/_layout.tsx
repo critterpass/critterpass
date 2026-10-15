@@ -1,15 +1,9 @@
 import Constants from 'expo-constants';
 import * as Linking from 'expo-linking';
-import {
-  DarkTheme,
-  router,
-  ThemeProvider as NavigationThemeProvider,
-  useNavigationContainerRef,
-} from 'expo-router';
-import { Stack } from 'expo-router/js-stack';
+import { router, useNavigationContainerRef } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Updates from 'expo-updates';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports -- the font preload draws each bundled family raw, before any theme or locale exists
 import { Platform, StyleSheet, Text as RNText, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -38,6 +32,7 @@ import {
 } from '@/data/app-session/device-session';
 import { createTravelDataReader, TravelDataReaderProvider } from '@/data/travel-data/client';
 import { DeferredLinkGate, deferredLinkPrimitives } from '@/features/launch/DeferredLinkGate';
+import { PremiumLaunch } from '@/features/launch/premium';
 import { PassSync } from '@/features/onboarding/flow-controller/pass-sync';
 import '@/features/onboarding/routes';
 import '@/features/crew/chat/register';
@@ -83,6 +78,7 @@ import {
 } from '@/lib/analytics';
 import { DevToolsShake } from '@/lib/dev-tools/DevToolsShake';
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
+import { installAppDateTimeFormat } from '@/lib/i18n/app-date-time-format';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
 import { bindTempleMute, configureAlwaysUpgrade, readLocationFlags } from '@/lib/location';
 import {
@@ -94,33 +90,30 @@ import {
   sendMirrorThroughSession,
   trackPermissionEvent,
 } from '@/lib/permissions';
-import { SHEET_GROUPS, sheetGroupOptions } from '@/lib/navigation/sheet-routes';
-import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { analyticsViolationBreadcrumb, initAppSentry, sentryDsnFromEnv } from '@/lib/observability';
-import { usePremiumUi } from '@/lib/premium-ui';
 import { ThemeProvider } from '@/lib/theme';
 import { feedback } from '@/motion/feedback';
-import { useMotionMode } from '@/motion/motion-mode';
-import { IslandToast } from '@/motion/island-toast';
+import { toastQueue } from '@/motion/island-toast';
 import { TouchQuietRoot } from '@/lib/interaction/touch-quiet';
-import { LaunchHatch } from '@/features/onboarding/hatch/LaunchHatch';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
-import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
+import { SharedGrowHost } from '@/ui/premium/shell/zoom/shared-grow';
 import { PremiumThemeProvider } from '@/ui/premium';
-import { PremiumKeyboardProvider } from '@/ui/premium/shell';
-import { PremiumRootStack } from '@/ui/premium/shell/navigation/premium-root-stack';
-import { Text, useTheme } from '@/ui';
-import { PrimerSheetHost } from '@/ui/permission-primer';
-import { useNoBackAffordanceGuard } from '@/ui/qa/back-affordance';
-import { reportTruncatedToastTitle } from '@/ui/qa/toast-title-check';
+import { PremiumRoot } from '@/ui/premium/shell/navigation/premium-root';
+import { PrimerSheetHost } from '@/features/permissions';
+import { useNoBackAffordanceGuard } from '@/lib/qa/back-affordance';
+import { QaSettledMarker } from '@/lib/qa/settled-marker';
+import { LaunchHatch } from '@/features/onboarding/hatch/LaunchHatch';
 import { PremiumRootErrorBoundary } from '@/features/home/premium/recovery/premium-error-boundary';
-import { SessionDatabaseProvider } from '@/ui/states/SessionGate';
+import { SessionDatabaseProvider } from '@/ui/premium/shell/session-gate';
 import { FeedbackRuntime } from '@/features/help/feedback/device-outbox';
 import { ShakeToReport } from '@/features/help/shake/ShakeListener';
 import { LocationBridge, PermissionsBridge } from '@/features/session-bridges';
 
 void SplashScreen.preventAutoHideAsync();
+
+// Day-first English dates and the app's 24-hour clock in every date formatter.
+installAppDateTimeFormat();
 
 // Expo Router renders this in place of the root layout when anything below it throws.
 export { PremiumRootErrorBoundary as ErrorBoundary };
@@ -188,23 +181,8 @@ bindTempleMute(feedback.setContextMute);
 /** Saved navigation is only restored into the same JS build it was saved from. */
 const BUILD = `${Constants.expoConfig?.version ?? ''}:${Updates.updateId ?? 'embedded'}`;
 
-/**
- * Screens scale to .93 under a sheet, so whatever sits behind a card shows at the edges: every card
- * and the navigator itself stay on the app's ink, never the navigation library's light grey.
- */
-function inkNavigationTheme(ink: string) {
-  return { ...DarkTheme, colors: { ...DarkTheme.colors, background: ink, card: ink } };
-}
-
-/**
- * Drill-down pushes by default; the `(modal)` group presents sheets and rises over the stack, and so
- * does a group while one of its own sheet routes is in front (the crews sheet, a new poll, place
- * search).
- */
+/** The premium navigators under the session's database and its loading page. */
 function RootNavigator() {
-  const { motion, color } = useTheme();
-  const navigationTheme = useMemo(() => inkNavigationTheme(color.ink['950']), [color.ink]);
-  const [motionMode] = useMotionMode();
   const navigationRef = useNavigationContainerRef();
   // The session-only groups hold their screens until the local database is open.
   const databaseOpen = useContext(LocalFirstContext) !== null;
@@ -214,46 +192,32 @@ function RootNavigator() {
       .then(setLaunchUrl)
       .catch(() => setLaunchUrl(null));
   }, []);
-  // Premium and the current UI keep separate saved navigation: their navigators differ.
-  const premium = usePremiumUi();
-  useNavigationPersistence({
-    navigationRef,
-    build: `${BUILD}:${premium ? 'premium' : 'current'}`,
-    launchUrl,
-  });
+  useNavigationPersistence({ navigationRef, build: BUILD, launchUrl });
   useNoBackAffordanceGuard();
   useScreenTracking(useAnalytics());
   usePushNotifications(cpNotifications);
-  if (premium) {
-    // The one root premium theme: it sets the OS appearance and the status bar, so it lives only
-    // on the premium path; the current UI stays dark whatever the premium appearance setting says.
-    return (
-      <PremiumThemeProvider>
-        <PremiumKeyboardProvider>
-          <SessionDatabaseProvider value={databaseOpen}>
-            <PremiumRootStack />
-          </SessionDatabaseProvider>
-        </PremiumKeyboardProvider>
-      </PremiumThemeProvider>
-    );
-  }
   return (
-    <NavigationThemeProvider value={navigationTheme}>
-      <SessionDatabaseProvider value={databaseOpen}>
-        <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
-          {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route group name, not copy */}
-          <Stack.Screen name="(modal)" options={modalGroupOptions()} />
-          {SHEET_GROUPS.map((name) => (
-            <Stack.Screen key={name} name={name} options={sheetGroupOptions} />
-          ))}
-        </Stack>
-      </SessionDatabaseProvider>
-    </NavigationThemeProvider>
+    <SessionDatabaseProvider value={databaseOpen}>
+      <PremiumRoot toasts={toastQueue} />
+      <QaSettledMarker />
+    </SessionDatabaseProvider>
+  );
+}
+
+/**
+ * Over the app: the premium launch (its stamp on the first launch only), and the hatch host that
+ * records the launch screen's reveal for the screens that wait for it.
+ */
+function Launch({ revealed }: { readonly revealed: boolean }) {
+  return (
+    <>
+      <PremiumLaunch revealed={revealed} />
+      <LaunchHatch revealed={revealed} />
+    </>
   );
 }
 
 export default function RootLayout() {
-  const theme = useTheme();
   const fontsReady = useFontsReady();
   const i18nReady = useI18nReady();
   const [prewarmed, setPrewarmed] = useState(false);
@@ -280,9 +244,10 @@ export default function RootLayout() {
   if (!fontsReady || !i18nReady) return null;
 
   // Provider order: gestures (one root for every GestureDetector) → locale → theme (contrast, font
-  // scale) → session (local-first database, realtime) → screen jolt → navigation, with the overlay, shared-grow and toast hosts above screens.
+  // scale) → session (local-first database, realtime) → screen jolt → navigation, with the overlay
+  // and permission hosts above screens.
   return (
-    <GestureHandlerRootView style={[styles.root, { backgroundColor: theme.color.ink['950'] }]}>
+    <GestureHandlerRootView style={styles.root}>
       <I18nRoot>
         {prewarmed ? null : (
           <View pointerEvents="none" style={styles.prewarm}>
@@ -303,26 +268,29 @@ export default function RootLayout() {
             >
               <TravelDataReaderProvider value={travelData}>
                 <MemberFacesRoot>
-                  <ScreenJoltProvider>
-                    <TouchQuietRoot>
-                      <RootNavigator />
-                    </TouchQuietRoot>
-                    <DeferredLinkGate
-                      primitives={deferredLinks}
-                      navigate={openHref}
-                      claims={deviceLinkClaims}
-                      onReady={() => setLinksReady(true)}
-                    />
-                    <SessionBridges />
-                    <PassSync writeAppGroupImage={writeImage} />
-                    <OverlayHost />
-                    <PrimerSheetHost />
-                    <SharedGrowHost />
-                    <IslandToast Text={Text} onTitleLayout={reportTruncatedToastTitle} />
-                    <DevToolsShake />
-                    <ShakeToReport />
-                    <LaunchHatch revealed={prewarmed && linksReady} />
-                  </ScreenJoltProvider>
+                  {/* The one root premium theme: the navigators and the sheets the app raises
+                      by itself (permission primers, visit consent) read the same appearance. */}
+                  <PremiumThemeProvider>
+                    <ScreenJoltProvider>
+                      <TouchQuietRoot>
+                        <RootNavigator />
+                      </TouchQuietRoot>
+                      <DeferredLinkGate
+                        primitives={deferredLinks}
+                        navigate={openHref}
+                        claims={deviceLinkClaims}
+                        onReady={() => setLinksReady(true)}
+                      />
+                      <SessionBridges />
+                      <PassSync writeAppGroupImage={writeImage} />
+                      <OverlayHost />
+                      <PrimerSheetHost />
+                      <SharedGrowHost />
+                      <DevToolsShake />
+                      <ShakeToReport />
+                      <Launch revealed={prewarmed && linksReady} />
+                    </ScreenJoltProvider>
+                  </PremiumThemeProvider>
                 </MemberFacesRoot>
               </TravelDataReaderProvider>
             </AppSessionRoot>

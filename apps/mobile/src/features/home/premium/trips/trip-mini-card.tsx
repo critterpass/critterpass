@@ -1,5 +1,5 @@
 /**
- * A trip ahead (3.05 "Coming up"): 142 high, r26 card, the guide on a tinted 96 disc at the top
+ * A trip ahead (3.05 "Coming up"): 166 high, r26 card, the guide on a tinted 90 disc at the top
  * corner, the place 19/700 with its dates, and a 5 pt progress bar with its stage word.
  */
 import { useLingui } from '@lingui/react/macro';
@@ -21,7 +21,8 @@ import { tripStage, type PremiumTripRow } from './trips-model';
 const useStyles = makePremiumStyles((t) => ({
   card: {
     flex: 1,
-    height: 142,
+    // Tall enough that a long name ("Your next trip") sits under the guide's disc, not across it.
+    minHeight: 166,
     borderRadius: t.radius.cardLarge,
     backgroundColor: t.color.card,
     boxShadow: t.shadow.card,
@@ -32,11 +33,11 @@ const useStyles = makePremiumStyles((t) => ({
   },
   disc: {
     position: 'absolute',
-    top: -8,
-    end: -10,
-    width: 96,
-    height: 96,
-    borderRadius: 48,
+    top: -14,
+    end: -12,
+    width: 90,
+    height: 90,
+    borderRadius: 45,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -67,7 +68,14 @@ export function TripMiniCard({ trip, index, onPress }: TripMiniCardProps) {
   const when = trip.start_date === null ? null : tripDay(locale, trip.start_date);
   const percent = stage === 'voting' ? 10 : Math.max(8, Math.min(100, trip.plan_progress ?? 0));
   const fill = index % 2 === 0 ? theme.accent.tangerine : theme.accent.sun;
-  const tint = index % 2 === 0 ? theme.color.status.tangerine.bg : theme.color.status.maybe.bg;
+  // In dark the status tints and a faded accent both turn to muddy browns over the card: the disc
+  // is the lifted control grey there, and the critter carries the colour.
+  const tint =
+    theme.scheme === 'dark'
+      ? theme.color.control
+      : index % 2 === 0
+        ? theme.color.status.tangerine.bg
+        : theme.color.status.maybe.bg;
   const word =
     stage === 'voting'
       ? t({ id: 'home.premium.trips.voting', message: 'Voting' })
@@ -86,18 +94,20 @@ export function TripMiniCard({ trip, index, onPress }: TripMiniCardProps) {
           kind={guide.kind}
           name={guide.name}
           seed={guide.seed}
-          size={74}
+          size={70}
           pose="wave"
         />
       </View>
       <Text variant="navTitle" numberOfLines={1}>
         {place}
       </Text>
-      {when === null ? null : (
-        <Text variant="caption" tone="muted" numberOfLines={1}>
-          {when}
-        </Text>
-      )}
+      {/* Always a line under the name, so cards side by side share their baselines. */}
+      <Text variant="caption" tone="muted" numberOfLines={1}>
+        {when ??
+          (stage === 'voting'
+            ? t({ id: 'home.premium.trips.datesToVote', message: 'Dates to vote' })
+            : t({ id: 'home.premium.trips.noDates', message: 'No dates yet' }))}
+      </Text>
       <View style={styles.bar}>
         <View style={{ width: `${percent}%`, height: 5, backgroundColor: fill }} />
       </View>

@@ -1,7 +1,9 @@
-import { describe, expect, it } from '@jest/globals';
+import { afterEach, describe, expect, it } from '@jest/globals';
+
+import { DEFAULT_FORMATS, setFormats } from '@/lib/i18n/formats';
 
 import { toWalletBooking } from '../data/model';
-import { LAB_BOOKINGS, LAB_FLIGHT, LAB_SEGMENTS, LAB_UID } from '../dev/lab-fixtures';
+import { LAB_BOOKINGS, LAB_FLIGHT, LAB_SEGMENTS, LAB_UID } from '../test-support/lab-fixtures';
 import {
   draftOf,
   emptyDraft,
@@ -16,6 +18,8 @@ import {
 const BALI = 'Asia/Makassar';
 
 describe('booking form times', () => {
+  afterEach(() => setFormats(DEFAULT_FORMATS));
+
   it('reads the wall clock in the booking zone, across a daylight-saving change', () => {
     expect(zonedIso('2026-10-12', '09:05', BALI)).toBe('2026-10-12T09:05:00+08:00');
     expect(zonedIso('2026-03-29', '10:00', 'Europe/Berlin')).toBe('2026-03-29T10:00:00+02:00');
@@ -23,6 +27,13 @@ describe('booking form times', () => {
     expect(zonedIso('2026-02-30', '10:00', BALI)).toBeNull();
     expect(zonedIso('12/10/2026', '10:00', BALI)).toBeNull();
     expect(wallOf('2026-10-12T01:05:00Z', BALI)).toEqual({ date: '2026-10-12', time: '09:05' });
+  });
+
+  it('reads an afternoon time right when the person chose the 12-hour clock', () => {
+    setFormats({ time: '12h', distance: 'km' });
+    expect(zonedIso('2026-10-12', '15:30', BALI)).toBe('2026-10-12T15:30:00+08:00');
+    expect(zoneName('Asia/Ho_Chi_Minh', Date.parse('2026-10-02T09:00:00Z')).offset).toBe('GMT+7');
+    expect(wallOf('2026-10-12T07:30:00Z', BALI)).toEqual({ date: '2026-10-12', time: '15:30' });
   });
 
   it('names the zone the form reads its times in', () => {

@@ -9,7 +9,7 @@ import { t } from '@lingui/core/macro';
 import type { SavedDay } from '../bundle/bundle-manager';
 import type { DayItemRow } from '../hub/data/queries';
 import { clockIn } from '../leave-by/model';
-import type { StillWorksLine } from './still-works-list';
+import type { StillWorksLine } from './view-types';
 
 export function stillWorksLines(input: {
   readonly day: SavedDay | null;
@@ -26,11 +26,11 @@ export function stillWorksLines(input: {
       key: 'plan',
       text:
         title === ''
-          ? t({ id: 'trip.offline.plan', message: "Today's plan" })
-          : t({ id: 'trip.offline.planFirst', message: `Today's plan and the ${time} ${title}` }),
+          ? t({ id: 'trip.offline.plan', message: 'Today’s plan' })
+          : t({ id: 'trip.offline.planFirst', message: `Today’s plan and the ${time} ${title}` }),
     });
   } else {
-    lines.push({ key: 'plan', text: t({ id: 'trip.offline.plan', message: "Today's plan" }) });
+    lines.push({ key: 'plan', text: t({ id: 'trip.offline.plan', message: 'Today’s plan' }) });
   }
   if (day === null) return lines;
   for (const asset of day.assets) {

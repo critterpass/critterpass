@@ -12,6 +12,7 @@ const SCREENS = {
   check: '/[tripId]/drivers/check',
   compare: '/[tripId]/drivers/compare',
   pick: '/[tripId]/drivers/pick',
+  share: '/[tripId]/drivers/share',
   tours: '/[tripId]/drivers/tours',
 } as const;
 

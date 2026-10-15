@@ -11,7 +11,7 @@ import {
   type TimelineEntryData,
 } from '../day-of-data';
 import { ringCounting } from '../day-of-copy';
-import { AT_0248, baturLeaveBy } from '../dev/bali-day';
+import { AT_0248, baturLeaveBy } from '../test-support/bali-day';
 
 function stop(time: string, title: string): TimelineEntryData {
   return {

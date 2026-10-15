@@ -1,0 +1,70 @@
+appId: app.critterpass.dev
+---
+# The fast capture: opens ${ROUTE} (an in-app route, `paywall/compare`) by its link, waits until
+# the app's QA marker reads settled on that route (or, when ${READY} is set, until that element
+# shows: an iOS sheet leaves the marker on the page under it), and shoots it as
+# `premium-${CODE}-${NAME}-${LOOK}`. A few seconds a screen, where tapping there from Home costs a
+# minute: for screens whose state the seed sets, not for journeys. ${SHEET} true means the screen
+# was opened over Home: after the shot the app is back on Home with nothing over it
+# (close-to-home.yaml), so the next sheet never opens inside a stale one. A screen that never
+# showed is still shot (its screenshot shows what came up instead) and named in
+# ${output.captureMissing}, which capture-done.yaml fails the flow on once every capture ran.
+- evalScript: "${output.captureMissing = output.captureMissing || ''}"
+- openLink:
+    link: critterpass-dev://${ROUTE}
+- runFlow:
+    when:
+      true: ${typeof READY !== 'undefined' && READY !== ''}
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: '${READY}'
+          timeout: 25000
+          optional: true
+      - runFlow:
+          when:
+            notVisible:
+              id: '${READY}'
+          commands:
+            - evalScript: "${output.captureMissing = output.captureMissing + ' ' + CODE + '-' + NAME}"
+      - runFlow: ../../_shared/settle.yaml
+- runFlow:
+    when:
+      true: ${typeof READY === 'undefined' || READY === ''}
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'qa-settled'
+            text: '.*path:/${ROUTE}'
+          timeout: 12000
+          optional: true
+      # Reached but still busy (a map's tiles, a caret) is not missing: only another route is.
+      - runFlow:
+          when:
+            notVisible:
+              id: 'qa-(settled|busy)'
+              text: '.*path:/${ROUTE}'
+          commands:
+            - evalScript: "${output.captureMissing = output.captureMissing + ' ' + CODE + '-' + NAME}"
+# A trip that is on asks once, over whatever shows, to remember the places visited; the marker
+# still reads the page under it. Turned down before the shot: a check that costs nothing while it
+# isn't up (a `when: visible` on a missing element waits seven seconds).
+- evalScript: ${output.consentUp = true}
+- runFlow:
+    when:
+      notVisible:
+        id: 'visit-consent-decline'
+    commands:
+      - evalScript: ${output.consentUp = false}
+- runFlow:
+    when:
+      true: ${output.consentUp}
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - runFlow: ../../_shared/settle.yaml
+- takeScreenshot: premium-${CODE}-${NAME}-${LOOK}
+- runFlow:
+    when:
+      true: ${typeof SHEET !== 'undefined' && SHEET === 'true'}
+    file: close-to-home.yaml

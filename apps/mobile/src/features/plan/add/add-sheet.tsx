@@ -1,5 +1,5 @@
 /**
- * Add to plan (7f-1, 4.39), one sheet for every add, in either look: the day it was opened from (or
+ * Add to plan (7f-1, 4.39), one sheet for every add: the day it was opened from (or
  * Tokek's), a fit dot on every day; another day or time moves the block and redoes the reasons. An
  * organiser's ADD goes into the plan, a member's is sent to the crew, with UNDO. No day fits: it
  * saves to Ideas; a place in the plan is only moved. Offline it adds from the last fit.
@@ -20,7 +20,6 @@ import { impact } from '@/motion/feedback';
 
 import { tripPlanRoutes } from '../hub/routes';
 import { usePlanGuide } from '../plan-guide';
-import { AddBlock } from './add-block';
 import { addSubmission } from './add-submit';
 import { whyTiles, type WhyInput } from './add-kind-copy';
 import { openStartOn, settleAdd, useStartOf } from './add-into-day';
@@ -42,9 +41,9 @@ import {
   pickTime,
   shownDayFit,
   type AddChoice,
+  toggledOut,
 } from './add-model';
-import { AddSheetView } from './add-sheet-view';
-import type { AddSheetLook, AddSheetProps } from './add-look';
+import type { AddSheetProps } from './add-look';
 import { isWhereItIs } from './placed-stop';
 import { sheetWords, voteNote } from './add-states-copy';
 import { otherDay, otherDayLabel, otherDayPick } from './better-day';
@@ -56,14 +55,11 @@ import { organiserName } from '../ideas/use-ideas-plan';
 import { useAddDays } from './use-add-days';
 import { useAddSubject } from './use-add-subject';
 import { useSaveToIdeas } from './use-save-to-ideas';
-import { toggledOut, WhoGoing } from './who-going';
 
 const WAITING_TIME = '··:··';
 
-const CURRENT_LOOK: AddSheetLook = { View: AddSheetView, Block: AddBlock, Who: WhoGoing };
-
 export function AddSheet(props: AddSheetProps) {
-  const { tripId, placeId, preset: route, afterStableId, look = CURRENT_LOOK } = props;
+  const { tripId, placeId, preset: route, afterStableId, look } = props;
   const { View: SheetView, Block, Who } = look;
   // Opened by a link with nothing under it, the sheet closes onto the trip's plan.
   const close = () => goBackOr(tripPlanRoutes.hub(tripId));
@@ -233,7 +229,7 @@ export function AddSheet(props: AddSheetProps) {
 
   return (
     <SheetView
-      name={upper(subject?.name ?? '', locale)}
+      name={subject?.name ?? ''}
       line={words.line}
       days={chips(dayGrades(server.fit))}
       dayNo={nowhere ? null : (choice?.dayNo ?? null)}

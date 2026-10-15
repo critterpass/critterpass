@@ -1,67 +1,78 @@
 appId: app.critterpass.dev
 ---
 # Release gate: splitting an expense by share. A new account starts with the staging demo crew (a
-# Bali trip with four crewmates), types Rp 450.000 on the keypad and taps BY SHARE: the split
-# switches to it at the first tap, the keypad folds into CHANGE AMOUNT so every member row shows,
-# and two taps on + give the first crewmate three shares. ADD lands the expense in LATEST.
+# Bali trip with four crewmates), types Rp 450.000 on the keypad and picks By share: every member
+# row gets a stepper, and two taps on + give the first crewmate three shares. Adding it lands the
+# expense in Latest.
 - runFlow:
     file: ../_shared/start-as.yaml
     env:
       SCENARIO: caught_up
-- tapOn:
-    id: 'tab-wallet'
-- extendedWaitUntil:
-    visible:
-      id: 'money-balances'
-    timeout: 30000
-- tapOn:
-    id: 'money-empty'
-    optional: true
+- runFlow:
+    file: subflows/open-wallet.yaml
+    env:
+      HALF: money
+- runFlow:
+    when:
+      visible:
+        id: 'money-empty-add'
+    commands:
+      - tapOn:
+          id: 'money-empty-add'
 - runFlow:
     when:
       notVisible:
-        id: 'money-add-keypad'
+        id: 'money-keypad'
     commands:
-      - tapOn: 'ADD'
+      - runFlow:
+          file: ../_shared/tap.yaml
+          env:
+            ID: 'money-add'
+            LABEL: 'Add an expense'
 - extendedWaitUntil:
     visible:
-      id: 'money-add-keypad'
+      id: 'money-keypad'
     timeout: 10000
 - waitForAnimationToEnd
 - tapOn:
-    id: 'money-add-keypad-key-4'
+    id: 'money-key-4'
 - tapOn:
-    id: 'money-add-keypad-key-5'
+    id: 'money-key-5'
 - tapOn:
-    id: 'money-add-keypad-key-0'
+    id: 'money-key-0'
 - tapOn:
-    id: 'money-add-keypad-key-000'
-# One tap on BY SHARE switches the split: its member rows show and the keypad folds away.
-- tapOn: 'BY SHARE'
+    id: 'money-key-000'
+- tapOn:
+    id: 'money-add-mode-weights'
 - extendedWaitUntil:
     visible:
-      id: 'money-split-shares'
+      id: 'money-split-weight-.*'
     timeout: 5000
-- assertVisible:
-    id: 'money-add-keypad-open'
-- assertNotVisible:
-    id: 'money-add-keypad'
+# The second crewmate's shares: one, then up to three.
+- scrollUntilVisible:
+    element:
+      id: 'money-split-weight-.*-up'
+      index: 1
+    direction: DOWN
+    timeout: 10000
 - tapOn:
-    id: 'money-share-more-.*'
+    id: 'money-split-weight-.*-up'
     index: 1
 - tapOn:
-    id: 'money-share-more-.*'
+    id: 'money-split-weight-.*-up'
     index: 1
+# One member's stepper now reads three.
 - assertVisible:
-    id: 'money-share-count-.*'
-    text: '3'
+    id: 'money-split-weight-(?!.*-(up|down)$).*'
+    containsDescendants:
+      - text: '3'
 - waitForAnimationToEnd
-- takeScreenshot: by-share-selected
+- takeScreenshot: premium-7.18-by-share-light
 - tapOn:
     id: 'money-add-submit'
 - extendedWaitUntil:
     visible:
-      id: 'money-latest-row'
+      id: 'money-latest'
     timeout: 20000
 - waitForAnimationToEnd
-- takeScreenshot: by-share-added
+- takeScreenshot: premium-7.17-by-share-added-light

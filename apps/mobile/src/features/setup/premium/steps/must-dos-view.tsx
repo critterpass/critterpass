@@ -10,7 +10,7 @@ import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
 import { crewColour } from '@/features/vote';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   CrewStack,
@@ -24,7 +24,7 @@ import {
 } from '@/ui/premium';
 
 import { summaryLine } from '../../must-dos/lines';
-import type { MustDosViewProps } from '../../must-dos/must-dos-view';
+import type { MustDosViewProps } from '../../must-dos/must-dos-props';
 import { MustDoCard } from './must-do-card';
 import { ChecklistPill, StepHeadline, StepPage } from './step-parts';
 

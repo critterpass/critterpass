@@ -60,6 +60,9 @@ export function dateTime(locale: string, iso: string | null | undefined, tz?: st
   return format.date(locale, at, {
     dateStyle: 'medium',
     timeStyle: 'short',
+    // 24-hour unless the person chose 12 (their choice overrides the cycle).
+    hourCycle: 'h23',
+    ...clockOption(),
     ...(tz === undefined ? {} : { timeZone: tz }),
   });
 }

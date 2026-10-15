@@ -12,16 +12,8 @@ msgstr ""
 msgid "trip.hub.tile.planComingBy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
-msgid "trip.hub.going"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.saved"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
-msgid "trip.hub.inCrew"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
@@ -30,14 +22,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.dayTrips"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
-msgid "trip.hub.learningGuide"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
-msgid "trip.briefing.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
@@ -104,6 +88,10 @@ msgstr ""
 msgid "trip.hub.ticker.applied"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
+msgid "trip.hub.note.setup"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.drafted"
 msgstr ""
@@ -156,28 +144,12 @@ msgstr ""
 msgid "trip.menu.cancelConfirm"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
-msgid "trip.list.calledOff"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
-msgid "trip.hub.calledOff"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
-msgid "trip.list.cancelledGroup"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/hub/hub-disruptions.ts
 msgid "trip.hub.disruption.closure"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
 msgid "trip.hub.tile.planComing"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
-msgid "trip.list.booked"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-screen-rows.tsx
@@ -224,6 +196,10 @@ msgstr ""
 msgid "trip.hub.tile.settled"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
+msgid "trip.hub.note.plan"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.cancelTold"
 msgstr ""
@@ -248,24 +224,12 @@ msgstr ""
 msgid "trip.hub.disruption.flight"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
-msgid "trip.briefing.fromDate"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
-msgid "trip.list.emptyAction"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
-msgid "trip.list.home"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/hub/phase-line.ts
 msgid "trip.hub.homeSince"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
-msgid "trip.list.inProgress"
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.online"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/phase-line.ts
@@ -296,28 +260,12 @@ msgstr ""
 msgid "trip.hub.leavingIn"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
-msgid "trip.briefing.loading"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.money"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
-msgid "trip.list.unnamed"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.next"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
-msgid "trip.hub.offlineOpen"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
-msgid "trip.list.emptyTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
@@ -392,20 +340,8 @@ msgstr ""
 msgid "trip.hub.packTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
-msgid "trip.list.pastGroup"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
-msgid "trip.list.emptyLine"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.plan"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
-msgid "trip.list.planning"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
@@ -414,10 +350,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-disruptions.ts
 msgid "trip.hub.disruption.late"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
-msgid "trip.hub.tile.online"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-links.ts
@@ -444,10 +376,6 @@ msgstr ""
 msgid "trip.hub.cta.setup"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
-msgid "trip.list.settingUp"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.sharePlan"
 msgstr ""
@@ -472,11 +400,6 @@ msgstr ""
 msgid "trip.hub.swipe"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
-#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
-msgid "trip.hub.switch"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/hub/phase-line.ts
 msgid "trip.hub.takeOff"
 msgstr ""
@@ -487,6 +410,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.cancelKept"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
+msgid "trip.hub.note.vote"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
@@ -537,21 +464,9 @@ msgstr ""
 msgid "trip.hub.ticker.status.voting"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
-msgid "trip.menu.cancelledNote"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
-msgid "trip.briefing.today"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 #: ../../apps/mobile/src/features/trip/hub/phase-line.ts
 msgid "trip.hub.today"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
-msgid "trip.briefing.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
@@ -564,10 +479,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.deleted"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
-msgid "trip.list.voting"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-links.ts
@@ -620,8 +531,4 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.recapDetail"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
-msgid "trip.list.title"
 msgstr ""

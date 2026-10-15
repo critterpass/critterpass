@@ -1,5 +1,6 @@
 /**
- * The premium chat's own cards (5.11): photos (one at its shape, more in a two-up grid, a caption
+ * The premium chat's own cards (5.11): photos (one at its shape held between 3:4 and 3:2, more in
+ * a two-up grid of at most four with "+N" on the last, a caption
  * under them, tap to open the viewer), a voice note (play, its waveform filling as it plays, the
  * time left and the speed), and the card for a kind this build does not know yet.
  */
@@ -13,15 +14,33 @@ import type { ChatMessage } from '../../../chat/data/rows';
 import { useChatMedia } from '../../../chat/media/media-services';
 import { useReadUrl } from '../../../chat/media/read-urls';
 import { useVoicePlayback } from '../../../chat/media/voice-playback';
-import { bars, clock } from '../../../chat/media/voice-message';
+import { bars, clock } from '../../../chat/media/voice-note';
 import { PremiumPhotoViewer } from './photo-viewer';
 
 const PHOTO_SHARE = 0.66;
 const GAP = 4;
+/** Photos past this many show as "+N" on the last tile; the viewer still has them all. */
+export const MAX_TILES = 4;
+
+/** A photo's shape on screen, held between portrait 3:4 and landscape 3:2. */
+export function clampRatio(ratio: number): number {
+  if (!Number.isFinite(ratio) || ratio <= 0) return 1;
+  return Math.min(1.5, Math.max(0.75, ratio));
+}
 
 const useStyles = makePremiumStyles((th) => ({
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: GAP },
   tile: { borderRadius: 18, overflow: 'hidden', backgroundColor: th.color.control },
+  more: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: th.color.scrim,
+  },
   voice: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -49,13 +68,17 @@ function Tile({
   ratio,
   width,
   onOpen,
+  more,
 }: {
   readonly mediaKey: string;
   readonly thumbKey: string | null;
   readonly ratio: number;
   readonly width: number;
   readonly onOpen: () => void;
+  /** Photos not drawn, said on this last tile. */
+  readonly more?: number;
 }) {
+  const th = usePremiumTheme();
   const styles = useStyles();
   const media = useChatMedia();
   const url = useReadUrl(media?.http ?? null, thumbKey ?? mediaKey);
@@ -67,6 +90,11 @@ function Tile({
       style={[styles.tile, { width, aspectRatio: ratio }]}
     >
       {url === null ? null : <Image source={{ uri: url }} style={{ flex: 1 }} resizeMode="cover" />}
+      {more === undefined || more <= 0 ? null : (
+        <View style={styles.more}>
+          <Text variant="title" color={th.color.onInkSurface}>{`+${more}`}</Text>
+        </View>
+      )}
     </PressableScale>
   );
 }
@@ -84,20 +112,22 @@ export function PhotoCard({
   const single = photos.length === 1;
   const width = Math.round(useWindowDimensions().width * PHOTO_SHARE);
   const tile = single ? width : Math.floor((width - GAP) / 2);
+  const shown = photos.slice(0, MAX_TILES);
   return (
     <View
       style={{ gap: 6, alignItems: mine ? 'flex-end' : 'flex-start' }}
       testID={`chat-photo-${message.id}`}
     >
       <View style={[styles.grid, { width }]}>
-        {photos.map((photo) => (
+        {shown.map((photo, index) => (
           <Tile
             key={photo.media_key}
             mediaKey={photo.media_key}
             thumbKey={photo.derived_key ?? null}
-            ratio={single && photo.w && photo.h ? photo.w / photo.h : 1}
+            ratio={single && photo.w && photo.h ? clampRatio(photo.w / photo.h) : 1}
             width={tile}
             onOpen={() => setOpen(photo.media_key)}
+            {...(index === shown.length - 1 ? { more: photos.length - shown.length } : {})}
           />
         ))}
       </View>
