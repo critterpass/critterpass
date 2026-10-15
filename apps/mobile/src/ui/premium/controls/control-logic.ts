@@ -35,6 +35,12 @@ export const SEGMENT_FIT_FLOOR = 0.8;
  */
 export const SEGMENT_EVEN_FLOOR = 0.9;
 
+/**
+ * The part of a segment's room a label may fill. Android sets a shrunk label a hair wider than its
+ * full-size width scaled, so a label that fills its share exactly wraps onto a second line.
+ */
+export const SEGMENT_FIT_ROOM = 0.97;
+
 export interface SegmentFit {
   /** Each segment's share of the track. */
   readonly weights: readonly number[];
@@ -63,12 +69,14 @@ export function fitSegments(input: {
   const frames = segmentFrames(width, trackPad, weights);
   const given = Math.min(
     1,
-    ...frames.map((frame, at) => Math.max(0, frame.width - pad * 2) / (labels[at] ?? 1)),
+    ...frames.map(
+      (frame, at) => (Math.max(0, frame.width - pad * 2) * SEGMENT_FIT_ROOM) / (labels[at] ?? 1),
+    ),
   );
   if (given >= SEGMENT_EVEN_FLOOR) return { weights, scale: given };
   const inner = Math.max(0, width - trackPad * 2 - pad * 2 * labels.length);
   const total = labels.reduce((sum, n) => sum + n, 0);
-  const scale = Math.max(SEGMENT_FIT_FLOOR, Math.min(1, inner / total));
+  const scale = Math.max(SEGMENT_FIT_FLOOR, Math.min(1, (inner * SEGMENT_FIT_ROOM) / total));
   return { weights: labels.map((n) => n * scale + pad * 2), scale };
 }
 

@@ -4,6 +4,7 @@ import {
   fitSegments,
   progressFraction,
   SEGMENT_FIT_FLOOR,
+  SEGMENT_FIT_ROOM,
   segmentFrames,
   stepperCan,
   stepValue,
@@ -75,10 +76,10 @@ describe('fitSegments', () => {
   });
 
   it('shrinks every label alike when one is a little too long for its share', () => {
-    // 110 inner per segment, 98 for a label: 110 / 105 ≈ 0.93.
-    const fit = fitSegments({ ...base, weights: [1, 1, 1], natural: [40, 105, 50] });
+    // 110 inner per segment, 98 for a label and a little to spare: 95.06 / 102 ≈ 0.93.
+    const fit = fitSegments({ ...base, weights: [1, 1, 1], natural: [40, 102, 50] });
     expect(fit.weights).toEqual([1, 1, 1]);
-    expect(fit.scale).toBeCloseTo(98 / 105, 5);
+    expect(fit.scale).toBeCloseTo((98 * SEGMENT_FIT_ROOM) / 102, 5);
   });
 
   it('sizes the segments to their labels when shrinking alone would go too small', () => {
