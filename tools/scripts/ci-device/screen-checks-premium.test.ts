@@ -73,6 +73,12 @@ describe('screen checks on the premium UI', { timeout: 60_000 }, () => {
     expect(findFrame(framed, options)?.code).toBe('SCREEN_FRAME');
   });
 
+  it('reads the dark card as a premium card, not the current UI ground it sits close to', () => {
+    // The swipe deck building: one tall dark card fills the screen inside the dark ground's gutters.
+    const options = { background: BG, premiumGrounds: premiumGrounds() };
+    expect(findFrame(load('deck-building-dark'), options)).toBeNull();
+  });
+
   it('leaves a light pass on the dark page, and still flags a dark band around the light page', () => {
     const options = { background: BG, premiumGrounds: premiumGrounds() };
     const [light, dark] = premiumGrounds();

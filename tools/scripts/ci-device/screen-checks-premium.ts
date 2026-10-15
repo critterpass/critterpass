@@ -90,8 +90,11 @@ export function screenGrounds(
   const byMiddle = exactly(middle);
   if (byMiddle !== undefined) return byMiddle;
   const across = rows.flatMap((y) => rowSamples(image, y, 0, 1, 60));
+  // A premium card is no current-UI ground, however close (the dark card sits within reach of it).
   const current = across.filter(
-    (colour) => colourDistance(colour, options.background) <= LIMITS.sameColour,
+    (colour) =>
+      colourDistance(colour, options.background) <= LIMITS.sameColour &&
+      exactly(colour) === undefined,
   );
   if (current.length > across.length * CURRENT_GROUND_SHARE) return [options.background];
   const sides = commonest(
