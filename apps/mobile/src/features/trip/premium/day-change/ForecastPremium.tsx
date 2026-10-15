@@ -33,6 +33,7 @@ import type { ForecastViewProps } from '../../disruptions/forecast/view-types';
 import { standoutDay, type WatchEntry } from '../../disruptions/forecast/model';
 import { useForecastScreen } from '../../disruptions/forecast/use-forecast-screen';
 import { LineIcon } from '../components/LineIcon';
+import { NoteCard } from './forecast-note-card';
 
 /** A day's tile in the strip at its narrowest (6.06: six days across the screen). */
 const DAY_WIDTH = 56;
@@ -95,9 +96,9 @@ export function ForecastReady({ props }: { readonly props: ForecastViewProps }) 
         </Text>
       </View>
       {model.days.length === 0 ? (
-        <Text variant="body" tone="inkSecondary" testID="forecast-no-days">
+        <NoteCard icon="calendar" testID="forecast-no-days">
           {lines.noForecast}
-        </Text>
+        </NoteCard>
       ) : (
         <ScrollRow
           // Bleeds through the page's gutter, so a scrolled day runs to the screen's edge.
@@ -154,9 +155,9 @@ export function ForecastReady({ props }: { readonly props: ForecastViewProps }) 
         </Text>
       ) : null}
       {model.allClear ? (
-        <Text variant="body" tone="inkSecondary" testID="forecast-all-clear">
+        <NoteCard icon="shield" testID="forecast-all-clear">
           {lines.allClear}
-        </Text>
+        </NoteCard>
       ) : null}
       {model.watch.length === 0 ? null : (
         <View

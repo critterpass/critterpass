@@ -118,7 +118,14 @@ export function GettingAroundPremium(input: {
         />
         {p.header === null ? null : (
           <View style={[styles.pill, { backgroundColor: th.color.inkSurface }]}>
-            <Text variant="pillSmall" color={th.color.onInkSurface} numberOfLines={1}>
+            {/* A route between two long names takes a second line rather than losing its end. */}
+            <Text
+              variant="pillSmall"
+              color={th.color.onInkSurface}
+              numberOfLines={2}
+              singleLine={false}
+              style={styles.pillText}
+            >
               {p.header}
             </Text>
           </View>
@@ -225,12 +232,14 @@ const styles = StyleSheet.create({
   },
   pill: {
     flex: 1,
-    height: 34,
+    minHeight: 34,
     borderRadius: 12,
     paddingHorizontal: 14,
+    paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  pillText: { textAlign: 'center' },
   spacer: { width: 44 },
   sheet: {
     flex: 1,
