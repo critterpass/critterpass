@@ -188,7 +188,7 @@ export function buildQuestsModel(input: QuestsInput): QuestsModel {
       );
       return {
         id: row.id,
-        title: readableTitle(text(row, 'title') ?? row.title),
+        title: readableTitle(text(row, 'title') ?? row.title, text(row, 'body') ?? row.body),
         body: text(row, 'body') ?? row.body,
         colour: COLOURS[index % COLOURS.length] ?? 'yellow',
         icon: iconOf(row, reward),
