@@ -111,8 +111,7 @@ export function PushScreen({
   const control = leading === 'auto' ? leadingControlFor(placement) : leading;
   // A crumb page draws its glass back with the crumb beside it on both platforms.
   const drawnBar = !ios || largeTitle || crumb;
-  // The native bar has its own back only for a page pushed on its own stack; the first screen of
-  // a pushed group, or of a sheet or modal, gets the shell's control instead.
+  // The native back only on a page pushed on its own stack; else the shell's control.
   const nativeBack =
     !drawnBar &&
     !headerless &&
@@ -125,12 +124,10 @@ export function PushScreen({
   // The native back or toolbar ✕ is the way back; a drawn back or ✕ registers itself.
   useBackAffordance(!headerless && !drawnBar && (nativeBack || drawnControl !== null));
 
-  // Under the transparent native bar (iOS) the page keeps the status bar and the bar clear itself
-  // (the system's own inset is lost on a scroll view its controller doesn't track).
+  // Under the transparent native bar (iOS) the page keeps the status bar and the bar clear itself.
   const underNativeBar = !drawnBar && !headerless;
   const barGround = insets.top + NATIVE_BAR_HEIGHT;
-  // A page with its own scroll view under the native bar reports its edges; that view keeps the
-  // system's inset, so it rests at minus the bar's height.
+  // An own scroll view under the native bar keeps the system's inset: it rests at minus the bar.
   const ownScroll = !scroll && underNativeBar;
   const edges = useScrollEdges(ownScroll ? { topAfter: -barGround } : {});
   const options = usePushScreenOptions(underNativeBar, {
@@ -172,9 +169,8 @@ export function PushScreen({
     scroll && footed ? (
       <ScrollEdgeFade edge="bottom" height={SCROLL_EDGE_FADE} visible={edges.bottom} />
     ) : null;
-  // Under a drawn bar the content fades into the ground as it scrolls up under it; under the
-  // transparent native bar (iOS) the status bar and the bar get the ground (solid), then a short
-  // fade. A headerless page's hero runs to the top.
+  // Content fades into the ground under a drawn bar; under the native bar (iOS) the status bar
+  // and the bar get a solid ground, then a short fade. A headerless page's hero runs to the top.
   const topFade = headerless ? null : (
     <ScrollEdgeFade
       edge="top"
@@ -194,8 +190,7 @@ export function PushScreen({
     );
   const trailing = actions.length > 0 ? <DrawnHeaderActions actions={actions} /> : null;
 
-  // One shape for every kind of bar, so a page that turns into a crumb page (its body reports a
-  // large title) keeps its body mounted: only the bar in front of it changes.
+  // One shape for every bar: a page turning into a crumb page keeps its body mounted.
   let bar: ReactNode;
   if (headerless) bar = null;
   else if (largeTitle || crumb) {
@@ -296,6 +291,7 @@ const styles = StyleSheet.create({
   body: { flex: 1 },
   floating: {
     position: 'absolute',
+    zIndex: BAR_OVER_EDGE,
     left: 0,
     right: 0,
     flexDirection: 'row',
