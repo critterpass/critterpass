@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { qaToastHold, qaZoomMs, readCaptureHoldLink } from '../capture-hold';
+import { qaToastHold, qaZoomMs, qaZoomPending, readCaptureHoldLink } from '../capture-hold';
 
 describe('capture holds', () => {
   it('keeps toasts up for the link’s hold, and only for two minutes after it', () => {
@@ -17,6 +17,15 @@ describe('capture holds', () => {
     readCaptureHoldLink('critterpass-dev://trips?qaZoomMs=12000', 0);
     expect(qaZoomMs(560, 10, true)).toBe(12000);
     expect(qaZoomMs(560, 20, true)).toBe(560);
+  });
+
+  it('asks for the next zoom even under reduced motion until it runs or the window ends', () => {
+    readCaptureHoldLink('critterpass-dev://?qaZoomMs=12000', 0);
+    expect(qaZoomPending(10, true)).toBe(true);
+    expect(qaZoomPending(10, false)).toBe(false);
+    expect(qaZoomPending(200_000, true)).toBe(false);
+    qaZoomMs(560, 20, true);
+    expect(qaZoomPending(30, true)).toBe(false);
   });
 
   it('ignores links without a hold, and never applies outside QA builds', () => {

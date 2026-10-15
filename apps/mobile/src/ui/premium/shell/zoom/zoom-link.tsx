@@ -12,6 +12,7 @@ import { Platform, Pressable, View, type StyleProp, type ViewStyle } from 'react
 
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
+import { qaZoomPending } from '@/lib/qa/capture-hold';
 import { SharedTarget } from '@/ui/premium/shell/zoom/shared-grow';
 import { useSharedSource, zoomTo } from '@/ui/premium/shell/zoom/use-shared-source';
 
@@ -86,7 +87,7 @@ function AndroidZoomLink({
       collapsable={false}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
-      onPress={() => void zoomTo(zoomId, href, { reduced })}
+      onPress={() => void zoomTo(zoomId, href, { reduced: reduced && !qaZoomPending() })}
       style={style}
       {...(testID === undefined ? {} : { testID })}
     >
