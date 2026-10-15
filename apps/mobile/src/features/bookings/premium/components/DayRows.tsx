@@ -6,6 +6,8 @@
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 
+import { usePremiumTheme } from '@/ui/premium';
+
 import { ChoiceRow } from './ChoiceRow';
 import { FormRow, PickRow } from './FormRows';
 import { tripDayLabel } from './form-helpers';
@@ -21,6 +23,7 @@ export function DayRows(props: {
   readonly onDate: (date: string) => void;
 }) {
   const { t } = useLingui();
+  const th = usePremiumTheme();
   const [picking, setPicking] = useState(false);
   const [typing, setTyping] = useState(false);
   const { date, tripDays } = props;
@@ -59,6 +62,7 @@ export function DayRows(props: {
       <ChoiceRow<string>
         key="days"
         inset={0}
+        fadeInto={th.color.card}
         choices={[
           ...tripDays.map((day) => ({ value: day, label: tripDayLabel(props.locale, day) })),
           { value: OTHER, label: t({ id: 'bookings.premium.anotherDay', message: 'Another day' }) },
