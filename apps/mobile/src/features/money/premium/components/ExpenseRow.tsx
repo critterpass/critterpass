@@ -1,5 +1,5 @@
 /**
- * One expense in a premium list (7.17 "Latest", 7.23): the category tile, what it was and who paid
+ * One expense in a premium list (7.17 "Latest", 7.23): the category sticker, what it was and who paid
  * (with anyone left out), and the amount in the crew currency. A queued change reads as waiting; a
  * queued delete strikes the amount through.
  */
@@ -73,7 +73,8 @@ export const ExpenseRow = memo(function ExpenseRow({
           },
         ]}
       >
-        <StickerIcon name={look.icon} size={46} tile={look.bg} />
+        {/* The bare category sticker, as the design draws the list (no tile behind it). */}
+        <StickerIcon name={look.icon} size={40} tilt={-6} />
         <View style={styles.body}>
           <Text variant="rowTitle" numberOfLines={2}>
             {title}
