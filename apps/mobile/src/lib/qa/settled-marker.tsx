@@ -1,8 +1,9 @@
 import { usePathname } from 'expo-router';
 import { useEffect, useSyncExternalStore } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Linking, StyleSheet, View } from 'react-native';
 
 import { isLayoutSettled, subscribeLayoutSettled } from './layout-settled';
+import { readQaToastHoldLink } from './toast-hold';
 import { announceQaBuild, qaBuildLabel, UI_QA_ENABLED } from './ui-qa';
 
 /**
@@ -19,6 +20,12 @@ export function QaSettledMarker() {
   const settled = useSyncExternalStore(subscribeLayoutSettled, isLayoutSettled, isLayoutSettled);
   useEffect(() => {
     announceQaBuild();
+  }, []);
+  // Capture links can ask for toasts that stay up long enough to be shot (./toast-hold).
+  useEffect(() => {
+    if (!UI_QA_ENABLED) return undefined;
+    const subscription = Linking.addEventListener('url', ({ url }) => readQaToastHoldLink(url));
+    return () => subscription.remove();
   }, []);
   if (!UI_QA_ENABLED) return null;
   return (

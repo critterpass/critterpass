@@ -17,6 +17,12 @@ appId: app.critterpass.dev
       NAME: balances
       LOOK: ${LOOK}
 # Add an expense: 250,000 on the pad; in light it is saved (a test coffee), in dark closed unsaved.
+# The link asks the app to keep the next toasts up for 15 s, so the saved toast is still there
+# after the tap (apps/mobile/src/lib/qa/toast-hold).
+- runFlow:
+    file: ../../_shared/open-link.yaml
+    env:
+      URL: critterpass-dev://wallet/money?qaToastHold=15000
 - runFlow:
     file: ../../_shared/tap.yaml
     env:
@@ -62,8 +68,7 @@ appId: app.critterpass.dev
                   LOOK: ${LOOK}
             - hideKeyboard:
                 optional: true
-            # The toast lasts four seconds: the tap neither waits for the screen to settle nor
-            # takes Maestro's before-tap screenshot (seconds a frame on a runner without a GPU).
+            # The tap waits as little as it can; the toast is held for the shot, then tapped away.
             - tapOn:
                 id: 'money-add-submit'
                 optional: true
@@ -75,6 +80,9 @@ appId: app.critterpass.dev
                 timeout: 5000
                 optional: true
             - takeScreenshot: premium-1.03-expense-toast-${LOOK}
+            - tapOn:
+                id: 'island-toast-pill'
+                optional: true
       - runFlow:
           when:
             visible:
