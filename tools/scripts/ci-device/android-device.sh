@@ -36,6 +36,22 @@ device settings put global verifier_verify_adb_installs 0
 device settings put global package_verifier_enable 0
 device settings put secure immersive_mode_confirmations confirmed
 device input keyevent 82
+# A still status bar for the screenshots, as the designs draw it: demo mode holds the clock at
+# 09:41 with full signal and battery and no notification icons, and the privacy indicators are off.
+# Whole flows otherwise came out with the clock and icons cut in half (the bar caught mid-way
+# through one of its own animations on a software-rendered emulator).
+demo() { device am broadcast -a com.android.systemui.demo -e command "$@" >/dev/null 2>&1 || true; }
+still_status_bar() {
+  device device_config put privacy location_indicators_enabled false >/dev/null 2>&1 || true
+  device device_config put privacy camera_mic_icons_enabled false >/dev/null 2>&1 || true
+  device settings put global sysui_demo_allowed 1 || true
+  demo enter
+  demo clock -e hhmm 0941
+  demo network -e wifi show -e level 4 -e mobile show -e datatype none -e level 4
+  demo battery -e level 100 -e plugged false
+  demo notifications -e visible false
+}
+still_status_bar
 device cmd uimode night "$([ "${APPEARANCE:-light}" = dark ] && echo yes || echo no)"
 
 # The emulator must resolve and reach the api before anything else is worth doing: without it every
@@ -57,6 +73,7 @@ if ! preflight; then
   done
   device svc power stayon true
   device input keyevent 82
+  still_status_bar
   preflight
 fi
 
