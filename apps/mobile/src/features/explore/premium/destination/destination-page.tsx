@@ -1,12 +1,12 @@
 /**
- * A destination's guide page (4.04): the hero in the guide's colour with clear-glass back and ♥,
+ * A destination's guide page (4.04): the hero in the guide’s colour with light glass back and ♥,
  * "Guide: Pon", the name, the guide's tagline and the guide waving; the year's crowds and the best
  * month (a month taps open its prices); the guide’s first-timer picks; the crews' plans; and the
  * foot: Pitch to the crew (or pick a crew) and Plan it solo (4.07). States and words come from
  * the destination screen's container.
  */
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -38,6 +38,20 @@ const GUIDE_TILT = '-6deg';
 
 /** The dock: the 56 pt button, a 4 pt gap and the 44 pt text button under it. */
 const DOCK_HEIGHT = 104;
+/* eslint-disable lingui/no-unlocalized-strings -- style values, never copy. */
+const styles = StyleSheet.create({
+  heroDots: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    experimental_backgroundImage:
+      'radial-gradient(circle, rgba(26,20,48,0.09) 1.2px, transparent 1.7px)',
+    experimental_backgroundSize: '12px 12px',
+  },
+});
+/* eslint-enable lingui/no-unlocalized-strings */
 export function PremiumDestinationView(props: DestinationViewProps) {
   const theme = usePremiumTheme();
   const insets = useSafeAreaInsets();
@@ -63,6 +77,8 @@ export function PremiumDestinationView(props: DestinationViewProps) {
             overflow: 'hidden',
           }}
         >
+          {/* The drawn hero's fine dot grid over the guide's colour. */}
+          <View pointerEvents="none" style={styles.heroDots} />
           <Text variant="badge" color={theme.color.onAccent}>
             {t({
               id: 'explore.premium.dest.guide',
@@ -234,7 +250,7 @@ export function PremiumDestinationView(props: DestinationViewProps) {
       >
         <GlassIconButton
           icon="back"
-          kind="clear"
+          kind="nav"
           label={hero.backLabel}
           onPress={hero.onBack}
           testID="explore-back"
@@ -242,7 +258,7 @@ export function PremiumDestinationView(props: DestinationViewProps) {
         {hero.onToggleSave === undefined ? null : (
           <GlassIconButton
             icon="heart"
-            kind="clear"
+            kind="nav"
             label={
               hero.saved === true
                 ? t({ id: 'explore.premium.dest.saved', message: 'Saved. Tap to remove' })
