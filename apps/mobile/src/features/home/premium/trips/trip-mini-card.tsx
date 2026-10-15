@@ -1,5 +1,5 @@
 /**
- * A trip ahead (3.05 "Coming up"): 142 high, r26 card, the guide on a tinted 96 disc at the top
+ * A trip ahead (3.05 "Coming up"): 166 high, r26 card, the guide on a tinted 90 disc at the top
  * corner, the place 19/700 with its dates, and a 5 pt progress bar with its stage word.
  */
 import { useLingui } from '@lingui/react/macro';
@@ -21,7 +21,8 @@ import { tripStage, type PremiumTripRow } from './trips-model';
 const useStyles = makePremiumStyles((t) => ({
   card: {
     flex: 1,
-    minHeight: 142,
+    // Tall enough that a long name ("Your next trip") sits under the guide's disc, not across it.
+    minHeight: 166,
     borderRadius: t.radius.cardLarge,
     backgroundColor: t.color.card,
     boxShadow: t.shadow.card,
@@ -32,11 +33,11 @@ const useStyles = makePremiumStyles((t) => ({
   },
   disc: {
     position: 'absolute',
-    top: -8,
-    end: -10,
-    width: 96,
-    height: 96,
-    borderRadius: 48,
+    top: -14,
+    end: -12,
+    width: 90,
+    height: 90,
+    borderRadius: 45,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -93,7 +94,7 @@ export function TripMiniCard({ trip, index, onPress }: TripMiniCardProps) {
           kind={guide.kind}
           name={guide.name}
           seed={guide.seed}
-          size={74}
+          size={70}
           pose="wave"
         />
       </View>
