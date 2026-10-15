@@ -8,9 +8,9 @@ appId: app.critterpass.dev
     id: 'dev-seed-live-map-open'
 - runFlow:
     when:
-      visible: '(?i)while using the app|only this time|allow'
+      visible: '(?i)while using the.app|only this.time|allow'
     commands:
-      - tapOn: '(?i)while using the app|only this time|allow'
+      - tapOn: '(?i)while using the.app|only this.time|allow'
 - extendedWaitUntil:
     visible:
       id: 'live-map-screen'
@@ -24,7 +24,7 @@ appId: app.critterpass.dev
 # The map's pins are drawn by the map view and are not in Android's hierarchy, so the crew is read
 # from the panel under it: Maya and Rin walk together and share one row, and the meet-up is set.
 - extendedWaitUntil:
-    visible: '(?i)maya and rin'
+    visible: '(?i)maya and.rin'
     timeout: 60000
 - takeScreenshot: live-map-crew-gliding
 - extendedWaitUntil:

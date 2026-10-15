@@ -85,7 +85,7 @@ appId: app.critterpass.dev
     id: 'chat-send'
 - extendedWaitUntil:
     visible:
-      text: '.*see you friday.*'
+      text: '.*see you.friday.*'
     timeout: 10000
 - hideKeyboard
 - takeScreenshot: premium-5.01-fresh-crew-${LANG}
@@ -94,9 +94,9 @@ appId: app.critterpass.dev
     id: 'chat-mic'
 - runFlow:
     when:
-      visible: 'Allow|OK|While using the app|Only this time'
+      visible: 'Allow|OK|While using the.app|Only this.time'
     commands:
-      - tapOn: 'Allow|OK|While using the app|Only this time'
+      - tapOn: 'Allow|OK|While using the.app|Only this.time'
 - extendedWaitUntil:
     visible:
       id: 'chat-recorder'
@@ -117,6 +117,6 @@ appId: app.critterpass.dev
     id: 'chat-voice-play-.*'
     index: 0
 - extendedWaitUntil:
-    visible: 'Pause voice note|Dừng tin nhắn thoại'
+    visible: 'Pause voice.note|Dừng tin nhắn.thoại'
     timeout: 15000
 - takeScreenshot: premium-5.01-fresh-crew-voice-playing-${LANG}

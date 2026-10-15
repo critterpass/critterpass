@@ -24,7 +24,7 @@ appId: app.critterpass.dev
     timeout: 60000
 - assertVisible:
     id: 'inbox-screen'
-- assertNotVisible: '(?i)that didn.t load'
+- assertNotVisible: '(?i)that didn.t.load'
 - waitForAnimationToEnd
 - takeScreenshot: cold-entry-inbox
 - tapOn:

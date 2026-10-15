@@ -105,7 +105,7 @@ appId: app.critterpass.dev
 # Winston").
 - extendedWaitUntil:
     visible:
-      text: '(?i)fushimi inari at sunrise.*'
+      text: '(?i)fushimi inari at.sunrise.*'
     timeout: 15000
 # KEEP closes the sheet and its keyboard with it; hideKeyboard with no keyboard up is a back press on
 # Android, which would leave setup.

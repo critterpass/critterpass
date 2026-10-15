@@ -53,7 +53,7 @@ appId: app.critterpass.dev
             id: 'when-cta|when-pick-week'
           timeout: 60000
       - assertNotVisible:
-          text: '(?i)nobody has shared their days yet.*'
+          text: '(?i)nobody has shared their days.yet.*'
       # The best window offered may already be under way: the week is picked by hand instead.
       - runFlow: pick-week-three-out.yaml
 - extendedWaitUntil:
@@ -140,7 +140,7 @@ appId: app.critterpass.dev
 # Winston").
 - extendedWaitUntil:
     visible:
-      text: '(?i)fushimi inari at sunrise.*'
+      text: '(?i)fushimi inari at.sunrise.*'
     timeout: 15000
 # KEEP closes the sheet and its keyboard with it; hideKeyboard with no keyboard up is a back press on
 # Android, which would leave setup.

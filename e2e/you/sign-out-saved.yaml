@@ -67,7 +67,7 @@ appId: app.critterpass.dev
       id: 'home-crew-switcher'
     timeout: 90000
 - extendedWaitUntil:
-    visible: '(?i).*cp test sign-out.*'
+    visible: '(?i).*cp test.sign-out.*'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: en-sign-in-crew-back

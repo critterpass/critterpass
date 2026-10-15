@@ -39,7 +39,7 @@ appId: app.critterpass.dev
     timeout: 15000
 - assertVisible: 'COUNTDOWN'
 - assertVisible: 'THE VOTE'
-- assertVisible: 'Put the trip on your home screen. Tokek keeps them up to date, even offline.'
+- assertVisible: 'Put the trip on your home screen. Tokek keeps them up to date, even.offline.'
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-5c-5-widget-gallery
@@ -65,7 +65,7 @@ appId: app.critterpass.dev
       visible:
         id: 'widgets-how-to-step-1'
     commands:
-      - assertVisible: '2. Tap Widgets.'
+      - assertVisible: '2. Tap.Widgets.'
       - back
 - runFlow:
     when:
@@ -102,7 +102,7 @@ appId: app.critterpass.dev
       id: 'you-pings-always'
     direction: DOWN
     timeout: 15000
-- assertVisible: 'Leave-by alarms, SOS, flight changes and anything that costs money if you miss it.'
+- assertVisible: 'Leave-by alarms, SOS, flight changes and anything that costs money if you miss.it.'
 # The rows come from the phone: with the surfaces module on a fresh install there are at least the
 # alarm rows; with notifications off, or without the module, the note stands alone.
 - runFlow:

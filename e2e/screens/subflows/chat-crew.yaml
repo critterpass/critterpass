@@ -29,7 +29,7 @@ appId: app.critterpass.dev
                   LOOK: ${LOOK}
       # Long-press a crewmate's message: the lifted bubble, the reaction bar and the menu.
       - longPressOn:
-          text: '.*Uluwatu at sunset.*'
+          text: '.*Uluwatu at.sunset.*'
           optional: true
       - extendedWaitUntil:
           visible:
@@ -74,7 +74,7 @@ appId: app.critterpass.dev
             - runFlow:
                 when:
                   notVisible:
-                    text: '.*Sunset works for me.*'
+                    text: '.*Sunset works for.me.*'
                 commands:
                   - runFlow: ../../_shared/settle.yaml
                   - tapOn:

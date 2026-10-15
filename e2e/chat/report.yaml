@@ -11,13 +11,13 @@ appId: app.critterpass.dev
     visible:
       id: 'chat-report'
     timeout: 5000
-- tapOn: 'Bullying or harassment'
+- tapOn: 'Bullying or.harassment'
 # The switch, not its title: only the switch flips the row. The switch's accessibility text adds
 # its state to the title, which the plain title does not match.
 - tapOn:
-    text: 'Also mute Jordan.+'
+    text: 'Also mute.Jordan.+'
 - assertVisible:
-    text: 'Also mute Jordan.+'
+    text: 'Also mute.Jordan.+'
     checked: true
 - takeScreenshot: chat-report-sheet
 # Don't wait for the timeline to settle after the tap: the muted sender's rows animate out for
@@ -27,9 +27,9 @@ appId: app.critterpass.dev
     waitToSettleTimeoutMs: 500
 - extendedWaitUntil:
     visible:
-      text: '.*Thanks\. Our team will take a look\..*'
+      text: '.*Thanks\. Our team will take a.look\..*'
     timeout: 10000
 - extendedWaitUntil:
     notVisible:
-      text: 'Can we do Uluwatu at sunset on day two\?'
+      text: 'Can we do Uluwatu at sunset on day.two\?'
     timeout: 30000

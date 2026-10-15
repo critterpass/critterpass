@@ -21,7 +21,7 @@ appId: app.critterpass.dev
     visible:
       id: 'plan-link-gone'
     timeout: 30000
-- assertVisible: 'This plan is no longer shared'
+- assertVisible: 'This plan is no longer.shared'
 - waitForAnimationToEnd
 - takeScreenshot: link-plan-not-shared
 
@@ -73,7 +73,7 @@ appId: app.critterpass.dev
 - openLink: critterpass-dev://i/not-a-code
 # Home says why the link ended up here.
 - extendedWaitUntil:
-    visible: '(?i).*that link couldn.t be opened.*'
+    visible: '(?i).*that link couldn.t be.opened.*'
     timeout: 5000
 - takeScreenshot: link-unknown-opens-home
 - assertVisible:

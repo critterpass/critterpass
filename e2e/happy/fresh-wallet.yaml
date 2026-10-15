@@ -93,7 +93,7 @@ appId: app.critterpass.dev
       platform: iOS
     commands:
       - extendedWaitUntil:
-          visible: '(?i)(copied|forward any confirmation to that address\.)'
+          visible: '(?i)(copied|forward any confirmation to that.address\.)'
           timeout: 5000
 - takeScreenshot: premium-7.03-fresh-wallet-forward-address-light
 - runFlow:

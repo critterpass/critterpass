@@ -71,11 +71,11 @@ appId: app.critterpass.dev
     id: 'you-profile-settings'
 - scrollUntilVisible:
     element:
-      text: 'Language and currency.*'
+      text: 'Language and.currency.*'
     direction: DOWN
     timeout: 20000
 - tapOn:
-    text: 'Language and currency.*'
+    text: 'Language and.currency.*'
 - extendedWaitUntil:
     visible:
       id: 'you-currency'
@@ -101,7 +101,7 @@ appId: app.critterpass.dev
     id: 'you-currency-USD'
 - extendedWaitUntil:
     visible:
-      text: 'USD · chosen by you'
+      text: 'USD · chosen by.you'
     timeout: 10000
 - tapOn: 'BOTH'
 - waitForAnimationToEnd:

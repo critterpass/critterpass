@@ -53,7 +53,7 @@ appId: app.critterpass.dev
     timeout: 20000
 - extendedWaitUntil:
     visible:
-      text: '(?i).*settle in [0-9]+ taps?.*'
+      text: '(?i).*settle in [0-9]+.taps?.*'
     timeout: 30000
 - tapOn:
     id: 'money-settle'
@@ -103,5 +103,5 @@ appId: app.critterpass.dev
       MARK: 'money-settle-row-.*|money-settle-reward|money-settle-square'
 - extendedWaitUntil:
     visible:
-      text: '.*Paid ✓.*|.*Everyone is square.*'
+      text: '.*Paid ✓.*|.*Everyone is.square.*'
     timeout: 20000

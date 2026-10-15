@@ -23,5 +23,5 @@ onFlowComplete:
     notVisible:
       text: 'Sending'
     timeout: 60000
-- assertVisible: 'we made it'
+- assertVisible: 'we made.it'
 - takeScreenshot: chat-offline-delivered

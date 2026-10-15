@@ -106,6 +106,6 @@ appId: app.critterpass.dev
 # The guide writes the friend's version on staging's AI.
 - extendedWaitUntil:
     visible:
-      text: '(?i).*version is ready|.*wrote the group version.*'
+      text: '(?i).*version is.ready|.*wrote the group.version.*'
     timeout: 300000
 - takeScreenshot: premium-4.51-sent-light
