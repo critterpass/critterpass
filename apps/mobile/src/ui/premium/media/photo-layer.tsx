@@ -15,6 +15,7 @@ import { saveMediaFile, savedStillUri } from '@/lib/media/media-files';
 import { pickBySize, type MediaView } from '@/lib/media/variants';
 
 import { usePremiumReducedMotion } from '../motion/reduced-motion';
+import { NoPhoto, type NoPhotoProps } from './no-photo';
 import { Text } from '../text/Text';
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 
@@ -29,6 +30,8 @@ export interface PhotoLayerProps {
   readonly creditInset?: number;
   /** The side the credit starts from. @default 'end' */
   readonly creditAlign?: 'start' | 'end';
+  /** Drawn while there is no photo (`NoPhoto`): the place's colour, its doodle and a pattern. */
+  readonly placeholder?: NoPhotoProps;
   readonly testID?: string;
 }
 
@@ -44,6 +47,7 @@ export function PhotoLayer({
   creditAt = 'bottom',
   creditInset = 8,
   creditAlign = 'end',
+  placeholder,
   testID,
 }: PhotoLayerProps) {
   const th = usePremiumTheme();
@@ -64,7 +68,9 @@ export function PhotoLayer({
     if (media && still !== undefined && saved === null) void saveMediaFile(media.id, still.url);
   }, [media, still, saved]);
   const fade = useAnimatedStyle(() => ({ opacity: shown.get() }));
-  if (media === null || media === undefined) return null;
+  if (media === null || media === undefined) {
+    return placeholder === undefined ? null : <NoPhoto {...placeholder} />;
+  }
   const onLayout = (event: LayoutChangeEvent) => setWidth(event.nativeEvent.layout.width);
   return (
     <>

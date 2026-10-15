@@ -22,8 +22,11 @@ import { usePremiumTheme } from '../../theme/PremiumThemeProvider';
 import { edgeGradient, SCROLL_EDGE_FADE } from '../screens/scroll-edge';
 import { keyboardController, type KeyboardController } from './keyboard-library';
 
-/** The fade above a grounded footer, and how far its ground reaches past the keyboard's top. */
-const FOOTER_FADE = SCROLL_EDGE_FADE;
+/**
+ * The fade above a grounded footer, and how far its ground reaches past the keyboard's top. Longer
+ * than a scroll edge's: over the keyboard the window is short, and a shorter fade read as a cut.
+ */
+const FOOTER_FADE = SCROLL_EDGE_FADE + 16;
 const GROUND_OVERLAP = 4;
 
 export interface KeyboardStickyFooterProps {

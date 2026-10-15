@@ -59,22 +59,42 @@ export function HeaderBar({ leading, title, subtitle, trailing, testID }: Header
   );
 }
 
+/** A pill the design sets on the back's row ("Only you see this"), and where on it. */
+export interface BarBadge {
+  readonly node: ReactNode;
+  /** `end`: at the row's end (4.22); `centre`: centred on the screen (4.47). */
+  readonly align: 'end' | 'centre';
+}
+
 /**
  * A crumb page's bar (7.13, 6.19): the glass back, the page it returns to beside it in the muted
- * line ("Bookings"), the trailing action; the page's large title sits under it.
+ * line ("Bookings"), the trailing action; the page's large title sits under it. A page with a badge
+ * on that row (a private draft's lock pill) shows the badge there instead of the crumb.
  */
 export function CrumbBar({
   top,
   leading,
   crumb,
   trailing,
+  badge,
 }: {
   readonly top: number;
   readonly leading: ReactNode;
   readonly crumb: string | null;
   readonly trailing: ReactNode;
+  readonly badge?: BarBadge | undefined;
 }) {
   const t = usePremiumTheme();
+  let middle: ReactNode;
+  if (badge?.align === 'end') middle = <View style={[styles.grow, styles.end]}>{badge.node}</View>;
+  else if (badge !== undefined || crumb === null) middle = <View style={styles.grow} />;
+  else {
+    middle = (
+      <Text variant="rowText" tone="muted" numberOfLines={1} style={styles.grow}>
+        {crumb}
+      </Text>
+    );
+  }
   return (
     <View
       style={[
@@ -88,14 +108,13 @@ export function CrumbBar({
       ]}
     >
       {leading}
-      {crumb === null ? (
-        <View style={styles.grow} />
-      ) : (
-        <Text variant="rowText" tone="muted" numberOfLines={1} style={styles.grow}>
-          {crumb}
-        </Text>
-      )}
+      {middle}
       {trailing}
+      {badge?.align === 'centre' ? (
+        <View pointerEvents="box-none" style={styles.centred}>
+          {badge.node}
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -105,6 +124,8 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center' },
   // Equal sides keep the title centred whatever the two sides' widths.
   side: { flex: 1, flexDirection: 'row', alignItems: 'center' },
-  end: { justifyContent: 'flex-end' },
+  end: { flexDirection: 'row', justifyContent: 'flex-end' },
+  // Centred on the screen whatever the two sides hold.
+  centred: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center' },
   title: { alignItems: 'center', maxWidth: 240, flexShrink: 1 },
 });
