@@ -308,6 +308,10 @@ msgstr ""
 msgid "critters.dex.pending"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.checking"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/premium/encounter/live-scene.tsx
 msgid "critters.premium.encounter.close"
 msgstr ""

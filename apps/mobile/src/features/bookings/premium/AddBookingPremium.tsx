@@ -22,7 +22,6 @@ import {
   layoutTransition,
   ListCard,
   Row,
-  StickerIcon,
   Text,
   usePremiumReducedMotion,
   usePremiumTheme,
@@ -207,18 +206,19 @@ function Body({ add }: { readonly add: ReturnType<typeof useAddBooking> }) {
         }}
         testID="bookings-add-footnote"
       />
-      {/* The quieter ways in, as rows on one card: typing it in, and a code from the inbox. */}
+      {/* The quieter ways in, as rows on one card: typing it in (a pencil), and a code from the
+          inbox (the mail bubble Forward wears). */}
       <ListCard>
         <Row
           title={t({ id: 'bookings.add.byHand', message: 'Or type it in by hand' })}
-          leading={<StickerIcon name="check" size={30} tilt={-6} />}
+          leading={<Icon name="edit" size={22} color={th.color.ink} />}
           trailing={<Icon name="forward" size={16} color={th.color.muted} />}
           onPress={p.onTypeIn}
           testID="bookings-add-by-hand"
         />
         <Row
           title={t({ id: 'bookings.add.linkCode', message: 'Got a code? Link your email' })}
-          leading={<StickerIcon name="lock" size={30} tilt={6} />}
+          leading={<Icon name="chat" size={22} color={th.color.ink} />}
           trailing={<Icon name="forward" size={16} color={th.color.muted} />}
           onPress={p.onLinkCode}
           testID="bookings-add-link-code"

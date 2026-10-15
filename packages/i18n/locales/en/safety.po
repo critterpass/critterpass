@@ -204,10 +204,6 @@ msgstr "Crew can see you · {0}h"
 msgid "safety.help.disclaimer"
 msgstr "CritterPass tells your crew. For emergencies call {general}."
 
-#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
-msgid "safety.consent.done"
-msgstr "Done"
-
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.limitedLabel"
 msgstr "Emergency, from any mobile"
@@ -322,6 +318,10 @@ msgstr "Insurance details went to the clinic"
 #: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
 msgid "safety.help.insurer"
 msgstr "Insurance: {insurer} · the policy card is in Bookings"
+
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.consent.keepOff"
+msgstr "Keep it off"
 
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.consent.title"
@@ -472,6 +472,10 @@ msgstr "Share my location · 1 h"
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.denied"
 msgstr "Share needs location"
+
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.consent.share"
+msgstr "Share when I open Help"
 
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.consent.toggle"

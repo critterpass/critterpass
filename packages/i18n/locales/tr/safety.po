@@ -204,10 +204,6 @@ msgstr ""
 msgid "safety.help.disclaimer"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
-msgid "safety.consent.done"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.limitedLabel"
 msgstr ""
@@ -321,6 +317,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
 msgid "safety.help.insurer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.consent.keepOff"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
@@ -471,6 +471,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.denied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.consent.share"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx

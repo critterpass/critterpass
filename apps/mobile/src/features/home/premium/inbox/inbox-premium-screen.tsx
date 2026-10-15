@@ -193,6 +193,7 @@ function InboxContent({ title }: { readonly title: string }) {
               </Text>
             ) : (
               <EmptyState
+                check
                 title={t({ id: 'inbox.premium.caughtUp', message: 'All caught up' })}
                 line={t({
                   id: 'inbox.premium.caughtUpLine',

@@ -42,7 +42,7 @@ import {
   title,
   yourDates,
 } from '../../legendary/legendary-copy';
-import type { LegendaryItem } from '../../legendary/legendary-model';
+import { legendaryLines, type LegendaryItem } from '../../legendary/legendary-model';
 import { useLegendaryCalendar } from '../../legendary/use-legendary-calendar';
 import { PASS_TAB, whereRoute } from '../../routes';
 import { CritterSilhouette } from '../components/critter-silhouette';
@@ -180,7 +180,7 @@ function LegendRow({
   const locale = useLocale();
   const tile = dateTile(item, locale);
   const kind = item.critterKey === null ? 'gecko' : artKind(item.critterKey);
-  const name = item.name ?? item.placeLine;
+  const { title: name, line: placeLine } = legendaryLines(item);
   return (
     <PressableScale
       onPress={onPress}
@@ -207,8 +207,8 @@ function LegendRow({
         </Text>
         <Text variant="captionMuted" tone="muted" numberOfLines={2}>
           {item.copresence === null
-            ? item.placeLine
-            : `${item.placeLine} · ${hereCount(item.copresence.here, item.copresence.needed)}`}
+            ? placeLine
+            : `${placeLine} · ${hereCount(item.copresence.here, item.copresence.needed)}`}
         </Text>
       </View>
       {item.onYourDates && !item.found ? (

@@ -10,6 +10,7 @@ import { format } from '@cp/i18n';
 import { router } from 'expo-router';
 import { useEffect, type ComponentType, type ReactNode } from 'react';
 
+import { useOnline } from '@/data/places/server-name-search';
 import { clockOption } from '@/lib/i18n/formats';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
@@ -124,6 +125,7 @@ export function HatchScreen({
   useNoBackByDesign();
   const uid = useOwnerUid();
   const locale = useLocale();
+  const online = useOnline();
   const { rows, loaded } = useLiveRows<HatchRow>(
     HATCH_SQL,
     uid === null ? null : [uid, tripId],
@@ -183,6 +185,7 @@ export function HatchScreen({
       no={row.set_no === 0 ? null : row.set_no}
       setName={row.set_name ?? row.place ?? ''}
       pending={row.hatched_at === null || row.verification !== 'verified'}
+      offline={!online}
       onSayHi={sayHi === undefined ? null : () => router.replace(sayHi)}
       onLater={() => router.back()}
       onRevealed={() => {

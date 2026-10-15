@@ -69,6 +69,7 @@ export function NothingToSettle() {
     <View style={{ flexGrow: 1, paddingTop: th.space.gutter }}>
       <EmptyState
         fill
+        check
         title={t({ id: 'money.settle.nothingTitle', message: 'Nothing to settle' })}
         line={t({
           id: 'money.settle.nothing',

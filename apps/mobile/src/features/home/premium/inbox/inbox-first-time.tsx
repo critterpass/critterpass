@@ -29,13 +29,17 @@ const useStyles = makePremiumStyles((t) => ({
   bell: { alignSelf: 'center', marginTop: t.space.gap16 },
   words: { gap: 6, paddingHorizontal: t.space.gap8 },
   grow: { flex: 1 },
+  // Sits where the ask would: a soft green card at the foot, at the page's own margins.
   on: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6,
-    paddingBottom: t.space.gap16,
+    gap: t.space.gap12,
+    paddingVertical: t.space.gap14,
+    paddingHorizontal: t.space.gap16,
+    borderRadius: t.radius.cardRow,
+    backgroundColor: t.color.status.booked.bg,
   },
+  onWords: { flex: 1, gap: 2 },
 }));
 
 export function InboxFirstTime() {
@@ -109,13 +113,18 @@ export function InboxFirstTime() {
       {granted ? (
         // Already allowed: no ask, only the word that the phone will say when something lands.
         <View style={styles.on} testID="inbox-notifications-on">
-          <Icon name="bell" size={16} color={theme.color.status.booked.text} />
-          <Text variant="caption" color={theme.color.status.booked.text}>
-            {t({
-              id: 'inbox.premium.notificationsOn',
-              message: 'Notifications are on: your phone tells you when something lands.',
-            })}
-          </Text>
+          <Icon name="bell" size={20} color={theme.color.status.booked.text} />
+          <View style={styles.onWords}>
+            <Text variant="rowTextStrong" color={theme.color.status.booked.text}>
+              {t({ id: 'inbox.premium.notificationsOnTitle', message: 'Notifications are on' })}
+            </Text>
+            <Text variant="caption" color={theme.color.status.booked.text}>
+              {t({
+                id: 'inbox.premium.notificationsOnLine',
+                message: 'Your phone tells you when something lands.',
+              })}
+            </Text>
+          </View>
         </View>
       ) : (
         <View>

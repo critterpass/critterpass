@@ -12,7 +12,7 @@ import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 
 import { goBackOr } from '@/lib/navigation/back';
-import { Button, SegmentedControl, Text, usePremiumTheme, useToast } from '@/ui/premium';
+import { Button, Card, SegmentedControl, Text, usePremiumTheme, useToast } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
 
 import { useClosedCopy } from '../boost/closed-copy';
@@ -72,68 +72,61 @@ export function BoostPremium() {
           ? {}
           : { subtitle: props.dates === '' ? props.crew : `${props.crew} · ${props.dates}` })}
         testID="boost-sheet"
-        footer={
-          closed !== null ? (
-            <View style={{ gap: 4, alignItems: 'center' }} testID={`boost-closed-${phase}`}>
-              <Text variant="headline" align="center">
-                {closed.title}
-              </Text>
-              <Text variant="caption" tone="muted" align="center">
-                {closed.line}
-              </Text>
-            </View>
-          ) : (
-            <View style={{ gap: 8 }}>
-              {phase === 'verify_failed' ? (
-                <Button
-                  label={t({ id: 'monetize.paywall.checkAgain', message: 'Check again' })}
-                  onPress={props.onCheckAgain}
-                  testID="boost-check-again"
-                />
-              ) : (
-                <Button
-                  label={buyLabel}
-                  onPress={props.onBuy}
-                  loading={busy}
-                  disabled={!model.canBuy}
-                  testID="boost-buy"
-                />
-              )}
-              {phase === 'refused' ? (
-                <Text variant="caption" color={th.color.destructive.helper} align="center">
-                  {t({
-                    id: 'monetize.boost.refused',
-                    message: 'We couldn’t start the purchase. Nothing was charged; try again.',
-                  })}
-                </Text>
-              ) : null}
-              <PurchaseFooter
-                kind={model.option === 'year' ? 'subscription' : 'once'}
-                phase={
-                  phase === 'locked' ||
-                  phase === 'refused' ||
-                  phase === 'done' ||
-                  phase === 'boosted' ||
-                  phase === 'ended'
-                    ? 'ready'
-                    : phase
-                }
-                price={offer?.priceString}
-                period="yearly"
-                store={props.store}
-                onTerms={props.onTerms}
-                onPrivacy={props.onPrivacy}
-                testID="boost-disclosure"
-              />
-              <Text variant="caption" tone="muted" align="center">
-                {t({
-                  id: 'monetize.boost.cancelled',
-                  message: 'Trip cancelled? The boost moves to your next one.',
-                })}
-              </Text>
-            </View>
-          )
-        }
+        {...(closed !== null
+          ? {}
+          : {
+              footer: (
+                <View style={{ gap: 8 }}>
+                  {phase === 'verify_failed' ? (
+                    <Button
+                      label={t({ id: 'monetize.paywall.checkAgain', message: 'Check again' })}
+                      onPress={props.onCheckAgain}
+                      testID="boost-check-again"
+                    />
+                  ) : (
+                    <Button
+                      label={buyLabel}
+                      onPress={props.onBuy}
+                      loading={busy}
+                      disabled={!model.canBuy}
+                      testID="boost-buy"
+                    />
+                  )}
+                  {phase === 'refused' ? (
+                    <Text variant="caption" color={th.color.destructive.helper} align="center">
+                      {t({
+                        id: 'monetize.boost.refused',
+                        message: 'We couldn’t start the purchase. Nothing was charged; try again.',
+                      })}
+                    </Text>
+                  ) : null}
+                  <PurchaseFooter
+                    kind={model.option === 'year' ? 'subscription' : 'once'}
+                    phase={
+                      phase === 'locked' ||
+                      phase === 'refused' ||
+                      phase === 'done' ||
+                      phase === 'boosted' ||
+                      phase === 'ended'
+                        ? 'ready'
+                        : phase
+                    }
+                    price={offer?.priceString}
+                    period="yearly"
+                    store={props.store}
+                    onTerms={props.onTerms}
+                    onPrivacy={props.onPrivacy}
+                    testID="boost-disclosure"
+                  />
+                  <Text variant="caption" tone="muted" align="center">
+                    {t({
+                      id: 'monetize.boost.cancelled',
+                      message: 'Trip cancelled? The boost moves to your next one.',
+                    })}
+                  </Text>
+                </View>
+              ),
+            })}
       >
         <View style={{ gap: 14 }}>
           <EntryStampCard place={props.destination} until={until} />
@@ -148,7 +141,20 @@ export function BoostPremium() {
               ))}
             </View>
           )}
-          {tripOffer === null ? null : (
+          {closed !== null ? (
+            // Nothing to buy or split: the sheet says why right under what the boost gives.
+            <Card padded testID={`boost-closed-${phase}`}>
+              <View style={{ gap: 4, alignItems: 'center' }}>
+                <Text variant="headline" align="center">
+                  {closed.title}
+                </Text>
+                <Text variant="caption" tone="muted" align="center">
+                  {closed.line}
+                </Text>
+              </View>
+            </Card>
+          ) : null}
+          {closed !== null || tripOffer === null ? null : (
             <OptionRow
               title={t({ id: 'monetize.boost.thisTrip', message: 'This trip' })}
               detail={until}
@@ -158,7 +164,7 @@ export function BoostPremium() {
               testID="boost-option-trip"
             />
           )}
-          {yearOffer === null ? null : (
+          {closed !== null || yearOffer === null ? null : (
             <OptionRow
               title={t({ id: 'monetize.boost.allYear', message: 'Every trip, all year' })}
               detail={t({
@@ -172,7 +178,7 @@ export function BoostPremium() {
               testID="boost-option-year"
             />
           )}
-          {model.canSplit ? (
+          {closed === null && model.canSplit ? (
             <>
               <SegmentedControl
                 accessibilityLabel={t({ id: 'monetize.boost.whoPays', message: 'Who pays' })}

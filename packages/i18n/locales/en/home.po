@@ -529,8 +529,8 @@ msgid "inbox.premium.settings"
 msgstr "Notification settings"
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
-msgid "inbox.premium.notificationsOn"
-msgstr "Notifications are on: your phone tells you when something lands."
+msgid "inbox.premium.notificationsOnTitle"
+msgstr "Notifications are on"
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-card.tsx
 msgid "home.inbox.action.nudge"
@@ -1013,6 +1013,10 @@ msgstr "Your first stamp is waiting"
 #: ../../apps/mobile/src/features/home/premium/trips/trip-mini-card.tsx
 msgid "home.nextUp.untitled"
 msgstr "Your next trip"
+
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
+msgid "inbox.premium.notificationsOnLine"
+msgstr "Your phone tells you when something lands."
 
 #: ../../apps/mobile/src/features/home/premium/recovery/error-sheet.tsx
 msgid "home.premium.broke.line"

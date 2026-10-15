@@ -150,8 +150,10 @@ export interface HatchViewProps {
   readonly days: number | null;
   readonly no: number | null;
   readonly setName: string;
-  /** Queued offline: the entry joins the pass once the hatch reaches the server. */
+  /** Not on the pass yet: the hatch has not reached the server, or the server is still checking it. */
   readonly pending: boolean;
+  /** Whether the phone has no connection now, so a pending hatch waits on the signal. */
+  readonly offline: boolean;
   readonly onSayHi: (() => void) | null;
   readonly onLater: () => void;
   /** Fires once when the critter is revealed (the screen marks the ceremony seen). */

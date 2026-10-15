@@ -18,7 +18,7 @@ export interface SplitFlapDigitProps {
 
 export function SplitFlapDigit({ glyph, width, height, color, testID }: SplitFlapDigitProps) {
   const t = usePremiumTheme();
-  const fontSize = height * 0.73;
+  const fontSize = flapFontSize(glyph, width, height);
   return (
     <View
       testID={testID}
@@ -40,6 +40,21 @@ export function SplitFlapDigit({ glyph, width, height, color, testID }: SplitFla
       <View style={styles.seam} />
     </View>
   );
+}
+
+/** A glyph's advance at this weight, net of the tightened tracking, as a share of the font size. */
+const GLYPH_ADVANCE = 0.52;
+/** How much of the tile's width the glyphs may take, so two digits keep the one digit's margins. */
+const GLYPH_SPAN = 0.72;
+
+/**
+ * The single-digit size (73% of the tile's height), stepped down so a wider count ("10", "14")
+ * still sits inside the tile with room at both sides instead of touching its edges.
+ */
+export function flapFontSize(glyph: string, width: number, height: number): number {
+  const tall = height * 0.73;
+  const glyphs = Math.max(1, [...glyph].length);
+  return Math.min(tall, (width * GLYPH_SPAN) / (glyphs * GLYPH_ADVANCE));
 }
 
 const styles = StyleSheet.create({

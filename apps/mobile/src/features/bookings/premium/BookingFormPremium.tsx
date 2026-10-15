@@ -202,7 +202,8 @@ export function BookingFormPremium(props: {
             <InlineInput
               type="field"
               align="right"
-              style={styles.code}
+              // The code's tracking only once there is a code: "Optional" reads like its neighbours.
+              style={draft.ref === '' ? null : styles.code}
               accessibilityLabel={t({ id: 'bookings.form.ref', message: 'Confirmation code' })}
               placeholder={t({ id: 'bookings.premium.optionalShort', message: 'Optional' })}
               value={draft.ref}
@@ -233,7 +234,8 @@ export function BookingFormPremium(props: {
         ) : null}
       </KeyboardAwareScroll>
       <KeyboardStickyFooter openedOffset={th.space.gap12 - footerPad}>
-        <View style={{ paddingHorizontal: th.space.titleGutter, paddingBottom: footerPad }}>
+        {/* The button runs as wide as the cards above it. */}
+        <View style={{ paddingHorizontal: th.space.gap16, paddingBottom: footerPad }}>
           <Button
             label={missing ?? t({ id: 'bookings.form.save', message: 'Save' })}
             disabled={missing !== null}

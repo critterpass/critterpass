@@ -47,7 +47,7 @@ msgid "money.premium.square"
 msgstr ""
 
 #. placeholder {0}: whole(planned - f.spentMinor)
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.left"
 msgstr ""
 
@@ -57,7 +57,7 @@ msgid "money.premium.leftToAssign"
 msgstr ""
 
 #. placeholder {0}: whole(over)
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.overBy"
 msgstr ""
 
@@ -283,11 +283,11 @@ msgstr ""
 msgid "money.pay.requested"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.budget.paceOver"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.budget.paceUnder"
 msgstr ""
 
@@ -439,8 +439,7 @@ msgstr ""
 msgid "money.export.currency"
 msgstr ""
 
-#. placeholder {0}: draft.currency
-#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/AmountHero.tsx
 msgid "money.premium.currency"
 msgstr ""
 
@@ -766,11 +765,11 @@ msgstr ""
 msgid "money.premium.newTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.budget.noneOrganiser"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.budget.none"
 msgstr ""
 
@@ -828,7 +827,7 @@ msgid "money.settle.nudged"
 msgstr ""
 
 #. placeholder {0}: whole(planned)
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.ofPlanned"
 msgstr ""
 
@@ -1073,7 +1072,7 @@ msgstr ""
 msgid "money.currency.body"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.spent"
 msgstr ""
 

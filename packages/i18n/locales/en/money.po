@@ -47,7 +47,7 @@ msgid "money.premium.square"
 msgstr "{0} · you're square"
 
 #. placeholder {0}: whole(planned - f.spentMinor)
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.left"
 msgstr "{0} left"
 
@@ -57,7 +57,7 @@ msgid "money.premium.leftToAssign"
 msgstr "{0} left to assign"
 
 #. placeholder {0}: whole(over)
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.overBy"
 msgstr "{0} over"
 
@@ -283,11 +283,11 @@ msgstr "Ask {fromName} for it"
 msgid "money.pay.requested"
 msgstr "Asked {who} to pay."
 
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.budget.paceOver"
 msgstr "At this pace you'll end around {finish}, about {deltaText} over."
 
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.budget.paceUnder"
 msgstr "At this pace you'll end around {finish}, about {deltaText} under."
 
@@ -439,8 +439,7 @@ msgstr "Crew total in {currency}"
 msgid "money.export.currency"
 msgstr "Currency"
 
-#. placeholder {0}: draft.currency
-#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/AmountHero.tsx
 msgid "money.premium.currency"
 msgstr "Currency, {0}"
 
@@ -766,11 +765,11 @@ msgstr "Name the payer sees"
 msgid "money.premium.newTitle"
 msgstr "New expense · {0}"
 
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.budget.noneOrganiser"
 msgstr "No crew budget yet. Set one and I keep the crew on track against it."
 
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.budget.none"
 msgstr "No crew budget yet. The organiser can set one for the trip."
 
@@ -828,7 +827,7 @@ msgid "money.settle.nudged"
 msgstr "Nudged {who}. Gently."
 
 #. placeholder {0}: whole(planned)
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.ofPlanned"
 msgstr "of {0} planned"
 
@@ -1073,7 +1072,7 @@ msgstr "Someone in it is no longer on this trip. Add it again without them."
 msgid "money.currency.body"
 msgstr "Spend in any currency. Balances and settling up use this one, at the rate on the day each expense was added."
 
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.spent"
 msgstr "Spent"
 

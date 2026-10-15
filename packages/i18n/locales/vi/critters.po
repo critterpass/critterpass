@@ -308,6 +308,10 @@ msgstr "Đã huỷ một lời nhắc huyền thoại"
 msgid "critters.dex.pending"
 msgstr "Đang kiểm tra"
 
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.checking"
+msgstr "Đang ghi nhận. Chút nữa là vào hộ chiếu của bạn."
+
 #: ../../apps/mobile/src/features/critters/premium/encounter/live-scene.tsx
 msgid "critters.premium.encounter.close"
 msgstr "Đóng"

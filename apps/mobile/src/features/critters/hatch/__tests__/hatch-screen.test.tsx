@@ -144,6 +144,21 @@ describe('hatch eyebrow', () => {
   });
 });
 
+describe('hatch before the entry is on the pass', () => {
+  it('says the server is checking it while online, and no signal only when offline', async () => {
+    const stack = await openStack();
+    await seedCritters(stack.db, stack.uid, { egg: 'hatched' });
+    await mount(stack);
+    await waitFor(() =>
+      expect(screen.getByTestId('critters-hatch-pending')).toHaveTextContent(/^Checking it in/u),
+    );
+    await act(() => {
+      stack.network.set(false);
+    });
+    expect(screen.getByTestId('critters-hatch-pending')).toHaveTextContent(/^No signal/u);
+  });
+});
+
 describe('hatch ceremony without its trip yet', () => {
   afterEach(() => {
     jest.mocked(router.back).mockClear();

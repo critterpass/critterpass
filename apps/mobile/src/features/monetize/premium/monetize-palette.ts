@@ -27,6 +27,8 @@ export const PAPER = {
   /** A stamp's paper showing through its middle. */
   showThrough: 'rgba(255,253,246,0.7)',
   showThroughStrong: 'rgba(255,253,246,0.92)',
+  /** The stamp's pink ink on its cream paper, the same in both looks (the paper never darkens). */
+  stampInk: '#b0306b',
 } as const;
 
 export const MONETIZE_INK = {

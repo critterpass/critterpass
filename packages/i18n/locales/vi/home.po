@@ -529,8 +529,8 @@ msgid "inbox.premium.settings"
 msgstr "Cài đặt thông báo"
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
-msgid "inbox.premium.notificationsOn"
-msgstr "Thông báo đã bật: điện thoại sẽ báo khi có tin mới."
+msgid "inbox.premium.notificationsOnTitle"
+msgstr "Thông báo đã bật"
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-card.tsx
 msgid "home.inbox.action.nudge"
@@ -1013,6 +1013,10 @@ msgstr "Con dấu đầu tiên đang chờ bạn"
 #: ../../apps/mobile/src/features/home/premium/trips/trip-mini-card.tsx
 msgid "home.nextUp.untitled"
 msgstr "Chuyến đi tới"
+
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
+msgid "inbox.premium.notificationsOnLine"
+msgstr "Điện thoại sẽ báo khi có tin mới."
 
 #: ../../apps/mobile/src/features/home/premium/recovery/error-sheet.tsx
 msgid "home.premium.broke.line"
