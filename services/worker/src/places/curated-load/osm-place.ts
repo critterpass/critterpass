@@ -83,7 +83,7 @@ export async function lookUpCuratedPlace(
       await writeCuratedNote(pool, verdict.row.id, note, place.busy_windows);
     return { outcome: 'matched', poi_id: verdict.row.id, row: verdict.row.name };
   }
-  const lookup = await findCuratedOsmPlace(place, plain, search);
+  const lookup = await findCuratedOsmPlace(place, plain, search, destination.name);
   const found = lookup.place;
   if (found === null) {
     return {
