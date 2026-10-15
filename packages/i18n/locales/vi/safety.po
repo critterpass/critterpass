@@ -133,7 +133,6 @@ msgid "safety.queued.clinic"
 msgstr "Đang nhờ bộ phận trực gọi phòng khám"
 
 #: ../../apps/mobile/src/features/safety/premium/ChecklistPremium.tsx
-#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 msgid "safety.premium.back"
 msgstr "Quay lại"
@@ -260,6 +259,10 @@ msgstr "Trợ giúp về ứng dụng"
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 msgid "safety.premium.holdToSend"
 msgstr "Giữ để gửi SOS"
+
+#: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
+msgid "safety.help.backHome"
+msgstr "Trang chủ"
 
 #: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
@@ -596,6 +599,10 @@ msgstr "SOS này đã kết thúc. Việc chia sẻ vị trí đã dừng."
 #: ../../apps/mobile/src/features/safety/help/service-label.ts
 msgid "safety.service.touristPolice"
 msgstr "Cảnh sát du lịch"
+
+#: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
+msgid "safety.help.backTrip"
+msgstr "Chuyến đi"
 
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 msgid "safety.map.waiting"

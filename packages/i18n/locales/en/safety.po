@@ -133,7 +133,6 @@ msgid "safety.queued.clinic"
 msgstr "Asking the ops desk to call the clinic"
 
 #: ../../apps/mobile/src/features/safety/premium/ChecklistPremium.tsx
-#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 msgid "safety.premium.back"
 msgstr "Back"
@@ -260,6 +259,10 @@ msgstr "Help with the app"
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 msgid "safety.premium.holdToSend"
 msgstr "Hold to send SOS"
+
+#: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
+msgid "safety.help.backHome"
+msgstr "Home"
 
 #: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
@@ -596,6 +599,10 @@ msgstr "This SOS is over. The location share has stopped."
 #: ../../apps/mobile/src/features/safety/help/service-label.ts
 msgid "safety.service.touristPolice"
 msgstr "Tourist police"
+
+#: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
+msgid "safety.help.backTrip"
+msgstr "Trip"
 
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 msgid "safety.map.waiting"

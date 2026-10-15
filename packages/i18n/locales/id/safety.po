@@ -133,7 +133,6 @@ msgid "safety.queued.clinic"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/ChecklistPremium.tsx
-#: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 msgid "safety.premium.back"
 msgstr ""
@@ -259,6 +258,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SosSendPremium.tsx
 msgid "safety.premium.holdToSend"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
+msgid "safety.help.backHome"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/use-checklist-screen.ts
@@ -595,6 +598,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/service-label.ts
 msgid "safety.service.touristPolice"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
+msgid "safety.help.backTrip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx

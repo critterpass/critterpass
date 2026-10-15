@@ -238,5 +238,10 @@ export function useHelpScreen() {
     onInsurance: () => router.push(BOOKINGS_ROUTES.insurance),
     onHelpCentre: () => router.push(HELP_ROUTES.hub),
   };
-  return { props, asking, answer, crewName, showIt, setShowIt, phrase, share, now };
+  // The crumb names where back goes: a trip page opened Help for its trip, else Help came from Home.
+  const backLabel =
+    asked === null
+      ? t({ id: 'safety.help.backHome', message: 'Home' })
+      : t({ id: 'safety.help.backTrip', message: 'Trip' });
+  return { props, asking, answer, crewName, showIt, setShowIt, phrase, share, now, backLabel };
 }

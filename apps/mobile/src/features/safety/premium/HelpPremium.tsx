@@ -64,7 +64,7 @@ export function HelpPremium() {
   return (
     <PushScreen
       title={t({ id: 'safety.premium.helpTitle', message: 'Help' })}
-      backLabel={t({ id: 'safety.premium.back', message: 'Back' })}
+      backLabel={help.backLabel}
       testID="help-screen"
     >
       <ScrollView
