@@ -141,7 +141,11 @@ export function MailboxPremium(props: {
   };
   return (
     <MailboxSheetFrame>
+      {/* No automatic insets: in a sheet over a tab the system shifted the content up under the
+          grabber (the kit's sheets turn it off the same way). */}
       <ScrollView
+        contentInsetAdjustmentBehavior="never"
+        automaticallyAdjustsScrollIndicatorInsets={false}
         contentContainerStyle={{
           paddingHorizontal: th.space.gutter,
           paddingBottom: insets.bottom + th.space.gutter,
