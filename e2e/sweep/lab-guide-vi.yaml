@@ -1,0 +1,441 @@
+appId: app.critterpass.dev
+env:
+  LANG: vi
+  NAV: dev-nav-guide-lab
+  LIST: 'guide-lab-.*'
+---
+# UI sweep (vi), lab scenes: the guide's sheet, voice, camera and phrases.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chat-group
+      READY: guide-plan-propose
+      SHOT: vi-3j-1-group
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chat-empty
+      READY: guide-empty
+      SHOT: vi-3j-1-empty
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chat-thinking
+      READY: guide-thinking
+      SHOT: vi-3j-1-thinking
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chat-streaming
+      READY: guide-answer-live
+      SHOT: vi-3j-1-streaming
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chat-checking
+      READY: guide-filler
+      SHOT: vi-3j-1-checking
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chat-sources
+      READY: guide-sources
+      SHOT: vi-3j-1-sources
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chat-rated
+      READY: guide-conversation
+      SHOT: vi-3j-1-rated
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chat-error
+      READY: guide-retry
+      SHOT: vi-3j-1-error
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chat-refused
+      READY: guide-error
+      SHOT: vi-3j-1-refused
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chat-help
+      READY: guide-help-card
+      SHOT: vi-3j-1-help
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chat-offline
+      READY: guide-offline-queue
+      SHOT: vi-3j-1-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chat-sent
+      READY: guide-plan-outcome
+      SHOT: vi-3j-1-sent
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chat-stopped
+      READY: guide-retry
+      SHOT: vi-3j-1-stopped
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-voice-swaps
+      READY: guide-voice-send-group
+      SHOT: vi-3j-2-swaps
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-voice-swaps-sent
+      READY: guide-voice-sent-group
+      SHOT: vi-3j-2-swaps-sent
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-voice-idle
+      READY: guide-voice-talk
+      SHOT: vi-3j-2-idle
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-voice-listening
+      READY: guide-voice-send
+      SHOT: vi-3j-2-listening
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-voice-thinking
+      READY: guide-voice-status-thinking
+      SHOT: vi-3j-2-thinking
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-voice-speaking
+      READY: guide-voice-interrupt
+      SHOT: vi-3j-2-answering
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-voice-text-only
+      READY: guide-voice-text-only
+      SHOT: vi-3j-2-text-only
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-voice-mic-denied
+      READY: guide-voice-mic-denied
+      SHOT: vi-3j-2-mic-denied
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-voice-heard-nothing
+      READY: guide-voice-issue-heard_nothing
+      SHOT: vi-3j-2-heard-nothing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-voice-offline
+      READY: guide-voice-issue-offline_queued
+      SHOT: vi-3j-2-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-voice-quota
+      READY: guide-voice-issue-quota
+      SHOT: vi-3j-2-quota
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-voice-reply-failed
+      READY: guide-voice-issue-reply_failed
+      SHOT: vi-3j-2-reply-failed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-limit-refused
+      READY: guide-limit-hint
+      SHOT: vi-4b-1-refused
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-limit-thirtieth
+      READY: guide-limit-card
+      SHOT: vi-4b-1-thirtieth
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-limit-queued
+      READY: guide-queued
+      SHOT: vi-4b-1-queued
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-limit-writing
+      READY: guide-limit-queue-composer
+      SHOT: vi-4b-1-writing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-meter-free
+      READY: guide-meter-free
+      SHOT: vi-3j-1-meter-free
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-meter-boosted
+      READY: guide-meter-boosted
+      SHOT: vi-3j-1-meter-boosted
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-meter-unlimited
+      READY: guide-conversation
+      SHOT: vi-3j-1-meter-unlimited
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-crew-typing
+      READY: guide-crew-typing
+      SHOT: vi-3g-1-guide-typing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-crew-offer-confirm
+      READY: guide-offer-confirm
+      SHOT: vi-3g-1-offer-confirm
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-crew-offer-mine
+      READY: guide-offer-status
+      SHOT: vi-3g-1-offer-mine
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-crew-offer-full
+      READY: guide-offer-status
+      SHOT: vi-3g-1-offer-full
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-crew-offer-expired
+      READY: guide-offer-status
+      SHOT: vi-3g-1-offer-expired
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-crew-offer-problem
+      READY: guide-offer-problem
+      SHOT: vi-3g-1-offer-problem
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-crew-streaming
+      READY: guide-crew-reply
+      SHOT: vi-3g-1-guide-reply
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-crew-spent
+      READY: guide-crew-spent
+      SHOT: vi-3g-1-guide-spent
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-phrase-audio
+      READY: guide-phrase-card
+      SHOT: vi-3h-3-phrase-audio
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-phrase-show-only
+      READY: guide-phrase-card
+      SHOT: vi-3h-3-phrase-device-voice
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-phrase-loading
+      READY: guide-phrase-loading
+      SHOT: vi-3h-3-phrase-loading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-phrase-unavailable
+      READY: guide-phrase-device-voice
+      SHOT: vi-3h-3-phrase-device-voice-fallback
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-phrase-show-mode
+      READY: guide-phrase-show
+      SHOT: vi-3h-3-show-mode
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-dietary-empty
+      READY: guide-dietary
+      SHOT: vi-guide-dietary-empty
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-dietary-filled
+      READY: guide-dietary
+      SHOT: vi-guide-dietary-filled
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-dietary-consent
+      READY: guide-dietary-consent
+      SHOT: vi-guide-dietary-consent
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-dietary-saved
+      READY: guide-dietary-saved
+      SHOT: vi-guide-dietary-saved
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chava-poses
+      READY: chava-poses
+      SHOT: vi-chava-poses-small
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chava-poses-96
+      READY: chava-poses
+      SHOT: vi-chava-poses-96
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chava-poses-150
+      READY: chava-poses
+      SHOT: vi-chava-poses-150
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chava-states
+      READY: chava-states
+      SHOT: vi-chava-states
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chava-chat
+      READY: guide-conversation
+      SHOT: vi-chava-chat
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chava-thinking
+      READY: guide-thinking
+      SHOT: vi-chava-thinking
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-chava-empty
+      READY: guide-empty
+      SHOT: vi-chava-empty
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-city-guide-states
+      READY: city-guide-states
+      SHOT: vi-city-guide-states
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-city-guide-chat
+      READY: guide-conversation
+      SHOT: vi-city-guide-chat
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-city-guide-thinking
+      READY: guide-thinking
+      SHOT: vi-city-guide-thinking
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-city-guide-empty
+      READY: guide-empty
+      SHOT: vi-city-guide-empty
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-voice-consent
+      READY: guide-voice-consent-yes
+      SHOT: vi-voice-consent
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-practice-ready
+      READY: guide-practice-said
+      SHOT: vi-practice-ready
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-practice-tip
+      READY: guide-practice-tip
+      SHOT: vi-practice-tip
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-practice-ok
+      READY: guide-practice-next
+      SHOT: vi-practice-ok
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-practice-consent
+      READY: guide-practice-consent-yes
+      SHOT: vi-practice-consent
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-practice-from-card
+      READY: guide-phrase-card-practise
+      SHOT: vi-practice-from-card
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-camera-aiming
+      READY: guide-camera-scan
+      SHOT: vi-3j-3-aiming
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-camera-menu
+      READY: guide-camera-caution
+      SHOT: vi-3j-3-menu
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-camera-order
+      READY: guide-camera-order-show
+      SHOT: vi-3j-3-order
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-camera-no-camera
+      READY: guide-camera-type
+      SHOT: vi-3j-3-no-camera
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-camera-denied
+      READY: guide-camera-denied
+      SHOT: vi-3j-3-denied
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: guide-lab-camera-offline
+      READY: guide-camera-issue-offline
+      SHOT: vi-3j-3-offline

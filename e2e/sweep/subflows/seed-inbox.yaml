@@ -1,0 +1,17 @@
+appId: app.critterpass.dev
+---
+# The `inbox` seed: one card needs you, on Home's bell and in the inbox (3b-4).
+- extendedWaitUntil:
+    visible:
+      id: 'home-countdown'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3b-2-one-card
+- tapOn:
+    id: 'home-header-inbox'
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-screen'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3b-4-one-card

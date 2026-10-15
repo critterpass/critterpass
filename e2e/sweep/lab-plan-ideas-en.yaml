@@ -1,0 +1,63 @@
+appId: app.critterpass.dev
+env:
+  LANG: en
+  NAV: dev-nav-plan-ideas-lab
+  LIST: 'plan-ideas-lab-.*'
+---
+# UI sweep (en), lab scenes: adding to the plan, Ideas, placing, review and the plan check.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-ideas-lab-add-to-plan
+      READY: plan-add-why
+      SHOT: en-7f-1-add-to-plan
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-ideas-lab-ideas
+      READY: plan-ideas-list
+      SHOT: en-7f-2-ideas
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-ideas-lab-placing
+      READY: plan-placing-step-routing-running
+      SHOT: en-7h-6-placing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-ideas-lab-review
+      READY: plan-review-title
+      SHOT: en-7h-7-review
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-ideas-lab-check-7h-1
+      READY: plan-check-title
+      SHOT: en-7h-1-check
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-ideas-lab-check-7h-2
+      READY: plan-gap-title
+      SHOT: en-7h-2-ideas
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-ideas-lab-check-7h-3
+      READY: plan-less-driving-rows
+      SHOT: en-7h-3-order
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-ideas-lab-check-7h-4
+      READY: plan-rain-swaps
+      SHOT: en-7h-4-swaps
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: plan-ideas-lab-check-7h-5
+      READY: plan-balance-offer
+      SHOT: en-7h-5-balance

@@ -1,0 +1,13 @@
+appId: app.critterpass.dev
+---
+# UI sweep (en): the demo crew with a confirmed trip.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: everyday
+      LANG: en
+- runFlow:
+    file: subflows/seed-everyday.yaml
+    env:
+      LANG: en

@@ -1,0 +1,118 @@
+appId: app.critterpass.dev
+---
+# One lab scene: the row ${ITEM} of the lab's list, the scene ready on ${READY}, the screenshot
+# ${SHOT}, and back to the list. The lab (${NAV}, ${LIST}, ${LANG}) comes from the flow's own env.
+#
+# Nothing here can fail the flow except a lab that will not open again. A row that is not found
+# means the list is not up (the scene before never came back): it is backed out of, and failing
+# that the lab is reopened from a fresh launch (open-lab.yaml). A row still missing after that
+# leaves `not-captured-${SHOT}`, the screen as it was, and the run summary lists the screenshot as
+# not captured. The outcome is kept in a variable, so a scene that goes well never waits on an
+# "is it gone?" check.
+- evalScript: ${output.sweepScene = 'looking'}
+# The list keeps its place: the row is looked for down the list, then up.
+- scrollUntilVisible:
+    element:
+      id: '${ITEM}'
+    direction: DOWN
+    centerElement: true
+    timeout: 15000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: '${ITEM}'
+    commands:
+      - evalScript: ${output.sweepScene = 'found'}
+- runFlow:
+    when:
+      true: ${output.sweepScene == 'looking'}
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: '${ITEM}'
+          direction: UP
+          centerElement: true
+          timeout: 20000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: '${ITEM}'
+          commands:
+            - evalScript: ${output.sweepScene = 'found'}
+- runFlow:
+    when:
+      true: ${output.sweepScene == 'looking'}
+    commands:
+      - repeat:
+          while:
+            notVisible:
+              id: '${LIST}'
+          times: 3
+          commands:
+            - runFlow: back.yaml
+      - runFlow:
+          when:
+            notVisible:
+              id: '${LIST}'
+          file: open-lab.yaml
+      - scrollUntilVisible:
+          element:
+            id: '${ITEM}'
+          direction: DOWN
+          centerElement: true
+          timeout: 30000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: '${ITEM}'
+          commands:
+            - evalScript: ${output.sweepScene = 'found'}
+- runFlow:
+    when:
+      true: ${output.sweepScene == 'looking'}
+    commands:
+      - takeScreenshot: not-captured-${SHOT}
+- runFlow:
+    when:
+      true: ${output.sweepScene == 'found'}
+    commands:
+      - tapOn:
+          id: '${ITEM}'
+          optional: true
+      # A scene in a sheet can sit outside the hierarchy Android reports: the shot is taken either way.
+      - extendedWaitUntil:
+          visible:
+            id: '${READY}'
+          timeout: 20000
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 6000
+      - takeScreenshot: ${SHOT}
+      # One step back, and up to two more when a sheet, a raised map or the keyboard closed first.
+      - runFlow: back.yaml
+      - evalScript: ${output.sweepScene = 'leaving'}
+      - runFlow:
+          when:
+            visible:
+              id: '${LIST}'
+          commands:
+            - evalScript: ${output.sweepScene = 'left'}
+      - runFlow:
+          when:
+            true: ${output.sweepScene == 'leaving'}
+          commands:
+            - runFlow: back.yaml
+            - runFlow:
+                when:
+                  visible:
+                    id: '${LIST}'
+                commands:
+                  - evalScript: ${output.sweepScene = 'left'}
+      - runFlow:
+          when:
+            true: ${output.sweepScene == 'leaving'}
+          commands:
+            - runFlow: back.yaml

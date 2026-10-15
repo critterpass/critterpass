@@ -1,0 +1,33 @@
+appId: app.critterpass.dev
+env:
+  LANG: vi
+  NAV: none
+  LIST: 'dev-nav-.*'
+---
+# UI sweep (vi), lab scenes: crew plans, a shared plan, sharing a plan and rating a trip.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: dev-nav-crew-plans
+      READY: crew-plans
+      SHOT: vi-3o-1-crew-plans
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: dev-nav-shared-plan
+      READY: shared-plan
+      SHOT: vi-3o-2-shared-plan-missing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: dev-nav-share-plan
+      READY: share-plan
+      SHOT: vi-3o-4-share-plan
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: dev-nav-rate-trip
+      READY: rate-trip
+      SHOT: vi-3o-3-rate-trip

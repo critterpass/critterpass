@@ -1,0 +1,411 @@
+appId: app.critterpass.dev
+env:
+  LANG: en
+  NAV: dev-nav-setup
+  LIST: setup-scene-list
+---
+# UI sweep (en), lab scenes: trip setup: dates, budget, rooms and must-dos.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-3c-3-when
+      READY: setup-scene-back
+      SHOT: en-3c-3-when
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-3c-4-no-week-fits
+      READY: setup-scene-back
+      SHOT: en-3c-4-no-week-fits
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-member
+      READY: setup-scene-back
+      SHOT: en-when-member
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-empty
+      READY: setup-scene-back
+      SHOT: en-when-empty
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-one-synced
+      READY: setup-scene-back
+      SHOT: en-when-one-synced
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-solo
+      READY: setup-scene-back
+      SHOT: en-when-solo
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-computing
+      READY: setup-scene-back
+      SHOT: en-when-computing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-syncing
+      READY: setup-scene-back
+      SHOT: en-when-syncing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-stale
+      READY: setup-scene-back
+      SHOT: en-when-stale
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-denied
+      READY: setup-scene-back
+      SHOT: en-when-denied
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-sync-error
+      READY: setup-scene-back
+      SHOT: en-when-sync-error
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-ask-pending
+      READY: setup-scene-back
+      SHOT: en-when-ask-pending
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-ask-declined
+      READY: setup-scene-back
+      SHOT: en-when-ask-declined
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-ask-timeout
+      READY: setup-scene-back
+      SHOT: en-when-ask-timeout
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-two-blockers
+      READY: setup-scene-back
+      SHOT: en-when-two-blockers
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-offline
+      READY: setup-scene-back
+      SHOT: en-when-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-lock-failed
+      READY: setup-scene-back
+      SHOT: en-when-lock-failed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-locked
+      READY: setup-scene-back
+      SHOT: en-when-locked
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-week-picker
+      READY: setup-scene-back
+      SHOT: en-when-week-picker
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-picker-range
+      READY: setup-scene-back
+      SHOT: en-when-picker-range
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-picker-ghost
+      READY: setup-scene-back
+      SHOT: en-when-picker-ghost
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-picker-too-long
+      READY: setup-scene-back
+      SHOT: en-when-picker-too-long
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-ask-sheet
+      READY: setup-scene-back
+      SHOT: en-when-ask-sheet
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-when-ask-sheet-sent
+      READY: setup-scene-back
+      SHOT: en-when-ask-sheet-sent
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-calendar-connect
+      READY: setup-scene-back
+      SHOT: en-calendar-connect
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-calendar-connect-denied
+      READY: setup-scene-back
+      SHOT: en-calendar-connect-denied
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-calendar-connect-synced
+      READY: setup-scene-back
+      SHOT: en-calendar-connect-synced
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-calendar-manual-days
+      READY: setup-scene-back
+      SHOT: en-calendar-manual-days
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-calendar-manual-days-maybe
+      READY: setup-scene-back
+      SHOT: en-calendar-manual-days-maybe
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-calendar-manual-days-busy
+      READY: setup-scene-back
+      SHOT: en-calendar-manual-days-busy
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-3c-5-budget
+      READY: setup-scene-back
+      SHOT: en-3c-5-budget
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-budget-waiting
+      READY: setup-scene-back
+      SHOT: en-budget-waiting
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-budget-knob-over
+      READY: setup-scene-back
+      SHOT: en-budget-knob-over
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-budget-infeasible
+      READY: setup-scene-back
+      SHOT: en-budget-infeasible
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-budget-estimates-loading
+      READY: setup-scene-back
+      SHOT: en-budget-estimates-loading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-budget-estimates-failed
+      READY: setup-scene-back
+      SHOT: en-budget-estimates-failed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-budget-offline
+      READY: setup-scene-back
+      SHOT: en-budget-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-budget-member-entry
+      READY: setup-scene-back
+      SHOT: en-budget-member-entry
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-budget-multi-currency
+      READY: setup-scene-back
+      SHOT: en-budget-multi-currency
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-budget-max-change
+      READY: setup-scene-back
+      SHOT: en-budget-max-change
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-budget-member-set
+      READY: setup-scene-back
+      SHOT: en-budget-member-set
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-3c-6-rooms
+      READY: setup-scene-back
+      SHOT: en-3c-6-rooms
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-rooms-member
+      READY: setup-scene-back
+      SHOT: en-rooms-member
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-rooms-prefs-missing
+      READY: setup-scene-back
+      SHOT: en-rooms-prefs-missing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-rooms-pick-stay
+      READY: setup-scene-back
+      SHOT: en-rooms-pick-stay
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-rooms-solo-stay
+      READY: setup-scene-back
+      SHOT: en-rooms-solo-stay
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-rooms-even-split
+      READY: setup-scene-back
+      SHOT: en-rooms-even-split
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-rooms-odd-crew
+      READY: setup-scene-back
+      SHOT: en-rooms-odd-crew
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-rooms-unequal-prices
+      READY: setup-scene-back
+      SHOT: en-rooms-unequal-prices
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-rooms-stay-unavailable
+      READY: setup-scene-back
+      SHOT: en-rooms-stay-unavailable
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-rooms-conflict
+      READY: setup-scene-back
+      SHOT: en-rooms-conflict
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-rooms-over-capacity
+      READY: setup-scene-back
+      SHOT: en-rooms-over-capacity
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-rooms-booked
+      READY: setup-scene-back
+      SHOT: en-rooms-booked
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-rooms-offline
+      READY: setup-scene-back
+      SHOT: en-rooms-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-3c-7-must-dos
+      READY: setup-scene-back
+      SHOT: en-3c-7-must-dos
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-3c-10-add-must-do
+      READY: setup-scene-back
+      SHOT: en-3c-10-add-must-do
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-must-dos-empty
+      READY: setup-scene-back
+      SHOT: en-must-dos-empty
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-must-dos-member
+      READY: setup-scene-back
+      SHOT: en-must-dos-member
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-must-dos-clash
+      READY: setup-scene-back
+      SHOT: en-must-dos-clash
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-must-dos-lottery
+      READY: setup-scene-back
+      SHOT: en-must-dos-lottery
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-must-dos-duplicate
+      READY: setup-scene-back
+      SHOT: en-must-dos-duplicate
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-must-dos-done
+      READY: setup-scene-back
+      SHOT: en-must-dos-done
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-add-must-do-loading
+      READY: setup-scene-back
+      SHOT: en-add-must-do-loading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-add-must-do-many
+      READY: setup-scene-back
+      SHOT: en-add-must-do-many
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-add-must-do-no-results
+      READY: setup-scene-back
+      SHOT: en-add-must-do-no-results
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-add-must-do-offline
+      READY: setup-scene-back
+      SHOT: en-add-must-do-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: setup-scene-add-must-do-closed
+      READY: setup-scene-back
+      SHOT: en-add-must-do-closed

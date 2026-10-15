@@ -1,0 +1,13 @@
+appId: app.critterpass.dev
+---
+# UI sweep (vi): the demo crew's destination vote on its board.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: vote
+      LANG: vi
+- runFlow:
+    file: subflows/seed-vote.yaml
+    env:
+      LANG: vi

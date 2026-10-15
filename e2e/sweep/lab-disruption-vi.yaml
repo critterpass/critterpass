@@ -1,0 +1,279 @@
+appId: app.critterpass.dev
+env:
+  LANG: vi
+  NAV: dev-nav-disruption-lab
+  LIST: 'disruption-lab-.*'
+---
+# UI sweep (vi), lab scenes: delays, running late, the forecast and storm swaps.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-5
+      READY: disruption-screen
+      SHOT: vi-3k-5
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-5-decided-by-other
+      READY: disruption-screen
+      SHOT: vi-3k-5-decided-by-other
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-5-other-member
+      READY: disruption-screen
+      SHOT: vi-3k-5-other-member
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-5-in-progress
+      READY: disruption-screen
+      SHOT: vi-3k-5-in-progress
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-5-no-answer
+      READY: disruption-screen
+      SHOT: vi-3k-5-no-answer
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-5-cancelled
+      READY: disruption-screen
+      SHOT: vi-3k-5-cancelled
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-5-diverted
+      READY: disruption-screen
+      SHOT: vi-3k-5-diverted
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-5-landed
+      READY: disruption-screen
+      SHOT: vi-3k-5-landed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-5-undone
+      READY: disruption-screen
+      SHOT: vi-3k-5-undone
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-5-offline
+      READY: disruption-screen
+      SHOT: vi-3k-5-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-5-loading
+      READY: disruption-screen
+      SHOT: vi-3k-5-loading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-5-missing
+      READY: disruption-screen
+      SHOT: vi-3k-5-missing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-9
+      READY: late-screen
+      SHOT: vi-3k-9
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-9-vendor-said-yes
+      READY: late-screen
+      SHOT: vi-3k-9-vendor-said-yes
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-9-walk
+      READY: late-screen
+      SHOT: vi-3k-9-walk
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-9-no-ride
+      READY: late-screen
+      SHOT: vi-3k-9-no-ride
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-9-chosen
+      READY: late-screen
+      SHOT: vi-3k-9-chosen
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-9-stale
+      READY: late-screen
+      SHOT: vi-3k-9-stale
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-9-waiting-crew
+      READY: late-screen
+      SHOT: vi-3k-9-waiting-crew
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-9-on-time
+      READY: late-screen
+      SHOT: vi-3k-9-on-time
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-9-no-map
+      READY: late-screen
+      SHOT: vi-3k-9-no-map
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-9-loading
+      READY: late-screen
+      SHOT: vi-3k-9-loading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-9-missing
+      READY: late-screen
+      SHOT: vi-3k-9-missing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-7
+      READY: forecast-screen
+      SHOT: vi-3k-7
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-7-all-clear
+      READY: forecast-screen
+      SHOT: vi-3k-7-all-clear
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-7-stale
+      READY: forecast-screen
+      SHOT: vi-3k-7-stale
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-7-offline
+      READY: forecast-screen
+      SHOT: vi-3k-7-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-7-no-forecast
+      READY: forecast-screen
+      SHOT: vi-3k-7-no-forecast
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-7-long-trip
+      READY: forecast-screen
+      SHOT: vi-3k-7-long-trip
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-7-loading
+      READY: forecast-screen
+      SHOT: vi-3k-7-loading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-8
+      READY: storm-screen
+      SHOT: vi-3k-8
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-8-voted
+      READY: storm-screen
+      SHOT: vi-3k-8-voted
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-8-no-votes
+      READY: storm-screen
+      SHOT: vi-3k-8-no-votes
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-8-not-voting
+      READY: storm-screen
+      SHOT: vi-3k-8-not-voting
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-8-decided
+      READY: storm-screen
+      SHOT: vi-3k-8-decided
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-8-booker-pay
+      READY: storm-screen
+      SHOT: vi-3k-8-booker-pay
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-8-waiting-on-booker
+      READY: storm-screen
+      SHOT: vi-3k-8-waiting-on-booker
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-8-seats-not-confirmed
+      READY: storm-screen
+      SHOT: vi-3k-8-seats-not-confirmed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-8-moved
+      READY: storm-screen
+      SHOT: vi-3k-8-moved
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-8-no-swap-day
+      READY: storm-screen
+      SHOT: vi-3k-8-no-swap-day
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-8-deadline-passed
+      READY: storm-screen
+      SHOT: vi-3k-8-deadline-passed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-8-forecast-improved
+      READY: storm-screen
+      SHOT: vi-3k-8-forecast-improved
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-8-offline
+      READY: storm-screen
+      SHOT: vi-3k-8-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-8-loading
+      READY: storm-screen
+      SHOT: vi-3k-8-loading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: disruption-lab-3k-8-missing
+      READY: storm-screen
+      SHOT: vi-3k-8-missing

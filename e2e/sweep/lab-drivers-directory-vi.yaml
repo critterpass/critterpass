@@ -1,0 +1,45 @@
+appId: app.critterpass.dev
+env:
+  LANG: vi
+  NAV: dev-nav-drivers-directory-lab
+  LIST: 'drivers-lab-.*'
+---
+# UI sweep (vi), lab scenes: the drivers directory.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: drivers-lab-directory
+      READY: drivers-directory
+      SHOT: vi-6e-1
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: drivers-lab-detail
+      READY: drivers-detail
+      SHOT: vi-6e-2
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: drivers-lab-empty
+      READY: drivers-empty
+      SHOT: vi-6e-3
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: drivers-lab-rate
+      READY: drivers-rate
+      SHOT: vi-6g-1
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: drivers-lab-invite
+      READY: drivers-invite
+      SHOT: vi-6g-2
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: drivers-lab-ours
+      READY: drivers-ours-timeline
+      SHOT: vi-6g-3

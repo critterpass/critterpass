@@ -1,0 +1,309 @@
+appId: app.critterpass.dev
+env:
+  LANG: vi
+  NAV: dev-nav-trip-day-lab
+  LIST: 'trip-day-lab-.*'
+---
+# UI sweep (vi), lab scenes: the trip hub, the day of, offline and the leave-by alarm.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-2-window
+      READY: trip-day
+      SHOT: vi-3k-2-window
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-4-offline
+      READY: trip-offline-page
+      SHOT: vi-3k-4-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-2-before
+      READY: trip-day
+      SHOT: vi-3k-2-before
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-2-not-up
+      READY: trip-day
+      SHOT: vi-3k-2-not-up
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-2-overdue
+      READY: trip-day
+      SHOT: vi-3k-2-overdue
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-2-all-up
+      READY: trip-day
+      SHOT: vi-3k-2-all-up
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-2-transit
+      READY: trip-day
+      SHOT: vi-3k-2-transit
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-2-not-mine
+      READY: trip-day
+      SHOT: vi-3k-2-not-mine
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-2-quiet-day
+      READY: trip-day
+      SHOT: vi-3k-2-quiet-day
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-2-offline
+      READY: trip-day
+      SHOT: vi-3k-2-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-2-loading
+      READY: trip-day-loading
+      SHOT: vi-3k-2-loading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-pre-trip
+      READY: trip-hub
+      SHOT: vi-3k-1-pre-trip
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-pre-trip-switch
+      READY: trip-hub
+      SHOT: vi-3k-1-pre-trip-switch
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-planning
+      READY: trip-hub
+      SHOT: vi-3k-1-planning
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-travel-day
+      READY: trip-hub
+      SHOT: vi-3k-1-travel-day
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-in-trip
+      READY: trip-hub
+      SHOT: vi-3k-1-in-trip
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-next-today
+      READY: trip-hub
+      SHOT: vi-3k-1-next-today
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-next-tomorrow
+      READY: trip-hub
+      SHOT: vi-3k-1-next-tomorrow
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-visit-consent
+      READY: trip-hub
+      SHOT: vi-3k-1-visit-consent
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-day-done
+      READY: trip-hub
+      SHOT: vi-3k-1-day-done
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-long-name
+      READY: trip-hub
+      SHOT: vi-3k-1-long-name
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-two-word-name
+      READY: trip-hub
+      SHOT: vi-3k-1-two-word-name
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-post-trip
+      READY: trip-hub
+      SHOT: vi-3k-1-post-trip
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-briefing-loading
+      READY: trip-hub
+      SHOT: vi-3k-1-briefing-loading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-briefing-none
+      READY: trip-hub
+      SHOT: vi-3k-1-briefing-none
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-briefing-starts
+      READY: trip-hub
+      SHOT: vi-3k-1-briefing-starts
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-briefing-morning
+      READY: trip-hub
+      SHOT: vi-3k-1-briefing-morning
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-briefing-failed
+      READY: trip-hub
+      SHOT: vi-3k-1-briefing-failed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-briefing-stale
+      READY: trip-hub
+      SHOT: vi-3k-1-briefing-stale
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-briefing-acted
+      READY: trip-hub
+      SHOT: vi-3k-1-briefing-acted
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-no-bookings
+      READY: trip-hub
+      SHOT: vi-3k-1-no-bookings
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-ticker-line
+      READY: trip-hub
+      SHOT: vi-3k-1-ticker-line
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-guest-guide
+      READY: trip-hub
+      SHOT: vi-3k-1-guest-guide
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-1-loading
+      READY: trip-hub-loading
+      SHOT: vi-3k-1-loading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-trips-switcher
+      READY: trip-list
+      SHOT: vi-trips-switcher
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-trips-empty
+      READY: trip-list-empty
+      SHOT: vi-trips-empty
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-4-reconnecting
+      READY: trip-offline-page
+      SHOT: vi-3k-4-reconnecting
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-4-back-online
+      READY: trip-offline-page
+      SHOT: vi-3k-4-back-online
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-4-partial
+      READY: trip-offline-page
+      SHOT: vi-3k-4-partial
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-4-not-saved
+      READY: trip-offline-page
+      SHOT: vi-3k-4-not-saved
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-4-weak-signal
+      READY: trip-offline-page
+      SHOT: vi-3k-4-weak-signal
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-4-conflict
+      READY: trip-offline-page
+      SHOT: vi-3k-4-conflict
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-4-queued-item
+      READY: trip-offline-item-sheet
+      SHOT: vi-3k-4-queued-item
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3n-2-offline-storage
+      READY: trip-offline-storage
+      SHOT: vi-3n-2-offline-storage
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-5b-3-ringing
+      READY: trip-alarm-ringing
+      SHOT: vi-5b-3-ringing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-5b-3-crew-pinged
+      READY: trip-alarm-final
+      SHOT: vi-5b-3-crew-pinged
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-alarm-sheet-ask
+      READY: trip-alarm-sheet-ask
+      SHOT: vi-alarm-sheet-ask
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-alarm-sheet-exact
+      READY: trip-alarm-sheet-exact
+      SHOT: vi-alarm-sheet-exact
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-alarm-sheet-denied
+      READY: trip-alarm-sheet-denied
+      SHOT: vi-alarm-sheet-denied
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-alarm-sheet-notification
+      READY: trip-alarm-sheet-notification
+      SHOT: vi-alarm-sheet-notification

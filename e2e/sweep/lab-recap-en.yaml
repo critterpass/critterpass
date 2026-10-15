@@ -1,0 +1,165 @@
+appId: app.critterpass.dev
+env:
+  LANG: en
+  NAV: dev-nav-recap-lab
+  LIST: 'recap-lab-.*'
+---
+# UI sweep (en), lab scenes: the recap: summary, story and memory.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-1-recap
+      READY: recap-tiles
+      SHOT: en-3m-1-recap
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-1-no-copy
+      READY: recap-tiles
+      SHOT: en-3m-1-no-copy
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-1-writing
+      READY: recap-writing
+      SHOT: en-3m-1-writing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-1-failed
+      READY: recap-failed
+      SHOT: en-3m-1-failed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-1-late-expenses
+      READY: recap-updated
+      SHOT: en-3m-1-late-expenses
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-1-dropout
+      READY: recap-dropout
+      SHOT: en-3m-1-dropout
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-1-solo
+      READY: recap-tiles
+      SHOT: en-3m-1-solo
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-1-partial
+      READY: recap-tiles
+      SHOT: en-3m-1-partial
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-1-offline
+      READY: recap-tiles
+      SHOT: en-3m-1-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-recap-share-sheet
+      READY: recap-share-image-story
+      SHOT: en-3m-1-share
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-3-cover
+      READY: recap-lab-settled
+      SHOT: en-3m-3-cover
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-recap-critters
+      READY: recap-lab-settled
+      SHOT: en-recap-critters
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-4-route
+      READY: recap-lab-settled
+      SHOT: en-3m-4-route
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-5-awards
+      READY: recap-lab-settled
+      SHOT: en-3m-5-awards
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-5-mvp-vote
+      READY: recap-mvp-panel
+      SHOT: en-3m-5-mvp-vote
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-6-receipt
+      READY: recap-lab-settled
+      SHOT: en-3m-6-receipt
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-7-got-away
+      READY: recap-lab-settled
+      SHOT: en-3m-7-got-away
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-8-stamp
+      READY: recap-lab-settled
+      SHOT: en-3m-8-stamp
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-recap-stamp-first-signature
+      READY: recap-lab-settled
+      SHOT: en-3m-8-stamp-first-signature
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-recap-got-away-unseen
+      READY: recap-lab-settled
+      SHOT: en-3m-7-got-away-unseen
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-8-signature
+      READY: recap-signature-panel
+      SHOT: en-3m-8-signature
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-10-memory
+      READY: memory-screen
+      SHOT: en-3m-10-memory
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-10-first
+      READY: memory-screen
+      SHOT: en-3m-10-first
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-10-left-crew
+      READY: memory-screen
+      SHOT: en-3m-10-left-crew
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-10-no-recap
+      READY: memory-screen
+      SHOT: en-3m-10-no-recap
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: recap-lab-3m-10-react
+      READY: memory-react-sheet
+      SHOT: en-3m-10-react

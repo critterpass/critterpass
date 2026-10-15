@@ -1,0 +1,13 @@
+appId: app.critterpass.dev
+---
+# UI sweep (en): the demo crew with one card that needs you.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow:
+    file: ../_shared/start-as.yaml
+    env:
+      SCENARIO: inbox
+      LANG: en
+- runFlow:
+    file: subflows/seed-inbox.yaml
+    env:
+      LANG: en

@@ -1,0 +1,9 @@
+appId: app.critterpass.dev
+---
+# Opens ${URL} in the running app and accepts iOS's one-time "Open in …?" prompt if it shows.
+- openLink: ${URL}
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'

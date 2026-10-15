@@ -1,0 +1,39 @@
+appId: app.critterpass.dev
+env:
+  LANG: vi
+  NAV: dev-nav-search-lab
+  LIST: 'search-lab-.*'
+---
+# UI sweep (vi), lab scenes: search in a trip and its offline queue.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: search-lab-7d-1
+      READY: search-clipboard-card
+      SHOT: vi-7d-1-search
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: search-lab-7d-2
+      READY: search-plain-results
+      SHOT: vi-7d-2-plain-words
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: search-lab-7d-4
+      READY: search-way-out-pin
+      SHOT: vi-7d-4-no-results
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: search-lab-7i-2
+      READY: search-queued-card
+      SHOT: vi-7i-2-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: search-lab-7d-3
+      READY: search-link-save-ideas
+      SHOT: vi-7d-3-add-from-link

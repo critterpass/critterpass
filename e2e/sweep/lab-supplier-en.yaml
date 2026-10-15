@@ -1,0 +1,219 @@
+appId: app.critterpass.dev
+env:
+  LANG: en
+  NAV: dev-nav-supplier-lab
+  LIST: 'supplier-lab-.*'
+---
+# UI sweep (en), lab scenes: getting around and fare estimates.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-around-kyoto-estimate
+      READY: getting-around-fare-estimate
+      SHOT: en-3h-3-kyoto-estimate
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-around-links
+      READY: getting-around-ride-links
+      SHOT: en-3h-3-links
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-around-grab-estimate
+      READY: getting-around-ride-estimate
+      SHOT: en-3h-3-grab-estimate
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-around-transfer
+      READY: getting-around-transfer
+      SHOT: en-3h-3-transfer
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-around-journey
+      READY: getting-around-journey
+      SHOT: en-3h-3-journey
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-around-arrived
+      READY: getting-around-arrived
+      SHOT: en-3h-3-arrived
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-around-offline
+      READY: getting-around-ride-offline
+      SHOT: en-3h-3-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-around-no-apps
+      READY: getting-around-ride-none
+      SHOT: en-3h-3-no-apps
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-around-loading
+      READY: getting-around-ride-loading
+      SHOT: en-3h-3-loading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-around-estimate-why
+      READY: supplier-estimate-why
+      SHOT: en-supplier-estimate-why
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-around-log-ride
+      READY: supplier-log-ride
+      SHOT: en-supplier-log-ride
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-offers-links
+      READY: supplier-offer-klook
+      SHOT: en-6f-1-links
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-offers-live
+      READY: supplier-offer-viator-5510BATUR
+      SHOT: en-6f-1-live
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-offers-loading
+      READY: supplier-offers-loading
+      SHOT: en-6f-1-loading
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-offers-offline
+      READY: supplier-offers-notice
+      SHOT: en-6f-1-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-offers-partner-off
+      READY: supplier-offer-error
+      SHOT: en-6f-1-partner-off
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-book-choose
+      READY: supplier-book-choose
+      SHOT: en-supplier-book-choose
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-book-seats-held
+      READY: supplier-hold-timer
+      SHOT: en-supplier-book-seats-held
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-book-price-held
+      READY: supplier-hold-timer
+      SHOT: en-supplier-book-price-held
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-book-not-held
+      READY: supplier-book-hold-line
+      SHOT: en-supplier-book-not-held
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-book-payment-failed
+      READY: supplier-book-hold-line
+      SHOT: en-supplier-book-payment-failed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-book-pending
+      READY: supplier-book-pending_operator
+      SHOT: en-supplier-book-pending
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-book-confirmed
+      READY: supplier-book-confirmed
+      SHOT: en-supplier-book-confirmed
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-book-rejected
+      READY: supplier-book-rejected
+      SHOT: en-supplier-book-rejected
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-book-expired
+      READY: supplier-book-hold_expired
+      SHOT: en-supplier-book-expired
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-book-unavailable
+      READY: supplier-book-unavailable
+      SHOT: en-supplier-book-unavailable
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-cancel-quote
+      READY: supplier-cancel-refund
+      SHOT: en-supplier-cancel-quote
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-cancel-not-cancellable
+      READY: supplier-cancel-quote
+      SHOT: en-supplier-cancel-not-cancellable
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-cancel-done
+      READY: supplier-cancel-done
+      SHOT: en-supplier-cancel-done
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-cancel-offline
+      READY: supplier-cancel-error
+      SHOT: en-supplier-cancel-offline
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-vendor-draft
+      READY: vendor-draft
+      SHOT: en-supplier-vendor-draft
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-vendor-draft-approved
+      READY: vendor-draft-approved
+      SHOT: en-supplier-vendor-draft-approved
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-vendor-draft-self-send
+      READY: vendor-draft-self-send
+      SHOT: en-supplier-vendor-draft-self-send
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-vendor-threads
+      READY: vendor-threads
+      SHOT: en-supplier-vendor-threads
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: supplier-lab-vendor-threads-empty
+      READY: vendor-threads-empty
+      SHOT: en-supplier-vendor-threads-empty

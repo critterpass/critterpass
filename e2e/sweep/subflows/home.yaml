@@ -1,0 +1,27 @@
+appId: app.critterpass.dev
+---
+# Back to Home from anywhere: one back step at a time, each given time to land, so a slow
+# transition is never taken for "not Home yet" and stepped past. If a step still leaves the app,
+# it is relaunched onto Home.
+- repeat:
+    while:
+      notVisible:
+        id: 'home-screen'
+    times: 5
+    commands:
+      - runFlow: back.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'home-screen'
+          timeout: 4000
+          optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-screen'
+    commands:
+      - launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 20000

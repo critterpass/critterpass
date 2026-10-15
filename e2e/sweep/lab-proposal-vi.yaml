@@ -1,0 +1,111 @@
+appId: app.critterpass.dev
+env:
+  LANG: vi
+  NAV: dev-nav-proposal-lab
+  LIST: 'proposal-lab-.*'
+---
+# UI sweep (vi), lab scenes: the proposal, from building it to the tracker.
+# Generated from tools/scripts/ci-device/sweep-manifest.json (sweep-flows.ts --write).
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-build
+      READY: build-send
+      SHOT: vi-3f-1-build
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-build-alone
+      READY: build-lock-alone
+      SHOT: vi-3f-1-alone
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-build-reply-by
+      READY: reply-by-options
+      SHOT: vi-3f-1-reply-by
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-sent
+      READY: sent-tracker
+      SHOT: vi-3f-1-sent
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-version
+      READY: version-in
+      SHOT: vi-3f-3-your-version
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-version-group
+      READY: version-whole-plan
+      SHOT: vi-3f-3-group-version
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-not-sure
+      READY: objection-board
+      SHOT: vi-3f-4-not-sure
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-board
+      READY: board-slide
+      SHOT: vi-3f-5-slide
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-board-boarded
+      READY: board-egg
+      SHOT: vi-3f-5-boarded
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-board-full
+      READY: board-seat-ok
+      SHOT: vi-3f-5-full
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-tracker
+      READY: tracker-lock
+      SHOT: vi-3f-6-who-s-in
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-tracker-locked
+      READY: tracker-confirmed
+      SHOT: vi-3f-6-locked
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-trailer-slide
+      READY: lab-trailer-slide
+      SHOT: vi-3f-2-slide
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-dropout
+      READY: dropout-apply
+      SHOT: vi-3f-7-dev-s-out
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-dropout-applying
+      READY: dropout-applying
+      SHOT: vi-3f-7-applying
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-dropout-applied
+      READY: dropout-applied
+      SHOT: vi-3f-7-applied
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      ITEM: proposal-lab-crowd
+      READY: crowd-keep
+      SHOT: vi-4f-1-crowd

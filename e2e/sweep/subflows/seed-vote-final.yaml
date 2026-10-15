@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# The `vote_final` seed: the final's split card on Home (3b-6), the showdown (3c-1) and, after the
+# last vote, the winner reveal (3c-2).
+- extendedWaitUntil:
+    visible:
+      id: 'final-split-open'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3b-6-final
+- tapOn:
+    id: 'final-split-open'
+- extendedWaitUntil:
+    visible:
+      id: 'showdown'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3c-1-showdown
+- tapOn:
+    id: 'showdown-half-0'
+- extendedWaitUntil:
+    visible:
+      id: 'winner-reveal'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3c-2-reveal
