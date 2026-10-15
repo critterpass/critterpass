@@ -114,21 +114,31 @@ export interface WaitingLayoutProps {
   readonly testID?: string;
 }
 
-/** The 1.02 wait for a whole page body: photo, rows, then the critter and its line at the foot. */
+/**
+ * The 1.02 wait for a whole page body: photo, rows, then the critter and its line right under them
+ * (a short wait left the critter stranded far below its card). On a short screen the shapes are
+ * cut, with room kept for the card's shadow, and the critter's line stays.
+ */
 export function WaitingLayout({ label, rows = 4, photo = true, testID }: WaitingLayoutProps) {
   const t = usePremiumTheme();
   return (
-    <View
-      style={[
-        styles.grow,
-        { gap: t.space.gap16, paddingHorizontal: t.space.gutter, paddingTop: t.space.gap8 },
-      ]}
-    >
-      <View style={[styles.grow, { gap: t.space.gap16, overflow: 'hidden' }]}>
+    <View style={[styles.grow, { paddingTop: t.space.gap8 }]}>
+      <View
+        style={{
+          flexShrink: 1,
+          gap: t.space.gap16,
+          overflow: 'hidden',
+          paddingHorizontal: t.space.gutter,
+          paddingTop: t.space.gap8,
+          paddingBottom: t.space.gap16,
+        }}
+      >
         {photo ? <SkeletonPhoto height={240} /> : null}
         <SkeletonList rows={rows} />
       </View>
-      <LoadingCritter label={label} {...(testID === undefined ? {} : { testID })} />
+      <View style={{ paddingHorizontal: t.space.gutter }}>
+        <LoadingCritter label={label} {...(testID === undefined ? {} : { testID })} />
+      </View>
     </View>
   );
 }

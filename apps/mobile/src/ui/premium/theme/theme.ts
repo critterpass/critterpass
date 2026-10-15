@@ -45,11 +45,25 @@ function mapValues<K extends string, V, R>(
   return out;
 }
 
+/**
+ * App-side corrections to the dark palette: the skeleton greys sat a shade off the dark card, so a
+ * waiting card read as an empty slab. Each takes the next step up among the palette's own greys,
+ * which keeps the light look's step between a card and the shapes waiting on it.
+ */
+function darkSkeleton(color: PremiumPalette): Partial<PremiumPalette> {
+  return {
+    skeletonFrom: color.progressTodo,
+    skeletonTo: color.stepLine,
+    skeletonBar: color.progressTodo,
+    skeletonBarSoft: color.skeletonFrom,
+  };
+}
+
 function build(scheme: PremiumScheme): PremiumTheme {
   const mode = premium.modes[scheme];
   return Object.freeze({
     scheme,
-    color: mode.color,
+    color: scheme === 'dark' ? { ...mode.color, ...darkSkeleton(mode.color) } : mode.color,
     accent: premium.accent,
     stamp: premium.stamp,
     signal: premium.signal,
