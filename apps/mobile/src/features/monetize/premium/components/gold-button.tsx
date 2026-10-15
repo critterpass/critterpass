@@ -62,7 +62,8 @@ export function GoldButton({
         {loading ? <Spinner /> : leading}
         <Text
           variant="button"
-          color={disabled ? (onNight ? NIGHT.textSoft : t.color.placeholder) : t.color.onAccent}
+          // Off, the label still reads (the fill says it is off): white on the night, muted ink by day.
+          color={disabled ? (onNight ? NIGHT.text : t.color.muted) : t.color.onAccent}
           style={styles.label}
           numberOfLines={1}
         >
