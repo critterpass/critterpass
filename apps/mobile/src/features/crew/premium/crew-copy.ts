@@ -6,6 +6,7 @@ import { plural, t } from '@lingui/core/macro';
 
 import type { CrewCover } from '@cp/domain';
 
+import { appDateLocales, appFormatRange } from '@/lib/i18n/app-date-time-format';
 import { memberFirstName } from '@/lib/people/member-name';
 
 import type { StartStep } from '../start-crew/use-start-crew';
@@ -102,15 +103,9 @@ export function tripDatesLine(
   const start = trip.start_date === null ? null : localDay(trip.start_date);
   if (start === null) return null;
   const end = trip.end_date === null ? null : localDay(trip.end_date);
-  const month = new Intl.DateTimeFormat(locale, { month: 'short' });
-  const day = new Intl.DateTimeFormat(locale, { day: 'numeric' });
-  const full = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short' });
-  const range =
-    end === null || end.getTime() === start.getTime()
-      ? full.format(start)
-      : start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()
-        ? `${month.format(start)} ${day.format(start)}–${day.format(end)}`
-        : `${full.format(start)} – ${full.format(end)}`;
+  // The app's dates and range ("5–11 Nov"), as Trips, Home and Wallet write them.
+  const full = new Intl.DateTimeFormat(appDateLocales(locale), { day: 'numeric', month: 'short' });
+  const range = end === null ? full.format(start) : appFormatRange(full, start, end);
   if (trip.status !== 'in_trip' || end === null) return range;
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
   const days = Math.round((end.getTime() - start.getTime()) / DAY_MS) + 1;
