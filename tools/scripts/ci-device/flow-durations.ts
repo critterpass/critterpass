@@ -63,6 +63,7 @@ export const FLOW_MEDIAN_MINUTES: Readonly<Record<string, number>> = {
   'e2e/screens/plan-vote-dark.yaml': 2.0,
   'e2e/screens/plan-vote.yaml': 9.2,
   'e2e/screens/plan.yaml': 10.7,
+  'e2e/screens/setup.yaml': 6.0,
   'e2e/screens/trip-dark.yaml': 4.3,
   'e2e/screens/trip.yaml': 11.2,
   'e2e/screens/vi-trip.yaml': 7.7,

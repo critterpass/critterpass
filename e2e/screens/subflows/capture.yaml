@@ -38,10 +38,11 @@ appId: app.critterpass.dev
             text: '.*path:/${ROUTE}'
           timeout: 12000
           optional: true
+      # Reached but still busy (a map's tiles, a caret) is not missing: only another route is.
       - runFlow:
           when:
             notVisible:
-              id: 'qa-settled'
+              id: 'qa-(settled|busy)'
               text: '.*path:/${ROUTE}'
           commands:
             - evalScript: "${output.captureMissing = output.captureMissing + ' ' + CODE + '-' + NAME}"
