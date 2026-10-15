@@ -24,7 +24,7 @@ import {
 
 import type { HeroKind } from '../../balances/model';
 import { formatAmount } from '../../format';
-import { EMPTY_HERO_NAVY } from '../money-palette';
+import { EMPTY_HERO_NAVY, EMPTY_HERO_TEXT } from '../money-palette';
 import { RollingAmount } from './RollingAmount';
 
 /** The wallet sticker's side and how far it leans out over the card's top edge. */
@@ -161,15 +161,15 @@ export function EmptyLedgerHero(props: {
       <View style={styles.emptySticker} pointerEvents="none">
         <StickerIcon name="wallet" size={76} tilt={-12} color={th.color.outlineEmpty} />
       </View>
-      <Text variant="label" color={th.color.onInkSurface} style={styles.soft}>
+      <Text variant="label" color={EMPTY_HERO_TEXT} style={styles.soft}>
         {t({ id: 'money.premium.square', message: `${props.crewName} · you're square` })}
       </Text>
-      <Text variant="hero" color={th.color.onInkSurface}>
+      <Text variant="hero" color={EMPTY_HERO_TEXT}>
         {formatAmount(0n, props.currency, locale)}
       </Text>
       <View style={styles.crew}>
         <CrewStack members={props.members} size={24} accessibilityLabel={props.crewName} />
-        <Text variant="caption" color={th.color.onInkSurface} style={styles.soft}>
+        <Text variant="caption" color={EMPTY_HERO_TEXT} style={styles.soft}>
           {t({ id: 'money.premium.nobodyOwes', message: 'Nobody owes anyone yet' })}
         </Text>
       </View>
