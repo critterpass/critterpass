@@ -183,7 +183,8 @@ export function PassPaper({
               variant="mono"
               color={PAPER_INK.label}
               numberOfLines={1}
-              ellipsizeMode="clip"
+              adjustsFontSizeToFit
+              minimumFontScale={0.6}
             >
               {line}
             </Text>

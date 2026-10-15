@@ -123,7 +123,7 @@ export function PassportCard({ model, photoUri, onPassPlus }: PassportCardProps)
         />
       </View>
       {/* The machine line is covered in a problem report's screenshot. */}
-      {/* One printed line: the machine line, cut clean at the edge, and SINCE at the right. */}
+      {/* One printed line: the machine line, set small enough to fit whole, and SINCE at the right. */}
       <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: th.space.gap12 }}>
         <View style={{ flex: 1, minWidth: 0 }}>
           <PrivateContent>
@@ -131,7 +131,8 @@ export function PassportCard({ model, photoUri, onPassPlus }: PassportCardProps)
               variant="mono"
               color={PASS_PAPER.label}
               numberOfLines={1}
-              ellipsizeMode="clip"
+              adjustsFontSizeToFit
+              minimumFontScale={0.6}
               accessibilityLabel={t({ id: 'you.premium.mrz', message: 'Machine-readable line' })}
               testID="you-profile-mrz"
             >

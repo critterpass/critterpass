@@ -98,7 +98,8 @@ export function VisaCard({
         variant="mono"
         color={PAPER_MUTED}
         numberOfLines={1}
-        ellipsizeMode="clip"
+        adjustsFontSizeToFit
+        minimumFontScale={0.6}
         style={styles.mrz}
       >
         {mrz}

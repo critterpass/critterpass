@@ -68,15 +68,18 @@ export function WizardPage({
       : footerHeight + theme.space.gap8 * 3 + theme.space.gap16 + keyboardTrail;
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.ground }} testID={testID}>
-      {header ??
-        (step === undefined ? null : (
-          <WizardHeader
-            current={step.current}
-            total={step.total}
-            backLabel={backLabel}
-            {...(onBack === undefined ? {} : { onBack })}
-          />
-        ))}
+      {/* Above the fade below it, so the header controls' shadows fall over the page uncut. */}
+      <View style={{ zIndex: 1 }}>
+        {header ??
+          (step === undefined ? null : (
+            <WizardHeader
+              current={step.current}
+              total={step.total}
+              backLabel={backLabel}
+              {...(onBack === undefined ? {} : { onBack })}
+            />
+          ))}
+      </View>
       {/* What scrolls up under the header fades into its ground instead of being cut at its edge. */}
       <View style={{ flex: 1 }}>
         <KeyboardAwareScroll

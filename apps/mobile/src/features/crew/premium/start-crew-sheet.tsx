@@ -8,7 +8,7 @@
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
-import { StyleSheet, View, type TextInput } from 'react-native';
+import { Platform, StyleSheet, View, type TextInput } from 'react-native';
 
 import { DEFAULT_CREW_COVER, type CrewCover } from '@cp/domain';
 
@@ -62,12 +62,13 @@ function StartCrewForm({ start, cover }: StartCrewFormProps) {
   const stamps = useReferralStamps();
   const [lockedNote, setLockedNote] = useState<string | null>(null);
   const insets = useScreenInsets();
-  // The name takes focus once the sheet has risen: asked for during the rise, Android shows the
-  // caret but drops the keyboard, and the footer is left lifted for a keyboard that never came.
+  // On iPhone the name takes focus once the sheet has risen, keyboard up as the design shows it.
+  // Android leaves it to a tap: focused on open (during the rise or after it), it draws the caret
+  // but no keyboard, while the page still lifts its footer and scroll for one.
   const presented = usePresented();
   const nameField = useRef<ComponentRef<typeof TextInput>>(null);
   useEffect(() => {
-    if (presented) nameField.current?.focus();
+    if (presented && Platform.OS === 'ios') nameField.current?.focus();
   }, [presented]);
   useDirtySheetGuard(start.name.trim() !== '', {
     title: t({ id: 'crew.premium.start.discardTitle', message: 'Drop this crew?' }),
@@ -203,7 +204,8 @@ function coverWash(cover: CrewCover): string {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  header: { flexDirection: 'row', alignItems: 'center', paddingBottom: 8 },
+  // Above the scroll's fade, so the ✕'s shadow falls over the page uncut.
+  header: { flexDirection: 'row', alignItems: 'center', paddingBottom: 8, zIndex: 1 },
   title: { flex: 1, textAlign: 'center' },
   stage: { height: 270, alignItems: 'center', justifyContent: 'center' },
   wash: { ...StyleSheet.absoluteFill },
