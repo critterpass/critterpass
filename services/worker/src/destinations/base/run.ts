@@ -18,7 +18,8 @@ import type pg from 'pg';
 import { loadGeoNames, type GeoNamesFiles } from './geonames';
 import { storeBasePhotos, type PhotoCounts } from './photos';
 import { loadExistingDestinations, toRecord, upsertBaseRows } from './upsert';
-import { loadWikidataByGeonames, loadWikidataCandidates, withFame } from './wikidata';
+import { loadWikidataCandidates } from './wikidata';
+import { loadWikidataByGeonames, withFame } from './wikidata-fame';
 
 export interface BaseBuildOptions {
   readonly dryRun?: boolean;

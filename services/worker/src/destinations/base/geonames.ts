@@ -96,6 +96,12 @@ export function parseAlternateNames(text: string): Map<number, AlternateNames> {
 }
 
 const SEAT_CODES = new Set(['PPLC', 'PPLA', 'PPLA2']);
+/**
+ * Feature codes that are never a destination of their own: a section of a city (PPLX: Bồ Đề,
+ * Linh Đàm, Eixample), a locality such as a housing estate (PPLL: Vinhomes Smart City), and
+ * historical, abandoned or destroyed places.
+ */
+export const NOT_A_DESTINATION_CODES = new Set(['PPLX', 'PPLL', 'PPLH', 'PPLQ', 'PPLW', 'PPLCH']);
 export const GAP_FILL_MIN_POPULATION = 50_000;
 
 export interface CityFileOptions {
@@ -109,7 +115,7 @@ export interface CityFileOptions {
 
 /**
  * A cities file's gap-fill candidates: a capital or a first- or second-level seat, or a city of at
- * least 50,000 people.
+ * least 50,000 people; never a city section or a locality.
  */
 export function parseCities(text: string, options: CityFileOptions): BaseCandidate[] {
   const rows: BaseCandidate[] = [];
@@ -118,6 +124,7 @@ export function parseCities(text: string, options: CityFileOptions): BaseCandida
     if (cols.length < 19) continue;
     const [id, name, , , lat, lng, , code, country, , admin1] = cols;
     if (options.country !== undefined && country !== options.country) continue;
+    if (NOT_A_DESTINATION_CODES.has(code ?? '')) continue;
     const population = Number(cols[14]);
     const gapFill = SEAT_CODES.has(code ?? '') || population >= GAP_FILL_MIN_POPULATION;
     if (options.all !== true && !gapFill) continue;
