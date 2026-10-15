@@ -64,7 +64,9 @@ export function GlassSurface({
         {...(kind === 'clear' || t.scheme === 'dark' ? { tintColor: t.material[kind].tint } : {})}
         colorScheme={t.scheme}
         isInteractive={interactive}
-        style={style}
+        // A tint alone sits too close to a dark map in tone: the design's dark glass stands off it
+        // by its white hairline ring, top highlight and drop, which the system glass doesn't draw.
+        style={t.scheme === 'dark' ? [{ boxShadow: t.materialShadow[kind] }, style] : style}
       >
         {children}
       </GlassView>
