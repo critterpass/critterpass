@@ -1,0 +1,12 @@
+appId: app.critterpass.dev
+---
+# The day's edits on a trip under way, walked again in Vietnamese by a fresh account on real
+# staging: subflows/on-trip-rewalk-edits.yaml.
+- runFlow:
+    file: subflows/on-trip-start.yaml
+    env:
+      SHOTS: edits-vi-00-setup
+- runFlow:
+    file: subflows/on-trip-rewalk-edits.yaml
+    env:
+      SHOTS: edits-vi

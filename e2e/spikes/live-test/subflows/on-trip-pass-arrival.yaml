@@ -1,0 +1,32 @@
+appId: app.critterpass.dev
+---
+# Once the phone is at the destination the trip turns on, and two things rise over whatever she
+# was doing: the offer to remember the places she visits, and the guide's welcome page. Each is
+# put away with its own "later".
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 4000
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'
+      - waitForAnimationToEnd:
+          timeout: 4000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 4000
