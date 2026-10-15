@@ -62,11 +62,16 @@ const BAR_HEIGHT = 54;
 const useStyles = makePremiumStyles((th) => ({
   scrim: { ...StyleSheet.absoluteFill, backgroundColor: CHAT_PAINT.menuScrim },
   // Over the header and the status bar too; with no blur on hand the frost is thick enough that
-  // the chat behind reads as shapes, not words.
+  // the chat behind reads as faint shapes, not words, even in the gap over the lifted message.
   root: { ...StyleSheet.absoluteFill, zIndex: 10 },
-  frost: { ...StyleSheet.absoluteFill, backgroundColor: th.color.ground, opacity: 0.82 },
+  frost: { ...StyleSheet.absoluteFill, backgroundColor: th.color.ground, opacity: 0.92 },
   lifted: { position: 'absolute' },
-  liftedShadow: { borderRadius: th.radius.banner },
+  // A ring as well as the shadow: in the dark look a shadow alone doesn't lift it off the frost.
+  liftedShadow: {
+    borderRadius: th.radius.banner,
+    borderWidth: th.scheme === 'dark' ? StyleSheet.hairlineWidth : 0,
+    borderColor: th.color.hairline,
+  },
   liftedClip: { borderRadius: th.radius.banner, overflow: 'hidden' },
   bar: {
     position: 'absolute',
