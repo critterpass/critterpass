@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
-import { LoadingCritter } from './Skeleton';
+import { WaitingLayout } from './skeleton-layouts';
 
 /**
  * The premium wait while the session starts (a cold link or a restored launch opens a session-only
@@ -20,11 +20,15 @@ export function PremiumSessionWaiting({ testID }: { readonly testID?: string }) 
     <View
       style={[
         styles.root,
-        { backgroundColor: theme.color.ground, paddingBottom: insets.bottom + theme.space.gap16 },
+        {
+          backgroundColor: theme.color.ground,
+          paddingTop: insets.top + theme.size.glassNav + theme.space.gap12,
+          paddingBottom: insets.bottom + theme.space.gap16,
+        },
       ]}
       {...(testID === undefined ? {} : { testID })}
     >
-      <LoadingCritter
+      <WaitingLayout
         label={t({ id: 'common.premium.sessionWaiting', message: 'Opening your trips…' })}
       />
     </View>
@@ -32,5 +36,5 @@ export function PremiumSessionWaiting({ testID }: { readonly testID?: string }) 
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, justifyContent: 'flex-end' },
+  root: { flex: 1 },
 });

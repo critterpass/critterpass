@@ -15,6 +15,7 @@ import type { PremiumTypeName } from '../theme/kit-type';
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 import { useReportBodyTitle } from './body-title';
 import { markRoom, marksClipped } from './mark-room';
+import { tieLastWords } from './widow-tie';
 
 /** Palette roles a text can take by name; any other colour is passed as `color`. */
 export type PremiumTextTone = Extract<
@@ -94,6 +95,9 @@ const BALANCED = Platform.select<RNTextProps>({
   ios: { lineBreakStrategyIOS: 'push-out' },
   default: {},
 });
+
+/** Full-width breaking for a text set from the start (see `unbalanced` below). */
+const UNBALANCED = 'highQuality' as const;
 
 /** The children as one string, or `null` when they hold elements (nested styled spans). */
 function plainText(children: ReactNode): string | null {
@@ -208,8 +212,20 @@ export function Text({
     rest.numberOfLines === 1 && floor !== undefined && rest.adjustsFontSizeToFit === undefined
       ? { adjustsFontSizeToFit: true, minimumFontScale: floor }
       : {};
-  const text = plainText(rest.children);
+  const plain = plainText(rest.children);
+  // Prose wraps at full width with its last two words kept together; a control label, a code and
+  // a one-line text are left as written.
+  const tie =
+    plain !== null &&
+    rest.numberOfLines !== 1 &&
+    token.family !== 'mono' &&
+    !(singleLine ?? ONE_LINE_VARIANTS.has(variant));
+  const text = tie ? tieLastWords(plain) : plain;
   const balanced = align === 'center' || BALANCED_VARIANTS.has(variant);
+  // Android's balanced breaking evens the lines of a centred text or a heading; on a text set from
+  // the start it narrowed a short note to half the width, so it keeps the full width there.
+  const unbalanced =
+    !balanced && rest.textBreakStrategy === 'balanced' ? { textBreakStrategy: UNBALANCED } : null;
   const scale = Math.min(fontScale, token.maxScale);
   const borel = token.family === 'guide' && font.fontFamily !== undefined;
   const marks = borel
@@ -221,6 +237,8 @@ export function Text({
       {...(balanced ? BALANCED : null)}
       {...fit}
       {...rest}
+      {...unbalanced}
+      {...(tie && text !== plain ? { children: text } : null)}
       allowFontScaling
       maxFontSizeMultiplier={token.maxScale}
       style={[

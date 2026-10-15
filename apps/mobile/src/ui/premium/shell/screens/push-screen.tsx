@@ -22,9 +22,8 @@ import { useBodyTitle, useHeaderLeavesWithPage } from './push-screen-hooks';
 import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from './scroll-edge';
 
 export interface PushScreenProps {
-  /** The centred inline title (19/700). */
+  /** The centred inline title (19/700) and the muted line under it (12/400). */
   readonly title: string;
-  /** The muted line under it (12/400). */
   readonly subtitle?: string;
   /** The one right action (share, ⋯, Edit, a labelled glass pill). */
   readonly action?: ShellAction;
@@ -40,19 +39,17 @@ export interface PushScreenProps {
   readonly largeTitle?: boolean;
   /** The label the back button speaks. */
   readonly backLabel: string;
-  /** The label the ✕ speaks when the page is the first screen of a sheet or modal ("Close"). */
+  /** What the ✕ says on a sheet's or modal's first screen ("Close"). */
   readonly closeLabel?: string;
-  /**
-   * The leading control. `auto` (the default) follows where the page sits: pushed → glass back
-   * `<`, the first screen of a sheet or modal → ✕, a tab's first screen → none.
-   */
+  /** `auto`: pushed → glass `<`, a sheet's or modal's first screen → ✕, a tab's first → none. */
   readonly leading?: 'auto' | 'back' | 'close' | 'none';
+  /** A pill on a crumb page's back row ("Only you see this"), in the crumb's place. */
+  readonly badge?: ReactNode;
+  /** @default 'end' */
+  readonly badgeAlign?: 'end' | 'centre';
   /** Content scrolls under the bar. Off when the page brings its own list. @default true */
   readonly scroll?: boolean;
-  /**
-   * The page's foot of actions (`PageFooter`): on the ground under the scroll view, so the last
-   * row clears it and the content fades out above it.
-   */
+  /** The foot of actions (`PageFooter`) under the scroll view; the content fades out above it. */
   readonly footer?: ReactNode;
   readonly children: ReactNode;
   readonly testID?: string;
@@ -88,6 +85,8 @@ export function PushScreen({
   backLabel,
   closeLabel,
   leading = 'auto',
+  badge,
+  badgeAlign = 'end',
   scroll = true,
   footer,
   children,
@@ -210,6 +209,7 @@ export function PushScreen({
           leading={leadingNode}
           crumb={control === 'back' || control === 'home' ? backLabel : null}
           trailing={trailing}
+          badge={badge === undefined ? undefined : { node: badge, align: badgeAlign }}
         />
         {largeTitle ? (
           <View

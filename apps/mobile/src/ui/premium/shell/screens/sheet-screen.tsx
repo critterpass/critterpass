@@ -13,7 +13,7 @@ import { useScreenPlacement } from '../navigation/use-screen-placement';
 import { useDirtySheetGuard, type DiscardPrompt } from './dirty-sheet';
 import { FooterStack } from './footer-stack';
 import { SheetHeader } from './sheet-header';
-import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from './scroll-edge';
+import { ScrollEdgeFade, useScrollEdges } from './scroll-edge';
 
 /** Half height for one choice, full height for a form, or as tall as the content. */
 export type SheetDetent = 'half' | 'full' | 'fit';
@@ -58,14 +58,31 @@ export function sheetDetentOptions(detents: readonly number[]): NativeStackNavig
 export function sheetMaterialStyle(t: PremiumTheme): ViewStyle {
   // Opaque on both platforms (the design's sheets never show the page through their body): the
   // fill is the sheet material's tint already laid over the ground.
+  const fill = t.material.sheet.fill;
   return Platform.OS === 'android'
     ? {
-        backgroundColor: t.material.sheet.fill,
+        backgroundColor: fill,
         borderTopLeftRadius: ANDROID_SHEET_RADIUS,
         borderTopRightRadius: ANDROID_SHEET_RADIUS,
       }
-    : { backgroundColor: t.material.sheet.fill };
+    : // An iOS sheet runs on below its content to its rounded foot (a fit sheet adds the home
+      // indicator's room), where the system glass showed the tab bar through: the material
+      // carries on down there as a hard shadow of itself, which the sheet's shape clips.
+      { backgroundColor: fill, boxShadow: footShadow(fill) };
 }
+
+/** How far an iOS sheet's material reaches past its content, into the sheet's foot. */
+const IOS_FOOT = 60;
+
+/** The material copied down past the content: a hard shadow, grown and moved down alike. */
+function footShadow(fill: string): string {
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- shadow syntax, never copy.
+  return `0 ${IOS_FOOT}px 0 ${IOS_FOOT}px ${fill}`;
+}
+
+/** The fade where a sheet's form meets its header and footer: longer than a page's, so a card
+ * scrolled under reads as fading, not cut, in a sheet's short window. */
+const SHEET_EDGE_FADE = 40;
 
 export interface SheetVerb {
   /** The verb in the ink pill on the right ("Save", "Post", "Add"). */
@@ -157,6 +174,9 @@ export function SheetScreen({
   };
 
   const android = Platform.OS === 'android';
+  // Android's native sheet runs under the gesture bar: its last row and its footer keep clear of
+  // the home indicator, as a page does. An iOS sheet keeps its own foot.
+  const foot = asPage || android ? insets.bottom : 0;
   return (
     <View
       testID={testID}
@@ -199,7 +219,7 @@ export function SheetScreen({
               contentContainerStyle={{
                 paddingHorizontal: t.space.gutter,
                 paddingTop: t.space.gap8,
-                paddingBottom: t.space.gap16,
+                paddingBottom: t.space.gap16 + (footer === undefined ? foot : 0),
               }}
               contentInsetAdjustmentBehavior="never"
               automaticallyAdjustKeyboardInsets
@@ -216,7 +236,7 @@ export function SheetScreen({
           {scroll ? (
             <ScrollEdgeFade
               edge="top"
-              height={SCROLL_EDGE_FADE}
+              height={SHEET_EDGE_FADE}
               color={t.material.sheet.fill}
               visible={edges.top}
             />
@@ -224,7 +244,7 @@ export function SheetScreen({
           {scroll && footer !== undefined ? (
             <ScrollEdgeFade
               edge="bottom"
-              height={SCROLL_EDGE_FADE}
+              height={SHEET_EDGE_FADE}
               color={t.material.sheet.fill}
               visible={edges.bottom}
             />
@@ -236,7 +256,7 @@ export function SheetScreen({
             ground={t.material.sheet.fill}
             style={{
               paddingHorizontal: t.space.gutter,
-              paddingBottom: t.space.gap16 + (asPage ? insets.bottom : 0),
+              paddingBottom: t.space.gap16 + foot,
             }}
           >
             <FooterStack>{footer}</FooterStack>
