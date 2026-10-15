@@ -62,7 +62,12 @@ export function HelpConsent({
         })}
       </Text>
       <Button
-        label={t({ id: 'safety.consent.done', message: 'Done' })}
+        // The button says what the answer does, so it never reads as a plain dismiss.
+        label={
+          on
+            ? t({ id: 'safety.consent.share', message: 'Share when I open Help' })
+            : t({ id: 'safety.consent.keepOff', message: 'Keep it off' })
+        }
         size="medium"
         onPress={() => onAnswer(on)}
         testID="help-consent-done"
