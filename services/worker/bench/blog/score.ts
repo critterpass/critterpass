@@ -126,18 +126,24 @@ export function coherence(days: readonly ScoredDay[], reference: Reference): num
   );
 }
 
+/** Whether a stop has times of day it is best at and starts outside all of them. */
+export function missesItsTime(stop: ScoredStop): boolean {
+  return (
+    stop.kind === 'activity' &&
+    stop.bestTimes.length > 0 &&
+    !stop.bestTimes.some((time) => {
+      const window = BEST_TIME_WINDOWS[time];
+      return window !== undefined && within(stop.startMin, window);
+    })
+  );
+}
+
 export function timeFit(days: readonly ScoredDay[]): number | null {
   const timed = days.flatMap((day) =>
     day.stops.filter((s) => s.kind === 'activity' && s.bestTimes.length > 0),
   );
   if (timed.length === 0) return null;
-  const fits = timed.filter((stop) =>
-    stop.bestTimes.some((time) => {
-      const window = BEST_TIME_WINDOWS[time];
-      return window !== undefined && within(stop.startMin, window);
-    }),
-  );
-  return fits.length / timed.length;
+  return timed.filter((stop) => !missesItsTime(stop)).length / timed.length;
 }
 
 export function meals(days: readonly ScoredDay[]): number | null {

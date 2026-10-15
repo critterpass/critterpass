@@ -2,10 +2,10 @@
  * What code does to the guide's outline before any day is drafted, so every day starts from a
  * list a person could follow. A planned stop stays only while the day can still be timed with it
  * (hours, meal times, the time of day a place is for) and it sits within reach of the day's other
- * stops. A day the outline left light is topped up from the unused activities near it, so no day
- * is a single stop beside a full one while there are places to go. Each day's meal places are the
- * best eateries near that day's stops (never the same place on two days, never a dish the day
- * before already has), and its spares are the unused activities near it.
+ * stops. A day the outline left light is topped up from the unused activities in its areas, so no
+ * day is a single stop beside a full one while there are places to go. Each day's meal places are
+ * the best eateries in its areas or beside them (never the same place on two days, never a dish
+ * the day before already has); its spares are set aside in ./skeleton-spares.ts.
  */
 import {
   bestOrder,
@@ -22,7 +22,7 @@ import {
   type DraftPoi,
 } from '@cp/planner';
 
-import { homeOf, hopCap, dayOutOf } from './areas';
+import { areaStep, byArea, dayOutOf, homeOf, hopCap } from './areas';
 import { byVariety, kindOf, oneTooMany } from './variety';
 import { stopBudget } from './budget';
 import type { DraftPlanInput } from './context';
@@ -41,7 +41,6 @@ export interface OutlineDay {
 /** Activities a full day should hold at least, when there are places for them. */
 const MIN_DAY_ACTIVITIES = 3;
 const MEALS_PER_SLOT = 3;
-const SPARES_PER_DAY = 4;
 
 /** The stops a day has before the guide adds any: the organiser's own, then its must-dos. */
 function mustDoChoices(input: DraftPlanInput, day: OutlineDay): DayChoice[] {
@@ -80,7 +79,7 @@ export function anchorsOf(input: DraftPlanInput, day: OutlineDay): string[] {
   return [...mustDoChoices(input, day).map((choice) => choice.poiId), ...day.poiIds];
 }
 
-/** Eateries the day could use for `slot`, the nearest part of the map first, best first within it. */
+/** Eateries the day could use for `slot`: in the day's own areas first, best first within them. */
 function eateriesFor(
   input: DraftPlanInput,
   day: OutlineDay,
@@ -95,17 +94,14 @@ function eateriesFor(
       : withinReach(poi.id, anchors, input.travel, cap)
         ? 1
         : 2;
-  return input.pools.eateries
-    .filter(
-      (poi) =>
-        !mustDoPlaces.has(poi.id) &&
-        (input.pools.openDays.get(poi.id) ?? []).includes(day.dayNo) &&
-        mealSlots(poi, day.date).includes(slot),
-    )
-    .map((poi, rank) => ({ poi, rank, ring: ring(poi) }))
-    .filter((entry) => entry.ring < 2)
-    .sort((a, b) => a.ring - b.ring || a.rank - b.rank)
-    .map((entry) => entry.poi);
+  const open = input.pools.eateries.filter(
+    (poi) =>
+      !mustDoPlaces.has(poi.id) &&
+      (input.pools.openDays.get(poi.id) ?? []).includes(day.dayNo) &&
+      mealSlots(poi, day.date).includes(slot) &&
+      ring(poi) < 2,
+  );
+  return byArea(input, open, anchors);
 }
 
 /** Stand-ins for the day's meals while sizing it: the nearest place that serves each meal. */
@@ -182,7 +178,10 @@ export function keepWhatFits(
   }
 }
 
-/** Tops up light days from the unused activities near them, the lightest day first. */
+/**
+ * Tops up light days from the unused activities in their areas (or a neighbouring one), the
+ * lightest day first; never from across town.
+ */
 export function topUpDays(
   input: DraftPlanInput,
   days: readonly OutlineDay[],
@@ -198,18 +197,16 @@ export function topUpDays(
     const tried = new Set<string>();
     while (load(day) < target) {
       const anchors = anchorsOf(input, day);
-      const next = byVariety(
-        input,
-        input.pools.activities.filter(
-          (poi) =>
-            !taken.has(poi.id) &&
-            !tried.has(poi.id) &&
-            (input.pools.openDays.get(poi.id) ?? []).includes(day.dayNo) &&
-            withinReach(poi.id, anchors, input.travel, cap),
-        ),
-        anchors,
-        [...taken],
-      )[0];
+      const open = input.pools.activities.filter(
+        (poi) =>
+          !taken.has(poi.id) &&
+          !tried.has(poi.id) &&
+          (input.pools.openDays.get(poi.id) ?? []).includes(day.dayNo) &&
+          withinReach(poi.id, anchors, input.travel, cap) &&
+          areaStep(input, poi.id, anchors) < 2,
+      );
+      // Must-sees first, then by kind; among equals the day's own areas before a neighbour.
+      const next = byVariety(input, byArea(input, open, anchors), anchors, [...taken])[0];
       if (next === undefined) break;
       tried.add(next.id);
       if (!fits(input, day, [...day.poiIds, next.id])) continue;
@@ -221,7 +218,7 @@ export function topUpDays(
   return added;
 }
 
-/** Each day's meal places: per meal the day runs through, the best few near its stops. */
+/** Each day's meal places: per meal the day runs through, the best few in or near its areas. */
 export function assignMeals(input: DraftPlanInput, days: readonly OutlineDay[]): void {
   const listed = new Set<string>();
   const place = (id: string) => input.pois.get(id);
@@ -234,49 +231,36 @@ export function assignMeals(input: DraftPlanInput, days: readonly OutlineDay[]):
       : [...mustDoChoices(input, day).map((c) => c.poiId), ...day.mealIds]
           .map(place)
           .filter((poi): poi is DraftPoi => poi !== undefined && foodRole(poi) === 'meal');
-  for (const day of [...days].sort((a, b) => a.dayNo - b.dayNo)) {
-    const anchors = anchorsOf(input, day);
-    const around = [
-      ...eaten(days.find((d) => d.dayNo === day.dayNo - 1)),
-      ...eaten(days.find((d) => d.dayNo === day.dayNo + 1)).filter((poi) =>
-        input.pools.mustDos.some((slot) => slot.poiId === poi.id),
-      ),
-    ];
-    for (const slot of mealsNeeded(input, day.dayNo)) {
-      let count = 0;
-      for (const poi of eateriesFor(input, day, slot, anchors)) {
-        if (count >= MEALS_PER_SLOT) break;
-        if (listed.has(poi.id)) continue;
-        const mine = eaten(day);
-        if ([...around, ...mine].some((other) => sameDish(other, poi))) continue;
-        // A must-do's dish is that one visit: no other day is offered it again.
-        if (asked.some((other) => other.id !== poi.id && sharesDish(other, poi))) continue;
+  const counts = new Map<string, number>();
+  const ordered = [...days].sort((a, b) => a.dayNo - b.dayNo);
+  // In rounds, one place per meal per day at a time: a town with few eateries spreads the ones in
+  // each area over its days, rather than the first day taking them all.
+  for (let round = 0; round < MEALS_PER_SLOT; round += 1) {
+    for (const day of ordered) {
+      const anchors = anchorsOf(input, day);
+      const around = [
+        ...eaten(days.find((d) => d.dayNo === day.dayNo - 1)),
+        ...eaten(days.find((d) => d.dayNo === day.dayNo + 1)).filter((poi) =>
+          input.pools.mustDos.some((slot) => slot.poiId === poi.id),
+        ),
+      ];
+      for (const slot of mealsNeeded(input, day.dayNo)) {
+        const key = `${day.dayNo}:${slot}`;
+        const count = counts.get(key) ?? 0;
+        if (count !== round) continue;
+        const poi = eateriesFor(input, day, slot, anchors).find(
+          (candidate) =>
+            !listed.has(candidate.id) &&
+            ![...around, ...eaten(day)].some((other) => sameDish(other, candidate)) &&
+            // A must-do's dish is that one visit: no other day is offered it again.
+            !asked.some((other) => other.id !== candidate.id && sharesDish(other, candidate)),
+        );
+        // A meal across town only when the day's areas and their neighbours have none left.
+        if (poi === undefined || (count > 0 && areaStep(input, poi.id, anchors) === 2)) continue;
         day.mealIds.push(poi.id);
         listed.add(poi.id);
-        count += 1;
+        counts.set(key, count + 1);
       }
     }
-  }
-}
-
-/** Unused activities near each day, for when a planned one does not fit. */
-export function assignSpares(
-  input: DraftPlanInput,
-  days: readonly OutlineDay[],
-  taken: ReadonlySet<string>,
-): void {
-  const cap = hopCap(input);
-  for (const poi of input.pools.activities) {
-    if (taken.has(poi.id)) continue;
-    const open = input.pools.openDays.get(poi.id) ?? [];
-    const day = days
-      .filter(
-        (d) =>
-          open.includes(d.dayNo) &&
-          d.spareIds.length < SPARES_PER_DAY &&
-          withinReach(poi.id, anchorsOf(input, d), input.travel, cap),
-      )
-      .sort((a, b) => a.spareIds.length - b.spareIds.length)[0];
-    day?.spareIds.push(poi.id);
   }
 }

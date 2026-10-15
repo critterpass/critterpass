@@ -29,10 +29,13 @@ import { skeletonRoute } from '../../src/jobs/ai/draft/skeleton';
 import { CREWS, crewTrip, defaultStart, scoredDays, type Crew, type Destination } from './crews';
 import { judgeBrief, judgeDraft } from './judge';
 import { readReference, type Reference } from './reference';
-import { draftMetrics, overall, type ScoredDay } from './score';
+import { dayShape, draftMetrics, missesItsTime, overall, type ScoredDay } from './score';
 import { destinationTable, type DraftResult } from './table';
 
 class OverBudget extends Error {}
+
+const clock = (minute: number) =>
+  `${String(Math.floor(minute / 60)).padStart(2, '0')}:${String(minute % 60).padStart(2, '0')}`;
 
 const failure = (error: unknown) =>
   error instanceof Error
@@ -173,11 +176,20 @@ async function benchDestination(
       judge,
       verdict,
       score: overall(metrics, judge),
-      days: days.map((d) => ({
-        day: d.dayNo,
-        theme: d.theme,
-        stops: d.stops.map((s) => `${s.kind === 'meal' ? '*' : ''}${s.name}`),
-      })),
+      days: days.map((d) => {
+        const shape = dayShape(d);
+        return {
+          day: d.dayNo,
+          theme: d.theme,
+          stops: d.stops.map(
+            (s) =>
+              `${clock(s.startMin)} ${s.kind === 'meal' ? '*' : ''}${s.name} [${s.area ?? '-'}]${missesItsTime(s) ? ` (best ${s.bestTimes.join('/')})` : ''}`,
+          ),
+          areas: shape.areas,
+          km: Math.round(shape.km * 10) / 10,
+          backtracks: shape.backtracks,
+        };
+      }),
     };
     console.log(
       `${reference.slug}/${crew.id}: ${result.score.toFixed(1)} in ${Math.round((Date.now() - started) / 1000)} s`,

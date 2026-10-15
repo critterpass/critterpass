@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { dayWindow, visitOrder, type DayChoice } from '../../src/draft/index';
+import { dayWindow, visitOrder, type DayChoice, type DraftPoi } from '../../src/draft/index';
 import { FRAME, P, POIS, TRAVEL } from './kyoto-fixture';
 
 const pick = (id: string, kind: 'activity' | 'meal' = 'activity'): DayChoice => ({
@@ -10,13 +10,19 @@ const pick = (id: string, kind: 'activity' | 'meal' = 'activity'): DayChoice => 
   note: null,
 });
 
-const order = (choices: DayChoice[], dayIndex = 1) =>
+const order = (
+  choices: DayChoice[],
+  dayIndex = 1,
+  areaOf?: (poiId: string) => string | undefined,
+  pois: ReadonlyMap<string, DraftPoi> = POIS,
+) =>
   visitOrder({
     date: FRAME.dates[dayIndex] as string,
     choices,
-    pois: POIS,
+    pois,
     window: dayWindow(FRAME, dayIndex),
     travel: TRAVEL,
+    ...(areaOf === undefined ? {} : { areaOf }),
   });
 
 describe('visitOrder', () => {
@@ -42,5 +48,35 @@ describe('visitOrder', () => {
     ];
     const visit = order(choices).map((i) => choices[i]?.poiId);
     expect(visit.indexOf(P.ramen.id)).toBeLessThan(visit.indexOf(P.kichi.id));
+  });
+
+  it('sees one area at a time: a day that would go back to an area it left is reordered', () => {
+    const areas = new Map([
+      [P.gion.id, 'Higashiyama'],
+      [P.philosopher.id, 'Sakyo'],
+      [P.museum.id, 'Higashiyama'],
+    ]);
+    const choices = [pick(P.gion.id), pick(P.philosopher.id), pick(P.museum.id)];
+    // Without areas the guide's order works and stands; with them, Gion and the museum are
+    // seen together, before or after the walk in Sakyo.
+    expect(order(choices)).toEqual([0, 1, 2]);
+    const visit = order(choices, 1, (id) => areas.get(id)).map((i) => choices[i]?.poiId ?? '');
+    expect(Math.abs(visit.indexOf(P.gion.id) - visit.indexOf(P.museum.id))).toBe(1);
+  });
+
+  it('never sends a stop out of the time of day it is best at to keep an area together', () => {
+    const areas = new Map([
+      [P.gion.id, 'Higashiyama'],
+      [P.philosopher.id, 'Sakyo'],
+      [P.museum.id, 'Higashiyama'],
+      [P.nijo.id, 'Higashiyama'],
+    ]);
+    const pois = new Map(POIS);
+    pois.set(P.philosopher.id, { ...P.philosopher, bestTimes: ['afternoon'] });
+    const choices = [pick(P.gion.id), pick(P.philosopher.id), pick(P.museum.id), pick(P.nijo.id)];
+    // Leading with the walk would keep the guide's order closest, but it is for the afternoon:
+    // the three Higashiyama stops come first and the walk after them.
+    const visit = order(choices, 1, (id) => areas.get(id), pois).map((i) => choices[i]?.poiId);
+    expect(visit.at(-1)).toBe(P.philosopher.id);
   });
 });

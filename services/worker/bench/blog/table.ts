@@ -15,7 +15,15 @@ export interface DraftResult {
   readonly verdict: Verdict | null;
   /** 0..100. */
   readonly score: number;
-  readonly days: readonly { day: number; theme: string; stops: readonly string[] }[];
+  /** Each drafted day: its stops (start, meals marked `*`, area, the best times of one that misses them) and its shape. */
+  readonly days: readonly {
+    day: number;
+    theme: string;
+    stops: readonly string[];
+    areas: number;
+    km: number;
+    backtracks: number;
+  }[];
 }
 
 const pct = (value: number | null) => (value === null ? '–' : String(Math.round(value * 100)));

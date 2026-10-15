@@ -32,7 +32,7 @@ import { disruptionReactJob } from '../../src/jobs/disruptions/react';
 import { leaveByRecomputeJob } from '../../src/jobs/trip-day/leaveby-recompute';
 import { straightLineLeaveByRouter } from '../../src/jobs/trip-day/route-eta';
 import { startJobsHarness, until, type JobsHarness } from '../helpers/jobs-harness';
-import { buildFlightWorld, NOW, type FlightWorld } from './flight-world';
+import { at, buildFlightWorld, NOW, type FlightWorld } from './flight-world';
 
 let harness: JobsHarness;
 let world: FlightWorld;
@@ -142,7 +142,7 @@ describe('flight disruption', () => {
         WHERE t.id = $1 AND pi.stable_id = $2`,
       [world.tripId, world.surfStableId],
     );
-    expect(surfItem[0]?.starts_at.toISOString()).toBe('2026-10-15T13:00:00.000Z');
+    expect(surfItem[0]?.starts_at.toISOString()).toBe(at('13:00'));
   });
 
   it('never widens what runs on its own from owner ids a request carries', async () => {
@@ -154,7 +154,7 @@ describe('flight disruption', () => {
           {
             op: 'retime',
             target: world.dinner.stableId,
-            after: { starts_at: '2026-10-15T13:00:00Z' },
+            after: { starts_at: at('13:00') },
             reason: 'asked in chat',
             affected_user_ids: [world.organiserId, world.rinId, world.mayaId],
             booking_impact: false,
@@ -280,6 +280,6 @@ describe('flight disruption', () => {
         WHERE t.id = $1 AND pi.stable_id = $2`,
       [world.tripId, world.surfStableId],
     );
-    expect(rows[0]?.starts_at.toISOString()).toBe('2026-10-15T11:48:00.000Z');
+    expect(rows[0]?.starts_at.toISOString()).toBe(at('11:48'));
   });
 });
