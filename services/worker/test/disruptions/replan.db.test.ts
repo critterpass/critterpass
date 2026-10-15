@@ -11,10 +11,13 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { runReplan, settleSuggestions } from '../../src/jobs/disruptions/weather-replan';
 import { buildGuidePlan, type GuidePlanFixture } from '../guide-actions/plan-fixture';
 import { startJobsHarness, type JobsHarness } from '../helpers/jobs-harness';
+import { dateOf } from './fixture-clock';
 
 let harness: JobsHarness;
 let fx: GuidePlanFixture;
 let walk: string;
+/** A day a month out: its forecast and walk always lie ahead of the database clock. */
+const DAY = dateOf(30);
 
 const writer = (_guide: string | null, facts: Readonly<Record<string, string | number>>) =>
   Promise.resolve({
@@ -49,7 +52,7 @@ beforeAll(async () => {
     [fx.tripId, destinationId],
   );
   const hours = Array.from({ length: 24 }, (_, hour) => ({
-    at: new Date(`2027-03-10T${String(hour).padStart(2, '0')}:00:00+08:00`).toISOString(),
+    at: new Date(`${DAY}T${String(hour).padStart(2, '0')}:00:00+08:00`).toISOString(),
     temp_c: 28,
     chance_of_rain: hour >= 12 && hour < 15 ? 80 : 10,
     precip_mm: 0,
@@ -62,7 +65,7 @@ beforeAll(async () => {
   await harness.pool.query(
     `INSERT INTO weather_snapshots (destination_id, point_key, lat, lng, elevation_m, date, hourly,
        source, fetched_at, checked_at)
-     VALUES ($1, 'centroid', -8.5, 115.26, 200, '2027-03-10', $2, 'weatherapi', now(), now())`,
+     VALUES ($1, 'centroid', -8.5, 115.26, 200, $3, $2, 'weatherapi', now(), now())`,
     [
       destinationId,
       JSON.stringify({
@@ -76,16 +79,17 @@ beforeAll(async () => {
         },
         hours,
       }),
+      DAY,
     ],
   );
   const { rows } = await harness.pool.query<{ stable_id: string }>(
     `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, starts_at, ends_at, tz, category,
        is_outdoor, notes, created_by_kind)
-     SELECT version_id, day_id, trip_id, gen_random_uuid(), '2027-03-10T13:00:00+08:00',
-            '2027-03-10T14:30:00+08:00', 'Asia/Makassar', 'activity', true, 'Campuhan ridge walk', 'guide'
+     SELECT version_id, day_id, trip_id, gen_random_uuid(), $2, $3, 'Asia/Makassar', 'activity',
+            true, 'Campuhan ridge walk', 'guide'
        FROM plan_items WHERE version_id = $1 LIMIT 1
      RETURNING stable_id`,
-    [fx.versionId],
+    [fx.versionId, `${DAY}T13:00:00+08:00`, `${DAY}T14:30:00+08:00`],
   );
   walk = rows[0]?.stable_id as string;
 }, 240_000);
@@ -111,7 +115,7 @@ describe('ai.replan', () => {
       ops: { after: { starts_at: string } }[];
     }>('SELECT trigger, status, ops FROM change_sets WHERE id = $1', [found?.change_set_id]);
     expect(rows[0]).toMatchObject({ trigger: 'weather', status: 'proposed' });
-    expect(rows[0]?.ops[0]?.after.starts_at).toBe('2027-03-10T07:00:00.000Z');
+    expect(rows[0]?.ops[0]?.after.starts_at).toBe(`${DAY}T07:00:00.000Z`);
     const band = await harness.pool.query(
       `SELECT 1 FROM rt_outbox WHERE channel = 'trip_plan:' || $1 AND payload->>'type' = 'forecast.band'`,
       [fx.tripId],

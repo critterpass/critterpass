@@ -8,23 +8,11 @@ import { createAeroApiClient, createSupplierHttp, noSupplierCallAudit } from '@c
 import type pg from 'pg';
 
 import { buildGuidePlan, type GuidePlanFixture } from '../guide-actions/plan-fixture';
+import { at, FIXTURE_NOW } from './fixture-clock';
 
-/**
- * The fixture's clock: midnight UTC starting the day after the suite starts. Undo windows close
- * against the database's own clock, so every plan time and undo window must lie ahead of it.
- */
-export const NOW = new Date(
-  Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate() + 1),
-);
-const DAY_MS = 24 * 60 * 60 * 1000;
+export { at } from './fixture-clock';
 
-/** The instant `hhmm` UTC on the fixture day (`dayOffset` days later), as an ISO string. */
-export function at(hhmm: string, dayOffset = 0): string {
-  const [hours, minutes] = hhmm.split(':').map(Number);
-  return new Date(
-    NOW.getTime() + dayOffset * DAY_MS + ((hours ?? 0) * 60 + (minutes ?? 0)) * 60_000,
-  ).toISOString();
-}
+export const NOW = FIXTURE_NOW;
 const FA_ID = 'SIA938-1760490000-schedule-0001';
 
 export interface FlightWorld extends GuidePlanFixture {

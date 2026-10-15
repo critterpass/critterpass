@@ -1,5 +1,5 @@
 /**
- * The forecast watcher against a migrated Postgres: a rough-seas forecast for Friday's boat puts it
+ * The forecast watcher against a migrated Postgres: a rough-seas forecast for the boat two days out puts it
  * on PLAN B and escalates exactly once (plan-changing), the same forecast again changes and sends
  * nothing, and calm seas bring it back to GO without a ping. Forecasts are stored the way the
  * weather refresh stores WeatherAPI's answers; the words are the templates (no model here).
@@ -12,13 +12,14 @@ import { watchTrip } from '../../src/jobs/disruptions/weather-watch';
 import type { WatchedTrip } from '../../src/jobs/disruptions/watch-score';
 import { buildGuidePlan } from '../guide-actions/plan-fixture';
 import { startJobsHarness, type JobsHarness } from '../helpers/jobs-harness';
+import { at, dateOf, FIXTURE_NOW } from './fixture-clock';
 
-const NOW = new Date('2026-10-14T00:00:00Z');
+const NOW = FIXTURE_NOW;
 let harness: JobsHarness;
 let trip: WatchedTrip;
 
 function forecast(waveM: number, windKph: number) {
-  const hours = [0, 1, 2, 3, 4, 5, 6].map((h) => `2026-10-16T0${h}:00:00Z`);
+  const hours = [0, 1, 2, 3, 4, 5, 6].map((h) => at(`0${h}:00`, 2));
   return {
     hourly: {
       day: { max_temp_c: 31, min_temp_c: 25, chance_of_rain: 10, precip_mm: 0, uv: 8, code: 1000 },
@@ -52,10 +53,10 @@ async function setForecast(waveM: number, windKph: number): Promise<void> {
   await harness.pool.query(
     `INSERT INTO weather_snapshots (destination_id, point_key, lat, lng, elevation_m, date, hourly,
        marine, marine_fetched_at, source, fetched_at, checked_at)
-     VALUES ($1, 'centroid', -8.65, 115.2, 0, '2026-10-16', $2, $3, now(), 'weatherapi', now(), now())
+     VALUES ($1, 'centroid', -8.65, 115.2, 0, $4, $2, $3, now(), 'weatherapi', now(), now())
      ON CONFLICT (destination_id, point_key, date, source)
        DO UPDATE SET hourly = EXCLUDED.hourly, marine = EXCLUDED.marine`,
-    [trip.destinationId, JSON.stringify(hourly), JSON.stringify(marine)],
+    [trip.destinationId, JSON.stringify(hourly), JSON.stringify(marine), dateOf(2)],
   );
 }
 
@@ -80,17 +81,17 @@ beforeAll(async () => {
   );
   const destinationId = destination.rows[0]?.id as string;
   await harness.pool.query(
-    `UPDATE trips SET destination_id = $2, tz = 'Asia/Makassar', start_date = '2026-10-13',
-       end_date = '2026-10-20' WHERE id = $1`,
-    [fx.tripId, destinationId],
+    `UPDATE trips SET destination_id = $2, tz = 'Asia/Makassar', start_date = $3,
+       end_date = $4 WHERE id = $1`,
+    [fx.tripId, destinationId, dateOf(-1), dateOf(6)],
   );
   await harness.pool.query(
     `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, starts_at, ends_at, tz, category,
        is_outdoor, notes, created_by_kind)
-     SELECT version_id, day_id, trip_id, gen_random_uuid(), '2026-10-16T01:00:00Z',
-            '2026-10-16T05:00:00Z', tz, 'boat', true, 'Nusa Penida boat', 'guide'
+     SELECT version_id, day_id, trip_id, gen_random_uuid(), $2, $3, tz, 'boat', true,
+            'Nusa Penida boat', 'guide'
        FROM plan_items WHERE version_id = $1 LIMIT 1`,
-    [fx.versionId],
+    [fx.versionId, at('01:00', 2), at('05:00', 2)],
   );
   trip = { id: fx.tripId, crewId: fx.crewId, destinationId, tz: 'Asia/Makassar', guide: null };
 }, 240_000);

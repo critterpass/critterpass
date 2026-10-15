@@ -21,8 +21,9 @@ import { registerLateNotifications } from '../../src/jobs/disruptions/running-la
 import { getRegistration, type RoutedEvent } from '../../src/jobs/notify/register';
 import { buildGuidePlan, type GuidePlanFixture } from '../guide-actions/plan-fixture';
 import { startJobsHarness, until, type JobsHarness } from '../helpers/jobs-harness';
+import { FIXTURE_NOW } from './fixture-clock';
 
-const NOW = new Date('2026-10-15T00:00:00Z');
+const NOW = FIXTURE_NOW;
 const MIN = 60_000;
 let harness: JobsHarness;
 let fx: GuidePlanFixture;
