@@ -27,10 +27,13 @@ appId: app.critterpass.dev
     visible:
       id: 'home-screen|onboarding-open'
     timeout: 30000
+# Centred (or to the list's end): a scroll that stops as soon as the entry is in the viewport can
+# leave it under the floating tab bar, and the tap lands on Home instead.
 - scrollUntilVisible:
     element:
       id: 'dev-tools-entry'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'dev-tools-entry'
