@@ -13,7 +13,7 @@ msgstr "({guideName} will sigh)"
 
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 msgid "trip.alarm.guideLine"
-msgstr "{guideName} says: up! The day won't wait."
+msgstr "{guideName} says: up! The day won’t wait."
 
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 msgid "trip.alarm.titleAirport"

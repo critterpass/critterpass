@@ -27,7 +27,7 @@ msgstr "{dates} · {going} going"
 
 #: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
 msgid "trip.briefing.premium.title"
-msgstr "{guideName}'s briefing"
+msgstr "{guideName}’s briefing"
 
 #: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
 msgid "trip.disruptions.late.waitingLine"
@@ -377,7 +377,7 @@ msgstr "The rest of the trip"
 
 #: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
 msgid "trip.alarm.sheet.askBody"
-msgstr "They ring through silent mode and Focus, only at leave-by times, and only if you're not up yet. {guideName} stops ringing the moment you tap I'm up."
+msgstr "They ring through silent mode and Focus, only at leave-by times, and only if you’re not up yet. {guideName} stops ringing the moment you tap I’m up."
 
 #: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
 msgid "trip.briefing.premium.eyebrow"
@@ -385,7 +385,7 @@ msgstr "THIS MORNING’S BRIEFING"
 
 #: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
 msgid "trip.alarm.sheet.deniedBody"
-msgstr "This phone won't ring for leave-bys. {guideName} rings here while the app is open, and your crew gets a nudge to knock if you sleep through."
+msgstr "This phone won’t ring for leave-bys. {guideName} rings here while the app is open, and your crew gets a nudge to knock if you sleep through."
 
 #: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
 msgid "trip.disruptions.forecast.premiumMissing"

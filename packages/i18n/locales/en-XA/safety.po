@@ -204,10 +204,6 @@ msgstr ""
 msgid "safety.help.disclaimer"
 msgstr ""
 
-#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
-msgid "safety.consent.done"
-msgstr ""
-
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.limitedLabel"
 msgstr ""
@@ -377,6 +373,10 @@ msgstr ""
 msgid "safety.sos.stepSentNobody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.consent.notNow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/premium/SosAlertAccess.tsx
 msgid "safety.sosAccess.notifications"
 msgstr ""
@@ -471,14 +471,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.denied"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
-msgid "safety.consent.toggle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
-msgid "safety.consent.toggleCrew"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
@@ -611,6 +603,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 msgid "safety.map.directions"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.consent.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.consent.askCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.consent.share"
 msgstr ""
 
 #. placeholder {0}: model.placeLabel

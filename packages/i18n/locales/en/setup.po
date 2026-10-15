@@ -7,6 +7,16 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: stop.nights
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.nights"
+msgstr "{0, plural, one {# night} other {# nights}}"
+
+#. placeholder {0}: stops.length
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.stopCount"
+msgstr "{0, plural, one {# stop} other {# stops}}"
+
 #. placeholder {0}: money(locale, track.minMinor, currency)
 #. placeholder {1}: money(locale, track.maxMinor, currency)
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
@@ -45,11 +55,6 @@ msgstr "{0} is picking the stay. The rooms show up here."
 msgid "setup.premium.mustDos.typing"
 msgstr "{0} is typing…"
 
-#. placeholder {0}: stop.nights
-#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
-msgid "setup.premium.route.nights"
-msgstr "{0} nights"
-
 #. placeholder {0}: band.set
 #. placeholder {1}: band.of
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
@@ -77,11 +82,6 @@ msgstr "{0} setup"
 #: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
 msgid "setup.premium.rooms.split"
 msgstr "{0} split"
-
-#. placeholder {0}: stops.length
-#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
-msgid "setup.premium.route.title"
-msgstr "{0} stops, {placed} nights"
 
 #. placeholder {0}: model.place
 #. placeholder {1}: model.score.won
@@ -186,6 +186,10 @@ msgstr "{organiser} only hears whether the week works. Never what the block is."
 msgid "setup.addMustDo.header"
 msgstr "{place} · Must-dos"
 
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.nightCount"
+msgstr "{placed, plural, one {# night} other {# nights}}"
+
 #: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
 msgid "setup.when.windowPill"
 msgstr "{range} · all {everyone} free"
@@ -209,6 +213,14 @@ msgstr "{sketched} of {days} days sketched"
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.line.stops"
 msgstr "{stops, plural, other {# stops}}"
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.title"
+msgstr "{stopsLabel}, {nightsLabel}"
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.line"
+msgstr "{totalNights, plural, one {The trip has # night to place.} other {The trip has # nights to place.}}"
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/crew-sees.tsx
 msgid "setup.premium.calendar.dayA11y"
@@ -1166,10 +1178,6 @@ msgstr "The rooms stay as they were."
 #: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
 msgid "setup.premium.row.route"
 msgstr "The route"
-
-#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
-msgid "setup.premium.route.line"
-msgstr "The trip has {totalNights} nights to place."
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.voteOpen.title"

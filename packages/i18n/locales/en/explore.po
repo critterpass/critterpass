@@ -85,10 +85,6 @@ msgstr "{guide} is writing the plan. Add the day trip once the draft is in."
 msgid "explore.premium.swipe.stuckLine"
 msgstr "{guideName} couldn’t finish this one. Start again for a fresh deck."
 
-#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
-msgid "explore.premium.swipe.buildingLine"
-msgstr "{guideName} is picking places for the crew. It takes about {DECK_MINUTES} minutes."
-
 #: ../../apps/mobile/src/features/explore/premium/destination/month-card.tsx
 msgid "explore.months.pending"
 msgstr "{guideName} is still writing up the crowds month by month."
@@ -127,7 +123,7 @@ msgstr "{mode} · about {length}"
 
 #: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
 msgid "explore.sponsored.paid"
-msgstr "{partner} paid for this spot in the list. It is marked SPONSORED so you can tell it from the guide's own picks."
+msgstr "{partner} paid for this spot in the list. It is marked SPONSORED so you can tell it from the guide’s own picks."
 
 #: ../../apps/mobile/src/features/explore/use-swipe-screen.ts
 msgid "explore.swipe.toastMatch"
@@ -434,6 +430,10 @@ msgstr "Day {dayNo} is back in {city}"
 msgid "explore.premium.area.dayTrip"
 msgstr "Day trip"
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.pageTitle"
+msgstr "Day trips"
+
 #: ../../apps/mobile/src/features/explore/premium/search/find-screen.tsx
 msgid "explore.premium.find.dayTrips"
 msgstr "Day trips"
@@ -606,6 +606,10 @@ msgstr "I’m in"
 msgid "explore.premium.swipe.yes"
 msgstr "I’m in"
 
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.buildingLine"
+msgstr "I’m picking places for the crew. It takes about {DECK_MINUTES} minutes."
+
 #: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
 msgid "explore.premium.place.ifYouLike"
 msgstr "If you like this"
@@ -636,7 +640,7 @@ msgstr "It uses another currency, which a day trip can’t cross yet."
 
 #: ../../apps/mobile/src/features/explore/components/why-words.ts
 msgid "explore.swipe.whyNear"
-msgstr "It's about {minutes} min on foot from the stay."
+msgstr "It’s about {minutes} min on foot from the stay."
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.refused.timeZone"
@@ -644,15 +648,15 @@ msgstr "It’s in another time zone, which a day trip can’t cross yet."
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.onDayLine"
-msgstr "It's on day {dayNo} of the plan."
+msgstr "It’s on day {dayNo} of the plan."
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.onDateLine"
-msgstr "It's on day {dayNo}, {date}."
+msgstr "It’s on day {dayNo}, {date}."
 
 #: ../../apps/mobile/src/features/explore/components/why-words.ts
 msgid "explore.swipe.whyMustSee"
-msgstr "It's one of {guideName}'s must-sees."
+msgstr "It’s one of {guideName}’s must-sees."
 
 #: ../../apps/mobile/src/features/explore/premium/components/region-pack-card.tsx
 msgid "explore.pack.removeLine"
@@ -1401,7 +1405,7 @@ msgstr "What is it called?"
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.places"
-msgstr "What's at {area}"
+msgstr "What’s at {area}"
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
 msgid "explore.detail.fits.eyebrow"
@@ -1462,7 +1466,7 @@ msgstr "You leave this day: a day trip leaves little of it."
 
 #: ../../apps/mobile/src/features/explore/premium/sponsored/why-sponsored-sheet.tsx
 msgid "explore.sponsored.contextual"
-msgstr "You see it because you're looking at {place}. It isn't chosen from anything about you, and we don't track you for it."
+msgstr "You see it because you’re looking at {place}. It isn’t chosen from anything about you, and we don’t track you for it."
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.offline"

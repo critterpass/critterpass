@@ -204,10 +204,6 @@ msgstr "Nhóm thấy bạn · {0} giờ"
 msgid "safety.help.disclaimer"
 msgstr "CritterPass báo cho cả nhóm của bạn. Khi khẩn cấp, hãy gọi {general}."
 
-#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
-msgid "safety.consent.done"
-msgstr "Xong"
-
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.limitedLabel"
 msgstr "Khẩn cấp, gọi từ mọi điện thoại di động"
@@ -377,6 +373,10 @@ msgstr "Chưa có ai khác trong nhóm. Gọi {general} ngay."
 msgid "safety.sos.stepSentNobody"
 msgstr "Không có ai khác trong chuyến đi để báo"
 
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.consent.notNow"
+msgstr "Để sau"
+
 #: ../../apps/mobile/src/features/safety/premium/SosAlertAccess.tsx
 msgid "safety.sosAccess.notifications"
 msgstr "Thông báo đang tắt, nên SOS của bạn đồng hành không tới được bạn."
@@ -472,14 +472,6 @@ msgstr "Chia sẻ vị trí · 1 giờ"
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.denied"
 msgstr "Cần quyền vị trí để chia sẻ"
-
-#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
-msgid "safety.consent.toggle"
-msgstr "Chia sẻ vị trí của tôi với {crewName} trong 1 giờ mỗi khi tôi mở Trợ giúp"
-
-#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
-msgid "safety.consent.toggleCrew"
-msgstr "Chia sẻ vị trí của tôi với cả nhóm trong 1 giờ mỗi khi tôi mở Trợ giúp"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.sharePin"
@@ -612,6 +604,18 @@ msgstr "Đang chờ vị trí của {name}."
 #: ../../apps/mobile/src/features/safety/premium/SessionMapPremium.tsx
 msgid "safety.map.directions"
 msgstr "Chỉ đường đi bộ"
+
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.consent.ask"
+msgstr "Khi bạn mở Trợ giúp, cho {crewName} thấy bạn đang ở đâu trong một giờ nhé?"
+
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.consent.askCrew"
+msgstr "Khi bạn mở Trợ giúp, cho nhóm thấy bạn đang ở đâu trong một giờ nhé?"
+
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.consent.share"
+msgstr "Có, chia sẻ"
 
 #. placeholder {0}: model.placeLabel
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx

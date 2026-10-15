@@ -7,6 +7,16 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#. placeholder {0}: stop.nights
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.nights"
+msgstr "{0, plural, other {# đêm}}"
+
+#. placeholder {0}: stops.length
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.stopCount"
+msgstr "{0, plural, other {# điểm dừng}}"
+
 #. placeholder {0}: money(locale, track.minMinor, currency)
 #. placeholder {1}: money(locale, track.maxMinor, currency)
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
@@ -45,11 +55,6 @@ msgstr "{0} đang chọn chỗ ở. Phòng sẽ hiện ở đây."
 msgid "setup.premium.mustDos.typing"
 msgstr "{0} đang gõ…"
 
-#. placeholder {0}: stop.nights
-#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
-msgid "setup.premium.route.nights"
-msgstr "{0} đêm"
-
 #. placeholder {0}: band.set
 #. placeholder {1}: band.of
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
@@ -77,11 +82,6 @@ msgstr "Chuẩn bị {0}"
 #: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
 msgid "setup.premium.rooms.split"
 msgstr "Chia {0}"
-
-#. placeholder {0}: stops.length
-#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
-msgid "setup.premium.route.title"
-msgstr "{0} điểm dừng, {placed} đêm"
 
 #. placeholder {0}: model.place
 #. placeholder {1}: model.score.won
@@ -186,6 +186,10 @@ msgstr "{organiser} chỉ biết tuần đó có ổn không. Không bao giờ b
 msgid "setup.addMustDo.header"
 msgstr "{place} · Việc phải làm"
 
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.nightCount"
+msgstr "{placed, plural, other {# đêm}}"
+
 #: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
 msgid "setup.when.windowPill"
 msgstr "{range} · cả {everyone} đều rảnh"
@@ -209,6 +213,14 @@ msgstr "Đã phác thảo {sketched}/{days} ngày"
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.line.stops"
 msgstr "{stops, plural, other {# điểm dừng}}"
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.title"
+msgstr "{stopsLabel}, {nightsLabel}"
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.line"
+msgstr "{totalNights, plural, other {Chuyến đi có # đêm để xếp.}}"
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/crew-sees.tsx
 msgid "setup.premium.calendar.dayA11y"
@@ -1166,10 +1178,6 @@ msgstr "Các phòng vẫn giữ như cũ."
 #: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
 msgid "setup.premium.row.route"
 msgstr "Lộ trình"
-
-#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
-msgid "setup.premium.route.line"
-msgstr "Chuyến đi có {totalNights} đêm để xếp."
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.voteOpen.title"

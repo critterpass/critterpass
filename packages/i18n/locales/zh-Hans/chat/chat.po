@@ -11,6 +11,10 @@ msgstr ""
 msgid "chat.queued.message"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.joinedMany"
+msgstr ""
+
 #. placeholder {0}: planChange(body, locale)
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.planEditAdded"

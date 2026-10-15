@@ -113,7 +113,7 @@ msgstr "≤ {minutes} min from the stay"
 
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.fromRoute"
-msgstr "≤ {minutes} min off the day's route"
+msgstr "≤ {minutes} min off the day’s route"
 
 #: ../../apps/mobile/src/features/explore/search/commands.ts
 msgid "search.queued.idea"

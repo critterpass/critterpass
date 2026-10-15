@@ -86,7 +86,7 @@ msgstr "{name} runs the crew now"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-header.tsx
 msgid "chat.premium.header.withGuide"
-msgstr "{people} · {guide}'s in here"
+msgstr "{people} · {guide}’s in here"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-chips.tsx
 msgid "chat.premium.settled.line"
@@ -1186,7 +1186,7 @@ msgstr "You’re next for a seat on {place}"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
 msgid "chat.premium.former.title"
-msgstr "You're not in {crewName} now"
+msgstr "You’re not in {crewName} now"
 
 #: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
 msgid "crew.waitlist.number"

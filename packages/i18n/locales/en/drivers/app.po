@@ -43,7 +43,7 @@ msgstr "{0} a day · {1} each"
 #. placeholder {2}: hoursFigure(includedHours, locale)
 #: ../../apps/mobile/src/features/drivers/pick/use-pick-days-view.ts
 msgid "drivers.pick.overtime"
-msgstr "{0} is {1} hours. {name}'s price covers {2}."
+msgstr "{0} is {1} hours. {name}’s price covers {2}."
 
 #. placeholder {0}: required.length - left.length
 #. placeholder {1}: required.length
@@ -97,7 +97,7 @@ msgstr "{count} days from {first}"
 
 #: ../../apps/mobile/src/features/drivers/premium/components/CheckParts.tsx
 msgid "drivers.check.missing"
-msgstr "{count} things aren't in his message. Want me to write the question?"
+msgstr "{count} things aren’t in his message. Want me to write the question?"
 
 #: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
 msgid "drivers.replied.set"
@@ -117,7 +117,7 @@ msgstr "{driverName} opened the link · {openedOn}"
 
 #: ../../apps/mobile/src/features/drivers/premium/AskForMePremium.tsx
 msgid "drivers.premium.ask.title"
-msgstr "{guide}'s post"
+msgstr "{guide}’s post"
 
 #: ../../apps/mobile/src/features/drivers/offline/use-ride-back.ts
 msgid "drivers.offline.included"
@@ -165,7 +165,7 @@ msgstr "{name}’s number, car and plate"
 
 #: ../../apps/mobile/src/features/drivers/premium/PickDaysPremium.tsx
 msgid "drivers.pick.quote"
-msgstr "{name}'s quote"
+msgstr "{name}’s quote"
 
 #: ../../apps/mobile/src/features/drivers/pick/pick-card.ts
 msgid "drivers.card.price.car"
@@ -525,7 +525,7 @@ msgstr "Drivers our crews used"
 
 #: ../../apps/mobile/src/features/drivers/premium/OurDriversPremium.tsx
 msgid "drivers.ours.intro"
-msgstr "Drivers this crew used. The ones who haven't confirmed are only visible to you {crew}."
+msgstr "Drivers this crew used. The ones who haven’t confirmed are only visible to you {crew}."
 
 #: ../../apps/mobile/src/features/drivers/premium/AddDriverPremium.tsx
 msgid "drivers.add.screenshotDetail"
@@ -642,13 +642,13 @@ msgstr "Hi {first}, I found you on CritterPass. Are you free to drive our group?
 
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
 msgid "drivers.replied.confirmMessagePrice"
-msgstr "Hi {name}, the crew said yes to {price} a day. We'd like to book you for:\n"
+msgstr "Hi {name}, the crew said yes to {price} a day. We’d like to book you for:\n"
 "{lines}\n"
 "Can you confirm?"
 
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
 msgid "drivers.replied.confirmMessage"
-msgstr "Hi {name}, the crew said yes. We'd like to book you for:\n"
+msgstr "Hi {name}, the crew said yes. We’d like to book you for:\n"
 "{lines}\n"
 "Can you confirm?"
 
@@ -667,7 +667,7 @@ msgstr "I won’t chase him. One nudge from you is plenty."
 #. placeholder {0}: plan.area
 #: ../../apps/mobile/src/features/drivers/premium/FindDriverPremium.tsx
 msgid "drivers.find.askBody"
-msgstr "I'll write a post for the {0} groups. You post it."
+msgstr "I’ll write a post for the {0} groups. You post it."
 
 #: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
 msgid "drivers.replied.tellBody"
@@ -1388,7 +1388,7 @@ msgstr "Your answer about your driver"
 
 #: ../../apps/mobile/src/features/drivers/premium/RateDriverPremium.tsx
 msgid "drivers.rate.intro"
-msgstr "Your crew's rating and tags go on {name}'s listing if he's listed. Nothing about you does."
+msgstr "Your crew’s rating and tags go on {name}’s listing if he’s listed. Nothing about you does."
 
 #: ../../apps/mobile/src/features/drivers/ours/commands.ts
 msgid "drivers.queued.report"

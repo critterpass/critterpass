@@ -397,14 +397,11 @@ msgstr ""
 msgid "guide.camera.caution"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
-msgid "guide.dietary.title"
-msgstr ""
-
 #: ../../apps/mobile/src/features/guide/chat/data/use-guide-sheet.ts
 msgid "guide.quick.dietary"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.premium.dietary.title"
 msgstr ""

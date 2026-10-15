@@ -409,7 +409,7 @@ msgstr "Saved. It sends when you have signal."
 
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.seat.notConfirmed"
-msgstr "Seats for {date} weren't confirmed. The old booking is kept."
+msgstr "Seats for {date} weren’t confirmed. The old booking is kept."
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.chosen"
@@ -441,7 +441,7 @@ msgstr "Swap the days"
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.vendorCancel"
-msgstr "Tell {vendor} the flight won't land today?"
+msgstr "Tell {vendor} the flight won’t land today?"
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.tellCrew"
@@ -506,7 +506,7 @@ msgstr "Trip"
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.undid"
-msgstr "Undid {guide}'s changes."
+msgstr "Undid {guide}’s changes."
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.undoAll"
