@@ -6,10 +6,11 @@ appId: app.critterpass.dev
 # (subflows/capture.yaml): the hub, the forecast, what works offline, crew quests, the trip journal,
 # the plan and its days, Find, day trips, setup and its steps, the plan check, trip settings, the
 # drivers, the recap and the free first trip's end; the legendary calendar, the help page and
-# getting around; then the ideas, change-dates and boost sheets. Then dark for the hub, the plan, the
-# forecast, quests and the journal. Journeys (actions really tapped) stay in trip.yaml and
-# plan.yaml; this flow is how the iPhone leg sees every trip page in minutes. It fails at the end
-# when a page never showed (subflows/capture-done.yaml).
+# getting around. Then dark for the hub, the plan, the forecast, quests and the journal, and last
+# the ideas, change-dates and boost sheets (on iOS each sheet ends in a relaunch, after which an
+# appearance switch has reopened the last sheet). Journeys (actions really tapped) stay in
+# trip.yaml and plan.yaml; this flow is how the iPhone leg sees every trip page in minutes. It
+# fails at the end when a page never showed (subflows/capture-done.yaml).
 - runFlow:
     file: subflows/start.yaml
     env:
@@ -184,33 +185,6 @@ appId: app.critterpass.dev
       NAME: getting-around-link
       LOOK: light
 - runFlow:
-    file: subflows/capture.yaml
-    env:
-      ROUTE: ${output.tripId}/ideas
-      CODE: '4.40'
-      NAME: ideas-link
-      LOOK: light
-      SHEET: 'true'
-      READY: 'ideas-sheet|ideas-empty'
-- runFlow:
-    file: subflows/capture.yaml
-    env:
-      ROUTE: ${output.tripId}/settings/dates
-      CODE: '4.54'
-      NAME: change-dates-link
-      LOOK: light
-      SHEET: 'true'
-      READY: 'change-dates|range-calendar'
-- runFlow:
-    file: subflows/capture.yaml
-    env:
-      ROUTE: boost/${output.tripId}
-      CODE: '9.12'
-      NAME: boost-link
-      LOOK: light
-      SHEET: 'true'
-      READY: 'boost-sheet'
-- runFlow:
     file: subflows/appearance.yaml
     env:
       LOOK: dark
@@ -249,4 +223,31 @@ appId: app.critterpass.dev
       CODE: '4.25'
       NAME: plan-link
       LOOK: dark
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/ideas
+      CODE: '4.40'
+      NAME: ideas-link
+      LOOK: dark
+      SHEET: 'true'
+      READY: 'ideas-sheet|ideas-empty'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/settings/dates
+      CODE: '4.54'
+      NAME: change-dates-link
+      LOOK: dark
+      SHEET: 'true'
+      READY: 'change-dates|range-calendar'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: boost/${output.tripId}
+      CODE: '9.12'
+      NAME: boost-link
+      LOOK: dark
+      SHEET: 'true'
+      READY: 'boost-sheet'
 - runFlow: subflows/capture-done.yaml

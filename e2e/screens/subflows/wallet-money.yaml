@@ -62,13 +62,16 @@ appId: app.critterpass.dev
                   LOOK: ${LOOK}
             - hideKeyboard:
                 optional: true
-            # The toast lasts a few seconds: the tap doesn't wait for the screen to settle.
+            # The toast lasts four seconds: the tap neither waits for the screen to settle nor
+            # takes Maestro's before-tap screenshot (seconds a frame on a runner without a GPU).
             - tapOn:
                 id: 'money-add-submit'
                 optional: true
-                waitToSettleTimeoutMs: 200
+                retryTapIfNoChange: false
+                waitToSettleTimeoutMs: 500
             - extendedWaitUntil:
-                visible: 'Added .*'
+                visible:
+                  id: 'island-toast-pill'
                 timeout: 5000
                 optional: true
             - takeScreenshot: premium-1.03-expense-toast-${LOOK}

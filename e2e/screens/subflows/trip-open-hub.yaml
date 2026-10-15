@@ -40,6 +40,7 @@ appId: app.critterpass.dev
           commands:
             - tapOn:
                 id: 'home-(in-trip|next-up)'
+                retryTapIfNoChange: false
                 waitToSettleTimeoutMs: 1
             - takeScreenshot: ${ZOOM}
             - extendedWaitUntil:
