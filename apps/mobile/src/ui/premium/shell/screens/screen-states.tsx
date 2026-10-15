@@ -1,7 +1,7 @@
 /**
  * A presented screen's states before it has its content, so a sheet or modal never opens on a
- * blank card: the wait (the thinking critter and its line near the foot, as every premium loading
- * screen reads) and the nothing-here state (the empty disc with a line and a way out). A screen
+ * blank card: the wait (1.02: the layout shimmering, the thinking critter and its line at the
+ * foot) and the nothing-here state (the empty disc with a line and a way out). A screen
  * that already draws its own frame puts `ScreenWaiting` or `ScreenMissing` in its body; one that
  * has no frame yet (it returns before reading its data) returns `PresentedState`, which brings the
  * ✕ that closes it.
@@ -12,7 +12,7 @@ import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { EmptyState, GlassIconButton, LoadingCritter, usePremiumTheme } from '../..';
+import { EmptyState, GlassIconButton, usePremiumTheme, WaitingLayout } from '../..';
 
 export interface ScreenWaitingProps {
   /** The progressive line ("Opening the dates…"); a general one when the screen has none. */
@@ -20,12 +20,12 @@ export interface ScreenWaitingProps {
   readonly testID?: string;
 }
 
-/** The wait inside a screen's body: fills it, the critter and its line near the foot. */
+/** The wait inside a screen's body: the page's shape shimmering, the critter and its line below. */
 export function ScreenWaiting({ label, testID }: ScreenWaitingProps) {
   const theme = usePremiumTheme();
   return (
-    <View style={[styles.fill, styles.foot, { paddingBottom: theme.space.gap16 * 2 }]}>
-      <LoadingCritter
+    <View style={[styles.fill, { paddingBottom: theme.space.gap16 * 2 }]}>
+      <WaitingLayout
         label={label ?? t({ id: 'common.premium.screen.waiting', message: 'Getting it ready…' })}
         {...(testID === undefined ? {} : { testID })}
       />
@@ -105,6 +105,5 @@ export function PresentedState({ state, closeLabel, testID }: PresentedStateProp
 
 const styles = StyleSheet.create({
   fill: { flex: 1 },
-  foot: { justifyContent: 'flex-end' },
   centre: { justifyContent: 'center' },
 });

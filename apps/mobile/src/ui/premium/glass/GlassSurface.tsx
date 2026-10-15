@@ -17,6 +17,11 @@ export interface GlassSurfaceProps {
   readonly kind?: GlassKind;
   /** Native glass reacts to touch (only on tappable controls). */
   readonly interactive?: boolean;
+  /**
+   * The design's composited material on iOS too, for glass that lies over busy content it must
+   * not show through (a menu over a list of stops, whose numbers read through the system glass).
+   */
+  readonly opaque?: boolean;
   readonly style?: StyleProp<ViewStyle>;
   readonly children?: ReactNode;
   readonly testID?: string | undefined;
@@ -38,6 +43,7 @@ export const NATIVE_GLASS = Platform.OS === 'ios' && isLiquidGlassAvailable();
 export function GlassSurface({
   kind = 'regular',
   interactive = false,
+  opaque = false,
   style,
   children,
   testID,
@@ -46,7 +52,7 @@ export function GlassSurface({
 
   // Sheets stay opaque on iOS too: the design's sheets never show the page through their body
   // (the plan map's day sheet showed its streets and pins through the system glass).
-  if (NATIVE_GLASS && kind !== 'sheet') {
+  if (NATIVE_GLASS && kind !== 'sheet' && !opaque) {
     return (
       <GlassView
         testID={testID}

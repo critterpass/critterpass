@@ -10,6 +10,7 @@ import { tabBarHidden, tabSheetUp } from '@/lib/navigation/tab-bar';
 import { usePremiumTheme } from '../..';
 import { DrawnTabBar } from './drawn-tab-bar';
 import { useGuideActions, type GuideActions } from './guide-circle';
+import { TabBarShownContext } from './tab-bar-shown';
 import { GUIDE_TAB_IMAGE, TAB_ICONS, type PremiumTabIcon } from './tab-icons';
 
 /** The tab routes in bar order, with the route file each one is. */
@@ -79,17 +80,19 @@ export function PremiumTabs({
 
   if (!ios) {
     return (
-      <Tabs
-        screenOptions={{ headerShown: false, sceneStyle: { backgroundColor: color.ground } }}
-        tabBar={(props) => (
-          <DrawnTabBar {...props} tabs={items} guide={actions} hidden={pushed || sheetUp} />
-        )}
-      >
-        {items.map((tab) => (
-          <Tabs.Screen key={tab.name} name={tab.name} options={{ title: tab.label }} />
-        ))}
-        <Tabs.Screen name={guideRoute} options={{ href: null }} />
-      </Tabs>
+      <TabBarShownContext value={!(pushed || sheetUp)}>
+        <Tabs
+          screenOptions={{ headerShown: false, sceneStyle: { backgroundColor: color.ground } }}
+          tabBar={(props) => (
+            <DrawnTabBar {...props} tabs={items} guide={actions} hidden={pushed || sheetUp} />
+          )}
+        >
+          {items.map((tab) => (
+            <Tabs.Screen key={tab.name} name={tab.name} options={{ title: tab.label }} />
+          ))}
+          <Tabs.Screen name={guideRoute} options={{ href: null }} />
+        </Tabs>
+      </TabBarShownContext>
     );
   }
 

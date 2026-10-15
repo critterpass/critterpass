@@ -11,6 +11,7 @@ import { useMemo } from 'react';
 import {
   Platform,
   ScrollView,
+  type LayoutChangeEvent,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
   type ScrollViewProps,
@@ -21,35 +22,63 @@ import { usePremiumTheme } from '../..';
 import { drawnBarTop } from '../navigation/drawn-tab-bar';
 import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from './scroll-edge';
 
-/** Android's drawn bar: the page under it fades into the ground, solid up to the bar's top. */
-export function TabBarFade() {
+/** How far above the bar a card running on under it fades out (a shorter fade read as a cut). */
+const RUN_ON_FADE = 56;
+
+/**
+ * Android's drawn bar: the page under it fades into the ground, solid up to the bar's top. While
+ * content runs on under the bar the fade reaches well above it, so a card passing under blends
+ * out; at the end of the page it shrinks back, and the last row, padded clear of the bar, is whole.
+ */
+export function TabBarFade({ continues = false }: { readonly continues?: boolean }) {
   const insets = useSafeAreaInsets();
   const solid = drawnBarTop(insets.bottom);
-  // A short fade above the bar: a page's last row, padded clear of the bar, stays whole.
   return (
-    <ScrollEdgeFade
-      edge="bottom"
-      height={solid + SCROLL_EDGE_FADE / 2}
-      solid={solid}
-      testID="tab-bar-fade"
-    />
+    <>
+      <ScrollEdgeFade
+        edge="bottom"
+        height={solid + SCROLL_EDGE_FADE / 2}
+        solid={solid}
+        testID="tab-bar-fade"
+      />
+      <ScrollEdgeFade
+        edge="bottom"
+        height={solid + RUN_ON_FADE}
+        solid={solid}
+        visible={continues}
+      />
+    </>
   );
 }
 
 /** A tab root page's scroll view with the fade under the tab bar drawn after it (iOS). */
-export function TabPageScroll({ onScroll, ...props }: ScrollViewProps) {
+export function TabPageScroll({
+  onScroll,
+  onLayout,
+  onContentSizeChange,
+  ...props
+}: ScrollViewProps) {
   const t = usePremiumTheme();
   const edges = useScrollEdges();
-  const track = edges.scrollProps.onScroll;
+  const own = edges.scrollProps;
+  // The root screen tracks the same edges (Android's fade under the drawn bar): both hear them.
   const handlers = useMemo(
     () => ({
-      ...edges.scrollProps,
+      ...own,
       onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         onScroll?.(event);
-        track(event);
+        own.onScroll(event);
+      },
+      onLayout: (event: LayoutChangeEvent) => {
+        onLayout?.(event);
+        own.onLayout(event);
+      },
+      onContentSizeChange: (width: number, height: number) => {
+        onContentSizeChange?.(width, height);
+        own.onContentSizeChange(width, height);
       },
     }),
-    [edges.scrollProps, onScroll, track],
+    [own, onScroll, onLayout, onContentSizeChange],
   );
   const height = t.space.tabBarClearance;
   return (
