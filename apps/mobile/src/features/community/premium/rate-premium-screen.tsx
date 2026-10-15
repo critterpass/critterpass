@@ -176,6 +176,7 @@ export function RatePremiumScreen({ tripId }: { readonly tripId: string }) {
               <EmptyState
                 critter={GECKO}
                 title={t({ id: 'community.rate.doneWaiting', message: 'All rated.' })}
+                check
                 line={
                   rate.waiting
                     ? t({
