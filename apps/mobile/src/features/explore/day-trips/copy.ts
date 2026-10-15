@@ -11,6 +11,9 @@ import type { DayAreaRefusal } from '@/data/areas/commands';
 export const sectionTitle = (city: string) =>
   t({ id: 'explore.dayTrips.title', message: `Day trips from ${city}` });
 
+/** The page's title while no stop has day trips to name its city by. */
+export const pageTitle = () => t({ id: 'explore.dayTrips.pageTitle', message: 'Day trips' });
+
 export const lengthTag = (length: DayTripLength) =>
   length === 'half'
     ? t({ id: 'explore.dayTrips.halfDay', message: 'Half day' })
