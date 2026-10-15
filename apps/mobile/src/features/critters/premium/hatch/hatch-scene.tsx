@@ -197,7 +197,7 @@ export function PremiumHatchScene(props: HatchViewProps) {
                 style={styles.pending}
                 testID="critters-hatch-pending"
               >
-                {pendingNote()}
+                {pendingNote(props.offline)}
               </Text>
             ) : null}
           </Animated.View>
