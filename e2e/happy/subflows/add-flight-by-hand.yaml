@@ -78,6 +78,9 @@ appId: app.critterpass.dev
     commands:
       - waitForAnimationToEnd
       - takeScreenshot: ${SHOT}
+# Over the keyboard the form's pinned Save is missing from Android's hierarchy: the keyboard the
+# last field left up is put away first.
+- hideKeyboard
 - tapOn:
     id: 'bookings-form-save'
 - extendedWaitUntil:

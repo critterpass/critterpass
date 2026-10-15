@@ -133,6 +133,8 @@ appId: app.critterpass.dev
 - inputText: '09:00'
 - waitForAnimationToEnd
 - takeScreenshot: premium-7-bookings-form-activity
+# Over the keyboard the form's pinned Save is missing from Android's hierarchy.
+- hideKeyboard
 - tapOn:
     id: 'bookings-form-save'
 # The wallet: the stay, the ride and the flight home are in the stack, in đồng.

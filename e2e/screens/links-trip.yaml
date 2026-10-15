@@ -72,6 +72,8 @@ appId: app.critterpass.dev
       CODE: '4.30'
       NAME: find-link
       LOOK: light
+      # Find opens with the keyboard up, over the QA marker at the screen's foot.
+      READY: 'search-field'
 - runFlow:
     file: subflows/capture.yaml
     env:
