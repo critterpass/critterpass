@@ -1,7 +1,8 @@
 /**
  * The places prune on real Postgres: a dry run only counts; a real run dumps `pois` first (once a
  * day) and then deletes, in batches, the rows that fail the lean rule or belong to a destination
- * nobody uses, keeping every referenced and every editorial row. pg_dump and the bucket are the
+ * nobody uses, keeping every referenced and every editorial row. A curated destination (a loaded
+ * itinerary, or a place with a curated note) is in use. pg_dump and the bucket are the
  * boundary: a stand-in command writes the dump into an in-memory store.
  */
 import { placesPruneJobSchema } from '@cp/domain';
@@ -49,12 +50,14 @@ async function place(
   destinationId: string,
   category: string,
   curation: 'auto' | 'editorial' = 'auto',
+  editorial: object = {},
 ): Promise<void> {
   const { rows } = await harness.pool.query<{ id: string }>(
-    `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids, confidence, curation)
-     VALUES ($1, $2, $3, 16.0, 108.2, jsonb_build_object('overture', $2::text), 0.9, $4)
+    `INSERT INTO pois
+       (destination_id, name, category, lat, lng, source_ids, confidence, curation, editorial)
+     VALUES ($1, $2, $3, 16.0, 108.2, jsonb_build_object('overture', $2::text), 0.9, $4, $5)
      RETURNING id`,
-    [destinationId, key, category, curation],
+    [destinationId, key, category, curation, JSON.stringify(editorial)],
   );
   ids[key] = rows[0]!.id;
 }
@@ -71,6 +74,8 @@ beforeAll(async () => {
   harness = await startJobsHarness();
   const used = await destination('prune-used');
   const unused = await destination('prune-unused');
+  const curated = await destination('prune-curated');
+  const itinerary = await destination('prune-itinerary');
   const user = await harness.pool.query<{ id: string }>(
     "INSERT INTO users (id, status) VALUES (uuidv7(), 'registered') RETURNING id",
   );
@@ -89,6 +94,14 @@ beforeAll(async () => {
   await place('used-mall-editorial', used, 'shopping', 'editorial');
   for (let i = 0; i < 5; i += 1) await place(`unused-food-${i}`, unused, 'food');
   await place('unused-food-saved', unused, 'food');
+  await place('curated-sight', curated, 'museum', 'editorial', { curated: { rank: 1 } });
+  await place('curated-food', curated, 'food');
+  await place('curated-mall', curated, 'shopping');
+  await harness.pool.query(
+    'INSERT INTO destination_itineraries (destination_id, ideal_days_min, ideal_days_max) VALUES ($1, 2, 3)',
+    [itinerary],
+  );
+  await place('itinerary-food', itinerary, 'food');
 
   await harness.pool.query("INSERT INTO place_profiles (poi_id, status) VALUES ($1, 'pending')", [
     ids['used-mall-profiled'],
@@ -103,7 +116,15 @@ afterAll(async () => {
   await harness?.close();
 });
 
-const KEPT = ['unused-food-saved', 'used-food', 'used-mall-editorial', 'used-mall-profiled'];
+const KEPT = [
+  'curated-food',
+  'curated-sight',
+  'itinerary-food',
+  'unused-food-saved',
+  'used-food',
+  'used-mall-editorial',
+  'used-mall-profiled',
+];
 
 describe('the places prune', { timeout: 120_000 }, () => {
   it('runs dry unless told otherwise', () => {
@@ -117,6 +138,7 @@ describe('the places prune', { timeout: 120_000 }, () => {
     expect(result).toMatchObject({ dryRun: true, dumpKey: null, after: null });
     expect(result.deleted).toBeGreaterThanOrEqual(6);
     expect(result.keptCandidates).toBeGreaterThanOrEqual(2);
+    expect(result.usedDestinations).toBeGreaterThanOrEqual(3);
     expect(await remaining()).toHaveLength(Object.keys(ids).length);
   });
 
