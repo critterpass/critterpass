@@ -5,10 +5,11 @@
  * far, or the crew would wait an hour with nothing planned), the planner tries the other orders of
  * the same stops and takes the workable one closest to the guide's (fewest broken stops, then a
  * long outdoor sight that is best early before the day's other sights, then no meal the day rides
- * out of its way for, then the fewest morning places left for later in the day, then the least waiting, then the fewest swapped
- * pairs, then the earliest finish). The stops themselves
- * never change here: dropping or swapping a place is the guide's call, in the repair pass.
+ * out of its way for, then the fewest morning places left for later in the day, then the fewest
+ * returns to an area the day has left, then the least waiting, then the fewest swapped pairs, then
+ * the earliest finish). The stops never change here: dropping or swapping one is the repair's.
  */
+import { areaReturns } from './area-returns';
 import { ceilGrid, spansOn } from './day-minutes';
 import { opensDay, startFloor } from './day-start';
 import { dinnerIsRideHome, longHops, mealDetours } from './hops';
@@ -44,6 +45,8 @@ export interface SequenceInput {
   readonly mealPlaces?: readonly DraftPoi[];
   /** The places of the day out this day is planned for (./outings): their rides are its purpose. */
   readonly dayOut?: ReadonlySet<string>;
+  /** The area a place is in, where known: a day sees one area at a time (./area-returns). */
+  readonly areaOf?: (poiId: string) => string | undefined;
 }
 
 interface Timeline {
@@ -228,8 +231,8 @@ export interface PlannedOrder {
 
 /**
  * The order to visit `choices` in: the guide's own order when it works, else the order with the
- * fewest broken stops, then the fewest late morning places, then the least waiting, then the
- * fewest swapped pairs, then the earliest finish.
+ * fewest broken stops, then the fewest late morning places, then the fewest returns to an area,
+ * then the least waiting, then the fewest swapped pairs, then the earliest finish.
  */
 export function bestOrder(input: SequenceInput): PlannedOrder {
   const identity = input.choices.map((_, index) => index);
@@ -243,13 +246,14 @@ export function bestOrder(input: SequenceInput): PlannedOrder {
       made.notFirst,
       made.detours,
       made.late,
+      areaReturns(order, input.choices, input.areaOf),
       made.idle,
       inversions(order),
       made.end,
     ];
   };
   const own = keyOf(identity);
-  if (own.slice(0, 5).every((count) => count === 0)) return { order: identity, broken: 0 };
+  if (own.slice(0, 6).every((count) => count === 0)) return { order: identity, broken: 0 };
   // Too many stops to try every order: the guide's, or its order with the day's openers first.
   const orders =
     input.choices.length > MAX_SEARCHED_STOPS
