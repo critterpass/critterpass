@@ -2,8 +2,9 @@
  * Nominatim's public search (`format=jsonv2`, with address parts, every name and extra tags),
  * bounded to a box. The public instance's usage policy is strict and part of the contract here:
  * at most one request a second across the whole app, a User-Agent naming the app with a contact
- * address, and answers kept so the same question is not asked twice. A caller supplies the pacing
- * (`createNominatimSearch` paces one process; the api's fallback shares a Redis bucket).
+ * address, answers kept so the same question is not asked twice, and backing off when refused. A
+ * caller supplies the pacing (`createNominatimSearch` paces one process; the api's fallback shares a
+ * Redis bucket).
  */
 import type { NominatimBox, NominatimQuery, NominatimResult } from '@cp/domain';
 
@@ -13,6 +14,11 @@ export const NOMINATIM_SEARCH_URL = 'https://nominatim.openstreetmap.org/search'
 export const NOMINATIM_USER_AGENT =
   'critterpass-places/1.0 (https://critterpass.app; hello@critterpass.app)';
 export const MIN_REQUEST_INTERVAL_MS = 1_100;
+/** The first pause after a refused (429) or failing (5xx) answer; doubled per refusal in a row. */
+export const REFUSED_BACKOFF_MS = 60_000;
+export const MAX_BACKOFF_MS = 15 * 60_000;
+/** Tries of one question before the paced search gives up and throws (waits 1, 2 then 4 minutes). */
+export const REFUSED_ATTEMPTS = 4;
 const REQUEST_TIMEOUT_MS = 10_000;
 const RESULTS = 5;
 /** Answers one paced search keeps in memory. */
@@ -47,7 +53,27 @@ export function nominatimUrl(query: NominatimQuery): string {
   return `${NOMINATIM_SEARCH_URL}?${params.toString()}`;
 }
 
-/** One request, unpaced: the caller has taken its turn. Throws on a refused or failed request. */
+/** A 429 or 5xx answer: the instance asks us to slow down, `retryAfterMs` when it said how long. */
+export class NominatimRefusedError extends Error {
+  constructor(
+    readonly status: number,
+    readonly retryAfterMs: number | null,
+  ) {
+    super(`nominatim search answered ${status}`);
+    this.name = 'NominatimRefusedError';
+  }
+}
+
+function retryAfterMs(header: string | null): number | null {
+  if (header === null) return null;
+  const seconds = Number(header);
+  return Number.isFinite(seconds) && seconds >= 0 ? seconds * 1_000 : null;
+}
+
+/**
+ * One request, unpaced: the caller has taken its turn. Throws `NominatimRefusedError` on a 429 or
+ * 5xx answer and a plain error on any other failed request.
+ */
 export async function fetchNominatim(
   query: NominatimQuery,
   fetcher: typeof fetch = fetch,
@@ -56,6 +82,12 @@ export async function fetchNominatim(
     headers: { 'User-Agent': NOMINATIM_USER_AGENT, Accept: 'application/json' },
     signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
   });
+  if (response.status === 429 || response.status >= 500) {
+    throw new NominatimRefusedError(
+      response.status,
+      retryAfterMs(response.headers.get('Retry-After')),
+    );
+  }
   if (!response.ok) throw new Error(`nominatim search answered ${response.status}`);
   const body = (await response.json()) as unknown;
   return Array.isArray(body) ? (body as NominatimResult[]) : [];
@@ -67,25 +99,50 @@ export interface PacedSearchOptions {
   readonly now?: () => number;
 }
 
-/** A search for one process: one request at a time, `MIN_REQUEST_INTERVAL_MS` apart, cached. */
+/**
+ * A search for one process: one request at a time, `MIN_REQUEST_INTERVAL_MS` apart, cached. A
+ * refused or failing answer pauses every later request too, for `REFUSED_BACKOFF_MS` doubled per
+ * refusal in a row (at most `MAX_BACKOFF_MS`, at least the answer's `Retry-After`), and asks the
+ * same question again up to `REFUSED_ATTEMPTS` times before throwing; an answer resets the pause.
+ */
 export function createNominatimSearch(options: PacedSearchOptions = {}): NominatimSearch {
   const sleep =
     options.sleep ?? ((ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms)));
   const now = options.now ?? Date.now;
   const cache = new Map<string, readonly NominatimResult[]>();
-  let last = -Infinity;
+  let next = -Infinity;
+  let refusals = 0;
   let queue: Promise<unknown> = Promise.resolve();
+  const turn = async (query: NominatimQuery): Promise<readonly NominatimResult[]> => {
+    const wait = next - now();
+    if (wait > 0) await sleep(wait);
+    next = now() + MIN_REQUEST_INTERVAL_MS;
+    try {
+      const results = await fetchNominatim(query, options.fetcher);
+      refusals = 0;
+      return results;
+    } catch (error) {
+      if (!(error instanceof NominatimRefusedError)) throw error;
+      const backoff = Math.min(REFUSED_BACKOFF_MS * 2 ** refusals, MAX_BACKOFF_MS);
+      refusals += 1;
+      next = now() + Math.max(backoff, error.retryAfterMs ?? 0);
+      throw error;
+    }
+  };
   const ask = async (query: NominatimQuery): Promise<readonly NominatimResult[]> => {
     const key = nominatimUrl(query);
     const cached = cache.get(key);
     if (cached !== undefined) return cached;
-    const wait = last + MIN_REQUEST_INTERVAL_MS - now();
-    if (wait > 0) await sleep(wait);
-    last = now();
-    const results = await fetchNominatim(query, options.fetcher);
-    if (cache.size >= CACHE_LIMIT) cache.delete(cache.keys().next().value as string);
-    cache.set(key, results);
-    return results;
+    for (let attempt = 1; ; attempt += 1) {
+      try {
+        const results = await turn(query);
+        if (cache.size >= CACHE_LIMIT) cache.delete(cache.keys().next().value as string);
+        cache.set(key, results);
+        return results;
+      } catch (error) {
+        if (!(error instanceof NominatimRefusedError) || attempt >= REFUSED_ATTEMPTS) throw error;
+      }
+    }
   };
   return (query) => {
     const run = queue.then(() => ask(query));
