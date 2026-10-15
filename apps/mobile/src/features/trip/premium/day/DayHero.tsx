@@ -26,7 +26,7 @@ export const DAY_HERO_HEIGHT = 330;
  */
 const FADE =
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, not copy
-  'linear-gradient(180deg, rgba(10,10,25,0.5) 0%, rgba(10,10,25,0.05) 30%, rgba(10,10,25,0.5) 58%, rgba(10,10,25,0.8) 100%)';
+  'linear-gradient(180deg, rgba(10,10,25,0.5) 0%, rgba(10,10,25,0.05) 26%, rgba(10,10,25,0.62) 52%, rgba(10,10,25,0.85) 100%)';
 
 export interface DayHeroProps {
   readonly media: MediaAsset | null;
@@ -100,7 +100,7 @@ export const DayHero = memo(function DayHero(props: DayHeroProps) {
         <Text
           variant={props.words ? 'display' : 'hero'}
           color={white}
-          style={props.words ? null : styles.tabular}
+          style={props.words ? styles.lift : [styles.tabular, styles.lift]}
           accessibilityRole="header"
           {...(props.spoken === undefined ? {} : { accessibilityLabel: props.spoken })}
           testID="trip-day-big"
@@ -122,4 +122,10 @@ const styles = StyleSheet.create({
   soft: { opacity: 0.92 },
   spacer: { flexGrow: 1 },
   tabular: { fontVariant: ['tabular-nums'] },
+  // The big white type keeps its edge over a bright sign or sky the scrim can't fully darken.
+  lift: {
+    textShadowColor: premium.modes.dark.color.inkSurface,
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 14,
+  },
 });
