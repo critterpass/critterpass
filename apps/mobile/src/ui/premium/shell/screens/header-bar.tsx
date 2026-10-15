@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Text, usePremiumTheme } from '../..';
+import { BAR_OVER_EDGE } from './scroll-edge';
 
 export interface HeaderBarProps {
   /** The leading control (the glass back or ✕); nothing keeps its side empty. */
@@ -121,7 +122,8 @@ export function CrumbBar({
 
 const styles = StyleSheet.create({
   grow: { flex: 1 },
-  row: { flexDirection: 'row', alignItems: 'center' },
+  // Above the page and its fade: a glass control's shadow reaches past the bar's foot.
+  row: { flexDirection: 'row', alignItems: 'center', zIndex: BAR_OVER_EDGE },
   // Equal sides keep the title centred whatever the two sides' widths.
   side: { flex: 1, flexDirection: 'row', alignItems: 'center' },
   end: { flexDirection: 'row', justifyContent: 'flex-end' },

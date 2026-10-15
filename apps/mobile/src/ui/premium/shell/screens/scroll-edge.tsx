@@ -33,6 +33,13 @@ import { REDUCED_FADE_MS, usePremiumTheme } from '../..';
 /** How far content takes to fade out past the floating thing's edge. */
 export const SCROLL_EDGE_FADE = 24;
 
+/**
+ * A bar's stacking over the scroll beside it: above a fade band (zIndex 1). Fabric flattens a
+ * plain wrapper around a scroll view, which leaves its band a sibling of the bar; at the same
+ * zIndex the later band wins and cuts a glass control's shadow flat at the bar's foot.
+ */
+export const BAR_OVER_EDGE = 2;
+
 /** Content this close to an end counts as at it (sub-pixel rounding, a bounce settling). */
 const SLACK = 1;
 
@@ -220,5 +227,5 @@ export function useScrollEdges({
 export const PageScrollEdgesContext = createContext<ScrollEdges['scrollProps'] | null>(null);
 
 const styles = StyleSheet.create({
-  band: { position: 'absolute', left: 0, right: 0, zIndex: 1 },
+  band: { position: 'absolute', left: 0, right: 0, zIndex: BAR_OVER_EDGE - 1 },
 });

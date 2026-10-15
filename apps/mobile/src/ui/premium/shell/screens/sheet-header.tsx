@@ -9,6 +9,7 @@ import type { ReactNode } from 'react';
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { GlassIconButton, HeaderPill, Text, usePremiumTheme, type HeaderPillProps } from '../..';
+import { BAR_OVER_EDGE } from './scroll-edge';
 
 export interface SheetHeaderProps {
   /** `close` (✕) for a sheet's first screen, `back` for a page pushed inside it. */
@@ -73,7 +74,7 @@ export function SheetHeader({
 }
 
 const styles = StyleSheet.create({
-  row: { height: 56, flexDirection: 'row', alignItems: 'center', zIndex: 1 },
+  row: { height: 56, flexDirection: 'row', alignItems: 'center', zIndex: BAR_OVER_EDGE },
   side: { flex: 1, flexDirection: 'row', alignItems: 'center' },
   end: { justifyContent: 'flex-end' },
   title: { flexShrink: 1, maxWidth: '60%' },

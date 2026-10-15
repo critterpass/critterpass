@@ -21,6 +21,7 @@ import { PageFooter } from './page-footer';
 import { useBodyTitle, useHeaderLeavesWithPage } from './push-screen-hooks';
 import { usePushScreenOptions } from './push-screen-options';
 import {
+  BAR_OVER_EDGE,
   PageScrollEdgesContext,
   SCROLL_EDGE_FADE,
   ScrollEdgeFade,
@@ -101,16 +102,14 @@ export function PushScreen({
   const t = usePremiumTheme();
   const insets = useSafeAreaInsets();
   useHeaderLeavesWithPage();
-  // A large title in the body makes this a crumb page: the bar shows the back and the page it
-  // returns to, and no inline title (one title per page).
+  // A large title in the body makes this a crumb page: back and crumb, no inline title.
   const [bodyTitle, reportBodyTitle] = useBodyTitle();
   const crumb = bodyTitle && !largeTitle && !headerless;
   const actions = capActions(action === undefined ? [] : [action], 1);
   const ios = Platform.OS === 'ios';
   const placement = useScreenPlacement();
   const control = leading === 'auto' ? leadingControlFor(placement) : leading;
-  // One back for every crumb page: the drawn glass back with the page it returns to beside it, on
-  // both platforms (the native bar drew it as a pill with the label inside on iOS).
+  // A crumb page draws its glass back with the crumb beside it on both platforms.
   const drawnBar = !ios || largeTitle || crumb;
   // The native bar has its own back only for a page pushed on its own stack; the first screen of
   // a pushed group, or of a sheet or modal, gets the shell's control instead.
@@ -231,7 +230,13 @@ export function PushScreen({
     );
   } else if (drawnBar) {
     bar = (
-      <View style={{ marginTop: insets.top + t.space.gap6, marginBottom: t.space.gap6 }}>
+      <View
+        style={{
+          marginTop: insets.top + t.space.gap6,
+          marginBottom: t.space.gap6,
+          zIndex: BAR_OVER_EDGE,
+        }}
+      >
         <HeaderBar
           title={title}
           {...(subtitle === undefined ? {} : { subtitle })}

@@ -61,6 +61,7 @@ export type {
   ScreenWaitingProps,
 } from './screens/screen-states';
 export {
+  BAR_OVER_EDGE,
   edgeGradient,
   PhotoHeaderScrim,
   SCROLL_EDGE_FADE,
