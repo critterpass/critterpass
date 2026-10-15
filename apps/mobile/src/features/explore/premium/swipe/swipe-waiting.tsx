@@ -7,7 +7,7 @@
  * sleeping critter says it didn't come together, with Start again as the one button under it.
  */
 import { useLingui } from '@lingui/react/macro';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import {
   Button,
@@ -62,6 +62,9 @@ export function SwipeWaiting(props: {
           backgroundColor: theme.color.card,
           padding: 8,
           boxShadow: theme.shadow.card,
+          // In the dark look the card is near the page's colour: its ring keeps the deck's shape.
+          borderWidth: StyleSheet.hairlineWidth,
+          borderColor: theme.color.hairline,
         }}
       >
         <View style={{ flex: 1, borderRadius: 29, overflow: 'hidden' }}>
