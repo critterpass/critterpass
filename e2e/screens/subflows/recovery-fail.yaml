@@ -1,7 +1,8 @@
 appId: app.critterpass.dev
 ---
 # The recovery sheet over a page that fails as it renders (3.20): Developer tools' recovery entry,
-# shot once the sheet shows, then its way back and Home again.
+# shot once the sheet shows, then its way back and a relaunch onto Home (on iOS the sheet's layer
+# stays in the hierarchy and hides the QA marker from every later capture).
 - evalScript: ${output.recoveryShown = false}
 - runFlow: ../../_shared/open-dev-tools.yaml
 - tapOn:
@@ -32,4 +33,4 @@ appId: app.critterpass.dev
       true: ${!output.recoveryShown}
     commands:
       - evalScript: "${output.captureMissing = (output.captureMissing || '') + ' 3.20-something-broke'}"
-- runFlow: ../../_shared/home-link.yaml
+- runFlow: relaunch-home.yaml
