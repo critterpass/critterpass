@@ -1,7 +1,7 @@
 /**
- * Putting one essential sight on a day: added where it rides least out of the way and the day
- * stays as clean; else in the seat of a stop nobody asked for; else in a shorter essential's seat
- * (which is placed again later). A long visit takes in the stops inside it, and a whole-day visit
+ * Putting one essential sight on a day, the days in its own area first: added where it rides least
+ * out of the way and the day stays as clean; else in the seat of a stop nobody asked for; else in
+ * a shorter essential's seat (which is placed again later). A long visit takes in the stops inside it, and a whole-day visit
  * the day's lunch stop, before it is tried.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
@@ -14,7 +14,7 @@ import {
   type DraftPoi,
 } from '@cp/planner';
 
-import { homeOf, hopCap, insideVisit, spanOf } from './areas';
+import { areaStep, homeOf, hopCap, insideVisit, rideFrom, spanOf } from './areas';
 import { addOne, dayFaults, fillMeals, nearFirst } from './complete-days';
 import type { DraftPlanInput } from './context';
 import { essentialsOf } from './essentials';
@@ -69,9 +69,22 @@ export function placeOne(
     )
     .map((day) => {
       const here = day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
-      return { day, near: nearFirst(input, [poi], here).length > 0 ? 0 : 1 };
+      return {
+        day,
+        near: nearFirst(input, [poi], here).length > 0 ? 0 : 1,
+        // The day in its area (or one beside it) first, so a stop of that day gives way to it
+        // before it is carried across town to a lighter day.
+        step: areaStep(input, poi.id, here),
+        ride: rideFrom(input, poi.id, here),
+      };
     })
-    .sort((a, b) => a.near - b.near || a.day.items.length - b.day.items.length);
+    .sort(
+      (a, b) =>
+        a.near - b.near ||
+        a.step - b.step ||
+        a.ride - b.ride ||
+        a.day.items.length - b.day.items.length,
+    );
   // As clean as it was, and no sight that should open the day left behind another.
   const clean = (
     was: { hard: number; meals: number },

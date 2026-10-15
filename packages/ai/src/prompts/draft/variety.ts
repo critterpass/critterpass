@@ -39,12 +39,15 @@ export function oneTooMany(
  * `candidates` in the order the planner should try them for a day holding `dayIds` on a trip
  * holding `tripIds`: must-sees first, then kinds the day has least of, then kinds new to the
  * trip, then as they came. One of a kind too many is left out while another kind is offered.
+ * `near` (lower first) comes before all of that: a place in the day's own areas before a
+ * must-see across town.
  */
 export function byVariety(
   input: Pick<DraftPlanInput, 'pois'>,
   candidates: readonly DraftPoi[],
   dayIds: readonly string[],
   tripIds: readonly string[],
+  near: (poi: DraftPoi) => number = () => 0,
 ): DraftPoi[] {
   const inDay = counts(input, dayIds);
   const inTrip = counts(input, tripIds);
@@ -52,12 +55,14 @@ export function byVariety(
     .map((poi, rank) => ({
       poi,
       rank,
+      near: near(poi),
       day: inDay.get(kindOf(poi)) ?? 0,
       seen: inTrip.has(kindOf(poi)) ? 1 : 0,
     }))
     .sort(
       // Among must-sees the order they came in stands (the caller ranks them); the rest by kind.
       (a, b) =>
+        a.near - b.near ||
         Number(b.poi.mustSee) - Number(a.poi.mustSee) ||
         (a.poi.mustSee ? a.rank - b.rank : 0) ||
         a.day - b.day ||

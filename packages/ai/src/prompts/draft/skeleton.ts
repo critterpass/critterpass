@@ -11,7 +11,8 @@
 import { landsOn, leavesOn } from '@cp/planner';
 
 import { placeCore } from './core-days';
-import { assignMeals, assignSpares, keepWhatFits, topUpDays } from './skeleton-days';
+import { assignMeals, keepWhatFits, topUpDays } from './skeleton-days';
+import { assignSpares } from './skeleton-spares';
 import { checkWishAnswers, whenOf, withWishAnswers, type WishAnswer } from './wish-answers';
 
 import { parseStructuredText, textOf } from '../../structured';
