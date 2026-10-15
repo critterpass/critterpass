@@ -1,0 +1,17 @@
+appId: app.critterpass.dev
+---
+# The way back by hand: the system back, one press at a time, a frame after each
+# (${SHOT}-back-<n>), until a screen with the tab bar is showing. Where each press lands is the
+# point: a surprise here is a finding.
+- evalScript: ${output.backStep = 0}
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-trips'
+    times: 8
+    commands:
+      - runFlow: ../../../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - evalScript: ${output.backStep = output.backStep + 1}
+      - takeScreenshot: ${SHOT}-back-${output.backStep}

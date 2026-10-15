@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# One card of the swipe deck: ${ANSWER} (explore-swipe-yes | explore-swipe-no), then ${SHOT}. A
+# MATCH stamp is framed (${SHOT}-match); one that waits for a tap gets it.
+- tapOn:
+    id: ${ANSWER}
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'explore-swipe-match'
+    timeout: 3000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'explore-swipe-match'
+    commands:
+      - takeScreenshot: ${SHOT}-match
+      - waitForAnimationToEnd:
+          timeout: 6000
+      - tapOn:
+          id: 'explore-swipe-match'
+          optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}

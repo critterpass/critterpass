@@ -1,0 +1,7 @@
+appId: app.critterpass.dev
+---
+# The collaboration walk (collaboration.yaml) read in Vietnamese by both people.
+- runFlow:
+    file: collaboration.yaml
+    env:
+      WALK_LANG: vi

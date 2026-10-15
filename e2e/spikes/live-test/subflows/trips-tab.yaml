@@ -1,0 +1,23 @@
+appId: app.critterpass.dev
+---
+# The Trips tab (the trip hub). The visit-memory offer ("Remember places you visit") can rise over
+# the hub: it is framed once and answered NOT NOW, as a casual traveller would.
+- tapOn:
+    id: 'tab-trips'
+- waitForAnimationToEnd:
+    timeout: 5000
+- extendedWaitUntil:
+    visible:
+      id: 'visit-consent-decline'
+    timeout: 3000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - takeScreenshot: collaboration-visit-memory-offer
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
