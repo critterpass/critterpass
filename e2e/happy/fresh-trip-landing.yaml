@@ -117,11 +117,11 @@ appId: app.critterpass.dev
 # Landing hatches the trip's egg: its welcome page comes up first, with a way past it.
 - runFlow:
     when:
-      visible: 'Show me around.later'
+      visible: 'Show me.around.later'
     commands:
       - waitForAnimationToEnd
       - takeScreenshot: landing-welcome
-      - tapOn: 'Show me around.later'
+      - tapOn: 'Show me.around.later'
       - waitForAnimationToEnd
 - runFlow: subflows/dismiss-visit-offer.yaml
 # Home: the trip is on. The welcome page can come up only now, once the trip has turned on; it
@@ -148,9 +148,9 @@ appId: app.critterpass.dev
 - runFlow: subflows/dismiss-visit-offer.yaml
 - runFlow:
     when:
-      visible: 'Show me around.later'
+      visible: 'Show me.around.later'
     commands:
-      - tapOn: 'Show me around.later'
+      - tapOn: 'Show me.around.later'
 - extendedWaitUntil:
     visible:
       id: 'home-in-trip'

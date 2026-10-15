@@ -67,7 +67,7 @@ appId: app.critterpass.dev
             LOOK: ${LOOK}
       - runFlow:
           when:
-            visible: 'Nothing planned today. A free.day.'
+            visible: 'Nothing planned today. A.free.day.'
           file: shot.yaml
           env:
             CODE: '6.05'
@@ -246,7 +246,7 @@ appId: app.critterpass.dev
             - tapOn:
                 id: 'live-map-share'
             - tapOn:
-                text: '(?i)(while using the.app|allow while using.app|only this.time|allow once)'
+                text: '(?i)(while using.the.app|allow while.using.app|only.this.time|allow once)'
                 optional: true
             - extendedWaitUntil:
                 notVisible:

@@ -240,7 +240,7 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'home-locate'
       - tapOn:
-          text: '(?i)(while using the.app|allow while using.app|only this.time|allow once)'
+          text: '(?i)(while using.the.app|allow while.using.app|only.this.time|allow once)'
           optional: true
       - extendedWaitUntil:
           visible:

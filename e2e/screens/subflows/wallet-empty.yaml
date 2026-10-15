@@ -83,7 +83,7 @@ appId: app.critterpass.dev
       LOOK: ${LOOK}
 # The mailbox sheet from the add page's guide note, as a person opens it (its link is the fallback).
 - tapOn:
-    text: 'Find bookings in my.email'
+    text: 'Find bookings in.my.email'
     optional: true
 - extendedWaitUntil:
     visible:

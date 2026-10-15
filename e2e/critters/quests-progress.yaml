@@ -31,7 +31,7 @@ appId: app.critterpass.dev
 - assertVisible:
     id: 'quests-xp-bar'
 - assertVisible:
-    text: '(?i).*0 / 400.XP.*'
+    text: '(?i).*0 /.400.XP.*'
 - assertVisible:
     id: 'quests-empty-before'
 - takeScreenshot: quests-before-day-one

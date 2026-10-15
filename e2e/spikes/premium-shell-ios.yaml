@@ -75,7 +75,7 @@ appId: app.critterpass.dev
 
 # The toolbar `+` (a system bar button, reached by its label) grows into the half sheet.
 - tapOn:
-    text: 'Add a.booking'
+    text: 'Add.a.booking'
     optional: true
 - takeScreenshot: premium-shell-05-plus-morph-mid
 - extendedWaitUntil:
@@ -107,7 +107,7 @@ appId: app.critterpass.dev
     end: 50%, 90%
     duration: 500
 - extendedWaitUntil:
-    visible: 'Discard this.booking?'
+    visible: 'Discard.this.booking?'
     timeout: 5000
     optional: true
 - takeScreenshot: premium-shell-09-sheet-asks
@@ -117,7 +117,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'sheet-cancel'
 - extendedWaitUntil:
-    visible: 'Discard this.booking?'
+    visible: 'Discard.this.booking?'
     timeout: 5000
     optional: true
 - tapOn:

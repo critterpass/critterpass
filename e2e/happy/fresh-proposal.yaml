@@ -161,7 +161,7 @@ appId: app.critterpass.dev
 - takeScreenshot: en-3f-6-who-s-in
 - tapOn:
     id: 'tracker-lock'
-- tapOn: '(?i)yes, lock it.in'
+- tapOn: '(?i)yes, lock.it.in'
 # Confirmed: the "trip is on" card says so and LOCK IT IN is gone.
 - extendedWaitUntil:
     visible:

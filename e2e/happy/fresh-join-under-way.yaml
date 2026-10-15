@@ -114,7 +114,7 @@ appId: app.critterpass.dev
 # The guide writes the friend's version on staging's AI.
 - extendedWaitUntil:
     visible:
-      text: '(?i).*version is.ready|.*wrote the group.version.*'
+      text: '(?i).*version.is.ready|.*wrote the.group.version.*'
     timeout: 300000
 
 # Someone who joins while the proposal is out: in the crew, with no version of their own to answer
@@ -225,7 +225,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'tracker-lock'
-- tapOn: '(?i)yes, lock it.in'
+- tapOn: '(?i)yes, lock.it.in'
 - extendedWaitUntil:
     visible:
       id: 'tracker-confirmed'

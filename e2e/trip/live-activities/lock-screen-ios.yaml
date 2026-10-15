@@ -46,7 +46,7 @@ appId: app.critterpass.dev
     end: 25%, 70%
     duration: 600
 - extendedWaitUntil:
-    visible: '4 OF 6.UP'
+    visible: '4 OF.6.UP'
     timeout: 60000
 - waitForAnimationToEnd:
     timeout: 4000

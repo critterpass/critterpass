@@ -37,7 +37,7 @@ appId: app.critterpass.dev
           id: 'guide-mode-private'
       - waitForAnimationToEnd:
           timeout: 3000
-      - assertNotVisible: '.*What should we pack for rain in.Ubud\?.*'
+      - assertNotVisible: '.*What should we pack for rain.in.Ubud\?.*'
       - assertNotVisible:
           id: 'guide-answer-live'
       - takeScreenshot: premium-5.13-just-me-after-group-turn-light

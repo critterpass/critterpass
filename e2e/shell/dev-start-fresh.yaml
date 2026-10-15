@@ -64,7 +64,7 @@ appId: app.critterpass.dev
     commands:
       - waitForAnimationToEnd
       - takeScreenshot: shell-start-fresh-3-account-stays
-      - tapOn: '(?i)start fresh.anyway'
+      - tapOn: '(?i)start.fresh.anyway'
 
 # The app restarts at the splash, as a first launch.
 - extendedWaitUntil:

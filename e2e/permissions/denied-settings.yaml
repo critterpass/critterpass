@@ -50,7 +50,7 @@ appId: app.critterpass.dev
     id: 'dev-permission-camera-primer'
 - extendedWaitUntil:
     visible:
-      text: 'It is switched off in.Settings.*'
+      text: 'It is switched off.in.Settings.*'
     timeout: 10000
 - assertVisible:
     id: 'primer-sheet-accept'

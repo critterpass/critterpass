@@ -91,7 +91,7 @@ appId: app.critterpass.dev
                   MARK: 'guide-dietary|guide-dietary-consent|guide-dietary-sheet'
             # Point and ask: the composer's add button opens the menu camera.
             - tapOn:
-                text: 'Point the camera at a.menu'
+                text: 'Point the camera at.a.menu'
                 optional: true
             - tapOn:
                 text: 'Don.t allow|Deny'

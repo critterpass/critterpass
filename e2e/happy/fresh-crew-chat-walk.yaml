@@ -30,7 +30,7 @@ appId: app.critterpass.dev
     id: 'chat-send'
 - extendedWaitUntil:
     visible:
-      text: '.*Fushimi Inari at.sunrise.*'
+      text: '.*Fushimi Inari.at.sunrise.*'
     timeout: 10000
 - extendedWaitUntil:
     visible:
@@ -78,7 +78,7 @@ appId: app.critterpass.dev
     timeout: 20000
 - extendedWaitUntil:
     visible:
-      text: '.*Fushimi Inari at.sunrise.*'
+      text: '.*Fushimi Inari.at.sunrise.*'
     timeout: 60000
 - waitForAnimationToEnd
 - takeScreenshot: premium-5.12-walk-joined-vi
@@ -94,7 +94,7 @@ appId: app.critterpass.dev
     id: 'chat-react-🔥'
 - extendedWaitUntil:
     visible:
-      text: '.* ·.1'
+      text: '.*.·.1'
     timeout: 20000
 - waitForAnimationToEnd
 
@@ -121,7 +121,7 @@ appId: app.critterpass.dev
     id: 'chat-send'
 - extendedWaitUntil:
     visible:
-      text: '.*count me.in'
+      text: '.*count.me.in'
     timeout: 10000
 - extendedWaitUntil:
     notVisible:
@@ -183,7 +183,7 @@ appId: app.critterpass.dev
           id: 'chat-send'
       - extendedWaitUntil:
           visible:
-            text: '.*Tối nay ăn.phở.*'
+            text: '.*Tối nay.ăn.phở.*'
           timeout: 10000
       - waitForAnimationToEnd
       - takeScreenshot: premium-5.01-walk-vietnamese-sent-keyboard-vi
