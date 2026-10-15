@@ -1,0 +1,229 @@
+{
+  "destination": "vn-da-lat",
+  "ideal_days": {
+    "min": 2,
+    "max": 3
+  },
+  "areas": [
+    {
+      "name": "Center and Xuan Huong Lake",
+      "character_en": "Lake, market and night market in a walkable core; most breakfasts, hotpots and evening snacks are here.",
+      "character_vi": "Hồ, chợ và chợ đêm trong khu trung tâm đi bộ được; phần lớn bữa sáng, lẩu và đồ ăn vặt tối nằm ở đây.",
+      "places": [
+        "Xuan Huong Lake",
+        "Da Lat Market",
+        "Dalat Night Market",
+        "Lam Vien Square",
+        "Dalat Cathedral",
+        "Banh Can Nha Chung",
+        "Banh Uot Long Ga Hang",
+        "Banh Mi Xiu Mai Ri 79",
+        "Banh Mi Hoa Le",
+        "Lau Bo Ba Toa",
+        "Bun Ca Tam A Huy",
+        "Quan An Thanh 68",
+        "Xap Xap Co Nam",
+        "Dung Beo Soy Milk",
+        "Nem Nuong Ba Hung",
+        "YAM Dalat",
+        "Leon Bar"
+      ]
+    },
+    {
+      "name": "Southwest Villas and Crazy House",
+      "character_en": "Hill villas, a pink church and the Crazy House, with a few meals; short Grab hops apart.",
+      "character_vi": "Biệt thự trên đồi, nhà thờ hồng và Crazy House, kèm vài quán ăn; các điểm cách nhau chỉ một đoạn Grab ngắn.",
+      "places": [
+        "Crazy House",
+        "Bao Dai Palace III",
+        "Domaine de Marie Church",
+        "Banh Can Co Gai",
+        "Lau Ga La E Tao Ngo"
+      ]
+    },
+    {
+      "name": "Station and Eastern Hills",
+      "character_en": "Heritage station, museum and cafes on the eastern slopes; sunrise and live-music evenings.",
+      "character_vi": "Ga cổ, bảo tàng và quán cà phê trên sườn đông; có bình minh và đêm nhạc sống.",
+      "places": [
+        "Dalat Railway Station",
+        "Lam Dong Museum",
+        "Bun Bo Thien Trang",
+        "Binh Minh Oi Cafe",
+        "Tui Mo To Cafe",
+        "Cheo Veooo Cafe",
+        "In The Forest Cafe",
+        "Memory Cafe"
+      ]
+    },
+    {
+      "name": "Trai Mat",
+      "character_en": "A short train ride east to the mosaic Linh Phuoc Pagoda.",
+      "character_vi": "Một chuyến tàu ngắn về phía đông tới chùa Linh Phước dát gốm.",
+      "places": ["Linh Phuoc Pagoda"]
+    },
+    {
+      "name": "Tuyen Lam Lake and Datanla",
+      "character_en": "South of town: lake, monastery by cable car, waterfall and clay park.",
+      "character_vi": "Phía nam thành phố: hồ, thiền viện đi cáp treo, thác và công viên đất sét.",
+      "places": ["Truc Lam Zen Monastery", "Tuyen Lam Lake", "Datanla Falls", "Clay Tunnel"]
+    },
+    {
+      "name": "Northern Hills",
+      "character_en": "Hills 6-12 km north: Langbiang, Valley of Love, Lumiere and the sunrise hill.",
+      "character_vi": "Những ngọn đồi cách 6-12 km về phía bắc: Langbiang, Thung lũng Tình Yêu, Lumiere và đồi ngắm bình minh.",
+      "places": ["Langbiang Mountain", "Valley of Love", "Lumiere Light Garden", "Doi Da Phu"]
+    },
+    {
+      "name": "Flower Park and Northern Lake",
+      "character_en": "Flower garden and embroidery gallery at the lake's northern end; gentle, partly indoor.",
+      "character_vi": "Vườn hoa và bảo tàng thêu ở đầu bắc hồ; nhẹ nhàng, có chỗ trong nhà.",
+      "places": ["Dalat Flower Park", "XQ Su Quan"]
+    },
+    {
+      "name": "Countryside",
+      "character_en": "Tea hills and a waterfall 25-30 km out; a half-day each.",
+      "character_vi": "Đồi chè và thác cách 25-30 km; mỗi nơi mất nửa ngày.",
+      "places": ["Cau Dat Tea Hill", "Elephant Waterfall"]
+    }
+  ],
+  "consensus_days": [
+    {
+      "day": 1,
+      "theme_en": "Lake, old station, cathedral and the night market",
+      "theme_vi": "Hồ, ga cổ, nhà thờ và chợ đêm",
+      "areas": ["Center and Xuan Huong Lake", "Station and Eastern Hills"],
+      "stops": [
+        "Banh Mi Xiu Mai Ri 79",
+        "Xuan Huong Lake",
+        "Dalat Cathedral",
+        "Dalat Railway Station",
+        "Nem Nuong Ba Hung",
+        "Lam Vien Square",
+        "Dalat Night Market",
+        "Dung Beo Soy Milk"
+      ],
+      "source_count": 3
+    },
+    {
+      "day": 2,
+      "theme_en": "South of town: cable car, lake, waterfall, hotpot",
+      "theme_vi": "Phía nam: cáp treo, hồ, thác, lẩu",
+      "areas": ["Tuyen Lam Lake and Datanla", "Southwest Villas and Crazy House"],
+      "stops": [
+        "Truc Lam Zen Monastery",
+        "Tuyen Lam Lake",
+        "Datanla Falls",
+        "Clay Tunnel",
+        "Lau Ga La E Tao Ngo",
+        "Leon Bar"
+      ],
+      "source_count": 3
+    },
+    {
+      "day": 3,
+      "theme_en": "Sunrise hill, Crazy House, palace and church",
+      "theme_vi": "Đồi bình minh, Crazy House, dinh và nhà thờ",
+      "areas": ["Northern Hills", "Southwest Villas and Crazy House"],
+      "stops": [
+        "Doi Da Phu",
+        "Banh Uot Long Ga Hang",
+        "Crazy House",
+        "Bao Dai Palace III",
+        "Domaine de Marie Church",
+        "Lau Bo Ba Toa"
+      ],
+      "source_count": 2
+    }
+  ],
+  "day_trips": [
+    {
+      "name": "Pongour Falls (seven-tier waterfall)",
+      "travel_minutes": 90,
+      "why_en": "Wide seven-tier waterfall south of the city, usually a full day with a countryside route.",
+      "why_vi": "Thác bảy tầng rộng phía nam thành phố, thường đi cả ngày kết hợp cung đường làng quê."
+    }
+  ],
+  "city_tips_en": [
+    "Grab cars are cheap; motorbikes rent for about 120-200k a day but hills are steep, so only if you ride well.",
+    "Flights from Saigon start near 500k; the night sleeper bus is 6-7 hours from about 270k.",
+    "Pack layers: days run 15-24C and nights are cold. Warm jackets are sold at the night market.",
+    "May-October is the rainy season; afternoon showers are common, so keep a museum or cafe plan.",
+    "Prices and hours change; Dinh I reopened in mid-2026, so check before long trips."
+  ],
+  "city_tips_vi": [
+    "Grab rẻ; thuê xe máy khoảng 120-200k một ngày nhưng dốc nhiều, chỉ nên chạy nếu đã quen đường.",
+    "Vé bay từ Sài Gòn khoảng 500k; xe giường nằm đêm chạy 6-7 giờ, vé từ khoảng 270k.",
+    "Mang áo nhiều lớp: ban ngày 15-24 độ, tối lạnh. Có thể mua áo khoác ấm ở chợ đêm.",
+    "Mùa mưa từ tháng 5 đến 10, chiều hay có mưa nên chuẩn bị phương án bảo tàng hoặc quán cà phê.",
+    "Giá vé và giờ mở cửa hay đổi; Dinh I mới mở lại giữa năm 2026, nên kiểm tra trước."
+  ],
+  "best_months": "Nov-Mar is dry and cool; Dec-Feb has flowers; March is quieter; cloud-chasing is best Jun-Sep.",
+  "sources": [
+    {
+      "url": "https://www.orangewayfarer.com/things-to-do-in-dalat-itinerary",
+      "title": "Best Things to do in Dalat in 3 days",
+      "kind": "blog",
+      "lang": "en",
+      "days": 3
+    },
+    {
+      "url": "https://www.thegonegoat.com/vietnam/things-to-do-in-dalat-itinerary",
+      "title": "Things To Do in Dalat (My Itinerary): Coffee, Culture & Nature",
+      "kind": "blog",
+      "lang": "en"
+    },
+    {
+      "url": "https://www.indietraveller.co/dalat-travel-guide",
+      "title": "In-Depth Dalat Travel Guide (With 18 Best Things To Do)",
+      "kind": "guide",
+      "lang": "en"
+    },
+    {
+      "url": "https://primetravelvietnam.com/complete-da-lat-travel-guide-first-timers",
+      "title": "Complete Da Lat Travel Guide for First-Timers",
+      "kind": "blog",
+      "lang": "en"
+    },
+    {
+      "url": "https://vietnam.travel/things-to-do/8-things-to-do-in-dalat",
+      "title": "8 ways to appreciate Da Lat - Vietnam Tourism",
+      "kind": "official",
+      "lang": "en"
+    },
+    {
+      "url": "https://vnexpress.net/48-gio-o-da-lat-4687875.html",
+      "title": "48 giờ ở Đà Lạt - VnExpress Du lịch",
+      "kind": "news",
+      "lang": "vi",
+      "days": 2
+    },
+    {
+      "url": "https://vnexpress.net/cam-nang-du-lich-da-lat-4455699.html",
+      "title": "Kinh nghiệm du lịch Đà Lạt từ A-Z - VnExpress",
+      "kind": "news",
+      "lang": "vi"
+    },
+    {
+      "url": "https://www.momo.vn/blog/du-lich-da-lat-3-ngay-2-dem-c101dt529",
+      "title": "Lịch trình Du lịch Đà Lạt 3 ngày 2 đêm - MoMo",
+      "kind": "blog",
+      "lang": "vi",
+      "days": 3
+    },
+    {
+      "url": "https://mia.vn/cam-nang-du-lich/lich-trinh-va-chi-phi-di-da-lat-3-ngay-2-dem-tu-tuc-1736",
+      "title": "Lịch trình và chi phí đi Đà Lạt 3 ngày 2 đêm tự túc - MIA",
+      "kind": "blog",
+      "lang": "vi",
+      "days": 3
+    },
+    {
+      "url": "https://www.traveloka.com/vi-vn/explore/destination/du-lich-da-lat-3-ngay-2-dem-2/210924",
+      "title": "Kinh nghiệm du lịch Đà Lạt 3 ngày 2 đêm - Traveloka",
+      "kind": "guide",
+      "lang": "vi",
+      "days": 3
+    }
+  ]
+}
