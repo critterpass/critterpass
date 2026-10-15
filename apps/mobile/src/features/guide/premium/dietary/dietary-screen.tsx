@@ -2,7 +2,7 @@
  * Food and access needs, premium (5.21, 5.22): consent first for someone who has never shared
  * (Share flags grants it and opens the form with sharing on; Not now opens the form unshared; ✕
  * leaves with nothing shared), then the form. Save goes through the
- * offline queue; leaving with edits asks first.
+ * offline queue; leaving with real edits asks first (opening it shared is not one).
  */
 import { t } from '@lingui/core/macro';
 import { Stack } from 'expo-router';
@@ -69,7 +69,7 @@ function OpenDietary({ services }: { readonly services: DietaryServices }) {
         <View style={{ flex: 1, backgroundColor: th.color.ground }}>
           <DietaryConsent
             onShare={() => {
-              form.edit({ ...form.profile, visibility: SHARED });
+              form.start({ ...form.profile, visibility: SHARED });
               setGrant(true);
               setStep('form');
             }}
