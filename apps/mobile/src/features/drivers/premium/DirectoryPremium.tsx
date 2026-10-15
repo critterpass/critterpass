@@ -159,7 +159,7 @@ export function DirectoryPremium(input: { readonly tripId: string; readonly area
                     id: 'drivers.premium.offline',
                     message: 'This needs signal. Try again when you have some.',
                   })
-                : t({ id: 'drivers.premium.failed', message: "That didn't load. Try again." })}
+                : t({ id: 'drivers.premium.failed', message: 'That didn’t load. Try again.' })}
             </Text>
             {p.onRetry === undefined ? null : (
               <Button
@@ -175,6 +175,8 @@ export function DirectoryPremium(input: { readonly tripId: string; readonly area
           // Drawn above the chip row's spare room, so the disc's halo isn't cut where the row ends.
           <View style={[styles.empty, { gap: th.space.gap12 }]} testID="drivers-empty">
             <EmptyState
+              // Nobody listed is not a job done: no check on the disc.
+              check={false}
               title={
                 area === null
                   ? t({ id: 'drivers.directory.emptyAny', message: 'Nobody listed yet' })

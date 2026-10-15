@@ -173,6 +173,8 @@ export function Button({
           <View
             style={[
               box,
+              // A pill told to stretch fills the width its press area was given.
+              alignSelf === 'stretch' ? { alignSelf: 'stretch' } : null,
               look.box,
               {
                 flexDirection: 'row',

@@ -127,7 +127,7 @@ export function usePlaceDetail({ placeId, row, profile = null, tripId, onBack }:
       : context !== null && best === null && context.facts?.hoursKnown === false
         ? t({
             id: 'explore.detail.hoursUnknown',
-            message: "Its hours aren't known, so I can't fit it yet.",
+            message: 'Its hours aren’t known, so I can’t fit it yet.',
           })
         : null;
   const stopName = (stableId: string) => {

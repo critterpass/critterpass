@@ -3,7 +3,9 @@
  * the mask up it sits under a cover, the rest of the passport page does not.
  */
 
-import { describe, expect, it } from '@jest/globals';
+jest.mock('react-native-purchases', () => ({ __esModule: true, default: {} }));
+
+import { describe, expect, it, jest } from '@jest/globals';
 import { screen } from '@testing-library/react-native';
 
 import { isCovered, whileMasked } from '@/features/help/shake/test-support/masked';

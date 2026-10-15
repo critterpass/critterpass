@@ -161,7 +161,7 @@ export function OfflinePremium({ tripId }: { readonly tripId: string }) {
         {waiting.length === 0 ? null : (
           <View style={{ gap: th.space.gap8 }} testID="trip-offline-sends">
             <Text variant="label" color={th.color.status.tangerine.text}>
-              {t({ id: 'trip.offline.sendsTitle', message: "Sends when you're back" })}
+              {t({ id: 'trip.offline.sendsTitle', message: 'Sends when you’re back' })}
             </Text>
             <View style={styles.chips}>
               {waiting.map((line) => (
@@ -193,7 +193,7 @@ export function OfflinePremium({ tripId }: { readonly tripId: string }) {
             testID="trip-offline-conflicts"
           >
             <Text variant="label" color={th.color.destructive.text}>
-              {t({ id: 'trip.offline.conflictsTitle', message: "Didn't go through" })}
+              {t({ id: 'trip.offline.conflictsTitle', message: 'Didn’t go through' })}
             </Text>
             {view.conflicts.map((item) => (
               <View key={item.opId} style={styles.line}>
@@ -214,7 +214,7 @@ export function OfflinePremium({ tripId }: { readonly tripId: string }) {
         )}
         {view.onOpenPlan === null ? null : (
           <Button
-            label={t({ id: 'trip.offline.premium.openPlan', message: "Open today's plan" })}
+            label={t({ id: 'trip.offline.premium.openPlan', message: 'Open today’s plan' })}
             onPress={view.onOpenPlan}
             testID="trip-offline-plan"
           />
@@ -225,8 +225,10 @@ export function OfflinePremium({ tripId }: { readonly tripId: string }) {
           </Text>
         )}
         <View style={styles.center}>
-          <TextButton
-            align="center"
+          <Button
+            variant="secondary"
+            size="medium"
+            icon="download"
             label={t({ id: 'trip.offline.storageLink', message: 'Trips saved on this phone' })}
             onPress={() => router.push(offlineStorageRoute())}
             testID="trip-offline-storage-link"

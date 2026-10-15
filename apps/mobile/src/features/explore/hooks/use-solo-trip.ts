@@ -54,7 +54,7 @@ export function useSoloTrip(input: {
     (opId: string) => {
       toast.show({
         id: opId,
-        title: t({ id: 'explore.solo.refused', message: "That didn't go through" }),
+        title: t({ id: 'explore.solo.refused', message: 'That didn’t go through' }),
         subtitle: t({ id: 'explore.solo.refusedBody', message: 'No trip was started. Try again.' }),
       });
     },

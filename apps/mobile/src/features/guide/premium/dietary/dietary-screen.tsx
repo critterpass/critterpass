@@ -27,6 +27,7 @@ import type { DietaryServices } from '../../dietary/dietary-data';
 import { useDietaryForm } from '../../dietary/use-dietary-form';
 import { DietaryConsent } from './dietary-consent';
 import { DietaryForm } from './dietary-form';
+import { SharePill } from './share-pill';
 
 const SHARED = 'crew_flags' as const;
 const PRIVATE = 'self' as const;
@@ -82,15 +83,27 @@ function OpenDietary({ services }: { readonly services: DietaryServices }) {
     <FullScreen closeLabel={close} overPhoto={false} testID="guide-dietary-sheet">
       <Stack.Screen options={{ headerShown: false }} />
       <View style={{ flex: 1, backgroundColor: th.color.ground }}>
+        <View
+          style={{
+            position: 'absolute',
+            zIndex: 1,
+            top: insets.top + th.space.gap6 + 6,
+            right: th.space.gutter,
+          }}
+        >
+          <SharePill
+            shared={form.profile.visibility === SHARED}
+            onChange={(share) => {
+              if (share && !form.consented && !form.wasSharing) setGrant(true);
+              form.edit({ ...form.profile, visibility: share ? SHARED : PRIVATE });
+            }}
+          />
+        </View>
         <View style={{ flex: 1 }}>
           <DietaryForm
             scrollProps={edges.scrollProps}
             profile={form.profile}
             onChange={form.edit}
-            onShareChange={(share) => {
-              if (share && !form.consented && !form.wasSharing) setGrant(true);
-              form.edit({ ...form.profile, visibility: share ? SHARED : PRIVATE });
-            }}
           />
           {/* The form fades out above Save while there is more of it, instead of cutting there. */}
           <ScrollEdgeFade

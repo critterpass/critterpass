@@ -181,7 +181,7 @@ export function MemberSheet() {
               <Text variant="body" color={th.color.destructive.listAction} style={styles.flex}>
                 {t({ id: 'crew.premium.member.removeRow', message: 'Remove from the crew' })}
               </Text>
-              <Icon name="forward" size={16} color={th.color.muted} />
+              <Icon name="forward" size={16} color={th.color.placeholder} />
             </PressableScale>
           ) : null}
         </ListCard>

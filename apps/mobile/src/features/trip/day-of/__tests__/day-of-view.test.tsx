@@ -54,7 +54,7 @@ describe('day-of screen', () => {
     expect(screen.getByText('Leave by')).toBeTruthy();
     expect(screen.getByTestId('trip-day-big').props.children).toBe('03:10');
     // The countdown runs from the page's own clock, not the test machine's.
-    expect(screen.getByTestId('trip-day-countdown').props.children).toMatch(/^\d+:\d\d to go$/);
+    expect(screen.getByTestId('trip-day-countdown').props.children).toMatch(/^\d+:\d\d to\sgo$/u);
     expect(screen.getByText('4 of 6 are up')).toBeTruthy();
     expect(screen.getByText('Tokek rings Alex and Dev at 03:00')).toBeTruthy();
     expect(
@@ -82,8 +82,8 @@ describe('day-of screen', () => {
     await scene('3k-2-overdue');
     expect(screen.getByTestId('trip-day-hero-overdue')).toBeTruthy();
     expect(screen.getByText('The crew was pinged to knock for Alex and Dev.')).toBeTruthy();
-    expect(screen.getByTestId('trip-day-countdown').props.children).toBe(
-      'Leave-by time has passed',
+    expect(screen.getByTestId('trip-day-countdown').props.children).toMatch(
+      /^Leave-by time has\spassed$/u,
     );
   });
 
@@ -98,7 +98,7 @@ describe('day-of screen', () => {
 
   it("tells a member who isn't on the early item to sleep in", async () => {
     await scene('3k-2-not-mine');
-    expect(screen.getByText("You're not on this one. Sleep in.")).toBeTruthy();
+    expect(screen.getByText('You’re not on this one. Sleep in.')).toBeTruthy();
     expect(screen.queryByTestId('trip-day-im-up')).toBeNull();
   });
 

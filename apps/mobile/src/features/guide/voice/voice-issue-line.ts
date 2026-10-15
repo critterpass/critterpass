@@ -16,12 +16,12 @@ export function useIssueLine(issue: VoiceIssue | null, guideName: string): strin
     case 'heard_nothing':
       return t({
         id: 'guide.voice.heardNothing',
-        message: "I didn't catch that. Somewhere quieter helps, or hold the phone closer.",
+        message: 'I didn’t catch that. Somewhere quieter helps, or hold the phone closer.',
       });
     case 'listen_failed':
       return t({
         id: 'guide.voice.listenFailed',
-        message: "Listening didn't start. Try again, or type your question.",
+        message: 'Listening didn’t start. Try again, or type your question.',
       });
     case 'offline_queued':
       return t({
@@ -36,7 +36,7 @@ export function useIssueLine(issue: VoiceIssue | null, guideName: string): strin
     case 'reply_failed':
       return t({
         id: 'guide.voice.replyFailed',
-        message: "The answer didn't come through, and it wasn't counted. Ask again.",
+        message: 'The answer didn’t come through, and it wasn’t counted. Ask again.',
       });
   }
 }

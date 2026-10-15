@@ -722,6 +722,10 @@ msgstr ""
 msgid "plan.cancel.hold"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/check/check-view.tsx
+msgid "plan.premium.check.looking"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.day.item.placeDetail"
 msgstr ""

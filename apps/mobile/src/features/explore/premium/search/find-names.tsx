@@ -117,7 +117,7 @@ export function FindNames(props: FindNamesProps) {
         <Text variant="body" tone="muted" testID="search-name-arriving">
           {t({
             id: 'search.name.arriving',
-            message: "This trip's places are still arriving on this phone. Try again in a moment.",
+            message: 'This trip’s places are still arriving on this phone. Try again in a moment.',
           })}
         </Text>
       ) : null}
@@ -156,8 +156,8 @@ export function FindNames(props: FindNamesProps) {
         <View style={{ gap: theme.space.gap8 }} testID="search-name-failed">
           <Text variant="body">
             {rows.length === 0
-              ? t({ id: 'search.name.failed', message: "The search didn't go through." })
-              : t({ id: 'search.name.incomplete', message: "Couldn't reach more places." })}
+              ? t({ id: 'search.name.failed', message: 'The search didn’t go through.' })
+              : t({ id: 'search.name.incomplete', message: 'Couldn’t reach more places.' })}
           </Text>
           <Button
             label={t({ id: 'search.link.retry', message: 'Try again' })}

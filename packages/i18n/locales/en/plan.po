@@ -722,6 +722,10 @@ msgstr "Hold a stop and drag it onto another day, or hold a day to move one"
 msgid "plan.cancel.hold"
 msgstr "Hold to cancel {place}"
 
+#: ../../apps/mobile/src/features/plan/premium/check/check-view.tsx
+msgid "plan.premium.check.looking"
+msgstr "Hours, drives and saves, day by day…"
+
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.day.item.placeDetail"
 msgstr "Hours, photos and how to get there"
@@ -1457,7 +1461,7 @@ msgstr "This order is already the shortest without moving anything booked."
 
 #: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
 msgid "plan.dates.missingTitle"
-msgstr "This trip isn't here any more"
+msgstr "This trip isn’t here any more"
 
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.day.item.bookingLine"

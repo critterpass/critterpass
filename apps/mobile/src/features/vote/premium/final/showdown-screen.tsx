@@ -174,7 +174,7 @@ export function PremiumShowdownView({ poll }: { readonly poll: PollView }) {
   const note =
     lines.tieFull ??
     (poll.canVote && poll.myOptionId === null
-      ? t({ id: 'vote.showdown.hint', message: "You haven't voted yet. Tap a side." })
+      ? t({ id: 'vote.showdown.hint', message: 'You haven’t voted yet. Tap a side.' })
       : null);
 
   const button = (option: PollOptionView) => {

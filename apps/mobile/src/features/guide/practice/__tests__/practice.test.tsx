@@ -155,7 +155,7 @@ describe('what the screen shows', () => {
 
   it('shows what was heard with the tip on a miss, and offers another go', async () => {
     await renderScreen(scene('practice-tip'));
-    expect(screen.getByTestId('guide-practice-heard').props.children).toBe('“Cam on nhiu”');
+    expect(screen.getByTestId('guide-practice-heard').props.children).toMatch(/^“Cam on\snhiu”$/u);
     expect(screen.getByTestId('guide-practice-tip').props.children).toContain('nhiều');
     expect(screen.getByTestId('guide-practice-say')).toBeTruthy();
     expect(screen.queryByTestId('guide-practice-ok')).toBeNull();

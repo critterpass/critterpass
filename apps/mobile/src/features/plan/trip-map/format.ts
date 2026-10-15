@@ -167,13 +167,14 @@ export function weekday(locale: string, date: string | null): string {
   return date === null ? '' : format.date(locale, localDate(date), { weekday: 'short' });
 }
 
-/** "Oct 12–19" for the trip's dates. */
+/** "Oct 12–19" (or "5–11 Nov" where the day leads) for the trip's dates, in the locale's order. */
 export function tripDates(locale: string, start: string | null, end: string | null): string {
   if (start === null) return '';
   if (end === null || end === start) return shortDate(locale, start);
-  const sameMonth = start.slice(0, 7) === end.slice(0, 7);
-  const last = sameMonth ? String(Number(end.slice(8, 10))) : shortDate(locale, end);
-  return `${shortDate(locale, start)}–${last}`;
+  return format.dateInterval(locale, localDate(start), localDate(end), {
+    month: 'short',
+    day: 'numeric',
+  });
 }
 
 export function tagLabel(tag: DayTag, short = false): string {

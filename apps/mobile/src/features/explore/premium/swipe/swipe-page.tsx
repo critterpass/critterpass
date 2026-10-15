@@ -16,10 +16,7 @@ import {
   GlassIconButton,
   GlassPill,
   GuideNote,
-  IconButton,
   OfflinePill,
-  PhotoLayer,
-  PREMIUM_THEMES,
   RectStamp,
   StampMoment,
   SwipeDeck,
@@ -31,89 +28,19 @@ import {
 import type { SwipeCardFace } from '../../swipe-view-props';
 import { whyWords } from '../../components/why-words';
 import { useSwipeScreen, type SwipeScreenProps } from '../../use-swipe-screen';
-import { placeIcon } from '../../search/place-icons';
-import { Doodle } from '../components/doodle';
-import { placeTint } from '../components/place-tint';
+import { CardFace, VoteButton } from './swipe-parts';
 import { SwipeSummary } from './swipe-summary';
 import { SwipeWaiting } from './swipe-waiting';
 import { useDeckCards } from './use-deck-cards';
 
 const FLY_MS = 450;
 const NO_CARDS: readonly SwipeCardFace[] = [];
-const HEART = '♥';
-/** Room the name band takes at the card's foot, so a doodle centres in what stays in view. */
-const NAME_BAND = 110;
-
-const BAND_INK = PREMIUM_THEMES.light.color.inkSurface;
-
-function CardFace({ face }: { readonly face: SwipeCardFace }) {
-  const theme = usePremiumTheme();
-  return (
-    <View
-      style={{
-        flex: 1,
-        borderRadius: 36,
-        backgroundColor: theme.color.card,
-        padding: 8,
-        boxShadow: theme.shadow.card,
-      }}
-    >
-      <View
-        style={{
-          flex: 1,
-          borderRadius: 29,
-          overflow: 'hidden',
-          backgroundColor: theme.color.control,
-        }}
-      >
-        {face.photo === null ? (
-          // No photo: the kind's doodle on the kind's pastel, above the name band.
-          <View
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              paddingBottom: NAME_BAND,
-              backgroundColor: placeTint(theme, face.category),
-            }}
-            testID="swipe-card-doodle"
-          >
-            <Doodle name={placeIcon(face.category)} size={140} />
-          </View>
-        ) : (
-          <PhotoLayer media={face.photo} creditAt="top" />
-        )}
-        <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              // The scrim stays dark in either scheme so the name reads in white over any photo
-              // (the dark scheme's ink surface is near-white and turned the band into a grey slab).
-              backgroundColor: BAND_INK,
-              opacity: 0.55,
-            }}
-          />
-          <View style={{ padding: theme.space.gap16, gap: theme.space.gap4 }}>
-            <Text variant="stat" color={theme.accent.paper} numberOfLines={2}>
-              {face.name}
-            </Text>
-            <Text variant="rowText" color={theme.accent.paper} numberOfLines={2}>
-              {face.meta}
-            </Text>
-            {face.social === null ? null : (
-              <Text variant="badge" color={theme.accent.paper}>
-                {face.social}
-              </Text>
-            )}
-          </View>
-        </View>
-      </View>
-    </View>
-  );
+/**
+ * Where the reader is in the deck ("12 of 30" while the twelfth card is up): the card on top
+ * counts, so the first card reads "1 of 30"; the summary after the last card reads the total.
+ */
+export function deckPosition(stage: string, done: number, total: number): number {
+  return stage === 'deck' ? Math.min(done + 1, total) : Math.min(done, total);
 }
 
 export function SwipePage(props: SwipeScreenProps) {
@@ -173,13 +100,14 @@ export function SwipePage(props: SwipeScreenProps) {
             <Text variant="captionMuted" tone="muted">
               {t({
                 id: 'explore.premium.swipe.progress',
-                message: `${view.done} of ${view.total}`,
+                message: `${deckPosition(stage.kind, view.done, view.total)} of ${view.total}`,
               })}
             </Text>
           )}
         </View>
         <GlassPill
-          label={`${HEART} ${String(view.matchCount)}`}
+          icon="heart"
+          label={String(view.matchCount)}
           onPress={view.onIdeas ?? (() => router.back())}
           testID="swipe-matches"
         />
@@ -238,10 +166,9 @@ export function SwipePage(props: SwipeScreenProps) {
             paddingTop: theme.space.gap12,
           }}
         >
-          <IconButton
+          <VoteButton
             icon="close"
-            size={62}
-            tone="white"
+            paper
             label={t({ id: 'explore.premium.swipe.no', message: 'Not for me' })}
             onPress={() => deck.current?.vote('out')}
             testID="swipe-no"
@@ -253,10 +180,9 @@ export function SwipePage(props: SwipeScreenProps) {
               testID="swipe-why-open"
             />
           )}
-          <IconButton
+          <VoteButton
             icon="check"
-            size={62}
-            tone="ink"
+            paper={false}
             label={t({ id: 'explore.premium.swipe.yes', message: 'I’m in' })}
             onPress={() => deck.current?.vote('in')}
             testID="swipe-yes"

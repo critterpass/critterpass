@@ -200,7 +200,7 @@ export function useLiveMapScreen(tripId: string): LiveMapModel {
             id: 'live-ping-offline',
             title: t({
               id: 'liveMap.toast.pingOffline',
-              message: "Couldn't reach the crew. Try again.",
+              message: 'Couldn’t reach the crew. Try again.',
             }),
           });
         }

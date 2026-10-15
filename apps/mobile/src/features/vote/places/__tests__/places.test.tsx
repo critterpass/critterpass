@@ -222,7 +222,7 @@ describe('guest guide page', () => {
     const opId = await startSolo(s);
     await settle(s, opId, 'VALIDATION');
     await until(() => toastQueue.getCurrent() !== null);
-    expect(toastQueue.getCurrent()?.title).toBe("That didn't go through");
+    expect(toastQueue.getCurrent()?.title).toBe('That didn’t go through');
     expect(router.back).not.toHaveBeenCalled();
     expect(screen.getByTestId('solo-confirm')).toBeTruthy();
   });

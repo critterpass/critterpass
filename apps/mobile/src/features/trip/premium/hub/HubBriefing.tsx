@@ -135,18 +135,18 @@ export function HubBriefing({ state, guideKind, guideName, onAct }: HubBriefingP
       {state.kind === 'failed' ? (
         <View style={styles.failed}>
           <Text variant="badge" color={th.color.status.tangerine.text}>
-            {t({ id: 'trip.briefing.premium.eyebrow', message: "THIS MORNING'S BRIEFING" })}
+            {t({ id: 'trip.briefing.premium.eyebrow', message: 'THIS MORNING’S BRIEFING' })}
           </Text>
           <Text variant="headline" style={styles.titleRight}>
             {t({
               id: 'trip.briefing.premium.failedTitle',
-              message: "I couldn't write today's yet",
+              message: 'I couldn’t write today’s yet',
             })}
           </Text>
           <Text variant="rowText" tone="inkSecondary">
             {t({
               id: 'trip.briefing.failed',
-              message: "Today's briefing didn't come through. The plan below is up to date.",
+              message: 'Today’s briefing didn’t come through. The plan below is up to date.',
             })}
           </Text>
         </View>

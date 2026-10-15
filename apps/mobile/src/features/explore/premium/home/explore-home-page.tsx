@@ -102,7 +102,7 @@ export function PremiumExploreHomeView(props: ExploreHomeViewProps) {
             {t({
               id: 'explore.home.empty',
               message:
-                "The destinations haven't reached this phone yet. They load once it's online.",
+                'The destinations haven’t reached this phone yet. They load once it’s online.',
             })}
           </Text>
         ) : (

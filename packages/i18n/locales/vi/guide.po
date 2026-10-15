@@ -7,6 +7,10 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#: ../../apps/mobile/src/features/guide/premium/phrases/phrase-show-screen.tsx
+msgid "guide.premium.phrase.gloss"
+msgstr "“{gloss}”"
+
 #. placeholder {0}: meter.limit
 #: ../../apps/mobile/src/features/guide/premium/use-premium-guide-meter.tsx
 msgid "guide.premium.allowance"
@@ -394,13 +398,16 @@ msgid "guide.camera.caution"
 msgstr "Các nhãn chỉ để tham khảo, không phải lời khuyên y tế. Hãy hỏi nhân viên về dị ứng."
 
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
-#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.title"
 msgstr "Nhu cầu ăn uống và đi lại"
 
 #: ../../apps/mobile/src/features/guide/chat/data/use-guide-sheet.ts
 msgid "guide.quick.dietary"
 msgstr "Nhu cầu ăn uống và đi lại"
+
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
+msgid "guide.premium.dietary.title"
+msgstr "Ăn uống và đi lại"
 
 #: ../../apps/mobile/src/features/guide/camera/menu-language.ts
 msgid "guide.camera.lang.fr"
@@ -669,6 +676,10 @@ msgstr "Để sau"
 msgid "guide.practice.retry"
 msgstr "Chưa đúng lắm. Nghe lại rồi thử thêm lần nữa nhé."
 
+#: ../../apps/mobile/src/features/guide/premium/dietary/share-pill.tsx
+msgid "guide.premium.dietary.notSharing"
+msgstr "Không chia sẻ"
+
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.premium.offer.line"
 msgstr "Chưa có gì được đặt hay thanh toán."
@@ -890,13 +901,17 @@ msgstr "Mè"
 msgid "guide.dietary.share"
 msgstr "Chia sẻ nhãn"
 
-#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/share-pill.tsx
 msgid "guide.dietary.shareToggle"
 msgstr "Chia sẻ nhãn với nhóm và hướng dẫn viên"
 
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
 msgid "guide.dietary.consentTitle"
 msgstr "Chia sẻ nhãn với nhóm và hướng dẫn viên?"
+
+#: ../../apps/mobile/src/features/guide/premium/dietary/share-pill.tsx
+msgid "guide.premium.dietary.sharing"
+msgstr "Đang chia sẻ"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-data.ts
 msgid "guide.dietary.queuedConsent"
@@ -1063,7 +1078,7 @@ msgstr "Micro đang tắt"
 msgid "guide.camera.failed"
 msgstr "Bản dịch chưa tới nơi và không bị tính lượt. Bạn thử lại nhé."
 
-#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/share-pill.tsx
 msgid "guide.dietary.shareCaption"
 msgstr "Họ chỉ thấy \"ăn chay\" hay \"không đậu phộng\", không bao giờ thấy ghi chú hay danh sách bạn không muốn ăn."
 

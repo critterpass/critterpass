@@ -322,4 +322,4 @@ msgstr "You suggested a change"
 
 #: ../../apps/mobile/src/features/plan/day/stop-check-in.ts
 msgid "plan.day.stop.queued.here"
-msgstr "You're here"
+msgstr "You’re here"

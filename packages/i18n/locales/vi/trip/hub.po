@@ -88,6 +88,10 @@ msgstr "{votes, plural, other {# cuộc bình chọn đang mở}}"
 msgid "trip.hub.ticker.applied"
 msgstr "Một thay đổi đã vào lịch trình"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
+msgid "trip.hub.note.setup"
+msgstr "Cả nhóm trả lời vài câu là mình lên được lịch từng ngày."
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.drafted"
 msgstr "Lịch trình mới đã sẵn sàng"
@@ -191,6 +195,10 @@ msgstr "Khởi hành sớm"
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.settled"
 msgstr "Hòa"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
+msgid "trip.hub.note.plan"
+msgstr "Điểm đến, giờ giấc và bản đồ của từng ngày đều nằm trong kế hoạch."
 
 #: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.cancelTold"
@@ -403,6 +411,10 @@ msgstr "Chưa được. Thử lại khi có sóng nhé."
 #: ../../apps/mobile/src/features/trip/hub/use-trip-removal.ts
 msgid "trip.menu.cancelKept"
 msgstr "Trò chuyện, tiền, đặt chỗ và ảnh vẫn còn để xem."
+
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
+msgid "trip.hub.note.vote"
+msgstr "Cả nhóm vẫn đang chọn nơi để đi."
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.won"

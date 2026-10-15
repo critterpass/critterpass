@@ -15,16 +15,16 @@ export function plainExamples(input: {
     input.stay
       ? t({
           id: 'search.examples.dinner',
-          message: 'somewhere quiet for dinner near the stay, open late',
+          message: 'Somewhere quiet for dinner near the stay, open late',
         })
       : t({
           id: 'search.examples.dinnerNoStay',
-          message: 'somewhere quiet for dinner, open late',
+          message: 'Somewhere quiet for dinner, open late',
         }),
-    t({ id: 'search.examples.crowds', message: `a waterfall without the crowds, on ${day}` }),
+    t({ id: 'search.examples.crowds', message: `A waterfall without the crowds, on ${day}` }),
     t({
       id: 'search.examples.rain',
-      message: `what to do in ${destination} when it rains`,
+      message: `What to do in ${destination} when it rains`,
     }),
   ];
 }

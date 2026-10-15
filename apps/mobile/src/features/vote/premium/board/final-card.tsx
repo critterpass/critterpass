@@ -99,7 +99,7 @@ export function FinalCard({ poll }: { readonly poll: PollView }) {
   };
   const line = [
     poll.myOptionId === null
-      ? t({ id: 'vote.premium.final.notVoted', message: "You haven't voted yet." })
+      ? t({ id: 'vote.premium.final.notVoted', message: 'You haven’t voted yet.' })
       : lines.voted,
     lines.tieShort,
   ]

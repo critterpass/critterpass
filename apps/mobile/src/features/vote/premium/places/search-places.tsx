@@ -195,7 +195,7 @@ export function SearchPlaces({ crewId }: { readonly crewId: string | undefined }
           <Text variant="body" testID="place-search-offline">
             {t({
               id: 'vote.search.offline',
-              message: "You're offline. Search comes back with the connection.",
+              message: 'You’re offline. Search comes back with the connection.',
             })}
           </Text>
         ) : null}
@@ -203,7 +203,7 @@ export function SearchPlaces({ crewId }: { readonly crewId: string | undefined }
           <Text variant="body" testID="place-search-failed">
             {t({
               id: 'vote.pitch.searchFailed',
-              message: "Search didn't answer. Try again in a moment.",
+              message: 'Search didn’t answer. Try again in a moment.',
             })}
           </Text>
         ) : null}

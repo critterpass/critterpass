@@ -27,7 +27,7 @@ export const setReadinessCommand = defineClientCommand<SetReadinessPayload>({
   offline: true,
   summarize: (payload) =>
     payload.state === 'up'
-      ? msg({ id: 'trip.dayOf.queued.up', message: "You're up" })
+      ? msg({ id: 'trip.dayOf.queued.up', message: 'You’re up' })
       : msg({ id: 'trip.dayOf.queued.notUp', message: 'Back to sleep' }),
 });
 

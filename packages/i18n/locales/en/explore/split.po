@@ -42,7 +42,7 @@ msgstr "In crew chat · Open"
 
 #: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.posted"
-msgstr "It's in crew chat as a vote."
+msgstr "It’s in crew chat as a vote."
 
 #: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.noWaysSaid"
@@ -78,7 +78,7 @@ msgstr "Taking back where you stood"
 
 #: ../../apps/mobile/src/features/explore/split/use-split.ts
 msgid "explore.split.refused"
-msgstr "That didn't go through"
+msgstr "That didn’t go through"
 
 #: ../../apps/mobile/src/features/explore/split/commands.ts
 msgid "explore.split.queued.stance"
@@ -90,4 +90,4 @@ msgstr "you"
 
 #: ../../apps/mobile/src/features/explore/split/split-model.ts
 msgid "explore.split.silentYou"
-msgstr "You haven't said"
+msgstr "You haven’t said"

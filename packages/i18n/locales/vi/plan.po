@@ -722,6 +722,10 @@ msgstr "Giữ một điểm dừng rồi kéo sang ngày khác, hoặc giữ m�
 msgid "plan.cancel.hold"
 msgstr "Giữ để huỷ {place}"
 
+#: ../../apps/mobile/src/features/plan/premium/check/check-view.tsx
+msgid "plan.premium.check.looking"
+msgstr "Giờ mở cửa, đường đi và địa điểm đã lưu, từng ngày một…"
+
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.day.item.placeDetail"
 msgstr "Giờ mở cửa, ảnh và cách đi tới"

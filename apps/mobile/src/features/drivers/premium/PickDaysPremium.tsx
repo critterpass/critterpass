@@ -126,7 +126,7 @@ export function PickDaysPremium(props: PickDaysProps) {
             title={tellLabel}
             subtitle={t({
               id: 'drivers.pick.tellBody',
-              message: "I'll write it with dates and pickup pins. You send it.",
+              message: 'I’ll write it with dates and pickup pins. You send it.',
             })}
             trailing={
               <Toggle

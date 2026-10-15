@@ -125,7 +125,7 @@ msgstr "A view"
 
 #: ../../apps/mobile/src/features/explore/search/plain-examples.ts
 msgid "search.examples.crowds"
-msgstr "a waterfall without the crowds, on {day}"
+msgstr "A waterfall without the crowds, on {day}"
 
 #: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.pinLine"
@@ -434,11 +434,11 @@ msgstr "Shopping"
 
 #: ../../apps/mobile/src/features/explore/search/plain-examples.ts
 msgid "search.examples.dinner"
-msgstr "somewhere quiet for dinner near the stay, open late"
+msgstr "Somewhere quiet for dinner near the stay, open late"
 
 #: ../../apps/mobile/src/features/explore/search/plain-examples.ts
 msgid "search.examples.dinnerNoStay"
-msgstr "somewhere quiet for dinner, open late"
+msgstr "Somewhere quiet for dinner, open late"
 
 #: ../../apps/mobile/src/features/explore/search/browse-tiles.ts
 msgid "search.browse.spa"
@@ -478,7 +478,7 @@ msgstr "Temples"
 
 #: ../../apps/mobile/src/features/explore/search/use-pick-live.ts
 msgid "search.more.unavailable"
-msgstr "That place can't be opened yet."
+msgstr "That place can’t be opened yet."
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.limit"
@@ -534,7 +534,7 @@ msgstr "Wed"
 
 #: ../../apps/mobile/src/features/explore/search/plain-examples.ts
 msgid "search.examples.rain"
-msgstr "what to do in {destination} when it rains"
+msgstr "What to do in {destination} when it rains"
 
 #: ../../apps/mobile/src/features/explore/search/no-results-words.ts
 msgid "search.none.widen"

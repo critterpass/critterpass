@@ -7,6 +7,10 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: de\n"
 
+#: ../../apps/mobile/src/features/guide/premium/phrases/phrase-show-screen.tsx
+msgid "guide.premium.phrase.gloss"
+msgstr ""
+
 #. placeholder {0}: meter.limit
 #: ../../apps/mobile/src/features/guide/premium/use-premium-guide-meter.tsx
 msgid "guide.premium.allowance"
@@ -394,12 +398,15 @@ msgid "guide.camera.caution"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
-#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.dietary.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/data/use-guide-sheet.ts
 msgid "guide.quick.dietary"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
+msgid "guide.premium.dietary.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/camera/menu-language.ts
@@ -669,6 +676,10 @@ msgstr ""
 msgid "guide.practice.retry"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/premium/dietary/share-pill.tsx
+msgid "guide.premium.dietary.notSharing"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.premium.offer.line"
 msgstr ""
@@ -890,12 +901,16 @@ msgstr ""
 msgid "guide.dietary.share"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/share-pill.tsx
 msgid "guide.dietary.shareToggle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
 msgid "guide.dietary.consentTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/premium/dietary/share-pill.tsx
+msgid "guide.premium.dietary.sharing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-data.ts
@@ -1063,7 +1078,7 @@ msgstr ""
 msgid "guide.camera.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
+#: ../../apps/mobile/src/features/guide/premium/dietary/share-pill.tsx
 msgid "guide.dietary.shareCaption"
 msgstr ""
 

@@ -173,7 +173,7 @@ msgid "vote.newPoll.day"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
-msgid "vote.newPoll.hour"
+msgid "vote.newPoll.hourShort"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/places/search-places.tsx
@@ -481,6 +481,14 @@ msgstr ""
 msgid "vote.premium.guest.money"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/premium/poll/answer-grip.tsx
+msgid "vote.newPoll.moveDown"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/poll/answer-grip.tsx
+msgid "vote.newPoll.moveUp"
+msgstr ""
+
 #. placeholder {0}: p.name
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
 msgid "crew.queued.create"
@@ -585,6 +593,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
 msgid "vote.premium.board.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/premium/poll/answer-grip.tsx
+msgid "vote.newPoll.reorder"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx

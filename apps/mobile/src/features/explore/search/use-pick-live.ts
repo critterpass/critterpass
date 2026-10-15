@@ -20,7 +20,7 @@ function refusalTitle(kind: Refusal): string {
   }
   return kind === 'offline'
     ? t({ id: 'search.more.offline', message: 'No signal. Try again when you have some.' })
-    : t({ id: 'search.more.unavailable', message: "That place can't be opened yet." });
+    : t({ id: 'search.more.unavailable', message: 'That place can’t be opened yet.' });
 }
 
 export function usePickLive(input: {

@@ -31,11 +31,11 @@ export function PremiumPhraseCardView({
     playerState === 'loading'
       ? t({ id: 'guide.phrase.loading', message: 'Getting the audio…' })
       : deviceVoice
-        ? t({ id: 'guide.phrase.deviceVoice', message: "Read in your phone's voice" })
+        ? t({ id: 'guide.phrase.deviceVoice', message: 'Read in your phone’s voice' })
         : playerState === 'unavailable'
           ? t({
               id: 'guide.phrase.unavailable',
-              message: "The audio isn't on this phone yet. Tap the card to show it instead.",
+              message: 'The audio isn’t on this phone yet. Tap the card to show it instead.',
             })
           : null;
   return (

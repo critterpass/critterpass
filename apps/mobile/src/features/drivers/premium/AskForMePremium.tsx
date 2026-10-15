@@ -146,7 +146,7 @@ export function AskForMePremium({
           critter={guideCritterKind(plan.guide.id)}
           text={t({
             id: 'drivers.ask.after',
-            message: "When someone replies, share their message to me. I'll pull out the details.",
+            message: 'When someone replies, share their message to me. I’ll pull out the details.',
           })}
         />
       </KeyboardAwareScroll>

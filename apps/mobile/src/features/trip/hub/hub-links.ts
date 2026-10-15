@@ -42,6 +42,8 @@ export function voteHref(vote: OpenVote): Href | undefined {
 export interface PlanningLink {
   readonly label: string;
   readonly href: Href | undefined;
+  /** What the guide says beside the button: what is behind it, never the button's own words. */
+  readonly note?: string;
 }
 
 /** The header's CTA while the trip is still being planned, by the trip's status. */
@@ -53,17 +55,26 @@ export function planningLink(
   // A trip still voting has no plan to see: until the poll's row is on the phone, the vote is on Home.
   if (status === 'voting') {
     return {
+      note: t({ id: 'trip.hub.note.vote', message: 'The crew is still picking where to go.' }),
       label: t({ id: 'trip.hub.cta.vote', message: 'Voting' }),
       href: vote === undefined ? HOME : voteHref(vote),
     };
   }
   if (SETTING_UP.has(status)) {
     return {
+      note: t({
+        id: 'trip.hub.note.setup',
+        message: 'A few answers from the crew and I can draft the days.',
+      }),
       label: t({ id: 'trip.hub.cta.setup', message: 'Set up the trip' }),
       href: setupHref(tripId),
     };
   }
   return {
+    note: t({
+      id: 'trip.hub.note.plan',
+      message: 'Every day’s stops, times and the map are in the plan.',
+    }),
     label: t({ id: 'trip.hub.cta.plan', message: 'See the plan' }),
     href: hrefFor('plan-hub', { tripId }),
   };

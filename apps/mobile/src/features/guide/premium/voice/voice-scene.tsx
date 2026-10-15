@@ -15,7 +15,6 @@ import {
   Icon,
   PressableScale,
   Text,
-  TextButton,
   makePremiumStyles,
   usePremiumTheme,
 } from '@/ui/premium';
@@ -179,7 +178,7 @@ export function PremiumVoiceScene(props: VoiceViewProps) {
           <Text variant="captionMuted" tone="muted" testID="guide-voice-text-only">
             {t({
               id: 'guide.voice.textOnly',
-              message: "This reply couldn't be spoken, so it's text only.",
+              message: 'This reply couldn’t be spoken, so it’s text only.',
             })}
           </Text>
         ) : null}
@@ -216,8 +215,10 @@ export function PremiumVoiceScene(props: VoiceViewProps) {
           </View>
         ) : null}
         {cannotTalk ? (
-          <TextButton
-            align="center"
+          <Button
+            variant="secondary"
+            size="medium"
+            alignSelf="center"
             label={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}
             onPress={props.onType}
             testID="guide-voice-type"

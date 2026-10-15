@@ -46,7 +46,12 @@ export function PremiumDestinationView(props: DestinationViewProps) {
   const guide = hero.guide;
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.ground }} testID="explore-destination">
-      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 120 }}>
+      {/* The last card ends clear of the dock and its fade, not under them. */}
+      <ScrollView
+        contentContainerStyle={{
+          paddingBottom: insets.bottom + theme.space.gap8 + DOCK_HEIGHT + SCROLL_EDGE_FADE,
+        }}
+      >
         <View
           style={{
             minHeight: HERO,
@@ -64,16 +69,23 @@ export function PremiumDestinationView(props: DestinationViewProps) {
               message: `Guide: ${guide.name}`,
             }).toLocaleUpperCase()}
           </Text>
-          <Text
-            variant="hero"
-            color={theme.color.onAccent}
-            numberOfLines={2}
-            adjustsFontSizeToFit
-            style={{ maxWidth: '62%' }}
-            testID="explore-dest-name"
-          >
-            {hero.name}
-          </Text>
+          {hero.name === '' && props.loading ? (
+            // The name's place holds while the guide loads, so the hero never opens on a gap.
+            <View style={{ paddingVertical: theme.space.gap8, gap: theme.space.gap8 }}>
+              <Skeleton width="50%" height={44} radius={12} tone="soft" />
+            </View>
+          ) : (
+            <Text
+              variant="hero"
+              color={theme.color.onAccent}
+              numberOfLines={2}
+              adjustsFontSizeToFit
+              style={{ maxWidth: '62%' }}
+              testID="explore-dest-name"
+            >
+              {hero.name}
+            </Text>
+          )}
           <Text variant="rowText" color={theme.color.onAccent} style={{ maxWidth: '52%' }}>
             {hero.tagline}
           </Text>
@@ -85,7 +97,8 @@ export function PremiumDestinationView(props: DestinationViewProps) {
                 flexWrap: 'wrap',
                 gap: theme.space.gap6,
                 marginTop: theme.space.gap12,
-                maxWidth: '62%',
+                // Below the guide's sticker the facts have the row: two chips fit on one line.
+                maxWidth: '80%',
               }}
             >
               {hero.chips.map((chip) => (

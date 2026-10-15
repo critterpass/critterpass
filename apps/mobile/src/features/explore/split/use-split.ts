@@ -115,13 +115,13 @@ export function useSplit({
       impact('success');
       toast.show({
         id: `split-posted-${placeId}`,
-        title: t({ id: 'explore.split.posted', message: "It's in crew chat as a vote." }),
+        title: t({ id: 'explore.split.posted', message: 'It’s in crew chat as a vote.' }),
       });
       return;
     }
     toast.show({
       id: `split-refused-${placeId}`,
-      title: t({ id: 'explore.split.refused', message: "That didn't go through" }),
+      title: t({ id: 'explore.split.refused', message: 'That didn’t go through' }),
       subtitle: t({ id: 'explore.split.refusedBody', message: 'Nothing was posted. Try again.' }),
     });
   };

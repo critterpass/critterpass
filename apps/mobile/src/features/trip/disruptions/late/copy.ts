@@ -140,16 +140,16 @@ export function ctaLabel(option: LateOption | null): string {
 }
 
 export const lateLines = () => ({
-  told: t({ id: 'trip.disruptions.late.told', message: "Told whoever's waiting." }),
+  told: t({ id: 'trip.disruptions.late.told', message: 'Told whoever’s waiting.' }),
   chosen: t({ id: 'trip.disruptions.late.chosen', message: 'Sent' }),
   queued: t({
     id: 'trip.disruptions.late.queued',
     message: 'Saved. It sends when you have signal.',
   }),
-  onTime: t({ id: 'trip.disruptions.late.onTime', message: "You're on time again." }),
+  onTime: t({ id: 'trip.disruptions.late.onTime', message: 'You’re on time again.' }),
   offlineMap: t({
     id: 'trip.disruptions.late.offlineMap',
-    message: "No map offline. Your pick goes out when you're back.",
+    message: 'No map offline. Your pick goes out when you’re back.',
   }),
   missingTitle: t({ id: 'trip.disruptions.late.missingTitle', message: 'All sorted' }),
   missing: t({ id: 'trip.disruptions.late.missing', message: 'Nothing to sort here any more.' }),

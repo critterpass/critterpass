@@ -28,7 +28,7 @@ export function DriverConfirmCard({ driverName, dayCount, onTell }: DriverConfir
       <Text variant="rowText" tone="muted">
         {t({
           id: 'drivers.replied.tellBody',
-          message: "I'll write it with dates and pickup pins. You send it.",
+          message: 'I’ll write it with dates and pickup pins. You send it.',
         })}
       </Text>
       <Button

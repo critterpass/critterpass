@@ -59,7 +59,7 @@ export const askOrganiser = (organiser: string | null) =>
 export const offlineLine = () =>
   t({
     id: 'explore.dayTrips.offline',
-    message: "You're offline. Adding a day trip needs a connection.",
+    message: 'You’re offline. Adding a day trip needs a connection.',
   });
 
 export const draftingLine = (guide: string) =>
@@ -143,17 +143,17 @@ export function refusalLine(refusal: DayAreaRefusal, guide: string): string {
     case 'not_a_day_trip':
       return t({
         id: 'explore.dayTrips.refused.notADayTrip',
-        message: "That place isn't a day trip from here any more.",
+        message: 'That place isn’t a day trip from here any more.',
       });
     case 'other_time_zone':
       return t({
         id: 'explore.dayTrips.refused.timeZone',
-        message: "It's in another time zone, which a day trip can't cross yet.",
+        message: 'It’s in another time zone, which a day trip can’t cross yet.',
       });
     case 'other_currency':
       return t({
         id: 'explore.dayTrips.refused.currency',
-        message: "It uses another currency, which a day trip can't cross yet.",
+        message: 'It uses another currency, which a day trip can’t cross yet.',
       });
     case 'draft_running':
       return draftingLine(guide);
@@ -167,7 +167,7 @@ export function refusalLine(refusal: DayAreaRefusal, guide: string): string {
     case 'other':
       return t({
         id: 'explore.dayTrips.refused.other',
-        message: "That didn't go through. Try again in a moment.",
+        message: 'That didn’t go through. Try again in a moment.',
       });
   }
 }
