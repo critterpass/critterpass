@@ -25,7 +25,7 @@ msgstr ""
 
 #. placeholder {0}: guide.name
 #. placeholder {1}: hero.name
-#: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/destination/destination-notice.ts
 msgid "explore.dest.writing"
 msgstr ""
 
@@ -53,7 +53,13 @@ msgstr ""
 
 #. placeholder {0}: guide.name
 #. placeholder {1}: hero.name
-#: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/destination/destination-notice.ts
+msgid "explore.dest.failed"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#. placeholder {1}: hero.name
+#: ../../apps/mobile/src/features/explore/premium/destination/destination-notice.ts
 msgid "explore.dest.unavailable"
 msgstr ""
 
@@ -768,7 +774,7 @@ msgstr ""
 
 #. placeholder {0}: hero.name
 #. placeholder {1}: guide.name
-#: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/destination/destination-notice.ts
 msgid "explore.limited.body"
 msgstr ""
 

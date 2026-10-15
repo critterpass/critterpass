@@ -18,7 +18,7 @@ export interface DestinationViewProps {
    * whose curve is not written yet; `unavailable`: the guide's read did not load and the phone
    * holds no places for it.
    */
-  readonly notice: 'limited' | 'writing' | 'unavailable' | null;
+  readonly notice: 'limited' | 'writing' | 'offline' | 'unavailable' | null;
   readonly months: {
     readonly bars: readonly MonthBarModel[];
     readonly legend: readonly LegendChip[];

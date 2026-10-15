@@ -9,6 +9,7 @@ import { useEffect, useMemo, useState, type ComponentType } from 'react';
 import { BackHandler } from 'react-native';
 
 import { heroAt, useDestinationMedia, useSubjectMedia } from '@/data/media/use-subject-media';
+import { useOnline } from '@/data/places/server-name-search';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { dataOf } from '@/data/travel-data/freshness';
@@ -62,6 +63,7 @@ export function DestinationScreen({ destination, tripId, crewId, View }: Destina
   const viewer = useViewer();
   const crews = useMyCrews(viewer.uid);
   const syncPhase = useSyncPhase();
+  const online = useOnline();
   const [month, setMonth] = useState<number | null>(null);
   const [mode, setMode] = useState<ActionsMode>('actions');
 
@@ -185,7 +187,10 @@ export function DestinationScreen({ destination, tripId, crewId, View }: Destina
       : guide.guest || guide.learning
         ? ('limited' as const)
         : data === undefined
-          ? ('unavailable' as const)
+          ? // The network is to blame only when the phone has none; a failed answer says so.
+            online
+            ? ('unavailable' as const)
+            : ('offline' as const)
           : ('writing' as const);
 
   return (

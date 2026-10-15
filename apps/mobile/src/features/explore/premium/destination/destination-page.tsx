@@ -2,8 +2,7 @@
  * A destination's guide page (4.04): the hero in the guide’s colour with light glass back and ♥,
  * "Guide: Pon", the name, the guide's tagline and the guide waving; the year's crowds and the best
  * month (a month taps open its prices); the guide’s first-timer picks; the crews' plans; and the
- * foot: Pitch to the crew (or pick a crew) and Plan it solo (4.07). States and words come from
- * the destination screen's container.
+ * foot: Pitch to the crew (or pick a crew) and Plan it solo (4.07). States: the screen's container.
  */
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, StyleSheet, View } from 'react-native';
@@ -27,6 +26,7 @@ import { SoloPassSheet } from '@/features/vote';
 
 import type { DestinationViewProps } from '../../screens/destination-view-props';
 import { CrewPlansRow } from './crew-plans-row';
+import { destinationNoticeText } from './destination-notice';
 import { MonthCard, MonthCardPending } from './month-card';
 import { PicksCarousel } from './picks-carousel';
 
@@ -191,22 +191,7 @@ export function PremiumDestinationView(props: DestinationViewProps) {
             <GuideNote
               name={guide.name}
               critter={guide.kind}
-              text={
-                props.notice === 'writing'
-                  ? t({
-                      id: 'explore.dest.writing',
-                      message: `${guide.name} is still writing up ${hero.name}: the month-by-month crowds land here. The places are already on the map.`,
-                    })
-                  : props.notice === 'unavailable'
-                    ? t({
-                        id: 'explore.dest.unavailable',
-                        message: `${guide.name}’s notes on ${hero.name} didn’t load. They’ll show up once this phone is back online.`,
-                      })
-                    : t({
-                        id: 'explore.limited.body',
-                        message: `No guide lives in ${hero.name} yet, so the month-by-month crowds aren’t written. Flights, money and the best months are covered, and ${guide.name} plans the trip all the same.`,
-                      })
-              }
+              text={destinationNoticeText(props.notice, guide, hero)}
               testID="explore-dest-notice"
             />
           )}

@@ -25,7 +25,7 @@ msgstr "{0} at {1}"
 
 #. placeholder {0}: guide.name
 #. placeholder {1}: hero.name
-#: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/destination/destination-notice.ts
 msgid "explore.dest.writing"
 msgstr "{0} is still writing up {1}: the month-by-month crowds land here. The places are already on the map."
 
@@ -53,7 +53,13 @@ msgstr "{0}’s first-timer picks"
 
 #. placeholder {0}: guide.name
 #. placeholder {1}: hero.name
-#: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/destination/destination-notice.ts
+msgid "explore.dest.failed"
+msgstr "{0}’s notes on {1} didn’t come through this time. Open the page again in a little while."
+
+#. placeholder {0}: guide.name
+#. placeholder {1}: hero.name
+#: ../../apps/mobile/src/features/explore/premium/destination/destination-notice.ts
 msgid "explore.dest.unavailable"
 msgstr "{0}’s notes on {1} didn’t load. They’ll show up once this phone is back online."
 
@@ -768,7 +774,7 @@ msgstr "No fares to show for {month} right now. Try again in a bit."
 
 #. placeholder {0}: hero.name
 #. placeholder {1}: guide.name
-#: ../../apps/mobile/src/features/explore/premium/destination/destination-page.tsx
+#: ../../apps/mobile/src/features/explore/premium/destination/destination-notice.ts
 msgid "explore.limited.body"
 msgstr "No guide lives in {0} yet, so the month-by-month crowds aren’t written. Flights, money and the best months are covered, and {1} plans the trip all the same."
 
