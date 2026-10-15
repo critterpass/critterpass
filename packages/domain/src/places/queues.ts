@@ -119,13 +119,16 @@ export const PLACES_QUEUE_SPECS = {
     expireInSeconds: 8 * 60 * 60,
   },
   // Operator only, keyed by destination and place: one OpenStreetMap lookup per curated place the
-  // loader found no row for. One at a time, as Nominatim allows one request a second; outcomes kept
-  // two weeks for the operator's report.
+  // loader found no row for. One at a time, as Nominatim allows one request a second; the search
+  // client pauses every lookup while Nominatim refuses (up to a quarter hour a wait), so an attempt
+  // may run long, and a lookup that still gives up is retried from ten minutes, doubling. Outcomes
+  // kept two weeks for the operator's report.
   'places.curated_osm_lookup': {
     policy: 'stately',
-    retryLimit: 2,
-    retryDelay: 120,
-    expireInSeconds: 5 * 60,
+    retryLimit: 4,
+    retryDelay: 10 * 60,
+    retryBackoff: true,
+    expireInSeconds: 60 * 60,
     keepCompletedSeconds: 14 * 24 * 60 * 60,
   },
 } as const satisfies Record<string, Partial<QueueSpec>>;

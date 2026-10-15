@@ -8,6 +8,7 @@ export {
   type GatewayResult,
   type GatewayStreamEvent,
 } from './client';
+export { DeadlineExceeded, routeDeadlineMs, type DeadlinePhase } from './deadline';
 export {
   aiEnvSchema,
   DEEPSEEK_ANTHROPIC_URL,

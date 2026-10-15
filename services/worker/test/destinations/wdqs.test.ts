@@ -51,14 +51,25 @@ describe('WDQS replies', () => {
     expect(stub.calls()).toBe(4);
   });
 
-  it('pages a type by sitelink bands that cover every count once', () => {
-    expect(SITELINK_BANDS[0]?.[0]).toBe(10);
+  it('retries a dropped connection', async () => {
+    let calls = 0;
+    const flaky = (() => {
+      calls += 1;
+      return calls === 1
+        ? Promise.reject(new TypeError('fetch failed'))
+        : Promise.resolve(new Response(complete));
+    }) as typeof fetch;
+    const rows = await runQuery('SELECT', 'page', { fetch: flaky, retryDelayMs: 1 });
+    expect(rows).toHaveLength(1);
+    expect(calls).toBe(2);
+  });
+
+  it('pages the candidates by sitelink bands that cover every count once', () => {
+    expect(SITELINK_BANDS[0]?.[0]).toBe(5);
     for (let i = 1; i < SITELINK_BANDS.length; i += 1) {
       expect(SITELINK_BANDS[i]?.[0]).toBe(SITELINK_BANDS[i - 1]?.[1]);
     }
     expect(SITELINK_BANDS.at(-1)?.[1]).toBeNull();
-    expect(candidateQuery('Q515', [12, 15])).toContain(
-      'FILTER(?sitelinks >= 12 && ?sitelinks < 15)',
-    );
+    expect(candidateQuery([12, 15])).toContain('FILTER(?sitelinks >= 12 && ?sitelinks < 15)');
   });
 });

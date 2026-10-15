@@ -1,6 +1,8 @@
 /**
- * Ranking and capping the joined candidates: score = ln(sitelinks + 1) + 0.5·ln(population + 1),
- * plus 1 for an island or a national park. Each country keeps at most `perCountry` rows (Vietnam
+ * Ranking and capping the joined candidates: score = ln(sitelinks + 1) + 2·ln(Wikivoyage
+ * editions + 1) + 0.15·ln(population + 1), plus 1 for an island or a park. Wikivoyage editions are
+ * the travel signal (Kotor and Hallstatt are in many, a large suburb in few); population only
+ * breaks ties, so a big city nobody travels to no longer outranks a small famous town. Each country keeps at most `perCountry` rows (Vietnam
  * `vietnamMax`); then, when the set is still over `total`, the lowest scores go, except that a
  * country with a critter keeps its best `floor` and Vietnam keeps all of its rows.
  */
@@ -16,16 +18,19 @@ export interface CapRules {
 }
 
 export const BASE_CAP_RULES: Omit<CapRules, 'critterCountries'> = {
-  perCountry: 150,
+  perCountry: 200,
   vietnamMax: 300,
   floor: 10,
-  total: 5000,
+  total: 6000,
 };
 
 export function baseScore(candidate: BaseCandidate): number {
   const bonus = candidate.kind === 'island' || candidate.kind === 'park' ? 1 : 0;
   return (
-    Math.log(candidate.sitelinks + 1) + 0.5 * Math.log((candidate.population ?? 0) + 1) + bonus
+    Math.log(candidate.sitelinks + 1) +
+    2 * Math.log((candidate.wikivoyage ?? 0) + 1) +
+    0.15 * Math.log((candidate.population ?? 0) + 1) +
+    bonus
   );
 }
 

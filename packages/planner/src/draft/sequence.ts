@@ -2,13 +2,17 @@
  * Visiting order: the guide's order is kept whenever it works. When it does not (a place would
  * close before the visit ends, the day would run past its window, a meal would land outside its
  * stretch or twice in one, a place would miss the time of day it is for, a stop would be a hop too
- * far, or the crew would wait an hour with nothing planned), the planner tries the other orders of
- * the same stops and takes the workable one closest to the guide's (fewest broken stops, then a
- * long outdoor sight that is best early before the day's other sights, then no meal the day rides
- * out of its way for, then the fewest morning places left for later in the day, then the least waiting, then the fewest swapped
- * pairs, then the earliest finish). The stops themselves
- * never change here: dropping or swapping a place is the guide's call, in the repair pass.
+ * far, the crew would wait an hour with nothing planned, or the day would go back to an area it
+ * has left), the planner tries the other orders of the same stops and takes the workable one
+ * closest to the guide's (fewest broken stops, then a long outdoor sight that is best early before
+ * the day's other sights, then no meal the day rides out of its way for, then the fewest morning
+ * places left for later in the day, then the least waiting, then the fewest sights outside their
+ * best times, then the fewest returns to an area, then the fewest swapped pairs, then the earliest
+ * finish). The stops never change here: dropping or swapping one is the repair's.
  */
+import { areaReturns } from './area-returns';
+import { missesBestTime } from './best-times';
+import { inversions, permutations } from './order-search';
 import { ceilGrid, spansOn } from './day-minutes';
 import { opensDay, startFloor } from './day-start';
 import { dinnerIsRideHome, longHops, mealDetours } from './hops';
@@ -44,6 +48,8 @@ export interface SequenceInput {
   readonly mealPlaces?: readonly DraftPoi[];
   /** The places of the day out this day is planned for (./outings): their rides are its purpose. */
   readonly dayOut?: ReadonlySet<string>;
+  /** The area a place is in, where known: a day sees one area at a time (./area-returns). */
+  readonly areaOf?: (poiId: string) => string | undefined;
 }
 
 interface Timeline {
@@ -57,6 +63,8 @@ interface Timeline {
   readonly notFirst: number;
   /** Meals the day rides out of its way for (./hops `mealDetours`). */
   readonly detours: number;
+  /** Sights that start outside every best time of their place (./best-times). */
+  readonly misfit: number;
   readonly end: number;
 }
 
@@ -69,6 +77,7 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
   let mealsBefore = 0;
   let sights = 0;
   let notFirst = 0;
+  let misfit = 0;
   const meals = new Set<string>();
   let dinnerAt: number | undefined;
   for (const [index, choice] of order.entries()) {
@@ -151,6 +160,7 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
       if (slot !== null) meals.add(slot);
       if (slot === 'dinner') dinnerAt ??= index;
     }
+    if (held === null && choice.kind !== 'meal' && missesBestTime(poi, start)) misfit += 1;
     idle += Math.max(0, start - Math.max(reached, input.window.startMin));
     if (choice.kind === 'meal') idle += mealLateness(start, held?.fromMin ?? null);
     at = start + (choice.kind === 'meal' ? mealDuration(poi, start, duration) : duration);
@@ -182,7 +192,8 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
     ).length;
   }
   const detours = mealDetours(order, input.travel, dinnerAt).length;
-  return { broken, idle: Math.floor(idle / IDLE_STEP_MIN), late, notFirst, detours, end: at };
+  const idleSteps = Math.floor(idle / IDLE_STEP_MIN);
+  return { broken, idle: idleSteps, late, notFirst, detours, misfit, end: at };
 }
 
 /**
@@ -197,28 +208,6 @@ function mealLateness(start: number, heldFrom: number | null): number {
   return 0;
 }
 
-function inversions(order: readonly number[]): number {
-  let count = 0;
-  for (let i = 0; i < order.length; i += 1) {
-    for (let j = i + 1; j < order.length; j += 1) {
-      if ((order[i] as number) > (order[j] as number)) count += 1;
-    }
-  }
-  return count;
-}
-
-function* permutations(items: number[], k = items.length): Generator<number[]> {
-  if (k <= 1) {
-    yield [...items];
-    return;
-  }
-  for (let i = 0; i < k; i += 1) {
-    yield* permutations(items, k - 1);
-    const j = k % 2 === 0 ? i : 0;
-    [items[j], items[k - 1]] = [items[k - 1] as number, items[j] as number];
-  }
-}
-
 export interface PlannedOrder {
   /** Indexes of the choices in visiting order. */
   readonly order: number[];
@@ -229,7 +218,8 @@ export interface PlannedOrder {
 /**
  * The order to visit `choices` in: the guide's own order when it works, else the order with the
  * fewest broken stops, then the fewest late morning places, then the least waiting, then the
- * fewest swapped pairs, then the earliest finish.
+ * fewest sights outside their best times, then the fewest returns to an area, then the fewest
+ * swapped pairs, then the earliest finish.
  */
 export function bestOrder(input: SequenceInput): PlannedOrder {
   const identity = input.choices.map((_, index) => index);
@@ -244,12 +234,18 @@ export function bestOrder(input: SequenceInput): PlannedOrder {
       made.detours,
       made.late,
       made.idle,
+      // Seeing one area at a time never costs a stop its time of day.
+      made.misfit,
+      areaReturns(order, input.choices, input.areaOf),
       inversions(order),
       made.end,
     ];
   };
   const own = keyOf(identity);
-  if (own.slice(0, 5).every((count) => count === 0)) return { order: identity, broken: 0 };
+  // The guide's order stands when nothing breaks, waits or goes back to an area it left.
+  if (own.slice(0, 5).every((count) => count === 0) && own[6] === 0) {
+    return { order: identity, broken: 0 };
+  }
   // Too many stops to try every order: the guide's, or its order with the day's openers first.
   const orders =
     input.choices.length > MAX_SEARCHED_STOPS

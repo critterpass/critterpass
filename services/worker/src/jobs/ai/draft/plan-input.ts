@@ -6,7 +6,13 @@
  * ids derived from the job so a retried step writes the same rows. A must-do picked from search is
  * planned at the recommended row of its spot when search handed back a stay or shop beside it.
  */
-import { derivedUuid, personaIdSchema, type DraftPlanInput, type PersonaId } from '@cp/ai';
+import {
+  derivedUuid,
+  personaIdSchema,
+  type DraftPlanInput,
+  type FirstVisit,
+  type PersonaId,
+} from '@cp/ai';
 import type { ClosureRecord } from '@cp/domain';
 import {
   candidatePools,
@@ -40,6 +46,8 @@ export interface PlanInputOptions {
   readonly routed?: RoutedPairs;
   /** The days of one day group (./day-groups.ts), planned on their own; absent = every day. */
   readonly days?: GroupDays;
+  /** How itinerary pages lay out a first visit here (./first-visit.ts), where researched. */
+  readonly firstVisit?: FirstVisit | undefined;
 }
 
 /** The part of a trip one day group plans: its dates, when the crew is there, its budget share. */
@@ -216,5 +224,6 @@ export function buildPlanInput(
     idFor: (key) => derivedUuid(`${options.jobId}:${key}`),
     ...(trip.languages === undefined ? {} : { destinationLanguages: trip.languages }),
     skeletonRoute: options.skeletonRoute,
+    ...(options.firstVisit === undefined ? {} : { firstVisit: options.firstVisit }),
   };
 }

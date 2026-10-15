@@ -17,7 +17,7 @@ import {
   type WishTime,
 } from '@cp/planner';
 
-import { hopCap } from './areas';
+import { areaStep, hopCap, rideFrom } from './areas';
 import { placeNames, type DraftPlanInput } from './context';
 import { scheduleChoices } from './day';
 import { proseProblem } from './schema';
@@ -27,7 +27,8 @@ import { validate } from './validate';
 
 /**
  * Of `places`, those beside the day's stops, then those the day's one longer ride can reach, then
- * (for a dinner) those a ride home can.
+ * (for a dinner) those a ride home can; within each, those in the day's own areas first (best
+ * first), then those in a second area, then the rest, the nearest first.
  */
 export function nearFirst(
   input: DraftPlanInput,
@@ -40,9 +41,18 @@ export function nearFirst(
   const ring = (poi: DraftPoi) =>
     reaches.findIndex((reach) => withinReach(poi.id, here, input.travel, reach));
   return places
-    .map((poi, rank) => ({ poi, rank, ring: ring(poi) }))
+    .map((poi, rank) => {
+      const step = areaStep(input, poi.id, here);
+      return {
+        poi,
+        rank,
+        ring: ring(poi),
+        step,
+        ride: step === 0 ? 0 : rideFrom(input, poi.id, here),
+      };
+    })
     .filter((entry) => entry.ring !== -1)
-    .sort((a, b) => a.ring - b.ring || a.rank - b.rank)
+    .sort((a, b) => a.ring - b.ring || a.step - b.step || a.ride - b.ride || a.rank - b.rank)
     .map((entry) => entry.poi);
 }
 

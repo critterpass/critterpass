@@ -21,8 +21,12 @@ export function wantsIndoors(input: Pick<RedraftPlanInput, 'asks'>): boolean {
   return input.asks?.includes('indoor') === true;
 }
 
-/** Whether a stop at `poi` is spent in the open air. */
+/**
+ * Whether a stop at `poi` is spent in the open air: the researchers' rain fit when a curated line
+ * gives one (a covered market works in the rain, an open-air museum does not), else its kind and tags.
+ */
 export function isOutdoors(poi: DraftPoi): boolean {
+  if (poi.indoor != null) return !poi.indoor;
   return OUTDOOR.has(poi.category) || poi.tags.some((tag) => OUTDOOR_TAGS.has(tag));
 }
 

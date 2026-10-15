@@ -1,9 +1,9 @@
 /**
  * Candidate pools: from the prefetched places, the short lists the guide chooses from. Each
  * must-do's place with the days it is open (not shut by its hours or a cited closure); then
- * activities ranked by must-see, editorial curation and the crew's tastes; then meal places that
- * suit every diet in the crew. Places closed on every trip date never make a list. The guide sees
- * only these ids, so it cannot pick a place we do not know.
+ * activities ranked by must-see, editorial curation, how well known (./place-score) and the crew's
+ * tastes; then meal places that suit every diet in the crew. Places closed on every trip date never
+ * make a list. The guide sees only these ids, so it cannot pick a place we do not know.
  *
  * What a food place is for decides its list (./food-role): only places that serve a meal are meal
  * places, whatever kind our set files them under; cafés and snack stalls are breaks, and a few of
@@ -26,33 +26,13 @@ import { foodRole } from './food-role';
 import { keepEdgeDaysNearHome, outingsFor } from './home';
 import type { Outing } from './outings';
 import { collapseSamePlaces } from './same-place';
+import { fameScore, tasteScore } from './place-score';
 import { isEssential } from './typed-facts';
 import { suitsDiet } from './validate-itinerary';
 import { edgeDays } from './day-window';
 import { openOnDay } from './open-on-day';
 import { straightLineMatrix, type RoutedPairs } from './travel';
 import type { DraftPoi, TripFrame } from './types';
-
-/** Taste tag → place categories and tags it points at. */
-const TASTE_MATCH: Readonly<Record<string, readonly string[]>> = {
-  temples: ['temple_shrine'],
-  culture: ['temple_shrine', 'museum'],
-  history: ['museum', 'temple_shrine', 'history'],
-  museums: ['museum'],
-  markets: ['market'],
-  shopping: ['shopping', 'market'],
-  nature: ['nature'],
-  hiking: ['nature', 'hiking'],
-  beach: ['beach'],
-  nightlife: ['nightlife'],
-  photo_spots: ['photo_spot', 'viewpoint'],
-  local_life: ['market', 'local_life'],
-  wellness: ['wellness', 'onsen'],
-  adventure: ['adventure', 'nature'],
-  street_food: ['street_food'],
-  sit_down_dining: ['sit_down'],
-  coffee: ['coffee', 'cafe'],
-};
 
 export interface MustDoSlot {
   readonly mustDoId: string;
@@ -100,15 +80,6 @@ const CELL_DEG = 0.01;
 const cellOf = (poi: DraftPoi) =>
   `${Math.floor(poi.lat / CELL_DEG)}:${Math.floor(poi.lng / CELL_DEG)}`;
 
-function tasteScore(poi: DraftPoi, tastes: Readonly<Record<string, number>>): number {
-  let score = 0;
-  for (const [tag, count] of Object.entries(tastes)) {
-    const targets = TASTE_MATCH[tag] ?? [];
-    if (targets.includes(poi.category) || poi.tags.some((t) => targets.includes(t))) score += count;
-  }
-  return score;
-}
-
 interface Ranking {
   readonly tastes: Readonly<Record<string, number>>;
   readonly mentions: ReadonlyMap<string, number>;
@@ -132,6 +103,7 @@ function pick(pois: readonly DraftPoi[], limit: number, ranking: Ranking): Draft
       (isEssential(poi) ? 100 : 0) +
         (poi.mustSee ? 6 : 0) +
         (poi.editorial ? 4 : 0) +
+        fameScore(poi) +
         tasteScore(poi, ranking.tastes),
     ]),
   );

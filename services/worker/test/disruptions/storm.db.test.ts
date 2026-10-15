@@ -1,6 +1,6 @@
 /**
- * The storm decision on a real pg-boss runtime: rough seas on Friday's boat open a decision poll
- * with SWAP (Saturday is calm), KEEP and SKIP; the crew's SWAP moves the two days through the
+ * The storm decision on a real pg-boss runtime: rough seas on the boat day open a decision poll
+ * with SWAP (the next day is calm), KEEP and SKIP; the crew's SWAP moves the two days through the
  * executor and sets the watch row; a vote nobody answered by its deadline keeps the plan; and a
  * Viator-booked boat waits on its booker, whose new booking failing to happen (hold expired,
  * payment refused) leaves the old booking confirmed and uncancelled.
@@ -26,8 +26,9 @@ import { watchTrip } from '../../src/jobs/disruptions/weather-watch';
 import type { WatchedTrip } from '../../src/jobs/disruptions/watch-score';
 import { buildGuidePlan, type GuidePlanFixture } from '../guide-actions/plan-fixture';
 import { startJobsHarness, until, type JobsHarness } from '../helpers/jobs-harness';
+import { at, dateOf, FIXTURE_NOW } from './fixture-clock';
 
-const NOW = new Date('2026-10-14T00:00:00Z');
+const NOW = FIXTURE_NOW;
 let harness: JobsHarness;
 
 interface StormWorld {
@@ -67,7 +68,7 @@ function day(date: string, waveM: number) {
   };
 }
 
-async function item(fx: GuidePlanFixture, at: string, category: string, notes: string) {
+async function item(fx: GuidePlanFixture, startsAt: string, category: string, notes: string) {
   const { rows } = await harness.pool.query<{ stable_id: string }>(
     `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, starts_at, ends_at, tz, category,
        is_outdoor, notes, created_by_kind)
@@ -75,7 +76,7 @@ async function item(fx: GuidePlanFixture, at: string, category: string, notes: s
             $2::timestamptz + interval '4 hours', tz, $3, true, $4, 'guide'
        FROM plan_items WHERE version_id = $1 LIMIT 1
      RETURNING stable_id`,
-    [fx.versionId, at, category, notes],
+    [fx.versionId, startsAt, category, notes],
   );
   return rows[0]?.stable_id as string;
 }
@@ -88,13 +89,13 @@ async function buildStormWorld(): Promise<StormWorld> {
   );
   const destinationId = rows[0]?.id as string;
   await harness.pool.query(
-    `UPDATE trips SET destination_id = $2, tz = 'Asia/Makassar', start_date = '2026-10-13',
-       end_date = '2026-10-20' WHERE id = $1`,
-    [fx.tripId, destinationId],
+    `UPDATE trips SET destination_id = $2, tz = 'Asia/Makassar', start_date = $3,
+       end_date = $4 WHERE id = $1`,
+    [fx.tripId, destinationId, dateOf(-1), dateOf(6)],
   );
   for (const [date, wave] of [
-    ['2026-10-16', 2.5],
-    ['2026-10-17', 0.6],
+    [dateOf(2), 2.5],
+    [dateOf(3), 0.6],
   ] as const) {
     const { hourly, marine } = day(date, wave);
     await harness.pool.query(
@@ -104,8 +105,8 @@ async function buildStormWorld(): Promise<StormWorld> {
       [destinationId, date, JSON.stringify(hourly), JSON.stringify(marine)],
     );
   }
-  const boat = await item(fx, '2026-10-16T01:00:00Z', 'boat', 'Nusa Penida boat');
-  const temple = await item(fx, '2026-10-17T02:00:00Z', 'activity', 'Tirta Empul');
+  const boat = await item(fx, at('01:00', 2), 'boat', 'Nusa Penida boat');
+  const temple = await item(fx, at('02:00', 3), 'activity', 'Tirta Empul');
   return {
     fx,
     boat,
@@ -173,7 +174,7 @@ afterAll(async () => {
 });
 
 describe('storm decision', () => {
-  it("offers swap, keep and skip, and the crew's SWAP moves Friday and Saturday", async () => {
+  it("offers swap, keep and skip, and the crew's SWAP moves the boat day and the calm day", async () => {
     const world = await buildStormWorld();
     const storm = await openStorm(world);
     expect(storm?.options.map((o) => o.id)).toEqual(['swap', 'keep', 'skip']);
@@ -186,10 +187,10 @@ describe('storm decision', () => {
       world.fx.crewId,
     );
     await until(
-      async () => (await startOf(world.fx.tripId, world.boat)) === '2026-10-17T01:00:00.000Z',
+      async () => (await startOf(world.fx.tripId, world.boat)) === at('01:00', 3),
       30_000,
     );
-    expect(await startOf(world.fx.tripId, world.temple)).toBe('2026-10-16T02:00:00.000Z');
+    expect(await startOf(world.fx.tripId, world.temple)).toBe(at('02:00', 2));
     const { rows } = await harness.pool.query<{ status: string }>(
       'SELECT status FROM watch_items WHERE trip_id = $1',
       [world.fx.tripId],
@@ -208,7 +209,7 @@ describe('storm decision', () => {
       );
       return rows[0]?.status === 'resolved' && rows[0]?.chosen_option_id === 'keep';
     }, 60_000);
-    expect(await startOf(world.fx.tripId, world.boat)).toBe('2026-10-16T01:00:00.000Z');
+    expect(await startOf(world.fx.tripId, world.boat)).toBe(at('01:00', 2));
   });
 
   it("leaves a Viator booking confirmed when its booker's new booking does not happen", async () => {

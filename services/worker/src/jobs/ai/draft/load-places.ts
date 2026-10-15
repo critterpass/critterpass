@@ -7,11 +7,18 @@
  *
  * While the server key `planner.typed_places` is on (no row = off), each place also carries its
  * typed facts: its ready profile's best times, visit length, meal role and dish, else its kind's
- * (`withTypedFacts`), and its rank among the essentials. Off, the editors' text fills the place
- * as before and the planner reads that.
+ * (`withTypedFacts`), and its rank among the essentials. A curated place's own facts (its
+ * researchers' line, `./curated-facts`) win over its profile's. Off, the editors' text fills the
+ * place as before and the planner reads that. A curated place's taste tags join its tags either way.
  */
 import { recommendedOrderSql, recommendedSql, withSystem } from '@cp/db';
-import { hoursSchema, PLACE_BEST_TIMES, PLACE_MEAL_ROLES, type PlaceBestTime } from '@cp/domain';
+import {
+  hoursSchema,
+  PLACE_BEST_TIMES,
+  PLACE_MEAL_ROLES,
+  readCuratedNote,
+  type PlaceBestTime,
+} from '@cp/domain';
 import {
   derivedDurationMin,
   nameTokens,
@@ -21,6 +28,14 @@ import {
   type ProfileFacts,
 } from '@cp/planner';
 import type pg from 'pg';
+
+import {
+  curatedMustSee,
+  curatedPlaceFacts,
+  essentialRankOf,
+  tagsWithCurated,
+  typedFactsWithCurated,
+} from './curated-facts';
 
 export const TYPED_PLACES_KEY = 'planner.typed_places';
 
@@ -116,6 +131,8 @@ function toDraftPoi(row: PoiRow, typed: boolean): DraftPoi {
   };
   const text = (value: unknown) =>
     typeof value === 'string' && value.trim().length > 0 ? value.trim().slice(0, 160) : null;
+  const curated = readCuratedNote(row.editorial);
+  const tags = tagsWithCurated(row.tags ?? [], curated);
   const hours = hoursSchema.safeParse(row.hours);
   const known = hours.success && Object.keys(hours.data.weekly).length > 0;
   const filled = Object.values(row.editorial ?? {}).filter(
@@ -136,32 +153,37 @@ function toDraftPoi(row: PoiRow, typed: boolean): DraftPoi {
     tz: row.timezone,
     hours: hours.success && Object.keys(hours.data.weekly).length > 0 ? hours.data : null,
     // Free places carry a `free` tag (price levels start at 1).
-    priceLevel: (row.tags ?? []).includes('free') ? 0 : row.price_level,
-    tags: row.tags ?? [],
+    priceLevel: tags.includes('free') ? 0 : row.price_level,
+    tags,
     durationMin:
       editorsMin ??
       (typed
         ? 0
-        : derivedDurationMin(row.category, row.tags ?? [], [
+        : derivedDurationMin(row.category, tags, [
             text(editorial.why_go),
             text(editorial.best_time),
           ])),
     editorial: row.curation === 'editorial',
     // Where nothing is curated, the well-known places the model named stand in for must-sees, so
     // the sights a town is known for take their seats before the open-data fill.
-    mustSee: editorial.must_see === true || row.pick_source === 'named',
+    // A curated place the itinerary pages agree on is one too.
+    mustSee: editorial.must_see === true || row.pick_source === 'named' || curatedMustSee(curated),
     // The handful a first visit should hold (our editors flag at most fifteen a destination).
-    ...(editorial.essential === true ? { essential: true } : {}),
+    // A curated place ranked among a first visit's essentials is one of them too.
+    ...(editorial.essential === true || curated?.essential_rank !== undefined
+      ? { essential: true }
+      : {}),
     detail: filled + (known ? 1 : 0),
     whyGo: text(editorial.why_go),
     bestTime: text(editorial.best_time),
+    ...curatedPlaceFacts(curated),
   });
   if (!typed) return poi;
   return withTypedFacts(poi, {
-    profile: profileFacts(row),
+    profile: typedFactsWithCurated(profileFacts(row), curated),
     editorsVisitMin: editorsMin,
-    // The editors' essentials (unranked today: each is first).
-    essentialRank: editorial.essential === true ? 1 : null,
+    // The curated rank, else the editors' essentials (unranked: each is first).
+    essentialRank: essentialRankOf(curated, editorial.essential === true),
   });
 }
 

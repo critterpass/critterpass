@@ -32,12 +32,12 @@ import {
   type DraftPlanInput,
 } from './context';
 import { heldLines, mealsNeeded } from './held';
-import { hopCap } from './areas';
+import { areasOf, hopCap } from './areas';
 import { DAY_FORMAT } from './schema';
 import type { SkeletonDay } from './skeleton';
 import { whenOf } from './wish-answers';
 
-export const DAY_PROMPT_VERSION = 'draft-day@6';
+export const DAY_PROMPT_VERSION = 'draft-day@7';
 
 const TASK = [
   '# Task',
@@ -60,6 +60,8 @@ const TASK = [
   "  way from the day's other places is a detour: leave it out unless it is a must-do. A day may",
   '  change its part of the map once (a morning out, then back to town), never twice. Never use a',
   '  place marked too far for this day; pick the meal places nearest the stops around them.',
+  '- Every place has an area letter. The times of day come first; within them, see one area at a',
+  '  time (never back to an area the day has left) and eat in the area of the stops around the meal.',
   '- A place that takes half the day has its morning or afternoon: at most one coffee or snack beside',
   '  it in that half. A place that takes the whole day has the day to itself, with its meals.',
   '- Each note is one short line in your voice about the place itself: what to see, eat or do there.',
@@ -110,9 +112,10 @@ function lists(input: DraftPlanInput, context: DayContext): string[] {
     }
     return nearest > 30 ? ` | a long way: about ${nearest} min from the day's other places` : '';
   };
+  const area = (id: string) => areasOf(input).of(id);
   const line = (id: string) => {
     const poi = place(id);
-    return poi === undefined ? null : `${placeLine(input, poi, day.date)}${far(id)}`;
+    return poi === undefined ? null : `${placeLine(input, poi, day.date, area(id))}${far(id)}`;
   };
   const mustDos = day.mustDoIds.flatMap((mustDoId) => {
     const slot = input.pools.mustDos.find((s) => s.mustDoId === mustDoId);
@@ -120,7 +123,7 @@ function lists(input: DraftPlanInput, context: DayContext): string[] {
     return poi === undefined
       ? []
       : [
-          `- must_do_id ${aliases(input).mustDo(mustDoId)} → ${placeLine(input, poi, day.date).slice(2)}${timeNote(whenOf(input, mustDoId))}`,
+          `- must_do_id ${aliases(input).mustDo(mustDoId)} → ${placeLine(input, poi, day.date, area(poi.id)).slice(2)}${timeNote(whenOf(input, mustDoId))}`,
         ];
   });
   const planned = new Set(day.poiIds);
@@ -132,7 +135,7 @@ function lists(input: DraftPlanInput, context: DayContext): string[] {
     const fits = mealSlots(poi, day.date).filter((slot) => wanted.includes(slot));
     return fits.length === 0
       ? []
-      : [`${placeLine(input, poi, day.date)} | for ${fits.join(' or ')}${far(id)}`];
+      : [`${placeLine(input, poi, day.date, area(id))} | for ${fits.join(' or ')}${far(id)}`];
   };
   const section = (title: string, ids: readonly string[]) => [
     `## ${title}`,

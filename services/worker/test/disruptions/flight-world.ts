@@ -1,5 +1,5 @@
 /**
- * A crew in Bali on the day Rin lands (the guide-actions plan fixture, pinned to 2026-10-15 UTC):
+ * A crew in Bali on the day Rin lands (the guide-actions plan fixture, on the next UTC day):
  * Rin's SQ938 is due at 09:30; Made (a driver the crew added) picks Rin up at 10:00; Rin has a surf
  * lesson alone at 11:48 and the whole crew dines at 12:00. AeroAPI is replayed at its network
  * boundary with flight objects shaped as in the AeroAPI v4 reference.
@@ -8,8 +8,11 @@ import { createAeroApiClient, createSupplierHttp, noSupplierCallAudit } from '@c
 import type pg from 'pg';
 
 import { buildGuidePlan, type GuidePlanFixture } from '../guide-actions/plan-fixture';
+import { at, FIXTURE_NOW } from './fixture-clock';
 
-export const NOW = new Date('2026-10-15T00:00:00Z');
+export { at } from './fixture-clock';
+
+export const NOW = FIXTURE_NOW;
 const FA_ID = 'SIA938-1760490000-schedule-0001';
 
 export interface FlightWorld extends GuidePlanFixture {
@@ -23,7 +26,7 @@ export interface FlightWorld extends GuidePlanFixture {
 }
 
 function flight(delayMin: number): unknown {
-  const arrival = new Date(Date.parse('2026-10-15T09:30:00Z') + delayMin * 60_000);
+  const arrival = new Date(Date.parse(at('09:30')) + delayMin * 60_000);
   return {
     fa_flight_id: FA_ID,
     ident: 'SIA938',
@@ -32,9 +35,9 @@ function flight(delayMin: number): unknown {
     flight_number: '938',
     cancelled: false,
     diverted: false,
-    scheduled_out: '2026-10-15T07:00:00Z',
-    scheduled_in: '2026-10-15T09:30:00Z',
-    estimated_out: new Date(Date.parse('2026-10-15T07:00:00Z') + delayMin * 60_000).toISOString(),
+    scheduled_out: at('07:00'),
+    scheduled_in: at('09:30'),
+    estimated_out: new Date(Date.parse(at('07:00')) + delayMin * 60_000).toISOString(),
     estimated_in: arrival.toISOString(),
     departure_delay: delayMin * 60,
     origin: { code_iata: 'SIN' },
@@ -57,11 +60,11 @@ export async function buildFlightWorld(pool: pg.Pool): Promise<FlightWorld> {
   const surf = await pool.query<{ stable_id: string }>(
     `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, starts_at, ends_at, tz, category,
        attendee_ids, notes, created_by_kind)
-     SELECT version_id, day_id, trip_id, gen_random_uuid(), '2026-10-15T11:48:00Z',
-            '2026-10-15T12:48:00Z', tz, 'activity', ARRAY[$3]::uuid[], 'Surf lesson', 'guide'
+     SELECT version_id, day_id, trip_id, gen_random_uuid(), $4, $5, tz, 'activity',
+            ARRAY[$3]::uuid[], 'Surf lesson', 'guide'
        FROM plan_items WHERE version_id = $1 AND stable_id = $2
      RETURNING stable_id`,
-    [fx.versionId, fx.pickup.stableId, fx.rinId],
+    [fx.versionId, fx.pickup.stableId, fx.rinId, at('11:48'), at('12:48')],
   );
   const booking = await pool.query<{ id: string }>(
     `INSERT INTO bookings (trip_id, owner_id, type, title, visibility, supplier, traveller_ids)
@@ -72,15 +75,14 @@ export async function buildFlightWorld(pool: pg.Pool): Promise<FlightWorld> {
   const segment = await pool.query<{ id: string }>(
     `INSERT INTO flight_segments (booking_id, trip_id, owner_id, crew_visible, carrier, flight_no,
        dep_airport, arr_airport, sched_dep_at, sched_arr_at, boarding_at)
-     VALUES ($1, $2, $3, true, 'SQ', '938', 'SIN', 'DPS', '2026-10-15T07:00:00Z',
-       '2026-10-15T09:30:00Z', '2026-10-15T06:20:00Z') RETURNING id`,
-    [booking.rows[0]?.id, fx.tripId, fx.rinId],
+     VALUES ($1, $2, $3, true, 'SQ', '938', 'SIN', 'DPS', $4, $5, $6) RETURNING id`,
+    [booking.rows[0]?.id, fx.tripId, fx.rinId, at('07:00'), at('09:30'), at('06:20')],
   );
   const segmentId = segment.rows[0]?.id as string;
   await pool.query(
     `INSERT INTO flight_watches (flight_segment_id, provider, provider_alert_id, active_until)
-     VALUES ($1, 'flightaware', '5511', '2026-10-17T00:00:00Z')`,
-    [segmentId],
+     VALUES ($1, 'flightaware', '5511', $2)`,
+    [segmentId, at('00:00', 2)],
   );
   let current = flight(0);
   const aero = createAeroApiClient(

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { baseSlug, foldName, type BaseCandidate } from './base-set';
-import { joinSources } from './join';
+import { dropCityParts, joinSources } from './join';
 import { rankAndCap } from './rank';
 import { planUpsert, type ExistingDestination } from './upsert-plan';
 
@@ -53,7 +53,7 @@ describe('joinSources', () => {
     });
   });
 
-  it('joins by shared folded name within 25 km, and not beyond', () => {
+  it('joins by shared folded name within 40 km, and not beyond', () => {
     const item = candidate({ name: 'Hội An', qid: 'Q200', sitelinks: 50, lat: 15.88, lng: 108.33 });
     const near = candidate({ name: 'Hoi An', geonamesId: 1, lat: 15.9, lng: 108.35 });
     const far = candidate({ name: 'Hoi An', geonamesId: 2, lat: 16.5, lng: 108.35 });
@@ -62,10 +62,69 @@ describe('joinSources', () => {
     expect(joined.find((row) => row.qid === 'Q200')?.geonamesId).toBe(1);
   });
 
+  it('takes the city’s point when the item sits on an area’s centroid', () => {
+    // Cần Thơ's item is the city-province, centred 34 km from the city.
+    const item = candidate({
+      name: 'Cần Thơ',
+      qid: 'Q216075',
+      sitelinks: 82,
+      lat: 10.155,
+      lng: 105.5,
+    });
+    const city = candidate({ name: 'Cần Thơ', geonamesId: 1586203, lat: 10.037, lng: 105.788 });
+    const joined = joinSources([item], [city]);
+    expect(joined).toHaveLength(1);
+    expect(joined[0]).toMatchObject({ qid: 'Q216075', geonamesId: 1586203, lat: 10.037 });
+    const near = candidate({ name: 'Hội An', qid: 'Q200', sitelinks: 50, lat: 15.88, lng: 108.33 });
+    const town = candidate({ name: 'Hoi An', geonamesId: 1, lat: 15.9, lng: 108.35 });
+    expect(joinSources([near], [town])[0]?.lat).toBe(15.88);
+  });
+
   it('drops a same-name row within 5 km, keeping the better known', () => {
     const a = candidate({ name: 'Sa Pa', qid: 'Q1', sitelinks: 40 });
     const b = candidate({ name: 'Sapa', qid: 'Q2', sitelinks: 3, names: { en: 'Sa Pa' } });
     expect(joinSources([a, b], []).map((row) => row.qid)).toEqual(['Q1']);
+  });
+});
+
+describe('dropCityParts', () => {
+  const saigon = candidate({
+    name: 'Hồ Chí Minh',
+    qid: 'Q1854',
+    population: 9_000_000,
+    wikivoyage: 20,
+    lat: 10.776,
+    lng: 106.7,
+  });
+
+  it('drops a district of a bigger city that has no Wikivoyage article', () => {
+    const quan = candidate({ name: 'Quận Mười', population: 399_000, lat: 10.768, lng: 106.666 });
+    const thuDuc = candidate({ name: 'Thủ Đức', population: 524_670, lat: 10.849, lng: 106.772 });
+    expect(dropCityParts([saigon, quan, thuDuc]).map((row) => row.name)).toEqual(['Hồ Chí Minh']);
+  });
+
+  it('keeps a near town with an article, a town farther than 15 km, and another country', () => {
+    const canGio = candidate({
+      name: 'Cần Giờ',
+      population: 70_000,
+      wikivoyage: 2,
+      lat: 10.6,
+      lng: 106.8,
+    });
+    const thuDauMot = candidate({
+      name: 'Thủ Dầu Một',
+      population: 300_000,
+      lat: 10.98,
+      lng: 106.65,
+    });
+    const across = candidate({
+      name: 'Border',
+      countryCode: 'KH',
+      population: 1,
+      lat: 10.78,
+      lng: 106.71,
+    });
+    expect(dropCityParts([saigon, canGio, thuDauMot, across])).toHaveLength(4);
   });
 });
 
@@ -89,6 +148,17 @@ describe('rankAndCap', () => {
     expect(count('PE')).toBe(3);
     expect(count('VN')).toBe(8);
     expect(count('FR')).toBe(3);
+  });
+
+  it('ranks a small town many Wikivoyage editions cover above a big suburb', () => {
+    const [first] = rankAndCap(
+      [
+        candidate({ name: 'Suburb', sitelinks: 90, wikivoyage: 4, population: 260_000 }),
+        candidate({ name: 'Kotor', sitelinks: 80, wikivoyage: 7, population: 13_000 }),
+      ],
+      { perCountry: 5, vietnamMax: 5, floor: 0, total: 5, critterCountries: new Set() },
+    );
+    expect(first?.name).toBe('Kotor');
   });
 
   it('ranks an island above a city of equal fame', () => {

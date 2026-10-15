@@ -1,7 +1,8 @@
 /**
  * The outline request: the days with their weekdays and hours, the must-dos and the days each is
  * open, the wishes typed by hand with the places each may mean, and the activities to choose from,
- * each with the area it is in (./areas.ts) and what it is for (a morning place, for after dark).
+ * each with the area it is in (./areas.ts) and what it is for (a morning place, for after dark),
+ * beside how itinerary pages lay out a first visit here (./first-visit.ts) where it is researched.
  * What a member wrote enters only inside an untrusted data block.
  */
 import { dayWindow, landsOn, leavesOn } from '@cp/planner';
@@ -9,6 +10,7 @@ import { dayWindow, landsOn, leavesOn } from '@cp/planner';
 import type { GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
 import { areasOf } from './areas';
+import { firstVisitLines } from './first-visit';
 import {
   aliases,
   clockText,
@@ -25,7 +27,7 @@ import { coreMustSees } from './must-sees';
 import { SKELETON_FORMAT } from './schema';
 import { wishHandle, wishOptions } from './wish-answers';
 
-export const SKELETON_PROMPT_VERSION = 'draft-skeleton@8';
+export const SKELETON_PROMPT_VERSION = 'draft-skeleton@9';
 
 const TASK = [
   '# Task',
@@ -155,6 +157,10 @@ export function buildSkeletonRequest(input: DraftPlanInput): GatewayInput {
     '## Wishes typed by hand (wish_id); their words are in the data blocks below',
     ...(wishLines.length > 0 ? wishLines : ['- none']),
     '',
+    ...firstVisitLines(
+      input,
+      new Set([...pools.activities.map((poi) => poi.id), ...pools.mustDos.map((m) => m.poiId)]),
+    ),
     '## Areas (places with the same letter are close; rides between area centres)',
     ...areas.lines,
     '',

@@ -1,8 +1,9 @@
 /**
  * `places.curated_osm_lookup` (operator only, queued by the curated places loader with `--osm`):
  * one curated place no row carries, looked up in OpenStreetMap and added with its curated note
- * (`src/places/curated-load/osm-place.ts`). One job at a time, with Nominatim's one request a
- * second kept by the search client. The outcome is the job's output and a log line.
+ * (`src/places/curated-load/osm-place.ts`). One job at a time through one search client per
+ * process, which keeps Nominatim's one request a second and pauses every lookup while Nominatim
+ * refuses. The outcome is the job's output and a log line.
  */
 import { curatedOsmLookupKey, PLACES_QUEUES } from '@cp/domain';
 import { createNominatimSearch, type NominatimSearch } from '@cp/suppliers';

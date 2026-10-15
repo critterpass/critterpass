@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:db": "vitest run --config vitest.db.config.ts",
-    "bench:draft": "tsx --env-file-if-exists=../../.env bench/draft.bench.ts"
+    "bench:draft": "tsx --env-file-if-exists=../../.env bench/draft.bench.ts",
+    "bench:blog": "tsx --env-file-if-exists=../../.env bench/blog/run.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "catalog:",

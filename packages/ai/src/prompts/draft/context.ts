@@ -6,7 +6,7 @@
  * must-do, a redraft note, chat) only ever enters inside an untrusted data block.
  */
 import type Anthropic from '@anthropic-ai/sdk';
-import { WEEKDAYS, type DraftItem, type Hours } from '@cp/domain';
+import { TASTE_TAGS, WEEKDAYS, type DraftItem, type Hours } from '@cp/domain';
 import {
   foodRole,
   placeTime,
@@ -110,6 +110,23 @@ export interface DraftPlanInput {
    */
   readonly destinationLanguages?: readonly string[];
   readonly skeletonRoute: 'draft.skeleton' | 'draft.skeleton_fast';
+  /**
+   * How most itinerary pages lay out a first visit to the destination (researched, one entry a
+   * day, stops in visiting order, each with our place when matched): the outline's reference for
+   * what a good day here holds. Absent where nobody researched the destination.
+   */
+  readonly firstVisit?: FirstVisit;
+}
+
+/** A first visit as itinerary pages lay it out (see `DraftPlanInput.firstVisit`). */
+export interface FirstVisit {
+  readonly days: readonly {
+    readonly theme: string;
+    readonly areas: readonly string[];
+    readonly stops: readonly { readonly name: string; readonly poiId: string | null }[];
+    /** How many of the pages read lay the day out this way. */
+    readonly pages: number;
+  }[];
 }
 
 /**
@@ -226,6 +243,8 @@ export function purposeOf(poi: DraftPoi): string | null {
   return parts.length === 0 ? null : parts.join(', ');
 }
 
+const TASTES: ReadonlySet<string> = new Set(TASTE_TAGS);
+
 export function placeLine(
   input: Pick<DraftPlanInput, 'pois' | 'frame' | 'pools' | 'travel'>,
   poi: DraftPoi,
@@ -250,7 +269,12 @@ export function placeLine(
   }
   if (poi.priceLevel !== null)
     parts.push(poi.priceLevel === 0 ? 'free' : `price ${'$'.repeat(poi.priceLevel)}`);
-  const tags = poi.tags.filter((tag) => !tag.startsWith('book_ahead') && tag !== 'free');
+  if (poi.prominence === 'icon') parts.push('an icon of the place');
+  if (poi.prominence === 'local_favourite') parts.push('a local favourite');
+  // The tastes a place suits come first: they are what the guide matches the crew against.
+  const tags = poi.tags
+    .filter((tag) => !tag.startsWith('book_ahead') && tag !== 'free')
+    .sort((a, b) => Number(TASTES.has(b)) - Number(TASTES.has(a)));
   if (tags.length > 0) parts.push(tags.slice(0, 4).join(' '));
   if (!poi.editorial) parts.push('uncurated: not checked by our editors, hours are a guess');
   return `- ${parts.join(' | ')}`;

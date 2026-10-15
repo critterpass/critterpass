@@ -2,7 +2,9 @@
  * Prunes the open-data place index to the lean rule (docs/product-decisions.md D38,
  * docs/data-model.md §3.13 "Lean place index"): deletes `pois` rows that are not in the kept set
  * (`loadKeptPoiIds`), not editorial, and either fail the lean rule (`leanPlaceSql`) or belong to a
- * destination not in use (`USED_DESTINATIONS_SQL`).
+ * destination not in use: none of `USED_DESTINATIONS_SQL` (trips, stops, recent pitches) and not
+ * curated (`CURATED_DESTINATIONS_SQL`: a loaded itinerary or a place with a curated note). A
+ * curated destination is planned from its open-data places too, so they stay.
  *
  * Before the first delete the table is dumped to the backup bucket (`ops.backup`'s dump, of
  * `pois` only, under `PRUNE_DUMP_PREFIX`); a rerun the same day keeps that first dump instead of
@@ -98,6 +100,13 @@ async function dumpOnce(dump: PruneDump, logger: JobLogger, now: Date): Promise<
   return result.key;
 }
 
+/** Destinations with curated content: a loaded itinerary, or a place carrying a curated note. */
+export const CURATED_DESTINATIONS_SQL = `
+  SELECT destination_id FROM destination_itineraries
+  UNION
+  SELECT DISTINCT destination_id FROM pois
+   WHERE editorial ? 'curated' AND destination_id IS NOT NULL`;
+
 const pause = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function prunePlaces(pool: pg.Pool, options: PruneOptions): Promise<PruneResult> {
@@ -108,9 +117,10 @@ export async function prunePlaces(pool: pg.Pool, options: PruneOptions): Promise
   }
   const before = await tableSize(pool);
   const kept = await loadKeptPoiIds(pool);
-  const { rows: usedRows } = await pool.query<{ id: string }>(USED_DESTINATIONS_SQL, [
-    USED_WINDOW_DAYS,
-  ]);
+  const { rows: usedRows } = await pool.query<{ id: string }>(
+    `${USED_DESTINATIONS_SQL} UNION ${CURATED_DESTINATIONS_SQL}`,
+    [USED_WINDOW_DAYS],
+  );
   const used = usedRows.map((row) => row.id);
   const keptIds = [...kept.ids];
   const { rows: counts } = await pool.query<{ candidates: string; kept: string }>(

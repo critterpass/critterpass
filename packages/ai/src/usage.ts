@@ -6,10 +6,22 @@
 import type Anthropic from '@anthropic-ai/sdk';
 import type { AiRoute, AiTier } from '@cp/domain';
 
+import { IncompleteReplyError } from './errors';
 import type { TokenUsage } from './pricing';
 
-/** Maps the API's usage block onto billed token classes. */
-export function toTokenUsage(usage: Anthropic.Messages.Usage): TokenUsage {
+/**
+ * Maps the API's usage block onto billed token classes. A reply without token counts throws
+ * `IncompleteReplyError` (a transient provider failure) instead of crashing on the missing block.
+ */
+export function toTokenUsage(usage: Anthropic.Messages.Usage | null | undefined): TokenUsage {
+  if (
+    usage === null ||
+    usage === undefined ||
+    typeof usage.input_tokens !== 'number' ||
+    typeof usage.output_tokens !== 'number'
+  ) {
+    throw new IncompleteReplyError('model reply carried no token usage');
+  }
   return {
     inputTokens: usage.input_tokens,
     cacheWriteTokens: usage.cache_creation_input_tokens ?? 0,

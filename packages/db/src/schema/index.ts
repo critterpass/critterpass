@@ -129,6 +129,7 @@ export { cities, llmPois, mapRegions, poiEmbeddings, poiLiveChecks, pois } from 
 export { placeCards } from './place-cards';
 export { placeProfiles, placeSearchPace } from './place-profiles';
 export { destinationBriefs } from './destination-briefs';
+export { destinationItineraries } from './destination-itineraries';
 export { destinationHomeLinks, destinationLinkRuns } from './destination-travel';
 export { localGuides } from './local-guides';
 export * from './explore';

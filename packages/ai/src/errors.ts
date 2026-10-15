@@ -7,6 +7,8 @@
 import { APIConnectionError, APIError } from '@anthropic-ai/sdk';
 import { AI_ERRORS, switchedOffKey, type AiErrorCode } from '@cp/domain';
 
+import { DeadlineExceeded } from './deadline';
+
 export class GatewayError extends Error {
   readonly code: AiErrorCode;
   readonly retryable: boolean;
@@ -38,12 +40,25 @@ export class GatewayConfigError extends Error {
 }
 
 /**
+ * A 200 reply that is not a complete Messages response: no `usage` block. Seen from a degraded
+ * provider holding the connection open for minutes; such a reply cannot be billed, so it is treated
+ * as a transient provider failure and retried rather than trusted.
+ */
+export class IncompleteReplyError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'IncompleteReplyError';
+  }
+}
+
+/**
  * HTTP statuses retried with jittered backoff: rate limited (429), server error (500) and
  * overloaded (503, and 529 from Anthropic-format endpoints that use it).
  */
 export const RETRYABLE_STATUSES: ReadonlySet<number> = new Set([429, 500, 503, 529]);
 
 export function isRetryableProviderError(error: unknown): boolean {
+  if (error instanceof DeadlineExceeded || error instanceof IncompleteReplyError) return true;
   return (
     error instanceof APIError &&
     typeof error.status === 'number' &&
@@ -60,6 +75,23 @@ export function toGatewayError(error: unknown): GatewayError {
     return new GatewayError('AI_UNAVAILABLE', 'AI route switched off', {
       detail: { reason: 'switched_off', key: switchKey, transient: false },
       retryable: false,
+      cause: error,
+    });
+  }
+  if (error instanceof DeadlineExceeded) {
+    return new GatewayError('AI_UNAVAILABLE', 'model provider timed out', {
+      detail: {
+        reason: 'timeout',
+        phase: error.phase,
+        timeoutMs: error.timeoutMs,
+        transient: true,
+      },
+      cause: error,
+    });
+  }
+  if (error instanceof IncompleteReplyError) {
+    return new GatewayError('AI_UNAVAILABLE', 'model provider reply was incomplete', {
+      detail: { reason: 'incomplete_reply', transient: true },
       cause: error,
     });
   }

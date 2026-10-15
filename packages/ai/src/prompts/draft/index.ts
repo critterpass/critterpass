@@ -5,6 +5,7 @@ export {
   hoursOn,
   type DraftModel,
   type DraftPlanInput,
+  type FirstVisit,
   type HeldStop,
   type UntimedMustDo,
 } from './context';
