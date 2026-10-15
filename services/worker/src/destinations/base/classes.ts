@@ -13,9 +13,12 @@
  * unit, reaches a settlement, island or sight root. Classes under a neighbourhood, suburb, quarter,
  * city or urban district, country or first-level region count only when also under city: Hoàn
  * Kiếm, Eixample and Goa (a state) are out, while Monaco and Singapore stay through their
- * city-state class and Seoul and Incheon through their city classes. A
- * Wikivoyage district subpage (`Hanoi/Old Quarter`, not a city named with a slash such as
- * `Biel/Bienne`) is a part of its city whatever its classes.
+ * city-state class and Seoul and Incheon through their city classes. An item with a country class
+ * is a destination only as a city, one with a first-level class only as a city or an island (Kiên
+ * Giang province, also filed as a "human settlement", is out), an island of two million people or
+ * more is a region, and an airport is never a destination. A Wikivoyage district subpage
+ * (`Hanoi/Old Quarter`, not a city named with a slash such as `Biel/Bienne`) is a part of its city
+ * whatever its classes. A park or ancient city is a park even when also filed as a settlement.
  */
 import type { DestinationKind } from '@cp/domain';
 
@@ -107,6 +110,8 @@ export interface ClassedItem {
   readonly population: number | null;
 }
 
+export const MAX_ISLAND_POPULATION = 2_000_000;
+
 const PARK_FIRST = ['Q46169', 'Q473972', 'Q839954'];
 
 const has = (roots: ReadonlySet<string>, list: readonly string[]) =>
@@ -127,6 +132,14 @@ export function destinationKind(
     return reached.has('Q515') || !has(reached, PART_ROOTS);
   });
   const roots = new Set(counted.flatMap((cls) => [...(rootsOf.get(cls) ?? [])]));
+  const reachedAny = (list: readonly string[]) =>
+    item.classes.some((cls) => has(rootsOf.get(cls) ?? new Set(), list));
+  // An airport is never a destination; a country is one only as a city (Monaco, Singapore), a
+  // province only as a city or an island (Seoul, Jeju), never through a loose "human settlement"
+  // class (Kiên Giang province).
+  if (reachedAny(['Q1248784'])) return null;
+  if (reachedAny(['Q6256']) && !roots.has('Q515')) return null;
+  if (reachedAny(['Q10864048']) && !roots.has('Q515') && !has(roots, ISLAND_ROOTS)) return null;
   const direct = counted.flatMap((cls) => {
     const kind = DIRECT_CLASSES[cls];
     return kind === undefined ? [] : [kind];
@@ -141,7 +154,9 @@ export function destinationKind(
     if (roots.has('Q532') && !roots.has('Q3957')) return 'village';
     return 'town';
   }
-  if (has(roots, ISLAND_ROOTS)) return 'island';
+  // An island of millions (Honshu, Java, the British Isles) is a region, not a destination.
+  if (has(roots, ISLAND_ROOTS))
+    return (item.population ?? 0) < MAX_ISLAND_POPULATION ? 'island' : null;
   if (has(roots, SIGHT_ROOTS) || direct.includes('park')) return 'park';
   return null;
 }

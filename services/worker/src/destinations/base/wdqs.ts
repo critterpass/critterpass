@@ -1,6 +1,6 @@
 /**
- * The Wikidata Query Service transport: a POSTed SPARQL query, retried with backoff on 429 and 5xx
- * and on a truncated body. WDQS streams its JSON and, when a query hits its 60 s limit, stops
+ * The Wikidata Query Service transport: a POSTed SPARQL query, retried with backoff on 429, 5xx
+ * and a dropped connection, and on a truncated body. WDQS streams its JSON and, when a query hits its 60 s limit, stops
  * mid-stream and appends a Java `SPARQL-QUERY: … TimeoutException` trailer with status 200.
  */
 export const WDQS_URL = 'https://query.wikidata.org/sparql';
@@ -43,16 +43,24 @@ export async function runQuery(
   const backoff = (attempt: number) => (options.retryDelayMs ?? 5_000) * 2 ** attempt;
   let truncated = 0;
   for (let attempt = 0; ; attempt += 1) {
-    const response = await fetchImpl(WDQS_URL, {
-      method: 'POST',
-      headers: {
-        accept: 'application/sparql-results+json',
-        'content-type': 'application/x-www-form-urlencoded',
-        'user-agent': USER_AGENT,
-      },
-      body: new URLSearchParams({ query }).toString(),
-      signal: AbortSignal.timeout(90_000),
-    });
+    let response: Response;
+    try {
+      response = await fetchImpl(WDQS_URL, {
+        method: 'POST',
+        headers: {
+          accept: 'application/sparql-results+json',
+          'content-type': 'application/x-www-form-urlencoded',
+          'user-agent': USER_AGENT,
+        },
+        body: new URLSearchParams({ query }).toString(),
+        signal: AbortSignal.timeout(90_000),
+      });
+    } catch (error) {
+      // A dropped connection or a timeout is retried like a 5xx.
+      if (attempt >= retries) throw error;
+      await sleep(backoff(attempt));
+      continue;
+    }
     if (response.ok) {
       const bindings = parseSparqlBody(await response.text());
       if (bindings !== null) return bindings;
