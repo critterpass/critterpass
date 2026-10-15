@@ -2,8 +2,9 @@
  * The single model entry point: `callModel(route, input)` / `streamModel(route, input)`. Generation
  * runs on DeepSeek through its Anthropic-compatible Messages API;
  * this module is the provider seam, so a second provider plugs in here behind the same interface.
- * It adds a request timeout, jittered retries on transient statuses only, refusal mapping, and one
- * usage record (with `cost_micros`) per call handed to `onUsage`.
+ * It adds a wall-clock deadline per attempt (./deadline.ts), jittered retries on transient failures
+ * only (bounded to twice the deadline in total), refusal mapping, and one usage record (with
+ * `cost_micros`) per call handed to `onUsage`.
  *
  * Provider rules enforced here, so callers never depend on a feature the provider lacks:
  * - structured output: DeepSeek ignores `output_config.format`, so a requested JSON format becomes
@@ -17,6 +18,8 @@
 import Anthropic, { APIError } from '@anthropic-ai/sdk';
 import type { AiRoute } from '@cp/domain';
 
+import { attemptSignal, routeDeadlineMs, STREAM_IDLE_MS, within } from './deadline';
+import { DeclineGuard } from './decline-guard';
 import { DEEPSEEK_ANTHROPIC_URL } from './env';
 import {
   GatewayConfigError,
@@ -27,7 +30,6 @@ import {
 import { computeCostMicros, type TokenUsage } from './pricing';
 import { resolveGenerationRoute, type RouteConfig } from './routing';
 import {
-  DECLINE_MARKER,
   isDeclined,
   parseStructuredText,
   REPAIR_INSTRUCTION,
@@ -71,7 +73,14 @@ export interface GatewayOptions {
   readonly apiKey: string;
   /** Explicit endpoint override (see ./env.ts); unset = DeepSeek's Anthropic-format API. */
   readonly baseURL?: string;
+  /**
+   * The wall-clock deadline of one attempt, for every route; unset = each route's own deadline
+   * (`routeDeadlineMs`: 60 s, longer for large output budgets). A call with its retries stays
+   * within twice this. Streams use it as the wait for their first event.
+   */
   readonly timeoutMs?: number;
+  /** The longest silence between two events of a started stream (default 30 s). */
+  readonly streamIdleMs?: number;
   /** Total attempts per call, including the first. */
   readonly maxAttempts?: number;
   /** Network boundary override (recorded fixtures in tests). */
@@ -101,6 +110,8 @@ export interface Gateway {
 
 const BASE_DELAY_MS = 500;
 const MAX_DELAY_MS = 8_000;
+/** A retry is only worth making with at least this much (or half the deadline) left. */
+const MIN_ATTEMPT_MS = 5_000;
 /** DeepSeek ignores the thinking budget; the Messages format still requires one. */
 const MIN_THINKING_BUDGET = 1024;
 
@@ -165,55 +176,10 @@ function retryAfterMs(error: unknown): number | undefined {
     : undefined;
 }
 
-function textDelta(event: StreamEvent): string | undefined {
-  return event.type === 'content_block_delta' && event.delta.type === 'text_delta'
-    ? event.delta.text
-    : undefined;
-}
-
-/**
- * Holds a stream's first text until it can tell a decline marker from an answer: an answer's
- * events are released in order, a declined reply's text never leaves the gateway.
- */
-class DeclineGuard {
-  private held: StreamEvent[] = [];
-  private text = '';
-  private decided = false;
-  declined = false;
-
-  /** Events that may be yielded now. */
-  push(event: StreamEvent): StreamEvent[] {
-    const text = textDelta(event);
-    if (this.decided) return this.declined && text !== undefined ? [] : [event];
-    if (text === undefined && this.held.length === 0) return [event];
-    this.held.push(event);
-    this.text += text ?? '';
-    const head = this.text.trimStart();
-    if (head.length < DECLINE_MARKER.length && DECLINE_MARKER.startsWith(head)) return [];
-    return this.decide();
-  }
-
-  /** Called at the end of the stream: whatever is still held is decided now. */
-  flush(): StreamEvent[] {
-    return this.decided ? [] : this.decide();
-  }
-
-  private decide(): StreamEvent[] {
-    this.decided = true;
-    this.declined = this.text.trimStart().startsWith(DECLINE_MARKER);
-    const released = this.declined
-      ? this.held.filter((event) => textDelta(event) === undefined)
-      : this.held;
-    this.held = [];
-    return released;
-  }
-}
-
 export function createGateway(options: GatewayOptions): Gateway {
   const client = new Anthropic({
     apiKey: options.apiKey,
     maxRetries: 0,
-    timeout: options.timeoutMs ?? 60_000,
     // Always explicit: the SDK would otherwise read ANTHROPIC_BASE_URL from the process env.
     baseURL: options.baseURL ?? DEEPSEEK_ANTHROPIC_URL,
     ...(options.fetch === undefined ? {} : { fetch: options.fetch }),
@@ -222,20 +188,32 @@ export function createGateway(options: GatewayOptions): Gateway {
   const sleep = options.sleep ?? ((ms: number) => new Promise((r) => setTimeout(r, ms)));
   const random = options.random ?? Math.random;
   const now = options.now ?? (() => new Date());
+  const streamIdleMs = options.streamIdleMs ?? STREAM_IDLE_MS;
+  const deadlineFor = (route: RouteConfig): number => options.timeoutMs ?? routeDeadlineMs(route);
 
   const backoff = (attempt: number, error: unknown): number =>
     retryAfterMs(error) ??
     Math.floor(random() * Math.min(MAX_DELAY_MS, BASE_DELAY_MS * 2 ** (attempt - 1)));
 
-  async function withRetry<T>(run: () => Promise<T>): Promise<T> {
+  /**
+   * Runs attempts until one succeeds, a failure is not transient, attempts run out, or the total
+   * budget (twice the deadline) leaves too little for another try. `run` gets the attempt's
+   * deadline: the route's, cut to what is left of the budget.
+   */
+  async function withRetry<T>(deadlineMs: number, run: (attemptMs: number) => Promise<T>) {
+    const budgetEnd = performance.now() + 2 * deadlineMs;
+    const minAttemptMs = Math.min(deadlineMs / 2, MIN_ATTEMPT_MS);
     for (let attempt = 1; ; attempt += 1) {
+      const left = Math.max(minAttemptMs, budgetEnd - performance.now());
       try {
-        return await run();
+        return await run(Math.floor(Math.min(deadlineMs, left)));
       } catch (error) {
-        if (!isRetryableProviderError(error) || attempt >= maxAttempts) {
+        const delay = backoff(attempt, error);
+        const tooLate = budgetEnd - performance.now() - delay < minAttemptMs;
+        if (!isRetryableProviderError(error) || attempt >= maxAttempts || tooLate) {
           throw toGatewayError(error);
         }
-        await sleep(backoff(attempt, error));
+        await sleep(delay);
       }
     }
   }
@@ -291,11 +269,21 @@ export function createGateway(options: GatewayOptions): Gateway {
   }
 
   async function create(
+    route: RouteConfig,
     params: MessageParams,
     signal: AbortSignal | undefined,
   ): Promise<Anthropic.Messages.Message> {
-    const requestOptions = signal === undefined ? {} : { signal };
-    return withRetry(() => client.messages.create(params, requestOptions));
+    return withRetry(deadlineFor(route), async (attemptMs) => {
+      const controller = new AbortController();
+      const request = client.messages.create(params, {
+        signal: attemptSignal(controller, signal),
+        timeout: attemptMs,
+      });
+      const message = await within(request, attemptMs, 'reply', controller);
+      // A reply without usage cannot be billed: fail the attempt so it is retried.
+      toTokenUsage(message.usage);
+      return message;
+    });
   }
 
   return {
@@ -304,7 +292,7 @@ export function createGateway(options: GatewayOptions): Gateway {
       const route = resolveGenerationRoute(routeId);
       const params = buildMessageParams(route, input);
       const startedAt = now();
-      const message = await create(params, input.signal);
+      const message = await create(route, params, input.signal);
       const first = await settle(route, message, context, startedAt);
       if (input.outputFormat === undefined || message.stop_reason === 'tool_use') return first;
       if (parseStructuredText(textOf(message)) !== undefined) return first;
@@ -317,7 +305,7 @@ export function createGateway(options: GatewayOptions): Gateway {
           { role: 'user', content: REPAIR_INSTRUCTION },
         ],
       };
-      return settle(route, await create(repair, input.signal), context, now());
+      return settle(route, await create(route, repair, input.signal), context, now());
     },
 
     async *streamModel(routeId, input, context = {}) {
@@ -325,28 +313,49 @@ export function createGateway(options: GatewayOptions): Gateway {
       const route = resolveGenerationRoute(routeId);
       const params = buildMessageParams(route, input);
       const startedAt = now();
+      const deadlineMs = deadlineFor(route);
+      const budgetEnd = performance.now() + 2 * deadlineMs;
+      const minAttemptMs = Math.min(deadlineMs / 2, MIN_ATTEMPT_MS);
       for (let attempt = 1; ; attempt += 1) {
         let started = false;
+        let finished = false;
+        const controller = new AbortController();
+        const firstMs = Math.floor(
+          Math.min(deadlineMs, Math.max(minAttemptMs, budgetEnd - performance.now())),
+        );
         try {
-          const stream = client.messages.stream(
-            params,
-            input.signal === undefined ? {} : { signal: input.signal },
-          );
+          const stream = client.messages.stream(params, {
+            signal: attemptSignal(controller, input.signal),
+            timeout: firstMs,
+          });
+          const events = stream[Symbol.asyncIterator]();
           const guard = new DeclineGuard();
-          for await (const event of stream) {
+          for (;;) {
+            // The first event must come within the attempt's deadline, every later one within
+            // the idle gap; a stalled stream is aborted rather than left hanging.
+            const next = started
+              ? await within(events.next(), streamIdleMs, 'idle', controller)
+              : await within(events.next(), firstMs, 'first_event', controller);
+            if (next.done === true) break;
             started = true;
-            for (const released of guard.push(event)) yield { kind: 'delta', event: released };
+            for (const released of guard.push(next.value)) yield { kind: 'delta', event: released };
           }
           for (const released of guard.flush()) yield { kind: 'delta', event: released };
           const message = await stream.finalMessage();
+          finished = true;
           yield { kind: 'done', result: await settle(route, message, context, startedAt) };
           return;
         } catch (error) {
           // Only a stream that failed before its first event can be retried transparently.
-          if (started || !isRetryableProviderError(error) || attempt >= maxAttempts) {
+          const delay = backoff(attempt, error);
+          const tooLate = budgetEnd - performance.now() - delay < minAttemptMs;
+          if (started || !isRetryableProviderError(error) || attempt >= maxAttempts || tooLate) {
             throw toGatewayError(error);
           }
-          await sleep(backoff(attempt, error));
+          await sleep(delay);
+        } finally {
+          // A consumer that stops early (or a failure) must not leave the request open.
+          if (!finished) controller.abort();
         }
       }
     },
