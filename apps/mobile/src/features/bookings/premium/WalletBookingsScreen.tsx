@@ -10,11 +10,11 @@ import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router, type Href } from 'expo-router';
 import { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { useFormats } from '@/lib/i18n/formats';
 import { Banner, SearchField, Skeleton, usePremiumTheme } from '@/ui/premium';
-import { RootScreen, type ShellAction } from '@/ui/premium/shell';
+import { RootScreen, TabPageScroll, type ShellAction } from '@/ui/premium/shell';
 
 import { WalletGuideProvider } from '../data/wallet-guide';
 import { zoneOf } from '../format';
@@ -101,7 +101,7 @@ export function WalletBookingsScreen() {
         testID={`bookings-wallet-${data.state}`}
       >
         {({ scrollProps, largeTitle }) => (
-          <ScrollView
+          <TabPageScroll
             {...scrollProps}
             contentContainerStyle={{
               paddingBottom: theme.space.tabBarClearance,
@@ -201,7 +201,7 @@ export function WalletBookingsScreen() {
                 {results === null ? <WalletExtras data={data} /> : null}
               </>
             )}
-          </ScrollView>
+          </TabPageScroll>
         )}
       </RootScreen>
     </WalletGuideProvider>

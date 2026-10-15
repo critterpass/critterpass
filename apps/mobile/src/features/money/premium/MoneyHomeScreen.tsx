@@ -6,12 +6,12 @@
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { WalletGuideProvider } from '@/features/bookings';
 import { WalletHalfSwitchPremium } from '@/features/bookings';
 import { Button, OfflinePill, Skeleton, Text, usePremiumTheme } from '@/ui/premium';
-import { RootScreen, type ShellAction } from '@/ui/premium/shell';
+import { RootScreen, TabPageScroll, type ShellAction } from '@/ui/premium/shell';
 
 import { tripLabel } from '../balances/trip-label';
 import {
@@ -159,7 +159,7 @@ export function MoneyHomeScreen() {
         testID={`money-${state.kind}`}
       >
         {({ scrollProps, largeTitle }) => (
-          <ScrollView
+          <TabPageScroll
             {...scrollProps}
             contentContainerStyle={{ paddingBottom: th.space.tabBarClearance, gap: th.space.gap16 }}
           >
@@ -192,7 +192,7 @@ export function MoneyHomeScreen() {
             ) : (
               <Ready state={state} />
             )}
-          </ScrollView>
+          </TabPageScroll>
         )}
       </RootScreen>
     </WalletGuideProvider>
