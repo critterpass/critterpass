@@ -1,0 +1,70 @@
+appId: app.critterpass.dev
+---
+# The app's own language setting, as a person finds it: PASS tab, the profile, Settings, Language
+# and currency, then ${LANG_ID} (the switch reports the language to the server). Frames ${P}-…
+# Ends back on Home.
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-profile'
+    timeout: 30000
+- tapOn:
+    id: 'critters-dex-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-settings'
+    timeout: 20000
+- tapOn:
+    id: 'you-profile-settings'
+- scrollUntilVisible:
+    element:
+      text: 'Language and currency.*'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    text: 'Language and currency.*'
+- extendedWaitUntil:
+    visible:
+      id: 'you-language'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: ${P}-12b-language-setting
+- runFlow:
+    when:
+      notVisible:
+        id: ${'you-language-' + LANG_ID}
+    commands:
+      - tapOn:
+          id: 'you-language-more'
+      - scrollUntilVisible:
+          element:
+            id: ${'you-language-' + LANG_ID}
+          direction: DOWN
+          timeout: 15000
+- tapOn:
+    id: ${'you-language-' + LANG_ID}
+- waitForAnimationToEnd:
+    timeout: 5000
+- extendedWaitUntil:
+    visible:
+      id: 'you-language-title'
+    timeout: 15000
+- takeScreenshot: ${P}-12c-language-switched
+# Back to the PASS tab (the tab bar shows), then Home by its tab: a back on a root tab would leave
+# the app.
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-home'
+    times: 4
+    commands:
+      - back
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 20000
+- waitForAnimationToEnd

@@ -1,0 +1,96 @@
+appId: app.critterpass.dev
+---
+# From the must-dos list: DRAFT, the wait (left and come back to), the draft read to its end, then
+# each of its ${DAYS} days opened and read (day 1 with its map). Frames ${P}-53…63.
+- scrollUntilVisible:
+    element:
+      id: 'must-dos-draft'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: ${P}-53-must-dos-before-draft
+- evalScript: ${output.draftT0 = Date.now()}
+- tapOn:
+    id: 'must-dos-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'drafting-screen|draft-review'
+    timeout: 30000
+- takeScreenshot: ${P}-54-drafting-start
+- extendedWaitUntil:
+    visible:
+      id: 'never-there'
+    timeout: 12000
+    optional: true
+- takeScreenshot: ${P}-55-drafting-12s
+- runFlow:
+    when:
+      visible:
+        id: 'drafting-leave'
+    commands:
+      - tapOn:
+          id: 'drafting-leave'
+      - extendedWaitUntil:
+          visible:
+            id: 'must-dos-drafting|must-dos-see-draft'
+          timeout: 20000
+      - waitForAnimationToEnd
+      - takeScreenshot: ${P}-56-left-the-wait
+      - extendedWaitUntil:
+          visible:
+            id: 'must-dos-see-draft'
+          timeout: 600000
+      - evalScript: ${output.secs = Math.round((Date.now() - output.draftT0) / 1000)}
+      - waitForAnimationToEnd
+      - takeScreenshot: ${P}-57-draft-ready-at-${output.secs}s
+      - tapOn:
+          id: 'must-dos-see-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 600000
+- evalScript: ${output.secs = Math.round((Date.now() - output.draftT0) / 1000)}
+- waitForAnimationToEnd
+- takeScreenshot: ${P}-59-draft-after-${output.secs}s
+- extendedWaitUntil:
+    visible:
+      id: 'never-there'
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${P}-59b-draft-10s-later
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: ${P}-60-draft-scrolled-1
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: ${P}-61-draft-scrolled-2
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: ${P}-62-draft-scrolled-3
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: ${P}-62b-draft-end
+- runFlow:
+    file: final-read-day.yaml
+    env:
+      DAY: 1
+      SHOT: ${P}-63-day-1
+      MAP: 'yes'
+- evalScript: ${output.day = 1}
+- repeat:
+    times: ${DAYS - 1}
+    commands:
+      - evalScript: ${output.day = output.day + 1}
+      - runFlow:
+          file: final-read-day.yaml
+          env:
+            DAY: ${output.day}
+            SHOT: ${P}-63-day-${output.day}
+            MAP: 'no'

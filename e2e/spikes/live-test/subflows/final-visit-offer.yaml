@@ -1,0 +1,14 @@
+appId: app.critterpass.dev
+---
+# The visit-memory offer may rise on the trip hub or Home: she answers NOT NOW, and the frame
+# ${SHOT} keeps what it said.
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: ${SHOT}
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd
