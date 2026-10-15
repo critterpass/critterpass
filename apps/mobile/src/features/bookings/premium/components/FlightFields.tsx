@@ -60,7 +60,8 @@ function AirportCard(props: {
         {props.label}
       </Text>
       <InlineInput
-        type="stat"
+        // A code stands large; a city typed out ("DENPASAR") steps down so it fits the card.
+        type={props.value.trim().length > 4 ? 'navTitle' : 'stat'}
         value={props.value}
         onChangeText={(code) => props.onChange(code.toUpperCase())}
         placeholder={t({ id: 'bookings.premium.airportExample', message: 'SIN' })}
