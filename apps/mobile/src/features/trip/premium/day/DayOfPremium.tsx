@@ -184,10 +184,12 @@ export function DayOfReady({ props }: { readonly props: DayOfProps }) {
         <Stops timeline={props.timeline} />
         <DayLinks props={props} />
       </KeyboardAwareScroll>
+      {/* Opaque only to the back's middle, then a long fade: the hero's big time lifted by the
+          keyboard fades under the ground instead of being sliced by a hard band. */}
       <ScrollEdgeFade
         edge="top"
-        height={bar + SCROLL_EDGE_FADE}
-        solid={bar}
+        height={bar + 2 * SCROLL_EDGE_FADE}
+        solid={insets.top + th.space.gap6 + th.size.iconButton / 2}
         visible={edges.top}
         testID="trip-day-top-ground"
       />
