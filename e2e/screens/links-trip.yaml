@@ -54,7 +54,7 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/capture.yaml
     env:
-      ROUTE: ${output.tripId}/plan
+      ROUTE: ${output.tripId}/plan/map
       CODE: '4.25'
       NAME: plan-link
       LOOK: light
@@ -68,7 +68,7 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/capture.yaml
     env:
-      ROUTE: ${output.tripId}/explore
+      ROUTE: ${output.tripId}/search
       CODE: '4.30'
       NAME: find-link
       LOOK: light
@@ -219,7 +219,7 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/capture.yaml
     env:
-      ROUTE: ${output.tripId}/plan
+      ROUTE: ${output.tripId}/plan/map
       CODE: '4.25'
       NAME: plan-link
       LOOK: dark

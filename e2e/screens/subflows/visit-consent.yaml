@@ -1,7 +1,8 @@
 appId: app.critterpass.dev
 ---
 # A trip that is on asks once, over Home, to remember the places visited: it is waited for a few
-# seconds after Home shows and turned down (not now), so it never covers a later step.
+# seconds after Home shows and turned down (not now), so it never covers a later step; the flow
+# is back on Home after.
 - extendedWaitUntil:
     visible:
       id: 'visit-consent-decline'
@@ -15,3 +16,5 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'visit-consent-decline'
       - runFlow: ../../_shared/settle.yaml
+      # The question can come up while Home's tab is being tapped: Home again.
+      - runFlow: ../../_shared/home-link.yaml

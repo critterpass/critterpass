@@ -1,8 +1,8 @@
 appId: app.critterpass.dev
 ---
 # Opens the long-press menu on the crewmate's "Uluwatu at sunset" message and taps its ${KEY} row,
-# then requires what that row promises: ${EXPECT} (a text, as a pattern) on screen within eight
-# seconds. A row that does nothing (no screen, sheet, toast or change) fails the flow here.
+# then requires what that row promises: ${EXPECT} (a text, as a pattern) on screen within fifteen
+# seconds (a reply raises the keyboard first, slow on a runner). A row that does nothing (no screen, sheet, toast or change) fails the flow here.
 - longPressOn:
     text: '.*Uluwatu at sunset.*'
 - extendedWaitUntil:
@@ -14,4 +14,4 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible:
       text: '${EXPECT}'
-    timeout: 8000
+    timeout: 15000
