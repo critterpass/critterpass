@@ -18,6 +18,7 @@ import {
   makePremiumStyles,
   usePremiumTheme,
 } from '@/ui/premium';
+import { BAR_OVER_EDGE } from '@/ui/premium/shell';
 
 import { GuideDisc } from './guide-bubbles';
 
@@ -106,9 +107,9 @@ export function GuideTopBar({
   const insets = useSafeAreaInsets();
   const name = guideName;
   return (
-    // Over the thread, so the close's shadow falls on the thread's faded edge instead of ending in
-    // a line where the thread starts.
-    <View style={{ paddingTop: insets.top + 6, zIndex: 1 }} testID="guide-top-bar">
+    // Over the thread and its fade, so the close's shadow falls on the thread's faded edge instead
+    // of ending in a line where the thread starts.
+    <View style={{ paddingTop: insets.top + 6, zIndex: BAR_OVER_EDGE }} testID="guide-top-bar">
       <View style={styles.bar}>
         <GlassIconButton
           icon={asSheet ? 'close' : 'back'}

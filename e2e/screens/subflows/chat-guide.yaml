@@ -20,36 +20,8 @@ appId: app.critterpass.dev
                   id: 'guide-empty'
                 timeout: 10000
                 optional: true
-            # The starters show with the keyboard down (hiding it is no system back on iOS). On iOS
-            # Maestro hides the keyboard with a tap that can land on the Food and access needs
-            # chip: its consent sheet is turned down again before the starters are shot.
-            - runFlow:
-                when:
-                  platform: iOS
-                commands:
-                  - hideKeyboard
-                  - runFlow:
-                      when:
-                        visible:
-                          id: 'guide-dietary-consent'
-                      commands:
-                        - tapOn:
-                            id: 'guide-dietary-consent-no'
-                        # Not now still goes on to the form (no flags shared): it is closed too.
-                        - extendedWaitUntil:
-                            visible:
-                              id: 'guide-empty|guide-dietary'
-                            timeout: 10000
-                            optional: true
-                        - runFlow:
-                            file: chat-guide-return.yaml
-                            env:
-                              MARK: 'guide-dietary|guide-dietary-consent|guide-dietary-sheet'
-                        - extendedWaitUntil:
-                            visible:
-                              id: 'guide-empty'
-                            timeout: 10000
-                            optional: true
+            # The guide opens with the keyboard down (nothing taps its composer), as the design shows
+            # the starters.
             - runFlow:
                 file: shot.yaml
                 env:
