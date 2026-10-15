@@ -29,10 +29,13 @@ import { skeletonRoute } from '../../src/jobs/ai/draft/skeleton';
 import { CREWS, crewTrip, defaultStart, scoredDays, type Crew, type Destination } from './crews';
 import { judgeBrief, judgeDraft } from './judge';
 import { readReference, type Reference } from './reference';
-import { dayShape, draftMetrics, overall, type ScoredDay } from './score';
+import { dayShape, draftMetrics, missesItsTime, overall, type ScoredDay } from './score';
 import { destinationTable, type DraftResult } from './table';
 
 class OverBudget extends Error {}
+
+const clock = (minute: number) =>
+  `${String(Math.floor(minute / 60)).padStart(2, '0')}:${String(minute % 60).padStart(2, '0')}`;
 
 const failure = (error: unknown) =>
   error instanceof Error
@@ -178,7 +181,10 @@ async function benchDestination(
         return {
           day: d.dayNo,
           theme: d.theme,
-          stops: d.stops.map((s) => `${s.kind === 'meal' ? '*' : ''}${s.name} [${s.area ?? '-'}]`),
+          stops: d.stops.map(
+            (s) =>
+              `${clock(s.startMin)} ${s.kind === 'meal' ? '*' : ''}${s.name} [${s.area ?? '-'}]${missesItsTime(s) ? ` (best ${s.bestTimes.join('/')})` : ''}`,
+          ),
           areas: shape.areas,
           km: Math.round(shape.km * 10) / 10,
           backtracks: shape.backtracks,

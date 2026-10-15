@@ -15,7 +15,7 @@ export interface DraftResult {
   readonly verdict: Verdict | null;
   /** 0..100. */
   readonly score: number;
-  /** Each drafted day: its stops (meals marked `*`, each with its area) and its shape. */
+  /** Each drafted day: its stops (start, meals marked `*`, area, the best times of one that misses them) and its shape. */
   readonly days: readonly {
     day: number;
     theme: string;
