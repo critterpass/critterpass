@@ -68,8 +68,9 @@ export function WizardPage({
       : footerHeight + theme.space.gap8 * 3 + theme.space.gap16 + keyboardTrail;
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.ground }} testID={testID}>
-      {/* Above the fade below it, so the header controls' shadows fall over the page uncut. */}
-      <View style={{ zIndex: 1 }}>
+      {/* Above the fade below it (whose band sits at zIndex 1 once Android flattens the plain
+          wrapper around it), so the header controls' shadows fall over the page uncut. */}
+      <View style={{ zIndex: 2 }}>
         {header ??
           (step === undefined ? null : (
             <WizardHeader

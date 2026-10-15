@@ -204,8 +204,9 @@ function coverWash(cover: CrewCover): string {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  // Above the scroll's fade, so the ✕'s shadow falls over the page uncut.
-  header: { flexDirection: 'row', alignItems: 'center', paddingBottom: 8, zIndex: 1 },
+  // Above the scroll's fade (its band sits at zIndex 1 once Android flattens the plain wrapper
+  // around it), so the ✕'s shadow falls over the page uncut.
+  header: { flexDirection: 'row', alignItems: 'center', paddingBottom: 8, zIndex: 2 },
   title: { flex: 1, textAlign: 'center' },
   stage: { height: 270, alignItems: 'center', justifyContent: 'center' },
   wash: { ...StyleSheet.absoluteFill },
