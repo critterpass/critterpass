@@ -695,6 +695,19 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  // Destination itineraries (class R, read by the draft planner on the server; the count probe
+  // answers one row whenever the table is readable).
+  destination_itineraries: {
+    selectProbe: { sql: 'SELECT count(*) FROM destination_itineraries', params: () => [] },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
   // How to reach a destination from a home city (class R, keyed by the two places).
   destination_home_links: {
     selectProbe: { sql: 'SELECT count(*) FROM destination_home_links', params: () => [] },

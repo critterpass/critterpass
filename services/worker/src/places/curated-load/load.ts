@@ -5,15 +5,25 @@
  * row's note as reviewed content (`curation = 'editorial'`), so the note wins over any AI profile.
  * `editorial.curated.rank` makes the place popular in its destination. A re-run writes the same
  * lines again; a place the file no longer names keeps its note but loses its curated block.
+ *
+ * A line's busy windows become the place's hourly `crowd_forecasts` curves with source
+ * `estimate`, as an AI profile's do (replacing any earlier estimate curve; readers still prefer
+ * what crews saw and an approved editorial curve). An essential rank flags the place a must-see
+ * and essential; a later run without the rank takes both flags back.
  */
 import { popularPlaces, sendInTx, withSystem } from '@cp/db';
-import { PLACES_QUEUES } from '@cp/domain';
+import { busyWeek, PLACES_QUEUES, type BusyWindow } from '@cp/domain';
 import type pg from 'pg';
 
 import { allowIndexMaintenance } from '../batch-sql';
 import { plainWords } from '../pick/match';
 import { chooseCuratedMatch, curatedCandidates, type CuratedLead } from './match';
-import { curatedNoteLines, type CuratedNoteLines, type CuratedPlaceRow } from './rows';
+import {
+  curatedNameKey,
+  curatedNoteLines,
+  type CuratedNoteLines,
+  type CuratedPlaceRow,
+} from './rows';
 
 /** Fewer active places than this and the destination is ingested first (as on demand). */
 export const SPARSE_PLACES = 50;
@@ -46,12 +56,21 @@ type Obj = Record<string, unknown>;
 const isObj = (value: unknown): value is Obj =>
   typeof value === 'object' && value !== null && !Array.isArray(value);
 
-/** The stored note with a curated line written in; every other key of the note is kept. */
+/**
+ * The stored note with a curated line written in; every other key of the note is kept, except
+ * the must-see and essential flags an earlier ranked line set when this line has no rank.
+ */
 export function mergeCuratedNote(existing: unknown, note: CuratedNoteLines): Obj {
   const base = isObj(existing) ? existing : {};
   const i18n = isObj(base['i18n']) ? base['i18n'] : {};
   const vi = isObj(i18n['vi']) ? i18n['vi'] : {};
-  return { ...base, ...note.lines, i18n: { ...i18n, vi: { ...vi, ...note.vi } } };
+  const merged: Obj = { ...base, ...note.lines, i18n: { ...i18n, vi: { ...vi, ...note.vi } } };
+  const wasRanked = isObj(base['curated']) && base['curated']['essential_rank'] !== undefined;
+  if (wasRanked && note.lines.curated.essential_rank === undefined) {
+    delete merged['must_see'];
+    delete merged['essential'];
+  }
+  return merged;
 }
 
 async function destinationOf(pool: pg.Pool, slug: string) {
@@ -73,11 +92,15 @@ async function destinationOf(pool: pg.Pool, slug: string) {
   });
 }
 
-/** Writes one curated line into a row's note and marks the row reviewed. */
+/**
+ * Writes one curated line into a row's note and marks the row reviewed; with busy windows, they
+ * replace the row's estimate crowd curves.
+ */
 export async function writeCuratedNote(
   pool: pg.Pool,
   poiId: string,
   note: CuratedNoteLines,
+  busy: readonly BusyWindow[] = [],
 ): Promise<void> {
   await withSystem(pool, async (tx) => {
     await allowIndexMaintenance(tx);
@@ -90,6 +113,18 @@ export async function writeCuratedNote(
         WHERE id = $1`,
       [poiId, JSON.stringify(mergeCuratedNote(rows[0]?.editorial, note))],
     );
+    const week = busyWeek(busy);
+    if (week.length === 0) return;
+    await tx.query(`DELETE FROM crowd_forecasts WHERE poi_id = $1 AND source = 'estimate'`, [
+      poiId,
+    ]);
+    for (const day of week) {
+      await tx.query(
+        `INSERT INTO crowd_forecasts (poi_id, dow, hourly, source, fetched_at)
+         VALUES ($1, $2, $3, 'estimate', now())`,
+        [poiId, day.dow, day.hourly],
+      );
+    }
   });
 }
 
@@ -129,7 +164,7 @@ export async function loadCuratedPlaces(
   const matched: { name: string; poiId: string; row: string; distanceM: number }[] = [];
   const unmatched: CuratedPlacesReport['unmatched'][number][] = [];
   const unmatchedLines: { rank: number; line: CuratedPlaceRow }[] = [];
-  const notes: { poiId: string; note: CuratedNoteLines }[] = [];
+  const placed: { poiId: string; rank: number; line: CuratedPlaceRow }[] = [];
   for (const [index, line] of lines.entries()) {
     const lead: CuratedLead = {
       name: line.name_en,
@@ -162,8 +197,14 @@ export async function loadCuratedPlaces(
       row: verdict.row.name,
       distanceM: Math.round(verdict.row.distanceM),
     });
-    notes.push({ poiId: verdict.row.id, note: curatedNoteLines(line, index + 1) });
+    placed.push({ poiId: verdict.row.id, rank: index + 1, line });
   }
+  const byName = new Map(placed.map(({ poiId, line }) => [curatedNameKey(line.name_en), poiId]));
+  const notes = placed.map(({ poiId, rank, line }) => ({
+    poiId,
+    note: curatedNoteLines(line, rank, byName),
+    busy: line.busy_windows ?? [],
+  }));
   if (options.dryRun) {
     return {
       destination: slug,
@@ -176,11 +217,15 @@ export async function loadCuratedPlaces(
       popular: null,
     };
   }
-  for (const { poiId, note } of notes) await writeCuratedNote(pool, poiId, note);
+  for (const { poiId, note, busy } of notes) await writeCuratedNote(pool, poiId, note, busy);
   const after = await withSystem(pool, async (tx) => {
     await allowIndexMaintenance(tx);
     const dropped = await tx.query(
-      `UPDATE pois SET editorial = editorial - 'curated', updated_at = now()
+      `UPDATE pois
+          SET editorial = CASE WHEN editorial->'curated' ? 'essential_rank'
+                               THEN editorial - 'curated' - 'must_see' - 'essential'
+                               ELSE editorial - 'curated' END,
+              updated_at = now()
         WHERE destination_id = $1 AND editorial ? 'curated' AND id <> ALL($2::uuid[])`,
       [destination.id, [...taken]],
     );

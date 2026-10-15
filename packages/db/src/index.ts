@@ -89,6 +89,7 @@ export * from './places/foursquare-photos';
 export * from './places/recommended';
 export * from './places/kept-places';
 export * from './places/popular';
+export * from './places/itinerary';
 export * from './places/osm-place';
 export * from './money/latest-rates';
 export {

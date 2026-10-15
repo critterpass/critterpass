@@ -7,7 +7,8 @@
 import { z } from 'zod';
 
 import { appLocaleSchema } from '../locale/app-locale';
-import { ESTIMATE_BASES } from './estimates';
+import { TASTE_TAGS } from '../taste/taxonomy';
+import { ESTIMATE_BASES, PLACE_BEST_TIMES } from './estimates';
 
 export const editorialPhotoSchema = z
   .object({
@@ -65,12 +66,28 @@ export const curatedFactSchema = z
 
 export type CuratedFact = z.infer<typeof curatedFactSchema>;
 
+/** How well known a curated place is: a city icon, a popular sight, or one locals love. */
+export const CURATED_PROMINENCE = ['icon', 'popular', 'local_favourite'] as const;
+export type CuratedProminence = (typeof CURATED_PROMINENCE)[number];
+
+/** A place a curated place is combined with on one outing: its name, and our row once matched. */
+export const curatedPairSchema = z
+  .object({ name: z.string().min(1).max(200), poi_id: z.uuid().optional() })
+  .strict();
+
+export type CuratedPair = z.infer<typeof curatedPairSchema>;
+
 /**
  * What an agent-curated place adds to its note (`pois.editorial.curated`), written by the curated
  * places loader for a destination's most visited places. Its presence makes the place popular in
  * its destination, ranked by `rank`. The note's own lines (`why_go`, `best_time`, `crowd_hint`,
  * `tips`, `time_needed_min`) hold the rest; `crowd_hint` is then an estimate (`crowd_basis`).
  * Open data stays the source of the place's name, point and address.
+ *
+ * The planning facts (`best_times`, `meal_role`, `dish`, `essential_rank`, `tags`) are the
+ * researcher's, read from the itinerary pages they name; the draft planner takes them over any AI
+ * profile's. `area`, `prominence`, `indoor`, `blog_count` and `pairs_with` say where the place
+ * sits in its destination's itinerary (`destination_itineraries`) and how it is planned.
  */
 export const curatedNoteSchema = z
   .object({
@@ -83,6 +100,25 @@ export const curatedNoteSchema = z
     getting_there: z.string().min(1).max(200).optional(),
     /** The pages the researcher read for this place. */
     sources: z.array(z.string().min(1)).max(8).optional(),
+    /** The times of day the place suits. */
+    best_times: z.array(z.enum(PLACE_BEST_TIMES)).max(PLACE_BEST_TIMES.length).optional(),
+    /** A place to eat: a real lunch or dinner (`meal`) or coffee, a snack, a dessert (`light`). */
+    meal_role: z.enum(['meal', 'light']).optional(),
+    /** What to order there. */
+    dish: z.string().min(1).max(120).optional(),
+    /** 1 = the most essential of the few places a first visit is built around. */
+    essential_rank: z.number().int().positive().optional(),
+    /** The crew tastes the place suits (`TASTE_TAGS`). */
+    tags: z.array(z.enum(TASTE_TAGS)).max(8).optional(),
+    /** The destination's area the place is in, named as its itinerary names it. */
+    area: z.string().min(1).max(80).optional(),
+    prominence: z.enum(CURATED_PROMINENCE).optional(),
+    /** Works on a rainy day. */
+    indoor: z.boolean().optional(),
+    /** How many of the itinerary pages the researcher read include the place. */
+    blog_count: z.number().int().nonnegative().optional(),
+    /** Places people combine with it on the same outing. */
+    pairs_with: z.array(curatedPairSchema).max(5).optional(),
   })
   .strict();
 
@@ -124,7 +160,7 @@ const OVERLAY_KEYS: ReadonlySet<string> = new Set(Object.keys(editorialOverlaySc
 /**
  * Reads a stored overlay (`pois.editorial`). A stored note is data we read, not input we
  * validate: a line stored as null counts as absent and a key this version does not know is
- * ignored, so neither an older publish nor a newer one takes a reader down. What remains is
+ * ignored (in the note and in its `curated` block), so neither an older publish nor a newer one takes a reader down. What remains is
  * parsed as `editorialOverlaySchema`, so a known line of the wrong type still fails.
  */
 export function readEditorialOverlay(value: unknown): EditorialOverlay {
@@ -135,8 +171,36 @@ export function readEditorialOverlay(value: unknown): EditorialOverlay {
   );
   return editorialOverlaySchema.parse(
     Object.fromEntries(
-      known.map(([key, line]) => (key === 'i18n' ? [key, readTranslations(line)] : [key, line])),
+      known.map(([key, line]) =>
+        key === 'i18n'
+          ? [key, readTranslations(line)]
+          : key === 'curated'
+            ? [key, readKnown(line, CURATED_KEYS)]
+            : [key, line],
+      ),
     ),
+  );
+}
+
+const CURATED_KEYS: ReadonlySet<string> = new Set(Object.keys(curatedNoteSchema.shape));
+
+/**
+ * A stored note's curated block (`pois.editorial.curated`) as leniently as the note, or null when
+ * there is none or it does not read as one: for readers that must never fail on a note.
+ */
+export function readCuratedNote(editorial: unknown): CuratedNote | null {
+  if (typeof editorial !== 'object' || editorial === null || Array.isArray(editorial)) return null;
+  const parsed = curatedNoteSchema.safeParse(
+    readKnown((editorial as Record<string, unknown>)['curated'], CURATED_KEYS),
+  );
+  return parsed.success ? parsed.data : null;
+}
+
+/** An object's lines this version knows, a line stored as null counted as absent. */
+function readKnown(value: unknown, keys: ReadonlySet<string>): unknown {
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) return value;
+  return Object.fromEntries(
+    Object.entries(value).filter(([key, line]) => keys.has(key) && line !== null),
   );
 }
 

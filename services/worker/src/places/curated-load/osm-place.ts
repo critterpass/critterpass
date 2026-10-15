@@ -79,7 +79,8 @@ export async function lookUpCuratedPlace(
     return chooseCuratedMatch(lead, candidates, plain, new Set(rows.map((row) => row.id)));
   });
   if (verdict.kind === 'match') {
-    if (input.dryRun !== true) await writeCuratedNote(pool, verdict.row.id, note);
+    if (input.dryRun !== true)
+      await writeCuratedNote(pool, verdict.row.id, note, place.busy_windows);
     return { outcome: 'matched', poi_id: verdict.row.id, row: verdict.row.name };
   }
   const lookup = await findCuratedOsmPlace(place, plain, search);
@@ -98,7 +99,7 @@ export async function lookUpCuratedPlace(
           await allowIndexMaintenance(tx);
           return attachOsmPlace(tx, destination.id, found);
         });
-  if (attached) await writeCuratedNote(pool, attached.id, note);
+  if (attached) await writeCuratedNote(pool, attached.id, note, place.busy_windows);
   const outcome =
     attached === undefined
       ? 'checked'

@@ -99,6 +99,8 @@ import * as schema from './schema';
  * how one destination leads to another is shared content phones read through the api.
  * `destination_briefs` (packages/db/src/schema/destination-briefs.ts) is RLS "R" but read over
  * HTTP only: Explore's picks and the recommended order read a destination's brief on the server.
+ * `destination_itineraries` (packages/db/src/schema/destination-itineraries.ts) is RLS "R" but read
+ * on the server only: the draft planner lays out days from a destination's itinerary.
  *
  * The community tables (packages/db/src/schema/community.ts) are shared content and their owners'
  * own rows, read over HTTP with a cache: a crew plan, its consents, copies, ratings, place rating
@@ -138,6 +140,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'content_releases',
   'destination_briefs',
   'destination_home_links',
+  'destination_itineraries',
   'destination_link_runs',
   'destination_links',
   'device_activities',

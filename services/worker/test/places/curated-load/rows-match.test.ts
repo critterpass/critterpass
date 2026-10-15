@@ -1,6 +1,7 @@
 /**
  * Reading a curated places line and choosing its row: a fee or hours without the page they were
- * read on are an estimate; a broken line is reported by number; the same name near the point is
+ * read on are an estimate; a second-version line's planning facts reach the note and its essential
+ * rank flags the place (taken back when a later file drops it); a broken line is reported by number; the same name near the point is
  * the place, a shop named after the area is not, and nothing far off or unnamed ever is.
  */
 import { describe, expect, it } from 'vitest';
@@ -14,6 +15,7 @@ import {
   type MatchCandidate,
 } from '../../../src/places/curated-load/match';
 import { parseJsonLines } from '../../../src/places/curated-load/files';
+import { mergeCuratedNote } from '../../../src/places/curated-load/load';
 import { curatedNoteLines, curatedPlaceRowSchema } from '../../../src/places/curated-load/rows';
 import { plainWords } from '../../../src/places/pick/match';
 
@@ -73,6 +75,90 @@ describe('curated places lines', () => {
     const { rows, rejected } = parseJsonLines(text, curatedPlaceRowSchema);
     expect(rows).toHaveLength(1);
     expect(rejected.map((r) => r.line)).toEqual([2, 4, 5]);
+  });
+
+  const V2 = {
+    ...LINE,
+    area: 'Jongno',
+    best_times: ['morning', 'afternoon'],
+    busy_windows: [{ days: 'weekends', from: 11, to: 15, level: 'busy' }],
+    tags: ['history', 'photo_spots'],
+    prominence: 'icon',
+    essential_rank: 1,
+    indoor: false,
+    blog_count: 6,
+    pairs_with: ['Bukchon Hanok Village', 'A place not in the file'],
+  };
+
+  it('writes a second-version line’s planning facts into the note, pairs resolved to rows', () => {
+    const { rows, rejected } = parseJsonLines(JSON.stringify(V2), curatedPlaceRowSchema);
+    expect(rejected).toEqual([]);
+    const placed = new Map([['bukchon hanok village', '0199e5a0-0000-7000-8000-000000000001']]);
+    const note = curatedNoteLines(rows[0]!, 1, placed);
+    expect(note.lines.curated).toMatchObject({
+      rank: 1,
+      best_times: ['morning', 'afternoon'],
+      essential_rank: 1,
+      tags: ['history', 'photo_spots'],
+      area: 'Jongno',
+      prominence: 'icon',
+      indoor: false,
+      blog_count: 6,
+      pairs_with: [
+        { name: 'Bukchon Hanok Village', poi_id: '0199e5a0-0000-7000-8000-000000000001' },
+        { name: 'A place not in the file' },
+      ],
+    });
+    // The first visit is built around it.
+    expect(note.lines).toMatchObject({ must_see: true, essential: true });
+    // A first-version line sets none of it.
+    const v1 = curatedNoteLines(curatedPlaceRowSchema.parse(LINE), 2);
+    expect(v1.lines.curated.best_times).toBeUndefined();
+    expect('essential' in v1.lines).toBe(false);
+  });
+
+  it('keeps a food place’s meal role and dish, and refuses facts outside the vocabulary', () => {
+    const food = {
+      ...V2,
+      category: 'food',
+      essential_rank: null,
+      meal_role: 'light',
+      dish: 'Bánh mì with pâté',
+    };
+    const note = curatedNoteLines(curatedPlaceRowSchema.parse(food), 4);
+    expect(note.lines.curated).toMatchObject({ meal_role: 'light', dish: 'Bánh mì with pâté' });
+    expect(note.lines.curated.essential_rank).toBeUndefined();
+    const text = [
+      { ...V2, best_times: ['brunch'] },
+      { ...V2, tags: ['vibes'] },
+      { ...V2, busy_windows: [{ days: 'every_day', from: 14, to: 10, level: 'busy' }] },
+      { ...V2, essential_rank: 9 },
+      { ...food, meal_role: 'feast' },
+    ]
+      .map((row) => JSON.stringify(row))
+      .join('\n');
+    expect(parseJsonLines(text, curatedPlaceRowSchema).rejected.map((r) => r.line)).toEqual([
+      1, 2, 3, 4, 5,
+    ]);
+  });
+});
+
+describe('writing a curated line over a stored note', () => {
+  const ranked = curatedNoteLines(curatedPlaceRowSchema.parse({ ...LINE, essential_rank: 2 }), 1);
+  const unranked = curatedNoteLines(curatedPlaceRowSchema.parse(LINE), 1);
+
+  it('flags a ranked place and takes the flags back when a later file drops its rank', () => {
+    const first = mergeCuratedNote({ etiquette: 'Quiet, please.' }, ranked);
+    expect(first).toMatchObject({ must_see: true, essential: true, etiquette: 'Quiet, please.' });
+    const second = mergeCuratedNote(first, unranked);
+    expect(second['must_see']).toBeUndefined();
+    expect(second['essential']).toBeUndefined();
+    expect(second['etiquette']).toBe('Quiet, please.');
+  });
+
+  it('leaves an editors’ must-see alone when no curated rank ever set it', () => {
+    const note = mergeCuratedNote({ must_see: true }, unranked);
+    expect(note['must_see']).toBe(true);
   });
 });
 
