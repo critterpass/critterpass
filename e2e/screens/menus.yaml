@@ -6,6 +6,7 @@ appId: app.critterpass.dev
 # reply strip, a toast, a sheet, a question, the guide or the share sheet. Unlike the captures,
 # this flow fails when a row shows nothing. Nothing is saved: every sheet and question is left
 # without saving, and the pin is taken off again.
+# Prose ties its last two words with a no-break space, so an expected line matches that gap with `.`.
 - runFlow:
     file: subflows/start.yaml
     env:
@@ -19,12 +20,12 @@ appId: app.critterpass.dev
     file: subflows/menu-chat-action.yaml
     env:
       KEY: reply
-      EXPECT: 'Replying to .*'
+      EXPECT: 'Replying to.*'
 - runFlow:
     file: subflows/menu-chat-action.yaml
     env:
       KEY: pin
-      EXPECT: 'Pinned to the trip'
+      EXPECT: 'Pinned to the.trip'
 - runFlow:
     file: subflows/menu-chat-action.yaml
     env:
@@ -34,7 +35,7 @@ appId: app.critterpass.dev
     file: subflows/menu-chat-action.yaml
     env:
       KEY: report
-      EXPECT: 'Report this message\?'
+      EXPECT: 'Report this.message\?'
 - runFlow: subflows/plan-home.yaml
 - runFlow: subflows/plan-open-map.yaml
 - extendedWaitUntil:

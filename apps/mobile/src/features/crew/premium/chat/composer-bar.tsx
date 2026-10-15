@@ -257,7 +257,9 @@ export function ComposerStrip({
       }}
     >
       <View style={{ flex: 1 }}>
-        <Text variant="helper">{title}</Text>
+        <Text variant="helper" numberOfLines={1}>
+          {title}
+        </Text>
         <Text variant="captionMuted" tone="muted" numberOfLines={1}>
           {line}
         </Text>
