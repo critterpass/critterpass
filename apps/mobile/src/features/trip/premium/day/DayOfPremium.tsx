@@ -7,7 +7,6 @@
  * above the keyboard, and the sections re-render only when their own rows change.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -38,11 +37,12 @@ export function DayOfReady({ props }: { readonly props: DayOfProps }) {
   const insets = useSafeAreaInsets();
   const view = props.leaveBy;
   const lead = props.firstUp;
-  // Once the hero has scrolled up (a pack field focused lifts the page), the status bar and the
-  // floating back get a ground of their own instead of sitting on the cards.
-  const [heroHeight, setHeroHeight] = useState(0);
+  // Once the page scrolls (a pack field focused lifts it), the status bar and the floating back
+  // get a ground of their own instead of sitting on the hero's time or the cards.
   const bar = insets.top + th.size.iconButton + th.space.gap12;
-  const edges = useScrollEdges({ topAfter: Math.max(0, heroHeight - bar) });
+  // The hero's big time sits low on it: the ground comes in as soon as the page moves, before
+  // the time or the cards under it can reach the clock and the back.
+  const edges = useScrollEdges({ topAfter: SCROLL_EDGE_FADE });
   const copy = view === null ? null : heroCopy(view, props.now, props.guideName, locale);
   const hero =
     copy !== null
@@ -75,21 +75,19 @@ export function DayOfReady({ props }: { readonly props: DayOfProps }) {
         contentContainerStyle={{ paddingBottom: insets.bottom + 40, gap: th.space.gap16 }}
         {...edges.scrollProps}
       >
-        <View onLayout={(event) => setHeroHeight(event.nativeEvent.layout.height)}>
-          <DayHero
-            media={props.heroMedia ?? null}
-            eyebrow={props.eyebrow}
-            forecast={props.forecast}
-            onForecast={props.onForecast}
-            label={hero.label}
-            big={hero.big}
-            {...(hero.spoken === undefined ? {} : { spoken: hero.spoken })}
-            words={hero.words}
-            countdown={view}
-            now={props.now}
-            guideName={props.guideName}
-          />
-        </View>
+        <DayHero
+          media={props.heroMedia ?? null}
+          eyebrow={props.eyebrow}
+          forecast={props.forecast}
+          onForecast={props.onForecast}
+          label={hero.label}
+          big={hero.big}
+          {...(hero.spoken === undefined ? {} : { spoken: hero.spoken })}
+          words={hero.words}
+          countdown={view}
+          now={props.now}
+          guideName={props.guideName}
+        />
         <View style={[styles.rise, { paddingHorizontal: th.space.gutter, gap: th.space.gap10 }]}>
           {props.offline ? <OfflinePill /> : null}
           {view !== null ? (

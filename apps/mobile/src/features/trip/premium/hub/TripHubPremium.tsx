@@ -80,7 +80,10 @@ export function TripHubPremium({ tripId, onBack }: TripHubPremiumProps) {
   // Once the hero has scrolled up under the status bar, the page grounds the status bar (the
   // clock sat over the briefing) and goes back to the theme's status bar content.
   const [heroHeight, setHeroHeight] = useState(0);
-  const edges = useScrollEdges({ topAfter: Math.max(0, heroHeight - insets.top) });
+  // The ground comes in while the hero's title is still clear of the clock, not after it passed.
+  const edges = useScrollEdges({
+    topAfter: Math.max(0, heroHeight - insets.top - HERO_TITLE_ROOM),
+  });
   const removal = useTripRemoval({
     tripId,
     status: trip?.status ?? '',
@@ -242,6 +245,9 @@ export function TripHubPremium({ tripId, onBack }: TripHubPremiumProps) {
     </View>
   );
 }
+
+/** How far above the hero's foot its title starts. */
+const HERO_TITLE_ROOM = 150;
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
