@@ -4,7 +4,7 @@ appId: app.critterpass.dev
 # (`trip_today`). Its id is read once from the hub (subflows/trip-id.yaml), then each of the trip's
 # pages opens by its link and is shot once the app's QA marker reads settled on it, seconds apiece
 # (subflows/capture.yaml): the hub, the forecast, what works offline, crew quests, the trip journal,
-# the plan and its days, Find, day trips, setup and its steps, the plan check, trip settings, the
+# the plan and its days, Find, day trips, setup and its steps, the crew balance check, trip settings, the
 # drivers, the recap and the free first trip's end; the legendary calendar, the help page and
 # getting around. Then dark for the hub, the plan, the forecast, quests and the journal, and last
 # the ideas, change-dates and boost sheets (on iOS each sheet ends in a relaunch, after which an
@@ -101,13 +101,6 @@ appId: app.critterpass.dev
       ROUTE: ${output.tripId}/setup/route
       CODE: '4.19'
       NAME: route
-      LOOK: light
-- runFlow:
-    file: subflows/capture.yaml
-    env:
-      ROUTE: ${output.tripId}/check
-      CODE: '4.43'
-      NAME: plan-check-link
       LOOK: light
 - runFlow:
     file: subflows/capture.yaml

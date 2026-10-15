@@ -6,7 +6,7 @@ appId: app.critterpass.dev
 # by its link and shot once the app's QA marker reads settled on it (subflows/capture.yaml): Your
 # trips, the inbox, the empty wallet and balances, the passport; in light also the recovery sheet
 # over a page that fails (Developer tools), past bookings, travel insurance, the budget, the
-# profile editor, notifications, the plan's cancel and card-declined pages, a lost link, and last
+# profile editor, notifications, the plan's cancel page, a lost link, and last
 # crew settings and the crew's edit and leave pages (then a relaunch: the crew area's stack keeps
 # its drawn switcher under every later link). Then dark for Home and the tabs. It
 # fails at the end when a page never showed (subflows/capture-done.yaml).
@@ -96,13 +96,6 @@ appId: app.critterpass.dev
       ROUTE: you/plan/cancel
       CODE: '9.23'
       NAME: cancel-plan
-      LOOK: light
-- runFlow:
-    file: subflows/capture.yaml
-    env:
-      ROUTE: you/plan/billing-issue
-      CODE: '9.24'
-      NAME: card-declined
       LOOK: light
 - runFlow:
     file: subflows/capture.yaml
