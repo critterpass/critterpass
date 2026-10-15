@@ -28,8 +28,8 @@ export interface TextFieldProps extends Omit<
 }
 
 /**
- * The 52-high field: white with a 1.5 inset grey line by default, a 2 pt ink ring while focused, a
- * 2 pt pink ring with the error line under it; the caret is blue. A label rides inside above the
+ * The 52-high field: white with a 1.5 inset grey line by default, the same line in ink while
+ * focused, a 2 pt pink ring with the error line under it; the caret is blue. A label rides inside above the
  * value once it has one, a counter sits inside on the right. The field grows with Dynamic Type
  * rather than clipping.
  */
@@ -58,12 +58,13 @@ export const TextField = forwardRef<ComponentRef<typeof TextInput>, TextFieldPro
     const filled = input.value === undefined ? typed : input.value !== '';
     const field = t.type.field;
     // Every ring is drawn inside the field, so focusing one never makes it wider than the fields
-    // beside it.
+    // beside it. Focus keeps the resting line's weight and only inks it: a 2 pt black ring read as
+    // a heavy frame beside the faint lines of the fields around it.
     const outline =
       error !== undefined
         ? ring(t.size.focusRing, t.color.destructive.fieldRing, true)
         : focused
-          ? ring(t.size.focusRing, t.color.ink, true)
+          ? ring(t.size.fieldBorder, t.color.ink, true)
           : ring(t.size.fieldBorder, t.color.fieldBorder, true);
     const note = error ?? helper;
     const showLabel = label !== undefined && (filled || focused);
