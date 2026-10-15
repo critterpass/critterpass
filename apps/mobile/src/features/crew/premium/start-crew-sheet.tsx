@@ -160,7 +160,9 @@ function StartCrewForm({ start, cover }: StartCrewFormProps) {
             )}
           </View>
         </KeyboardAwareScroll>
-        <ScrollEdgeFade edge="top" height={SCROLL_EDGE_FADE} visible={edges.top} />
+        {/* Always on: with the keyboard up the page lifts by its inset, not its offset, and the pass's
+          shadow would end in a line at the header. The stage's empty top is under it at rest. */}
+        <ScrollEdgeFade edge="top" height={SCROLL_EDGE_FADE} />
         <ScrollEdgeFade edge="bottom" height={SCROLL_EDGE_FADE} visible={edges.bottom} />
       </View>
       <KeyboardStickyFooter
