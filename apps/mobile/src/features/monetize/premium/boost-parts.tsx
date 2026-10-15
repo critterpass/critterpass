@@ -69,6 +69,8 @@ export function EntryStampCard({
         variant="noteAction"
         color={th.color.status.voteOpen.text}
         numberOfLines={2}
+        // Beside the critter the date and its reason take two lines, as the stamp is set.
+        singleLine={false}
         style={styles.entryUntil}
       >
         {until}
