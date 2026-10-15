@@ -147,17 +147,17 @@ appId: app.critterpass.dev
             - tapOn:
                 id: 'guide-starter-.*'
                 optional: true
+            # Shot the moment the step card shows (the typing dots before it are not the design's
+            # state): waiting for the screen to settle would wait out the answer itself.
             - extendedWaitUntil:
                 visible:
-                  id: 'guide-working|guide-thinking'
-                timeout: 10000
+                  id: 'guide-working'
+                timeout: 15000
                 optional: true
-            # Shot the moment the steps show: waiting for the screen to settle would wait out the
-            # answer itself.
             - runFlow:
                 when:
                   visible:
-                    id: 'guide-working|guide-thinking'
+                    id: 'guide-working'
                 commands:
                   - takeScreenshot: premium-5.18-working-${LOOK}
             - extendedWaitUntil:
