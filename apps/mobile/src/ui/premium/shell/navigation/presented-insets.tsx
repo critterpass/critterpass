@@ -10,6 +10,8 @@ import { useMemo, type ReactElement, type ReactNode } from 'react';
 import { Platform } from 'react-native';
 import { SafeAreaInsetsContext, useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useScanOnArrival, type EnteringNavigation } from '@/lib/qa/screen-entrance';
+
 import { KeyboardFooterScope } from '../keyboard/keyboard';
 import { ScrollWalkStop } from '../screens/scroll-walk-stop';
 
@@ -46,7 +48,7 @@ export interface LayoutRoute {
 
 interface ScreenLayoutArgs {
   readonly route: LayoutRoute;
-  readonly navigation: {
+  readonly navigation: EnteringNavigation & {
     readonly getState: () => { readonly routes: readonly LayoutRoute[] } | undefined;
   };
   readonly options: NativeStackNavigationOptions;
@@ -109,12 +111,19 @@ export function presentedLayoutFor(presentationOf?: PresentationOfRoute) {
     const formSheet = options.presentation === 'formSheet' && Platform.OS === 'ios';
     const scoped = (
       <KeyboardFooterScope>
+        <ArrivalScan navigation={navigation} />
         {formSheet ? <ScrollWalkStop /> : null}
         {children}
       </KeyboardFooterScope>
     );
     return top === undefined ? scoped : <SheetInsets top={top}>{scoped}</SheetInsets>;
   };
+}
+
+/** The layout checks look at a screen once it has arrived (`useScanOnArrival`). */
+function ArrivalScan({ navigation }: { readonly navigation: EnteringNavigation }): null {
+  useScanOnArrival(navigation);
+  return null;
 }
 
 /** The layout for a stack whose routes' presentations aren't known here. */

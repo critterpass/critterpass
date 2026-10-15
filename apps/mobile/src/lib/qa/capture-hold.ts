@@ -6,7 +6,8 @@
  *
  * - `qaToastHold=<ms>`: the toasts sent in the next two minutes stay up that long (the flow taps
  *   the toast away once shot);
- * - `qaZoomMs=<ms>`: the next card-to-page zoom in those two minutes runs that long.
+ * - `qaZoomMs=<ms>`: the next card-to-page zoom in those two minutes runs that long, also where
+ *   the phone reduces motion.
  *
  * Nothing else reads them, and outside development and e2e builds they never apply.
  */
@@ -42,6 +43,14 @@ export function qaToastHold(holdMs: number, now: number = Date.now(), enabled = 
     return holdMs;
   }
   return Math.max(holdMs, toastHold.ms);
+}
+
+/**
+ * Whether a capture asked for the next zoom: it then runs even where the phone reduces motion (an
+ * Android emulator with its animations off reads as Reduce Motion, which skipped the zoom).
+ */
+export function qaZoomPending(now: number = Date.now(), enabled = UI_QA_ENABLED): boolean {
+  return enabled && zoomHold !== null && now <= zoomHold.until;
 }
 
 /** How long a zoom runs: its own duration, or the capture's for the next one. */

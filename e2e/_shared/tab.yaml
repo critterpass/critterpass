@@ -22,3 +22,21 @@ appId: app.critterpass.dev
     env:
       ID: 'tab-${TAB}'
       LABEL: '${output.tabTitle}'
+# The bar can minimise just after that look, as the tab a link opened settles (Trips after
+# home-link.yaml's link): then neither the id nor the title was there to tap, and the tabs still
+# show only the lens. Opened and tapped again in that state alone.
+- runFlow:
+    when:
+      platform: iOS
+      notVisible: '${output.tabTitle}'
+      visible:
+        id: 'guide-circle'
+    commands:
+      - tapOn:
+          point: '12%,94%'
+      - runFlow: settle.yaml
+      - runFlow:
+          file: tap.yaml
+          env:
+            ID: 'tab-${TAB}'
+            LABEL: '${output.tabTitle}'

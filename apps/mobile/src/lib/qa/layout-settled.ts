@@ -26,9 +26,32 @@ export function subscribeLayoutSettled(listener: () => void): () => void {
   };
 }
 
+let entering = 0;
+
+/**
+ * Holds the layout scan while a screen is still on its way in: a push the native stack hasn't
+ * shown yet (it waits for the page under it to finish its own work) is laid out but not yet in the
+ * window, so a scroll view's system inset under the bar isn't applied. Returns the release.
+ */
+export function holdForEntrance(): () => void {
+  entering += 1;
+  let held = true;
+  return () => {
+    if (!held) return;
+    held = false;
+    entering -= 1;
+  };
+}
+
+/** True while a screen is still on its way in (`holdForEntrance`). */
+export function entranceHeld(): boolean {
+  return entering > 0;
+}
+
 /** Back to not settled (tests). */
 export function resetLayoutSettled(): void {
   settled = false;
+  entering = 0;
 }
 
 /** The same lines within a point: a text laid out again did not move or change its shape. */

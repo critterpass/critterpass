@@ -4,6 +4,7 @@ import type { ComponentRef, ReactNode } from 'react';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import Animated, {
   Easing,
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -64,12 +65,15 @@ function ZoomClone({ zoom, fallback }: { readonly zoom: ActiveZoom; readonly fal
         withTiming(0, { duration: HOP_PRE_BEAT_MS / 2, easing: standard }),
       );
     }
+    // A capture can slow the next zoom in enough to shoot it mid-way (development builds only),
+    // and it runs then even where the phone reduces motion (an emulator with animations off).
+    const duration = inward ? qaZoomMs(plan.durationMs) : UNZOOM_MS;
+    const held = inward && duration > plan.durationMs;
     progress.value = withDelay(
       plan.delayMs,
       withTiming(
         1,
-        // A capture can slow the next zoom in enough to shoot it mid-way (development builds only).
-        { duration: inward ? qaZoomMs(plan.durationMs) : UNZOOM_MS, easing: standard },
+        { duration, easing: standard, ...(held ? { reduceMotion: ReduceMotion.Never } : {}) },
         done,
       ),
     );

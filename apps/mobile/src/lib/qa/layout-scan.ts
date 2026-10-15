@@ -14,7 +14,7 @@ import {
 } from './layout-geometry';
 import { inkOf, TOUCH_PT, type QaLine } from './layout-rects';
 import { collectLayoutTree, hostRootOf, type FiberLike, type LayoutTree } from './layout-tree';
-import { resetLayoutSettled, sameLines, setSettled } from './layout-settled';
+import { entranceHeld, resetLayoutSettled, sameLines, setSettled } from './layout-settled';
 import { reportUiQa, UI_QA_ENABLED } from './ui-qa';
 
 /**
@@ -238,7 +238,7 @@ function judge(tree: LayoutTree, rects: readonly (QaRect | null)[]): void {
 
 function scan(): void {
   timer = null;
-  if (root === null) return;
+  if (root === null || entranceHeld()) return;
   const tree = collectLayoutTree(root.current, {
     route: NavigationRouteContext,
     focused: IsFocusedContext,

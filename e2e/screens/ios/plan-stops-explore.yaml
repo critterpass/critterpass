@@ -138,6 +138,15 @@ appId: app.critterpass.dev
             ITEM: ask
             NAME: ask
             LOOK: light
+      # The guide rises as a sheet, which an edge swipe doesn't close: its ✕ does.
+      - runFlow:
+          when:
+            visible:
+              id: 'guide-close'
+          commands:
+            - tapOn:
+                id: 'guide-close'
+            - runFlow: ../../_shared/settle.yaml
       - runFlow:
           when:
             notVisible:

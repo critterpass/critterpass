@@ -256,7 +256,8 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'home-search'
     optional: true
-- eraseText: 3
+# More than "Qzx" is erased: on iOS a short erase can leave its first letter ("QSing").
+- eraseText: 10
 - inputText: 'Sing'
 - extendedWaitUntil:
     visible:

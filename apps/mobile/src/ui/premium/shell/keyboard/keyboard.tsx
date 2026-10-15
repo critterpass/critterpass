@@ -81,7 +81,12 @@ export function KeyboardAwareScroll({
   }
   const { KeyboardAwareScrollView } = library;
   return (
-    <KeyboardAwareScrollView bottomOffset={bottomOffset + footer} {...shared}>
+    // The footer riding the keyboard covers the form's end: the form scrolls on past it.
+    <KeyboardAwareScrollView
+      bottomOffset={bottomOffset + footer}
+      extraKeyboardSpace={footer}
+      {...shared}
+    >
       {children}
     </KeyboardAwareScrollView>
   );

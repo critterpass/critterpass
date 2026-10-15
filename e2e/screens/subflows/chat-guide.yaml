@@ -35,6 +35,16 @@ appId: app.critterpass.dev
                       commands:
                         - tapOn:
                             id: 'guide-dietary-consent-no'
+                        # Not now still goes on to the form (no flags shared): it is closed too.
+                        - extendedWaitUntil:
+                            visible:
+                              id: 'guide-empty|guide-dietary'
+                            timeout: 10000
+                            optional: true
+                        - runFlow:
+                            file: chat-guide-return.yaml
+                            env:
+                              MARK: 'guide-dietary|guide-dietary-consent|guide-dietary-sheet'
                         - extendedWaitUntil:
                             visible:
                               id: 'guide-empty'
