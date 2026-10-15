@@ -10,7 +10,6 @@ import { tabBarHidden, tabSheetUp } from '@/lib/navigation/tab-bar';
 import { usePremiumTheme } from '../..';
 import { DrawnTabBar } from './drawn-tab-bar';
 import { useGuideActions, type GuideActions } from './guide-circle';
-import { focusedPath, useTabBarHiddenAfterMoves } from './tab-bar-after-push';
 import { TabBarShownContext } from './tab-bar-shown';
 import { GUIDE_TAB_IMAGE, TAB_ICONS, type PremiumTabIcon } from './tab-icons';
 
@@ -64,8 +63,6 @@ export function PremiumTabs({
   const pushed = tabBarHidden(rootState);
   // Android's drawn bar would draw over a tab's sheet (the iPhone's sits under it by itself).
   const sheetUp = tabSheetUp(rootState);
-  // The iPhone's system bar comes back as a move inside a tab lands, so it hides after each one.
-  const hiddenOnIos = useTabBarHiddenAfterMoves(pushed, focusedPath(rootState));
 
   if (gated && decision.kind === 'wait') return null;
   if (gated && decision.kind === 'redirect') return <Redirect href={decision.href} />;
@@ -107,7 +104,7 @@ export function PremiumTabs({
         iconColor={{ default: color.inkSecondary, selected: color.ink }}
         indicatorColor={color.control}
         labelVisibilityMode="labeled"
-        hidden={hiddenOnIos}
+        hidden={pushed}
       >
         {items.map((tab) => (
           <NativeTabs.Trigger
