@@ -1,0 +1,179 @@
+appId: app.critterpass.dev
+---
+# The fast capture of Home and the tabs, by link, on the Bali demo crew (`vote`: `everyday` with an
+# open vote, so Home scrolls; its organiser): Home with its trip card and the tab bar shrunk by a
+# scroll, then each page opened
+# by its link and shot once the app's QA marker reads settled on it (subflows/capture.yaml): Your
+# trips, the inbox, the empty wallet and balances, the passport; in light also the recovery sheet
+# over a page that fails (Developer tools), past bookings, travel insurance, the budget, the
+# profile editor, notifications, the plan's cancel page, a lost link, and last
+# crew settings and the crew's edit and leave pages (then a relaunch: the crew area's stack keeps
+# its drawn switcher under every later link). Then dark for Home and the tabs. It
+# fails at the end when a page never showed (subflows/capture-done.yaml).
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: vote
+- runFlow: subflows/crew-id.yaml
+- runFlow: subflows/recovery-fail.yaml
+- runFlow:
+    file: subflows/links-home-top.yaml
+    env:
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: trips
+      CODE: '3.05'
+      NAME: trips-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: inbox
+      CODE: '3.17'
+      NAME: inbox-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: wallet/bookings
+      CODE: '7.01'
+      NAME: bookings-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: wallet/money
+      CODE: '7.16'
+      NAME: balances-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: pass
+      CODE: '9.01'
+      NAME: profile-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: wallet/bookings/archive
+      CODE: '7.14'
+      NAME: archive
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: wallet/bookings/insurance
+      CODE: '7.13'
+      NAME: insurance-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: wallet/money/budget
+      CODE: '7.29'
+      NAME: budget-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: you/edit
+      CODE: '9.02'
+      NAME: edit-profile-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: you/pings
+      CODE: '6.38'
+      NAME: notifications-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: you/plan/cancel
+      CODE: '9.23'
+      NAME: cancel-plan
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: nowhere-at-all
+      CODE: '3.19'
+      NAME: lost-link-link
+      LOOK: light
+      READY: 'not-found'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: crew/${output.crewId}/settings
+      CODE: '3.12'
+      NAME: crew-settings-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: crew/${output.crewId}/edit
+      CODE: '3.13'
+      NAME: edit-crew-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: crew/${output.crewId}/leave
+      CODE: '3.16'
+      NAME: leave-crew
+      LOOK: light
+- runFlow: subflows/relaunch-home.yaml
+# On iOS the revisits of the wallet and pass tabs in dark found the screen right but not the
+# marker's route (it never read them, after the relaunch and the appearance sheet): those three are
+# waited for by their own page's id.
+- runFlow:
+    file: subflows/appearance.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/links-home-top.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: trips
+      CODE: '3.05'
+      NAME: trips-link
+      LOOK: dark
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: inbox
+      CODE: '3.17'
+      NAME: inbox-link
+      LOOK: dark
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: wallet/bookings
+      CODE: '7.01'
+      NAME: bookings-link
+      LOOK: dark
+      READY: 'bookings-wallet-(empty|ready)'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: wallet/money
+      CODE: '7.16'
+      NAME: balances-link
+      LOOK: dark
+      READY: 'money-(ready|none|syncing)'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: pass
+      CODE: '9.01'
+      NAME: profile-link
+      LOOK: dark
+      READY: 'you-profile'
+- runFlow: subflows/capture-done.yaml

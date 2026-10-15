@@ -1,5 +1,5 @@
 /**
- * One expense in a premium list (7.17 "Latest", 7.23): the category tile, what it was and who paid
+ * One expense in a premium list (7.17 "Latest", 7.23): the category sticker, what it was and who paid
  * (with anyone left out), and the amount in the crew currency. A queued change reads as waiting; a
  * queued delete strikes the amount through.
  */
@@ -7,10 +7,10 @@ import { useLingui } from '@lingui/react/macro';
 import { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { PrivateContent } from '@/features/help';
 import { homeEquivalent, useMoneyDisplay } from '@/data/money';
-import { IconTile } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { PressableScale, StickerIcon, Text, usePremiumTheme } from '@/ui/premium';
 
 import { useCategoryLabel } from '../../components/category';
 import type { ExpenseItem } from '../../data/expense-items';
@@ -73,21 +73,27 @@ export const ExpenseRow = memo(function ExpenseRow({
           },
         ]}
       >
-        <IconTile name={look.icon} bg={look.bg} color={look.color} size={46} />
+        {/* The bare category sticker, as the design draws the list (no tile behind it). */}
+        <StickerIcon name={look.icon} size={40} tilt={-6} />
         <View style={styles.body}>
           <Text variant="rowTitle" numberOfLines={2}>
             {title}
           </Text>
-          <Text variant="captionMuted" tone="muted" numberOfLines={2}>
-            {parts.join(' · ')}
-          </Text>
+          <PrivateContent>
+            <Text variant="captionMuted" tone="muted" numberOfLines={2}>
+              {parts.join(' · ')}
+            </Text>
+          </PrivateContent>
         </View>
-        <Text
-          variant="rowTitle"
-          style={[styles.amount, item.pending === 'delete' ? styles.struck : null]}
-        >
-          {amount}
-        </Text>
+        <PrivateContent style={styles.amountBox}>
+          <Text
+            variant="rowTitle"
+            numberOfLines={1}
+            style={[styles.amount, item.pending === 'delete' ? styles.struck : null]}
+          >
+            {amount}
+          </Text>
+        </PrivateContent>
       </View>
     </PressableScale>
   );
@@ -95,7 +101,8 @@ export const ExpenseRow = memo(function ExpenseRow({
 
 const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', minHeight: 44 },
-  body: { flex: 1 },
+  body: { flex: 1, minWidth: 0 },
+  amountBox: { flexShrink: 0 },
   amount: { fontVariant: ['tabular-nums'] },
   struck: { textDecorationLine: 'line-through' },
 });

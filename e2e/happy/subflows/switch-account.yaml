@@ -1,0 +1,62 @@
+appId: app.critterpass.dev
+---
+# Developer tools → Test accounts: ${TARGET} keeps the signed-in account and either starts a new
+# one (dev-accounts-new) or signs a kept one back in (dev-accounts-switch-<n>, in the order they
+# were kept). The app clears its local data and restarts on the new session.
+- runFlow: ../../_shared/open-dev-tools.yaml
+# The list can open scrolled down (it keeps its place): back to its top, then down to the row,
+# centred, so the tap lands on it and not on the edge of the screen.
+- scrollUntilVisible:
+    element:
+      id: 'dev-build-marker'
+    direction: UP
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-accounts'
+    timeout: 15000
+    speed: 20
+    centerElement: true
+- tapOn:
+    id: 'dev-nav-accounts'
+- extendedWaitUntil:
+    visible:
+      id: ${TARGET}
+    timeout: 20000
+- tapOn:
+    id: ${TARGET}
+# The app restarts on the new session; Home sends a brand-new account to onboarding. The restart
+# can come back on Developer tools or "Start as" with nothing under it (a back would leave the
+# app): Home's link, or the Start as card, then takes it out.
+- waitForAnimationToEnd:
+    timeout: 5000
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open|home-screen|dev-build-marker|dev-nav-.*|start-as-ready'
+    timeout: 60000
+# Or on the "Start as" page the install began on: its card opens Home.
+- runFlow:
+    when:
+      visible:
+        id: 'start-as-ready'
+    commands:
+      - tapOn:
+          id: 'start-as-ready'
+      - waitForAnimationToEnd
+- runFlow:
+    when:
+      notVisible:
+        id: 'onboarding-open|home-screen'
+    commands:
+      - openLink:
+          link: critterpass-dev://
+          optional: true
+      - runFlow:
+          when:
+            visible: 'Open'
+          commands:
+            - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open|home-screen|tab-home'
+    timeout: 60000

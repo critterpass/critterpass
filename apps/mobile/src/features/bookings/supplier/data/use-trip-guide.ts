@@ -1,7 +1,7 @@
 /** The trip's guide (slug and name) for the disclosure line and guide notes. Tokek stands in as guest guide. */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, table names and guide ids, never copy. */
-import { isGuideStickerId } from '@/ui/avatar/guides';
-import type { GuideId } from '@/ui/people/GuideLine';
+import { isGuideStickerId } from '@/ui/premium/stickers/guides';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 import { useLiveRows } from '../../data/live-rows';
 

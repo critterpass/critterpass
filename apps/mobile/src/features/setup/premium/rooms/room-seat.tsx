@@ -83,7 +83,7 @@ export function RoomSeat(props: {
         { borderRadius: FACE / 2 },
       ]}
     >
-      <Avatar name={name} color={crewAccent(props.joinIndex)} size={FACE} />
+      <Avatar name={name} color={crewAccent(props.joinIndex)} uid={uid} size={FACE} />
     </View>
   );
   const label = props.picked

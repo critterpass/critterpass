@@ -290,7 +290,7 @@ object CpPremium {
         colorSegmentThumb = premiumColor("#3d404c"),
         colorToggleOn = premiumColor("#34c77b"),
         colorToggleOff = premiumColor("rgba(120,120,128,.32)"),
-        colorToggleKnob = premiumColor("#1c1d24"),
+        colorToggleKnob = premiumColor("#ffffff"),
         colorCaret = premiumColor("#4f86ff"),
         colorOnAccent = premiumColor("#17142a"),
         colorOnInk = premiumColor("#15161b"),

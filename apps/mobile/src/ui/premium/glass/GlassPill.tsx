@@ -49,7 +49,12 @@ export function GlassPill({
         gap: t.space.gap6,
       }}
     >
-      {icon === undefined ? null : <Icon name={icon} size={t.size.glyph} color={fg} />}
+      {icon === undefined ? null : icon === 'heart' ? (
+        // A heart on a glass pill is a count of likes (4.42's matches): the design fills it pink.
+        <Icon name="heartFill" size={t.size.glyph} color={t.accent.pink} />
+      ) : (
+        <Icon name={icon} size={t.size.glyph} color={fg} />
+      )}
       <View style={{ alignItems: 'center' }}>
         <Text variant="glassTitle" color={fg} numberOfLines={1}>
           {label}

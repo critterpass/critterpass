@@ -1,0 +1,35 @@
+appId: app.critterpass.dev
+---
+# On the plan map, opens day ${DAY}: its chip (a trip under way opens on today's day, chips on
+# top), or its row in the whole trip's list. The sheet is then pulled up to half so the day's
+# timeline shows its stops.
+- runFlow:
+    when:
+      visible:
+        id: 'day-chip-${DAY}'
+    commands:
+      - tapOn:
+          id: 'day-chip-${DAY}'
+- runFlow:
+    when:
+      notVisible:
+        id: 'day-chip-${DAY}'
+    commands:
+      - tapOn:
+          id: 'trip-day-${DAY}'
+- waitForAnimationToEnd
+- repeat:
+    while:
+      notVisible:
+        id: 'timeline-stop-.*'
+    times: 2
+    commands:
+      - swipe:
+          start: 50%, 72%
+          end: 50%, 38%
+          duration: 600
+      - waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'timeline-stop-.*'
+    timeout: 30000

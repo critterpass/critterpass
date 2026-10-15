@@ -1,8 +1,13 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { PitchSheet } from '@/features/vote/board/pitch-sheet';
+import { PremiumPitchSheet } from '@/features/vote/premium/pitch/pitch-sheet';
 
-export default function PitchRoute() {
+function usePitchParams() {
   const { crewId, placeId } = useLocalSearchParams<{ crewId: string; placeId?: string }>();
-  return <PitchSheet crewId={crewId} placeId={placeId} />;
+  return { crewId, placeId };
+}
+
+/** Pitch a place as a native sheet over the page that opened it. */
+export default function PitchRoute() {
+  return <PremiumPitchSheet {...usePitchParams()} />;
 }

@@ -1,24 +1,25 @@
-import { useLocalSearchParams } from 'expo-router';
+/* eslint-disable lingui/no-unlocalized-strings -- route paths, not copy. */
+import { Redirect, useLocalSearchParams } from 'expo-router';
 
-import { DayOfScreen } from '@/features/trip/day-of/day-of-screen';
 import { TODAY } from '@/features/trip/hub/routes';
-import { LocalFirstGate } from '@/features/trip/hub/local-first-gate';
-import { DayOfPremium } from '@/features/trip/premium/day/DayOfPremium';
-import { usePremiumUi } from '@/lib/premium-ui';
 
-/** The day-of screen (3k-2, 6.04, 6.05) for one trip date; `today` is the trip's own today. */
-export default function TripDayRoute() {
+function useDay(): { readonly tripId: string | null; readonly date: string } {
   const { tripId, date } = useLocalSearchParams<{ tripId: string; date: string }>();
-  const premium = usePremiumUi();
-  if (typeof tripId !== 'string') return null;
-  const day = typeof date === 'string' ? date : TODAY;
+  return { tripId: typeof tripId === 'string' ? tripId : null, date: date ?? TODAY };
+}
+
+/** The premium UI shows the day-of page (6.04, 6.05) on the hub's stack over the tabs. */
+function DayOverHub() {
+  const { tripId, date } = useDay();
   return (
-    <LocalFirstGate>
-      {premium ? (
-        <DayOfPremium tripId={tripId} date={day} />
-      ) : (
-        <DayOfScreen tripId={tripId} date={day} />
-      )}
-    </LocalFirstGate>
+    <Redirect
+      href={
+        tripId === null
+          ? '/(tabs)/trips'
+          : { pathname: '/(trip)/hub/[tripId]/day/[date]', params: { tripId, date } }
+      }
+    />
   );
 }
+
+export default DayOverHub;

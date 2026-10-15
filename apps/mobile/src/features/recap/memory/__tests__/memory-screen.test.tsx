@@ -5,6 +5,7 @@
  */
 jest.mock('@/motion/use-loop', () => ({ useLoop: () => ({}) }));
 jest.mock('expo-router', () => ({
+  Stack: Object.assign(() => null, { Screen: () => null }),
   useIsFocused: () => true,
   router: {
     push: jest.fn(),
@@ -25,9 +26,9 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
-import { TRIP } from '../../dev/recap-fixtures';
+import { TRIP } from '../../test-support/recap-fixtures';
 import { renderRecap, seedTrip, until } from '../../test-support/recap-harness';
-import { MemoryScreen } from '../memory-screen';
+import { PremiumMemoryScreen } from '../../premium/memory-screen';
 
 const UNKNOWN = '0192f000-0000-7000-8000-00000000dead';
 
@@ -44,7 +45,7 @@ describe('year-later memory', () => {
   it('says a memory that is not on this phone is not here, and goes Home from a cold open', async () => {
     stack = await openTestLocalFirst({ holdUploads: true });
     await seedTrip(stack);
-    await renderRecap(<MemoryScreen memoryId={UNKNOWN} tripId={TRIP} />, stack);
+    await renderRecap(<PremiumMemoryScreen memoryId={UNKNOWN} tripId={TRIP} />, stack);
     await until(() => screen.queryByTestId('memory-missing') !== null);
     await fireEvent.press(screen.getByTestId('memory-missing-back'));
     expect(router.replace).toHaveBeenLastCalledWith('/');
@@ -52,7 +53,7 @@ describe('year-later memory', () => {
 
   it('does the same for a link that names no trip', async () => {
     stack = await openTestLocalFirst({ holdUploads: true });
-    await renderRecap(<MemoryScreen memoryId={UNKNOWN} tripId={null} />, stack);
+    await renderRecap(<PremiumMemoryScreen memoryId={UNKNOWN} tripId={null} />, stack);
     await until(() => screen.queryByTestId('memory-missing') !== null);
     expect(screen.queryByTestId('memory-waiting')).toBeNull();
   });

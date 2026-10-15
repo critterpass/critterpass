@@ -12,13 +12,13 @@ export function guideTagline(guide: GuideFacts, place: string): string {
   if (guide.guest) {
     return t({
       id: 'explore.guide.guestLine',
-      message: "Not my island, but I've done my homework.",
+      message: 'Not my island, but I’ve done my homework.',
     });
   }
   if (guide.learning) {
     return t({
       id: 'explore.guide.learningLine',
-      message: `I'm still learning ${place}. Nobody has checked my picks here yet.`,
+      message: `I’m still learning ${place}. Nobody has checked my picks here yet.`,
     });
   }
   if (guide.id === 'tokek') {

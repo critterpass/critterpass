@@ -5,12 +5,22 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- style values, never copy. */
 import { t } from '@lingui/core/macro';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import type { CrewCover } from '@cp/domain';
 
-import { Card, CritterSticker, Icon, PressableScale, ring, usePremiumTheme } from '@/ui/premium';
-import { GUIDE_AVATAR_IDS, guideSticker } from '@/ui/avatar/guides';
+import {
+  Card,
+  CritterSticker,
+  Icon,
+  PressableScale,
+  ring,
+  ROW_ROOM_ABOVE,
+  ROW_ROOM_BELOW,
+  ScrollRow,
+  usePremiumTheme,
+} from '@/ui/premium';
+import { GUIDE_AVATAR_IDS, guideSticker } from '@/ui/premium/stickers/guides';
 
 import type { CoverOption } from '../crew-look';
 
@@ -91,39 +101,45 @@ export function CoverPicker({
 }) {
   const th = usePremiumTheme();
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
+    // Reaches through the page's gutter, so the books past the sixth scroll in from the screen's
+    // edge instead of being cut at the padding.
+    <ScrollRow
+      gap={12}
+      bleed={th.space.gutter}
       contentContainerStyle={styles.covers}
       style={styles.coverStrip}
       testID={testID}
     >
-      {options.map((option) => {
-        const on = option.cover === value;
-        return (
-          <PressableScale
-            key={option.cover}
-            accessibilityRole="radio"
-            accessibilityState={{ selected: on, disabled: option.locked }}
-            accessibilityLabel={coverName(option.cover)}
-            onPress={() => (option.locked ? onLocked(option.cover) : onPick(option.cover))}
-            testID={`${testID ?? 'cover'}-${option.cover}`}
-            style={[
-              styles.book,
-              { backgroundColor: option.fill },
-              option.locked && { opacity: 0.45 },
-              on && {
-                transform: [{ translateY: -8 }, { rotate: '-4deg' }],
-                boxShadow: `${ring(3, th.color.ground)}, ${ring(5, th.color.ink)}`,
-              },
-            ]}
-          >
-            {option.locked ? <Icon name="lock" size={14} color={th.accent.stickerEdge} /> : null}
-            {on ? <Check /> : null}
-          </PressableScale>
-        );
-      })}
-    </ScrollView>
+      {/* The six free covers fill the row as the design sets it; an earned cover joins them once
+          it is unlocked (and one already on the crew always shows). */}
+      {options
+        .filter((option) => !option.locked || option.cover === value)
+        .map((option) => {
+          const on = option.cover === value;
+          return (
+            <PressableScale
+              key={option.cover}
+              accessibilityRole="radio"
+              accessibilityState={{ selected: on, disabled: option.locked }}
+              accessibilityLabel={coverName(option.cover)}
+              onPress={() => (option.locked ? onLocked(option.cover) : onPick(option.cover))}
+              testID={`${testID ?? 'cover'}-${option.cover}`}
+              style={[
+                styles.book,
+                { backgroundColor: option.fill },
+                option.locked && { opacity: 0.45 },
+                on && {
+                  transform: [{ translateY: -8 }, { rotate: '-4deg' }],
+                  boxShadow: `${ring(3, th.color.ground)}, ${ring(5, th.color.ink)}`,
+                },
+              ]}
+            >
+              {option.locked ? <Icon name="lock" size={14} color={th.accent.stickerEdge} /> : null}
+              {on ? <Check /> : null}
+            </PressableScale>
+          );
+        })}
+    </ScrollRow>
   );
 }
 
@@ -156,10 +172,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // One row that scrolls sideways (the Pass+ covers sit past the sixth), with room for the
-  // picked book's lift and ring.
-  coverStrip: { marginHorizontal: -8, overflow: 'visible' },
-  covers: { flexDirection: 'row', gap: 12, paddingTop: 14, paddingBottom: 6, paddingHorizontal: 8 },
+  // One row that scrolls sideways (the Pass+ covers sit past the sixth): the row keeps room for
+  // the picked book's lift, ring and shadow, and lays out with 14 above and 6 below as before.
+  coverStrip: { marginTop: 14 - ROW_ROOM_ABOVE, marginBottom: 6 - ROW_ROOM_BELOW },
+  covers: { alignItems: 'flex-start' },
   book: {
     width: 40,
     height: 52,

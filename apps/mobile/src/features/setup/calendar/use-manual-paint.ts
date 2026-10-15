@@ -6,7 +6,7 @@
  */
 import { useRef } from 'react';
 
-import type { DragHandlers } from '../when/day-grid';
+import type { DragHandlers } from '../premium/calendar/day-grid';
 import {
   datesBetween,
   paintMode,

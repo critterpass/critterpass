@@ -8,7 +8,7 @@ import { t } from '@lingui/core/macro';
 
 import { driverPickTitle } from '@/features/drivers';
 
-import type { ChangeCard } from './model/review-model';
+import type { ChangeCard, ChangesetState } from './model/review-model';
 import { reviewTitle } from './review-copy';
 
 export interface ChangeTitleInput {
@@ -70,5 +70,24 @@ export function changeTitle(input: ChangeTitleInput): string {
     // A driver pick among other changes keeps the counted headline.
     case 'assign_provider':
       return reviewTitle(input.trigger, input.cards.length);
+  }
+}
+
+export function stateWord(state: ChangesetState): string {
+  switch (state) {
+    case 'draft':
+      return t({ id: 'plan.card.state.draft', message: 'Not sent' });
+    case 'voting':
+      return t({ id: 'plan.card.state.voting', message: 'Voting' });
+    case 'approved':
+      return t({ id: 'plan.card.state.approved', message: 'Approved' });
+    case 'applying':
+      return t({ id: 'plan.card.state.applying', message: 'Approved' });
+    case 'rejected':
+      return t({ id: 'plan.card.state.rejected', message: 'Kept as is' });
+    case 'expired':
+      return t({ id: 'plan.card.state.expired', message: 'Ran out' });
+    case 'stale':
+      return t({ id: 'plan.card.state.stale', message: 'Out of date' });
   }
 }

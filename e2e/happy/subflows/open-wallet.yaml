@@ -1,0 +1,23 @@
+appId: app.critterpass.dev
+---
+# Opens the WALLET tab on its ${HALF} half (money or bookings) and waits for that half to load:
+# Money ends on `money-ready`, `money-none` or `money-syncing`; Bookings on its wallet stack or its
+# empty state.
+- runFlow:
+    file: ../../_shared/tab.yaml
+    env:
+      TAB: wallet
+      LABEL: Wallet
+- extendedWaitUntil:
+    visible:
+      id: 'wallet-switch'
+    timeout: 30000
+- runFlow:
+    file: ../../_shared/tap.yaml
+    env:
+      ID: 'wallet-switch-${HALF}'
+      LABEL: "${HALF == 'money' ? 'Money' : 'Bookings'}"
+- extendedWaitUntil:
+    visible:
+      id: "${HALF == 'money' ? 'money-(ready|none|syncing)' : 'bookings-wallet-(empty|ready)'}"
+    timeout: 30000

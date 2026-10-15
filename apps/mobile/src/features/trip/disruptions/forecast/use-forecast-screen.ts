@@ -17,7 +17,7 @@ import { goBackOr } from '@/lib/navigation/back';
 import { useLiveRows } from '../../hub/data/live-rows';
 import { guideOr } from '../../hub/guide';
 import { tripDayRoute } from '../../hub/routes';
-import type { ForecastViewProps } from './forecast-view';
+import type { ForecastViewProps } from './view-types';
 import { forecastModel, type DayRow, type SnapshotRow, type WatchRowData } from './model';
 
 const TRIP_SQL = `SELECT t.destination_id, coalesce(t.tz, d.tz, 'UTC') AS tz, d.name AS place,

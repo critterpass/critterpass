@@ -1,0 +1,28 @@
+appId: app.critterpass.dev
+---
+# From Home to the trip's plan on one map: the hub's Plan door (or its Plan tile). The map is
+# ready when its top bar's search pill shows. The tile is tried only when the door didn't open the
+# map: the hub stays in the hierarchy for a moment as the map pushes over it.
+- runFlow: plan-open-hub.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'trip-hub-door-plan'
+    commands:
+      - tapOn:
+          id: 'trip-hub-door-plan'
+- runFlow:
+    when:
+      visible:
+        id: 'trip-hub-tile-plan'
+      notVisible:
+        id: 'plan-map-search'
+    commands:
+      - tapOn:
+          id: 'trip-hub-tile-plan'
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-map-search'
+    timeout: 30000
+    optional: true

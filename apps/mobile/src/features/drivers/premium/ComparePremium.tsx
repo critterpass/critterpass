@@ -9,7 +9,15 @@ import { ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { guideCritterKind } from '@/features/trip';
-import { Button, GuideNote, LoadingCritter, Text, TextButton, usePremiumTheme } from '@/ui/premium';
+import {
+  Button,
+  EmptyState,
+  GuideNote,
+  LoadingCritter,
+  Text,
+  TextButton,
+  usePremiumTheme,
+} from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
 import { useCompare } from '../compare/use-compare';
@@ -38,7 +46,7 @@ export function ComparePremium(props: {
     (state.kind === 'offline' && state.data === null)
   ) {
     return (
-      <PushScreen title={title} backLabel={back} testID="drivers-compare-loading">
+      <PushScreen largeTitle title={title} backLabel={back} testID="drivers-compare-loading">
         {state.kind === 'loading' ? (
           <LoadingCritter
             label={t({ id: 'drivers.compare.loading', message: 'Loading the shortlist' })}
@@ -54,7 +62,7 @@ export function ComparePremium(props: {
                     id: 'drivers.premium.offline',
                     message: 'This needs signal. Try again when you have some.',
                   })
-                : t({ id: 'drivers.premium.failed', message: "That didn't load. Try again." })}
+                : t({ id: 'drivers.premium.failed', message: 'That didn’t load. Try again.' })}
             </Text>
             <Button
               label={t({ id: 'drivers.premium.retry', message: 'Try again' })}
@@ -71,24 +79,33 @@ export function ComparePremium(props: {
   if (drivers.length === 0) {
     return (
       <PushScreen
+        largeTitle
         title={t({ id: 'drivers.premium.compareNoneTitle', message: 'Compare' })}
         subtitle={compare.header}
         backLabel={back}
+        scroll={false}
         testID="drivers-compare-empty"
       >
-        <View style={[styles.failed, { padding: th.space.gutter }]}>
-          <Text variant="body" tone="muted" align="center">
-            {t({
-              id: 'drivers.premium.compareNone',
-              message:
-                'Nobody on the shortlist yet. Save two or three drivers to compare them here.',
+        {/* Nothing else on the page: the empty state takes the room left, in its optical centre. */}
+        <View style={[styles.none, { paddingHorizontal: th.space.gutter }]}>
+          <EmptyState
+            fill
+            title={t({
+              id: 'drivers.premium.compareNoneHead',
+              message: 'Nobody on the shortlist yet',
             })}
-          </Text>
-          <Button
-            label={t({ id: 'drivers.premium.compareFind', message: 'Find drivers' })}
-            variant="secondary"
-            onPress={compare.addAnother}
-            testID="drivers-compare-add"
+            line={t({
+              id: 'drivers.premium.compareNoneLine',
+              message: 'Save two or three drivers and they line up here side by side.',
+            })}
+            check={false}
+            action={
+              <Button
+                label={t({ id: 'drivers.premium.compareFind', message: 'Find drivers' })}
+                onPress={compare.addAnother}
+                testID="drivers-compare-add"
+              />
+            }
           />
         </View>
       </PushScreen>
@@ -117,10 +134,19 @@ export function ComparePremium(props: {
   };
   return (
     <PushScreen
+      largeTitle
       title={title}
       subtitle={compare.header}
       backLabel={back}
       scroll={false}
+      // The picks stand on the page's ground under the table, never over the guide's note.
+      footer={
+        docked && drivers.length > 0 ? (
+          <View style={styles.footer}>
+            {drivers.map((_, index) => pick(index, index === lead ? 1.2 : 1))}
+          </View>
+        ) : undefined
+      }
       testID="drivers-compare"
     >
       <ScrollView
@@ -130,7 +156,7 @@ export function ComparePremium(props: {
           {
             paddingHorizontal: th.space.gutter,
             gap: th.space.gap12,
-            paddingBottom: insets.bottom + (docked ? 96 : 32),
+            paddingBottom: docked ? th.space.gap16 : insets.bottom + 32,
           },
         ]}
       >
@@ -176,6 +202,7 @@ export function ComparePremium(props: {
         {drivers.length < 2 ? (
           <View style={styles.center}>
             <TextButton
+              align="center"
               label={t({ id: 'drivers.compare.addAnother', message: 'Add another to compare' })}
               onPress={compare.addAnother}
               testID="drivers-compare-add"
@@ -183,24 +210,15 @@ export function ComparePremium(props: {
           </View>
         ) : null}
       </ScrollView>
-      {docked && drivers.length > 0 ? (
-        <View
-          style={[
-            styles.footer,
-            { bottom: insets.bottom + 12, left: th.space.gutter, right: th.space.gutter },
-          ]}
-        >
-          {drivers.map((_, index) => pick(index, index === lead ? 1.2 : 1))}
-        </View>
-      ) : null}
     </PushScreen>
   );
 }
 
 const styles = StyleSheet.create({
+  none: { flex: 1, paddingTop: 32 },
   body: { paddingTop: 8 },
   failed: { gap: 12 },
   pickRow: { flexDirection: 'row', gap: TABLE_GAP, paddingBottom: 6 },
   center: { alignItems: 'center' },
-  footer: { position: 'absolute', flexDirection: 'row', gap: 8 },
+  footer: { flexDirection: 'row', gap: 8 },
 });

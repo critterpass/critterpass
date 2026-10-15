@@ -1,63 +1,73 @@
 appId: app.critterpass.dev
 ---
-# SLIDE TO BOARD on the boarding pass. The knob sits at the start of the track. Android finds it by
-# id; iOS reads the track as one element, so the drag starts where the knob rests: low on the
-# screen at the left, about 79% down on the gate's iPhone 17, a little higher or lower when the
-# pass above it wraps differently. Each try runs only while the boarded egg hasn't shown.
+# Slide to board on the boarding pass. The knob sits at the start of the track and has no id of its
+# own (the track, `board-slide`, is one element), so the drag starts where the knob rests: low on
+# the screen at the left, about 87% down on the gate's phones, a little higher or lower when the
+# pass above it wraps differently. The drag starts on the knob's left edge, off the arrow icon at
+# its centre. A busy emulator can drop most of a quick drag, so a slower one follows. Each try
+# waits for the screen to settle and runs only while the boarded egg hasn't shown.
 - runFlow:
     when:
-      platform: Android
+      notVisible:
+        id: 'board-egg'
     commands:
+      - waitForAnimationToEnd:
+          timeout: 5000
       - swipe:
-          from:
-            id: 'board-knob'
-          direction: RIGHT
-          duration: 1200
+          start: 8%, 87%
+          end: 96%, 87%
+          duration: 600
+      - waitForAnimationToEnd:
+          timeout: 3000
 - runFlow:
     when:
-      platform: iOS
+      notVisible:
+        id: 'board-egg'
     commands:
-      - runFlow:
-          when:
-            notVisible:
-              id: 'board-egg'
-          commands:
-            - swipe:
-                start: 15%, 79%
-                end: 96%, 79%
-                duration: 1200
-            - waitForAnimationToEnd:
-                timeout: 3000
-      - runFlow:
-          when:
-            notVisible:
-              id: 'board-egg'
-          commands:
-            - swipe:
-                start: 15%, 82%
-                end: 96%, 82%
-                duration: 1200
-            - waitForAnimationToEnd:
-                timeout: 3000
-      - runFlow:
-          when:
-            notVisible:
-              id: 'board-egg'
-          commands:
-            - swipe:
-                start: 15%, 76%
-                end: 96%, 76%
-                duration: 1200
-            - waitForAnimationToEnd:
-                timeout: 3000
-      - runFlow:
-          when:
-            notVisible:
-              id: 'board-egg'
-          commands:
-            - swipe:
-                start: 15%, 86%
-                end: 96%, 86%
-                duration: 1200
-            - waitForAnimationToEnd:
-                timeout: 3000
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - swipe:
+          start: 8%, 87%
+          end: 96%, 87%
+          duration: 2000
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    when:
+      notVisible:
+        id: 'board-egg'
+    commands:
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - swipe:
+          start: 8%, 84%
+          end: 96%, 84%
+          duration: 600
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    when:
+      notVisible:
+        id: 'board-egg'
+    commands:
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - swipe:
+          start: 8%, 90%
+          end: 96%, 90%
+          duration: 600
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    when:
+      notVisible:
+        id: 'board-egg'
+    commands:
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - swipe:
+          start: 13%, 87%
+          end: 96%, 87%
+          duration: 1200
+      - waitForAnimationToEnd:
+          timeout: 3000

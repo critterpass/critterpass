@@ -10,7 +10,7 @@ import { watchRows } from '@/data/status/watch-rows';
 
 import type { CrewLastMessage } from '../../crews-sheet/badge-slot';
 import { quoted } from './rows';
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName } from '@/lib/people/member-name';
 
 const TABLES = ['messages', 'users', 'guides'];
 

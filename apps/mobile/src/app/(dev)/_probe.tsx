@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/react/macro';
 import { StyleSheet, View } from 'react-native';
-import { Scaffold, Text } from '@/ui';
+import { Scaffold, Text } from '@/features/dev-tools/dev-kit';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.

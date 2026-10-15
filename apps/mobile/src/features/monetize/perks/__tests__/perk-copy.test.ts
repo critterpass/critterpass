@@ -41,12 +41,12 @@ describe('compareRows', () => {
 
   it('drops a row when its perk is switched off', () => {
     const on = compareRows([perk('boost_live_map', 'boost', 1), perk('boost_seats', 'boost', 2)]);
-    expect(on.map((row) => row.id)).toEqual(['seats', 'live_map']);
+    expect(on.map((row) => row.id)).toEqual(['seats', 'live_map', 'covers']);
     const off = compareRows([
       perk('boost_live_map', 'boost', 1, false),
       perk('boost_seats', 'boost', 2),
     ]);
-    expect(off.map((row) => row.id)).toEqual(['seats']);
+    expect(off.map((row) => row.id)).toEqual(['seats', 'covers']);
   });
 
   it('a plan whose own perk is off reads as free does in a shared row', () => {

@@ -6,14 +6,16 @@ import { dateLine } from '../trip-map/format';
 
 const MINUTES_PER_DAY = 24 * 60;
 
-/** "07:00" for minutes after local midnight (an overnight minute wraps to the next morning). */
+/**
+ * "07:00" for minutes after local midnight (an overnight minute wraps to the next morning). The
+ * plan writes the 24-hour clock the design and the day-of screens use, unless the reader chose
+ * the 12-hour one in Settings.
+ */
 export function clock(locale: string, minutes: number): string {
   const inDay = ((minutes % MINUTES_PER_DAY) + MINUTES_PER_DAY) % MINUTES_PER_DAY;
-  return format.time(
-    locale,
-    new Date(2000, 0, 1, Math.floor(inDay / 60), inDay % 60),
-    clockOption(),
-  );
+  return format.time(locale, new Date(2000, 0, 1, Math.floor(inDay / 60), inDay % 60), {
+    hour12: clockOption().hour12 ?? false,
+  });
 }
 
 export function clockRange(locale: string, start: number, end: number): string {

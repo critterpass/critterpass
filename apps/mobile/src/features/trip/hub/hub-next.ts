@@ -93,7 +93,7 @@ export function hubEntries(input: {
       },
     ];
   }
-  const dayPage = t({ id: 'trip.hub.openDay', message: "Who's up, and what to pack" });
+  const dayPage = t({ id: 'trip.hub.openDay', message: 'Who’s up, and what to pack' });
   if (header.phase === 'pre' && input.startDate !== null) {
     const firstDay = input.startDate;
     return [

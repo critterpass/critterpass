@@ -1,5 +1,5 @@
 /** An idea's doodle by its place's kind (a dropped pin is a pin). */
-import type { DoodleName } from '@/ui/icons/generated';
+import type { DoodleName } from '@/ui/premium/icons/doodles/generated';
 
 const ICONS: Readonly<Record<string, DoodleName>> = {
   temple_shrine: 'temple',

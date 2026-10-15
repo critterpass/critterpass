@@ -11,10 +11,12 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { isCovered, whileMasked } from '@/features/help/shake/test-support/masked';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
-import { renderUi } from '@/ui/test-support/render';
+import { renderUi } from '@/lib/test-support/render-ui';
+import { PREMIUM_THEMES } from '@/ui/premium';
 
 import type { ChatMessage } from '@/features/crew/chat/data/rows';
-import { Bubble } from '@/features/crew/chat/components/bubble';
+import { PremiumMessageRow, type MessageRowProps } from '@/features/crew/premium/chat/message-row';
+import { registerPremiumChatCard } from '@/features/crew/premium/chat/cards/registry';
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -54,18 +56,44 @@ function message(over: Partial<ChatMessage>): ChatMessage {
   };
 }
 
+const NO_HANDLERS: MessageRowProps['handlers'] = {
+  onLongPress: () => undefined,
+  onRetry: () => undefined,
+  onDiscard: () => undefined,
+  onToggleReaction: () => undefined,
+  onShowReactions: () => undefined,
+};
+
+function Row({ message: m, mine }: { readonly message: ChatMessage; readonly mine: boolean }) {
+  return (
+    <PremiumMessageRow
+      message={m}
+      mine={mine}
+      first
+      last
+      senderName={m.senderName ?? ''}
+      senderColor={PREMIUM_THEMES.light.accent.sun}
+      guideName="Tokek"
+      readBy={0}
+      animate={false}
+      readOnly={false}
+      repliedTo={undefined}
+      repliedToColor={undefined}
+      reactions={[]}
+      handlers={NO_HANDLERS}
+    />
+  );
+}
+
 describe('crew chat in a problem report screenshot', () => {
   it('covers what a crewmate and the member wrote, not who wrote it', async () => {
     await renderUi(
       framed(
         <>
-          <Bubble message={message({})} mine={false} first last joinIndex={1} />
-          <Bubble
+          <Row message={message({})} mine={false} />
+          <Row
             message={message({ id: 'm2', senderId: 'u-me', body: 'Got it, see you at 7' })}
             mine
-            first
-            last
-            joinIndex={0}
           />
         </>,
       ),
@@ -74,23 +102,17 @@ describe('crew chat in a problem report screenshot', () => {
     await whileMasked(() => {
       expect(isCovered(screen.getByText('The villa code is 4471, do not share it'))).toBe(true);
       expect(isCovered(screen.getByText('Got it, see you at 7'))).toBe(true);
-      expect(isCovered(screen.getByText('MAYA'))).toBe(false);
+      expect(isCovered(screen.getByText('Maya Tan'))).toBe(false);
     });
   });
 
   it('covers a photo, voice note or card body', async () => {
-    await renderUi(
-      framed(
-        <Bubble
-          message={message({ type: 'photo', body: '' })}
-          mine={false}
-          first
-          last
-          joinIndex={1}
-          renderBody={() => <View testID="photo-body" />}
-        />,
-      ),
-    );
+    const stop = registerPremiumChatCard('photo', { render: () => <View testID="photo-body" /> });
+    try {
+      await renderUi(framed(<Row message={message({ type: 'photo', body: '' })} mine={false} />));
+    } finally {
+      stop();
+    }
     await whileMasked(() => {
       expect(isCovered(screen.getByTestId('photo-body'))).toBe(true);
     });

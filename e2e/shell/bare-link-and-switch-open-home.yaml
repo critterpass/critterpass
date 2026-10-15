@@ -5,12 +5,12 @@ appId: app.critterpass.dev
 # and the restart lands on Home. Then the first leaves Home for PASS, the app is stopped, and a
 # bare link starts it again on Home (a plain launch within half an hour would reopen PASS).
 - runFlow: ../home/subflows/fresh-install.yaml
-- runFlow: ../home/subflows/onboard.yaml
+- runFlow: ../happy/subflows/onboard.yaml
 - runFlow:
-    file: ../proposal/subflows/switch-account.yaml
+    file: ../happy/subflows/switch-account.yaml
     env:
       TARGET: 'dev-accounts-new'
-- runFlow: ../home/subflows/onboard.yaml
+- runFlow: ../happy/subflows/onboard.yaml
 
 # The second account goes to PASS, then switches back to the first one.
 - extendedWaitUntil:
@@ -21,7 +21,7 @@ appId: app.critterpass.dev
     id: 'tab-pass'
 - waitForAnimationToEnd:
     timeout: 5000
-- runFlow: ../home/subflows/open-dev-tools.yaml
+- runFlow: ../_shared/open-dev-tools.yaml
 - scrollUntilVisible:
     element:
       id: 'dev-nav-accounts'

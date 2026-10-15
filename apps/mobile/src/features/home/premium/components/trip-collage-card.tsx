@@ -1,7 +1,7 @@
 /**
  * The trip as a collage card (3.02): "Next up · Oct 12", the destination at hero size, the live
  * countdown and the plan ring, who is going, two polaroids of the place and the guide hanging over
- * the card's top. From the first day on the trip's clock it is today's card ("Today · Day 4 of 8").
+ * the card's top. A place with no photos yet shows the paper plane sticker instead of empty frames. From the first day on the trip's clock it is today's card ("Today · Day 4 of 8").
  * The card zooms into the trip hub (1.05).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- sizes and pose names, never copy. */
@@ -28,30 +28,34 @@ import { tripDayOf } from '../../trip-day';
 import { CountdownPill } from './countdown-pill';
 import { PlanRingPill } from './plan-ring-pill';
 import { Polaroid } from './polaroid';
+import { useHasTripPhoto } from './trip-photo';
 
 const useStyles = makePremiumStyles((t) => ({
+  // At least the collage's height; larger type grows the card. The "going" row sits in the words'
+  // column, right under the pills (3.02), so it never runs under the front photo.
   card: {
-    height: 256,
+    minHeight: 256,
     borderRadius: 30,
     backgroundColor: t.color.card,
     boxShadow: '0 2px 4px rgba(20,22,40,.05), 0 18px 40px rgba(20,22,40,.09)',
     padding: t.space.gutter,
     paddingTop: 18,
+    paddingBottom: 18,
   },
   text: { width: '58%', gap: t.space.gap8, zIndex: 2 },
   hero: { lineHeight: 63 },
   pills: { flexDirection: 'row', flexWrap: 'wrap', gap: t.space.gap6 },
   going: {
-    position: 'absolute',
-    start: t.space.gutter,
-    bottom: 18,
+    paddingTop: t.space.gap4,
     flexDirection: 'row',
     alignItems: 'center',
     gap: t.space.gap8,
   },
+  shrink: { flexShrink: 1 },
   collage: { position: 'absolute', top: 0, end: 0, width: 190, height: 256 },
   photo1: { position: 'absolute', top: 30, end: 16 },
   photo2: { position: 'absolute', top: 96, end: 72 },
+  plane: { position: 'absolute', top: 92, end: 40, transform: [{ rotate: '-8deg' }] },
   dayTag: { position: 'absolute', top: 150, end: 20 },
   guide: { position: 'absolute', top: -44, end: 6 },
 }));
@@ -94,6 +98,7 @@ export function TripCollageCard({
   const progress = onTrip === null ? trip.planProgress : 0;
   const count = going.length;
   const slug = trip.destinationSlug ?? null;
+  const hasPhoto = useHasTripPhoto(slug);
 
   return (
     <ZoomLink
@@ -104,12 +109,20 @@ export function TripCollageCard({
     >
       <View style={styles.card}>
         <View style={styles.collage} pointerEvents="none">
-          <View style={styles.photo1}>
-            <Polaroid slug={slug} width={124} height={150} rotate={8} />
-          </View>
-          <View style={styles.photo2}>
-            <Polaroid slug={slug} index={1} width={116} height={134} rotate={-7} />
-          </View>
+          {hasPhoto ? (
+            <>
+              <View style={styles.photo1}>
+                <Polaroid slug={slug} width={124} height={150} rotate={8} />
+              </View>
+              <View style={styles.photo2}>
+                <Polaroid slug={slug} index={1} width={116} height={134} rotate={-7} />
+              </View>
+            </>
+          ) : (
+            <View style={styles.plane} testID="home-next-up-no-photo">
+              <CritterSticker kind="plane" name="plane" size={96} />
+            </View>
+          )}
           {onTrip === null ? null : (
             <View style={styles.dayTag}>
               <Tag
@@ -152,20 +165,23 @@ export function TripCollageCard({
             )}
             {progress > 0 ? <PlanRingPill percent={progress} testID="home-plan-progress" /> : null}
           </View>
+          {count === 0 ? null : (
+            <View style={styles.going}>
+              <CrewStack
+                members={going}
+                size={26}
+                max={5}
+                accessibilityLabel={t({
+                  id: 'home.premium.goingSpoken',
+                  message: `${count} going`,
+                })}
+              />
+              <Text variant="label" tone="muted" numberOfLines={1} style={styles.shrink}>
+                {t({ id: 'home.premium.going', message: `${count} going` })}
+              </Text>
+            </View>
+          )}
         </View>
-        {count === 0 ? null : (
-          <View style={styles.going}>
-            <CrewStack
-              members={going}
-              size={26}
-              max={5}
-              accessibilityLabel={t({ id: 'home.premium.goingSpoken', message: `${count} going` })}
-            />
-            <Text variant="label" tone="muted">
-              {t({ id: 'home.premium.going', message: `${count} going` })}
-            </Text>
-          </View>
-        )}
       </View>
     </ZoomLink>
   );

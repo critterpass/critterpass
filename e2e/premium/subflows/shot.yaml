@@ -1,7 +1,0 @@
-appId: app.critterpass.dev
----
-# One design | device screenshot: `premium-<code>-<name>-<look>`, which compare mode pairs with
-# docs/design-renders/premium/<code>.png. ${CODE} is the design code (3.01), ${NAME} a short state
-# name, ${LOOK} light or dark.
-- waitForAnimationToEnd
-- takeScreenshot: premium-${CODE}-${NAME}-${LOOK}

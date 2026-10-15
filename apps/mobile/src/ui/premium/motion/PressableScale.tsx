@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { Pressable } from 'react-native';
+import { Platform, Pressable } from 'react-native';
+import type { PressableAndroidRippleConfig } from 'react-native';
 import type {
   AccessibilityRole,
   AccessibilityState,
@@ -17,6 +18,17 @@ import { usePremiumReducedMotion } from './reduced-motion';
 import { SPRINGS } from './springs';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
+/**
+ * Android paints its default focus highlight, a grey square over the whole box, on a focused view
+ * with no focus state of its own: after typed input it sat behind the round glass back. A ripple
+ * of no reach gives every control that state without drawing anything; the press scale is the
+ * feedback.
+ */
+const NO_FOCUS_SQUARE: PressableAndroidRippleConfig | undefined =
+  Platform.OS === 'android'
+    ? { color: premium.modes.light.color.hairline, radius: 0, foreground: true }
+    : undefined;
 
 /** Extra touch area so a control smaller than 44 pt still takes a 44 pt tap. */
 export function hitSlopFor(width: number, height: number): Insets {
@@ -39,6 +51,8 @@ export interface PressableScaleProps {
   readonly accessibilityHint?: string | undefined;
   readonly accessibilityState?: AccessibilityState;
   readonly accessibilityValue?: AccessibilityValue;
+  /** The language VoiceOver reads the label in, for words in another language than the app's. */
+  readonly accessibilityLanguage?: string | undefined;
   /** False when a parent row speaks for this control (a stepper's arrows beside its value). */
   readonly accessible?: boolean;
   readonly importantForAccessibility?: 'auto' | 'yes' | 'no' | 'no-hide-descendants';
@@ -64,6 +78,7 @@ export function PressableScale({
   accessibilityHint,
   accessibilityState,
   accessibilityValue,
+  accessibilityLanguage,
   accessible,
   importantForAccessibility,
   onLayout,
@@ -86,6 +101,7 @@ export function PressableScale({
       onPressIn={() => pressTo(pressedScale)}
       onPressOut={() => pressTo(1)}
       disabled={disabled === true}
+      {...(NO_FOCUS_SQUARE === undefined ? {} : { android_ripple: NO_FOCUS_SQUARE })}
       hitSlop={hitSlop}
       onLayout={onLayout}
       accessibilityRole={accessibilityRole}
@@ -93,6 +109,7 @@ export function PressableScale({
       accessibilityHint={accessibilityHint}
       accessibilityState={{ disabled: disabled === true, ...accessibilityState }}
       {...(accessibilityValue === undefined ? {} : { accessibilityValue })}
+      {...(accessibilityLanguage === undefined ? {} : { accessibilityLanguage })}
       {...(accessible === undefined ? {} : { accessible })}
       {...(importantForAccessibility === undefined ? {} : { importantForAccessibility })}
       style={[style, animated]}

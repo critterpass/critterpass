@@ -98,3 +98,18 @@ export function reactionChips(
   }
   return chips;
 }
+
+export interface MemoryReaction {
+  readonly emoji: string | null;
+  readonly text: string | null;
+}
+
+export const MEMORY_EMOJI = ['❤', '😂', '🥹', '🔥', '+1'] as const;
+
+export const MEMORY_LINE_MAX = 40;
+
+export interface ReactionSheetProps {
+  readonly initial: MemoryReaction | null;
+  readonly onSend: (reaction: MemoryReaction) => void;
+  readonly onClose: () => void;
+}

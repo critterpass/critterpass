@@ -5,6 +5,8 @@
  */
 import { useLingui } from '@lingui/react/macro';
 
+import { shortName } from '@/lib/people/member-name';
+
 import { originCity } from '../data/use-final';
 import type { Person } from '../data/use-people';
 import type { PollView } from '../data/poll-view';
@@ -44,7 +46,10 @@ export function useFinalLines(
   const { t, i18n } = useLingui();
   const tie = poll.tiePreview;
   const pending = pendingByName(poll, people)
-    .map((id) => people.get(id)?.name.split(' ')[0] ?? '')
+    .map((id) => {
+      const name = people.get(id)?.name ?? '';
+      return name.trim() === '' ? '' : shortName(name);
+    })
     .filter((n) => n !== '');
   const and = t({ id: 'vote.final.and', message: 'and' });
   const tiePlace = tie === null ? null : nameOf(poll, places, tie.winnerOptionId);
@@ -59,7 +64,7 @@ export function useFinalLines(
           }),
     toGo:
       poll.pendingIds.length === 0
-        ? t({ id: 'vote.final.allIn', message: "Everyone's in" })
+        ? t({ id: 'vote.final.allIn', message: 'Everyone’s in' })
         : pending.length < poll.pendingIds.length
           ? t({ id: 'vote.final.toGoCount', message: `${poll.pendingIds.length} to go` })
           : t({ id: 'vote.final.toGo', message: `${listNames(pending, and)} to go` }),

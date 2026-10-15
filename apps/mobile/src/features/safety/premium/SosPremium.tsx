@@ -26,11 +26,12 @@ import { FullScreen } from '@/ui/premium/shell';
 
 import { clockTime } from '../format';
 import { useResponderLine, useSosStepText } from '../sos/sos-copy';
-import type { SosViewProps } from '../sos/sos-view';
+import type { SosViewProps } from '../sos/view-types';
 import { useSosScreen } from '../sos/use-sos-screen';
 import { SosActions } from './SosActions';
 
-function Ready({ props }: { readonly props: SosViewProps }) {
+/** The SOS page once it is read (also what the screen tests render). */
+export function SosReady({ props }: { readonly props: SosViewProps }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const locale = useLocale();
@@ -93,7 +94,7 @@ function Ready({ props }: { readonly props: SosViewProps }) {
           )}
         </View>
         <View style={[styles.avatar, { boxShadow: ring(8, th.color.status.voteOpen.bg) }]}>
-          <Avatar name={name} color={crewAccent(0)} size={68} ringed />
+          <Avatar name={name} color={crewAccent(0)} uid={model.senderUid} size={68} ringed />
         </View>
         <Text variant="display" accessibilityRole="header" testID="sos-title">
           {title}
@@ -111,7 +112,7 @@ function Ready({ props }: { readonly props: SosViewProps }) {
           <Text variant="headline" testID="sos-stale">
             {t({
               id: 'safety.sos.staleQuestion',
-              message: "Your SOS didn't reach the crew in time. Are you still in trouble?",
+              message: 'Your SOS didn’t reach the crew in time. Are you still in trouble?',
             })}
           </Text>
         ) : (
@@ -133,7 +134,7 @@ function Ready({ props }: { readonly props: SosViewProps }) {
                 size={30}
               />
               <Text variant="label" tone="muted">
-                {t({ id: 'safety.sos.onIt', message: `${guideName}'s on it` })}
+                {t({ id: 'safety.sos.onIt', message: `${guideName}’s on it` })}
               </Text>
             </View>
             {model.steps.map((step) => (
@@ -159,7 +160,7 @@ function Ready({ props }: { readonly props: SosViewProps }) {
         )}
         {model.role === 'sender' && model.escalated && !model.reachedNobody ? (
           <Text variant="headline" testID="sos-escalated">
-            {t({ id: 'safety.sos.noAnswer', message: `No one's answered yet. Call ${general}?` })}
+            {t({ id: 'safety.sos.noAnswer', message: `No one’s answered yet. Call ${general}?` })}
           </Text>
         ) : null}
         {model.role === 'sender' && model.state === 'open' && model.reachedNobody ? (
@@ -240,7 +241,7 @@ export function SosPremium() {
       </FullScreen>
     );
   }
-  return <Ready props={sos.props} />;
+  return <SosReady props={sos.props} />;
 }
 
 const styles = StyleSheet.create({

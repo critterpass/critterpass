@@ -1,32 +1,26 @@
 /**
- * All days (4.28) in the premium look: every day as a card in two columns (its date in the day's
+ * All days (4.28): every day as a card in two columns (its date in the day's
  * colour with its pace, its stops as numbered pins in that colour, its title and what it holds),
  * the plan check's line with See, and the saved ideas still waiting. A card opens its day; holding
- * a card offers "Move a stop" to another day, which the shared screen previews before moving.
+ * a card offers "Move a stop" to another day, and a stop's pin drags onto another day's card. The
+ * shared screen previews either move before making it.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- screen ids and SF Symbol names, never copy. */
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
 
-import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
-import { GuideNote, PressableScale, Text, TextButton, usePremiumTheme } from '@/ui/premium';
+import { guideSticker } from '@/ui/premium/stickers/guides';
+import { GuideNote, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import type { AllDaysViewProps } from '../../all-days/all-days-view';
-import { clock } from '../../day/format';
-import { dateLine } from '../../trip-map/format';
-import { checkingLine, daySummary, tripCheckLine } from '../../trip-map/sheet-copy';
+import type { AllDaysViewProps } from '../../all-days/all-days-props';
+import { checkingLine, tripCheckLine } from '../../trip-map/sheet-copy';
 import { useWayOut } from '../../trip-map/use-ways-out';
-import { dayColours } from '../map';
-
-const PINS = 6;
-const PACE = 5;
+import { DayTile } from './day-tile';
 
 export function PremiumAllDaysView(props: AllDaysViewProps) {
   const theme = usePremiumTheme();
-  const locale = useLocale();
   const { t } = useLingui();
   const { model } = props;
   const see = useWayOut('7h-1', { tripId: model.tripId });
@@ -69,86 +63,21 @@ export function PremiumAllDaysView(props: AllDaysViewProps) {
           />
         )}
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap10 }}>
-          {model.days.map((day) => {
-            const colours = dayColours(day.dayNo);
-            const pace = Math.max(0, Math.min(PACE, Math.round(day.pace)));
-            return (
-              <PressableScale
-                key={day.dayNo}
-                onPress={() => props.onOpenDay(day.dayNo)}
-                onLongPress={model.readOnly ? undefined : () => props.onMoveMenu(day.dayNo)}
-                accessibilityRole="button"
-                accessibilityLabel={`${day.date === null ? '' : dateLine(locale, day.date)} ${day.theme ?? ''}`}
-                testID={`all-days-card-${String(day.dayNo)}`}
-                style={{
-                  width: '48.5%',
-                  minHeight: 150,
-                  borderRadius: theme.radius.banner,
-                  backgroundColor: theme.color.card,
-                  boxShadow: theme.shadow.card,
-                  paddingVertical: theme.space.gap10,
-                  paddingHorizontal: theme.space.gap12,
-                  gap: theme.space.gap6,
-                }}
-              >
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Text variant="badge" color={colours.ink} style={{ flex: 1 }} numberOfLines={1}>
-                    {day.date === null ? String(day.dayNo) : dateLine(locale, day.date)}
-                  </Text>
-                  <View style={{ flexDirection: 'row', gap: 2 }}>
-                    {Array.from({ length: PACE }, (_, at) => (
-                      <View
-                        key={at}
-                        style={{
-                          width: 5,
-                          height: 10,
-                          borderRadius: 2,
-                          backgroundColor: at < pace ? colours.fill : theme.color.fieldBorder,
-                        }}
-                      />
-                    ))}
-                  </View>
-                </View>
-                <View
-                  style={{
-                    height: 52,
-                    borderRadius: theme.radius.dayBadge,
-                    backgroundColor: theme.color.ground,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 4,
-                    paddingHorizontal: theme.space.gap8,
-                  }}
-                >
-                  {day.stops.slice(0, PINS).map((stop, index) => (
-                    <View
-                      key={stop.stableId}
-                      style={{
-                        width: 18,
-                        height: 18,
-                        borderRadius: 9,
-                        borderWidth: 1.5,
-                        borderColor: theme.accent.stickerEdge,
-                        backgroundColor: colours.route,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <Text variant="badge" tone="onInk">
-                        {String(index + 1)}
-                      </Text>
-                    </View>
-                  ))}
-                </View>
-                <Text variant="rowTextStrong" numberOfLines={1}>
-                  {day.theme ?? t({ id: 'plan.premium.allDays.dayN', message: `Day ${day.dayNo}` })}
-                </Text>
-                <Text variant="captionMuted" tone="muted" numberOfLines={2}>
-                  {daySummary(day, (minutes) => clock(locale, minutes))}
-                </Text>
-              </PressableScale>
-            );
-          })}
+          {model.days.map((day) => (
+            <DayTile
+              key={day.dayNo}
+              day={day}
+              over={props.over === day.dayNo}
+              canMove={!model.readOnly}
+              measureKey={props.measureKey}
+              onOpen={() => props.onOpenDay(day.dayNo)}
+              onMoveMenu={() => props.onMoveMenu(day.dayNo)}
+              onRect={props.onRect}
+              onHold={(stop) => props.onHold(stop, day.dayNo)}
+              onDrag={props.onDrag}
+              onDrop={props.onDrop}
+            />
+          ))}
         </View>
         {ideas === 0 ? null : (
           <View
@@ -178,7 +107,10 @@ export function PremiumAllDaysView(props: AllDaysViewProps) {
         )}
         {model.readOnly ? null : (
           <Text variant="captionMuted" tone="placeholder" align="center">
-            {t({ id: 'plan.premium.allDays.hint', message: 'Hold a day to move one of its stops' })}
+            {t({
+              id: 'plan.premium.allDays.dragHint',
+              message: 'Hold a stop and drag it onto another day, or hold a day to move one',
+            })}
           </Text>
         )}
       </ScrollView>

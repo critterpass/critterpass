@@ -9,7 +9,7 @@ import { Text } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ThemeProvider } from '../../../lib/theme';
-import { WalletSwitch } from '../stack/WalletSwitch';
+import { WalletHalfSwitch } from '../premium/components/WalletHalfSwitch';
 import { WALLET_HALF_OPTIONS } from '../stack/wallet-halves';
 
 // Imported last: the testing library registers its own Reanimated mock (see jest.config.js).
@@ -45,7 +45,7 @@ function half(current: 'bookings' | 'money') {
   return function Half() {
     return (
       <>
-        <WalletSwitch current={current} />
+        <WalletHalfSwitch current={current} />
         <Text>{`${current} half`}</Text>
       </>
     );
@@ -77,7 +77,7 @@ async function open(url: string) {
 }
 
 async function tap(label: string) {
-  await fireEvent.press(screen.getByRole('radio', { name: label }));
+  await fireEvent.press(screen.getByRole('tab', { name: label }));
   await act(async () => {});
 }
 
@@ -85,16 +85,16 @@ beforeAll(() => {
   i18n.loadAndActivate({ locale: 'en', messages: {} });
 });
 
-describe('WalletSwitch', () => {
+describe('the wallet switch', () => {
   it('swaps Money for Bookings and back without growing the stack', async () => {
     const router = await open('/wallet/money');
-    await tap('BOOKINGS');
+    await tap('Bookings');
     expect(router.getPathname()).toBe('/wallet/bookings');
     expect(screen.getByText('bookings half')).toBeTruthy();
-    await tap('MONEY');
+    await tap('Money');
     expect(router.getPathname()).toBe('/wallet/money');
-    await tap('BOOKINGS');
-    await tap('MONEY');
+    await tap('Bookings');
+    await tap('Money');
     expect(router.getPathname()).toBe('/wallet/money');
     expect(router.walletRoutes()).toEqual(['money/index']);
   });
@@ -102,7 +102,7 @@ describe('WalletSwitch', () => {
   it('opens Bookings from its link and switches to a single Money root', async () => {
     const router = await open('/wallet/bookings');
     expect(screen.getByText('bookings half')).toBeTruthy();
-    await tap('MONEY');
+    await tap('Money');
     expect(router.getPathname()).toBe('/wallet/money');
     expect(router.walletRoutes()).toEqual(['money/index']);
   });

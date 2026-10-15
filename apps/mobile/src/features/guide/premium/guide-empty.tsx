@@ -14,7 +14,9 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { useIdleLoopRunning } from '@/motion/idle-pause';
+import { transparentOf } from '@/ui/premium/shell/screens/scroll-edge';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   CritterSticker,
   PressableScale,
@@ -35,12 +37,21 @@ export interface GuideStarter {
   readonly onPress: () => void;
 }
 
+const GLOW = 360;
+
 const useStyles = makePremiumStyles((th) => ({
+  glow: {
+    position: 'absolute',
+    top: -GLOW / 2 + 64,
+    alignSelf: 'center',
+    width: GLOW,
+    height: GLOW,
+  },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: th.space.gap10 },
   card: {
     width: '48%',
     flexGrow: 1,
-    height: 112,
+    minHeight: 112,
     paddingVertical: 12,
     paddingHorizontal: 14,
     borderRadius: 24,
@@ -53,12 +64,17 @@ const useStyles = makePremiumStyles((th) => ({
 function Bobbing({ children }: { readonly children: ReactNode }) {
   const th = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const y = useSharedValue(0);
   useEffect(() => {
-    if (reduced) return undefined;
+    if (!looping) {
+      cancelAnimation(y);
+      y.value = 0;
+      return undefined;
+    }
     y.value = withRepeat(withTiming(-th.motion.bobLift, { duration: th.motion.bobMs }), -1, true);
     return () => cancelAnimation(y);
-  }, [reduced, y, th.motion.bobLift, th.motion.bobMs]);
+  }, [looping, y, th.motion.bobLift, th.motion.bobMs]);
   const style = useAnimatedStyle(() => ({ transform: [{ translateY: y.value }] }));
   return <Animated.View style={style}>{children}</Animated.View>;
 }
@@ -82,20 +98,25 @@ export function GuideEmpty({
   const th = usePremiumTheme();
   const styles = useStyles();
   const name = firstName;
+  const warm = th.color.status.maybe.bg;
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a gradient, never copy.
+  const glow = `radial-gradient(closest-side, ${warm}, ${transparentOf(warm)})`;
   return (
     <View style={{ gap: th.space.gap16 }} testID="guide-empty">
+      {/* The warm glow the guide stands in. */}
+      <View pointerEvents="none" style={[styles.glow, { experimental_backgroundImage: glow }]} />
       <View style={{ alignItems: 'center', paddingTop: th.space.gap8 }}>
         <Bobbing>
           <CritterSticker kind={guideSticker(slug).kind} name={guideName} size={128} pose="wave" />
         </Bobbing>
       </View>
-      <View style={{ gap: th.space.gap8 }}>
-        <Text variant="emptyTitle">
+      <View style={{ gap: th.space.gap8, alignItems: 'center' }}>
+        <Text variant="emptyTitle" align="center">
           {name === null
             ? t({ id: 'guide.premium.hello', message: 'Hello there' })
             : t({ id: 'guide.premium.helloName', message: `Hello, ${name}` })}
         </Text>
-        <Text variant="body" tone="muted">
+        <Text variant="body" tone="muted" align="center">
           {hasTrip
             ? t({
                 id: 'guide.premium.knows',

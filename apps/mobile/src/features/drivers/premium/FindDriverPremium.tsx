@@ -1,8 +1,8 @@
 /**
  * Find a driver (6.19): which legs (the day chips, picked in ink with a mint check; "+ Day" adds
- * one), then where the driver comes from, one card each: a private tour, one you found yourself,
- * the guide's post to ask in the local groups, the drivers our crews used. Our drivers (rate,
- * invite) under them. One shortlist per trip across every source docks as an ink bar with Compare.
+ * one), then where the driver comes from, one sticker card each: the drivers our crews used, a
+ * private tour, one you found yourself, the guide's post to ask in the local groups. Our drivers
+ * (rate, invite) under them as a row. One shortlist per trip across every source docks as an ink bar with Compare.
  */
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, StyleSheet, View } from 'react-native';
@@ -11,10 +11,12 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { guideCritterKind } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
-  Button,
   CritterSticker,
   Icon,
+  ListCard,
   PressableScale,
+  Row,
+  StickerIcon,
   Text,
   TextButton,
   usePremiumTheme,
@@ -44,8 +46,8 @@ export function FindDriverPremium({
       : `${dayLabel(first.date, locale)}`;
   return (
     <PushScreen
+      largeTitle
       title={t({ id: 'drivers.find.title', message: 'Find a driver' })}
-      subtitle={back}
       backLabel={back}
       scroll={false}
       testID="drivers-find"
@@ -124,9 +126,18 @@ export function FindDriverPremium({
           </Text>
         )}
         <Source
-          icon="star"
-          tint={th.color.status.rain}
-          tilt={-6}
+          art={<StickerIcon name="car" size={50} tilt={-6} />}
+          title={t({ id: 'drivers.find.directory', message: 'Drivers our crews used' })}
+          body={t({
+            id: 'drivers.find.directoryBody',
+            message: 'Listed drivers, rated by crews who rode with them',
+          })}
+          cta={t({ id: 'drivers.premium.see', message: 'See' })}
+          onPress={find.onDirectory}
+          testID="drivers-find-directory"
+        />
+        <Source
+          art={<StickerIcon name="ticket" size={50} tilt={-8} />}
           title={t({ id: 'drivers.find.tours', message: 'Book a private tour' })}
           body={t({
             id: 'drivers.find.toursBody',
@@ -137,9 +148,7 @@ export function FindDriverPremium({
           testID="drivers-find-tours"
         />
         <Source
-          icon="chat"
-          tint={th.color.status.voteOpen}
-          tilt={5}
+          art={<StickerIcon name="chat" size={50} tilt={5} />}
           title={t({ id: 'drivers.find.found', message: 'Found one yourself' })}
           body={t({
             id: 'drivers.find.foundBody',
@@ -149,55 +158,35 @@ export function FindDriverPremium({
           onPress={find.onFound}
           testID="drivers-find-found"
         />
-        <View
-          style={[
-            styles.source,
-            styles.dashed,
-            { borderRadius: th.radius.card, borderColor: th.color.outlineEmpty },
-          ]}
-        >
-          <CritterSticker
-            kind={guideCritterKind(plan.guide.id)}
-            name={plan.guide.name}
-            size={46}
-            pose="think"
-          />
-          <View style={styles.flex}>
-            <Text variant="headline">{t({ id: 'drivers.find.ask', message: 'Ask for me' })}</Text>
-            <Text variant="caption" tone="muted">
-              {t({
-                id: 'drivers.find.askBody',
-                message: `I'll write a post for the ${plan.area} groups. You post it.`,
-              })}
-            </Text>
-          </View>
-          <Button
-            label={t({ id: 'drivers.find.draft', message: 'Draft it' })}
-            size="small"
-            onPress={find.onAsk}
-            testID="drivers-find-ask"
-          />
-        </View>
         <Source
-          icon="car"
-          tint={th.color.status.maybe}
-          tilt={4}
-          title={t({ id: 'drivers.find.directory', message: 'Drivers our crews used' })}
+          art={
+            <CritterSticker
+              kind={guideCritterKind(plan.guide.id)}
+              name={plan.guide.name}
+              size={46}
+              pose="think"
+            />
+          }
+          title={t({ id: 'drivers.find.ask', message: 'Ask for me' })}
           body={t({
-            id: 'drivers.find.directoryBody',
-            message: 'Listed drivers, rated by crews who rode with them',
+            id: 'drivers.find.askBody',
+            message: `I’ll write a post for the ${plan.area} groups. You post it.`,
           })}
-          cta={t({ id: 'drivers.premium.see', message: 'See' })}
-          onPress={find.onDirectory}
-          testID="drivers-find-directory"
+          cta={t({ id: 'drivers.find.draft', message: 'Draft it' })}
+          onPress={find.onAsk}
+          testID="drivers-find-ask"
         />
-        <View style={styles.center}>
-          <TextButton
-            label={t({ id: 'drivers.find.ours', message: 'Our drivers: rate or invite one' })}
+        {/* Our own drivers (rate one after a ride, invite one): a row that leads on, not a loose
+            grey link under the sources. */}
+        <ListCard radius={th.radius.cardRow}>
+          <Row
+            title={t({ id: 'drivers.find.ours', message: 'Our drivers: rate or invite one' })}
+            leading={<Icon name="people" size={20} color={th.color.inkSecondary} />}
+            trailing={<Icon name="forward" size={16} color={th.color.muted} />}
             onPress={find.onOurs}
             testID="drivers-find-ours"
           />
-        </View>
+        </ListCard>
         {find.shortlistFailed ? (
           <View style={styles.row} testID="drivers-find-shortlist-failed">
             <Text variant="caption" tone="muted" style={styles.flex}>
@@ -242,7 +231,5 @@ const styles = StyleSheet.create({
   },
   check: { width: 18, height: 18, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
   dashed: { borderWidth: 1.5, borderStyle: 'dashed' },
-  source: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12 },
-  center: { alignItems: 'center' },
   row: { flexDirection: 'row', alignItems: 'center', gap: 8 },
 });

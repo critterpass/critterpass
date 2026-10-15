@@ -22,7 +22,7 @@ import {
 import { questsFormat } from './schema';
 
 export const QUESTS_ROUTE = 'quests.generate' as const;
-export const QUESTS_PROMPT_VERSION = 'quests@1';
+export const QUESTS_PROMPT_VERSION = 'quests@2';
 
 const TASK = [
   '# Task',
@@ -34,7 +34,7 @@ const TASK = [
   "- Params must follow the template's params schema. Place ids (`poi_id`, `poi_ids`) and plan item",
   '  ids come only from `plan`; times are local `HH:MM` and must fit the template summary.',
   "- `reward.xp` is a whole number inside the template's `xp` range; harder quests earn more.",
-  `- \`title\`: at most ${QUEST_TITLE_MAX} characters, UPPER CASE, a playful name (like SUNRISE SQUAD).`,
+  `- \`title\`: at most ${QUEST_TITLE_MAX} characters, in title case, a playful name (like Sunrise Squad).`,
   `- \`desc\`: one sentence, at most ${QUEST_DESC_MAX - 30} characters (count them), in your own voice, saying`,
   '  exactly what to do. Name the place from `plan` when there is one.',
   '- Every number in a title or desc must be a param of that quest (a count, a time), a start',

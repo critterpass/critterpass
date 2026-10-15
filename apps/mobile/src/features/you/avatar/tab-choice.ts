@@ -3,7 +3,9 @@
  * initials have nothing to pick, so opening INITIALS is the choice for anyone wearing something
  * else, and leaving the tab without saving drops it again.
  */
-import type { AvatarTab } from './avatar-view';
+
+/** The avatar picker's three tabs. */
+export type AvatarTab = 'initials' | 'critter' | 'photo';
 
 interface Kinded {
   readonly kind: string;

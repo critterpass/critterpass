@@ -22,21 +22,55 @@ beforeAll(() => {
 });
 
 const SHOWDOWN = { pathname: '/vote/[pollId]', params: { pollId: 'p-1' } };
+const BOARD = { pathname: '/vote/[pollId]/board', params: { pollId: 'p-1' } };
+
+/** The board page as the vote area registers it; returns the unregister. */
+function registerBoard(): () => void {
+  return registerScreens({
+    'vote-board': (params) => ({
+      pathname: '/vote/[pollId]/board',
+      params: { pollId: params['pollId'] ?? '' },
+    }),
+  });
+}
 
 describe('hub links', () => {
-  it('opens Home for a vote still on its board, and the showdown once it is down to two', () => {
+  it('opens the board for a vote still on its board, and the showdown once it is down to two', () => {
+    const unregister = registerBoard();
+    try {
+      expect(voteHref({ id: 'p-1', stage: 'board' })).toEqual(BOARD);
+      expect(voteHref({ id: 'p-1', stage: null })).toEqual(BOARD);
+      expect(voteHref({ id: 'p-1', stage: 'final' })).toEqual(SHOWDOWN);
+    } finally {
+      unregister();
+    }
+  });
+
+  it('falls back to Home, where the board is drawn, before the board page is registered', () => {
     expect(voteHref({ id: 'p-1', stage: 'board' })).toBe('/');
-    expect(voteHref({ id: 'p-1', stage: null })).toBe('/');
     expect(voteHref({ id: 'p-1', stage: 'final' })).toEqual(SHOWDOWN);
   });
 
   it('labels the voting CTA and sends it where the vote is drawn', () => {
-    const link = planningLink('t-1', 'voting', { id: 'p-1', stage: 'board' });
-    expect(link).toEqual({ label: 'Voting', href: '/' });
+    const unregister = registerBoard();
+    try {
+      const link = planningLink('t-1', 'voting', { id: 'p-1', stage: 'board' });
+      expect(link).toMatchObject({ label: 'Voting', href: BOARD });
+    } finally {
+      unregister();
+    }
   });
 
   it('never offers the plan while the trip still votes, even before its poll is on the phone', () => {
-    expect(planningLink('t-1', 'voting', undefined)).toEqual({ label: 'Voting', href: '/' });
+    expect(planningLink('t-1', 'voting', undefined)).toMatchObject({ label: 'Voting', href: '/' });
+  });
+
+  it('gives the guide a line of its own beside each button, never the button’s words', () => {
+    for (const status of ['voting', 'setup', 'locked']) {
+      const link = planningLink('t-1', status, undefined);
+      expect(link.note).toBeTruthy();
+      expect(link.note).not.toBe(link.label);
+    }
   });
 
   it('opens set-up at the step the trip is on', () => {

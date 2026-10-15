@@ -1,0 +1,318 @@
+appId: app.critterpass.dev
+---
+# On the trip (a crew of six in Đà Nẵng, day one today), in ${LOOK}: the card zooming into the hub
+# (1.05), the hub (6.01, and 6.02 when the briefing didn't write), the day page (6.04, 6.05 on a free
+# day), the forecast (6.06), what works with no signal (6.15), the crew map (6.10, 6.11 while your
+# sharing is off) and Help (6.16). Each step is skipped when its way in is missing.
+- runFlow:
+    file: trip-open-hub.yaml
+    env:
+      ZOOM: "${LOOK == 'light' ? 'premium-1.05-zoom-light' : ''}"
+- runFlow:
+    file: shot.yaml
+    env:
+      CODE: '6.01'
+      NAME: hub
+      LOOK: ${LOOK}
+- runFlow:
+    when:
+      true: ${LOOK == 'light'}
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'trip-briefing-failed'
+          file: shot.yaml
+          env:
+            CODE: '6.02'
+            NAME: briefing-failed
+            LOOK: ${LOOK}
+      - scrollUntilVisible:
+          element:
+            id: 'trip-hub-ticker'
+          direction: DOWN
+          timeout: 10000
+          optional: true
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '6.01'
+            NAME: hub-tiles
+            LOOK: ${LOOK}
+# The day page, from the hub's next entry (the leave-by, the next stop or today's page).
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-(next|today)'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'trip-hub-(next|today)'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 15000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '6.04'
+            NAME: day-of
+            LOOK: ${LOOK}
+      - runFlow:
+          when:
+            visible: 'Nothing planned today. A.free.day.'
+          file: shot.yaml
+          env:
+            CODE: '6.05'
+            NAME: free-day
+            LOOK: ${LOOK}
+      # The page's foot: the links under the pack list, below the fold.
+      - scrollUntilVisible:
+          element:
+            id: 'trip-day-links'
+          direction: DOWN
+          timeout: 10000
+          centerElement: true
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'trip-day-links'
+          file: shot.yaml
+          env:
+            CODE: '6.04'
+            NAME: day-of-foot
+            LOOK: ${LOOK}
+      # The pack list's field, keyboard up; closed again without adding anything.
+      - runFlow:
+          when:
+            true: ${LOOK == 'light'}
+          commands:
+            - scrollUntilVisible:
+                element:
+                  id: 'trip-day-pack-add'
+                direction: DOWN
+                timeout: 10000
+                optional: true
+            - tapOn:
+                id: 'trip-day-pack-add'
+                optional: true
+            - extendedWaitUntil:
+                visible:
+                  id: 'trip-day-pack-field'
+                timeout: 5000
+                optional: true
+            - runFlow:
+                when:
+                  visible:
+                    id: 'trip-day-pack-field'
+                commands:
+                  - inputText: 'Headlamp'
+                  - runFlow:
+                      file: shot.yaml
+                      env:
+                        CODE: '6.04'
+                        NAME: pack-keyboard
+                        LOOK: ${LOOK}
+                  - eraseText: 10
+                  - hideKeyboard:
+                      optional: true
+      # The forecast, from the hero's weather pill.
+      - scrollUntilVisible:
+          element:
+            id: 'trip-day-forecast'
+          direction: UP
+          timeout: 10000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'trip-day-forecast'
+          commands:
+            - tapOn:
+                id: 'trip-day-forecast'
+            - extendedWaitUntil:
+                visible:
+                  id: 'forecast-screen'
+                timeout: 15000
+                optional: true
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '6.06'
+                  NAME: forecast
+                  LOOK: ${LOOK}
+            - runFlow: ../../_shared/back.yaml
+      # What works with no signal, from the day page's link.
+      - runFlow:
+          when:
+            true: ${LOOK == 'light'}
+          commands:
+            - scrollUntilVisible:
+                element:
+                  id: 'trip-day-offline'
+                direction: DOWN
+                timeout: 10000
+                optional: true
+            - runFlow:
+                when:
+                  visible:
+                    id: 'trip-day-offline'
+                commands:
+                  - tapOn:
+                      id: 'trip-day-offline'
+                  - extendedWaitUntil:
+                      visible:
+                        id: 'trip-offline-page'
+                      timeout: 10000
+                      optional: true
+                  - runFlow:
+                      file: shot.yaml
+                      env:
+                        CODE: '6.15'
+                        NAME: what-works
+                        LOOK: ${LOOK}
+                  - runFlow: ../../_shared/back.yaml
+      - runFlow: ../../_shared/back.yaml
+# The crew map, from the hub's Map door; the location prompt is answered no. The day page lives
+# under the Trips tab, so its back can land there instead of on the hub.
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-hub'
+    file: trip-open-hub.yaml
+    env:
+      ZOOM: ''
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-door-map'
+    direction: UP
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'trip-hub-door-map'
+    commands:
+      - tapOn:
+          id: 'trip-hub-door-map'
+      - runFlow: trip-deny.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'live-map-screen|live-map-gate'
+          timeout: 20000
+          optional: true
+      # A tap while the hub was still settling from its scroll can open nothing: once more.
+      - runFlow:
+          when:
+            notVisible:
+              id: 'live-map-screen|live-map-gate'
+            visible:
+              id: 'trip-hub-door-map'
+          commands:
+            - tapOn:
+                id: 'trip-hub-door-map'
+            - extendedWaitUntil:
+                visible:
+                  id: 'live-map-screen|live-map-gate'
+                timeout: 20000
+                optional: true
+      - runFlow: trip-deny.yaml
+      # Sharing off asks first (6.11); sharing turned on (the system asks once, and is allowed)
+      # shows the crew map itself (6.10). It stays on for this test account only.
+      - runFlow:
+          when:
+            visible:
+              id: 'live-map-primer'
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '6.11'
+                  NAME: sharing-off
+                  LOOK: ${LOOK}
+            - tapOn:
+                id: 'live-map-share'
+            - tapOn:
+                text: '(?i)(while using.the.app|allow while.using.app|only.this.time|allow once)'
+                optional: true
+            - extendedWaitUntil:
+                notVisible:
+                  id: 'live-map-primer'
+                timeout: 10000
+                optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'live-map-screen'
+            notVisible:
+              id: 'live-map-primer'
+          file: shot.yaml
+          env:
+            CODE: '6.10'
+            NAME: crew-map
+            LOOK: ${LOOK}
+      - runFlow: ../../_shared/back.yaml
+# Help: a long press on the guide circle (Android's floating circle; iPhone's tab-bar circle only
+# asks the guide, so there Help opens from the guide's Emergency numbers when it offers them).
+- runFlow:
+    file: ../../_shared/tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
+- runFlow:
+    when:
+      platform: Android
+      visible:
+        id: 'guide-fab'
+    commands:
+      - longPressOn:
+          id: 'guide-fab'
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - runFlow:
+          file: ../../_shared/tap.yaml
+          env:
+            ID: 'guide-circle'
+            LABEL: 'Ask .*'
+      - tapOn:
+          text: 'Emergency numbers'
+          optional: true
+- runFlow: trip-deny.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'help-screen'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'help-screen'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '6.16'
+            NAME: help
+            LOOK: ${LOOK}
+      - runFlow: ../../_shared/back.yaml
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-screen'
+    commands:
+      - runFlow: ../../_shared/back.yaml

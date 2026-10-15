@@ -16,6 +16,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import {
   EmptyState,
+  Icon,
   PressableScale,
   StatusTag,
   Text,
@@ -109,6 +110,7 @@ export function ArchivePremium() {
   return (
     <WalletGuideProvider tripId={tripId}>
       <PushScreen
+        largeTitle
         title={t({ id: 'bookings.archive.title', message: 'Past bookings' })}
         backLabel={backLabel}
         scroll={false}
@@ -126,6 +128,7 @@ export function ArchivePremium() {
               { marginHorizontal: th.space.gap16, backgroundColor: th.color.segmentTrack },
             ]}
           >
+            <Icon name="search" size={16} color={th.color.placeholder} />
             <TextInput
               value={query}
               onChangeText={setQuery}
@@ -201,8 +204,15 @@ export function ArchivePremium() {
 }
 
 const styles = StyleSheet.create({
-  search: { height: 46, borderRadius: 23, paddingHorizontal: 16, justifyContent: 'center' },
-  input: { fontSize: premium.type.field.size },
+  search: {
+    height: 46,
+    borderRadius: 23,
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  input: { flex: 1, fontSize: premium.type.field.size },
   head: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   card: { overflow: 'hidden' },
   row: {

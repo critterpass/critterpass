@@ -24,10 +24,10 @@ appId: app.critterpass.dev
     maxRetries: 1
     commands:
       - runFlow:
-          file: ../proposal/subflows/switch-account.yaml
+          file: subflows/switch-account.yaml
           env:
             TARGET: 'dev-accounts-new'
-- runFlow: ../home/subflows/onboard.yaml
+- runFlow: subflows/onboard.yaml
 # Onboarding may finish on another tab; Home has JOIN WITH A CODE.
 - openLink:
     link: critterpass-dev://
@@ -47,9 +47,10 @@ appId: app.critterpass.dev
     visible:
       id: 'invite-code-boxes'
     timeout: 15000
-- tapOn:
-    id: 'invite-code-boxes'
-- inputText: ${output.crewCode}
+- runFlow:
+    file: subflows/type-crew-code.yaml
+    env:
+      CODE: ${output.crewCode}
 - extendedWaitUntil:
     visible:
       text: '(?i)found it.*'
@@ -72,24 +73,14 @@ appId: app.critterpass.dev
     maxRetries: 1
     commands:
       - runFlow:
-          file: ../proposal/subflows/switch-account.yaml
+          file: subflows/switch-account.yaml
           env:
             TARGET: 'dev-accounts-switch-0'
-# With someone to send it to, the trip's step on Home is "send the plan": its button opens the
-# draft.
-- extendedWaitUntil:
-    visible:
-      id: 'home-turn-send_plan'
-    timeout: 60000
-- scrollUntilVisible:
-    element:
-      id: 'home-turn-button'
-    direction: DOWN
-    timeout: 15000
-    visibilityPercentage: 100
-    centerElement: true
-- tapOn:
-    id: 'home-turn-button'
+# With someone to send it to, the trip's step is "send the plan": the hub's button opens the draft.
+- runFlow:
+    file: subflows/hub-turn.yaml
+    env:
+      BUTTON: 'Send the plan'
 - extendedWaitUntil:
     visible:
       id: 'draft-review|draft-propose'
@@ -123,7 +114,7 @@ appId: app.critterpass.dev
 # The guide writes the friend's version on staging's AI.
 - extendedWaitUntil:
     visible:
-      text: '(?i).*version is ready|.*wrote the group version.*'
+      text: '(?i).*version.is.ready|.*wrote the.group.version.*'
     timeout: 300000
 
 # Someone who joins while the proposal is out: in the crew, with no version of their own to answer
@@ -132,10 +123,10 @@ appId: app.critterpass.dev
     maxRetries: 1
     commands:
       - runFlow:
-          file: ../proposal/subflows/switch-account.yaml
+          file: subflows/switch-account.yaml
           env:
             TARGET: 'dev-accounts-new'
-- runFlow: ../home/subflows/onboard.yaml
+- runFlow: subflows/onboard.yaml
 # Onboarding may finish on another tab; Home has JOIN WITH A CODE.
 - openLink:
     link: critterpass-dev://
@@ -155,9 +146,10 @@ appId: app.critterpass.dev
     visible:
       id: 'invite-code-boxes'
     timeout: 15000
-- tapOn:
-    id: 'invite-code-boxes'
-- inputText: ${output.crewCode}
+- runFlow:
+    file: subflows/type-crew-code.yaml
+    env:
+      CODE: ${output.crewCode}
 - extendedWaitUntil:
     visible:
       text: '(?i)found it.*'
@@ -184,10 +176,10 @@ appId: app.critterpass.dev
     maxRetries: 1
     commands:
       - runFlow:
-          file: ../proposal/subflows/switch-account.yaml
+          file: subflows/switch-account.yaml
           env:
             TARGET: 'dev-accounts-switch-1'
-- runFlow: ../proposal/subflows/open-proposal-card.yaml
+- runFlow: subflows/open-proposal-card.yaml
 - extendedWaitUntil:
     visible:
       id: 'proposal-version'
@@ -218,10 +210,10 @@ appId: app.critterpass.dev
     maxRetries: 1
     commands:
       - runFlow:
-          file: ../proposal/subflows/switch-account.yaml
+          file: subflows/switch-account.yaml
           env:
             TARGET: 'dev-accounts-switch-0'
-- runFlow: ../proposal/subflows/open-proposal-card.yaml
+- runFlow: subflows/open-proposal-card.yaml
 - extendedWaitUntil:
     visible:
       id: 'proposal-tracker'
@@ -233,7 +225,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'tracker-lock'
-- tapOn: '(?i)yes, lock it in'
+- tapOn: '(?i)yes, lock.it.in'
 - extendedWaitUntil:
     visible:
       id: 'tracker-confirmed'
@@ -281,10 +273,10 @@ appId: app.critterpass.dev
     maxRetries: 1
     commands:
       - runFlow:
-          file: ../proposal/subflows/switch-account.yaml
+          file: subflows/switch-account.yaml
           env:
             TARGET: 'dev-accounts-new'
-- runFlow: ../home/subflows/onboard.yaml
+- runFlow: subflows/onboard.yaml
 # Onboarding may finish on another tab; Home has JOIN WITH A CODE.
 - openLink:
     link: critterpass-dev://
@@ -304,9 +296,10 @@ appId: app.critterpass.dev
     visible:
       id: 'invite-code-boxes'
     timeout: 15000
-- tapOn:
-    id: 'invite-code-boxes'
-- inputText: ${output.crewCode}
+- runFlow:
+    file: subflows/type-crew-code.yaml
+    env:
+      CODE: ${output.crewCode}
 - extendedWaitUntil:
     visible:
       text: '(?i)found it.*'
@@ -369,11 +362,11 @@ appId: app.critterpass.dev
       - tapOn: 'Open'
 - extendedWaitUntil:
     visible:
-      id: 'home-header-chat'
+      id: 'home-chat'
     timeout: 60000
 - extendedWaitUntil:
     visible:
-      id: 'home-mode-(everyday|in_trip)'
+      id: 'home-mode-(everyday|in_trip)|home-(next-up|in-trip)'
     timeout: 60000
     optional: true
 - waitForAnimationToEnd:
@@ -388,13 +381,31 @@ appId: app.critterpass.dev
       - waitForAnimationToEnd:
           timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-home
-- tapOn:
-    id: 'tab-trips'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: trips
+      LABEL: Trips
 - extendedWaitUntil:
     visible:
-      id: 'trip-hub|trip-list|trip-list-empty|trip-waiting'
+      id: 'trip-hub|trip-list-row-.*|trip-list-empty'
     timeout: 30000
     optional: true
+# Your trips lists the trip once this account is on it; its row opens the hub.
+- runFlow:
+    when:
+      visible:
+        id: 'trip-list-row-.*'
+      notVisible:
+        id: 'trip-hub'
+    commands:
+      - tapOn:
+          id: 'trip-list-row-.*'
+          index: 0
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-hub'
+          timeout: 30000
 - waitForAnimationToEnd:
     timeout: 8000
 - runFlow:
@@ -410,10 +421,10 @@ appId: app.critterpass.dev
 - runFlow:
     when:
       visible:
-        id: 'trip-hub-tile-plan'
+        id: 'trip-hub-door-plan|trip-hub-tile-plan'
     commands:
       - tapOn:
-          id: 'trip-hub-tile-plan'
+          id: 'trip-hub-door-plan|trip-hub-tile-plan'
       - extendedWaitUntil:
           visible:
             id: 'trip-map|day-plan'
@@ -432,14 +443,14 @@ appId: app.critterpass.dev
                 timeout: 5000
       - takeScreenshot: en-join-under-way-newcomer-plan
       - runFlow: subflows/leave-plan.yaml
-- tapOn:
-    id: 'tab-home'
+# The hub covers the tab bar: Home by its link.
+- runFlow: ../_shared/to-home.yaml
 - extendedWaitUntil:
     visible:
-      id: 'home-header-chat'
+      id: 'home-chat'
     timeout: 30000
 - tapOn:
-    id: 'home-header-chat'
+    id: 'home-chat'
 - extendedWaitUntil:
     visible:
       id: 'chat-composer'
@@ -474,13 +485,13 @@ appId: app.critterpass.dev
     maxRetries: 1
     commands:
       - runFlow:
-          file: ../proposal/subflows/switch-account.yaml
+          file: subflows/switch-account.yaml
           env:
             TARGET: 'dev-accounts-switch-0'
-# The switch restarts the app where it last was (the trips tab): back to Home.
+# The switch restarts the app where it last was: back to Home.
 - extendedWaitUntil:
     visible:
-      id: 'tab-home'
+      id: 'tab-home|home-screen|trip-list-row-.*|trip-hub'
     timeout: 60000
 - runFlow:
     when:
@@ -491,11 +502,14 @@ appId: app.critterpass.dev
           id: 'visit-consent-decline'
       - waitForAnimationToEnd:
           timeout: 5000
-- tapOn:
-    id: 'tab-home'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
 - extendedWaitUntil:
     visible:
-      id: 'dev-tools-entry'
+      id: 'home-screen'
     timeout: 60000
 - waitForAnimationToEnd:
     timeout: 8000
@@ -512,27 +526,19 @@ appId: app.critterpass.dev
 - openLink: critterpass-dev://wallet/money
 - extendedWaitUntil:
     visible:
-      id: 'money-balances'
+      id: 'money-(ready|none|syncing)'
     timeout: 60000
-- tapOn:
-    id: 'money-empty'
-    optional: true
-- runFlow:
-    when:
-      notVisible:
-        id: 'money-add-keypad'
-    commands:
-      - tapOn: 'ADD'
+- runFlow: subflows/open-add-expense.yaml
 - extendedWaitUntil:
     visible:
-      id: 'money-add-keypad'
+      id: 'money-keypad'
     timeout: 10000
 # 9 then the 000 key: ₫9,000 (the crew settles in đồng), each key by its id (a digit's text also
 # matches the amount's own digits).
 - tapOn:
-    id: 'money-add-keypad-key-9'
+    id: 'money-key-9'
 - tapOn:
-    id: 'money-add-keypad-key-000'
+    id: 'money-key-000'
 # EVENLY splits between everyone on the trip: PAID BY shows each of them, and ₫9,000 three ways
 # reads "₫3,000 each" (two people would read 4,500, four 2,250).
 - extendedWaitUntil:
@@ -560,7 +566,7 @@ appId: app.critterpass.dev
     id: 'money-add-submit'
 - extendedWaitUntil:
     visible:
-      id: 'money-latest-row'
+      id: 'money-latest'
     timeout: 30000
 # The saved expense at the top of the list (the row can sit under the guide button, so it is
 # captured in place rather than opened).
@@ -591,13 +597,13 @@ appId: app.critterpass.dev
     maxRetries: 1
     commands:
       - runFlow:
-          file: ../proposal/subflows/switch-account.yaml
+          file: subflows/switch-account.yaml
           env:
             TARGET: 'dev-accounts-switch-3'
-# The switch restarts the app where it last was (the trips tab): back to Home.
+# The switch restarts the app where it last was: back to Home.
 - extendedWaitUntil:
     visible:
-      id: 'tab-home'
+      id: 'tab-home|home-screen|trip-list-row-.*|trip-hub'
     timeout: 60000
 - runFlow:
     when:
@@ -608,11 +614,14 @@ appId: app.critterpass.dev
           id: 'visit-consent-decline'
       - waitForAnimationToEnd:
           timeout: 5000
-- tapOn:
-    id: 'tab-home'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
 - extendedWaitUntil:
     visible:
-      id: 'home-header-chat'
+      id: 'home-chat'
     timeout: 60000
 - runFlow:
     when:
@@ -635,13 +644,31 @@ appId: app.critterpass.dev
       - waitForAnimationToEnd:
           timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-home-later
-- tapOn:
-    id: 'tab-trips'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: trips
+      LABEL: Trips
 - extendedWaitUntil:
     visible:
-      id: 'trip-hub|trip-list|trip-list-empty|trip-waiting'
+      id: 'trip-hub|trip-list-row-.*|trip-list-empty'
     timeout: 30000
     optional: true
+# Your trips lists the trip once this account is on it; its row opens the hub.
+- runFlow:
+    when:
+      visible:
+        id: 'trip-list-row-.*'
+      notVisible:
+        id: 'trip-hub'
+    commands:
+      - tapOn:
+          id: 'trip-list-row-.*'
+          index: 0
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-hub'
+          timeout: 30000
 - waitForAnimationToEnd:
     timeout: 8000
 - runFlow:
@@ -660,10 +687,10 @@ appId: app.critterpass.dev
 - assertTrue: ${output.threeWays == true}
 - extendedWaitUntil:
     visible:
-      id: 'trip-hub-tile-plan'
+      id: 'trip-hub-door-plan|trip-hub-tile-plan'
     timeout: 30000
 - tapOn:
-    id: 'trip-hub-tile-plan'
+    id: 'trip-hub-door-plan|trip-hub-tile-plan'
 - extendedWaitUntil:
     visible:
       id: 'trip-map|day-plan'
@@ -671,7 +698,7 @@ appId: app.critterpass.dev
 - openLink: critterpass-dev://wallet/money
 - extendedWaitUntil:
     visible:
-      id: 'money-latest-row'
+      id: 'money-latest'
     timeout: 60000
 - waitForAnimationToEnd
 - runFlow:
@@ -700,13 +727,13 @@ appId: app.critterpass.dev
     maxRetries: 1
     commands:
       - runFlow:
-          file: ../proposal/subflows/switch-account.yaml
+          file: subflows/switch-account.yaml
           env:
             TARGET: 'dev-accounts-switch-2'
-# The switch restarts the app where it last was (the trips tab): back to Home.
+# The switch restarts the app where it last was: back to Home.
 - extendedWaitUntil:
     visible:
-      id: 'tab-home'
+      id: 'tab-home|home-screen|trip-list-row-.*|trip-hub'
     timeout: 60000
 - runFlow:
     when:
@@ -717,8 +744,11 @@ appId: app.critterpass.dev
           id: 'visit-consent-decline'
       - waitForAnimationToEnd:
           timeout: 5000
-- tapOn:
-    id: 'tab-home'
+- runFlow:
+    file: ../_shared/tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
 - extendedWaitUntil:
     visible:
       id: 'home-join-trip'
@@ -753,12 +783,7 @@ appId: app.critterpass.dev
       - waitForAnimationToEnd:
           timeout: 5000
 - takeScreenshot: en-join-under-way-not-on-trip-joined
-- tapOn:
-    id: 'tab-trips'
-- extendedWaitUntil:
-    visible:
-      id: 'trip-hub'
-    timeout: 30000
+- runFlow: subflows/open-trip-hub.yaml
 - waitForAnimationToEnd:
     timeout: 8000
 - runFlow:

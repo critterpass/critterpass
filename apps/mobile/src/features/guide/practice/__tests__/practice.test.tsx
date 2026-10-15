@@ -9,7 +9,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';
 
 import { renderScreen } from '../../voice/test-support/screen-harness';
-import { PRACTICE_SCENES, PRACTICE_PHRASES } from '../dev/lab-scenes-practice';
+import { PRACTICE_SCENES, PRACTICE_PHRASES } from '../test-support/practice-fixtures';
 import {
   createPracticeController,
   type PracticeGrade,
@@ -23,7 +23,7 @@ import {
   type PracticePhrase,
   type PracticeState,
 } from '../practice-model';
-import { PracticeView } from '../practice-view';
+import { PremiumPracticeView as PracticeView } from '../../premium/practice/practice-view';
 
 const THANKS = PRACTICE_PHRASES[0] as PracticePhrase;
 
@@ -155,7 +155,7 @@ describe('what the screen shows', () => {
 
   it('shows what was heard with the tip on a miss, and offers another go', async () => {
     await renderScreen(scene('practice-tip'));
-    expect(screen.getByTestId('guide-practice-heard').props.children).toBe('"Cam on nhiu"');
+    expect(screen.getByTestId('guide-practice-heard').props.children).toMatch(/^“Cam on\snhiu”$/u);
     expect(screen.getByTestId('guide-practice-tip').props.children).toContain('nhiều');
     expect(screen.getByTestId('guide-practice-say')).toBeTruthy();
     expect(screen.queryByTestId('guide-practice-ok')).toBeNull();
@@ -165,7 +165,7 @@ describe('what the screen shows', () => {
   it('shows the pass, the count and the next phrase once it went well', async () => {
     await renderScreen(scene('practice-ok'));
     expect(screen.getByTestId('guide-practice-ok')).toBeTruthy();
-    expect(screen.getByTestId('guide-practice-count').props.children).toBe('2 of 5 learned');
+    expect(screen.getByTestId('guide-practice-count')).toHaveTextContent(/2 of 5 learned/u);
     expect(screen.getByTestId('guide-practice-next')).toBeTruthy();
     expect(screen.queryByTestId('guide-practice-tip')).toBeNull();
   });

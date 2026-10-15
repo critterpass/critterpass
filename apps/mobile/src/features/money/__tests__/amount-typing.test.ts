@@ -5,7 +5,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import { amountText, digitsToMinor, type AmountUnit } from '@/data/money/amount-digits';
-import { digitsAfterEdit } from '@/ui/inputs/amount-edit';
+import { digitsAfterEdit } from '@/data/money/amount-edit';
 
 /** Types `keys` one at a time at the end of the field, as the number pad does. */
 function type(keys: string, currency: string, locale: string, unit: AmountUnit = 'display') {

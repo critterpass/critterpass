@@ -4,47 +4,13 @@
  * A door with nowhere to go yet (no plan while the crew votes) is left out, never drawn dead.
  */
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-import { PressableScale, Text, usePremiumTheme } from '@/ui/premium';
+import { Chip, ROW_ROOM_ABOVE, ROW_ROOM_BELOW, ScrollRow, usePremiumTheme } from '@/ui/premium';
 
 export interface HubDoor {
   readonly key: 'plan' | 'map' | 'money';
   readonly onPress: () => void;
-}
-
-function Chip(props: {
-  readonly label: string;
-  readonly selected: boolean;
-  readonly onPress?: () => void;
-  readonly testID: string;
-}) {
-  const th = usePremiumTheme();
-  return (
-    <PressableScale
-      {...(props.onPress === undefined ? {} : { onPress: props.onPress })}
-      accessibilityRole="tab"
-      accessibilityState={{ selected: props.selected }}
-      accessibilityLabel={props.label}
-      testID={props.testID}
-    >
-      <View
-        style={[
-          styles.chip,
-          {
-            borderRadius: th.radius.pillSmall,
-            paddingHorizontal: th.space.pillSmallPadH + 2,
-            backgroundColor: props.selected ? th.color.ink : th.color.card,
-            boxShadow: props.selected ? th.shadow.ink : th.shadow.float,
-          },
-        ]}
-      >
-        <Text variant="pillSmall" color={props.selected ? th.color.onInk : th.color.ink}>
-          {props.label}
-        </Text>
-      </View>
-    </PressableScale>
-  );
 }
 
 export function HubSwitch({ doors }: { readonly doors: readonly HubDoor[] }) {
@@ -58,36 +24,37 @@ export function HubSwitch({ doors }: { readonly doors: readonly HubDoor[] }) {
   return (
     // Scrolls only when the chips overflow (a longer language): a row that fits doesn't bounce, so
     // an iOS edge swipe that starts over it goes back instead of tugging the chips.
-    <ScrollView
-      horizontal
-      alwaysBounceHorizontal={false}
-      showsHorizontalScrollIndicator={false}
+    <ScrollRow
       accessibilityRole="tablist"
-      contentContainerStyle={[
-        styles.row,
-        { paddingHorizontal: th.space.gap16, gap: th.space.gap8 },
-      ]}
+      gap={th.space.gap8}
+      contentContainerStyle={{ paddingHorizontal: th.space.gap16 }}
+      style={styles.scroller}
       testID="trip-hub-switch"
     >
       <Chip
         label={t({ id: 'trip.hub.door.today', message: 'Today' })}
         selected
+        size="hub"
+        surface="white"
+        accessibilityRole="tab"
         testID="trip-hub-door-today"
       />
       {doors.map((door) => (
         <Chip
           key={door.key}
           label={labels[door.key]}
-          selected={false}
+          size="hub"
+          surface="white"
+          accessibilityRole="tab"
           onPress={door.onPress}
           testID={`trip-hub-door-${door.key}`}
         />
       ))}
-    </ScrollView>
+    </ScrollRow>
   );
 }
 
 const styles = StyleSheet.create({
-  row: { alignItems: 'center', paddingVertical: 4 },
-  chip: { height: 34, justifyContent: 'center' },
+  // The row keeps the 4 pt it always added between the hero and the chips.
+  scroller: { marginVertical: 4 - ROW_ROOM_BELOW, marginTop: 4 - ROW_ROOM_ABOVE },
 });

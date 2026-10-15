@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { View, type ViewStyle } from 'react-native';
 
 import { Text } from '../text/Text';
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
@@ -9,17 +9,24 @@ export interface TagProps {
   readonly color?: string | undefined;
   /** Degrees; the design tilts tags between −5 and +4. @default −5 */
   readonly rotate?: number | undefined;
+  /** Lines the label may take where the tag sits in a narrow column. @default 1 */
+  readonly lines?: 1 | 2 | undefined;
+  /**
+   * Where it sits across its parent. It starts its column (`flex-start`), which in a row puts it
+   * at the row's top: beside text in a row pass `auto` to follow the row's `alignItems`.
+   */
+  readonly alignSelf?: NonNullable<ViewStyle['alignSelf']> | undefined;
   readonly testID?: string | undefined;
 }
 
 /** A sticker tag: 14/800 on an accent, 2.5 white die-cut edge, sticker shadow, tilted. */
-export function Tag({ label, color, rotate, testID }: TagProps) {
+export function Tag({ label, color, rotate, lines = 1, alignSelf, testID }: TagProps) {
   const t = usePremiumTheme();
   return (
     <View
       testID={testID}
       style={{
-        alignSelf: 'flex-start',
+        alignSelf: alignSelf ?? 'flex-start',
         paddingVertical: t.space.tagPadV,
         paddingHorizontal: t.space.tagPadH,
         borderRadius: t.radius.tag,
@@ -30,7 +37,7 @@ export function Tag({ label, color, rotate, testID }: TagProps) {
         transform: [{ rotate: `${String(rotate ?? t.tilt.tag)}deg` }],
       }}
     >
-      <Text variant="placeTag" tone="onAccent" numberOfLines={1}>
+      <Text variant="placeTag" tone="onAccent" numberOfLines={lines} singleLine={lines === 1}>
         {label}
       </Text>
     </View>
@@ -39,17 +46,22 @@ export function Tag({ label, color, rotate, testID }: TagProps) {
 
 export interface EmptySlotProps {
   readonly label: string;
+  /**
+   * Where it sits across its parent. It starts its column (`flex-start`), which in a row puts it
+   * at the row's top: beside text in a row pass `auto` to follow the row's `alignItems`.
+   */
+  readonly alignSelf?: NonNullable<ViewStyle['alignSelf']> | undefined;
   readonly testID?: string | undefined;
 }
 
 /** A slot still to fill: the tag's shape in a 2 pt dashed outline. */
-export function EmptySlot({ label, testID }: EmptySlotProps) {
+export function EmptySlot({ label, alignSelf, testID }: EmptySlotProps) {
   const t = usePremiumTheme();
   return (
     <View
       testID={testID}
       style={{
-        alignSelf: 'flex-start',
+        alignSelf: alignSelf ?? 'flex-start',
         paddingVertical: t.space.tagPadV,
         paddingHorizontal: t.space.rowPadH,
         borderRadius: t.radius.tag,

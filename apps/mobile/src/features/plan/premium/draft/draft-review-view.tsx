@@ -11,7 +11,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { format } from '@cp/i18n';
 
 import { displayWithHome, useMoneyDisplay } from '@/data/money';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   CritterSticker,
@@ -29,10 +29,10 @@ import { PushScreen } from '@/ui/premium/shell';
 
 import { estimateMinor, estimateMoney, overBudgetMinor, wholeMoney } from '../../draft/data/format';
 import { counterLine } from '../../draft/data/quota-copy';
-import { dayDetail } from '../../draft/review/draft-day-row';
-import type { DraftReviewViewProps } from '../../draft/review/draft-review-view';
-import { changeWord } from '../../draft/review/stale-banner';
+import { dayHeading, changeWord } from '../../draft/review/review-words';
+import type { DraftReviewViewProps } from '../../draft/review/draft-review-props';
 import { dayColours } from '../map';
+import { OnlyYouPill } from '../only-you-pill';
 import { DraftCoverage, faces } from './draft-coverage';
 
 export function PremiumDraftReviewView(props: DraftReviewViewProps) {
@@ -51,11 +51,12 @@ export function PremiumDraftReviewView(props: DraftReviewViewProps) {
   );
   const overBy = overBudgetMinor(model.costPpMinor, model.overByMinor, model.currency);
   const counter = counterLine(quota);
+  const title = t({ id: 'planDraft.review.title', message: `${guideName}’s draft` });
   return (
     <PushScreen
-      title={t({ id: 'planDraft.review.title', message: `${guideName}’s draft` })}
-      subtitle={t({ id: 'planDraft.onlyYou', message: 'Only you see this' })}
+      title={title}
       backLabel={t({ id: 'plan.premium.draft.back', message: 'Back' })}
+      badge={<OnlyYouPill ink />}
       scroll={false}
       testID="draft-review"
     >
@@ -69,7 +70,13 @@ export function PremiumDraftReviewView(props: DraftReviewViewProps) {
         }}
       >
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.space.gap12 }}>
-          <Text variant="body" tone="muted" style={{ flex: 1 }} testID="draft-sub">
+          <Text variant="largeTitle" accessibilityRole="header" style={{ flex: 1 }}>
+            {title}
+          </Text>
+          <CritterSticker kind={info.kind} name={guideName} size={70} />
+        </View>
+        <View style={{ marginTop: -theme.space.gap8 }}>
+          <Text variant="body" tone="muted" testID="draft-sub">
             {model.costPpMinor > 0
               ? t({
                   id: 'planDraft.review.sub',
@@ -80,7 +87,6 @@ export function PremiumDraftReviewView(props: DraftReviewViewProps) {
                   message: `${dates}. No cost estimate yet. Fix anything before the crew sees it.`,
                 })}
           </Text>
-          <CritterSticker kind={info.kind} name={guideName} size={70} />
         </View>
         {props.offline ? <OfflinePill /> : null}
         {openRedraft === null ? null : (
@@ -134,61 +140,64 @@ export function PremiumDraftReviewView(props: DraftReviewViewProps) {
           </Text>
         ) : null}
         <ListCard>
-          {model.days.map((day) => (
-            <PressableScale
-              key={day.dayNo}
-              onPress={
-                props.onOpenDay === undefined ? undefined : () => props.onOpenDay?.(day.dayNo)
-              }
-              disabled={props.onOpenDay === undefined}
-              accessibilityRole="button"
-              accessibilityLabel={`${day.title}. ${dayDetail(locale, day)}`}
-              testID={`draft-day-${String(day.dayNo)}`}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: theme.space.gap12,
-                paddingVertical: 7,
-                paddingStart: theme.space.gap10,
-                paddingEnd: theme.space.rowPadH,
-              }}
-            >
-              <View
+          {model.days.map((day) => {
+            const heading = dayHeading(locale, day);
+            return (
+              <PressableScale
+                key={day.dayNo}
+                onPress={
+                  props.onOpenDay === undefined ? undefined : () => props.onOpenDay?.(day.dayNo)
+                }
+                disabled={props.onOpenDay === undefined}
+                accessibilityRole="button"
+                accessibilityLabel={`${heading.title}. ${heading.detail}`}
+                testID={`draft-day-${String(day.dayNo)}`}
                 style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: 10,
-                  backgroundColor:
-                    day.stops.length === 0 ? theme.color.control : dayColours(day.dayNo).fill,
+                  flexDirection: 'row',
                   alignItems: 'center',
-                  justifyContent: 'center',
+                  gap: theme.space.gap12,
+                  paddingVertical: 7,
+                  paddingStart: theme.space.gap10,
+                  paddingEnd: theme.space.rowPadH,
                 }}
               >
-                <Text variant="rowTextStrong" color={theme.color.onAccent}>
-                  {String(day.dayNo)}
-                </Text>
-              </View>
-              <View style={{ flex: 1, minWidth: 0 }}>
-                <Text variant="rowTextStrong" numberOfLines={1}>
-                  {day.title}
-                </Text>
-                <Text variant="captionMuted" tone="muted" numberOfLines={1}>
-                  {dayDetail(locale, day)}
-                </Text>
-              </View>
-              {day.owners.length === 0 ? null : (
-                <CrewStack
-                  members={faces(day.owners)}
-                  size={22}
-                  max={2}
-                  accessibilityLabel={day.owners.map((p) => p.name).join(', ')}
-                />
-              )}
-              {day.closed ? (
-                <Icon name="lock" size={14} color={theme.color.destructive.text} />
-              ) : null}
-            </PressableScale>
-          ))}
+                <View
+                  style={{
+                    width: 30,
+                    height: 30,
+                    borderRadius: 10,
+                    backgroundColor:
+                      day.stops.length === 0 ? theme.color.control : dayColours(day.dayNo).fill,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Text variant="rowTextStrong" color={theme.color.onAccent}>
+                    {String(day.dayNo)}
+                  </Text>
+                </View>
+                <View style={{ flex: 1, minWidth: 0 }}>
+                  <Text variant="rowTextStrong" numberOfLines={1}>
+                    {heading.title}
+                  </Text>
+                  <Text variant="captionMuted" tone="muted" numberOfLines={1}>
+                    {heading.detail}
+                  </Text>
+                </View>
+                {day.owners.length === 0 ? null : (
+                  <CrewStack
+                    members={faces(day.owners)}
+                    size={22}
+                    max={2}
+                    accessibilityLabel={day.owners.map((p) => p.name).join(', ')}
+                  />
+                )}
+                {day.closed ? (
+                  <Icon name="lock" size={14} color={theme.color.destructive.text} />
+                ) : null}
+              </PressableScale>
+            );
+          })}
         </ListCard>
         {props.hasHistory ? (
           <TextButton
@@ -216,6 +225,7 @@ export function PremiumDraftReviewView(props: DraftReviewViewProps) {
           />
         </View>
         <TextButton
+          align="center"
           label={t({
             id: 'planDraft.review.changeDay',
             message: `Ask ${guideName} to change a day`,

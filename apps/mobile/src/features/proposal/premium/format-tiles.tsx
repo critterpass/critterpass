@@ -8,7 +8,7 @@ import { PROPOSAL_FORMATS, type ProposalFormat } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { StyleSheet, View } from 'react-native';
 
-import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideStickerId } from '@/ui/premium/stickers/guides';
 import { CritterSticker, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
 const TILE_HEIGHT = 132;

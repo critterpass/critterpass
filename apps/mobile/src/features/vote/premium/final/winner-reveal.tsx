@@ -131,7 +131,7 @@ function RevealContent({
   const and = t({ id: 'vote.final.and', message: 'and' });
   const leave = () => goBackOr();
   const setUp = () => {
-    const href = poll.tripId === null ? undefined : voteRoutes.tripStart(poll.tripId, true);
+    const href = poll.tripId === null ? undefined : voteRoutes.tripStart(poll.tripId);
     if (href === undefined) leave();
     else router.replace(href);
   };
@@ -214,12 +214,14 @@ function RevealContent({
                     position: 'absolute',
                     top: sticker.top,
                     ...('start' in sticker ? { start: sticker.start } : { end: sticker.end }),
-                    transform: [{ rotate: `${sticker.rotate}deg` }],
                   },
                   riseStyle,
                 ]}
               >
-                <CritterSticker kind={sticker.kind} name={sticker.kind} size={sticker.size} />
+                {/* The tilt sits inside: the rise's own transform would replace it. */}
+                <View style={{ transform: [{ rotate: `${sticker.rotate}deg` }] }}>
+                  <CritterSticker kind={sticker.kind} name={sticker.kind} size={sticker.size} />
+                </View>
               </Animated.View>
             ))}
           </View>

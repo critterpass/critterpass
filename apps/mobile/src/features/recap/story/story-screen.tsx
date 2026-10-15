@@ -21,9 +21,14 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
 import { useCommandFeedback } from '@/motion/island-toast';
 import { music } from '@/motion/music';
-import { guideColour, guideIdOr, guidesOfSameCountry, guideSticker } from '@/ui/avatar/guides';
-import type { GuideId } from '@/ui/people/GuideLine';
-import { SessionWaiting } from '@/ui/states/SessionWaiting';
+import {
+  guideColour,
+  guideIdOr,
+  guidesOfSameCountry,
+  guideSticker,
+} from '@/ui/premium/stickers/guides';
+import type { GuideId } from '@/lib/navigation/active-guide';
+import { PremiumSessionWaiting } from '@/ui/premium';
 
 import {
   castMvpVoteCommand,
@@ -36,7 +41,7 @@ import { recapRoutes } from '../routes';
 import { awardTitle } from '../summary/award-copy';
 import { buildStoryCards } from './story-cards';
 import { storySubtitle, themeName } from './story-copy';
-import { CURRENT_LOOK, type StoryLook } from './story-look';
+import type { StoryLook } from './story-look';
 import { storySession } from './story-session';
 import { storySummary } from './story-summary';
 import { useAppActive } from './use-app-active';
@@ -124,7 +129,7 @@ function RecapStory({
         locale,
         unit,
         canSign,
-        ...(look.cards === undefined ? {} : { views: look.cards }),
+        views: look.cards,
       }),
     [data, summary, live, guide, locale, unit, canSign, look.cards],
   );
@@ -239,14 +244,14 @@ function RecapStory({
 export function RecapStoryScreen({
   tripId,
   replay = false,
-  look = CURRENT_LOOK,
+  look,
 }: {
   readonly tripId: string;
   /** Opened from the recap page, which is still underneath. */
   readonly replay?: boolean;
-  readonly look?: StoryLook;
+  readonly look: StoryLook;
 }) {
   const localFirst = useContext(LocalFirstContext);
-  if (localFirst === null) return <SessionWaiting testID="recap-story-waiting" />;
+  if (localFirst === null) return <PremiumSessionWaiting testID="recap-story-waiting" />;
   return <RecapStory tripId={tripId} replay={replay} look={look} />;
 }

@@ -43,9 +43,8 @@ import {
   rememberOfflineSends,
 } from './offline-conflicts';
 import { stillWorksLines } from './offline-copy';
-import type { OfflineViewProps } from './offline-view';
+import type { OfflineViewProps } from './view-types';
 import { cancelQueued, editQueuedMessage, queuedMessageBody, SEND_MESSAGE } from './queue-actions';
-import { QueuedItemSheet } from './queued-item-sheet';
 import { INITIAL_RECONNECT, stepReconnect, travellerActions } from './reconnect-sequence';
 
 /** "Back online" stays up while the last ticks and SENT flaps land, then the banner lifts. */
@@ -141,7 +140,6 @@ export function useOffline(
   );
   const here = started[started.length - 1] ?? items[0];
   const place = here?.poi_name ?? trip?.destination_name ?? null;
-  const time = clockIn(now, tz, locale);
   const savedAt = day === null ? null : clockIn(new Date(day.savedAt), tz, locale);
   const headline = quiet
     ? t({ id: 'trip.offline.readyHeadline', message: 'Ready for no signal' })
@@ -153,16 +151,16 @@ export function useOffline(
       ? t({
           id: 'trip.offline.notSaved',
           message:
-            "Today isn't saved to this phone yet. The plan still works; tickets and maps need signal.",
+            'Today isn’t saved to this phone yet. The plan still works; tickets and maps need signal.',
         })
       : day !== null && day.missing.length > 0
         ? t({
             id: 'trip.offline.partSaved',
-            message: `${time}. Part of today was saved to your phone at ${savedAt}.`,
+            message: `Part of today was saved to your phone at ${savedAt}.`,
           })
         : t({
             id: 'trip.offline.saved',
-            message: `${time}. Today was saved to your phone at ${savedAt}.`,
+            message: `Today was saved to your phone at ${savedAt}.`,
           });
   const first = items.find((item) => item.starts_at !== null);
   const lastSynced = sync.lastSyncedAt === null ? null : clockIn(sync.lastSyncedAt, tz, locale);
@@ -179,6 +177,7 @@ export function useOffline(
             ? 'weak'
             : 'offline',
       guide: guideOr(trip?.guide_slug),
+      destinationSlug: trip?.destination_slug ?? null,
     },
     stillWorks: stillWorksLines({ day, first, tz, locale }),
     sends: state.items.map((item) => ({
@@ -213,16 +212,5 @@ export function useOffline(
             onEdit: (body: string) => editQueuedMessage(db, open.opId, body),
             onClose: () => setOpen(null),
           },
-    sheet:
-      open === null ? null : (
-        <QueuedItemSheet
-          summary={queue.find((op) => op.opId === open.opId)?.summary ?? GONE}
-          since={clockIn(open.since, tz, locale)}
-          body={open.body}
-          onCancel={() => cancelQueued(db, open.opId)}
-          onEdit={(body) => editQueuedMessage(db, open.opId, body)}
-          onClose={() => setOpen(null)}
-        />
-      ),
   };
 }

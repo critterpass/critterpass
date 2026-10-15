@@ -6,7 +6,9 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, useWindowDimensions, View } from 'react-native';
+
+import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 
 import {
   Button,
@@ -22,18 +24,33 @@ import { PushScreen } from '@/ui/premium/shell';
 import { conflictReason } from '../../offline/conflict-reason';
 import { useOffline } from '../../offline/use-offline';
 import { offlineStorageRoute } from '../../hub/routes';
+import { heroStillUri } from '../components/hero-still';
 import { turn } from '../components/turn';
 import { QueuedSheet } from './QueuedSheet';
+
+/** Clear over the photo's top, dark under the headline so the white reads on any photo. */
+const PHOTO_FADE =
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, not copy
+  'linear-gradient(180deg, rgba(10,10,25,0) 30%, rgba(10,10,25,0.7) 100%)';
 
 export function OfflinePremium({ tripId }: { readonly tripId: string }) {
   const th = usePremiumTheme();
   const { i18n, t } = useLingui();
   const view = useOffline(tripId, { always: true });
-  const title = t({ id: 'trip.offline.premium.title', message: 'Offline' });
+  const { width } = useWindowDimensions();
+  // The saved copy of the trip's photo, so the polaroid shows the place with no signal.
+  const media = useDestinationMedia(view?.card.destinationSlug ?? null, { prefetch: false });
+  const photo = heroStillUri(heroAt(media.items), width);
+  // Opened with signal, the page is what would still work: an "Online" chip under "Offline" read
+  // as a contradiction.
+  const title =
+    view?.card.chip === 'online'
+      ? t({ id: 'trip.offline.premium.readyTitle', message: 'What works offline' })
+      : t({ id: 'trip.offline.premium.title', message: 'Offline' });
   const backLabel = t({ id: 'trip.offline.backToTrip', message: 'Trip' });
   if (view === null) {
     return (
-      <PushScreen title={title} backLabel={backLabel} testID="trip-offline-page">
+      <PushScreen title={title} largeTitle backLabel={backLabel} testID="trip-offline-page">
         {null}
       </PushScreen>
     );
@@ -48,29 +65,32 @@ export function OfflinePremium({ tripId }: { readonly tripId: string }) {
           : t({ id: 'trip.offline.noSignal', message: 'No signal' });
   const waiting = view.sends.filter((line) => !line.sent);
   return (
-    <PushScreen title={title} backLabel={backLabel} testID="trip-offline-page">
-      <View style={[styles.body, { paddingHorizontal: th.space.gutter, gap: th.space.gap16 }]}>
-        <View style={styles.top}>
-          <View style={[styles.chip, { backgroundColor: th.color.inkSurface }]}>
-            <View
-              style={[
-                styles.dot,
-                {
-                  backgroundColor:
-                    view.card.chip === 'online' || view.card.chip === 'back'
-                      ? th.accent.mint
-                      : th.accent.tangerine,
-                },
-              ]}
-            />
-            <Text variant="caption" color={th.color.onInkSurface}>
-              {chip}
-            </Text>
-          </View>
-          <Text variant="caption" tone="muted">
-            {view.card.eyebrow}
+    <PushScreen
+      title={title}
+      subtitle={view.card.eyebrow}
+      largeTitle
+      badge={
+        <View style={[styles.chip, { backgroundColor: th.color.inkSurface }]}>
+          <View
+            style={[
+              styles.dot,
+              {
+                backgroundColor:
+                  view.card.chip === 'online' || view.card.chip === 'back'
+                    ? th.accent.mint
+                    : th.accent.tangerine,
+              },
+            ]}
+          />
+          <Text variant="caption" color={th.color.onInkSurface}>
+            {chip}
           </Text>
         </View>
+      }
+      backLabel={backLabel}
+      testID="trip-offline-page"
+    >
+      <View style={[styles.body, { paddingHorizontal: th.space.gutter, gap: th.space.gap16 }]}>
         <View
           style={[
             styles.polaroid,
@@ -83,7 +103,18 @@ export function OfflinePremium({ tripId }: { readonly tripId: string }) {
           ]}
         >
           <View style={[styles.photo, { backgroundColor: th.color.inkSurface, borderRadius: 21 }]}>
-            <Text variant="display" color={th.color.onInkSurface}>
+            {photo === null ? null : (
+              <>
+                <Image
+                  source={{ uri: photo }}
+                  style={StyleSheet.absoluteFill}
+                  resizeMode="cover"
+                  accessibilityIgnoresInvertColors
+                />
+                <View style={[StyleSheet.absoluteFill, { backgroundImage: PHOTO_FADE }]} />
+              </>
+            )}
+            <Text variant="display" color={th.accent.paper}>
               {view.card.headline}
             </Text>
           </View>
@@ -133,7 +164,7 @@ export function OfflinePremium({ tripId }: { readonly tripId: string }) {
         {waiting.length === 0 ? null : (
           <View style={{ gap: th.space.gap8 }} testID="trip-offline-sends">
             <Text variant="label" color={th.color.status.tangerine.text}>
-              {t({ id: 'trip.offline.sendsTitle', message: "Sends when you're back" })}
+              {t({ id: 'trip.offline.sendsTitle', message: 'Sends when you’re back' })}
             </Text>
             <View style={styles.chips}>
               {waiting.map((line) => (
@@ -165,7 +196,7 @@ export function OfflinePremium({ tripId }: { readonly tripId: string }) {
             testID="trip-offline-conflicts"
           >
             <Text variant="label" color={th.color.destructive.text}>
-              {t({ id: 'trip.offline.conflictsTitle', message: "Didn't go through" })}
+              {t({ id: 'trip.offline.conflictsTitle', message: 'Didn’t go through' })}
             </Text>
             {view.conflicts.map((item) => (
               <View key={item.opId} style={styles.line}>
@@ -186,18 +217,21 @@ export function OfflinePremium({ tripId }: { readonly tripId: string }) {
         )}
         {view.onOpenPlan === null ? null : (
           <Button
-            label={t({ id: 'trip.offline.premium.openPlan', message: "Open today's plan" })}
+            label={t({ id: 'trip.offline.premium.openPlan', message: 'Open today’s plan' })}
             onPress={view.onOpenPlan}
             testID="trip-offline-plan"
           />
         )}
         {view.lastSynced === null ? null : (
           <Text variant="caption" tone="muted" align="center">
-            {view.lastSynced}
+            {t({ id: 'trip.offline.lastSynced', message: `Last synced ${view.lastSynced}` })}
           </Text>
         )}
         <View style={styles.center}>
-          <TextButton
+          <Button
+            variant="secondary"
+            size="medium"
+            icon="download"
             label={t({ id: 'trip.offline.storageLink', message: 'Trips saved on this phone' })}
             onPress={() => router.push(offlineStorageRoute())}
             testID="trip-offline-storage-link"
@@ -211,7 +245,6 @@ export function OfflinePremium({ tripId }: { readonly tripId: string }) {
 
 const styles = StyleSheet.create({
   body: { paddingTop: 8 },
-  top: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   chip: {
     height: 32,
     borderRadius: 16,
@@ -222,7 +255,7 @@ const styles = StyleSheet.create({
   },
   dot: { width: 7, height: 7, borderRadius: 4 },
   polaroid: { padding: 6 },
-  photo: { minHeight: 150, justifyContent: 'flex-end', padding: 16 },
+  photo: { minHeight: 150, justifyContent: 'flex-end', padding: 16, overflow: 'hidden' },
   card: { overflow: 'hidden', paddingHorizontal: 14 },
   conflicts: { paddingVertical: 12, gap: 8 },
   line: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 10 },

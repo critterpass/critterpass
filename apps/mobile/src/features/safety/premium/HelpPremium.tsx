@@ -9,8 +9,16 @@ import type { HelpProblem } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
-import { IconTile, type LineIconName } from '@/features/trip';
-import { Button, PressableScale, StatusTag, Text, TextButton, usePremiumTheme } from '@/ui/premium';
+import {
+  Button,
+  PressableScale,
+  StatusTag,
+  StickerIcon,
+  Text,
+  TextButton,
+  usePremiumTheme,
+  type StickerIconName,
+} from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
 import { facilityDetail } from '../help/help-copy';
@@ -18,11 +26,13 @@ import { serviceLabel } from '../help/service-label';
 import { useHelpScreen } from '../help/use-help-screen';
 import { HelpConsent, HelpPhrase, HelpShare } from './HelpParts';
 import { PhraseBig } from './PhraseBig';
+import { SosAlertAccess } from './SosAlertAccess';
 
-const PROBLEM_ICON: Readonly<Record<HelpProblem, LineIconName>> = {
-  hurt: 'shield',
+/** The design's colour stickers for the four doors: a pink heart, a mint wallet, a blue pin, a taxi. */
+const PROBLEM_STICKER: Readonly<Record<HelpProblem, StickerIconName>> = {
+  hurt: 'heart',
   lost_stolen: 'wallet',
-  lost: 'map',
+  lost: 'pin',
   missed_ride: 'car',
 };
 
@@ -38,7 +48,7 @@ export function HelpPremium() {
     { id: 'hurt', label: t({ id: 'safety.help.hurt', message: 'Hurt or sick' }) },
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a problem id, never copy
     { id: 'lost_stolen', label: t({ id: 'safety.help.lostStolen', message: 'Lost or stolen' }) },
-    { id: 'lost', label: t({ id: 'safety.help.imLost', message: "I'm lost" }) },
+    { id: 'lost', label: t({ id: 'safety.help.imLost', message: 'I’m lost' }) },
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a problem id, never copy
     { id: 'missed_ride', label: t({ id: 'safety.help.missedRide', message: 'Missed a ride' }) },
   ];
@@ -54,7 +64,7 @@ export function HelpPremium() {
   return (
     <PushScreen
       title={t({ id: 'safety.premium.helpTitle', message: 'Help' })}
-      backLabel={t({ id: 'safety.premium.back', message: 'Back' })}
+      backLabel={help.backLabel}
       testID="help-screen"
     >
       <ScrollView
@@ -71,7 +81,7 @@ export function HelpPremium() {
             </Text>
             {model.placeLabel === null ? null : (
               <Text variant="rowText" tone="muted">
-                {t({ id: 'safety.premium.youreOn', message: `You're on ${model.placeLabel}.` })}
+                {t({ id: 'safety.premium.youreOn', message: `You’re on ${model.placeLabel}.` })}
               </Text>
             )}
           </View>
@@ -148,11 +158,11 @@ export function HelpPremium() {
                   },
                 ]}
               >
-                <IconTile
-                  name={PROBLEM_ICON[problem.id]}
-                  bg={th.color.control}
-                  color={th.color.ink}
+                <StickerIcon
+                  name={PROBLEM_STICKER[problem.id]}
                   size={32}
+                  tilt={-6}
+                  {...(problem.id === 'lost' ? { color: th.accent.sky } : {})}
                 />
                 <Text variant="rowTextStrong" style={styles.flex} numberOfLines={2}>
                   {problem.label}
@@ -192,6 +202,7 @@ export function HelpPremium() {
               </Text>
             </View>
             <Button
+              alignSelf="auto"
               label={t({ id: 'safety.help.go', message: 'Go' })}
               size="medium"
               onPress={() => props.onGo(facility)}
@@ -224,8 +235,10 @@ export function HelpPremium() {
             testID="help-sos"
           />
         )}
+        {props.onSos === null ? null : <SosAlertAccess />}
         {props.insurer === null ? (
           <TextButton
+            align="center"
             label={t({ id: 'safety.help.noInsurance', message: 'No insurance on file · add' })}
             onPress={props.onInsurance}
             testID="help-insurance-add"

@@ -6,10 +6,10 @@
 import { View } from 'react-native';
 
 import { Float } from '@/features/critters';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { CritterSticker, Tag, Text, usePremiumTheme } from '@/ui/premium';
 
-import type { CoverCardProps } from '../../../cards/cover-card';
+import type { CoverCardProps } from '../../../story/story-card-views';
 import { CardFrame, FormSticker } from './card-frame';
 
 const SPOTS = [

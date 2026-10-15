@@ -27,11 +27,15 @@ msgstr "{dates} · {going} going"
 
 #: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
 msgid "trip.briefing.premium.title"
-msgstr "{guideName}'s briefing"
+msgstr "{guideName}’s briefing"
 
 #: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
 msgid "trip.disruptions.late.waitingLine"
 msgstr "{title} starts {start} for you."
+
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
+msgid "trip.lockScreen.eyebrow"
+msgstr "{trip} · Live Activity"
 
 #: ../../apps/mobile/src/features/trip/premium/day/DayCards.tsx
 msgid "trip.dayOf.premium.startsAt"
@@ -57,15 +61,39 @@ msgstr "+{minutes} min"
 msgid "trip.dayOf.premium.freeTitle"
 msgstr "A free day, on purpose"
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.notificationTitle"
+msgstr "A notification, not an alarm"
+
+#: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
+msgid "trip.dayOf.premium.addPackGo"
+msgstr "Add it"
+
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
 msgid "trip.dayOf.premium.addPack"
 msgstr "Add something to pack"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.deniedTitle"
+msgstr "Alarms are off"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.askAllow"
+msgstr "Allow alarms"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.exactOpen"
+msgstr "Allow exact alarms"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.exactBody"
+msgstr "Android rings alarms on the minute only for apps you allow. Without it, a leave-by alarm can ring a few minutes late."
 
 #: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
 msgid "trip.offline.backOnline"
 msgstr "Back online"
 
-#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+#: ../../apps/mobile/src/features/trip/premium/day/DayLinks.tsx
 msgid "trip.dayOf.toToday"
 msgstr "Back to today"
 
@@ -73,9 +101,34 @@ msgstr "Back to today"
 msgid "trip.hub.premium.back"
 msgstr "Back to your trips"
 
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/CrewLivePreviewPremium.tsx
+msgid "trip.lockScreen.preview.boost"
+msgstr "Boost"
+
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
+msgid "trip.lockScreen.offer.boost"
+msgstr "Boost {trip}"
+
+#. placeholder {0}: boost.price
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
+msgid "trip.lockScreen.offer.boostPrice"
+msgstr "Boost {trip} · {0}"
+
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
+msgid "trip.lockScreen.cancel"
+msgstr "Cancel"
+
 #: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
 msgid "trip.hub.premium.keep"
 msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "common.confirm.cancel"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
+msgid "trip.lockScreen.asking"
+msgstr "Checking"
 
 #: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
 msgid "trip.offline.premium.close"
@@ -95,11 +148,11 @@ msgstr "Day {dayNo} of {days}"
 
 #: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
 msgid "trip.offline.conflictsTitle"
-msgstr "Didn't go through"
+msgstr "Didn’t go through"
 
 #: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
 msgid "trip.offline.cancelSend"
-msgstr "Don't send it"
+msgstr "Don’t send it"
 
 #: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
 msgid "trip.disruptions.late.eta"
@@ -125,6 +178,14 @@ msgstr "Go"
 msgid "trip.dayOf.premium.go"
 msgstr "Go"
 
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
+msgid "trip.lockScreen.done"
+msgstr "Got it"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.notificationOk"
+msgstr "Got it"
+
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
 msgid "trip.dayOf.premium.packPlaceholder"
 msgstr "Headlamp, jacket…"
@@ -135,15 +196,15 @@ msgstr "Hold to remove it"
 
 #: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
 msgid "trip.briefing.premium.failedTitle"
-msgstr "I couldn't write today's yet"
+msgstr "I couldn’t write today’s yet"
 
 #: ../../apps/mobile/src/features/trip/premium/day/DayCards.tsx
 msgid "trip.dayOf.imUp"
-msgstr "I'm up"
+msgstr "I’m up"
 
 #: ../../apps/mobile/src/features/trip/premium/alarm/InAppAlarmPremium.tsx
 msgid "trip.alarm.imUp"
-msgstr "I'm up"
+msgstr "I’m up"
 
 #: ../../apps/mobile/src/features/trip/access/trip-access-gate.tsx
 msgid "trip.missing.line"
@@ -155,15 +216,36 @@ msgstr "It was sent a moment ago."
 
 #: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
 msgid "trip.offline.alreadySending"
-msgstr "It's already on its way."
+msgstr "It’s already on its way."
+
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
+msgid "trip.lockScreen.offer.quiet"
+msgstr "Just my own leave-by alarms"
 
 #: ../../apps/mobile/src/features/trip/premium/day-change/RunningLatePremium.tsx
 msgid "trip.disruptions.late.etaStale"
 msgstr "Last ETA {eta}"
 
+#. placeholder {0}: view.lastSynced
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.lastSynced"
+msgstr "Last synced {0}"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.askTitle"
+msgstr "Let leave-by alarms ring?"
+
 #: ../../apps/mobile/src/features/trip/premium/hub/HubSwitch.tsx
 msgid "trip.hub.door.map"
 msgstr "Map"
+
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/CrewLivePreviewPremium.tsx
+msgid "trip.lockScreen.preview.meetUp"
+msgstr "Meet-up"
+
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/CrewLivePreviewPremium.tsx
+msgid "trip.lockScreen.preview.meetUpAt"
+msgstr "Meet-up · {meetTime}"
 
 #: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
 msgid "trip.offline.editLabel"
@@ -187,7 +269,7 @@ msgstr "No signal"
 
 #: ../../apps/mobile/src/features/trip/premium/hub/TripHubPremium.tsx
 msgid "trip.hub.premium.offlineDay"
-msgstr "No signal. Today's plan, passes and phrases are saved on this phone."
+msgstr "No signal. Today’s plan, passes and phrases are saved on this phone."
 
 #: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
 msgid "trip.dayOf.freeDay"
@@ -201,6 +283,10 @@ msgstr "Offline"
 msgid "trip.offline.conflictOk"
 msgstr "OK"
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.notificationBody"
+msgstr "On this version of the app a leave-by rings as a notification with I’m up and Snooze. It won’t ring through silent mode, so keep the sound on tonight."
+
 #: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
 msgid "trip.offline.online"
 msgstr "Online"
@@ -209,9 +295,13 @@ msgstr "Online"
 msgid "trip.hub.premium.offlineOpen"
 msgstr "Open"
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.deniedOpen"
+msgstr "Open Settings"
+
 #: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
 msgid "trip.offline.premium.openPlan"
-msgstr "Open today's plan"
+msgstr "Open today’s plan"
 
 #: ../../apps/mobile/src/features/trip/premium/day/PackRow.tsx
 msgid "trip.dayOf.premium.pack"
@@ -233,6 +323,10 @@ msgstr "Plan B"
 msgid "trip.dayOf.premium.doneLine"
 msgstr "Rest up. Tomorrow is on the plan."
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.exactTitle"
+msgstr "Ring on the minute"
+
 #: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
 msgid "trip.dayOf.premium.late"
 msgstr "Running late?"
@@ -241,21 +335,21 @@ msgstr "Running late?"
 msgid "trip.offline.premium.saveEdit"
 msgstr "Save edit"
 
-#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+#: ../../apps/mobile/src/features/trip/premium/day/DayLinks.tsx
 msgid "trip.dayOf.toDayPlan"
 msgstr "See the day plan"
 
-#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+#: ../../apps/mobile/src/features/trip/premium/day/DayLinks.tsx
 msgid "trip.dayOf.toTomorrow"
 msgstr "See tomorrow"
 
 #: ../../apps/mobile/src/features/trip/premium/offline/QueuedSheet.tsx
 msgid "trip.offline.premium.sendsItself"
-msgstr "Sends itself when you're back"
+msgstr "Sends itself when you’re back"
 
 #: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
 msgid "trip.offline.sendsTitle"
-msgstr "Sends when you're back"
+msgstr "Sends when you’re back"
 
 #: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
 msgid "trip.disruptions.forecast.status.set"
@@ -263,7 +357,7 @@ msgstr "Set"
 
 #: ../../apps/mobile/src/features/trip/premium/alarm/InAppAlarmPremium.tsx
 msgid "trip.alarm.slide"
-msgstr "slide, I'm up →"
+msgstr "slide, I’m up →"
 
 #: ../../apps/mobile/src/features/trip/premium/alarm/InAppAlarmPremium.tsx
 msgid "trip.alarm.snooze"
@@ -275,15 +369,23 @@ msgstr "Still works"
 
 #: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
 msgid "trip.dayOf.done"
-msgstr "That's everything on today's plan."
+msgstr "That’s everything on today’s plan."
 
 #: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
 msgid "trip.disruptions.forecast.premiumTitle"
 msgstr "The rest of the trip"
 
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.askBody"
+msgstr "They ring through silent mode and Focus, only at leave-by times, and only if you’re not up yet. {guideName} stops ringing the moment you tap I’m up."
+
 #: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
 msgid "trip.briefing.premium.eyebrow"
-msgstr "THIS MORNING'S BRIEFING"
+msgstr "THIS MORNING’S BRIEFING"
+
+#: ../../apps/mobile/src/features/trip/premium/alarm/AlarmSheetPremium.tsx
+msgid "trip.alarm.sheet.deniedBody"
+msgstr "This phone won’t ring for leave-bys. {guideName} rings here while the app is open, and your crew gets a nudge to knock if you sleep through."
 
 #: ../../apps/mobile/src/features/trip/premium/day-change/ForecastPremium.tsx
 msgid "trip.disruptions.forecast.premiumMissing"
@@ -307,7 +409,7 @@ msgstr "Today"
 
 #: ../../apps/mobile/src/features/trip/premium/hub/HubBriefing.tsx
 msgid "trip.briefing.failed"
-msgstr "Today's briefing didn't come through. The plan below is up to date."
+msgstr "Today’s briefing didn’t come through. The plan below is up to date."
 
 #: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
 msgid "trip.offline.backToTrip"
@@ -329,6 +431,10 @@ msgstr "Trips"
 msgid "trip.offline.storageLink"
 msgstr "Trips saved on this phone"
 
+#: ../../apps/mobile/src/features/trip/premium/lock-screen-offer/LockScreenOfferPremium.tsx
+msgid "trip.lockScreen.retry"
+msgstr "Try again"
+
 #: ../../apps/mobile/src/features/trip/premium/hub/VisitConsentLine.tsx
 msgid "permissions.visits.accept"
 msgstr "Turn on"
@@ -345,10 +451,14 @@ msgstr "Watching"
 msgid "trip.offline.weak"
 msgstr "Weak signal"
 
-#: ../../apps/mobile/src/features/trip/premium/day/DayOfPremium.tsx
+#: ../../apps/mobile/src/features/trip/premium/offline/OfflinePremium.tsx
+msgid "trip.offline.premium.readyTitle"
+msgstr "What works offline"
+
+#: ../../apps/mobile/src/features/trip/premium/day/DayLinks.tsx
 msgid "trip.dayOf.toOffline"
 msgstr "What works with no signal"
 
 #: ../../apps/mobile/src/features/trip/premium/day/DayCards.tsx
 msgid "trip.dayOf.notYours"
-msgstr "You're not on this one. Sleep in."
+msgstr "You’re not on this one. Sleep in."

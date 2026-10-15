@@ -135,18 +135,18 @@ export function HubBriefing({ state, guideKind, guideName, onAct }: HubBriefingP
       {state.kind === 'failed' ? (
         <View style={styles.failed}>
           <Text variant="badge" color={th.color.status.tangerine.text}>
-            {t({ id: 'trip.briefing.premium.eyebrow', message: "THIS MORNING'S BRIEFING" })}
+            {t({ id: 'trip.briefing.premium.eyebrow', message: 'THIS MORNING’S BRIEFING' })}
           </Text>
           <Text variant="headline" style={styles.titleRight}>
             {t({
               id: 'trip.briefing.premium.failedTitle',
-              message: "I couldn't write today's yet",
+              message: 'I couldn’t write today’s yet',
             })}
           </Text>
           <Text variant="rowText" tone="inkSecondary">
             {t({
               id: 'trip.briefing.failed',
-              message: "Today's briefing didn't come through. The plan below is up to date.",
+              message: 'Today’s briefing didn’t come through. The plan below is up to date.',
             })}
           </Text>
         </View>
@@ -154,7 +154,7 @@ export function HubBriefing({ state, guideKind, guideName, onAct }: HubBriefingP
         <>
           <View style={[styles.head, styles.titleRight]}>
             <Text variant="headline" accessibilityRole="header">
-              {t({ id: 'trip.briefing.premium.title', message: `${guideName}'s briefing` })}
+              {t({ id: 'trip.briefing.premium.title', message: `${guideName}’s briefing` })}
             </Text>
             {state.kind === 'ready' ? (
               <Text variant="caption" tone="muted">
@@ -188,7 +188,9 @@ export function HubBriefing({ state, guideKind, guideName, onAct }: HubBriefingP
 }
 
 const styles = StyleSheet.create({
-  card: { paddingTop: 14, paddingHorizontal: 16, paddingBottom: 6, marginTop: 34 },
+  // The sticker hangs over the card's top edge into the space above it (6.01), so the card sits
+  // close under the hero and the switch instead of a sticker's height below them.
+  card: { paddingTop: 14, paddingHorizontal: 16, paddingBottom: 6, marginTop: 8 },
   sticker: { position: 'absolute', right: -8, top: -34 },
   head: { flexDirection: 'row', alignItems: 'baseline', gap: 8, paddingBottom: 4 },
   titleRight: { paddingRight: 60 },

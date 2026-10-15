@@ -6,13 +6,13 @@
 import { ALL_PARTNERS_OFF, supplierCopy, type AffiliatePartner } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 
 import { currencyDigits, price as formatPrice } from '../format';
 import { useSupplierCopy } from './copy';
 import type { WireOffer } from './data/api';
 import type { PartnerLinkOutcome } from './data/partner-link';
-import type { OfferCardProps } from './OfferCard';
+import type { OfferCardProps } from './view-types';
 import { SUPPLIER_NAMES } from './suppliers';
 import { clockOption } from '@/lib/i18n/formats';
 

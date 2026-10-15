@@ -19,7 +19,7 @@ describe('why an offline change did not go through', () => {
   });
 
   it('falls back to the general reason for any other code, known or not', () => {
-    const general = "It couldn't be saved. Try it again";
+    const general = 'It couldn’t be saved. Try it again';
     expect(read('INTERNAL')).toBe(general);
     expect(read('SOMETHING_NEW')).toBe(general);
     expect(read('toString')).toBe(general);

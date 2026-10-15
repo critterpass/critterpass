@@ -9,6 +9,7 @@ import {
   convert,
   convertViaBase,
   currencyExponent,
+  ESTIMATE_CASH_STEP_MAJOR,
   isKnownCurrency,
   isStaleSnapshot,
   money,
@@ -128,9 +129,18 @@ function result(
 }
 
 /**
- * The destination chip: the smallest round amount of the local currency (1, 10, 100, …) worth at
- * least one unit of the reader's currency, so "¥1,000 ≈ $6.70" rather than "¥1 ≈ $0.01".
+ * How many whole local units the chip converts: the smallest power of ten that is a sum people
+ * hand over in the local cash (never under its cash step: Rp1,000, not Rp1) and that is worth a
+ * sum people quote in the reader's currency (at least one unit, or its cash step: ₫1,000). So
+ * "¥1,000 ≈ $6.70" and "Rp1,000 ≈ ₫1,600" rather than "¥1 ≈ $0.01" or "Rp1 ≈ ₫1".
  */
+export function chipUnits(rate: number, local: string, home: string): number {
+  const step = (code: string) => Number(ESTIMATE_CASH_STEP_MAJOR[assertCurrencyCode(code)] ?? 1n);
+  const atLeast = Math.max(step(local), rate > 0 ? step(home) / rate : 1);
+  return atLeast <= 1 ? 1 : 10 ** Math.ceil(Math.log10(atLeast) - 1e-9);
+}
+
+/** The destination chip: `chipUnits` of the local currency in the reader's. */
 export async function fxChip(
   tx: pg.PoolClient,
   local: string,
@@ -141,6 +151,6 @@ export async function fxChip(
   const unit = 10 ** currencyExponent(assertCurrencyCode(local));
   const probe = await convertWithSnapshots(tx, unit, local, home, now);
   if (probe === null) return null;
-  const magnitude = probe.rate >= 1 ? 1 : 10 ** Math.ceil(Math.log10(1 / probe.rate));
-  return magnitude === 1 ? probe : convertWithSnapshots(tx, unit * magnitude, local, home, now);
+  const units = chipUnits(probe.rate, local, home);
+  return units === 1 ? probe : convertWithSnapshots(tx, unit * units, local, home, now);
 }

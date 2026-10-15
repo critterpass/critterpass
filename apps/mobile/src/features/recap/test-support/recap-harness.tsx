@@ -34,7 +34,7 @@ import {
   MAYA,
   RECAP,
   TRIP,
-} from '../dev/recap-fixtures';
+} from './recap-fixtures';
 import { pause } from '@/lib/test-support/settle';
 
 configure({ asyncUtilTimeout: 5000 });

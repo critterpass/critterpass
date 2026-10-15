@@ -1,12 +1,12 @@
 /**
- * The 1.07 stamp landing: the stamp falls from `translateY(-fall) scale(start) rotate(from)`,
+ * The 1.07 stamp landing: the stamp falls on the Lively spring from
+ * `translateY(-fall) scale(start) rotate(from)`,
  * squashes on impact and settles on the Lively spring; the page's haptic and confetti hang off
  * `onImpact`. Reduce Motion: a 150 ms fade, no fall.
  */
 import * as Haptics from 'expo-haptics';
 import { useEffect, type ReactNode } from 'react';
 import Animated, {
-  Easing,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -36,7 +36,8 @@ export interface StampSlamProps {
   readonly onImpact?: () => void;
 }
 
-const FALL_MS = 560;
+/** The fall ends at first contact, at speed: Lively, clamped, so the squash takes the overshoot. */
+const FALL = { ...SPRINGS.lively, overshootClamping: true };
 
 function thud(onImpact?: () => void): void {
   void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
@@ -69,7 +70,7 @@ export function StampSlam({
     p.set(
       withDelay(
         delay,
-        withTiming(1, { duration: FALL_MS, easing: Easing.bezier(0.55, 0, 1, 0.45) }, (done) => {
+        withSpring(1, FALL, (done) => {
           if (done !== true) return;
           scheduleOnRN(thud, onImpact);
           squash.value = withSequence(

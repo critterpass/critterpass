@@ -1,7 +1,8 @@
 /**
  * Drop a pin from Find (4.33 "Drop a pin", undesigned as a sheet): a place the guide doesn't know
  * yet. The map moves under a fixed pin; a name and Add to Ideas save it to the trip's Ideas as a
- * pin, which works offline from the queue. Cancel (or a tap on the dimmed page) leaves it.
+ * pin, which works offline from the queue. Cancel (or a tap on the dimmed page, or back) leaves
+ * it, asking first once a name is typed.
  */
 import { t } from '@lingui/core/macro';
 import type { CameraRef } from '@maplibre/maplibre-react-native';
@@ -19,6 +20,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
+import { askToDiscard } from '@/ui/premium/shell';
 import { useShellExtras } from '@/ui/premium/shell/shell-theme';
 
 import { PremiumMapCanvas } from '@/features/plan';
@@ -49,15 +51,30 @@ export function FindPin(props: FindPinProps) {
     destinationId: props.trip.destinationId,
   });
   const title = t({ id: 'search.pin.title', message: 'Drop a pin' });
+  const { onClose } = props;
+  const leave = () => {
+    if (name.trim() === '') {
+      onClose();
+      return;
+    }
+    void askToDiscard({
+      title: t({ id: 'search.premium.pin.discard', message: 'Discard this pin?' }),
+      message: t({ id: 'search.premium.pin.discardLine', message: 'The name you typed goes.' }),
+      discard: t({ id: 'search.premium.pin.discardYes', message: 'Discard' }),
+      keep: t({ id: 'search.premium.pin.keep', message: 'Keep editing' }),
+    }).then((drop) => {
+      if (drop) onClose();
+    });
+  };
   return (
-    <Modal transparent visible animationType="slide" onRequestClose={props.onClose}>
+    <Modal transparent visible animationType="slide" onRequestClose={leave}>
       <KeyboardAvoidingView
         style={{ flex: 1, justifyContent: 'flex-end' }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <Pressable
           style={[StyleSheet.absoluteFill, { backgroundColor: scrim }]}
-          onPress={props.onClose}
+          onPress={leave}
           accessibilityLabel={t({ id: 'common.cancel', message: 'Cancel' })}
         />
         <GlassSurface
@@ -76,7 +93,7 @@ export function FindPin(props: FindPinProps) {
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <TextButton
               label={t({ id: 'common.cancel', message: 'Cancel' })}
-              onPress={props.onClose}
+              onPress={leave}
               testID="search-drop-pin-cancel"
             />
             <Text variant="headline" align="center" accessibilityRole="header" style={{ flex: 1 }}>
@@ -117,7 +134,7 @@ export function FindPin(props: FindPinProps) {
           )}
           <TextField
             accessibilityLabel={t({ id: 'search.pin.name', message: 'What is it called?' })}
-            placeholder={t({ id: 'search.pin.name', message: 'What is it called?' })}
+            label={t({ id: 'search.pin.name', message: 'What is it called?' })}
             value={name}
             onChangeText={setName}
             returnKeyType="done"

@@ -272,3 +272,4 @@ export * from './obs';
 export * from './permissions';
 export * from './location';
 export * from './feature-areas';
+export { calledByName, familyNameFirst, nameWords } from './people/name-order';

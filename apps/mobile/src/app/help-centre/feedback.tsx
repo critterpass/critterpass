@@ -1,6 +1,4 @@
-import { FeedbackScreen } from '@/features/help/feedback/feedback-screen';
+import { FeedbackPremiumScreen } from '@/features/help/premium/feedback-premium-screen';
 
 /** Send feedback, a problem report or an idea (3p-2). */
-export default function FeedbackRoute() {
-  return <FeedbackScreen />;
-}
+export default FeedbackPremiumScreen;

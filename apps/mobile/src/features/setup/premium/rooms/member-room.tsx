@@ -9,14 +9,12 @@ import { StyleSheet, View } from 'react-native';
 
 import { crewAccent, IconTile, turn } from '@/features/trip';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { Button, CrewStack, PressableScale, StatusTag, Text, usePremiumTheme } from '@/ui/premium';
+import { Button, Chip, CrewStack, StatusTag, Text, usePremiumTheme } from '@/ui/premium';
 
 import { money } from '../../budget/model';
 import type { SetupMember } from '../../data/setup-trip';
-import { chipName, traitName, type RoomChipKey } from '../../rooms/copy';
-import { ROOM_CHIP_KEYS } from '../../rooms/member-tools';
-import type { PerPerson, PlanStay } from '../../rooms/model';
-import { fractionDigits } from '../../rooms/price-line';
+import { chipName, traitName, type RoomChipKey, ROOM_CHIP_KEYS } from '../../rooms/copy';
+import { type PerPerson, type PlanStay, fractionDigits } from '../../rooms/model';
 import { RoomList } from './room-list';
 
 export function MemberRoom(props: {
@@ -159,29 +157,16 @@ export function MemberRoom(props: {
         </Text>
         <View style={styles.chips}>
           {ROOM_CHIP_KEYS.map((chip) => (
-            <PressableScale
+            <Chip
               key={chip}
-              onPress={() => props.onToggleChip(chip)}
+              label={chipName(chip)}
+              selected={props.chips.includes(chip)}
+              size="hub"
+              surface="white"
               accessibilityRole="checkbox"
-              accessibilityState={{ checked: props.chips.includes(chip) }}
+              onPress={() => props.onToggleChip(chip)}
               testID={`setup-rooms-chip-${chip}`}
-            >
-              <View
-                style={[
-                  styles.chip,
-                  props.chips.includes(chip)
-                    ? { backgroundColor: th.color.ink }
-                    : { backgroundColor: th.color.card, boxShadow: th.shadow.float },
-                ]}
-              >
-                <Text
-                  variant="pillSmall"
-                  color={props.chips.includes(chip) ? th.color.onInk : th.color.ink}
-                >
-                  {chipName(chip)}
-                </Text>
-              </View>
-            </PressableScale>
+            />
           ))}
         </View>
         <Text variant="captionMuted" tone="muted">
@@ -203,5 +188,4 @@ const styles = StyleSheet.create({
   tabular: { fontVariant: ['tabular-nums'] },
   swap: { padding: 14, gap: 10, alignItems: 'flex-start' },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  chip: { height: 34, borderRadius: 17, paddingHorizontal: 14, justifyContent: 'center' },
 });

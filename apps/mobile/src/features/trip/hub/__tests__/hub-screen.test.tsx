@@ -1,19 +1,20 @@
 /**
- * The hub over the real local-first stack with the Bali trip synced in: tapping NUDGE on the
- * briefing queues `act_briefing_item` and the chip reads SENT at once (offline too); on another
- * of the crew's phones, where the acted row has synced back, the same line reads SENT.
+ * The hub over the real local-first stack with the Bali trip synced in: tapping Nudge on the
+ * briefing queues `act_briefing_item` and the chip reads Sent at once (offline too); on another
+ * of the crew's phones, where the acted row has synced back, the same line reads Sent.
  */
-jest.mock('expo-router', () => ({
-  useIsFocused: () => true,
-  router: {
-    push: jest.fn(),
-    navigate: jest.fn(),
-    replace: jest.fn(),
-    dismissTo: jest.fn(),
-    back: jest.fn(),
-    canGoBack: () => false,
-  },
-}));
+// The screen reaches the device database opener and the billing module, which Jest cannot load;
+// it reads the test database through its provider.
+jest.mock('@/data/powersync/db', () => ({}));
+jest.mock('react-native-purchases', () => ({ __esModule: true, default: {} }));
+// The app's router double, with the zoom link's iOS views as plain wrappers.
+jest.mock('expo-router', () => {
+  const double = jest.requireActual<Record<string, unknown>>(
+    '@/lib/navigation/test-support/expo-router-double',
+  );
+  const Pass = ({ children }: { readonly children?: unknown }) => children;
+  return { ...double, Link: Object.assign(Pass, { AppleZoom: Pass, AppleZoomTarget: Pass }) };
+});
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
@@ -30,7 +31,7 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
-import { TripHubScreen } from '../screen';
+import { TripHubPremium } from '../../premium/hub/TripHubPremium';
 import { NUDGE_ITEM, SEED_TRIP, seedTripDay } from '../test-support/seed-trip-day';
 import { FRESH_TRIP, seedFreshVote } from '../test-support/seed-fresh-vote';
 
@@ -66,7 +67,7 @@ async function renderHub(
         <GestureHandlerRootView>
           <LocalFirstProvider value={stack.value}>
             <ScreenJoltProvider>
-              <TripHubScreen tripId={tripId} onSwitch={null} />
+              <TripHubPremium tripId={tripId} onBack={() => undefined} />
             </ScreenJoltProvider>
           </LocalFirstProvider>
         </GestureHandlerRootView>
@@ -77,11 +78,11 @@ async function renderHub(
 }
 
 describe('trip hub briefing', () => {
-  it('queues the nudge and shows SENT at once', async () => {
+  it('queues the nudge and shows Sent at once', async () => {
     const stack = await renderHub();
-    await waitFor(() => expect(screen.getByText('NUDGE')).toBeTruthy());
-    await fireEvent.press(screen.getByTestId('trip-briefing-chip-nudge'));
-    await waitFor(() => expect(screen.getByText('SENT')).toBeTruthy());
+    await waitFor(() => expect(screen.getByText('Nudge')).toBeTruthy());
+    await fireEvent.press(screen.getByTestId(`trip-briefing-chip-${NUDGE_ITEM}`));
+    await waitFor(() => expect(screen.getByText('Sent')).toBeTruthy());
     const queued = await stack.db.getAll<{ envelope: string }>(
       "SELECT envelope FROM commands WHERE cmd = 'act_briefing_item'",
     );
@@ -94,15 +95,13 @@ describe('trip hub briefing', () => {
     await renderHub(undefined, (stack) => seedTripDay(stack.db, stack.uid, { briefing: false }));
     await waitFor(() => expect(screen.getByTestId('trip-briefing-none')).toBeTruthy());
     expect(screen.queryByTestId('trip-briefing-loading')).toBeNull();
-    expect(screen.getByTestId('trip-briefing-none-line')).toBeTruthy();
-    // One trip on the account: nothing to switch to.
-    expect(screen.queryByTestId('trip-hub-switch')).toBeNull();
+    expect(screen.queryByTestId('trip-briefing-skeleton')).toBeNull();
   });
 
-  it('shows SENT where the nudge synced back from another phone', async () => {
+  it('shows Sent where the nudge synced back from another phone', async () => {
     await renderHub('nudged');
-    await waitFor(() => expect(screen.getByText('SENT')).toBeTruthy());
-    expect(screen.queryByText('NUDGE')).toBeNull();
+    await waitFor(() => expect(screen.getByText('Sent')).toBeTruthy());
+    expect(screen.queryByText('Nudge')).toBeNull();
   });
 });
 
@@ -110,15 +109,13 @@ describe('trip hub for a trip still choosing its place', () => {
   it('asks where next, opens the vote on Home and reads every activity as copy', async () => {
     await renderHub(undefined, (stack) => seedFreshVote(stack.db, stack.uid), FRESH_TRIP);
     await waitFor(() => expect(screen.getByTestId('trip-hub')).toBeTruthy());
-    expect(screen.getByText('WHERE NEXT?')).toBeTruthy();
-    // Nobody is going anywhere yet: while the trip is being planned the header counts the crew.
-    await waitFor(() => expect(screen.getByText('1 IN THE CREW')).toBeTruthy());
+    expect(screen.getByText('Where next?')).toBeTruthy();
     await waitFor(() =>
-      expect(screen.getAllByText(/KHANH PITCHED A PLACE/u).length).toBeGreaterThan(0),
+      expect(screen.getAllByText('Khanh pitched a place').length).toBeGreaterThan(0),
     );
-    expect(screen.getAllByText(/KHANH STARTED THE TRIP/u).length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Khanh started the trip').length).toBeGreaterThan(0);
     expect(screen.queryAllByText(/activity\./iu)).toEqual([]);
-    await fireEvent.press(screen.getByTestId('trip-hub-planning-cta'));
+    await fireEvent.press(screen.getAllByText('Voting').at(-1)!);
     const { router } = jest.requireMock<{ router: { navigate: jest.Mock } }>('expo-router');
     expect(router.navigate).toHaveBeenLastCalledWith('/');
   });

@@ -5,6 +5,7 @@
  * the rows say "last seen" and the buttons wait (6.12).
  */
 import { useLingui } from '@lingui/react/macro';
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { crewAccent } from '@/features/trip';
@@ -12,6 +13,7 @@ import {
   Avatar,
   Button,
   CrewStack,
+  Icon,
   PressableScale,
   StatusTag,
   Text,
@@ -20,6 +22,7 @@ import {
 } from '@/ui/premium';
 
 import type { LiveMapModel } from '../model';
+import { MemberRows } from './crew-panel-rows';
 
 function MeetupCard({ m }: { readonly m: LiveMapModel }) {
   const th = usePremiumTheme();
@@ -118,24 +121,33 @@ function MeetupCard({ m }: { readonly m: LiveMapModel }) {
   );
 }
 
-export function CrewPanel({ m }: { readonly m: LiveMapModel }) {
+export function CrewPanel({
+  m,
+  bottomInset,
+}: {
+  readonly m: LiveMapModel;
+  /** The home bar's height: the panel's ground runs under it, its buttons sit above it. */
+  readonly bottomInset: number;
+}) {
   const th = usePremiumTheme();
   const { t } = useLingui();
-  const meSharing = m.view?.me?.sharing ?? 'off';
-  const footer =
-    m.endsOn === null
-      ? ''
-      : t({
-          id: 'liveMap.panel.footer',
-          message: `Sharing switches itself off on ${m.endsOn} at midnight.`,
-        });
+  const me = m.view?.me ?? null;
+  const crewName = m.crewName;
+  const meSharing = me?.sharing ?? 'off';
+  // "Not now" puts the question away until the map opens again.
+  const [primerHidden, setPrimerHidden] = useState(false);
+  const asking = meSharing === 'off' && m.gate === 'open' && !primerHidden;
+  const actionSize = m.offline ? ({ size: 'medium', alignSelf: 'stretch' } as const) : {};
   return (
     <View
-      style={[styles.panel, { backgroundColor: th.color.ground, gap: th.space.gap10 }]}
+      style={[
+        styles.panel,
+        { backgroundColor: th.color.ground, gap: th.space.gap10, paddingBottom: 12 + bottomInset },
+      ]}
       testID="live-map-panel"
     >
       <View style={[styles.grabber, { backgroundColor: th.color.outlineEmpty }]} />
-      {meSharing === 'off' && m.gate === 'open' ? (
+      {asking ? (
         <View
           style={[
             styles.card,
@@ -143,93 +155,55 @@ export function CrewPanel({ m }: { readonly m: LiveMapModel }) {
               borderRadius: th.radius.cardRow,
               backgroundColor: th.color.card,
               boxShadow: th.shadow.card,
+              gap: th.space.gap12,
             },
           ]}
           testID="live-map-primer"
         >
-          <Text variant="headline">
-            {t({ id: 'liveMap.primer.title', message: 'Share where you are with the crew?' })}
-          </Text>
-          <Text variant="rowText" tone="inkSecondary">
-            {footer === ''
-              ? t({
-                  id: 'liveMap.primer.line',
-                  message: 'Only on trip days, only with this crew. Pause any time.',
-                })
-              : footer}
-          </Text>
-          <Button
-            label={t({ id: 'liveMap.primer.action', message: 'Share my location' })}
-            size="medium"
-            onPress={m.turnOn}
-            testID="live-map-share"
-          />
+          <View style={styles.primerTop}>
+            {me === null ? null : (
+              <View>
+                <Avatar name={me.name} color={crewAccent(me.joinIndex)} uid={me.uid} size={44} />
+                <View style={[styles.eye, { backgroundColor: th.color.card }]}>
+                  <Icon name="lock" size={11} color={th.color.inkSecondary} />
+                </View>
+              </View>
+            )}
+            <View style={[styles.flex, { gap: th.space.gap4 }]}>
+              <Text variant="headline">
+                {t({ id: 'liveMap.primer.title', message: 'Share where you are with the crew?' })}
+              </Text>
+              <Text variant="rowText" tone="inkSecondary">
+                {t({
+                  id: 'liveMap.premium.primerLine',
+                  message: `Only during trip days, only ${crewName}. Pause any time from your row.`,
+                })}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.actions}>
+            <View style={styles.wide}>
+              <Button
+                label={t({ id: 'liveMap.premium.shareTripDays', message: 'Share on trip days' })}
+                size="medium"
+                alignSelf="stretch"
+                onPress={m.turnOn}
+                testID="live-map-share"
+              />
+            </View>
+            <Button
+              label={t({ id: 'liveMap.primer.notNow', message: 'Not now' })}
+              variant="secondary"
+              size="medium"
+              onPress={() => setPrimerHidden(true)}
+              testID="live-map-not-now"
+            />
+          </View>
         </View>
       ) : (
         <MeetupCard m={m} />
       )}
-      {m.offline ? (
-        <Text variant="headline" testID="live-map-last-seen">
-          {t({ id: 'liveMap.premium.lastSeen', message: 'Last seen' })}
-        </Text>
-      ) : null}
-      <View style={{ gap: th.space.gap8 }}>
-        {m.rows.map((row) => {
-          const person = row.people[0];
-          const mine = person?.isMe === true;
-          const faded = person !== undefined && (person.sharing === 'paused' || person.stale);
-          return (
-            <View
-              key={row.key}
-              accessible
-              accessibilityLabel={row.spoken}
-              style={[
-                styles.member,
-                {
-                  borderRadius: th.radius.field,
-                  backgroundColor: th.color.card,
-                  boxShadow: th.shadow.float,
-                },
-                faded ? styles.faded : null,
-              ]}
-              testID={`live-map-row-${row.key}`}
-            >
-              <View style={styles.faces}>
-                {row.people.slice(0, 2).map((p, index) => (
-                  <View key={p.uid} style={index === 0 ? null : styles.overlap}>
-                    <Avatar name={p.name} color={crewAccent(p.joinIndex)} size={30} ringed />
-                  </View>
-                ))}
-              </View>
-              <View style={styles.flex}>
-                <Text variant="rowTitle" numberOfLines={1}>
-                  {row.title}
-                </Text>
-                <Text variant="captionMuted" tone="muted" numberOfLines={1}>
-                  {row.status}
-                </Text>
-              </View>
-              {mine && m.gate === 'open' && meSharing !== 'off' ? (
-                <Button
-                  label={
-                    meSharing === 'paused'
-                      ? t({ id: 'liveMap.premium.resume', message: 'Resume' })
-                      : t({ id: 'liveMap.premium.pause', message: 'Pause' })
-                  }
-                  size="small"
-                  variant={meSharing === 'paused' ? 'primary' : 'control'}
-                  onPress={m.togglePause}
-                  testID="live-map-pause"
-                />
-              ) : (
-                <Text variant="rowTextStrong" style={styles.tabular}>
-                  {row.clock ?? '–'}
-                </Text>
-              )}
-            </View>
-          );
-        })}
-      </View>
+      <MemberRows m={m} meSharing={meSharing} />
       {m.locationOff ? (
         <TextButton
           label={t({ id: 'liveMap.premium.turnOnLocation', message: 'Turn on location' })}
@@ -237,30 +211,38 @@ export function CrewPanel({ m }: { readonly m: LiveMapModel }) {
           testID="live-map-settings"
         />
       ) : null}
-      <View style={styles.actions}>
-        <View style={styles.flex}>
-          <Button
-            label={
-              m.offline
-                ? t({ id: 'liveMap.premium.pingQueued', message: 'Ping all · queued' })
-                : t({ id: 'liveMap.actions.pingAll', message: 'Ping all' })
-            }
-            variant="secondary"
-            disabled={m.offline || m.pinging}
-            onPress={() => m.ping('ping')}
-            testID="live-map-ping"
-          />
+      {/* While it asks you to share, the card's own two choices are the panel's only actions. */}
+      {asking ? null : (
+        <View style={styles.actions}>
+          {/* Offline both wait (6.12): the two drop to the smaller pill and share the row in
+            halves, the queued ping with its clock, so "Ping all · queued" stays on one line. */}
+          <View style={m.offline ? styles.half : styles.flex}>
+            <Button
+              label={
+                m.offline
+                  ? t({ id: 'liveMap.premium.pingQueued', message: 'Ping all · queued' })
+                  : t({ id: 'liveMap.actions.pingAll', message: 'Ping all' })
+              }
+              variant="secondary"
+              {...actionSize}
+              {...(m.offline ? { icon: 'clock' as const } : {})}
+              disabled={m.offline || m.pinging}
+              onPress={() => m.ping('ping')}
+              testID="live-map-ping"
+            />
+          </View>
+          <View style={m.offline ? styles.half : styles.wide}>
+            <Button
+              label={t({ id: 'liveMap.actions.onMyWay', message: 'I’m on my way' })}
+              {...actionSize}
+              disabled={m.offline || m.pinging}
+              // eslint-disable-next-line lingui/no-unlocalized-strings -- a ping kind, not copy
+              onPress={() => m.ping('on_my_way')}
+              testID="live-map-on-my-way"
+            />
+          </View>
         </View>
-        <View style={styles.wide}>
-          <Button
-            label={t({ id: 'liveMap.actions.onMyWay', message: "I'm on my way" })}
-            disabled={m.offline || m.pinging}
-            // eslint-disable-next-line lingui/no-unlocalized-strings -- a ping kind, not copy
-            onPress={() => m.ping('on_my_way')}
-            testID="live-map-on-my-way"
-          />
-        </View>
-      </View>
+      )}
     </View>
   );
 }
@@ -271,26 +253,26 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 32,
     paddingHorizontal: 20,
     paddingTop: 8,
-    paddingBottom: 12,
   },
   grabber: { alignSelf: 'center', width: 40, height: 5, borderRadius: 3 },
   card: { padding: 14, gap: 8 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   flex: { flex: 1, minWidth: 0 },
   wide: { flex: 1.6 },
+  half: { flex: 1, minWidth: 0 },
+  primerTop: { flexDirection: 'row', alignItems: 'flex-start', gap: 12 },
+  eye: {
+    position: 'absolute',
+    right: -4,
+    bottom: -4,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   tabular: { fontVariant: ['tabular-nums'] },
   lane: { height: 34, justifyContent: 'center' },
   track: { position: 'absolute', left: 0, right: 0, height: 3, borderRadius: 2 },
-  member: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    paddingVertical: 9,
-    paddingLeft: 10,
-    paddingRight: 14,
-  },
-  faces: { flexDirection: 'row', width: 44 },
-  overlap: { marginLeft: -16 },
-  faded: { opacity: 0.55 },
   actions: { flexDirection: 'row', gap: 10, paddingTop: 4 },
 });

@@ -8,20 +8,8 @@ msgstr ""
 "Language: en\n"
 
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.bodyWrite"
-msgstr "{count, plural, one {Add your # plan once, or subscribe so your calendar follows every change the crew makes.} other {Add your # plans once, or subscribe so your calendar follows every change the crew makes.}}"
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.written"
 msgstr "{written, plural, one {Added # plan to your calendar.} other {Added # plans to your calendar.}}"
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.write"
-msgstr "Add to my calendar"
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.copy"
-msgstr "Copy the link"
 
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.denied"
@@ -36,21 +24,5 @@ msgid "plan.export.needsSignal"
 msgstr "Making the link needs signal. Try again once you’re back online."
 
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.title"
-msgstr "Put the plan in your calendar"
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.bodySubscribe"
-msgstr "Subscribe and your calendar follows every change the crew makes, just for your plans."
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.subscribe"
-msgstr "Subscribe in my calendar"
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.revoked"
 msgstr "The link is off. Calendars subscribed to it stop updating."
-
-#: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
-msgid "plan.export.revoke"
-msgstr "Turn the link off"

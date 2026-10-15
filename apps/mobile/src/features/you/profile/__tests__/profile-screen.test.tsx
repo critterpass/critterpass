@@ -3,11 +3,8 @@
  * leaves behind are enough to show a name, a home and a home stamp; a row that syncs later shows
  * up without reopening the screen; SETTINGS opens Settings and Home's header finds the profile.
  */
-jest.mock('expo-router', () => ({
-  useIsFocused: () => true,
-  usePathname: () => '/you',
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
-}));
+// The store SDK is a native boundary the profile never calls here (only its Pass+ notice reads plans).
+jest.mock('react-native-purchases', () => ({ __esModule: true, default: {} }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
@@ -29,7 +26,7 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
 import { YOU_ROUTES } from '../../routes';
-import { ProfileScreen } from '../profile-screen';
+import { ProfilePremiumScreen } from '../../premium/profile/profile-premium-screen';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -85,7 +82,7 @@ async function show(stack: TestLocalFirst) {
         <GestureHandlerRootView>
           <LocalFirstProvider value={stack.value}>
             <ScreenJoltProvider>
-              <ProfileScreen now={() => new Date('2026-10-01T09:00:00')} />
+              <ProfilePremiumScreen />
             </ScreenJoltProvider>
           </LocalFirstProvider>
         </GestureHandlerRootView>
@@ -99,14 +96,15 @@ describe('the profile for a fresh account', () => {
     const stack = await openFresh();
     await show(stack);
     await waitFor(() => expect(screen.getByTestId('you-profile-name')).toBeTruthy());
-    expect(screen.getByText('KHÁNH')).toBeTruthy();
-    expect(screen.getByTestId('you-profile-handle').props.children).toBe('Ho Chi Minh City');
+    expect(screen.getByTestId('you-profile-name')).toHaveTextContent('Khánh');
+    // The kit ties the last two words with a no-break space, so the text is compared as read.
+    expect(screen.getByTestId('you-profile-handle')).toHaveTextContent(/^Ho Chi Minh City$/u);
     expect(screen.getByTestId('you-profile-stamp-home')).toBeTruthy();
     expect(screen.getByTestId('you-profile-no-trips')).toBeTruthy();
     expect(screen.getByTestId('you-profile-start-crew')).toBeTruthy();
-    expect(screen.getByTestId('you-profile-mrz').props.children).toBe('P<VNMKHANH<<CP0012');
+    expect(screen.getByTestId('you-profile-mrz')).toHaveTextContent(/^P<VNMKHANH<<CP0012/);
     // EDIT opens Edit profile, registered under its design id.
-    await fireEvent.press(screen.getByTestId('you-profile-edit'));
+    await fireEvent.press(screen.getByLabelText('Edit'));
     expect(router.push).toHaveBeenCalledWith(YOU_ROUTES.edit);
     expect(screen.queryByTestId('you-profile-pass-plus')).toBeNull();
   });
@@ -117,8 +115,8 @@ describe('the profile for a fresh account', () => {
     await waitFor(() => expect(screen.getByTestId('you-profile-name')).toBeTruthy());
     await stack.db.execute("UPDATE users SET username = 'khanh' WHERE id = ?", [stack.uid]);
     await waitFor(() =>
-      expect(screen.getByTestId('you-profile-handle').props.children).toBe(
-        '@khanh · Ho Chi Minh City',
+      expect(screen.getByTestId('you-profile-handle')).toHaveTextContent(
+        /^@khanh · Ho Chi Minh City$/u,
       ),
     );
   });
@@ -126,8 +124,8 @@ describe('the profile for a fresh account', () => {
   it('opens Settings, and the profile is registered under its design id', async () => {
     const stack = await openFresh();
     await show(stack);
-    await waitFor(() => expect(screen.getByTestId('you-profile-settings')).toBeTruthy());
-    await fireEvent.press(screen.getByTestId('you-profile-settings'));
+    await waitFor(() => expect(screen.getByLabelText('Settings')).toBeTruthy());
+    await fireEvent.press(screen.getByLabelText('Settings'));
     expect(router.push).toHaveBeenCalledWith(YOU_ROUTES.settings);
     // Home's "HEY {NAME} ›" asks the registry for this design id.
     expect(hrefFor('3n-1')).toBe(YOU_ROUTES.profile);

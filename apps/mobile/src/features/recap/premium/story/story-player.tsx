@@ -13,7 +13,7 @@ import Animated, { useAnimatedStyle, type SharedValue } from 'react-native-reani
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { useStoryProgress, type StoryProgress } from '@/motion/patterns/story-progress';
-import { StoryClockContext, type StoryClock } from '@/ui/story/story-clock';
+import { StoryClockContext, type StoryClock } from '@/lib/story/story-clock';
 import { makePremiumStyles } from '@/ui/premium';
 
 import { STORY_TRACK } from '../recap-paint';

@@ -4,7 +4,7 @@
  */
 import { describe, expect, it } from '@jest/globals';
 
-import { BALI_ITEMS, BALI_TRIP, MAYA, RIN, WINSTON } from '../../overview/dev/bali-plan';
+import { BALI_ITEMS, BALI_TRIP, MAYA, RIN, WINSTON } from '../../test-support/bali-plan';
 import { calendarWriter, feedUrls, myEvents } from '../data/calendar-export';
 
 describe('calendar writer', () => {

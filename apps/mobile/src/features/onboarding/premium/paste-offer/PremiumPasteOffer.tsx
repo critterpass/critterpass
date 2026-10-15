@@ -1,7 +1,6 @@
 /**
  * 2.03 / 2.04 the first-launch paste offer: a sun band with a generic crew ticket (nothing has been
- * read yet, so it names no crew), the system paste control (the clipboard is read only on its tap,
- * with no paste alert), and "No link, start fresh". A pasted crew link or code goes on to be
+ * read yet, so it names no crew), the kit's paste pill (the clipboard is read only on its tap), and "No link, start fresh". A pasted crew link or code goes on to be
  * claimed; anything else says what it was, keeps a web link for the first trip (its card can take
  * it back out), and offers to type a code or start fresh.
  */
@@ -19,6 +18,7 @@ import {
   CritterSticker,
   GlassIconButton,
   GuideNote,
+  PasteButton,
   Text,
   TextButton,
   usePremiumTheme,
@@ -222,17 +222,15 @@ export function PremiumPasteOffer({ onPasted, onSkip, onShown }: PremiumPasteOff
         }}
       >
         {notInvite === null ? (
-          <Clipboard.ClipboardPasteButton
-            acceptedContentTypes={['url', 'plain-text']}
-            displayMode="iconAndLabel"
-            backgroundColor={theme.color.ink}
-            foregroundColor={theme.color.onInk}
-            cornerStyle="capsule"
-            style={{ width: 200, height: 50 }}
-            onPress={(data) => {
-              if (data.type === 'text') onPaste(data.text);
-            }}
-          />
+          <View style={{ width: 200 }}>
+            <PasteButton
+              label={t({ id: 'onboarding.premium.paste.paste', message: 'Paste' })}
+              variant="primary"
+              size="large"
+              onPaste={onPaste}
+              testID="paste-offer-paste"
+            />
+          </View>
         ) : (
           <Button
             label={t({ id: 'onboarding.premium.paste.typeCode', message: 'Type a crew code' })}
@@ -241,6 +239,7 @@ export function PremiumPasteOffer({ onPasted, onSkip, onShown }: PremiumPasteOff
           />
         )}
         <TextButton
+          align="center"
           label={
             notInvite === null
               ? t({ id: 'onboarding.premium.paste.fresh', message: 'No link, start fresh' })

@@ -12,12 +12,10 @@ import { Button, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 import { useAlbum } from '../data/use-album';
 import { AlbumMediaProvider } from '../grid/album-media';
 import { postcardCardCopy } from '../postcard/postcard-card-copy';
-import type { PostcardCardProps } from '../postcard/postcard-recap-card';
+import type { PostcardCardProps } from '../postcard/postcard-look';
 import { albumRoutes } from '../routes';
 import { albumHttp } from '../upload/device-upload';
 import { PostcardCards } from './postcard-cards';
-
-const noop = () => undefined;
 
 export function PremiumPostcardCard({ tripId, guide, place, note }: PostcardCardProps) {
   const th = usePremiumTheme();
@@ -56,20 +54,13 @@ export function PremiumPostcardCard({ tripId, guide, place, note }: PostcardCard
           note={note ?? ''}
           signature={(me?.name ?? '').slice(0, 1).toUpperCase()}
           guide={guide}
-          sending={false}
-          sentLine={null}
-          canSend
-          mailing={null}
-          onFormat={noop}
           onPhoto={compose}
           onNote={compose}
-          onSend={noop}
-          onMail={noop}
-          onClose={noop}
         />
         <Button label={copy.send} onPress={compose} testID="recap-postcard-open" />
         <View style={{ alignItems: 'center' }}>
           <TextButton
+            align="center"
             label={copy.album}
             onPress={() => router.push(albumRoutes.album(tripId))}
             testID="recap-postcard-album"

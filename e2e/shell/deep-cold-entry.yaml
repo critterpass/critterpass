@@ -6,7 +6,7 @@ appId: app.critterpass.dev
 #
 # A fresh account, then the inbox link with the app stopped.
 - runFlow: ../home/subflows/fresh-install.yaml
-- runFlow: ../home/subflows/onboard.yaml
+- runFlow: ../happy/subflows/onboard.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-join-code'
@@ -24,7 +24,7 @@ appId: app.critterpass.dev
     timeout: 60000
 - assertVisible:
     id: 'inbox-screen'
-- assertNotVisible: '(?i)that didn.t load'
+- assertNotVisible: '(?i)that.didn.t.load'
 - waitForAnimationToEnd
 - takeScreenshot: cold-entry-inbox
 - tapOn:

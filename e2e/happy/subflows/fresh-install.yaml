@@ -16,6 +16,15 @@ appId: app.critterpass.dev
       visible: 'Open'
     commands:
       - tapOn: 'Open'
+# The iOS paste offer can cover a cleared install's splash.
+- runFlow:
+    when:
+      visible:
+        id: 'paste-link-offer'
+    commands:
+      - tapOn:
+          id: 'paste-link-skip'
+      - waitForAnimationToEnd
 - extendedWaitUntil:
     visible:
       id: 'onboarding-open'

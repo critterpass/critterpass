@@ -1,9 +1,13 @@
 /**
  * A sticker's idle float (the splash collage): a slow bob and sway on a loop, offset so neighbours
- * never move together. Parked at rest under Reduce Motion.
+ * never move together. Parked at rest under Reduce Motion, and whenever the idle-loop switch says
+ * so: under the pages pushed over the splash it kept moving out of sight, and on Android every
+ * frame of it told the accessibility layer the window changed, so a test typing on the pass page
+ * waited out its full idle timeout after each letter.
  */
 import { useEffect, type ReactNode } from 'react';
 import Animated, {
+  cancelAnimation,
   Easing,
   useAnimatedStyle,
   useSharedValue,
@@ -12,6 +16,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { usePremiumReducedMotion } from '@/ui/premium';
 
 export function IdleFloat({
@@ -28,9 +33,11 @@ export function IdleFloat({
   readonly sway?: number;
 }) {
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const phase = useSharedValue(0);
   useEffect(() => {
-    if (reduced) {
+    if (!looping) {
+      cancelAnimation(phase);
       phase.value = 0;
       return;
     }
@@ -42,7 +49,7 @@ export function IdleFloat({
         true,
       ),
     );
-  }, [reduced, periodMs, delayMs, phase]);
+  }, [looping, periodMs, delayMs, phase]);
   const style = useAnimatedStyle(() => ({
     transform: [
       { translateY: -lift * phase.value },

@@ -1,43 +1,48 @@
 import { Stack } from 'expo-router';
-import { useCallback, useEffect, useState, type ReactElement, type ReactNode } from 'react';
+import {
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
 import {
   Platform,
   StyleSheet,
   View,
+  type LayoutChangeEvent,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
 } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 
-import {
-  GlassSurface,
-  REDUCED_FADE_MS,
-  SPRINGS,
-  Text,
-  usePremiumReducedMotion,
-  usePremiumTheme,
-} from '../..';
-import { useGuideBand } from '../navigation/guide-band';
-import { useToolbarPlusMorph } from '../zoom/toolbar-plus-morph';
+import { GlassSurface, kitType, reducedFadeIn, reducedFadeOut, Text, usePremiumTheme } from '../..';
 import {
   capActions,
   DrawnHeaderActions,
   NativeHeaderActions,
   type ShellAction,
 } from './header-actions';
+import { TabBarShownContext } from '../navigation/tab-bar-shown';
+import { useScreenPlacement } from '../navigation/use-screen-placement';
+import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from './scroll-edge';
+import { TabBarFade } from './tab-page-scroll';
 
 /** Spread on the screen's scroll view or list, which must be the screen's first child. */
 export interface RootScrollProps {
-  readonly contentInsetAdjustmentBehavior?: 'automatic';
+  readonly contentInsetAdjustmentBehavior?: 'automatic' | 'never';
+  readonly automaticallyAdjustContentInsets?: boolean;
+  /** A tap on a row while the keyboard is up acts on the row (a search list), not only closes it. */
+  readonly keyboardShouldPersistTaps: 'handled';
+  readonly keyboardDismissMode: 'interactive' | 'on-drag';
   readonly onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  /** Where the content ends against the tab bar (the fade under it follows). */
+  readonly onLayout?: (event: LayoutChangeEvent) => void;
+  readonly onContentSizeChange?: (width: number, height: number) => void;
   readonly scrollEventThrottle?: number;
 }
 
@@ -53,9 +58,10 @@ export interface RootScreenProps {
   /** At most two; `primary` marks the ink `+`, which goes last. */
   readonly actions?: readonly ShellAction[];
   /**
-   * `native`: the iOS large title that collapses into the glass bar, needs the screen to sit in a
-   * native stack (a tab's own stack). `drawn`: the shell draws the title and the bar it collapses
-   * into (Android, and iOS tabs without a stack). @default native on iOS, drawn on Android
+   * `drawn`: the shell draws the title on the row of its actions, as the design sets every root
+   * (1.04, 7.01), and the bar it collapses into. `native`: the iOS large title, on its own row
+   * under the system toolbar, for a screen in a native stack that wants the system's.
+   * @default drawn
    */
   readonly header?: 'native' | 'drawn';
   /** Renders the screen's scroll view or list with the bindings. */
@@ -63,8 +69,20 @@ export interface RootScreenProps {
   readonly testID?: string;
 }
 
+const PREMIUM_LARGE_TITLE = kitType.largeTitle.size;
+
 /** The drawn title row's height, after which the title has left and the bar shows it. */
 const TITLE_ROW = 52;
+
+const KEYBOARD_TAPS = {
+  keyboardShouldPersistTaps: 'handled',
+  keyboardDismissMode: Platform.OS === 'ios' ? 'interactive' : 'on-drag',
+} as const;
+
+const NATIVE_SCROLL: RootScrollProps = {
+  ...KEYBOARD_TAPS,
+  contentInsetAdjustmentBehavior: 'automatic',
+};
 
 /**
  * The root screen type (foundations-spec §1): large title, at most two glass actions with the
@@ -76,7 +94,7 @@ export function RootScreen({ title, actions = [], header, children, testID }: Ro
   // system back.
   useNoBackByDesign();
   const ordered = capActions(actions, 2);
-  const mode = header ?? (Platform.OS === 'ios' ? 'native' : 'drawn');
+  const mode = header ?? 'drawn';
   if (mode === 'native') {
     return (
       <NativeRootScreen title={title} actions={ordered} testID={testID}>
@@ -100,32 +118,40 @@ interface RootScreenParts {
 
 function NativeRootScreen({ title, actions, children, testID }: RootScreenParts) {
   const t = usePremiumTheme();
-  const morphing = actions.find((action) => action.primary === true && action.morph === true);
-  const noop = useCallback(() => undefined, []);
-  const morph = useToolbarPlusMorph(morphing?.onPress ?? noop);
-  // System buttons only: a toolbar view's content is invisible to VoiceOver on iOS 26.
+  // System buttons only: a toolbar view's content is invisible to VoiceOver on iOS 26. The `+`
+  // opens its sheet straight away: the native form sheet's own rise is the motion (a drawn shape
+  // growing over it played a second sheet on top of the real one).
   const native = actions.map((action): ShellAction => {
     const button: ShellAction = { ...action };
     delete (button as { element?: unknown }).element;
-    return action.key === morphing?.key ? { ...button, onPress: morph.start } : button;
+    return button;
   });
-  const options = {
-    headerShown: true,
-    title,
-    headerLargeTitleEnabled: true,
-    headerTransparent: true,
-    headerShadowVisible: false,
-    headerLargeTitleShadowVisible: false,
-    headerTintColor: t.color.ink,
-    headerLargeTitleStyle: { color: t.color.ink, fontWeight: '700' as const },
-    headerTitleStyle: { color: t.color.ink },
-  };
+  const ink = t.color.ink;
+  // Stable while the title and ink hold: new options on every render make the navigator redraw.
+  const options = useMemo(
+    () => ({
+      headerShown: true,
+      title,
+      headerLargeTitleEnabled: true,
+      headerTransparent: true,
+      headerShadowVisible: false,
+      headerLargeTitleShadowVisible: false,
+      headerTintColor: ink,
+      // 32/700 as the design's root title; the system bar keeps its own tracking and inset.
+      headerLargeTitleStyle: {
+        color: ink,
+        fontWeight: '700' as const,
+        fontSize: PREMIUM_LARGE_TITLE,
+      },
+      headerTitleStyle: { color: ink },
+    }),
+    [title, ink],
+  );
   return (
     <View testID={testID} style={styles.root} collapsable={false}>
       <Stack.Screen options={options} />
       <NativeHeaderActions actions={native} />
-      {children({ scrollProps: { contentInsetAdjustmentBehavior: 'automatic' }, largeTitle: null })}
-      {morph.overlay}
+      {children({ scrollProps: NATIVE_SCROLL, largeTitle: null })}
     </View>
   );
 }
@@ -133,24 +159,36 @@ function NativeRootScreen({ title, actions, children, testID }: RootScreenParts)
 function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) {
   const t = usePremiumTheme();
   const insets = useSafeAreaInsets();
-  const guideBand = useGuideBand();
-  const reduced = usePremiumReducedMotion();
   const [collapsed, setCollapsed] = useState(false);
-  const shown = useSharedValue(0);
+  // Whether content runs on under the tab bar, for the longer fade there.
+  const edges = useScrollEdges();
+  const track = edges.scrollProps;
 
-  useEffect(() => {
-    const to = collapsed ? 1 : 0;
-    shown.value = reduced
-      ? withTiming(to, { duration: REDUCED_FADE_MS })
-      : withSpring(to, SPRINGS.snappy);
-  }, [collapsed, reduced, shown]);
+  const onScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      setCollapsed(event.nativeEvent.contentOffset.y > TITLE_ROW);
+      track.onScroll(event);
+    },
+    [track],
+  );
 
-  const onScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    setCollapsed(event.nativeEvent.contentOffset.y > TITLE_ROW);
-  }, []);
-
-  const barTitle = useAnimatedStyle(() => ({ opacity: shown.value }));
+  // The drawn title keeps the status bar clear itself: iOS adding its own inset as well (a root in
+  // a tab's native stack) set the title a row below its actions. The native tabs leave these
+  // insets alone (`disableAutomaticContentInsets` in `PremiumTabs`).
+  const scrollProps = useMemo(
+    (): RootScrollProps => ({
+      ...KEYBOARD_TAPS,
+      contentInsetAdjustmentBehavior: 'never',
+      automaticallyAdjustContentInsets: false,
+      onScroll,
+      onLayout: track.onLayout,
+      onContentSizeChange: track.onContentSizeChange,
+      scrollEventThrottle: 16,
+    }),
+    [onScroll, track],
+  );
   const barTop = insets.top;
+  const barHeight = barTop + t.size.glassNav + t.space.gap8;
   const largeTitle = (
     <View style={{ paddingTop: barTop + t.space.gap6, paddingHorizontal: t.space.titleGutter }}>
       <Text
@@ -164,25 +202,57 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
     </View>
   );
 
+  // A tab's root page fades into its ground under Android's drawn bar, wherever the bar shows.
+  const tabRoot = useScreenPlacement();
+  const barShown = useContext(TabBarShownContext);
+  const fade = Platform.OS === 'android' && (barShown ?? (tabRoot?.kind === 'root' && tabRoot.tab));
+  const groundBar = Platform.OS === 'ios';
   return (
-    <View testID={testID} style={[styles.root, { paddingBottom: guideBand }]} collapsable={false}>
-      {children({ scrollProps: { onScroll, scrollEventThrottle: 16 }, largeTitle })}
-      <View
-        pointerEvents="box-none"
-        style={[styles.bar, { height: barTop + t.size.glassNav + t.space.gap8 }]}
-      >
+    <View testID={testID} style={styles.root} collapsable={false}>
+      {children({ scrollProps, largeTitle })}
+      {fade ? <TabBarFade continues={edges.bottom} /> : null}
+      {/* The content fades out under the collapsed bar instead of meeting its edge in a line. On
+          iOS the bar is the page's own ground fading out, as the system's scroll edge: the glass
+          slab ended in a hard line, lighter than the page in dark and a pastel band in light. */}
+      {collapsed && groundBar ? (
+        <ScrollEdgeFade
+          edge="top"
+          height={barHeight + SCROLL_EDGE_FADE}
+          solid={barHeight}
+          testID="root-bar"
+        />
+      ) : null}
+      {collapsed && !groundBar ? (
+        <ScrollEdgeFade
+          edge="top"
+          offset={barHeight}
+          height={SCROLL_EDGE_FADE}
+          color={t.material.regular.fill}
+        />
+      ) : null}
+      <View pointerEvents="box-none" style={[styles.bar, { height: barHeight }]}>
         {/* Glass never fades (the system stops drawing it below full opacity): it comes and goes
             whole, and only the title fades. */}
-        {collapsed ? (
+        {collapsed && !groundBar ? (
           <GlassSurface kind="regular" style={StyleSheet.absoluteFill} testID="root-bar" />
         ) : null}
-        <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, barTitle]}>
-          <View style={[styles.barTitle, { top: barTop }]}>
-            <Text variant="rowTitle" numberOfLines={1}>
-              {title}
-            </Text>
-          </View>
-        </Animated.View>
+
+        {/* Mounted only while collapsed: a faded-out copy of the title would still sit over the
+            large title's row for screen readers and the layout checks. */}
+        {collapsed ? (
+          <Animated.View
+            entering={reducedFadeIn()}
+            exiting={reducedFadeOut()}
+            pointerEvents="none"
+            style={StyleSheet.absoluteFill}
+          >
+            <View style={[styles.barTitle, { top: barTop }]}>
+              <Text variant="rowTitle" numberOfLines={1}>
+                {title}
+              </Text>
+            </View>
+          </Animated.View>
+        ) : null}
         <View
           style={[styles.barActions, { top: barTop + t.space.gap6 - 2, right: t.space.gutter }]}
         >
@@ -195,8 +265,10 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  largeTitle: { height: TITLE_ROW - 6 },
-  bar: { position: 'absolute', top: 0, left: 0, right: 0 },
+  // A floor, not a height: the title grows with larger text instead of clipping.
+  largeTitle: { minHeight: TITLE_ROW - 6 },
+  // Over the scroll edge's band (zIndex 1), so the collapsed title isn't drawn under the ground.
+  bar: { position: 'absolute', top: 0, left: 0, right: 0, zIndex: 2 },
   barTitle: {
     position: 'absolute',
     left: 0,

@@ -125,6 +125,7 @@ export function FtfEndingPremium() {
           />
           <View style={{ alignItems: 'center' }}>
             <TextButton
+              align="center"
               label={copy.stayFree}
               onPress={actions.onStayFree}
               testID="ftf-ending-stay-free"

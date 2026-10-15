@@ -28,8 +28,38 @@ interface GuideRecord {
 
 let signOutRegistered = false;
 
-/** Starts feeding from this database; the returned function stops it. */
+interface RunningFeed {
+  readonly db: AbstractPowerSyncDatabase;
+  readonly stop: () => void;
+  users: number;
+}
+
+let running: RunningFeed | null = null;
+
+/**
+ * Starts feeding from this database; the returned function lets go of it. Every screen that reads
+ * guides starts it (the tab bar, and a destination or place page opened straight from a link, with
+ * no tabs under it): one feed runs per database, and it stops when the last reader lets go.
+ */
 export function feedGuides(db: AbstractPowerSyncDatabase): () => void {
+  if (running?.db !== db) {
+    running?.stop();
+    running = { db, stop: startFeed(db), users: 0 };
+  }
+  const feed = running;
+  feed.users += 1;
+  let released = false;
+  return () => {
+    if (released) return;
+    released = true;
+    feed.users -= 1;
+    if (feed.users > 0 || running !== feed) return;
+    feed.stop();
+    running = null;
+  };
+}
+
+function startFeed(db: AbstractPowerSyncDatabase): () => void {
   if (!signOutRegistered) {
     signOutRegistered = true;
     registerOnSignOut(() => resetGuidesPerCity());

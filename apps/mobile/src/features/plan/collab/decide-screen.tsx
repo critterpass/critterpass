@@ -6,24 +6,20 @@
  * editor, so a member's pick would go to the crew as a change set).
  */
 import { useLingui } from '@lingui/react/macro';
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
 
 import { parsePlanAnchor } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
 import { useCommand } from '@/data/commands/use-command';
-import { useTyping } from '@/data/realtime/use-typing';
 import { impact } from '@/motion/feedback';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
-import { Composer } from '@/ui/chat/Composer';
-import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { dayDate } from '../day/format';
 import { useDayEditing } from '../day/use-day-editing';
-import { CommentThread } from './comment-thread';
-import { buildDecision } from './decision-model';
-import { DecideView } from './decide-view';
+import { buildDecision, type Anchor } from './decision-model';
+import { type DecideViewProps } from './decide-props';
 import {
   BALLOTS_SQL,
   BALLOTS_TABLES,
@@ -36,20 +32,40 @@ import {
   type PollRow,
 } from './queries';
 import { useComments } from './use-comments';
-import { optionAnchor, PRESENCE_NAMESPACE, usePlanPresence } from './use-presence';
+import { optionAnchor, usePlanPresence } from './use-presence';
 import { applyChangesetCommand, castDecisionBallotCommand } from '@/data/plan/commands';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { dayItems } from '@/data/plan/plan-model';
 import { addOp, removeOp } from '@/data/plan/plan-ops';
 import { type PlanMember, useTripPlan } from '@/data/plan/use-trip-plan';
 
+/** A thread drawn with its own composer. */
+export interface DecideThreadProps {
+  readonly tripId: string;
+  readonly uid: string | null;
+  readonly members: readonly PlanMember[];
+  readonly guide: { readonly kind: string; readonly name: string };
+  readonly title: string;
+  readonly anchors: readonly Anchor[];
+  readonly target: { readonly kind: 'option'; readonly id: string };
+}
+
+export interface DecideLook {
+  readonly View: ComponentType<DecideViewProps>;
+  readonly Thread: ComponentType<DecideThreadProps>;
+}
+
 export function DecideScreen({
   tripId,
   pollId,
+  look,
 }: {
   readonly tripId: string;
   readonly pollId: string;
+  /** The look: its view, and a thread that brings its own composer. */
+  readonly look: DecideLook;
 }) {
+  const { View, Thread } = look;
   const { t } = useLingui();
   const locale = useLocale();
   const plan = useTripPlan(tripId);
@@ -60,9 +76,7 @@ export function DecideScreen({
   const comments = useComments(tripId, plan.uid);
   const vote = useCommand(castDecisionBallotCommand);
   const applySet = useCommand(applyChangesetCommand);
-  const typing = useTyping(PRESENCE_NAMESPACE, tripId);
   const [focus, setFocus] = useState<string | null>(null);
-  const [draft, setDraft] = useState('');
   const [voteTokens, setVoteTokens] = useState<ReadonlyMap<string, number>>(new Map());
   const row = poll.rows[0] ?? null;
   const decision =
@@ -164,65 +178,41 @@ export function DecideScreen({
     locale,
   );
 
+  const shared = {
+    eyebrow,
+    here: presence.here.map((member) => member.name ?? '').filter((name) => name !== ''),
+    decision,
+    members: plan.members,
+    browsing,
+    voteTokens,
+    onVote: (optionId: string) => {
+      setFocus(optionId);
+      presence.setCursor(optionAnchor(optionId));
+      if (decision?.myVote === optionId) return;
+      impact('vote');
+      setVoteTokens((current) => new Map(current).set(optionId, (current.get(optionId) ?? 0) + 1));
+      void vote.send({ poll_id: pollId, option_id: optionId });
+    },
+    onApply: canPutOnPlan ? putOnPlan : null,
+  };
+
   return (
-    <DecideView
-      eyebrow={eyebrow}
-      here={presence.here.map((member) => member.name ?? '').filter((name) => name !== '')}
-      decision={decision}
-      members={plan.members}
-      browsing={browsing}
-      voteTokens={voteTokens}
-      onVote={(optionId) => {
-        setFocus(optionId);
-        presence.setCursor(optionAnchor(optionId));
-        if (decision?.myVote === optionId) return;
-        impact('vote');
-        setVoteTokens((current) =>
-          new Map(current).set(optionId, (current.get(optionId) ?? 0) + 1),
-        );
-        void vote.send({ poll_id: pollId, option_id: optionId });
-      }}
-      onApply={canPutOnPlan ? putOnPlan : null}
+    <View
+      {...shared}
       thread={
         focused === null ? null : (
-          <CommentThread
-            title={focused.title}
-            comments={comments.thread(anchors)}
-            members={plan.members}
+          <Thread
+            tripId={tripId}
             uid={plan.uid}
-            typing={typing.typing}
+            members={plan.members}
             guide={guideSticker(plan.trip?.guide_slug)}
-            kept={comments.kept}
-            now={comments.now}
-            onPlusOne={(id, on) => void comments.plusOne(id, on)}
-            onKeep={comments.keep}
-            onUndo={(id) => void comments.undo(id)}
+            title={focused.title}
+            anchors={anchors}
+            target={{ kind: 'option', id: focused.id }}
           />
         )
       }
-      composer={
-        focused === null || decision?.phase === 'closed' ? null : (
-          <KeyboardFooter>
-            <Composer
-              value={draft}
-              onChangeText={(text) => {
-                setDraft(text);
-                typing.notifyTyping();
-              }}
-              onSend={() => {
-                const body = draft;
-                setDraft('');
-                void comments.addComment({ kind: 'option', id: focused.id }, body);
-              }}
-              placeholder={t({
-                id: 'plan.collab.composer',
-                message: `Say something about ${focused.title}`,
-              })}
-              testID="plan-comment-composer"
-            />
-          </KeyboardFooter>
-        )
-      }
+      composer={null}
     />
   );
 }

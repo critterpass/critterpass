@@ -8,7 +8,7 @@ import { t } from '@lingui/core/macro';
 import { Stack } from 'expo-router';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -20,6 +20,7 @@ import {
   TextButton,
   usePremiumReducedMotion,
   usePremiumTheme,
+  riseIn,
 } from '@/ui/premium';
 
 import { artKind } from '../../art-kind';
@@ -32,36 +33,65 @@ import {
   sayHi,
   welcome,
 } from '../../hatch/hatch-copy';
-import type { HatchViewProps } from '../../hatch/hatch-view';
+import type { HatchViewProps } from '../../hatch/hatch-model';
 import { Confetti, Rays } from '../components/celebration';
 import { Hop } from '../components/loops';
 import { HATCH_PAINT } from '../components/scrims';
 
+/**
+ * A short place name kept on one line ("Đà Nẵng"), so the welcome breaks before it, not inside it.
+ * A long one may still wrap between its words.
+ */
+function unbroken(place: string): string {
+  return place.length <= 16 ? place.replace(/ /g, '\u00a0') : place;
+}
+
 /** When the halves part and the critter is shown (the egg's crack). */
 const REVEAL_MS = 900;
 
-function EggHalf({
-  size,
-  tilt,
-  top,
-}: {
-  readonly size: number;
-  readonly tilt: number;
-  readonly top: boolean;
-}) {
+/** The shell's spots: centre as a share of the half's width and height, and diameter. */
+const SPOTS = [
+  { x: 0.34, y: 0.3, d: 0.2 },
+  { x: 0.64, y: 0.46, d: 0.16 },
+  { x: 0.4, y: 0.68, d: 0.22 },
+  { x: 0.7, y: 0.76, d: 0.12 },
+] as const;
+
+/** One half of the shell (8.05): a spotted egg with an ink outline, tipped away from the critter. */
+function EggHalf({ size, tilt }: { readonly size: number; readonly tilt: number }) {
+  const th = usePremiumTheme();
+  const width = size * 0.74;
   return (
     <View
       style={{
-        width: size,
-        height: size * 0.62,
+        width,
+        height: size,
+        borderTopLeftRadius: width / 2,
+        borderTopRightRadius: width / 2,
+        borderBottomLeftRadius: width * 0.46,
+        borderBottomRightRadius: width * 0.46,
+        borderWidth: 2.5,
+        borderColor: th.color.ink,
         backgroundColor: HATCH_PAINT.shell,
-        borderTopLeftRadius: top ? size / 2 : size * 0.12,
-        borderTopRightRadius: top ? size / 2 : size * 0.12,
-        borderBottomLeftRadius: top ? size * 0.12 : size / 2,
-        borderBottomRightRadius: top ? size * 0.12 : size / 2,
+        overflow: 'hidden',
         transform: [{ rotate: `${tilt}deg` }],
       }}
-    />
+    >
+      {SPOTS.map((spot) => (
+        <View
+          key={`${spot.x}-${spot.y}`}
+          style={{
+            position: 'absolute',
+            left: spot.x * width - (spot.d * width) / 2,
+            top: spot.y * size - (spot.d * width) / 2,
+            width: spot.d * width,
+            height: spot.d * width,
+            borderRadius: (spot.d * width) / 2,
+            backgroundColor: th.accent.tangerine,
+          }}
+        />
+      ))}
+    </View>
   );
 }
 
@@ -89,8 +119,7 @@ export function PremiumHatchScene(props: HatchViewProps) {
     // The ceremony runs once per mount.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const entering = (delay: number) =>
-    reduced ? FadeIn.duration(150) : FadeInDown.springify().damping(16).delay(delay);
+  const entering = (delay: number) => riseIn(reduced, 'smooth', delay);
   const name = props.name ?? '';
   const tag =
     props.no === null
@@ -113,11 +142,13 @@ export function PremiumHatchScene(props: HatchViewProps) {
           </Text>
         </View>
         <View style={styles.stage}>
-          <View style={[styles.half, { left: 34, top: 150 }]}>
-            <EggHalf size={86} tilt={revealed ? -24 : -4} top />
+          {/* The halves sit low by the stage's middle as the egg cracks (8.05), then part to the
+              critter's feet either side of it: never out at the screen's edges. */}
+          <View style={[styles.half, { bottom: 6, marginLeft: -(revealed ? 128 : 66) }]}>
+            <EggHalf size={76} tilt={revealed ? -22 : -6} />
           </View>
-          <View style={[styles.half, { right: 34, top: 168 }]}>
-            <EggHalf size={78} tilt={revealed ? 28 : 4} top={false} />
+          <View style={[styles.half, { bottom: 2, marginLeft: revealed ? 74 : 12 }]}>
+            <EggHalf size={72} tilt={revealed ? 24 : 6} />
           </View>
           {revealed && props.critterKey !== null ? (
             <Hop ms={2400}>
@@ -142,8 +173,8 @@ export function PremiumHatchScene(props: HatchViewProps) {
             >
               {hatchedTitle(props.name).toLocaleUpperCase(locale)}
             </Text>
-            <Text variant="hero" align="center" numberOfLines={2}>
-              {welcome(props.place)}
+            <Text variant="displayLarge" align="center" numberOfLines={2}>
+              {welcome(unbroken(props.place))}
             </Text>
             <Text variant="body" tone="inkSecondary" align="center">
               {hatchedBody({
@@ -153,10 +184,20 @@ export function PremiumHatchScene(props: HatchViewProps) {
                 place: props.setName,
               })}
             </Text>
-            {tag === null ? null : <Tag label={tag} color={th.accent.sun} rotate={-4} />}
+            {tag === null ? null : (
+              <View style={styles.tag}>
+                <Tag label={tag} color={th.accent.sun} rotate={-4} alignSelf="center" />
+              </View>
+            )}
             {props.pending ? (
-              <Text variant="captionMuted" tone="muted" testID="critters-hatch-pending">
-                {pendingNote()}
+              <Text
+                variant="captionMuted"
+                tone="muted"
+                align="center"
+                style={styles.pending}
+                testID="critters-hatch-pending"
+              >
+                {pendingNote(props.offline)}
               </Text>
             ) : null}
           </Animated.View>
@@ -166,7 +207,12 @@ export function PremiumHatchScene(props: HatchViewProps) {
         {props.onSayHi === null ? null : (
           <Button label={sayHi()} onPress={props.onSayHi} testID="critters-hatch-say-hi" />
         )}
-        <TextButton label={later()} onPress={props.onLater} testID="critters-hatch-later" />
+        <TextButton
+          align="center"
+          label={later()}
+          onPress={props.onLater}
+          testID="critters-hatch-later"
+        />
       </View>
     </View>
   );
@@ -177,7 +223,10 @@ const styles = StyleSheet.create({
   column: { flex: 1, alignItems: 'center', paddingHorizontal: 24 },
   chip: { height: 30, paddingHorizontal: 12, borderRadius: 15, justifyContent: 'center' },
   stage: { width: '100%', height: 280, alignItems: 'center', justifyContent: 'flex-end' },
-  half: { position: 'absolute' },
-  words: { alignItems: 'center', gap: 8, marginTop: 8 },
+  half: { position: 'absolute', left: '50%' },
+  tag: { marginTop: 28 },
+  // The eyebrow keeps clear of the critter's feet, the tilted tag of the note under it.
+  words: { alignItems: 'center', gap: 8, marginTop: 16 },
+  pending: { marginTop: 10 },
   foot: { paddingHorizontal: 20, gap: 10, alignItems: 'stretch' },
 });

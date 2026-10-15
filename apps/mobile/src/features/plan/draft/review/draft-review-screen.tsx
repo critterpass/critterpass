@@ -16,7 +16,7 @@ import { goBackOr } from '@/lib/navigation/back';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion';
 import { useCommandFeedback } from '@/motion/island-toast';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { draftBackLabel } from './draft-copy';
 import { restoreDraftVersionCommand } from '../data/commands';
@@ -27,20 +27,22 @@ import { roomiestDay } from '../data/fit-day';
 import { dayRange } from '../data/format';
 import { useDraftVersion, type HistoryEntry } from '../data/use-draft-version';
 import { draftRoutes } from '../routes';
-import { missAction, type MissedMustDo } from './coverage-strip';
-import { DraftLoading } from './draft-loading';
-import { DraftReviewView, type DraftReviewViewProps } from './draft-review-view';
-import { MemberPlanning } from './member-planning';
-import { NoDraft } from './no-draft';
-import { VersionHistorySheet } from './version-history-sheet';
+import { missAction, type MissedMustDo } from './review-words';
+import { type DraftReviewViewProps } from './draft-review-props';
+import {
+  PremiumDraftLoading,
+  PremiumMemberPlanning,
+  PremiumNoDraft,
+} from '../../premium/draft/draft-states';
+import { PremiumVersionHistorySheet } from '../../premium/draft/version-history-sheet';
 
 export function DraftReviewScreen({
   tripId,
-  View = DraftReviewView,
+  View,
 }: {
   readonly tripId: string;
-  /** How the draft is drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<DraftReviewViewProps>;
+  /** How the draft is drawn. */
+  readonly View: ComponentType<DraftReviewViewProps>;
 }) {
   useTripStreams(tripId);
   const trip = useDraftTrip(tripId);
@@ -67,27 +69,28 @@ export function DraftReviewScreen({
   const back = () => goBackOr(draftRoutes.setup(tripId) ?? '/');
   if (trip === undefined || trip === null || !draft.loaded || drafting || retired) {
     return (
-      <DraftLoading
+      <PremiumDraftLoading
         trip={
           trip === undefined || trip === null
             ? null
             : { destination: trip.destinationName, guide: trip.guide }
         }
-        onBack={back}
       />
     );
   }
   if (!trip.isOrganiser)
     return (
-      <MemberPlanning trip={trip} onBack={() => goBackOr(hrefFor('plan-hub', { tripId }) ?? '/')} />
+      <PremiumMemberPlanning
+        trip={trip}
+        onBack={() => goBackOr(hrefFor('plan-hub', { tripId }) ?? '/')}
+      />
     );
   if (draft.review === null) {
     return (
-      <NoDraft
+      <PremiumNoDraft
         guide={trip.guide}
         failed={draft.lastDraftJob?.status === 'failed'}
         backLabel={draftBackLabel(trip.destinationName)}
-        onBack={back}
         onDraft={() => router.replace(draftRoutes.drafting(tripId))}
       />
     );
@@ -190,7 +193,7 @@ export function DraftReviewScreen({
         onHistory={() => setHistory(true)}
       />
       {history ? (
-        <VersionHistorySheet
+        <PremiumVersionHistorySheet
           entries={draft.history}
           guideName={guideSticker(trip.guide).name}
           locale={locale}

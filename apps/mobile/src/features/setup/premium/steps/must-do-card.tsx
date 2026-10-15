@@ -91,13 +91,18 @@ export function MustDoCard(props: {
         {plainFit ? (
           <Icon name="check" size={18} color={theme.color.toggleOn} />
         ) : item.pill === null ? null : (
-          <StatusTag tone={PILL_TONE[item.pill.kind]} label={pillLabel(item.pill, locale)} />
+          <StatusTag
+            tone={PILL_TONE[item.pill.kind]}
+            label={pillLabel(item.pill, locale)}
+            testID={`must-do-pill-${item.id}`}
+          />
         )}
       </PressableScale>
       {open ? (
         <View style={{ flexDirection: 'row', gap: theme.space.gap6 }}>
           {props.onRemind === undefined ? null : (
             <Button
+              alignSelf="auto"
               size="small"
               label={t({ id: 'setup.mustDos.row.remind', message: 'Remind me to enter' })}
               onPress={props.onRemind}
@@ -106,6 +111,7 @@ export function MustDoCard(props: {
           )}
           {props.onRemove === undefined ? null : (
             <Button
+              alignSelf="auto"
               size="small"
               variant="control"
               label={t({ id: 'setup.mustDos.row.remove', message: 'Remove' })}

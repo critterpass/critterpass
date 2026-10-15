@@ -25,7 +25,7 @@ import {
   type ReceiptView,
 } from './review-model';
 import { linesToCheck, resultParts, reviewRows, type ReviewCopy } from './review-rows';
-import type { ScanScene } from './ScanView';
+import type { ScanScene } from './view-types';
 import type { SweepLine } from './ScanSweep';
 import type { ScanControls } from './use-scan';
 

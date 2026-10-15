@@ -31,6 +31,20 @@ export function dayColours(dayNo: number): DayColours {
   return RUN[index] ?? (RUN[0] as DayColours);
 }
 
+const STATUS_OF_DAY = ['maybe', 'voteOpen', 'rain', 'booked', 'tangerine'] as const;
+
+/**
+ * The day's text colour on the page or sheet ground in `scheme`: the light ink (`ink`) is for light
+ * grounds and the day's own tiles; on the night ground it is the same hue's dark-mode status text,
+ * which keeps its contrast where the light ink went dull.
+ */
+export function dayInk(dayNo: number, scheme: 'light' | 'dark'): string {
+  if (scheme === 'light') return dayColours(dayNo).ink;
+  const index = (Math.max(1, Math.trunc(dayNo)) - 1) % STATUS_OF_DAY.length;
+  const key = STATUS_OF_DAY[index] ?? 'maybe';
+  return premium.modes.dark.color.status[key].text;
+}
+
 /** A day with nothing on it yet (the draft strip's grey tile). */
 export const EMPTY_DAY = {
   fill: premium.modes.light.color.control,

@@ -15,7 +15,7 @@ import { format } from '@cp/i18n';
 
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   EmptyState,
@@ -172,9 +172,12 @@ export function SetupChecklistScreen({ tripId }: { readonly tripId: string }) {
         {trip.isOrganiser ? (
           <>
             {strip}
-            <Text variant="label" tone="muted" style={{ paddingHorizontal: theme.space.gap10 }}>
-              {readyLine}
-            </Text>
+            {/* Who is ready counts people: a crew of one has nobody else to count. */}
+            {checklist.total > 1 ? (
+              <Text variant="label" tone="muted" style={{ paddingHorizontal: theme.space.gap10 }}>
+                {readyLine}
+              </Text>
+            ) : null}
             <ListCard>
               {rows.map((row) => {
                 const faces = crewFaces(trip.members, row.done);
@@ -189,8 +192,11 @@ export function SetupChecklistScreen({ tripId }: { readonly tripId: string }) {
                       stops: row.state === 'done' ? 2 : 1,
                     })}
                     disabled={row.state === 'waiting'}
+                    // A row waiting on the dates has no way in yet, so no chevron.
                     onPress={
-                      hrefOfRow(row.key) === undefined ? undefined : () => go(hrefOfRow(row.key))
+                      hrefOfRow(row.key) === undefined || row.state === 'waiting'
+                        ? undefined
+                        : () => go(hrefOfRow(row.key))
                     }
                     trailing={
                       row.key === 'dates' && row.state === 'done' ? (

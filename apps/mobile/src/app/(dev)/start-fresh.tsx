@@ -9,10 +9,8 @@ import { eraseAccount } from '@/lib/dev-tools/erase-account';
 import { deviceWipePorts, provideAlarmCanceller } from '@/features/you/account/device-wipe';
 import { startFresh, type EraseOutcome, type StartFreshPorts } from '@/lib/dev-tools/start-fresh';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { makeStyles, Stack, Text, useTheme } from '@/ui';
-import { SecondaryText } from '@/ui/cards/SecondaryText';
-import { Sheet } from '@/ui/sheet/Sheet';
-import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
+import { Button } from '@/ui/premium';
+import { makeStyles, SecondaryText, Stack, Text, useTheme } from '@/features/dev-tools/dev-kit';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -110,43 +108,79 @@ export default function DevStartFreshSheet() {
   };
 
   return (
-    <Sheet detents={['fit']} accessibilityLabel={copy.title} testID="dev-start-fresh">
-      <View style={styles.body}>
-        {busy ? (
-          <Text variant="body" testID="dev-start-fresh-busy">
-            {copy.busy}
+    <View style={styles.body} accessibilityLabel={copy.title} testID="dev-start-fresh">
+      {busy ? (
+        <Text variant="body" testID="dev-start-fresh-busy">
+          {copy.busy}
+        </Text>
+      ) : stays === null ? (
+        <Confirm
+          title={copy.title}
+          consequences={copy.lines}
+          confirmLabel={copy.confirm}
+          onConfirm={() => void run(false)}
+          onCancel={() => router.back()}
+          testID="dev-start-fresh-confirm"
+        />
+      ) : (
+        <Confirm
+          title={copy.stays[stays]}
+          consequences={copy.staysLines}
+          confirmLabel={copy.anyway}
+          onConfirm={() => void run(true)}
+          onCancel={() => router.back()}
+          testID="dev-start-fresh-account-stays"
+        />
+      )}
+      {problem === null ? null : (
+        <Stack gap="4" testID="dev-start-fresh-failed">
+          <Text color={theme.semantic.state.urgent}>{problem.headline}</Text>
+          {problem.details.map((line) => (
+            <SecondaryText key={line} variant="caption">
+              {line}
+            </SecondaryText>
+          ))}
+        </Stack>
+      )}
+    </View>
+  );
+}
+
+/** What starting fresh does, line by line, then the red go-ahead and the way out. */
+function Confirm(props: {
+  readonly title: string;
+  readonly consequences: readonly string[];
+  readonly confirmLabel: string;
+  readonly onConfirm: () => void;
+  readonly onCancel: () => void;
+  readonly cancelLabel?: string;
+  readonly testID: string;
+}) {
+  return (
+    <Stack gap="16" testID={props.testID}>
+      <Text variant="h2" accessibilityRole="header">
+        {props.title}
+      </Text>
+      <Stack gap="8">
+        {props.consequences.map((line) => (
+          <Text key={line} variant="body">
+            {`• ${line}`}
           </Text>
-        ) : stays === null ? (
-          <ConfirmSheet
-            title={copy.title}
-            consequences={copy.lines}
-            confirmLabel={copy.confirm}
-            onConfirm={() => void run(false)}
-            onCancel={() => router.back()}
-            testID="dev-start-fresh-confirm"
-          />
-        ) : (
-          <ConfirmSheet
-            title={copy.stays[stays]}
-            consequences={copy.staysLines}
-            confirmLabel={copy.anyway}
-            onConfirm={() => void run(true)}
-            onCancel={() => router.back()}
-            testID="dev-start-fresh-account-stays"
-          />
-        )}
-        {problem === null ? null : (
-          <Stack gap="4" testID="dev-start-fresh-failed">
-            <Text color={theme.semantic.state.urgent}>{problem.headline}</Text>
-            {problem.details.map((line) => (
-              <SecondaryText key={line} variant="caption">
-                {line}
-              </SecondaryText>
-            ))}
-          </Stack>
-        )}
-      </View>
-    </Sheet>
+        ))}
+      </Stack>
+      <Button
+        variant="destructive"
+        label={props.confirmLabel}
+        onPress={props.onConfirm}
+        testID={`${props.testID}-confirm`}
+      />
+      <Button
+        variant="secondary"
+        label={props.cancelLabel ?? 'Cancel'}
+        onPress={props.onCancel}
+        testID={`${props.testID}-cancel`}
+      />
+    </Stack>
   );
 }
 

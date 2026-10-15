@@ -23,7 +23,7 @@ import {
 import { PushScreen } from '@/ui/premium/shell';
 
 import { TRANSFER_ORGANISER } from '../crews-sheet/crew-commands';
-import { returnHome } from '../start-crew/crew-created';
+import { returnHome } from '../start-crew/return-home';
 import { useCrewDetail } from '../settings/use-crew-detail';
 import { firstName } from './crew-copy';
 import { memberAccent } from './crew-look';
@@ -103,6 +103,7 @@ export function LeaveCrewScreen() {
             <RadioRow
               key={member.user_id}
               name={firstName(member.display_name)}
+              uid={member.user_id}
               color={memberAccent(member.colour)}
               selected={member.user_id === chosen?.user_id}
               onPress={() => setPicked(member.user_id)}
@@ -135,6 +136,7 @@ export function LeaveCrewScreen() {
           testID="crew-leave-handover"
         />
         <TextButton
+          align="center"
           label={t({ id: 'crew.premium.leave.stay', message: 'Hand over, but stay in' })}
           disabled={chosen === null || busy !== null}
           onPress={() => void handOver(false)}

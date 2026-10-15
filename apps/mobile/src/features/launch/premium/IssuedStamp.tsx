@@ -24,16 +24,24 @@ const ISSUED = msg({
   comment: 'Passport stamp word, upper case, must fit a 112 pt round stamp',
 });
 
+/** Capitals carrying marks above them (Vietnamese "ĐÃ CẤP") stack taller than the line box. */
+const MARKED = /\p{M}/u;
+
 export function IssuedStamp({ date }: { readonly date: string }) {
   const { i18n } = useLingui();
+  const word = i18n._(ISSUED);
   return (
     <View style={styles.disc}>
       <View style={styles.innerRing} />
       <Text variant="stampSmall" color={INK}>
         {BRAND}
       </Text>
-      <Text variant="stampWord" color={INK}>
-        {i18n._(ISSUED)}
+      <Text
+        variant="stampWord"
+        color={INK}
+        style={MARKED.test(word.normalize('NFD')) ? styles.markedWord : null}
+      >
+        {word}
       </Text>
       <Text variant="stampSmall" color={INK}>
         {date}
@@ -43,6 +51,8 @@ export function IssuedStamp({ date }: { readonly date: string }) {
 }
 
 const styles = StyleSheet.create({
+  // Room for a stacked mark over a capital, clear of the brand line above and the date below.
+  markedWord: { lineHeight: 30 },
   disc: {
     width: STAMP.size,
     height: STAMP.size,

@@ -5,19 +5,24 @@
  */
 import { tokens } from '@cp/design-tokens';
 import { router, useIsFocused } from 'expo-router';
-import { useMemo } from 'react';
+import { useMemo, type ComponentType } from 'react';
 
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { goBackOr } from '@/lib/navigation/back';
 
-import { ExploreHomeView } from '../components/explore-home-view';
 import { useOfflinePackFiles } from '../data/use-offline-pack';
 import { destinationCards } from '../home-model';
 import { useGuideDestinations } from '../queries';
 import { exploreRoutes } from '../routes';
 import { useSaved } from '../saved-queries';
+import type { DestinationCard } from '../home-model';
 
-export function ExploreHomeScreen() {
+export function ExploreHomeScreen({
+  View,
+}: {
+  /** The drawing of Explore's front page. */
+  readonly View: ComponentType<ExploreHomeViewProps>;
+}) {
   const destinations = useGuideDestinations();
   const saved = useSaved();
   const focused = useIsFocused();
@@ -35,7 +40,7 @@ export function ExploreHomeScreen() {
   );
   const search = exploreRoutes.search();
   return (
-    <ExploreHomeView
+    <View
       cards={cards}
       loading={!destinations.loaded}
       offline={syncPhase === 'offline'}
@@ -46,4 +51,17 @@ export function ExploreHomeScreen() {
       onSearch={search === undefined ? undefined : () => router.push(search)}
     />
   );
+}
+
+export interface ExploreHomeViewProps {
+  readonly cards: readonly DestinationCard[];
+  /** The catalogue has not reached this phone yet. */
+  readonly loading: boolean;
+  readonly offline: boolean;
+  readonly savedCount: number;
+  readonly onBack: () => void;
+  readonly onOpen: (card: DestinationCard) => void;
+  readonly onSaved: () => void;
+  /** Opens the search for any place; absent while that screen is not in the app. */
+  readonly onSearch?: (() => void) | undefined;
 }

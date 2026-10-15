@@ -3,7 +3,7 @@
  * once (a split afternoon is one afternoon), against the day's waking hours, in five steps. A day
  * with anything planned lights at least one bar; an empty day lights none.
  */
-import { PACE_STEPS } from '@/ui/planning/pace-bars';
+import { PACE_STEPS } from '@/ui/premium/planning/planning-shapes';
 
 /** The day the crew plans in: 07:00 to 22:00, the same window the plan check reads. */
 export const WAKING_FROM = 7 * 60;

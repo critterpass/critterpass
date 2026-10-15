@@ -1,20 +1,20 @@
 /**
  * The 1.07 stamp landing for any stamp it wraps (ISSUED, HOME, ADMITTED, EXPIRED): after `delayMs`
- * the stamp falls from 2.2× and −30°, squashes on impact (the thud and its haptic play there),
+ * the stamp falls from 2.2× and −30° on the Lively spring (clamped, so impact is the moment it
+ * first reaches the page, at speed), squashes on impact (the thud and its haptic play there),
  * then settles on the Lively spring with one wobble. Reduce Motion lands it with a 150 ms fade;
  * `play={false}` shows it settled (a page seen again).
  */
 import { useEffect, type ReactNode } from 'react';
 import Animated, {
-  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
   withSequence,
   withSpring,
   withTiming,
-  Easing,
 } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 
 import { REDUCED_FADE_MS, SPRINGS, usePremiumReducedMotion } from '@/ui/premium';
 
@@ -29,8 +29,8 @@ export interface StampLandingProps {
   readonly onImpact?: () => void;
 }
 
-/** The fall before impact: an ease-in drop. */
-const FALL_MS = 560;
+/** The fall ends at first contact: the spring's overshoot is the squash that follows. */
+const FALL = { ...SPRINGS.lively, overshootClamping: true };
 
 export function StampLanding({ children, delayMs = 0, play = true, onImpact }: StampLandingProps) {
   const reduced = usePremiumReducedMotion();
@@ -54,9 +54,9 @@ export function StampLanding({ children, delayMs = 0, play = true, onImpact }: S
     opacity.value = withDelay(delayMs, withTiming(1, { duration: STAMP_APPEAR_MS }));
     fall.value = withDelay(
       delayMs,
-      withTiming(1, { duration: FALL_MS, easing: Easing.in(Easing.cubic) }, (done) => {
+      withSpring(1, FALL, (done) => {
         if (done === true) {
-          runOnJS(impact)();
+          scheduleOnRN(impact);
           settle.value = withSequence(
             withTiming(0.4, { duration: STAMP_SQUASH_MS }),
             withSpring(1, SPRINGS.lively),

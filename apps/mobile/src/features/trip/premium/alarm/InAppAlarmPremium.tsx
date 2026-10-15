@@ -20,7 +20,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { CritterSticker, Text, TextButton, usePremiumReducedMotion } from '@/ui/premium';
 
-import type { InAppAlarmProps } from '../../alarm/in-app-alarm';
+import type { InAppAlarmProps } from '../../alarm/view-types';
 import { guideCritterKind, guideCritterName } from '../components/guide-critter';
 import { SlideToUp } from './SlideToUp';
 
@@ -104,14 +104,15 @@ export function InAppAlarmPremium(props: InAppAlarmProps) {
         </View>
         <View style={styles.foot}>
           <SlideToUp
-            label={t({ id: 'trip.alarm.slide', message: "slide, I'm up →" })}
-            actionLabel={t({ id: 'trip.alarm.imUp', message: "I'm up" })}
+            label={t({ id: 'trip.alarm.slide', message: 'slide, I’m up →' })}
+            actionLabel={t({ id: 'trip.alarm.imUp', message: 'I’m up' })}
             onConfirm={props.onUp}
             testID="trip-alarm-slide"
           />
           {props.snoozeAllowed ? (
             <View style={styles.center}>
               <TextButton
+                align="center"
                 label={t({ id: 'trip.alarm.snooze', message: 'Snooze 5 min' })}
                 color={white}
                 onPress={props.onSnooze}
@@ -137,6 +138,7 @@ export function InAppAlarmPremium(props: InAppAlarmProps) {
           )}
           {props.onClose === undefined ? null : (
             <TextButton
+              align="center"
               label={t({ id: 'trip.alarm.close', message: 'Close' })}
               color={white}
               onPress={props.onClose}

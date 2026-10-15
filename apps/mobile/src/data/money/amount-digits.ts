@@ -1,6 +1,6 @@
 /**
- * The digits behind an amount typed on a number pad, shared by the expense keypad and the
- * `AmountField` (`@/ui/inputs/AmountField`, which shows `amountText` and reports the digits after
+ * The digits behind an amount typed on a number pad, shared by the expense keypad and an
+ * amount field (which shows `amountText` and reports the digits after
  * each edit). An amount is held as the digits of its smallest shown unit run together, so each
  * digit typed lands on the right and the amount moves up, as on a till:
  *

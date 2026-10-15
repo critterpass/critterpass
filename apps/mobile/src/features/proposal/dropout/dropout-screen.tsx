@@ -6,14 +6,14 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { router } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, type ComponentType } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import { resolveDropoutCommand, setKeepInChatCommand } from '../data/commands';
 import { useFindProposalTrip, useProposal } from '../data/proposal';
@@ -22,8 +22,9 @@ import { useProposalTrip } from '../data/trip';
 import { ProposalLoading } from '../proposal-loading';
 import { dropoutReplyLine, dropoutShare } from '../labels';
 import { proposalRoutes } from '../routes';
-import { DropoutView } from './dropout-view';
 import { changeRows, shareChange, type DropoutOp, type MemberResplit } from './model';
+import { type GuideStickerId } from '@/ui/premium/stickers/guides';
+import type { ChangeRow } from './model';
 
 const DROPOUT_SQL = `SELECT ops, members, resolved_at, created_at FROM trip_dropouts
   WHERE trip_id = ? AND user_id = ? ORDER BY created_at DESC LIMIT 1`;
@@ -35,7 +36,13 @@ const APPLYING_SQL = `SELECT 1 AS queued FROM commands WHERE cmd = 'resolve_drop
 const KEEP_SQL = `SELECT cm.keep_in_chat FROM crew_members cm JOIN trips t ON t.crew_id = cm.crew_id
   WHERE t.id = ? AND cm.user_id = ?`;
 
-export function DropoutScreen(props: { readonly proposalId: string; readonly uid: string }) {
+export function DropoutScreen(props: {
+  readonly proposalId: string;
+  readonly uid: string;
+  /** How the screen is drawn; the reads and commands stay here. */
+  readonly View: ComponentType<DropoutViewProps>;
+}) {
+  const Look = props.View;
   const proposal = useProposal(props.proposalId);
   useFindProposalTrip(proposal);
   const tripId = proposal?.tripId ?? null;
@@ -85,7 +92,7 @@ export function DropoutScreen(props: { readonly proposalId: string; readonly uid
   const change = shareChange(parseJson<MemberResplit[]>(row.members, []), trip.me);
   const currency = trip.currency;
   return (
-    <DropoutView
+    <Look
       name={name}
       joinIndex={person?.joinIndex ?? 0}
       guide={trip.guide}
@@ -107,4 +114,22 @@ export function DropoutScreen(props: { readonly proposalId: string; readonly uid
       onApply={() => void resolve.send({ trip_id: trip.tripId, uid: props.uid })}
     />
   );
+}
+
+export interface DropoutViewProps {
+  readonly name: string;
+  readonly joinIndex: number;
+  readonly guide: GuideStickerId;
+  readonly guideName: string;
+  readonly replyLine: string;
+  readonly rows: readonly ChangeRow[];
+  readonly share: { readonly after: string; readonly before: string; readonly each: string } | null;
+  readonly keepInChat: boolean;
+  readonly resolved: boolean;
+  /** This phone has sent the apply and the server has not answered it yet. */
+  readonly applying: boolean;
+  readonly offline: boolean;
+  readonly onBack: () => void;
+  readonly onKeep: (keep: boolean) => void;
+  readonly onApply: () => void;
 }

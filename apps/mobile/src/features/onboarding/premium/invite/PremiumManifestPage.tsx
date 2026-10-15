@@ -70,14 +70,13 @@ export function PremiumManifestPage() {
         <View
           style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 4 }}
         >
+          {/* The manifest's mono header prints in capitals, the count on the right (5 OF 6). */}
           <Text variant="mono" tone="muted" numberOfLines={1} style={{ flex: 1 }}>
-            {copy.eyebrow}
+            {copy.eyebrow.toLocaleUpperCase()}
           </Text>
-          {copy.count === null ? null : (
-            <Text variant="mono" tone="muted">
-              {copy.count}
-            </Text>
-          )}
+          <Text variant="mono" tone="muted">
+            {copy.count.toLocaleUpperCase()}
+          </Text>
         </View>
         <ListCard testID="invite-manifest">
           {members.map((member) => (
@@ -99,7 +98,7 @@ export function PremiumManifestPage() {
               </Text>
               {member.isOrganiser ? (
                 <Text variant="caption" tone="muted">
-                  {t({ id: 'onboarding.premium.manifest.organiser', message: 'Organiser' })}
+                  {t({ id: 'onboarding.premium.manifest.organiser', message: 'organiser' })}
                 </Text>
               ) : member.isNewcomer ? (
                 <Text variant="caption" tone="muted">
@@ -138,24 +137,32 @@ export function PremiumManifestPage() {
             </View>
           ) : null}
         </ListCard>
-        {/* The stamp lands over the manifest's foot, Tokek cheering beside it (2.19). */}
+        {/*
+          The stamp lands on the manifest's bottom edge, Tokek cheering beside it (2.19). It only
+          grazes the last row, below its label, so "just now" by the newcomer's name stays readable.
+        */}
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            marginTop: -56,
+            marginTop: -16,
             zIndex: 3,
           }}
         >
           <CritterSticker kind={tokek.kind} name={tokek.name} size={120} pose="cheer" />
           <StampLanding delayMs={400}>
             <RoundStamp
-              word={t({ id: 'onboarding.premium.manifest.in', message: `${newcomer}’s in` })}
+              // A waitlisted joiner is in the crew but next for a seat: the stamp says so.
+              word={
+                joined?.waitlisted === true
+                  ? copy.title
+                  : t({ id: 'onboarding.premium.manifest.in', message: `${newcomer}’s in` })
+              }
               top={t({ id: 'onboarding.premium.manifest.admitted', message: 'Admitted' })}
               {...(preview?.crew_name == null ? {} : { bottom: preview.crew_name })}
               ink="pink"
-              size={170}
+              size={156}
               rotate={-12}
               paper
               testID="invite-manifest-stamp"
@@ -189,6 +196,7 @@ export function PremiumManifestPage() {
         />
         <View style={{ alignItems: 'center' }}>
           <TextButton
+            align="center"
             label={t({ id: 'onboarding.invite.manifest.sayHi', message: 'Say hi to the crew' })}
             onPress={manifest.openCrew}
             testID="invite-manifest-hi"

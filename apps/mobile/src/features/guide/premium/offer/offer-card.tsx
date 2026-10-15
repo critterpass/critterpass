@@ -6,14 +6,13 @@
  */
 import { t } from '@lingui/core/macro';
 import { useState } from 'react';
-import { Modal, Pressable, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { View } from 'react-native';
 
 import type { ChatCardProps } from '@/features/crew';
+import { OverlaySheet } from '@/features/plan';
 import { Button, Text, TextButton, makePremiumStyles, usePremiumTheme } from '@/ui/premium';
 
 import { useGuideOffer, type ClaimProblem } from '../../crew-mention/use-guide-offer';
-import { OFFER_PAINT } from '../guide-paint';
 
 const useStyles = makePremiumStyles((th) => ({
   card: {
@@ -26,27 +25,6 @@ const useStyles = makePremiumStyles((th) => ({
   slots: { flexDirection: 'row', gap: 4 },
   slot: { flex: 1, height: 30, borderRadius: 10 },
   free: { borderWidth: 1.5, borderStyle: 'dashed', borderColor: th.color.outlineEmpty },
-  sheet: {
-    position: 'absolute',
-    left: 8,
-    right: 8,
-    bottom: 8,
-    paddingTop: 12,
-    paddingHorizontal: 20,
-    gap: 10,
-    borderTopLeftRadius: 36,
-    borderTopRightRadius: 36,
-    borderBottomLeftRadius: 48,
-    borderBottomRightRadius: 48,
-    backgroundColor: th.color.ground,
-  },
-  grabber: {
-    alignSelf: 'center',
-    width: 36,
-    height: 5,
-    borderRadius: 3,
-    backgroundColor: th.color.outlineEmpty,
-  },
 }));
 
 function problemLine(problem: ClaimProblem): string | null {
@@ -60,14 +38,13 @@ function problemLine(problem: ClaimProblem): string | null {
     case 'offline':
       return t({ id: 'guide.offer.problemOffline', message: 'That needs a connection.' });
     case 'refused':
-      return t({ id: 'guide.offer.problem', message: "That didn't go through. Try again?" });
+      return t({ id: 'guide.offer.problem', message: 'That didn’t go through. Try again?' });
   }
 }
 
 export function PremiumOfferCard({ message }: ChatCardProps) {
   const th = usePremiumTheme();
   const styles = useStyles();
-  const insets = useSafeAreaInsets();
   const { offer, claim, claiming, problem } = useGuideOffer(message.refId, message.guideId);
   const [confirming, setConfirming] = useState(false);
   if (offer === null) {
@@ -80,11 +57,11 @@ export function PremiumOfferCard({ message }: ChatCardProps) {
   const left = offer.slotsLeft;
   const inLabel =
     left === 1
-      ? t({ id: 'guide.offer.inOne', message: "I'm in · 1 slot left" })
-      : t({ id: 'guide.offer.inMany', message: `I'm in · ${left} slots left` });
+      ? t({ id: 'guide.offer.inOne', message: 'I’m in · 1 slot left' })
+      : t({ id: 'guide.offer.inMany', message: `I’m in · ${left} slots left` });
   const status =
     offer.state === 'mine'
-      ? t({ id: 'guide.offer.mine', message: `You're in · ${offer.taken} of ${offer.total} taken` })
+      ? t({ id: 'guide.offer.mine', message: `You’re in · ${offer.taken} of ${offer.total} taken` })
       : offer.state === 'full'
         ? t({ id: 'guide.offer.full', message: 'Every slot is taken' })
         : offer.state === 'expired'
@@ -126,44 +103,38 @@ export function PremiumOfferCard({ message }: ChatCardProps) {
           {issue}
         </Text>
       )}
-      <Modal
-        visible={confirming}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setConfirming(false)}
-      >
-        <Pressable
-          style={[StyleSheet.absoluteFill, { backgroundColor: OFFER_PAINT.scrim }]}
-          onPress={() => setConfirming(false)}
-          accessibilityRole="button"
-          accessibilityLabel={t({ id: 'guide.offer.notNow', message: 'Not now' })}
-        />
-        <View
-          style={[styles.sheet, { paddingBottom: Math.max(insets.bottom, 22) }]}
+      {confirming ? (
+        <OverlaySheet
+          title={t({ id: 'guide.premium.offer.title', message: 'Take one of the slots?' })}
+          line={t({ id: 'guide.premium.offer.line', message: 'Nothing is booked or paid yet.' })}
+          closeLabel={t({ id: 'guide.offer.notNow', message: 'Not now' })}
+          onDismiss={() => setConfirming(false)}
+          footer={
+            <>
+              <Button
+                label={t({
+                  id: 'guide.premium.offer.confirm',
+                  message: `Count me in · ${left} left`,
+                })}
+                loading={claiming}
+                onPress={() => void claim().then(() => setConfirming(false))}
+                testID="guide-offer-confirm-yes"
+              />
+              <View style={{ alignItems: 'center' }}>
+                <TextButton
+                  align="center"
+                  label={t({ id: 'guide.offer.notNow', message: 'Not now' })}
+                  onPress={() => setConfirming(false)}
+                  testID="guide-offer-not-now"
+                />
+              </View>
+            </>
+          }
           testID="guide-offer-confirm"
         >
-          <View style={styles.grabber} />
-          <Text variant="title">
-            {t({ id: 'guide.premium.offer.title', message: 'Take one of the slots?' })}
-          </Text>
-          <Text variant="rowText" tone="muted">
-            {t({ id: 'guide.premium.offer.line', message: 'Nothing is booked or paid yet.' })}
-          </Text>
-          <Button
-            label={t({ id: 'guide.premium.offer.confirm', message: `Count me in · ${left} left` })}
-            loading={claiming}
-            onPress={() => void claim().then(() => setConfirming(false))}
-            testID="guide-offer-confirm-yes"
-          />
-          <View style={{ alignItems: 'center' }}>
-            <TextButton
-              label={t({ id: 'guide.offer.notNow', message: 'Not now' })}
-              onPress={() => setConfirming(false)}
-              testID="guide-offer-not-now"
-            />
-          </View>
-        </View>
-      </Modal>
+          {null}
+        </OverlaySheet>
+      ) : null}
     </View>
   );
 }

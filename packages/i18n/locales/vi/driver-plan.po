@@ -7,10 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.lastKnown"
-msgstr " · lần cập nhật gần nhất"
-
 #. placeholder {0}: props.dayCount
 #. placeholder {1}: money(total)
 #. placeholder {2}: money(total)
@@ -45,31 +41,11 @@ msgstr "{left, plural, other {Còn # ngày · {date}}}"
 msgid "drivers.share.entry"
 msgstr "Tài xế hoặc hướng dẫn viên"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.body"
-msgstr "Một trang gồm những ngày bạn chọn. Không cần đăng nhập. Chỉ có tên, không ngân sách, không tin nhắn."
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.private"
-msgstr "Ngân sách, tin nhắn, họ"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.copy"
-msgstr "Sao chép"
-
 #: ../../apps/mobile/src/features/drivers/share/share-text.ts
 msgid "drivers.share.dayNo"
 msgstr "Ngày {dayNo}"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.days"
-msgstr "Ngày"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.nameLabel"
-msgstr "Tên tài xế hoặc hướng dẫn viên"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet.tsx
+#: ../../apps/mobile/src/features/drivers/share/use-driver-share.ts
 msgid "drivers.share.message"
 msgstr "Đây là những ngày tụi mình cần anh/chị, kèm giờ và điểm đón: {url}"
 
@@ -89,34 +65,6 @@ msgstr "Chào {name}, cả nhóm đã đồng ý. Tụi mình muốn đặt anh/
 msgid "drivers.replied.tellBody"
 msgstr "Mình sẽ viết kèm ngày và ghim điểm đón. Bạn tự gửi."
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.quote"
-msgstr "Cho {name} gửi báo giá"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.quoteAnyone"
-msgstr "Cho họ gửi báo giá"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.copied"
-msgstr "Đã sao chép liên kết."
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.expires"
-msgstr "Liên kết hết hạn"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.create"
-msgstr "Tạo liên kết"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.needsSignal"
-msgstr "Cần có mạng để tạo liên kết. Thử lại khi bạn có mạng nhé."
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.notOpened"
-msgstr "Chưa mở"
-
 #. placeholder {0}: money(reply.overtime_per_hour_minor)
 #. placeholder {1}: reply.included_hours
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
@@ -127,43 +75,11 @@ msgstr "Phụ trội {0} mỗi giờ sau {1} giờ"
 msgid "drivers.replied.pick"
 msgstr "Chọn {driverName} với giá này"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.noDays"
-msgstr "Chọn ít nhất một ngày"
-
 #. placeholder {0}: props.driverName
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
 msgid "drivers.replied.quote"
 msgstr "Báo giá từ {0}"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.revoke"
-msgstr "Thu hồi liên kết"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.whatsapp"
-msgstr "Gửi qua WhatsApp"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.title"
-msgstr "Chia sẻ với {name}"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.titleAnyone"
-msgstr "Chia sẻ với tài xế"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.revokeConfirm"
-msgstr "Chạm lần nữa để thu hồi"
-
 #: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
 msgid "drivers.replied.tell"
 msgstr "Nhắn {driverName} qua WhatsApp"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.revoked"
-msgstr "Liên kết đã tắt. Trang sẽ báo ngay."
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.quoteHint"
-msgstr "Họ cũng có thể đề xuất thay đổi và mẹo"

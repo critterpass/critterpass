@@ -1,8 +1,7 @@
 /**
- * The vote area's public surface for other features: starting a crew on the spot from a place
- * page, so someone with no crew can pitch a place (Explore's destination page uses it too).
+ * The vote area's public surface for other features: the poll command, money words, crew colours,
+ * the solo pass sheet and the destination search.
  */
-export { QuickCrewStart, type QuickCrewStartProps } from './places/quick-crew-start';
 export { createPollCommand } from './data/vote-commands';
 export { money } from './format';
 export { crewColour } from './premium/components/crew';

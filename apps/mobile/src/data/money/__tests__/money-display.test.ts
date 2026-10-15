@@ -58,8 +58,10 @@ describe('moneyDisplayOf', () => {
 describe('priceText', () => {
   it('shows the 3n-8 sample in each mode', () => {
     expect(plain(priceText(7_500_000n, 'IDR', 'id-ID', display('local')))).toBe('Rp 75.000');
-    expect(plain(priceText(7_500_000n, 'IDR', 'id-ID', display('both')))).toBe(
-      'Rp 75.000 ≈ S$ 6,40',
+    // Whether a space follows the symbol is the runtime's locale data (it changed between Node
+    // releases); the conversion, the symbol and the decimal comma are ours.
+    expect(plain(priceText(7_500_000n, 'IDR', 'id-ID', display('both')))).toMatch(
+      /^Rp 75\.000 ≈ S\$ ?6,40$/u,
     );
     expect(plain(priceText(7_500_000n, 'IDR', 'en-SG', display('home')))).toBe('S$6.40');
   });

@@ -5,7 +5,7 @@ appId: app.critterpass.dev
 # says the photo waits for its check.
 - launchApp:
     clearState: true
-- runFlow: subflows/through-name.yaml
+- runFlow: ../happy/subflows/through-name.yaml
 - tapOn:
     id: 'onboarding-photo-real'
 - extendedWaitUntil:
@@ -18,9 +18,9 @@ appId: app.critterpass.dev
 # One of the sample photos every iOS simulator ships with; its label follows the simulator's region
 # date format (13 March 2011 in en_GB, March 13, 2011 in en_US).
 - extendedWaitUntil:
-    visible: 'Photo, (13 March|March 13,) 2011.*'
+    visible: 'Photo, (13.March|March.13,).2011.*'
     timeout: 15000
-- tapOn: 'Photo, (13 March|March 13,) 2011.*'
+- tapOn: 'Photo, (13.March|March.13,).2011.*'
 - extendedWaitUntil:
     visible:
       id: 'real-photo-preview'

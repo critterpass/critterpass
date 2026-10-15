@@ -1,7 +1,7 @@
 import { tokens } from '@cp/design-tokens';
 import { describe, expect, it } from '@jest/globals';
 
-import { ALEX, JORDAN, MAYA, ME, STATS } from '../../dev/recap-fixtures';
+import { ALEX, JORDAN, MAYA, ME, STATS } from '../../test-support/recap-fixtures';
 import { memoryMoment, reactionChips, type MemoryReactionRow } from '../memory-model';
 
 const row = (

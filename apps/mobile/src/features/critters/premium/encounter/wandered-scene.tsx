@@ -149,6 +149,7 @@ export function WanderedScene(props: WanderedSceneProps) {
             />
           )}
           <TextButton
+            align="center"
             label={backToDay()}
             onPress={props.onClose}
             testID="critters-encounter-back"

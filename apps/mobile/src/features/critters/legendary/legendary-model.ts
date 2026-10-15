@@ -170,3 +170,18 @@ export function stripMonths(
     current: i + 1 === currentMonth,
   }));
 }
+
+/**
+ * A row's two lines. A found legendary is titled by its name over where and when ("Mexico City ·
+ * Día de Muertos"). One not found yet never shows its name, so the place line splits instead: the
+ * occasion as the title, the place under it, rather than the same words twice.
+ */
+export function legendaryLines(item: Pick<LegendaryItem, 'name' | 'placeLine'>): {
+  readonly title: string;
+  readonly line: string;
+} {
+  if (item.name !== null) return { title: item.name, line: item.placeLine };
+  const at = item.placeLine.indexOf(' · ');
+  if (at === -1) return { title: item.placeLine, line: '' };
+  return { title: item.placeLine.slice(at + 3), line: item.placeLine.slice(0, at) };
+}

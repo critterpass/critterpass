@@ -3,8 +3,10 @@
  *
  * - the four tab icons from `design/premium/Tabs.dc.html` (24 grid, 1.9 stroke, round joins), drawn
  *   at 22 pt as template images (the native bar tints them);
- * - Tokek for the guide circle, in colour: 28 pt for the iOS search-role circle, 46 pt for the
- *   Android guide button (the design's doodle size inside the 56 circle).
+ * - Tokek for the guide circle, in colour: on the iOS search-role circle a 48 pt yellow disc with
+ *   Tokek on it (the system draws the circle as white glass, so the image brings 1.04's yellow
+ *   disc itself), 46 pt for the Android guide button (the design's doodle size inside its 56
+ *   circle, which the shell draws yellow).
  *
  * Run after changing a path: `pnpm --filter @cp/mobile exec tsx
  * src/ui/premium/shell/test-support/render-tab-icons.ts --write`. Without `--write` it only checks
@@ -38,7 +40,12 @@ const TAB_ICONS: Readonly<Record<string, readonly Shape[]>> = {
   pass: [{ rect: [5.5, 3.5, 13, 17, 2.5] }, { circle: [12, 11, 3] }, { path: 'M9.5 16.5h5' }],
 };
 
-const GUIDE_IMAGES = { 'guide-tab': 28, 'guide-fab': 46 } as const;
+const GUIDE_IMAGES = { 'guide-fab': 46 } as const;
+/** The iOS image: the disc, and Tokek on it. */
+const GUIDE_TAB = { name: 'guide-tab', disc: 48, critter: 38 } as const;
+/** The guide circle's radial fill (`../shell-theme.ts`), centre to edge. */
+// eslint-disable-next-line critterpass/no-literal-style -- the shell's guide colours, drawn into a PNG
+const GUIDE_FILL = { from: '#fff3b8', mid: '#ffd84a', to: '#f2b92e' } as const;
 const GUIDE_SPEC: RenderSpec = { kind: 'gecko', seed: 7, sticker: null };
 
 function fileName(name: string, scale: number): string {
@@ -81,6 +88,31 @@ function drawGuide(sizePt: number, scale: number): Buffer {
   return (drawn as unknown as Canvas).toBuffer('image/png');
 }
 
+function drawGuideDisc(scale: number): Buffer {
+  const px = GUIDE_TAB.disc * scale;
+  const canvas = createCanvas(px, px);
+  const ctx = canvas.getContext('2d');
+  // radial-gradient(circle at 35% 28%, from 0%, mid 42%, to 100%)
+  const cx = px * 0.35;
+  const cy = px * 0.28;
+  const reach = Math.hypot(px - cx, px - cy);
+  const fill = ctx.createRadialGradient(cx, cy, 0, cx, cy, reach);
+  fill.addColorStop(0, GUIDE_FILL.from);
+  fill.addColorStop(0.42, GUIDE_FILL.mid);
+  fill.addColorStop(1, GUIDE_FILL.to);
+  ctx.fillStyle = fill;
+  ctx.beginPath();
+  ctx.arc(px / 2, px / 2, px / 2, 0, Math.PI * 2);
+  ctx.fill();
+  const critter = GUIDE_TAB.critter;
+  const model = build(GUIDE_SPEC, critter);
+  const viewport = viewportFor(layout(GUIDE_SPEC, critter), scale);
+  const drawn = renderToCanvas(frame(model, 1), viewport, nodeCanvas) as unknown as Canvas;
+  const at = (px - drawn.width) / 2;
+  ctx.drawImage(drawn, at, (px - drawn.height) / 2);
+  return canvas.toBuffer('image/png');
+}
+
 function images(): readonly { readonly file: string; readonly draw: () => Buffer }[] {
   return SCALES.flatMap((scale) => [
     ...Object.entries(TAB_ICONS).map(([name, shapes]) => ({
@@ -91,6 +123,7 @@ function images(): readonly { readonly file: string; readonly draw: () => Buffer
       file: fileName(name, scale),
       draw: () => drawGuide(sizePt, scale),
     })),
+    { file: fileName(GUIDE_TAB.name, scale), draw: () => drawGuideDisc(scale) },
   ]);
 }
 

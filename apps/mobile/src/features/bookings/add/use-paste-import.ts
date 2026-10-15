@@ -18,9 +18,10 @@ export function usePasteImport(tripId: string | null, onDone: () => void) {
     sending: paste.pending,
     error,
     readClipboard: () => services.readClipboard(),
-    send: (body: PasteBody) => {
+    /** Resolves true once the paste went through (and `onDone` ran). */
+    send: (body: PasteBody): Promise<boolean> => {
       setError(null);
-      void paste
+      return paste
         .send({
           candidate_id: generateUuidV7(),
           ...(tripId === null ? {} : { trip_id: tripId }),
@@ -30,6 +31,7 @@ export function usePasteImport(tripId: string | null, onDone: () => void) {
           if (result.kind === 'unavailable') setError('offline');
           else if (result.kind === 'rejected') setError('failed');
           else onDone();
+          return result.kind !== 'unavailable' && result.kind !== 'rejected';
         });
     },
   };

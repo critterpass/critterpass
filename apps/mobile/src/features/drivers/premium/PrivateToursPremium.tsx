@@ -33,6 +33,7 @@ export function PrivateToursPremium({
   };
   return (
     <PushScreen
+      largeTitle
       title={t({ id: 'drivers.premium.toursTitle', message: 'Private tours' })}
       backLabel={t({ id: 'drivers.back.find', message: 'Find a driver' })}
       scroll={false}
@@ -132,6 +133,7 @@ export function PrivateToursPremium({
               </Text>
             </View>
             <Button
+              alignSelf="auto"
               label={
                 link.partner === 'klook'
                   ? t({ id: 'drivers.premium.openKlook', message: 'Open Klook ↗' })

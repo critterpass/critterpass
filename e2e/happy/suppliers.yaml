@@ -2,7 +2,7 @@ appId: app.critterpass.dev
 ---
 # Release gate: an activity's partner link. A new account starts with the staging demo crew (a Bali
 # trip), opens an activity's supplier cards (Viator's in-app booking is switched off, so each card
-# is a plain partner link) and taps OPEN KLOOK. The app records the click with the api first, then
+# is a plain partner link) and taps Open Klook. The app records the click with the api first, then
 # opens the attribution bridge on the staging go host (`/out/{sub_id}`), which redirects to Klook
 # only once it knows the click: landing on Klook's page (or the partner redirect on the way there)
 # is the outcome.
@@ -10,12 +10,13 @@ appId: app.critterpass.dev
     file: ../_shared/start-as.yaml
     env:
       SCENARIO: caught_up
-- tapOn:
-    id: 'dev-tools-entry'
-- runFlow: ../suppliers/subflows/open-lab.yaml
+# Developer tools' supplier page opens the live offers for the account's trip: the place page has
+# no tickets-and-tours entry yet.
+- runFlow: ../_shared/open-dev-tools.yaml
+- runFlow: subflows/open-supplier-lab.yaml
 - extendedWaitUntil:
     visible:
-      text: 'Live offer on this trip'
+      text: 'Live offer on.this.trip'
     timeout: 60000
 - tapOn:
     id: 'supplier-lab-live-offer'
@@ -38,7 +39,7 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - tapOn:
-          text: '(?i)(accept & continue|use without an account|continue without an account)'
+          text: '(?i)(accept.&.continue|use without.an.account|continue without.an.account)'
           optional: true
       - tapOn:
           text: '(?i)(no thanks|no, thanks)'
@@ -54,7 +55,7 @@ appId: app.critterpass.dev
       - extendedWaitUntil:
           visible:
             id: 'breadcrumb'
-            text: '(?i)return to critterpass.*'
+            text: '(?i)return.to.critterpass.*'
           timeout: 60000
 - runFlow:
     when:

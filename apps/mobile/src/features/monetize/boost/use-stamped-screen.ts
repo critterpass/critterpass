@@ -8,7 +8,7 @@ import { defineClientCommand } from '@/data/commands/summaries';
 import { useCommand } from '@/data/commands/use-command';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { memberFirstName } from '@/ui/people/member-name';
+import { memberFirstName } from '@/lib/people/member-name';
 
 import { shareText } from '../boost-card/boost-card-model';
 import { closePurchaseModals } from '../close-modals';
@@ -19,7 +19,7 @@ import {
 } from '../boost-card/boost-card-rows';
 import { TRIP_SQL, TRIP_TABLES, type TripRow } from '../data/billing-rows';
 import { useOwnerUid } from '../data/use-billing';
-import type { StampedViewProps } from './stamped-view';
+import type { StampedViewProps } from './stamped-props';
 
 const BOOST_SQL = `SELECT id, buyer_id, split_mode, starts_at, ends_at FROM trip_boosts
   WHERE trip_id = ? AND status IN ('scheduled', 'active') ORDER BY created_at DESC LIMIT 1`;

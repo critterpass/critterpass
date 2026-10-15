@@ -11,54 +11,9 @@ msgstr ""
 msgid "chat.queued.message"
 msgstr "“{preview}” gửi vào nhóm chat"
 
-#. placeholder {0}: group.count
-#: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
-msgid "chat.reactions.count"
-msgstr "{0, plural, other {# người}}"
-
-#. placeholder {0}: item.files.length
-#: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
-msgid "chat.upload.photos"
-msgstr "{0, plural, one {Ảnh} other {# ảnh}}"
-
-#. placeholder {0}: group.emoji
-#. placeholder {1}: group.count
-#: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
-msgid "chat.reactions.chip"
-msgstr "{0} {1}"
-
-#. placeholder {0}: Math.round(item.progress * 100)
-#: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
-msgid "chat.upload.progress"
-msgstr "Đã tải lên {0}%"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.guideAuthor"
-msgstr "{author} · hướng dẫn viên AI"
-
-#: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
-msgid "chat.header.people"
-msgstr "{count, plural, other {# người}}"
-
-#: ../../apps/mobile/src/features/crew/chat/components/unread-badge.tsx
-msgid "chat.unread.label"
-msgstr "{count, plural, other {# tin chưa đọc}}"
-
-#: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
-msgid "chat.photo.many"
-msgstr "{count} ảnh"
-
-#: ../../apps/mobile/src/features/crew/chat/components/chat-start.tsx
-msgid "chat.start.title"
-msgstr "Đây là chỗ {crew} trò chuyện"
-
-#: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
-msgid "chat.typing.two"
-msgstr "{first} và {second} đang nhắn"
-
-#: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
-msgid "chat.typing.one"
-msgstr "{first} đang nhắn"
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.joinedMany"
+msgstr "{list} đã vào nhóm"
 
 #. placeholder {0}: planChange(body, locale)
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
@@ -89,10 +44,6 @@ msgstr "{name} đi"
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.rsvpWaitlisted"
 msgstr "{name} vào danh sách chờ"
-
-#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
-msgid "chat.mute.private"
-msgstr "{name} sẽ không được báo."
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.joined"
@@ -127,150 +78,29 @@ msgstr "{name} đã lưu một nơi vào Ý tưởng"
 msgid "chat.system.rejoinAsked"
 msgstr "{name} muốn quay lại nhóm"
 
-#: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
-msgid "chat.header.withGuide"
-msgstr "{people} · {guideName} cũng ở đây"
-
-#: ../../apps/mobile/src/features/crew/chat/components/offline-banner.tsx
-msgid "chat.offline.waiting"
-msgstr "{waiting, plural, other {# tin sẽ gửi khi có mạng lại}}"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.spoken"
-msgstr "{who}, {time}: {text}"
-
-#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
-msgid "chat.voice.rate15"
-msgstr "1.5×"
-
-#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
-msgid "chat.voice.rate1"
-msgstr "1×"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.sticker"
 msgstr "Một nhãn dán gửi vào nhóm"
-
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.title"
-msgstr "Thêm vào chat"
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.tripSettled"
 msgstr "Xong xuôi: mọi người đã thanh toán hết"
 
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
-msgid "chat.report.alsoMute"
-msgstr "Tắt tiếng {senderName} luôn"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.askToRejoin"
 msgstr "Đang xin quay lại nhóm"
-
-#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
-msgid "chat.empty.loneLine"
-msgstr "Rủ bạn bè vào đi. Kế hoạch, ảnh và bình chọn đều về đây."
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.harassment"
 msgstr "Bắt nạt hoặc quấy rối"
 
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.camera"
-msgstr "Máy ảnh"
-
-#: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
-msgid "chat.voice.cancel"
-msgstr "Huỷ"
-
-#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
-msgid "chat.composer.cancelEdit"
-msgstr "Huỷ sửa"
-
-#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
-msgid "chat.composer.cancelReply"
-msgstr "Huỷ trả lời"
-
-#: ../../apps/mobile/src/features/crew/chat/components/chat-overlays.tsx
-msgid "chat.action.copied"
-msgstr "Đã chép"
-
-#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
-msgid "chat.action.copy"
-msgstr "Chép chữ"
-
-#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
-msgid "chat.voice.failed"
-msgstr "Không tải được"
-
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.failed"
-msgstr "Không mở được ảnh của bạn. Thử lại nhé."
-
-#: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
-msgid "chat.header.fallbackTitle"
-msgstr "Chat nhóm"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-#: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
-msgid "chat.status.delete"
-msgstr "Xoá"
-
-#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
-msgid "chat.delete.confirm"
-msgstr "Xoá"
-
-#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
-msgid "chat.action.delete"
-msgstr "Xoá với mọi người"
-
-#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
-msgid "chat.delete.title"
-msgstr "Xoá tin nhắn này?"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.delete"
 msgstr "Xoá một tin nhắn"
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.failed"
-msgstr "Chưa gửi được"
-
-#: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
-msgid "chat.upload.failed"
-msgstr "Chưa tải lên được"
-
-#: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
-msgid "chat.quote.missing"
-msgstr "Tin nhắn trước đó"
-
-#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
-msgid "chat.action.edit"
-msgstr "Sửa"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.edit"
 msgstr "Sửa một tin nhắn"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.edited"
-msgstr "đã sửa"
-
-#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
-msgid "chat.composer.editing"
-msgstr "Đang sửa tin nhắn"
-
-#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
-msgid "chat.delete.line"
-msgstr "Mọi người sẽ thấy \"Tin nhắn đã bị xoá\" ở chỗ này."
-
-#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
-msgid "chat.card.unknown.action"
-msgstr "Cập nhật app"
-
-#: ../../apps/mobile/src/features/crew/chat/components/mention-picker.tsx
-msgid "chat.mention.guide"
-msgstr "Hướng dẫn viên"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.hate"
@@ -284,218 +114,33 @@ msgstr "chào!"
 msgid "chat.sticker.caption.think"
 msgstr "hmm"
 
-#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
-msgid "chat.empty.invite"
-msgstr "Mời bạn bè"
-
-#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
-msgid "chat.empty.loneTitle"
-msgstr "Trong này mới có mình bạn"
-
-#: ../../apps/mobile/src/features/crew/chat/components/message-list.tsx
-msgid "chat.list.jumpToLatest"
-msgstr "Xuống tin mới nhất"
-
-#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
-msgid "chat.composer.tooLong"
-msgstr "Viết ngắn hơn {MESSAGE_BODY_MAX} ký tự nhé."
-
-#: ../../apps/mobile/src/features/crew/chat/components/skeleton.tsx
-msgid "chat.loading"
-msgstr "Đang tải chat"
-
-#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
-msgid "chat.voice.loading"
-msgstr "Đang tải tin nhắn thoại"
-
-#: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
-msgid "chat.header.map"
-msgstr "Bản đồ"
-
-#. placeholder {0}: candidate.name
-#: ../../apps/mobile/src/features/crew/chat/components/mention-picker.tsx
-msgid "chat.mention.pick"
-msgstr "Nhắc tới {0}"
-
-#: ../../apps/mobile/src/features/crew/chat/components/mention-picker.tsx
-msgid "chat.mention.suggestions"
-msgstr "Gợi ý người để nhắc"
-
-#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
-msgid "chat.composer.placeholder"
-msgstr "Nhắn tin"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
-msgid "chat.message.actions"
-msgstr "Tuỳ chọn tin nhắn"
-
-#: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.deleted"
-msgstr "Tin nhắn đã bị xoá"
-
-#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
-msgid "chat.composer.placeholderGuide"
-msgstr "Nhắn tin, hoặc @{guideName}"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.moreActions"
-msgstr "Thêm tuỳ chọn"
-
-#: ../../apps/mobile/src/features/crew/chat/components/reaction-bar.tsx
-msgid "chat.react.more"
-msgstr "Thêm biểu cảm"
-
-#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
-msgid "chat.mute.confirm"
-msgstr "Tắt tiếng"
-
-#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
-msgid "chat.action.mute"
-msgstr "Tắt tiếng {name}"
-
-#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
-msgid "chat.mute.title"
-msgstr "Tắt tiếng {name}?"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.mute"
 msgstr "Tắt tiếng một bạn trong nhóm"
-
-#: ../../apps/mobile/src/features/crew/chat/components/unread-divider.tsx
-msgid "chat.unread.divider"
-msgstr "Mới"
 
 #: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
 msgid "chat.sticker.caption.point"
 msgstr "đang tới"
 
-#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
-msgid "chat.composer.unsafeLink"
-msgstr "Chỉ gửi được liên kết http và https."
-
-#: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
-msgid "chat.photo.open"
-msgstr "Mở ảnh"
-
-#: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
-msgid "chat.header.openSettings"
-msgstr "Mở cài đặt nhóm"
-
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
-msgid "chat.report.line"
-msgstr "Đội ngũ của chúng mình sẽ xem xét. Người gửi không biết ai đã báo cáo."
-
-#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
-msgid "chat.voice.pause"
-msgstr "Dừng tin nhắn thoại"
-
-#: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
-msgid "chat.photo.one"
-msgstr "Ảnh"
-
-#: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
-msgid "chat.quote.photo"
-msgstr "Ảnh"
-
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.photosOff"
-msgstr "Quyền truy cập ảnh đang tắt"
-
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.library"
-msgstr "Thư viện ảnh"
-
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.useLibrary"
-msgstr "Chọn từ thư viện"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.pin"
 msgstr "Đang ghim tin nhắn vào chuyến đi"
-
-#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
-msgid "chat.empty.line"
-msgstr "Kế hoạch, ảnh và bình chọn đều về đây. Chào nhau một câu trước nhé."
-
-#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
-msgid "chat.voice.play"
-msgstr "Phát tin nhắn thoại"
-
-#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
-msgid "chat.voice.speed"
-msgstr "Tốc độ phát {rate}×"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.impersonation"
 msgstr "Giả mạo người khác"
 
-#: ../../apps/mobile/src/features/crew/chat/components/reaction-bar.tsx
-msgid "chat.react.with"
-msgstr "Thả {emoji}"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.react"
 msgstr "Biểu cảm {emoji}"
-
-#: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
-msgid "chat.reactions.title"
-msgstr "Biểu cảm"
-
-#: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
-msgid "chat.voice.releaseToSend"
-msgstr "Thả tay để gửi"
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.removeChat"
 msgstr "Đang xoá một cuộc trò chuyện nhóm"
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
-msgid "chat.action.reply"
-msgstr "Trả lời"
-
-#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
-msgid "chat.action.report"
-msgstr "Báo cáo"
-
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
-msgid "chat.report.title"
-msgstr "Báo cáo tin nhắn"
-
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.report"
 msgstr "Báo cáo một tin nhắn"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-#: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
-msgid "chat.status.retry"
-msgstr "Thử lại"
-
-#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
-msgid "chat.empty.action"
-msgstr "Chào nhóm"
-
-#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
-msgid "chat.empty.title"
-msgstr "Chào cả nhóm đi"
-
-#: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
-msgid "chat.voice.send"
-msgstr "Gửi"
-
-#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
-msgid "chat.report.send"
-msgstr "Gửi báo cáo"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.sending"
-msgstr "Đang gửi"
-
-#: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
-msgid "chat.typing.many"
-msgstr "Vài người đang nhắn"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.sexual"
@@ -504,15 +149,6 @@ msgstr "Nội dung tình dục"
 #: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.personalInfo"
 msgstr "Chia sẻ thông tin riêng tư"
-
-#: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
-msgid "chat.voice.slideToCancel"
-msgstr "Trượt để huỷ"
-
-#: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
-#: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
-msgid "chat.quote.someone"
-msgstr "Ai đó"
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.someone"
@@ -525,26 +161,6 @@ msgstr "Lý do khác"
 #: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.spam"
 msgstr "Spam"
-
-#: ../../apps/mobile/src/features/crew/chat/cards/sticker-card.tsx
-msgid "chat.sticker.a11y"
-msgstr "Nhãn dán: {caption}"
-
-#: ../../apps/mobile/src/features/crew/chat/components/skeleton.tsx
-msgid "chat.loading.slow"
-msgstr "Vẫn đang đồng bộ chat…"
-
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.useCamera"
-msgstr "Chụp ảnh thay vào đó"
-
-#: ../../apps/mobile/src/features/crew/chat/components/chat-overlays.tsx
-msgid "chat.report.sent"
-msgstr "Cảm ơn bạn. Đội ngũ của chúng mình sẽ xem ngay."
-
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.cameraOff"
-msgstr "Máy ảnh đang tắt"
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.planKeptOne"
@@ -566,10 +182,6 @@ msgstr "Nhóm đồng ý: kế hoạch giờ có {change}"
 msgid "chat.system.planChanged"
 msgstr "Nhóm đồng ý. Kế hoạch đã đổi."
 
-#: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
-msgid "chat.voice.deniedTitle"
-msgstr "Micro đang tắt"
-
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.tripLockedAuto"
 msgstr "Chuyến đi đã được chốt"
@@ -577,30 +189,6 @@ msgstr "Chuyến đi đã được chốt"
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.planVoteRanOut"
 msgstr "Hết giờ bình chọn. Kế hoạch giữ nguyên."
-
-#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
-msgid "chat.card.unknown.title"
-msgstr "Tin nhắn này cần CritterPass bản mới hơn"
-
-#: ../../apps/mobile/src/features/crew/chat/components/day-separator.tsx
-msgid "chat.day.today"
-msgstr "Hôm nay"
-
-#: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
-msgid "chat.voice.deniedBody"
-msgstr "Bật trong Cài đặt để gửi tin nhắn thoại."
-
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.deniedBody"
-msgstr "Bật trong Cài đặt để chia sẻ ảnh với nhóm."
-
-#: ../../apps/mobile/src/features/crew/chat/components/reaction-bar.tsx
-msgid "chat.react.anyEmoji"
-msgstr "Gõ emoji bất kỳ"
-
-#: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
-msgid "chat.voice.typeInstead"
-msgstr "Gõ chữ thay vào đó"
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.unmute"
@@ -610,73 +198,17 @@ msgstr "Bật lại tiếng một bạn trong nhóm"
 msgid "chat.queued.unpin"
 msgstr "Đang bỏ ghim tin nhắn"
 
-#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
-msgid "chat.card.unknown.line"
-msgstr "Cập nhật app để xem ở đây."
-
-#: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
-msgid "chat.upload.uploading"
-msgstr "Đang tải lên"
-
 #: ../../apps/mobile/src/features/crew/chat/components/report-reasons.ts
 msgid "chat.report.violence"
 msgstr "Bạo lực hoặc đe doạ"
 
-#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
-msgid "chat.attach.voice"
-msgstr "Tin nhắn thoại"
-
-#: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
-msgid "chat.upload.voice"
-msgstr "Tin nhắn thoại"
-
-#: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
-msgid "chat.quote.voice"
-msgstr "Tin nhắn thoại"
-
-#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
+#: ../../apps/mobile/src/features/crew/chat/media/voice-note.ts
 msgid "chat.voice.label"
 msgstr "Tin nhắn thoại, {length}"
-
-#: ../../apps/mobile/src/features/crew/chat/components/chat-start.tsx
-msgid "chat.start.line"
-msgstr "Bình chọn, kế hoạch, ai đi và ảnh đều về đây."
-
-#: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
-msgid "chat.upload.waiting"
-msgstr "Đang chờ có mạng"
 
 #: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
 msgid "chat.sticker.caption.cheer"
 msgstr "có nha"
-
-#: ../../apps/mobile/src/features/crew/chat/components/day-separator.tsx
-msgid "chat.day.yesterday"
-msgstr "Hôm qua"
-
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.message.you"
-msgstr "Bạn"
-
-#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
-msgid "chat.former.detail"
-msgstr "Bạn vẫn đọc được chat."
-
-#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
-msgid "chat.former.line"
-msgstr "Bạn đã rời nhóm này"
-
-#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
-msgid "chat.mute.line"
-msgstr "Bạn sẽ không thấy tin nhắn của {name} trong chat này."
-
-#: ../../apps/mobile/src/features/crew/chat/components/offline-banner.tsx
-msgid "chat.offline.line"
-msgstr "Bạn đang ngoại tuyến. Tin nhắn sẽ gửi khi có mạng lại."
-
-#: ../../apps/mobile/src/features/crew/chat/components/chat-start.tsx
-msgid "chat.start.titlePlain"
-msgstr "Đây là chỗ nhóm bạn trò chuyện"
 
 #: ../../apps/mobile/src/features/crew/chat/cards/sticker-caption.ts
 msgid "chat.sticker.caption.sleep"

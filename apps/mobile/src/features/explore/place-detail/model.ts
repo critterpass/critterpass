@@ -8,7 +8,7 @@
 import { toLocalWallTime, type FitReason } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 
-import type { HourLevel } from '@/ui/planning';
+import type { HourLevel } from '@/ui/premium/planning/planning-shapes';
 
 import type { FitBars, FitDayView, PlaceDetailContext } from './context';
 
@@ -124,7 +124,7 @@ function clauses(reasons: readonly FitReason[], stopName: (id: string) => string
   const quiet = find(reasons, 'quiet_until');
   if (quiet !== undefined && busy === undefined) {
     const at = spoken(quiet.params.time);
-    out.push(t({ id: 'explore.detail.why.quiet', message: `it's quiet until ${at}` }));
+    out.push(t({ id: 'explore.detail.why.quiet', message: `it’s quiet until ${at}` }));
   }
   const after = find(reasons, 'after_item');
   const afterName = after === undefined ? null : stopName(after.params.stable_id);
@@ -137,7 +137,7 @@ function clauses(reasons: readonly FitReason[], stopName: (id: string) => string
     out.push(t({ id: 'explore.detail.why.rain', message: `rain is likely ${from}–${to}` }));
   }
   if (find(reasons, 'hours_unknown') !== undefined) {
-    out.push(t({ id: 'explore.detail.why.hoursUnknown', message: "its hours aren't known" }));
+    out.push(t({ id: 'explore.detail.why.hoursUnknown', message: 'its hours aren’t known' }));
   }
   return out;
 }

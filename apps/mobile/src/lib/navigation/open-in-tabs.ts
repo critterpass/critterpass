@@ -12,7 +12,7 @@
  * inbox row): it picks `openInTabs` for a tab destination and an ordinary push for anything else.
  */
 import { router, type Href } from 'expo-router';
-import { navigationRef } from 'expo-router/build/global-state/navigationRef';
+import { navigationRef } from './router-internals';
 
 /** The tab navigator's route group, as the root stack names it. */
 const TABS_GROUP = '(tabs)';

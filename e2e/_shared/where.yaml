@@ -1,0 +1,12 @@
+appId: app.critterpass.dev
+---
+# Reads the route the app shows from its QA marker (apps/mobile/src/lib/qa/settled-marker) into
+# ${output.where} and the flow's log (`where /hub/<id>`), or `unknown` when the marker is hidden
+# (a native sheet over it). A script condition on it costs nothing, where a `when: visible` on an
+# element that is not there waits seven seconds.
+- evalScript: ${output.where = 'unknown'}
+- copyTextFrom:
+    id: 'qa-(settled|busy)'
+    optional: true
+- evalScript: "${output.where = maestro.copiedText && maestro.copiedText.indexOf('path:') >= 0 ? maestro.copiedText.replace(/^.*path:/, '').trim() : 'unknown'}"
+- evalScript: "${console.log('where ' + output.where)}"

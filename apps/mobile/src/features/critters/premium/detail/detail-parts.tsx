@@ -99,15 +99,11 @@ export function FormCell({
           </Text>
         </View>
         <View style={styles.cellText}>
-          <Text
-            variant="noteAction"
-            color={tierInk(theme, form.rarity)}
-
-            numberOfLines={1}
-          >
+          <Text variant="noteAction" color={tierInk(theme, form.rarity)} numberOfLines={1}>
             {tierWord(form.rarity)}
           </Text>
-          <Text variant="captionMuted" tone="muted" numberOfLines={1}>
+          {/* A place name runs long ("Linh Ứng Pagoda on Sơn Trà"): two lines, not cut. */}
+          <Text variant="captionMuted" tone="muted" numberOfLines={2}>
             {form.requirement}
           </Text>
         </View>
@@ -122,6 +118,8 @@ const styles = StyleSheet.create({
   person: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   cellWrap: { width: '50%', padding: 4 },
   cell: {
+    // Both tiles of a row take the taller one's height.
+    flexGrow: 1,
     minHeight: 44,
     borderRadius: 14,
     paddingHorizontal: 10,

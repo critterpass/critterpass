@@ -1,24 +1,26 @@
 /**
  * A needs-you card answered in place (3.17): the speaker's round thumb (the guide on its tint, a
  * crewmate's avatar in their colour), the question 16/600 and its line, and the answers as 38 pt
- * pills sharing the row (the primary in ink); a lone answer sits beside the question. An answered card folds away on the Smooth spring (a fade under Reduce Motion) and then
- * leaves the list; an expired one stays, closed, without answers.
+ * pills sharing the row (the primary in ink); a lone answer sits beside the question. An answered card folds away
+ * (fade and scale to 0.96 on the Smooth spring, a fade under Reduce Motion), then leaves the list
+ * and the cards below close up on the same spring; an expired one stays, closed, without answers.
  */
 import type { InboxAction } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, {
-  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 
 import {
   Avatar,
   CritterSticker,
+  layoutTransition,
   PressableScale,
   REDUCED_FADE_MS,
   SPRINGS,
@@ -57,7 +59,7 @@ const useStyles = makePremiumStyles((t) => ({
   answers: { flexDirection: 'row', gap: t.space.gap8 },
   shared: { flex: 1 },
   answer: {
-    height: 38,
+    minHeight: 38,
     borderRadius: 19,
     paddingHorizontal: t.space.gap16,
     alignItems: 'center',
@@ -93,7 +95,7 @@ export function PremiumInboxCard({
     if (!handled) return;
     const done = (finished?: boolean) => {
       'worklet';
-      if (finished === true) runOnJS(onDismissed)(item);
+      if (finished === true) scheduleOnRN(onDismissed, item);
     };
     shown.value = reduced
       ? withTiming(0, { duration: REDUCED_FADE_MS }, done)
@@ -102,7 +104,6 @@ export function PremiumInboxCard({
   const fold = useAnimatedStyle(() => ({
     opacity: shown.value,
     transform: [{ scale: 0.96 + 0.04 * shown.value }],
-    maxHeight: 600 * shown.value,
   }));
   const copy = renderer.card?.(item, ctx) ?? { title: renderer.line(item, ctx) };
   const body = expired
@@ -146,13 +147,14 @@ export function PremiumInboxCard({
           );
         });
   return (
-    <Animated.View style={fold}>
+    <Animated.View style={fold} layout={layoutTransition(reduced)}>
       <View style={styles.card} testID={`inbox-card-${item.id}`}>
         <View style={styles.head}>
           {guide === null ? (
             <Avatar
               name={item.actorName || item.crewName}
               color={memberAccent(theme, SLOTS[item.actorJoinIndex % SLOTS.length])}
+              uid={item.actorId}
               size={THUMB}
             />
           ) : (
@@ -167,9 +169,17 @@ export function PremiumInboxCard({
             </View>
           )}
           <View style={styles.grow}>
-            <Text variant="headline">{copy.title}</Text>
+            {/* Balanced lines beside the inline action: no one-word last line ("go."). */}
+            <Text variant="headline" textBreakStrategy="balanced" lineBreakStrategyIOS="push-out">
+              {copy.title}
+            </Text>
             {body === undefined ? null : (
-              <Text variant="note" tone="muted">
+              <Text
+                variant="note"
+                tone="muted"
+                textBreakStrategy="balanced"
+                lineBreakStrategyIOS="push-out"
+              >
                 {body}
               </Text>
             )}

@@ -1,9 +1,11 @@
-import { Redirect, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
-import { boardingPassRoute } from '@/features/bookings/routes';
+import { BoardingPassPremium } from '@/features/bookings/premium/BoardingPassPremium';
 
-/** The path links from the server still name: it opens the pass where it lives now. */
-export default function BoardingPassLinkRoute() {
+/** The premium UI's boarding pass (7.11): a native full-screen modal over the wallet. */
+function PassOverWallet() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  return <Redirect href={boardingPassRoute(id)} />;
+  return <BoardingPassPremium bookingId={id} />;
 }
+
+export default PassOverWallet;

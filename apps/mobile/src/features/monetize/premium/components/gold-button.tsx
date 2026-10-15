@@ -1,12 +1,18 @@
 /**
  * The Pass+ gold call to action (9.10, 9.11, 9.15): 56 high, a warm gradient with a lit top edge
- * and a slow shine. Loading keeps the pill and shows the progressive verb.
+ * and a slow shine. Loading keeps the pill and shows the progressive verb. Disabled it takes the
+ * kit's disabled fill (1.B: #e9eaee) with a clear edge and dark grey words, since the fill alone is
+ * a shade off the ground and the pill vanished into it; never a dimmed gold that reads as broken; on
+ * the night ground (`onNight`) it is the night's glass with soft white words, the same in light and
+ * dark, since that ground never changes with the appearance.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- colour values, never copy. */
 import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { PressableScale, Spinner, Text, usePremiumTheme } from '@/ui/premium';
+
+import { NIGHT } from '../monetize-palette';
 
 import { ShineSweep } from './shine-sweep';
 
@@ -17,6 +23,8 @@ export interface GoldButtonProps {
   readonly loading?: boolean;
   /** Something to the left of the label (the Stamp icon on 9.15). */
   readonly leading?: ReactNode;
+  /** Drawn on the paywall's night ground. */
+  readonly onNight?: boolean;
   readonly testID?: string;
 }
 
@@ -26,6 +34,7 @@ export function GoldButton({
   disabled = false,
   loading = false,
   leading,
+  onNight = false,
   testID,
 }: GoldButtonProps) {
   const t = usePremiumTheme();
@@ -38,14 +47,30 @@ export function GoldButton({
       accessibilityState={{ disabled: disabled || loading, busy: loading }}
       {...(testID === undefined ? {} : { testID })}
       style={[
-        styles.pill,
-        { height: t.size.button, borderRadius: t.radius.button, opacity: disabled ? 0.5 : 1 },
+        disabled
+          ? [
+              styles.shape,
+              onNight
+                ? { backgroundColor: NIGHT_DISABLED_FILL, boxShadow: NIGHT_DISABLED_RING }
+                : {
+                    backgroundColor: t.color.controlDisabled,
+                    boxShadow: `0 0 0 1px ${t.color.outlineEmpty}`,
+                  },
+            ]
+          : styles.pill,
+        { height: t.size.button, borderRadius: t.radius.button },
       ]}
     >
-      <ShineSweep every={4200} width={80} distance={420} opacity={0.45} />
+      {disabled ? null : <ShineSweep every={4200} width={80} distance={420} opacity={0.45} />}
       <View style={styles.row}>
         {loading ? <Spinner /> : leading}
-        <Text variant="button" color={t.color.onAccent} style={styles.label} numberOfLines={1}>
+        <Text
+          variant="button"
+          // Off, the label still reads (the fill says it is off): white on the night, grey ink by day.
+          color={disabled ? (onNight ? NIGHT.text : t.color.inkSecondary) : t.color.onAccent}
+          style={styles.label}
+          numberOfLines={1}
+        >
           {label}
         </Text>
       </View>
@@ -53,7 +78,13 @@ export function GoldButton({
   );
 }
 
+// Disabled on the night still reads: soft white words on a lighter glass with a clear edge.
+// eslint-disable-next-line critterpass/no-literal-style -- the night's glass, pending a token
+const NIGHT_DISABLED_FILL = 'rgba(255,255,255,0.12)';
+const NIGHT_DISABLED_RING = '0 0 0 1px rgba(255,255,255,0.24)';
+
 const styles = StyleSheet.create({
+  shape: { overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   pill: {
     overflow: 'hidden',
     alignItems: 'center',

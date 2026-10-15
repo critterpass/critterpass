@@ -1,10 +1,8 @@
 /**
- * The plan on one map (4.25 peek, 4.26 one day at half, 4.27 the whole trip at full): the light or
- * night map with the chosen day traced from the stay, the top chrome (back, search, the plan's ⋯),
- * and the sheet whose content follows its height. The camera fits the chosen day (or the trip)
- * into the map left between the chrome and the sheet, and again when the day or the height
- * changes. At half the day's stops reorder in place; a stop's menu opens from its ⋯ or a hold that
- * never moves.
+ * The plan on one map (4.25 peek, 4.26 one day at half, 4.27 the whole trip at full): the map with
+ * the chosen day traced from the stay, the top chrome (back, search, ⋯) and the sheet whose content
+ * follows its height. The camera fits the day (or the trip) into the map the chrome and sheet
+ * leave. At half the stops reorder in place; a stop's menu opens from its ⋯ or a still hold.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
 import type { CameraRef } from '@maplibre/maplibre-react-native';
@@ -13,25 +11,27 @@ import { useMemo, useRef, useState } from 'react';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
-import { guideSticker } from '@/ui/avatar/guides';
+import { useBackAffordance } from '@/lib/qa/back-affordance';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { GuideNote, usePremiumReducedMotion, usePremiumTheme } from '@/ui/premium';
+import { StatusBarGround } from '@/ui/premium/shell';
 import { BackEdge } from '@/ui/premium/shell/navigation/back-edge';
 
 import { tripCheckLine, peekCheckLine } from '../../trip-map/sheet-copy';
 import { useOpenOnDate } from '../../trip-map/chosen-day';
-import { ShareSheet } from '../../trip-map/share-sheet';
 import { addRoute } from '../../add/routes';
 import { PlanRouteLayer, PremiumMapCanvas, sheetHeight, StayFlag, type MapDetent } from '../map';
 import { AddBar } from './add-bar';
 import { planMapCopy } from './copy';
 import { DayChips } from './day-chips';
 import { EmptyPlan } from './empty-plan';
-import { framePoints, mapDays } from './map-days';
+import { firstView, framePoints, mapDays } from './map-days';
 import { nearestFirst, PlaceCarousel } from './place-carousel';
 import { PlacesLayer } from './places-layer';
 import { PlanMapSheet } from './plan-map-sheet';
+import { PremiumPlanShareSheet } from '../share/plan-share-sheet';
 import { PlanMoreMenu } from './plan-more-menu';
-import { StopOverlays } from './stop-overlays';
+import { StopOverlays, type OpenStop } from './stop-overlays';
 import { Timeline } from './timeline';
 import { PlanDayHead, TripFixRows } from './trip-fixes';
 import { TopBar } from './top-bar';
@@ -45,6 +45,8 @@ export interface PlanMapScreenProps {
   /** The day to open on by its date (`YYYY-MM-DD`), when a link names it that way. */
   readonly date?: string | null | undefined;
   readonly sheet?: MapDetent | undefined;
+  /** A stop of the chosen day (its stable id) whose details open on arrival. */
+  readonly item?: string | undefined;
 }
 
 export function PlanMapScreen(props: PlanMapScreenProps) {
@@ -59,8 +61,13 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
   // Peek (or the link's height) until moved, an empty plan at half: read once the plan has loaded.
   const [moved, setDetent] = useState<MapDetent | null>(null);
   const detent: MapDetent = moved ?? (model.empty ? 'half' : (sheet ?? 'peek'));
+  // The whole trip (4.27) draws no back: its grabber lowers the sheet onto the map and its back.
+  useBackAffordance(detent === 'full');
   const [menu, setMenu] = useState<number | null>(null);
-  const [stopMenu, setStopMenu] = useState<string | null>(null);
+  // A link that names a stop opens straight on its details.
+  const [openStop, setOpenStop] = useState<OpenStop | null>(
+    props.item === undefined ? null : { id: props.item, from: null, details: true },
+  );
   const [sharing, setSharing] = useState(false);
   const [picked, setPicked] = useState<string | null>(null);
   const guide = guideSticker(model.guide.id);
@@ -95,18 +102,15 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
       }),
     [model.days, model.ideas, model.center, day, detent],
   );
-  useMapCamera({ camera, points, detent, height, reduced });
+  const onMapReady = useMapCamera({ camera, points, detent, height, reduced });
 
   const back = () => (router.canGoBack() ? router.back() : router.replace(`/hub/${tripId}`));
-  const checkLine = peekCheckLine(
-    model.check,
-    map.locale,
-    model.startDate,
-    data.today ?? undefined,
-  );
+  const today = data.today ?? undefined;
+  const checkLine = peekCheckLine(model.check, map.locale, model.startDate, today);
   const checkHref = { pathname: '/[tripId]/check', params: { tripId } } as const;
   const placeName = model.destination ?? '';
   const ideas = model.ideas.length;
+  const openSearch = () => (search === undefined ? undefined : router.push(search));
   const openIdeas = () => router.push({ pathname: '/[tripId]/ideas', params: { tripId } });
 
   const head =
@@ -116,6 +120,7 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
         chosen={map.dayNo}
         size={detent === 'peek' ? 'large' : 'small'}
         onChoose={map.setDay}
+        bleed={16}
       />
     );
 
@@ -124,13 +129,12 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
     <View style={styles.screen} testID="trip-map">
       <PremiumMapCanvas
         cameraRef={camera}
-        initialCenter={
-          stay === null ? [model.center?.[0] ?? 0, model.center?.[1] ?? 0] : [stay.lng, stay.lat]
-        }
+        initialCenter={firstView(stay, model.center, points)}
         destinationSlug={model.destinationSlug}
         localRegionUri={model.regionUri}
         still={detent === 'full'}
         onPressMap={() => setPicked(null)}
+        onReady={onMapReady}
       >
         <PlacesLayer places={layer.places} onPick={setPicked} />
         <PlanRouteLayer
@@ -141,7 +145,7 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
           size={detent === 'full' ? 'small' : detent === 'peek' ? 'medium' : 'large'}
           onSelectStop={(id) => {
             setDetent('half');
-            setStopMenu(id);
+            setOpenStop({ id, from: null, details: false });
           }}
         />
         {stay === null ? null : (
@@ -152,6 +156,8 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
           />
         )}
       </PremiumMapCanvas>
+      {/* The clock and battery sit on a fade of the ground, not straight on the map's labels. */}
+      <StatusBarGround />
       <BackEdge />
       {detent === 'full' ? null : (
         <TopBar
@@ -163,9 +169,7 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
             ? { ideas: { count: ideas, label: planMapCopy.menu.ideas(ideas), onPress: openIdeas } }
             : {})}
           onBack={back}
-          onSearch={() => {
-            if (search !== undefined) router.push(search);
-          }}
+          onSearch={openSearch}
           onMore={setMenu}
           onChip={layer.onChip}
         />
@@ -176,6 +180,7 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
         height={height}
         head={head}
         bodyBottom={detent === 'half' ? 90 : 0}
+        fitFull={map.tripRows.length <= 2}
         accessibilityLabel={placeName}
       >
         {model.empty ? (
@@ -187,12 +192,7 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
             onShare={model.draft ? null : () => setSharing(true)}
             rows={map.tripRows}
             guideName={model.guide.name}
-            check={(() => {
-              const line = tripCheckLine(model.check);
-              return line === null
-                ? null
-                : { line, action: planMapCopy.see(), onPress: () => router.push(checkHref) };
-            })()}
+            check={checkRow(tripCheckLine(model.check), () => router.push(checkHref))}
             ideas={
               model.ideas.length === 0
                 ? null
@@ -231,31 +231,24 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
                 dayNo={day.dayNo}
                 rows={map.rows}
                 lifted={map.liftedTime}
-                labels={{
-                  booked: planMapCopy.booked(),
-                  menu: planMapCopy.stopMenu(),
-                  drop: planMapCopy.dropSlot(),
-                }}
+                labels={planMapCopy.timeline()}
                 onLift={model.readOnly ? null : (index) => map.reorder.lift(index).ok}
                 onCross={map.reorder.cross}
                 onDrop={() => void map.reorder.drop()}
                 onCancel={map.reorder.cancel}
-                onOpenMenu={setStopMenu}
+                onOpenMenu={(id, from) => setOpenStop({ id, from, details: false })}
               />
             ) : null}
           </View>
         )}
       </PlanMapSheet>
-      {detent === 'half' && !model.readOnly && !model.empty ? (
-        <View style={styles.addBar}>
-          <AddBar
-            label={planMapCopy.addTo(map.chips.find((c) => c.dayNo === map.dayNo)?.weekday ?? '')}
-            guide={{ kind: guide.kind, name: guide.name }}
-            onPress={() => {
-              if (search !== undefined) router.push(search);
-            }}
-          />
-        </View>
+      {/* A stop's menu stands alone over the dimmed plan (4.29): the add bar steps out under it. */}
+      {detent === 'half' && !model.readOnly && !model.empty && openStop === null ? (
+        <AddBar
+          label={planMapCopy.addTo(map.chips.find((c) => c.dayNo === map.dayNo)?.weekday ?? '')}
+          guide={{ kind: guide.kind, name: guide.name }}
+          onPress={openSearch}
+        />
       ) : null}
       {picked === null || detent === 'full' ? null : (
         <PlaceCarousel
@@ -278,22 +271,30 @@ export function PlanMapScreen(props: PlanMapScreenProps) {
           onClose={() => setMenu(null)}
         />
       )}
-      {stopMenu === null ? null : (
+      {openStop === null ? null : (
         <StopOverlays
           tripId={tripId}
           map={map}
-          stopId={stopMenu}
-          onClose={() => setStopMenu(null)}
+          stop={openStop}
+          onDetails={() => setOpenStop({ ...openStop, details: true })}
+          onClose={() => setOpenStop(null)}
         />
       )}
       {sharing ? (
-        <ShareSheet plan={data.plan} days={model.days} onClose={() => setSharing(false)} />
+        <PremiumPlanShareSheet
+          plan={data.plan}
+          days={model.days}
+          onClose={() => setSharing(false)}
+        />
       ) : null}
     </View>
   );
 }
 
+function checkRow(line: string | null, onPress: () => void) {
+  return line === null ? null : { line, action: planMapCopy.see(), onPress };
+}
+
 const styles = StyleSheet.create({
   screen: { flex: 1 },
-  addBar: { position: 'absolute', left: 16, right: 16, bottom: 28 },
 });

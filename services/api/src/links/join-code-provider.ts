@@ -4,7 +4,7 @@
  * a referral code still resolves as a referral. Previews describe the crew the way a stranger
  * holding the link may see it: its name, how many are in, the inviter's first name and the place.
  */
-import type { LinkKind, LinkPreview, LinkState } from '@cp/domain';
+import { calledByName, type LinkKind, type LinkPreview, type LinkState } from '@cp/domain';
 import type pg from 'pg';
 
 import type { LinkProvider, LinkProviderContext, ResolvedLink } from './registry';
@@ -61,11 +61,6 @@ function effectiveKind(row: JoinCodeRow): LinkKind {
   return row.target_kind === 'referral' ? 'referral' : 'invite';
 }
 
-function firstName(displayName: string | null): string | null {
-  const first = displayName?.trim().split(/\s+/)[0];
-  return first !== undefined && first.length > 0 ? first : null;
-}
-
 function codeOf(ctx: LinkProviderContext): string | null {
   const { target } = ctx;
   return target.kind === 'invite' || target.kind === 'referral' ? target.code : null;
@@ -81,7 +76,7 @@ export const joinCodeProvider: LinkProvider = {
     return {
       kind: effectiveKind(row),
       crew_name: row.crew_name,
-      inviter_first_name: firstName(row.inviter_name),
+      inviter_first_name: row.inviter_name === null ? null : calledByName(row.inviter_name),
       trip_place: row.trip_place,
       members_count: row.members_count,
       expires_at: row.expires_at?.toISOString() ?? null,

@@ -1,13 +1,13 @@
 /**
- * Booking options (7.15): the system action sheet on iOS (headed "SQ 938 · Seat 34A"), a system
- * alert list on Android. Only what works today is offered: share the times, take it out of the
+ * Booking options (7.15): the kit's options sheet from the bottom, headed "SQ 938 · Seat 34A" (iOS
+ * 26 centres a system action sheet that has no source, so it is not used). Only what works today is offered: share the times, take it out of the
  * crew's wallet (the owner of a shared booking), delete it (asked once more). Adding to Apple or
  * Google Wallet and opening the airline's app wait for their services and are not drawn.
  */
 import { t } from '@lingui/core/macro';
-import { ActionSheetIOS, Alert, Platform, Share } from 'react-native';
+import { Share } from 'react-native';
 
-import { confirmAlert } from '@/ui/premium/shell';
+import { confirmAlert, optionsAlert } from '@/ui/premium/shell';
 
 export interface BookingOptionsInput {
   readonly header: string;
@@ -55,31 +55,6 @@ export function openBookingOptions(input: BookingOptionsInput): void {
     });
   }
   const close = t({ id: 'bookings.options.close', message: 'Close' });
-  if (Platform.OS === 'ios') {
-    const destructive = options.findIndex((option) => option.destructive === true);
-    ActionSheetIOS.showActionSheetWithOptions(
-      {
-        title: input.header,
-        options: [...options.map((option) => option.label), close],
-        cancelButtonIndex: options.length,
-        ...(destructive === -1 ? {} : { destructiveButtonIndex: destructive }),
-      },
-      (index) => options[index]?.run(),
-    );
-    return;
-  }
-  // Android's alert holds three buttons; with three options a tap outside closes it.
-  Alert.alert(
-    input.header,
-    undefined,
-    [
-      ...options.map((option) => ({
-        text: option.label,
-        onPress: option.run,
-        style: option.destructive === true ? ('destructive' as const) : ('default' as const),
-      })),
-      ...(options.length < 3 ? [{ text: close, style: 'cancel' as const }] : []),
-    ],
-    { cancelable: true },
-  );
+  // The designed options sheet (7.15) from the bottom, on both platforms.
+  optionsAlert({ header: input.header, options, close });
 }

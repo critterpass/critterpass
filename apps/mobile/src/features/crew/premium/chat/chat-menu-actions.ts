@@ -40,7 +40,7 @@ export function chatMenuActions(
     main.push({
       key: 'reply',
       label: t({ id: 'chat.premium.menu.reply', message: 'Reply' }),
-      icon: 'back',
+      icon: 'reply',
       onPress: deps.reply,
     });
   }
@@ -66,7 +66,7 @@ export function chatMenuActions(
       label: deps.pinned
         ? t({ id: 'chat.premium.menu.unpin', message: 'Unpin from the trip' })
         : t({ id: 'chat.premium.menu.pin', message: 'Pin to the trip' }),
-      icon: 'pin',
+      icon: 'pushpin',
       onPress: () => deps.setPinned(!deps.pinned),
     });
   }
@@ -82,7 +82,7 @@ export function chatMenuActions(
     main.push({
       key: 'copy',
       label: t({ id: 'chat.premium.menu.copy', message: 'Copy' }),
-      icon: 'share',
+      icon: 'copy',
       onPress: deps.copy,
     });
   }
@@ -99,7 +99,7 @@ export function chatMenuActions(
       key: 'delete',
       destructive: true,
       label: t({ id: 'chat.premium.menu.delete', message: 'Delete' }),
-      icon: 'close',
+      icon: 'trash',
       onPress: deps.remove,
     });
   }
@@ -108,7 +108,7 @@ export function chatMenuActions(
       key: 'report',
       destructive: true,
       label: t({ id: 'chat.premium.menu.report', message: 'Report' }),
-      icon: 'more',
+      icon: 'flag',
       onPress: deps.report,
     });
   }

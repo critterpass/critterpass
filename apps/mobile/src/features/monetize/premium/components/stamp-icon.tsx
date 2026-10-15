@@ -7,6 +7,7 @@
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   Easing,
   useAnimatedStyle,
   useSharedValue,
@@ -14,6 +15,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { CritterSticker, usePremiumReducedMotion } from '@/ui/premium';
 import { MONETIZE_TIMING } from '../monetize-palette';
 
@@ -26,20 +28,26 @@ export interface StampIconProps {
   readonly label: string;
 }
 
-const HOLO = 'conic-gradient(#ff5fa8, #ffd84a, #54d6a4, #4f86ff, #ff5fa8)';
+// React Native paints no conic gradient; a spinning diagonal sweep of the same foils reads as one.
+const HOLO = 'linear-gradient(135deg, #ff5fa8, #ffd84a, #54d6a4, #4f86ff)';
 
 export function StampIcon({ size, shape = 'circle', holo = false, label }: StampIconProps) {
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const turn = useSharedValue(0);
   useEffect(() => {
-    if (!holo || reduced) return;
+    if (!holo || !looping) {
+      cancelAnimation(turn);
+      turn.set(0);
+      return;
+    }
     turn.set(
       withRepeat(
         withTiming(360, { duration: MONETIZE_TIMING.holoTurn, easing: Easing.linear }),
         -1,
       ),
     );
-  }, [holo, reduced, turn]);
+  }, [holo, looping, turn]);
   const spin = useAnimatedStyle(() => ({ transform: [{ rotate: `${String(turn.value)}deg` }] }));
   const outer = holo ? size * 1.15 : size;
   const seal = (

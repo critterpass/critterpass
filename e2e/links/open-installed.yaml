@@ -14,20 +14,20 @@ appId: app.critterpass.dev
 
 # 1. A plan link.
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://p/abcdefghijklmnop
 - extendedWaitUntil:
     visible:
       id: 'plan-link-gone'
     timeout: 30000
-- assertVisible: 'This plan is no longer shared'
+- assertVisible: 'This plan is no.longer.shared'
 - waitForAnimationToEnd
 - takeScreenshot: link-plan-not-shared
 
 # 2. A guide link.
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://g/vn-da-lat
 - extendedWaitUntil:
@@ -39,7 +39,7 @@ appId: app.critterpass.dev
 
 # 3. A locals link.
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://locals/vn-da-lat
 - extendedWaitUntil:
@@ -52,7 +52,7 @@ appId: app.critterpass.dev
 
 # 4. Invite links that lead nowhere open Home.
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://i/BAX6XA
 - extendedWaitUntil:
@@ -60,7 +60,7 @@ appId: app.critterpass.dev
       id: 'dev-tools-entry'
     timeout: 30000
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
+    file: ../_shared/open-link.yaml
     env:
       URL: critterpass-dev://g/vn-da-lat
 - extendedWaitUntil:
@@ -73,7 +73,7 @@ appId: app.critterpass.dev
 - openLink: critterpass-dev://i/not-a-code
 # Home says why the link ended up here.
 - extendedWaitUntil:
-    visible: '(?i).*that link couldn.t be opened.*'
+    visible: '(?i).*that link couldn.t.be.opened.*'
     timeout: 5000
 - takeScreenshot: link-unknown-opens-home
 - assertVisible:

@@ -1,9 +1,13 @@
 /** Critter detail words (3l-3), in the active locale. */
 import { t } from '@lingui/core/macro';
 
-import type { CritterFact } from '@/ui/critters/CritterDetail';
-
 import type { DetailForm, DetailModel } from './detail-model';
+
+/** One fact on a critter's page ("Habitat · Water temples"). */
+export interface CritterFact {
+  readonly label: string;
+  readonly value: string;
+}
 
 export function detailCopy(
   model: DetailModel,

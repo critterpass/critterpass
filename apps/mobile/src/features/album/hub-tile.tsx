@@ -37,7 +37,7 @@ export function AlbumTile({ tripId }: HubTileProps) {
               }),
         caption:
           photos === 0
-            ? t({ id: 'album.tile.first', message: 'the whole crew sees them' })
+            ? t({ id: 'album.tile.first', message: 'for the crew' })
             : picks > 0
               ? t({
                   id: 'album.tile.picks',

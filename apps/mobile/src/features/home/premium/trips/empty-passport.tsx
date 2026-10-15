@@ -8,6 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   Easing,
   useAnimatedStyle,
   useSharedValue,
@@ -15,6 +16,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { paperGrain } from '@/features/monetize';
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import {
   Button,
   CritterSticker,
@@ -38,8 +41,7 @@ const useStyles = makePremiumStyles((t) => ({
     backgroundColor: t.accent.paper,
     padding: 14,
     gap: 10,
-    backgroundImage:
-      'repeating-linear-gradient(115deg, rgba(23,20,42,.035) 0 1px, transparent 1px 6px)',
+    backgroundImage: paperGrain(260),
   },
   left: {
     borderTopLeftRadius: 14,
@@ -100,16 +102,21 @@ export function EmptyPassport({ onPitch, onJoin }: EmptyPassportProps) {
   const styles = useStyles();
   const theme = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const { t } = useLingui();
   const bob = useSharedValue(0);
   useEffect(() => {
-    if (reduced) return;
+    if (!looping) {
+      cancelAnimation(bob);
+      bob.value = 0;
+      return;
+    }
     bob.value = withRepeat(
       withTiming(1, { duration: BOB_MS, easing: Easing.inOut(Easing.sin) }),
       -1,
       true,
     );
-  }, [bob, reduced]);
+  }, [bob, looping]);
   const idle = useAnimatedStyle(() => ({
     transform: [{ translateY: -6 * bob.value }, { rotate: `${-2 + bob.value}deg` }],
   }));
@@ -147,11 +154,12 @@ export function EmptyPassport({ onPitch, onJoin }: EmptyPassportProps) {
           <CritterSticker kind="gecko" name="Tokek" size={112} pose="point" />
         </View>
       </View>
-      <View style={{ gap: 6 }}>
-        <Text variant="largeTitle" accessibilityRole="header" align="center">
+      {/* Left-set a little in from the cards, as the design sets the words (3.06). */}
+      <View style={{ gap: 6, paddingHorizontal: 8 }}>
+        <Text variant="largeTitle" accessibilityRole="header">
           {t({ id: 'home.premium.trips.emptyTitle', message: 'Your first stamp is waiting' })}
         </Text>
-        <Text variant="body" tone="muted" align="center">
+        <Text variant="body" tone="muted">
           {t({
             id: 'home.premium.trips.emptyLine',
             message: 'Pitch a place to your crew, or join a crew that already has a trip going.',

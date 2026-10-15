@@ -2,7 +2,7 @@
  * The guides the onboarding pages draw by name (Tokek speaks on every page, Pon on a few), as plain
  * facts for the premium pages: their display name and sticker kind.
  */
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 export interface GuideFacts {
   readonly name: string;

@@ -124,7 +124,7 @@ export function OfflineStoragePremiumScreen() {
       backLabel={t({ id: 'trip.offline.backToSettings', message: 'Settings' })}
       testID="trip-offline-storage"
     >
-      <View style={styles.content}>
+      <View style={[styles.content, { paddingHorizontal: th.space.gap16 }]}>
         <View
           style={[
             styles.meter,
@@ -166,7 +166,9 @@ export function OfflineStoragePremiumScreen() {
             <View
               style={{
                 flex: Math.max(span - store.totalBytes, 1) / Math.max(span, 1),
-                backgroundColor: th.color.spinnerTrack,
+                // The free part of the bar is a faint track on the dark card: at 0 MB it reads empty.
+                backgroundColor: th.color.onInkSurface,
+                opacity: 0.14,
                 borderRadius: 5,
               }}
             />
@@ -282,7 +284,8 @@ export function OfflineStoragePremiumScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { gap: 16, paddingBottom: 40 },
+  // The meter keeps clear of the header's back circle.
+  content: { gap: 16, paddingTop: 16, paddingBottom: 40 },
   meter: { borderRadius: 28, padding: 18, gap: 10 },
   soft: { opacity: 0.75 },
   totalLine: { flexDirection: 'row', alignItems: 'baseline', gap: 4 },

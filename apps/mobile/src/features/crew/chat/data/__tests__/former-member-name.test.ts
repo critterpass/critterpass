@@ -2,7 +2,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { i18n } from '@lingui/core';
 
-import { memberName } from '@/ui/people/member-name';
+import { memberName } from '@/lib/people/member-name';
 
 import { firstName } from '../use-typing';
 

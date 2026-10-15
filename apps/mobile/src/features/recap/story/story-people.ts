@@ -3,8 +3,8 @@
  * award's own number; the MVP from the live result once the vote closes) and the stamp's signers
  * in the order they signed, live signatures over the synced rows, each in their colour as ink on paper.
  */
-import type { AwardCardData } from '../cards/awards-card';
-import type { StampSigner } from '../cards/stamp-card';
+import type { AwardCardData } from './story-card-views';
+import type { StampSigner } from './story-card-views';
 import { inkOnPaper } from '../data/paper-ink';
 import { awardDetail, awardTitle } from '../summary/award-copy';
 import type { StoryCardsInput } from './story-cards';

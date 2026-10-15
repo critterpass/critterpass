@@ -19,7 +19,7 @@ import { perkLines } from '../perks/perk-copy';
 import { boostHref, MONETIZE_ROUTES } from '../routes';
 import { openPrivacy, openTerms } from './legal-links';
 import type { BillingPeriod } from './paywall-model';
-import type { PaywallViewProps } from './paywall-view';
+import type { PaywallViewProps } from './paywall-props';
 import { usePassPurchase } from './use-pass-purchase';
 import { entryPointOf, usePaywallRecord } from './use-paywall-record';
 

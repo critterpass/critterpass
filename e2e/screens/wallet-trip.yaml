@@ -1,0 +1,17 @@
+appId: app.critterpass.dev
+---
+# The light half of the wallet's Đà Nẵng captures (split off wallet.yaml for its own shard): a crew
+# with a stay, tomorrow's flight and two expenses: the stack, a flight and a stay, insurance,
+# balances, adding an expense, settling up and the budget. The dark pass is wallet-dark.yaml.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: trip_tomorrow
+- runFlow:
+    file: subflows/wallet-bookings.yaml
+    env:
+      LOOK: light
+- runFlow:
+    file: subflows/wallet-money.yaml
+    env:
+      LOOK: light

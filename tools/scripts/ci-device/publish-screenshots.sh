@@ -25,7 +25,12 @@ trap 'rm -rf "$work"' EXIT
 
 remote="https://x-access-token:${GH_TOKEN:?}@github.com/$repo.git"
 if git ls-remote --exit-code --heads "$remote" "$branch" >/dev/null 2>&1; then
-  git clone -q --depth 1 --branch "$branch" "$remote" "$work/branch"
+  # The branch's tree holds every earlier run's images: fetch its newest commit's trees only (no
+  # blobs) and check out nothing but this run's folder, so a publish takes seconds, not minutes.
+  git clone -q --depth 1 --filter=blob:none --sparse --no-checkout --branch "$branch" "$remote" \
+    "$work/branch"
+  git -C "$work/branch" sparse-checkout set --no-cone "/$run_dir/" "/README.md"
+  git -C "$work/branch" checkout -q "$branch"
 else
   git init -q -b "$branch" "$work/branch"
   git -C "$work/branch" remote add origin "$remote"
@@ -39,11 +44,21 @@ git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 mkdir -p "$run_dir"
 (cd "$images" && find . \( -name '*.png' -o -name '*.gif' -o -name '*.mp4' \) -print0 |
   xargs -0 -I{} rsync -R {} "$work/branch/$run_dir/")
-count=$(find "$run_dir" \( -name '*.png' -o -name '*.gif' -o -name '*.mp4' \) | wc -l | tr -d ' ')
+# Sheets and screenshots go up as JPEG when ImageMagick is there: a sweep's hundreds of PNGs took
+# minutes to push, a reviewer reads the JPEGs just as well, and the screen checks have already run
+# on the PNGs in the shards.
+ext=png
+if [ "${PUBLISH_JPEG:-}" = true ] && command -v mogrify >/dev/null; then
+  find "$run_dir" -name '*.png' -print0 | xargs -0 -r -n 40 -P 4 mogrify -format jpg -quality 85
+  find "$run_dir" -name '*.png' -delete
+  ext=jpg
+fi
+count=$(find "$run_dir" \( -name "*.$ext" -o -name '*.gif' -o -name '*.mp4' \) | wc -l | tr -d ' ')
 if [ -n "${PRUNE_KEEP:-}" ]; then
-  # Run ids grow, so the oldest runs sort first.
-  find "$pr" -mindepth 1 -maxdepth 1 -type d -name 'run-*' | sort -t- -k2 -n |
-    head -n "-$PRUNE_KEEP" | xargs -r git rm -rq --
+  # Run ids grow, so the oldest runs sort first. The tree is read from the index: outside this
+  # run's folder nothing is checked out.
+  git ls-tree -d --name-only HEAD "$pr/" 2>/dev/null | grep '/run-' | sort -t- -k2 -n |
+    head -n "-$PRUNE_KEEP" | xargs -r git rm -rq --cached --sparse --
 fi
 summary=${SUMMARY_FILE:-}
 [ -n "$summary" ] && [ ! -s "$summary" ] && summary=''
@@ -52,7 +67,7 @@ if [ "$count" = 0 ] && [ -z "$summary" ] && [ -z "${BODY_FILE:-}" ]; then
   exit 0
 fi
 if [ "$count" != 0 ]; then
-  git add -A
+  git add -A --sparse
   git commit -q -m "docs: device run screenshots for #$pr"
   for attempt in 1 2 3; do
     git push -q origin "$branch" && break
@@ -72,11 +87,11 @@ fi
   echo
   [ -n "${RUN_URL:-}" ] && echo "From [this run]($RUN_URL), $count image(s)." && echo
   [ -n "$summary" ] && cat "$summary" && echo
-  for folder in $(find "$run_dir" -name '*.png' -exec dirname {} \; | sort -u); do
+  for folder in $(find "$run_dir" -name "*.$ext" -exec dirname {} \; | sort -u); do
     echo "<details open><summary><b>${folder#"$run_dir"/}</b></summary>"
     echo
-    for file in $(find "$folder" -maxdepth 1 -name '*.png' | sort); do
-      name=$(basename "$file" .png)
+    for file in $(find "$folder" -maxdepth 1 -name "*.$ext" | sort); do
+      name=$(basename "$file" ".$ext")
       echo "**$name**"
       echo
       echo "<img src=\"https://raw.githubusercontent.com/$repo/$branch/$file\" width=\"320\" alt=\"$name\">"
@@ -95,7 +110,7 @@ if [ "$(wc -c <"$body")" -gt 64000 ]; then
     [ -n "$summary" ] && head -c 40000 "$summary" && echo
     echo "Every image: https://github.com/$repo/tree/$branch/$run_dir"
     echo
-    for file in $(find "$run_dir" -name 'index.png' | sort); do
+    for file in $(find "$run_dir" -name "index.$ext" | sort); do
       echo "<img src=\"https://raw.githubusercontent.com/$repo/$branch/$file\" width=\"720\" alt=\"$file\">"
       echo
     done

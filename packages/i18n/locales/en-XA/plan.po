@@ -33,9 +33,19 @@ msgstr ""
 msgid "plan.premium.add.who.some"
 msgstr ""
 
+#. placeholder {0}: format.list(locale, props.here, { type: 'unit' })
+#: ../../apps/mobile/src/features/plan/premium/decide/decide-view.tsx
+msgid "plan.collab.here"
+msgstr ""
+
 #. placeholder {0}: typists[0] ?? ''
 #: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
 msgid "plan.collab.typingOne"
+msgstr ""
+
+#. placeholder {0}: lookers.join(', ')
+#: ../../apps/mobile/src/features/plan/premium/decide/option-row.tsx
+msgid "plan.premium.decide.looking"
 msgstr ""
 
 #. placeholder {0}: free?.user_ids.length ?? 0
@@ -44,9 +54,10 @@ msgstr ""
 msgid "plan.dates.free"
 msgstr ""
 
-#. placeholder {0}: stars.starredCount
-#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
-msgid "plan.premium.ideas.starred"
+#. placeholder {0}: tally?.yes.length ?? 0
+#. placeholder {1}: tally?.needed ?? 0
+#: ../../apps/mobile/src/features/plan/premium/review/changeset-card.tsx
+msgid "plan.card.tally"
 msgstr ""
 
 #. placeholder {0}: wholeMoney(locale, overBy, model.currency)
@@ -59,8 +70,26 @@ msgstr ""
 msgid "plan.premium.map.ideasWaiting"
 msgstr ""
 
+#. placeholder {0}: option.title
+#. placeholder {1}: option.voters.length
+#: ../../apps/mobile/src/features/plan/premium/decide/option-row.tsx
+msgid "plan.premium.decide.vote"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
 msgid "plan.cancel.refundAmount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/check/changes-totals.tsx
+msgid "plan.review.bookingsMovedCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
+msgid "planDraft.member.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/share/export-view.tsx
+msgid "plan.export.bodyWrite"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
@@ -69,6 +98,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
 msgid "planDraft.review.subNoCost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-view.tsx
+msgid "planDraft.change.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/trip-fixes.tsx
@@ -85,6 +118,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
 msgid "plan.tripMap.going"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
+msgid "planDraft.loading.slow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
@@ -127,8 +164,16 @@ msgstr ""
 msgid "plan.premium.ideas.theirs"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.underWay"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
 msgid "plan.tripMap.empty.noPlanLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-parts.tsx
+msgid "plan.premium.ideas.starred"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
@@ -145,6 +190,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
 msgid "planDraft.coverage.all"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/version-history-sheet.tsx
+msgid "planDraft.history.whenDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/version-history-sheet.tsx
+msgid "planDraft.history.whenDaysCost"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
@@ -227,6 +280,18 @@ msgstr ""
 msgid "plan.premium.ideas.addToDay"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/share/export-view.tsx
+msgid "plan.export.write"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/share/plan-share-sheet.tsx
+msgid "plan.tripMap.addToCalendar"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-sketches.tsx
+msgid "plan.check.lessDriving.after"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
 msgid "plan.premium.menu.allDays"
 msgstr ""
@@ -245,6 +310,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
 msgid "plan.settings.planChangesLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-view.tsx
+msgid "planDraft.change.note"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/check/changes-view.tsx
@@ -275,11 +344,16 @@ msgstr ""
 msgid "plan.day.queued.send"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/check/changes-totals.tsx
+msgid "plan.review.money.billion"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
 #: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
 msgid "plan.settings.back"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/decide/decide-view.tsx
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
 msgid "plan.premium.map.back"
 msgstr ""
@@ -296,11 +370,19 @@ msgstr ""
 msgid "plan.premium.redraft.back"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
+msgid "planDraft.member.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
 msgid "plan.cancel.moneyLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+#: ../../apps/mobile/src/features/plan/premium/check/fix-sketches.tsx
+msgid "plan.check.lessDriving.before"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/stop/sheet-parts.tsx
 msgid "plan.premium.item.booked"
 msgstr ""
 
@@ -320,6 +402,7 @@ msgstr ""
 msgid "plan.settings.offlineLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-parts.tsx
 #: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
 msgid "planDraft.spent.boost"
 msgstr ""
@@ -336,6 +419,7 @@ msgstr ""
 msgid "trip.menu.cancelConfirm"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/plan-map/stop-overlays.tsx
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.premium.item.cancel"
 msgstr ""
@@ -343,6 +427,11 @@ msgstr ""
 #: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
 #: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
 msgid "common.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-parts.tsx
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-view.tsx
+msgid "plan.premium.draft.cancel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
@@ -363,6 +452,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
 msgid "plan.settings.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-view.tsx
+msgid "planDraft.change.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
@@ -410,6 +503,12 @@ msgstr ""
 msgid "plan.premium.item.close"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/draft/version-history-sheet.tsx
+#: ../../apps/mobile/src/features/plan/premium/share/export-view.tsx
+#: ../../apps/mobile/src/features/plan/premium/share/plan-share-sheet.tsx
+msgid "plan.premium.share.close"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
 msgid "plan.dates.close"
 msgstr ""
@@ -434,6 +533,10 @@ msgstr ""
 msgid "plan.premium.map.closeMenu"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/decide/decide-view.tsx
+msgid "plan.collab.closing"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
 msgid "planDraft.drafting.leave"
 msgstr ""
@@ -446,6 +549,10 @@ msgstr ""
 msgid "plan.tripMap.empty.copy"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/share/export-view.tsx
+msgid "plan.export.copy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.day.item.cost"
 msgstr ""
@@ -454,12 +561,20 @@ msgstr ""
 msgid "planDraft.diff.identicalTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/check/fix-sketches.tsx
+msgid "plan.check.rain.laneCrowds"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/version-history-sheet.tsx
+msgid "planDraft.history.current"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
 msgid "plan.settings.dates"
 msgstr ""
 
 #. placeholder {0}: day.dayNo
-#: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
+#: ../../apps/mobile/src/features/plan/premium/all-days/day-tile.tsx
 msgid "plan.premium.allDays.dayN"
 msgstr ""
 
@@ -472,12 +587,24 @@ msgstr ""
 msgid "plan.day.item.dayChip"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-parts.tsx
+msgid "planDraft.change.dayOnly"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
 msgid "plan.allDays.dayTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-parts.tsx
+msgid "planDraft.change.dayTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
 msgid "planDraft.diff.identical"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-view.tsx
+msgid "planDraft.change.dayChip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
@@ -486,6 +613,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
 msgid "plan.premium.draft.missed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.discardYes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.discard"
 msgstr ""
 
 #. placeholder {0}: at(checkIn.leftAt)
@@ -501,8 +636,16 @@ msgstr ""
 msgid "planDraft.drafting.again"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
+msgid "planDraft.empty.draft"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
 msgid "plan.premium.map.dropSlot"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/check/changes-totals.tsx
+msgid "plan.review.each"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/stop/time-rows.tsx
@@ -511,6 +654,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
 msgid "planDraft.review.history"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/version-history-sheet.tsx
+msgid "planDraft.history.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/stop/time-rows.tsx
@@ -529,12 +676,13 @@ msgstr ""
 msgid "trip.menu.cancelTold"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
-msgid "plan.premium.map.searchAny"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
 msgid "plan.dates.fine"
+msgstr ""
+
+#. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
+msgid "planDraft.empty.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
@@ -571,11 +719,15 @@ msgid "planDraft.diff.summaryPlain"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
-msgid "plan.premium.allDays.hint"
+msgid "plan.premium.allDays.dragHint"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
 msgid "plan.cancel.hold"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/check/check-view.tsx
+msgid "plan.premium.check.looking"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
@@ -616,6 +768,18 @@ msgstr ""
 msgid "planDraft.diff.failed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.missingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
+msgid "common.missing.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/decide/decide-view.tsx
+msgid "plan.collab.tie"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/add/add-sheet-view.tsx
 msgid "plan.add.saveLater"
 msgstr ""
@@ -626,6 +790,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/add/add-parts.tsx
 msgid "plan.add.who.justYou"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/check/changes-totals.tsx
+msgid "plan.review.money.thousand"
 msgstr ""
 
 #. placeholder {0}: was ?? ''
@@ -639,6 +807,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
 msgid "plan.premium.drafting.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.keep"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
@@ -668,6 +840,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/stop/time-rows.tsx
 msgid "plan.day.time.later"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/decide/option-row.tsx
+msgid "plan.premium.decide.leading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/check/check-view.tsx
@@ -703,12 +879,28 @@ msgstr ""
 msgid "plan.tripMap.empty.draft"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/draft/last-redraft-copy.ts
+msgid "plan.premium.draft.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/review/changeset-card.tsx
+msgid "plan.card.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/decide/decide-view.tsx
+msgid "plan.collab.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
 msgid "plan.premium.lessDriving.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
 msgid "plan.dates.lost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/check/changes-totals.tsx
+msgid "plan.review.money.million"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
@@ -733,6 +925,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
 msgid "plan.allDays.preview.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/day-tile.tsx
+msgid "plan.allDays.moveStop"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
@@ -771,7 +967,7 @@ msgstr ""
 msgid "plan.premium.stop.moving"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
+#: ../../apps/mobile/src/features/plan/premium/ideas/ideas-parts.tsx
 msgid "plan.premium.ideas.mustDoLead"
 msgstr ""
 
@@ -787,12 +983,28 @@ msgstr ""
 msgid "plan.collab.noComments"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
+msgid "planDraft.empty.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
 msgid "plan.tripMap.empty.noPlanTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/decide/option-row.tsx
+msgid "plan.premium.decide.noVotes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
+msgid "planDraft.empty.failedLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
 msgid "planDraft.drafting.stopped"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/last-redraft-copy.ts
+msgid "plan.premium.draft.notNow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/check/ask-card.tsx
@@ -803,12 +1015,24 @@ msgstr ""
 msgid "plan.settings.datesOpen"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/review/changeset-card.tsx
+msgid "plan.card.no"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.day.item.notes"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-parts.tsx
+msgid "planDraft.change.empty"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
 msgid "plan.allDays.preview.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/all-days/day-tile.tsx
+msgid "plan.premium.allDays.noPins"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
@@ -825,6 +1049,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
 msgid "plan.check.rain.noneBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-sketches.tsx
+msgid "plan.check.rain.laneNow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
@@ -848,8 +1076,8 @@ msgid "plan.settings.maxesLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
-#: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
 #: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
+#: ../../apps/mobile/src/features/plan/premium/only-you-pill.tsx
 msgid "planDraft.onlyYou"
 msgstr ""
 
@@ -865,6 +1093,10 @@ msgstr ""
 msgid "plan.day.item.maps"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/plan-map/fix-panel.tsx
 msgid "plan.premium.fix.otherWays"
 msgstr ""
@@ -873,12 +1105,25 @@ msgstr ""
 msgid "plan.tripMap.empty.paste"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-view.tsx
+msgid "planDraft.change.hint"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
 msgid "plan.dates.pick"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-coverage.tsx
 msgid "planDraft.coverage.pickPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/decide/option-row.tsx
+msgid "plan.premium.decide.picked"
+msgstr ""
+
+#. placeholder {0}: winner.title
+#: ../../apps/mobile/src/features/plan/premium/decide/decide-view.tsx
+msgid "plan.collab.closedPick"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
@@ -891,6 +1136,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
 msgid "plan.premium.menu.places"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/review/changeset-card.tsx
+msgid "plan.card.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
@@ -913,16 +1162,36 @@ msgstr ""
 msgid "planDraft.diff.putBack"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/decide/decide-view.tsx
+msgid "plan.collab.apply"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx
 msgid "planDraft.diff.putBackDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/share/export-view.tsx
+msgid "plan.export.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-sketches.tsx
+msgid "plan.check.rain.laneRain"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/check/changes-view.tsx
 msgid "plan.premium.review.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-view.tsx
+msgid "plan.premium.draft.redraft"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/draft/draft-review-view.tsx
 msgid "planDraft.stale.cta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-parts.tsx
+msgid "planDraft.spent.reset"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
@@ -943,6 +1212,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
 msgid "plan.premium.ideas.removeMine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/version-history-sheet.tsx
+msgid "planDraft.history.restore"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
@@ -966,6 +1239,10 @@ msgid "plan.premium.map.search"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.map.searchOrAsk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
 msgid "plan.premium.map.see"
 msgstr ""
 
@@ -975,6 +1252,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
 msgid "plan.allDays.see"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/review/changeset-card.tsx
+msgid "plan.card.open"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
@@ -991,6 +1272,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
 msgid "plan.check.sendFirst"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/share/plan-share-sheet.tsx
+msgid "plan.tripMap.sendPlan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
@@ -1012,6 +1297,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/all-days/all-days-view.tsx
 msgid "plan.allDays.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/share/plan-share-sheet.tsx
+msgid "plan.tripMap.shareTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
@@ -1069,12 +1358,28 @@ msgstr ""
 msgid "plan.cancel.chatLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-parts.tsx
+msgid "planDraft.change.keeps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/share/export-view.tsx
+msgid "plan.export.bodySubscribe"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/share/export-view.tsx
+msgid "plan.export.subscribe"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/all-days/move-sheets.tsx
 msgid "plan.allDays.preview.suggest"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
 msgid "plan.day.item.suggest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/check/fix-sketches.tsx
+msgid "plan.check.rain.laneSwapped"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/empty-plan.tsx
@@ -1102,12 +1407,24 @@ msgstr ""
 msgid "planDraft.diff.failedTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-parts.tsx
+msgid "planDraft.spent.line"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
 msgid "plan.overlay.clash.changed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/stop/day-actions.tsx
 msgid "plan.overlay.clash.removed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
+msgid "planDraft.empty.failedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
+msgid "plan.premium.item.discardLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/settings/dates-impact.tsx
@@ -1120,6 +1437,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
 msgid "plan.settings.trip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.notNow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
@@ -1138,8 +1459,24 @@ msgstr ""
 msgid "plan.review.missing"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
+msgid "common.missing.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/check/fix-pages.tsx
 msgid "plan.premium.lessDriving.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.already"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/settings/cancel-trip-screen.tsx
+msgid "plan.cancel.over"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
+msgid "plan.dates.missingTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
@@ -1167,8 +1504,16 @@ msgstr ""
 msgid "plan.premium.menu.settings"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
+msgid "planDraft.empty.retry"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/draft/drafting-view.tsx
 msgid "planDraft.drafting.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/share/export-view.tsx
+msgid "plan.export.revoke"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/stop/item-comments.tsx
@@ -1181,6 +1526,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/ideas/ideas-sheet.tsx
 msgid "plan.premium.ideas.unstar"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/decide/decide-view.tsx
+msgid "plan.collab.closedNoPick"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/stop/item-sheet.tsx
@@ -1203,6 +1552,14 @@ msgstr ""
 msgid "plan.dates.changes"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-view.tsx
+msgid "planDraft.change.what"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/plan-map/copy.ts
+msgid "plan.premium.stop.askAbout"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/settings/change-dates-screen.tsx
 msgid "plan.dates.unavailable"
 msgstr ""
@@ -1213,6 +1570,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
 msgid "plan.settings.where"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/change-day-view.tsx
+msgid "planDraft.change.which"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/settings/data/commands.ts
@@ -1231,6 +1592,10 @@ msgstr ""
 msgid "plan.premium.add.who"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/premium/review/changeset-card.tsx
+msgid "plan.card.yes"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/premium/check/changes-view.tsx
 msgid "plan.premium.review.yes"
 msgstr ""
@@ -1245,6 +1610,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/settings/trip-settings-screen.tsx
 msgid "plan.settings.rule.approve"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/premium/draft/draft-states.tsx
+msgid "planDraft.member.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/premium/draft/redraft-view.tsx

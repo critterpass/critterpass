@@ -8,8 +8,7 @@ import { formatMoney, isKnownCurrency } from '@cp/cost-engine';
 import { plural, t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
-import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
+import { Card, makePremiumStyles, Text } from '@/ui/premium';
 
 import type { DriverReply } from '../share/data';
 
@@ -21,27 +20,21 @@ export interface DriverReplyCardProps {
   readonly locale: string;
 }
 
-const useStyles = makeStyles((th) => ({
-  card: {
-    backgroundColor: th.semantic.bg.raised,
-    borderRadius: th.radius.lg,
-    padding: th.space['16'],
-    gap: th.space['6'],
-  },
+const useStyles = makePremiumStyles((th) => ({
+  card: { gap: th.space.gap6 },
   tips: {
     borderWidth: 1.5,
     borderStyle: 'dashed',
-    borderColor: th.semantic.border.decorative,
-    borderRadius: th.radius.lg,
-    padding: th.space['12'],
-    gap: th.space['6'],
+    borderColor: th.color.hairline,
+    borderRadius: th.radius.card,
+    padding: th.space.gap12,
+    gap: th.space.gap6,
   },
-  wrap: { gap: th.space['12'] },
+  wrap: { gap: th.space.gap12 },
 }));
 
 export function DriverReplyCard(props: DriverReplyCardProps) {
   const styles = useStyles();
-  const theme = useTheme();
   const { reply, locale } = props;
   const currency = reply.currency ?? 'IDR';
   const money = (minor: number) => {
@@ -57,8 +50,8 @@ export function DriverReplyCard(props: DriverReplyCardProps) {
   return (
     <View style={styles.wrap} testID="driver-reply">
       {total !== null && reply.price_per_day_minor !== null && each !== null && (
-        <View style={styles.card} testID="driver-reply-quote">
-          <Text variant="eyebrow">
+        <Card padded style={styles.card} testID="driver-reply-quote">
+          <Text variant="label" tone="muted">
             {t({ id: 'drivers.replied.quote', message: `Quote from ${props.driverName}` })}
           </Text>
           <Text variant="rowTitle">
@@ -70,14 +63,14 @@ export function DriverReplyCard(props: DriverReplyCardProps) {
               }),
             })}
           </Text>
-          <Text variant="bodySm" color={theme.semantic.text.secondary}>
+          <Text variant="rowText" tone="muted">
             {t({
               id: 'drivers.replied.perDay',
               message: `${money(reply.price_per_day_minor)} a day · ${money(each)} each`,
             })}
           </Text>
           {reply.overtime_per_hour_minor !== null && reply.included_hours !== null && (
-            <Text variant="bodySm" color={theme.semantic.text.secondary}>
+            <Text variant="rowText" tone="muted">
               {t({
                 id: 'drivers.replied.overtime',
                 message: `Overtime ${money(reply.overtime_per_hour_minor)} an hour after ${reply.included_hours} hours`,
@@ -85,15 +78,15 @@ export function DriverReplyCard(props: DriverReplyCardProps) {
             </Text>
           )}
           {reply.car !== null && (
-            <Text variant="bodySm" color={theme.semantic.text.secondary}>
+            <Text variant="rowText" tone="muted">
               {reply.car}
             </Text>
           )}
-        </View>
+        </Card>
       )}
       {tips.length > 0 && (
         <View style={styles.tips} testID="driver-reply-tips">
-          <Text variant="eyebrow">
+          <Text variant="label" tone="muted">
             {t({
               id: 'drivers.replied.tips',
               message: plural(tips.length, {
@@ -103,7 +96,7 @@ export function DriverReplyCard(props: DriverReplyCardProps) {
             })}
           </Text>
           {tips.map((tip, i) => (
-            <Text key={i} variant="bodySm">
+            <Text key={i} variant="rowText">
               {tip.text}
             </Text>
           ))}

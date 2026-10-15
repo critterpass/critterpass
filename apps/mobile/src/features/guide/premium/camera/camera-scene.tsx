@@ -8,21 +8,20 @@ import { t } from '@lingui/core/macro';
 import { Stack } from 'expo-router';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
   Button,
+  Chip,
   Composer,
   GlassPill,
-  PressableScale,
+  makePremiumStyles,
+  ScrollRow,
   Text,
   TextButton,
-  makePremiumStyles,
-  usePremiumTheme,
 } from '@/ui/premium';
-import { FullScreen } from '@/ui/premium/shell';
+import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
-import type { CameraViewProps } from '../../camera/camera-view';
+import type { CameraViewProps } from '../../camera/camera-view-props';
 import { useIssueLine } from '../../camera/menu-issue-line';
 import { menuStickers, showsFlags } from '../../camera/menu-scan';
 import { MENU_PAINT } from '../guide-paint';
@@ -53,14 +52,6 @@ const useStyles = makePremiumStyles((th) => ({
     borderRadius: 17,
     overflow: 'hidden',
     backgroundColor: th.accent.sun,
-  },
-  action: {
-    height: 36,
-    paddingHorizontal: 14,
-    borderRadius: 18,
-    justifyContent: 'center',
-    backgroundColor: th.color.card,
-    boxShadow: th.shadow.card,
   },
 }));
 
@@ -99,9 +90,8 @@ function Corners() {
 }
 
 export function PremiumCameraScene(props: CameraViewProps) {
-  const th = usePremiumTheme();
   const styles = useStyles();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   const { state } = props;
   const [draft, setDraft] = useState('');
   const issue = useIssueLine(state.issue, props.guideName);
@@ -114,10 +104,10 @@ export function PremiumCameraScene(props: CameraViewProps) {
       ? t({ id: 'guide.camera.reading', message: 'Reading the menu…' })
       : state.phase === 'result'
         ? (state.reading?.suggestion ??
-          t({ id: 'guide.camera.read', message: "Here's what's on it. Ask me about any dish." }))
+          t({ id: 'guide.camera.read', message: 'Here’s what’s on it. Ask me about any dish.' }))
         : t({
             id: 'guide.camera.aim',
-            message: "Point me at a menu and I'll put it in your words.",
+            message: 'Point me at a menu and I’ll put it in your words.',
           }));
   const ask = () => {
     const question = draft.trim();
@@ -200,7 +190,7 @@ export function PremiumCameraScene(props: CameraViewProps) {
             <Text variant="captionMuted" tone="muted">
               {t({
                 id: 'guide.camera.deniedBody',
-                message: `${props.guideName} can't see the menu without the camera. Turn it on in Settings, or type a dish name in the chat.`,
+                message: `${props.guideName} can’t see the menu without the camera. Turn it on in Settings, or type a dish name in the chat.`,
               })}
             </Text>
             {props.onOpenSettings === undefined ? null : (
@@ -214,7 +204,10 @@ export function PremiumCameraScene(props: CameraViewProps) {
         ) : null}
         {cannotScan ? (
           <View style={styles.inset}>
-            <TextButton
+            <Button
+              variant="floating"
+              size="medium"
+              alignSelf="center"
               label={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}
               onPress={props.onClose}
               testID="guide-camera-type"
@@ -230,26 +223,24 @@ export function PremiumCameraScene(props: CameraViewProps) {
         state.phase === 'result' &&
         state.reading !== null &&
         props.followUps.length > 0 ? (
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ gap: 8, paddingHorizontal: 16 }}
+          <ScrollRow
+            gap={8}
+            above={4}
+            below={4}
+            contentContainerStyle={{ paddingHorizontal: 16 }}
             testID="guide-camera-follow-ups"
           >
             {props.followUps.map((action, index) => (
-              <PressableScale
+              <Chip
                 key={action.id}
-                style={[styles.action, index === 0 ? { backgroundColor: th.color.ink } : null]}
+                label={action.label}
+                selected={index === 0}
+                surface="white"
                 onPress={action.onPress}
-                accessibilityRole="button"
                 testID={`guide-camera-follow-${action.id}`}
-              >
-                <Text variant="rowTextStrong" tone={index === 0 ? 'onInk' : 'ink'}>
-                  {action.label}
-                </Text>
-              </PressableScale>
+              />
             ))}
-          </ScrollView>
+          </ScrollRow>
         ) : null}
         {ordering ? null : state.phase === 'result' ? (
           <View style={{ gap: 6 }}>
@@ -277,6 +268,7 @@ export function PremiumCameraScene(props: CameraViewProps) {
             )}
             <View style={{ alignItems: 'center' }}>
               <TextButton
+                align="center"
                 label={t({ id: 'guide.camera.retake', message: 'Read another menu' })}
                 onPress={props.onRetake}
                 testID="guide-camera-retake"

@@ -9,6 +9,7 @@ import {
   placesRoutes,
   resultsFrom,
 } from '@/features/explore/places';
+import { PremiumPlacesListView } from '@/features/explore/premium/places/places-list-page';
 
 /** The trip's places as rows (7c-3), grouped by where they stand and sorted by fit. */
 export default function TripPlacesListRoute() {
@@ -28,6 +29,7 @@ export default function TripPlacesListRoute() {
       onLeaveResults={() => router.setParams({ results: '', chips: '' })}
       onMap={() => router.replace(placesRoutes.map(params.tripId, carryParams(filter, params)))}
       onBack={() => goBackOr(tripExploreLinks.hub(params.tripId))}
+      View={PremiumPlacesListView}
     />
   );
 }

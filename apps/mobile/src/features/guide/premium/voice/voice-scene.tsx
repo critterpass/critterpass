@@ -8,7 +8,6 @@
 import { t } from '@lingui/core/macro';
 import { Stack } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
   Button,
@@ -16,13 +15,14 @@ import {
   Icon,
   PressableScale,
   Text,
-  TextButton,
   makePremiumStyles,
   usePremiumTheme,
 } from '@/ui/premium';
-import { FullScreen } from '@/ui/premium/shell';
+import { Bob, Ping } from '@/features/critters';
+import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
-import { useIssueLine, type VoiceViewProps } from '../../voice/voice-view';
+import { useIssueLine } from '../../voice/voice-issue-line';
+import { type VoiceViewProps } from '../../voice/voice-screen';
 import { VOICE_PAINT } from '../guide-paint';
 import { Bar } from './voice-wave';
 
@@ -75,7 +75,7 @@ const useStyles = makePremiumStyles((th) => ({
 export function PremiumVoiceScene(props: VoiceViewProps) {
   const th = usePremiumTheme();
   const styles = useStyles();
-  const insets = useSafeAreaInsets();
+  const insets = useScreenInsets();
   const { state } = props;
   const issue = useIssueLine(state.issue, props.guideName);
   const status = {
@@ -138,17 +138,19 @@ export function PremiumVoiceScene(props: VoiceViewProps) {
         <View style={styles.stage}>
           {state.phase === 'listening' ? (
             <>
-              <View style={[styles.ring, { opacity: 0.5 }]} />
-              <View style={[styles.ring, { transform: [{ scale: 1.12 }], opacity: 0.25 }]} />
+              <Ping style={styles.ring} ms={2200} />
+              <Ping style={styles.ring} ms={2200} delayMs={1100} />
             </>
           ) : null}
           <View style={styles.disc}>
-            <CritterSticker
-              kind={props.guideKind ?? 'gecko'}
-              name={guide}
-              size={132}
-              pose="think"
-            />
+            <Bob>
+              <CritterSticker
+                kind={props.guideKind ?? 'gecko'}
+                name={guide}
+                size={132}
+                pose="think"
+              />
+            </Bob>
           </View>
         </View>
         <View style={styles.pill} testID={`guide-voice-status-${state.phase}`}>
@@ -176,7 +178,7 @@ export function PremiumVoiceScene(props: VoiceViewProps) {
           <Text variant="captionMuted" tone="muted" testID="guide-voice-text-only">
             {t({
               id: 'guide.voice.textOnly',
-              message: "This reply couldn't be spoken, so it's text only.",
+              message: 'This reply couldn’t be spoken, so it’s text only.',
             })}
           </Text>
         ) : null}
@@ -200,7 +202,7 @@ export function PremiumVoiceScene(props: VoiceViewProps) {
             <Text variant="captionMuted" tone="muted">
               {t({
                 id: 'guide.voice.micDeniedBody',
-                message: `${props.guideName} can't hear you without the microphone. Turn it on in Settings, or type your question.`,
+                message: `${props.guideName} can’t hear you without the microphone. Turn it on in Settings, or type your question.`,
               })}
             </Text>
             {props.onOpenSettings === undefined ? null : (
@@ -213,7 +215,10 @@ export function PremiumVoiceScene(props: VoiceViewProps) {
           </View>
         ) : null}
         {cannotTalk ? (
-          <TextButton
+          <Button
+            variant="secondary"
+            size="medium"
+            alignSelf="center"
             label={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}
             onPress={props.onType}
             testID="guide-voice-type"

@@ -18,7 +18,7 @@ import { useSupplierCopy } from '../supplier/copy';
 import { deviceSupplierApi } from '../supplier/data/api';
 import { useTripGuide } from '../supplier/data/use-trip-guide';
 import { rideAppName } from '../supplier/suppliers';
-import type { GettingAroundViewProps } from './GettingAroundView';
+import type { GettingAroundViewProps } from './view-types';
 import { localDay, type Leg } from './model';
 import { durationMessage } from './duration';
 import { driverPhrase, glossMessage } from './phrase';

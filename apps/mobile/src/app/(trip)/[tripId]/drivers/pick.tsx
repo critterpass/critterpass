@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { PickDaysSheet } from '@/features/drivers/pick/PickDaysSheet';
+import { PickDaysPremium } from '@/features/drivers/premium/PickDaysPremium';
 
 /** Pick a driver's days (6d-2), a sheet over the comparison: `/{tripId}/drivers/pick?provider&days&quote`. */
 export default function PickDaysRoute() {
@@ -10,12 +10,11 @@ export default function PickDaysRoute() {
     days?: string;
     quote?: string;
   }>();
-  return (
-    <PickDaysSheet
-      tripId={tripId ?? ''}
-      providerId={provider ?? ''}
-      {...(days ? { days } : {})}
-      {...(quote ? { quote } : {})}
-    />
-  );
+  const props = {
+    tripId: tripId ?? '',
+    providerId: provider ?? '',
+    ...(days ? { days } : {}),
+    ...(quote ? { quote } : {}),
+  };
+  return <PickDaysPremium {...props} />;
 }

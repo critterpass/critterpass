@@ -5,7 +5,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { Image, Linking, ScrollView, View } from 'react-native';
+import { Image, Linking, View } from 'react-native';
 
 import {
   Button,
@@ -13,11 +13,14 @@ import {
   Icon,
   ListCard,
   PressableScale,
+  ring,
   Row,
+  ROW_ROOM_ABOVE,
+  ROW_ROOM_BELOW,
+  ScrollRow,
   Spinner,
   Text,
   TextButton,
-  ring,
   usePremiumTheme,
 } from '@/ui/premium';
 
@@ -75,6 +78,7 @@ export function PremiumPhotoPage() {
             testID="onboarding-photo-next"
           />
           <TextButton
+            align="center"
             label={t({ id: 'onboarding.premium.photo.skip', message: 'Skip this step' })}
             onPress={step.next}
             testID="onboarding-photo-skip"
@@ -141,10 +145,16 @@ export function PremiumPhotoPage() {
               })}
         </Text>
       </View>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ gap: theme.space.gap10, paddingVertical: theme.space.gap6 }}
+      <ScrollRow
+        gap={theme.space.gap10}
+        // Reaches through the page's gutter, so the picked face's ring and the last face's
+        // shadow are not cut at the padding.
+        bleed={theme.space.titleGutter}
+        // 6 above and below the faces, as the row kept; its ring and shadow room sits inside.
+        style={{
+          marginTop: theme.space.gap6 - ROW_ROOM_ABOVE,
+          marginBottom: theme.space.gap6 - ROW_ROOM_BELOW,
+        }}
         testID="onboarding-photo-guides"
       >
         {step.faces.map((guide) => {
@@ -174,7 +184,7 @@ export function PremiumPhotoPage() {
             </PressableScale>
           );
         })}
-      </ScrollView>
+      </ScrollRow>
       {state.kind === 'preview' ? (
         <View style={{ gap: theme.space.gap8 }} testID="onboarding-photo-preview">
           <Button
@@ -225,7 +235,7 @@ export function PremiumPhotoPage() {
             })}
             leading={
               <OptionTile bg={theme.color.status.rain.bg}>
-                <Icon name="expand" size={20} color={theme.color.status.rain.text} />
+                <Icon name="photos" size={20} color={theme.color.status.rain.text} />
               </OptionTile>
             }
             trailing={<Icon name="forward" size={16} color={theme.color.placeholder} />}

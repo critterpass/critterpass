@@ -84,7 +84,7 @@ function vendorLine(action: DisruptionAction): string {
       return to === ''
         ? t({
             id: 'trip.disruptions.flight.row.vendorCancel',
-            message: `Tell ${vendor} the flight won't land today?`,
+            message: `Tell ${vendor} the flight won’t land today?`,
           })
         : t({ id: 'trip.disruptions.flight.row.vendorAsk', message: `Ask ${vendor} for ${to}?` });
     case 'approved':
@@ -213,7 +213,7 @@ export const footerLabels = () => ({
 export function toastLines(guide: string) {
   return {
     told: t({ id: 'trip.disruptions.flight.toldCrew', message: 'Posted in crew chat.' }),
-    undone: t({ id: 'trip.disruptions.flight.undid', message: `Undid ${guide}'s changes.` }),
+    undone: t({ id: 'trip.disruptions.flight.undid', message: `Undid ${guide}’s changes.` }),
   };
 }
 
@@ -228,7 +228,7 @@ export const stateLines = () => ({
   }),
   offline: t({
     id: 'trip.disruptions.flight.offline',
-    message: "You're offline. Answers go out when you're back.",
+    message: 'You’re offline. Answers go out when you’re back.',
   }),
   missingTitle: t({ id: 'trip.disruptions.flight.missingTitle', message: 'All sorted' }),
   missing: t({ id: 'trip.disruptions.flight.missing', message: 'Nothing to sort here any more.' }),

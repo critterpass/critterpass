@@ -8,7 +8,7 @@ import { View } from 'react-native';
 import { Button, CrewStack, Text, usePremiumTheme } from '@/ui/premium';
 import { crewColour } from '@/features/vote';
 
-import { missAction, why, type MissedMustDo } from '../../draft/review/coverage-strip';
+import { missAction, why, type MissedMustDo } from '../../draft/review/review-words';
 import type { ReviewModel } from '../../draft/data/version';
 
 type Person = ReviewModel['mustDos']['owners'][number];
@@ -98,6 +98,7 @@ export function DraftCoverage(props: {
             {action === null ? null : (
               <View style={{ flexDirection: 'row' }}>
                 <Button
+                  alignSelf="auto"
                   size="small"
                   label={
                     action === 'pick_place'

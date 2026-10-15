@@ -3,7 +3,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AnalyticsProvider, type AnalyticsClient } from '@/lib/analytics';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
-import { renderUi } from '@/ui/test-support/render';
+import { renderUi } from '@/lib/test-support/render-ui';
 
 import DevToolsIndexScreen from '../(dev)/index';
 
@@ -37,13 +37,9 @@ describe('DevToolsIndexScreen', () => {
     expect(getByTestId('dev-nav-motion-lab')).toBeTruthy();
     expect(getByTestId('dev-nav-spikes-auth')).toBeTruthy();
     expect(getByTestId('dev-nav-spikes-map')).toBeTruthy();
-    expect(getByTestId('dev-nav-spikes-app-group')).toBeTruthy();
-    expect(getByTestId('dev-nav-spikes-critter')).toBeTruthy();
-    expect(getByTestId('dev-nav-spikes-critterdex-grid')).toBeTruthy();
-    expect(getByTestId('dev-nav-spikes-grow-into-page')).toBeTruthy();
-    expect(getByTestId('dev-nav-spikes-live-activity')).toBeTruthy();
-    expect(getByTestId('dev-nav-spikes-location')).toBeTruthy();
-    expect(getByTestId('dev-nav-spikes-timeline-drag')).toBeTruthy();
+    expect(getByTestId('dev-nav-start-fresh')).toBeTruthy();
+    expect(getByTestId('dev-nav-live-activities')).toBeTruthy();
+    expect(getByTestId('dev-nav-location-engine')).toBeTruthy();
   });
 
   it('offers the staging demo data seed for each inbox scenario', async () => {

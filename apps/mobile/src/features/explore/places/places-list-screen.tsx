@@ -6,7 +6,7 @@
 import type { PlaceFit } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useMemo } from 'react';
+import { useMemo, type ComponentType } from 'react';
 
 import { useInViewPlacePhotos } from '@/data/media/use-place-tile-photos';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
@@ -21,7 +21,6 @@ import { useSponsoredEvents } from '../hooks/use-sponsored-events';
 import { exploreRoutes } from '../routes';
 import type { ListKind } from '../sponsored-model';
 import { PLACES_COMMANDS } from './commands';
-import { PlacesListView } from './places-list-view';
 import { CATEGORY_GROUPS, isCategoryGroup, type PlacesFilter } from './places-model';
 import { useSavedOnce } from './pending-store';
 import { usePlaceFacts } from './place-facts';
@@ -32,6 +31,16 @@ import { usePlaceFits, weekdaysOf } from './use-place-fits';
 import { usePlacesData } from './use-places-data';
 import { useSuggestions } from './use-suggestions';
 import { useSwipeActions } from './use-swipe-actions';
+import type { FitLine } from '@/data/fit/fit-line';
+import { type PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
+import type { GuideFacts } from '../format';
+import { type Point } from '../map-model';
+import type { PlaceFacts } from './place-facts';
+import { type HubPlace } from './places-model';
+import type { PlanRouteDay } from './plan-routes';
+import { type HiddenEntry } from './places-model';
+import type { SwipeAction } from './swipe-actions';
+import type { CrewMember } from './use-places-data';
 
 /** The sponsored slot's list kind for a list of places. */
 const SEARCH: ListKind = 'search';
@@ -50,9 +59,12 @@ export interface PlacesListScreenProps {
   readonly onLeaveResults: () => void;
   readonly onMap: () => void;
   readonly onBack: () => void;
+  /** The drawing of the list. */
+  readonly View: ComponentType<PlacesListViewProps>;
 }
 
 export function PlacesListScreen(props: PlacesListScreenProps) {
+  const { View } = props;
   const { i18n } = useLingui();
   const { commands } = useLocalFirst();
   const { tripId, filter } = props;
@@ -127,7 +139,7 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
 
   const resumeKey = tripId ?? props.destination ?? undefined;
   return (
-    <PlacesListView
+    <View
       status={!data.loaded ? 'loading' : data.failed ? 'failed' : 'ready'}
       onRetry={data.retry}
       viewer={viewer}
@@ -182,4 +194,58 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
       resumeKey={resumeKey}
     />
   );
+}
+
+/** Where the list stands before it has rows: still reading, or the read failed with none. */
+export type PlacesListStatus = 'loading' | 'failed' | 'ready';
+
+export interface PlacesListViewProps {
+  readonly inTrip: boolean;
+  /** Absent reads as ready. */
+  readonly status?: PlacesListStatus | undefined;
+  readonly onRetry?: (() => void) | undefined;
+  /** Where the traveller is, when they are in the destination: "nearest" measures from there. */
+  readonly viewer?: Point | null | undefined;
+  readonly places: readonly HubPlace[];
+  readonly crew: readonly CrewMember[];
+  /** The plan's days as routes: the IN THE PLAN filter lists their stops in order. */
+  readonly routes?: readonly PlanRouteDay[] | undefined;
+  /** Each place's standing in the recommended order and its area, by place id. */
+  readonly facts?: ReadonlyMap<string, PlaceFacts> | undefined;
+  /** Whether the swipe hint still helps (nothing was saved by a swipe yet). */
+  readonly showSwipeHint?: boolean | undefined;
+  readonly stay: { readonly name: string; readonly at: Point } | null;
+  readonly destinationName: string;
+  readonly guide: GuideFacts;
+  readonly filter: PlacesFilter;
+  readonly onFilter: (filter: PlacesFilter) => void;
+  readonly resultChips?: readonly string[] | undefined;
+  readonly onLeaveResults: () => void;
+  readonly query?: string | undefined;
+  readonly onQuery?: ((text: string) => void) | undefined;
+  /** Fits by place id, for the order. */
+  readonly fits: ReadonlyMap<string, PlaceFit>;
+  /** Fit lines by place id, for the rows. */
+  readonly lines: ReadonlyMap<string, FitLine>;
+  /** Each day's short weekday, for the editors' best-time lines. */
+  readonly weekdays: ReadonlyMap<number, string>;
+  /** The places' photos by POI id, and the rows on screen, for the screen to read theirs. */
+  readonly photos?: PlaceTilePhotos | undefined;
+  readonly onInView?: ((poiIds: readonly string[]) => void) | undefined;
+  /** The server's ranked suggestions and their count; null before it answers. */
+  readonly suggestOrder: readonly string[] | null;
+  readonly suggestTotal: number | null;
+  readonly onLoadMore?: (() => void) | undefined;
+  readonly sponsored: { readonly poiId: string; readonly onWhy: () => void } | null;
+  readonly hidden: readonly HiddenEntry[];
+  readonly onUnhide: (poiId: string) => void;
+  readonly onAction?: ((place: HubPlace, action: SwipeAction) => void) | undefined;
+  readonly onOpen: (place: HubPlace, sponsored: boolean) => void;
+  readonly onAdd?: ((poiId: string) => void) | undefined;
+  readonly onSplit?: ((poiId: string) => void) | undefined;
+  readonly onSearch: () => void;
+  readonly onMap: () => void;
+  readonly onBack: () => void;
+  /** Names the trip or destination whose order and scroll the list shares with the map. */
+  readonly resumeKey?: string | undefined;
 }

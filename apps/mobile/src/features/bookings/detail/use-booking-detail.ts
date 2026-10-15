@@ -23,12 +23,13 @@ import { useBookingsServices } from '../data/services';
 import { useWallet } from '../data/use-wallet';
 import { useWalletContext } from '../data/use-wallet-context';
 import { canReportLanded, flightView } from '../flight-card/flight-model';
+import { gateChanged } from '../flight-card/gate-memory';
 import { useChipLabel, useUpdatedLine } from '../flight-card/labels';
 import { clock, dayDate, price as formatPrice, shortDate, zoneOf } from '../format';
 import { boardingPassRoute, BOOKINGS_ROUTES, editBookingRoute } from '../routes';
 import { useTripGuide } from '../supplier/data/use-trip-guide';
 import { cancelRoute } from '../supplier/routes';
-import type { DetailDoc } from './BookingDetailView';
+import type { DetailDoc } from './view-types';
 
 export type BookingDetail = ReturnType<typeof useBookingDetail>;
 
@@ -52,7 +53,14 @@ export function useBookingDetail(bookingId: string) {
   if (booking === undefined) return { kind: 'missing', loaded: wallet.loaded } as const;
   const tz = zoneOf(booking.tz, context.trip?.tz);
   const names = new Map(context.members.map((member) => [member.userId, member.name]));
-  const view = booking.kind === 'flight' ? flightView(booking, wallet.segments) : null;
+  const leg = booking.segments[0];
+  // The same GATE CHANGE the wallet's card shows, from the gate first seen this session.
+  const view =
+    booking.kind === 'flight'
+      ? flightView(booking, wallet.segments, {
+          gateChanged: leg === undefined ? false : gateChanged(leg.id, leg.gate),
+        })
+      : null;
   const start = view?.departsAt ?? booking.startsAt;
   const end = view?.arrivesAt ?? booking.endsAt;
   const when =

@@ -6,24 +6,18 @@
  * (tap for the terms, word for word) and the shared toggle. The owner edits or deletes at the foot.
  */
 import { useLingui } from '@lingui/react/macro';
-import { Alert, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import {
-  Banner,
-  Button,
-  EmptyState,
-  PremiumThemeProvider,
-  Tag,
-  Text,
-  usePremiumTheme,
-} from '@/ui/premium';
-import { PushScreen } from '@/ui/premium/shell';
+import { Banner, EmptyState, PremiumThemeProvider, Tag, Text, usePremiumTheme } from '@/ui/premium';
+import { noticeAlert, PushScreen } from '@/ui/premium/shell';
 
 import { useKindLabel } from '../detail/labels';
 import { useBookingDetail, type BookingDetail } from '../detail/use-booking-detail';
 import { clock, dateTime, dayDate } from '../format';
-import { askDeleteBooking, openBookingOptions } from './booking-options';
+import { openBookingOptions } from './booking-options';
+import { ConfirmationCodeCard, useCopyCode } from './components/ConfirmationCode';
+import { DetailFoot as Foot } from './components/DetailFoot';
 import { DocsCard } from './components/DocsCard';
 import { FlightTicket } from './components/FlightTicket';
 import { KeyValueCard } from './components/KeyValueCard';
@@ -32,49 +26,6 @@ import { ShareCard } from './components/ShareCard';
 
 type Ready = Extract<BookingDetail, { kind: 'ready' }>;
 
-function Foot({ detail }: { readonly detail: Ready }) {
-  const th = usePremiumTheme();
-  const { t } = useLingui();
-  if (!detail.booking.mine) return null;
-  return (
-    <View style={[styles.foot, { paddingHorizontal: th.space.gutter }]}>
-      {detail.canReportLanded ? (
-        <Button
-          label={t({ id: 'bookings.detail.landed', message: 'I landed' })}
-          onPress={detail.onLanded}
-          testID="bookings-landed"
-        />
-      ) : null}
-      {detail.onSupplierCancel === null ? null : (
-        <Button
-          label={t({ id: 'bookings.detail.supplierCancel', message: 'Cancel with Viator' })}
-          variant="secondary"
-          onPress={detail.onSupplierCancel}
-          testID="bookings-supplier-cancel"
-        />
-      )}
-      <View style={styles.pair}>
-        <View style={styles.flex}>
-          <Button
-            label={t({ id: 'bookings.detail.edit', message: 'Edit' })}
-            variant="secondary"
-            onPress={detail.onEdit}
-            testID="bookings-edit"
-          />
-        </View>
-        <View style={styles.flex}>
-          <Button
-            label={t({ id: 'bookings.premium.delete', message: 'Delete' })}
-            variant="destructive"
-            onPress={() => askDeleteBooking(() => void detail.deleteIt())}
-            testID="bookings-delete"
-          />
-        </View>
-      </View>
-    </View>
-  );
-}
-
 function FlightBody({ detail }: { readonly detail: Ready }) {
   const th = usePremiumTheme();
   const locale = useLocale();
@@ -82,9 +33,13 @@ function FlightBody({ detail }: { readonly detail: Ready }) {
   const view = detail.view;
   if (view === null) return null;
   const tz = detail.tz;
+  // The ticket's pill already says the status; the line under it carries only what follows
+  // ("Updated 14:02"), never the status again.
+  const [statusLabel = '', ...more] = detail.status?.split(' · ') ?? [];
+  const extra = more.join(' · ');
   return (
     <>
-      <View style={{ paddingHorizontal: th.space.gap16 }}>
+      <View style={{ paddingHorizontal: th.space.gutter }}>
         {/* The scannable card stays light in dark mode (1.13). */}
         <PremiumThemeProvider scheme="light">
           <FlightTicket
@@ -93,8 +48,7 @@ function FlightBody({ detail }: { readonly detail: Ready }) {
             departs={clock(locale, view.departsAt, tz)}
             arrives={clock(locale, view.arrivesAt, tz)}
             boards={clock(locale, view.boardsAt, tz)}
-            statusLabel={detail.status?.split(' · ')[0] ?? ''}
-            notch={th.color.ground}
+            statusLabel={statusLabel}
           />
         </PremiumThemeProvider>
       </View>
@@ -110,11 +64,12 @@ function FlightBody({ detail }: { readonly detail: Ready }) {
               "Cancelled by the airline. You're owed a free change or a refund: ask the airline.",
           })}
         </Text>
-      ) : detail.status === null ? null : (
+      ) : extra === '' ? null : (
         <Text variant="caption" tone="muted" style={{ paddingHorizontal: th.space.titleGutter }}>
-          {detail.status}
+          {extra}
         </Text>
       )}
+      <ConfirmationCodeCard code={detail.booking.supplierRef} />
       <DocsCard detail={detail} />
       <ShareCard detail={detail} />
     </>
@@ -126,6 +81,7 @@ function OtherBody({ detail }: { readonly detail: Ready }) {
   const locale = useLocale();
   const { t } = useLingui();
   const kindLabel = useKindLabel();
+  const copy = useCopyCode();
   const { booking } = detail;
   const look = kindLook(booking.kind, th.color);
   const policy = booking.cancelPolicyText ?? '';
@@ -160,6 +116,8 @@ function OtherBody({ detail }: { readonly detail: Ready }) {
             label: t({ id: 'bookings.detail.ref', message: 'Confirmation code' }),
             value: booking.supplierRef ?? '',
             mono: true,
+            private: true,
+            onPress: () => copy(booking.supplierRef ?? ''),
           },
           {
             key: 'who',
@@ -170,6 +128,7 @@ function OtherBody({ detail }: { readonly detail: Ready }) {
             key: 'price',
             label: t({ id: 'bookings.detail.price', message: 'Price' }),
             value: detail.price ?? '',
+            private: true,
           },
           {
             key: 'room',
@@ -203,7 +162,11 @@ function OtherBody({ detail }: { readonly detail: Ready }) {
                     label: t({ id: 'bookings.premium.terms', message: 'Terms' }),
                     // The policy exactly as the confirmation words it.
                     onPress: () =>
-                      Alert.alert(t({ id: 'bookings.premium.terms', message: 'Terms' }), policy),
+                      void noticeAlert({
+                        title: t({ id: 'bookings.premium.terms', message: 'Terms' }),
+                        message: policy,
+                        ok: t({ id: 'bookings.options.close', message: 'Close' }),
+                      }),
                   },
                 })}
             testID="bookings-free-cancel"
@@ -279,11 +242,11 @@ export function BookingDetailPremium({ bookingId }: { readonly bookingId: string
           }),
         testID: 'bookings-options',
       }}
+      footer={booking.mine ? <Foot detail={detail} /> : undefined}
       testID="bookings-detail"
     >
       <View style={[styles.body, { gap: th.space.gap16 }]}>
         {view === null ? <OtherBody detail={detail} /> : <FlightBody detail={detail} />}
-        <Foot detail={detail} />
       </View>
     </PushScreen>
   );
@@ -292,7 +255,4 @@ export function BookingDetailPremium({ bookingId }: { readonly bookingId: string
 const styles = StyleSheet.create({
   body: { paddingTop: 8 },
   titleBlock: { gap: 8, alignItems: 'flex-start' },
-  foot: { gap: 10, paddingTop: 8 },
-  pair: { flexDirection: 'row', gap: 8 },
-  flex: { flex: 1 },
 });

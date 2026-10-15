@@ -6,24 +6,31 @@
 import { toLocalWallTime } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, type ComponentType } from 'react';
 
 import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { useSyncPhase } from '@/data/status/use-sync-status';
 
-import { RegionPackCardView } from '../components/region-pack-card';
+import { RegionPackCardView } from '../premium/components/region-pack-card';
 import { useOfflinePack } from '../data/use-offline-pack';
 import { guideFor } from '../format';
 import { useBrowsePhotos } from '../map-queries';
 import { withProfileTiles } from '../profile-photo';
 import type { PlacesFilter } from './places-model';
-import { PlacesMapView } from './places-map-view';
 import { forgetPlaces } from './places-resume';
 import { addToPlanHref, placeHref, searchHref, useCanAddToPlan } from './places-nav';
 import type { ResultsMode } from './routes';
 import { usePlaceFits, weekdaysOf } from './use-place-fits';
 import { usePlacesData } from './use-places-data';
 import { usePendingPlaces } from './use-swipe-actions';
+import { type ReactNode } from 'react';
+import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
+import type { FitLine } from '@/data/fit/fit-line';
+import type { GuideFacts } from '../format';
+import { type Point } from '../map-model';
+import { type PlanRouteDay } from './plan-routes';
+import { type HubPlace } from './places-model';
+import type { CrewMember } from './use-places-data';
 
 export interface PlacesMapScreenProps {
   /** Outside a trip: the map's own field over the places on this phone. */
@@ -39,10 +46,12 @@ export interface PlacesMapScreenProps {
   readonly onLeaveResults: () => void;
   readonly onList: () => void;
   readonly onBack: () => void;
+  /** The drawing of the map. */
+  readonly View: ComponentType<PlacesMapViewProps>;
 }
 
 export function PlacesMapScreen(props: PlacesMapScreenProps) {
-  const { tripId } = props;
+  const { tripId, View } = props;
   const data = usePlacesData({
     tripId,
     destination: props.destination,
@@ -77,7 +86,7 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
   const photos = useMemo(() => withProfileTiles(assets, profilePhotos), [assets, profilePhotos]);
   const resumeKey = tripId ?? props.destination ?? undefined;
   return (
-    <PlacesMapView
+    <View
       inTrip={tripId !== null}
       loaded={data.loaded}
       failed={data.failed}
@@ -140,4 +149,49 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
       resumeKey={resumeKey}
     />
   );
+}
+
+export interface PlacesMapViewProps {
+  readonly inTrip: boolean;
+  readonly loaded: boolean;
+  /** The places did not load and the phone holds none. */
+  readonly failed?: boolean | undefined;
+  readonly onRetry?: (() => void) | undefined;
+  /** The middle of the destination's places whatever is typed: the map stays when none match. */
+  readonly centre?: Point | null | undefined;
+  readonly places: readonly HubPlace[];
+  readonly crew: readonly CrewMember[];
+  readonly routes: readonly PlanRouteDay[];
+  /** Today's local date in the trip's zone: the map leads with today's route. */
+  readonly today: string;
+  readonly destinationName: string;
+  readonly destinationSlug: string | null;
+  readonly guide: GuideFacts;
+  readonly stay: { readonly name: string; readonly at: Point } | null;
+  readonly tz: string | null;
+  /** Each plan day's short weekday, for "In the plan · Tue" on a planned place's card. */
+  readonly weekdays?: ReadonlyMap<number, string> | undefined;
+  /** Whether the map can draw (online, or the region is on this phone). */
+  readonly canDraw: boolean;
+  readonly localRegionUri: string | null;
+  /** The region pack card while the region isn't on this phone; null once it is. */
+  readonly pack: ReactNode | null;
+  readonly placeId?: string | null | undefined;
+  readonly filter: PlacesFilter;
+  readonly onFilter: (filter: PlacesFilter) => void;
+  readonly resultChips?: readonly string[] | undefined;
+  readonly onLeaveResults: () => void;
+  readonly query?: string | undefined;
+  readonly onQuery?: ((text: string) => void) | undefined;
+  readonly fitLines: ReadonlyMap<string, FitLine>;
+  readonly photos?: PlaceTilePhotos | undefined;
+  /** The places on the cards, for the screen to ask their fits. */
+  readonly onAsk: (poiIds: readonly string[]) => void;
+  readonly onOpen: (id: string) => void;
+  readonly onAdd?: ((id: string) => void) | undefined;
+  readonly onSearch: () => void;
+  readonly onList: () => void;
+  readonly onBack: () => void;
+  /** Names the trip or destination whose camera and pick the map shares with the list. */
+  readonly resumeKey?: string | undefined;
 }

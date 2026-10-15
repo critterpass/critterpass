@@ -14,6 +14,7 @@ import {
   makePremiumStyles,
   usePremiumTheme,
 } from '@/ui/premium';
+import { FooterStack } from '@/ui/premium/shell';
 
 const useStyles = makePremiumStyles((t) => ({
   card: {
@@ -37,7 +38,6 @@ const useStyles = makePremiumStyles((t) => ({
   },
   body: { lineHeight: 20.6 },
   grow: { flex: 1 },
-  actions: { gap: t.space.gap4 },
 }));
 
 export interface StepCardProps {
@@ -84,7 +84,7 @@ export function StepCard({
         {body}
       </Text>
       <View style={styles.grow} />
-      <View style={styles.actions}>
+      <FooterStack gap={t.space.gap4}>
         <Button
           label={action.label}
           onPress={action.onPress}
@@ -97,7 +97,7 @@ export function StepCard({
             {...(secondary.testID === undefined ? {} : { testID: secondary.testID })}
           />
         )}
-      </View>
+      </FooterStack>
     </View>
   );
 }

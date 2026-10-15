@@ -14,11 +14,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import {
   GlassIconButton,
+  SearchField,
   SegmentedControl,
   Skeleton,
   Tag,
   Text,
-  TextField,
   usePremiumTheme,
 } from '@/ui/premium';
 
@@ -32,7 +32,7 @@ import {
 } from '../../dex/dex-copy';
 import { withGroups, type Item } from '../../dex/dex-groups';
 import { filterSets, setOfCritter } from '../../dex/dex-model';
-import type { DexViewProps } from '../../dex/dex-view';
+import type { DexViewProps } from '../../dex/dex-view-props';
 import { useLanded } from '../../dex/use-landed';
 import { LiveEncounterBanner } from '../../dex/encounter-banner';
 import { DexEmpty, EggCard, ExploreAtHome, SlippedCard } from './dex-extras';
@@ -51,11 +51,18 @@ function CountBlock({ props }: { readonly props: DexViewProps }) {
       <View
         style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}
       >
-        <Text variant="hero" style={{ fontVariant: ['tabular-nums'] }}>
+        <Text
+          variant="hero"
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.6}
+          style={{ fontVariant: ['tabular-nums'], flexShrink: 1 }}
+        >
           {String(model.found)}
           <Text variant="hero" tone="placeholder">{`/${String(model.total)}`}</Text>
         </Text>
-        <View style={{ alignItems: 'flex-end', gap: 6, paddingBottom: 8 }}>
+        {/* The places tag tops the count's right side, the crewmate's count under it (8.01). */}
+        <View style={{ alignItems: 'flex-end', alignSelf: 'flex-start', gap: 6 }}>
           <Tag
             label={placesLabel(model.placesFound, model.placesTotal)}
             color={th.accent.pink}
@@ -105,7 +112,7 @@ export function PremiumDexScene(props: DexViewProps) {
         accessibilityLabel={filterGroupLabel()}
         testID="critters-dex-filter"
       />
-      <TextField
+      <SearchField
         accessibilityLabel={searchLabel()}
         placeholder={searchLabel()}
         value={query}
@@ -145,6 +152,7 @@ export function PremiumDexScene(props: DexViewProps) {
           {props.exploreAtHome === null ? null : (
             <ExploreAtHome on={props.exploreAtHome} onChange={props.onExploreAtHome} />
           )}
+          {props.shelf ?? null}
         </>
       )}
     </View>
@@ -185,7 +193,7 @@ export function PremiumDexScene(props: DexViewProps) {
           // The count block stands in for the large title (the design draws no title row).
           ListHeaderComponent={header}
           ListEmptyComponent={narrowed ? <DexEmpty filter={filter} query={query} /> : null}
-          ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+          ItemSeparatorComponent={DexGap}
           renderItem={({ item }) =>
             item.kind === 'group' ? (
               <Text variant="label" tone="muted" style={{ marginTop: 8 }}>
@@ -202,4 +210,9 @@ export function PremiumDexScene(props: DexViewProps) {
       )}
     </View>
   );
+}
+
+/** The 8 pt between dex rows, one component for every row. */
+function DexGap() {
+  return <View style={{ height: 8 }} />;
 }

@@ -1,25 +1,24 @@
-// Skia's native renderer does not exist under Jest; see ui/avatar/test-support/skia-double for the stand-in.
+// Skia's native renderer does not exist under Jest; see lib/test-support/cutout-skia-double for the stand-in.
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('@/ui/avatar/test-support/skia-double'));
+jest.mock('@shopify/react-native-skia', () => require('@/lib/test-support/cutout-skia-double'));
 
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { act, fireEvent, screen } from '@testing-library/react-native';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import { AccessibilityInfo } from 'react-native';
 
 import { mrzLines } from '@cp/domain';
 
 import { clearDraftForTests, readDraft, updateDraft } from '../flow-controller/draft-store';
-import { NameScreen } from '../name/NameScreen';
+import { PremiumNamePage } from '../premium/name/PremiumNamePage';
 import { nameReaction } from '../name/name-reaction';
-import { PhotoScreen } from '../photo/PhotoScreen';
-import { SplashScreen } from '../splash/SplashScreen';
+import { PremiumPhotoPage } from '../premium/photo/PremiumPhotoPage';
+import { PremiumSplashPage } from '../premium/splash/PremiumSplashPage';
 import { fakeServices, recordingAnalytics, renderOnboarding } from '../test-support/harness';
 import { BLOCKED_NAME_WORDS } from '../content';
 import type { PhotoServices } from '../photo/photo-pipeline';
 
-const activate = (element: Parameters<typeof fireEvent>[0]) =>
-  fireEvent(element, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });
+const activate = (element: Parameters<typeof fireEvent.press>[0]) => fireEvent.press(element);
 
 beforeEach(() => {
   clearDraftForTests();
@@ -33,7 +32,7 @@ afterEach(() => {
 describe('3a-1 splash', () => {
   it('offers the pass, an invite code and the returning sign-in', async () => {
     const analytics = recordingAnalytics();
-    await renderOnboarding(<SplashScreen />, { analytics });
+    await renderOnboarding(<PremiumSplashPage />, { analytics });
     expect(screen.getByTestId('onboarding-open')).toBeTruthy();
     await activate(screen.getByTestId('onboarding-sign-in'));
     expect(router.push).toHaveBeenCalledWith('/onboarding/phone?mode=returning');
@@ -46,10 +45,7 @@ describe('3a-1 splash', () => {
   });
 
   it('opens into page one once, with or without motion', async () => {
-    await renderOnboarding(<SplashScreen />);
-    await fireEvent(screen.getByTestId('onboarding-stage'), 'layout', {
-      nativeEvent: { layout: { x: 0, y: 0, width: 390, height: 520 } },
-    });
+    await renderOnboarding(<PremiumSplashPage />);
     await activate(screen.getByTestId('onboarding-open'));
     // A second tap mid-opening does not push page one twice.
     await activate(screen.getByTestId('onboarding-open'));
@@ -58,7 +54,7 @@ describe('3a-1 splash', () => {
 
     jest.mocked(router.push).mockClear();
     jest.spyOn(AccessibilityInfo, 'isReduceMotionEnabled').mockResolvedValue(true);
-    await renderOnboarding(<SplashScreen />);
+    await renderOnboarding(<PremiumSplashPage />);
     await act(async () => {
       await Promise.resolve();
     });
@@ -70,12 +66,12 @@ describe('3a-1 splash', () => {
 
 describe('3a-2 name', () => {
   it('prints each letter on the pass and rewrites the MRZ', async () => {
-    await renderOnboarding(<NameScreen />);
+    await renderOnboarding(<PremiumNamePage />);
     expect(screen.getByRole('button', { name: 'Next' }).props.accessibilityState).toMatchObject({
       disabled: true,
     });
     await fireEvent.changeText(screen.getByTestId('onboarding-name-field'), 'Winst');
-    expect(screen.getByLabelText('Winst')).toBeTruthy();
+    expect(screen.getByTestId('onboarding-name-glyphs')).toHaveTextContent(/Winst/u);
     const [line1] = mrzLines({
       givenName: 'Winst',
       number: null,
@@ -89,16 +85,35 @@ describe('3a-2 name', () => {
 
   it('lets Tokek react after a pause, from the scripted pool', async () => {
     jest.useFakeTimers();
-    await renderOnboarding(<NameScreen />);
+    await renderOnboarding(<PremiumNamePage />);
     expect(screen.getByText(/I’m Tokek, so I can’t judge/u)).toBeTruthy();
     await fireEvent.changeText(screen.getByTestId('onboarding-name-field'), 'Winston');
     await act(async () => {
       jest.advanceTimersByTime(900);
       await Promise.resolve();
     });
-    expect(screen.getByTestId('onboarding-name-tokek').props.accessibilityLabel).toMatch(
-      /Winston/u,
-    );
+    expect(screen.getByTestId('onboarding-name-tokek')).toHaveTextContent(/Winston/u);
+  });
+
+  it('keeps Tokek’s line still while the next letters go in', async () => {
+    jest.useFakeTimers();
+    await renderOnboarding(<PremiumNamePage />);
+    await fireEvent.changeText(screen.getByTestId('onboarding-name-field'), 'Winston');
+    await act(async () => {
+      jest.advanceTimersByTime(900);
+      await Promise.resolve();
+    });
+    // The field mounts again focused once the page is in: type into the one on screen.
+    await fireEvent.changeText(screen.getByTestId('onboarding-name-field'), 'Winston B');
+    await fireEvent.changeText(screen.getByTestId('onboarding-name-field'), 'Winston Ba');
+    const note = screen.getByTestId('onboarding-name-tokek');
+    expect(note).toHaveTextContent(/Winston/u);
+    expect(note).not.toHaveTextContent(/Winston B/u);
+    await act(async () => {
+      jest.advanceTimersByTime(900);
+      await Promise.resolve();
+    });
+    expect(screen.getByTestId('onboarding-name-tokek')).toHaveTextContent(/Winston Ba/u);
   });
 
   it('blocks names the guides can’t print, clips at 24 and reads other scripts', async () => {
@@ -106,7 +121,7 @@ describe('3a-2 name', () => {
     expect(nameReaction('Fuck', BLOCKED_NAME_WORDS)).toBe('blocked');
     expect(nameReaction('美咲', BLOCKED_NAME_WORDS)).toBe('script');
     expect(nameReaction('a'.repeat(24), BLOCKED_NAME_WORDS)).toBe('long');
-    await renderOnboarding(<NameScreen />);
+    await renderOnboarding(<PremiumNamePage />);
     await fireEvent.changeText(screen.getByTestId('onboarding-name-field'), 'x'.repeat(30));
     expect(readDraft()?.given_name).toHaveLength(24);
     await fireEvent.changeText(screen.getByTestId('onboarding-name-field'), 'fuck');
@@ -116,7 +131,7 @@ describe('3a-2 name', () => {
   });
 
   it('moves to the photo page', async () => {
-    await renderOnboarding(<NameScreen />);
+    await renderOnboarding(<PremiumNamePage />);
     await fireEvent.changeText(screen.getByTestId('onboarding-name-field'), 'Winston');
     await activate(screen.getByTestId('onboarding-name-next'));
     expect(router.push).toHaveBeenCalledWith('/onboarding/photo');
@@ -130,33 +145,35 @@ describe('3a-3 photo', () => {
   });
 
   it('drops the picked guide into the frame and moves on', async () => {
-    await renderOnboarding(<PhotoScreen />);
-    await activate(screen.getByTestId('onboarding-photo-guides-pon'));
+    await renderOnboarding(<PremiumPhotoPage />);
+    await activate(screen.getByTestId('avatar-pon'));
     expect(readDraft()?.avatar).toEqual({ kind: 'critter', form_id: 'guide:pon' });
     await activate(screen.getByTestId('onboarding-photo-next'));
     expect(router.push).toHaveBeenCalledWith('/onboarding/taste');
   });
 
   it('defaults to Tokek when nothing was picked', async () => {
-    await renderOnboarding(<PhotoScreen />);
+    await renderOnboarding(<PremiumPhotoPage />);
     await activate(screen.getByTestId('onboarding-photo-next'));
     expect(readDraft()?.avatar).toEqual({ kind: 'critter', form_id: 'guide:tokek' });
   });
 
   it('offers a real photo only where the picker exists', async () => {
-    await renderOnboarding(<PhotoScreen />);
+    await renderOnboarding(<PremiumPhotoPage />);
     expect(screen.queryByTestId('onboarding-photo-real')).toBeNull();
+    const pickFromLibrary = jest.fn(() => Promise.resolve(null));
     const photos: PhotoServices = {
       picker: {
-        pickFromLibrary: () => Promise.resolve(null),
+        pickFromLibrary,
         takePhoto: () => Promise.resolve({ kind: 'cancelled' }),
       },
       lift: null,
       prepare: () => Promise.reject(new Error('unused')),
       upload: () => Promise.resolve({ kind: 'offline' }),
     };
-    await renderOnboarding(<PhotoScreen />, { services: fakeServices({ photos }) });
+    await renderOnboarding(<PremiumPhotoPage />, { services: fakeServices({ photos }) });
     await activate(screen.getByTestId('onboarding-photo-real'));
-    expect(screen.getByTestId('real-photo-library')).toBeTruthy();
+    // Only the photo picked is ever read: the library opens on the tap.
+    await waitFor(() => expect(pickFromLibrary).toHaveBeenCalledTimes(1));
   });
 });

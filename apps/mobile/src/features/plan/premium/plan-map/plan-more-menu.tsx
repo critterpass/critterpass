@@ -35,7 +35,7 @@ export function PlanMoreMenu(props: {
         {
           key: 'days',
           label: planMapCopy.menu.allDays(),
-          icon: 'expand',
+          icon: 'calendar',
           onPress: () => router.push(tripPlanRoutes.days(tripId, props.dayNo ?? undefined)),
         },
         {

@@ -1,17 +1,15 @@
-import { Stack } from 'expo-router/js-stack';
+import { PremiumStack } from '@/ui/premium/shell';
+import { SessionGate } from '@/ui/premium/shell/session-gate';
 
-import { pushTransition } from '@/lib/navigation/transitions';
-import { useMotionMode } from '@/motion/motion-mode';
-import { SessionGate } from '@/ui/states/SessionGate';
-import { useTheme } from '@/ui/theme';
-
-/** A trip's year-later memory, opened by its notification; session-only. */
+/**
+ * A trip's year-later memory, opened by its notification; session-only. A native stack, so the
+ * memory's ✕ and the pages it opens move natively; the root presents the memory itself as a tall
+ * sheet that swipes down (`lib/navigation/presentation.ts`).
+ */
 export default function MemoryLayout() {
-  const { motion } = useTheme();
-  const [motionMode] = useMotionMode();
   return (
     <SessionGate>
-      <Stack screenOptions={pushTransition(motion, motionMode !== 'full')} />
+      <PremiumStack navigator="memory" />
     </SessionGate>
   );
 }

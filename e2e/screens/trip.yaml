@@ -1,0 +1,35 @@
+appId: app.critterpass.dev
+---
+# Design | device captures for the premium UI on the trip: the hub, the day page, the forecast, the
+# crew map, what works offline, Help, getting around and drivers, and the trip card zooming into
+# the hub. First the demo crew's Bali trip three weeks out (the crew map before the trip), then a
+# crew of six on a Đà Nẵng trip that is on today, in light and then dark. Storms, flight delays,
+# running late, SOS and the leave-by alarm need a live incident no seed makes, and the lock screen,
+# Dynamic Island and widgets are system surfaces: none is captured here.
+# The dark pass is trip-dark.yaml (its own shard).
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: vote_final
+- runFlow:
+    file: subflows/trip-before.yaml
+    env:
+      LOOK: light
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: trip_today
+- runFlow:
+    file: subflows/trip-on.yaml
+    env:
+      LOOK: light
+- runFlow:
+    file: subflows/trip-around.yaml
+    env:
+      LOOK: light
+- runFlow:
+    when:
+      platform: Android
+    file: subflows/trip-offline.yaml
+    env:
+      LOOK: light

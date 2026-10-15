@@ -20,6 +20,7 @@ import {
   ListCard,
   PressableScale,
   Row,
+  StickerIcon,
   Text,
   usePremiumTheme,
   useToast,
@@ -103,6 +104,22 @@ export function MemberSheet() {
       }),
       confirm: t({ id: 'crew.premium.member.remove', message: `Remove ${name}` }),
       cancel: t({ id: 'crew.premium.member.keep', message: `Keep ${name}` }),
+      // The drawn card (Android) leads with who leaves, a pink minus on their face (3.15).
+      badge: (
+        <View>
+          <Avatar
+            name={name}
+            color={memberAccent(member?.colour)}
+            uid={member?.user_id}
+            size={76}
+          />
+          <View
+            style={[styles.minus, { backgroundColor: th.accent.pink, borderColor: th.color.card }]}
+          >
+            <Icon name="minus" size={14} color={th.color.onAccent} />
+          </View>
+        </View>
+      ),
     });
     if (!ok) return;
     router.back();
@@ -115,7 +132,7 @@ export function MemberSheet() {
       testID="crew-member-sheet"
     >
       <View style={styles.identity}>
-        <Avatar name={name} color={memberAccent(member?.colour)} size={76} />
+        <Avatar name={name} color={memberAccent(member?.colour)} uid={member?.user_id} size={76} />
         <Text variant="title" accessibilityRole="header">
           {self ? t({ id: 'crew.members.you', message: 'You' }) : name}
         </Text>
@@ -133,7 +150,7 @@ export function MemberSheet() {
           style={styles.tileWrap}
         >
           <Card style={styles.tile}>
-            <Icon name="send" size={28} color={th.accent.sky} />
+            <StickerIcon name="chat" size={36} tilt={-6} />
             <Text variant="pillSmall">
               {t({ id: 'crew.premium.member.message', message: 'Message' })}
             </Text>
@@ -149,6 +166,7 @@ export function MemberSheet() {
                 id: 'crew.premium.member.promoteSub',
                 message: 'You stay in as a member',
               })}
+              trailing={<Icon name="forward" size={16} color={th.color.muted} />}
               onPress={() => void promote()}
               testID="crew-member-promote"
             />
@@ -160,9 +178,10 @@ export function MemberSheet() {
               style={styles.removeRow}
               testID="crew-member-remove"
             >
-              <Text variant="body" color={th.color.destructive.listAction}>
+              <Text variant="body" color={th.color.destructive.listAction} style={styles.flex}>
                 {t({ id: 'crew.premium.member.removeRow', message: 'Remove from the crew' })}
               </Text>
+              <Icon name="forward" size={16} color={th.color.placeholder} />
             </PressableScale>
           ) : null}
         </ListCard>
@@ -173,8 +192,26 @@ export function MemberSheet() {
 
 const styles = StyleSheet.create({
   identity: { alignItems: 'center', gap: 4, paddingVertical: 8 },
+  minus: {
+    position: 'absolute',
+    right: -2,
+    bottom: -2,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    borderWidth: 2.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   tileWrap: { marginTop: 16 },
   tile: { height: 92, alignItems: 'center', justifyContent: 'center', gap: 6 },
   rows: { marginTop: 12, marginBottom: 16 },
-  removeRow: { minHeight: 48, justifyContent: 'center', paddingHorizontal: 14 },
+  removeRow: {
+    minHeight: 48,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 14,
+  },
+  flex: { flex: 1 },
 });

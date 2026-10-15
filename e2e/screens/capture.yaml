@@ -1,0 +1,211 @@
+appId: app.critterpass.dev
+---
+# The fast capture sweep, light: screens whose state the `everyday` seed sets, each opened by its
+# link and shot once the app's QA marker reads settled (subflows/capture.yaml), seconds apiece.
+# The pages first (they stack up, each with its way back), then, from Home, the crew switcher and
+# the sheets and modals, each closed again level by level until Home shows (a sheet opened inside a
+# stale one draws the wrong screen). Đà Lạt's guide is shot the moment its link opens on this new
+# account (nothing of it is on the phone yet: the loading page), then once it settles; Crew plans
+# for Đà Lạt, where nobody has shared a plan yet, has no premium render and is shot by its own
+# name. Journeys (actions really tapped) stay in the other sweep flows.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
+# A destination's guide as it loads: shot while its loading page shows, once the page's push
+# has finished (iOS: mid-push the page under it shows along the edge). A guide that loads before
+# the page is up has no loading shot.
+- openLink:
+    link: critterpass-dev://explore/vn-da-lat
+- extendedWaitUntil:
+    visible:
+      id: 'explore-dest-loading'
+    timeout: 4000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'explore-dest-loading'
+    commands:
+      - waitForAnimationToEnd:
+          timeout: 600
+      - takeScreenshot: premium-4.04-destination-loading-light
+- extendedWaitUntil:
+    visible:
+      id: 'explore-picks|explore-months|explore-destination-missing'
+    timeout: 20000
+    optional: true
+- runFlow:
+    file: subflows/shot.yaml
+    env:
+      CODE: '4.04'
+      NAME: destination-da-lat
+      LOOK: light
+# Crew plans with none shared yet (no premium render).
+- openLink:
+    link: critterpass-dev://community/vn-da-lat
+# Its empty state, not the skeleton it shows while the shared plans load.
+- extendedWaitUntil:
+    visible:
+      id: 'crew-plans-empty|crew-plans-missing'
+    timeout: 20000
+    optional: true
+- runFlow: ../_shared/settle.yaml
+- takeScreenshot: community-crew-plans-empty-light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: you/settings
+      CODE: '9.04'
+      NAME: settings
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: you/app-icon
+      CODE: '9.03'
+      NAME: app-icon
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: you/plan
+      CODE: '9.17'
+      NAME: your-plan
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: help-centre
+      CODE: '9.06'
+      NAME: help
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: help-centre/ideas
+      CODE: '9.07'
+      NAME: idea-board
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: hub/offline-storage
+      CODE: '9.05'
+      NAME: offline-storage
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: inbox
+      CODE: '3.17'
+      NAME: inbox
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: you/critterdex
+      CODE: '8.01'
+      NAME: critterdex
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: money/history
+      CODE: '7.23'
+      NAME: history
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: money/payout-methods
+      CODE: '7.27'
+      NAME: payout-methods
+      LOOK: light
+      # Settled on the route is not loaded: the methods arrive a moment after the page shows.
+      READY: 'money-payout-kind-.*'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: money/settle
+      CODE: '7.24'
+      NAME: settle
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: explore/bali
+      CODE: '4.04'
+      NAME: destination-ready
+      LOOK: light
+# From Home: the crew switcher (3.07), then the sheets, each opened over Home.
+- runFlow: ../_shared/to-home.yaml
+- runFlow:
+    file: subflows/home-switcher.yaml
+    env:
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: paywall
+      CODE: '9.10'
+      NAME: pass-plus
+      LOOK: light
+      SHEET: 'true'
+      READY: 'paywall-buy'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: paywall/compare
+      CODE: '9.11'
+      NAME: compare
+      LOOK: light
+      SHEET: 'true'
+      READY: 'compare'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: crew/new
+      CODE: '3.08'
+      NAME: start-crew
+      LOOK: light
+      SHEET: 'true'
+      READY: 'start-crew'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: crew/invite-friends
+      CODE: '3.11'
+      NAME: invite-friends
+      LOOK: light
+      SHEET: 'true'
+      READY: 'referral-dashboard'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: you/delete
+      CODE: '9.09'
+      NAME: delete
+      LOOK: light
+      SHEET: 'true'
+      READY: 'you-delete'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: money/add
+      CODE: '7.18'
+      NAME: add-expense
+      LOOK: light
+      SHEET: 'true'
+      READY: 'money-add'
+# A phrase's show mode, full screen (the guide's phrase card's SHOW).
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: guide/phrase?phrase=Tolong%20ke%20Villa%20Kayu%20Manis%2C%20Sayan.&lang=id&gloss=Please%20take%20us%20to%20Villa%20Kayu%20Manis%2C%20Sayan.
+      CODE: '5.23'
+      NAME: phrase-show
+      LOOK: light
+      SHEET: 'true'
+      READY: 'guide-phrase-show'
+- runFlow: subflows/capture-done.yaml

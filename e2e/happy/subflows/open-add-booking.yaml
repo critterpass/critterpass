@@ -1,0 +1,13 @@
+appId: app.critterpass.dev
+---
+# Opens Add a booking (7.03: forward, scan, paste) by its link. The wallet's + opens the short add
+# sheet (forward, scan, by hand), which has no paste row, so a flow that pastes a confirmation
+# comes here directly. Ends on the add page.
+- runFlow:
+    file: ../../_shared/open-link.yaml
+    env:
+      URL: critterpass-dev://wallet/bookings/add
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-add'
+    timeout: 20000

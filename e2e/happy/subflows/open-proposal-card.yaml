@@ -1,0 +1,62 @@
+appId: app.critterpass.dev
+---
+# Home → crew chat → the proposal's card → its button (the member's version, or the organiser's
+# tracker). The card waits for the trip's rows to sync.
+# A reveal the member hasn't seen (the place the crew picked) opens over Home first. It is a full
+# screen with no back gesture on iOS: its BACK HOME closes it.
+- waitForAnimationToEnd:
+    timeout: 8000
+- repeat:
+    while:
+      notVisible:
+        id: 'home-chat'
+    times: 3
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'reveal-back-home'
+          commands:
+            - tapOn:
+                id: 'reveal-back-home'
+            - waitForAnimationToEnd:
+                timeout: 5000
+      - runFlow:
+          when:
+            notVisible:
+              id: 'home-chat'
+          file: ../../_shared/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 5000
+- extendedWaitUntil:
+    visible:
+      id: 'home-chat'
+    timeout: 60000
+# The reveal can land over Home after the check above (it waits on sync), and Home's header stays
+# in the view tree under it on Android: BACK HOME closes it, and the tap is tried again.
+- retry:
+    maxRetries: 2
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'reveal-back-home'
+          commands:
+            - tapOn:
+                id: 'reveal-back-home'
+            - waitForAnimationToEnd:
+                timeout: 5000
+      - tapOn:
+          id: 'home-chat'
+      - extendedWaitUntil:
+          visible:
+            id: 'chat-composer'
+          timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'proposal-card-open-.*'
+    direction: DOWN
+    timeout: 60000
+- tapOn:
+    id: 'proposal-card-open-.*'
+    index: 0

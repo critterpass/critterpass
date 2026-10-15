@@ -17,7 +17,7 @@ import {
 } from '@/ui/premium';
 import { useShellExtras } from '@/ui/premium/shell/shell-theme';
 
-import { useSoloStart } from '../../places/solo-confirm';
+import { useSoloStart } from '../../places/use-solo-start';
 
 export interface SoloPassSheetProps {
   readonly placeName: string;
@@ -121,6 +121,7 @@ export function SoloPassSheet(props: SoloPassSheetProps) {
               />
             </View>
             <TextButton
+              align="center"
               label={t({ id: 'vote.solo.cancel', message: 'Not now' })}
               onPress={props.onClose}
               testID="solo-cancel"

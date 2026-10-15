@@ -5,7 +5,16 @@
  * here: it is `trips.guide_id`, set by the server.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
-import { guidesPerCity, useGuidesPerCity } from '@/lib/navigation/active-guide';
+import { useContext, useEffect } from 'react';
+
+import { LocalFirstContext } from '@/data/powersync/local-first-context';
+import {
+  guidesPerCity,
+  useGuidesPerCity as useSwitch,
+  useGuideRowsRevision,
+} from '@/lib/navigation/active-guide';
+
+import { feedGuides } from './feed';
 
 /** The table the per-city expression reads, to add to a live query's tables. */
 export const DESTINATION_GUIDE_TABLES: readonly string[] = ['guides'];
@@ -24,4 +33,16 @@ export function destinationGuideSql(
   return `coalesce((SELECT cg.slug FROM guides cg WHERE cg.critter_key = ${critterKey}), ${placeGuide})`;
 }
 
-export { guidesPerCity, useGuidesPerCity };
+export { guidesPerCity };
+
+/**
+ * Whether guides go by city, for a screen that reads a destination's guide. It keeps the guides
+ * feed running while the screen is up, so a page opened straight from a link (no tab bar under it)
+ * still learns the switch and the city guides' rows, and it renders again when those rows arrive.
+ */
+export function useGuidesPerCity(): boolean {
+  const db = useContext(LocalFirstContext)?.db ?? null;
+  useEffect(() => (db === null ? undefined : feedGuides(db)), [db]);
+  useGuideRowsRevision();
+  return useSwitch();
+}

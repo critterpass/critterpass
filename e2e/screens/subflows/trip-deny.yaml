@@ -1,0 +1,7 @@
+appId: app.critterpass.dev
+---
+# Answers a system permission dialog with no (location sharing off is a designed state).
+- tapOn:
+    text: '(?i)(don.?t allow|deny|not now)'
+    optional: true
+- runFlow: ../../_shared/settle.yaml

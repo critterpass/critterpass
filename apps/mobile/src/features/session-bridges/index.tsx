@@ -32,7 +32,7 @@ import {
   usePermissionsBridge,
   type DevicePermissionState,
 } from '@/lib/permissions';
-import { VisitConsentHost } from '@/ui/permission-primer';
+import { VisitConsentHost } from '@/features/permissions';
 
 import { fetchQuestPlace } from './fetch-quest-place';
 

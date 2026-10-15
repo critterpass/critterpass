@@ -1,250 +1,172 @@
 /**
- * The UI sweep: one Maestro flow per seed scenario and language under `e2e/screens/sweep/`, and the
- * coverage report that shows which screens it never reaches.
+ * The UI sweep: the premium design | device captures under `e2e/screens/` (one flow per journey
+ * part, each taking `premium-<code>-<state>-<look>` screenshots through `subflows/shot.yaml`), and
+ * the coverage report that shows which premium designs and app routes it never reaches.
  *
  *   tsx tools/scripts/ci-device/sweep-coverage.ts            print the coverage report (markdown)
- *   tsx tools/scripts/ci-device/sweep-coverage.ts --write    regenerate the top-level sweep flows
  *   tsx tools/scripts/ci-device/sweep-coverage.ts --out f.md write the report to a file
+ *   tsx tools/scripts/ci-device/sweep-coverage.ts --run <ios> --run <android>
+ *                                       what downloaded runs (folders of `device-<os>-shard-N`)
+ *                                       captured, per platform and together
  *
- * The steps live in `e2e/screens/sweep/subflows/<scenario>.yaml`; the top-level flows only pick the
- * language and the demo seed, so every scenario runs in English and Vietnamese. The report lists
- * the screens the app registers (`registerScreens` in `apps/mobile/src/features`) and the routes
- * under `apps/mobile/src/app` that no sweep screenshot covers.
+ * A design code (`3.01`) names a render in `docs/design-renders/premium/` (titled in its
+ * `screens.json`); compare mode pairs each screenshot with the render its code names.
  */
-import { globSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, globSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '../../..');
-export const SWEEP_DIR = 'e2e/screens/sweep';
-export const LANGUAGES = ['en', 'vi'] as const;
-
-export interface Scenario {
-  readonly name: string;
-  /** The Developer tools seed button (`e2e/_shared/seed-demo.yaml`), after onboarding. */
-  readonly seed?: string;
-  /** False for the scenario that walks onboarding itself. */
-  readonly onboard: boolean;
-  readonly summary: string;
-}
-
-export const SCENARIOS: readonly Scenario[] = [
-  { name: 'onboarding', onboard: false, summary: 'every screen before the pass is issued' },
-  { name: 'first-run', onboard: true, summary: 'a new account with no crew yet' },
-  {
-    name: 'everyday',
-    onboard: true,
-    seed: 'dev-seed-demo',
-    summary: 'the demo crew with a confirmed trip',
-  },
-  {
-    name: 'inbox',
-    onboard: true,
-    seed: 'dev-seed-demo-inbox',
-    summary: 'the demo crew with one card that needs you',
-  },
-  {
-    name: 'caught-up',
-    onboard: true,
-    seed: 'dev-seed-demo-caught-up',
-    summary: 'the demo crew with nothing that needs you',
-  },
-  {
-    name: 'vote',
-    onboard: true,
-    seed: 'dev-seed-demo-vote',
-    summary: "the demo crew's destination vote on its board",
-  },
-  {
-    name: 'vote-final',
-    onboard: true,
-    seed: 'dev-seed-demo-vote-final',
-    summary: "the demo crew's destination vote in its final",
-  },
-  { name: 'trip-hub', onboard: false, summary: "the trip hub's header over the trip's photo" },
-  {
-    name: 'labs-planning',
-    onboard: false,
-    summary: 'lab scenes for trip setup, the draft and the proposal',
-  },
-  {
-    name: 'labs-wallet',
-    onboard: false,
-    summary: 'lab scenes for bookings, getting around and money',
-  },
-  { name: 'labs-guide', onboard: false, summary: "lab scenes for the guide's sheet" },
-  { name: 'labs-plan', onboard: false, summary: 'lab scenes for the draft, the plan and its days' },
-  {
-    name: 'labs-places',
-    onboard: false,
-    summary: 'lab scenes for places, search and Explore in a trip',
-  },
-  { name: 'labs-trip', onboard: false, summary: 'lab scenes for the trip day and critters' },
-];
+export const SWEEP_DIR = 'e2e/screens';
+export const RENDERS_JSON = 'docs/design-renders/premium/screens.json';
 
 /**
- * Every user-facing route file (under `apps/mobile/src/app`, without extension) and the sweep
- * screenshots that show it (names without the language prefix), or why the sweep can't reach it.
+ * Every user-facing route file (under `apps/mobile/src/app`, without extension) and the premium
+ * design codes of the sweep screenshots that show it, or why the sweep can't reach it.
  */
 export const ROUTE_SHOTS: Readonly<Record<string, readonly string[] | { unreachable: string }>> = {
-  index: ['3b-1-first-run'],
-  '(tabs)/index': ['3b-2-everyday', 'home-no-trip'],
-  'onboarding/index': ['3a-1-splash'],
-  'onboarding/name': ['3a-2-name', '3a-2-name-keyboard'],
-  'onboarding/photo': ['3a-3-photo'],
-  'onboarding/taste': ['3a-4-this-or-that', '3a-4-summary'],
-  'onboarding/home': ['3a-5-home', '3a-5-home-search-keyboard'],
-  'onboarding/issued': ['3a-6-issued'],
-  'onboarding/save': ['3a-7-save'],
-  'onboarding/phone': ['3a-8-phone', '3a-8-phone-keyboard', '3a-8-sign-in'],
-  'onboarding/permissions': ['3a-9-permissions'],
-  'onboarding/invite/code': ['3a-11-code-keyboard', '3a-11-code-wrong-keyboard'],
-  'onboarding/invite/ticket': ['3a-10-ticket'],
-  'onboarding/invite/pass': ['3a-12-pass'],
-  'onboarding/invite/manifest': ['3a-13-manifest'],
-  'inbox/index': ['3b-4-inbox', '3b-5-caught-up'],
-  'crew/index': ['3g-3-crews'],
-  'crew/new': ['crew-new-keyboard', 'crew-new-code'],
-  'crew/invite-friends': ['crew-invite-friends'],
-  'crew/[crewId]/chat/index': ['3g-1-chat', '3g-1-chat-keyboard', '3g-1-chat-empty'],
-  'crew/[crewId]/settings': {
-    unreachable: 'no screen links to it and none shows the crew id a link would need',
-  },
-  'crew/[crewId]/invite': { unreachable: 'opened only from crew settings' },
-  'places/search': ['3b-7-search', '3b-7-search-keyboard'],
-  'places/[placeId]': ['3b-8-guest'],
-  'vote/pitch': ['3b-3-pitch-search', '3b-3-pitch-search-keyboard'],
-  'vote/new-poll': ['3g-1-new-poll', '3g-1-new-poll-keyboard'],
-  'vote/[pollId]/index': ['3c-1-showdown'],
-  'vote/[pollId]/reveal': ['3c-2-reveal'],
-  '(tabs)/trips/[tripId]/index': ['3k-1-photo'],
-  '(trip)/map/[tripId]': ['3g-4-live-map'],
-  '(trip)/map/crew/[crewId]': ['3g-4-live-map'],
-  '(trip)/[tripId]/plan/index': ['7a-1-trip-map', '7i-1-nothing-saved'],
-  '(trip)/[tripId]/plan/map': ['7a-2-trip-map-one-day', '7a-3-trip-map-all-days'],
-  '(trip)/[tripId]/plan/days': ['7b-3-all-days'],
-  '(trip)/[tripId]/day/[day]/index': ['7b-1-day-plan'],
-  '(trip)/[tripId]/day/[day]/map': ['7b-2-day-plan-map-open'],
-  '(trip)/[tripId]/places/index': ['7c-1-places-map', '7c-2-place-picked'],
-  '(trip)/[tripId]/places/list': ['7c-3-places-list'],
-  '(trip)/[tripId]/search/index': ['7d-1-search', '7d-2-plain-words', '7d-4-no-results'],
-  '(trip)/[tripId]/search/link': ['7d-3-add-from-link'],
-  '(trip)/[tripId]/add/[placeId]': ['7f-1-add-to-plan'],
-  '(trip)/[tripId]/ideas/index': ['7f-2-ideas'],
-  '(trip)/[tripId]/ideas/placing/[jobId]': ['7h-6-placing'],
-  '(trip)/[tripId]/review/[changesetId]': ['7h-7-review'],
-  '(trip)/[tripId]/check/index': ['7h-1-check'],
-  '(trip)/[tripId]/check/gap': ['7h-2-ideas'],
-  '(trip)/[tripId]/check/balance': ['7h-5-balance'],
-  '(trip)/[tripId]/check/less-driving/[dayId]': ['7h-3-order'],
-  '(trip)/[tripId]/check/rain/[dayId]': ['7h-4-swaps'],
-  '(trip)/[tripId]/split/[placeId]': ['7e-3-crew-split'],
-  '(trip)/[tripId]/swipe/[sessionId]': ['7g-2-swipe'],
-  '(trip)/[tripId]/explore/index': ['7g-1-destination'],
-  'explore/[destination]': ['7g-3-destination'],
-  'explore/map': ['7c-1-places-map'],
-  'explore/place/[placeId]': ['7e-1-place', '7e-2-further-down'],
-  '+not-found': ['not-found'],
+  '(modal)/bookings/pass/[id]': ['7.11'],
+  '(modal)/boost/[tripId]': ['9.12'],
+  '(modal)/paywall/compare': ['9.11'],
+  '(modal)/paywall/index': ['9.10'],
+  '(tabs)/index': ['3.01', '3.02'],
+  '(tabs)/pass/index': ['9.01'],
+  '(tabs)/trips/[tripId]/day/[date]': ['6.04', '6.05'],
+  '(tabs)/trips/index': ['3.05', '3.06'],
+  '(tabs)/wallet/bookings/[id]': ['7.06', '7.10'],
+  '(tabs)/wallet/bookings/add': ['7.03'],
+  '(tabs)/wallet/bookings/add-sheet': ['1.06'],
+  '(tabs)/wallet/bookings/archive': ['7.14'],
+  '(tabs)/wallet/bookings/edit/[id]': ['7.04'],
+  '(tabs)/wallet/bookings/index': ['7.01', '7.02'],
+  '(tabs)/wallet/bookings/insurance': ['7.13'],
+  '(tabs)/wallet/bookings/mailbox': ['7.05'],
+  '(tabs)/wallet/bookings/pass/[id]': ['7.11'],
+  '(tabs)/wallet/bookings/paste': ['7.03'],
+  '(tabs)/wallet/money/budget': ['7.29'],
+  '(tabs)/wallet/money/index': ['7.16', '7.17'],
+  '(trip)/[tripId]/check/balance': ['4.47'],
+  '(trip)/[tripId]/day-trips/index': ['4.49'],
+  '(trip)/[tripId]/day/[day]/index': ['4.26'],
+  '(trip)/[tripId]/day/[day]/map': ['4.25'],
+  '(trip)/[tripId]/draft/drafting': ['4.20'],
+  '(trip)/[tripId]/draft/index': ['4.22'],
+  '(trip)/[tripId]/drivers/check': ['6.22'],
+  '(trip)/[tripId]/drivers/compare': ['6.23'],
+  '(trip)/[tripId]/drivers/directory/[listingId]': ['6.20'],
+  '(trip)/[tripId]/drivers/directory/index': ['6.25'],
+  '(trip)/[tripId]/drivers/index': ['6.19'],
+  '(trip)/[tripId]/drivers/tours': ['6.21'],
+  '(trip)/[tripId]/explore/index': ['4.30'],
+  '(trip)/[tripId]/ideas/index': ['4.40'],
+  '(trip)/[tripId]/ideas/placing/[jobId]': ['4.41'],
+  '(trip)/[tripId]/plan/days': ['4.28'],
+  '(trip)/[tripId]/plan/index': ['4.25', '4.27', '4.26'],
+  '(trip)/[tripId]/plan/map': ['4.25', '4.27', '4.26'],
+  '(trip)/[tripId]/review/[changesetId]': ['4.48'],
+  '(trip)/[tripId]/search/index': ['4.30'],
+  '(trip)/[tripId]/settings/cancel': ['4.55'],
+  '(trip)/[tripId]/settings/dates': ['4.54'],
+  '(trip)/[tripId]/settings/index': ['4.53'],
+  '(trip)/[tripId]/setup/getting-there': ['4.18'],
+  '(trip)/[tripId]/setup/index': ['4.08'],
+  '(trip)/[tripId]/setup/route': ['4.19'],
+  '(trip)/[tripId]/swipe/[sessionId]': ['4.42'],
+  '(trip)/album/[tripId]/index': ['8.12'],
+  '(trip)/forecast/[tripId]': ['6.06'],
+  '(trip)/getting-around': ['5.24'],
+  '(trip)/help/index': ['6.16'],
+  '(trip)/hub/[tripId]/day/[date]': ['6.04', '6.05'],
+  '(trip)/hub/[tripId]/index': ['6.01', '6.02'],
+  '(trip)/hub/[tripId]/offline': ['6.15'],
+  '(trip)/hub/offline-storage': ['9.05'],
+  '(trip)/map/[tripId]': ['6.10', '6.13', '6.11', '6.12'],
+  '(trip)/proposal/[id]/tracker': ['4.51'],
+  '(trip)/quests/[tripId]': ['8.07'],
+  '(trip)/recap/[tripId]/index': ['8.09'],
+  '+not-found': ['3.19'],
+  'crew/[crewId]/edit': ['3.13'],
+  'crew/[crewId]/invite': ['3.10'],
+  'crew/[crewId]/leave': ['3.16'],
+  'crew/[crewId]/member/[uid]': ['3.14'],
+  'crew/[crewId]/settings': ['3.12'],
+  'crew/index': ['3.07'],
+  'crew/invite-friends': ['3.11'],
+  'crew/new': ['3.08'],
+  'critters/[critterId]': ['8.02'],
+  'critters/legendaries': ['8.08'],
+  'explore/[destination]': ['4.04'],
+  'explore/place/[placeId]': ['4.36'],
+  'help-centre/ideas/index': ['9.07'],
+  'help-centre/index': ['9.06'],
+  'inbox/index': ['3.17', '3.18'],
+  index: ['3.01'],
+  'money/add': ['7.18'],
+  'money/expense/[id]': ['7.21'],
+  'money/history': ['7.23'],
+  'money/payment/[id]': ['7.25', '7.26'],
+  'money/payout-methods': ['7.27'],
+  'money/settle': ['7.24', '7.28'],
+  'onboarding/home': ['2.09', '2.10'],
+  'onboarding/index': ['2.01', '2.03'],
+  'onboarding/invite/code': ['2.15', '2.16'],
+  'onboarding/invite/manifest': ['2.19'],
+  'onboarding/invite/pass': ['2.14'],
+  'onboarding/issued': ['2.11'],
+  'onboarding/name': ['2.05', '2.06'],
+  'onboarding/permissions': ['2.13'],
+  'onboarding/photo': ['2.08'],
+  'onboarding/save': ['2.12'],
+  'onboarding/taste': ['2.07'],
+  'places/[placeId]': ['4.03'],
+  'places/search': ['4.02'],
+  'vote/[pollId]/index': ['4.05'],
+  'vote/[pollId]/reveal': ['4.06'],
+  'vote/new-poll': ['4.01'],
+  'you/app-icon': ['9.03'],
+  'you/appearance': ['9.02'],
+  'you/critterdex': ['8.01'],
+  'you/delete/index': ['9.09'],
+  'you/edit': ['9.02'],
+  'you/pings': ['6.38'],
+  'you/plan/cancel': ['9.23'],
+  'you/plan/first-trip-ending/[tripId]': ['9.21'],
+  'you/plan/index': ['9.17'],
+  'you/settings/index': ['9.04'],
 };
 
-/** The top-level flow for one scenario in one language. */
-export function renderSweepFlow(scenario: Scenario, lang: string): string {
-  const lines = [
-    'appId: app.critterpass.dev',
-    '---',
-    `# UI sweep (${lang}): ${scenario.summary}. Generated by`,
-    `# tools/scripts/ci-device/sweep-coverage.ts --write; the steps live in subflows/${scenario.name}.yaml.`,
-    '- runFlow:',
-    '    file: subflows/start.yaml',
-    '    env:',
-    `      LANG: ${lang}`,
-  ];
-  if (scenario.onboard) lines.push('- runFlow: ../../home/subflows/onboard.yaml');
-  if (scenario.seed) {
-    lines.push('- runFlow:', '    file: ../../_shared/seed-demo.yaml', '    env:');
-    lines.push(`      SEED: ${scenario.seed}`);
-  }
-  lines.push('- runFlow:', `    file: subflows/${scenario.name}.yaml`, '    env:');
-  lines.push(`      LANG: ${lang}`);
-  return `${lines.join('\n')}\n`;
-}
-
-export function sweepFlows(): { file: string; text: string }[] {
-  return SCENARIOS.flatMap((scenario) =>
-    LANGUAGES.map((lang) => ({
-      file: path.join(SWEEP_DIR, `${scenario.name}-${lang}.yaml`),
-      text: renderSweepFlow(scenario, lang),
-    })),
-  );
+/** A premium design code at the start of a shot name (`3.01-home` → `3.01`). */
+export function designCodeOf(name: string): string | undefined {
+  return /^(\d+\.(?:\d+|store-\d+))(?=$|-)/u.exec(name)?.[1];
 }
 
 /**
- * Screenshot names the sweep takes, without their language prefix: the sweep subflows' own
- * (`${LANG}-…`) and those of the area subflows they run with the language passed on (`${PREFIX}-…`,
- * taken directly, handed to a scene opener as `SHOT`, or a `SCENE` handed to an opener that names
- * its shot `${PREFIX}-${SCENE}`), following `runFlow` files.
+ * The sweep's screenshots as `<code>-<state>` (the look left off): the `CODE`/`NAME` pairs handed
+ * to `shot.yaml` (directly or through a subflow that passes them on) and the `premium-…` shots the
+ * flows take themselves.
  */
 export function sweepShots(root: string): string[] {
   const names = new Set<string>();
-  const texts = new Map<string, string>();
-  const refs = new Map<string, string[]>();
-  const visit = (file: string) => {
-    if (texts.has(file)) return;
-    let text: string;
-    try {
-      text = readFileSync(path.join(root, file), 'utf8');
-    } catch {
-      return;
-    }
-    texts.set(file, text);
-    refs.set(file, []);
+  for (const file of globSync(`${SWEEP_DIR}/**/*.yaml`, { cwd: root })) {
+    const text = readFileSync(path.join(root, file), 'utf8');
     for (const match of text.matchAll(
-      /(?:takeScreenshot|SHOT):\s*['"]?\$\{(?:LANG|PREFIX)\}-([\w-]+)/g,
+      /CODE:\s*['"]?(\d+\.(?:\d+|store-\d+))['"]?\s*\n\s*NAME:\s*['"]?([\w-]+)/g,
     ))
-      names.add(match[1] ?? '');
-    for (const match of text.matchAll(/(?:runFlow|file):\s*([\w./-]+\.yaml)/g)) {
-      const ref = path.normalize(path.join(path.dirname(file), match[1] ?? ''));
-      refs.get(file)?.push(ref);
-      visit(ref);
-    }
-  };
-  for (const file of globSync(`${SWEEP_DIR}/subflows/*.yaml`, { cwd: root })) visit(file);
-  const namesScenes = (file: string) =>
-    /takeScreenshot:\s*['"]?\$\{PREFIX\}-\$\{SCENE\}/.test(texts.get(file) ?? '');
-  for (const [file, text] of texts) {
-    if (!(refs.get(file) ?? []).some(namesScenes)) continue;
-    for (const match of text.matchAll(/SCENE:\s*['"]?(\d+[a-z]-\d+[\w-]*)/g))
-      names.add(match[1] ?? '');
+      names.add(`${match[1] ?? ''}-${match[2] ?? ''}`);
+    for (const match of text.matchAll(
+      /takeScreenshot:\s*['"]?premium-(\d+\.(?:\d+|store-\d+))-([\w-]+?)-(?:\$\{LOOK\}|light|dark)(?=[\s'"]|$)/g,
+    ))
+      names.add(`${match[1] ?? ''}-${match[2] ?? ''}`);
   }
   return [...names].sort();
 }
 
-/** A design screen id a screenshot name starts with (`3b-4-inbox` → `3b-4`). */
-export function designIdOf(name: string): string | undefined {
-  return /^(\d+[a-z]-\d+)(?=$|-)/u.exec(name)?.[1];
-}
-
-/** Design ids the app registers with the screen registry, and ids it looks up but nobody registers. */
-export function registryIds(root: string): { registered: string[]; referenced: string[] } {
-  const registered = new Set<string>();
-  const referenced = new Set<string>();
-  const files = globSync('apps/mobile/src/features/**/*.ts', { cwd: root }).filter(
-    (file) => !/__tests__|\.test\.ts$|test-support/.test(file),
-  );
-  for (const file of files) {
-    const text = readFileSync(path.join(root, file), 'utf8');
-    // A registry entry maps an id to a route: `'3b-4': HOME_ROUTES.inbox`, `'3b-4': '/inbox'`, or a
-    // named builder (`'7c-1': placesMap,`, `'7h-3': dayScreen(checkRoutes.rain)`).
-    for (const match of text.matchAll(
-      /'(\d+[a-z]-\d+)'\s*:\s*(?:\w*ROUTES\.|'\/|\(|\w+Route|[a-z]\w*\s*[,(])/g,
-    ))
-      registered.add(match[1] ?? '');
-    for (const match of text.matchAll(/hrefFor\('(\d+[a-z]-\d+)'/g)) referenced.add(match[1] ?? '');
-  }
-  return {
-    registered: [...registered].sort(),
-    referenced: [...referenced].filter((id) => !registered.has(id)).sort(),
-  };
+/** The premium design codes with a render (`screens.json`). */
+export function renderCodes(root: string): string[] {
+  const rows = JSON.parse(readFileSync(path.join(root, RENDERS_JSON), 'utf8')) as {
+    readonly code: string;
+  }[];
+  return rows.map((row) => row.code);
 }
 
 /** User-facing route files under `apps/mobile/src/app`, without extension. */
@@ -257,34 +179,26 @@ export function appRoutes(root: string): string[] {
 
 export interface Coverage {
   readonly shots: string[];
-  readonly registeredMissing: string[];
-  readonly referencedUnregistered: string[];
+  readonly renders: string[];
+  readonly rendersMissing: string[];
+  readonly routes: string[];
   readonly routesUnlisted: string[];
   readonly routesUnreachable: { route: string; reason: string }[];
-  readonly routeShotsMissing: { route: string; shot: string }[];
-  readonly renderIds: number;
-  readonly renderIdsSwept: string[];
-  readonly registered: string[];
-  readonly routes: string[];
+  readonly routeShotsMissing: { route: string; code: string }[];
 }
 
 export function coverage(root: string): Coverage {
   const shots = sweepShots(root);
-  const swept = new Set(shots.map(designIdOf).filter((id): id is string => id !== undefined));
-  const { registered, referenced } = registryIds(root);
-  const routes = appRoutes(root);
-  const shotSet = new Set(shots);
-  const renders = new Set(
-    readdirSync(path.join(root, 'docs/design-renders/screens'))
-      .map((file) => /^(\d+[a-z]-\d+)_/.exec(file)?.[1])
-      .filter((id): id is string => id !== undefined),
+  const swept = new Set(
+    shots.map(designCodeOf).filter((code): code is string => code !== undefined),
   );
+  const renders = renderCodes(root);
+  const routes = appRoutes(root);
   return {
     shots,
-    registered,
+    renders,
+    rendersMissing: renders.filter((code) => !swept.has(code)),
     routes,
-    registeredMissing: registered.filter((id) => !swept.has(id)),
-    referencedUnregistered: referenced,
     routesUnlisted: routes.filter((route) => ROUTE_SHOTS[route] === undefined),
     routesUnreachable: routes.flatMap((route) => {
       const entry = ROUTE_SHOTS[route];
@@ -293,42 +207,92 @@ export function coverage(root: string): Coverage {
     routeShotsMissing: routes.flatMap((route) => {
       const entry = ROUTE_SHOTS[route];
       if (!entry || 'unreachable' in entry) return [];
-      return entry.filter((shot) => !shotSet.has(shot)).map((shot) => ({ route, shot }));
+      return entry.filter((code) => !swept.has(code)).map((code) => ({ route, code }));
     }),
-    renderIds: renders.size,
-    renderIdsSwept: [...swept].filter((id) => renders.has(id)).sort(),
   };
 }
 
 export function formatCoverage(c: Coverage): string {
-  const covered = c.registered.length - c.registeredMissing.length;
+  const rendersSwept = c.renders.length - c.rendersMissing.length;
   const routesCovered = c.routes.length - c.routesUnlisted.length - c.routesUnreachable.length;
   const list = (items: readonly string[]) => (items.length ? items.join(', ') : 'none');
   return [
     '### Sweep coverage',
     '',
-    `- Registered screens swept: **${String(covered)} of ${String(c.registered.length)}**. Not swept: ${list(c.registeredMissing)}.`,
+    `- Premium designs swept: **${String(rendersSwept)} of ${String(c.renders.length)}**. Not swept: ${list(c.rendersMissing)}.`,
     `- App routes swept: **${String(routesCovered)} of ${String(c.routes.length)}**. With no sweep step: ${list(c.routesUnlisted)}.`,
     `- Routes the sweep can't reach: ${c.routesUnreachable.length ? c.routesUnreachable.map((r) => `\`${r.route}\` (${r.reason})`).join('; ') : 'none'}.`,
-    `- Route screenshots listed but never taken: ${c.routeShotsMissing.length ? c.routeShotsMissing.map((m) => `\`${m.route}\` → ${m.shot}`).join(', ') : 'none'}.`,
-    `- Screens other screens link to that nobody registers yet: ${list(c.referencedUnregistered)}.`,
-    `- Design renders with a sweep screenshot: ${String(c.renderIdsSwept.length)} of ${String(c.renderIds)} (${list(c.renderIdsSwept)}).`,
-    `- ${String(c.shots.length)} screenshots per language, in ${LANGUAGES.join(' and ')}.`,
+    `- Route designs listed but never swept: ${c.routeShotsMissing.length ? c.routeShotsMissing.map((m) => `\`${m.route}\` → ${m.code}`).join(', ') : 'none'}.`,
+    `- ${String(c.shots.length)} screenshot states.`,
     '',
   ].join('\n');
+}
+
+/** The design codes a run's screenshots show (`premium-<code>-<state>-<look>.png`), by platform. */
+export function runShots(shardsDir: string): Map<string, string[]> {
+  const byPlatform = new Map<string, string[]>();
+  if (!existsSync(shardsDir)) return byPlatform;
+  for (const shard of readdirSync(shardsDir)) {
+    const platform = /^device-(ios|android)-shard-/.exec(shard)?.[1];
+    const dir = path.join(shardsDir, shard, 'screenshots');
+    if (!platform || !existsSync(dir)) continue;
+    const names = readdirSync(dir)
+      .filter((file) => file.startsWith('premium-') && file.endsWith('.png'))
+      .map((file) => file.slice('premium-'.length, -'.png'.length));
+    byPlatform.set(platform, [...(byPlatform.get(platform) ?? []), ...names]);
+  }
+  return byPlatform;
+}
+
+/** What one run captured against the designs: the codes it shows, and the ones it doesn't. */
+export function runCoverage(
+  shots: readonly string[],
+  renders: readonly string[],
+): { readonly captured: string[]; readonly missing: string[]; readonly states: number } {
+  const seen = new Set(shots.map(designCodeOf).filter((code) => code !== undefined));
+  return {
+    captured: renders.filter((code) => seen.has(code)),
+    missing: renders.filter((code) => !seen.has(code)),
+    states: new Set(shots).size,
+  };
+}
+
+/** The run's coverage per platform, as markdown, above the sweep's own (what its flows can reach). */
+export function formatRunCoverage(
+  byPlatform: ReadonlyMap<string, readonly string[]>,
+  renders: readonly string[],
+): string {
+  const lines = ['### This run captured', ''];
+  if (byPlatform.size === 0) lines.push('- No design | device screenshot in this run.');
+  for (const [platform, shots] of byPlatform) {
+    const c = runCoverage(shots, renders);
+    lines.push(
+      `- ${platform}: **${String(c.captured.length)} of ${String(renders.length)}** designs in ${String(c.states)} screenshots. Not captured: ${c.missing.length ? c.missing.join(', ') : 'none'}.`,
+    );
+  }
+  return [...lines, ''].join('\n');
+}
+
+/** Several downloaded runs as one: each platform's shots from every run, and both together. */
+export function mergedRunShots(dirs: readonly string[]): Map<string, string[]> {
+  const merged = new Map<string, string[]>();
+  for (const dir of dirs)
+    for (const [platform, shots] of runShots(dir))
+      merged.set(platform, [...(merged.get(platform) ?? []), ...shots]);
+  if (merged.size > 1) merged.set('together', [...merged.values()].flat());
+  return merged;
 }
 
 function main(): void {
   const { values } = parseArgs({
     args: process.argv.slice(2).filter((arg) => arg !== '--'),
-    options: { write: { type: 'boolean', default: false }, out: { type: 'string' } },
+    options: { out: { type: 'string' }, run: { type: 'string', multiple: true } },
   });
-  if (values.write) {
-    for (const { file, text } of sweepFlows()) writeFileSync(path.join(REPO_ROOT, file), text);
-    console.log(`Wrote ${String(sweepFlows().length)} sweep flows`);
-    return;
-  }
-  const report = formatCoverage(coverage(REPO_ROOT));
+  const runs = values.run ?? [];
+  const report =
+    runs.length > 0
+      ? formatRunCoverage(mergedRunShots(runs), renderCodes(REPO_ROOT))
+      : formatCoverage(coverage(REPO_ROOT));
   if (values.out) writeFileSync(values.out, report);
   else console.log(report);
 }

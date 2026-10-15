@@ -5,7 +5,7 @@
  * and the crew who signed it.
  */
 import { View } from 'react-native';
-import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import {
   Avatar,
@@ -15,10 +15,11 @@ import {
   Text,
   usePremiumReducedMotion,
   usePremiumTheme,
+  popIn,
 } from '@/ui/premium';
 
-import type { GotAwayCardProps } from '../../../cards/got-away-card';
-import type { StampCardProps } from '../../../cards/stamp-card';
+import type { GotAwayCardProps } from '../../../story/story-card-views';
+import type { StampCardProps } from '../../../story/story-card-views';
 import { CardFrame, FormSticker } from './card-frame';
 import { useClockReached } from './use-clock';
 
@@ -97,10 +98,7 @@ export function PremiumStampCard(props: StampCardProps) {
           ))}
         </View>
         {slammed ? (
-          <Animated.View
-            entering={reduced ? FadeIn.duration(150) : ZoomIn.springify().damping(10)}
-            testID="recap-stamp"
-          >
+          <Animated.View entering={popIn(reduced, 'lively')} testID="recap-stamp">
             <RoundStamp
               word={props.place.toLocaleUpperCase()}
               top={props.top}
@@ -118,7 +116,7 @@ export function PremiumStampCard(props: StampCardProps) {
             style={{ alignItems: 'center', gap: 2 }}
             testID={`recap-signature-${signer.userId}`}
           >
-            <Avatar name={signer.name} color={signer.color} size={36} />
+            <Avatar name={signer.name} color={signer.color} uid={signer.userId} size={36} />
             <Text variant="badge" tone="muted">
               {signer.name}
             </Text>

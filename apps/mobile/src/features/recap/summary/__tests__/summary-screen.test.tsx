@@ -7,6 +7,7 @@
  */
 jest.mock('@/motion/use-loop', () => ({ useLoop: () => ({}) }));
 jest.mock('expo-router', () => ({
+  Stack: Object.assign(() => null, { Screen: () => null }),
   useIsFocused: () => true,
   router: {
     push: jest.fn(),
@@ -40,7 +41,7 @@ import {
   recapRow,
   STATS,
   TRIP,
-} from '../../dev/recap-fixtures';
+} from '../../test-support/recap-fixtures';
 import {
   renderRecap,
   seedAwards,
@@ -51,6 +52,8 @@ import {
 } from '../../test-support/recap-harness';
 import { storySession } from '../../story/story-session';
 import { RecapSummaryScreen } from '../summary-screen';
+import { PremiumRecapScene } from '../../premium/recap-scene';
+import { PremiumRecapShare } from '../../premium/recap-share';
 
 let stack: TestLocalFirst | null = null;
 
@@ -81,30 +84,33 @@ afterEach(async () => {
 describe('recap page', () => {
   it('shows the guide writing until the row turns ready, then the numbers the row holds', async () => {
     const s = await open();
-    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await renderRecap(
+      <RecapSummaryScreen View={PremiumRecapScene} Share={PremiumRecapShare} tripId={TRIP} />,
+      s,
+    );
     await until(() => visible('recap-writing'));
-    expect(screen.getByText('CHÀ VÁ IS WRITING YOUR RECAP')).toBeTruthy();
+    expect(screen.getByText('Chà Vá is writing your recap')).toBeTruthy();
     await seedRecap(s, recapRow({ status: 'building' }));
     await until(() => visible('recap-writing'));
 
     await seedRecap(s, recapRow());
     await seedAwards(s);
     await until(() => visible('recap-tiles'));
-    expect(screen.getByTestId('recap-title')).toHaveTextContent('ĐÀ NẴNG, THE RECAP');
+    expect(screen.getByTestId('recap-title')).toHaveTextContent(/^Đà Nẵng,\s*the recap$/u);
     expect(screen.getByTestId('recap-eyebrow')).toHaveTextContent(
-      /^OCT 2\s*–\s*4 · THE ĐÀ NẴNG FOUR$/u,
+      /^Oct 2\s*–\s*4 · The Đà Nẵng Four$/u,
     );
     expect(screen.getByTestId('recap-tile-distance')).toHaveTextContent(
-      '214 KMdriven, mostly by Anh Tuấn',
+      '214 kmdriven, mostly by Anh Tuấn',
     );
     expect(screen.getByTestId('recap-tile-sunrise')).toHaveTextContent(
-      'SƠN TRÀstarted at 05:10, before sunrise',
+      'Sơn Tràstarted at 05:10, before sunrise',
     );
     expect(screen.getByTestId('recap-tile-photos')).toHaveTextContent(
-      '312 PHOTOSMaya took 140 of them',
+      '312 photosMaya took 140 of them',
     );
-    expect(screen.getByTestId('recap-tile-owed')).toHaveTextContent('$0 OWEDsettled 2 days early');
-    expect(screen.getByTestId('recap-forms')).toHaveTextContent(/CHÀ VÁ'S FORMS3 OF 4 FOUND/u);
+    expect(screen.getByTestId('recap-tile-owed')).toHaveTextContent('$0 owedsettled 2 days early');
+    expect(screen.getByTestId('recap-forms')).toHaveTextContent(/Chà Vá's forms3 of 4 found/u);
     // The guide has not written the got-away line yet: the sightings stand in.
     expect(screen.getByTestId('recap-got-away-line')).toHaveTextContent(
       'The Golden Chà Vá got away. Seen 2 times, befriended by nobody.',
@@ -130,10 +136,13 @@ describe('recap page', () => {
       }),
     );
     await seedAwards(s, rows);
-    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await renderRecap(
+      <RecapSummaryScreen View={PremiumRecapScene} Share={PremiumRecapShare} tripId={TRIP} />,
+      s,
+    );
     await until(() => visible('recap-tiles'));
-    expect(screen.getByTestId('recap-updated')).toHaveTextContent('UPDATED WITH LATE EXPENSES');
-    expect(screen.getByTestId('recap-tile-owed')).toHaveTextContent('$42 OWEDstill to settle up');
+    expect(screen.getByTestId('recap-updated')).toHaveTextContent('Updated with late expenses');
+    expect(screen.getByTestId('recap-tile-owed')).toHaveTextContent('$42 owedstill to settle up');
     expect(screen.getByTestId('recap-got-away-line')).toHaveTextContent(
       'The Golden Chà Vá got away. Jordan slept through the second one.',
     );
@@ -143,31 +152,40 @@ describe('recap page', () => {
   it('notes a viewer who dropped out before the trip', async () => {
     const s = await open({ rsvp: 'out' });
     await seedRecap(s, recapRow());
-    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await renderRecap(
+      <RecapSummaryScreen View={PremiumRecapScene} Share={PremiumRecapShare} tripId={TRIP} />,
+      s,
+    );
     await until(() => visible('recap-tiles'));
-    expect(screen.getByTestId('recap-dropout')).toHaveTextContent('YOU SAT THIS ONE OUT');
+    expect(screen.getByTestId('recap-dropout')).toHaveTextContent('You sat this one out');
   });
 
   it('keeps no money tile or crew name on a solo trip', async () => {
     const s = await open({ solo: true });
     await seedRecap(s, recapRow({ stats: { ...STATS, travellers: 1 } }));
-    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await renderRecap(
+      <RecapSummaryScreen View={PremiumRecapScene} Share={PremiumRecapShare} tripId={TRIP} />,
+      s,
+    );
     await until(() => visible('recap-tiles'));
     expect(screen.queryByTestId('recap-tile-owed')).toBeNull();
     expect(screen.getByTestId('recap-tile-days')).toHaveTextContent(
-      '3 DAYSjust you, on your own clock',
+      '3 daysjust you, on your own clock',
     );
-    expect(screen.getByTestId('recap-eyebrow')).toHaveTextContent(/^OCT 2\s*–\s*4 · JUST YOU$/u);
+    expect(screen.getByTestId('recap-eyebrow')).toHaveTextContent(/^Oct 2\s*–\s*4 · Just you$/u);
     expect(screen.queryByTestId('recap-dropout')).toBeNull();
   });
 
   it('offers a retry when the build failed, and says it needs signal when offline', async () => {
     const s = await open();
     await seedRecap(s, recapRow({ status: 'failed', failure_reason: 'build_error' }));
-    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await renderRecap(
+      <RecapSummaryScreen View={PremiumRecapScene} Share={PremiumRecapShare} tripId={TRIP} />,
+      s,
+    );
     await until(() => visible('recap-failed'));
     expect(screen.queryByTestId('recap-tiles')).toBeNull();
-    await fireEvent.press(screen.getByText('TRY AGAIN'));
+    await fireEvent.press(screen.getByText('Try again'));
     await until(() => toastQueue.getCurrent() !== null);
     expect(toastQueue.getCurrent()?.title).toBe('Needs signal to try again');
   });
@@ -175,7 +193,10 @@ describe('recap page', () => {
   it("WHERE NEXT? goes back to Home with the trip's crew in front", async () => {
     const s = await open();
     await seedRecap(s, recapRow());
-    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await renderRecap(
+      <RecapSummaryScreen View={PremiumRecapScene} Share={PremiumRecapShare} tripId={TRIP} />,
+      s,
+    );
     await until(() => visible('recap-where-next'));
     await fireEvent.press(screen.getByTestId('recap-where-next'));
     expect(router.navigate).toHaveBeenCalledWith({ pathname: '/', params: { crewId: CREW } });
@@ -184,7 +205,10 @@ describe('recap page', () => {
   it('goes back to where the traveller came from, or Home when there is nowhere to go back to', async () => {
     const s = await open();
     await seedRecap(s, recapRow({ status: 'building' }));
-    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await renderRecap(
+      <RecapSummaryScreen View={PremiumRecapScene} Share={PremiumRecapShare} tripId={TRIP} />,
+      s,
+    );
     await until(() => visible('recap-back'));
     await fireEvent.press(screen.getByTestId('recap-back'));
     expect(router.back).toHaveBeenCalledTimes(1);
@@ -205,7 +229,10 @@ describe('recap page', () => {
     });
     const s = await open();
     await seedRecap(s, recapRow());
-    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await renderRecap(
+      <RecapSummaryScreen View={PremiumRecapScene} Share={PremiumRecapShare} tripId={TRIP} />,
+      s,
+    );
     await until(() => visible('recap-forms'));
     await fireEvent.press(screen.getByTestId('recap-forms'));
     expect(router.push).toHaveBeenLastCalledWith({
@@ -218,7 +245,10 @@ describe('recap page', () => {
   it('plays the story first until it has been watched, and opens on the page after that', async () => {
     const s = await open(undefined, false);
     await seedRecap(s, recapRow());
-    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await renderRecap(
+      <RecapSummaryScreen View={PremiumRecapScene} Share={PremiumRecapShare} tripId={TRIP} />,
+      s,
+    );
     await until(() => (router.replace as jest.Mock).mock.calls.length > 0);
     expect(router.replace).toHaveBeenCalledWith({
       pathname: '/recap/[tripId]/story',
@@ -232,7 +262,10 @@ describe('recap page', () => {
     (router.replace as jest.Mock).mockClear();
     await s.db.execute(WATCHED_SQL, [RECAP, TRIP, s.uid]);
     storySession.reset();
-    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await renderRecap(
+      <RecapSummaryScreen View={PremiumRecapScene} Share={PremiumRecapShare} tripId={TRIP} />,
+      s,
+    );
     await until(() => visible('recap-watch'));
     expect(router.replace).not.toHaveBeenCalled();
 

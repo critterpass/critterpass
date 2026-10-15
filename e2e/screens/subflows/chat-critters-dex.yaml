@@ -1,0 +1,111 @@
+appId: app.critterpass.dev
+---
+# The Critterdex in ${LOOK}, from Home and back to Home: the dex pushed from the passport's
+# Critterdex row (8.01) and the hatched critter's page (8.02).
+- runFlow:
+    file: ../../_shared/tab.yaml
+    env:
+      TAB: pass
+      LABEL: Pass
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile'
+    timeout: 15000
+    optional: true
+# Centred first (at the page's foot the row sits under the tab bar); else opened by its link.
+- scrollUntilVisible:
+    element:
+      id: 'you-profile-critterdex'
+    direction: DOWN
+    timeout: 15000
+    centerElement: true
+    optional: true
+- tapOn:
+    id: 'you-profile-critterdex'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex'
+    timeout: 8000
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-dex'
+    file: ../../_shared/open-link.yaml
+    env:
+      URL: critterpass-dev://you/critterdex
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-list|critters-dex-empty'
+    timeout: 15000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'critters-dex'
+    commands:
+      - runFlow:
+          file: shot.yaml
+          env:
+            CODE: '8.01'
+            NAME: critterdex
+            LOOK: ${LOOK}
+      # The hatched critter's page, from its found form on the here-now card. The hatch reaches
+      # the dex once the api has it (the egg card goes); an unfound form opens where to meet it
+      # instead, which is stepped back from.
+      - extendedWaitUntil:
+          notVisible:
+            id: 'critters-egg-hatch'
+          timeout: 30000
+          optional: true
+      - tapOn:
+          id: 'critters-here-now-common'
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-where'
+          commands:
+            - runFlow: ../../_shared/back.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-detail'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          when:
+            notVisible:
+              id: 'critters-detail'
+          commands:
+            - evalScript: "${output.captureMissing = (output.captureMissing || '') + ' 8.02-critter-detail-' + LOOK}"
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-detail'
+          commands:
+            - runFlow:
+                file: shot.yaml
+                env:
+                  CODE: '8.02'
+                  NAME: critter-detail
+                  LOOK: ${LOOK}
+            - runFlow:
+                file: ../../_shared/tap.yaml
+                env:
+                  ID: 'critters-detail-back'
+                  LABEL: 'Back'
+# Back to the passport, so the Pass tab opens on it next time (the appearance step starts there).
+- repeat:
+    times: 3
+    while:
+      visible:
+        id: 'critters-dex|critters-detail|critters-where'
+    commands:
+      - runFlow: ../../_shared/back.yaml
+- runFlow: ../../_shared/home-link.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 10000
+    optional: true

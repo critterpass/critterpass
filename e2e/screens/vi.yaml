@@ -1,0 +1,51 @@
+appId: app.critterpass.dev
+# The chat's offline capture switches the signal off; a stopped run must not leave it off.
+onFlowComplete:
+  - runFlow:
+      when:
+        platform: Android
+      commands:
+        - setAirplaneMode: disabled
+---
+# Premium design | device capture in Vietnamese: the key screens of Home, Pass, crew chat and the
+# plan map for the Bali demo crew, so wrapped or clipped Vietnamese labels show in the sheets. The
+# area subflows run with LOOK `vi`, which takes only their key screens (the ones they repeat in
+# dark) and names the shots `premium-<code>-<state>-vi`.
+# Home on the `vote` seed (the crew's open vote makes it long enough to scroll), as home.yaml.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: vote
+      LANG: vi
+- runFlow:
+    file: subflows/home-crew.yaml
+    env:
+      LOOK: vi
+# Each area starts from a fresh Home, whatever screen the last one left open.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
+      LANG: vi
+- runFlow:
+    file: subflows/pass-steps.yaml
+    env:
+      LOOK: vi
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
+      LANG: vi
+- runFlow:
+    file: subflows/chat-crew.yaml
+    env:
+      LOOK: vi
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
+      LANG: vi
+- runFlow:
+    file: subflows/plan-map.yaml
+    env:
+      LOOK: vi

@@ -5,7 +5,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import { checkInState, nextCheckIn, parseCheckIn } from '../stop-check-in';
-import { isStopOfToday } from '../stop-day-actions';
+import { isStopOfToday } from '../item-sheet-look';
 
 const id = () => 'visit-1';
 

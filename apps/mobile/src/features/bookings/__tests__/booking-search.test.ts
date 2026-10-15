@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import { toWalletBooking } from '../data/model';
-import { LAB_BOOKINGS, LAB_SEGMENTS, LAB_UID } from '../dev/lab-fixtures';
+import { LAB_BOOKINGS, LAB_SEGMENTS, LAB_UID } from '../test-support/lab-fixtures';
 import { searchBookings } from '../stack/booking-search';
 
 const bookings = LAB_BOOKINGS.map((row) => toWalletBooking(row, LAB_SEGMENTS, LAB_UID));

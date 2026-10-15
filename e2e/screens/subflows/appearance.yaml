@@ -1,0 +1,37 @@
+appId: app.critterpass.dev
+---
+# Sets the app's appearance to ${LOOK} (system, light or dark) on its own sheet, opened by its link
+# (`/you/appearance`, the sheet Pass → Edit → Appearance opens), then returns to Home (_shared/home-
+# link.yaml).
+- openLink:
+    link: critterpass-dev://you/appearance
+- extendedWaitUntil:
+    visible:
+      id: 'you-appearance-${LOOK}'
+    timeout: 15000
+- tapOn:
+    id: 'you-appearance-${LOOK}'
+- runFlow: ../../_shared/settle.yaml
+- runFlow: ../../_shared/home-link.yaml
+# A trip that is on asks once, over Home, to remember the places visited: not now. The question
+# can come up while the Home tab is being tapped, so it can leave the app on Trips: Home again.
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - runFlow: ../../_shared/settle.yaml
+      - runFlow:
+          when:
+            notVisible:
+              id: 'home-screen'
+          file: ../../_shared/tab.yaml
+          env:
+            TAB: home
+            LABEL: Home
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 15000

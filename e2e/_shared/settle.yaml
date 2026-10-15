@@ -1,0 +1,12 @@
+appId: app.critterpass.dev
+---
+# Waits until the screen has settled: the app's QA marker (apps/mobile/src/lib/qa/settled-marker)
+# reads `qa-settled` once the layout scan has measured the screens shown since the last layout or
+# navigation. Cheaper than comparing screenshots until two agree (`waitForAnimationToEnd`), which
+# costs seconds a frame on a runner without a GPU. Gives up quietly after eight seconds (a native
+# sheet can hide the marker from the hierarchy).
+- extendedWaitUntil:
+    visible:
+      id: 'qa-settled'
+    timeout: 8000
+    optional: true

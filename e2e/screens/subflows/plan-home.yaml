@@ -1,0 +1,55 @@
+appId: app.critterpass.dev
+---
+# Back to Home: by Trips' link and the Home tab first (_shared/home-link.yaml); when that doesn't
+# land, steps back until Home shows (at most eight steps), then opens the Home tab. Sheets and
+# pushed pages the earlier steps left open are closed on the way. Each step is the edge swipe (the
+# system back on Android); a plan map or trip hub still showing after it then leaves by its own back
+# button, so a swipe the page didn't take shows in the log as that tap. On iOS a native sheet (Ideas
+# over the plan map, 4.40) never takes the edge swipe: it is pulled down, as the design has it.
+- runFlow: ../../_shared/home-link.yaml
+# The link didn't land on Home (a native sheet it can't close): step back as a person would.
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-screen'
+    commands:
+      - repeat:
+          times: 8
+          while:
+            notVisible:
+              id: 'home-screen'
+          commands:
+            - runFlow: ../../_shared/back.yaml
+            - runFlow:
+                when:
+                  visible:
+                    id: 'plan-map-back|trip-hub-back'
+                commands:
+                  - tapOn:
+                      id: 'plan-map-back|trip-hub-back'
+                  - runFlow: ../../_shared/settle.yaml
+            - runFlow:
+                when:
+                  platform: iOS
+                  notVisible:
+                    id: 'home-screen|plan-map-back|trip-hub-back'
+                commands:
+                  - swipe:
+                      start: 50%, 35%
+                      end: 50%, 95%
+                  - runFlow: ../../_shared/settle.yaml
+      - runFlow:
+          when:
+            notVisible:
+              id: 'home-screen'
+          commands:
+            - runFlow:
+                file: ../../_shared/tab.yaml
+                env:
+                  TAB: home
+                  LABEL: Home
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 10000
+    optional: true

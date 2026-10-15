@@ -19,11 +19,12 @@ import {
   TextButton,
   usePremiumTheme,
 } from '@/ui/premium';
-import { PushScreen } from '@/ui/premium/shell';
+import { PushScreen, sheetMaterialStyle } from '@/ui/premium/shell';
 import { useLocale } from '@/lib/i18n/use-locale';
 
-import type { BalanceViewProps } from '../../check/balance/balance-view';
-import type { GapViewProps } from '../../check/fill-gap/gap-view';
+import type { BalanceViewProps } from '../../check/balance/balance-props';
+import type { GapViewProps } from '../../check/fill-gap/gap-props';
+import { OnlyYouPill } from '../only-you-pill';
 import { barTitle } from './bar-title';
 
 const SQUARES = 8;
@@ -32,18 +33,32 @@ export function PremiumBalanceView(props: BalanceViewProps) {
   const theme = usePremiumTheme();
   const locale = useLocale();
   const offer = props.offer;
+  const title = barTitle(props.title, locale);
   return (
     <PushScreen
-      title={barTitle(props.title, locale)}
-      subtitle={props.onlyYou}
+      title={title}
       backLabel={props.backLabel}
+      badge={<OnlyYouPill />}
+      badgeAlign="centre"
       scroll={false}
       testID="plan-balance"
     >
-      <ScrollView contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}>
-        <Text variant="body" tone="muted" style={{ paddingHorizontal: theme.space.gap8 }}>
-          {props.summary}
-        </Text>
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={{
+          paddingHorizontal: theme.space.gutter,
+          paddingVertical: theme.space.gap16,
+          gap: theme.space.gap12,
+        }}
+      >
+        <View style={{ gap: theme.space.gap4 }}>
+          <Text variant="largeTitle" accessibilityRole="header" singleLine={false}>
+            {title}
+          </Text>
+          <Text variant="body" tone="muted">
+            {props.summary}
+          </Text>
+        </View>
         {props.loading ? <LoadingCritter label={props.title} /> : null}
         <ListCard>
           {props.rows.map((row) => (
@@ -118,6 +133,7 @@ export function PremiumBalanceView(props: BalanceViewProps) {
             <View style={{ flexDirection: 'row', gap: theme.space.gap8 }}>
               {offer.add === null ? null : (
                 <Button
+                  alignSelf="auto"
                   size="small"
                   label={offer.add.label}
                   onPress={offer.add.onPress}
@@ -127,6 +143,7 @@ export function PremiumBalanceView(props: BalanceViewProps) {
               )}
               {offer.ask.onPress === null ? null : (
                 <Button
+                  alignSelf="auto"
                   size="small"
                   variant="control"
                   label={offer.ask.label}
@@ -148,8 +165,14 @@ export function PremiumGapView(props: GapViewProps) {
   const insets = useSafeAreaInsets();
   const { t } = useLingui();
   return (
-    <View style={{ flex: 1 }} testID="plan-gap">
-      <ScrollView contentContainerStyle={{ padding: theme.space.gap16, gap: theme.space.gap12 }}>
+    <View style={[{ flex: 1 }, sheetMaterialStyle(theme)]} testID="plan-gap">
+      <ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: theme.space.gutter,
+          paddingVertical: theme.space.gap16,
+          gap: theme.space.gap12,
+        }}
+      >
         <Text variant="badge" color={theme.color.status.rain.text}>
           {props.window.toLocaleUpperCase()}
         </Text>
@@ -240,9 +263,15 @@ export function PremiumGapView(props: GapViewProps) {
             testID="plan-gap-add"
           />
         </View>
-        <TextButton label={props.elseLabel} onPress={props.onElse} testID="plan-gap-else" />
+        <TextButton
+          align="center"
+          label={props.elseLabel}
+          onPress={props.onElse}
+          testID="plan-gap-else"
+        />
         {props.onDismiss === undefined ? null : (
           <TextButton
+            align="center"
             label={t({ id: 'plan.premium.gap.close', message: 'Close' })}
             onPress={props.onDismiss}
           />

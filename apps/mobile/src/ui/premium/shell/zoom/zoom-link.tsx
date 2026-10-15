@@ -3,18 +3,38 @@
  * UIKit's `.zoom` transition) between screens of the native stack; the destination wraps its hero
  * in `ZoomTarget` and has no native header (the zoom glitches under one), and swiping down on it
  * zooms back into the card. Android has no system zoom: the app's grow engine
- * (`ui/transitions/SharedGrow`, mounted at the root) grows a copy of the card over a fade push.
+ * (`shared-grow`, mounted at the root) grows a copy of the card over a fade push. On both, the card
+ * presses in on touch-down (0.97, Snappy) before the zoom takes it.
  */
 import { Link, type Href } from 'expo-router';
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { Platform, Pressable, View, type StyleProp, type ViewStyle } from 'react-native';
 
-// The grow engine is shared infrastructure that both UIs mount at the root; only its source and
-// target hooks are used here.
-import { SharedTarget } from '@/ui/transitions/SharedGrow';
-import { useSharedSource, zoomTo } from '@/ui/transitions/use-shared-source';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
-import { usePremiumReducedMotion } from '../..';
+import { qaZoomPending } from '@/lib/qa/capture-hold';
+import { SharedTarget } from '@/ui/premium/shell/zoom/shared-grow';
+import { useSharedSource, zoomTo } from '@/ui/premium/shell/zoom/use-shared-source';
+
+import { SPRINGS, usePremiumReducedMotion, usePremiumTheme } from '../..';
+
+/** The card's press: in to the kit's press scale while held, back on release (none reduced). */
+function Pressed({
+  pressed,
+  children,
+}: {
+  readonly pressed: boolean;
+  readonly children: ReactNode;
+}) {
+  const t = usePremiumTheme();
+  const reduced = usePremiumReducedMotion();
+  const scale = useSharedValue(1);
+  useEffect(() => {
+    scale.set(reduced ? 1 : withSpring(pressed ? t.motion.pressScale : 1, SPRINGS.snappy));
+  }, [pressed, reduced, scale, t.motion.pressScale]);
+  const style = useAnimatedStyle(() => ({ transform: [{ scale: scale.get() }] }));
+  return <Animated.View style={style}>{children}</Animated.View>;
+}
 
 export interface ZoomLinkProps {
   readonly href: Href;
@@ -42,7 +62,9 @@ function IosZoomLink({ href, accessibilityLabel, children, style, testID }: Zoom
     >
       <Link href={href} asChild>
         <Link.AppleZoom>
-          <Pressable accessible={false}>{children}</Pressable>
+          <Pressable accessible={false}>
+            {({ pressed }) => <Pressed pressed={pressed}>{children}</Pressed>}
+          </Pressable>
         </Link.AppleZoom>
       </Link>
     </View>
@@ -65,11 +87,11 @@ function AndroidZoomLink({
       collapsable={false}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
-      onPress={() => void zoomTo(zoomId, href, { reduced })}
+      onPress={() => void zoomTo(zoomId, href, { reduced: reduced && !qaZoomPending() })}
       style={style}
       {...(testID === undefined ? {} : { testID })}
     >
-      {children}
+      {({ pressed }) => <Pressed pressed={pressed}>{children}</Pressed>}
     </Pressable>
   );
 }

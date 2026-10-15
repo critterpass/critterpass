@@ -24,7 +24,7 @@ appId: app.critterpass.dev
             HOME_IATA: SGN
             HOME_QUERY: 'Ho Chi'
       - runFlow:
-          file: ../../screens/sweep/subflows/open-link.yaml
+          file: ../../_shared/open-link.yaml
           env:
             URL: critterpass-dev://crew/new
       - extendedWaitUntil:
@@ -87,7 +87,7 @@ appId: app.critterpass.dev
     when:
       visible:
         id: 'pitch-add'
-    file: ../../onboarding/subflows/back.yaml
+    file: ../../_shared/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'destination-board'
@@ -97,7 +97,6 @@ appId: app.critterpass.dev
     element:
       id: 'board-lock-in'
     timeout: 30000
-    centerElement: true
 - waitForAnimationToEnd
 - tapOn:
     id: 'board-lock-in'
@@ -108,10 +107,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'reveal-set-up'
-- extendedWaitUntil:
-    visible:
-      id: 'setup-step-when'
-    timeout: 20000
+- runFlow: open-setup-when.yaml
 - runFlow:
     file: pick-dates-from-today.yaml
     env:
@@ -119,15 +115,13 @@ appId: app.critterpass.dev
 # The budget, in đồng, locked as the guide suggests it.
 - extendedWaitUntil:
     visible:
-      id: 'budget-track'
+      id: 'budget-step'
     timeout: 45000
 - extendedWaitUntil:
     visible:
-      id: 'budget-bars|budget-bars-missing'
+      id: 'budget-amount'
+      text: '.*₫.*'
     timeout: 30000
-- assertVisible:
-    id: 'budget-track'
-    text: '.*₫.*'
 - waitForAnimationToEnd
 - takeScreenshot: ${SHOTS}-budget
 - tapOn:

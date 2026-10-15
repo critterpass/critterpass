@@ -13,6 +13,7 @@ import { Button, PressableScale, Text, TextField, makePremiumStyles } from '@/ui
 import { AlbumImage } from '../grid/album-image';
 import type { NoteSheetProps, PhotoSheetProps, PostcardLook } from '../postcard/postcard-look';
 import { PremiumPostcardScene } from './postcard-scene';
+import { PremiumReceivedScene } from './received-scene';
 import { PremiumSheet } from './premium-sheet';
 
 const THUMB = 96;
@@ -78,7 +79,7 @@ export function PremiumPhotoSheet({ photos, selected, onPick, onClose }: PhotoSh
           keyExtractor={(photo) => photo.id}
           extraData={selected}
           showsHorizontalScrollIndicator={false}
-          ItemSeparatorComponent={() => <View style={{ width: 8 }} />}
+          ItemSeparatorComponent={PhotoGap}
           initialNumToRender={6}
           windowSize={5}
           renderItem={({ item }) => (
@@ -112,4 +113,10 @@ export const PREMIUM_POSTCARD_LOOK: PostcardLook = {
   View: PremiumPostcardScene,
   Note: PremiumNoteSheet,
   Photo: PremiumPhotoSheet,
+  Received: PremiumReceivedScene,
 };
+
+/** The 8 pt between photo choices, one component for every gap. */
+function PhotoGap() {
+  return <View style={{ width: 8 }} />;
+}

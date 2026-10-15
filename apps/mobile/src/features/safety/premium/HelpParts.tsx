@@ -1,12 +1,11 @@
 /** Help's pieces (6.16): the one-time share question, the phrase card, and the share control. */
 import type { HelpPhrase as Phrase } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { Button, PressableScale, Text, TextButton, Toggle, usePremiumTheme } from '@/ui/premium';
+import { Button, PressableScale, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 
-import type { ShareControlsProps } from '../help/share-controls';
+import type { ShareControlsProps } from '../help/view-types';
 
 export function HelpConsent({
   crewName,
@@ -17,16 +16,15 @@ export function HelpConsent({
 }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
-  const [on, setOn] = useState(false);
-  const toggle =
+  const question =
     crewName === ''
       ? t({
-          id: 'safety.consent.toggleCrew',
-          message: 'Share where I am with my crew for 1 hour when I open Help',
+          id: 'safety.consent.askCrew',
+          message: 'When you open Help, show your crew where you are for an hour?',
         })
       : t({
-          id: 'safety.consent.toggle',
-          message: `Share where I am with ${crewName} for 1 hour when I open Help`,
+          id: 'safety.consent.ask',
+          message: `When you open Help, show ${crewName} where you are for an hour?`,
         });
   return (
     <View
@@ -43,17 +41,7 @@ export function HelpConsent({
       <Text variant="headline">
         {t({ id: 'safety.consent.title', message: 'Let the crew find you' })}
       </Text>
-      <View style={styles.rowCenter}>
-        <Text variant="rowText" style={styles.flex}>
-          {toggle}
-        </Text>
-        <Toggle
-          value={on}
-          onChange={setOn}
-          accessibilityLabel={toggle}
-          testID="help-consent-toggle"
-        />
-      </View>
+      <Text variant="rowText">{question}</Text>
       <Text variant="captionMuted" tone="muted">
         {t({
           id: 'safety.consent.control',
@@ -61,12 +49,24 @@ export function HelpConsent({
             'The share stops by itself after an hour. Off, Help still has every number and phrase, and you can share with one tap. Change it any time in Settings.',
         })}
       </Text>
-      <Button
-        label={t({ id: 'safety.consent.done', message: 'Done' })}
-        size="medium"
-        onPress={() => onAnswer(on)}
-        testID="help-consent-done"
-      />
+      <View style={styles.rowCenter}>
+        <View style={styles.flex}>
+          <Button
+            label={t({ id: 'safety.consent.share', message: 'Yes, share' })}
+            size="medium"
+            alignSelf="stretch"
+            onPress={() => onAnswer(true)}
+            testID="help-consent-share"
+          />
+        </View>
+        <Button
+          label={t({ id: 'safety.consent.notNow', message: 'Not now' })}
+          variant="secondary"
+          size="medium"
+          onPress={() => onAnswer(false)}
+          testID="help-consent-not-now"
+        />
+      </View>
     </View>
   );
 }
@@ -169,6 +169,7 @@ export function HelpShare({ share }: { readonly share: ShareControlsProps }) {
           </Text>
           {share.extendCapped ? null : (
             <Button
+              alignSelf="auto"
               label={t({ id: 'safety.share.extend', message: '+1 h' })}
               size="small"
               variant="floating"
@@ -177,6 +178,7 @@ export function HelpShare({ share }: { readonly share: ShareControlsProps }) {
             />
           )}
           <Button
+            alignSelf="auto"
             label={t({ id: 'safety.share.stop', message: 'Stop' })}
             size="small"
             variant="control"

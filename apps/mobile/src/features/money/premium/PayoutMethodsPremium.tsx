@@ -6,7 +6,8 @@
  */
 import type { PayoutKind } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { IconTile, type LineIconName } from '@/features/trip';
 import {
@@ -14,13 +15,14 @@ import {
   Icon,
   PressableScale,
   Skeleton,
+  StickerIcon,
   Text,
   TextButton,
   TextField,
   usePremiumTheme,
   type PremiumTheme,
 } from '@/ui/premium';
-import { KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
+import { KeyboardAwareScroll, KeyboardStickyFooter, PushScreen } from '@/ui/premium/shell';
 
 import { PAYOUT_FIELDS, validDetails } from '../settle/payout-details';
 import { usePayoutFieldLabel, usePayoutKindLabel } from '../settle/payout-labels';
@@ -55,6 +57,9 @@ function keyboardFor(field: string): 'phone-pad' | 'number-pad' | 'url' | 'defau
 
 export function PayoutMethodsPremium() {
   const th = usePremiumTheme();
+  const insets = useSafeAreaInsets();
+  // Clears the home indicator with the keyboard down, and sits a gap above the keyboard when up.
+  const footerPad = Math.max(insets.bottom, th.space.gap12);
   const { t } = useLingui();
   const kindLabel = usePayoutKindLabel();
   const fieldLabel = usePayoutFieldLabel();
@@ -71,19 +76,26 @@ export function PayoutMethodsPremium() {
       scroll={false}
       testID="money-payout-methods"
     >
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        keyboardDismissMode="interactive"
-        keyboardShouldPersistTaps="handled"
+      <KeyboardAwareScroll
+        bottomOffset={th.size.button + th.space.gap12 + th.space.gap16}
         contentContainerStyle={{ paddingTop: 8, paddingBottom: 40, gap: th.space.gap16 }}
       >
-        <View style={{ paddingHorizontal: th.space.titleGutter, gap: th.space.gap4 }}>
-          <Text variant="largeTitle" accessibilityRole="header">
-            {t({ id: 'money.settle.payYou', message: 'How people pay you' })}
-          </Text>
-          <Text variant="label" tone="muted">
-            {t({ id: 'money.premium.onlyPayer', message: 'Only the person paying sees these.' })}
-          </Text>
+        {/* Under the centred "Payout methods" bar, the page's own title and the lock (7.27). */}
+        <View style={[styles.head, { paddingHorizontal: th.space.titleGutter }]}>
+          <View style={[styles.flex, { gap: th.space.gap4 }]}>
+            <Text
+              variant="emptyTitle"
+              accessibilityRole="header"
+              textBreakStrategy="balanced"
+              lineBreakStrategyIOS="standard"
+            >
+              {t({ id: 'money.settle.payYou', message: 'How people pay you' })}
+            </Text>
+            <Text variant="label" tone="muted">
+              {t({ id: 'money.premium.onlyPayer', message: 'Only the person paying sees these.' })}
+            </Text>
+          </View>
+          <StickerIcon name="lock" size={64} tilt={8} color={th.accent.mint} />
         </View>
         {methods.loading ? (
           <View style={{ paddingHorizontal: th.space.gutter }}>
@@ -147,7 +159,16 @@ export function PayoutMethodsPremium() {
                         <View style={[styles.check, { backgroundColor: th.color.ink }]}>
                           <Icon name="check" size={14} color={th.color.onInk} />
                         </View>
-                      ) : null}
+                      ) : open ? null : (
+                        <Button
+                          alignSelf="auto"
+                          label={t({ id: 'money.premium.payoutAddAction', message: 'Add' })}
+                          variant="control"
+                          size="small"
+                          onPress={() => methods.pick(kind)}
+                          testID={`money-payout-add-${kind}`}
+                        />
+                      )}
                     </View>
                   </PressableScale>
                   {open && fields.length > 0 ? (
@@ -156,7 +177,7 @@ export function PayoutMethodsPremium() {
                         <TextField
                           key={field}
                           accessibilityLabel={fieldLabel(field)}
-                          placeholder={fieldLabel(field)}
+                          label={fieldLabel(field)}
                           value={methods.values[field] ?? ''}
                           onChangeText={(value) => methods.setValue(field, value)}
                           keyboardType={keyboardFor(field)}
@@ -197,9 +218,9 @@ export function PayoutMethodsPremium() {
             />
           </View>
         ) : null}
-      </ScrollView>
-      <KeyboardStickyFooter>
-        <View style={{ paddingHorizontal: th.space.titleGutter, paddingBottom: th.space.gap12 }}>
+      </KeyboardAwareScroll>
+      <KeyboardStickyFooter openedOffset={th.space.gap12 - footerPad}>
+        <View style={{ paddingHorizontal: th.space.titleGutter, paddingBottom: footerPad }}>
           <Button
             label={t({ id: 'money.payout.save', message: 'Save' })}
             disabled={!valid}
@@ -214,6 +235,7 @@ export function PayoutMethodsPremium() {
 }
 
 const styles = StyleSheet.create({
+  head: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   card: { overflow: 'hidden' },
   row: {
     flexDirection: 'row',

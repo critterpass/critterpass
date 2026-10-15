@@ -1,9 +1,11 @@
 /**
  * A place (4.36, 4.37): the photo to the top edge under clear-glass back, share and ♥, then the
  * ground sheet over it: its kind and who saved it, its name and how far it is from the stay, the
- * fact tiles, when it fits (with the day's hour bars), the guide's tip, Know before you go, Next
- * nearby and If you like this. The dock keeps Add (at the slot it names) and the guide in reach.
- * Every tap and read comes from `usePlaceDetail`, shared with the current look.
+ * fact tiles, when it fits (with the day's hour bars), the guide's tip, Know before you go,
+ * Tickets and tours (where the place sells them), Next nearby, If you like this and, under a summary
+ * the guide wrote, Report a problem. A place the guide knows nothing about yet says so, with Ask.
+ * The dock keeps Add (at the slot it names) and the guide's white circle in reach.
+ * Every tap and read comes from `usePlaceDetail`.
  */
 import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
@@ -12,8 +14,6 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
-  Button,
-  CritterSticker,
   GlassIconButton,
   GuideNote,
   ListCard,
@@ -22,8 +22,13 @@ import {
   Text,
   usePremiumTheme,
 } from '@/ui/premium';
+import {
+  PhotoHeaderScrim,
+  SCROLL_EDGE_FADE,
+  ScrollEdgeFade,
+  useScrollEdges,
+} from '@/ui/premium/shell';
 
-import { PlacePhoto } from '../../components/place-hero-photo';
 import { dayTitle } from '../../place-detail/model';
 import { usePlaceDetail, type PlaceDetailInput } from '../../place-detail/use-place-detail';
 import { placeIcon } from '../../search/place-icons';
@@ -31,8 +36,16 @@ import { kindWord } from '../../search/search-rows';
 import { SectionLabel } from '../components/labels';
 import { PlaceResultRow } from '../components/place-result-row';
 import { FactTilesRow, KnowBeforeCard, NearbyRow, WhenItFitsCard } from './place-sections';
+import { PlaceOffersCard, ReportPlaceProfile } from './place-extras';
+import { PlaceDock } from './place-dock';
+import { PlaceHeroPhoto } from './place-hero-photo';
+import { PremiumRemoveForEveryone } from './remove-for-everyone';
 
-const HERO = 330;
+/**
+ * The drawn hero's height (4.36): the sheet starts just over a third down, so the page's next
+ * section heading clears the dock at rest instead of sitting half under it.
+ */
+const HERO = 306;
 const OVERLAP = 34;
 
 export function PlacePage(props: PlaceDetailInput) {
@@ -48,16 +61,34 @@ export function PlacePage(props: PlaceDetailInput) {
     return href === undefined ? undefined : () => router.push(href);
   };
   const guide = { kind: view.guide.kind, name: view.guide.name };
+  // A place the guide has nothing on yet (no facts, timing, tips, notes, offers or neighbours):
+  // the page says so and offers to ask, rather than leaving Report a problem as its only line.
+  const sparse =
+    !further.loading &&
+    view.facts === null &&
+    fits === null &&
+    further.tip === null &&
+    (further.context?.know.length ?? 0) === 0 &&
+    further.offers === null &&
+    (further.context?.nearby.length ?? 0) === 0 &&
+    similar === undefined;
+  // The glass circles' band, and the dock's: the page fades into the ground under each, the top
+  // one only once the photo has scrolled out from under the circles.
+  const headerBand = insets.top + theme.space.gap4 + theme.size.glassNav;
+  const dockBand = insets.bottom + theme.space.gap12 + theme.size.button;
+  const edges = useScrollEdges({ topAfter: HERO - OVERLAP - headerBand });
   return (
     <View style={{ flex: 1, backgroundColor: theme.color.ground }} testID="place-detail">
-      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 110 }}>
+      <ScrollView
+        {...edges.scrollProps}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 110 }}
+      >
         <View style={{ height: HERO, overflow: 'hidden' }}>
-          <PlacePhoto
+          <PlaceHeroPhoto
             photo={view.photo}
             heroUrl={view.heroUrl}
             heroCredit={view.heroCredit}
             category={view.category}
-            accent={view.guide.colour}
             captionInset={OVERLAP + theme.space.gap8}
           />
         </View>
@@ -136,6 +167,13 @@ export function PlacePage(props: PlaceDetailInput) {
             />
           )}
           <KnowBeforeCard lines={further.context?.know ?? []} />
+          {further.offers === null ? null : <PlaceOffersCard {...further.offers} />}
+          <PremiumRemoveForEveryone
+            tripId={props.tripId ?? null}
+            placeId={further.placeId}
+            name={further.name}
+            organiser={further.organiser}
+          />
           <NearbyRow
             places={further.context?.nearby ?? []}
             onPlace={further.onPlace}
@@ -169,8 +207,42 @@ export function PlacePage(props: PlaceDetailInput) {
               </ListCard>
             </View>
           )}
+          {sparse ? (
+            <GuideNote
+              name={view.guide.name}
+              critter={view.guide.kind}
+              text={t({
+                id: 'explore.premium.place.sparse',
+                message: `Nothing written up about this place yet. Ask ${view.guide.name} for its hours, prices and the best time to go.`,
+              })}
+              {...(view.onChat === undefined
+                ? {}
+                : {
+                    action: {
+                      label: t({ id: 'explore.premium.place.sparseAsk', message: 'Ask' }),
+                      onPress: view.onChat,
+                    },
+                  })}
+              testID="place-detail-sparse"
+            />
+          ) : null}
+          {further.profile === null ? null : <ReportPlaceProfile poiId={further.placeId} />}
         </View>
       </ScrollView>
+      {edges.top ? null : <PhotoHeaderScrim height={headerBand + SCROLL_EDGE_FADE} />}
+      <ScrollEdgeFade
+        edge="top"
+        height={headerBand + SCROLL_EDGE_FADE}
+        solid={headerBand}
+        visible={edges.top}
+      />
+      <ScrollEdgeFade
+        edge="bottom"
+        height={dockBand + SCROLL_EDGE_FADE}
+        // Opaque behind the whole dock: content never reads half under the button.
+        solid={dockBand}
+        visible={edges.bottom}
+      />
       <View
         pointerEvents="box-none"
         style={[
@@ -206,49 +278,12 @@ export function PlacePage(props: PlaceDetailInput) {
           />
         </View>
       </View>
-      <View
-        style={[
-          styles.dock,
-          {
-            bottom: insets.bottom + theme.space.gap12,
-            paddingHorizontal: theme.space.gap16,
-            gap: theme.space.gap10,
-          },
-        ]}
-      >
-        <View style={{ flex: 1 }}>
-          <Button
-            label={view.cta.label}
-            onPress={view.cta.onPress}
-            disabled={view.cta.disabled}
-            loading={view.cta.busy}
-            testID="place-detail-cta"
-          />
-        </View>
-        {view.onChat === undefined ? null : (
-          <PressableScale
-            onPress={view.onChat}
-            accessibilityRole="button"
-            accessibilityLabel={t({
-              id: 'explore.premium.place.ask',
-              message: `Ask ${guide.name}`,
-            })}
-            testID="place-detail-chat"
-            style={{
-              width: 56,
-              height: 56,
-              borderRadius: 28,
-              backgroundColor: theme.color.status.maybe.bg,
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              overflow: 'hidden',
-              boxShadow: theme.shadow.raised,
-            }}
-          >
-            <CritterSticker kind={guide.kind} name={guide.name} size={40} edge={false} />
-          </PressableScale>
-        )}
-      </View>
+      <PlaceDock
+        cta={view.cta}
+        guide={guide}
+        onChat={view.onChat}
+        bottom={insets.bottom + theme.space.gap12}
+      />
     </View>
   );
 }
@@ -256,10 +291,10 @@ export function PlacePage(props: PlaceDetailInput) {
 const styles = StyleSheet.create({
   header: {
     position: 'absolute',
+    zIndex: 2,
     left: 0,
     right: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  dock: { position: 'absolute', left: 0, right: 0, flexDirection: 'row', alignItems: 'center' },
 });

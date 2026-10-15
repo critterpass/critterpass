@@ -3,79 +3,40 @@
  * anchor; each crew row shows three faces, its name and its next trip, with a check on the one
  * Home shows or a pink count of unread chat. In-app invites follow as rows of their own ("Dev
  * invited you"), joined after a two-choice alert. Under them: start a crew and join with a code. A
- * tap outside closes it; it scales out of the anchor on the Snappy spring (a fade under Reduce
- * Motion).
+ * tap outside closes it. It grows out of the anchor's corner (opacity 0, scale 0.92) on the Snappy
+ * spring and fades out in 150 ms before the window goes (a fade both ways under Reduce Motion). A
+ * long list scrolls inside the menu, which never runs past the screen; in dark it carries the
+ * floating ring and drop so it stands off the card below.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths, never copy. */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { Alert, Modal, Pressable, View } from 'react-native';
-import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
+import { useEffect, useState } from 'react';
+import { Modal, Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { scheduleOnRN } from 'react-native-worklets';
 
 import type { InviteCardView } from '@/features/crew';
 import {
-  CrewStack,
   Icon,
   PressableScale,
+  REDUCED_FADE_MS,
+  SPRINGS,
   Text,
-  makePremiumStyles,
   usePremiumReducedMotion,
-  usePremiumTheme,
 } from '@/ui/premium';
-import { confirmAlert } from '@/ui/premium/shell';
+import { confirmAlert, noticeAlert } from '@/ui/premium/shell';
 
 import { HOME_ROUTES } from '../../routes';
-import { memberAccent } from '../components/member-colour';
 import { HomeGlyph } from '../components/home-glyph';
-import { useCrewSwitcher, type SwitcherCrew } from './use-crew-switcher';
-
-const useStyles = makePremiumStyles((t) => ({
-  scrim: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: t.color.ground,
-    opacity: 0.55,
-  },
-  menu: {
-    position: 'absolute',
-    start: t.space.gutter,
-    width: 290,
-    borderRadius: t.radius.cardRow,
-    backgroundColor: t.color.card,
-    boxShadow: '0 2px 6px rgba(20,22,40,.08), 0 24px 60px rgba(20,22,40,.22)',
-    overflow: 'hidden',
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: t.space.gap12,
-    paddingVertical: t.space.gap12,
-    paddingHorizontal: t.space.rowPadH,
-  },
-  rule: { height: t.size.hairline, backgroundColor: t.color.hairlineMenu },
-  faces: { width: 52 },
-  grow: { flex: 1 },
-  badge: {
-    minWidth: 20,
-    height: 20,
-    borderRadius: 10,
-    paddingHorizontal: 5,
-    backgroundColor: t.accent.pink,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  action: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: t.color.control,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-}));
+import { CrewLine, InviteLine, useStyles } from './crew-switcher-rows';
+import { useCrewSwitcher } from './use-crew-switcher';
 
 export interface CrewSwitcherMenuProps {
   readonly visible: boolean;
@@ -84,109 +45,6 @@ export interface CrewSwitcherMenuProps {
   readonly currentCrewId: string | null;
   readonly onPick: (crewId: string) => void;
   readonly onClose: () => void;
-}
-
-function CrewLine({
-  crew,
-  current,
-  onPress,
-}: {
-  readonly crew: SwitcherCrew;
-  readonly current: boolean;
-  readonly onPress: () => void;
-}) {
-  const styles = useStyles();
-  const t = usePremiumTheme();
-  const { t: tr } = useLingui();
-  const next = crew.nextTrip?.place ?? null;
-  const count = crew.members.length;
-  const sub =
-    next === null
-      ? tr({ id: 'home.premium.switcher.members', message: `${count} in the crew` })
-      : tr({ id: 'home.premium.switcher.next', message: `Next: ${next}` });
-  return (
-    <PressableScale
-      onPress={onPress}
-      accessibilityLabel={`${crew.name}, ${sub}`}
-      accessibilityState={{ selected: current }}
-      testID={`crew-switcher-${crew.id}`}
-    >
-      <View style={styles.row}>
-        <View style={styles.faces}>
-          <CrewStack
-            members={crew.members.map((m) => ({
-              id: m.userId,
-              name: m.name,
-              color: memberAccent(t, m.colour),
-            }))}
-            max={3}
-            size={24}
-            accessibilityLabel={sub}
-          />
-        </View>
-        <View style={styles.grow}>
-          <Text variant="rowTitle" numberOfLines={1}>
-            {crew.name}
-          </Text>
-          <Text variant="caption" tone="muted" numberOfLines={1}>
-            {sub}
-          </Text>
-        </View>
-        {current ? (
-          <Icon name="check" size={18} />
-        ) : crew.unread > 0 ? (
-          <View style={styles.badge}>
-            <Text variant="tier" tone="onAccent">
-              {crew.unread > 99 ? '99+' : String(crew.unread)}
-            </Text>
-          </View>
-        ) : null}
-      </View>
-    </PressableScale>
-  );
-}
-
-function InviteLine({
-  invite,
-  onPress,
-}: {
-  readonly invite: InviteCardView;
-  readonly onPress: () => void;
-}) {
-  const styles = useStyles();
-  const t = usePremiumTheme();
-  const { t: tr } = useLingui();
-  const inviter = invite.inviterName;
-  const sub =
-    inviter === ''
-      ? tr({ id: 'home.premium.switcher.invited', message: 'You’re invited' })
-      : tr({ id: 'home.premium.switcher.invitedBy', message: `${inviter} invited you` });
-  return (
-    <PressableScale
-      onPress={onPress}
-      accessibilityLabel={`${invite.crewName}, ${sub}`}
-      testID={`crew-switcher-invite-${invite.id}`}
-    >
-      <View style={styles.row}>
-        <View style={styles.faces}>
-          <CrewStack
-            members={[{ id: invite.id, name: inviter, color: t.accent.neutral }]}
-            max={1}
-            size={24}
-            accessibilityLabel={sub}
-          />
-        </View>
-        <View style={styles.grow}>
-          <Text variant="rowTitle" numberOfLines={1}>
-            {invite.crewName}
-          </Text>
-          <Text variant="caption" tone="muted" numberOfLines={1}>
-            {sub}
-          </Text>
-        </View>
-      </View>
-    </PressableScale>
-  );
 }
 
 export function CrewSwitcherMenu({
@@ -200,6 +58,35 @@ export function CrewSwitcherMenu({
   const reduced = usePremiumReducedMotion();
   const { t } = useLingui();
   const switcher = useCrewSwitcher();
+  const window = useWindowDimensions();
+  const insets = useSafeAreaInsets();
+  const menuTop = top + 4;
+  const maxHeight = Math.max(160, window.height - menuTop - insets.bottom - 16);
+  // The window stays up while the menu fades out, then goes.
+  const [mounted, setMounted] = useState(visible);
+  if (visible && !mounted) setMounted(true);
+  const shown = useSharedValue(0);
+  useEffect(() => {
+    if (visible) {
+      shown.set(
+        reduced ? withTiming(1, { duration: REDUCED_FADE_MS }) : withSpring(1, SPRINGS.snappy),
+      );
+      return;
+    }
+    shown.set(
+      withTiming(0, { duration: REDUCED_FADE_MS }, (finished) => {
+        if (finished === true) scheduleOnRN(setMounted, false);
+      }),
+    );
+  }, [visible, reduced, shown]);
+  const pop = useAnimatedStyle(() => {
+    const p = shown.get();
+    return {
+      opacity: Math.min(1, p),
+      transform: [{ scale: reduced || !visible ? 1 : 0.92 + 0.08 * p }],
+    };
+  });
+  const dim = useAnimatedStyle(() => ({ opacity: 0.55 * Math.min(1, shown.get()) }));
   const go = (href: string) => {
     onClose();
     router.push(href);
@@ -220,63 +107,70 @@ export function CrewSwitcherMenu({
     if (!joining) return;
     if (await switcher.join(invite)) onPick(invite.crewId);
     else
-      Alert.alert(t({ id: 'crew.sheet.joinFailed', message: 'That invite can’t be joined now' }));
+      await noticeAlert({
+        title: t({ id: 'crew.sheet.joinFailed', message: 'That invite can’t be joined now' }),
+        ok: t({ id: 'home.premium.switcher.joinFailedOk', message: 'Got it' }),
+      });
   };
   return (
-    <Modal visible={visible} transparent animationType="none" onRequestClose={onClose}>
+    <Modal visible={mounted} transparent animationType="none" onRequestClose={onClose}>
+      <Animated.View pointerEvents="none" style={[styles.scrim, { top }, dim]} />
       <Pressable
-        style={[styles.scrim, { top }]}
+        style={[styles.hit, { top }]}
         onPress={onClose}
+        disabled={!visible}
         accessibilityRole="button"
         accessibilityLabel={t({ id: 'home.premium.switcher.close', message: 'Close' })}
       />
       <Animated.View
-        entering={reduced ? FadeIn.duration(150) : ZoomIn.springify().damping(36).stiffness(438)}
-        style={[styles.menu, { top: top + 4 }]}
+        pointerEvents={visible ? 'auto' : 'none'}
+        style={[styles.menu, { top: menuTop, maxHeight }, pop]}
         testID="crew-switcher"
       >
-        {switcher.crews.map((crew, i) => (
-          <View key={crew.id}>
-            {i > 0 ? <View style={styles.rule} /> : null}
-            <CrewLine
-              crew={crew}
-              current={crew.id === currentCrewId}
-              onPress={() => {
-                switcher.pick(crew.id);
-                onPick(crew.id);
-                onClose();
-              }}
-            />
-          </View>
-        ))}
-        {switcher.invites.map((invite) => (
-          <View key={invite.id}>
-            <View style={styles.rule} />
-            <InviteLine invite={invite} onPress={() => void answer(invite)} />
-          </View>
-        ))}
-        <View style={styles.rule} />
-        <PressableScale onPress={() => go('/crew/new')} testID="home-start-crew">
-          <View style={styles.row}>
-            <View style={styles.action}>
-              <Icon name="plus" size={16} />
+        <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+          {switcher.crews.map((crew, i) => (
+            <View key={crew.id}>
+              {i > 0 ? <View style={styles.rule} /> : null}
+              <CrewLine
+                crew={crew}
+                current={crew.id === currentCrewId}
+                onPress={() => {
+                  switcher.pick(crew.id);
+                  onPick(crew.id);
+                  onClose();
+                }}
+              />
             </View>
-            <Text variant="rowTitle" style={styles.grow}>
-              {t({ id: 'home.firstRun.startCrew', message: 'Start a crew' })}
-            </Text>
-          </View>
-        </PressableScale>
-        <View style={styles.rule} />
-        <PressableScale onPress={() => go(HOME_ROUTES.joinCode)} testID="home-join-code">
-          <View style={styles.row}>
-            <View style={styles.action}>
-              <HomeGlyph name="hash" size={16} />
+          ))}
+          {switcher.invites.map((invite) => (
+            <View key={invite.id}>
+              <View style={styles.rule} />
+              <InviteLine invite={invite} onPress={() => void answer(invite)} />
             </View>
-            <Text variant="rowTitle" style={styles.grow}>
-              {t({ id: 'home.firstRun.joinCode', message: 'Join with a code' })}
-            </Text>
-          </View>
-        </PressableScale>
+          ))}
+          <View style={styles.rule} />
+          <PressableScale onPress={() => go('/crew/new')} testID="home-start-crew">
+            <View style={styles.row}>
+              <View style={styles.action}>
+                <Icon name="plus" size={16} />
+              </View>
+              <Text variant="rowTitle" style={styles.grow}>
+                {t({ id: 'home.firstRun.startCrew', message: 'Start a crew' })}
+              </Text>
+            </View>
+          </PressableScale>
+          <View style={styles.rule} />
+          <PressableScale onPress={() => go(HOME_ROUTES.joinCode)} testID="home-join-code">
+            <View style={styles.row}>
+              <View style={styles.action}>
+                <HomeGlyph name="hash" size={16} />
+              </View>
+              <Text variant="rowTitle" style={styles.grow}>
+                {t({ id: 'home.firstRun.joinCode', message: 'Join with a code' })}
+              </Text>
+            </View>
+          </PressableScale>
+        </ScrollView>
       </Animated.View>
     </Modal>
   );

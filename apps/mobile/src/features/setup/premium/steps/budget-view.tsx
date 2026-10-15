@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { TextInput, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { Button, Card, IconButton, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 
 import {
@@ -20,7 +20,7 @@ import {
   lockLine,
   type BudgetPick,
   type BudgetViewProps,
-} from '../../budget/budget-view';
+} from '../../budget/budget-props';
 import {
   barsFor,
   currencySymbol,
@@ -28,8 +28,8 @@ import {
   snap,
   typedAmountMinor,
   widenTrack,
+  isOverBand,
 } from '../../budget/model';
-import { isOverBand } from '../../budget/sweet-spot-card';
 import { BudgetBreakdown } from './budget-breakdown';
 import { ChecklistPill, StepHeadline, StepPage } from './step-parts';
 
@@ -116,6 +116,7 @@ export function PremiumBudgetView(props: BudgetViewProps) {
           </View>
           {props.onSkip === null ? null : (
             <TextButton
+              align="center"
               label={t({ id: 'setup.budget.skip', message: 'Skip the budget' })}
               onPress={props.onSkip}
               testID="budget-skip"
@@ -224,6 +225,7 @@ export function PremiumBudgetView(props: BudgetViewProps) {
             }}
           >
             <Button
+              alignSelf="auto"
               size="small"
               variant="control"
               label={t({ id: 'setup.budget.infeasible.dates', message: 'Cheaper dates' })}
@@ -231,6 +233,7 @@ export function PremiumBudgetView(props: BudgetViewProps) {
               testID="budget-infeasible-dates"
             />
             <Button
+              alignSelf="auto"
               size="small"
               variant="control"
               label={t({ id: 'setup.budget.infeasible.shorter', message: 'A shorter trip' })}
@@ -238,6 +241,7 @@ export function PremiumBudgetView(props: BudgetViewProps) {
               testID="budget-infeasible-shorter"
             />
             <Button
+              alignSelf="auto"
               size="small"
               variant="control"
               label={t({ id: 'setup.budget.infeasible.hostels', message: 'Mix in hostels' })}

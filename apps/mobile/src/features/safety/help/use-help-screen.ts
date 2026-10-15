@@ -19,7 +19,7 @@ import { useNow } from '@/lib/time/use-now';
 import { goBackOr } from '@/lib/navigation/back';
 import { toast } from '@/motion';
 import { useCommandFeedback } from '@/motion/island-toast';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { BOOKINGS_ROUTES, pickPolicy, useInsurancePolicies } from '@/features/bookings';
 import { HELP_ROUTES } from '@/features/help';
@@ -37,7 +37,7 @@ import { useSpeech } from '../data/use-speech';
 import { telUrl } from '../format';
 import { safetyRoutes } from '../routes';
 import { readsPhraseLanguage } from './checklist-model';
-import type { HelpViewProps } from './help-view';
+import type { HelpViewProps } from './view-types';
 import {
   markShareStopped,
   onOpen,
@@ -238,5 +238,10 @@ export function useHelpScreen() {
     onInsurance: () => router.push(BOOKINGS_ROUTES.insurance),
     onHelpCentre: () => router.push(HELP_ROUTES.hub),
   };
-  return { props, asking, answer, crewName, showIt, setShowIt, phrase, share, now };
+  // The crumb names where back goes: a trip page opened Help for its trip, else Help came from Home.
+  const backLabel =
+    asked === null
+      ? t({ id: 'safety.help.backHome', message: 'Home' })
+      : t({ id: 'safety.help.backTrip', message: 'Trip' });
+  return { props, asking, answer, crewName, showIt, setShowIt, phrase, share, now, backLabel };
 }

@@ -25,17 +25,18 @@ import type {
   TraySticker,
 } from '../../chat/data/use-sticker-tray';
 import { plainFormSpec, stickerArtKind } from '../../chat/data/use-sticker-form';
-import { CHAT_PAINT } from '../premium-paint';
+import { TrayEmpty } from './tray-empty';
 
 const TILE = 76;
 const ART = 68;
 
 const useStyles = makePremiumStyles((th) => ({
+  // The tray is a card panel under the composer with rounded top corners, down to the screen's
+  // bottom edge (its height takes the home indicator's inset).
   tray: {
     backgroundColor: th.color.card,
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
-    boxShadow: CHAT_PAINT.trayShadow,
+    borderTopLeftRadius: th.radius.cardLarge,
+    borderTopRightRadius: th.radius.cardLarge,
     paddingTop: th.space.gap12,
   },
   tabs: {
@@ -188,7 +189,7 @@ export function StickerTray({ tray, height, bottomInset, onSend, onLocked }: Sti
         <PressableScale
           style={[
             styles.recent,
-            { backgroundColor: tab === 'recent' ? th.color.inkSurface : th.color.control },
+            { backgroundColor: tab === 'recent' ? th.color.inkSurface : th.color.card },
           ]}
           onPress={() => setTab('recent')}
           accessibilityRole="tab"
@@ -211,7 +212,7 @@ export function StickerTray({ tray, height, bottomInset, onSend, onLocked }: Sti
                 key={candidate.form.critterId}
                 style={[
                   styles.tab,
-                  { backgroundColor: active ? th.color.inkSurface : th.color.control },
+                  { backgroundColor: active ? th.color.inkSurface : th.color.card },
                 ]}
                 onPress={() => setTab(candidate.form.critterId)}
                 accessibilityRole="tab"
@@ -243,14 +244,7 @@ export function StickerTray({ tray, height, bottomInset, onSend, onLocked }: Sti
       )}
       <ScrollView contentContainerStyle={[styles.grid, { paddingBottom: bottomInset }]}>
         {stickers.length === 0 ? (
-          <Text variant="caption" tone="muted" style={{ padding: th.space.gap16 }}>
-            {tray.tabs.length === 0
-              ? t({
-                  id: 'chat.premium.tray.none',
-                  message: 'Meet a critter on a trip and its stickers land here.',
-                })
-              : t({ id: 'chat.premium.tray.noRecent', message: 'Stickers you send show up here.' })}
-          </Text>
+          <TrayEmpty met={tray.tabs.length > 0} />
         ) : (
           stickers.map((sticker) => (
             <StickerTile

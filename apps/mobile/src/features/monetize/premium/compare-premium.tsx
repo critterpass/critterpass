@@ -151,7 +151,7 @@ export function ComparePremium() {
               { borderTopWidth: th.size.hairline, borderTopColor: th.color.hairline },
             ]}
           >
-            <Text variant="caption" style={styles.label}>
+            <Text variant="caption" style={[styles.label, styles.rowLabel]}>
               {i18n._(row.label)}
             </Text>
             {row.cells.map((value, i) => (
@@ -188,6 +188,7 @@ const styles = StyleSheet.create({
   label: { flex: 1.65 },
   col: { flex: 1 },
   bold: { fontWeight: '700' },
+  rowLabel: { fontWeight: '600' },
   buttons: { flexDirection: 'row', gap: 10 },
   boost: { height: 56, borderRadius: 28, alignItems: 'center', justifyContent: 'center' },
 });

@@ -8,7 +8,7 @@
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { ScrollView, useWindowDimensions, View } from 'react-native';
+import { Platform, ScrollView, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -24,7 +24,7 @@ import {
 import { fitColour, PlaceThumb } from '@/features/explore';
 import { crewColour } from '@/features/vote';
 import { sheetMaterialStyle } from '@/ui/premium/shell';
-import { useBackAffordance } from '@/ui/qa/back-affordance';
+import { useBackAffordance } from '@/lib/qa/back-affordance';
 import { ideaIcon } from '../../ideas/idea-icon';
 import {
   beforePlanBody,
@@ -37,9 +37,9 @@ import {
 import { useIdeasModel } from '../../ideas/use-ideas-model';
 import { useMustDoStars } from '../../ideas/use-must-do-stars';
 import { GlassMenu } from '../plan-map/glass-menu';
+import { AndroidGrabber, MustDoBanner, STARRED } from './ideas-parts';
 
 const STAR = 36;
-const STARRED = '★';
 const UNSTARRED = '☆';
 
 export function IdeasSheet({ tripId }: { readonly tripId: string }) {
@@ -67,11 +67,12 @@ export function IdeasSheet({ tripId }: { readonly tripId: string }) {
       <ScrollView
         contentContainerStyle={{
           paddingHorizontal: theme.space.gap16,
-          paddingTop: theme.space.gap16,
+          paddingTop: Platform.OS === 'android' ? theme.space.gap8 : theme.space.gap16,
           paddingBottom: insets.bottom + theme.space.gap16,
           gap: theme.space.gap12,
         }}
       >
+        <AndroidGrabber />
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.space.gap12 }}>
           <View style={{ flex: 1 }}>
             <Text variant="title" accessibilityRole="header">
@@ -85,9 +86,11 @@ export function IdeasSheet({ tripId }: { readonly tripId: string }) {
           </View>
           {model.mapHref === undefined ? null : (
             <Button
+              alignSelf="auto"
               label={t({ id: 'plan.premium.ideas.onMap', message: 'On map' })}
               size="small"
               variant="control"
+              icon="pin"
               onPress={() => {
                 if (model.mapHref !== undefined) router.push(model.mapHref);
               }}
@@ -95,33 +98,7 @@ export function IdeasSheet({ tripId }: { readonly tripId: string }) {
             />
           )}
         </View>
-        {ideas.length === 0 ? null : (
-          <View
-            testID="ideas-must-do-banner"
-            style={{
-              borderRadius: 18,
-              backgroundColor: theme.color.banner.guide.bg,
-              paddingVertical: theme.space.gap10,
-              paddingHorizontal: theme.space.gap12,
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: theme.space.gap10,
-            }}
-          >
-            <Text variant="headline" color={theme.color.guideName}>
-              {STARRED}
-            </Text>
-            <Text variant="note" color={theme.color.banner.guide.text} style={{ flex: 1 }}>
-              <Text variant="bannerAction" color={theme.color.banner.guide.text}>
-                {t({ id: 'plan.premium.ideas.mustDoLead', message: 'Must-dos: star one each.' })}
-              </Text>
-              {` ${t({
-                id: 'plan.premium.ideas.starred',
-                message: `${stars.starredCount} of ${total} starred`,
-              })}`}
-            </Text>
-          </View>
-        )}
+        {ideas.length === 0 ? null : <MustDoBanner starred={stars.starredCount} total={total} />}
         {loaded && ideas.length === 0 ? (
           <EmptyState
             title={t({ id: 'plan.premium.ideas.emptyTitle', message: 'Nothing saved yet' })}

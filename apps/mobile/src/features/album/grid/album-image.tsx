@@ -6,18 +6,13 @@
 import { useLingui } from '@lingui/react/macro';
 import { Image, StyleSheet, View } from 'react-native';
 
-import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
+import { Text } from '@/ui/premium';
 
 import { useAlbumPicture } from './album-media';
 
-const useStyles = makeStyles((t) => ({
-  failed: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: t.space['8'],
-  },
-}));
+const styles = StyleSheet.create({
+  failed: { alignItems: 'center', justifyContent: 'center', padding: 8 },
+});
 
 export interface AlbumImageProps {
   readonly mediaKey: string | null;
@@ -29,8 +24,6 @@ export interface AlbumImageProps {
 /** Fills its parent, which gives the size, the corners and the placeholder colour. */
 export function AlbumImage({ mediaKey, failureLine = true, testID }: AlbumImageProps) {
   const { t } = useLingui();
-  const styles = useStyles();
-  const theme = useTheme();
   const picture = useAlbumPicture(mediaKey);
   if (picture.url !== null) {
     return (
@@ -46,13 +39,7 @@ export function AlbumImage({ mediaKey, failureLine = true, testID }: AlbumImageP
   if (!picture.failed || !failureLine) return null;
   return (
     <View style={[StyleSheet.absoluteFill, styles.failed]} pointerEvents="none">
-      <Text
-        variant="caption"
-        color={theme.color.paper.bright}
-        singleLine={false}
-        numberOfLines={2}
-        style={{ textAlign: 'center' }}
-      >
+      <Text variant="caption" tone="onInk" singleLine={false} numberOfLines={2} align="center">
         {t({ id: 'album.image.failed', message: "Couldn't load" })}
       </Text>
     </View>

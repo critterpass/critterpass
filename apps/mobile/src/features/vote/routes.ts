@@ -1,6 +1,6 @@
 /**
  * The vote area's routes and the design screen ids the navigation registry knows them by: the
- * pitch sheet (3b-3), the showdown (3c-1), the winner reveal (3c-2), place search (3b-7) and the
+ * pitch sheet (3b-3), the pitch board page (`vote-board`), the showdown (3c-1), the winner reveal (3c-2), place search (3b-7) and the
  * guest guide's place page (3b-8). The live guide's destination page (3d-1) is another area's.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
@@ -14,6 +14,7 @@ export const voteRoutes = {
     pathname: '/vote/pitch',
     params: placeId === undefined ? { crewId } : { crewId, placeId },
   }),
+  board: (pollId: string): Href => ({ pathname: '/vote/[pollId]/board', params: { pollId } }),
   showdown: (pollId: string): Href => ({ pathname: '/vote/[pollId]', params: { pollId } }),
   reveal: (pollId: string): Href => ({ pathname: '/vote/[pollId]/reveal', params: { pollId } }),
   search: (crewId?: string): Href => ({
@@ -29,9 +30,9 @@ export const voteRoutes = {
     hrefFor('7g-3', { placeId }) ?? voteRoutes.place(placeId, crewId),
   /** Trip setup (another area's 3c-3), once that area has registered it. */
   tripSetup: (tripId: string): Href | undefined => hrefFor('3c-3', { tripId }),
-  /** Where a new trip's setup starts: the checklist (4.08) in the premium look, else When. */
-  tripStart: (tripId: string, premium: boolean): Href | undefined =>
-    (premium ? hrefFor('setup-checklist', { tripId }) : undefined) ?? hrefFor('3c-3', { tripId }),
+  /** Where a new trip's setup starts: the checklist (4.08), else When. */
+  tripStart: (tripId: string): Href | undefined =>
+    hrefFor('setup-checklist', { tripId }) ?? hrefFor('3c-3', { tripId }),
 };
 
 let registered = false;
@@ -44,6 +45,7 @@ export function registerVoteScreens(): void {
     '3b-3': (params) => voteRoutes.pitch(params['crewId'] ?? '', params['placeId']),
     '3b-7': (params) => voteRoutes.search(params['crewId']),
     '3b-8': (params) => voteRoutes.place(params['placeId'] ?? ''),
+    'vote-board': (params) => voteRoutes.board(params['pollId'] ?? ''),
     '3c-1': (params) => voteRoutes.showdown(params['pollId'] ?? ''),
     '3c-2': (params) => voteRoutes.reveal(params['pollId'] ?? ''),
   });

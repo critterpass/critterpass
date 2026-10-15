@@ -5,13 +5,12 @@ import { router } from 'expo-router';
 import { isOnboardingComplete, setOnboardingComplete } from '@/lib/links/pending';
 
 import { clearDraftForTests, updateDraft } from '../flow-controller/draft-store';
-import { PhoneScreen } from '../phone/PhoneScreen';
-import { SaveScreen } from '../save/SaveScreen';
+import { PremiumPhonePage } from '../premium/phone/PremiumPhonePage';
+import { PremiumSavePage } from '../premium/save/PremiumSavePage';
 import { fakeServices, renderOnboarding } from '../test-support/harness';
 import type { OnboardingServices } from '../services';
 
-const activate = (element: Parameters<typeof fireEvent>[0]) =>
-  fireEvent(element, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });
+const activate = (element: Parameters<typeof fireEvent.press>[0]) => fireEvent.press(element);
 
 const flush = () =>
   act(async () => {
@@ -73,7 +72,7 @@ beforeEach(() => {
 describe('save sheet: a sign-in that already has a pass', () => {
   it('leads with switching to the old pass, and switching signs in to it', async () => {
     const { services, confirmMerge, restart } = googleWithOldPass();
-    await renderOnboarding(<SaveScreen />, { services });
+    await renderOnboarding(<PremiumSavePage />, { services });
     await activate(screen.getByTestId('save-google'));
     await flush();
     await activate(screen.getByTestId('merge-use-existing'));
@@ -84,7 +83,7 @@ describe('save sheet: a sign-in that already has a pass', () => {
 
   it('says what keeping the new pass means, then still offers the switch', async () => {
     const { services, confirmMerge, restart } = googleWithOldPass();
-    await renderOnboarding(<SaveScreen />, { services });
+    await renderOnboarding(<PremiumSavePage />, { services });
     await activate(screen.getByTestId('save-google'));
     await flush();
     await activate(screen.getByTestId('merge-keep-new'));
@@ -103,7 +102,7 @@ describe('save sheet: a sign-in that already has a pass', () => {
 describe('phone page: a sign-in that already has a pass', () => {
   it('asks in its own sheet, not under "Your number"', async () => {
     const { services, confirmMerge, restart } = googleWithOldPass();
-    await renderOnboarding(<PhoneScreen />, { services });
+    await renderOnboarding(<PremiumPhonePage />, { services });
     await activate(screen.getByTestId('phone-google'));
     await flush();
     expect(screen.getByTestId('merge-sheet')).toBeTruthy();
@@ -115,7 +114,7 @@ describe('phone page: a sign-in that already has a pass', () => {
 
   it('switches straight from the "kept" explanation', async () => {
     const { services, confirmMerge } = googleWithOldPass();
-    await renderOnboarding(<PhoneScreen />, { services });
+    await renderOnboarding(<PremiumPhonePage />, { services });
     await activate(screen.getByTestId('phone-google'));
     await flush();
     await activate(screen.getByTestId('merge-keep-new'));
@@ -126,7 +125,7 @@ describe('phone page: a sign-in that already has a pass', () => {
 
   it('closes the explanation back to the number form with the switch still on offer', async () => {
     const { services } = googleWithOldPass();
-    await renderOnboarding(<PhoneScreen />, { services });
+    await renderOnboarding(<PremiumPhonePage />, { services });
     await activate(screen.getByTestId('phone-google'));
     await flush();
     await activate(screen.getByTestId('merge-keep-new'));
@@ -140,7 +139,7 @@ describe('phone page: a sign-in that already has a pass', () => {
     const { services } = googleWithOldPass(
       jest.fn(() => Promise.resolve({ kind: 'ticket_invalid' as const })) as never,
     );
-    await renderOnboarding(<PhoneScreen />, { services });
+    await renderOnboarding(<PremiumPhonePage />, { services });
     await activate(screen.getByTestId('phone-google'));
     await flush();
     await activate(screen.getByTestId('merge-use-existing'));

@@ -2,14 +2,17 @@ import { useEffect } from 'react';
 import { View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
-import type { PremiumTypeName } from '@cp/design-tokens';
-
 import { Text } from '../text/Text';
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
 import { usePremiumReducedMotion } from './reduced-motion';
 import { SPRINGS } from './springs';
+import type { PremiumTypeName } from '../theme/kit-type';
 
-const DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+/** The rolling strip, 0 to 9, one per line: one text node per column, not ten. */
+const STRIP = '0\n1\n2\n3\n4\n5\n6\n7\n8\n9';
+
+/** Every digit takes the same width, so a rolling amount never shifts sideways. */
+const TABULAR = { fontVariant: ['tabular-nums' as const] };
 
 /** One character slot, keyed from the right so the ones place keeps its column as numbers grow. */
 export interface RollSlot {
@@ -52,21 +55,19 @@ function DigitColumn({
   return (
     <View style={{ height: lineHeight, overflow: 'hidden' }}>
       {/* The resting digit sizes the column; the strip rolls over it. */}
-      <Text variant={variant} style={{ lineHeight, opacity: 0 }}>
+      <Text variant={variant} style={[TABULAR, { lineHeight, opacity: 0 }]}>
         {String(digit)}
       </Text>
       <Animated.View style={[{ position: 'absolute', top: 0, left: 0, right: 0 }, strip]}>
-        {DIGITS.map((d) => (
-          <Text
-            key={d}
-            variant={variant}
-            align="center"
-            style={{ lineHeight }}
-            {...(color === undefined ? {} : { color })}
-          >
-            {d}
-          </Text>
-        ))}
+        <Text
+          variant={variant}
+          align="center"
+          singleLine={false}
+          style={[TABULAR, { lineHeight }]}
+          {...(color === undefined ? {} : { color })}
+        >
+          {STRIP}
+        </Text>
       </Animated.View>
     </View>
   );
@@ -103,7 +104,7 @@ export function NumberRoll({ text, variant = 'stat', color, testID }: NumberRoll
           <Text
             key={slot.key}
             variant={variant}
-            style={{ lineHeight }}
+            style={[TABULAR, { lineHeight }]}
             {...(color === undefined ? {} : { color })}
           >
             {slot.char}

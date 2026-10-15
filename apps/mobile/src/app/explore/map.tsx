@@ -3,6 +3,8 @@ import { useState } from 'react';
 
 import { goBackOr } from '@/lib/navigation/back';
 import { PlacesListScreen, PlacesMapScreen, type PlacesFilter } from '@/features/explore/places';
+import { PremiumPlacesListView } from '@/features/explore/premium/places/places-list-page';
+import { PremiumPlacesMapView } from '@/features/explore/premium/places/places-map-page';
 
 /**
  * A destination's map with its places, filters and cards, and the list view of the same: the
@@ -38,8 +40,13 @@ function DestinationPlaces(props: {
     onBack: () => goBackOr(),
   };
   return mode === 'map' ? (
-    <PlacesMapScreen {...shared} placeId={props.placeId} onList={() => setMode('list')} />
+    <PlacesMapScreen
+      {...shared}
+      placeId={props.placeId}
+      onList={() => setMode('list')}
+      View={PremiumPlacesMapView}
+    />
   ) : (
-    <PlacesListScreen {...shared} onMap={() => setMode('map')} />
+    <PlacesListScreen {...shared} onMap={() => setMode('map')} View={PremiumPlacesListView} />
   );
 }

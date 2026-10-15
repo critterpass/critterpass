@@ -4,8 +4,8 @@
  * licensed photo to its author.
  */
 import type { MediaView } from '@/lib/media/variants';
-import type { LightboxItem } from '@/ui/media/lightbox/lightbox-model';
-import { mediaViewItem, siteCredit } from '@/ui/media/lightbox/lightbox-model';
+import type { LightboxItem } from '@/lib/media/viewer/lightbox-model';
+import { mediaViewItem, siteCredit } from '@/lib/media/viewer/lightbox-model';
 
 import type { LiveDetails, LivePhoto } from './place-live';
 

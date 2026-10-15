@@ -1,6 +1,6 @@
 /**
  * The bookings as a wallet stack (7.02): the next booking in front, and the next few behind it as
- * closed cards whose headers peek out 44 apart, each a little narrower than the one in front of it
+ * closed cards whose headers peek out 48 apart, each a little narrower than the one in front of it
  * (thumb, title, when and the kind's dot). A header brings its booking to the front; the front card
  * opens it. A flight in front is its boarding card (light in both modes, 1.13); anything else is a
  * white card with its kind, title and when, and the barcode band when it has a pass.
@@ -15,6 +15,7 @@ import { PremiumThemeProvider, PressableScale, Text, usePremiumTheme } from '@/u
 import type { WalletBooking } from '../../data/model';
 import { useChipLabel } from '../../flight-card/labels';
 import { flightView } from '../../flight-card/flight-model';
+import { gateChanged } from '../../flight-card/gate-memory';
 import { clock, dayDate } from '../../format';
 import { FlightTicket } from './FlightTicket';
 import { kindLook } from './kind-look';
@@ -22,8 +23,10 @@ import { kindLook } from './kind-look';
 /** How many closed headers peek above the front card; the rest are listed under the stack. */
 export const STACK_DEPTH = 3;
 const CLOSED_HEIGHT = 110;
-const PEEK = 44;
-const FRONT_INSET = 20;
+// Room for a header's title and its when line whole (marked Vietnamese lines run taller).
+const PEEK = 48;
+// The front card lines up with the cards under the stack (the page's 16 pt sides).
+const FRONT_INSET = 16;
 const STEP_INSET = 6;
 const TILTS = [-5, 4, -3];
 const STRIPES = [3, 1, 2, 1, 4, 1, 1, 3, 2, 1, 3, 1, 2, 2, 1, 4, 1, 2, 1, 3, 1, 1, 2, 3, 1, 2];
@@ -38,7 +41,8 @@ function ClosedCard(props: {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const look = kindLook(props.booking.kind, th.color);
-  const inset = FRONT_INSET + STEP_INSET * (props.count - 1 - props.index);
+  // Even the nearest card behind is a step narrower than the front one, so one card still stacks.
+  const inset = FRONT_INSET + STEP_INSET * (props.count - props.index);
   return (
     <PressableScale
       onPress={props.onPick}
@@ -87,6 +91,21 @@ function BarcodeBand({ color }: { readonly color: string }) {
   );
 }
 
+function PassBand({ onPress, label }: { readonly onPress: () => void; readonly label: string }) {
+  const th = usePremiumTheme();
+  return (
+    <PressableScale
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      testID="bookings-next-up-pass"
+      style={[styles.passBand, { backgroundColor: th.color.card }]}
+    >
+      <BarcodeBand color={th.color.ink} />
+    </PressableScale>
+  );
+}
+
 function FrontCard(props: {
   readonly booking: WalletBooking;
   readonly meta: string;
@@ -99,19 +118,24 @@ function FrontCard(props: {
   const locale = useLocale();
   const chipLabel = useChipLabel();
   const { booking } = props;
-  const view = booking.kind === 'flight' ? flightView(booking, []) : null;
+  const leg = booking.segments[0];
+  // GATE CHANGE once a leg's gate differs from the first one this session saw.
+  const view =
+    booking.kind === 'flight'
+      ? flightView(booking, [], {
+          gateChanged: leg === undefined ? false : gateChanged(leg.id, leg.gate),
+        })
+      : null;
   const look = kindLook(booking.kind, th.color);
   const pass =
     props.onPass === null ? null : (
-      <PressableScale
-        onPress={props.onPass}
-        accessibilityRole="button"
-        accessibilityLabel={t({ id: 'bookings.premium.showPass', message: 'Show the pass' })}
-        testID="bookings-next-up-pass"
-        style={[styles.passBand, { backgroundColor: th.color.card }]}
-      >
-        <BarcodeBand color={th.color.ink} />
-      </PressableScale>
+      // The barcode stays light in dark mode, as the pass it opens does (1.13).
+      <PremiumThemeProvider scheme="light">
+        <PassBand
+          onPress={props.onPass}
+          label={t({ id: 'bookings.premium.showPass', message: 'Show the pass' })}
+        />
+      </PremiumThemeProvider>
     );
   return (
     <View testID="bookings-next-up">
@@ -150,7 +174,6 @@ function FrontCard(props: {
               arrives={clock(locale, view.arrivesAt, props.tz)}
               boards={clock(locale, view.boardsAt, props.tz)}
               statusLabel={chipLabel(view.chip, view.delayMin)}
-              notch={th.color.ground}
             />
           </PremiumThemeProvider>
         )}
@@ -203,11 +226,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: 12,
-    paddingVertical: 12,
+    paddingTop: 8,
+    paddingBottom: 12,
     paddingHorizontal: 14,
   },
   flex: { flex: 1, minWidth: 0 },
-  dot: { width: 10, height: 10, borderRadius: 5, marginTop: 14 },
+  dot: { width: 10, height: 10, borderRadius: 5, marginTop: 10 },
   front: { padding: 18, gap: 8 },
   barcode: { flexDirection: 'row', height: 52, gap: 3, overflow: 'hidden' },
   passBand: { marginTop: 10, borderRadius: 10, overflow: 'hidden', padding: 6 },

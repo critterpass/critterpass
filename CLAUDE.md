@@ -6,7 +6,7 @@ Binding for every coding agent. Details: [docs/code-standards.md](docs/code-stan
 
 1. [docs/README.md](docs/README.md) reading order: `product-decisions.md` §1 → `code-standards.md` §1 → `system-architecture.md` §1–5.
 2. Your phase file in `plans/260926-1718-critterpass-full-build/` (context links, requirements, architecture & contracts), then the task.
-3. Only the `data-model*.md` / `api-contracts*.md` sections the task names; `design-system.md` + the task's renders (`docs/design-renders/screens/<label>.png`, `screens.json`) for UI.
+3. Only the `data-model*.md` / `api-contracts*.md` sections the task names; `design-system.md` (the premium system: `plans/261010-1701-premium-redesign/foundations-spec.md`, `design/premium/`) + the task's renders (`docs/design-renders/premium/<code>.png`, its `screens.json`) for UI.
 
 Precedence: product-decisions §1 > §2 > contracts > older reports > design files. The plan wins over docs on ownership; the owning task writes the doc delta.
 

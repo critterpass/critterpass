@@ -7,7 +7,7 @@ import type { Href } from 'expo-router';
 import { router } from 'expo-router';
 import { View } from 'react-native';
 
-import { Icon, PressableScale, Text, makePremiumStyles, usePremiumTheme } from '@/ui/premium';
+import { Chip, Icon, Text, makePremiumStyles, usePremiumTheme } from '@/ui/premium';
 
 import type { WaitingQuestion } from '../chat/data/guide-question-queue';
 import { GuideQuestion } from './guide-bubbles';
@@ -29,13 +29,6 @@ const useStyles = makePremiumStyles((th) => ({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: th.color.status.tangerine.bg,
-  },
-  chip: {
-    height: 32,
-    paddingHorizontal: 13,
-    borderRadius: 16,
-    justifyContent: 'center',
-    backgroundColor: th.color.control,
   },
 }));
 
@@ -99,15 +92,12 @@ export function OfflineToolsCard({
       </View>
       <View style={styles.pills}>
         {tools.map((tool) => (
-          <PressableScale
+          <Chip
             key={tool.key}
-            style={styles.chip}
+            label={tool.label}
             onPress={() => router.push(tool.href)}
-            accessibilityRole="button"
             testID={`guide-offline-${tool.key}`}
-          >
-            <Text variant="rowTextStrong">{tool.label}</Text>
-          </PressableScale>
+          />
         ))}
       </View>
     </View>

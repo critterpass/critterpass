@@ -14,7 +14,7 @@ import { AppState } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { createDeviceResolver } from '@/data/commands/device';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideId } from '@/lib/navigation/active-guide';
 import { guideOr } from '../hub/guide';
 import { useLiveRows } from '../hub/data/live-rows';
 import { useLocale } from '@/lib/i18n/use-locale';

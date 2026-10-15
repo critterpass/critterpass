@@ -4,6 +4,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
 import type { Href } from 'expo-router';
+import { Platform } from 'react-native';
 
 import { registerScreens } from '@/lib/navigation/screen-registry';
 
@@ -12,6 +13,10 @@ export const BOOKINGS_ROUTES = {
   add: '/wallet/bookings/add',
   archive: '/wallet/bookings/archive',
   insurance: '/wallet/bookings/insurance',
+  /** The premium wallet's sheets over the add page and the wallet. */
+  paste: '/wallet/bookings/paste',
+  linkCode: '/wallet/bookings/link-code',
+  mailbox: '/wallet/bookings/mailbox',
 } as const;
 
 export function bookingRoute(id: string): Href {
@@ -32,8 +37,20 @@ export function addByHandRoute(
   return { pathname: '/wallet/bookings/edit/[id]', params: { id: 'new', ...prefill } };
 }
 
-export function boardingPassRoute(id: string): Href {
+/** The boarding pass as a rise over everything in the `(modal)` group. */
+export function modalBoardingPassRoute(id: string): Href {
   return { pathname: '/bookings/pass/[id]', params: { id } };
+}
+
+/**
+ * The boarding pass (7.11). iOS shows it from the wallet's own stack as a native full-screen modal,
+ * which UIKit presents over the tab bar; Android draws a nested stack's modal inside the tab, so
+ * there it rises over everything from `(modal)`.
+ */
+export function boardingPassRoute(id: string): Href {
+  return Platform.OS === 'ios'
+    ? { pathname: '/wallet/bookings/pass/[id]', params: { id } }
+    : modalBoardingPassRoute(id);
 }
 
 export const BOOKINGS_SCREENS: Readonly<Record<string, string>> = {

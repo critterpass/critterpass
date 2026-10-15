@@ -8,7 +8,7 @@ import { View } from 'react-native';
 
 import { Button, CritterSticker, Text, usePremiumTheme } from '@/ui/premium';
 
-import { askLine, type AskCardProps } from '../../check/ask-card';
+import { askLine, type AskCardProps } from '../../check/check-props';
 import { usePlanGuide } from '../../plan-guide';
 
 export function PremiumAskCard(props: AskCardProps) {
@@ -40,12 +40,14 @@ export function PremiumAskCard(props: AskCardProps) {
       </View>
       <View style={{ flexDirection: 'row', gap: theme.space.gap6 }}>
         <Button
+          alignSelf="auto"
           size="small"
           label={t({ id: 'plan.check.ask.yes', message: 'Add them' })}
           onPress={props.onYes}
           testID="plan-check-ask-yes"
         />
         <Button
+          alignSelf="auto"
           size="small"
           variant="control"
           label={t({ id: 'plan.check.ask.no', message: 'Not now' })}

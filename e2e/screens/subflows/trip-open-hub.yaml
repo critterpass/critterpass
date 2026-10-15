@@ -1,0 +1,89 @@
+appId: app.critterpass.dev
+---
+# From any tab root to the trip hub: Home's trip card (the live card on a trip day, the next-up card
+# before it), else the Trips tab's row. A trip's welcome page that rises over Home is passed first.
+# ${ZOOM} names the screenshot taken right after the tap, while the card still grows into the hub
+# (empty: none). For that shot a link first asks the app to run the next zoom over 12 s
+# (apps/mobile/src/lib/qa/capture-hold): the tap alone outlasts the half-second zoom on a runner.
+# The hold link goes to Home itself, after the tab tap: sent to the Trips tab first, it left Home
+# without its card and the rest of the flow off the hub.
+- runFlow:
+    file: ../../_shared/tab.yaml
+    env:
+      TAB: home
+      LABEL: Home
+- runFlow:
+    when:
+      true: ${ZOOM != ''}
+    commands:
+      - openLink:
+          link: critterpass-dev:///?qaZoomMs=12000
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'
+- extendedWaitUntil:
+    visible:
+      id: 'home-(in-trip|next-up)'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'home-(in-trip|next-up)'
+    commands:
+      - runFlow:
+          when:
+            true: ${ZOOM == ''}
+          commands:
+            - tapOn:
+                id: 'home-(in-trip|next-up)'
+      # The zoom is shot while the card still grows: that tap doesn't wait for the screen to settle,
+      # and the hub is waited for after the shot.
+      - runFlow:
+          when:
+            true: ${ZOOM != ''}
+          commands:
+            - tapOn:
+                id: 'home-(in-trip|next-up)'
+                retryTapIfNoChange: false
+                waitToSettleTimeoutMs: 1
+            - takeScreenshot: ${ZOOM}
+            - extendedWaitUntil:
+                visible:
+                  id: 'trip-hub'
+                timeout: 15000
+                optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-hub'
+    commands:
+      - runFlow:
+          file: ../../_shared/tab.yaml
+          env:
+            TAB: trips
+            LABEL: Trips
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-list-row-.*'
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'trip-list-row-.*'
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'

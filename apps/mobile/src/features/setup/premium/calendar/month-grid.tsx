@@ -10,7 +10,7 @@ import { View } from 'react-native';
 import { Icon, PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
 import { weekdayLetters } from '../../when/copy';
-import { DayGrid, type DragHandlers } from '../../when/day-grid';
+import { DayGrid, type DragHandlers } from './day-grid';
 
 export interface MonthGridProps {
   readonly title: string;
@@ -54,7 +54,7 @@ export function MonthGrid(props: MonthGridProps) {
   return (
     <View style={{ gap: theme.space.gap10 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 18 }}>
-        <Text variant="headline" style={{ flex: 1 }} accessibilityRole="header">
+        <Text variant="headline" numberOfLines={1} style={{ flex: 1 }} accessibilityRole="header">
           {props.title}
         </Text>
         {props.aside ?? null}
@@ -69,7 +69,6 @@ export function MonthGrid(props: MonthGridProps) {
         ))}
       </View>
       <DayGrid
-        weekdays={[]}
         weeks={props.weeks}
         renderDay={props.renderDay}
         onDrag={props.onDrag}

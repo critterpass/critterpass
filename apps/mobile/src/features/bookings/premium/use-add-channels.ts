@@ -6,7 +6,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 
-import { toast } from '@/motion/island-toast';
+import { useToast } from '@/ui/premium';
 
 import { useBookingsServices } from '../data/services';
 import type { WalletContext } from '../data/use-wallet-context';
@@ -17,12 +17,14 @@ export function useAddChannels(context: WalletContext) {
   const { t } = useLingui();
   const services = useBookingsServices();
   const scan = useBookingScan(services.ocr, context.trip?.id ?? null);
+  // The nearest toast host: inside the + sheet the sheet's own, so the toast shows over the sheet.
+  const toast = useToast();
   const forward = () => {
     if (context.inboundAddress !== null) {
       void services.copy(context.inboundAddress).then(() =>
         toast.show({
-          id: 'bookings-address-copied',
-          title: t({
+          kind: 'done',
+          message: t({
             id: 'bookings.add.copiedToast',
             message: 'Forward any confirmation to that address.',
           }),
@@ -31,8 +33,8 @@ export function useAddChannels(context: WalletContext) {
       return;
     }
     toast.show({
-      id: 'bookings-address-missing',
-      title:
+      kind: 'error',
+      message:
         context.status === 'no_trip'
           ? t({
               id: 'bookings.add.noTrip',
@@ -49,8 +51,8 @@ export function useAddChannels(context: WalletContext) {
     scanState: scan.state,
     forward,
     scan: () => void scan.scan(),
-    paste: () => router.push({ pathname: BOOKINGS_ROUTES.add, params: { start: 'paste' } }),
-    mailbox: () => router.push({ pathname: BOOKINGS_ROUTES.add, params: { start: 'mailbox' } }),
+    paste: () => router.push(BOOKINGS_ROUTES.paste),
+    mailbox: () => router.push(BOOKINGS_ROUTES.mailbox),
     byHand: () => router.push(addByHandRoute()),
   };
 }

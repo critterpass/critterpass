@@ -5,7 +5,7 @@
  * a 10 s Undo; members see no management controls.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and CSS shadows, never copy. */
-import { t } from '@lingui/core/macro';
+import { plural, t } from '@lingui/core/macro';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useContext, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
@@ -14,21 +14,9 @@ import { DEFAULT_CREW_NOTIFY_LEVEL, isCrewNotifyLevel, type CrewNotifyLevel } fr
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
-import {
-  Card,
-  CritterSticker,
-  ListCard,
-  PressableScale,
-  Row,
-  SegmentedControl,
-  StatusTag,
-  Text,
-  Toggle,
-  usePremiumTheme,
-  useToast,
-} from '@/ui/premium';
+import { CritterSticker, PressableScale, Text, usePremiumTheme, useToast } from '@/ui/premium';
 import { confirmAlert, PushScreen } from '@/ui/premium/shell';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 
 import {
   LEAVE_CREW,
@@ -39,12 +27,13 @@ import {
 import { useCrewServices } from '../crews-sheet/crew-services';
 import { crewEditRoute, crewInviteRoute, crewLeaveRoute } from '../crews-sheet/routes';
 import { onRemovalRequest, useUndoableRemoval } from '../members/undoable-removal';
-import { returnHome } from '../start-crew/crew-created';
+import { returnHome } from '../start-crew/return-home';
 import { useCrewDetail } from '../settings/use-crew-detail';
-import { firstName, tripDatesLine, tripStatusWord } from './crew-copy';
+import { firstName } from './crew-copy';
 import { CREST_SHAPE, crewCoverOf, passInk } from './crew-look';
 import { MemberGrid } from './components/member-grid';
 import { CrewCodeCard } from './components/crew-code-card';
+import { CrewNotifyCard, CrewTripsCard } from './components/crew-settings-cards';
 import { CrewMissing } from './crew-missing';
 
 export function CrewSettingsPremium() {
@@ -188,7 +177,10 @@ export function CrewSettingsPremium() {
             {crew.name}
           </Text>
           <Text variant="body" tone="muted">
-            {t({ id: 'crew.premium.settings.count', message: `${members.length} members` })}
+            {t({
+              id: 'crew.premium.settings.count',
+              message: plural(members.length, { one: '# member', other: '# members' }),
+            })}
           </Text>
         </View>
 
@@ -200,30 +192,7 @@ export function CrewSettingsPremium() {
           onInvite={() => router.push(crewInviteRoute(crewId))}
         />
 
-        {detail.trips.length === 0 ? null : (
-          <ListCard>
-            {detail.trips.map((trip) => {
-              const dates = tripDatesLine(trip, now, locale);
-              return (
-                <Row
-                  key={trip.id}
-                  title={
-                    trip.place ?? t({ id: 'crew.premium.settings.tripUnnamed', message: 'A trip' })
-                  }
-                  {...(dates === null ? {} : { subtitle: dates })}
-                  trailing={
-                    <StatusTag
-                      label={tripStatusWord(trip.status)}
-                      tone={trip.status === 'in_trip' ? 'booked' : 'voteOpen'}
-                    />
-                  }
-                  onPress={() => router.push(`/hub/${trip.id}`)}
-                  testID={`crew-settings-trip-${trip.id}`}
-                />
-              );
-            })}
-          </ListCard>
-        )}
+        <CrewTripsCard crewId={crewId} trips={detail.trips} now={now} locale={locale} />
 
         <CrewCodeCard
           code={code}
@@ -236,45 +205,12 @@ export function CrewSettingsPremium() {
           onNewCode={() => void newCode()}
         />
 
-        <Card padded style={{ gap: th.space.gap12 }}>
-          <Text variant="rowText">
-            {t({ id: 'crew.settings.notify', message: 'Notifications' })}
-          </Text>
-          <SegmentedControl
-            accessibilityLabel={t({ id: 'crew.settings.notify', message: 'Notifications' })}
-            options={[
-              {
-                value: 'all' as const,
-                label: t({ id: 'crew.premium.notify.all', message: 'Everything' }),
-              },
-              {
-                value: 'mentions' as const,
-                label: t({ id: 'crew.settings.notifyMentions', message: 'Mentions' }),
-              },
-              {
-                value: 'off' as const,
-                label: t({ id: 'crew.premium.notify.off', message: 'Nothing' }),
-              },
-            ]}
-            value={notify}
-            onChange={(level) => void commands?.send(SET_CREW_NOTIFY, { crew_id: crewId, level })}
-            testID="crew-settings-notify"
-          />
-          <View style={styles.toggleRow}>
-            <Text variant="rowText" style={styles.grow}>
-              {t({ id: 'crew.premium.keepChat', message: 'Keep chat if I leave' })}
-            </Text>
-            <Toggle
-              value={keepChat}
-              onChange={setKeepChat}
-              accessibilityLabel={t({
-                id: 'crew.premium.keepChat',
-                message: 'Keep chat if I leave',
-              })}
-              testID="crew-leave-keep-chat"
-            />
-          </View>
-        </Card>
+        <CrewNotifyCard
+          level={notify}
+          onLevel={(level) => void commands?.send(SET_CREW_NOTIFY, { crew_id: crewId, level })}
+          keepChat={keepChat}
+          onKeepChat={setKeepChat}
+        />
 
         <PressableScale
           accessibilityRole="button"
@@ -303,7 +239,5 @@ const styles = StyleSheet.create({
   content: { gap: 14, paddingBottom: 40 },
   head: { alignItems: 'center', gap: 4, paddingTop: 8 },
   crest: CREST_SHAPE,
-  grow: { flex: 1 },
-  toggleRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  leave: { height: 48, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
+  leave: { minHeight: 48, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
 });

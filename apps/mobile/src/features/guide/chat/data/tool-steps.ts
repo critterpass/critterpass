@@ -35,7 +35,7 @@ export function toolStepLabel(tool: string): string {
     case 'fit_check':
       return t({ id: 'guide.step.fit', message: 'Checking it fits the day' });
     case 'crew_profiles':
-      return t({ id: 'guide.step.crew', message: "Checking what the crew's into" });
+      return t({ id: 'guide.step.crew', message: 'Checking what the crew’s into' });
     case 'bookable_activity':
       return t({ id: 'guide.step.bookable', message: 'Checking what can be booked' });
     case 'phrase_card':
@@ -54,4 +54,28 @@ export function toolStepLabel(tool: string): string {
     default:
       return t({ id: 'guide.step.other', message: 'Looking into it' });
   }
+}
+
+/** One row of the working card: the steps it stands for share a label and ran back to back. */
+export interface StepRow {
+  readonly id: string;
+  readonly label: string;
+  readonly done: boolean;
+}
+
+/**
+ * The working card's rows: back-to-back steps that read the same ("Finding places nearby" twice,
+ * or the weather then the sea) show as one row, done once the last of them is.
+ */
+export function stepRows(
+  steps: readonly { readonly id: string; readonly tool: string; readonly done: boolean }[],
+): StepRow[] {
+  const rows: StepRow[] = [];
+  for (const step of steps) {
+    const label = toolStepLabel(step.tool);
+    const last = rows.at(-1);
+    if (last?.label === label) rows[rows.length - 1] = { ...last, done: last.done && step.done };
+    else rows.push({ id: step.id, label, done: step.done });
+  }
+  return rows;
 }

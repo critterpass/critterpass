@@ -9,12 +9,18 @@
 import { tokens } from '@cp/design-tokens';
 import type * as RNSkiaModule from '@shopify/react-native-skia';
 
-import { bundledTypeface } from '@/ui/share-image/bundled-typefaces';
-import { SHARE_SIZE, type ShareFormat } from '@/ui/share-image/ShareSheet';
-import { renderStickerImage } from '@/ui/sticker/export-png';
-import { getDefaultSkiaEngine } from '@/ui/sticker/Sticker';
+import { bundledTypeface } from '@/lib/share-image/bundled-typefaces';
+import { SHARE_SIZE, type ShareFormat } from '@/lib/share-image/share-format';
+import { renderStickerImage } from '@/ui/premium/stickers/art/export-png';
+import { getDefaultSkiaEngine } from '@/ui/premium/stickers/art/Sticker';
 
 import type { SignatureStroke } from '../signature/stroke';
+import { resolveMemberStyle } from '@cp/design-tokens';
+import { useMemo } from 'react';
+import { memberName } from '@/lib/people/member-name';
+import { fetchStroke } from '../signature/stroke-store';
+import { deviceShareDeps } from '../summary/share-card';
+import type { MemorySigner } from './use-memory';
 
 export interface MemoryShareSigner {
   readonly name: string;
@@ -185,4 +191,63 @@ export async function renderMemoryCard(
   const bytes = surface.makeImageSnapshot().encodeToBytes();
   if (bytes === null) throw new Error('memory card: the image did not encode');
   return bytes;
+}
+
+async function photoBytes(url: string | null): Promise<Uint8Array | null> {
+  if (url === null) return null;
+  try {
+    const response = await fetch(url);
+    return response.ok ? new Uint8Array(await response.arrayBuffer()) : null;
+  } catch {
+    return null;
+  }
+}
+
+export interface MemoryShareSheetProps {
+  readonly guideKind: string;
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly body: string;
+  readonly photoUrl: string | null;
+  readonly signers: readonly MemorySigner[];
+  readonly onClose: () => void;
+}
+
+/** The memory's share picture for any share sheet: how to draw it, the phone's share actions, its words. */
+export function useMemoryShare(props: Omit<MemoryShareSheetProps, 'onClose'>) {
+  const { guideKind, eyebrow, title, body, photoUrl } = props;
+  const deps = useMemo(() => deviceShareDeps(), []);
+  // The signers arrive as a fresh list on every render of the screen; the picture is only drawn
+  // again when one of them actually changed.
+  const signersKey = JSON.stringify(props.signers);
+  const signers = useMemo(() => JSON.parse(signersKey) as readonly MemorySigner[], [signersKey]);
+  const render = useMemo(
+    () => async (format: ShareFormat) => {
+      const [photo, strokes] = await Promise.all([
+        photoBytes(photoUrl),
+        Promise.all(
+          signers.map((s) =>
+            s.strokeKey === null ? Promise.resolve(null) : fetchStroke(s.strokeKey),
+          ),
+        ),
+      ]);
+      return renderMemoryCard(
+        {
+          guideKind,
+          eyebrow,
+          title,
+          body,
+          photo,
+          signers: signers.map((signer, index) => ({
+            name: memberName(signer.name),
+            colour: signer.colour ?? resolveMemberStyle(index).color,
+            stroke: strokes[index] ?? null,
+          })),
+        },
+        format,
+      );
+    },
+    [guideKind, eyebrow, title, body, photoUrl, signers],
+  );
+  return { render, deps, altText: `${title}. ${body}` };
 }

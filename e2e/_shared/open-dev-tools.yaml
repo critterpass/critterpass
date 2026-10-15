@@ -1,0 +1,63 @@
+appId: app.critterpass.dev
+---
+# Opens Developer tools the way a tester does: Home (or the splash, before onboarding),
+# down to the "Developer tools" entry at its foot, and a tap. Ends on the Developer tools list.
+# Home's link brings Home to the front from any screen (a run of backs can leave the app from a
+# tab's root); before onboarding it opens the splash.
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-screen|onboarding-open'
+    commands:
+      - openLink:
+          link: critterpass-dev://
+      - runFlow:
+          when:
+            visible: 'Open'
+          commands:
+            - tapOn: 'Open'
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen|onboarding-open'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'dev-tools-entry'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-build-marker|dev-nav-.*'
+    timeout: 8000
+    optional: true
+# A scroll can stop with the entry just under the floating tab bar, where the tap lands on Home
+# (which scrolls Home back to its top). Then the entry is found again, the page pushed a little
+# further up, and tapped once more. Not centred: Home's end can't bring it to the middle.
+- runFlow:
+    when:
+      notVisible:
+        id: 'dev-build-marker|dev-nav-.*'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-tools-entry'
+          direction: DOWN
+          timeout: 20000
+      - swipe:
+          start: 50%, 60%
+          end: 50%, 45%
+      - tapOn:
+          id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-build-marker|dev-nav-.*'
+    timeout: 15000

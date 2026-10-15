@@ -49,6 +49,8 @@ export interface SosModel {
   readonly id: string;
   readonly role: 'sender' | 'crew';
   readonly senderName: string;
+  /** The sender's user id, for their face. */
+  readonly senderUid: string;
   readonly openedAt: string;
   readonly state: 'open' | 'resolved' | 'stale';
   readonly falseAlarm: boolean;
@@ -154,6 +156,7 @@ export function buildSosModel(
     id: row.id,
     role: me !== null && me === row.user_id ? 'sender' : 'crew',
     senderName: names.get(row.user_id) ?? '',
+    senderUid: row.user_id,
     openedAt: row.opened_at,
     state,
     falseAlarm: row.false_alarm === true || row.false_alarm === 1,

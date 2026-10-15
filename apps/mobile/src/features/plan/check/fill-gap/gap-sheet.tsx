@@ -26,7 +26,7 @@ import { useCheckContext } from '../data/use-check-context';
 import { tripPlanRoutes } from '../../hub/routes';
 import { compactMoney, dayTag } from '../format';
 import * as copy from './gap-copy';
-import { GapView, type GapIdeaView, type GapViewProps } from './gap-view';
+import { type GapIdeaView, type GapViewProps } from './gap-props';
 
 const OWNER = 'fill-gap';
 const PLACES_SQL =
@@ -59,10 +59,10 @@ export function GapSheet({
   dayNo,
   start,
   end,
-  View: Look = GapView,
+  View: Look,
 }: GapSheetProps & {
-  /** How the ideas are drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<GapViewProps>;
+  /** How the ideas are drawn. */
+  readonly View: ComponentType<GapViewProps>;
 }) {
   const plan = useTripPlan(tripId);
   const dayId =

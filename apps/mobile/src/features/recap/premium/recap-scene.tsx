@@ -11,7 +11,8 @@ import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { guideSticker } from '@/ui/avatar/guides';
+import { Float } from '@/features/critters';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   CritterSticker,
@@ -34,7 +35,7 @@ import {
   tileCopy,
   updatedBadge,
 } from '../summary/summary-copy';
-import type { SummaryViewProps } from '../summary/summary-view';
+import type { SummaryViewProps } from '../summary/summary-screen';
 import { TILE_TILTS } from './recap-paint';
 import { NextLink, NotReady } from './recap-parts';
 
@@ -78,7 +79,7 @@ function Ready(props: SummaryViewProps) {
   const gotAway = model.gotAway;
   return (
     <View style={{ gap: 16 }}>
-      <View style={styles.tiles}>
+      <View style={styles.tiles} testID="recap-tiles">
         {model.tiles.slice(0, 4).map((tile, index) => {
           const copy = tileCopy(tile, locale, unit);
           return (
@@ -151,7 +152,7 @@ function Ready(props: SummaryViewProps) {
         </PressableScale>
       )}
       {model.awards.length === 0 ? null : (
-        <View style={styles.awards}>
+        <View style={styles.awards} testID="recap-awards">
           {model.awards.slice(0, 2).map((chip) => (
             <View key={chip.id} style={styles.award} testID={`recap-award-${chip.id}`}>
               <Text variant="captionMuted" tone="muted">
@@ -259,9 +260,9 @@ export function PremiumRecapScene(props: SummaryViewProps) {
               {headerTitle(model)}
             </Text>
           </View>
-          <View style={{ transform: [{ rotate: `${GUIDE_TILT}deg` }] }}>
+          <Float ms={4600} style={{ transform: [{ rotate: `${GUIDE_TILT}deg` }] }}>
             <CritterSticker kind={art.kind} name={props.guideName} size={78} pose="cheer" />
-          </View>
+          </Float>
         </View>
         {props.offline ? (
           <OfflinePill label={t({ id: 'recap.summary.offline', message: 'No signal' })} />

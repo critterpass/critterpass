@@ -13,6 +13,7 @@ import { createMMKV } from 'react-native-mmkv';
 
 import type { TripRow } from '../data/queries';
 import { tripHasStarted } from './arrival';
+import type { FormSpec } from '@cp/critter-art';
 
 export type EggCardKind = 'waiting' | 'ready' | 'unseen';
 
@@ -128,4 +129,35 @@ export function balancedBreak(text: string): string {
     Math.abs(i - middle) < Math.abs(best - middle) ? i : best,
   );
   return `${text.slice(0, at)}\n${text.slice(at + 1)}`;
+}
+
+/** Beats of the choreography (ms from mount): wobble, crack, pop. */
+export const HATCH_BEATS = { crack: 900, pop: 1250, reveal: 1650 } as const;
+
+export interface HatchViewProps {
+  readonly place: string;
+  /** Local landing time ("13:50"), or null when it hatched on arrival or by hand. */
+  readonly landedTime: string | null;
+  /** The airport the landing leg arrived at ("DPS"), when there is a flight. */
+  readonly landedAirport: string | null;
+  readonly colour: string | null;
+  readonly critterKey: string | null;
+  readonly seed: number;
+  readonly form: FormSpec | null;
+  /** Only from the viewer's own verified entry, or the guide's public name. */
+  readonly name: string | null;
+  readonly isGuide: boolean;
+  readonly days: number | null;
+  readonly no: number | null;
+  readonly setName: string;
+  /** Not on the pass yet: the hatch has not reached the server, or the server is still checking it. */
+  readonly pending: boolean;
+  /** Whether the phone has no connection now, so a pending hatch waits on the signal. */
+  readonly offline: boolean;
+  readonly onSayHi: (() => void) | null;
+  readonly onLater: () => void;
+  /** Fires once when the critter is revealed (the screen marks the ceremony seen). */
+  readonly onRevealed?: () => void;
+  /** Holds the ceremony on one egg beat instead of playing it (the lab's still frames). */
+  readonly stillAt?: 'wobbling' | 'cracking';
 }

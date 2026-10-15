@@ -2,7 +2,7 @@
  * The caller's place on full trips, on top of the crews sheet and on Home (the Home crew's trips
  * only): "You're next for a seat" (or their number in line) while they wait, and, once a seat
  * frees up, the offer with the time left and TAKE THE SEAT. An offer is never a join: nothing happens until they take it, and an unanswered
- * one passes on after a day. Undesigned; built from the card and pill patterns.
+ * one passes on after a day. Undesigned; built from the premium card and button.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- the SQL below; copy goes through t. */
 import { t } from '@lingui/core/macro';
@@ -14,10 +14,7 @@ import { defineClientCommand } from '@/data/commands/summaries';
 import type { CommandClient } from '@/data/commands/client';
 import { watchRows } from '@/data/status/watch-rows';
 import { toast } from '@/motion/island-toast';
-import { PillButton } from '@/ui/buttons/PillButton';
-import { Card } from '@/ui/cards/Card';
-import { Text } from '@/ui/text/Text';
-import { makeStyles } from '@/ui/theme';
+import { Button, Card, makePremiumStyles, Text } from '@/ui/premium';
 
 import { rowId } from '../crews-sheet/crew-commands';
 
@@ -62,9 +59,9 @@ function watchPlaces(
   );
 }
 
-const useStyles = makeStyles((th) => ({
-  root: { gap: th.space['12'] },
-  card: { gap: th.space['8'] },
+const useStyles = makePremiumStyles((th) => ({
+  root: { gap: th.space.gap12 },
+  card: { gap: th.space.gap8 },
 }));
 
 export function WaitlistCards({
@@ -125,18 +122,19 @@ export function WaitlistCards({
             Math.ceil((Date.parse(row.offer_expires_at) - now.getTime()) / HOUR_MS),
           );
           return (
-            <Card key={row.trip_id} tone="green" testID={rowId('seat-offer', offerId)}>
+            <Card key={row.trip_id} padded radius={22} testID={rowId('seat-offer', offerId)}>
               <View style={styles.card}>
-                <Text variant="h3">
+                <Text variant="headline">
                   {t({ id: 'crew.waitlist.offerTitle', message: `A seat opened on ${place}` })}
                 </Text>
-                <Text variant="bodySm">
+                <Text variant="note" tone="muted">
                   {t({
                     id: 'crew.waitlist.offerBody',
                     message: `It’s yours if you take it in the next ${hours} h.`,
                   })}
                 </Text>
-                <PillButton
+                <Button
+                  size="medium"
                   label={t({ id: 'crew.waitlist.take', message: 'Take the seat' })}
                   onPress={() => take(offerId, place)}
                   loading={taking === offerId}
@@ -147,7 +145,7 @@ export function WaitlistCards({
           );
         }
         return (
-          <Card key={row.trip_id} tone="raised" testID={rowId('waitlist', row.trip_id)}>
+          <Card key={row.trip_id} padded radius={22} testID={rowId('waitlist', row.trip_id)}>
             <Text variant="rowTitle">
               {position === 1
                 ? t({ id: 'crew.waitlist.next', message: `You’re next for a seat on ${place}` })

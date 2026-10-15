@@ -36,12 +36,55 @@ device settings put global verifier_verify_adb_installs 0
 device settings put global package_verifier_enable 0
 device settings put secure immersive_mode_confirmations confirmed
 device input keyevent 82
+# A still status bar for the screenshots, as the designs draw it: demo mode holds the clock at
+# 09:41 with full signal and battery and no notification icons, and the privacy indicators are off.
+# The clipboard preview chip is off too: a Copy tap left it over the toast it was meant to show.
+# Whole flows otherwise came out with the clock and icons cut in half (the bar caught mid-way
+# through one of its own animations on a software-rendered emulator).
+demo() { device am broadcast -a com.android.systemui.demo -e command "$@" >/dev/null 2>&1 || true; }
+still_status_bar() {
+  device device_config put privacy location_indicators_enabled false >/dev/null 2>&1 || true
+  device device_config put privacy camera_mic_icons_enabled false >/dev/null 2>&1 || true
+  device device_config put systemui clipboard_overlay_enabled false >/dev/null 2>&1 || true
+  device settings put global sysui_demo_allowed 1 || true
+  # Right after a reboot SystemUI takes `enter` but drops what follows it: the clock froze at the
+  # boot's own time (2:13). Wait for its process, then send the clock again once the rest landed.
+  for _ in $(seq 1 30); do device pidof com.android.systemui >/dev/null 2>&1 && break; sleep 1; done
+  sleep 3
+  demo enter
+  demo clock -e hhmm 0941
+  # One broadcast per network: wifi without its "no internet" mark, mobile without a data type.
+  demo network -e wifi show -e level 4 -e fully true
+  demo network -e mobile show -e level 4 -e datatype none -e fully true
+  demo battery -e level 100 -e plugged false
+  demo notifications -e visible false
+  demo clock -e hhmm 0941
+}
+still_status_bar
 device cmd uimode night "$([ "${APPEARANCE:-light}" = dark ] && echo yes || echo no)"
 
 # The emulator must resolve and reach the api before anything else is worth doing: without it every
 # flow waits out its longest timeout on data that cannot arrive.
-npx --yes "tsx@${TSX_VERSION:-4}" "$here/network-preflight.ts" --platform android --device "$serial" \
-  --url "${E2E_API_BASE_URL:-}"
+# An emulator that never got a network (a restart of its radios doesn't bring one) is rebooted once
+# and checked again, rather than losing the shard.
+preflight() {
+  npx --yes "tsx@${TSX_VERSION:-4}" "$here/network-preflight.ts" --platform android --device "$serial" \
+    --url "${E2E_API_BASE_URL:-}"
+}
+if ! preflight; then
+  echo "::warning::the emulator has no network; rebooting it once"
+  adb -s "$serial" reboot
+  adb -s "$serial" wait-for-device
+  for _ in $(seq 1 90); do
+    [ "$(device getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = 1 ] &&
+      device pm path android >/dev/null 2>&1 && break
+    sleep 2
+  done
+  device svc power stayon true
+  device input keyevent 82
+  still_status_bar
+  preflight
+fi
 
 # A full (not incremental) install, so the manifest's extractNativeLibs is honoured at install time;
 # -g grants every runtime permission.

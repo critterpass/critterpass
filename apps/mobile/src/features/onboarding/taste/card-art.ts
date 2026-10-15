@@ -5,7 +5,8 @@
  */
 import type { Pose } from '@cp/critter-art';
 
-import type { DoodleName } from '@/ui/icons/generated';
+/** A critter-art kind drawn as a small sticker in the card's corner. */
+type DoodleName = 'food' | 'star' | 'plane' | 'pin' | 'sun' | 'spark' | 'bed' | 'rain' | 'wallet';
 
 export interface CardArt {
   readonly doodle: DoodleName | null;

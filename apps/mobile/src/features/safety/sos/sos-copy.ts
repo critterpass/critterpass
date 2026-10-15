@@ -33,7 +33,7 @@ export function useSosStepText(model: SosModel): (step: SosStepView) => string {
             })
           : t({
               id: 'safety.sos.stepLive',
-              message: `${name}'s location stays live until they are safe`,
+              message: `${name}’s location stays live until they are safe`,
             });
       case 'ops_clinic':
         return t({

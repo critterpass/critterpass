@@ -1,7 +1,5 @@
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import type { ViewStyle } from 'react-native';
-
-import type { PremiumTypeName } from '@cp/design-tokens';
 
 import { Spinner } from '../feedback/Spinner';
 import { Icon } from '../icons/Icon';
@@ -9,6 +7,7 @@ import type { PremiumIconName } from '../icons/Icon';
 import { PressableScale, hitSlopFor } from '../motion/PressableScale';
 import { Text } from '../text/Text';
 import { usePremiumTheme } from '../theme/PremiumThemeProvider';
+import type { PremiumTypeName } from '../theme/kit-type';
 import type { PremiumTheme } from '../theme/theme';
 
 /**
@@ -33,7 +32,15 @@ export interface ButtonProps {
   readonly loading?: boolean;
   readonly loadingLabel?: string;
   readonly icon?: PremiumIconName;
+  /** A ⌄ after the label: the pill opens a picker (the currency chip). */
+  readonly chevron?: boolean;
   readonly accessibilityHint?: string;
+  /**
+   * Where the pill sits across its parent. A large button stretches; a medium or small pill starts
+   * its column (`flex-start`), which in a row puts it at the row's top: a pill beside text in a row
+   * passes `auto` to follow the row's `alignItems`. Layout can't tell a row parent from a column one.
+   */
+  readonly alignSelf?: NonNullable<ViewStyle['alignSelf']>;
   readonly testID?: string;
 }
 
@@ -44,7 +51,14 @@ interface Look {
 
 function sizeBox(t: PremiumTheme, size: ButtonSize): ViewStyle {
   if (size === 'large') {
-    return { height: t.size.button, borderRadius: t.radius.button, alignSelf: 'stretch' };
+    // A floor, not a height: a long label wraps onto a second line inside the pill.
+    return {
+      minHeight: t.size.button,
+      borderRadius: t.radius.button,
+      paddingHorizontal: t.space.gutter,
+      paddingVertical: t.space.gap6,
+      alignSelf: 'stretch',
+    };
   }
   if (size === 'medium') {
     return {
@@ -67,19 +81,20 @@ export function buttonLook(
   t: PremiumTheme,
   variant: ButtonVariant,
   size: ButtonSize,
-  state: { readonly pressed: boolean; readonly disabled: boolean },
+  state: { readonly pressed: boolean; readonly disabled: boolean; readonly loading?: boolean },
 ): Look {
   const c = t.color;
   if (state.disabled) return { box: { backgroundColor: c.controlDisabled }, text: c.placeholder };
   switch (variant) {
     case 'primary':
+      // Pressed, the pill sits down onto the page: the lighter ink and no drop (1.B).
       if (state.pressed) return { box: { backgroundColor: c.inkPressed }, text: c.onInk };
       if (size === 'large') {
         return {
           box: {
             // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never rendered copy.
             backgroundImage: `linear-gradient(180deg, ${c.inkFillTop}, ${c.inkFillBottom})`,
-            boxShadow: t.shadow.ink,
+            boxShadow: state.loading === true ? t.shadow.inkLoading : t.shadow.ink,
           },
           text: c.onInk,
         };
@@ -102,8 +117,21 @@ const TYPE_FOR_SIZE: Record<ButtonSize, PremiumTypeName> = {
   small: 'pillSmall',
 };
 
+/** A picker's "⌄" typed at the end of a label: drawn as the chevron glyph instead. */
+const TYPED_CHEVRON = /\s*\u2304\s*$/u;
+
+/**
+ * The label and whether it ends in the picker chevron. A typed "⌄" comes from a fallback font
+ * with a taller line box, which pushed the label down in its pill and cut its top ("Today ⌄").
+ */
+export function pillLabel(label: string, chevron: boolean): { text: string; chevron: boolean } {
+  return TYPED_CHEVRON.test(label)
+    ? { text: label.replace(TYPED_CHEVRON, ''), chevron: true }
+    : { text: label, chevron };
+}
+
 export function Button({
-  label,
+  label: givenLabel,
   onPress,
   variant = 'primary',
   size = 'large',
@@ -111,13 +139,17 @@ export function Button({
   loading = false,
   loadingLabel,
   icon,
+  chevron: givenChevron = false,
   accessibilityHint,
+  alignSelf,
   testID,
 }: ButtonProps) {
   const t = usePremiumTheme();
+  const { text: label, chevron } = pillLabel(givenLabel, givenChevron);
   const box = sizeBox(t, size);
   const shown = loading ? (loadingLabel ?? label) : label;
-  const height = Number(box.height);
+  const height = Number(box.height ?? box.minHeight);
+  const large = size === 'large';
 
   return (
     <PressableScale
@@ -128,17 +160,21 @@ export function Button({
       accessibilityLabel={shown}
       {...(accessibilityHint === undefined ? {} : { accessibilityHint })}
       accessibilityState={{ busy: loading }}
-      style={box.alignSelf === 'stretch' ? { alignSelf: 'stretch' } : { alignSelf: 'flex-start' }}
+      style={{ alignSelf: alignSelf ?? box.alignSelf ?? 'flex-start' }}
     >
       {({ pressed }) => {
-        const look = buttonLook(t, loading ? 'primary' : variant, size, {
+        // Loading keeps the variant's own fill; only the spinner says it is busy.
+        const look = buttonLook(t, variant, size, {
           pressed: pressed && !loading,
           disabled,
+          loading,
         });
         return (
           <View
             style={[
               box,
+              // A pill told to stretch fills the width its press area was given.
+              alignSelf === 'stretch' ? { alignSelf: 'stretch' } : null,
               look.box,
               {
                 flexDirection: 'row',
@@ -152,12 +188,27 @@ export function Button({
             {!loading && icon !== undefined ? (
               <Icon name={icon} size={t.size.glyph} color={look.text} />
             ) : null}
-            <Text variant={TYPE_FOR_SIZE[size]} color={look.text} numberOfLines={1}>
+            <Text
+              variant={TYPE_FOR_SIZE[size]}
+              color={look.text}
+              numberOfLines={large ? 2 : 1}
+              singleLine={!large}
+              align="center"
+              style={large ? styles.wrap : null}
+            >
               {shown}
             </Text>
+            {chevron && !loading ? (
+              <Icon name="down" size={t.size.glyph} color={look.text} />
+            ) : null}
           </View>
         );
       }}
     </PressableScale>
   );
 }
+
+const styles = StyleSheet.create({
+  // Shrinks beside the spinner or icon so a second line wraps inside the pill.
+  wrap: { flexShrink: 1 },
+});

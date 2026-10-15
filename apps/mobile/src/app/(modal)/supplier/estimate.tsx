@@ -1,8 +1,10 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { EstimateWhySheet } from '@/features/bookings/supplier/sheets';
+import { EstimateWhySheetPremium } from '@/features/bookings/premium/supplier/supplier-sheets';
+
+function SupplierRoute() {
+  return <EstimateWhySheetPremium params={useLocalSearchParams()} />;
+}
 
 /** Why a fare estimate says what it says: basis, sources, when checked, whether reviewed. */
-export default function EstimateRoute() {
-  return <EstimateWhySheet params={useLocalSearchParams()} />;
-}
+export default SupplierRoute;

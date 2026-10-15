@@ -8,7 +8,7 @@ import { Pressable, View } from 'react-native';
 
 import { PressableScale, Text, usePremiumTheme } from '@/ui/premium';
 
-import type { BrowseTile } from '../../search/browse-grid';
+import type { BrowseTile } from '../../search/browse-tiles';
 import { Doodle, type DoodleName } from '../components/doodle';
 import { Eyebrow, SectionLabel } from '../components/labels';
 import type { FindGap } from './use-find-start';
@@ -195,6 +195,9 @@ export function FindHint({ guideName }: { readonly guideName: string }) {
       variant="caption"
       tone="muted"
       align="center"
+      // Balanced lines: the hint never ends on one orphaned word ("post.").
+      textBreakStrategy="balanced"
+      lineBreakStrategyIOS="standard"
       style={{ paddingHorizontal: theme.space.gap8, marginTop: theme.space.gap16 }}
     >
       {t({

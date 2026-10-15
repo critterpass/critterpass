@@ -1,0 +1,266 @@
+appId: app.critterpass.dev
+---
+# The fast capture of a trip under way, by link: a Vietnamese crew's Đà Nẵng trip that is on today
+# (`trip_today`). Its id is read once from the hub (subflows/trip-id.yaml), then each of the trip's
+# pages opens by its link and is shot once the app's QA marker reads settled on it, seconds apiece
+# (subflows/capture.yaml): the hub, the forecast, what works offline, today's page, the crew map
+# with sharing off, crew quests, the trip journal,
+# the plan and its days, Find, day trips, setup and its steps, the crew balance check, trip settings, the
+# drivers, the recap and the free first trip's end; the legendary calendar, the help page and
+# getting around. Then dark for the hub, the plan, the forecast, quests and the journal, and last
+# the ideas, change-dates and boost sheets (on iOS each sheet ends in a relaunch, after which an
+# appearance switch has reopened the last sheet). Journeys (actions really tapped) stay in
+# trip.yaml and plan.yaml; this flow is how the iPhone leg sees every trip page in minutes. It
+# fails at the end when a page never showed (subflows/capture-done.yaml).
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: trip_today
+- runFlow: subflows/trip-id.yaml
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: hub/${output.tripId}
+      CODE: '6.01'
+      NAME: hub-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: forecast/${output.tripId}
+      CODE: '6.06'
+      NAME: forecast
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: hub/${output.tripId}/offline
+      CODE: '6.15'
+      NAME: offline-top
+      LOOK: light
+# Today's page, and the crew map, which a new account sees with its sharing off (the primer).
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: hub/${output.tripId}/day/today
+      CODE: '6.04'
+      NAME: day-of-link
+      LOOK: light
+      READY: 'trip-day'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: map/${output.tripId}
+      CODE: '6.11'
+      NAME: sharing-off-link
+      LOOK: light
+      READY: 'live-map-(primer|screen)'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: quests/${output.tripId}
+      CODE: '8.07'
+      NAME: crew-quests
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: album/${output.tripId}
+      CODE: '8.12'
+      NAME: trip-journal
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/plan/map
+      CODE: '4.25'
+      NAME: plan-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/plan/days
+      CODE: '4.28'
+      NAME: all-days
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/search
+      CODE: '4.30'
+      NAME: find-link
+      LOOK: light
+      # Find opens with the keyboard up, over the QA marker at the screen's foot.
+      READY: 'search-field'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/day-trips
+      CODE: '4.49'
+      NAME: day-trips
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/setup
+      CODE: '4.08'
+      NAME: setup-done
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/setup/getting-there
+      CODE: '4.18'
+      NAME: getting-there
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/setup/route
+      CODE: '4.19'
+      NAME: route
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/check/balance
+      CODE: '4.47'
+      NAME: balance-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/settings
+      CODE: '4.53'
+      NAME: trip-settings-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/settings/cancel
+      CODE: '4.55'
+      NAME: cancel-trip-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/drivers
+      CODE: '6.19'
+      NAME: find-driver-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/drivers/tours
+      CODE: '6.21'
+      NAME: tours-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/drivers/directory
+      CODE: '6.25'
+      NAME: directory-link
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: recap/${output.tripId}
+      CODE: '8.09'
+      NAME: recap
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: you/plan/first-trip-ending/${output.tripId}
+      CODE: '9.21'
+      NAME: first-trip-ending
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: critters/legendaries
+      CODE: '8.08'
+      NAME: legendary-calendar
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: help
+      CODE: '6.16'
+      NAME: help
+      LOOK: light
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: getting-around
+      CODE: '5.24'
+      NAME: getting-around-link
+      LOOK: light
+- runFlow:
+    file: subflows/appearance.yaml
+    env:
+      LOOK: dark
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: hub/${output.tripId}
+      CODE: '6.01'
+      NAME: hub-link
+      LOOK: dark
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: forecast/${output.tripId}
+      CODE: '6.06'
+      NAME: forecast
+      LOOK: dark
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: quests/${output.tripId}
+      CODE: '8.07'
+      NAME: crew-quests
+      LOOK: dark
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: album/${output.tripId}
+      CODE: '8.12'
+      NAME: trip-journal
+      LOOK: dark
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/plan/map
+      CODE: '4.25'
+      NAME: plan-link
+      LOOK: dark
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/ideas
+      CODE: '4.40'
+      NAME: ideas-link
+      LOOK: dark
+      SHEET: 'true'
+      READY: 'ideas-sheet|ideas-empty'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: ${output.tripId}/settings/dates
+      CODE: '4.54'
+      NAME: change-dates-link
+      LOOK: dark
+      SHEET: 'true'
+      READY: 'change-dates|range-calendar'
+- runFlow:
+    file: subflows/capture.yaml
+    env:
+      ROUTE: boost/${output.tripId}
+      CODE: '9.12'
+      NAME: boost-link
+      LOOK: dark
+      SHEET: 'true'
+      READY: 'boost-sheet'
+- runFlow: subflows/capture-done.yaml

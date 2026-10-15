@@ -1,5 +1,5 @@
 /**
- * Small pieces the crew pages share: a radio row (one choice in a list), the crew code as split-flap tiles, and a round share target.
+ * Small pieces the crew pages share: a radio row (one choice in a list), the crew code as split-flap tiles, and a share target (a round disc with an icon, or the invite sheet's lettered app tile).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- style values, never copy. */
 import { t } from '@lingui/core/macro';
@@ -19,6 +19,7 @@ import {
 /** A person to pick: avatar, name, reason, and the radio (ink dot when picked). */
 export function RadioRow({
   name,
+  uid,
   color,
   line,
   selected,
@@ -27,6 +28,8 @@ export function RadioRow({
   testID,
 }: {
   readonly name: string;
+  /** The member's user id, for their face. */
+  readonly uid?: string;
   readonly color: string;
   readonly line?: string;
   readonly selected: boolean;
@@ -45,7 +48,7 @@ export function RadioRow({
       testID={testID}
       style={[styles.radioRow, { paddingHorizontal: th.space.rowPadH }, quiet && { opacity: 0.55 }]}
     >
-      <Avatar name={name} color={color} size={36} />
+      <Avatar name={name} color={color} uid={uid} size={36} />
       <View style={styles.grow}>
         <Text variant="rowTitle">{name}</Text>
         {line === undefined ? null : (
@@ -72,12 +75,18 @@ export function RadioRow({
 /** Flaps stay dark in both modes (the board is art, like a boarding pass). */
 const FLAP = premium.modes.light.color;
 
-/** The crew code as six split-flap tiles (dark halves, a hairline seam). */
+/**
+ * The crew code as six split-flap tiles (dark halves, a hairline seam), read out as the code. With
+ * `copyHint` the tiles are the copy button's accessible element, so the code stays reachable by id
+ * (iOS hides the children of an accessible button).
+ */
 export function SplitFlapCode({
   code,
+  copyHint,
   testID,
 }: {
   readonly code: string | null;
+  readonly copyHint?: string;
   readonly testID?: string;
 }) {
   const letters = Array.from((code ?? '······').slice(0, 6));
@@ -86,6 +95,9 @@ export function SplitFlapCode({
       style={styles.flaps}
       accessible
       accessibilityLabel={code ?? t({ id: 'crew.premium.codeComing', message: 'Code on its way' })}
+      {...(copyHint === undefined
+        ? {}
+        : { accessibilityRole: 'button' as const, accessibilityHint: copyHint })}
       testID={testID}
     >
       {letters.map((letter, i) => (
@@ -106,17 +118,24 @@ export function SplitFlapCode({
 export function ShareTarget({
   label,
   icon,
+  letter,
+  tile = false,
   tint,
   onPress,
   testID,
 }: {
   readonly label: string;
-  readonly icon: PremiumIconName;
+  /** The mark: a kit icon, or the app's letter (the design's "W", "M", "@"). */
+  readonly icon?: PremiumIconName;
+  readonly letter?: string;
+  /** A rounded app tile instead of a round disc. @default false */
+  readonly tile?: boolean;
   readonly tint?: string;
   readonly onPress: () => void;
   readonly testID?: string;
 }) {
   const th = usePremiumTheme();
+  const ink = tint === undefined ? th.color.ink : th.accent.stickerEdge;
   return (
     <PressableScale
       accessibilityRole="button"
@@ -127,15 +146,17 @@ export function ShareTarget({
     >
       <View
         style={[
-          styles.targetDisc,
+          tile ? styles.targetTile : styles.targetDisc,
           { backgroundColor: tint ?? th.color.card, boxShadow: th.shadow.raised },
         ]}
       >
-        <Icon
-          name={icon}
-          size={24}
-          color={tint === undefined ? th.color.ink : th.accent.stickerEdge}
-        />
+        {letter !== undefined ? (
+          <Text variant="stampWord" style={{ color: ink }}>
+            {letter}
+          </Text>
+        ) : icon === undefined ? null : (
+          <Icon name={icon} size={24} color={ink} />
+        )}
       </View>
       <Text variant="caption" tone="inkSecondary" numberOfLines={1}>
         {label}
@@ -166,6 +187,13 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  targetTile: {
+    width: 58,
+    height: 58,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },

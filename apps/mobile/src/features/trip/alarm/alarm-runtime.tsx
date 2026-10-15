@@ -26,9 +26,7 @@ import { LEAVE_BY_CATEGORY, LEAVE_BY_CATEGORY_NO_SNOOZE, leaveByDataOf } from '.
 import { alarmText } from './alarm-copy';
 import { alarmWatched, dueAlarm } from './alarm-plan';
 import { alarmStore, useAlarmState } from './alarm-store';
-import { InAppAlarm } from './in-app-alarm';
 import { InAppAlarmPremium } from '../premium/alarm/InAppAlarmPremium';
-import { usePremiumUi } from '@/lib/premium-ui';
 import { useAlarmSync } from './use-alarm-sync';
 import { useJourneyCheck } from '../disruptions/late/use-journey-check';
 
@@ -44,7 +42,7 @@ function useNotificationActions(
   useEffect(() => {
     const imUp = {
       identifier: 'up',
-      buttonTitle: t({ id: 'trip.alarm.imUp', message: "I'm up" }),
+      buttonTitle: t({ id: 'trip.alarm.imUp', message: 'I’m up' }),
       options: { opensAppToForeground: true },
     };
     const snoozeAction = {
@@ -82,8 +80,7 @@ function useNotificationActions(
 }
 
 export function TripDayRuntime({ alarmPort }: { readonly alarmPort: AlarmPort | null }) {
-  // The premium UI draws the in-app alarm in its own look; what it does is the same.
-  const Alarm = usePremiumUi() ? InAppAlarmPremium : InAppAlarm;
+  const Alarm = InAppAlarmPremium;
   setAlarmPort(alarmPort);
   useLiveActivityRegistration();
   const me = useOwnerUid();

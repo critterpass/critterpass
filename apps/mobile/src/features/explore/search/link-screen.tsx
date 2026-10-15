@@ -7,33 +7,27 @@
 import { router } from 'expo-router';
 import type { ComponentType } from 'react';
 
-import { LinkPaste, type LinkPasteProps } from './link-paste';
-import { LinkSheet, type LinkSheetProps } from './link-sheet';
-import { PickOneSheet, type PickOneSheetProps } from './pick-one-sheet';
 import { searchRoutes } from './routes';
 import { kindWord, useLinkScreen } from './use-link-screen';
+import type { GuideId } from '@/lib/navigation/active-guide';
+import type { LinkImportState } from './link-import-model';
+import type { ImportCandidate } from '@cp/domain';
+import { type PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 
 export interface LinkScreenProps {
   readonly tripId: string;
   readonly url: string | null;
   /** Opened to add a screenshot: the picker comes up first. */
   readonly screenshot: boolean;
-  /** How the found places are drawn; the logic is the same in every look. @default the current look */
-  readonly Sheet?: ComponentType<LinkSheetProps> | undefined;
-  /** The paste page before there is a link. @default the current look */
-  readonly Paste?: ComponentType<LinkPasteProps> | undefined;
-  /** The chooser for a mention that could be several places. @default the current look */
-  readonly PickOne?: ComponentType<PickOneSheetProps> | undefined;
+  /** How the found places are drawn; the logic stays here. */
+  readonly Sheet: ComponentType<LinkSheetProps>;
+  /** The paste page before there is a link. */
+  readonly Paste: ComponentType<LinkPasteProps>;
+  /** The chooser for a mention that could be several places. */
+  readonly PickOne: ComponentType<PickOneSheetProps>;
 }
 
-export function LinkScreen({
-  tripId,
-  url,
-  screenshot,
-  Sheet = LinkSheet,
-  Paste = LinkPaste,
-  PickOne = PickOneSheet,
-}: LinkScreenProps) {
+export function LinkScreen({ tripId, url, screenshot, Sheet, Paste, PickOne }: LinkScreenProps) {
   const {
     trip,
     body,
@@ -105,4 +99,46 @@ export function LinkScreen({
       ) : null}
     </>
   );
+}
+
+export interface LinkPasteProps {
+  /** Why the last try did not work (an unreadable screenshot), or null. */
+  readonly problem: string | null;
+  /** The clipboard's text where it can be read on a tap (Android); null elsewhere. */
+  readonly readClipboard: () => Promise<string | null>;
+  readonly onAdd: (url: string) => void;
+  readonly onScreenshot: () => void;
+  readonly onClose: () => void;
+  /** Lab and tests: leave the system paste control out. */
+  readonly pasteControl?: boolean;
+}
+
+export interface LinkSheetProps {
+  readonly state: LinkImportState;
+  readonly guide: GuideId;
+  readonly guideName: string;
+  readonly kindWord: (category: string) => string;
+  /** "Your free Sat works for these.", when a shared day fits. */
+  readonly tip: string | null;
+  /** "Sat 17", when the chosen places share a best day. */
+  readonly dayLabel: string | null;
+  readonly chosen: number;
+  readonly saving: boolean;
+  readonly onToggle: (label: string) => void;
+  readonly onPick: (label: string) => void;
+  readonly onSearch: (label: string) => void;
+  readonly onSave: () => void;
+  readonly onPutOnDay: () => void;
+  readonly onScreenshot: () => void;
+  readonly onRetry: () => void;
+  readonly onClose: () => void;
+}
+
+export interface PickOneSheetProps {
+  readonly label: string;
+  readonly candidates: readonly ImportCandidate[];
+  /** The candidates' photos by POI id, as they arrive. */
+  readonly photos?: PlaceTilePhotos | undefined;
+  readonly onPick: (poiId: string) => void;
+  readonly onClose: () => void;
 }

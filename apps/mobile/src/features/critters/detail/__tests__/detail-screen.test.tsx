@@ -3,8 +3,11 @@
  * (queued `set_guide_skin`, and the guide's look changes at once wherever `useGuideSkin` draws
  * it), a locked form can never be picked, and a local critter offers no guide button.
  */
+let mockCritterParam = '';
 jest.mock('expo-router', () => ({
+  Stack: Object.assign(() => null, { Screen: () => null }),
   useIsFocused: () => true,
+  useLocalSearchParams: () => ({ critterId: mockCritterParam }),
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
 }));
 
@@ -12,6 +15,7 @@ import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { configure, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import { router } from 'expo-router';
 import { Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -33,7 +37,7 @@ import {
   TOKEK_COMMON,
   TOKEK_RARE,
 } from '../../test-support/seed-critters';
-import { DetailScreen } from '../detail-screen';
+import { PremiumCritterDetailScreen } from '../../premium/detail/critter-detail-screen';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -64,13 +68,14 @@ async function renderDetail(
   stacks.push(stack);
   await seedCritters(stack.db, stack.uid, { tokekFound: true });
   i18n.loadAndActivate({ locale: 'en', messages: {} });
+  mockCritterParam = critterId;
   await render(
     <I18nProvider i18n={i18n}>
       <SafeAreaProvider initialMetrics={METRICS}>
         <GestureHandlerRootView>
           <LocalFirstProvider value={stack.value}>
             <ScreenJoltProvider>
-              <DetailScreen critterId={critterId} />
+              <PremiumCritterDetailScreen />
               <GuideLook />
             </ScreenJoltProvider>
           </LocalFirstProvider>
@@ -92,15 +97,18 @@ async function queued(stack: TestLocalFirst): Promise<unknown[]> {
 describe('critter detail', () => {
   it('makes an owned form the guide’s look, and each owned form in turn', async () => {
     const stack = await renderDetail(TOKEK);
-    await waitFor(() => expect(screen.getByText('TEMPLE TOKEK')).toBeTruthy());
+    await waitFor(() => expect(screen.getByText('Temple Tokek')).toBeTruthy());
     expect(screen.getByTestId('guide-look').props.children).toBe('classic');
-    await fireEvent.press(screen.getByTestId('critters-detail-make-guide'));
+    await fireEvent.press(screen.getByTestId('critters-detail-skin'));
     await waitFor(() => expect(screen.getByTestId('guide-look').props.children).toBe('rare'));
-    expect(screen.getByTestId('critters-detail-classic')).toBeTruthy();
+    // Worn now: the same button puts the classic look back.
+    expect(screen.getByTestId('critters-detail-skin')).toHaveTextContent(/classic/iu);
 
-    await fireEvent.press(screen.getByLabelText('Common'));
-    await waitFor(() => expect(screen.getByTestId('critters-detail-make-guide')).toBeTruthy());
-    await fireEvent.press(screen.getByTestId('critters-detail-make-guide'));
+    await fireEvent.press(screen.getByTestId('critters-form-common'));
+    await waitFor(() =>
+      expect(screen.getByTestId('critters-detail-skin')).not.toHaveTextContent(/classic/iu),
+    );
+    await fireEvent.press(screen.getByTestId('critters-detail-skin'));
     await waitFor(() => expect(screen.getByTestId('guide-look').props.children).toBe('common'));
     await waitFor(async () =>
       expect(await queued(stack)).toEqual([
@@ -113,21 +121,23 @@ describe('critter detail', () => {
   it('says a critter that is not on this phone is not here, with a way back', async () => {
     await renderDetail('0192f000-0000-7000-8000-0000000cffff', 'critters-detail-missing');
     expect(screen.queryByTestId('critters-detail')).toBeNull();
-    expect(screen.getByTestId('critters-detail-missing-back')).toBeTruthy();
+    expect(screen.getByText('Back to the Critterdex')).toBeTruthy();
   });
 
   it('never picks a locked form', async () => {
     const stack = await renderDetail(TOKEK);
-    await waitFor(() => expect(screen.getByText('TEMPLE TOKEK')).toBeTruthy());
-    await fireEvent.press(screen.getByLabelText('Epic, locked: Batur by sunrise'));
-    expect(screen.getByText('TEMPLE TOKEK')).toBeTruthy();
+    await waitFor(() => expect(screen.getByText('Temple Tokek')).toBeTruthy());
+    await fireEvent.press(screen.getByTestId('critters-form-epic'));
+    // A locked form opens where to find it; the page keeps the form it had.
+    expect(router.push).toHaveBeenCalled();
+    expect(screen.getByText('Temple Tokek')).toBeTruthy();
     expect(await queued(stack)).toEqual([]);
   });
 
   it('offers no guide look for a local critter, only sharing', async () => {
     await renderDetail(CHEP);
-    await waitFor(() => expect(screen.getByText('CHÉP')).toBeTruthy());
-    expect(screen.queryByTestId('critters-detail-make-guide')).toBeNull();
+    await waitFor(() => expect(screen.getByText('Chép')).toBeTruthy());
+    expect(screen.queryByTestId('critters-detail-skin')).toBeNull();
     expect(screen.getByTestId('critters-detail-share')).toBeTruthy();
   });
 });

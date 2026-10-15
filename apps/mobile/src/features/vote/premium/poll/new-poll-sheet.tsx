@@ -21,7 +21,10 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
+import { premiumFont } from '@/ui/premium/text/Text';
 
+import { useCrewName } from '../../data/use-final';
+import { DraggableAnswer, moveItem } from './answer-grip';
 import { createPollCommand } from '../../data/vote-commands';
 import {
   DEADLINE_MS,
@@ -29,13 +32,15 @@ import {
   postBlocker,
   type PollDeadline,
   type PollDraft,
-} from '../../poll/create-poll-sheet';
+} from '../../poll/poll-draft';
 
 const ROW = 50;
 
 export function NewPollSheet({ crewId }: { readonly crewId: string }) {
-  const { t } = useLingui();
+  const { t, i18n } = useLingui();
   const theme = usePremiumTheme();
+  const crewName = useCrewName(crewId);
+  const titleType = theme.type.emptyTitle;
   const create = useCommand(createPollCommand);
   const [draft, setDraft] = useState<PollDraft>({
     question: '',
@@ -82,9 +87,18 @@ export function NewPollSheet({ crewId }: { readonly crewId: string }) {
         testID: 'new-poll-post',
       }}
       dirty={dirty}
+      discardPrompt={{
+        title: t({ id: 'vote.premium.newPoll.discardTitle', message: 'Drop this poll?' }),
+        message: t({
+          id: 'vote.premium.newPoll.discardLine',
+          message: 'The question and answers you typed are not kept.',
+        }),
+        discard: t({ id: 'vote.premium.discard', message: 'Discard' }),
+        keep: t({ id: 'vote.premium.keepEditing', message: 'Keep editing' }),
+      }}
       testID="new-poll"
     >
-      <View style={{ paddingHorizontal: theme.space.gap16, gap: theme.space.gap16 }}>
+      <View style={{ gap: theme.space.gap16 }}>
         <TextInput
           ref={(node) => {
             inputs.current[0] = node;
@@ -101,52 +115,79 @@ export function NewPollSheet({ crewId }: { readonly crewId: string }) {
           onSubmitEditing={() => inputs.current[1]?.focus()}
           accessibilityLabel={t({ id: 'vote.newPoll.question', message: 'Question' })}
           testID="new-poll-question"
-          style={[
-            theme.type.emptyTitle,
-            { color: theme.color.ink, marginTop: theme.space.gap16, padding: 0 },
-          ]}
+          // The question is the sheet's title as it is typed (26/700), not a body line.
+          maxFontSizeMultiplier={titleType.maxScale}
+          style={{
+            ...premiumFont(titleType, i18n.locale, false),
+            fontSize: titleType.size,
+            letterSpacing: titleType.tracking,
+            color: theme.color.ink,
+            marginTop: theme.space.gap16,
+            padding: 0,
+          }}
         />
+        {crewName === null ? null : (
+          <Text variant="captionMuted" tone="muted" style={{ marginTop: -theme.space.gap12 }}>
+            {t({ id: 'vote.premium.newPoll.askedIn', message: `Asked in the ${crewName} chat` })}
+          </Text>
+        )}
         <ListCard>
           {draft.options.map((option, index) => (
-            <View
+            <DraggableAnswer
               key={index}
-              style={{
-                height: ROW,
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: theme.space.gap12,
-                paddingHorizontal: theme.space.rowPadH,
-              }}
+              index={index}
+              count={draft.options.length}
+              rowHeight={ROW}
+              onMove={(from, to) =>
+                setDraft((current) => ({
+                  ...current,
+                  options: moveItem(current.options, from, to),
+                }))
+              }
+              testID={`new-poll-grip-${String(index)}`}
             >
-              <View
-                style={{
-                  width: 22,
-                  height: 22,
-                  borderRadius: 11,
-                  borderWidth: 2,
-                  borderColor: theme.color.outlineEmpty,
-                }}
-              />
-              <TextInput
-                ref={(node) => {
-                  inputs.current[index + 1] = node;
-                }}
-                value={option}
-                onChangeText={(text) => setOption(index, text)}
-                placeholder={t({ id: 'vote.newPoll.option', message: `Answer ${index + 1}` })}
-                placeholderTextColor={theme.color.placeholder}
-                selectionColor={theme.color.caret}
-                returnKeyType={index === draft.options.length - 1 ? 'done' : 'next'}
-                submitBehavior={index === draft.options.length - 1 ? 'blurAndSubmit' : 'submit'}
-                onSubmitEditing={() => inputs.current[index + 2]?.focus()}
-                accessibilityLabel={t({
-                  id: 'vote.newPoll.option',
-                  message: `Answer ${index + 1}`,
-                })}
-                testID={`new-poll-option-${String(index)}`}
-                style={[field, { flex: 1, padding: 0 }]}
-              />
-            </View>
+              {(grip) => (
+                <View
+                  style={{
+                    height: ROW,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: theme.space.gap12,
+                    paddingHorizontal: theme.space.rowPadH,
+                  }}
+                >
+                  <View
+                    style={{
+                      width: 22,
+                      height: 22,
+                      borderRadius: 11,
+                      borderWidth: 2,
+                      borderColor: theme.color.outlineEmpty,
+                    }}
+                  />
+                  <TextInput
+                    ref={(node) => {
+                      inputs.current[index + 1] = node;
+                    }}
+                    value={option}
+                    onChangeText={(text) => setOption(index, text)}
+                    placeholder={t({ id: 'vote.newPoll.option', message: `Answer ${index + 1}` })}
+                    placeholderTextColor={theme.color.placeholder}
+                    selectionColor={theme.color.caret}
+                    returnKeyType={index === draft.options.length - 1 ? 'done' : 'next'}
+                    submitBehavior={index === draft.options.length - 1 ? 'blurAndSubmit' : 'submit'}
+                    onSubmitEditing={() => inputs.current[index + 2]?.focus()}
+                    accessibilityLabel={t({
+                      id: 'vote.newPoll.option',
+                      message: `Answer ${index + 1}`,
+                    })}
+                    testID={`new-poll-option-${String(index)}`}
+                    style={[field, { flex: 1, padding: 0 }]}
+                  />
+                  {draft.options.length > 1 ? grip : null}
+                </View>
+              )}
+            </DraggableAnswer>
           ))}
           {draft.options.length >= POLL_MAX_OPTIONS ? null : (
             <PressableScale
@@ -192,10 +233,23 @@ export function NewPollSheet({ crewId }: { readonly crewId: string }) {
           </Text>
           <SegmentedControl<PollDeadline>
             options={[
-              { value: 'none', label: t({ id: 'vote.newPoll.never', message: 'When all vote' }) },
-              { value: 'hour', label: t({ id: 'vote.newPoll.hour', message: '1 hour' }) },
-              { value: 'day', label: t({ id: 'vote.newPoll.day', message: '1 day' }) },
-              { value: 'days', label: t({ id: 'vote.newPoll.threeDays', message: '3 days' }) },
+              // The long first label takes the room the short ones leave (one line, as designed).
+              {
+                value: 'none',
+                label: t({ id: 'vote.newPoll.never', message: 'When all vote' }),
+                weight: 1.7,
+              },
+              {
+                value: 'hour',
+                label: t({ id: 'vote.newPoll.hourShort', message: '1 h' }),
+                weight: 0.8,
+              },
+              { value: 'day', label: t({ id: 'vote.newPoll.day', message: '1 day' }), weight: 1 },
+              {
+                value: 'days',
+                label: t({ id: 'vote.newPoll.threeDays', message: '3 days' }),
+                weight: 1.1,
+              },
             ]}
             value={draft.deadline}
             onChange={(deadline) => setDraft((current) => ({ ...current, deadline }))}

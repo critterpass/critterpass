@@ -2,54 +2,58 @@ appId: app.critterpass.dev
 ---
 # Release gate: crew money. A new account starts with the staging demo crew (a Bali trip with four
 # crewmates, no expenses yet), adds Rp 450.000 it paid, split evenly, on the keypad: the expense
-# lands in LATEST and Balances has the crew owing the account. Settle up lists who pays whom;
-# the account asks one crewmate for their share and confirms it arrived, and that payment is
+# lands in Latest and the Settle button counts the taps to square up. Settle up lists who pays
+# whom; the account asks one crewmate for their share and confirms it arrived, and that payment is
 # settled.
 - runFlow:
     file: ../_shared/start-as.yaml
     env:
       SCENARIO: caught_up
-- tapOn:
-    id: 'tab-wallet'
-- extendedWaitUntil:
-    visible:
-      id: 'money-balances'
-    timeout: 30000
-- tapOn:
-    id: 'money-empty'
-    optional: true
+- runFlow:
+    file: subflows/open-wallet.yaml
+    env:
+      HALF: money
+# With nothing spent yet the empty state offers the add; otherwise the header's +.
+- runFlow:
+    when:
+      visible:
+        id: 'money-empty-add'
+    commands:
+      - tapOn:
+          id: 'money-empty-add'
 - runFlow:
     when:
       notVisible:
-        id: 'money-add-keypad'
+        id: 'money-keypad'
     commands:
-      - tapOn: 'ADD'
+      - runFlow:
+          file: ../_shared/tap.yaml
+          env:
+            ID: 'money-add'
+            LABEL: 'Add an expense'
 - extendedWaitUntil:
     visible:
-      id: 'money-add-keypad'
+      id: 'money-keypad'
     timeout: 10000
 - tapOn:
-    id: 'money-add-keypad-key-4'
+    id: 'money-key-4'
 - tapOn:
-    id: 'money-add-keypad-key-5'
+    id: 'money-key-5'
 - tapOn:
-    id: 'money-add-keypad-key-0'
+    id: 'money-key-0'
 - tapOn:
-    id: 'money-add-keypad-key-000'
+    id: 'money-key-000'
 - tapOn:
-    id: 'money-add-split'
-    optional: true
-- tapOn: 'EVENLY'
+    id: 'money-add-mode-equal'
 - tapOn:
     id: 'money-add-submit'
 - extendedWaitUntil:
     visible:
-      id: 'money-latest-row'
+      id: 'money-latest'
     timeout: 20000
-# The api accepted it: the balances now owe the account, and settling takes some taps.
 - extendedWaitUntil:
     visible:
-      text: '(?i).*settle in [0-9]+ taps?.*'
+      text: '(?i).*settle in.[0-9]+.taps?.*'
     timeout: 30000
 - tapOn:
     id: 'money-settle'
@@ -64,11 +68,18 @@ appId: app.critterpass.dev
     visible:
       id: 'money-pay-request'
     timeout: 15000
-- takeScreenshot: en-money-payment-payee-request
+- takeScreenshot: premium-7.26-payment-request-light
 - tapOn:
     id: 'money-pay-request'
-# The request goes out and Settle up lists that payment as requested; open it again and confirm
-# the money arrived (the payee may confirm before the payer marks it paid).
+- extendedWaitUntil:
+    notVisible:
+      id: 'money-pay-request'
+    timeout: 20000
+# The crewmate marks it paid once asked; their payment comes back for this account to confirm.
+- runFlow:
+    file: ../_shared/back-to.yaml
+    env:
+      MARK: 'money-settle-row-.*'
 - extendedWaitUntil:
     visible:
       text: '(?i).*requested.*'
@@ -79,26 +90,7 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible:
       id: 'money-pay-confirm'
-    timeout: 20000
-# "It didn't arrive" asks first, with room for a note; NOT YET sends nothing.
-- runFlow:
-    when:
-      visible:
-        id: 'money-pay-dispute'
-    commands:
-      - tapOn:
-          id: 'money-pay-dispute'
-      - extendedWaitUntil:
-          visible:
-            id: 'money-pay-dispute-confirm'
-          timeout: 10000
-      - takeScreenshot: en-money-payment-dispute-confirm
-      - tapOn:
-          id: 'money-pay-dispute-cancel'
-      - extendedWaitUntil:
-          notVisible:
-            id: 'money-pay-dispute-confirm'
-          timeout: 10000
+    timeout: 30000
 - tapOn:
     id: 'money-pay-confirm'
 - extendedWaitUntil:
@@ -106,11 +98,10 @@ appId: app.critterpass.dev
       id: 'money-pay-confirm'
     timeout: 20000
 - runFlow:
-    when:
-      notVisible:
-        id: 'money-settled-progress'
-    file: ../onboarding/subflows/back.yaml
+    file: ../_shared/back-to.yaml
+    env:
+      MARK: 'money-settle-row-.*|money-settle-reward|money-settle-square'
 - extendedWaitUntil:
     visible:
-      id: 'money-settled-progress'
+      text: '.*Paid ✓.*|.*Everyone.is.square.*'
     timeout: 20000

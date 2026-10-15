@@ -3,9 +3,11 @@
  * rows with results; Return "Search"), the shake card, the four ways to reach us, the help centre's
  * articles and who replies. Offline, the articles wait and the ways to write still work.
  */
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { Pressable, View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -20,33 +22,23 @@ import {
   Icon,
   ListCard,
   Row,
+  SearchField,
+  StickerIcon,
+  type StickerIconName,
   Text,
   TextButton,
-  TextField,
   usePremiumReducedMotion,
   usePremiumTheme,
-  type PremiumIconName,
 } from '@/ui/premium';
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { useHelpHub } from '../hub/hub-screen';
+import { useHelpHub } from '../hub/use-help-hub';
 
-function Tile({ glyph, color }: { readonly glyph: PremiumIconName; readonly color: string }) {
+/** A row's colour tile with its sticker in paper white on it (9.06). */
+function Tile({ sticker, color }: { readonly sticker: StickerIconName; readonly color: string }) {
   const th = usePremiumTheme();
-  return (
-    <View
-      style={{
-        width: 36,
-        height: 36,
-        borderRadius: 10,
-        backgroundColor: color,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <Icon name={glyph} size={18} color={th.color.onAccent} />
-    </View>
-  );
+  return <StickerIcon name={sticker} size={36} tile={color} color={th.accent.paper} />;
 }
 
 /** One wiggle's first and last beat, and each swing between. */
@@ -57,9 +49,14 @@ const WIGGLE_SWING_MS = 200;
 function ShakingPhone() {
   const th = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const tilt = useSharedValue(0);
   useEffect(() => {
-    if (reduced) return;
+    if (!looping) {
+      cancelAnimation(tilt);
+      tilt.value = 0;
+      return undefined;
+    }
     tilt.value = withRepeat(
       withDelay(
         2240,
@@ -73,7 +70,8 @@ function ShakingPhone() {
       ),
       -1,
     );
-  }, [reduced, tilt]);
+    return () => cancelAnimation(tilt);
+  }, [looping, tilt]);
   const style = useAnimatedStyle(() => ({
     transform: [{ translateY: 16 }, { rotate: `${tilt.value}deg` }, { translateY: -16 }],
   }));
@@ -131,7 +129,7 @@ export function HelpPremiumScreen() {
           </View>
           <CritterSticker kind="gecko" name="Tokek" pose="point" size={96} />
         </View>
-        <TextField
+        <SearchField
           value={hub.query}
           onChangeText={hub.onQuery}
           placeholder={t({ id: 'help.hub.search', message: 'Refunds, offline maps, splitting…' })}
@@ -174,7 +172,12 @@ export function HelpPremiumScreen() {
             <ListCard>
               <Row
                 title={t({ id: 'help.hub.report', message: 'Report a problem' })}
-                leading={<Tile glyph="bolt" color={th.accent.pink} />}
+                subtitle={
+                  hub.shakeToReport
+                    ? t({ id: 'help.premium.reportCaptionShake', message: 'Or shake any screen' })
+                    : t({ id: 'help.premium.reportCaption', message: 'What went wrong, and where' })
+                }
+                leading={<Tile sticker="heart" color={th.accent.pink} />}
                 trailing={chevron}
                 onPress={hub.onReport}
                 testID="help-hub-report"
@@ -185,7 +188,7 @@ export function HelpPremiumScreen() {
                   id: 'help.hub.feedbackCaption',
                   message: 'What you love, what bugs you',
                 })}
-                leading={<Tile glyph="send" color={th.accent.sky} />}
+                leading={<Tile sticker="chat" color={th.accent.sky} />}
                 trailing={chevron}
                 onPress={hub.onFeedback}
                 testID="help-hub-feedback"
@@ -197,10 +200,14 @@ export function HelpPremiumScreen() {
                   : {
                       subtitle: t({
                         id: 'help.premium.suggestCaption',
-                        message: `Vote on ${hub.ideasToVote} ideas`,
+                        message: plural(hub.ideasToVote, {
+                          0: 'Be the first to suggest one',
+                          one: 'Vote on # idea',
+                          other: 'Vote on # ideas',
+                        }),
                       }),
                     })}
-                leading={<Tile glyph="heart" color={th.accent.sun} />}
+                leading={<Tile sticker="spark" color={th.accent.sun} />}
                 trailing={chevron}
                 onPress={hub.onSuggest}
                 testID="help-hub-suggest"
@@ -208,7 +215,7 @@ export function HelpPremiumScreen() {
               <Row
                 title={t({ id: 'help.hub.rate', message: 'Rate the app' })}
                 subtitle={t({ id: 'help.hub.rateCaption', message: 'Takes ten seconds' })}
-                leading={<Tile glyph="check" color={th.accent.mint} />}
+                leading={<Tile sticker="star" color={th.accent.mint} />}
                 trailing={chevron}
                 onPress={hub.onRate}
                 testID="help-hub-rate"

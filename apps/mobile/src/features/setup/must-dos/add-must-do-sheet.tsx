@@ -20,11 +20,16 @@ import { useSetupServices } from '../data/services';
 import { useSetupTrip } from '../data/setup-trip';
 import { useMe } from '../data/use-me';
 import { setupRoutes } from '../routes';
-import { SetupSheetWaiting } from '../shell/sheet-waiting';
-import { AddSheetView, type AddSheetViewProps } from './add-sheet-view';
+import type { SheetWaitingProps } from '../shell/frame';
+import { type AddSheetViewProps } from './must-dos-props';
 import { useMustDosData } from './data';
-import { MorePlacesSection, type LivePickNote, type MorePlacesProps } from './more-places-section';
-import { resolveLivePick, useMorePlaces, type LivePlace } from './more-places';
+import {
+  type LivePickNote,
+  type MorePlacesProps,
+  resolveLivePick,
+  useMorePlaces,
+  type LivePlace,
+} from './more-places';
 import { buildMustDos } from './model';
 import { listWith, type NewPick } from './save';
 import { tripDates, useMustDoSearch } from './search';
@@ -34,22 +39,15 @@ export interface AddMustDoLook {
   readonly Sheet: ComponentType<AddSheetViewProps>;
   readonly More: ComponentType<MorePlacesProps>;
   /** Before the trip is read, or for someone with no part in it. */
-  readonly Waiting: typeof SetupSheetWaiting;
+  readonly Waiting: ComponentType<SheetWaitingProps>;
 }
-
-const CURRENT_LOOK: AddMustDoLook = {
-  Sheet: AddSheetView,
-  More: MorePlacesSection,
-  Waiting: SetupSheetWaiting,
-};
 
 export function AddMustDoSheet({
   tripId,
-  look = CURRENT_LOOK,
+  look,
 }: {
   readonly tripId: string;
-  /** @default the current look */
-  readonly look?: AddMustDoLook;
+  readonly look: AddMustDoLook;
 }) {
   const services = useSetupServices();
   const me = useMe();

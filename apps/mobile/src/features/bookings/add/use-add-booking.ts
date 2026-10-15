@@ -33,9 +33,9 @@ import { useWalletContext } from '../data/use-wallet-context';
 import { addByHandRoute, BOOKINGS_ROUTES } from '../routes';
 import { useMailbox } from '../mailbox/use-mailbox';
 import { useBookingScan } from '../scan/use-booking-scan';
-import type { ImportChannel } from './ImportTiles';
+import type { ImportChannel } from './view-types';
 
-import type { AddBookingViewProps } from './AddBookingView';
+import type { AddBookingViewProps } from './view-types';
 
 export function useAddBooking(start?: string) {
   const context = useWalletContext();

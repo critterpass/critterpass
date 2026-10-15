@@ -5,6 +5,7 @@
 import { t } from '@lingui/core/macro';
 import { useEffect } from 'react';
 import { View } from 'react-native';
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import Animated, {
   cancelAnimation,
   useAnimatedStyle,
@@ -22,8 +23,8 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import { useFailureLine } from '../chat/components/guide-states';
-import { toolStepLabel } from '../chat/data/tool-steps';
+import { useFailureLine } from '../chat/data/guide-failure-line';
+import { stepRows } from '../chat/data/tool-steps';
 import type { TurnStep } from '../chat/data/turn-state';
 import { GuideDisc } from './guide-bubbles';
 
@@ -64,12 +65,17 @@ const useStyles = makePremiumStyles((th) => ({
 function ActiveDot() {
   const th = usePremiumTheme();
   const reduced = usePremiumReducedMotion();
+  const looping = useIdleLoopRunning(!reduced);
   const pulse = useSharedValue(1);
   useEffect(() => {
-    if (reduced) return undefined;
+    if (!looping) {
+      cancelAnimation(pulse);
+      pulse.value = 1;
+      return undefined;
+    }
     pulse.value = withRepeat(withTiming(0.45, { duration: th.motion.bobMs / 2 }), -1, true);
     return () => cancelAnimation(pulse);
-  }, [pulse, reduced, th.motion.bobMs]);
+  }, [pulse, looping, th.motion.bobMs]);
   const style = useAnimatedStyle(() => ({ opacity: pulse.value }));
   return (
     <Animated.View
@@ -95,7 +101,8 @@ export function WorkingCard({
 }) {
   const th = usePremiumTheme();
   const styles = useStyles();
-  const active = steps.findIndex((step) => !step.done);
+  const rows = stepRows(steps);
+  const active = rows.findIndex((step) => !step.done);
   return (
     <View style={{ gap: th.space.gap10 }} testID="guide-working">
       <View style={styles.row}>
@@ -104,7 +111,7 @@ export function WorkingCard({
           <Text variant="rowTitle">
             {t({ id: 'guide.premium.working', message: 'Working on it' })}
           </Text>
-          {steps.map((step, index) => {
+          {rows.map((step, index) => {
             const done = step.done;
             const now = index === active;
             return (
@@ -126,7 +133,7 @@ export function WorkingCard({
                   variant={now ? 'rowTextStrong' : 'rowText'}
                   tone={done || now ? 'ink' : 'placeholder'}
                 >
-                  {toolStepLabel(step.tool)}
+                  {step.label}
                 </Text>
               </View>
             );

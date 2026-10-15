@@ -2,7 +2,7 @@
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   EmptyState,
@@ -14,7 +14,7 @@ import {
   usePremiumTheme,
 } from '@/ui/premium';
 
-import type { SummaryViewProps } from '../summary/summary-view';
+import type { SummaryViewProps } from '../summary/summary-screen';
 
 const useStyles = makePremiumStyles((th) => ({
   next: {

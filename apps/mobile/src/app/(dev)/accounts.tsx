@@ -8,9 +8,15 @@ import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { clearPassDraft } from '@/features/onboarding';
 import { setOnboardingComplete } from '@/lib/links/pending';
 import { forgetNavigationForAccountSwitch } from '@/lib/navigation/restore';
-import { makeStyles, Scaffold, Stack, Text, useTheme } from '@/ui';
-import { ListCard } from '@/ui/cards/ListCard';
-import { SecondaryText } from '@/ui/cards/SecondaryText';
+import {
+  ListCard,
+  makeStyles,
+  Scaffold,
+  SecondaryText,
+  Stack,
+  Text,
+  useTheme,
+} from '@/features/dev-tools/dev-kit';
 
 const slots = createDevSlots(SecureStore);
 

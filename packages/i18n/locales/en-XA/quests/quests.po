@@ -7,31 +7,13 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en-XA\n"
 
-#. placeholder {0}: level.into
-#. placeholder {1}: level.need
-#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
-msgid "quests.header.xp"
-msgstr ""
-
 #. placeholder {0}: model.live
 #: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
 msgid "quests.tile.live"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
-msgid "quests.header.eyebrow"
-msgstr ""
-
 #: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
 msgid "quests.tile.level"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
-msgid "quests.empty.beforeLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
-msgid "quests.empty.writingLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
@@ -46,93 +28,16 @@ msgstr ""
 msgid "quests.levelUp.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
-msgid "quests.header.levelOnly"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
-msgid "quests.title"
-msgstr ""
-
 #: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
 msgid "quests.tile.dayOne"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
-msgid "quests.card.done"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
-msgid "quests.befriend.go"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
-msgid "quests.card.join"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/quests/commands.ts
 msgid "quests.queued.signup"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
-msgid "quests.header.unlock"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
-msgid "quests.card.missed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
-msgid "quests.befriend.nearest"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
-msgid "quests.befriend.nearestAway"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
-msgid "quests.empty.overLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
-msgid "quests.card.practise"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
-msgid "quests.offline"
-msgstr ""
-
 #: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
 msgid "quests.tile.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
-msgid "quests.empty.beforeTitle"
-msgstr ""
-
-#. placeholder {0}: card.reward.xp
-#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
-msgid "quests.reward.xp"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
-msgid "quests.reward.critter"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
-msgid "quests.reward.settled"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
-msgid "quests.befriend.how"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
-msgid "quests.empty.overTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
-msgid "quests.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
@@ -141,12 +46,4 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
 msgid "quests.tile.writing"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
-msgid "quests.empty.writingTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
-msgid "quests.card.joined"
 msgstr ""

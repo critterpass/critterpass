@@ -8,11 +8,11 @@ import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import { Button, Text, usePremiumTheme } from '@/ui/premium';
 
 import { usePlainBlock, type PlainBlockInput } from '../../search/use-plain-block';
-import { usePlainSection } from '../../search/plain-section';
+import { usePlainSection } from '../../search/use-plain-section';
 import { FindNoResults } from './find-no-results';
 import { ChipRow, ClosePlacesList, PlainList, PlainNote } from './find-plain';
 

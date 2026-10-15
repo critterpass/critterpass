@@ -5,143 +5,34 @@
  * and the pings. Offline the map greys and the pings wait. Before trip days the map sleeps under
  * a card with what can be done meanwhile; on an unboosted trip the Boost card sits over it.
  */
-import { Marker, type CameraRef } from '@maplibre/maplibre-react-native';
+import type { CameraRef } from '@maplibre/maplibre-react-native';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useRef } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { LiveMapGatePremium } from '@/features/monetize';
-import { PremiumMapCanvas, StayFlag } from '@/features/plan';
-import { crewAccent, guideCritterKind } from '@/features/trip';
-import {
-  Avatar,
-  CritterSticker,
-  CrewStack,
-  GlassIconButton,
-  ring,
-  Text,
-  usePremiumTheme,
-} from '@/ui/premium';
+import { PremiumMapCanvas } from '@/features/plan';
+import { GlassIconButton, Text, usePremiumTheme } from '@/ui/premium';
+import { SCROLL_EDGE_FADE, ScrollEdgeFade } from '@/ui/premium/shell';
 
 import { liveMapPaywall } from '../gate-slot';
-import type { LiveMapModel } from '../model';
+import { PreviewFaces, PreviewPill } from './crew-map-preview';
 import { useLiveMapScreen } from '../use-live-map-screen';
 import { CrewPanel } from './CrewPanel';
+import { Pins, Sleeping } from './crew-map-marks';
 import { useDestinationCentre } from './use-destination-centre';
 import { MeetupEditorPremium } from './MeetupEditorPremium';
 
 /** Where the map opens with nothing to frame yet: the trip's own centre is not known. */
 const FALLBACK: readonly [number, number] = [115.2625, -8.5069];
 
-function Pins({ m }: { readonly m: LiveMapModel }) {
-  const th = usePremiumTheme();
-  const pins = m.view?.pins ?? [];
-  return (
-    <>
-      {pins.map((pin) => {
-        if (pin.kind === 'bunch') {
-          return (
-            <Marker
-              key={pin.people.map((p) => p.uid).join('-')}
-              lngLat={[pin.lng, pin.lat]}
-              anchor="bottom"
-            >
-              <CrewStack
-                members={pin.people.map((p) => ({
-                  id: p.uid,
-                  name: p.name,
-                  color: crewAccent(p.joinIndex),
-                }))}
-                size={30}
-                accessibilityLabel={pin.people.map((p) => p.name).join(', ')}
-              />
-            </Marker>
-          );
-        }
-        const { person } = pin;
-        if (person.position === null || person.isMe) return null;
-        return (
-          <Marker
-            key={person.uid}
-            lngLat={[person.position.lng, person.position.lat]}
-            anchor="bottom"
-          >
-            <View
-              style={[
-                styles.pin,
-                person.stale ? styles.stale : null,
-                { boxShadow: th.shadow.sticker },
-              ]}
-            >
-              <Avatar name={person.name} color={crewAccent(person.joinIndex)} size={34} ringed />
-            </View>
-          </Marker>
-        );
-      })}
-      {m.meetup === null ? null : (
-        <StayFlag
-          lngLat={[m.meetup.lng, m.meetup.lat]}
-          label={m.meetupTime}
-          accessibilityLabel={m.meetup.place_name}
-        />
-      )}
-      {m.ownFix === null || (m.view?.me?.sharing ?? 'off') === 'off' ? null : (
-        <Marker lngLat={[m.ownFix.lng, m.ownFix.lat]} anchor="center">
-          <View
-            style={[
-              styles.you,
-              { backgroundColor: th.accent.sky, boxShadow: ring(3, th.accent.paper) },
-            ]}
-          />
-        </Marker>
-      )}
-    </>
-  );
-}
-
-function Sleeping({ m }: { readonly m: LiveMapModel }) {
-  const th = usePremiumTheme();
-  const { t } = useLingui();
-  const title = m.windowEnded
-    ? t({ id: 'liveMap.gate.endedTitle', message: 'Trip days are over' })
-    : m.windowStartsAt === null
-      ? t({ id: 'liveMap.gate.notStartedTitle', message: 'Not a trip day yet' })
-      : t({ id: 'liveMap.premium.wakesUp', message: 'The map wakes up on your first trip day' });
-  return (
-    <View
-      style={[
-        styles.sleep,
-        { borderRadius: 30, backgroundColor: th.color.card, boxShadow: th.shadow.card },
-      ]}
-      testID="live-map-gate"
-    >
-      <CritterSticker
-        kind={guideCritterKind(null)}
-        name={t({ id: 'liveMap.premium.guideName', message: 'Tokek' })}
-        size={96}
-        pose="sleep"
-      />
-      <Text variant="title" align="center">
-        {title}
-      </Text>
-      <Text variant="rowText" tone="inkSecondary" align="center">
-        {m.windowEnded
-          ? t({ id: 'liveMap.gate.endedLine', message: 'Sharing switched itself off at midnight.' })
-          : t({
-              id: 'liveMap.gate.notStartedLine',
-              message: 'Sharing opens on your first trip day.',
-            })}
-      </Text>
-    </View>
-  );
-}
-
 export function CrewMapPremium({ tripId }: { readonly tripId: string }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const insets = useSafeAreaInsets();
+  const { height } = useWindowDimensions();
   const camera = useRef<CameraRef>(null);
   const m = useLiveMapScreen(tripId);
   const open = m.gate === 'open' || m.gate === 'loading';
@@ -163,6 +54,8 @@ export function CrewMapPremium({ tripId }: { readonly tripId: string }) {
   const sharing = m.view?.sharingCount ?? 0;
   const members = m.view?.memberCount ?? 0;
   const paywall = liveMapPaywall();
+  // The faces fill the map between the header and the Boost card.
+  const previewHeight = Math.max(0, height * 0.52);
   return (
     <View style={styles.root} testID="live-map-screen">
       {/* The map fills the screen behind the header and the crew panel. The camera only reads its
@@ -188,6 +81,13 @@ export function CrewMapPremium({ tripId }: { readonly tripId: string }) {
           ]}
         />
       ) : null}
+      {/* The clock and battery read on a fade of the ground, not straight on the map's labels. */}
+      <ScrollEdgeFade
+        edge="top"
+        height={insets.top + SCROLL_EDGE_FADE}
+        solid={insets.top / 2}
+        testID="live-map-status-ground"
+      />
       <View
         style={[
           styles.header,
@@ -200,15 +100,33 @@ export function CrewMapPremium({ tripId }: { readonly tripId: string }) {
           onPress={() => router.back()}
           testID="live-map-back"
         />
-        <View style={[styles.pill, { backgroundColor: th.color.inkSurface }]}>
-          <Text variant="pillSmall" color={th.color.onInkSurface} numberOfLines={1}>
-            {open && members > 0
-              ? t({
-                  id: 'liveMap.premium.pill',
-                  message: `${m.crewName} · ${sharing} of ${members} sharing`,
-                })
-              : m.crewName}
-          </Text>
+        <View style={styles.middle}>
+          {m.gate === 'boost_required' ? (
+            <PreviewPill place={m.destinationName ?? m.crewName} />
+          ) : (
+            <View style={[styles.pill, { backgroundColor: th.color.inkSurface }]}>
+              {/* A long crew name gives way, the count always shows whole. */}
+              <View style={styles.pillLine}>
+                <Text
+                  variant="pillSmall"
+                  color={th.color.onInkSurface}
+                  numberOfLines={1}
+                  singleLine={false}
+                  style={styles.pillName}
+                >
+                  {m.crewName}
+                </Text>
+                {open && members > 0 ? (
+                  <Text variant="pillSmall" color={th.color.onInkSurface} numberOfLines={1}>
+                    {t({
+                      id: 'liveMap.premium.pillCount',
+                      message: ` · ${sharing} of ${members} sharing`,
+                    })}
+                  </Text>
+                ) : null}
+              </View>
+            </View>
+          )}
         </View>
         <View style={styles.circle} />
       </View>
@@ -227,12 +145,14 @@ export function CrewMapPremium({ tripId }: { readonly tripId: string }) {
           </View>
         </View>
       ) : null}
+      {m.gate === 'boost_required' ? <PreviewFaces m={m} height={previewHeight} /> : null}
       <View style={styles.fill} pointerEvents="box-none">
         {m.gate === 'outside_trip_days' ? <Sleeping m={m} /> : null}
       </View>
-      <View style={{ paddingBottom: insets.bottom }}>
+      {/* The panel's ground runs to the screen's foot; only its buttons keep clear of the home bar. */}
+      <View style={m.gate === 'boost_required' ? { paddingBottom: insets.bottom } : null}>
         {open ? (
-          <CrewPanel m={m} />
+          <CrewPanel m={m} bottomInset={insets.bottom} />
         ) : m.gate === 'boost_required' ? (
           <LiveMapGatePremium
             place={m.destinationName ?? m.crewName}
@@ -269,14 +189,20 @@ const styles = StyleSheet.create({
     gap: 10,
     zIndex: 2,
   },
+  middle: { flex: 1, alignItems: 'center' },
   pill: {
-    flex: 1,
+    maxWidth: '100%',
     height: 34,
-    borderRadius: 12,
+    borderRadius: 17,
     paddingHorizontal: 14,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
   },
+  pillGlass: { borderRadius: 17 },
+  previewLabel: { letterSpacing: 0.9, fontWeight: '700' },
+  pillLine: { flexDirection: 'row', alignItems: 'center', maxWidth: '100%' },
+  pillName: { flexShrink: 1 },
   circle: { width: 44 },
   offline: { position: 'absolute', left: 0, right: 0, alignItems: 'center', zIndex: 2 },
   offlinePill: {
@@ -288,8 +214,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   dot: { width: 7, height: 7, borderRadius: 4 },
-  pin: { borderRadius: 17 },
-  stale: { opacity: 0.55 },
-  you: { width: 16, height: 16, borderRadius: 8 },
-  sleep: { alignItems: 'center', gap: 10, padding: 20 },
 });

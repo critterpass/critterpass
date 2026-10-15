@@ -78,3 +78,6 @@ export function registerMoneyScreens(): void {
   registered = true;
   registerScreens(MONEY_SCREENS);
 }
+
+/** Where back lands from a money screen opened with nothing under it. */
+export const MONEY_FALLBACK: Href = MONEY_ROUTES.balances;

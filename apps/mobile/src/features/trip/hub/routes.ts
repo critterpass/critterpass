@@ -18,15 +18,21 @@ export function tripHubRoute(tripId: string): Href {
   return { pathname: '/(tabs)/trips/[tripId]', params: { tripId } };
 }
 
+/**
+ * A trip's day-of page, pushed on the hub's own stack over the tabs, so it keeps the hub under it
+ * and the glass back.
+ */
 export function tripDayRoute(tripId: string, date: string | null): Href {
-  return {
-    pathname: '/(tabs)/trips/[tripId]/day/[date]',
-    params: { tripId, date: date ?? TODAY },
-  };
+  return { pathname: '/(trip)/hub/[tripId]/day/[date]', params: { tripId, date: date ?? TODAY } };
 }
 
 export function tripOfflineRoute(tripId: string): Href {
   return { pathname: '/(trip)/hub/[tripId]/offline', params: { tripId } };
+}
+
+/** The leave-by alarm's permission sheet over a trip's day page. */
+export function alarmSheetRoute(tripId: string, kind: string, guide: string): Href {
+  return { pathname: '/(trip)/hub/[tripId]/alarm', params: { tripId, kind, guide } };
 }
 
 export function offlineStorageRoute(): Href {

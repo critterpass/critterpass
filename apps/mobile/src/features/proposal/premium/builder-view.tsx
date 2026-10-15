@@ -22,7 +22,7 @@ import {
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import type { BuilderViewProps } from '../builder/builder-view';
+import type { BuilderViewProps } from '../builder/views';
 import { FormatTiles } from './format-tiles';
 
 export function PremiumBuilderView(props: BuilderViewProps) {
@@ -147,6 +147,7 @@ export function PremiumBuilderView(props: BuilderViewProps) {
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: th.space.gap8 }}>
             {props.previews.map((p) => (
               <Button
+                alignSelf="auto"
                 key={p.uid}
                 label={t({ id: 'proposal.build.previewAs', message: `Preview as ${p.name}` })}
                 variant="control"

@@ -1,9 +1,16 @@
-import { useLocalSearchParams } from 'expo-router';
+import { Redirect, useLocalSearchParams } from 'expo-router';
 
-import { TripExploreScreen } from '@/features/explore/trip-explore';
+import { searchRoutes } from '@/features/explore';
 
-/** Explore in a trip (7g-1): `/{tripId}/explore`. */
-export default function TripExploreRoute() {
+function useTripId(): string {
   const { tripId } = useLocalSearchParams<{ tripId: string }>();
-  return <TripExploreScreen tripId={tripId ?? ''} />;
+  return tripId ?? '';
+}
+
+/**
+ * The trip has no separate explore page: Find (4.30) carries its tiles (swipe together,
+ * day trips, crews' plans) and the kinds to browse, so the trip's explore opens Find.
+ */
+export default function TripExploreRoute() {
+  return <Redirect href={searchRoutes.search(useTripId(), { scope: 'explore' })} />;
 }

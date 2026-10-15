@@ -4,12 +4,12 @@ import { beforeAll, describe, expect, it } from '@jest/globals';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
-import { renderUi } from '@/ui/test-support/render';
+import { renderUi } from '@/lib/test-support/render-ui';
 
 import type { CrewPerson, RsvpStatus } from '../data/trip';
 import { lockCopy, trackerLine, trackerName } from '../labels';
 import { lockState, publicStatus, tally } from '../tracker/model';
-import { TrackerView } from '../tracker/tracker-view';
+import { PremiumTrackerView } from '../premium/tracker-view';
 
 const noop = () => undefined;
 
@@ -44,7 +44,7 @@ const tracker = (people: readonly CrewPerson[]) => {
   return (
     <SafeAreaProvider initialMetrics={METRICS}>
       <ScreenJoltProvider>
-        <TrackerView
+        <PremiumTrackerView
           back="Lisbon proposal"
           chip={null}
           rows={people.map((p) => ({

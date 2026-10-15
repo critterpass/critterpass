@@ -1,6 +1,14 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { progressFraction, segmentFrames, stepperCan, stepValue } from '../controls/control-logic';
+import {
+  fitSegments,
+  progressFraction,
+  SEGMENT_FIT_FLOOR,
+  SEGMENT_FIT_ROOM,
+  segmentFrames,
+  stepperCan,
+  stepValue,
+} from '../controls/control-logic';
 
 describe('segmentFrames', () => {
   it('splits the track inside its padding evenly', () => {
@@ -54,5 +62,47 @@ describe('progressFraction', () => {
     expect(progressFraction(7, 5)).toBe(1);
     expect(progressFraction(-1, 5)).toBe(0);
     expect(progressFraction(1, 0)).toBe(0);
+  });
+});
+
+describe('fitSegments', () => {
+  const base = { width: 336, trackPad: 3, pad: 6 };
+
+  it('keeps the given shares and full size when every label fits', () => {
+    expect(fitSegments({ ...base, weights: [1, 1, 1], natural: [40, 60, 50] })).toEqual({
+      weights: [1, 1, 1],
+      scale: 1,
+    });
+  });
+
+  it('shrinks every label alike when one is a little too long for its share', () => {
+    // 110 inner per segment, 98 for a label and a little to spare: 95.06 / 102 ≈ 0.93.
+    const fit = fitSegments({ ...base, weights: [1, 1, 1], natural: [40, 102, 50] });
+    expect(fit.weights).toEqual([1, 1, 1]);
+    expect(fit.scale).toBeCloseTo((98 * SEGMENT_FIT_ROOM) / 102, 5);
+  });
+
+  it('sizes the segments to their labels when shrinking alone would go too small', () => {
+    // "Hướng dẫn viên" beside short labels: equal shares would need 0.6.
+    const fit = fitSegments({ ...base, weights: [1, 1, 1], natural: [40, 160, 50] });
+    expect(fit.scale).toBe(1);
+    expect(fit.weights).toEqual([52, 172, 62]);
+  });
+
+  it('sizes the segments to their labels before shrinking them past a step', () => {
+    // "Nói nhiều" beside "Ít nói": equal shares would need 0.85; label shares keep full size.
+    const fit = fitSegments({ ...base, weights: [1, 1, 1], natural: [60, 129, 70] });
+    expect(fit.scale).toBe(1);
+    expect(fit.weights).toEqual([72, 141, 82]);
+  });
+
+  it('never shrinks below the floor', () => {
+    const fit = fitSegments({ ...base, weights: [1, 1], natural: [300, 300] });
+    expect(fit.scale).toBe(SEGMENT_FIT_FLOOR);
+  });
+
+  it('waits for the track and every label to be measured', () => {
+    expect(fitSegments({ ...base, width: 0, weights: [1, 1], natural: [10, 10] }).scale).toBe(1);
+    expect(fitSegments({ ...base, weights: [1, 1], natural: [10, undefined] }).scale).toBe(1);
   });
 });

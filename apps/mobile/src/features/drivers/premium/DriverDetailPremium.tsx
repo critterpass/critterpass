@@ -14,7 +14,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Button, LoadingCritter, Tag, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 import { confirmAlert, PushScreen } from '@/ui/premium/shell';
 
-import { useVehicleLine } from '../directory/DriverCard';
+import { useVehicleLine } from '../shared/vehicle-line';
 import { useDriverDetail, type DriverReport } from '../directory/use-driver-detail';
 
 /* eslint-disable lingui/no-unlocalized-strings -- report kinds the moderation queue takes, not copy. */
@@ -32,7 +32,7 @@ export function DriverDetailPremium(input: {
   const detail = useDriverDetail(input.tripId, input.listingId);
   const { driver } = detail;
   const car = useVehicleLine(driver ?? { vehicle: null, seats: null });
-  const back = t({ id: 'drivers.detail.back', message: "Crews' drivers" });
+  const back = t({ id: 'drivers.detail.back', message: 'Crews’ drivers' });
   if (driver === null) {
     return (
       <PushScreen
@@ -44,7 +44,7 @@ export function DriverDetailPremium(input: {
           <Text variant="body" tone="muted" align="center" style={{ padding: th.space.gutter }}>
             {t({
               id: 'drivers.detail.unavailable',
-              message: "This driver's listing isn't available right now. He may have paused it.",
+              message: 'This driver’s listing isn’t available right now. He may have paused it.',
             })}
           </Text>
         ) : (
@@ -208,6 +208,7 @@ export function DriverDetailPremium(input: {
         )}
         <View style={styles.center}>
           <TextButton
+            align="center"
             label={t({ id: 'drivers.detail.report', message: 'Report this listing' })}
             onPress={() => ask({ kind: REPORT.listing, id: driver.id })}
             testID="drivers-report"

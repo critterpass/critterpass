@@ -15,8 +15,13 @@ import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import type { TestLocalFirst } from '@/data/powersync/test-support/local-first-fixture';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
-import { parseSnapshotResponse, type LiveMapServices, type OwnFix } from '../data/services';
-import { LiveMapScreen } from '../screen';
+import {
+  LiveMapServicesProvider,
+  parseSnapshotResponse,
+  type LiveMapServices,
+  type OwnFix,
+} from '../data/services';
+import { CrewMapPremium } from '../premium/CrewMapPremium';
 import recorded from './snapshot.fixture.json';
 
 configure({ asyncUtilTimeout: 5000 });
@@ -75,7 +80,9 @@ export function renderLiveMap(stack: TestLocalFirst, services: LiveMapServices) 
         <GestureHandlerRootView>
           <LocalFirstProvider value={stack.value}>
             <ScreenJoltProvider>
-              <LiveMapScreen services={services} />
+              <LiveMapServicesProvider services={services}>
+                <CrewMapPremium tripId={TRIP} />
+              </LiveMapServicesProvider>
             </ScreenJoltProvider>
           </LocalFirstProvider>
         </GestureHandlerRootView>

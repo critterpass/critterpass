@@ -25,13 +25,13 @@ import {
   usePremiumReducedMotion,
   usePremiumTheme,
 } from '@/ui/premium';
-import { guideSticker } from '@/ui/avatar/guides';
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { guideSticker } from '@/ui/premium/stickers/guides';
+import { useNoBackByDesign } from '@/lib/qa/back-affordance';
 
 import { useCrewServices } from '../crews-sheet/crew-services';
 import { crewInviteRoute } from '../crews-sheet/routes';
 import { qrChannelLink } from '../invite-composer/qr-path';
-import { returnHome } from '../start-crew/crew-created';
+import { returnHome } from '../start-crew/return-home';
 import { inviteMessage } from './crew-copy';
 import { passInk } from './crew-look';
 import { ShareTarget, SplitFlapCode } from './components/crew-bits';
@@ -77,11 +77,18 @@ export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
 
   return (
     <View style={[styles.root, { backgroundColor: th.color.ground }]} testID="crew-created">
-      <ScrollView contentContainerStyle={[styles.content, { paddingTop: 24 }]}>
+      <ScrollView contentContainerStyle={[styles.content, { paddingTop: insets.top + 24 }]}>
         <Text variant="label" tone="muted" align="center">
           {t({ id: 'crew.premium.on.kicker', message: 'Crew made' })}
         </Text>
-        <Text variant="display" align="center" accessibilityRole="header">
+        {/* Balanced lines: a long name breaks in the middle, never leaving "on" alone. */}
+        <Text
+          variant="display"
+          align="center"
+          accessibilityRole="header"
+          textBreakStrategy="balanced"
+          lineBreakStrategyIOS="push-out"
+        >
           {t({ id: 'crew.premium.on.title', message: `${name} is on` })}
         </Text>
         <Animated.View
@@ -119,26 +126,28 @@ export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
             <View style={[styles.notch, styles.notchRight, { backgroundColor: th.color.ground }]} />
           </View>
           <PressableScale
-            accessibilityRole="button"
-            accessibilityLabel={t({
-              id: 'crew.premium.on.copyA11y',
-              message: 'Copy the crew code',
-            })}
+            // The code tiles below are the accessible element: they read the code and copy it.
+            accessible={false}
             onPress={copy}
             style={styles.body}
             testID="start-crew-code"
           >
             <View style={styles.codeHead}>
-              <Text variant="caption" tone="muted">
-                {t({ id: 'crew.start.codeLabel', message: 'Crew code' })}
+              <Text variant="tier" tone="muted" style={styles.eyebrow}>
+                {t({ id: 'crew.start.codeLabel', message: 'Crew code' }).toLocaleUpperCase()}
               </Text>
-              <Text variant="caption" tone="muted">
-                {copied
+              <Text variant="tier" tone="muted" style={styles.eyebrow}>
+                {(copied
                   ? t({ id: 'crew.premium.on.copied', message: 'Copied' })
-                  : t({ id: 'crew.premium.on.tapToCopy', message: 'Tap to copy' })}
+                  : t({ id: 'crew.premium.on.tapToCopy', message: 'Tap to copy' })
+                ).toLocaleUpperCase()}
               </Text>
             </View>
-            <SplitFlapCode code={code} />
+            <SplitFlapCode
+              code={code}
+              copyHint={t({ id: 'crew.premium.on.copyA11y', message: 'Copy the crew code' })}
+              testID="crew-on-code"
+            />
           </PressableScale>
         </Animated.View>
         {qr && code !== null ? (
@@ -149,25 +158,25 @@ export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
         <View style={styles.targets}>
           <ShareTarget
             label={t({ id: 'crew.premium.share.messages', message: 'Messages' })}
-            icon="send"
+            icon="chat"
             tint={th.color.toggleOn}
             onPress={share}
             testID="start-crew-share"
           />
           <ShareTarget
             label={t({ id: 'crew.premium.share.copy', message: 'Copy code' })}
-            icon="check"
+            icon="copy"
             onPress={copy}
           />
           <ShareTarget
             label={t({ id: 'crew.premium.share.qr', message: 'QR' })}
-            icon="expand"
+            icon="qr"
             onPress={() => setQr((on) => !on)}
             testID="crew-on-qr-toggle"
           />
           <ShareTarget
             label={t({ id: 'crew.premium.share.more', message: 'More' })}
-            icon="more"
+            icon="share"
             onPress={share}
           />
         </View>
@@ -186,6 +195,7 @@ export function CrewOn({ crewId, name, art, cover, code }: CrewOnProps) {
           testID="start-crew-invite"
         />
         <TextButton
+          align="center"
           label={t({ id: 'crew.start.done', message: 'Done' })}
           onPress={returnHome}
           testID="start-crew-done"
@@ -209,6 +219,7 @@ const styles = StyleSheet.create({
   },
   grow: { flex: 1 },
   kicker: { letterSpacing: 2.6 },
+  eyebrow: { letterSpacing: 1.6 },
   crestDisc: { ...StyleSheet.absoluteFill, borderRadius: 30, opacity: 0.24 },
   perforation: { borderTopWidth: 2, borderStyle: 'dashed' },
   notch: { position: 'absolute', top: -12, width: 24, height: 24, borderRadius: 12 },

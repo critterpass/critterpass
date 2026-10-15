@@ -7,11 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: it\n"
 
-#. placeholder {0}: item.place
-#: ../../apps/mobile/src/features/critters/stickers/StickerDetailSheet.tsx
-msgid "stickers.detail.when"
-msgstr ""
-
 #. placeholder {0}: String(item.level ?? '')
 #: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
 msgid "stickers.how.crewLevel"
@@ -34,14 +29,6 @@ msgstr ""
 msgid "stickers.how.settledNoPlace"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/stickers/sticker-detail-screen.tsx
-msgid "stickers.detail.missingLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/stickers/sticker-shelf-view.tsx
-msgid "stickers.shelf.empty"
-msgstr ""
-
 #: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
 msgid "stickers.name.settled"
 msgstr ""
@@ -50,10 +37,6 @@ msgstr ""
 msgid "stickers.name.special"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/stickers/sticker-shelf-view.tsx
+#: ../../apps/mobile/src/features/critters/stickers/sticker-shelf.tsx
 msgid "stickers.shelf.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/critters/stickers/sticker-detail-screen.tsx
-msgid "stickers.detail.missingTitle"
 msgstr ""

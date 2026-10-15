@@ -3,7 +3,7 @@ import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
 import { usePremiumTheme } from '@/ui/premium';
 
-import type { VoiceViewProps } from '../../voice/voice-view';
+import type { VoiceViewProps } from '../../voice/voice-screen';
 
 export function Bar({
   index,

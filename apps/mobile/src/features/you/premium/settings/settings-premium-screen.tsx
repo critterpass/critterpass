@@ -5,15 +5,27 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
-import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
-import { Icon, ListCard, Row, SegmentedControl, Text, Toggle, usePremiumTheme } from '@/ui/premium';
+import type { SettingsRow } from '@/ui/premium/cards/settings-row';
+import {
+  hitSlopFor,
+  Icon,
+  ListCard,
+  PressableScale,
+  Row,
+  SegmentedControl,
+  Text,
+  Toggle,
+  usePremiumTheme,
+} from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { CrewChatSheet } from '../../settings/crew-chat-sheet';
-import { useSettingsModel } from '../../settings/settings-screen';
+import type { AccountServices } from '../../account/account-services';
+import { useSettingsModel } from '../../settings/use-settings-model';
 import { playTokekTheme } from '../../settings/tokek-theme';
+import { CrewChatChoice } from './crew-chat-choice';
+import { PermissionsCard } from './permissions-card';
 
 function PremiumSettingsRow({
   row,
@@ -32,7 +44,7 @@ function PremiumSettingsRow({
         <Row
           title={row.title}
           {...sub}
-          trailingText={row.value}
+          {...(row.value === '' ? {} : { trailingText: row.value })}
           trailing={<Icon name="forward" size={16} color={th.color.placeholder} />}
           onPress={row.disabled === true ? undefined : row.onPress}
           testID={id}
@@ -77,16 +89,30 @@ function PremiumSettingsRow({
       );
     case 'destructive':
       return (
-        <Pressable
-          onPress={row.onPress}
+        <PressableScale
+          onPress={row.disabled === true ? undefined : row.onPress}
+          disabled={row.disabled === true}
           accessibilityRole="button"
+          accessibilityLabel={
+            row.subtitle === undefined ? row.title : `${row.title}, ${row.subtitle}`
+          }
+          accessibilityState={{ disabled: row.disabled === true }}
           testID={id}
           style={{ paddingVertical: th.space.rowPadVLoose, paddingHorizontal: th.space.rowPadH }}
         >
-          <Text variant="rowTitle" color={th.color.destructive.listAction}>
+          <Text
+            variant="rowTitle"
+            color={th.color.destructive.listAction}
+            style={row.disabled === true ? { opacity: 0.5 } : undefined}
+          >
             {row.title}
           </Text>
-        </Pressable>
+          {row.subtitle === undefined ? null : (
+            <Text variant="caption" tone="muted">
+              {row.subtitle}
+            </Text>
+          )}
+        </PressableScale>
       );
     case 'custom':
       return (
@@ -100,13 +126,19 @@ function PremiumSettingsRow({
   }
 }
 
-export function SettingsPremiumScreen() {
+export function SettingsPremiumScreen({
+  services,
+}: {
+  /** The account's reads; the device's own by default. */
+  readonly services?: AccountServices;
+} = {}) {
   const th = usePremiumTheme();
   const { t } = useLingui();
-  const model = useSettingsModel();
+  const model = useSettingsModel(services);
   const chatty = (
     <View style={{ width: 180 }}>
       <SegmentedControl
+        thumb="ink"
         options={[
           { value: 'quiet', label: t({ id: 'you.premium.chatty.quiet', message: 'Quiet' }) },
           { value: 'normal', label: t({ id: 'you.premium.chatty.normal', message: 'Normal' }) },
@@ -121,82 +153,86 @@ export function SettingsPremiumScreen() {
   );
   const plan = model.plan;
   return (
-    <>
-      <PushScreen
-        title={t({ id: 'you.profile.settings', message: 'Settings' })}
-        backLabel={t({ id: 'you.profile.backPass', message: 'Pass' })}
-        testID="you-settings"
-        {...(plan === null
-          ? {}
-          : {
-              action: {
-                key: 'plan',
-                label: plan.label,
-                // eslint-disable-next-line lingui/no-unlocalized-strings -- an SF Symbol name, never copy.
-                sfSymbol: 'star.circle',
-                glyph: 'pass' as const,
-                onPress: plan.onPress,
-                testID: 'you-settings-plan',
-                element: (
-                  <Pressable
-                    onPress={plan.onPress}
-                    accessibilityRole="button"
-                    accessibilityLabel={plan.label}
-                    style={{
-                      height: 32,
-                      paddingHorizontal: 12,
-                      borderRadius: 16,
-                      backgroundColor: th.accent.sun,
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Text variant="noteAction" tone="onAccent">
-                      {`${plan.label} ›`}
-                    </Text>
-                  </Pressable>
-                ),
-              },
-            })}
-      >
-        <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap6 }}>
-          {model.sections
-            .filter((section) => section.rows.length > 0)
-            .map((section) => (
-              <View key={section.id} style={{ gap: th.space.gap4, marginTop: th.space.gap10 }}>
-                <Text
-                  variant="caption"
-                  tone="muted"
-                  style={{ paddingHorizontal: 6 }}
-                  accessibilityRole="header"
+    <PushScreen
+      largeTitle
+      title={t({ id: 'you.profile.settings', message: 'Settings' })}
+      backLabel={t({ id: 'you.profile.backPass', message: 'Pass' })}
+      testID="you-settings"
+      {...(plan === null
+        ? {}
+        : {
+            action: {
+              key: 'plan',
+              label: plan.label,
+              // eslint-disable-next-line lingui/no-unlocalized-strings -- an SF Symbol name, never copy.
+              sfSymbol: 'star.circle',
+              glyph: 'pass' as const,
+              onPress: plan.onPress,
+              testID: 'you-settings-plan',
+              element: (
+                <PressableScale
+                  onPress={plan.onPress}
+                  accessibilityRole="button"
+                  accessibilityLabel={plan.label}
+                  hitSlop={hitSlopFor(0, 32)}
+                  style={{
+                    height: 32,
+                    paddingHorizontal: 12,
+                    borderRadius: 16,
+                    backgroundColor: th.accent.sun,
+                    justifyContent: 'center',
+                  }}
                 >
-                  {section.title}
-                </Text>
-                <ListCard radius={20} testID={`you-settings-${section.id}`}>
-                  {section.rows.map((row) => (
+                  <Text variant="noteAction" tone="onAccent">
+                    {plan.label}
+                  </Text>
+                </PressableScale>
+              ),
+            },
+          })}
+    >
+      <View style={{ paddingHorizontal: th.space.gutter, gap: th.space.gap6 }}>
+        {model.sections
+          .filter((section) => section.rows.length > 0)
+          .map((section) => (
+            <View key={section.id} style={{ gap: th.space.gap4, marginTop: th.space.gap10 }}>
+              <Text
+                variant="caption"
+                tone="muted"
+                style={{ paddingHorizontal: 6 }}
+                accessibilityRole="header"
+              >
+                {section.title}
+              </Text>
+              <ListCard radius={20} testID={`you-settings-${section.id}`}>
+                {section.rows.map((row) =>
+                  row.key === 'crew-chat' && row.kind === 'value' ? (
+                    <CrewChatChoice
+                      key={row.key}
+                      title={row.title}
+                      value={row.value}
+                      selected={model.crewChat}
+                      onSelect={model.setCrewChat}
+                    />
+                  ) : (
                     <PremiumSettingsRow key={row.key} row={row} chatty={chatty} />
-                  ))}
-                </ListCard>
-              </View>
-            ))}
-          <Pressable
-            onPress={playTokekTheme}
-            accessibilityRole="button"
-            style={{ alignItems: 'center', paddingVertical: th.space.gap16 }}
-            testID="you-settings-version"
-          >
-            <Text variant="mono" tone="placeholder">
-              {model.version}
-            </Text>
-          </Pressable>
-        </View>
-      </PushScreen>
-      {model.choosingCrewChat ? (
-        <CrewChatSheet
-          selected={model.crewChat}
-          onSelect={model.setCrewChat}
-          onClose={() => model.setChoosingCrewChat(false)}
-        />
-      ) : null}
-    </>
+                  ),
+                )}
+              </ListCard>
+            </View>
+          ))}
+        <PermissionsCard />
+        <PressableScale
+          onPress={playTokekTheme}
+          accessibilityRole="button"
+          style={{ alignItems: 'center', paddingVertical: th.space.gap16 }}
+          testID="you-settings-version"
+        >
+          <Text variant="mono" tone="placeholder">
+            {model.version}
+          </Text>
+        </PressableScale>
+      </View>
+    </PushScreen>
   );
 }

@@ -38,3 +38,7 @@ export const NAVY_PASS = {
   shadow: 'inset 0 0 0 6px rgba(0,0,0,0.18), 0 30px 50px -20px rgba(0,0,0,0.5)',
   ground: (ground: string) => `radial-gradient(120% 70% at 50% 30%, #fff6c9 0%, ${ground} 62%)`,
 } as const;
+
+/** Words over a this-or-that photo, and the shade under them (2.07). */
+export const PHOTO_INK = '#ffffff';
+export const PHOTO_SHADE = 'linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(10,10,20,0.7))';

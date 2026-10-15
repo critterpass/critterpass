@@ -18,7 +18,6 @@ export const boundaryElements = [
   // The premium kit sits inside src/ui but is its own layer: it never reaches into the legacy kit,
   // and the legacy kit never reaches into it.
   { type: 'mobile-ui-premium', pattern: 'apps/mobile/src/ui/premium' },
-  { type: 'mobile-ui', pattern: 'apps/mobile/src/ui' },
   { type: 'mobile-motion', pattern: 'apps/mobile/src/motion' },
   { type: 'mobile-data', pattern: 'apps/mobile/src/data' },
   { type: 'mobile-lib', pattern: 'apps/mobile/src/lib' },
@@ -69,7 +68,6 @@ export const consumerDeps = {
   // 'content' for the bundled onboarding content (quiz, Tokek lines, airports) read through its
   // node-free subpaths `@cp/content/onboarding` and `@cp/content/airports`.
   'mobile-feature': [...mobilePackages, 'content'],
-  'mobile-ui': ['design-tokens', 'critter-art', 'i18n'],
   'mobile-ui-premium': ['design-tokens', 'critter-art', 'i18n'],
   'mobile-motion': ['design-tokens'],
   // 'cost-engine' added for the shared money formatter (apps/mobile/src/data/money): formatting is
@@ -105,21 +103,13 @@ export const consumerDeps = {
 const mobileLayerDeps = {
   'mobile-route': [
     'mobile-feature',
-    'mobile-ui',
     'mobile-ui-premium',
     'mobile-motion',
     'mobile-data',
     'mobile-lib',
     'mobile-native-module',
   ],
-  'mobile-feature': [
-    'mobile-ui',
-    'mobile-ui-premium',
-    'mobile-motion',
-    'mobile-data',
-    'mobile-lib',
-  ],
-  'mobile-ui': ['mobile-motion', 'mobile-lib'],
+  'mobile-feature': ['mobile-ui-premium', 'mobile-motion', 'mobile-data', 'mobile-lib'],
   // No legacy motion (`src/motion`): the premium kit animates on its own three springs.
   'mobile-ui-premium': ['mobile-lib'],
   'mobile-motion': ['mobile-lib'],
@@ -128,7 +118,6 @@ const mobileLayerDeps = {
   mobile: [
     'mobile-route',
     'mobile-feature',
-    'mobile-ui',
     'mobile-ui-premium',
     'mobile-motion',
     'mobile-data',
@@ -177,17 +166,6 @@ export const boundaryPolicies = [
       allow: { to: { element: { type: layer } } },
     })),
   ),
-  // The premium kit reuses three engines of the legacy kit, never its look: the one critter renderer
-  // (`ui/sticker`), the shared-element zoom machinery (`ui/transitions`) and the UI QA checks (`ui/qa`).
-  {
-    from: { element: { type: 'mobile-ui-premium' } },
-    allow: {
-      to: {
-        element: { type: 'mobile-ui' },
-        file: { path: '**/src/ui/{sticker,transitions,qa}/**' },
-      },
-    },
-  },
   // A feature may use another feature only through its public index.ts.
   {
     from: { element: { type: 'mobile-feature' } },
@@ -279,9 +257,26 @@ export function architectureLintConfig(rootDir, boundariesPlugin) {
         ],
       },
     },
-    // The premium / legacy kit split by import path, so it holds even where the `@/` alias does not
-    // resolve for the element rules above. Each block repeats the server-only ban because a later
-    // block's options replace the earlier ones for the same rule.
+    // The kit is the premium kit: nothing imports `@/ui…` outside `@/ui/premium`, by import path, so
+    // it holds even where the `@/` alias does not resolve for the element rules above. Each block
+    // repeats the server-only ban because a later block's options replace the earlier ones.
+    {
+      files: ['apps/mobile/**/*.{ts,tsx,js,mjs}'],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              { group: serverOnlyPatterns, message: serverOnlyMessage },
+              {
+                regex: '^@/ui(?!/premium(/|$))(/|$)',
+                message: 'The only UI kit is the premium kit: import from `@/ui/premium`.',
+              },
+            ],
+          },
+        ],
+      },
+    },
     {
       files: ['apps/mobile/src/ui/premium/**/*.{ts,tsx}'],
       rules: {
@@ -291,28 +286,9 @@ export function architectureLintConfig(rootDir, boundariesPlugin) {
             patterns: [
               { group: serverOnlyPatterns, message: serverOnlyMessage },
               {
-                // Any `@/ui…` outside `premium`, `sticker`, `transitions` and `qa`, and any `@/motion…`.
-                regex: '^@/(ui(?!/(premium|sticker|transitions|qa)(/|$))|motion)(/|$)',
-                message:
-                  'The premium kit never uses the legacy kit or legacy motion (only the critter renderer, the zoom engine and the UI QA checks).',
-              },
-            ],
-          },
-        ],
-      },
-    },
-    {
-      files: ['apps/mobile/src/ui/**/*.{ts,tsx}', 'apps/mobile/src/motion/**/*.{ts,tsx}'],
-      ignores: ['apps/mobile/src/ui/premium/**'],
-      rules: {
-        'no-restricted-imports': [
-          'error',
-          {
-            patterns: [
-              { group: serverOnlyPatterns, message: serverOnlyMessage },
-              {
-                group: ['@/ui/premium', '@/ui/premium/*'],
-                message: 'The legacy kit never uses the premium kit.',
+                // Any `@/ui…` outside `premium`, and any `@/motion…`.
+                regex: '^@/(ui(?!/premium(/|$))|motion)(/|$)',
+                message: 'The premium kit never imports `@/motion` or any `@/ui` outside itself.',
               },
             ],
           },

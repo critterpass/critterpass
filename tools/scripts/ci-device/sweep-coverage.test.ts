@@ -1,4 +1,5 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 
 import { describe, expect, it } from 'vitest';
@@ -6,57 +7,69 @@ import { describe, expect, it } from 'vitest';
 import {
   appRoutes,
   coverage,
-  designIdOf,
+  designCodeOf,
   formatCoverage,
-  registryIds,
-  SCENARIOS,
-  sweepFlows,
+  mergedRunShots,
+  renderCodes,
+  runCoverage,
+  runShots,
   sweepShots,
-  SWEEP_DIR,
 } from './sweep-coverage';
 
 const ROOT = path.resolve(import.meta.dirname, '../../..');
 
 describe('UI sweep', () => {
-  it('has its top-level flows in sync with the scenarios (run it with --write after a change)', () => {
-    for (const { file, text } of sweepFlows())
-      expect({ file, text: readFileSync(path.join(ROOT, file), 'utf8') }).toEqual({ file, text });
-  });
-
-  it('has a subflow for every scenario', () => {
-    for (const { name } of SCENARIOS)
-      expect(existsSync(path.join(ROOT, SWEEP_DIR, 'subflows', `${name}.yaml`))).toBe(true);
-  });
-
-  it('only lists screenshots the sweep takes', () => {
+  it('only lists designs the sweep shoots', () => {
     expect(coverage(ROOT).routeShotsMissing).toEqual([]);
   });
 
-  it('reads the registry, the routes and the screenshot names', () => {
-    expect(registryIds(ROOT).registered).toContain('3b-4');
+  it('reads the routes, the renders and the screenshot names', () => {
     expect(appRoutes(ROOT)).toContain('crew/new');
     expect(appRoutes(ROOT).some((route) => route.includes('(dev)'))).toBe(false);
-    expect(sweepShots(ROOT)).toContain('3c-1-showdown');
-    // Shots of the area subflows a lab scenario runs with the language: taken directly
-    // (`${PREFIX}-…`), named by a scene opener's SHOT, or by its SCENE.
+    expect(renderCodes(ROOT)).toContain('3.01');
+    // Pairs handed to shot.yaml, and shots a flow takes itself (`premium-1.02-loading-light`).
     expect(sweepShots(ROOT)).toEqual(
-      expect.arrayContaining([
-        '3f-1-build',
-        '3i-4-cant-read',
-        '3c-10-add-must-do',
-        '7a-1-trip-map',
-      ]),
+      expect.arrayContaining(['2.01-splash', '4.05-showdown', '1.02-loading']),
     );
-    expect(designIdOf('3c-1-showdown')).toBe('3c-1');
-    expect(designIdOf('crew-new-code')).toBeUndefined();
+    expect(designCodeOf('3.17-inbox')).toBe('3.17');
+    expect(designCodeOf('crew-new-code')).toBeUndefined();
   });
 
-  it('counts a screen registered through a named route builder', () => {
-    // `'7c-1': placesMap,` and `'7h-3': dayScreen(checkRoutes.lessDriving)`.
-    expect(registryIds(ROOT).registered).toEqual(expect.arrayContaining(['7c-1', '7h-3', '7g-3']));
+  it('only sweeps designs that have a render', () => {
+    const renders = new Set(renderCodes(ROOT));
+    const unknown = sweepShots(ROOT).filter((shot) => !renders.has(designCodeOf(shot) ?? ''));
+    expect(unknown).toEqual([]);
   });
 
   it('formats a report with the counts', () => {
-    expect(formatCoverage(coverage(ROOT))).toMatch(/Registered screens swept: \*\*\d+ of \d+\*\*/);
+    expect(formatCoverage(coverage(ROOT))).toMatch(/Premium designs swept: \*\*\d+ of \d+\*\*/);
+  });
+
+  it("counts the designs a run's screenshots captured, per platform", () => {
+    const dir = mkdtempSync(path.join(tmpdir(), 'run-coverage-'));
+    try {
+      for (const [shard, files] of [
+        ['device-ios-shard-1', ['premium-3.01-home-light.png', 'premium-3.01-home-dark.png']],
+        ['device-ios-shard-2', ['premium-4.02-search-light.png', 'screenshot-x.png']],
+        ['device-android-shard-1', ['premium-9.10-paywall-light.png']],
+      ] as const) {
+        mkdirSync(path.join(dir, shard, 'screenshots'), { recursive: true });
+        for (const file of files) writeFileSync(path.join(dir, shard, 'screenshots', file), '');
+      }
+      const shots = runShots(dir);
+      expect(runCoverage(shots.get('ios') ?? [], ['3.01', '4.02', '9.10'])).toEqual({
+        captured: ['3.01', '4.02'],
+        missing: ['9.10'],
+        states: 3,
+      });
+      expect(shots.get('android')).toEqual(['9.10-paywall-light']);
+      // The iOS and Android runs downloaded apart are read as one, with both platforms together.
+      const merged = mergedRunShots([dir, path.join(dir, 'missing')]);
+      expect(runCoverage(merged.get('together') ?? [], ['3.01', '4.02', '9.10']).missing).toEqual(
+        [],
+      );
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 });

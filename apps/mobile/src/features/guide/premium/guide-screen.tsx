@@ -6,26 +6,32 @@
 import type { GuideThreadMode } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
-import { useCallback, useContext, useRef, useState, type ComponentRef } from 'react';
+import { useCallback, useContext, useMemo, useRef, useState, type ComponentRef } from 'react';
 import { ScrollView, View, type TextInput } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncPhase } from '@/data/status/use-sync-status';
+import { shortName } from '@/lib/people/member-name';
 import { LoadingCritter, usePremiumTheme, useToast } from '@/ui/premium';
+import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from '@/ui/premium/shell';
 
 import { crewAccent } from '@/features/crew';
 import { pingGuideAnswerCommand } from '../chat/data/guide-commands';
-import { useGuideSheet } from '../chat/data/use-guide-sheet';
+import { useGuideSheet, type QuickAction } from '../chat/data/use-guide-sheet';
 import { guideRoutes } from '../chat/register';
 import { GuideComposer } from './guide-composer';
 import { GuideEmpty } from './guide-empty';
 import { PremiumGuidePlanCard } from './guide-plan-card';
 import { cameraHref, guideStarters, offlineTools } from './guide-starters';
 import { GuideThread } from './guide-thread';
-import { GuideTopBar } from './guide-top-bar';
+import { GuideTopBar, guideSubtitle } from './guide-top-bar';
 import { OfflineToolsCard } from './guide-offline';
 import { usePremiumGuideMeter } from './use-premium-guide-meter';
+import { useFollowBottom } from './use-follow-bottom';
+
+/** No quick chips offline: each one asks the guide, and questions wait for signal. */
+const NO_ACTIONS: readonly QuickAction[] = [];
 
 export interface PremiumGuideProps {
   readonly tripId: string | null;
@@ -83,15 +89,23 @@ function OpenGuide({ tripId, initialMode }: PremiumGuideProps) {
     [proposalOf],
   );
   const { names } = sheet;
-  const authorOf = useCallback(
-    (authorId: string | null) => {
-      if (authorId === null || authorId === context.uid) return null;
-      const entry = names.get(authorId);
-      return entry === undefined
-        ? null
-        : { name: entry.name, color: crewAccent(null, entry.joinIndex) };
-    },
-    [names, context.uid],
+  // One author object per person, so the saved questions (memoised rows) keep their props while
+  // the live answer streams.
+  const authors = useMemo(() => {
+    const map = new Map<string, { readonly name: string; readonly color: string }>();
+    for (const [id, entry] of names) {
+      if (id === 'me' || id === context.uid) continue;
+      map.set(id, { name: shortName(entry.name), color: crewAccent(null, entry.joinIndex) });
+    }
+    return map;
+  }, [names, context.uid]);
+  const meName = names.get('me')?.name;
+  const follow = useFollowBottom(scroll);
+  const edges = useScrollEdges();
+  const { showEarlier } = thread;
+  const onEarlier = useMemo(
+    () => (showEarlier === undefined ? undefined : follow.keepPlace(showEarlier)),
+    [showEarlier, follow],
   );
   const camera = cameraHref(trip?.tripId ?? null, sheet.mode);
   const ask = (text: string) => sheet.send(text);
@@ -108,86 +122,110 @@ function OpenGuide({ tripId, initialMode }: PremiumGuideProps) {
       <GuideTopBar
         slug={context.guideSlug}
         guideName={context.guideName}
-        modeLine={sheet.modeLine}
+        modeLine={guideSubtitle({
+          shared: sheet.shared,
+          mode: sheet.mode,
+          crewSize: trip?.crewSize ?? 1,
+          destination: trip?.destination ?? null,
+          fallback: sheet.modeLine,
+        })}
         mode={sheet.mode}
         {...(sheet.shared ? { onMode: sheet.setMode } : {})}
         chip={meter.chip}
+        offline={offline}
         asSheet={from === 'circle'}
         onClose={() => router.back()}
       />
-      <ScrollView
-        ref={scroll}
-        style={{ flex: 1 }}
-        contentContainerStyle={{ padding: th.space.gap16, paddingBottom: th.space.gap8 }}
-        keyboardDismissMode="interactive"
-        keyboardShouldPersistTaps="handled"
-        onContentSizeChange={() => scroll.current?.scrollToEnd({ animated: true })}
-      >
-        <GuideThread
-          slug={context.guideSlug}
-          guideName={context.guideName}
-          loading={!context.ready || thread.loading}
-          messages={thread.messages}
-          {...(thread.showEarlier === undefined ? {} : { onEarlier: thread.showEarlier })}
-          authorOf={authorOf}
-          live={turn.live}
-          waiting={turn.queued}
-          renderProposal={renderProposal}
-          onRetry={turn.retry}
-          onRephrase={(question) => {
-            sheet.setDraft(question);
-            input.current?.focus();
+      <View style={{ flex: 1 }}>
+        <ScrollView
+          ref={scroll}
+          style={{ flex: 1 }}
+          // Room at the foot for the last card's shadow, so the scroll's edge never cuts it.
+          contentContainerStyle={{ padding: th.space.gap16, paddingBottom: th.space.titleGutter }}
+          keyboardDismissMode="interactive"
+          keyboardShouldPersistTaps="handled"
+          onScroll={(event) => {
+            follow.onScroll(event);
+            edges.scrollProps.onScroll(event);
           }}
-          onStop={turn.stop}
-          {...(offline || turn.live === null
-            ? {}
-            : {
-                ping: {
-                  asked: pinged === turn.live.key,
-                  busy: pingCommand.pending,
-                  onPress: () => {
-                    const key = turn.live?.key ?? null;
-                    void pingCommand.send({ thread_id: turn.threadId }).then((result) => {
-                      if (result.kind !== 'applied') return;
-                      setPinged(key);
-                      toast.show({
-                        kind: 'done',
-                        message: t({
-                          id: 'guide.premium.pingToast',
-                          message: 'Close the guide if you like. I’ll ping you when it’s ready.',
-                        }),
+          scrollEventThrottle={32}
+          onLayout={(event) => {
+            follow.onLayout();
+            edges.scrollProps.onLayout(event);
+          }}
+          onContentSizeChange={(width, height) => {
+            follow.onContentSizeChange(width, height);
+            edges.scrollProps.onContentSizeChange(width, height);
+          }}
+        >
+          <GuideThread
+            slug={context.guideSlug}
+            guideName={context.guideName}
+            loading={!context.ready || thread.loading}
+            messages={thread.messages}
+            {...(onEarlier === undefined ? {} : { onEarlier })}
+            authors={authors}
+            live={turn.live}
+            waiting={turn.queued}
+            renderProposal={renderProposal}
+            onRetry={turn.retry}
+            onRephrase={(question) => {
+              sheet.setDraft(question);
+              input.current?.focus();
+            }}
+            onStop={turn.stop}
+            {...(offline || turn.live === null
+              ? {}
+              : {
+                  ping: {
+                    asked: pinged === turn.live.key,
+                    busy: pingCommand.pending,
+                    onPress: () => {
+                      const key = turn.live?.key ?? null;
+                      void pingCommand.send({ thread_id: turn.threadId }).then((result) => {
+                        if (result.kind !== 'applied') return;
+                        setPinged(key);
+                        toast.show({
+                          kind: 'done',
+                          message: t({
+                            id: 'guide.premium.pingToast',
+                            message: 'Close the guide if you like. I’ll ping you when it’s ready.',
+                          }),
+                        });
                       });
-                    });
+                    },
                   },
-                },
-              })}
-          empty={
-            <GuideEmpty
-              slug={context.guideSlug}
-              guideName={context.guideName}
-              firstName={names.get('me')?.name.split(' ')[0] ?? null}
-              hasTrip={trip !== null}
-              starters={starters}
-              allowance={meter.allowance}
-            />
-          }
-          footer={
-            <>
-              {offline ? (
-                <OfflineToolsCard
-                  destination={trip?.destination ?? null}
-                  tools={offlineTools(trip?.tripId ?? null)}
-                />
-              ) : null}
-              {meter.footer}
-            </>
-          }
-        />
-      </ScrollView>
+                })}
+            empty={
+              <GuideEmpty
+                slug={context.guideSlug}
+                guideName={context.guideName}
+                firstName={meName === undefined ? null : shortName(meName)}
+                hasTrip={trip !== null}
+                starters={starters}
+                allowance={meter.allowance}
+              />
+            }
+            footer={
+              <>
+                {offline ? (
+                  <OfflineToolsCard
+                    destination={trip?.destination ?? null}
+                    tools={offlineTools(trip?.tripId ?? null)}
+                  />
+                ) : null}
+                {meter.footer}
+              </>
+            }
+          />
+        </ScrollView>
+        {/* The thread fades into the ground under the header instead of cutting at its edge. */}
+        <ScrollEdgeFade edge="top" height={SCROLL_EDGE_FADE} visible={edges.top} />
+      </View>
       <GuideComposer
         ref={input}
         guideName={context.guideName}
-        quickActions={sheet.quickActions}
+        quickActions={offline ? NO_ACTIONS : sheet.quickActions}
         meter={meter.composer}
         draft={sheet.draft}
         onDraft={sheet.setDraft}

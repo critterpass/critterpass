@@ -8,6 +8,7 @@
 import { distanceM } from '@cp/domain';
 import { useEffect, useMemo, useState } from 'react';
 
+import { shortName } from '@/lib/people/member-name';
 import { sessionHeaders } from '@/data/app-session/device-session';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { useChannel } from '@/data/realtime/use-channel';
@@ -53,8 +54,9 @@ export interface SosData {
   readonly here: Position | null;
 }
 
+/** The name the sender is called by ("Hân" of "Đặng Thị Ngọc Hân"), or '' with none. */
 function firstName(name: string | null): string {
-  return name?.trim().split(/\s+/u)[0] ?? '';
+  return (name ?? '').trim() === '' ? '' : shortName(name);
 }
 
 function latestFix(data: unknown, sender: string): Position | null {

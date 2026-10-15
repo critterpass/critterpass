@@ -7,10 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: id\n"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.lastKnown"
-msgstr " · data terakhir"
-
 #. placeholder {0}: props.dayCount
 #. placeholder {1}: money(total)
 #. placeholder {2}: money(total)
@@ -45,31 +41,11 @@ msgstr "{left, plural, other {# hari lagi · {date}}}"
 msgid "drivers.share.entry"
 msgstr "Sopir atau pemandu"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.body"
-msgstr "Halaman berisi hari yang kamu pilih. Tanpa login. Hanya nama depan, tanpa anggaran, tanpa chat."
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.private"
-msgstr "Anggaran, chat, nama belakang"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.copy"
-msgstr "Salin"
-
 #: ../../apps/mobile/src/features/drivers/share/share-text.ts
 msgid "drivers.share.dayNo"
 msgstr "Hari {dayNo}"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.days"
-msgstr "Hari"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.nameLabel"
-msgstr "Nama depan sopir atau pemandu"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet.tsx
+#: ../../apps/mobile/src/features/drivers/share/use-driver-share.ts
 msgid "drivers.share.message"
 msgstr "Ini hari-hari kami butuh bantuanmu, lengkap dengan jam dan titik jemput: {url}"
 
@@ -85,34 +61,6 @@ msgstr ""
 msgid "drivers.replied.tellBody"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.quote"
-msgstr "Izinkan {name} kirim penawaran"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.quoteAnyone"
-msgstr "Izinkan mereka kirim penawaran"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.copied"
-msgstr "Tautan disalin."
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.expires"
-msgstr "Tautan berakhir"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.create"
-msgstr "Buat tautan"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.needsSignal"
-msgstr "Butuh sinyal untuk membuat tautan. Coba lagi saat sudah online."
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.notOpened"
-msgstr "Belum dibuka"
-
 #. placeholder {0}: money(reply.overtime_per_hour_minor)
 #. placeholder {1}: reply.included_hours
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
@@ -123,43 +71,11 @@ msgstr "Lembur {0} per jam setelah {1} jam"
 msgid "drivers.replied.pick"
 msgstr ""
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.noDays"
-msgstr "Pilih minimal satu hari"
-
 #. placeholder {0}: props.driverName
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply-card.tsx
 msgid "drivers.replied.quote"
 msgstr "Penawaran dari {0}"
 
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.revoke"
-msgstr "Cabut tautan"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.whatsapp"
-msgstr "Kirim lewat WhatsApp"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.title"
-msgstr "Bagikan ke {name}"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.titleAnyone"
-msgstr "Bagikan ke sopirmu"
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.revokeConfirm"
-msgstr "Ketuk lagi untuk mencabut"
-
 #: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
 msgid "drivers.replied.tell"
 msgstr ""
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.revoked"
-msgstr "Tautan sudah mati. Halamannya langsung menampilkan itu."
-
-#: ../../apps/mobile/src/features/drivers/share/share-sheet-view.tsx
-msgid "drivers.share.quoteHint"
-msgstr "Mereka juga bisa mengusulkan perubahan dan tips"

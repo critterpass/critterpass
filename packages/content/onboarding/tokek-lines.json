@@ -118,8 +118,8 @@
     {
       "id": "taste-start",
       "when": "taste",
-      "en": "Tap one. There are no wrong answers, only late ones.",
-      "vi": "Chọn một thôi. Không có câu sai, chỉ có câu trễ."
+      "en": "No wrong answers, only late ones.",
+      "vi": "Không có câu sai, chỉ có câu trễ."
     },
     {
       "id": "taste-skip",

@@ -23,7 +23,8 @@ import {
   type VoiceConsentGuard,
 } from '../voice-consent';
 import { renderScreen } from '../test-support/screen-harness';
-import { VoiceGate } from '../voice-consent-view';
+import { PremiumVoiceConsent } from '../../premium/voice/voice-consent';
+import { VoiceGate } from '../voice-gate';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -113,6 +114,7 @@ function GatedVoice({ onType }: { readonly onType: () => void }) {
       sticker={null}
       onAgree={consent.agree}
       onType={onType}
+      Consent={PremiumVoiceConsent}
     >
       <VoiceMode consent={consent} />
     </VoiceGate>

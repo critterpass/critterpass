@@ -58,9 +58,24 @@ export function formatCurrencyText(
   });
   const numeric = value as Intl.StringNumericLiteral;
   if (typeof formatter.formatToParts === 'function') {
-    return formatter
-      .formatToParts(numeric)
-      .map((part) => (part.type === 'currency' ? symbol : part.value))
+    const parts = formatter.formatToParts(numeric);
+    const wordy = /[A-Za-z]$/u.test(symbol);
+    return parts
+      .map((part, index) => {
+        if (part.type === 'currency') {
+          // The runtime spaced its own currency text ("SGD 0.00"): a leading symbol follows the
+          // same rule as the text path, so "S$0.00" and "Rp 450.000" on every platform.
+          const next = parts[index + 1];
+          return wordy && next?.type === 'integer' ? `${symbol}\u00a0` : symbol;
+        }
+        const previous = parts[index - 1];
+        const spacesLeadingSymbol =
+          previous?.type === 'currency' &&
+          part.type === 'literal' &&
+          /^[\s\u00a0\u202f]+$/u.test(part.value) &&
+          parts[index + 1]?.type === 'integer';
+        return spacesLeadingSymbol && !wordy ? '' : part.value;
+      })
       .join('');
   }
   return withCurrencySymbol(formatter.format(numeric), symbol);

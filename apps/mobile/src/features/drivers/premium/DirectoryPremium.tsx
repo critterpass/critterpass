@@ -5,21 +5,23 @@
  */
 import type { DriverDirectoryCard } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { crewAccent } from '@/features/trip';
 import {
   Avatar,
   Button,
+  Chip,
   EmptyState,
   PressableScale,
+  ScrollRow,
   Skeleton,
   Text,
   usePremiumTheme,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
-import { useVehicleLine } from '../directory/DriverCard';
+import { useVehicleLine } from '../shared/vehicle-line';
 import { useDirectory } from '../directory/use-directory';
 
 function DriverRow({
@@ -100,45 +102,47 @@ export function DirectoryPremium(input: { readonly tripId: string; readonly area
               'Only drivers who asked to be listed. Ratings come from crews who rode with them.',
           })}
         </Text>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.chips}
-        >
+        {/* Bleeds through the page's gutter, so a scrolled chip runs to the screen's edge; the
+            row keeps room for the chips' shadows. */}
+        <ScrollRow gap={8} bleed={th.space.gutter}>
           {p.areaChips.map((chip) => (
-            <Button
+            <Chip
               key={chip}
               label={chip}
-              size="small"
-              variant={p.filters.areas.includes(chip) ? 'primary' : 'floating'}
+              size="hub"
+              surface="white"
+              selected={p.filters.areas.includes(chip)}
               onPress={() => p.onToggleArea(chip)}
               testID={`drivers-area-${chip}`}
             />
           ))}
           {p.languageChip === null ? null : (
-            <Button
+            <Chip
               label={p.languageChip}
-              size="small"
-              variant={p.filters.language === null ? 'floating' : 'primary'}
+              size="hub"
+              surface="white"
+              selected={p.filters.language !== null}
               onPress={p.onToggleLanguage}
               testID="drivers-language"
             />
           )}
-          <Button
+          <Chip
             label={t({ id: 'drivers.directory.sevenPlus', message: '7+ seats' })}
-            size="small"
-            variant={p.filters.sevenPlus ? 'primary' : 'floating'}
+            size="hub"
+            surface="white"
+            selected={p.filters.sevenPlus}
             onPress={p.onToggleSevenPlus}
             testID="drivers-seven-plus"
           />
-          <Button
+          <Chip
             label={t({ id: 'drivers.directory.dayTrips', message: 'Day trips' })}
-            size="small"
-            variant={p.filters.dayTrips ? 'primary' : 'floating'}
+            size="hub"
+            surface="white"
+            selected={p.filters.dayTrips}
             onPress={p.onToggleDayTrips}
             testID="drivers-day-trips"
           />
-        </ScrollView>
+        </ScrollRow>
         {p.staleLine === null ? null : (
           <Text variant="caption" color={th.color.status.tangerine.text}>
             {p.staleLine}
@@ -155,7 +159,7 @@ export function DirectoryPremium(input: { readonly tripId: string; readonly area
                     id: 'drivers.premium.offline',
                     message: 'This needs signal. Try again when you have some.',
                   })
-                : t({ id: 'drivers.premium.failed', message: "That didn't load. Try again." })}
+                : t({ id: 'drivers.premium.failed', message: 'That didn’t load. Try again.' })}
             </Text>
             {p.onRetry === undefined ? null : (
               <Button
@@ -168,8 +172,11 @@ export function DirectoryPremium(input: { readonly tripId: string; readonly area
           </View>
         )}
         {empty ? (
-          <View style={{ gap: th.space.gap12 }} testID="drivers-empty">
+          // Drawn above the chip row's spare room, so the disc's halo isn't cut where the row ends.
+          <View style={[styles.empty, { gap: th.space.gap12 }]} testID="drivers-empty">
             <EmptyState
+              // Nobody listed is not a job done: no check on the disc.
+              check={false}
               title={
                 area === null
                   ? t({ id: 'drivers.directory.emptyAny', message: 'Nobody listed yet' })
@@ -211,7 +218,7 @@ export function DirectoryPremium(input: { readonly tripId: string; readonly area
 
 const styles = StyleSheet.create({
   body: { paddingTop: 8, paddingBottom: 40 },
-  chips: { gap: 8, paddingVertical: 4 },
+  empty: { zIndex: 1 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12 },
   flex: { flex: 1, minWidth: 0 },
   end: { alignItems: 'flex-end', gap: 2 },

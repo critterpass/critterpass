@@ -43,6 +43,19 @@ describe('architecture import rules', () => {
     expect(errors.some((error) => error.startsWith('boundaries/dependencies'))).toBe(true);
   });
 
+  it('lets the app import only the premium kit under @/ui', async () => {
+    const legacy = await lintAt(
+      'apps/mobile/src/features/beta/probe.ts',
+      "import { Text } from '@/ui/text/Text';\nexport const x = Text;\n",
+    );
+    expect(legacy.some((error) => error.includes('only UI kit is the premium kit'))).toBe(true);
+    const premium = await lintAt(
+      'apps/mobile/src/features/beta/probe.ts',
+      "import { Text } from '@/ui/premium';\nexport const x = Text;\n",
+    );
+    expect(premium.some((error) => error.includes('only UI kit'))).toBe(false);
+  });
+
   it('allows the mobile app to import the domain package', async () => {
     const errors = await lintAt(
       'apps/mobile/src/lib/probe.ts',

@@ -14,9 +14,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
-import { StampedView } from '../../boost/stamped-view';
+import { BoostCardPremium } from '../../premium/boost-card-premium';
+import { StampedPremiumView } from '../../premium/stamped-premium-view';
 import { boostCardModel, type CardBoost, type CardInput } from '../boost-card-model';
-import { BoostCardView } from '../boost-card-view';
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -71,7 +71,7 @@ async function card(over: Partial<CardInput> = {}) {
     ...over,
   });
   await show(
-    <BoostCardView
+    <BoostCardPremium
       model={model}
       buyer="Winston"
       destination="Kyoto"
@@ -119,17 +119,20 @@ describe('the crew boost card', () => {
 describe('telling the crew from the stamp', () => {
   const stamp = (over: { onTell?: () => void; told?: boolean; boosted?: boolean }) =>
     show(
-      <StampedView
-        boosted={over.boosted ?? true}
-        destination="Kyoto"
-        crew="The Bali Six"
-        window="Apr 2–16"
-        split
-        owing={[{ uid: 'maya', name: 'Maya' }]}
-        eachShare="$5.99"
-        {...(over.onTell === undefined ? {} : { onTell: over.onTell })}
-        told={over.told ?? false}
-        onDone={() => undefined}
+      <StampedPremiumView
+        perks={[]}
+        props={{
+          boosted: over.boosted ?? true,
+          destination: 'Kyoto',
+          crew: 'The Bali Six',
+          window: 'Apr 2–16',
+          split: true,
+          owing: [{ uid: 'maya', name: 'Maya' }],
+          eachShare: '$5.99',
+          ...(over.onTell === undefined ? {} : { onTell: over.onTell }),
+          told: over.told ?? false,
+          onDone: () => undefined,
+        }}
       />,
     );
 

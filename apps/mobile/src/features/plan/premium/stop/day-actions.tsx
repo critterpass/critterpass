@@ -17,12 +17,15 @@ import { Button, Text, TextButton, usePremiumTheme } from '@/ui/premium';
 import { clock } from '../../day/format';
 import { LATE_STEPS, saidLateRoute } from '../../day/said-late';
 import { startFromNow } from '../../day/start-now';
-import { isStopOfToday, type StopDayActions } from '../../day/stop-day-actions';
+import {
+  type ClashCardProps,
+  type StopDayActionsProps,
+  isStopOfToday,
+} from '../../day/item-sheet-look';
 import { useStopCheckIn } from '../../day/stop-check-in';
-import type { ClashCard } from '../../overlay/clash-card';
 
-type DayActionsProps = Parameters<typeof StopDayActions>[0];
-type ClashProps = Parameters<typeof ClashCard>[0];
+type DayActionsProps = StopDayActionsProps;
+type ClashProps = ClashCardProps;
 
 export function PremiumDayActions({
   tripId,
@@ -58,6 +61,7 @@ export function PremiumDayActions({
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.gap8 }}>
         {poiId === null || state !== 'ahead' ? null : (
           <Button
+            alignSelf="auto"
             size="small"
             icon="forward"
             label={t({ id: 'plan.premium.stop.go', message: 'Go' })}
@@ -70,6 +74,7 @@ export function PremiumDayActions({
         )}
         {state === 'done' ? null : (
           <Button
+            alignSelf="auto"
             size="small"
             variant="control"
             label={
@@ -110,6 +115,7 @@ export function PremiumDayActions({
               const pill = t({ id: 'plan.day.late.minutes', message: `${minutes} min` });
               return (
                 <Button
+                  alignSelf="auto"
                   key={minutes}
                   size="small"
                   variant="control"
@@ -165,12 +171,14 @@ export function PremiumClashCard({ clash, label, onKeep, onDrop }: ClashProps) {
       </Text>
       <View style={{ flexDirection: 'row', gap: theme.space.gap6, marginTop: theme.space.gap4 }}>
         <Button
+          alignSelf="auto"
           size="small"
           label={t({ id: 'plan.overlay.clash.keep', message: 'Keep mine' })}
           onPress={onKeep}
           testID={`plan-clash-keep-${clash.stableId}`}
         />
         <Button
+          alignSelf="auto"
           size="small"
           variant="control"
           label={t({ id: 'plan.overlay.clash.drop', message: 'Go with the crew' })}

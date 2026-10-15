@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# Opens the guide's sheet from the guide circle over the tabs (`guide-fab`; on iOS 26 the circle
+# can be a native tab bar item reached by its label, ${GUIDE_LABEL}: "Ask Tokek", "Hỏi …"). Ends
+# with the guide's composer on screen.
+- runFlow:
+    when:
+      visible:
+        id: 'guide-fab'
+    commands:
+      - tapOn:
+          id: 'guide-fab'
+- runFlow:
+    when:
+      notVisible:
+        id: 'guide-composer|guide-sheet'
+    commands:
+      - runFlow:
+          file: ../../_shared/tap.yaml
+          env:
+            ID: 'guide-circle'
+            LABEL: ${GUIDE_LABEL}
+- extendedWaitUntil:
+    visible:
+      id: 'guide-composer'
+    timeout: 20000

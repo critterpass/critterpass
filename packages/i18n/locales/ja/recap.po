@@ -49,11 +49,10 @@ msgid "recap.story.awards.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
 msgid "recap.share.stopLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.critters"
 msgstr ""
 
@@ -65,7 +64,7 @@ msgstr ""
 msgid "recap.story.cover.days"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.days"
 msgstr ""
 
@@ -110,7 +109,6 @@ msgid "recap.summary.forms.ofCount"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.writing.title"
 msgstr ""
 
@@ -119,7 +117,6 @@ msgid "recap.story.presents"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.watchDetail"
 msgstr ""
 
@@ -131,7 +128,7 @@ msgstr ""
 msgid "recap.receipt.food"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.morePlaces"
 msgstr ""
 
@@ -187,7 +184,7 @@ msgstr ""
 msgid "recap.story.subtitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.title"
 msgstr ""
 
@@ -244,26 +241,19 @@ msgid "recap.award.detail.rides"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
 msgid "recap.mvp.votes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
 msgid "recap.mvp.winner"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
 msgid "recap.mvp.yours"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
 msgid "recap.premium.memory.plus"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
-msgid "recap.memory.reactChip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/story-cards.tsx
@@ -287,7 +277,6 @@ msgid "recap.queued.remind"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
 msgid "recap.share.linkLine"
 msgstr ""
 
@@ -299,7 +288,7 @@ msgstr ""
 msgid "recap.summary.distance.about"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.distanceAbout"
 msgstr ""
 
@@ -312,12 +301,10 @@ msgid "recap.story.stamp.arrivedNoCode"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.failed.retrying"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.back"
 msgstr ""
 
@@ -339,6 +326,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.cheapest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.clear"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
@@ -369,12 +360,11 @@ msgstr ""
 msgid "recap.memory.reactFailed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+#: ../../apps/mobile/src/features/recap/signature/signature-form.ts
 msgid "recap.signature.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
 msgid "recap.story.shareFailed"
 msgstr ""
 
@@ -383,11 +373,10 @@ msgid "recap.link.stopFailed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.writing.line"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.crew"
 msgstr ""
 
@@ -455,7 +444,11 @@ msgstr ""
 msgid "recap.story.theme.tokek"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
+msgid "album.premium.missing.home"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.goneAction"
 msgstr ""
 
@@ -467,10 +460,8 @@ msgstr ""
 msgid "recap.award.goodCompany"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
 #: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
-#: ../../apps/mobile/src/features/recap/route-missing.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.back"
 msgstr ""
 
@@ -479,7 +470,6 @@ msgid "recap.award.humanCamera"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
 msgid "recap.story.reminded"
 msgstr ""
 
@@ -491,11 +481,11 @@ msgstr ""
 msgid "recap.summary.photos.crew"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
 msgid "recap.memory.missing.line"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.missingLine"
 msgstr ""
 
@@ -512,7 +502,6 @@ msgid "recap.summary.days.solo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
 msgid "recap.signature.later"
 msgstr ""
 
@@ -520,18 +509,12 @@ msgstr ""
 msgid "recap.story.theme.pon"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
 #: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
 msgid "recap.memory.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/story-look.tsx
 msgid "recap.story.loading"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
-msgid "recap.summary.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
@@ -587,41 +570,38 @@ msgid "common.story.next"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.places"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
 msgid "recap.signature.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.postcardDetail"
 msgstr "写真1枚とひとこと、クルーへ"
 
 #: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.rateDetail"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
 msgid "recap.mvp.open"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/dev/memory-scenes.tsx
 #: ../../apps/mobile/src/features/recap/memory/use-memory-screen.ts
 msgid "recap.memory.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/story-look.tsx
 msgid "recap.story.notReady.action"
 msgstr ""
 
@@ -646,7 +626,6 @@ msgid "common.story.pause"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.photos"
 msgstr "写真"
 
@@ -662,10 +641,6 @@ msgstr ""
 msgid "recap.premium.memory.reunion"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
-msgid "recap.memory.reunion"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.receipt.planned"
 msgstr ""
@@ -675,7 +650,6 @@ msgid "common.story.play"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.watch"
 msgstr ""
 
@@ -692,31 +666,22 @@ msgid "recap.receipt.priciest"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.rate"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
-msgid "recap.memory.react"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
 #: ../../apps/mobile/src/features/recap/premium/memory-sheets.tsx
 msgid "recap.memory.reactTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/story-look.tsx
 msgid "recap.story.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
 msgid "recap.story.remind"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
 msgid "recap.story.remindIn"
 msgstr ""
 
@@ -728,18 +693,15 @@ msgstr ""
 msgid "shareImage.saved"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
 #: ../../apps/mobile/src/features/recap/premium/memory-sheets.tsx
 msgid "recap.memory.lineLabel"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/memory/reaction-sheet.tsx
 #: ../../apps/mobile/src/features/recap/premium/memory-sheets.tsx
 msgid "recap.memory.send"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.postcard"
 msgstr "ポストカードを送る"
 
@@ -760,12 +722,10 @@ msgid "shareImage.share"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
 msgid "recap.share.link"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.share"
 msgstr ""
 
@@ -773,33 +733,40 @@ msgstr ""
 msgid "recap.premium.memory.share"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/memory/memory-view.tsx
-msgid "recap.memory.share"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
-#: ../../apps/mobile/src/features/recap/summary/share-sheet.tsx
 msgid "recap.share.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
 msgid "recap.story.shareCard"
 msgstr ""
 
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.hint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
+msgid "recap.signature.save"
+msgstr ""
+
 #: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
 msgid "recap.story.sign"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.save"
+msgid "recap.signature.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/premium/story/signature-sheet.tsx
-#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
-msgid "recap.signature.title"
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.typeName"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.pad"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/signature/signature-pad.tsx
+msgid "common.signature.signed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/commands.ts
@@ -815,17 +782,14 @@ msgid "recap.story.theme.lundi"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.failed.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
 msgid "recap.story.soundOn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-scene.tsx
-#: ../../apps/mobile/src/features/recap/story/story-view.tsx
 msgid "recap.story.soundOff"
 msgstr ""
 
@@ -846,7 +810,6 @@ msgid "recap.summary.owed.open"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-share.tsx
-#: ../../apps/mobile/src/features/recap/summary/share-choice-sheet.tsx
 msgid "recap.share.stop"
 msgstr ""
 
@@ -886,12 +849,11 @@ msgstr ""
 msgid "recap.story.stamp.detail"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.goneLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.photosDetail"
 msgstr "クルーのアルバムとベスト"
 
@@ -944,12 +906,10 @@ msgid "recap.story.subtitleNoPlace"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.failed.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/story-look.tsx
 msgid "recap.story.notReady.line"
 msgstr ""
 
@@ -970,7 +930,6 @@ msgid "recap.story.label.stamp"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/story-look.tsx
 msgid "recap.story.notReady.title"
 msgstr ""
 
@@ -982,25 +941,23 @@ msgstr ""
 msgid "recap.award.treasurer"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.titleNoPlace"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
 msgid "recap.mvp.closed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/memory/memory-screen.tsx
 #: ../../apps/mobile/src/features/recap/premium/memory-screen.tsx
 msgid "recap.memory.missing.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.gone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.missing"
 msgstr ""
 
@@ -1016,25 +973,24 @@ msgstr ""
 msgid "recap.receipt.transit"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.eyebrow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.eyebrowWhen"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
-msgid "recap.summary.failed.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/premium-share-sheet.tsx
 msgid "shareImage.retry"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/premium/recap-parts.tsx
+msgid "recap.summary.failed.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/memory/memory-copy.ts
@@ -1050,13 +1006,11 @@ msgid "recap.summary.updated.expenses"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
-msgid "recap.mvp.title"
+msgid "recap.story.voteMvp"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/story/story-parts.tsx
-#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
-msgid "recap.story.voteMvp"
+msgid "recap.mvp.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/commands.ts
@@ -1064,11 +1018,10 @@ msgid "recap.queued.complete"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.whereNext"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/link/recap-link-screen.tsx
+#: ../../apps/mobile/src/features/recap/premium/recap-link-screen.tsx
 msgid "recap.link.names"
 msgstr ""
 
@@ -1081,7 +1034,6 @@ msgid "recap.memory.you"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/premium/recap-scene.tsx
-#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.dropout"
 msgstr ""
 

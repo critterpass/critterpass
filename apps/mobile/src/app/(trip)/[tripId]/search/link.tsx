@@ -6,7 +6,6 @@ import { SearchServicesProvider } from '@/features/explore/search/data/search-se
 import { PremiumLinkPaste, PremiumPickOne } from '@/features/explore/premium/search/link-paste';
 import { PremiumLinkSheet } from '@/features/explore/premium/search/link-sheet';
 import { LinkScreen } from '@/features/explore/search/link-screen';
-import { usePremiumUi } from '@/lib/premium-ui';
 
 import { getOcr } from '../../../../../modules/cp-ocr';
 
@@ -14,16 +13,15 @@ import { getOcr } from '../../../../../modules/cp-ocr';
 export default function SearchLinkRoute() {
   const params = useLocalSearchParams<{ tripId: string; url?: string; screenshot?: string }>();
   const services = useMemo(() => deviceSearchServices(getOcr()), []);
-  const premium = usePremiumUi();
   return (
     <SearchServicesProvider services={services}>
       <LinkScreen
         tripId={params.tripId ?? ''}
         url={params.url ?? null}
         screenshot={params.screenshot === '1'}
-        {...(premium
-          ? { Sheet: PremiumLinkSheet, Paste: PremiumLinkPaste, PickOne: PremiumPickOne }
-          : {})}
+        Sheet={PremiumLinkSheet}
+        Paste={PremiumLinkPaste}
+        PickOne={PremiumPickOne}
       />
     </SearchServicesProvider>
   );

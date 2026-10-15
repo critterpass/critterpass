@@ -1,7 +1,7 @@
 /** Settings › App › Widgets: the way into the widget gallery (5c-5). */
 import { t } from '@lingui/core/macro';
 
-import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
+import type { SettingsRow } from '@/ui/premium/cards/settings-row';
 
 export function widgetsRow(onPress: (() => void) | undefined): SettingsRow | null {
   if (onPress === undefined) return null;

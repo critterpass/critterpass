@@ -18,7 +18,7 @@ import {
   rowLine,
   sectionTitles,
 } from '../../disruptions/flight/copy';
-import type { FlightViewProps } from '../../disruptions/flight/flight-view';
+import type { FlightViewProps } from '../../disruptions/flight/view-types';
 import type { Question } from '../../disruptions/flight/model';
 
 export function FlightRows(props: {
@@ -139,12 +139,14 @@ export function QuestionCard({
       ) : question.canAnswer && answered === null ? (
         <View style={styles.pair}>
           <Button
+            alignSelf="auto"
             label={labels.approve}
             size="medium"
             onPress={() => answer('approve')}
             testID={`disruption-approve-${action.id}`}
           />
           <Button
+            alignSelf="auto"
             label={labels.keep}
             size="medium"
             variant="control"

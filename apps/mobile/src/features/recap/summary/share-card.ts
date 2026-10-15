@@ -13,13 +13,20 @@ import type * as ExpoFileSystemModule from 'expo-file-system';
 import type * as MediaLibraryModule from 'expo-media-library';
 import type * as SharingModule from 'expo-sharing';
 
-import { bundledTypeface } from '@/ui/share-image/bundled-typefaces';
-import type { ShareActionsDeps } from '@/ui/share-image/share-actions';
-import { SHARE_SIZE, type ShareFormat } from '@/ui/share-image/ShareSheet';
-import { renderStickerImage } from '@/ui/sticker/export-png';
-import { getDefaultSkiaEngine } from '@/ui/sticker/Sticker';
+import { bundledTypeface } from '@/lib/share-image/bundled-typefaces';
+import type { ShareActionsDeps } from '@/lib/share-image/share-actions';
+import { SHARE_SIZE, type ShareFormat } from '@/lib/share-image/share-format';
+import { renderStickerImage } from '@/ui/premium/stickers/art/export-png';
+import { getDefaultSkiaEngine } from '@/ui/premium/stickers/art/Sticker';
 
 import type { TileCopy } from './summary-copy';
+import type { DistanceUnit } from '@cp/i18n';
+import { useMemo, type ReactNode } from 'react';
+import { useLocale } from '@/lib/i18n/use-locale';
+import { guideSticker } from '@/ui/premium/stickers/guides';
+import type { GuideId } from '@/lib/navigation/active-guide';
+import { headerEyebrow, headerTitle, tileCopy } from './summary-copy';
+import type { SummaryModel } from './summary-model';
 
 export interface RecapShareCard {
   readonly guideKind: string;
@@ -182,4 +189,34 @@ export function deviceShareDeps(): ShareActionsDeps {
     },
   };
   return deps;
+}
+
+export interface RecapShareSheetProps {
+  readonly model: SummaryModel;
+  readonly guide: GuideId;
+  readonly unit: DistanceUnit;
+  readonly onClose: () => void;
+  readonly moreActions?: ReactNode;
+}
+
+/** The recap's share picture for any share sheet: how to draw it, the share actions, its words. */
+export function useRecapShareCard({
+  model,
+  guide,
+  unit,
+}: Pick<RecapShareSheetProps, 'model' | 'guide' | 'unit'>) {
+  const locale = useLocale();
+  const lines = useMemo(() => headerTitle(model).split('\n'), [model]);
+  const eyebrow = headerEyebrow(model, locale);
+  const render = useMemo(() => {
+    const card = {
+      guideKind: guideSticker(guide).kind,
+      title: lines,
+      eyebrow,
+      tiles: model.tiles.map((tile) => tileCopy(tile, locale, unit)),
+    };
+    return (format: ShareFormat) => renderRecapCard(card, format);
+  }, [guide, lines, eyebrow, model.tiles, locale, unit]);
+  const deps = useMemo(() => deviceShareDeps(), []);
+  return { render, deps, altText: `${lines.join(' ')}, ${eyebrow}` };
 }

@@ -7,7 +7,7 @@ import { t } from '@lingui/core/macro';
 import { useMemo } from 'react';
 
 import { clock, etaSpoken, namesList, statusLine } from '../copy';
-import type { RowModel } from '../panel/member-row';
+import type { RowModel } from '../panel/view-types';
 import type { LiveView, PersonView } from './view-model';
 
 function rowOf(

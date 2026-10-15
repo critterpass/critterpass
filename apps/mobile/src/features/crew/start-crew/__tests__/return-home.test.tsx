@@ -7,7 +7,7 @@ jest.unmock('expo-router');
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
-import { Redirect, router } from 'expo-router';
+import { Redirect, router, Slot } from 'expo-router';
 import { Stack } from 'expo-router/js-stack';
 import { Pressable, Text } from 'react-native';
 import type * as ReactNativeModule from 'react-native';
@@ -15,14 +15,14 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ThemeProvider } from '@/lib/theme';
-import { ShellTabs } from '@/ui/shell/ShellTabs';
 
-import { returnHome } from '../StartCrewScreen';
+import { returnHome } from '../return-home';
 
-// Imported last: see ui/shell/__tests__/tab-bar.test.tsx for why.
+// Imported last: the testing library registers its own Reanimated mock, which cannot load
+// under this app's Jest setup (jest.config.js); everything above already loaded the app's.
 import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';
 
-jest.mock('@/ui/sticker/Sticker', () => {
+jest.mock('@/ui/premium/stickers/art/Sticker', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports -- jest.mock factories cannot close over module-scope imports
   const RN = require('react-native') as typeof ReactNativeModule;
   return { Sticker: ({ kind }: { kind: string }) => <RN.View testID={`sticker-${kind}`} /> };
@@ -67,7 +67,7 @@ async function openApp(initialUrl: string) {
       _layout: TestRoot,
       // As the app's root index: `/` opens the HOME tab.
       index: () => <Redirect href="/(tabs)" />,
-      '(tabs)/_layout': () => <ShellTabs gated={false} />,
+      '(tabs)/_layout': () => <Slot />,
       '(tabs)/index': named('home'),
       inbox: named('inbox'),
       'crew/new': DoneOnly,

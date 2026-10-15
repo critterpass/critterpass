@@ -13,6 +13,7 @@ import type { SendResult } from '@/data/commands/client';
 import { useCommand } from '@/data/commands/use-command';
 import { goBackOr } from '@/lib/navigation/back';
 import { toast, useCommandFeedback, type CommandFeedbackCopy } from '@/motion/island-toast';
+import { systemConfirmsCopy } from '@/ui/premium';
 
 import { buildBalances } from '../balances/model';
 import {
@@ -30,7 +31,7 @@ import { MONEY_ROUTES } from '../routes';
 import { amountPaidDigits, amountPaidMinor, isAmountPaidValid } from './amount-paid';
 import { useSettleCopy } from './command-copy';
 import { settleRows } from './model';
-import type { RevealState } from './PaymentDetail';
+import type { RevealState } from './view-types';
 
 export type PaymentState = ReturnType<typeof usePayment>;
 
@@ -205,7 +206,10 @@ export function usePayment(id: string, routeTripId: string | null = null) {
     onDispute: (note?: string) => onSimple('dispute', note),
     onCopy: (text: string) => {
       void services.copy(text);
-      toast.show({ id: 'money-copied', title: t({ id: 'money.pay.copied', message: 'Copied' }) });
+      // Android 13 and later confirm a copy themselves.
+      if (!systemConfirmsCopy()) {
+        toast.show({ id: 'money-copied', title: t({ id: 'money.pay.copied', message: 'Copied' }) });
+      }
     },
     onOpen: (url: string) => void services.openUrl(url),
   } as const;

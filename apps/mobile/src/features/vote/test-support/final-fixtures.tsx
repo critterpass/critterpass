@@ -1,15 +1,14 @@
 /**
  * The destination final the final, showdown and reveal suites share: Kyoto against Lisbon for the
- * harness crew, open with a frozen tie rule or closed with Kyoto the winner, and the two surfaces
- * that draw a poll once it has been read.
+ * harness crew, open with a frozen tie rule or closed with Kyoto the winner, and the showdown and
+ * the reveal drawn once the poll has been read.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- test support; literals are fixtures and SQL. */
 import type { TestLocalFirst } from '@/data/powersync/test-support/local-first-fixture';
 
 import { usePoll } from '../data/use-poll';
-import { FinalSplitCard } from '../final/final-split-card';
-import { ShowdownView } from '../final/showdown-screen';
-import { WinnerRevealView } from '../final/winner-reveal';
+import { PremiumShowdownView } from '../premium/final/showdown-screen';
+import { PremiumWinnerRevealView } from '../premium/final/winner-reveal';
 import { CREW, KYOTO, LISBON, MAYA, POLL, TRIP, seedPoll } from './vote-harness';
 
 export const OPT_KYOTO = '0192f000-0000-7000-8000-000000000711';
@@ -80,15 +79,14 @@ export async function seedClosed(
   );
 }
 
-export function Final({ me, view }: { readonly me: string; readonly view: 'card' | 'showdown' }) {
+export function Final({ me }: { readonly me: string }) {
   const { poll } = usePoll(POLL, me);
-  if (poll === null) return null;
-  return view === 'card' ? <FinalSplitCard poll={poll} /> : <ShowdownView poll={poll} />;
+  return poll === null ? null : <PremiumShowdownView poll={poll} />;
 }
 
 export function Reveal({ me }: { readonly me: string }) {
   const { poll } = usePoll(POLL, me);
   return poll === null || poll.status !== 'closed' ? null : (
-    <WinnerRevealView poll={poll} me={me} />
+    <PremiumWinnerRevealView poll={poll} me={me} settled={false} />
   );
 }

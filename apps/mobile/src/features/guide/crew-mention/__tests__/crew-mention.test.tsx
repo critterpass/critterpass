@@ -3,13 +3,15 @@
  * someone else's, never one already answered) until the saved reply syncs, a spent meter becomes
  * the hint, and an offer needs an explicit confirm before a slot is claimed.
  */
+// The app's own database module loads the native driver (the claim sheet comes from the plan
+// feature); these tests run on the test stack.
+jest.mock('@/data/powersync/db', () => ({}));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { configure, fireEvent, renderHook, screen, waitFor } from '@testing-library/react-native';
 import type { ReactNode } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-
-import { tokens } from '@cp/design-tokens';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import {
@@ -22,7 +24,10 @@ import { renderWithI18n } from '@/lib/i18n/testing';
 import type { GuideFrame } from '../../chat/data/guide-frames';
 import { GuideServicesProvider, type GuideServices } from '../../chat/data/guide-services';
 import { quotaRefusal } from '../../chat/test-support/replay-guide';
-import { OfferCardView, offerState } from '../offer-card';
+import type { ChatMessage } from '@/features/crew';
+
+import { PremiumOfferCard } from '../../premium/offer/offer-card';
+import { offerState } from '../use-guide-offer';
 import { unansweredMentions, useCrewGuideStreams } from '../use-crew-guide-streams';
 
 configure({ asyncUtilTimeout: 5000 });
@@ -31,6 +36,11 @@ const CREW = '0192f000-0000-7000-8000-00000000c1e0';
 const MAYA = '0192f000-0000-7000-8000-0000000000a1';
 const MENTION = '0192f000-0000-7000-8000-00000000d001';
 const REPLY = '0192f000-0000-7000-8000-00000000d002';
+const OFFER = '0192f000-0000-7000-8000-00000000d0f1';
+const METRICS = {
+  frame: { x: 0, y: 0, width: 390, height: 844 },
+  insets: { top: 47, left: 0, right: 0, bottom: 34 },
+};
 
 /** `POST /v1/guide/crew/{crew_id}/mentions` for "@tokek can we catch sunset somewhere after?". */
 const SUNSET: readonly GuideFrame[] = [
@@ -187,32 +197,49 @@ describe('a guide offer', () => {
   });
 
   it('claims a slot only after the explicit confirm', async () => {
-    const onIn = jest.fn();
-    const onConfirm = jest.fn();
-    const view = (confirming: boolean) => (
-      <GestureHandlerRootView>
-        <OfferCardView
-          text="Karsa Spa has three slots at 14:00. Tap in and I'll book it and split it."
-          color={tokens.guide.tokek}
-          state="open"
-          slotsLeft={1}
-          taken={2}
-          total={3}
-          confirming={confirming}
-          onIn={onIn}
-          onConfirm={onConfirm}
-          onNotNow={() => undefined}
-        />
-      </GestureHandlerRootView>
+    const stack = await open();
+    await stack.db.execute(
+      `INSERT INTO guide_offers (id, trip_id, message_id, kind, slots_total, slots_taken, expires_at, status, created_at)
+       VALUES (?, NULL, ?, 'spa', 3, 2, ?, 'open', ?)`,
+      [OFFER, MENTION, new Date(Date.now() + 3_600_000).toISOString(), new Date().toISOString()],
     );
-    const closed = await renderWithI18n(view(false));
-    expect(screen.getByText("I'M IN · 1 SLOT LEFT")).toBeTruthy();
+    const card: ChatMessage = {
+      id: MENTION,
+      crewId: CREW,
+      seq: 1,
+      senderKind: 'guide',
+      senderId: null,
+      senderName: null,
+      guideId: null,
+      type: 'guide_offer',
+      body: "Karsa Spa has three slots at 14:00. Tap in and I'll book it and split it.",
+      refKind: 'guide_offer',
+      refId: OFFER,
+      replyToId: null,
+      mentions: [],
+      mentionsGuide: false,
+      attachments: [],
+      edited: false,
+      deleted: false,
+      createdAt: new Date().toISOString(),
+      status: 'sent',
+    };
+    const claims = () => stack.db.getAll("SELECT id FROM commands WHERE cmd = 'claim_guide_offer'");
+    await renderWithI18n(
+      <SafeAreaProvider initialMetrics={METRICS}>
+        <GestureHandlerRootView>
+          {stack.wrapper({ children: <PremiumOfferCard message={card} mine={false} /> })}
+        </GestureHandlerRootView>
+      </SafeAreaProvider>,
+    );
+    await waitFor(() => expect(screen.getByText('I’m in · 1 slot left')).toBeTruthy());
     await fireEvent.press(screen.getByTestId('guide-offer-in'));
-    expect(onIn).toHaveBeenCalledTimes(1);
-    expect(onConfirm).not.toHaveBeenCalled();
-    await closed.unmount();
-    await renderWithI18n(view(true));
-    await fireEvent.press(screen.getByTestId('guide-offer-yes'));
-    expect(onConfirm).toHaveBeenCalledTimes(1);
+    // The tap only asks: nothing is claimed until the explicit yes.
+    expect(screen.getByTestId('guide-offer-confirm')).toBeTruthy();
+    expect(screen.queryByTestId('guide-offer-problem')).toBeNull();
+    expect(await claims()).toEqual([]);
+    await fireEvent.press(screen.getByTestId('guide-offer-confirm-yes'));
+    // The claim goes online only: this phone has no connection, so it says so.
+    await waitFor(() => expect(screen.getByTestId('guide-offer-problem')).toBeTruthy());
   });
 });

@@ -1,6 +1,4 @@
-import { ReaderScreen } from '@/features/help/reader/reader-screen';
+import { ArticlePremiumScreen } from '@/features/help/premium/article-premium-screen';
 
 /** A help centre article. */
-export default function HelpArticleRoute() {
-  return <ReaderScreen />;
-}
+export default ArticlePremiumScreen;

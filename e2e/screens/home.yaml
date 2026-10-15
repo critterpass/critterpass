@@ -1,28 +1,21 @@
 appId: app.critterpass.dev
 ---
-# Screenshots for `pnpm screens:capture`: the home screen, then the Developer tools list reached by
-# tapping its entry (never `openLink`, which is non-deterministic for `(dev)` routes). The reused
-# e2e-test build loads the freshly published JS before its first render, so the wait budgets for it.
-# A cleared launch: otherwise the app restores the screen an earlier flow left open. The first
-# screen's own controls are in the hierarchy while the launch splash still covers it, so the shot
-# waits on Home itself, past onboarding.
-- launchApp:
-    clearState: true
-- extendedWaitUntil:
-    visible:
-      id: 'onboarding-open'
-    timeout: 60000
-- runFlow: ../home/subflows/onboard.yaml
-- extendedWaitUntil:
-    visible:
-      id: 'home-first-run'
-    timeout: 30000
-- waitForAnimationToEnd
-- takeScreenshot: home
-- tapOn:
-    id: 'dev-tools-entry'
-- extendedWaitUntil:
-    visible:
-      id: 'dev-nav-motion-lab'
-    timeout: 10000
-- takeScreenshot: dev-tools
+# Premium design | device capture of Home, trips, crews and inbox (3.01–3.20) with the Foundations
+# states Home reaches (1.01, 1.02, 1.04). A crew of one with nothing planned first, then the Bali
+# demo crew in light (the `vote` seed: `everyday` with the crew's open vote, so 3.02 shows its vote
+# board and Home is long enough to scroll under the tab bar for 1.04), then dark for its key screens (Home, the switcher, the inbox, Your trips, crew
+# settings). A capture sweep: a state that does not come up is skipped, never failed.
+# The dark pass is home-dark.yaml (its own shard).
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: crew_with_code
+- runFlow: subflows/home-first-crew.yaml
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: vote
+- runFlow:
+    file: subflows/home-crew.yaml
+    env:
+      LOOK: light

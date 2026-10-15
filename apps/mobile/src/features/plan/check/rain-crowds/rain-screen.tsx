@@ -25,7 +25,7 @@ import { useCheckContext } from '../data/use-check-context';
 import { noteDayFixed } from '../fixed-days';
 import { dayTag } from '../format';
 import { planOpsOf } from '../plan-ops';
-import type { ChartBlock } from './swap-chart';
+import type { ChartBlock } from './rain-props';
 import {
   forecastChip,
   reasonLine,
@@ -35,7 +35,7 @@ import {
   spokenHour,
   allSwapsLabel,
 } from './rain-copy';
-import { RainView, type RainViewProps, type SwapRowView } from './rain-view';
+import { type RainViewProps, type SwapRowView } from './rain-props';
 import { useSwaps } from './use-swaps';
 
 const COLOURS = [
@@ -52,12 +52,12 @@ const minuteOf = (clock: string) => Number(clock.slice(0, 2)) * 60 + Number(cloc
 export function RainScreen({
   tripId,
   dayId,
-  View: Look = RainView,
+  View: Look,
 }: {
   readonly tripId: string;
   readonly dayId: string;
-  /** How the swaps are drawn; the logic is the same in every look. @default the current look */
-  readonly View?: ComponentType<RainViewProps>;
+  /** How the swaps are drawn. */
+  readonly View: ComponentType<RainViewProps>;
 }) {
   const plan = useTripPlan(tripId);
   const guideName = usePlanGuide().name;

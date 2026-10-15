@@ -13,7 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { crewAccent } from '@/features/crew';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { goBackOr } from '@/lib/navigation/back';
-import { guideSticker } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/premium/stickers/guides';
 import {
   Button,
   CritterSticker,
@@ -36,7 +36,7 @@ import {
   type AlbumSegment,
 } from '../data/album-model';
 import { dayLabel } from '../grid/album-copy';
-import type { AlbumViewProps } from '../grid/album-view';
+import type { AlbumViewProps } from '../grid/album-screen';
 import { DayPocket, type Pocket } from './day-pocket';
 
 const STICKERS = ['star', 'heart', 'pin', 'camera', 'food', 'boat'] as const;
@@ -193,7 +193,9 @@ export function PremiumJournalScene(props: AlbumViewProps) {
     );
   } else if (photos.length === 0) {
     body = (
+      // Nothing else on the page: in its optical centre, not over a blank lower half.
       <EmptyState
+        fill
         critter={{ kind: art.kind, name: props.guideName }}
         title={t({ id: 'album.empty.title', message: 'No photos yet' })}
         line={t({
@@ -242,6 +244,7 @@ export function PremiumJournalScene(props: AlbumViewProps) {
         ))}
         <View style={{ alignItems: 'center' }}>
           <TextButton
+            align="center"
             label={exportLabel(props.exportState)}
             onPress={props.onDownloadAll}
             testID="album-export"
@@ -256,6 +259,7 @@ export function PremiumJournalScene(props: AlbumViewProps) {
       <Stack.Screen options={{ headerShown: false }} />
       <ScrollView
         contentContainerStyle={{
+          flexGrow: 1,
           paddingTop: insets.top + 6,
           paddingHorizontal: 16,
           paddingBottom: insets.bottom + 32,

@@ -7,10 +7,10 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { View } from 'react-native';
 
-import { Icon, ListCard, Row, Spinner, Text, usePremiumTheme } from '@/ui/premium';
+import { Icon, ListCard, LoadingCritter, Row, Spinner, Text, usePremiumTheme } from '@/ui/premium';
 import { SheetScreen } from '@/ui/premium/shell';
 
-import { tripLabel } from '../balances/TripSheet';
+import { tripLabel } from '../balances/trip-label';
 import { useSettlementCurrency } from '../balances/use-settlement-currency';
 import { selectTrip, useSelectedTrip } from '../data/selected-trip';
 import { useMoneyContext } from '../data/use-money-context';
@@ -93,20 +93,33 @@ export function TripSheetScreen() {
       cancelLabel={t({ id: 'common.confirm.cancel', message: 'Cancel' })}
       testID="money-trip-sheet"
     >
-      <ListCard>
-        {ctx.trips.map((trip) => (
-          <Row
-            key={trip.id}
-            title={tripLabel(trip, fallback)}
-            {...(trip.id === ctx.trip?.id ? { trailing: <Icon name="check" size={18} /> } : {})}
-            onPress={() => {
-              selectTrip(trip.id);
-              close();
-            }}
-            testID={`money-trip-${trip.id}`}
-          />
-        ))}
-      </ListCard>
+      {ctx.status === 'loading' ? (
+        <LoadingCritter
+          label={t({ id: 'money.premium.tripsLoading', message: 'Finding your trips…' })}
+        />
+      ) : ctx.trips.length === 0 ? (
+        <Text variant="rowText" tone="muted" singleLine={false}>
+          {t({
+            id: 'money.premium.noTripLine',
+            message: 'Expenses belong to a trip. Start one with the crew, then add it here.',
+          })}
+        </Text>
+      ) : (
+        <ListCard>
+          {ctx.trips.map((trip) => (
+            <Row
+              key={trip.id}
+              title={tripLabel(trip, fallback)}
+              {...(trip.id === ctx.trip?.id ? { trailing: <Icon name="check" size={18} /> } : {})}
+              onPress={() => {
+                selectTrip(trip.id);
+                close();
+              }}
+              testID={`money-trip-${trip.id}`}
+            />
+          ))}
+        </ListCard>
+      )}
     </SheetScreen>
   );
 }

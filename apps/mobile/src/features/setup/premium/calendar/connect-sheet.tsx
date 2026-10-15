@@ -13,7 +13,7 @@ import { Doodle } from '@/features/explore';
 import { OverlaySheet } from '@/features/plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Button, ListCard, Text, Toggle, usePremiumTheme, type StatusTone } from '@/ui/premium';
-import { relativeAge } from '@/ui/states/StaleCaption';
+import { relativeAge } from '@/lib/time/relative-age';
 
 import type { CalendarConnectViewProps } from '../../calendar/calendar-connect-sheet';
 import { CrewSees } from './crew-sees';
@@ -69,9 +69,14 @@ function phoneRow(props: CalendarConnectViewProps, locale: string): CalendarRow 
     case 'synced': {
       const age =
         props.lastSyncedAt === null ? '' : relativeAge(props.lastSyncedAt, props.now, locale);
+      // Under a minute the relative format says "this minute"; people say "just now".
+      const fresh =
+        props.lastSyncedAt !== null && props.now.getTime() - props.lastSyncedAt.getTime() < 60_000;
       return {
         ...base,
-        status: t({ id: 'setup.calendar.synced', message: `Synced ${age}` }),
+        status: fresh
+          ? t({ id: 'setup.calendar.syncedJustNow', message: 'Synced just now' })
+          : t({ id: 'setup.calendar.synced', message: `Synced ${age}` }),
         statusTone: 'good',
         action: {
           label: t({ id: 'setup.premium.calendar.sync', message: 'Sync' }),
@@ -225,6 +230,7 @@ export function PremiumCalendarConnectView(props: CalendarConnectViewProps) {
             </View>
             {row.action === null ? null : (
               <Button
+                alignSelf="auto"
                 size="small"
                 variant={row.action.ink ? 'primary' : 'control'}
                 label={row.action.label}

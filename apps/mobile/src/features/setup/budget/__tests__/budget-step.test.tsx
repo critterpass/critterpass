@@ -4,8 +4,24 @@
  * rejected lock says nothing about how far off it was; a member's max is queued, then only
  * "Set ✓" shows, its value kept in `local_private` on their own device and nowhere on screen.
  */
+// The app's own database module loads the native driver; these tests run on the test stack.
+jest.mock('@/data/powersync/db', () => ({}));
+// The Babel plugin asks the animation stand-in for this where a style reads a `.value` that is no
+// shared value (the breakdown's parts); the shared stand-in does not have it.
+jest.mock('react-native-reanimated', () => ({
+  ...jest.requireActual<Record<string, unknown>>('@/motion/test-support/reanimated-mock'),
+  getUseOfValueInStyleWarning: () => undefined,
+}));
+jest.mock('expo-router', () => ({
+  useIsFocused: () => true,
+  // The premium pages declare their native header through the stack's screen.
+  Stack: Object.assign(() => null, { Screen: () => null }),
+  usePathname: () => '/',
+  useLocalSearchParams: () => ({}),
+  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
+}));
 
-import { afterEach, describe, expect, it } from '@jest/globals';
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';
 
 import {
@@ -16,8 +32,12 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import type { SyncTransport } from '@/data/powersync/transport';
 
 import type { ApiRead, SetupServices } from '../../data/services';
-import { ALEX, DEV, JORDAN, MAYA, RIN, TRIP_ID, WINSTON } from '../../scenes/fixtures';
+import { ALEX, DEV, JORDAN, MAYA, RIN, TRIP_ID, WINSTON } from '../../test-support/setup-fixtures';
 import { apiReads, K_ANON, renderBudget, seedBudget } from '../test-support/budget-harness';
+
+/** A line's words as read: prose ties its last two words with a no-break space. */
+const shown = (line: { props: { children?: unknown } }): string =>
+  String(line.props.children).replace(/\u00a0/gu, ' ');
 
 let stack: TestLocalFirst | null = null;
 
@@ -61,15 +81,14 @@ function rejectingLock(code: string, detail: unknown, status: number): SyncTrans
 }
 
 describe('organiser, below four maxes', () => {
-  it('shows only the count: no band, no dots, no under-all check', async () => {
+  it('shows only the count: no band and no infeasible card', async () => {
     stack = await openTestLocalFirst({ uid: WINSTON, holdUploads: true });
     await seedBudget(stack, {
       people: SIX.slice(3),
       aggregate: { currency: 'USD', maxes_count: 3, member_count: 3 },
     });
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
-    expect(await screen.findByText(/^3 of 3 set$/iu)).toBeTruthy();
-    expect(screen.queryByText(/Under all/iu)).toBeNull();
+    expect(await screen.findByText(/^3 of 3 in$/iu)).toBeTruthy();
     expect(screen.queryByTestId('budget-infeasible')).toBeNull();
   });
 
@@ -80,43 +99,38 @@ describe('organiser, below four maxes', () => {
       aggregate: { currency: 'USD', maxes_count: 1, member_count: 3 },
     });
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
-    expect(await screen.findByText(/^1 of 3 set$/iu)).toBeTruthy();
+    expect(await screen.findByText(/^1 of 3 in$/iu)).toBeTruthy();
     expect(screen.queryByText(/four/iu, { includeHiddenElements: true })).toBeNull();
-    expect(
-      screen.getByText(/^every max stays private$/iu, { includeHiddenElements: true }),
-    ).toBeTruthy();
     expect(screen.getByText(/^Pick what feels comfy for the crew\./u)).toBeTruthy();
   });
 
-  it('tells a crew of six the band and dots come with the fourth max', async () => {
+  it('tells a crew of six the band comes with the fourth max', async () => {
     stack = await openTestLocalFirst({ uid: WINSTON, holdUploads: true });
     await seedBudget(stack, {
       people: SIX,
       aggregate: { currency: 'USD', maxes_count: 3, member_count: 6 },
     });
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
-    expect(await screen.findByText(/^3 of 6 set$/iu)).toBeTruthy();
-    expect(
-      screen.getByText(/^dots appear from four maxes$/iu, { includeHiddenElements: true }),
-    ).toBeTruthy();
+    expect(await screen.findByText(/^3 of 6 in$/iu)).toBeTruthy();
     expect(screen.getByText(/The band shows once four are in\.$/u)).toBeTruthy();
   });
 });
 
 describe('organiser, from four maxes', () => {
-  it('flips the check and holds LOOKS GOOD once the knob passes the band', async () => {
+  it('holds LOOKS GOOD once the sweet spot passes the band', async () => {
     stack = await openTestLocalFirst({ uid: WINSTON, holdUploads: true });
     await seedBudget(stack, { people: SIX, aggregate: BANDED });
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
-    expect(await screen.findByText(/^✓ Under all 6 maxes$/iu)).toBeTruthy();
-    const track = screen.getByTestId('budget-track');
-    for (let i = 0; i < 8; i += 1) {
-      await fireEvent(track, 'accessibilityAction', { nativeEvent: { actionName: 'increment' } });
-    }
-    expect(await screen.findByText(/^Over someone’s max$/iu)).toBeTruthy();
-    expect(screen.getByTestId('budget-lock').props.accessibilityState).toMatchObject({
+    await screen.findByTestId('budget-sweet-spot');
+    expect(screen.getByTestId('budget-lock').props.accessibilityState).not.toMatchObject({
       disabled: true,
     });
+    for (let i = 0; i < 8; i += 1) await fireEvent.press(screen.getByTestId('budget-more'));
+    await waitFor(() =>
+      expect(screen.getByTestId('budget-lock').props.accessibilityState).toMatchObject({
+        disabled: true,
+      }),
+    );
   });
 
   it('answers a rejected lock without a distance', async () => {
@@ -128,7 +142,7 @@ describe('organiser, from four maxes', () => {
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
     await fireEvent.press(await screen.findByTestId('budget-lock'));
     const line = await screen.findByTestId('budget-lock-line');
-    expect(line.props.children).toBe('That’s above someone’s max. Slide it down into the band.');
+    expect(shown(line)).toBe('That’s above someone’s max. Slide it down into the band.');
     expect(String(line.props.children)).not.toMatch(/\d/u);
   });
 });
@@ -168,12 +182,11 @@ describe('organiser of a crew settling in won', () => {
       { ...services, getJson: () => new Promise(() => undefined) },
       { organiser: true },
     );
-    expect(await screen.findByTestId('budget-bars-loading')).toBeTruthy();
-    expect(screen.queryByTestId('budget-track')).toBeNull();
+    expect(await screen.findByTestId('budget-lock')).toBeTruthy();
+    expect(screen.queryByTestId('budget-sweet-spot')).toBeNull();
     // Still none once the synced rows have had time to be read: only the server's answer brings it.
     await act(() => new Promise((resolve) => setTimeout(resolve, 750)));
-    expect(screen.queryByTestId('budget-track')).toBeNull();
-    expect(screen.getByTestId('budget-bars-loading')).toBeTruthy();
+    expect(screen.queryByTestId('budget-sweet-spot')).toBeNull();
     expect(screen.getByTestId('budget-lock').props.accessibilityState).toMatchObject({
       disabled: true,
     });
@@ -191,7 +204,7 @@ describe('organiser of a crew settling in won', () => {
       }),
       { organiser: true },
     );
-    await screen.findByTestId('budget-track');
+    await screen.findByTestId('budget-sweet-spot');
     await fireEvent.press(screen.getByTestId('budget-lock'));
     await waitFor(() => expect(targets).toHaveLength(1));
     expect(targets[0]).toBeGreaterThan(0);
@@ -213,7 +226,7 @@ describe('organiser of a crew settling in won', () => {
        VALUES ('fx-next-day', 'EUR', 'USD', '1.25', '2027-03-02', 'frankfurter')`,
     );
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
-    await screen.findByTestId('budget-track');
+    await screen.findByTestId('budget-sweet-spot');
     await fireEvent.press(screen.getByTestId('budget-lock'));
     await waitFor(() => expect(targets).toHaveLength(1));
     // $50 is ₩59,200 at these rates, so the step is ₩50,000: not a dollar-sized grid.
@@ -238,7 +251,7 @@ describe('organiser of a crew settling in won', () => {
     stack = await openTestLocalFirst({ uid: WINSTON, transport });
     await seedBudget(stack, { people: PAIR, aggregate: null, currency: 'KRW', fx: WON_ONLY });
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
-    await screen.findByTestId('budget-track');
+    await screen.findByTestId('budget-sweet-spot');
     await fireEvent.press(screen.getByTestId('budget-lock'));
     const line = await screen.findByTestId('budget-lock-line');
     expect(String(line.props.children)).toMatch(/rate for your crew’s currency isn’t in yet/u);
@@ -249,7 +262,7 @@ describe('organiser of a crew settling in won', () => {
     stack = await openTestLocalFirst({ uid: WINSTON, transport });
     await seedBudget(stack, { people: PAIR, aggregate: null, currency: 'KRW', fx: WON_ONLY });
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
-    await screen.findByTestId('budget-track');
+    await screen.findByTestId('budget-sweet-spot');
     await fireEvent.press(screen.getByTestId('budget-lock'));
     await waitFor(() => expect(targets).toHaveLength(2));
     expect((targets[0] ?? 0) % STEP).not.toBe(0);
@@ -268,10 +281,10 @@ describe('organiser of a crew settling in won', () => {
     stack = await openTestLocalFirst({ uid: WINSTON, transport });
     await seedBudget(stack, { people: PAIR, aggregate: null, currency: 'KRW', fx: WON_ONLY });
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
-    await screen.findByTestId('budget-track');
+    await screen.findByTestId('budget-sweet-spot');
     await fireEvent.press(screen.getByTestId('budget-lock'));
     const line = await screen.findByTestId('budget-lock-line');
-    expect(line.props.children).toBe('That didn’t lock. Try again.');
+    expect(shown(line)).toBe('That didn’t lock. Try again.');
     expect(targets).toHaveLength(2);
   });
 });
@@ -289,29 +302,24 @@ describe('the knob before the organiser touches it', () => {
     );
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
     // Nothing priced yet: two $50 steps a day over the trip's eight days.
-    const track = await screen.findByTestId('budget-track');
-    expect(track.props.accessibilityValue).toEqual({ text: '$800' });
+    expect((await screen.findByTestId('budget-amount')).props.children).toBe('$800');
     // The destination arrives and its cost index is read: 2 nights at $40 + 3 days at $45 = $215
     // at the least, so the track runs $200 to $500 and the start is a third along it.
     await stack.db.execute("UPDATE trips SET destination_id = 'dest-1' WHERE id = ?", [TRIP_ID]);
-    await waitFor(() =>
-      expect(screen.getByTestId('budget-track').props.accessibilityValue).toEqual({
-        text: '$300',
-      }),
-    );
+    await waitFor(() => expect(screen.getByTestId('budget-amount').props.children).toBe('$300'));
   });
 });
 
 describe('member', () => {
-  it('queues the max, then shows only Set ✓ with the value on this device alone', async () => {
+  it('queues the max, then shows only that it is in, with the value on this device alone', async () => {
     stack = await openTestLocalFirst({ uid: DEV, holdUploads: true });
     await seedBudget(stack, { people: SIX, aggregate: BANDED });
     await renderBudget(stack, apiReads({}), { organiser: false });
     await screen.findByTestId('budget-member-entry');
-    for (const key of ['1', '5', '0', '0']) await fireEvent.press(screen.getByLabelText(key));
+    await fireEvent.changeText(screen.getByTestId('budget-member-amount'), '1500');
     await fireEvent.press(screen.getByTestId('budget-member-save'));
 
-    expect(await screen.findByTestId('budget-member-set-mark')).toBeTruthy();
+    expect(await screen.findByTestId('budget-member-set')).toBeTruthy();
     const queued = await stack.db.getAll<{ cmd: string }>(
       "SELECT cmd FROM commands WHERE cmd = 'submit_budget_max'",
     );
@@ -331,7 +339,7 @@ describe('member', () => {
       ['budget_max:other', 'budget_max', '{"amount_minor":123400,"currency":"USD"}', 'now'],
     );
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
-    expect(await screen.findByText(/^✓ Under all 6 maxes$/iu)).toBeTruthy();
+    expect(await screen.findByTestId('budget-sweet-spot')).toBeTruthy();
     expect(screen.queryByText(/1,234/u)).toBeNull();
     expect(screen.getByTestId('budget-own-max')).toBeTruthy();
   });
@@ -351,7 +359,7 @@ describe('member', () => {
     };
     await renderBudget(stack, services, { organiser: false });
     await screen.findByTestId('budget-member-entry');
-    await fireEvent.press(screen.getByLabelText('7'));
+    await fireEvent.changeText(screen.getByTestId('budget-member-amount'), '7');
     await act(async () => {
       arrive({ kind: 'ok', body: { amount_minor: 120_000, currency: 'USD' } });
       await late;

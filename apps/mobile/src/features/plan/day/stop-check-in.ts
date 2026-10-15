@@ -36,7 +36,7 @@ export const checkInCommand = defineClientCommand<RecordVisitPayload>({
   offline: true,
   summarize: (payload) =>
     payload.left_at === undefined
-      ? msg({ id: 'plan.day.stop.queued.here', message: "You're here" })
+      ? msg({ id: 'plan.day.stop.queued.here', message: 'You’re here' })
       : msg({ id: 'plan.day.stop.queued.done', message: 'Done at a stop' }),
 });
 

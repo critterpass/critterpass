@@ -1,0 +1,191 @@
+appId: app.critterpass.dev
+---
+# Every long-press and context menu the sweep reaches, each row tapped once, on the `everyday`
+# Bali crew: a crewmate's chat message (reply, pin, report, and copy last) and a stop on the plan
+# map (details, move, time, remove, ask, share). Each row must show what it promises: the composer's
+# reply strip, a toast, a sheet, a question, the guide or the share sheet. Unlike the captures,
+# this flow fails when a row shows nothing. Nothing is saved: every sheet and question is left
+# without saving, and the pin is taken off again.
+# Prose ties its last two words with a no-break space, so an expected line matches that gap with `.`.
+- runFlow:
+    file: subflows/start.yaml
+    env:
+      SCENARIO: everyday
+- runFlow: subflows/chat-open-crew.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'chat-screen'
+    timeout: 15000
+- runFlow:
+    file: subflows/menu-chat-action.yaml
+    env:
+      KEY: reply
+      EXPECT: 'Replying to.*'
+- runFlow:
+    file: subflows/menu-chat-action.yaml
+    env:
+      KEY: pin
+      EXPECT: 'Pinned to.the.trip'
+- runFlow:
+    file: subflows/menu-chat-action.yaml
+    env:
+      KEY: unpin
+      EXPECT: 'Unpinned'
+- runFlow:
+    file: subflows/menu-chat-action.yaml
+    env:
+      KEY: report
+      EXPECT: 'Report this.message\?'
+- runFlow: subflows/plan-home.yaml
+- runFlow: subflows/plan-open-map.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-map-search'
+    timeout: 15000
+# The day sheet at half, where the stops' cards are.
+- swipe:
+    start: 50%, 82%
+    end: 50%, 45%
+    duration: 600
+- extendedWaitUntil:
+    visible:
+      id: 'timeline-stop-.*'
+    timeout: 10000
+- runFlow:
+    file: subflows/menu-stop-action.yaml
+    env:
+      KEY: details
+      EXPECT: 'plan-item-save'
+- runFlow: subflows/menu-stop-close.yaml
+- runFlow:
+    file: subflows/menu-stop-action.yaml
+    env:
+      KEY: move
+      EXPECT: 'plan-item-save'
+- runFlow: subflows/menu-stop-close.yaml
+- runFlow:
+    file: subflows/menu-stop-action.yaml
+    env:
+      KEY: time
+      EXPECT: 'plan-item-save'
+- runFlow: subflows/menu-stop-close.yaml
+# Remove asks first; Cancel keeps the stop.
+- tapOn:
+    id: 'timeline-stop-.*'
+    index: 0
+- tapOn:
+    id: 'stop-menu-remove'
+- extendedWaitUntil:
+    visible:
+      text: 'Cancel'
+    timeout: 8000
+- tapOn:
+    text: 'Cancel'
+- runFlow: ../_shared/settle.yaml
+# Ask opens the guide with a question about the stop; back to the plan after.
+- runFlow:
+    file: subflows/menu-stop-action.yaml
+    env:
+      KEY: ask
+      EXPECT: 'guide-.*'
+# Back to the plan by the guide's close button (on Android the system back left the guide up with
+# the question in its composer). The day sheet can come back collapsed: drawn up to half again.
+- tapOn:
+    id: 'guide-close'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-map-search'
+    timeout: 10000
+    optional: true
+# On Android the guide's close can come back to Home (the crew switcher once even open under the
+# tap) instead of the plan: the rest of the menu is reached again from Home. The flow's log says
+# `where` it landed.
+- runFlow:
+    when:
+      notVisible:
+        id: 'plan-map-search'
+    commands:
+      - runFlow: ../_shared/where.yaml
+      - runFlow:
+          when:
+            visible:
+              id: 'crew-switcher'
+          commands:
+            - tapOn:
+                point: '50%,93%'
+            - runFlow: ../_shared/settle.yaml
+      - runFlow: subflows/plan-home.yaml
+      - runFlow: subflows/plan-open-map.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-map-search'
+    timeout: 15000
+- runFlow:
+    when:
+      notVisible:
+        id: 'timeline-stop-.*'
+    commands:
+      - swipe:
+          start: 50%, 82%
+          end: 50%, 45%
+          duration: 600
+- extendedWaitUntil:
+    visible:
+      id: 'timeline-stop-.*'
+    timeout: 10000
+# Share last: the system share sheet (its Copy row on both systems).
+- tapOn:
+    id: 'timeline-stop-.*'
+    index: 0
+- tapOn:
+    id: 'stop-menu-share'
+- extendedWaitUntil:
+    visible:
+      text: '(?i)copy|share'
+    timeout: 8000
+- runFlow: ../_shared/back.yaml
+# Copy last (back in the chat): it puts the message on the clipboard. iOS shows nothing of its own,
+# so the app's "Copied" toast says so; on Android the system's clipboard window comes up over the
+# app and keeps both out of the hierarchy, so the copy is proved by the system's Paste into the composer
+# (then cleared, nothing sent).
+- runFlow: subflows/plan-home.yaml
+- runFlow: subflows/chat-open-crew.yaml
+- longPressOn:
+    text: '.*Uluwatu.at.sunset.*'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-action-copy'
+    timeout: 8000
+- tapOn:
+    id: 'chat-action-copy'
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - extendedWaitUntil:
+          visible:
+            text: '(?i).*copied.*'
+          timeout: 8000
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - extendedWaitUntil:
+          notVisible:
+            id: 'chat-action-copy'
+          timeout: 5000
+          optional: true
+      - tapOn:
+          id: 'chat-input'
+      # The system's own Paste (Maestro's pasteText would type its own copied text instead).
+      - longPressOn:
+          id: 'chat-input'
+      - tapOn:
+          text: '(?i)paste'
+      - extendedWaitUntil:
+          visible:
+            id: 'chat-input'
+            text: '.*Uluwatu.at.sunset.*'
+          timeout: 8000
+      - eraseText: 60

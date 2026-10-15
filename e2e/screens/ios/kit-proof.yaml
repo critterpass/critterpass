@@ -1,0 +1,192 @@
+appId: app.critterpass.dev
+---
+# The shell and kit on iPhone, in light: New crew with the keyboard up (the footer right above it),
+# Home's and the trip hub's Vietnamese hero with the Today chips, a stop's details over the plan map
+# (one card), a city's page and its crew plans (one title, chip shadows), and the pitch sheet's
+# header. A capture: a state that does not come up is skipped, never failed.
+- runFlow:
+    file: ../subflows/start.yaml
+    env:
+      SCENARIO: crew_with_code
+- tapOn:
+    id: 'home-crew-switcher'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'home-start-crew'
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'home-start-crew'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'start-crew-name'
+    commands:
+      - tapOn:
+          id: 'start-crew-name'
+      - inputText: 'Hội An Supper'
+      - runFlow:
+          file: ../subflows/shot.yaml
+          env:
+            CODE: '3.08'
+            NAME: kit-keyboard
+            LOOK: light
+      - hideKeyboard
+# Home's hero, the trip hub and a stop's details over the plan map.
+- runFlow:
+    file: ../subflows/start.yaml
+    env:
+      SCENARIO: trip_tomorrow
+- runFlow:
+    file: ../subflows/shot.yaml
+    env:
+      CODE: '3.02'
+      NAME: kit-hero
+      LOOK: light
+- runFlow:
+    file: ../subflows/trip-open-hub.yaml
+    env:
+      ZOOM: ''
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'trip-hub'
+    commands:
+      - runFlow:
+          file: ../subflows/shot.yaml
+          env:
+            CODE: '6.01'
+            NAME: kit-hub
+            LOOK: light
+- tapOn:
+    id: 'trip-hub-door-plan'
+    optional: true
+# The day sheet at half height shows the day's stops with their menus.
+- extendedWaitUntil:
+    visible:
+      id: 'plan-map-search'
+    timeout: 15000
+    optional: true
+- swipe:
+    start: 50%, 82%
+    end: 50%, 45%
+    duration: 600
+- extendedWaitUntil:
+    visible:
+      id: 'stop-menu-.*'
+    timeout: 15000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'stop-menu-.*'
+    commands:
+      - tapOn:
+          id: 'stop-menu-.*'
+          index: 0
+      - extendedWaitUntil:
+          visible:
+            id: 'stop-menu-details'
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'stop-menu-details'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-item-save'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          file: ../subflows/shot.yaml
+          env:
+            CODE: '4.29'
+            NAME: kit-details
+            LOOK: light
+# Places as you type (4.02), then a city's page and its crew plans from its search.
+- runFlow:
+    file: ../subflows/start.yaml
+    env:
+      SCENARIO: crew_with_code
+- tapOn:
+    id: 'home-pitch-place'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'place-search-field'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'place-search-field'
+    commands:
+      # Places with a few letters typed over the keyboard, its rows and the guide's note (4.02).
+      - tapOn:
+          id: 'place-search-field'
+      - inputText: 'Mar'
+      - extendedWaitUntil:
+          visible:
+            id: 'place-result-.*'
+          timeout: 15000
+          optional: true
+      - runFlow:
+          file: ../subflows/shot.yaml
+          env:
+            CODE: '4.02'
+            NAME: search-typed
+            LOOK: light
+      - eraseText: 3
+      - inputText: 'Hoi An'
+      - extendedWaitUntil:
+          visible:
+            id: 'place-result-.*'
+          timeout: 15000
+          optional: true
+      - hideKeyboard
+      - tapOn:
+          id: 'place-result-.*'
+          index: 0
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'explore-destination|guest-page'
+          timeout: 15000
+          optional: true
+      - runFlow:
+          file: ../subflows/shot.yaml
+          env:
+            CODE: '4.04'
+            NAME: kit-destination
+            LOOK: light
+      - scrollUntilVisible:
+          element:
+            id: 'explore-crew-plans'
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'explore-crew-plans'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'crew-plans'
+          timeout: 15000
+          optional: true
+      - runFlow:
+          file: ../subflows/shot.yaml
+          env:
+            CODE: '4.05'
+            NAME: kit-crew-plans
+            LOOK: light

@@ -2,8 +2,8 @@
  * Swipe together (4.42), full screen with its ✕: "Swipe together" and how far through the deck you
  * are, the matches so far (♥ n, opening Ideas), the card stack (the place's photo or its kind, its
  * name, the guide's line and who else said yes) that votes on a drag or the ✕ / ✓ buttons, "Why
- * this?" for the guide's reasons, the MATCH stamp when enough of the crew said yes, the deck still
- * being built, and the summary at the end. Who is swiping right now is never shown. Every read and
+ * this?" for the guide's reasons (offered only when she gave some), the MATCH stamp when enough of
+ * the crew said yes, the deck still being built (or stuck), and the summary at the end. Who is swiping right now is never shown. Every read and
  * vote is `useSwipeScreen`'s.
  */
 import { useLingui } from '@lingui/react/macro';
@@ -12,96 +12,35 @@ import { useEffect, useRef } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { MediaLayer } from '@/ui/media/MediaLayer';
 import {
-  Button,
-  Card,
   GlassIconButton,
   GlassPill,
   GuideNote,
-  IconButton,
-  LoadingCritter,
   OfflinePill,
   RectStamp,
   StampMoment,
   SwipeDeck,
   Text,
-  TextButton,
   usePremiumTheme,
   type SwipeDeckHandle,
 } from '@/ui/premium';
 
-import type { SwipeCardFace } from '../../components/swipe-card';
-import { whyWords } from '../../components/why-this-sheet';
+import type { SwipeCardFace } from '../../swipe-view-props';
+import { whyWords } from '../../components/why-words';
 import { useSwipeScreen, type SwipeScreenProps } from '../../use-swipe-screen';
-import { placeIcon } from '../../search/place-icons';
-import { Doodle } from '../components/doodle';
+import { CardFace, VoteButton } from './swipe-parts';
+import { SwipeSummary } from './swipe-summary';
+import { SwipeWaiting } from './swipe-waiting';
+import { useDeckCards } from './use-deck-cards';
 
 const FLY_MS = 450;
-const HEART = '♥';
-
-function CardFace({ face }: { readonly face: SwipeCardFace }) {
-  const theme = usePremiumTheme();
-  return (
-    <View
-      style={{
-        flex: 1,
-        borderRadius: 36,
-        backgroundColor: theme.color.card,
-        padding: 8,
-        boxShadow: theme.shadow.card,
-      }}
-    >
-      <View
-        style={{
-          flex: 1,
-          borderRadius: 29,
-          overflow: 'hidden',
-          backgroundColor: theme.color.control,
-        }}
-      >
-        {face.photo === null ? (
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Doodle name={placeIcon(face.category)} size={140} />
-          </View>
-        ) : (
-          <MediaLayer
-            media={face.photo}
-            surface="dark"
-            accent={theme.accent.sun}
-            dots={false}
-            creditAt="top"
-          />
-        )}
-        <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: theme.color.inkSurface,
-              opacity: 0.55,
-            }}
-          />
-          <View style={{ padding: theme.space.gap16, gap: theme.space.gap4 }}>
-            <Text variant="stat" tone="onInk" numberOfLines={2}>
-              {face.name}
-            </Text>
-            <Text variant="rowText" tone="onInk" numberOfLines={2}>
-              {face.meta}
-            </Text>
-            {face.social === null ? null : (
-              <Text variant="badge" tone="onInk">
-                {face.social}
-              </Text>
-            )}
-          </View>
-        </View>
-      </View>
-    </View>
-  );
+const NO_CARDS: readonly SwipeCardFace[] = [];
+/**
+ * Where the reader is in the deck ("12 of 30" while the twelfth card is up): the card on top
+ * counts, so the first card reads "1 of 30"; the summary after the last card reads the total.
+ */
+export function deckPosition(stage: string, done: number, total: number): number {
+  return stage === 'deck' ? Math.min(done + 1, total) : Math.min(done, total);
 }
 
 export function SwipePage(props: SwipeScreenProps) {
@@ -119,7 +58,12 @@ export function SwipePage(props: SwipeScreenProps) {
   }, [match]);
   const vote = (face: SwipeCardFace, verdict: 'yes' | 'no') =>
     setTimeout(() => view.onSwipe(face.poiId, verdict), FLY_MS);
-  const ideas = stage.kind === 'summary' ? stage.onIdeas : undefined;
+  const cards = useDeckCards(stage.kind === 'deck' ? stage.ahead : NO_CARDS);
+  // The guide's reasons for the top card; a card she gave none for offers no "Why this?".
+  const whyText =
+    stage.kind === 'deck'
+      ? [...whyWords(stage.why, view.guide.name), stage.top.note ?? ''].filter(Boolean).join(' ')
+      : '';
   return (
     <StampMoment
       landed={match !== null}
@@ -152,13 +96,19 @@ export function SwipePage(props: SwipeScreenProps) {
           <Text variant="headline">
             {t({ id: 'explore.trip.swipeTitle', message: 'Swipe together' })}
           </Text>
-          <Text variant="captionMuted" tone="muted">
-            {t({ id: 'explore.premium.swipe.progress', message: `${view.done} of ${view.total}` })}
-          </Text>
+          {view.total === 0 ? null : (
+            <Text variant="captionMuted" tone="muted">
+              {t({
+                id: 'explore.premium.swipe.progress',
+                message: `${deckPosition(stage.kind, view.done, view.total)} of ${view.total}`,
+              })}
+            </Text>
+          )}
         </View>
         <GlassPill
-          label={`${HEART} ${String(view.matchCount)}`}
-          onPress={ideas ?? (() => router.back())}
+          icon="heart"
+          label={String(view.matchCount)}
+          onPress={view.onIdeas ?? (() => router.back())}
           testID="swipe-matches"
         />
       </View>
@@ -169,22 +119,11 @@ export function SwipePage(props: SwipeScreenProps) {
       ) : null}
       <View style={{ flex: 1, padding: theme.space.titleGutter }}>
         {stage.kind === 'building' ? (
-          <View style={{ flex: 1, justifyContent: 'center', gap: theme.space.gap16 }}>
-            <LoadingCritter
-              label={t({ id: 'explore.premium.swipe.building', message: 'Building the deck' })}
-            />
-            {stage.onRetry === undefined ? null : (
-              <TextButton
-                label={t({ id: 'explore.premium.swipe.retry', message: 'Start again' })}
-                onPress={stage.onRetry}
-              />
-            )}
-          </View>
+          <SwipeWaiting wait={stage.wait} guide={view.guide} onRetry={stage.onRetry} />
         ) : stage.kind === 'deck' ? (
           <SwipeDeck
-            key={stage.top.poiId}
             ref={deck}
-            items={stage.under === null ? [stage.top] : [stage.top, stage.under]}
+            items={cards}
             keyOf={(face) => face.poiId}
             renderCard={(face) => <CardFace face={face} />}
             inStamp={
@@ -198,36 +137,20 @@ export function SwipePage(props: SwipeScreenProps) {
             testID="swipe-deck"
           />
         ) : (
-          <Card padded style={{ marginTop: theme.space.gap16 }} testID="swipe-summary">
-            <Text variant="title">
-              {stage.ended
-                ? t({ id: 'explore.swipe.endedTitle', message: 'This session is over' })
-                : t({ id: 'explore.swipe.doneTitle', message: "That's the deck" })}
-            </Text>
-            {stage.matches.map((entry) => (
-              <Text key={entry.id} variant="rowText">
-                {`${HEART} ${entry.name}`}
-              </Text>
-            ))}
-            {stage.onIdeas === undefined ? null : (
-              <Button
-                label={t({ id: 'explore.swipe.seeIdeas', message: 'See them in Ideas' })}
-                onPress={stage.onIdeas}
-                testID="swipe-see-ideas"
-              />
-            )}
-          </Card>
+          <SwipeSummary
+            ended={stage.ended}
+            matches={stage.matches}
+            {...(stage.onIdeas === undefined ? {} : { onIdeas: stage.onIdeas })}
+          />
         )}
       </View>
-      {stage.kind === 'deck' && view.whyOpen ? (
-        <View style={{ paddingHorizontal: theme.space.gap16 }}>
+      {whyText !== '' && view.whyOpen ? (
+        <View style={{ paddingHorizontal: theme.space.gap16, paddingTop: theme.space.gap8 }}>
           <GuideNote
             name={view.guide.name}
             critter={view.guide.kind}
             showName={false}
-            text={[...whyWords(stage.why, view.guide.name), stage.top.note ?? '']
-              .filter(Boolean)
-              .join(' ')}
+            text={whyText}
             testID="swipe-why"
           />
         </View>
@@ -243,23 +166,23 @@ export function SwipePage(props: SwipeScreenProps) {
             paddingTop: theme.space.gap12,
           }}
         >
-          <IconButton
+          <VoteButton
             icon="close"
-            size={62}
-            tone="white"
+            paper
             label={t({ id: 'explore.premium.swipe.no', message: 'Not for me' })}
             onPress={() => deck.current?.vote('out')}
             testID="swipe-no"
           />
-          <GlassPill
-            label={t({ id: 'explore.premium.swipe.why', message: 'Why this?' })}
-            onPress={() => view.onWhy(!view.whyOpen)}
-            testID="swipe-why-open"
-          />
-          <IconButton
+          {whyText === '' ? null : (
+            <GlassPill
+              label={t({ id: 'explore.premium.swipe.why', message: 'Why this?' })}
+              onPress={() => view.onWhy(!view.whyOpen)}
+              testID="swipe-why-open"
+            />
+          )}
+          <VoteButton
             icon="check"
-            size={62}
-            tone="ink"
+            paper={false}
             label={t({ id: 'explore.premium.swipe.yes', message: 'I’m in' })}
             onPress={() => deck.current?.vote('in')}
             testID="swipe-yes"

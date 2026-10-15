@@ -7,7 +7,7 @@ import { PREMIUM_LOCKED_MARK, PREMIUM_STICKER, premiumLockedMask } from '@cp/cri
 import type { Rarity } from '@cp/critter-art';
 import { StyleSheet, View } from 'react-native';
 
-import { CritterSticker, Text } from '@/ui/premium';
+import { CritterSticker, Text, usePremiumTheme } from '@/ui/premium';
 
 export interface CritterSilhouetteProps {
   readonly kind: string;
@@ -28,6 +28,9 @@ export interface CritterSilhouetteProps {
   readonly mirrored?: boolean;
 }
 
+// eslint-disable-next-line critterpass/no-literal-style, lingui/no-unlocalized-strings -- a colour pending a token
+const DARK_LOCKED_MASK = '#3b3d48';
+
 export function CritterSilhouette({
   kind,
   label,
@@ -40,7 +43,16 @@ export function CritterSilhouette({
   markColor,
   mirrored = false,
 }: CritterSilhouetteProps) {
-  const mask = ghost ? PREMIUM_STICKER.ghostMask : premiumLockedMask(rarity, onInk);
+  const th = usePremiumTheme();
+  // In the dark the light mask stood out pure white on dark cards, and the theme's dark mask all
+  // but vanished on them: a lifted grey reads as a shape the way the light mask does on white.
+  const mask = ghost
+    ? PREMIUM_STICKER.ghostMask
+    : th.scheme === 'dark' && !onInk
+      ? rarity === 'legendary'
+        ? th.color.lockedMaskGold
+        : DARK_LOCKED_MASK
+      : premiumLockedMask(rarity, onInk);
   return (
     <View
       accessible

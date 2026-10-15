@@ -6,7 +6,7 @@
 import { useMemo } from 'react';
 
 import { useTyping } from '@/data/realtime/use-typing';
-import { formerMemberLabel } from '@/ui/people/member-name';
+import { formerMemberLabel, shortName } from '@/lib/people/member-name';
 
 export interface ChatTyping {
   readonly names: readonly string[];
@@ -16,8 +16,8 @@ export interface ChatTyping {
 export function firstName(name: string | null | undefined): string | null {
   // "Former member" is one name, not a first and a last.
   if (name?.trim() === formerMemberLabel()) return formerMemberLabel();
-  const first = name?.trim().split(/\s+/u)[0];
-  return first === undefined || first === '' ? null : first;
+  const trimmed = name?.trim() ?? '';
+  return trimmed === '' ? null : shortName(trimmed);
 }
 
 export function useChatTyping(

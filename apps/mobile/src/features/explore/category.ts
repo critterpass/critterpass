@@ -1,7 +1,7 @@
 /** A place category's doodle and its name in the reader's language. */
 import { t } from '@lingui/core/macro';
 
-import type { DoodleName } from '@/ui/icons/generated';
+import type { DoodleName } from '@/ui/premium/icons/doodles/generated';
 
 const ICONS: Readonly<Record<string, DoodleName>> = {
   temple_shrine: 'temple',

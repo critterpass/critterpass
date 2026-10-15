@@ -24,6 +24,7 @@ import {
   useToast,
   usePremiumTheme,
 } from '@/ui/premium';
+import { PageFooter } from '@/ui/premium/shell';
 
 import { artKind } from '../../art-kind';
 import { foundAt, unknownName } from '../../critters-copy';
@@ -157,10 +158,11 @@ export function PremiumCritterDetailScreen() {
     });
   };
   const wearing = shown !== null && skin.current === shown.id;
+  const footed = model.guide !== null && shown !== null;
 
   return (
     <View style={[styles.fill, { backgroundColor: theme.color.ground }]} testID="critters-detail">
-      <ScrollView contentContainerStyle={{ paddingBottom: 36 + 56 + insets.bottom + 24 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: footed ? 24 : insets.bottom + 24 }}>
         <View
           style={[
             styles.hero,
@@ -249,14 +251,15 @@ export function PremiumCritterDetailScreen() {
         )}
       </View>
       {model.guide === null || shown === null ? null : (
-        <View style={[styles.footer, { bottom: insets.bottom + 12 }]}>
+        // On the page's ground under the scroll, so the forms never run under the button.
+        <PageFooter>
           <Button
             label={wearing ? copy.classicLook : copy.makeGuide}
             variant={wearing ? 'secondary' : 'primary'}
             onPress={() => onSkin(wearing ? null : shown.id)}
             testID="critters-detail-skin"
           />
-        </View>
+        </PageFooter>
       )}
     </View>
   );
@@ -283,5 +286,4 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   spacer: { width: 44 },
-  footer: { position: 'absolute', left: 20, right: 20 },
 });

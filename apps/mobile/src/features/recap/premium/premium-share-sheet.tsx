@@ -22,8 +22,8 @@ import {
   saveToPhotos,
   shareViaSystemSheet,
   type ShareActionsDeps,
-} from '@/ui/share-image/share-actions';
-import { SHARE_SIZE, type ShareFormat } from '@/ui/share-image/ShareSheet';
+} from '@/lib/share-image/share-actions';
+import { SHARE_SIZE, type ShareFormat } from '@/lib/share-image/share-format';
 
 type Drawn =
   | { readonly status: 'drawing' }
@@ -154,6 +154,7 @@ export function PremiumShareSheet({
               {t({ id: 'shareImage.error', message: "The picture didn't draw." })}
             </Text>
             <TextButton
+              align="center"
               label={t({ id: 'shareImage.retry', message: 'Try again' })}
               onPress={() => setAttempt((n) => n + 1)}
               testID={`${testID}-retry`}
