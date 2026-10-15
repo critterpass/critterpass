@@ -8,11 +8,14 @@ appId: app.critterpass.dev
 # show its welcome page over Home.
 - openLink:
     link: critterpass-dev://trips
+# Waited for by Trips' own content: the tabs show at once, and Home tapped before the link lands is
+# undone by it (Trips opens after the tap).
 - extendedWaitUntil:
     visible:
-      id: 'tab-home|home-screen|trip-list-row-.*|trip-list-empty|trip-hub'
+      id: 'trip-list-row-.*|trip-list-empty|trip-hub'
     timeout: 10000
     optional: true
+- runFlow: settle.yaml
 - runFlow:
     file: tab.yaml
     env:
