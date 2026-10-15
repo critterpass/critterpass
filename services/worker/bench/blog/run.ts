@@ -25,10 +25,10 @@ import { loadDraftPlaces } from '../../src/jobs/ai/draft/load';
 import { buildPlanInput } from '../../src/jobs/ai/draft/plan-input';
 import { loadRoutedPairs } from '../../src/jobs/ai/draft/road-minutes';
 import { skeletonRoute } from '../../src/jobs/ai/draft/skeleton';
-import { CREWS, crewTrip, defaultStart, scoredDays, type Destination } from './crews';
-import { judgeBrief, judgeDraft, type Verdict } from './judge';
+import { CREWS, crewTrip, defaultStart, scoredDays, type Crew, type Destination } from './crews';
+import { judgeBrief, judgeDraft } from './judge';
 import { readReference, type Reference } from './reference';
-import { draftMetrics, overall, type DraftMetrics, type ScoredDay } from './score';
+import { draftMetrics, overall, type ScoredDay } from './score';
 import { destinationTable, type DraftResult } from './table';
 
 class OverBudget extends Error {}
@@ -113,6 +113,7 @@ async function benchDestination(
   const destination = await destinationOf(pool, reference.slug);
   if (destination === null) throw new Error(`no destination ${reference.slug}`);
   const places = await loadDraftPlaces(pool, destination.id, []);
+  console.log(`${reference.slug}: ${places.length} places, drafting ${crews.length} crews`);
   const routed = await loadRoutedPairs(
     pool,
     places.map((poi) => poi.id),
@@ -122,9 +123,11 @@ async function benchDestination(
     pool,
     places.map((poi) => poi.id),
   );
-  const results: DraftResult[] = [];
-  let neutral: readonly ScoredDay[] | null = null;
-  for (const crew of crews) {
+  const benchCrew = async (
+    crew: Crew,
+    neutral: readonly ScoredDay[] | null,
+  ): Promise<{ result: DraftResult; days: ScoredDay[] } | null> => {
+    const started = Date.now();
     const trip = crewTrip(destination, crew, start, reference.days.length);
     const input = buildPlanInput(trip, places, {
       jobId: `blog-bench-${reference.slug}-${crew.id}`,
@@ -133,38 +136,36 @@ async function benchDestination(
       routed,
     });
     let days: ScoredDay[];
-    let metrics: DraftMetrics;
-    let verdict: Verdict | null;
     try {
       const drafted = await runDraftPlan(model, input);
       days = scoredDays(drafted.itinerary, drafted.input, reference, ranks);
-      if (crew.id === 'neutral') neutral = days;
-      metrics = draftMetrics(
-        days,
-        reference,
-        neutral === null ? null : { neutral, tastes: crew.tastes },
-      );
-      verdict = await judgeDraft(
-        model,
-        judgeBrief(trip.destination, crew.brief, reference.days, days),
-        `judge-${crew.id}`,
-      ).catch((error: unknown) => {
-        if (error instanceof OverBudget) throw error;
-        console.error(`${reference.slug}/${crew.id}: judge failed: ${String(error)}`);
-        return null;
-      });
     } catch (error) {
       if (error instanceof OverBudget) throw error;
       console.error(`${reference.slug}/${crew.id}: draft failed: ${failure(error)}`);
-      continue;
+      return null;
     }
+    const metrics = draftMetrics(
+      days,
+      reference,
+      neutral === null ? null : { neutral, tastes: crew.tastes },
+    );
+    const verdict = await judgeDraft(
+      model,
+      judgeBrief(trip.destination, crew.brief, reference.days, days),
+      `judge-${crew.id}`,
+    ).catch((error: unknown) => {
+      if (error instanceof OverBudget) throw error;
+      console.error(`${reference.slug}/${crew.id}: judge failed: ${failure(error)}`);
+      return null;
+    });
     const judge = verdict === null ? null : verdict.overall / 10;
-    results.push({
+    const stops = days.flatMap((d) => d.stops);
+    const result: DraftResult = {
       destination: reference.slug,
       crew: crew.id,
       places: places.length,
-      matched: days.flatMap((d) => d.stops).filter((s) => s.ref !== null).length,
-      stops: days.flatMap((d) => d.stops).length,
+      matched: stops.filter((s) => s.ref !== null).length,
+      stops: stops.length,
       metrics,
       judge,
       verdict,
@@ -174,9 +175,17 @@ async function benchDestination(
         theme: d.theme,
         stops: d.stops.map((s) => `${s.kind === 'meal' ? '*' : ''}${s.name}`),
       })),
-    });
-  }
-  return results;
+    };
+    console.log(
+      `${reference.slug}/${crew.id}: ${result.score.toFixed(1)} in ${Math.round((Date.now() - started) / 1000)} s`,
+    );
+    return { result, days };
+  };
+  // Personal fit is measured against the neutral crew's draft, so it runs first; the rest at once.
+  const [first, ...others] = crews;
+  const neutral = first === undefined ? null : await benchCrew(first, null);
+  const rest = await Promise.all(others.map((crew) => benchCrew(crew, neutral?.days ?? null)));
+  return [neutral, ...rest].flatMap((entry) => (entry === null ? [] : [entry.result]));
 }
 
 async function main(): Promise<void> {
