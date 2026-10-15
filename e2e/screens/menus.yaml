@@ -25,7 +25,7 @@ appId: app.critterpass.dev
     file: subflows/menu-chat-action.yaml
     env:
       KEY: pin
-      EXPECT: 'Pinned to the.trip'
+      EXPECT: 'Pinned to.the.trip'
 - runFlow:
     file: subflows/menu-chat-action.yaml
     env:
