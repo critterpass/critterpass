@@ -197,20 +197,16 @@ export function topUpDays(
     const tried = new Set<string>();
     while (load(day) < target) {
       const anchors = anchorsOf(input, day);
-      const next = byVariety(
-        input,
-        input.pools.activities.filter(
-          (poi) =>
-            !taken.has(poi.id) &&
-            !tried.has(poi.id) &&
-            (input.pools.openDays.get(poi.id) ?? []).includes(day.dayNo) &&
-            withinReach(poi.id, anchors, input.travel, cap) &&
-            areaStep(input, poi.id, anchors) < 2,
-        ),
-        anchors,
-        [...taken],
-        (poi) => areaStep(input, poi.id, anchors),
-      )[0];
+      const open = input.pools.activities.filter(
+        (poi) =>
+          !taken.has(poi.id) &&
+          !tried.has(poi.id) &&
+          (input.pools.openDays.get(poi.id) ?? []).includes(day.dayNo) &&
+          withinReach(poi.id, anchors, input.travel, cap) &&
+          areaStep(input, poi.id, anchors) < 2,
+      );
+      // Must-sees first, then by kind; among equals the day's own areas before a neighbour.
+      const next = byVariety(input, byArea(input, open, anchors), anchors, [...taken])[0];
       if (next === undefined) break;
       tried.add(next.id);
       if (!fits(input, day, [...day.poiIds, next.id])) continue;

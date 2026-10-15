@@ -192,8 +192,8 @@ export function fillThinDays(
         [...offered].sort((a, b) => out(a) - out(b) || rank(a) - rank(b)),
         here,
         [...used].filter((id): id is string => id !== null),
-        // A place in the day's own areas before one in a neighbouring area.
-        (poi) => areaStep(input, poi.id, here),
+        // A place that keeps the day in its areas (or one beside them) before one farther out.
+        (poi) => (areaStep(input, poi.id, here) < 2 ? 0 : 1),
       );
       const next = addOne(
         input,
