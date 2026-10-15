@@ -24,6 +24,8 @@ import {
 } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
+import { premium } from '@cp/design-tokens';
+
 import { scheduleLayoutScan } from '@/lib/qa/layout-scan';
 
 import { REDUCED_FADE_MS, usePremiumTheme } from '../..';
@@ -111,9 +113,11 @@ export interface PhotoHeaderScrimProps {
   readonly height: number;
 }
 
+/** The design's dark clear-glass tint, which the scrim under a photo header fades from. */
+const PHOTO_SCRIM = premium.modes.light.material.clear.tint;
+
 /** The darker fade under the header over a photo: the clear glass's tint fading to nothing. */
 export function PhotoHeaderScrim({ height }: PhotoHeaderScrimProps) {
-  const t = usePremiumTheme();
   return (
     <Animated.View
       pointerEvents="none"
@@ -122,7 +126,7 @@ export function PhotoHeaderScrim({ height }: PhotoHeaderScrimProps) {
         {
           top: 0,
           height,
-          experimental_backgroundImage: edgeGradient('top', height, 0, t.material.clear.tint),
+          experimental_backgroundImage: edgeGradient('top', height, 0, PHOTO_SCRIM),
         },
       ]}
     />
