@@ -267,7 +267,8 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   // A floor, not a height: the title grows with larger text instead of clipping.
   largeTitle: { minHeight: TITLE_ROW - 6 },
-  bar: { position: 'absolute', top: 0, left: 0, right: 0 },
+  // Over the scroll edge's band (zIndex 1), so the collapsed title isn't drawn under the ground.
+  bar: { position: 'absolute', top: 0, left: 0, right: 0, zIndex: 2 },
   barTitle: {
     position: 'absolute',
     left: 0,
