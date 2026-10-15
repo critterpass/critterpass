@@ -204,10 +204,6 @@ msgstr "Nhóm thấy bạn · {0} giờ"
 msgid "safety.help.disclaimer"
 msgstr "CritterPass báo cho cả nhóm của bạn. Khi khẩn cấp, hãy gọi {general}."
 
-#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
-msgid "safety.consent.done"
-msgstr "Xong"
-
 #: ../../apps/mobile/src/features/safety/premium/HelpPremium.tsx
 msgid "safety.help.limitedLabel"
 msgstr "Khẩn cấp, gọi từ mọi điện thoại di động"
@@ -322,6 +318,10 @@ msgstr "Thông tin bảo hiểm đã gửi tới phòng khám"
 #: ../../apps/mobile/src/features/safety/help/use-help-screen.ts
 msgid "safety.help.insurer"
 msgstr "Bảo hiểm: {insurer} · thẻ bảo hiểm nằm trong mục Đặt chỗ"
+
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.consent.keepOff"
+msgstr "Cứ để tắt"
 
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.consent.title"
@@ -472,6 +472,10 @@ msgstr "Chia sẻ vị trí · 1 giờ"
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.share.denied"
 msgstr "Cần quyền vị trí để chia sẻ"
+
+#: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
+msgid "safety.consent.share"
+msgstr "Chia sẻ khi mở Trợ giúp"
 
 #: ../../apps/mobile/src/features/safety/premium/HelpParts.tsx
 msgid "safety.consent.toggle"

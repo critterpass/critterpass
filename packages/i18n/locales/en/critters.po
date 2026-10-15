@@ -308,6 +308,10 @@ msgstr "Cancelled a legendary reminder"
 msgid "critters.dex.pending"
 msgstr "Checking"
 
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.checking"
+msgstr "Checking it in. It joins your pass in a moment."
+
 #: ../../apps/mobile/src/features/critters/premium/encounter/live-scene.tsx
 msgid "critters.premium.encounter.close"
 msgstr "Close"

@@ -47,7 +47,7 @@ msgid "money.premium.square"
 msgstr "{0} · bạn đã sòng phẳng"
 
 #. placeholder {0}: whole(planned - f.spentMinor)
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.left"
 msgstr "Còn {0}"
 
@@ -57,7 +57,7 @@ msgid "money.premium.leftToAssign"
 msgstr "Còn {0} chưa chia"
 
 #. placeholder {0}: whole(over)
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.overBy"
 msgstr "Vượt {0}"
 
@@ -283,11 +283,11 @@ msgstr "Nhắc {fromName} trả"
 msgid "money.pay.requested"
 msgstr "Đã nhắc {who} trả."
 
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.budget.paceOver"
 msgstr "Cứ đà này bạn sẽ tiêu khoảng {finish}, vượt chừng {deltaText}."
 
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.budget.paceUnder"
 msgstr "Cứ đà này bạn sẽ tiêu khoảng {finish}, dư chừng {deltaText}."
 
@@ -439,8 +439,7 @@ msgstr "Tổng của nhóm bằng {currency}"
 msgid "money.export.currency"
 msgstr "Tiền tệ"
 
-#. placeholder {0}: draft.currency
-#: ../../apps/mobile/src/features/money/premium/AddExpensePremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/AmountHero.tsx
 msgid "money.premium.currency"
 msgstr "Tiền tệ, {0}"
 
@@ -766,11 +765,11 @@ msgstr "Tên người trả thấy"
 msgid "money.premium.newTitle"
 msgstr "Khoản chi mới · {0}"
 
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.budget.noneOrganiser"
 msgstr "Nhóm chưa có ngân sách. Đặt một mức và mình sẽ giúp cả nhóm bám theo."
 
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.budget.none"
 msgstr "Nhóm chưa có ngân sách. Người tổ chức có thể đặt cho chuyến đi."
 
@@ -828,7 +827,7 @@ msgid "money.settle.nudged"
 msgstr "Đã nhắc khéo {who}."
 
 #. placeholder {0}: whole(planned)
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.ofPlanned"
 msgstr "trên {0} dự kiến"
 
@@ -1073,7 +1072,7 @@ msgstr "Có người trong khoản này không còn trong chuyến đi. Hãy th�
 msgid "money.currency.body"
 msgstr "Chi bằng tiền gì cũng được. Số dư và thanh toán dùng đồng này, theo tỷ giá ngày thêm từng khoản."
 
-#: ../../apps/mobile/src/features/money/premium/BudgetPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/BudgetSummary.tsx
 msgid "money.premium.spent"
 msgstr "Đã chi"
 

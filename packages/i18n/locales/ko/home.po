@@ -529,7 +529,7 @@ msgid "inbox.premium.settings"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
-msgid "inbox.premium.notificationsOn"
+msgid "inbox.premium.notificationsOnTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-card.tsx
@@ -1012,6 +1012,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/home/premium/components/trip-collage-card.tsx
 #: ../../apps/mobile/src/features/home/premium/trips/trip-mini-card.tsx
 msgid "home.nextUp.untitled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
+msgid "inbox.premium.notificationsOnLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/recovery/error-sheet.tsx
