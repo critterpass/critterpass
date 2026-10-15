@@ -15,9 +15,9 @@ import {
   ListCard,
   LoadingCritter,
   PressableScale,
-  Skeleton,
   Text,
   usePremiumTheme,
+  WaitingLayout,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -61,19 +61,16 @@ export function PremiumCheckView(props: CheckViewProps) {
         {props.ask}
         {props.state === 'loading' ? <LoadingCritter label={props.status} /> : null}
         {props.state === 'ready' && props.checking === true && props.cards.length === 0 ? (
-          // The result's place, held by the shape of a fix card, with the guide at work under it.
-          <View style={{ gap: theme.space.gap12 }} testID="plan-check-waiting">
-            <View style={{ borderRadius: 18, overflow: 'hidden' }}>
-              <Skeleton height={132} radius={18} tone="block" />
-            </View>
-            <View style={{ borderRadius: 18, overflow: 'hidden' }}>
-              <Skeleton height={96} radius={18} tone="soft" />
-            </View>
-            <LoadingCritter
+          // The result's place, held by the kit's wait (rows, then the guide at work at the foot).
+          <View style={{ minHeight: 360, marginHorizontal: -theme.space.gutter }}>
+            <WaitingLayout
+              photo={false}
+              rows={3}
               label={t({
                 id: 'plan.premium.check.looking',
                 message: 'Hours, drives and saves, day by day…',
               })}
+              testID="plan-check-waiting"
             />
           </View>
         ) : null}
