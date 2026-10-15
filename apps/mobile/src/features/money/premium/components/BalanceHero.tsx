@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   sticker: { position: 'absolute', top: -STICKER_OUT, right: 10 },
   amountRow: { flexDirection: 'row', alignItems: 'flex-end' },
   spark: { marginLeft: 6, marginBottom: 8 },
-  dark: { padding: 20, minHeight: 168, justifyContent: 'flex-end', overflow: 'hidden' },
+  dark: { padding: 20, minHeight: 168, justifyContent: 'flex-end' },
   // Inside the card's rounded corner, so the card's clip never cuts its outline (7.16).
   emptySticker: { position: 'absolute', top: 14, right: 16, opacity: 0.55 },
   soft: { opacity: 0.85 },

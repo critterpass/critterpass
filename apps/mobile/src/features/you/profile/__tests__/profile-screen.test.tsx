@@ -97,7 +97,8 @@ describe('the profile for a fresh account', () => {
     await show(stack);
     await waitFor(() => expect(screen.getByTestId('you-profile-name')).toBeTruthy());
     expect(screen.getByTestId('you-profile-name')).toHaveTextContent('Khánh');
-    expect(screen.getByTestId('you-profile-handle').props.children).toBe('Ho Chi Minh City');
+    // The kit ties the last two words with a no-break space, so the text is compared as read.
+    expect(screen.getByTestId('you-profile-handle')).toHaveTextContent(/^Ho Chi Minh City$/u);
     expect(screen.getByTestId('you-profile-stamp-home')).toBeTruthy();
     expect(screen.getByTestId('you-profile-no-trips')).toBeTruthy();
     expect(screen.getByTestId('you-profile-start-crew')).toBeTruthy();
@@ -114,8 +115,8 @@ describe('the profile for a fresh account', () => {
     await waitFor(() => expect(screen.getByTestId('you-profile-name')).toBeTruthy());
     await stack.db.execute("UPDATE users SET username = 'khanh' WHERE id = ?", [stack.uid]);
     await waitFor(() =>
-      expect(screen.getByTestId('you-profile-handle').props.children).toBe(
-        '@khanh · Ho Chi Minh City',
+      expect(screen.getByTestId('you-profile-handle')).toHaveTextContent(
+        /^@khanh · Ho Chi Minh City$/u,
       ),
     );
   });

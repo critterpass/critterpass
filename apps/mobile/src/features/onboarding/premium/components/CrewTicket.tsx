@@ -6,9 +6,9 @@
  */
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import { CritterSticker, Icon, Tag, Text, usePremiumTheme } from '@/ui/premium';
+import { CritterSticker, Icon, NoPhoto, Tag, Text, usePremiumTheme } from '@/ui/premium';
 
 export interface CrewTicketProps {
   readonly crew: string;
@@ -54,11 +54,15 @@ export function CrewTicket({
             margin: 8,
             height: 110,
             borderRadius: theme.radius.banner,
-            backgroundColor: theme.accent.sky,
+            overflow: 'hidden',
             justifyContent: 'flex-start',
             padding: 18,
           }}
         >
+          {/* The invite carries no photo: the strip is the kit's no-photo art, the plane in the middle. */}
+          <View style={StyleSheet.absoluteFill}>
+            <NoPhoto doodle="plane" accent="sky" seed={crew} />
+          </View>
           {dateTag === undefined ? null : (
             <Tag label={dateTag} color={theme.accent.sun} rotate={-7} />
           )}

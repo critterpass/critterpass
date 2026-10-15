@@ -138,6 +138,7 @@ export function SettingsPremiumScreen({
   const chatty = (
     <View style={{ width: 180 }}>
       <SegmentedControl
+        thumb="ink"
         options={[
           { value: 'quiet', label: t({ id: 'you.premium.chatty.quiet', message: 'Quiet' }) },
           { value: 'normal', label: t({ id: 'you.premium.chatty.normal', message: 'Normal' }) },
