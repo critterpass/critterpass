@@ -86,7 +86,7 @@ export function SwipeWaiting(props: {
               })
             : t({
                 id: 'explore.premium.swipe.buildingLine',
-                message: `${guideName} is picking places for the crew. It takes about ${DECK_MINUTES} minutes.`,
+                message: `I’m picking places for the crew. It takes about ${DECK_MINUTES} minutes.`,
               })
         }
         testID="swipe-building-note"
