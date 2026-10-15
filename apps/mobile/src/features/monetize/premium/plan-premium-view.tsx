@@ -204,7 +204,9 @@ export function PlanPremiumView({ props }: { readonly props: PlanViewProps }) {
           <Text
             variant="caption"
             tone="muted"
-            textBreakStrategy="balanced"
+            // Centred, so the balanced break makes two even lines across the page (a left-set
+            // balanced note shrinks to a narrow ragged block).
+            align="center"
             style={styles.note}
             testID="plan-no-store"
           >

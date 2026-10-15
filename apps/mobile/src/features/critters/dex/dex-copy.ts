@@ -27,6 +27,11 @@ export function formsOf(name: string, found: number, total: number): string {
   return t({ id: 'critters.dex.formsOf', message: `${name} · ${found} of ${total} forms` });
 }
 
+/** The forms found here, for a critter not met yet (its name stays unsaid). */
+export function formsCount(found: number, total: number): string {
+  return t({ id: 'critters.dex.formsCount', message: `${found} of ${total} forms` });
+}
+
 export function nextFormHint(tier: string, requirement: string): string {
   return t({ id: 'critters.dex.nextForm', message: `${tier} next: ${requirement}.` });
 }

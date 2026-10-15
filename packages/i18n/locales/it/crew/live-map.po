@@ -214,6 +214,11 @@ msgstr ""
 msgid "liveMap.toast.pinged"
 msgstr ""
 
+#. placeholder {0}: m.destinationName ?? m.crewName
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+msgid "liveMap.premium.previewPill"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
 msgid "liveMap.premium.resume"
 msgstr ""

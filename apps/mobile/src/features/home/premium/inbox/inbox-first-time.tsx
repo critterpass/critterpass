@@ -2,7 +2,7 @@
  * The inbox before anything has arrived (3.18): the All / Crew / Guides filter, three example cards
  * stepping back, the bell sticker, what will land here, and at the foot the one ask that matters:
  * "Allow notifications" (the system prompt), or not now (stay here). A phone that already allows
- * them gets no ask.
+ * them gets no ask, only a line that they are on.
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
@@ -12,6 +12,7 @@ import { View } from 'react-native';
 import { usePermission } from '@/lib/permissions';
 import {
   Button,
+  Icon,
   SegmentedControl,
   StickerIcon,
   TextButton,
@@ -28,6 +29,13 @@ const useStyles = makePremiumStyles((t) => ({
   bell: { alignSelf: 'center', marginTop: t.space.gap16 },
   words: { gap: 6, paddingHorizontal: t.space.gap8 },
   grow: { flex: 1 },
+  on: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    paddingBottom: t.space.gap16,
+  },
 }));
 
 export function InboxFirstTime() {
@@ -73,7 +81,7 @@ export function InboxFirstTime() {
           step={2}
           glyph="search"
           tint={theme.color.status.rain}
-          title={t({ id: 'inbox.premium.example.reply', message: 'Replies due Sep 30' })}
+          title={t({ id: 'inbox.premium.example.reply', message: 'Replies due 30 Sep' })}
           line={t({ id: 'inbox.premium.example.replyLine', message: 'Who still owes an answer' })}
           exampleLabel={example}
         />
@@ -98,7 +106,18 @@ export function InboxFirstTime() {
         </Text>
       </View>
       <View style={styles.grow} />
-      {granted ? null : (
+      {granted ? (
+        // Already allowed: no ask, only the word that the phone will say when something lands.
+        <View style={styles.on} testID="inbox-notifications-on">
+          <Icon name="bell" size={16} color={theme.color.status.booked.text} />
+          <Text variant="caption" color={theme.color.status.booked.text}>
+            {t({
+              id: 'inbox.premium.notificationsOn',
+              message: 'Notifications are on: your phone tells you when something lands.',
+            })}
+          </Text>
+        </View>
+      ) : (
         <View>
           <Button
             label={t({ id: 'inbox.premium.allow', message: 'Allow notifications' })}

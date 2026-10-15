@@ -13,6 +13,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useContext, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -94,6 +95,7 @@ export function InviteSheet() {
 
   const unanswered = useResendInvites(crewId, detail.uid);
   const valid = codeValidLine(detail.code?.expires_at ?? null, locale);
+  const insets = useSafeAreaInsets();
   return (
     <SheetScreen
       title={t({ id: 'crew.premium.invite.title', message: `Invite to ${crewName}` })}
@@ -186,7 +188,7 @@ export function InviteSheet() {
               label={t({ id: 'crew.premium.share.mail', message: 'Mail' })}
               letter="@"
               tile
-              tint={th.color.status.rain.text}
+              tint={MAIL_BLUE}
               onPress={() => send('mail')}
             />
             <ShareTarget
@@ -216,9 +218,15 @@ export function InviteSheet() {
           })}
         />
       )}
+      {/* The last card keeps clear of the home indicator. */}
+      <View style={{ height: insets.bottom + th.space.gap8 }} />
     </SheetScreen>
   );
 }
+
+/** The design's Mail tile: a lighter blue than Telegram's sky beside it. */
+// eslint-disable-next-line critterpass/no-literal-style, lingui/no-unlocalized-strings -- a colour pending a token
+const MAIL_BLUE = '#5aa0f0';
 
 /** The 34 pt pill still takes a 44 pt tap. */
 const COPY_SLOP = hitSlopFor(0, 34);

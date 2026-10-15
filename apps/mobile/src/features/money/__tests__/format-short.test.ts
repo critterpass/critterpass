@@ -1,5 +1,5 @@
 /**
- * Short money amounts ("Rp 450K" on the add button): the runtime's compact form where it has one,
+ * Short money amounts ("Rp 450k" on the add button): the runtime's compact form where it has one,
  * and the same shape where it does not (Hermes on iOS writes a compact number out in full).
  */
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
@@ -26,7 +26,7 @@ function withoutCompactNotation(): void {
 
 describe('short money amounts', () => {
   it('uses the runtime compact form', () => {
-    expect(formatShort(45_000_000n, 'IDR', 'en')).toBe('Rp 450K');
+    expect(formatShort(45_000_000n, 'IDR', 'en')).toBe('Rp 450k');
     expect(formatShort(108_000_000n, 'IDR', 'en')).toBe('Rp 1.08M');
   });
 
@@ -35,7 +35,7 @@ describe('short money amounts', () => {
     expect(compactNumber('en', 450_000)).toBe('450K');
     expect(compactNumber('en', 1_080_000)).toBe('1.08M');
     expect(compactNumber('en', 2_500_000_000)).toBe('2.5B');
-    expect(formatShort(45_000_000n, 'IDR', 'en')).toBe('Rp 450K');
+    expect(formatShort(45_000_000n, 'IDR', 'en')).toBe('Rp 450k');
   });
 
   it('puts the symbol where the locale does: after the number in Vietnamese', () => {

@@ -9,7 +9,7 @@ import { View } from 'react-native';
 import { PressableScale, Text, TierLabel, usePremiumTheme } from '@/ui/premium';
 
 import type { ProfileModel } from '../../profile/profile-model';
-import { PASS_PAPER, PASS_PAPER_TYPE } from '../pass-paper';
+import { PASS_PAPER, PASS_PAPER_TYPE, paperOf } from '../pass-paper';
 import { PremiumProfileFace } from '../profile/profile-face';
 
 // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS pattern, never copy.
@@ -63,7 +63,7 @@ export function DataPage({
         minHeight: 214,
         borderRadius: th.radius.cardRow,
         padding: th.space.gap14,
-        backgroundColor: th.accent.paper,
+        backgroundColor: paperOf(th),
         experimental_backgroundImage: HATCH,
         boxShadow: th.shadow.card,
         // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS angle, never copy.

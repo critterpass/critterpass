@@ -138,6 +138,7 @@ export function SettingsPremiumScreen({
   const chatty = (
     <View style={{ width: 180 }}>
       <SegmentedControl
+        thumb="ink"
         options={[
           { value: 'quiet', label: t({ id: 'you.premium.chatty.quiet', message: 'Quiet' }) },
           { value: 'normal', label: t({ id: 'you.premium.chatty.normal', message: 'Normal' }) },
@@ -153,6 +154,7 @@ export function SettingsPremiumScreen({
   const plan = model.plan;
   return (
     <PushScreen
+      largeTitle
       title={t({ id: 'you.profile.settings', message: 'Settings' })}
       backLabel={t({ id: 'you.profile.backPass', message: 'Pass' })}
       testID="you-settings"

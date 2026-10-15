@@ -6,6 +6,8 @@ import { format } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 
+import { clockText } from '@/lib/i18n/formats';
+
 import { calendarDate } from '../format';
 import type { EditField, FxLine } from './model';
 
@@ -45,4 +47,32 @@ export function rateText(locale: string, fx: FxLine | null): string | null {
   return on === ''
     ? t({ id: 'money.detail.rateNoDate', message: `Rate 1 ${from} = ${rate} ${to}` })
     : t({ id: 'money.detail.rate', message: `Rate 1 ${from} = ${rate} ${to} on ${on}` });
+}
+
+/**
+ * An expense's day ("Thu, 15 Oct"): its trip-local date, the one Every expense files it under,
+ * whatever zone the phone is in.
+ */
+export function expenseDayText(locale: string, localDate: string): string {
+  const date = calendarDate(localDate);
+  if (Number.isNaN(date.getTime())) return localDate;
+  return format.date(locale, date, {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    timeZone: 'UTC',
+  });
+}
+
+/** When a change was made ("15 Oct, 09:12"), on the trip's clock when it has a zone. */
+export function changeStampText(locale: string, at: string, tz: string | null): string {
+  const date = new Date(at);
+  if (Number.isNaN(date.getTime())) return '';
+  const zone = tz ?? undefined;
+  const day = format.date(locale, date, {
+    day: 'numeric',
+    month: 'short',
+    ...(zone === undefined ? {} : { timeZone: zone }),
+  });
+  return `${day}, ${clockText(locale, date, zone)}`;
 }

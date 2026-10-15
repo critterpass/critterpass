@@ -27,7 +27,7 @@ import { PushScreen } from '@/ui/premium/shell';
 
 import { memberName } from '../data/context';
 import { formatAmount } from '../format';
-import type { SettleRowModel } from '../settle/model';
+import { nettedSummary, type SettleRowModel } from '../settle/model';
 import { usePayoutKindLabel } from '../settle/payout-labels';
 import { useSettle, type SettleState } from '../settle/use-settle';
 import { NothingToSettle, SettleReward } from './components/SettleExtras';
@@ -144,13 +144,22 @@ function Open({ settle }: { readonly settle: Ready }) {
   const { t } = useLingui();
   const guide = useWalletGuide();
   const kindLabel = usePayoutKindLabel();
-  const line = t({
-    id: 'money.premium.netted',
-    message: plural(settle.rows.length, {
-      one: `${settle.expenses} expenses, down to one payment.`,
-      other: `${settle.expenses} expenses, down to # payments.`,
-    }),
-  });
+  const line =
+    nettedSummary(settle.expenses, settle.rows.length) === 'netted'
+      ? t({
+          id: 'money.premium.netted',
+          message: plural(settle.rows.length, {
+            one: `${settle.expenses} expenses, down to one payment.`,
+            other: `${settle.expenses} expenses, down to # payments.`,
+          }),
+        })
+      : t({
+          id: 'money.premium.squarePayments',
+          message: plural(settle.rows.length, {
+            one: 'One payment squares everyone up.',
+            other: '# payments square everyone up.',
+          }),
+        });
   return (
     <View style={{ gap: th.space.gap16 }}>
       <View style={[styles.guideLine, { paddingHorizontal: th.space.titleGutter }]}>

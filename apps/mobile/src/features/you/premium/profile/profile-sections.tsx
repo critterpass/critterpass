@@ -143,11 +143,16 @@ export function ProfileSections(props: ProfileSectionsProps) {
 
       <SectionHead
         title={t({ id: 'you.profile.howYouTravel', message: 'How you travel' })}
-        action={{
-          label: t({ id: 'you.profile.retake', message: 'Retake' }),
-          onPress: props.onRetake,
-          testID: 'you-profile-retake',
-        }}
+        // Retake only once there is something to retake: before that the dashed slot asks.
+        {...(model.tags.length === 0
+          ? {}
+          : {
+              action: {
+                label: t({ id: 'you.profile.retake', message: 'Retake' }),
+                onPress: props.onRetake,
+                testID: 'you-profile-retake',
+              },
+            })}
       />
       <View
         style={{

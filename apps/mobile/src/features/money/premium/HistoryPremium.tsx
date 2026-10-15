@@ -4,7 +4,6 @@
  * day with each day's total in the crew's currency. Rows open the expense; `+` adds one. The days
  * are a virtualised list, so a long trip draws only the days on screen.
  */
-import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useMemo } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
@@ -25,21 +24,11 @@ import {
 import { PushScreen } from '@/ui/premium/shell';
 
 import { groupByDay, type ExpenseItem } from '../data/expense-items';
-import { calendarDate, formatAmount } from '../format';
+import { expenseDayText } from '../expense-detail/detail-copy';
+import { formatAmount } from '../format';
 import { RingedAvatar } from './components/RingedAvatar';
 import { useHistory } from '../history/use-history';
 import { ExpenseRow } from './components/ExpenseRow';
-
-function dayLabel(locale: string, localDate: string): string {
-  const date = calendarDate(localDate);
-  if (Number.isNaN(date.getTime())) return localDate;
-  return format.date(locale, date, {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'short',
-    timeZone: 'UTC',
-  });
-}
 
 function dayTotal(items: readonly ExpenseItem[]): bigint {
   return items.reduce((sum, item) => sum + (item.crewAmountMinor ?? 0n), 0n);
@@ -148,7 +137,7 @@ export function HistoryPremium() {
           <View style={{ gap: th.space.gap8 }}>
             <View style={[styles.dayHead, { paddingHorizontal: th.space.titleGutter }]}>
               <Text variant="label" tone="muted">
-                {dayLabel(locale, group.localDate)}
+                {expenseDayText(locale, group.localDate)}
               </Text>
               <Text variant="label" tone="muted" style={styles.tabular}>
                 {formatAmount(dayTotal(group.items), history.currency, locale)}

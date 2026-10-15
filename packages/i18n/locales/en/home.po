@@ -277,6 +277,10 @@ msgstr "Critterdex"
 msgid "home.premium.countdown.dayLetter"
 msgstr "d"
 
+#: ../../apps/mobile/src/features/home/premium/trips/trip-mini-card.tsx
+msgid "home.premium.trips.datesToVote"
+msgstr "Dates to vote"
+
 #: ../../apps/mobile/src/features/home/premium/components/countdown-pill.tsx
 msgid "home.countdown.day"
 msgstr "Day {day}"
@@ -476,6 +480,10 @@ msgstr "Next: {next}"
 msgid "home.premium.trips.ponNote"
 msgstr "No crew yet? I can show you around a place while you decide."
 
+#: ../../apps/mobile/src/features/home/premium/trips/trip-mini-card.tsx
+msgid "home.premium.trips.noDates"
+msgstr "No dates yet"
+
 #: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.noSpacePhrases"
 msgstr "No room on the phone for phrase cards"
@@ -519,6 +527,10 @@ msgstr "Nothing needs you. Tokek’s having a nap."
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "inbox.premium.settings"
 msgstr "Notification settings"
+
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
+msgid "inbox.premium.notificationsOn"
+msgstr "Notifications are on: your phone tells you when something lands."
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-card.tsx
 msgid "home.inbox.action.nudge"
@@ -586,7 +598,7 @@ msgstr "Recap ready"
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
 msgid "inbox.premium.example.reply"
-msgstr "Replies due Sep 30"
+msgstr "Replies due 30 Sep"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.ideasPlaced.open"

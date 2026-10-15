@@ -9,17 +9,8 @@ import { useState } from 'react';
 import { Linking, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { PrivateContent } from '@/features/help';
-import { guideCritterKind, turn } from '@/features/trip';
-import {
-  Button,
-  GuideNote,
-  PressableScale,
-  Text,
-  TextField,
-  usePremiumTheme,
-  useToast,
-} from '@/ui/premium';
+import { guideCritterKind } from '@/features/trip';
+import { Button, GuideNote, Text, TextField, usePremiumTheme, useToast } from '@/ui/premium';
 import {
   confirmAlert,
   KeyboardAwareScroll,
@@ -32,60 +23,9 @@ import { useWalletGuide } from '../data/wallet-guide';
 import { useInsuranceForm } from '../insurance/use-insurance-form';
 import { KeyValueCard } from './components/KeyValueCard';
 
-export function PolicyCard(props: {
-  readonly provider: string;
-  readonly policyNo: string;
-  readonly onPress: () => void;
-}) {
-  const th = usePremiumTheme();
-  const { t } = useLingui();
-  const white = th.accent.paper;
-  // The design's blue card: the rain text colour into the sky accent.
-  const fill = [
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, not copy
-    'linear-gradient(135deg',
-    `${th.color.status.rain.text},`,
-    `${th.accent.sky})`,
-  ].join(' ');
-  return (
-    <PressableScale
-      onPress={props.onPress}
-      accessibilityRole="button"
-      accessibilityLabel={[props.provider, props.policyNo].join(', ')}
-      accessibilityHint={t({ id: 'bookings.insurance.editHint', message: 'Edits the policy' })}
-      testID="bookings-insurance-card"
-    >
-      <View
-        style={[
-          styles.card,
-          {
-            borderRadius: th.radius.cardRow,
-            boxShadow: th.shadow.photo,
-            transform: [turn(-3)],
-            backgroundImage: fill,
-          },
-        ]}
-      >
-        <Text variant="tier" color={white} style={styles.eyebrow}>
-          {t({ id: 'bookings.premium.insuranceEyebrow', message: 'TRAVEL INSURANCE' })}
-        </Text>
-        <Text variant="stat" color={white} style={styles.provider} numberOfLines={1}>
-          {props.provider}
-        </Text>
-        <View style={styles.fields}>
-          <Text variant="badge" color={white} style={styles.fieldLabel}>
-            {t({ id: 'bookings.premium.policyNoEyebrow', message: 'POLICY NO.' })}
-          </Text>
-          <PrivateContent>
-            <Text variant="mono" color={white} numberOfLines={1}>
-              {props.policyNo}
-            </Text>
-          </PrivateContent>
-        </View>
-      </View>
-    </PressableScale>
-  );
-}
+import { PolicyCard } from './components/policy-card';
+
+export { PolicyCard };
 
 export function InsurancePremium() {
   const th = usePremiumTheme();
@@ -189,13 +129,58 @@ export function InsurancePremium() {
   }
 
   const phone = existing.assistance_phone;
+  const actions = (
+    <View style={styles.pair}>
+      {form.canScan ? (
+        <View style={styles.flex}>
+          <Button
+            label={t({ id: 'bookings.insurance.scan', message: 'Scan the policy' })}
+            variant="secondary"
+            loading={form.doc === 'scanning'}
+            onPress={() => void form.scan()}
+            testID="bookings-insurance-rescan"
+          />
+        </View>
+      ) : null}
+      <View style={styles.flex}>
+        <Button
+          label={t({ id: 'bookings.insurance.delete', message: 'Delete policy' })}
+          variant="destructive"
+          onPress={() =>
+            void confirmAlert({
+              title: t({
+                id: 'bookings.insurance.deleteTitle',
+                message: 'Delete this policy?',
+              }),
+              message: t({
+                id: 'bookings.insurance.deleteLine',
+                message: 'It leaves this phone and Help stops showing it.',
+              }),
+              confirm: t({ id: 'bookings.insurance.delete', message: 'Delete policy' }),
+              cancel: t({ id: 'bookings.options.cancel', message: 'Cancel' }),
+            }).then((yes) => {
+              if (yes) void form.remove();
+            })
+          }
+          testID="bookings-insurance-delete"
+        />
+      </View>
+    </View>
+  );
   return (
-    <PushScreen largeTitle title={title} backLabel={backLabel} testID="bookings-insurance">
+    <PushScreen
+      largeTitle
+      title={title}
+      backLabel={backLabel}
+      footer={actions}
+      testID="bookings-insurance"
+    >
       <View style={[styles.read, { gap: th.space.gap16 }]}>
         <View style={{ paddingHorizontal: th.space.titleGutter, paddingVertical: th.space.gap12 }}>
           <PolicyCard
             provider={existing.provider}
             policyNo={existing.policy_no}
+            phone={existing.assistance_phone}
             onPress={() => setEditing(true)}
           />
         </View>
@@ -252,42 +237,6 @@ export function InsurancePremium() {
             })}
           />
         </View>
-        <View style={[styles.pair, { paddingHorizontal: th.space.gutter }]}>
-          {form.canScan ? (
-            <View style={styles.flex}>
-              <Button
-                label={t({ id: 'bookings.insurance.scan', message: 'Scan the policy' })}
-                variant="secondary"
-                loading={form.doc === 'scanning'}
-                onPress={() => void form.scan()}
-                testID="bookings-insurance-rescan"
-              />
-            </View>
-          ) : null}
-          <View style={styles.flex}>
-            <Button
-              label={t({ id: 'bookings.insurance.delete', message: 'Delete policy' })}
-              variant="destructive"
-              onPress={() =>
-                void confirmAlert({
-                  title: t({
-                    id: 'bookings.insurance.deleteTitle',
-                    message: 'Delete this policy?',
-                  }),
-                  message: t({
-                    id: 'bookings.insurance.deleteLine',
-                    message: 'It leaves this phone and Help stops showing it.',
-                  }),
-                  confirm: t({ id: 'bookings.insurance.delete', message: 'Delete policy' }),
-                  cancel: t({ id: 'bookings.options.cancel', message: 'Cancel' }),
-                }).then((yes) => {
-                  if (yes) void form.remove();
-                })
-              }
-              testID="bookings-insurance-delete"
-            />
-          </View>
-        </View>
       </View>
     </PushScreen>
   );
@@ -296,11 +245,6 @@ export function InsurancePremium() {
 const styles = StyleSheet.create({
   form: { gap: 12, paddingTop: 12 },
   read: { paddingTop: 4 },
-  card: { height: 200, paddingVertical: 18, paddingHorizontal: 20 },
-  eyebrow: { opacity: 0.8, letterSpacing: 0.9 },
-  provider: { marginTop: 6 },
-  fields: { marginTop: 'auto', gap: 2 },
-  fieldLabel: { opacity: 0.7, letterSpacing: 0.8 },
   pair: { flexDirection: 'row', gap: 8 },
   flex: { flex: 1 },
 });

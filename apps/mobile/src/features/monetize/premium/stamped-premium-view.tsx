@@ -3,7 +3,6 @@
  * on it (1.07: fall, squash, ink ring, confetti, a heavy tap), Pon cheers, the perks pop in, and
  * the split card says who owes what. Plays once. Until the server confirms, the page waits.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- colour values, never copy. */
 import { format, upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
@@ -32,6 +31,7 @@ import { PerkChip } from './components/perk-chip';
 import { PopIn } from './components/pop-in';
 import { StampSlam } from './components/stamp-slam';
 import { MONETIZE_INK, PAPER } from './monetize-palette';
+import { paperGrain } from './repeating-gradient';
 
 const PAPER_MUTED = PAPER.muted;
 
@@ -237,8 +237,7 @@ export function StampedPremiumView({
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    experimental_backgroundImage:
-      'repeating-linear-gradient(115deg, rgba(23,20,42,0.035) 0 1px, transparent 1px 6px)',
+    experimental_backgroundImage: paperGrain(1000),
   },
   content: { paddingHorizontal: 24, gap: 14 },
   header: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 },

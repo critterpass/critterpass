@@ -110,31 +110,35 @@ export function CoverPicker({
       style={styles.coverStrip}
       testID={testID}
     >
-      {options.map((option) => {
-        const on = option.cover === value;
-        return (
-          <PressableScale
-            key={option.cover}
-            accessibilityRole="radio"
-            accessibilityState={{ selected: on, disabled: option.locked }}
-            accessibilityLabel={coverName(option.cover)}
-            onPress={() => (option.locked ? onLocked(option.cover) : onPick(option.cover))}
-            testID={`${testID ?? 'cover'}-${option.cover}`}
-            style={[
-              styles.book,
-              { backgroundColor: option.fill },
-              option.locked && { opacity: 0.45 },
-              on && {
-                transform: [{ translateY: -8 }, { rotate: '-4deg' }],
-                boxShadow: `${ring(3, th.color.ground)}, ${ring(5, th.color.ink)}`,
-              },
-            ]}
-          >
-            {option.locked ? <Icon name="lock" size={14} color={th.accent.stickerEdge} /> : null}
-            {on ? <Check /> : null}
-          </PressableScale>
-        );
-      })}
+      {/* The six free covers fill the row as the design sets it; an earned cover joins them once
+          it is unlocked (and one already on the crew always shows). */}
+      {options
+        .filter((option) => !option.locked || option.cover === value)
+        .map((option) => {
+          const on = option.cover === value;
+          return (
+            <PressableScale
+              key={option.cover}
+              accessibilityRole="radio"
+              accessibilityState={{ selected: on, disabled: option.locked }}
+              accessibilityLabel={coverName(option.cover)}
+              onPress={() => (option.locked ? onLocked(option.cover) : onPick(option.cover))}
+              testID={`${testID ?? 'cover'}-${option.cover}`}
+              style={[
+                styles.book,
+                { backgroundColor: option.fill },
+                option.locked && { opacity: 0.45 },
+                on && {
+                  transform: [{ translateY: -8 }, { rotate: '-4deg' }],
+                  boxShadow: `${ring(3, th.color.ground)}, ${ring(5, th.color.ink)}`,
+                },
+              ]}
+            >
+              {option.locked ? <Icon name="lock" size={14} color={th.accent.stickerEdge} /> : null}
+              {on ? <Check /> : null}
+            </PressableScale>
+          );
+        })}
     </ScrollRow>
   );
 }

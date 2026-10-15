@@ -169,7 +169,13 @@ export function PremiumCodePage() {
         </View>
       ) : null}
       {entry.wrong ? (
-        <Text variant="helper" color={theme.color.destructive.helper} testID="invite-code-wrong">
+        <Text
+          variant="helper"
+          color={theme.color.destructive.helper}
+          textBreakStrategy="balanced"
+          lineBreakStrategyIOS="push-out"
+          testID="invite-code-wrong"
+        >
           {t({
             id: 'onboarding.premium.code.wrong',
             message: 'No crew uses that code. Check each one: codes never use 0, O, 1, I, L or U.',
@@ -184,6 +190,8 @@ export function PremiumCodePage() {
       {entry.found && problem === null ? (
         <Animated.View
           {...(reduced ? {} : { entering: FadeInDown.springify() })}
+          // With no "Pasted from" line between, the card keeps the sticker off the code boxes.
+          style={entry.pastedFrom === null ? { marginTop: theme.space.gap16 } : null}
           testID="invite-code-found"
         >
           <View
@@ -255,7 +263,7 @@ export function PremiumCodePage() {
               </Text>
             </View>
           </View>
-          <View pointerEvents="none" style={{ position: 'absolute', right: -6, top: -38 }}>
+          <View pointerEvents="none" style={{ position: 'absolute', right: -6, top: -30 }}>
             <CritterSticker kind={guide.kind} name={guide.name} size={86} pose="wave" />
           </View>
         </Animated.View>

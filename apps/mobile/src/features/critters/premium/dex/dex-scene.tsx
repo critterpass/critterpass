@@ -62,7 +62,7 @@ function CountBlock({ props }: { readonly props: DexViewProps }) {
           <Text variant="hero" tone="placeholder">{`/${String(model.total)}`}</Text>
         </Text>
         {/* The places tag tops the count's right side, the crewmate's count under it (8.01). */}
-        <View style={{ alignItems: 'flex-end', alignSelf: 'flex-start', gap: 6, paddingTop: 6 }}>
+        <View style={{ alignItems: 'flex-end', alignSelf: 'flex-start', gap: 6 }}>
           <Tag
             label={placesLabel(model.placesFound, model.placesTotal)}
             color={th.accent.pink}

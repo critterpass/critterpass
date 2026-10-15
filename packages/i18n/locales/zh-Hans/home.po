@@ -277,6 +277,10 @@ msgstr ""
 msgid "home.premium.countdown.dayLetter"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/trips/trip-mini-card.tsx
+msgid "home.premium.trips.datesToVote"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/premium/components/countdown-pill.tsx
 msgid "home.countdown.day"
 msgstr ""
@@ -476,6 +480,10 @@ msgstr ""
 msgid "home.premium.trips.ponNote"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/premium/trips/trip-mini-card.tsx
+msgid "home.premium.trips.noDates"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/offline-line.ts
 msgid "home.offline.noSpacePhrases"
 msgstr "手机空间不足，无法保存常用语卡片"
@@ -518,6 +526,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-premium-screen.tsx
 msgid "inbox.premium.settings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/premium/inbox/inbox-first-time.tsx
+msgid "inbox.premium.notificationsOn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/premium/inbox/inbox-card.tsx

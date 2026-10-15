@@ -178,7 +178,14 @@ export function PassPaper({
           ]}
         >
           {facts.mrz.map((line) => (
-            <Text key={line} variant="mono" color={PAPER_INK.label} numberOfLines={1}>
+            <Text
+              key={line}
+              variant="mono"
+              color={PAPER_INK.label}
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.6}
+            >
               {line}
             </Text>
           ))}

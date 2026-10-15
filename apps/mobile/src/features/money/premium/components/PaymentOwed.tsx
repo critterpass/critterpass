@@ -1,6 +1,6 @@
 /**
  * The payee's side of a payment (7.26): the steps so far as a timeline (asked, marked paid, you
- * confirm), the guide's note while it waits on you, then request, "I got it", nudge or "It didn't
+ * confirm, balances re-count), the guide's note while it waits on you, then request, "I got it", nudge or "It didn't
  * arrive" (asked first: it tells a crewmate their payment is disputed).
  */
 import { useLingui } from '@lingui/react/macro';
@@ -55,7 +55,10 @@ export function PaymentOwed({ pay }: { readonly pay: Ready }) {
   const steps = [
     {
       key: 'asked',
-      title: t({ id: 'money.premium.stepAsked', message: `You asked ${fromName}` }),
+      // Until it is asked the first step is the ask itself, the one "Request it" makes.
+      title: asked
+        ? t({ id: 'money.premium.stepAsked', message: `You asked ${fromName}` })
+        : t({ id: 'money.premium.stepAsk', message: `Ask ${fromName} for it` }),
       done: asked,
     },
     {
@@ -66,6 +69,11 @@ export function PaymentOwed({ pay }: { readonly pay: Ready }) {
     {
       key: 'confirm',
       title: t({ id: 'money.premium.stepConfirm', message: 'You confirm it landed' }),
+      done: confirmed,
+    },
+    {
+      key: 'recount',
+      title: t({ id: 'money.premium.stepRecount', message: 'Balances re-count' }),
       done: confirmed,
     },
   ];

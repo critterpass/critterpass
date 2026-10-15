@@ -225,8 +225,10 @@ const styles = StyleSheet.create({
   notch: { position: 'absolute', width: 24, height: 24, borderRadius: 12, top: 0 },
   notchLeft: { left: -12 },
   notchRight: { right: -12 },
-  stub: { flexDirection: 'row', paddingTop: 12, paddingHorizontal: 18, paddingBottom: 16, gap: 6 },
-  cell: { flex: 1 },
+  stub: { flexDirection: 'row', paddingTop: 12, paddingHorizontal: 18, paddingBottom: 16, gap: 12 },
+  // Each column grows from its own label's width, so a long one ("LÊN MÁY BAY") never runs into
+  // the next.
+  cell: { flexGrow: 1, flexShrink: 1 },
   cellHead: { flexDirection: 'row', alignItems: 'center', gap: 3 },
   caps: { letterSpacing: 0.8 },
   stubValue: { marginTop: 2 },

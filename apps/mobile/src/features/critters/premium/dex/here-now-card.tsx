@@ -18,7 +18,7 @@ import {
 
 import { artKind } from '../../art-kind';
 import { unknownName } from '../../critters-copy';
-import { formsOf, hereNowTitle, nextFormHint } from '../../dex/dex-copy';
+import { formsCount, formsOf, hereNowTitle, nextFormHint } from '../../dex/dex-copy';
 import type { HereNowModel } from '../../dex/dex-model';
 import { CritterSilhouette } from '../components/critter-silhouette';
 import { layered, ring } from '../components/scrims';
@@ -41,6 +41,8 @@ const useStyles = makePremiumStyles((th) => ({
     backgroundColor: th.color.card,
     boxShadow: layered(ring(2, th.accent.sun), th.shadow.raised),
   },
+  head: { flexDirection: 'row', alignItems: 'baseline', gap: 8 },
+  title: { flex: 1, minWidth: 0 },
   grid: { flexDirection: 'row', justifyContent: 'space-between' },
   form: { alignItems: 'center', gap: 4 },
   foot: { borderTopWidth: th.size.hairline, borderTopColor: th.color.hairline, paddingTop: 10 },
@@ -62,10 +64,15 @@ export function HereNowCard({
   const kind = artKind(critter.key);
   return (
     <View style={styles.card} testID="critters-here-now">
-      <View>
-        <Text variant="headline">{hereNowTitle(here.place)}</Text>
-        <Text variant="captionMuted" tone="muted">
-          {formsOf(name, found, forms.length)}
+      {/* Until the critter is met its name stays unsaid: only the count shows. */}
+      <View style={styles.head}>
+        <Text variant="headline" style={styles.title} numberOfLines={1}>
+          {hereNowTitle(here.place)}
+        </Text>
+        <Text variant="captionMuted" tone="muted" numberOfLines={1}>
+          {critter.name === null
+            ? formsCount(found, forms.length)
+            : formsOf(critter.name, found, forms.length)}
         </Text>
       </View>
       <View style={styles.grid}>

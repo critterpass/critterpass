@@ -31,6 +31,11 @@ msgstr ""
 msgid "money.premium.reward"
 msgstr ""
 
+#. placeholder {0}: settle.rows.length
+#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
+msgid "money.premium.squarePayments"
+msgstr ""
+
 #. placeholder {0}: share.name
 #: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
 msgid "money.premium.payerShare"
@@ -66,7 +71,7 @@ msgstr ""
 msgid "money.premium.sharesOf"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.premium.detail.addedBy"
 msgstr ""
 
@@ -82,15 +87,15 @@ msgstr ""
 msgid "money.add.each"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.changedBy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.deletedBy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.editedBy"
 msgstr ""
 
@@ -270,6 +275,10 @@ msgstr ""
 msgid "money.queued.editExpense"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/premium/components/PaymentOwed.tsx
+msgid "money.premium.stepAsk"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/settle/command-copy.ts
 msgid "money.pay.requested"
 msgstr ""
@@ -296,6 +305,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/balances/use-settlement-currency.ts
 msgid "money.currency.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/premium/components/PaymentOwed.tsx
+msgid "money.premium.stepRecount"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/settle/payout-labels.ts
@@ -368,7 +381,7 @@ msgstr ""
 msgid "money.premium.raiseBudget"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.history"
 msgstr ""
 

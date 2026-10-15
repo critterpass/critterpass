@@ -119,3 +119,11 @@ export function openCount(rows: readonly SettleRowModel[]): number {
 export function canRemind(rows: readonly SettleRowModel[]): boolean {
   return rows.some((row) => row.role === 'payee' && row.status !== 'confirmed');
 }
+
+/**
+ * How the guide sums up the plan: "23 expenses, down to three payments" only when netting really
+ * cut the count; otherwise just the payments that square everyone ("5 payments square everyone").
+ */
+export function nettedSummary(expenses: number, payments: number): 'netted' | 'payments' {
+  return payments < expenses ? 'netted' : 'payments';
+}

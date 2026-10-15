@@ -31,6 +31,11 @@ msgstr "{0, plural, one {# item, filter by person} other {# items, filter by per
 msgid "money.premium.reward"
 msgstr "{0, plural, one {One more payment and all {1} of you get the {reward}.} other {# more payments and all {2} of you get the {reward}.}}"
 
+#. placeholder {0}: settle.rows.length
+#: ../../apps/mobile/src/features/money/premium/SettlePremium.tsx
+msgid "money.premium.squarePayments"
+msgstr "{0, plural, one {One payment squares everyone up.} other {# payments square everyone up.}}"
+
 #. placeholder {0}: share.name
 #: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
 msgid "money.premium.payerShare"
@@ -66,7 +71,7 @@ msgstr "{0}'s amount"
 msgid "money.premium.sharesOf"
 msgstr "{0}'s shares"
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.premium.detail.addedBy"
 msgstr "{adder} added it · {addedOn}"
 
@@ -82,15 +87,15 @@ msgstr "{count, plural, one {{guideName} read # line} other {{guideName} read # 
 msgid "money.add.each"
 msgstr "{each} each"
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.changedBy"
 msgstr "{editor} changed {what} · {on}"
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.deletedBy"
 msgstr "{editor} deleted it · {on}"
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.editedBy"
 msgstr "{editor} edited it · {on}"
 
@@ -270,6 +275,10 @@ msgstr "Amount paid"
 msgid "money.queued.editExpense"
 msgstr "An expense edit"
 
+#: ../../apps/mobile/src/features/money/premium/components/PaymentOwed.tsx
+msgid "money.premium.stepAsk"
+msgstr "Ask {fromName} for it"
+
 #: ../../apps/mobile/src/features/money/settle/command-copy.ts
 msgid "money.pay.requested"
 msgstr "Asked {who} to pay."
@@ -297,6 +306,10 @@ msgstr "Back to the recap"
 #: ../../apps/mobile/src/features/money/balances/use-settlement-currency.ts
 msgid "money.currency.done"
 msgstr "Balances now in {currency}"
+
+#: ../../apps/mobile/src/features/money/premium/components/PaymentOwed.tsx
+msgid "money.premium.stepRecount"
+msgstr "Balances re-count"
 
 #: ../../apps/mobile/src/features/money/settle/payout-labels.ts
 msgid "money.payout.field.bank"
@@ -368,7 +381,7 @@ msgstr "Category"
 msgid "money.premium.raiseBudget"
 msgstr "Change the budget"
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.history"
 msgstr "Changes"
 

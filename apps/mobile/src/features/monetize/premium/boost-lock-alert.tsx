@@ -75,8 +75,10 @@ export function BoostLockAlert({
                 width: 76,
                 height: 76,
                 borderRadius: 38,
-                // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never copy.
-                experimental_backgroundImage: `conic-gradient(${th.accent.pink} 0 30%, transparent 30% 100%)`,
+                // A quarter arc of the ring, spinning (React Native paints no conic gradient).
+                borderWidth: 3,
+                borderColor: 'transparent',
+                borderTopColor: th.accent.pink,
               },
               spin,
             ]}

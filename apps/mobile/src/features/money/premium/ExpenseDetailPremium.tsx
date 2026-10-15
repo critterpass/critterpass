@@ -4,7 +4,6 @@
  * sync), who owes what (by room for a stay split by room; the payer's row in green with what they get back, a left-out row faded),
  * the changes as a timeline, then Edit and Delete for whoever may change it. Delete asks once.
  */
-import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { StyleSheet, View } from 'react-native';
 
@@ -25,10 +24,11 @@ import {
 import { confirmAlert, PushScreen } from '@/ui/premium/shell';
 
 import { useCategoryLabel } from '../components/category';
-import { rateText, useFieldLabel } from '../expense-detail/detail-copy';
+import { expenseDayText, rateText } from '../expense-detail/detail-copy';
 import { useExpenseDetail, type ExpenseDetail } from '../expense-detail/use-expense-detail';
 import { formatAmount, formatAmountShown } from '../format';
 import { categoryLook } from './components/category-look';
+import { ExpenseChanges as Changes } from './components/ExpenseChanges';
 import { RoomSplitSection } from './components/RoomSplitSection';
 
 type Ready = Extract<ExpenseDetail, { kind: 'ready' }>;
@@ -95,50 +95,6 @@ function Shares({ detail }: { readonly detail: Ready }) {
   );
 }
 
-function Changes({ detail }: { readonly detail: Ready }) {
-  const th = usePremiumTheme();
-  const { t } = useLingui();
-  const locale = useLocale();
-  const fieldLabel = useFieldLabel();
-  const added = detail.added;
-  if (detail.history.length === 0 && added === null) return null;
-  const adder = added?.name ?? '';
-  const addedOn =
-    added === null
-      ? ''
-      : format.date(locale, new Date(added.at), { day: 'numeric', month: 'short' });
-  return (
-    <View style={{ gap: th.space.gap8, paddingHorizontal: th.space.titleGutter }}>
-      <Text variant="label" tone="muted">
-        {t({ id: 'money.detail.history', message: 'Changes' })}
-      </Text>
-      <View style={[styles.timeline, { borderLeftColor: th.color.fieldBorder }]}>
-        {detail.history.map((edit) => {
-          const on = format.date(locale, new Date(edit.at), { day: 'numeric', month: 'short' });
-          const editor = edit.editorName;
-          const what = format.list(locale, edit.fields.map(fieldLabel));
-          const line =
-            edit.kind === 'deleted'
-              ? t({ id: 'money.detail.deletedBy', message: `${editor} deleted it · ${on}` })
-              : what === ''
-                ? t({ id: 'money.detail.editedBy', message: `${editor} edited it · ${on}` })
-                : t({ id: 'money.detail.changedBy', message: `${editor} changed ${what} · ${on}` });
-          return (
-            <Text key={edit.id} variant="caption" testID={`money-detail-edit-${edit.id}`}>
-              {line}
-            </Text>
-          );
-        })}
-        {added === null ? null : (
-          <Text variant="caption" testID="money-detail-added">
-            {t({ id: 'money.premium.detail.addedBy', message: `${adder} added it · ${addedOn}` })}
-          </Text>
-        )}
-      </View>
-    </View>
-  );
-}
-
 export function ExpenseDetailPremium({
   expenseId,
   tripId = null,
@@ -181,14 +137,7 @@ export function ExpenseDetailPremium({
     item.crewAmountMinor !== null && item.currency !== currency
       ? `≈ ${formatAmount(item.crewAmountMinor, currency, locale)}`
       : null;
-  const when =
-    item.spentAt === ''
-      ? ''
-      : format.date(locale, new Date(item.spentAt), {
-          weekday: 'short',
-          day: 'numeric',
-          month: 'short',
-        });
+  const when = item.localDate === '' ? '' : expenseDayText(locale, item.localDate);
   const sub = [
     converted,
     payer === '' ? null : t({ id: 'money.row.paid', message: `${payer} paid` }),
@@ -267,8 +216,9 @@ export function ExpenseDetailPremium({
               )}
             </PrivateContent>
           </View>
-          <View style={{ transform: [turn(8)] }}>
-            <StickerIcon name={look.icon} size={64} tile={look.bg} />
+          {/* The bare sticker leaning back, as the design draws it (no tile behind it). */}
+          <View style={{ transform: [turn(-10)] }}>
+            <StickerIcon name={look.icon} size={72} />
           </View>
         </View>
         <View style={[styles.tags, { paddingHorizontal: th.space.titleGutter }]}>
@@ -309,6 +259,5 @@ const styles = StyleSheet.create({
   },
   faded: { opacity: 0.5 },
   tabular: { fontVariant: ['tabular-nums'] },
-  timeline: { borderLeftWidth: 2, paddingLeft: 14, gap: 10 },
   pair: { flexDirection: 'row', gap: 8 },
 });

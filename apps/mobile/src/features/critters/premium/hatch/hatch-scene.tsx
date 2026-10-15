@@ -142,12 +142,13 @@ export function PremiumHatchScene(props: HatchViewProps) {
           </Text>
         </View>
         <View style={styles.stage}>
-          {/* The halves stand either side of the critter, clear of it, as the design parts them. */}
-          <View style={[styles.half, { left: 0, bottom: 34 }]}>
-            <EggHalf size={84} tilt={revealed ? -22 : -6} />
+          {/* The halves sit low by the stage's middle as the egg cracks (8.05), then part to the
+              critter's feet either side of it: never out at the screen's edges. */}
+          <View style={[styles.half, { bottom: 6, marginLeft: -(revealed ? 128 : 66) }]}>
+            <EggHalf size={76} tilt={revealed ? -22 : -6} />
           </View>
-          <View style={[styles.half, { right: 0, bottom: 30 }]}>
-            <EggHalf size={80} tilt={revealed ? 24 : 6} />
+          <View style={[styles.half, { bottom: 2, marginLeft: revealed ? 74 : 12 }]}>
+            <EggHalf size={72} tilt={revealed ? 24 : 6} />
           </View>
           {revealed && props.critterKey !== null ? (
             <Hop ms={2400}>
@@ -189,7 +190,13 @@ export function PremiumHatchScene(props: HatchViewProps) {
               </View>
             )}
             {props.pending ? (
-              <Text variant="captionMuted" tone="muted" testID="critters-hatch-pending">
+              <Text
+                variant="captionMuted"
+                tone="muted"
+                align="center"
+                style={styles.pending}
+                testID="critters-hatch-pending"
+              >
                 {pendingNote()}
               </Text>
             ) : null}
@@ -216,8 +223,10 @@ const styles = StyleSheet.create({
   column: { flex: 1, alignItems: 'center', paddingHorizontal: 24 },
   chip: { height: 30, paddingHorizontal: 12, borderRadius: 15, justifyContent: 'center' },
   stage: { width: '100%', height: 280, alignItems: 'center', justifyContent: 'flex-end' },
-  half: { position: 'absolute' },
+  half: { position: 'absolute', left: '50%' },
   tag: { marginTop: 28 },
-  words: { alignItems: 'center', gap: 8, marginTop: 8 },
+  // The eyebrow keeps clear of the critter's feet, the tilted tag of the note under it.
+  words: { alignItems: 'center', gap: 8, marginTop: 16 },
+  pending: { marginTop: 10 },
   foot: { paddingHorizontal: 20, gap: 10, alignItems: 'stretch' },
 });

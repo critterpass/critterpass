@@ -58,7 +58,13 @@ export function EggCard({
       <CritterSticker kind="egg" name={egg.place} size={56} pose="idle" />
       <View style={{ flex: 1, gap: 4 }}>
         <Text variant="rowTitle">{copy.title}</Text>
-        <Text variant="captionMuted" tone="muted">
+        {/* Balanced, so the line never ends on a lone "are." */}
+        <Text
+          variant="captionMuted"
+          tone="muted"
+          textBreakStrategy="balanced"
+          lineBreakStrategyIOS="push-out"
+        >
           {copy.body}
         </Text>
         {copy.cta === null ? null : (

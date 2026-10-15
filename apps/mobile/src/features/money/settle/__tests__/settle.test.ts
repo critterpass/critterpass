@@ -4,7 +4,7 @@ import { describe, expect, it } from '@jest/globals';
 import { SYNCED_TABLE_COLUMNS } from '@/data/powersync/synced-tables.generated';
 
 import type { PaymentRow } from '../../data/queries';
-import { actionsFor, canRemind, openCount, settleRows } from '../model';
+import { actionsFor, canRemind, nettedSummary, openCount, settleRows } from '../model';
 import { payoutQr } from '../payout-qr';
 
 const now = new Date('2026-10-15T12:00:00Z');
@@ -156,5 +156,13 @@ describe('payout details stay off the device', () => {
     expect(Object.values(SYNCED_TABLE_COLUMNS).join(' ')).not.toMatch(
       /details_enc|account_number/u,
     );
+  });
+});
+
+describe('the settle summary', () => {
+  it('says the expenses came down only when there are fewer payments than expenses', () => {
+    expect(nettedSummary(23, 3)).toBe('netted');
+    expect(nettedSummary(3, 5)).toBe('payments');
+    expect(nettedSummary(4, 4)).toBe('payments');
   });
 });

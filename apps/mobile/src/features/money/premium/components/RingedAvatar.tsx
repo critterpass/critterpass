@@ -23,7 +23,7 @@ export function RingedAvatar(props: {
   readonly dimmed: boolean;
 }) {
   const th = usePremiumTheme();
-  const dim = th.scheme === 'dark' ? 0.7 : 0.45;
+  const dim = th.scheme === 'dark' ? 0.5 : 0.45;
   return (
     <View style={[styles.box, props.dimmed && !props.ringed ? { opacity: dim } : null]}>
       <View

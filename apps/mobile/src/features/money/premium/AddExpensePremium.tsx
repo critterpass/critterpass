@@ -31,7 +31,7 @@ import { sharesByMember, type SplitEditorMode } from '../add-expense/draft';
 import { useAddExpense } from '../add-expense/use-add-expense';
 import { CATEGORY_ORDER, useCategoryLabel } from '../components/category';
 import { MONEY_FALLBACK } from '../routes';
-import { formatPlain, symbolOf } from '../format';
+import { formatPlain, symbolOf, symbolTrails } from '../format';
 import { AddExpenseWaiting } from './components/AddExpenseWaiting';
 import { AmountKeypad } from './components/AmountKeypad';
 import { ChoiceStrip } from './components/ChoiceStrip';
@@ -95,6 +95,22 @@ export function AddExpensePremium(props: {
     { value: 'fixed', label: t({ id: 'money.premium.custom', message: 'Custom' }) },
   ];
   const toggle = (next: Open) => setOpen((current) => (current === next ? null : next));
+  const currencyMark = (
+    <PressableScale
+      onPress={() => toggle('currency')}
+      hitSlop={SMALL_TARGET}
+      accessibilityRole="button"
+      accessibilityLabel={t({
+        id: 'money.premium.currency',
+        message: `Currency, ${draft.currency}`,
+      })}
+      testID="money-add-currency"
+    >
+      <Text variant="display" tone="placeholder" style={styles.mark}>
+        {symbolOf(draft.currency)}
+      </Text>
+    </PressableScale>
+  );
   return (
     <FullScreen closeLabel={closeLabel} overPhoto={false} onClose={close} testID="money-add">
       <View
@@ -140,20 +156,7 @@ export function AddExpensePremium(props: {
         >
           <View style={styles.amount}>
             <View style={styles.amountRow}>
-              <PressableScale
-                onPress={() => toggle('currency')}
-                hitSlop={SMALL_TARGET}
-                accessibilityRole="button"
-                accessibilityLabel={t({
-                  id: 'money.premium.currency',
-                  message: `Currency, ${draft.currency}`,
-                })}
-                testID="money-add-currency"
-              >
-                <Text variant="display" tone="placeholder" style={styles.mark}>
-                  {symbolOf(draft.currency)}
-                </Text>
-              </PressableScale>
+              {symbolTrails(draft.currency, locale) ? null : currencyMark}
               <Text
                 variant="hero"
                 numberOfLines={1}
@@ -164,6 +167,7 @@ export function AddExpensePremium(props: {
               >
                 {amount}
               </Text>
+              {symbolTrails(draft.currency, locale) ? currencyMark : null}
             </View>
             {state.labels.approx === undefined ? null : (
               <Text variant="rowText" tone="muted">
@@ -288,7 +292,7 @@ const styles = StyleSheet.create({
   flex: { flex: 1, minWidth: 0 },
   top: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 44 },
   amount: { alignItems: 'center', gap: 2, paddingHorizontal: 20 },
-  // The currency mark about half the digits' height, raised to their top (7.18).
+  // The mark at half the digits' height, raised to their top, on the side the locale writes it.
   amountRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 6 },
   mark: { marginTop: 12 },
   tabular: { fontVariant: ['tabular-nums'] },

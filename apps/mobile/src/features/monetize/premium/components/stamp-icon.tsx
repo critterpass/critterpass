@@ -28,7 +28,8 @@ export interface StampIconProps {
   readonly label: string;
 }
 
-const HOLO = 'conic-gradient(#ff5fa8, #ffd84a, #54d6a4, #4f86ff, #ff5fa8)';
+// React Native paints no conic gradient; a spinning diagonal sweep of the same foils reads as one.
+const HOLO = 'linear-gradient(135deg, #ff5fa8, #ffd84a, #54d6a4, #4f86ff)';
 
 export function StampIcon({ size, shape = 'circle', holo = false, label }: StampIconProps) {
   const reduced = usePremiumReducedMotion();

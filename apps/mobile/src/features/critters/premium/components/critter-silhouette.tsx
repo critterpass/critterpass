@@ -28,6 +28,9 @@ export interface CritterSilhouetteProps {
   readonly mirrored?: boolean;
 }
 
+// eslint-disable-next-line critterpass/no-literal-style, lingui/no-unlocalized-strings -- a colour pending a token
+const DARK_LOCKED_MASK = '#3b3d48';
+
 export function CritterSilhouette({
   kind,
   label,
@@ -41,13 +44,14 @@ export function CritterSilhouette({
   mirrored = false,
 }: CritterSilhouetteProps) {
   const th = usePremiumTheme();
-  // In the dark the light mask stood out pure white on dark cards: the theme's dark masks instead.
+  // In the dark the light mask stood out pure white on dark cards, and the theme's dark mask all
+  // but vanished on them: a lifted grey reads as a shape the way the light mask does on white.
   const mask = ghost
     ? PREMIUM_STICKER.ghostMask
     : th.scheme === 'dark' && !onInk
       ? rarity === 'legendary'
         ? th.color.lockedMaskGold
-        : th.color.lockedMask
+        : DARK_LOCKED_MASK
       : premiumLockedMask(rarity, onInk);
   return (
     <View
