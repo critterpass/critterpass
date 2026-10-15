@@ -146,7 +146,8 @@ function RidingFooter({
     (bottom: number) => {
       footerBottom.set(bottom);
       const height = keyboardHeight.get();
-      if (height > 0) {
+      if (height <= 0) rise.set(0);
+      else {
         rise.set(
           footerRise({
             footerBottom: bottom,
@@ -176,6 +177,8 @@ function RidingFooter({
       onStart: (event) => {
         'worklet';
         keyboardHeight.set(event.height);
+        // A keyboard going away takes the lift with it, whatever its progress reports after.
+        if (event.height <= 0) rise.set(0);
         if (event.height > 0) {
           const bottom = footerBottom.get();
           if (bottom >= 0) {
@@ -195,7 +198,8 @@ function RidingFooter({
       onEnd: (event) => {
         'worklet';
         keyboardHeight.set(event.height);
-        if (event.height > 0) scheduleOnRN(measure);
+        if (event.height <= 0) rise.set(0);
+        else scheduleOnRN(measure);
       },
     },
     [windowHeight, openedOffset, tuck, measure],
