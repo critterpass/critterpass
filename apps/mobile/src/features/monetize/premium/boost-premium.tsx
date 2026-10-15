@@ -143,7 +143,7 @@ export function BoostPremium() {
           )}
           {closed !== null ? (
             // Nothing to buy or split: the sheet says why right under what the boost gives.
-            <Card testID={`boost-closed-${phase}`}>
+            <Card padded testID={`boost-closed-${phase}`}>
               <View style={{ gap: 4, alignItems: 'center' }}>
                 <Text variant="headline" align="center">
                   {closed.title}
