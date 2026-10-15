@@ -43,7 +43,9 @@ const useStyles = makePremiumStyles((th) => ({
   grid: { flexDirection: 'row', flexWrap: 'wrap', rowGap: 6 },
   // A set smaller than a row spreads its few cells across the card (8.01), not left-packed.
   gridFew: { justifyContent: 'space-evenly' },
-  cell: { width: '20%', height: 50, alignItems: 'center', justifyContent: 'center' },
+  // Five to a row. A hair under a fifth: Android's layout rounds five 20% cells past the row's
+  // width and wrapped the fifth, so the set ran in four columns with the right of the card empty.
+  cell: { width: '19.9%', height: 50, alignItems: 'center', justifyContent: 'center' },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
