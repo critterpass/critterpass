@@ -11,7 +11,8 @@
  * queues no ingest). A destination with too few places gets its open-data ingest queued
  * (`ingest_queued`, or `ingest_running` while one is under way); run the file again once the
  * worker has finished it. Once no ingest can add places, the destination loads against those it
- * has (`sparse: true`). Unmatched activities (`curated_stops`) are kept by name, never looked up.
+ * has (`sparse: true`; `reingest_queued` when the places of its last run are being ingested again,
+ * so a later run matches more). Unmatched activities (`curated_stops`) are kept by name, never looked up.
  *
  * After a destination's places, its itinerary (`<slug>.json` in `--itineraries <folder>`, by
  * default the `itineraries` folder beside the places folder) is loaded when there is one, each
@@ -92,6 +93,7 @@ async function main(): Promise<void> {
           destination: report.destination,
           status: report.status,
           ...(report.sparse ? { sparse: true } : {}),
+          ...(report.reingestQueued ? { reingest_queued: true } : {}),
           rows: report.rows,
           matched: report.matched.length,
           unmatched: report.unmatched,

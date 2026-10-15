@@ -34,8 +34,10 @@ export interface CuratedPlacesReport {
   readonly destination: string;
   readonly status:
     'loaded' | 'checked' | 'unknown_destination' | 'ingest_queued' | 'ingest_running';
-  /** Fewer than `SPARSE_PLACES` places, loaded against those because no ingest can add more. */
+  /** Fewer than `SPARSE_PLACES` places, loaded against those because no ingest is pending. */
   readonly sparse: boolean;
+  /** A finished run's lost places are being ingested again (`./sparse.ts`); re-run after it. */
+  readonly reingestQueued: boolean;
   readonly rows: number;
   readonly matched: readonly {
     readonly name: string;
@@ -147,16 +149,20 @@ export async function loadCuratedPlaces(
     curatedStops: [],
     dropped: 0,
     popular: null,
+    reingestQueued: false,
   };
   const destination = await destinationOf(pool, slug);
   if (destination === undefined) {
     return { destination: slug, status: 'unknown_destination', sparse: false, ...empty };
   }
-  if (destination.sparse) {
-    const step = await handleSparse(pool, slug, options);
-    if (step !== 'load') return { destination: slug, status: step, sparse: true, ...empty };
+  const step = destination.sparse
+    ? await handleSparse(pool, slug, options)
+    : ({ status: 'load', reingestQueued: false } as const);
+  if (step.status !== 'load') {
+    return { destination: slug, status: step.status, sparse: true, ...empty };
   }
-  const sparse = destination.sparse;
+  const { sparse } = destination;
+  const { reingestQueued } = step;
   const plain = plainWords(destination.name, destination.country);
   const taken = new Set<string>();
   const matched: { name: string; poiId: string; row: string; distanceM: number }[] = [];
@@ -213,6 +219,7 @@ export async function loadCuratedPlaces(
       destination: slug,
       status: 'checked',
       sparse,
+      reingestQueued,
       rows: lines.length,
       matched,
       unmatched,
@@ -247,6 +254,7 @@ export async function loadCuratedPlaces(
     destination: slug,
     status: 'loaded',
     sparse,
+    reingestQueued,
     rows: lines.length,
     matched,
     unmatched,

@@ -5,12 +5,12 @@
  *
  * - an ingest of the destination is queued or running: wait for it (`ingest_running`);
  * - none has finished (or the queue's records of it are gone): queue the on-demand ingest under
- *   the api's key (`on-demand-ingest:<slug>`);
- * - the last one finished with enough places but they are gone now (a prune removed them):
- *   queue it once more, keyed by that run, so each lost run is redone once at most;
- * - the last one finished sparse (the place is small), or the queue refuses the job because the
- *   same key ran inside its window: load against the places there are, and send the unmatched
- *   lines to the OpenStreetMap lookup.
+ *   the api's key (`on-demand-ingest:<slug>`), unless the queue refuses it because the same key
+ *   ran inside its window;
+ * - otherwise load against the places there are, and send the unmatched lines to the
+ *   OpenStreetMap lookup. When the last run had finished with enough places that are gone now (a
+ *   prune removed them), that run is queued once more beside the load, keyed by the run, so each
+ *   lost run is redone once at most and a later pass matches against its places.
  */
 import { sendInTx, withSystem } from '@cp/db';
 import { PLACES_QUEUES } from '@cp/domain';
@@ -34,16 +34,14 @@ export interface IngestState {
 export type SparseStep =
   | { readonly kind: 'wait' }
   | { readonly kind: 'queue'; readonly singletonKey: string }
-  | { readonly kind: 'load' };
+  | { readonly kind: 'load'; readonly redoKey: string | null };
 
 /** The step for a sparse destination given its ingest state (see the file header). */
 export function sparseStep(slug: string, state: IngestState): SparseStep {
   if (state.running) return { kind: 'wait' };
   if (state.last === null) return { kind: 'queue', singletonKey: `on-demand-ingest:${slug}` };
-  if (state.last.activeCount >= SPARSE_PLACES) {
-    return { kind: 'queue', singletonKey: `on-demand-ingest:${slug}:${state.last.runId}` };
-  }
-  return { kind: 'load' };
+  const lost = state.last.activeCount >= SPARSE_PLACES;
+  return { kind: 'load', redoKey: lost ? `on-demand-ingest:${slug}:${state.last.runId}` : null };
 }
 
 /** The destination's ingest jobs as the job queue records them. */
@@ -76,11 +74,23 @@ export async function ingestState(pool: pg.Pool, slug: string): Promise<IngestSt
   });
 }
 
-export type SparseOutcome = 'ingest_running' | 'ingest_queued' | 'load';
+export type SparseOutcome =
+  | { readonly status: 'ingest_running' | 'ingest_queued' }
+  | { readonly status: 'load'; readonly reingestQueued: boolean };
+
+const queueIngest = (pool: pg.Pool, slug: string, singletonKey: string) =>
+  withSystem(pool, (tx) =>
+    sendInTx(
+      tx,
+      PLACES_QUEUES.ingest,
+      { slug },
+      { singletonKey, singletonSeconds: INGEST_RETRY_SECONDS },
+    ),
+  );
 
 /**
- * Decides and, unless `dryRun`, queues the ingest for a sparse destination. `load` means the
- * caller loads against the places there are.
+ * Decides and, unless `dryRun`, queues the ingest for a sparse destination (see the file header).
+ * `load` means the caller loads against the places there are.
  */
 export async function handleSparse(
   pool: pg.Pool,
@@ -88,17 +98,15 @@ export async function handleSparse(
   options: { readonly dryRun: boolean },
 ): Promise<SparseOutcome> {
   const step = sparseStep(slug, await ingestState(pool, slug));
-  if (step.kind === 'wait') return 'ingest_running';
-  if (step.kind === 'load') return 'load';
-  if (options.dryRun) return 'ingest_queued';
-  const id = await withSystem(pool, (tx) =>
-    sendInTx(
-      tx,
-      PLACES_QUEUES.ingest,
-      { slug },
-      { singletonKey: step.singletonKey, singletonSeconds: INGEST_RETRY_SECONDS },
-    ),
-  );
-  // Refused: the same ingest ran inside its window, so waiting for it again would never end.
-  return id === null ? 'load' : 'ingest_queued';
+  if (step.kind === 'wait') return { status: 'ingest_running' };
+  if (step.kind === 'queue') {
+    if (options.dryRun) return { status: 'ingest_queued' };
+    // Refused: the same ingest ran inside its window, so waiting for it again would never end.
+    const id = await queueIngest(pool, slug, step.singletonKey);
+    return id === null ? { status: 'load', reingestQueued: false } : { status: 'ingest_queued' };
+  }
+  if (step.redoKey === null) return { status: 'load', reingestQueued: false };
+  if (options.dryRun) return { status: 'load', reingestQueued: true };
+  const id = await queueIngest(pool, slug, step.redoKey);
+  return { status: 'load', reingestQueued: id !== null };
 }

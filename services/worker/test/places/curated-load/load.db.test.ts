@@ -3,9 +3,8 @@
  * row it names (point, name and address untouched; the note's other keys kept), the place becomes
  * reviewed and popular in its rank, a place no row carries is reported and never created, a re-run
  * updates, a place the file drops loses its curated block, and a sparse destination gets the
- * on-demand ingest job instead of a load while an ingest can still add places: never twice for the
- * same run, so a destination the ingest leaves sparse (or whose ingest already ran) loads against
- * the places it has. An unmatched activity is kept as a curated-only stop, never looked up.
+ * on-demand ingest job instead of a load until one has run: then it loads against the places it
+ * has, and a run whose places are gone is queued again once. An unmatched activity is kept as a curated-only stop, never looked up.
  */
 import { popularPlaces, withSystem } from '@cp/db';
 import { PLACES_QUEUES, readEditorialOverlay } from '@cp/domain';
@@ -251,17 +250,17 @@ describe('loading curated places', () => {
     expect(await boss.fetch(PLACES_QUEUES.ingest)).toEqual([]);
   });
 
-  it('redoes a run whose places are gone once, then loads what there is', async () => {
+  it('loads what is left of a run whose places are gone, and redoes that run once', async () => {
     await finishRun('kr-daegu', 'daegu-run', 900);
     const lines = [line({ destination: 'kr-daegu', lat: 35.87, lng: 128.6 })];
     const load = () => loadCuratedPlaces(harness.pool, 'kr-daegu', lines, { dryRun: false });
-    expect((await load()).status).toBe('ingest_queued');
+    const first = await load();
+    expect(first).toMatchObject({ status: 'loaded', sparse: true, reingestQueued: true });
+    expect(first.unmatchedLines).toHaveLength(1);
     expect((await load()).status).toBe('ingest_running');
     await runIngest('kr-daegu');
     // The redo finished without a new run record: the same run is never queued a third time.
-    const report = await load();
-    expect(report).toMatchObject({ status: 'loaded', sparse: true, matched: [] });
-    expect(report.unmatchedLines).toHaveLength(1);
+    expect(await load()).toMatchObject({ status: 'loaded', reingestQueued: false, matched: [] });
     expect(await boss.fetch(PLACES_QUEUES.ingest)).toEqual([]);
     const { rows } = await harness.pool.query('SELECT 1 FROM pois WHERE destination_id = $1', [
       daegu,
