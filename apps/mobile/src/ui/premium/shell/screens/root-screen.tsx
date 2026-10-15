@@ -1,5 +1,12 @@
 import { Stack } from 'expo-router';
-import { useCallback, useMemo, useState, type ReactElement, type ReactNode } from 'react';
+import {
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
 import {
   Platform,
   StyleSheet,
@@ -20,6 +27,7 @@ import {
   NativeHeaderActions,
   type ShellAction,
 } from './header-actions';
+import { TabBarShownContext } from '../navigation/tab-bar-shown';
 import { useScreenPlacement } from '../navigation/use-screen-placement';
 import { SCROLL_EDGE_FADE, ScrollEdgeFade, useScrollEdges } from './scroll-edge';
 import { TabBarFade } from './tab-page-scroll';
@@ -194,9 +202,10 @@ function DrawnRootScreen({ title, actions, children, testID }: RootScreenParts) 
     </View>
   );
 
-  // A tab's root page fades into its ground under Android's drawn bar.
+  // A tab's root page fades into its ground under Android's drawn bar, wherever the bar shows.
   const tabRoot = useScreenPlacement();
-  const fade = Platform.OS === 'android' && tabRoot?.kind === 'root' && tabRoot.tab;
+  const barShown = useContext(TabBarShownContext);
+  const fade = Platform.OS === 'android' && (barShown ?? (tabRoot?.kind === 'root' && tabRoot.tab));
   return (
     <View testID={testID} style={styles.root} collapsable={false}>
       {children({ scrollProps, largeTitle })}
