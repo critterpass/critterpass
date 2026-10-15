@@ -29,6 +29,7 @@ import {
 
 import type { SeatedMember } from '../boost/boost-model';
 import { seatColour } from './components/crew-colours';
+import { PAPER } from './monetize-palette';
 import { paperGrain } from './repeating-gradient';
 
 export function EntryStampCard({
@@ -53,7 +54,7 @@ export function EntryStampCard({
       accessible
       accessibilityLabel={`${place}. ${until}`}
     >
-      <Text variant="mono" color={th.color.status.voteOpen.text} style={styles.entryHead}>
+      <Text variant="mono" color={PAPER.stampInk} style={styles.entryHead}>
         {upper(t({ id: 'monetize.premium.entryHead', message: 'Trip boost · Entry' }), locale)}
       </Text>
       <Text
@@ -67,7 +68,7 @@ export function EntryStampCard({
       </Text>
       <Text
         variant="noteAction"
-        color={th.color.status.voteOpen.text}
+        color={PAPER.stampInk}
         numberOfLines={2}
         // Beside the critter the date and its reason take two lines, as the stamp is set.
         singleLine={false}
