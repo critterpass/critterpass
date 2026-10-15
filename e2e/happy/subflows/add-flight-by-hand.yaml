@@ -42,7 +42,7 @@ appId: app.critterpass.dev
 - inputText: ${TO}
 - scrollUntilVisible:
     element:
-      id: 'bookings-form-date'
+      id: 'bookings-form-day|bookings-form-date'
     direction: DOWN
     timeout: 10000
     centerElement: true

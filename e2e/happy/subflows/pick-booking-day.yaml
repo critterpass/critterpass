@@ -1,17 +1,41 @@
 appId: app.critterpass.dev
 ---
-# Sets ${DAY} (YYYY-MM-DD) as the booking form's day: the trip's own days are chips
-# (`bookings-form-days-<date>`), and a day outside them is typed into the Day field
-# (`bookings-form-date`). The keyboard left up by the field typed before is put away first: with
-# it up the form's footer sits over the Day field and takes the tap.
+# Sets ${DAY} (YYYY-MM-DD) as the booking form's day. The Day row (`bookings-form-day`) opens the
+# trip's own days as chips under it (`bookings-form-days-<date>`, open from the start while no day
+# is set); a day outside them goes through "Another day" (`bookings-form-days-other`) to the typed
+# Day field (`bookings-form-date`), which also shows by itself for a trip without days or a booking
+# already on another day. The keyboard left up by the field typed before is put away first: with it
+# up the form's footer sits over the Day row and takes the tap.
 - hideKeyboard
 - scrollUntilVisible:
     element:
-      id: 'bookings-form-date'
+      id: 'bookings-form-day|bookings-form-date'
     direction: DOWN
     timeout: 10000
     visibilityPercentage: 100
     centerElement: true
+# The chips, when the Day row shows and they are closed.
+- runFlow:
+    when:
+      visible:
+        id: 'bookings-form-day'
+      notVisible:
+        id: 'bookings-form-days-other'
+    commands:
+      - tapOn:
+          id: 'bookings-form-day'
+# The chip row scrolls sideways: the day's chip may start past the screen's edge.
+- runFlow:
+    when:
+      visible:
+        id: 'bookings-form-days-other'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'bookings-form-days-${DAY}'
+          direction: RIGHT
+          timeout: 5000
+          optional: true
 - runFlow:
     when:
       visible:
@@ -19,10 +43,25 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'bookings-form-days-${DAY}'
+      - assertNotVisible:
+          id: 'bookings-form-days-other'
 - runFlow:
     when:
-      notVisible:
-        id: 'bookings-form-days-${DAY}'
+      visible:
+        id: 'bookings-form-days-other'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'bookings-form-days-other'
+          direction: RIGHT
+          timeout: 5000
+          optional: true
+      - tapOn:
+          id: 'bookings-form-days-other'
+- runFlow:
+    when:
+      visible:
+        id: 'bookings-form-date'
     commands:
       - tapOn:
           id: 'bookings-form-date'
@@ -30,6 +69,8 @@ appId: app.critterpass.dev
       - inputText: ${DAY}
       # Put away, the keyboard leaves the next field clear of the form's footer.
       - hideKeyboard
+      - assertVisible:
+          id: 'bookings-form-date'
+          text: ${DAY}
 - assertVisible:
-    id: 'bookings-form-date'
-    text: ${DAY}
+    id: 'bookings-form-day|bookings-form-date'
