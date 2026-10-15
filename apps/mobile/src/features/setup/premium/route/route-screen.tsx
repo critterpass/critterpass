@@ -5,6 +5,7 @@
  * trip's own place). Stops move up or down with their arrows.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
@@ -72,6 +73,14 @@ export function RouteScreen({ tripId }: { readonly tripId: string }) {
         : [{ id: home.rows[0].destination_id, name: home.rows[0].name ?? '', nights: totalNights }];
   const stops = edited ?? synced;
   const placed = stops.reduce((sum, stop) => sum + stop.nights, 0);
+  const stopsLabel = t({
+    id: 'setup.premium.route.stopCount',
+    message: plural(stops.length, { one: '# stop', other: '# stops' }),
+  });
+  const nightsLabel = t({
+    id: 'setup.premium.route.nightCount',
+    message: plural(placed, { one: '# night', other: '# nights' }),
+  });
   const guide = guideSticker(trip?.guide ?? null);
   const change = (next: readonly Stop[]) => {
     setProblem(null);
@@ -139,11 +148,14 @@ export function RouteScreen({ tripId }: { readonly tripId: string }) {
       <StepHeadline
         title={t({
           id: 'setup.premium.route.title',
-          message: `${stops.length} stops, ${placed} nights`,
+          message: `${stopsLabel}, ${nightsLabel}`,
         })}
         line={t({
           id: 'setup.premium.route.line',
-          message: `The trip has ${totalNights} nights to place.`,
+          message: plural(totalNights, {
+            one: 'The trip has # night to place.',
+            other: 'The trip has # nights to place.',
+          }),
         })}
       />
       {stops.map((stop, index) => (
@@ -197,7 +209,10 @@ export function RouteScreen({ tripId }: { readonly tripId: string }) {
             <View style={{ flex: 1 }}>
               <Text variant="headline">{stop.name}</Text>
               <Text variant="captionMuted" tone="muted">
-                {t({ id: 'setup.premium.route.nights', message: `${stop.nights} nights` })}
+                {t({
+                  id: 'setup.premium.route.nights',
+                  message: plural(stop.nights, { one: '# night', other: '# nights' }),
+                })}
               </Text>
             </View>
             <IconButton

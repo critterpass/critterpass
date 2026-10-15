@@ -7,6 +7,16 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: it\n"
 
+#. placeholder {0}: stop.nights
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.nights"
+msgstr ""
+
+#. placeholder {0}: stops.length
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.stopCount"
+msgstr ""
+
 #. placeholder {0}: money(locale, track.minMinor, currency)
 #. placeholder {1}: money(locale, track.maxMinor, currency)
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
@@ -45,11 +55,6 @@ msgstr ""
 msgid "setup.premium.mustDos.typing"
 msgstr ""
 
-#. placeholder {0}: stop.nights
-#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
-msgid "setup.premium.route.nights"
-msgstr ""
-
 #. placeholder {0}: band.set
 #. placeholder {1}: band.of
 #: ../../apps/mobile/src/features/setup/premium/steps/budget-view.tsx
@@ -76,11 +81,6 @@ msgstr ""
 #. placeholder {0}: money(locale, expense.amountMinor, currency)
 #: ../../apps/mobile/src/features/setup/premium/rooms/split-card.tsx
 msgid "setup.premium.rooms.split"
-msgstr ""
-
-#. placeholder {0}: stops.length
-#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
-msgid "setup.premium.route.title"
 msgstr ""
 
 #. placeholder {0}: model.place
@@ -186,6 +186,10 @@ msgstr ""
 msgid "setup.addMustDo.header"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.nightCount"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/premium/steps/when-view.tsx
 msgid "setup.when.windowPill"
 msgstr ""
@@ -208,6 +212,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 msgid "setup.premium.line.stops"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
+msgid "setup.premium.route.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/calendar/crew-sees.tsx
@@ -1165,10 +1177,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts
 #: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
 msgid "setup.premium.row.route"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/premium/route/route-screen.tsx
-msgid "setup.premium.route.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/premium/checklist/copy.ts

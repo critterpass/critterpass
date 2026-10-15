@@ -85,10 +85,6 @@ msgstr "{guide} đang viết kế hoạch. Hãy thêm chuyến đi trong ngày k
 msgid "explore.premium.swipe.stuckLine"
 msgstr "{guideName} chưa làm xong bộ thẻ này. Bắt đầu lại để có bộ mới."
 
-#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
-msgid "explore.premium.swipe.buildingLine"
-msgstr "{guideName} đang chọn địa điểm cho cả nhóm. Mất khoảng {DECK_MINUTES} phút."
-
 #: ../../apps/mobile/src/features/explore/premium/destination/month-card.tsx
 msgid "explore.months.pending"
 msgstr "{guideName} vẫn đang viết về lượng khách từng tháng."
@@ -439,6 +435,10 @@ msgid "explore.premium.find.dayTrips"
 msgstr "Đi trong ngày"
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.pageTitle"
+msgstr "Chuyến đi trong ngày"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.title"
 msgstr "Đi trong ngày từ {city}"
 
@@ -605,6 +605,10 @@ msgstr "Mình đi"
 #: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
 msgid "explore.premium.swipe.yes"
 msgstr "Mình đi"
+
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.buildingLine"
+msgstr "Mình đang chọn địa điểm cho cả nhóm. Mất khoảng {DECK_MINUTES} phút."
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx
 msgid "explore.premium.place.ifYouLike"

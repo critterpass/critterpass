@@ -124,7 +124,7 @@ function clauses(reasons: readonly FitReason[], stopName: (id: string) => string
   const quiet = find(reasons, 'quiet_until');
   if (quiet !== undefined && busy === undefined) {
     const at = spoken(quiet.params.time);
-    out.push(t({ id: 'explore.detail.why.quiet', message: `it's quiet until ${at}` }));
+    out.push(t({ id: 'explore.detail.why.quiet', message: `it’s quiet until ${at}` }));
   }
   const after = find(reasons, 'after_item');
   const afterName = after === undefined ? null : stopName(after.params.stable_id);

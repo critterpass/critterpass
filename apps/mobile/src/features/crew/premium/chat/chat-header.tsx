@@ -44,7 +44,7 @@ export function headerLine(line: HeaderLine): string | null {
       });
       if (line.guideName === null) return people;
       const guide = line.guideName;
-      return t({ id: 'chat.premium.header.withGuide', message: `${people} · ${guide}'s in here` });
+      return t({ id: 'chat.premium.header.withGuide', message: `${people} · ${guide}’s in here` });
     }
     case 'typing': {
       const [first, second] = line.names;

@@ -160,7 +160,7 @@ export function PickDaysPremium(props: PickDaysProps) {
         {view.quote ? (
           <Card padded testID="drivers-pick-quote">
             <Text variant="captionMuted" tone="muted">
-              {t({ id: 'drivers.pick.quote', message: `${name}'s quote` })}
+              {t({ id: 'drivers.pick.quote', message: `${name}’s quote` })}
             </Text>
             <Text variant="rowText">{view.quote}</Text>
           </Card>

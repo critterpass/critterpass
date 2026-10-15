@@ -172,12 +172,10 @@ export function SetupChecklistScreen({ tripId }: { readonly tripId: string }) {
         {trip.isOrganiser ? (
           <>
             {strip}
-            {/* Who is ready counts people: a crew of one has nobody else to count. */}
-            {checklist.total > 1 ? (
-              <Text variant="label" tone="muted" style={{ paddingHorizontal: theme.space.gap10 }}>
-                {readyLine}
-              </Text>
-            ) : null}
+            {/* Who is ready, as drawn over the list ("4 of 6 ready"), a crew of one included. */}
+            <Text variant="label" tone="muted" style={{ paddingHorizontal: theme.space.gap10 }}>
+              {readyLine}
+            </Text>
             <ListCard>
               {rows.map((row) => {
                 const faces = crewFaces(trip.members, row.done);

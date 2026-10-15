@@ -26,11 +26,11 @@ msgstr "{money}, the car"
 
 #: ../../apps/mobile/src/features/explore/split/split-model.ts
 msgid "explore.split.silentOne"
-msgstr "{names} hasn't said"
+msgstr "{names} hasn’t said"
 
 #: ../../apps/mobile/src/features/explore/split/split-model.ts
 msgid "explore.split.silent"
-msgstr "{names} haven't said"
+msgstr "{names} haven’t said"
 
 #: ../../apps/mobile/src/features/explore/split/split-model.ts
 msgid "explore.split.all"

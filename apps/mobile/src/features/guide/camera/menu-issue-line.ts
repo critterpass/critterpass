@@ -16,7 +16,7 @@ export function useIssueLine(issue: MenuIssue | null, guideName: string): string
     case 'no_camera':
       return t({
         id: 'guide.camera.noCamera',
-        message: `The camera isn't available here. Type what's on the menu and ${guideName} will translate it in the chat.`,
+        message: `The camera isn’t available here. Type what’s on the menu and ${guideName} will translate it in the chat.`,
       });
     case 'capture_failed':
       return t({ id: 'guide.camera.captureFailed', message: 'That photo didn’t take. Try again.' });
@@ -33,12 +33,12 @@ export function useIssueLine(issue: MenuIssue | null, guideName: string): string
     case 'offline':
       return t({
         id: 'guide.camera.offline',
-        message: `You're offline, so ${guideName} can't translate this yet. The photo stays here; try again when you're back online.`,
+        message: `You’re offline, so ${guideName} can’t translate this yet. The photo stays here; try again when you’re back online.`,
       });
     case 'quota':
       return t({
         id: 'guide.camera.quota',
-        message: `That's today's questions used up. ${guideName} is back after midnight; the chat shows your options.`,
+        message: `That’s today’s questions used up. ${guideName} is back after midnight; the chat shows your options.`,
       });
     case 'fair_use':
       return t({

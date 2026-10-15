@@ -26,7 +26,7 @@ export function useIssueLine(issue: PracticeIssue | null, guideName: string): st
     case 'offline':
       return t({
         id: 'guide.practice.offline',
-        message: `${guideName} can't check how it sounds offline. Say it, then tap "I said it".`,
+        message: `${guideName} can’t check how it sounds offline. Say it, then tap "I said it".`,
       });
     case 'check_failed':
       return t({

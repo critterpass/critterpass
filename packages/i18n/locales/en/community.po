@@ -37,7 +37,7 @@ msgstr "{0} shared"
 #. placeholder {0}: card.name
 #: ../../apps/mobile/src/features/community/premium/rate-premium-screen.tsx
 msgid "community.rate.rejected"
-msgstr "{0}: that tip didn't make it through. Try without names or numbers."
+msgstr "{0}: that tip didn’t make it through. Try without names or numbers."
 
 #: ../../apps/mobile/src/features/community/copy.ts
 msgid "community.cost.each"

@@ -11,6 +11,9 @@ import type { DayAreaRefusal } from '@/data/areas/commands';
 export const sectionTitle = (city: string) =>
   t({ id: 'explore.dayTrips.title', message: `Day trips from ${city}` });
 
+/** The page's title while no stop has day trips to name its city by. */
+export const pageTitle = () => t({ id: 'explore.dayTrips.pageTitle', message: 'Day trips' });
+
 export const lengthTag = (length: DayTripLength) =>
   length === 'half'
     ? t({ id: 'explore.dayTrips.halfDay', message: 'Half day' })
@@ -32,7 +35,7 @@ export const sourcesLine = () =>
   t({ id: 'explore.dayTrips.estimate', message: 'Times and prices are estimates.' });
 
 export const placesTitle = (area: string) =>
-  t({ id: 'explore.dayTrips.places', message: `What's at ${area}` });
+  t({ id: 'explore.dayTrips.places', message: `What’s at ${area}` });
 
 export const placesComing = (guide: string) =>
   t({
@@ -48,8 +51,8 @@ export const remove = () => t({ id: 'explore.dayTrips.remove', message: 'Remove'
 
 export const onDayLine = (dayNo: number, date: string | null) =>
   date === null
-    ? t({ id: 'explore.dayTrips.onDayLine', message: `It's on day ${dayNo} of the plan.` })
-    : t({ id: 'explore.dayTrips.onDateLine', message: `It's on day ${dayNo}, ${date}.` });
+    ? t({ id: 'explore.dayTrips.onDayLine', message: `It’s on day ${dayNo} of the plan.` })
+    : t({ id: 'explore.dayTrips.onDateLine', message: `It’s on day ${dayNo}, ${date}.` });
 
 export const askOrganiser = (organiser: string | null) =>
   organiser === null

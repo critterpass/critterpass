@@ -209,7 +209,7 @@ export function sortLabel(
     case 'fit':
       return t({ id: 'places.sort.fit', message: 'Sorted by fit for your days' });
     case 'picks':
-      return t({ id: 'places.sort.picks', message: `${guide}'s picks first` });
+      return t({ id: 'places.sort.picks', message: `${guide}’s picks first` });
     case 'nearest':
       if (stay !== null) return t({ id: 'places.sort.nearestStay', message: `Nearest to ${stay}` });
       return facts.fromViewer === true

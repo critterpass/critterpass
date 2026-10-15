@@ -35,7 +35,7 @@ export function DayTripsScreen({ tripId }: { readonly tripId: string }) {
   const guide = usePlanGuide();
   const section = dayTripsSection(areas);
   const critter = guide.kind;
-  const title = section === null ? copy.backLabel() : copy.sectionTitle(section.city);
+  const title = section === null ? copy.pageTitle() : copy.sectionTitle(section.city);
   const open = (id: string) => router.push(dayTripLinks.area(tripId, id));
   return (
     <PushScreen

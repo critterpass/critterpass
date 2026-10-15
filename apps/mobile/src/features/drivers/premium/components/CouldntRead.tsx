@@ -27,6 +27,7 @@ export function CouldntReadPremium(props: {
     <PushScreen
       title={t({ id: 'drivers.unread.title', message: 'Couldn’t read it' })}
       backLabel={t({ id: 'drivers.back.add', message: 'Add a driver' })}
+      largeTitle
       scroll={false}
       testID="drivers-unread"
     >

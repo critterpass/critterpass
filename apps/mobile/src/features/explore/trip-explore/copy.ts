@@ -88,7 +88,7 @@ export const pairIdea = (first: string, second: string) =>
   t({ id: 'explore.trip.pairIdea', message: `${first} + ${second}` });
 
 export const picksTitle = (guide: string) =>
-  t({ id: 'explore.trip.picksTitle', message: `${guide}'s first-timer picks` });
+  t({ id: 'explore.trip.picksTitle', message: `${guide}’s first-timer picks` });
 
 export const kindsTitle = () => t({ id: 'explore.trip.kindsTitle', message: 'Browse by kind' });
 

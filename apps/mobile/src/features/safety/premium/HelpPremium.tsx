@@ -14,10 +14,10 @@ import {
   PressableScale,
   StatusTag,
   StickerIcon,
-  type StickerIconName,
   Text,
   TextButton,
   usePremiumTheme,
+  type StickerIconName,
 } from '@/ui/premium';
 import { PushScreen } from '@/ui/premium/shell';
 
@@ -28,7 +28,7 @@ import { HelpConsent, HelpPhrase, HelpShare } from './HelpParts';
 import { PhraseBig } from './PhraseBig';
 import { SosAlertAccess } from './SosAlertAccess';
 
-/** The four doors wear the design's stickers: a heart, a wallet, a pin and a taxi. */
+/** The design's colour stickers for the four doors: a pink heart, a mint wallet, a blue pin, a taxi. */
 const PROBLEM_STICKER: Readonly<Record<HelpProblem, StickerIconName>> = {
   hurt: 'heart',
   lost_stolen: 'wallet',
@@ -48,7 +48,7 @@ export function HelpPremium() {
     { id: 'hurt', label: t({ id: 'safety.help.hurt', message: 'Hurt or sick' }) },
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a problem id, never copy
     { id: 'lost_stolen', label: t({ id: 'safety.help.lostStolen', message: 'Lost or stolen' }) },
-    { id: 'lost', label: t({ id: 'safety.help.imLost', message: "I'm lost" }) },
+    { id: 'lost', label: t({ id: 'safety.help.imLost', message: 'I’m lost' }) },
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a problem id, never copy
     { id: 'missed_ride', label: t({ id: 'safety.help.missedRide', message: 'Missed a ride' }) },
   ];
@@ -81,7 +81,7 @@ export function HelpPremium() {
             </Text>
             {model.placeLabel === null ? null : (
               <Text variant="rowText" tone="muted">
-                {t({ id: 'safety.premium.youreOn', message: `You're on ${model.placeLabel}.` })}
+                {t({ id: 'safety.premium.youreOn', message: `You’re on ${model.placeLabel}.` })}
               </Text>
             )}
           </View>
@@ -158,7 +158,12 @@ export function HelpPremium() {
                   },
                 ]}
               >
-                <StickerIcon name={PROBLEM_STICKER[problem.id]} size={32} />
+                <StickerIcon
+                  name={PROBLEM_STICKER[problem.id]}
+                  size={32}
+                  tilt={-6}
+                  {...(problem.id === 'lost' ? { color: th.accent.sky } : {})}
+                />
                 <Text variant="rowTextStrong" style={styles.flex} numberOfLines={2}>
                   {problem.label}
                 </Text>

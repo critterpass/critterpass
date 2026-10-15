@@ -14,7 +14,7 @@ export function SosActions({ props }: { readonly props: SosViewProps }) {
   const name = shortName(model.senderName);
   const ok = (
     <Button
-      label={t({ id: 'safety.sos.imOk', message: "I'm OK" })}
+      label={t({ id: 'safety.sos.imOk', message: 'I’m OK' })}
       variant="secondary"
       disabled={props.busy}
       onPress={props.onOk}
@@ -64,7 +64,7 @@ export function SosActions({ props }: { readonly props: SosViewProps }) {
       <View style={styles.pair}>
         <View style={styles.wide}>
           <Button
-            label={t({ id: 'safety.sos.imOk', message: "I'm OK" })}
+            label={t({ id: 'safety.sos.imOk', message: 'I’m OK' })}
             disabled={props.busy}
             onPress={props.onOk}
             testID="sos-ok"
@@ -82,7 +82,7 @@ export function SosActions({ props }: { readonly props: SosViewProps }) {
           label={
             going
               ? t({ id: 'safety.sos.goingDone', message: 'Going ✓' })
-              : t({ id: 'safety.sos.imGoing', message: "I'm going" })
+              : t({ id: 'safety.sos.imGoing', message: 'I’m going' })
           }
           disabled={going || props.busy}
           onPress={props.onGoing}

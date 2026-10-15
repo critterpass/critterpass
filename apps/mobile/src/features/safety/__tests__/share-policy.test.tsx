@@ -51,19 +51,16 @@ describe('Help share consent', () => {
     expect(onOpen(consentOf(no))).toBe('idle');
   });
 
-  it('shows the toggle off, and answers no unless the traveller turns it on', async () => {
+  it('asks once with two answers and shares only on yes', async () => {
     const onAnswer = jest.fn();
     await renderUi(
       <SafeAreaProvider initialMetrics={METRICS}>
         <HelpConsent crewName="Bali Six" onAnswer={onAnswer} />
       </SafeAreaProvider>,
     );
-    const toggle = screen.getByTestId('help-consent-toggle');
-    expect(screen.getByLabelText(/Share where I am with Bali Six/u)).toBeTruthy();
-    expect(toggle.props.accessibilityState).toMatchObject({ checked: false });
-    await fireEvent.press(screen.getByTestId('help-consent-done'));
-    await fireEvent.press(toggle);
-    await fireEvent.press(screen.getByTestId('help-consent-done'));
+    expect(screen.getByText(/show Bali Six where you are/u)).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('help-consent-not-now'));
+    await fireEvent.press(screen.getByTestId('help-consent-share'));
     expect(onAnswer.mock.calls).toEqual([[false], [true]]);
   });
 });

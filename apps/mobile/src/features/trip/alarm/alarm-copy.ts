@@ -53,7 +53,7 @@ export function alarmText(alarm: AlarmTextInput, guideName: string, locale: stri
     subtitle,
     guideLine:
       alarm.guideNote ??
-      t({ id: 'trip.alarm.guideLine', message: `${guideName} says: up! The day won't wait.` }),
+      t({ id: 'trip.alarm.guideLine', message: `${guideName} says: up! The day won’t wait.` }),
     labels: {
       imUp: t({ id: 'trip.alarm.imUp', message: 'I’m up' }),
       slide: t({ id: 'trip.alarm.slide', message: 'slide, I’m up →' }),

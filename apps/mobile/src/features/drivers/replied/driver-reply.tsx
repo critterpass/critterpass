@@ -57,11 +57,11 @@ function TellDriver(props: {
     price === null
       ? t({
           id: 'drivers.replied.confirmMessage',
-          message: `Hi ${name}, the crew said yes. We'd like to book you for:\n${lines}\nCan you confirm?`,
+          message: `Hi ${name}, the crew said yes. We’d like to book you for:\n${lines}\nCan you confirm?`,
         })
       : t({
           id: 'drivers.replied.confirmMessagePrice',
-          message: `Hi ${name}, the crew said yes to ${price} a day. We'd like to book you for:\n${lines}\nCan you confirm?`,
+          message: `Hi ${name}, the crew said yes to ${price} a day. We’d like to book you for:\n${lines}\nCan you confirm?`,
         });
   return (
     <DriverConfirmCard

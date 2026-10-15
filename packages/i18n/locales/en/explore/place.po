@@ -113,7 +113,7 @@ msgstr "it usually gets busy around {at}"
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.quiet"
-msgstr "it's quiet until {at}"
+msgstr "it’s quiet until {at}"
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.hoursUnknown"

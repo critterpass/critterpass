@@ -77,7 +77,7 @@ msgstr "Today’s plan"
 
 #: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
 msgid "trip.offline.planFirst"
-msgstr "Today's plan and the {time} {title}"
+msgstr "Today’s plan and the {time} {title}"
 
 #: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
 msgid "trip.offline.reason.notAllowed"

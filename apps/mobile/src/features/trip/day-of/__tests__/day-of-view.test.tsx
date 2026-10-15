@@ -68,7 +68,7 @@ describe('day-of screen', () => {
     await scene('3k-2-not-up');
     expect(screen.getByTestId('trip-day-im-up')).toBeTruthy();
     expect(screen.getByText('Tokek rings you, Alex, and Dev at 03:00')).toBeTruthy();
-    expect(screen.getByText("You'll get a notification at 03:00, not an alarm.")).toBeTruthy();
+    expect(screen.getByText("You’ll get a notification at 03:00, not an alarm.")).toBeTruthy();
     expect(screen.getByText('Why not an alarm?')).toBeTruthy();
   });
 

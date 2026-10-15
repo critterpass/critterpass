@@ -37,7 +37,7 @@ msgstr "I need a connection the first time. After that I’m here offline."
 
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.guide.learningLine"
-msgstr "I'm still learning {place}. Nobody has checked my picks here yet."
+msgstr "I’m still learning {place}. Nobody has checked my picks here yet."
 
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.guide.guestLine"

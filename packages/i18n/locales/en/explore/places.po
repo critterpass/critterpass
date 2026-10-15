@@ -33,7 +33,7 @@ msgstr "{guide} suggests it"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.sort.picks"
-msgstr "{guide}'s picks first"
+msgstr "{guide}’s picks first"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.length.hours"

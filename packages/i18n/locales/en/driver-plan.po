@@ -51,13 +51,13 @@ msgstr "Here are the days we need you, with times and pickups: {url}"
 
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
 msgid "drivers.replied.confirmMessagePrice"
-msgstr "Hi {name}, the crew said yes to {price} a day. We'd like to book you for:\n"
+msgstr "Hi {name}, the crew said yes to {price} a day. We’d like to book you for:\n"
 "{lines}\n"
 "Can you confirm?"
 
 #: ../../apps/mobile/src/features/drivers/replied/driver-reply.tsx
 msgid "drivers.replied.confirmMessage"
-msgstr "Hi {name}, the crew said yes. We'd like to book you for:\n"
+msgstr "Hi {name}, the crew said yes. We’d like to book you for:\n"
 "{lines}\n"
 "Can you confirm?"
 

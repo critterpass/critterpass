@@ -238,7 +238,8 @@ export function TripHubPremium({ tripId, onBack }: TripHubPremiumProps) {
       <ScrollEdgeFade
         edge="top"
         height={insets.top + SCROLL_EDGE_FADE * 2}
-        solid={insets.top + SCROLL_EDGE_FADE / 2}
+        // Opaque through a band under the clock, so a row passing under it never ghosts through.
+        solid={insets.top + SCROLL_EDGE_FADE}
         visible={edges.top}
         testID="trip-hub-top-ground"
       />

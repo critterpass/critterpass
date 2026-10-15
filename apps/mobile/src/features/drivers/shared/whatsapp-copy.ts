@@ -38,7 +38,7 @@ export function tellMessage(t: T, name: string, days: readonly TellDay[]): strin
   );
   return t({
     id: 'drivers.wa.tell',
-    message: `Hi ${name}, we'd like to book you for:\n${lines.join('\n')}\nDoes that work for you?`,
+    message: `Hi ${name}, we’d like to book you for:\n${lines.join('\n')}\nDoes that work for you?`,
   });
 }
 

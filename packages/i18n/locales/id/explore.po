@@ -85,10 +85,6 @@ msgstr ""
 msgid "explore.premium.swipe.stuckLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
-msgid "explore.premium.swipe.buildingLine"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/premium/destination/month-card.tsx
 msgid "explore.months.pending"
 msgstr ""
@@ -439,6 +435,10 @@ msgid "explore.premium.find.dayTrips"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.pageTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
 msgid "explore.dayTrips.title"
 msgstr ""
 
@@ -604,6 +604,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
 msgid "explore.premium.swipe.yes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/premium/swipe/swipe-waiting.tsx
+msgid "explore.premium.swipe.buildingLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-page.tsx

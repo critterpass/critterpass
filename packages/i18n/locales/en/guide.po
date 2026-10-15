@@ -19,12 +19,12 @@ msgstr "{0} answers a day on the free pass · resets at midnight"
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 msgid "guide.voice.micDeniedBody"
-msgstr "{0} can't hear you without the microphone. Turn it on in Settings, or type your question."
+msgstr "{0} can’t hear you without the microphone. Turn it on in Settings, or type your question."
 
 #. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/guide/premium/camera/camera-scene.tsx
 msgid "guide.camera.deniedBody"
-msgstr "{0} can't see the menu without the camera. Turn it on in Settings, or type a dish name in the chat."
+msgstr "{0} can’t see the menu without the camera. Turn it on in Settings, or type a dish name in the chat."
 
 #. placeholder {0}: passHolder.name
 #: ../../apps/mobile/src/features/guide/premium/guide-limit.tsx
@@ -56,11 +56,11 @@ msgstr "{guideName} answers this at {clock} and lets you know quietly. It counts
 
 #: ../../apps/mobile/src/features/guide/practice/practice-issue-line.ts
 msgid "guide.practice.offline"
-msgstr "{guideName} can't check how it sounds offline. Say it, then tap \"I said it\"."
+msgstr "{guideName} can’t check how it sounds offline. Say it, then tap \"I said it\"."
 
 #: ../../apps/mobile/src/features/guide/premium/practice/practice-feedback.tsx
 msgid "guide.practice.micDeniedBody"
-msgstr "{guideName} can't hear you without the microphone. Turn it on in Settings, or say it and tap \"I said it\"."
+msgstr "{guideName} can’t hear you without the microphone. Turn it on in Settings, or say it and tap \"I said it\"."
 
 #: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.fairUse"
@@ -397,14 +397,11 @@ msgstr "Fish"
 msgid "guide.camera.caution"
 msgstr "Flags are a guide, not medical advice. Ask staff about allergies."
 
-#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
-msgid "guide.dietary.title"
-msgstr "Food and access needs"
-
 #: ../../apps/mobile/src/features/guide/chat/data/use-guide-sheet.ts
 msgid "guide.quick.dietary"
 msgstr "Food and access needs"
 
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.premium.dietary.title"
 msgstr "Food and getting around"
@@ -508,7 +505,7 @@ msgstr "I said it"
 
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.inMany"
-msgstr "I'm in · {left} slots left"
+msgstr "I’m in · {left} slots left"
 
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.inOne"
@@ -1036,11 +1033,11 @@ msgstr "That question couldn’t be saved for later."
 
 #: ../../apps/mobile/src/features/guide/meter/use-trail-off.ts
 msgid "guide.limit.trailOff"
-msgstr "That's all my free answers for today. {guideName} will be back at midnight, or…"
+msgstr "That’s all my free answers for today. {guideName} will be back at midnight, or…"
 
 #: ../../apps/mobile/src/features/guide/meter/use-trail-off.ts
 msgid "guide.limit.trailOff30"
-msgstr "That's my thirtieth answer today, and the free ones are used up. I'll be back at midnight, or…"
+msgstr "That’s my thirtieth answer today, and the free ones are used up. I’ll be back at midnight, or…"
 
 #: ../../apps/mobile/src/features/guide/chat/data/guide-failure-line.ts
 msgid "guide.error.refused"
@@ -1048,11 +1045,11 @@ msgstr "That’s not something I can help with. Ask me about the trip instead?"
 
 #: ../../apps/mobile/src/features/guide/voice/voice-issue-line.ts
 msgid "guide.voice.quota"
-msgstr "That's today's questions used up. {guideName} is back after midnight; the chat shows your options."
+msgstr "That’s today’s questions used up. {guideName} is back after midnight; the chat shows your options."
 
 #: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.quota"
-msgstr "That's today's questions used up. {guideName} is back after midnight; the chat shows your options."
+msgstr "That’s today’s questions used up. {guideName} is back after midnight; the chat shows your options."
 
 #: ../../apps/mobile/src/features/guide/voice/voice-issue-line.ts
 msgid "guide.voice.replyFailed"
@@ -1068,7 +1065,7 @@ msgstr "The camera is off"
 
 #: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.noCamera"
-msgstr "The camera isn't available here. Type what's on the menu and {guideName} will translate it in the chat."
+msgstr "The camera isn’t available here. Type what’s on the menu and {guideName} will translate it in the chat."
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 msgid "guide.voice.micDeniedTitle"
@@ -1084,7 +1081,7 @@ msgstr "They see “vegetarian” or “no peanuts”, never your notes or your 
 
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
 msgid "guide.dietary.consentBody"
-msgstr "They see only your diet and \"no\" flags for allergies, so the guide can pick places that work for everyone. Your notes and your avoid list stay with you. You can stop sharing any time, and the flags are deleted."
+msgstr "They see only your diet and “no” flags for allergies, so the guide can pick places that work for everyone. Your notes and your avoid list stay with you. You can stop sharing any time, and the flags are deleted."
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-scene.tsx
 msgid "guide.voice.state.thinking"
@@ -1198,7 +1195,7 @@ msgstr "What you changed goes."
 
 #: ../../apps/mobile/src/features/guide/premium/voice/voice-consent.tsx
 msgid "guide.voice.consentBody"
-msgstr "When you talk, what you say can be sent to a speech service to be written down, and {guideName}'s replies are read out by a voice service. The words land in your chat like anything you type."
+msgstr "When you talk, what you say can be sent to a speech service to be written down, and {guideName}’s replies are read out by a voice service. The words land in your chat like anything you type."
 
 #: ../../apps/mobile/src/features/guide/premium/guide-starters.ts
 msgid "guide.empty.promptFood"
@@ -1240,25 +1237,25 @@ msgstr "You already have a question waiting for midnight."
 #. placeholder {1}: offer.total
 #: ../../apps/mobile/src/features/guide/premium/offer/offer-card.tsx
 msgid "guide.offer.mine"
-msgstr "You're in · {0} of {1} taken"
+msgstr "You’re in · {0} of {1} taken"
 
 #: ../../apps/mobile/src/features/guide/camera/menu-issue-line.ts
 msgid "guide.camera.offline"
-msgstr "You're offline, so {guideName} can't translate this yet. The photo stays here; try again when you're back online."
+msgstr "You’re offline, so {guideName} can’t translate this yet. The photo stays here; try again when you’re back online."
 
 #: ../../apps/mobile/src/features/guide/voice/voice-issue-line.ts
 msgid "guide.voice.offlineQueued"
-msgstr "You're offline. {guideName} has your question and answers in the chat when you're back online."
+msgstr "You’re offline. {guideName} has your question and answers in the chat when you’re back online."
 
 #: ../../apps/mobile/src/features/guide/premium/crew/crew-hint.tsx
 msgid "guide.premium.crew.spentMidnight"
-msgstr "You've used today's free questions. {guideName} answers again at midnight."
+msgstr "You’ve used today’s free questions. {guideName} answers again at midnight."
 
 #. placeholder {0}: left.hours
 #. placeholder {1}: left.minutes
 #: ../../apps/mobile/src/features/guide/premium/crew/crew-hint.tsx
 msgid "guide.premium.crew.spent"
-msgstr "You've used today's free questions. {guideName} is back in {0}h {1}m."
+msgstr "You’ve used today’s free questions. {guideName} is back in {0}h {1}m."
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-data.ts
 msgid "guide.dietary.queued"

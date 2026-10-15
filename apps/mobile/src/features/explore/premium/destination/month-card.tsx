@@ -171,7 +171,7 @@ export function MonthCard({
 
 /**
  * The month card's place while the guide hasn't written the months yet (undesigned: a page with
- * picks but no crowd curve): the same card with twelve flat bars and the guide's line, so the
+ * picks but no crowd curve): the same card with the chart's shimmering silhouette and the guide's line, so the
  * page keeps its shape instead of an empty band over the footer.
  */
 /** A gentle seasonal curve for the pending bars: a shape, never a forecast. */
@@ -207,7 +207,7 @@ export function MonthCardPending({ guideName }: { readonly guideName: string }) 
             <Skeleton
               height={Math.round((PENDING_SHAPE[index] ?? 0.5) * BAR_HEIGHT)}
               radius={3}
-              tone="soft"
+              tone="block"
             />
           </View>
         ))}

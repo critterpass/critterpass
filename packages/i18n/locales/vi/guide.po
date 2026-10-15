@@ -397,14 +397,11 @@ msgstr "Cá"
 msgid "guide.camera.caution"
 msgstr "Các nhãn chỉ để tham khảo, không phải lời khuyên y tế. Hãy hỏi nhân viên về dị ứng."
 
-#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
-msgid "guide.dietary.title"
-msgstr "Nhu cầu ăn uống và đi lại"
-
 #: ../../apps/mobile/src/features/guide/chat/data/use-guide-sheet.ts
 msgid "guide.quick.dietary"
 msgstr "Nhu cầu ăn uống và đi lại"
 
+#: ../../apps/mobile/src/features/guide/premium/dietary/dietary-consent.tsx
 #: ../../apps/mobile/src/features/guide/premium/dietary/dietary-form.tsx
 msgid "guide.premium.dietary.title"
 msgstr "Ăn uống và đi lại"

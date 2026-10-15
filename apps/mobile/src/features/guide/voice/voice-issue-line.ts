@@ -26,12 +26,12 @@ export function useIssueLine(issue: VoiceIssue | null, guideName: string): strin
     case 'offline_queued':
       return t({
         id: 'guide.voice.offlineQueued',
-        message: `You're offline. ${guideName} has your question and answers in the chat when you're back online.`,
+        message: `You’re offline. ${guideName} has your question and answers in the chat when you’re back online.`,
       });
     case 'quota':
       return t({
         id: 'guide.voice.quota',
-        message: `That's today's questions used up. ${guideName} is back after midnight; the chat shows your options.`,
+        message: `That’s today’s questions used up. ${guideName} is back after midnight; the chat shows your options.`,
       });
     case 'reply_failed':
       return t({

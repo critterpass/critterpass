@@ -46,14 +46,14 @@ export function SessionMapPremium() {
   const line = map.ended
     ? t({ id: 'safety.map.ended', message: 'This SOS is over. The location share has stopped.' })
     : sender === null
-      ? t({ id: 'safety.map.waiting', message: `Waiting for ${name}'s location.` })
+      ? t({ id: 'safety.map.waiting', message: `Waiting for ${name}’s location.` })
       : eta !== null
         ? t({ id: 'safety.map.eta', message: `${eta} minutes away on foot.` })
         : km !== null && away?.unit === 'mi'
           ? t({ id: 'safety.map.distanceMiles', message: `${km} mi from you, in a straight line.` })
           : km !== null
             ? t({ id: 'safety.map.distance', message: `${km} km from you, in a straight line.` })
-            : t({ id: 'safety.map.live', message: `${name}'s location is live.` });
+            : t({ id: 'safety.map.live', message: `${name}’s location is live.` });
   const title = t({ id: 'safety.sos.title', message: `${name} needs help` });
   const showMap = map.centre !== null && !map.ended;
 

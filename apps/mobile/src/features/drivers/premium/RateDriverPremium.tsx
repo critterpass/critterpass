@@ -119,7 +119,7 @@ export function RateDriverPremium(input: { readonly tripId: string; readonly pro
         <Text variant="rowText" tone="muted">
           {t({
             id: 'drivers.rate.intro',
-            message: `Your crew's rating and tags go on ${name}'s listing if he's listed. Nothing about you does.`,
+            message: `Your crew’s rating and tags go on ${name}’s listing if he’s listed. Nothing about you does.`,
           })}
         </Text>
         <View style={styles.verdicts} accessibilityRole="radiogroup">

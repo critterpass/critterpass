@@ -8,7 +8,7 @@ export function whyWords(lines: readonly WhyLine[], guideName: string): string[]
     if (line.kind === 'mustSee') {
       return t({
         id: 'explore.swipe.whyMustSee',
-        message: `It's one of ${guideName}'s must-sees.`,
+        message: `It’s one of ${guideName}’s must-sees.`,
       });
     }
     if (line.kind === 'taste') {
@@ -27,7 +27,7 @@ export function whyWords(lines: readonly WhyLine[], guideName: string): string[]
     const minutes = Math.max(1, Math.round(line.meters / 80));
     return t({
       id: 'explore.swipe.whyNear',
-      message: `It's about ${minutes} min on foot from the stay.`,
+      message: `It’s about ${minutes} min on foot from the stay.`,
     });
   });
 }

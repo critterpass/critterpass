@@ -130,7 +130,7 @@ export function SosSendPremium() {
               <Text variant="label" color={th.color.destructive.helper} testID="sos-send-failed">
                 {t({
                   id: 'safety.premium.sendFailed',
-                  message: `Your SOS didn't go out. Hold to try again, or call ${general}.`,
+                  message: `Your SOS didn’t go out. Hold to try again, or call ${general}.`,
                 })}
               </Text>
             ) : null}

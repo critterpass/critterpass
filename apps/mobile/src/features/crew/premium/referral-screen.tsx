@@ -138,12 +138,24 @@ export function ReferralPremium() {
         </View>
 
         {url === null ? (
-          <Text variant="caption" tone="muted" testID="referral-link-pending">
-            {t({
-              id: 'crew.referral.linkPending',
-              message: 'Your link appears once you’re online and your pass is saved.',
-            })}
-          </Text>
+          // The link row keeps its place while the link can't be made yet, so the page holds its
+          // shape offline instead of ending on a loose line.
+          <View
+            style={[styles.link, { backgroundColor: th.color.card, boxShadow: th.shadow.card }]}
+          >
+            <Text
+              variant="caption"
+              tone="muted"
+              style={styles.grow}
+              singleLine={false}
+              testID="referral-link-pending"
+            >
+              {t({
+                id: 'crew.referral.linkPending',
+                message: 'Your link appears once you’re online and your pass is saved.',
+              })}
+            </Text>
+          </View>
         ) : (
           <View
             style={[styles.link, { backgroundColor: th.color.card, boxShadow: th.shadow.card }]}

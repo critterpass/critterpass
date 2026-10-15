@@ -63,6 +63,7 @@ function StartCrewForm({ start, cover }: StartCrewFormProps) {
   const stamps = useReferralStamps();
   const [lockedNote, setLockedNote] = useState<string | null>(null);
   const insets = useScreenInsets();
+  const footerHeight = th.space.gap8 * 2 + th.size.button + insets.bottom;
   // On iPhone the name takes focus once the sheet has risen, keyboard up as the design shows it.
   // Android leaves it to a tap: focused on open (during the rise or after it), it draws the caret
   // but no keyboard, while the page still lifts its footer and scroll for one.
@@ -177,7 +178,6 @@ function StartCrewForm({ start, cover }: StartCrewFormProps) {
         {/* Always on: with the keyboard up the page lifts by its inset, not its offset, and the pass's
           shadow would end in a line at the header. The stage's empty top is under it at rest. */}
         <ScrollEdgeFade edge="top" height={SCROLL_EDGE_FADE} />
-        <ScrollEdgeFade edge="bottom" height={SCROLL_EDGE_FADE} visible={edges.bottom} />
       </View>
       <KeyboardStickyFooter
         openedOffset={th.space.gap8}
@@ -187,6 +187,13 @@ function StartCrewForm({ start, cover }: StartCrewFormProps) {
           paddingBottom: insets.bottom + th.space.gap8,
         }}
       >
+        {/* The footer stands on the ground with a fade above it, at rest and riding the keyboard
+          alike: the pickers scrolled under it fade out instead of showing round the button. */}
+        <ScrollEdgeFade
+          edge="bottom"
+          height={footerHeight + SCROLL_EDGE_FADE}
+          solid={footerHeight}
+        />
         <Button
           label={t({ id: 'crew.premium.start.cta', message: 'Start the crew' })}
           disabled={!start.valid || start.busy}

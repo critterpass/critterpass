@@ -196,7 +196,7 @@ export function useSosNotificationActions(uid: string | null): void {
     Notifications.setNotificationCategoryAsync(SOS_CATEGORY, [
       {
         identifier: 'COMING',
-        buttonTitle: t({ id: 'safety.push.coming', message: "I'm going" }),
+        buttonTitle: t({ id: 'safety.push.coming', message: 'I’m going' }),
         options: { opensAppToForeground: true },
       },
       {

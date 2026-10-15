@@ -57,7 +57,7 @@ export function DietaryConsent({
       <ScrollView contentContainerStyle={{ paddingTop: insets.top + 64, paddingBottom: 24 }}>
         <View style={{ paddingHorizontal: 24, flexDirection: 'row', alignItems: 'flex-start' }}>
           <Text variant="largeTitle" style={{ flex: 1 }}>
-            {t({ id: 'guide.dietary.title', message: 'Food and access needs' })}
+            {t({ id: 'guide.premium.dietary.title', message: 'Food and getting around' })}
           </Text>
           <Doodle name="food" color={th.accent.tangerine} size={96} />
         </View>
@@ -75,7 +75,7 @@ export function DietaryConsent({
             {t({
               id: 'guide.dietary.consentBody',
               message:
-                'They see only your diet and "no" flags for allergies, so the guide can pick places that work for everyone. Your notes and your avoid list stay with you. You can stop sharing any time, and the flags are deleted.',
+                'They see only your diet and “no” flags for allergies, so the guide can pick places that work for everyone. Your notes and your avoid list stay with you. You can stop sharing any time, and the flags are deleted.',
             })}
           </Text>
           <View style={styles.tags} accessibilityElementsHidden>

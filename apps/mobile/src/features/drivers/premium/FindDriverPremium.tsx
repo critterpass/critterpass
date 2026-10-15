@@ -170,7 +170,7 @@ export function FindDriverPremium({
           title={t({ id: 'drivers.find.ask', message: 'Ask for me' })}
           body={t({
             id: 'drivers.find.askBody',
-            message: `I'll write a post for the ${plan.area} groups. You post it.`,
+            message: `I’ll write a post for the ${plan.area} groups. You post it.`,
           })}
           cta={t({ id: 'drivers.find.draft', message: 'Draft it' })}
           onPress={find.onAsk}

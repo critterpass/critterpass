@@ -51,7 +51,7 @@ export function usePickDaysView(props: PickDaysProps): PickDaysViewProps {
         ? null
         : t({
             id: 'drivers.pick.overtime',
-            message: `${dayLabel(long.date, locale)} is ${hoursFigure(long.hours, locale)} hours. ${name}'s price covers ${hoursFigure(includedHours, locale)}.`,
+            message: `${dayLabel(long.date, locale)} is ${hoursFigure(long.hours, locale)} hours. ${name}’s price covers ${hoursFigure(includedHours, locale)}.`,
           }),
     quote: pick.terms === null ? null : pickTermsLine(pick.terms, locale),
     error: pick.error === null ? null : pickErrorText(pick.error, locale),

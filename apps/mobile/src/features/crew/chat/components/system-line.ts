@@ -28,6 +28,15 @@ function planChange(body: string, locale: string): string {
   return [parsed.title, day, parsed.time].filter((part) => part !== null && part !== '').join(', ');
 }
 
+/** Members who joined one after another, as one line: "Maya, Jordan and Alex joined the crew". */
+export function joinedLine(names: readonly (string | null | undefined)[], locale = 'en'): string {
+  const list = format.list(
+    locale,
+    names.map((who) => firstName(who) ?? t({ id: 'chat.system.someone', message: 'Someone' })),
+  );
+  return t({ id: 'chat.system.joinedMany', message: `${list} joined the crew` });
+}
+
 export function systemLine(
   refKind: string | null,
   who: string | null | undefined,
@@ -51,7 +60,7 @@ export function systemLine(
     case 'rsvp_maybe':
       return t({ id: 'chat.system.rsvpMaybe', message: `${name} is a maybe` });
     case 'rsvp_out':
-      return t({ id: 'chat.system.rsvpOut', message: `${name} can't make it` });
+      return t({ id: 'chat.system.rsvpOut', message: `${name} can’t make it` });
     case 'rsvp_waitlisted':
       return t({ id: 'chat.system.rsvpWaitlisted', message: `${name} is on the waitlist` });
     case 'trip_locked':

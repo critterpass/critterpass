@@ -78,7 +78,7 @@ describe('storm screen', () => {
   it('keeps the old booking when the new seats were not confirmed', async () => {
     await scene('3k-8-seats-not-confirmed');
     expect(
-      screen.getByText("Seats for Saturday weren't confirmed. The old booking is kept."),
+      screen.getByText("Seats for Saturday weren’t confirmed. The old booking is kept."),
     ).toBeTruthy();
   });
 });

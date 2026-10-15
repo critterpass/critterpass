@@ -123,7 +123,7 @@ export function OurDriversPremium({ tripId }: { readonly tripId: string }) {
           <Text variant="rowText" tone="muted">
             {t({
               id: 'drivers.ours.intro',
-              message: `Drivers this crew used. The ones who haven't confirmed are only visible to you ${crew}.`,
+              message: `Drivers this crew used. The ones who haven’t confirmed are only visible to you ${crew}.`,
             })}
           </Text>
         )}

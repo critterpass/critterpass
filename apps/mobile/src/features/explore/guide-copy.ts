@@ -18,7 +18,7 @@ export function guideTagline(guide: GuideFacts, place: string): string {
   if (guide.learning) {
     return t({
       id: 'explore.guide.learningLine',
-      message: `I'm still learning ${place}. Nobody has checked my picks here yet.`,
+      message: `I’m still learning ${place}. Nobody has checked my picks here yet.`,
     });
   }
   if (guide.id === 'tokek') {

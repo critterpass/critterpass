@@ -29,7 +29,7 @@ msgstr "{first} + {second}"
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.picksTitle"
-msgstr "{guide}'s first-timer picks"
+msgstr "{guide}’s first-timer picks"
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.kindLabel"

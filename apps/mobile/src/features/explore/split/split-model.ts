@@ -123,8 +123,8 @@ export function silentLine(
   if (others.length === 0) return t({ id: 'explore.split.silentYou', message: 'You haven’t said' });
   const names = list(youToo ? [...others, t({ id: 'explore.split.you', message: 'you' })] : others);
   return others.length + (youToo ? 1 : 0) === 1
-    ? t({ id: 'explore.split.silentOne', message: `${names} hasn't said` })
-    : t({ id: 'explore.split.silent', message: `${names} haven't said` });
+    ? t({ id: 'explore.split.silentOne', message: `${names} hasn’t said` })
+    : t({ id: 'explore.split.silent', message: `${names} haven’t said` });
 }
 
 /** The chips under an option: its cost ("Rp 450.000, the car") and who goes ("2 going", "All 6"). */
