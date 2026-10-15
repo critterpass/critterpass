@@ -268,6 +268,9 @@ export function SearchPlaces({ crewId }: { readonly crewId: string | undefined }
               placeholderTextColor={theme.color.placeholder}
               selectionColor={theme.color.caret}
               clearButtonMode="while-editing"
+              // A search is no form to fill: iOS otherwise floats its AutoFill bubble over the field.
+              autoComplete="off"
+              textContentType="none"
               accessibilityLabel={t({ id: 'vote.search.label', message: 'A city or a country' })}
               testID="place-search-field"
               style={{
