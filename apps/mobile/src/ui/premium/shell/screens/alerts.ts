@@ -87,14 +87,16 @@ export async function noticeAlert(input: {
 
 /**
  * A list of actions on one thing (7.15: a booking's options), with Close apart from them. An
- * action runs when it is chosen.
+ * action runs when it is chosen. The designed bottom sheet on both platforms: iOS's own alert
+ * with these buttons is a small centred dialog, where the design rises a sheet from the bottom.
+ * The system alert stays only where no dialog host is mounted.
  */
 export function optionsAlert(input: {
   readonly header?: string | undefined;
   readonly options: readonly DialogOption[];
   readonly close: string;
 }): void {
-  const drawn = DRAWN ? dialogQueue.show({ kind: 'options', ...input }) : null;
+  const drawn = dialogQueue.show({ kind: 'options', ...input });
   if (drawn !== null) return;
   Alert.alert(
     input.header ?? '',

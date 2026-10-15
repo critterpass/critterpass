@@ -2,7 +2,8 @@
  * Draws the designed dialogs from `dialogQueue` where the platform's own would show a stock
  * Material dialog: the confirm card (3.15: the question centred, the action as a pink-tint pill
  * when it destroys something, the way back as the ink pill under it), a notice with one ink pill,
- * and the options sheet (7.15: one grouped card of centred actions over a separate Close card).
+ * and the options sheet (7.15: one grouped card of centred actions over a separate Close card),
+ * which iOS draws too in place of its centred alert.
  * Each sits in its own transparent modal, so it shows over sheets and other modals too.
  */
 import { useEffect, useSyncExternalStore } from 'react';
