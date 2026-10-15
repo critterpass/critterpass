@@ -127,6 +127,9 @@ appId: app.critterpass.dev
       NAME: leave-crew
       LOOK: light
 - runFlow: subflows/relaunch-home.yaml
+# On iOS the revisits of the wallet and pass tabs in dark found the screen right but not the
+# marker's route (it never read them, after the relaunch and the appearance sheet): those three are
+# waited for by their own page's id.
 - runFlow:
     file: subflows/appearance.yaml
     env:
@@ -156,6 +159,7 @@ appId: app.critterpass.dev
       CODE: '7.01'
       NAME: bookings-link
       LOOK: dark
+      READY: 'bookings-wallet-(empty|ready)'
 - runFlow:
     file: subflows/capture.yaml
     env:
@@ -163,6 +167,7 @@ appId: app.critterpass.dev
       CODE: '7.16'
       NAME: balances-link
       LOOK: dark
+      READY: 'money-(ready|none|syncing)'
 - runFlow:
     file: subflows/capture.yaml
     env:
@@ -170,4 +175,5 @@ appId: app.critterpass.dev
       CODE: '9.01'
       NAME: profile-link
       LOOK: dark
+      READY: 'you-profile'
 - runFlow: subflows/capture-done.yaml
