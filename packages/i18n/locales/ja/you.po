@@ -1428,6 +1428,10 @@ msgstr ""
 msgid "you.language.name.es"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/app-icon/icon-names.ts
+msgid "you.appIcon.stamp"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
 msgid "you.profile.stamps"
 msgstr ""
@@ -1446,6 +1450,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
 msgid "you.signOut.stays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/app-icon/icon-names.ts
+msgid "you.appIcon.sticker"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx

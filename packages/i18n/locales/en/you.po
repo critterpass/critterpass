@@ -1428,6 +1428,10 @@ msgstr "Sound effects"
 msgid "you.language.name.es"
 msgstr "Spanish"
 
+#: ../../apps/mobile/src/features/you/app-icon/icon-names.ts
+msgid "you.appIcon.stamp"
+msgstr "Stamp"
+
 #: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
 msgid "you.profile.stamps"
 msgstr "Stamps"
@@ -1447,6 +1451,10 @@ msgstr "Start over"
 #: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
 msgid "you.signOut.stays"
 msgstr "Stays on your account"
+
+#: ../../apps/mobile/src/features/you/app-icon/icon-names.ts
+msgid "you.appIcon.sticker"
+msgstr "Sticker"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.soundEffectsLine"

@@ -71,7 +71,7 @@ msgstr ""
 msgid "money.premium.sharesOf"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.premium.detail.addedBy"
 msgstr ""
 
@@ -87,15 +87,15 @@ msgstr ""
 msgid "money.add.each"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.changedBy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.deletedBy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.editedBy"
 msgstr ""
 
@@ -381,7 +381,7 @@ msgstr ""
 msgid "money.premium.raiseBudget"
 msgstr ""
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.history"
 msgstr ""
 

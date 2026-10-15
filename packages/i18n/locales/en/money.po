@@ -71,7 +71,7 @@ msgstr "{0}'s amount"
 msgid "money.premium.sharesOf"
 msgstr "{0}'s shares"
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.premium.detail.addedBy"
 msgstr "{adder} added it · {addedOn}"
 
@@ -87,15 +87,15 @@ msgstr "{count, plural, one {{guideName} read # line} other {{guideName} read # 
 msgid "money.add.each"
 msgstr "{each} each"
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.changedBy"
 msgstr "{editor} changed {what} · {on}"
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.deletedBy"
 msgstr "{editor} deleted it · {on}"
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.editedBy"
 msgstr "{editor} edited it · {on}"
 
@@ -381,7 +381,7 @@ msgstr "Category"
 msgid "money.premium.raiseBudget"
 msgstr "Change the budget"
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.history"
 msgstr "Changes"
 

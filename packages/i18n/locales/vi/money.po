@@ -71,7 +71,7 @@ msgstr "Số tiền của {0}"
 msgid "money.premium.sharesOf"
 msgstr "Phần của {0}"
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.premium.detail.addedBy"
 msgstr "{adder} đã thêm · {addedOn}"
 
@@ -87,15 +87,15 @@ msgstr "{count, plural, other {{guideName} đọc được # dòng}}"
 msgid "money.add.each"
 msgstr "{each} mỗi người"
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.changedBy"
 msgstr "{editor} đã đổi {what} · {on}"
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.deletedBy"
 msgstr "{editor} đã xoá · {on}"
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.editedBy"
 msgstr "{editor} đã sửa · {on}"
 
@@ -381,7 +381,7 @@ msgstr "Danh mục"
 msgid "money.premium.raiseBudget"
 msgstr "Đổi ngân sách"
 
-#: ../../apps/mobile/src/features/money/premium/ExpenseDetailPremium.tsx
+#: ../../apps/mobile/src/features/money/premium/components/ExpenseChanges.tsx
 msgid "money.detail.history"
 msgstr "Thay đổi"
 

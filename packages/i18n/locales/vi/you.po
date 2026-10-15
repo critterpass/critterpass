@@ -1428,6 +1428,10 @@ msgstr "Hiệu ứng âm thanh"
 msgid "you.language.name.es"
 msgstr "Tiếng Tây Ban Nha"
 
+#: ../../apps/mobile/src/features/you/app-icon/icon-names.ts
+msgid "you.appIcon.stamp"
+msgstr "Con dấu"
+
 #: ../../apps/mobile/src/features/you/premium/profile/profile-sections.tsx
 msgid "you.profile.stamps"
 msgstr "Con dấu"
@@ -1447,6 +1451,10 @@ msgstr "Làm lại"
 #: ../../apps/mobile/src/features/you/premium/account/sign-out-premium-view.tsx
 msgid "you.signOut.stays"
 msgstr "Vẫn còn trong tài khoản"
+
+#: ../../apps/mobile/src/features/you/app-icon/icon-names.ts
+msgid "you.appIcon.sticker"
+msgstr "Nhãn dán"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.soundEffectsLine"
