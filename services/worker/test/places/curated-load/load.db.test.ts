@@ -3,13 +3,16 @@
  * row it names (point, name and address untouched; the note's other keys kept), the place becomes
  * reviewed and popular in its rank, a place no row carries is reported and never created, a re-run
  * updates, a place the file drops loses its curated block, and a sparse destination gets the
- * on-demand ingest job instead of a load.
+ * on-demand ingest job instead of a load while an ingest can still add places: never twice for the
+ * same run, so a destination the ingest leaves sparse (or whose ingest already ran) loads against
+ * the places it has. An unmatched activity is kept as a curated-only stop, never looked up.
  */
 import { popularPlaces, withSystem } from '@cp/db';
 import { PLACES_QUEUES, readEditorialOverlay } from '@cp/domain';
 import type { PgBoss } from 'pg-boss';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { PLACES_INGEST_TILE_QUEUE } from '../../../src/jobs/places/ingest-tile';
 import { loadCuratedPlaces } from '../../../src/places/curated-load/load';
 import type { CuratedPlaceRow } from '../../../src/places/curated-load/rows';
 import { startJobsHarness, type JobsHarness } from '../../helpers/jobs-harness';
@@ -19,6 +22,8 @@ let boss: PgBoss;
 let seoul: string;
 let palace: string;
 let market: string;
+let busan: string;
+let daegu: string;
 
 const line = (over: Partial<CuratedPlaceRow>): CuratedPlaceRow => ({
   destination: 'kr-seoul',
@@ -55,12 +60,16 @@ beforeAll(async () => {
   harness = await startJobsHarness();
   boss = await harness.startRuntime([]);
   await boss.createQueue(PLACES_QUEUES.ingest);
+  await boss.createQueue(PLACES_INGEST_TILE_QUEUE);
   const { rows } = await harness.pool.query<{ id: string; slug: string }>(
     `INSERT INTO destinations (slug, name, country, coverage) VALUES
-       ('kr-seoul', 'Seoul', 'South Korea', 'guest'), ('kr-busan', 'Busan', 'South Korea', 'guest')
+       ('kr-seoul', 'Seoul', 'South Korea', 'guest'), ('kr-busan', 'Busan', 'South Korea', 'guest'),
+       ('kr-daegu', 'Daegu', 'South Korea', 'guest')
      RETURNING id, slug`,
   );
   seoul = rows.find((r) => r.slug === 'kr-seoul')!.id;
+  busan = rows.find((r) => r.slug === 'kr-busan')!.id;
+  daegu = rows.find((r) => r.slug === 'kr-daegu')!.id;
   palace = await poi(seoul, '경복궁', 37.5796, 126.977, {
     photos: [],
     i18n: { vi: { etiquette: 'Giữ trật tự.' } },
@@ -79,6 +88,20 @@ afterAll(async () => {
   await harness?.stopAll();
   await harness?.close();
 });
+
+/** One finished ingest run of the destination, as the tile queue records its last stage. */
+async function finishRun(slug: string, runId: string, activeCount: number): Promise<void> {
+  await boss.send(PLACES_INGEST_TILE_QUEUE, { slug, runId, stage: 'finish' });
+  const [job] = await boss.fetch(PLACES_INGEST_TILE_QUEUE);
+  await boss.complete(PLACES_INGEST_TILE_QUEUE, job!.id, { slug, runId, activeCount });
+}
+
+/** Takes the destination's queued ingest and finishes it. */
+async function runIngest(slug: string): Promise<void> {
+  const [job] = await boss.fetch<{ slug: string }>(PLACES_QUEUES.ingest);
+  expect(job?.data).toEqual({ slug });
+  await boss.complete(PLACES_QUEUES.ingest, job!.id);
+}
 
 const editorial = async (id: string) =>
   (
@@ -176,10 +199,73 @@ describe('loading curated places', () => {
       { dryRun: false },
     );
     expect(report.status).toBe('ingest_queued');
-    const [job] = await boss.fetch<{ slug: string }>(PLACES_QUEUES.ingest);
-    expect(job?.data).toEqual({ slug: 'kr-busan' });
     expect((await loadCuratedPlaces(harness.pool, 'nowhere', [], { dryRun: false })).status).toBe(
       'unknown_destination',
     );
+  });
+
+  it('waits for the running ingest, then loads what a sparse destination has', async () => {
+    const lines = [
+      line({
+        destination: 'kr-busan',
+        name_en: 'Jagalchi Market',
+        name_local: '자갈치시장',
+        category: 'market',
+        lat: 35.0966,
+        lng: 129.0306,
+      }),
+      line({
+        destination: 'kr-busan',
+        name_en: 'Gwangalli Night Yacht Cruise',
+        name_local: null,
+        category: 'other',
+        subtype: 'yacht cruise',
+        lat: 35.1532,
+        lng: 129.1186,
+      }),
+      line({
+        destination: 'kr-busan',
+        name_en: 'Huinnyeoul Culture Village',
+        name_local: '흰여울문화마을',
+        category: 'other',
+        lat: 35.0785,
+        lng: 129.0446,
+      }),
+    ];
+    const load = () => loadCuratedPlaces(harness.pool, 'kr-busan', lines, { dryRun: false });
+    expect((await load()).status).toBe('ingest_running');
+    await runIngest('kr-busan');
+    // The run found little: Busan stays sparse, and the next pass loads against what is there.
+    await finishRun('kr-busan', 'busan-run', 1);
+    const jagalchi = await poi(busan, 'Jagalchi Market', 35.0967, 129.0305);
+    const report = await load();
+    expect(report).toMatchObject({
+      status: 'loaded',
+      sparse: true,
+      curatedStops: ['Gwangalli Night Yacht Cruise'],
+    });
+    expect(report.matched.map((m) => m.poiId)).toEqual([jagalchi]);
+    expect(report.unmatchedLines.map((u) => u.line.name_en)).toEqual([
+      'Huinnyeoul Culture Village',
+    ]);
+    expect(await boss.fetch(PLACES_QUEUES.ingest)).toEqual([]);
+  });
+
+  it('redoes a run whose places are gone once, then loads what there is', async () => {
+    await finishRun('kr-daegu', 'daegu-run', 900);
+    const lines = [line({ destination: 'kr-daegu', lat: 35.87, lng: 128.6 })];
+    const load = () => loadCuratedPlaces(harness.pool, 'kr-daegu', lines, { dryRun: false });
+    expect((await load()).status).toBe('ingest_queued');
+    expect((await load()).status).toBe('ingest_running');
+    await runIngest('kr-daegu');
+    // The redo finished without a new run record: the same run is never queued a third time.
+    const report = await load();
+    expect(report).toMatchObject({ status: 'loaded', sparse: true, matched: [] });
+    expect(report.unmatchedLines).toHaveLength(1);
+    expect(await boss.fetch(PLACES_QUEUES.ingest)).toEqual([]);
+    const { rows } = await harness.pool.query('SELECT 1 FROM pois WHERE destination_id = $1', [
+      daegu,
+    ]);
+    expect(rows).toEqual([]);
   });
 });

@@ -1,8 +1,11 @@
 /**
  * Loads one destination's curated places: makes sure its open-data places are there (a sparse
- * destination gets the same on-demand `places.ingest` job a pitch would queue, and is loaded on a
- * later run), matches each line to one of our rows (`./match.ts`) and writes the line into that
- * row's note as reviewed content (`curation = 'editorial'`), so the note wins over any AI profile.
+ * destination gets the on-demand `places.ingest` job while one can still add places, and is
+ * loaded against what there is once none can: `./sparse.ts`), matches each line to one of our
+ * rows (`./match.ts`) and writes the line into that row's note as reviewed content
+ * (`curation = 'editorial'`), so the note wins over any AI profile. An unmatched line for an
+ * activity no map has (a cruise, a hike, a show: `curatedStopOnly`) is a curated-only stop: the
+ * itinerary keeps it by name and the OpenStreetMap lookup is not asked.
  * `editorial.curated.rank` makes the place popular in its destination. A re-run writes the same
  * lines again; a place the file no longer names keeps its note but loses its curated block.
  *
@@ -11,28 +14,28 @@
  * what crews saw and an approved editorial curve). An essential rank flags the place a must-see
  * and essential; a later run without the rank takes both flags back.
  */
-import { popularPlaces, sendInTx, withSystem } from '@cp/db';
-import { busyWeek, PLACES_QUEUES, type BusyWindow } from '@cp/domain';
+import { popularPlaces, withSystem } from '@cp/db';
+import { busyWeek, type BusyWindow } from '@cp/domain';
 import type pg from 'pg';
 
 import { allowIndexMaintenance } from '../batch-sql';
 import { plainWords } from '../pick/match';
 import { chooseCuratedMatch, curatedCandidates, type CuratedLead } from './match';
+import { curatedStopOnly } from './osm-lookup';
 import {
   curatedNameKey,
   curatedNoteLines,
   type CuratedNoteLines,
   type CuratedPlaceRow,
 } from './rows';
-
-/** Fewer active places than this and the destination is ingested first (as on demand). */
-export const SPARSE_PLACES = 50;
-/** The api's on-demand ingest key and retry window, so the two never queue the same slug twice. */
-const INGEST_RETRY_SECONDS = 7 * 24 * 3_600;
+import { handleSparse, SPARSE_PLACES } from './sparse';
 
 export interface CuratedPlacesReport {
   readonly destination: string;
-  readonly status: 'loaded' | 'checked' | 'unknown_destination' | 'ingest_queued';
+  readonly status:
+    'loaded' | 'checked' | 'unknown_destination' | 'ingest_queued' | 'ingest_running';
+  /** Fewer than `SPARSE_PLACES` places, loaded against those because no ingest can add more. */
+  readonly sparse: boolean;
   readonly rows: number;
   readonly matched: readonly {
     readonly name: string;
@@ -46,6 +49,8 @@ export interface CuratedPlacesReport {
   }[];
   /** The unmatched lines with their rank in the file, for the OpenStreetMap lookup. */
   readonly unmatchedLines: readonly { readonly rank: number; readonly line: CuratedPlaceRow }[];
+  /** Unmatched activities no map has, kept as curated-only stops by name (no lookup). */
+  readonly curatedStops: readonly string[];
   /** Places of an earlier run the file no longer names (their curated block was removed). */
   readonly dropped: number;
   /** The destination's popular set after the load, and how many of it are curated. */
@@ -139,31 +144,25 @@ export async function loadCuratedPlaces(
     matched: [],
     unmatched: [],
     unmatchedLines: [],
+    curatedStops: [],
     dropped: 0,
     popular: null,
   };
   const destination = await destinationOf(pool, slug);
   if (destination === undefined) {
-    return { destination: slug, status: 'unknown_destination', ...empty };
+    return { destination: slug, status: 'unknown_destination', sparse: false, ...empty };
   }
   if (destination.sparse) {
-    if (!options.dryRun) {
-      await withSystem(pool, (tx) =>
-        sendInTx(
-          tx,
-          PLACES_QUEUES.ingest,
-          { slug },
-          { singletonKey: `on-demand-ingest:${slug}`, singletonSeconds: INGEST_RETRY_SECONDS },
-        ),
-      );
-    }
-    return { destination: slug, status: 'ingest_queued', ...empty };
+    const step = await handleSparse(pool, slug, options);
+    if (step !== 'load') return { destination: slug, status: step, sparse: true, ...empty };
   }
+  const sparse = destination.sparse;
   const plain = plainWords(destination.name, destination.country);
   const taken = new Set<string>();
   const matched: { name: string; poiId: string; row: string; distanceM: number }[] = [];
   const unmatched: CuratedPlacesReport['unmatched'][number][] = [];
   const unmatchedLines: { rank: number; line: CuratedPlaceRow }[] = [];
+  const curatedStops: string[] = [];
   const placed: { poiId: string; rank: number; line: CuratedPlaceRow }[] = [];
   for (const [index, line] of lines.entries()) {
     const lead: CuratedLead = {
@@ -178,6 +177,10 @@ export async function loadCuratedPlaces(
       return curatedCandidates(tx, destination.id, lead, plain);
     });
     const verdict = chooseCuratedMatch(lead, candidates, plain, taken);
+    if (verdict.kind === 'none' && curatedStopOnly(line)) {
+      curatedStops.push(line.name_en);
+      continue;
+    }
     if (verdict.kind === 'none') {
       const closest = verdict.closest;
       unmatched.push({
@@ -209,10 +212,12 @@ export async function loadCuratedPlaces(
     return {
       destination: slug,
       status: 'checked',
+      sparse,
       rows: lines.length,
       matched,
       unmatched,
       unmatchedLines,
+      curatedStops,
       dropped: 0,
       popular: null,
     };
@@ -241,10 +246,12 @@ export async function loadCuratedPlaces(
   return {
     destination: slug,
     status: 'loaded',
+    sparse,
     rows: lines.length,
     matched,
     unmatched,
     unmatchedLines,
+    curatedStops,
     ...after,
   };
 }
