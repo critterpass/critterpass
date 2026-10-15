@@ -1,7 +1,8 @@
 /**
  * The Pass+ gold call to action (9.10, 9.11, 9.15): 56 high, a warm gradient with a lit top edge
  * and a slow shine. Loading keeps the pill and shows the progressive verb. Disabled it takes the
- * kit's disabled pill (1.B: #e9eaee with grey words), never a dimmed gold that reads as broken; on
+ * kit's disabled fill (1.B: #e9eaee) with a clear edge and dark grey words, since the fill alone is
+ * a shade off the ground and the pill vanished into it; never a dimmed gold that reads as broken; on
  * the night ground (`onNight`) it is the night's glass with soft white words, the same in light and
  * dark, since that ground never changes with the appearance.
  */
@@ -51,7 +52,10 @@ export function GoldButton({
               styles.shape,
               onNight
                 ? { backgroundColor: NIGHT_DISABLED_FILL, boxShadow: NIGHT_DISABLED_RING }
-                : { backgroundColor: t.color.controlDisabled },
+                : {
+                    backgroundColor: t.color.controlDisabled,
+                    boxShadow: `0 0 0 1px ${t.color.outlineEmpty}`,
+                  },
             ]
           : styles.pill,
         { height: t.size.button, borderRadius: t.radius.button },
@@ -62,8 +66,8 @@ export function GoldButton({
         {loading ? <Spinner /> : leading}
         <Text
           variant="button"
-          // Off, the label still reads (the fill says it is off): white on the night, muted ink by day.
-          color={disabled ? (onNight ? NIGHT.text : t.color.muted) : t.color.onAccent}
+          // Off, the label still reads (the fill says it is off): white on the night, grey ink by day.
+          color={disabled ? (onNight ? NIGHT.text : t.color.inkSecondary) : t.color.onAccent}
           style={styles.label}
           numberOfLines={1}
         >
