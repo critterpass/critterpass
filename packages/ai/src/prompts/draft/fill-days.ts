@@ -21,7 +21,7 @@ import {
 } from '@cp/planner';
 
 import { stopBudget } from './budget';
-import { areaStep, hopCap } from './areas';
+import { areaStep, areasHeld, hopCap } from './areas';
 import { addOne, dayFaults, fillMeals, nearFirst, type Attempt } from './complete-days';
 import type { DraftPlanInput } from './context';
 import { coreMustSees } from './must-sees';
@@ -162,6 +162,8 @@ export function fillThinDays(
         const poi = input.pois.get(item.poi_id ?? '');
         return poi !== undefined && foodRole(poi) === 'light';
       });
+      // The trip's core must-sees first, in their order: a hole is theirs before anyone's.
+      const core = coreMustSees(input);
       const offered = [...new Set([...outline.poiIds, ...outline.spareIds, ...nearby])]
         .map((id) => input.pois.get(id))
         .filter(
@@ -169,11 +171,11 @@ export function fillThinDays(
             poi !== undefined &&
             !used.has(poi.id) &&
             !(hasBreak && foodRole(poi) === 'light') &&
-            // A hole is filled from the day's areas or a neighbouring one, never across town.
-            areaStep(input, poi.id, here) < 2,
+            // A hole is filled from the day's areas or a neighbouring one; across town only for
+            // a core must-see on a day still in one area, never into a third.
+            (areaStep(input, poi.id, here) < 2 ||
+              (core.includes(poi.id) && areasHeld(input, here).size < 2)),
         );
-      // The trip's core must-sees first, in their order: a hole is theirs before anyone's.
-      const core = coreMustSees(input);
       const rank = (poi: DraftPoi) => {
         const at = core.indexOf(poi.id);
         return at === -1 ? core.length : at;
