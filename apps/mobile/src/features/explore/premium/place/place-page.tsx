@@ -41,7 +41,11 @@ import { PlaceDock } from './place-dock';
 import { PlaceHeroPhoto } from './place-hero-photo';
 import { PremiumRemoveForEveryone } from './remove-for-everyone';
 
-const HERO = 330;
+/**
+ * The drawn hero's height (4.36): the sheet starts just over a third down, so the page's next
+ * section heading clears the dock at rest instead of sitting half under it.
+ */
+const HERO = 306;
 const OVERLAP = 34;
 
 export function PlacePage(props: PlaceDetailInput) {
