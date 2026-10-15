@@ -57,7 +57,7 @@ export function ComposePremium({
           tone="info"
           text={t({
             id: 'community.consent.declined',
-            message: "Not everyone's in. The plan stays with the crew.",
+            message: 'Not everyone’s in. The plan stays with the crew.',
           })}
           testID="share-plan-declined"
         />

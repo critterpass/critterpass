@@ -270,7 +270,7 @@ export function ChatWelcome({
           {t({
             id: 'chat.premium.welcome.hello',
             message:
-              "Hi all! I'm your guide in here. Mention me with @ and I'll pitch in. Where to start?",
+              'Hi all! I’m your guide in here. Mention me with @ and I’ll pitch in. Where to start?',
           })}
         </Text>
       </View>
@@ -291,7 +291,7 @@ export function ChatWelcome({
       <Text variant="caption" tone="placeholder" align="center">
         {t({
           id: 'chat.premium.welcome.footnote',
-          message: "Messages stay on everyone's phone, offline too",
+          message: 'Messages stay on everyone’s phone, offline too',
         })}
       </Text>
     </View>

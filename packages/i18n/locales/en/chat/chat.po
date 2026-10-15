@@ -80,7 +80,7 @@ msgstr "A sticker to the crew chat"
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.tripSettled"
-msgstr "All square: everyone's settled up"
+msgstr "All square: everyone’s settled up"
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.askToRejoin"

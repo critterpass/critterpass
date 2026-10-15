@@ -29,7 +29,7 @@ msgstr "{0} lúc {1}"
 msgid "explore.dest.writing"
 msgstr "{0} vẫn đang viết về {1}: độ đông theo từng tháng sẽ hiện ở đây. Các địa điểm đã có trên bản đồ."
 
-#. placeholder {0}: view.done
+#. placeholder {0}: deckPosition(stage.kind, view.done, view.total)
 #. placeholder {1}: view.total
 #: ../../apps/mobile/src/features/explore/premium/swipe/swipe-page.tsx
 msgid "explore.premium.swipe.progress"
@@ -118,8 +118,8 @@ msgid "explore.dayTrips.length.minutes"
 msgstr "{mins} phút"
 
 #: ../../apps/mobile/src/features/explore/premium/place/place-sections.tsx
-msgid "explore.premium.place.minutesOn"
-msgstr "thêm {minutes} phút"
+msgid "explore.premium.place.minutesFromHere"
+msgstr "Cách đây {minutes} phút"
 
 #: ../../apps/mobile/src/data/areas/travel-line.ts
 msgid "explore.dayTrips.travel.leg"

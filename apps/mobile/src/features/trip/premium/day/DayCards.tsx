@@ -94,7 +94,7 @@ export const Readiness = memo(function Readiness({ view, now, guideName, onImUp 
       </View>
       {view.viewerIn && !view.viewerUp ? (
         <Button
-          label={t({ id: 'trip.dayOf.imUp', message: "I'm up" })}
+          label={t({ id: 'trip.dayOf.imUp', message: 'I’m up' })}
           size="medium"
           onPress={onImUp}
           testID="trip-day-im-up"
@@ -102,7 +102,7 @@ export const Readiness = memo(function Readiness({ view, now, guideName, onImUp 
       ) : null}
       {view.viewerIn ? null : (
         <Text variant="caption" tone="muted">
-          {t({ id: 'trip.dayOf.notYours', message: "You're not on this one. Sleep in." })}
+          {t({ id: 'trip.dayOf.notYours', message: 'You’re not on this one. Sleep in.' })}
         </Text>
       )}
     </View>

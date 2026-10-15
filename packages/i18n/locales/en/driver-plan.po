@@ -63,7 +63,7 @@ msgstr "Hi {name}, the crew said yes. We'd like to book you for:\n"
 
 #: ../../apps/mobile/src/features/drivers/replied/driver-confirm-card.tsx
 msgid "drivers.replied.tellBody"
-msgstr "I'll write it with dates and pickup pins. You send it."
+msgstr "I’ll write it with dates and pickup pins. You send it."
 
 #. placeholder {0}: money(reply.overtime_per_hour_minor)
 #. placeholder {1}: reply.included_hours

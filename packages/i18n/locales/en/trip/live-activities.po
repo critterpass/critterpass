@@ -29,7 +29,7 @@ msgstr "Set a meet-up first"
 
 #: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.unavailable.failed"
-msgstr "That didn't go through. Try again in a moment."
+msgstr "That didn’t go through. Try again in a moment."
 
 #: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.unavailable.switchedOff"
@@ -53,4 +53,4 @@ msgstr "This trip"
 
 #: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/offer-copy.ts
 msgid "trip.lockScreen.unavailable.offline"
-msgstr "You're offline, so this couldn't reach the crew's phones. Try again when you're back."
+msgstr "You’re offline, so this couldn’t reach the crew’s phones. Try again when you’re back."

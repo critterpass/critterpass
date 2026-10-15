@@ -35,6 +35,10 @@ import type { ApiRead, SetupServices } from '../../data/services';
 import { ALEX, DEV, JORDAN, MAYA, RIN, TRIP_ID, WINSTON } from '../../test-support/setup-fixtures';
 import { apiReads, K_ANON, renderBudget, seedBudget } from '../test-support/budget-harness';
 
+/** A line's words as read: prose ties its last two words with a no-break space. */
+const shown = (line: { props: { children?: unknown } }): string =>
+  String(line.props.children).replace(/\u00a0/gu, ' ');
+
 let stack: TestLocalFirst | null = null;
 
 afterEach(async () => {
@@ -138,7 +142,7 @@ describe('organiser, from four maxes', () => {
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
     await fireEvent.press(await screen.findByTestId('budget-lock'));
     const line = await screen.findByTestId('budget-lock-line');
-    expect(line.props.children).toBe('That’s above someone’s max. Slide it down into the band.');
+    expect(shown(line)).toBe('That’s above someone’s max. Slide it down into the band.');
     expect(String(line.props.children)).not.toMatch(/\d/u);
   });
 });
@@ -280,7 +284,7 @@ describe('organiser of a crew settling in won', () => {
     await screen.findByTestId('budget-sweet-spot');
     await fireEvent.press(screen.getByTestId('budget-lock'));
     const line = await screen.findByTestId('budget-lock-line');
-    expect(line.props.children).toBe('That didn’t lock. Try again.');
+    expect(shown(line)).toBe('That didn’t lock. Try again.');
     expect(targets).toHaveLength(2);
   });
 });

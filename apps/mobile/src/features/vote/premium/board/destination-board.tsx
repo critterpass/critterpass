@@ -99,7 +99,7 @@ export function DestinationBoard({ poll, me, heading = true, guideNote }: Destin
       result,
       t({
         id: 'vote.premium.board.finalFailed',
-        message: "The final didn't start. Try again in a moment.",
+        message: 'The final didn’t start. Try again in a moment.',
       }),
     );
     if (done) setPick(null);
@@ -111,7 +111,7 @@ export function DestinationBoard({ poll, me, heading = true, guideNote }: Destin
       result,
       t({
         id: 'vote.premium.board.lockInFailed',
-        message: "That didn't lock in. Try again in a moment.",
+        message: 'That didn’t lock in. Try again in a moment.',
       }),
     );
     if (done) openRevealOnce(poll.id);

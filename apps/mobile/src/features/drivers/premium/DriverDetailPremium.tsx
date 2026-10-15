@@ -32,7 +32,7 @@ export function DriverDetailPremium(input: {
   const detail = useDriverDetail(input.tripId, input.listingId);
   const { driver } = detail;
   const car = useVehicleLine(driver ?? { vehicle: null, seats: null });
-  const back = t({ id: 'drivers.detail.back', message: "Crews' drivers" });
+  const back = t({ id: 'drivers.detail.back', message: 'Crews’ drivers' });
   if (driver === null) {
     return (
       <PushScreen
@@ -44,7 +44,7 @@ export function DriverDetailPremium(input: {
           <Text variant="body" tone="muted" align="center" style={{ padding: th.space.gutter }}>
             {t({
               id: 'drivers.detail.unavailable',
-              message: "This driver's listing isn't available right now. He may have paused it.",
+              message: 'This driver’s listing isn’t available right now. He may have paused it.',
             })}
           </Text>
         ) : (

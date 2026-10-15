@@ -46,7 +46,7 @@ export function useDriverDetail(tripId: string, listingId: string) {
     feedback.emit('error');
     toast.show({
       id: 'drivers-shortlist',
-      title: t({ id: 'drivers.detail.shortlistFailed', message: "Couldn't add him. Try again." }),
+      title: t({ id: 'drivers.detail.shortlistFailed', message: 'Couldn’t add him. Try again.' }),
     });
   }
 

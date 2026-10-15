@@ -158,6 +158,10 @@ msgstr ""
 msgid "liveMap.status.still"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
+msgid "liveMap.primer.notNow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/live-map/copy.ts
 msgid "liveMap.status.off"
 msgstr ""
@@ -179,7 +183,7 @@ msgid "liveMap.premium.onTheWay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
-msgid "liveMap.primer.line"
+msgid "liveMap.premium.primerLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/crew-panel-rows.tsx
@@ -214,8 +218,7 @@ msgstr ""
 msgid "liveMap.toast.pinged"
 msgstr ""
 
-#. placeholder {0}: m.destinationName ?? m.crewName
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewMapPremium.tsx
+#: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-preview.tsx
 msgid "liveMap.premium.previewPill"
 msgstr ""
 
@@ -252,7 +255,7 @@ msgid "liveMap.queued.createMeetup"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
-msgid "liveMap.primer.action"
+msgid "liveMap.premium.shareTripDays"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
@@ -274,11 +277,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/premium/crew-map-marks.tsx
 msgid "liveMap.gate.endedLine"
-msgstr ""
-
-#. placeholder {0}: m.endsOn
-#: ../../apps/mobile/src/features/crew/live-map/premium/CrewPanel.tsx
-msgid "liveMap.panel.footer"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/live-map/ping-toast.ts

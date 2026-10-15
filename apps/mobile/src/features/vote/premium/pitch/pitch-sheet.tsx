@@ -112,7 +112,7 @@ export function PremiumPitchSheet({ crewId, placeId }: PitchSheetProps) {
           ? quiet(
               t({
                 id: 'vote.pitch.searchFailed',
-                message: "Search didn't answer. Try again in a moment.",
+                message: 'Search didn’t answer. Try again in a moment.',
               }),
               'pitch-search-failed',
             )
@@ -121,7 +121,7 @@ export function PremiumPitchSheet({ crewId, placeId }: PitchSheetProps) {
           ? quiet(
               t({
                 id: 'vote.pitch.offline',
-                message: "You're offline. Search comes back with the connection.",
+                message: 'You’re offline. Search comes back with the connection.',
               }),
               'pitch-offline',
             )

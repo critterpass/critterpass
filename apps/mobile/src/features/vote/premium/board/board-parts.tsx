@@ -108,7 +108,7 @@ export function EmptyBoard({
         critter={tokek.kind}
         text={t({
           id: 'vote.premium.board.empty',
-          message: "The board's empty. Pitch a place and I'll bring the facts.",
+          message: 'The board’s empty. Pitch a place and I’ll bring the facts.',
         })}
       />
       <Button
@@ -135,7 +135,7 @@ export function useOnlineAnswer(): (result: SendResult, refused: string) => bool
         result.kind === 'unavailable'
           ? t({
               id: 'vote.premium.board.needsSignal',
-              message: "That needs signal. Try again when you're back online.",
+              message: 'That needs signal. Try again when you’re back online.',
             })
           : refused,
     });

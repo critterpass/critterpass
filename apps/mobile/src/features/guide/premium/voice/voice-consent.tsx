@@ -6,7 +6,7 @@ import { t } from '@lingui/core/macro';
 import { Stack } from 'expo-router';
 import { View } from 'react-native';
 
-import { Button, CritterSticker, Text, TextButton, usePremiumTheme } from '@/ui/premium';
+import { Button, CritterSticker, Text, usePremiumTheme } from '@/ui/premium';
 import { FullScreen, useScreenInsets } from '@/ui/premium/shell';
 
 import type { VoiceConsentViewProps } from '../../voice/voice-gate';
@@ -78,14 +78,12 @@ export function PremiumVoiceConsent({
             loading={pending !== null}
             testID="guide-voice-consent-yes"
           />
-          <View style={{ alignItems: 'center' }}>
-            <TextButton
-              align="center"
-              label={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}
-              onPress={onType}
-              testID="guide-voice-consent-no"
-            />
-          </View>
+          <Button
+            variant="secondary"
+            label={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}
+            onPress={onType}
+            testID="guide-voice-consent-no"
+          />
         </View>
       </View>
     </FullScreen>

@@ -301,7 +301,7 @@ msgstr "None of this is on your trip yet. Day {best} is the one to steal."
 
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
 msgid "community.consent.declined"
-msgstr "Not everyone's in. The plan stays with the crew."
+msgstr "Not everyone’s in. The plan stays with the crew."
 
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 msgid "community.consent.decline"
@@ -509,7 +509,7 @@ msgstr "Thanks. We will take a look."
 
 #: ../../apps/mobile/src/features/community/detail/use-take-plan.ts
 msgid "community.detail.copyFailed"
-msgstr "That didn't go through. Try again in a moment."
+msgstr "That didn’t go through. Try again in a moment."
 
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-manage.tsx
 msgid "community.published.revoked"
@@ -533,7 +533,7 @@ msgstr "The plan comes down from crew plans, with its saves and rating."
 
 #: ../../apps/mobile/src/features/community/detail/use-take-plan.ts
 msgid "community.detail.tripFailed"
-msgstr "The trip didn't start. Try again in a moment."
+msgstr "The trip didn’t start. Try again in a moment."
 
 #: ../../apps/mobile/src/features/community/premium/plan-link-premium-screen.tsx
 msgid "community.link.gone"
@@ -613,7 +613,7 @@ msgstr "What the shared plan shows"
 
 #: ../../apps/mobile/src/features/community/premium/plan-premium-view.tsx
 msgid "community.detail.tips"
-msgstr "What they'd change"
+msgstr "What they’d change"
 
 #: ../../apps/mobile/src/features/community/premium/trip-picker-premium.tsx
 msgid "community.picker.title"
@@ -625,7 +625,7 @@ msgstr "You have no trip being planned. Start one to {place} and this plan goes 
 
 #: ../../apps/mobile/src/features/community/premium/share-plan-premium-screen.tsx
 msgid "community.consent.approved"
-msgstr "You're in."
+msgstr "You’re in."
 
 #: ../../apps/mobile/src/features/community/commands.ts
 msgid "community.queued.consent"

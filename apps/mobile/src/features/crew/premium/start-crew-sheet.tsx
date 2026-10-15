@@ -19,6 +19,7 @@ import {
   ScrollEdgeFade,
   useDirtySheetGuard,
   useScreenInsets,
+  useScrollEdges,
 } from '@/ui/premium/shell';
 import { KeyboardAwareScroll, KeyboardStickyFooter } from '@/ui/premium/shell/keyboard/keyboard';
 
@@ -77,6 +78,7 @@ function StartCrewForm({ start, cover }: StartCrewFormProps) {
     keep: t({ id: 'crew.premium.keepEditing', message: 'Keep editing' }),
   });
   const note = startNote(start.step, start.refusal, start.slow);
+  const edges = useScrollEdges();
   return (
     <View style={[styles.root, { backgroundColor: th.color.ground }]} testID="start-crew">
       <View
@@ -96,9 +98,10 @@ function StartCrewForm({ start, cover }: StartCrewFormProps) {
         </Text>
         <View style={{ width: th.size.glassNav }} />
       </View>
-      {/* The pass scrolls under the header and above the footer into the ground, never cut. */}
+      {/* The pass and the pickers fade at the header and the footer instead of being cut there. */}
       <View style={styles.root}>
         <KeyboardAwareScroll
+          {...edges.scrollProps}
           contentContainerStyle={{ paddingHorizontal: th.space.gutter }}
           // The focused name keeps the footer's button above the keyboard.
           bottomOffset={FOOTER_CLEARANCE + th.size.button + th.space.gap8 * 2}
@@ -171,8 +174,10 @@ function StartCrewForm({ start, cover }: StartCrewFormProps) {
             )}
           </View>
         </KeyboardAwareScroll>
+        {/* Always on: with the keyboard up the page lifts by its inset, not its offset, and the pass's
+          shadow would end in a line at the header. The stage's empty top is under it at rest. */}
         <ScrollEdgeFade edge="top" height={SCROLL_EDGE_FADE} />
-        <ScrollEdgeFade edge="bottom" height={SCROLL_EDGE_FADE} />
+        <ScrollEdgeFade edge="bottom" height={SCROLL_EDGE_FADE} visible={edges.bottom} />
       </View>
       <KeyboardStickyFooter
         openedOffset={th.space.gap8}

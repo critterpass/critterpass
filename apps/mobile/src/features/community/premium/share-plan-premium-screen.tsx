@@ -77,7 +77,7 @@ function Faces({
             onPress={() =>
               action.run(
                 () => respond({ shared_plan_id: face.planId, approve: true }),
-                t({ id: 'community.consent.approved', message: "You're in." }),
+                t({ id: 'community.consent.approved', message: 'You’re in.' }),
               )
             }
             testID="share-plan-approve"

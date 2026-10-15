@@ -48,7 +48,7 @@ export function useOfferCopy(
         ? t({
             id: 'trip.lockScreen.unavailable.offline',
             message:
-              "You're offline, so this couldn't reach the crew's phones. Try again when you're back.",
+              'You’re offline, so this couldn’t reach the crew’s phones. Try again when you’re back.',
           })
         : phase.why === 'switched_off'
           ? t({
@@ -57,7 +57,7 @@ export function useOfferCopy(
             })
           : t({
               id: 'trip.lockScreen.unavailable.failed',
-              message: "That didn't go through. Try again in a moment.",
+              message: 'That didn’t go through. Try again in a moment.',
             });
   } else {
     title = t({ id: 'trip.lockScreen.offer.title', message: 'On every lock screen' });

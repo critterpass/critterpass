@@ -96,9 +96,9 @@ export function heroCopy(
     ? airport
       ? t({
           id: 'trip.dayOf.noTravelAirport',
-          message: "Travel time to the airport isn't included.",
+          message: 'Travel time to the airport isn’t included.',
         })
-      : t({ id: 'trip.dayOf.noTravel', message: "Travel time isn't included." })
+      : t({ id: 'trip.dayOf.noTravel', message: 'Travel time isn’t included.' })
     : view.withoutTraffic
       ? t({ id: 'trip.dayOf.noTraffic', message: 'Worked out without live traffic.' })
       : null;
@@ -109,7 +109,7 @@ export function heroCopy(
   const solo = total === 1;
   const readinessLabel = solo
     ? view.allUp
-      ? t({ id: 'trip.dayOf.soloUp', message: "You're up" })
+      ? t({ id: 'trip.dayOf.soloUp', message: 'You’re up' })
       : t({ id: 'trip.dayOf.soloNotUp', message: 'Not up yet' })
     : view.allUp
       ? t({

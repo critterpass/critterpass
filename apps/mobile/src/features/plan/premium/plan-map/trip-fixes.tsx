@@ -92,7 +92,7 @@ export function TripFixRows(props: TripFixRowsProps) {
         )}
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.space.gap8 }}>
-        <Text variant="title" style={{ flex: 1 }} accessibilityRole="header">
+        <Text variant="stat" style={{ flex: 1 }} accessibilityRole="header">
           {planMapCopy.wholeTrip()}
         </Text>
         {count === null ? null : (

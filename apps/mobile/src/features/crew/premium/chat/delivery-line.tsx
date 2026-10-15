@@ -48,16 +48,16 @@ export function failureLine(code: string | undefined): string {
   if (code === 'PAYLOAD_TOO_LARGE') {
     return t({
       id: 'chat.premium.failed.tooBig',
-      message: "Didn't send · too big for this signal",
+      message: 'Didn’t send · too big for this signal',
     });
   }
   if (code === 'FORBIDDEN') {
     return t({
       id: 'chat.premium.failed.forbidden',
-      message: "Didn't send · you can't post here now",
+      message: 'Didn’t send · you can’t post here now',
     });
   }
-  return t({ id: 'chat.premium.failed', message: "Didn't send" });
+  return t({ id: 'chat.premium.failed', message: 'Didn’t send' });
 }
 
 export function DeliveryLine({

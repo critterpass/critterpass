@@ -35,7 +35,14 @@ export function PremiumBalanceView(props: BalanceViewProps) {
   const offer = props.offer;
   const title = barTitle(props.title, locale);
   return (
-    <PushScreen title={title} backLabel={props.backLabel} scroll={false} testID="plan-balance">
+    <PushScreen
+      title={title}
+      backLabel={props.backLabel}
+      badge={<OnlyYouPill />}
+      badgeAlign="centre"
+      scroll={false}
+      testID="plan-balance"
+    >
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{
@@ -44,9 +51,6 @@ export function PremiumBalanceView(props: BalanceViewProps) {
           gap: theme.space.gap12,
         }}
       >
-        <View style={{ alignItems: 'center' }}>
-          <OnlyYouPill />
-        </View>
         <View style={{ gap: theme.space.gap4 }}>
           <Text variant="largeTitle" accessibilityRole="header" singleLine={false}>
             {title}

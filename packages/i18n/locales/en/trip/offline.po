@@ -29,7 +29,7 @@ msgstr "Already sent"
 
 #: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
 msgid "trip.offline.reason.other"
-msgstr "It couldn't be saved. Try it again"
+msgstr "It couldn’t be saved. Try it again"
 
 #: ../../apps/mobile/src/features/trip/offline/conflict-reason.ts
 msgid "trip.offline.reason.removed"
@@ -65,7 +65,7 @@ msgstr "The vote closed while you were offline"
 
 #: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
 msgid "trip.offline.notSaved"
-msgstr "Today isn't saved to this phone yet. The plan still works; tickets and maps need signal."
+msgstr "Today isn’t saved to this phone yet. The plan still works; tickets and maps need signal."
 
 #: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
 msgid "trip.offline.saved"
@@ -73,7 +73,7 @@ msgstr "Today was saved to your phone at {savedAt}."
 
 #: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
 msgid "trip.offline.plan"
-msgstr "Today's plan"
+msgstr "Today’s plan"
 
 #: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
 msgid "trip.offline.planFirst"

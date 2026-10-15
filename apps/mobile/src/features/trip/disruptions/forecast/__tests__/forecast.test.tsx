@@ -142,7 +142,7 @@ describe('forecast screen', () => {
     const stale = propsOf('3k-7-stale');
     await show(<ForecastReady props={stale} />);
     expect(
-      screen.getByText("I couldn't check in the last three hours. This is the last I saw."),
+      screen.getByText('I couldn’t check in the last three hours. This is the last I saw.'),
     ).toBeTruthy();
     expect(checkedLabel(stale.model.checkedAt, stale.tz, stale.model.stale, 'en')).toBe(
       'LAST CHECKED 07:30',
@@ -153,7 +153,7 @@ describe('forecast screen', () => {
     expect(screen.getByTestId('forecast-all-clear')).toBeTruthy();
     expect(screen.getByTestId('forecast-watch-batur')).toBeTruthy();
     expect(
-      screen.queryByText("I couldn't check in the last three hours. This is the last I saw."),
+      screen.queryByText('I couldn’t check in the last three hours. This is the last I saw.'),
     ).toBeNull();
     await show(<ForecastReady props={propsOf('3k-7-no-forecast')} />);
     expect(screen.getAllByTestId('forecast-all-clear').length).toBeGreaterThan(0);

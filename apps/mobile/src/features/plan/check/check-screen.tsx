@@ -101,6 +101,7 @@ export function CheckScreen({
           : checkedAgo(check.check.checked_at, new Date())
       }
       state={check.loaded ? 'ready' : 'loading'}
+      checking={running || check.check?.checked_at == null}
       title={
         check.check?.checked_at == null
           ? checkingTitle()

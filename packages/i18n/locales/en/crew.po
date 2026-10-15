@@ -337,7 +337,7 @@ msgstr "Delete this message?"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.failed"
-msgstr "Didn't send"
+msgstr "Didn’t send"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/pending-uploads.tsx
 msgid "chat.premium.upload.failed"
@@ -345,11 +345,11 @@ msgstr "Didn’t send"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.failed.tooBig"
-msgstr "Didn't send · too big for this signal"
+msgstr "Didn’t send · too big for this signal"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/delivery-line.tsx
 msgid "chat.premium.failed.forbidden"
-msgstr "Didn't send · you can't post here now"
+msgstr "Didn’t send · you can’t post here now"
 
 #: ../../apps/mobile/src/features/crew/premium/edit-crew-screen.tsx
 msgid "crew.premium.edit.discard"
@@ -429,7 +429,7 @@ msgstr "Hasn’t made a pass yet"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
 msgid "chat.premium.welcome.hello"
-msgstr "Hi all! I'm your guide in here. Mention me with @ and I'll pitch in. Where to start?"
+msgstr "Hi all! I’m your guide in here. Mention me with @ and I’ll pitch in. Where to start?"
 
 #: ../../apps/mobile/src/features/crew/premium/components/crew-code-card.tsx
 msgid "crew.premium.code.holdHint"
@@ -602,7 +602,7 @@ msgstr "Messages"
 
 #: ../../apps/mobile/src/features/crew/premium/chat/chat-panels.tsx
 msgid "chat.premium.welcome.footnote"
-msgstr "Messages stay on everyone's phone, offline too"
+msgstr "Messages stay on everyone’s phone, offline too"
 
 #: ../../apps/mobile/src/features/crew/premium/components/pass-pickers.tsx
 msgid "crew.premium.cover.mint"

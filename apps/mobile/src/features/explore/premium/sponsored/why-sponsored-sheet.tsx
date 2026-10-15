@@ -35,7 +35,7 @@ export function PremiumWhySponsoredSheet(props: {
     t({
       id: 'explore.sponsored.neutral',
       message:
-        "The guide's picks are never ranked by what a partner pays. We may earn a commission if you book through a partner.",
+        'The guide’s picks are never ranked by what a partner pays. We may earn a commission if you book through a partner.',
     }),
     t({
       id: 'explore.sponsored.passPlus',

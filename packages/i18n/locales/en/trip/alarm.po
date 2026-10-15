@@ -30,7 +30,7 @@ msgstr "Crew was pinged"
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 #: ../../apps/mobile/src/features/trip/alarm/alarm-runtime.tsx
 msgid "trip.alarm.imUp"
-msgstr "I'm up"
+msgstr "I’m up"
 
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 msgid "trip.alarm.title"
@@ -54,7 +54,7 @@ msgstr "Pickup at {pickupTime}"
 
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 msgid "trip.alarm.slide"
-msgstr "slide, I'm up →"
+msgstr "slide, I’m up →"
 
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 #: ../../apps/mobile/src/features/trip/alarm/alarm-runtime.tsx

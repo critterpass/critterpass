@@ -64,7 +64,7 @@ export function useFinalLines(
           }),
     toGo:
       poll.pendingIds.length === 0
-        ? t({ id: 'vote.final.allIn', message: "Everyone's in" })
+        ? t({ id: 'vote.final.allIn', message: 'Everyone’s in' })
         : pending.length < poll.pendingIds.length
           ? t({ id: 'vote.final.toGoCount', message: `${poll.pendingIds.length} to go` })
           : t({ id: 'vote.final.toGo', message: `${listNames(pending, and)} to go` }),

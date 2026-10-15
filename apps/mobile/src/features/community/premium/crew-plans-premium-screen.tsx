@@ -144,7 +144,8 @@ export function CrewPlansPremiumScreen({ destination, tripId }: CrewPlansScreenP
           })}
         </Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: th.space.gap8 }}>
-          {page === null ? null : (
+          {/* None shared says itself in the empty state below: no "0 shared" pill above it. */}
+          {page === null || page.total === 0 ? null : (
             <StatusTag
               tone="unopened"
               label={t({ id: 'community.browse.total', message: `${page.total} shared` })}

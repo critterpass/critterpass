@@ -62,7 +62,7 @@ export function ComparePremium(props: {
                     id: 'drivers.premium.offline',
                     message: 'This needs signal. Try again when you have some.',
                   })
-                : t({ id: 'drivers.premium.failed', message: "That didn't load. Try again." })}
+                : t({ id: 'drivers.premium.failed', message: 'That didn’t load. Try again.' })}
             </Text>
             <Button
               label={t({ id: 'drivers.premium.retry', message: 'Try again' })}

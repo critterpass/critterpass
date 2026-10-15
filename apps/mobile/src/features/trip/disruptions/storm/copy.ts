@@ -283,12 +283,12 @@ export const stormLines = () => ({
   }),
   notVoting: t({
     id: 'trip.disruptions.storm.notVoting',
-    message: "You're not on this one, so the others decide.",
+    message: 'You’re not on this one, so the others decide.',
   }),
   confirmPay: t({ id: 'trip.disruptions.storm.confirmPay', message: 'Confirm & pay' }),
   offline: t({
     id: 'trip.disruptions.storm.offline',
-    message: "You're offline. Your vote goes out when you're back.",
+    message: 'You’re offline. Your vote goes out when you’re back.',
   }),
   missingTitle: t({ id: 'trip.disruptions.storm.missingTitle', message: 'All sorted' }),
   missing: t({ id: 'trip.disruptions.storm.missing', message: 'Nothing to decide here any more.' }),

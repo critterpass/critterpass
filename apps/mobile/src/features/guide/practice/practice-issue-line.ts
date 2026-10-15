@@ -16,12 +16,12 @@ export function useIssueLine(issue: PracticeIssue | null, guideName: string): st
     case 'heard_nothing':
       return t({
         id: 'guide.practice.heardNothing',
-        message: "I didn't catch that. Say it once more, a little closer to the phone.",
+        message: 'I didn’t catch that. Say it once more, a little closer to the phone.',
       });
     case 'listen_failed':
       return t({
         id: 'guide.practice.listenFailed',
-        message: "Listening didn't start. Try again.",
+        message: 'Listening didn’t start. Try again.',
       });
     case 'offline':
       return t({
@@ -31,7 +31,7 @@ export function useIssueLine(issue: PracticeIssue | null, guideName: string): st
     case 'check_failed':
       return t({
         id: 'guide.practice.checkFailed',
-        message: "That one couldn't be checked, so it wasn't counted. Try again.",
+        message: 'That one couldn’t be checked, so it wasn’t counted. Try again.',
       });
   }
 }

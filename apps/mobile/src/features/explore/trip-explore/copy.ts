@@ -38,7 +38,7 @@ export function gapWhen(date: string, from: string, to: string): string {
 
 /** Who is free in the window, and what the others are doing meanwhile when it has a name. */
 export function gapWho(count: number, everyone: boolean, busy: string | null): string {
-  if (count === 1) return t({ id: 'explore.trip.gapSolo', message: "You're free" });
+  if (count === 1) return t({ id: 'explore.trip.gapSolo', message: 'You’re free' });
   if (everyone) return t({ id: 'explore.trip.gapEveryone', message: 'The whole crew is free' });
   if (busy === null) {
     return t({
@@ -114,7 +114,7 @@ export const swipeTitle = () => t({ id: 'explore.trip.swipeTitle', message: 'Swi
 export const swipeBody = (count: number) =>
   t({
     id: 'explore.trip.swipeBody',
-    message: `Can't agree? ${count} places, everyone swipes, matches go to Ideas.`,
+    message: `Can’t agree? ${count} places, everyone swipes, matches go to Ideas.`,
   });
 
 export function swipePill(live: SwipeLive): string {

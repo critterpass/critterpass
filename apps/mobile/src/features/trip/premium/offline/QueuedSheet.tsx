@@ -24,7 +24,7 @@ export function QueuedSheet(props: QueuedItemSheetProps) {
     else
       setNote(
         change === 'sending'
-          ? t({ id: 'trip.offline.alreadySending', message: "It's already on its way." })
+          ? t({ id: 'trip.offline.alreadySending', message: 'It’s already on its way.' })
           : t({ id: 'trip.offline.alreadySent', message: 'It was sent a moment ago.' }),
       );
   };
@@ -68,12 +68,12 @@ export function QueuedSheet(props: QueuedItemSheetProps) {
           </View>
         )}
         <Text variant="captionMuted" tone="muted">
-          {t({ id: 'trip.offline.premium.sendsItself', message: "Sends itself when you're back" })}
+          {t({ id: 'trip.offline.premium.sendsItself', message: 'Sends itself when you’re back' })}
         </Text>
         <View style={styles.pair}>
           <View style={styles.flex}>
             <Button
-              label={t({ id: 'trip.offline.cancelSend', message: "Don't send it" })}
+              label={t({ id: 'trip.offline.cancelSend', message: 'Don’t send it' })}
               variant="destructive"
               onPress={() => void props.onCancel().then(settle)}
               testID="trip-offline-item-cancel"

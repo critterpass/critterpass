@@ -6,7 +6,6 @@
  * a card with what can be done meanwhile; on an unboosted trip the Boost card sits over it.
  */
 import type { CameraRef } from '@maplibre/maplibre-react-native';
-import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useRef } from 'react';
@@ -15,13 +14,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { LiveMapGatePremium } from '@/features/monetize';
 import { PremiumMapCanvas } from '@/features/plan';
-import { GlassIconButton, GlassSurface, Text, usePremiumTheme } from '@/ui/premium';
+import { GlassIconButton, Text, usePremiumTheme } from '@/ui/premium';
 import { SCROLL_EDGE_FADE, ScrollEdgeFade } from '@/ui/premium/shell';
 
 import { liveMapPaywall } from '../gate-slot';
+import { PreviewFaces, PreviewPill } from './crew-map-preview';
 import { useLiveMapScreen } from '../use-live-map-screen';
 import { CrewPanel } from './CrewPanel';
-import { GatePreview } from './gate-preview';
 import { Pins, Sleeping } from './crew-map-marks';
 import { useDestinationCentre } from './use-destination-centre';
 import { MeetupEditorPremium } from './MeetupEditorPremium';
@@ -33,9 +32,9 @@ export function CrewMapPremium({ tripId }: { readonly tripId: string }) {
   const th = usePremiumTheme();
   const { t } = useLingui();
   const insets = useSafeAreaInsets();
+  const { height } = useWindowDimensions();
   const camera = useRef<CameraRef>(null);
   const m = useLiveMapScreen(tripId);
-  const { height } = useWindowDimensions();
   const open = m.gate === 'open' || m.gate === 'loading';
   const destination = useDestinationCentre(m.destinationId);
   const framed =
@@ -55,6 +54,8 @@ export function CrewMapPremium({ tripId }: { readonly tripId: string }) {
   const sharing = m.view?.sharingCount ?? 0;
   const members = m.view?.memberCount ?? 0;
   const paywall = liveMapPaywall();
+  // The faces fill the map between the header and the Boost card.
+  const previewHeight = Math.max(0, height * 0.52);
   return (
     <View style={styles.root} testID="live-map-screen">
       {/* The map fills the screen behind the header and the crew panel. The camera only reads its
@@ -80,7 +81,6 @@ export function CrewMapPremium({ tripId }: { readonly tripId: string }) {
           ]}
         />
       ) : null}
-      {m.gate === 'boost_required' ? <GatePreview m={m} height={height * 0.55} /> : null}
       {/* The clock and battery read on a fade of the ground, not straight on the map's labels. */}
       <ScrollEdgeFade
         edge="top"
@@ -100,21 +100,9 @@ export function CrewMapPremium({ tripId }: { readonly tripId: string }) {
           onPress={() => router.back()}
           testID="live-map-back"
         />
-        <View style={styles.pillSlot}>
+        <View style={styles.middle}>
           {m.gate === 'boost_required' ? (
-            // The gate previews the map: a light glass capsule says so, as the design labels it.
-            <View style={[styles.pill, { boxShadow: th.shadow.float }]}>
-              <GlassSurface kind="regular" style={[StyleSheet.absoluteFill, styles.pillGlass]} />
-              <Text variant="badge" style={styles.previewLabel} numberOfLines={1}>
-                {upper(
-                  t({
-                    id: 'liveMap.premium.previewPill',
-                    message: `Preview · your ${m.destinationName ?? m.crewName} trip`,
-                  }),
-                  m.locale,
-                )}
-              </Text>
-            </View>
+            <PreviewPill place={m.destinationName ?? m.crewName} />
           ) : (
             <View style={[styles.pill, { backgroundColor: th.color.inkSurface }]}>
               {/* A long crew name gives way, the count always shows whole. */}
@@ -157,6 +145,7 @@ export function CrewMapPremium({ tripId }: { readonly tripId: string }) {
           </View>
         </View>
       ) : null}
+      {m.gate === 'boost_required' ? <PreviewFaces m={m} height={previewHeight} /> : null}
       <View style={styles.fill} pointerEvents="box-none">
         {m.gate === 'outside_trip_days' ? <Sleeping m={m} /> : null}
       </View>
@@ -200,8 +189,7 @@ const styles = StyleSheet.create({
     gap: 10,
     zIndex: 2,
   },
-  // The capsule hugs its words, centred between the back circle and its mirror.
-  pillSlot: { flex: 1, alignItems: 'center' },
+  middle: { flex: 1, alignItems: 'center' },
   pill: {
     maxWidth: '100%',
     height: 34,

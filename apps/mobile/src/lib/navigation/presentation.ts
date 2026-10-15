@@ -48,7 +48,8 @@ const PRESENTATIONS: Readonly<Record<string, ScreenPresentation>> = {
   // the boost's stamp as covers.
   '(modal)/guide/[threadId]': MODAL,
   '(modal)/guide/dietary': FULL,
-  '(modal)/guide/phrase': FULL,
+  // Phrase show mode is the whole screen, shown to someone else: a cover, never a sheet.
+  '(modal)/guide/phrase': COVER,
   '(modal)/guide/camera': FULL,
   '(modal)/guide/voice': FULL,
   '(modal)/guide/practice': FULL,

@@ -123,7 +123,7 @@ export function PlanPremiumView({
         {projection.tips.length === 0 ? null : (
           <View style={{ gap: th.space.gap8 }}>
             <Text variant="headline" accessibilityRole="header">
-              {t({ id: 'community.detail.tips', message: "What they'd change" })}
+              {t({ id: 'community.detail.tips', message: 'What they’d change' })}
             </Text>
             {projection.tips.map((tip, index) => (
               <Card key={`${tip.poi_id}-${index}`} padded>

@@ -104,8 +104,8 @@ export function InAppAlarmPremium(props: InAppAlarmProps) {
         </View>
         <View style={styles.foot}>
           <SlideToUp
-            label={t({ id: 'trip.alarm.slide', message: "slide, I'm up →" })}
-            actionLabel={t({ id: 'trip.alarm.imUp', message: "I'm up" })}
+            label={t({ id: 'trip.alarm.slide', message: 'slide, I’m up →' })}
+            actionLabel={t({ id: 'trip.alarm.imUp', message: 'I’m up' })}
             onConfirm={props.onUp}
             testID="trip-alarm-slide"
           />

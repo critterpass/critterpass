@@ -53,7 +53,7 @@ function useSheetCopy(kind: AlarmSheetKind, guideName: string) {
         body: t({
           id: 'trip.alarm.sheet.notificationBody',
           message:
-            "On this version of the app a leave-by rings as a notification with I'm up and Snooze. It won't ring through silent mode, so keep the sound on tonight.",
+            'On this version of the app a leave-by rings as a notification with I’m up and Snooze. It won’t ring through silent mode, so keep the sound on tonight.',
         }),
         primary: t({ id: 'trip.alarm.sheet.notificationOk', message: 'Got it' }),
       };

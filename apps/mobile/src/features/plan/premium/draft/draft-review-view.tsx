@@ -56,6 +56,7 @@ export function PremiumDraftReviewView(props: DraftReviewViewProps) {
     <PushScreen
       title={title}
       backLabel={t({ id: 'plan.premium.draft.back', message: 'Back' })}
+      badge={<OnlyYouPill ink />}
       scroll={false}
       testID="draft-review"
     >
@@ -68,9 +69,6 @@ export function PremiumDraftReviewView(props: DraftReviewViewProps) {
           gap: theme.space.gap12,
         }}
       >
-        <View style={{ alignItems: 'flex-end' }}>
-          <OnlyYouPill ink />
-        </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.space.gap12 }}>
           <Text variant="largeTitle" accessibilityRole="header" style={{ flex: 1 }}>
             {title}

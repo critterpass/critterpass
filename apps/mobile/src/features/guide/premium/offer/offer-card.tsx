@@ -38,7 +38,7 @@ function problemLine(problem: ClaimProblem): string | null {
     case 'offline':
       return t({ id: 'guide.offer.problemOffline', message: 'That needs a connection.' });
     case 'refused':
-      return t({ id: 'guide.offer.problem', message: "That didn't go through. Try again?" });
+      return t({ id: 'guide.offer.problem', message: 'That didn’t go through. Try again?' });
   }
 }
 
@@ -57,7 +57,7 @@ export function PremiumOfferCard({ message }: ChatCardProps) {
   const left = offer.slotsLeft;
   const inLabel =
     left === 1
-      ? t({ id: 'guide.offer.inOne', message: "I'm in · 1 slot left" })
+      ? t({ id: 'guide.offer.inOne', message: 'I’m in · 1 slot left' })
       : t({ id: 'guide.offer.inMany', message: `I'm in · ${left} slots left` });
   const status =
     offer.state === 'mine'

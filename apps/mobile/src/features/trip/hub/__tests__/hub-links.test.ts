@@ -55,14 +55,22 @@ describe('hub links', () => {
     const unregister = registerBoard();
     try {
       const link = planningLink('t-1', 'voting', { id: 'p-1', stage: 'board' });
-      expect(link).toEqual({ label: 'Voting', href: BOARD });
+      expect(link).toMatchObject({ label: 'Voting', href: BOARD });
     } finally {
       unregister();
     }
   });
 
   it('never offers the plan while the trip still votes, even before its poll is on the phone', () => {
-    expect(planningLink('t-1', 'voting', undefined)).toEqual({ label: 'Voting', href: '/' });
+    expect(planningLink('t-1', 'voting', undefined)).toMatchObject({ label: 'Voting', href: '/' });
+  });
+
+  it('gives the guide a line of its own beside each button, never the button’s words', () => {
+    for (const status of ['voting', 'setup', 'locked']) {
+      const link = planningLink('t-1', status, undefined);
+      expect(link.note).toBeTruthy();
+      expect(link.note).not.toBe(link.label);
+    }
   });
 
   it('opens set-up at the step the trip is on', () => {

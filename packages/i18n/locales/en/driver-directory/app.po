@@ -21,15 +21,15 @@ msgstr "Cancelling the invite"
 
 #: ../../apps/mobile/src/features/drivers/directory/use-driver-detail.ts
 msgid "drivers.detail.shortlistFailed"
-msgstr "Couldn't add him. Try again."
+msgstr "Couldn’t add him. Try again."
 
 #: ../../apps/mobile/src/features/drivers/invite/use-invite.ts
 msgid "drivers.invite.failed"
-msgstr "Couldn't make his link. Try again."
+msgstr "Couldn’t make his link. Try again."
 
 #: ../../apps/mobile/src/features/drivers/rating/use-rate-driver.ts
 msgid "drivers.rate.failed"
-msgstr "Couldn't save your answer. Try again."
+msgstr "Couldn’t save your answer. Try again."
 
 #: ../../apps/mobile/src/features/drivers/rating/labels.ts
 msgid "drivers.tag.fairPrice"

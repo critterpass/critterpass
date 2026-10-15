@@ -99,7 +99,7 @@ export function PremiumPitchCard(props: {
       <Card testID="pitch-error">
         <View style={[styles.stack, { padding: theme.space.gutter }]}>
           <Text variant="headline">
-            {t({ id: 'vote.pitch.errorTitle', message: "The pitch didn't come through" })}
+            {t({ id: 'vote.pitch.errorTitle', message: 'The pitch didn’t come through' })}
           </Text>
           <Text variant="body" tone="muted">
             {t({ id: 'vote.pitch.errorBody', message: 'Check your connection and ask again.' })}

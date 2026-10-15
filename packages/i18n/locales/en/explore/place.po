@@ -117,11 +117,11 @@ msgstr "it's quiet until {at}"
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.hoursUnknown"
-msgstr "its hours aren't known"
+msgstr "its hours aren’t known"
 
 #: ../../apps/mobile/src/features/explore/place-detail/use-place-detail.ts
 msgid "explore.detail.hoursUnknown"
-msgstr "Its hours aren't known, so I can't fit it yet."
+msgstr "Its hours aren’t known, so I can’t fit it yet."
 
 #: ../../apps/mobile/src/features/explore/place-detail/fact-tile-model.ts
 msgid "explore.detail.tile.open"

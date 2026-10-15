@@ -51,13 +51,13 @@ export function useNothingToday(next: NextBriefing): string {
   if (next.on === 'today') {
     return t({
       id: 'trip.briefing.noneYet',
-      message: "Nothing from me yet. Today's briefing comes this morning.",
+      message: 'Nothing from me yet. Today’s briefing comes this morning.',
     });
   }
   if (next.on === 'tomorrow') {
     return t({
       id: 'trip.briefing.noneTomorrow',
-      message: "Nothing new from me today. I'll check again tomorrow morning.",
+      message: 'Nothing new from me today. I’ll check again tomorrow morning.',
     });
   }
   const start = briefingDate(locale, next.date);

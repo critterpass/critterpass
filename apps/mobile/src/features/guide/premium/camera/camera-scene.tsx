@@ -104,10 +104,10 @@ export function PremiumCameraScene(props: CameraViewProps) {
       ? t({ id: 'guide.camera.reading', message: 'Reading the menu…' })
       : state.phase === 'result'
         ? (state.reading?.suggestion ??
-          t({ id: 'guide.camera.read', message: "Here's what's on it. Ask me about any dish." }))
+          t({ id: 'guide.camera.read', message: 'Here’s what’s on it. Ask me about any dish.' }))
         : t({
             id: 'guide.camera.aim',
-            message: "Point me at a menu and I'll put it in your words.",
+            message: 'Point me at a menu and I’ll put it in your words.',
           }));
   const ask = () => {
     const question = draft.trim();
@@ -204,8 +204,10 @@ export function PremiumCameraScene(props: CameraViewProps) {
         ) : null}
         {cannotScan ? (
           <View style={styles.inset}>
-            <TextButton
-              align="center"
+            <Button
+              variant="floating"
+              size="medium"
+              alignSelf="center"
               label={t({ id: 'guide.voice.typeInstead', message: 'Type instead' })}
               onPress={props.onClose}
               testID="guide-camera-type"

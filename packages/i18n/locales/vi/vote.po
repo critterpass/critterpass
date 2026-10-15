@@ -173,7 +173,7 @@ msgid "vote.newPoll.day"
 msgstr "1 ngày"
 
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
-msgid "vote.newPoll.hour"
+msgid "vote.newPoll.hourShort"
 msgstr "1 giờ"
 
 #: ../../apps/mobile/src/features/vote/premium/places/search-places.tsx
@@ -481,6 +481,14 @@ msgstr "Đã chốt, không cần bầu."
 msgid "vote.premium.guest.money"
 msgstr "Tiền"
 
+#: ../../apps/mobile/src/features/vote/premium/poll/answer-grip.tsx
+msgid "vote.newPoll.moveDown"
+msgstr "Chuyển xuống"
+
+#: ../../apps/mobile/src/features/vote/premium/poll/answer-grip.tsx
+msgid "vote.newPoll.moveUp"
+msgstr "Chuyển lên"
+
 #. placeholder {0}: p.name
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
 msgid "crew.queued.create"
@@ -586,6 +594,10 @@ msgstr "Câu hỏi"
 #: ../../apps/mobile/src/features/vote/premium/board/destination-board.tsx
 msgid "vote.premium.board.remove"
 msgstr "Gỡ"
+
+#: ../../apps/mobile/src/features/vote/premium/poll/answer-grip.tsx
+msgid "vote.newPoll.reorder"
+msgstr "Đổi thứ tự câu trả lời"
 
 #: ../../apps/mobile/src/features/vote/premium/places/guest-guide.tsx
 msgid "vote.premium.guest.save"
@@ -740,7 +752,7 @@ msgstr "vs"
 
 #: ../../apps/mobile/src/features/vote/premium/poll/new-poll-sheet.tsx
 msgid "vote.newPoll.never"
-msgstr "Khi mọi người đã bầu"
+msgstr "Khi cả nhóm bầu"
 
 #: ../../apps/mobile/src/features/vote/premium/poll/poll-card.tsx
 msgid "vote.poll.untitled"

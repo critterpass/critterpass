@@ -25,7 +25,7 @@ export const undoDisruptionActionCommand = defineClientCommand<UndoDisruptionAct
   name: 'undo_disruption_action',
   offline: true,
   summarize: () =>
-    msg({ id: 'trip.disruptions.queued.undo', message: "Undoing the guide's changes" }),
+    msg({ id: 'trip.disruptions.queued.undo', message: 'Undoing the guide’s changes' }),
 });
 
 export const announceDisruptionCommand = defineClientCommand<AnnounceDisruptionPayload>({

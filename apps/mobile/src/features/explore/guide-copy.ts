@@ -12,7 +12,7 @@ export function guideTagline(guide: GuideFacts, place: string): string {
   if (guide.guest) {
     return t({
       id: 'explore.guide.guestLine',
-      message: "Not my island, but I've done my homework.",
+      message: 'Not my island, but I’ve done my homework.',
     });
   }
   if (guide.learning) {
