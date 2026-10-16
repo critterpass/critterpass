@@ -63,8 +63,9 @@ const curves = async (poiId: string) =>
 beforeAll(async () => {
   harness = await startJobsHarness();
   const { rows } = await harness.pool.query<{ id: string }>(
-    `INSERT INTO destinations (slug, name, country, tz, currency, coverage)
-     VALUES ('vn-da-lat', 'Đà Lạt', 'Vietnam', 'Asia/Ho_Chi_Minh', 'VND', 'guest') RETURNING id`,
+    `INSERT INTO destinations (slug, name, country, tz, currency, coverage, place_bounds)
+     VALUES ('vn-da-lat', 'Đà Lạt', 'Vietnam', 'Asia/Ho_Chi_Minh', 'VND', 'guest',
+             ST_MakeEnvelope(108.3, 11.8, 108.6, 12.1, 4326)::geography) RETURNING id`,
   );
   dalat = rows[0]!.id;
   for (const line of lines.rows.filter((row) => row.name_en !== UNMATCHED)) {
@@ -75,10 +76,10 @@ beforeAll(async () => {
     );
     ids.set(line.name_en, added[0]!.id);
   }
-  // Enough open-data places that Đà Lạt is not sparse.
+  // A box that holds the lines, and enough open-data places that Đà Lạt is not thin.
   await harness.pool.query(
     `INSERT INTO pois (destination_id, name, category, lat, lng)
-     SELECT $1, 'filler ' || n, 'other', 11.5, 108.0 FROM generate_series(1, 20) AS n`,
+     SELECT $1, 'filler ' || n, 'other', 11.5, 108.0 FROM generate_series(1, 400) AS n`,
     [dalat],
   );
   const hourly = (value: number) => Array.from({ length: 24 }, () => value);

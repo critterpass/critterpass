@@ -54,6 +54,7 @@ beforeAll(async () => {
     crewId,
     destinationId: bali,
     status: 'in_trip',
+    today: NOW,
     items: [
       {
         category: 'hike',

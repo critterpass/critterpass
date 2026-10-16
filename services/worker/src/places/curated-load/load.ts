@@ -8,6 +8,10 @@
  * itinerary keeps it by name and the OpenStreetMap lookup is not asked.
  * `editorial.curated.rank` makes the place popular in its destination. A re-run writes the same
  * lines again; a place the file no longer names keeps its note but loses its curated block.
+ * Before matching, a destination whose place box misses its curated points gets a box drawn
+ * around them (`./bounds.ts`) and that box ingested. A line may match a row another destination
+ * owns: a claimable row moves to this destination with the note, any other stays with its owner
+ * and the line resolves to it without a note (`./match.ts`).
  *
  * A line's busy windows become the place's hourly `crowd_forecasts` curves with source
  * `estimate`, as an AI profile's do (replacing any earlier estimate curve; readers still prefer
@@ -20,7 +24,7 @@ import type pg from 'pg';
 
 import { allowIndexMaintenance } from '../batch-sql';
 import { plainWords } from '../pick/match';
-import { chooseCuratedMatch, curatedCandidates, type CuratedLead } from './match';
+import { chooseAcrossOwners, curatedCandidates, type CuratedHold, type CuratedLead } from './match';
 import { curatedStopOnly } from './osm-lookup';
 import {
   curatedNameKey,
@@ -28,7 +32,8 @@ import {
   type CuratedNoteLines,
   type CuratedPlaceRow,
 } from './rows';
-import { handleSparse, SPARSE_PLACES } from './sparse';
+import { redrawnBox } from './bounds';
+import { destinationOf, handleSparse, SPARSE_PLACES } from './sparse';
 
 export interface CuratedPlacesReport {
   readonly destination: string;
@@ -38,12 +43,16 @@ export interface CuratedPlacesReport {
   readonly sparse: boolean;
   /** A finished run's lost places are being ingested again (`./sparse.ts`); re-run after it. */
   readonly reingestQueued: boolean;
+  /** The place box was redrawn around the curated points (`./bounds.ts`). */
+  readonly boxRedrawn: boolean;
   readonly rows: number;
   readonly matched: readonly {
     readonly name: string;
     readonly poiId: string;
     readonly row: string;
     readonly distanceM: number;
+    /** Owned already, claimed from another destination, or left with its owner (`./match.ts`). */
+    readonly hold: CuratedHold;
   }[];
   readonly unmatched: readonly {
     readonly name: string;
@@ -80,34 +89,17 @@ export function mergeCuratedNote(existing: unknown, note: CuratedNoteLines): Obj
   return merged;
 }
 
-async function destinationOf(pool: pg.Pool, slug: string) {
-  return withSystem(pool, async (tx) => {
-    const { rows } = await tx.query<{
-      id: string;
-      name: string;
-      country: string | null;
-      sparse: boolean;
-    }>(
-      `SELECT d.id, d.name, d.country,
-              (SELECT count(*) FROM (SELECT 1 FROM pois p
-                 WHERE p.destination_id = d.id AND p.status = 'active' LIMIT $2) AS found) < $2
-                AS sparse
-         FROM destinations d WHERE d.slug = $1`,
-      [slug, SPARSE_PLACES],
-    );
-    return rows[0];
-  });
-}
-
 /**
  * Writes one curated line into a row's note and marks the row reviewed; with busy windows, they
- * replace the row's estimate crowd curves.
+ * replace the row's estimate crowd curves. `claimFor` moves the row to that destination
+ * (a claimable row another destination owned: `./match.ts`).
  */
 export async function writeCuratedNote(
   pool: pg.Pool,
   poiId: string,
   note: CuratedNoteLines,
   busy: readonly BusyWindow[] = [],
+  claimFor: string | null = null,
 ): Promise<void> {
   await withSystem(pool, async (tx) => {
     await allowIndexMaintenance(tx);
@@ -116,9 +108,10 @@ export async function writeCuratedNote(
       [poiId],
     );
     await tx.query(
-      `UPDATE pois SET editorial = $2::jsonb, curation = 'editorial', updated_at = now()
+      `UPDATE pois SET editorial = $2::jsonb, curation = 'editorial', updated_at = now(),
+              destination_id = coalesce($3::uuid, destination_id)
         WHERE id = $1`,
-      [poiId, JSON.stringify(mergeCuratedNote(rows[0]?.editorial, note))],
+      [poiId, JSON.stringify(mergeCuratedNote(rows[0]?.editorial, note)), claimFor],
     );
     const week = busyWeek(busy);
     if (week.length === 0) return;
@@ -150,26 +143,42 @@ export async function loadCuratedPlaces(
     dropped: 0,
     popular: null,
     reingestQueued: false,
+    boxRedrawn: false,
   };
-  const destination = await destinationOf(pool, slug);
+  const destination = await destinationOf(pool, slug, lines.length);
   if (destination === undefined) {
     return { destination: slug, status: 'unknown_destination', sparse: false, ...empty };
   }
-  const step = destination.sparse
-    ? await handleSparse(pool, slug, options)
-    : ({ status: 'load', reingestQueued: false } as const);
+  const redrawn = redrawnBox(destination.box, lines);
+  const sparse = destination.active < SPARSE_PLACES;
+  const step = await handleSparse(
+    pool,
+    slug,
+    {
+      active: destination.active,
+      lines: lines.length,
+      box: redrawn ?? destination.box,
+      boxRedrawn: redrawn !== null,
+    },
+    options,
+  );
   if (step.status !== 'load') {
-    return { destination: slug, status: step.status, sparse: true, ...empty };
+    return {
+      ...empty,
+      destination: slug,
+      status: step.status,
+      sparse,
+      boxRedrawn: redrawn !== null,
+    };
   }
-  const { sparse } = destination;
   const { reingestQueued } = step;
   const plain = plainWords(destination.name, destination.country);
   const taken = new Set<string>();
-  const matched: { name: string; poiId: string; row: string; distanceM: number }[] = [];
+  const matched: CuratedPlacesReport['matched'][number][] = [];
   const unmatched: CuratedPlacesReport['unmatched'][number][] = [];
   const unmatchedLines: { rank: number; line: CuratedPlaceRow }[] = [];
   const curatedStops: string[] = [];
-  const placed: { poiId: string; rank: number; line: CuratedPlaceRow }[] = [];
+  const placed: { poiId: string; rank: number; line: CuratedPlaceRow; claim: boolean }[] = [];
   for (const [index, line] of lines.entries()) {
     const lead: CuratedLead = {
       name: line.name_en,
@@ -182,7 +191,7 @@ export async function loadCuratedPlaces(
       await allowIndexMaintenance(tx);
       return curatedCandidates(tx, destination.id, lead, plain);
     });
-    const verdict = chooseCuratedMatch(lead, candidates, plain, taken);
+    const verdict = chooseAcrossOwners(lead, candidates, plain, taken);
     if (verdict.kind === 'none' && curatedStopOnly(line)) {
       curatedStops.push(line.name_en);
       continue;
@@ -205,31 +214,40 @@ export async function loadCuratedPlaces(
       poiId: verdict.row.id,
       row: verdict.row.name,
       distanceM: Math.round(verdict.row.distanceM),
+      hold: verdict.hold,
     });
-    placed.push({ poiId: verdict.row.id, rank: index + 1, line });
+    // The owner keeps a row it does not give up, and its note with it.
+    if (verdict.hold !== 'shared') {
+      placed.push({
+        poiId: verdict.row.id,
+        rank: index + 1,
+        line,
+        claim: verdict.hold === 'claim',
+      });
+    }
   }
-  const byName = new Map(placed.map(({ poiId, line }) => [curatedNameKey(line.name_en), poiId]));
-  const notes = placed.map(({ poiId, rank, line }) => ({
+  const byName = new Map(matched.map(({ name, poiId }) => [curatedNameKey(name), poiId]));
+  const notes = placed.map(({ poiId, rank, line, claim }) => ({
     poiId,
     note: curatedNoteLines(line, rank, byName),
     busy: line.busy_windows ?? [],
+    claimFor: claim ? destination.id : null,
   }));
-  if (options.dryRun) {
-    return {
-      destination: slug,
-      status: 'checked',
-      sparse,
-      reingestQueued,
-      rows: lines.length,
-      matched,
-      unmatched,
-      unmatchedLines,
-      curatedStops,
-      dropped: 0,
-      popular: null,
-    };
+  const base = {
+    destination: slug,
+    sparse,
+    reingestQueued,
+    boxRedrawn: redrawn !== null,
+    rows: lines.length,
+    matched,
+    unmatched,
+    unmatchedLines,
+    curatedStops,
+  };
+  if (options.dryRun) return { ...base, status: 'checked', dropped: 0, popular: null };
+  for (const { poiId, note, busy, claimFor } of notes) {
+    await writeCuratedNote(pool, poiId, note, busy, claimFor);
   }
-  for (const { poiId, note, busy } of notes) await writeCuratedNote(pool, poiId, note, busy);
   const after = await withSystem(pool, async (tx) => {
     await allowIndexMaintenance(tx);
     const dropped = await tx.query(
@@ -250,16 +268,5 @@ export async function loadCuratedPlaces(
       },
     };
   });
-  return {
-    destination: slug,
-    status: 'loaded',
-    sparse,
-    reingestQueued,
-    rows: lines.length,
-    matched,
-    unmatched,
-    unmatchedLines,
-    curatedStops,
-    ...after,
-  };
+  return { ...base, status: 'loaded', ...after };
 }

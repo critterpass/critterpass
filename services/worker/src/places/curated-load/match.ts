@@ -7,16 +7,27 @@
  * lie near that point: the same name within `SAME_NAME_RADIUS_M`, a name one word apart within
  * `CLOSE_NAME_RADIUS_M`. A row further than `STRONG_NAME_RADIUS_M` must carry the place's full
  * name (English or local; accents, case and the destination's own words aside): sharing the
- * words is not enough there ("Time Square Square" 900 m off is not Times Square). Two Latin names that each hold two telling words
- * the other lacks are different places, whatever their local names say ("Banker-Tattoo Train Night
- * Market Ratchada" is not "Rot Fai Ratchada Train Night Market"). Among rows that qualify, the
+ * words is not enough there ("Time Square Square" 900 m off is not Times Square). Two Latin
+ * names that each hold two telling words the other lacks are different places, whatever their
+ * local names say ("Banker-Tattoo Train Night Market Ratchada" is not "Rot Fai Ratchada Train
+ * Night Market"). Among rows that qualify, the
  * closer name wins, then the same kind of place, then the nearer row. Short of that, a row whose
  * name is nearly the same text (`SIMILAR_TEXT`, for scripts written without spaces) close to the
  * point (`SIMILAR_RADIUS_M`). A place no row carries is reported and never created from the
  * researcher's point: open data stays the source of a place's name, point and address.
+ *
+ * A row is filed under the first destination whose ingest read it, so a neighbour or a wider
+ * destination often holds the curated destination's places (Đà Nẵng's box covers Hội An's old
+ * town; a country-wide Iceland holds Reykjavik). Candidates are read whatever destination owns
+ * them. Another destination's row is claimable, and moves to the loading destination with its
+ * note, when it lies inside the loading destination's place box and either outside its owner's box
+ * or nearer the loading destination than the owner (each destination's own point, else the middle
+ * of its box). Two destinations that both curate a row therefore agree on who keeps it. A row that
+ * is not claimable stays with its owner: the place resolves to it, and its note is the owner's.
  */
 import { QUALITY_SCORE } from '@cp/db';
 import {
+  chooseCuratedMatch,
   pickKindOf,
   SAME_NAME_RADIUS_M,
   searchWords,
@@ -46,13 +57,32 @@ const CANDIDATES = 40;
 /** Trigram similarity at which a row's name is read as a candidate (scripts without spaces). */
 const SIMILAR = 0.3;
 
-/** The destination's active rows near the lead whose name shares words with, or resembles, it. */
+/** A candidate row and who holds it. */
+export interface OwnedCandidate extends MatchCandidate {
+  /** The destination of the load owns the row. */
+  readonly own: boolean;
+  /** Another destination owns it, and the row is the loading destination's to take (header). */
+  readonly claimable: boolean;
+}
+
+/**
+ * Where a destination is, for deciding which of two destinations a row belongs to: its own point,
+ * else the middle of its place box.
+ */
+const centreSql = (alias: string) =>
+  `coalesce(ST_SetSRID(ST_MakePoint(${alias}.lng, ${alias}.lat), 4326)::geography,
+            ST_Centroid(${alias}.place_bounds::geometry)::geography)`;
+
+/**
+ * Active rows near the lead whose name shares words with, or resembles, it, whatever destination
+ * owns them (see the file header for when another destination's row is claimable).
+ */
 export async function curatedCandidates(
   tx: pg.PoolClient,
   destinationId: string,
   lead: CuratedLead,
   plain: ReadonlySet<string>,
-): Promise<MatchCandidate[]> {
+): Promise<OwnedCandidate[]> {
   const words = searchWords(
     { name: lead.name, localName: lead.localName, kind: pickKindOf(lead.category), area: null },
     plain,
@@ -68,6 +98,8 @@ export async function curatedCandidates(
     quality: number;
     distance_m: number;
     similarity: number;
+    own: boolean;
+    claimable: boolean | null;
   }>(
     `WITH here AS (SELECT ST_SetSRID(ST_MakePoint($3::float8, $2::float8), 4326)::geography AS point)
      SELECT p.id, p.name, p.name_local, p.category, p.lat, p.lng, p.address,
@@ -75,9 +107,15 @@ export async function curatedCandidates(
             ST_Distance(p.location, here.point)::float8 AS distance_m,
             greatest(similarity(p.name, $6::text), similarity(p.name, $7::text),
                      similarity(coalesce(p.name_local, ''), $7::text),
-                     similarity(coalesce(p.name_local, ''), $6::text))::float8 AS similarity
-       FROM pois p, here
-      WHERE p.destination_id = $1 AND p.status = 'active' AND p.merged_into_id IS NULL
+                     similarity(coalesce(p.name_local, ''), $6::text))::float8 AS similarity,
+            p.destination_id = $1 AS own,
+            p.destination_id <> $1 AND ST_Intersects(p.location, m.place_bounds)
+              AND (o.place_bounds IS NULL OR NOT ST_Intersects(p.location, o.place_bounds)
+                   OR ST_Distance(p.location, ${centreSql('m')})
+                      < ST_Distance(p.location, ${centreSql('o')})) AS claimable
+       FROM pois p JOIN destinations o ON o.id = p.destination_id, here,
+            destinations m
+      WHERE m.id = $1 AND p.status = 'active' AND p.merged_into_id IS NULL
         AND ST_DWithin(p.location, here.point, $4::float8)
         AND (($5::text <> '' AND p.fts @@ to_tsquery('simple', $5::text))
              OR similarity(p.name, $6::text) >= $8::float4 OR similarity(p.name, $7::text) >= $8::float4
@@ -108,5 +146,40 @@ export async function curatedCandidates(
     quality: row.quality,
     distanceM: row.distance_m,
     similarity: row.similarity,
+    own: row.own,
+    claimable: row.claimable === true,
   }));
+}
+
+/** Who keeps the matched row: the loading destination owns it, takes it over, or leaves it. */
+export type CuratedHold = 'own' | 'claim' | 'shared';
+
+export type OwnedMatch =
+  | { readonly kind: 'match'; readonly row: OwnedCandidate; readonly hold: CuratedHold }
+  | { readonly kind: 'none'; readonly closest: MatchCandidate | null };
+
+/**
+ * The row a curated place is: one the destination owns first, so a load never moves a place it
+ * already matched; else any destination's row, claimed when it is claimable and otherwise left
+ * with its owner (`shared`: the place resolves to the row, the owner keeps it and its note).
+ */
+export function chooseAcrossOwners(
+  lead: CuratedLead,
+  candidates: readonly OwnedCandidate[],
+  plain: ReadonlySet<string>,
+  taken: ReadonlySet<string> = new Set(),
+): OwnedMatch {
+  const own = chooseCuratedMatch(
+    lead,
+    candidates.filter((row) => row.own),
+    plain,
+    taken,
+  );
+  const any = own.kind === 'match' ? own : chooseCuratedMatch(lead, candidates, plain, taken);
+  if (any.kind === 'none') return any;
+  // The rules hand back the candidate they chose; read its holder from the list.
+  const row = candidates.find((candidate) => candidate.id === any.row.id);
+  if (row === undefined) return { kind: 'none', closest: null };
+  if (row.own) return { kind: 'match', row, hold: 'own' };
+  return { kind: 'match', row, hold: row.claimable ? 'claim' : 'shared' };
 }

@@ -56,6 +56,7 @@ beforeAll(async () => {
       destinationId: destinations['bali'] ?? '',
       status: 'pre_trip',
       items: [],
+      today: NOW,
     })
   ).tripId;
   // Batur was elevated when last read.
