@@ -2,19 +2,9 @@
  * The rows near a curated place that may be it; the rules that choose among them
  * (`@cp/planner`'s curated name rules) are shared with the api's OpenStreetMap fallback.
  *
- * Which of our open-data rows a curated place is. The researcher's point is approximate, so a row
- * must carry the place's name (English or local, the same words as the pick matcher's rules) and
- * lie near that point: the same name within `SAME_NAME_RADIUS_M`, a name one word apart within
- * `CLOSE_NAME_RADIUS_M`. A row further than `STRONG_NAME_RADIUS_M` must carry the place's full
- * name (English or local; accents, case and the destination's own words aside): sharing the
- * words is not enough there ("Time Square Square" 900 m off is not Times Square). Two Latin
- * names that each hold two telling words the other lacks are different places, whatever their
- * local names say ("Banker-Tattoo Train Night Market Ratchada" is not "Rot Fai Ratchada Train
- * Night Market"). Among rows that qualify, the
- * closer name wins, then the same kind of place, then the nearer row. Short of that, a row whose
- * name is nearly the same text (`SIMILAR_TEXT`, for scripts written without spaces) close to the
- * point (`SIMILAR_RADIUS_M`). A place no row carries is reported and never created from the
- * researcher's point: open data stays the source of a place's name, point and address.
+ * Which of our open-data rows a curated place is: a row near the researcher's approximate point
+ * that carries the place's name, English or local (the rules' own header says how close a name
+ * and a point must be).
  *
  * A row is filed under the first destination whose ingest read it, so a neighbour or a wider
  * destination often holds the curated destination's places (Đà Nẵng's box covers Hội An's old
