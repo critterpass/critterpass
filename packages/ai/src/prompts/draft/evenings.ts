@@ -81,13 +81,16 @@ export function fillEvenings(
     }
     const at = (iso: string) => minuteOfDate(new Date(iso), day.date, input.frame.tz);
     const dinner = mealsOf(dayWindow(input.frame, outline.dayNo - 1)).dinner;
-    const dined = day.items.some(
+    const dinedAt = day.items.find(
       (item) => item.kind === 'meal' && at(item.starts_at) >= dinner.startMin - 30,
-    );
+    )?.starts_at;
+    if (dinedAt === undefined) continue;
+    // A stop before a late dinner (drinks at seven in Barcelona) is not the night out after it.
     const out = day.items.some(
-      (item) => item.kind !== 'meal' && at(item.starts_at) >= EVENING_FROM_MIN,
+      (item) =>
+        item.kind !== 'meal' && item.starts_at > dinedAt && at(item.starts_at) >= EVENING_FROM_MIN,
     );
-    if (!dined || out) continue;
+    if (out) continue;
     const used = new Set(itinerary.days.flatMap((d) => d.items.map((item) => item.poi_id)));
     const last = day.items[day.items.length - 1]?.poi_id;
     // Near where the day ends, or near the stay: never a long ride, nor an hours-long show.
@@ -129,7 +132,11 @@ export function fillEvenings(
         after.meals <= before.meals &&
         misplacedOpeners(input, made).length === 0 &&
         made.items.some(
-          (item) => item.kind !== 'meal' && at(item.starts_at) >= EVENING_FROM_MIN - 30,
+          (item) =>
+            item.poi_id !== null &&
+            item.kind !== 'meal' &&
+            at(item.starts_at) >= EVENING_FROM_MIN - 30 &&
+            !day.items.some((was) => was.poi_id === item.poi_id),
         ),
       `evening-${outline.dayNo}`,
       undefined,
