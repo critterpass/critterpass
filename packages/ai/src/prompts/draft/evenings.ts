@@ -5,9 +5,9 @@
  * music. Every other crew gets the evenings a first visit is known for, the essentials and
  * must-sees that happen after dark (the fado house, the water puppets, the fire show, the night
  * market) and the evening places that suit its tastes, and a crew that wants quiet evenings never a
- * bar. The places itinerary pages agree on first (./agreement), the essentials and the stops of
- * their days before those three or more pages hold; then one in the day's areas; then what suits
- * the crew; then the nearest. One evening per place. The stop follows dinner
+ * bar. The places itinerary pages agree on first (./agreement), those that suit the crew's tastes
+ * first among them; then the essentials and the stops of the pages' days before what three or
+ * more pages hold; then one in the day's areas; then the nearest. One evening per place. The stop follows dinner
  * and keeps the place's own evening: it may run until the local night ends (half past eleven in
  * Lisbon, midnight in Madrid, earlier where dinner is at six), never past its closing.
  */
@@ -106,17 +106,18 @@ export function fillEvenings(
         (input.pools.openDays.get(poi.id) ?? []).includes(outline.dayNo),
     );
     const taste = (poi: DraftPoi) => (tasteScore(poi, input.tastes) > 0 ? 0 : 1);
-    // What pages agree on first, then in the day's areas (or the one beside them) before one
-    // across town, then what suits the crew.
+    // What pages agree on first, what suits the crew first among it; then in the day's areas
+    // (or the one beside them) before one across town.
     const here = day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
     const away = (poi: DraftPoi) => (areaStep(input, poi.id, here) < 2 ? 0 : 1);
     const candidates = nearFirst(input, offered, last == null ? [] : [last])
       .map((poi, rank) => ({ poi, rank, away: away(poi), agreement: agreementOf(input, poi) }))
       .sort(
         (a, b) =>
+          Math.min(a.agreement, 1) - Math.min(b.agreement, 1) ||
+          taste(a.poi) - taste(b.poi) ||
           a.agreement - b.agreement ||
           a.away - b.away ||
-          taste(a.poi) - taste(b.poi) ||
           a.rank - b.rank,
       )
       .slice(0, TRIED)

@@ -172,4 +172,16 @@ describe('meals in the day areas', () => {
     const kept = dayOf(withMealsInDayAreas(input, outlineOf(day), base), 3);
     expect(kept.items.map((item) => item.poi_id)).toEqual(day.items.map((item) => item.poi_id));
   });
+
+  it("keeps a meal that suits the crew's tastes over one pages agree on that does not", () => {
+    const plain = inputOf('danang-real-1');
+    const { base, day, meal, lunch } = areaLunch(plain);
+    const current = plain.pois.get(meal.poi_id) as DraftPoi;
+    const tagged: DraftPoi = { ...current, tags: [...current.tags, 'markets'] };
+    const pois = new Map(plain.pois);
+    pois.set(tagged.id, tagged);
+    const input: DraftPlanInput = { ...onPagesDay(plain, lunch.id), tastes: { markets: 2 }, pois };
+    const kept = dayOf(withMealsInDayAreas(input, outlineOf(day), base), 3);
+    expect(kept.items.map((item) => item.poi_id)).toEqual(day.items.map((item) => item.poi_id));
+  });
 });

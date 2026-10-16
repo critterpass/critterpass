@@ -6,8 +6,9 @@
  * the day stays as clean, as full and as straight as it was, with no stop moved off its best time.
  * A crew with tastes also has a meal in the right area that suits none of them swapped for one
  * that does (a hawker centre for a street food crew, a brewpub for a nightlife crew), and a meal
- * there that itinerary pages do not agree on gives way to one they do (./agreement). A meal the
- * crew asked for or placed stays; one the pages agree on gives way only to another they agree on.
+ * there that itinerary pages do not agree on gives way to one they do (./agreement), if it suits
+ * the crew as well. A meal the crew asked for or placed stays, and so does one the pages agree on
+ * in the right area; elsewhere it gives way only to another they agree on.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
 import {
@@ -192,18 +193,17 @@ export function withMealsInDayAreas(
     // In the right area, a meal pages do not agree on gives way to one they do, or (for a crew with
     // tastes, where it suits none of them) to one that suits the crew.
     const forTaste = tasteful && tasteScore(poi, input.tastes) === 0;
+    const suits = (other: DraftPoi) => tasteScore(other, input.tastes) > 0;
     const before = dayFaults(input, itinerary, outline.dayNo);
     const shape = dayShape(input, day);
     const opened = misplacedOpeners(input, day).length;
     const off = offTheirTime(input, day);
     for (const candidate of insteadOf(input, itinerary, day, at, wanted)) {
-      if (
-        inPlace &&
-        !isAgreed(input, candidate) &&
-        !(forTaste && tasteScore(candidate, input.tastes) > 0)
-      ) {
-        continue;
-      }
+      // In the right area, one that suits the crew gives way only to one that suits it too.
+      const better = isAgreed(input, candidate)
+        ? !suits(poi) || suits(candidate)
+        : forTaste && suits(candidate);
+      if (inPlace && !better) continue;
       const next = withMealAt(input, outline, itinerary, day, at, candidate);
       const made = dayOf(next);
       if (made === undefined || made.items.length !== day.items.length) continue;

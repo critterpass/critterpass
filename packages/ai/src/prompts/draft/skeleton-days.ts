@@ -116,11 +116,23 @@ function eateriesFor(
     anchors,
   );
   if (!tasteFirst) return near;
-  // The places pages agree on lead in the day's areas and beside them; one across town stays last.
-  const across = (poi: DraftPoi) => areaStep(input, poi.id, anchors);
+  // The places pages agree on lead in the day's areas and beside them, those that suit the crew
+  // first; then the rest of the areas as before; one across town stays last.
   return near
-    .map((poi, rank) => ({ poi, rank, across: across(poi), agreement: agreementOf(input, poi) }))
-    .sort((a, b) => a.across - b.across || a.agreement - b.agreement || a.rank - b.rank)
+    .map((poi, rank) => ({
+      poi,
+      rank,
+      across: areaStep(input, poi.id, anchors) === 2 ? 1 : 0,
+      agreement: agreementOf(input, poi),
+    }))
+    .sort(
+      (a, b) =>
+        a.across - b.across ||
+        Math.min(a.agreement, 1) - Math.min(b.agreement, 1) ||
+        suits(a.poi) - suits(b.poi) ||
+        a.agreement - b.agreement ||
+        a.rank - b.rank,
+    )
     .map((entry) => entry.poi);
 }
 
