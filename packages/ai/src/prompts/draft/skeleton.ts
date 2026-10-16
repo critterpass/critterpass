@@ -154,8 +154,8 @@ export function normaliseSkeleton(asked: DraftPlanInput, raw: unknown): Skeleton
     last.mustDoIds.splice(last.mustDoIds.indexOf(mustDoId), 1);
     earlier.mustDoIds.push(mustDoId);
   }
-  // The must-sees the guide left out go on the day they sit best with, and lead every day's
-  // list: what fits is kept in that order, so a must-see is never the stop that loses its seat.
+  // The must-sees the guide left out go on a day in their areas that still has room for them;
+  // what fits is kept in the guide's order, its own must-sees first, so they never lose a seat.
   placeCore(input, days, taken);
   // What the outline gave a day must fit its hours and sit together; light days are topped up.
   const planned = days.reduce((sum, day) => sum + day.poiIds.length, 0);

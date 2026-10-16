@@ -21,7 +21,7 @@ import {
 } from '@cp/planner';
 
 import { stopBudget } from './budget';
-import { areaStep, areasHeld, hopCap } from './areas';
+import { areaStep, areasHeld, areasOf, besideStops, dayOutOf, hopCap } from './areas';
 import { addOne, dayFaults, fillMeals, nearFirst, type Attempt } from './complete-days';
 import type { DraftPlanInput } from './context';
 import { coreMustSees } from './must-sees';
@@ -72,7 +72,9 @@ const rides = (day: DraftDay | undefined) =>
 
 /**
  * A meal the day rides far for is swapped for one beside its stops, when that leaves the day as
- * clean and with less riding: a lunch across the island uses up the road the afternoon needs.
+ * clean and with less riding: a lunch across the island uses up the road the afternoon needs. So
+ * is a meal in neither the area of the stop before it nor of the one after, a ride from both (a
+ * dinner back where the morning was).
  */
 function withNearerMeals(input: DraftPlanInput, outline: SkeletonDay, start: Itinerary): Itinerary {
   let itinerary = start;
@@ -90,7 +92,14 @@ function withNearerMeals(input: DraftPlanInput, outline: SkeletonDay, start: Iti
       next?.poi_id != null &&
       meal.poi_id !== null &&
       mealAcrossTown(prev.poi_id, meal.poi_id, next.poi_id, input.travel);
-    if (around <= far && !across) continue;
+    const area = areasOf(input).of;
+    const neighbours = [prev?.poi_id, next?.poi_id].filter((id): id is string => id != null);
+    const elsewhere =
+      meal.poi_id !== null &&
+      neighbours.length > 0 &&
+      neighbours.every((id) => area(id) !== area(meal.poi_id ?? '')) &&
+      !besideStops(input, meal.poi_id, neighbours);
+    if (around <= far && !across && !elsewhere) continue;
     const without = {
       ...itinerary,
       days: itinerary.days.map((d) =>
@@ -164,6 +173,7 @@ export function fillThinDays(
       });
       // The trip's core must-sees first, in their order: a hole is theirs before anyone's.
       const core = coreMustSees(input);
+      const dayOut = dayOutOf(input, outline.dayNo).size > 0;
       const offered = [...new Set([...outline.poiIds, ...outline.spareIds, ...nearby])]
         .map((id) => input.pois.get(id))
         .filter(
@@ -172,9 +182,9 @@ export function fillThinDays(
             !used.has(poi.id) &&
             !(hasBreak && foodRole(poi) === 'light') &&
             // A hole is filled from the day's areas or a neighbouring one; across town only for
-            // a core must-see on a day still in one area, never into a third.
+            // an essential on a day still in one area that is not a day out, never into a third.
             (areaStep(input, poi.id, here) < 2 ||
-              (core.includes(poi.id) && areasHeld(input, here).size < 2)),
+              (poi.essential === true && areasHeld(input, here).size < 2 && !dayOut)),
         );
       const rank = (poi: DraftPoi) => {
         const at = core.indexOf(poi.id);

@@ -10,6 +10,7 @@ import {
   isKept,
   longRideMin,
   mealSlots,
+  minuteOfDate,
   RIDE_HOME_MAX_MIN,
   stopKind,
   withinReach,
@@ -17,7 +18,7 @@ import {
   type WishTime,
 } from '@cp/planner';
 
-import { areaStep, hopCap, rideFrom } from './areas';
+import { areaStep, besideStops, hopCap, rideFrom } from './areas';
 import { placeNames, type DraftPlanInput } from './context';
 import { scheduleChoices } from './day';
 import { proseProblem } from './schema';
@@ -27,8 +28,9 @@ import { validate } from './validate';
 
 /**
  * Of `places`, those beside the day's stops, then those the day's one longer ride can reach, then
- * (for a dinner) those a ride home can; within each, those in the day's own areas first (best
- * first), then those in a second area, then the rest, the nearest first.
+ * (for a dinner) those a ride home can; within each, those in the day's own areas first (a short
+ * ride from its stops before the rest of the area, best first), then those in a second area, then
+ * the rest, the nearest first.
  */
 export function nearFirst(
   input: DraftPlanInput,
@@ -48,11 +50,15 @@ export function nearFirst(
         rank,
         ring: ring(poi),
         step,
+        far: step === 0 && !besideStops(input, poi.id, here) ? 1 : 0,
         ride: step === 0 ? 0 : rideFrom(input, poi.id, here),
       };
     })
     .filter((entry) => entry.ring !== -1)
-    .sort((a, b) => a.ring - b.ring || a.step - b.step || a.ride - b.ride || a.rank - b.rank)
+    .sort(
+      (a, b) =>
+        a.ring - b.ring || a.step - b.step || a.far - b.far || a.ride - b.ride || a.rank - b.rank,
+    )
     .map((entry) => entry.poi);
 }
 
@@ -143,6 +149,23 @@ export function addOne(
   return null;
 }
 
+/** Lunch is eaten among the day's stops until mid-afternoon, dinner where its afternoon goes. */
+const MEAL_HALF_MIN = 15 * 60;
+
+/**
+ * The stops a missing meal belongs beside: those of its half of the day (all of them when that
+ * half has none), so a dinner is near where the afternoon ends, not back where the morning was.
+ */
+function mealNeighbours(input: DraftPlanInput, day: DraftDay, slot: 'lunch' | 'dinner'): string[] {
+  const at = (iso: string) => minuteOfDate(new Date(iso), day.date, input.frame.tz);
+  const ids = (items: DraftDay['items']) =>
+    items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
+  const half = day.items.filter((item) =>
+    slot === 'lunch' ? at(item.starts_at) < MEAL_HALF_MIN : at(item.ends_at) > MEAL_HALF_MIN,
+  );
+  return half.length > 0 ? ids(half) : ids(day.items);
+}
+
 /**
  * Gives every day the lunch and dinner it is missing, from the meal places near it. On a day too
  * full to take the meal, an activity nobody asked for gives way to it (the last one first): a
@@ -170,7 +193,7 @@ export function fillMeals(
       const slot = missing.slot;
       tried.add(slot);
       const used = new Set(itinerary.days.flatMap((d) => d.items.map((item) => item.poi_id)));
-      const here = day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
+      const here = mealNeighbours(input, day, slot);
       const listed = outline.mealIds
         .map((id) => input.pois.get(id))
         .filter((poi): poi is DraftPoi => poi !== undefined);

@@ -80,13 +80,20 @@ describe.each(['dalat-curated-1', 'danang-1', 'bali-1', 'cusco-1'])(
       (raw.days ?? []).flatMap((day) => (day.poi_ids ?? []).map(aliases(input).resolvePlace)),
     );
 
-    it('adds a must-see the guide left out to a day only while the day keeps to two areas', () => {
+    it('adds a must-see the guide left out to its areas; only an essential goes farther', () => {
       for (const day of days) {
         const anchors = anchorsOf(input, day);
         const added = day.poiIds.filter((poiId) => !asked.has(poiId));
         for (const id of added) {
           const others = anchors.filter((other) => other !== id);
-          if (areaStep(input, id, others) === 2) expect(areasHeld(input, others).size).toBe(1);
+          if (areaStep(input, id, others) < 2) continue;
+          expect(input.pois.get(id)?.essential).toBe(true);
+          expect(areasHeld(input, others).size).toBe(1);
+        }
+        // The guide's own picks keep their seats ahead of what code added.
+        const firstAdded = day.poiIds.findIndex((poiId) => !asked.has(poiId));
+        if (firstAdded !== -1) {
+          expect(day.poiIds.slice(firstAdded).every((poiId) => !asked.has(poiId))).toBe(true);
         }
       }
     });

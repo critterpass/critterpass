@@ -1,8 +1,9 @@
 /**
  * Putting one essential sight on a day, the days in its own area first: added where it rides least
- * out of the way and the day stays as clean; else in the seat of a stop nobody asked for; else in
- * a shorter essential's seat (which is placed again later). A long visit takes in the stops inside it, and a whole-day visit
- * the day's lunch stop, before it is tried.
+ * out of the way and the day stays as clean; else, on a day in its area or beside it, in the seat
+ * of a stop nobody asked for, or of a shorter essential (which is placed again later). A long
+ * visit takes in the stops inside it, and a whole-day visit the day's lunch stop, before it is
+ * tried.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
 import {
@@ -92,8 +93,9 @@ export function placeOne(
     made: DraftDay,
   ) => now.hard <= was.hard && now.meals <= was.meals && misplacedOpeners(input, made).length === 0;
   // First without touching another essential, on any day; then in a shorter essential's seat.
+  // Across town it is only added: a day's own stops never give way to a sight that zigzags it.
   for (const displace of [false, true]) {
-    for (const { day } of days) {
+    for (const { day, step } of days) {
       const outline = outlines.find((d) => d.dayNo === day.day_no);
       if (outline === undefined) continue;
       // The stops the newcomer's day out leaves out of place (a bar back in town, a village
@@ -184,7 +186,7 @@ export function placeOne(
           if (taken !== null) return taken;
         }
       }
-      if (addOnly) continue;
+      if (addOnly || step === 2) continue;
       const baseline = dayFaults(input, itinerary, day.day_no);
       const giveWay = day.items
         .filter((item) => {
