@@ -5,7 +5,7 @@
  * beside how itinerary pages lay out a first visit here (./first-visit.ts) where it is researched.
  * What a member wrote enters only inside an untrusted data block.
  */
-import { dayWindow, landsOn, leavesOn } from '@cp/planner';
+import { dayWindow, landsOn, leavesOn, tasteScore } from '@cp/planner';
 
 import type { GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
@@ -27,7 +27,7 @@ import { coreMustSees } from './must-sees';
 import { SKELETON_FORMAT } from './schema';
 import { wishHandle, wishOptions } from './wish-answers';
 
-export const SKELETON_PROMPT_VERSION = 'draft-skeleton@9';
+export const SKELETON_PROMPT_VERSION = 'draft-skeleton@10';
 
 const TASK = [
   '# Task',
@@ -108,7 +108,11 @@ export function buildSkeletonRequest(input: DraftPlanInput): GatewayInput {
   const activities = pools.activities.map((poi) => {
     const open = pools.openDays.get(poi.id) ?? [];
     const first = core.has(poi.id) ? ' | MUST-SEE: place it' : '';
-    return `${placeLine(input, poi, null, areas.of(poi.id))} | open on days ${open.join(', ')}${first}`;
+    const crew =
+      tasteScore(poi, input.tastes) > 0
+        ? " | suits the crew's tastes: pick it before others of its area"
+        : '';
+    return `${placeLine(input, poi, null, areas.of(poi.id))} | open on days ${open.join(', ')}${first}${crew}`;
   });
   const held = frame.dates.flatMap((date, index) =>
     heldLines(input, index + 1, date).map((line) => `- Day ${index + 1}: ${line.slice(2)}`),

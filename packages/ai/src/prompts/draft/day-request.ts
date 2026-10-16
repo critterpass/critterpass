@@ -37,7 +37,7 @@ import { DAY_FORMAT } from './schema';
 import type { SkeletonDay } from './skeleton';
 import { whenOf } from './wish-answers';
 
-export const DAY_PROMPT_VERSION = 'draft-day@7';
+export const DAY_PROMPT_VERSION = 'draft-day@8';
 
 const TASK = [
   '# Task',
@@ -62,6 +62,7 @@ const TASK = [
   '  place marked too far for this day; pick the meal places nearest the stops around them.',
   '- Every place has an area letter. The times of day come first; within them, see one area at a',
   '  time (never back to an area the day has left) and eat in the area of the stops around the meal.',
+  "- Of the meal places that sit as near, pick those that suit the crew's tastes (their tags).",
   '- A place that takes half the day has its morning or afternoon: at most one coffee or snack beside',
   '  it in that half. A place that takes the whole day has the day to itself, with its meals.',
   '- Each note is one short line in your voice about the place itself: what to see, eat or do there.',

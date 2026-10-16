@@ -2,9 +2,9 @@
  * Variety in a day and across a trip. A day carries at most three stops of one kind (four temples
  * in a row is a day nobody remembers) as long as places of another kind are on its list; and when
  * the planner picks a place itself, it takes a must-see before the rest, and among equals the
- * kind the day lacks, then a kind the trip has not had yet.
+ * kind the day lacks, then one that suits the crew's tastes, then a kind the trip has not had yet.
  */
-import { foodRole, type DraftPoi } from '@cp/planner';
+import { foodRole, tasteScore, type DraftPoi } from '@cp/planner';
 
 import type { DraftPlanInput } from './context';
 
@@ -37,13 +37,13 @@ export function oneTooMany(
 
 /**
  * `candidates` in the order the planner should try them for a day holding `dayIds` on a trip
- * holding `tripIds`: must-sees first, then kinds the day has least of, then kinds new to the
- * trip, then as they came. One of a kind too many is left out while another kind is offered.
+ * holding `tripIds`: must-sees first, then kinds the day has least of, then places that suit the
+ * crew's tastes, then kinds new to the trip, then as they came. One of a kind too many is left out while another kind is offered.
  * `near` (lower first) comes before all of that: a place in the day's own areas before a
  * must-see across town.
  */
 export function byVariety(
-  input: Pick<DraftPlanInput, 'pois'>,
+  input: Pick<DraftPlanInput, 'pois' | 'tastes'>,
   candidates: readonly DraftPoi[],
   dayIds: readonly string[],
   tripIds: readonly string[],
@@ -57,6 +57,7 @@ export function byVariety(
       rank,
       near: near(poi),
       day: inDay.get(kindOf(poi)) ?? 0,
+      taste: tasteScore(poi, input.tastes) > 0 ? 0 : 1,
       seen: inTrip.has(kindOf(poi)) ? 1 : 0,
     }))
     .sort(
@@ -66,6 +67,7 @@ export function byVariety(
         Number(b.poi.mustSee) - Number(a.poi.mustSee) ||
         (a.poi.mustSee ? a.rank - b.rank : 0) ||
         a.day - b.day ||
+        a.taste - b.taste ||
         a.seen - b.seen ||
         a.rank - b.rank,
     );
