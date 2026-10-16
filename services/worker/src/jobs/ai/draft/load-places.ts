@@ -10,6 +10,10 @@
  * (`withTypedFacts`), and its rank among the essentials. A curated place's own facts (its
  * researchers' line, `./curated-facts`) win over its profile's. Off, the editors' text fills the
  * place as before and the planner reads that. A curated place's taste tags join its tags either way.
+ *
+ * The researchers' line also says what kind of place a row is (`curatedCategory`: a fado house
+ * filed as a restaurant, a puppet theatre filed as a hotel), and where they ranked the essentials,
+ * only their places are essentials and must-sees (with the well-known places the model named).
  */
 import { recommendedOrderSql, recommendedSql, withSystem } from '@cp/db';
 import {
@@ -30,6 +34,7 @@ import {
 import type pg from 'pg';
 
 import {
+  curatedCategory,
   curatedMustSee,
   curatedPlaceFacts,
   essentialRankOf,
@@ -76,6 +81,12 @@ const PLACE_COLUMNS = `p.id, p.name, p.name_local, p.category, p.lat, p.lng,
 /** A place of the destination, or one another destination owns inside its place box. */
 const BORROWED_SQL = `(p.destination_id = $1 OR ST_Intersects(p.location,
   (SELECT b.place_bounds FROM destinations b WHERE b.id = $1)))`;
+/**
+ * Kinds of place a draft never plans (a hotel, a station, a clinic), unless the researchers'
+ * curated set holds the row: then it is the sight they meant, filed under the wrong kind by open
+ * data (`curatedCategory`).
+ */
+const PLANNED_KINDS_SQL = `(p.category NOT IN ('transit', 'stay', 'health') OR p.editorial ? 'curated')`;
 const PROFILE_JOIN = `LEFT JOIN place_profiles pp ON pp.poi_id = p.id AND pp.status = 'ready'`;
 
 /** Whether drafts read places' typed facts (`ops.ops_config`). */
@@ -107,8 +118,7 @@ export async function loadDraftPlaces(
           FROM pois p JOIN destinations d ON d.id = p.destination_id ${PROFILE_JOIN}
          WHERE ${options.borrow === true ? BORROWED_SQL : 'p.destination_id = $1'}
            AND p.status = 'active' AND ${recommendedSql('p')}
-           AND p.merged_into_id IS NULL
-           AND p.category NOT IN ('transit', 'stay', 'health')
+           AND p.merged_into_id IS NULL AND ${PLANNED_KINDS_SQL}
          ORDER BY ${recommendedOrderSql('p')}, p.id
          LIMIT $3)
        UNION
@@ -118,10 +128,14 @@ export async function loadDraftPlaces(
       [destinationId, mustDoPoiIds, MAX_DRAFT_PLACES],
     ),
   );
-  return rows.map((row) => toDraftPoi(row, typed));
+  // Where researchers ranked a destination's essentials, theirs are the essentials and must-sees:
+  // an editors' flag from before (a museum across town, the castle again under its Portuguese
+  // name) is not one.
+  const ranked = rows.some((row) => readCuratedNote(row.editorial)?.essential_rank !== undefined);
+  return rows.map((row) => toDraftPoi(row, typed, ranked));
 }
 
-function toDraftPoi(row: PoiRow, typed: boolean): DraftPoi {
+function toDraftPoi(row: PoiRow, typed: boolean, ranked = false): DraftPoi {
   const editorial = (row.editorial ?? {}) as {
     time_needed_min?: unknown;
     must_see?: unknown;
@@ -132,6 +146,9 @@ function toDraftPoi(row: PoiRow, typed: boolean): DraftPoi {
   const text = (value: unknown) =>
     typeof value === 'string' && value.trim().length > 0 ? value.trim().slice(0, 160) : null;
   const curated = readCuratedNote(row.editorial);
+  // Where researchers ranked the essentials, the editors' older must-see and essential flags are
+  // theirs to give (`curatedMustSee`).
+  const editorsEssential = editorial.essential === true && !ranked;
   const tags = tagsWithCurated(row.tags ?? [], curated);
   const hours = hoursSchema.safeParse(row.hours);
   const known = hours.success && Object.keys(hours.data.weekly).length > 0;
@@ -147,7 +164,7 @@ function toDraftPoi(row: PoiRow, typed: boolean): DraftPoi {
     id: row.id,
     name: row.name,
     nameLocal: row.name_local,
-    category: row.category,
+    category: curatedCategory(row.category, curated),
     lat: row.lat,
     lng: row.lng,
     tz: row.timezone,
@@ -167,12 +184,13 @@ function toDraftPoi(row: PoiRow, typed: boolean): DraftPoi {
     // Where nothing is curated, the well-known places the model named stand in for must-sees, so
     // the sights a town is known for take their seats before the open-data fill.
     // A curated place the itinerary pages agree on is one too.
-    mustSee: editorial.must_see === true || row.pick_source === 'named' || curatedMustSee(curated),
+    mustSee:
+      (editorial.must_see === true && !ranked) ||
+      row.pick_source === 'named' ||
+      curatedMustSee(curated),
     // The handful a first visit should hold (our editors flag at most fifteen a destination).
     // A curated place ranked among a first visit's essentials is one of them too.
-    ...(editorial.essential === true || curated?.essential_rank !== undefined
-      ? { essential: true }
-      : {}),
+    ...(editorsEssential || curated?.essential_rank !== undefined ? { essential: true } : {}),
     detail: filled + (known ? 1 : 0),
     whyGo: text(editorial.why_go),
     bestTime: text(editorial.best_time),
@@ -183,7 +201,7 @@ function toDraftPoi(row: PoiRow, typed: boolean): DraftPoi {
     profile: typedFactsWithCurated(profileFacts(row), curated),
     editorsVisitMin: editorsMin,
     // The curated rank, else the editors' essentials (unranked: each is first).
-    essentialRank: essentialRankOf(curated, editorial.essential === true),
+    essentialRank: essentialRankOf(curated, editorsEssential),
   });
 }
 
@@ -237,14 +255,14 @@ export async function loadWishCandidates(
            (SELECT ${PLACE_COLUMNS}
               FROM pois p JOIN destinations d ON d.id = p.destination_id ${PROFILE_JOIN}
              WHERE ${mine} AND p.status = 'active' AND p.merged_into_id IS NULL
-               AND p.curation = 'editorial' AND p.category NOT IN ('transit', 'stay', 'health')
+               AND p.curation = 'editorial' AND ${PLANNED_KINDS_SQL}
                AND p.fts @@ to_tsquery('simple', $2)
              ORDER BY ts_rank(p.fts, to_tsquery('simple', $2)) DESC, p.id LIMIT $3)
            UNION ALL
            (SELECT ${PLACE_COLUMNS}
               FROM pois p JOIN destinations d ON d.id = p.destination_id ${PROFILE_JOIN}
              WHERE ${mine} AND p.status = 'active' AND p.merged_into_id IS NULL
-               AND p.curation <> 'editorial' AND p.category NOT IN ('transit', 'stay', 'health')
+               AND p.curation <> 'editorial' AND ${PLANNED_KINDS_SQL}
                AND p.fts @@ to_tsquery('simple', $2)
              ORDER BY ts_rank(p.fts, to_tsquery('simple', $2)) DESC, p.id LIMIT $3)
          ) candidates`,

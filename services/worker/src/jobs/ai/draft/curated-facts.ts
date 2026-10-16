@@ -1,7 +1,9 @@
 /**
  * A curated place's planning facts (`pois.editorial.curated`, from the researchers' places file)
  * over its AI profile's: the curated times of day, meal role and dish win wherever the line has
- * them, and the profile fills only what the line left out. Its essential rank orders it among a
+ * them, and the profile fills only what the line left out. The researchers give every place to eat
+ * a meal role, so a line with times of day and none says the place is no eatery, whatever its
+ * profile read from the row it was matched to (a tower filed as its restaurant). Its essential rank orders it among a
  * first visit's essentials, and its taste tags join the row's tags the candidate pools match
  * crew tastes against. The visit length needs nothing here: the loader writes it as the note's
  * `time_needed_min`, which wins as the editors' visit length.
@@ -18,11 +20,12 @@ export function typedFactsWithCurated(
   if (curated === null || (times.length === 0 && !curated.meal_role && !curated.dish)) {
     return profile;
   }
+  const eatery = curated.meal_role !== undefined || times.length === 0;
   return {
     bestTimes: times.length > 0 ? times : (profile?.bestTimes ?? []),
     visitMin: profile?.visitMin ?? null,
-    mealRole: curated.meal_role ?? profile?.mealRole ?? null,
-    dish: curated.dish ?? profile?.dish ?? null,
+    mealRole: curated.meal_role ?? (eatery ? (profile?.mealRole ?? null) : null),
+    dish: curated.dish ?? (eatery ? (profile?.dish ?? null) : null),
   };
 }
 
@@ -53,6 +56,26 @@ export function curatedPlaceFacts(
     ...(curated.indoor === undefined ? {} : { indoor: curated.indoor }),
     ...(pairs.length === 0 ? {} : { pairsWith: pairs }),
   };
+}
+
+/** Kinds open data files places under that are never a sight, nor a meal of their own. */
+const NOT_SIGHTS: ReadonlySet<string> = new Set(['food', 'stay', 'transit', 'health']);
+
+/**
+ * The kind of place a curated row is planned as. The researchers give every place to eat a meal
+ * role, so their line decides whether a place is one: a fado house, a tower or a market street that
+ * open data files as a restaurant is a sight (a night out where they tagged it for nightlife, a
+ * market where they tagged it for markets), and a puppet theatre or a cable car filed as a hotel
+ * or a station is a sight too. A row without a line keeps its kind.
+ */
+export function curatedCategory(category: string, curated: CuratedNote | null): string {
+  if (curated === null) return category;
+  if (curated.meal_role !== undefined) return NOT_SIGHTS.has(category) ? 'food' : category;
+  if (!NOT_SIGHTS.has(category)) return category;
+  const tags = curated.tags ?? [];
+  if (tags.includes('nightlife')) return 'nightlife';
+  if (tags.includes('markets')) return 'market';
+  return 'other';
 }
 
 /** Itinerary pages that must include a place for it to count among what a town is known for. */
