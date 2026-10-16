@@ -3,14 +3,18 @@
  * must carry the place's name (English or local, the same words as the pick matcher's rules) and
  * lie near that point: the same name within `SAME_NAME_RADIUS_M`, a name one word apart within
  * `CLOSE_NAME_RADIUS_M`. A row further than `STRONG_NAME_RADIUS_M` must carry the place's full
- * name (English or local; accents, case and the destination's own words aside): sharing the
- * words is not enough there ("Time Square Square" 900 m off is not Times Square). Two Latin names that each hold two telling words
- * the other lacks are different places, whatever their local names say ("Banker-Tattoo Train Night
- * Market Ratchada" is not "Rot Fai Ratchada Train Night Market"). Among rows that qualify, the
- * closer name wins, then the same kind of place, then the nearer row. Short of that, a row whose
- * name is nearly the same text (`SIMILAR_TEXT`, for scripts written without spaces) close to the
- * point (`SIMILAR_RADIUS_M`). A place no row carries is reported and never created from the
- * researcher's point: open data stays the source of a place's name, point and address.
+ * name (English or local, or a name either carries in brackets; accents, case, word order,
+ * joining words and the destination's own words aside): sharing the words is not enough there
+ * ("Time Square Square" 900 m off is not Times Square). A full name of two words or more is the
+ * same name ("El Mercado Ushuaia" is "El Mercado"); of one word, only within the short radius.
+ * Two Latin names that each hold two telling words the other lacks are different places, whatever
+ * their non-Latin local names say ("Banker-Tattoo Train Night Market Ratchada" is not "Rot Fai
+ * Ratchada Train Night Market"), unless the row is written in the place's Latin local name.
+ * Among rows that qualify, the closer name wins, then the same kind of place, then the nearer
+ * row. Short of that, a row whose name is nearly the same text (`SIMILAR_TEXT`, for scripts
+ * written without spaces) close to the point (`SIMILAR_RADIUS_M`). A place no row carries is
+ * reported and never created from the researcher's point: open data stays the source of a
+ * place's name, point and address.
  */
 import type { PoiCategory } from '@cp/domain';
 
@@ -33,6 +37,8 @@ export const STRONG_NAME_RADIUS_M = 250;
 const DIFFERENT_WORDS = 2;
 /** Rows nearer than this to each other count as equally near; the kind of place decides. */
 const NEAR_STEP_M = 250;
+/** A full name of one telling word: a name one word apart, so only within `CLOSE_NAME_RADIUS_M`. */
+const ONE_TELLING_WORD_SCORE = 0.9;
 
 export interface CuratedLead {
   readonly name: string;
@@ -86,11 +92,85 @@ export function withoutBranchNote(name: string, leadWords: ReadonlySet<string>):
   return nameTokens(outside).some((word) => leadWords.has(word)) ? name : outside;
 }
 
-/** A name word for word, accents, case and the destination's own words aside. */
-function fullName(name: string | null, plain: ReadonlySet<string>): string {
-  const tokens = name === null ? [] : nameTokens(name);
+/**
+ * Joining words that name nothing: "Mercado Central de Mendoza" is "Mercado Central", "The Cave
+ * Church" is "Cave Church". Both names drop them, so only a difference in them is ignored.
+ */
+const JOINING = new Set([
+  'of',
+  'the',
+  'and',
+  'de',
+  'del',
+  'des',
+  'du',
+  'di',
+  'la',
+  'el',
+  'y',
+  'e',
+  'et',
+  'und',
+  'der',
+]);
+
+/** Name words without joining words, or all of them when that leaves none. */
+function namingWords(tokens: readonly string[]): string[] {
+  const naming = tokens.filter((token) => !JOINING.has(token));
+  return naming.length > 0 ? naming : [...tokens];
+}
+
+/** Its telling words, the destination's own aside (all of them when that leaves none). */
+function tellingWords(tokens: readonly string[], plain: ReadonlySet<string>): string[] {
   const telling = tokens.filter((token) => !plain.has(token));
-  return (telling.length > 0 ? telling : tokens).join(' ');
+  return telling.length > 0 ? telling : [...tokens];
+}
+
+interface FullName {
+  /** The telling naming words in any order: accents, case and joining words aside. */
+  readonly key: string;
+  /** How many telling words the name is written with, joining words counted. */
+  readonly words: number;
+}
+
+function fullName(tokens: readonly string[], plain: ReadonlySet<string>): FullName {
+  return {
+    key: tellingWords(namingWords(tokens), plain).sort().join(' '),
+    words: tellingWords(tokens, plain).length,
+  };
+}
+
+/** A name read whole and as each name it carries ("Chùa Ghositaram (Chùa Cù Lao)" holds two). */
+function fullNames(name: string | null, plain: ReadonlySet<string>): FullName[] {
+  if (name === null) return [];
+  return [nameTokens(name), ...nameAliases(name).primary]
+    .map((tokens) => fullName(tokens, plain))
+    .filter((full) => full.key !== '');
+}
+
+/**
+ * How many words the full name one of the row's names shares with one of the place's names
+ * (see `FullName`; the shorter of the two as written), or 0 when none is the same. A branch's
+ * area in brackets is not one of the row's names (`withoutBranchNote`).
+ */
+export function sharedFullName(
+  lead: CuratedLead,
+  row: MatchCandidate,
+  plain: ReadonlySet<string>,
+  leadWords: ReadonlySet<string>,
+): number {
+  const wanted = [...fullNames(lead.name, plain), ...fullNames(lead.localName, plain)];
+  const theirs = [
+    ...fullNames(withoutBranchNote(row.name, leadWords), plain),
+    ...fullNames(row.nameLocal, plain),
+  ];
+  let best = 0;
+  for (const ours of wanted) {
+    for (const name of theirs) {
+      if (ours.key === name.key) best = Math.max(best, Math.min(ours.words, name.words));
+    }
+  }
+  return best;
 }
 
 /** Whether one of the row's names is one of the place's names, word for word. */
@@ -100,16 +180,12 @@ export function sameFullName(
   plain: ReadonlySet<string>,
   leadWords: ReadonlySet<string>,
 ): boolean {
-  const wanted = new Set([fullName(lead.name, plain), fullName(lead.localName, plain)]);
-  wanted.delete('');
-  return [row.name, withoutBranchNote(row.name, leadWords), row.nameLocal].some((name) =>
-    wanted.has(fullName(name, plain)),
-  );
+  return sharedFullName(lead, row, plain, leadWords) > 0;
 }
 
 function tellingAliases(name: string, plain: ReadonlySet<string>): Set<string>[] {
   return nameAliases(name).primary.map(
-    (tokens) => new Set(tokens.filter((token) => !plain.has(token))),
+    (tokens) => new Set(namingWords(tokens).filter((token) => !plain.has(token))),
   );
 }
 
@@ -120,8 +196,11 @@ function lacking(a: ReadonlySet<string>, b: ReadonlySet<string>): number {
 }
 
 /**
- * Whether the place's English name and the row's name are clearly different places: both Latin,
- * and every way of reading them leaves each with `DIFFERENT_WORDS` telling words the other lacks.
+ * Whether the place and the row's name are clearly different places: both Latin, and every way
+ * of reading them leaves each with `DIFFERENT_WORDS` telling words the other lacks. A row written
+ * in the place's Latin local name ("Chợ đêm Cà Mau" for "Ca Mau Night Market") is not different
+ * when it shares a telling word with it and holds no two the other lacks ("Cafe 88 Cao Bằng" is
+ * still not "Chợ Cao Bằng").
  */
 export function clearlyDifferentNames(
   lead: CuratedLead,
@@ -129,10 +208,13 @@ export function clearlyDifferentNames(
   plain: ReadonlySet<string>,
 ): boolean {
   if (!LATIN.test(lead.name) || !LATIN.test(row.name)) return false;
-  const ours = tellingAliases(lead.name, plain);
   const theirs = tellingAliases(row.name, plain);
-  return ours.every((a) =>
-    theirs.every((b) => lacking(a, b) >= DIFFERENT_WORDS && lacking(b, a) >= DIFFERENT_WORDS),
+  const apart = (a: ReadonlySet<string>, b: ReadonlySet<string>) =>
+    lacking(a, b) >= DIFFERENT_WORDS && lacking(b, a) >= DIFFERENT_WORDS;
+  const english = tellingAliases(lead.name, plain).every((a) => theirs.every((b) => apart(a, b)));
+  if (!english || lead.localName === null || !LATIN.test(lead.localName)) return english;
+  return tellingAliases(lead.localName, plain).every((a) =>
+    theirs.every((b) => apart(a, b) || lacking(a, b) === a.size),
   );
 }
 
@@ -150,19 +232,27 @@ export function chooseCuratedMatch(
       !clearlyDifferentNames(lead, row, plain) &&
       (row.distanceM <= STRONG_NAME_RADIUS_M || sameFullName(lead, row, plain, leadWords)),
   );
-  const byId = new Map(open.map((row) => [row.id, row]));
   const ranked = rankNamedPlace(
     { name: lead.name, localName: lead.localName, kind: pickKindOf(lead.category), area: null },
     open.map((row) => ({ ...row, name: withoutBranchNote(row.name, leadWords) })),
     plain,
   );
+  // A row carrying the place's full name is the same name (one telling word only within a short
+  // walk: "Hofgarten" is "Hofgarten Innsbruck", a bare "Market" 1 km off is not "Ca Mau Market").
   // `rankNamedPlace` puts the closer name and the same kind first; a clearly nearer row of the
   // same name goes ahead of one further off.
-  const near = ranked
-    .map((scored, order) => ({ ...scored, order, row: byId.get(scored.row.id) }))
+  const scored = new Map(ranked.map((c, order) => [c.row.id, { score: c.score, order }]));
+  const near = open
+    .map((row, index) => {
+      const words = sharedFullName(lead, row, plain, leadWords);
+      const full = words >= 2 ? SAME_NAME_SCORE : words === 1 ? ONE_TELLING_WORD_SCORE : 0;
+      const rank = scored.get(row.id);
+      const score = Math.max(full, rank?.score ?? 0);
+      return { row, score, order: rank?.order ?? ranked.length + index };
+    })
     .filter(
-      (c): c is { row: MatchCandidate; score: number; order: number } =>
-        c.row !== undefined &&
+      (c) =>
+        c.score > 0 &&
         c.row.distanceM <= (c.score >= SAME_NAME_SCORE ? SAME_NAME_RADIUS_M : CLOSE_NAME_RADIUS_M),
     )
     .sort(
