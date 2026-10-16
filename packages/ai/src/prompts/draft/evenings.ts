@@ -5,8 +5,9 @@
  * music. Every other crew gets the evenings a first visit is known for, the essentials and
  * must-sees that happen after dark (the fado house, the water puppets, the fire show, the night
  * market) and the evening places that suit its tastes, and a crew that wants quiet evenings never a
- * bar. One in the day's areas first; then
- * an essential, then a must-see, then the nearest. One evening per place. The stop follows dinner
+ * bar. The places itinerary pages agree on first (./agreement), the essentials and the stops of
+ * their days before those three or more pages hold; then one in the day's areas; then what suits
+ * the crew; then the nearest. One evening per place. The stop follows dinner
  * and keeps the place's own evening: it may run until the local night ends (half past eleven in
  * Lisbon, midnight in Madrid, earlier where dinner is at six), never past its closing.
  */
@@ -22,6 +23,7 @@ import {
   type DraftPoi,
 } from '@cp/planner';
 
+import { agreementOf, isAgreed } from './agreement';
 import { areaStep, homeOf, hopCap, spanOf } from './areas';
 
 import { addOne, nearFirst, type Attempt } from './complete-days';
@@ -46,18 +48,17 @@ const isNightlife = (poi: DraftPoi) =>
 
 /**
  * What an evening may hold for this crew: anything for the night for a crew that likes it, else
- * what people come for or what suits the crew's tastes (and never a bar for a crew that wants
- * quiet evenings).
+ * what people come for (what itinerary pages agree on) or what suits the crew's tastes (and never
+ * a bar for a crew that wants quiet evenings).
  */
 export function suitsEvening(
-  input: Pick<DraftPlanInput, 'tastes' | 'frame'>,
+  input: Pick<DraftPlanInput, 'tastes' | 'frame' | 'firstVisit'>,
 ): (poi: DraftPoi) => boolean {
   const night = wantsEvenings(input);
   const quiet = (input.tastes['quiet_evenings'] ?? 0) > 0;
   return (poi) =>
     night ||
-    ((poi.essential === true || poi.mustSee || tasteScore(poi, input.tastes) > 0) &&
-      !(quiet && isNightlife(poi)));
+    ((isAgreed(input, poi) || tasteScore(poi, input.tastes) > 0) && !(quiet && isNightlife(poi)));
 }
 
 /** Whether `poi` is a place for after dinner. */
@@ -104,18 +105,17 @@ export function fillEvenings(
         withinReach(poi.id, near, input.travel, hopCap(input)) &&
         (input.pools.openDays.get(poi.id) ?? []).includes(outline.dayNo),
     );
-    const worth = (poi: DraftPoi) => (poi.essential === true ? 0 : poi.mustSee ? 1 : 2);
     const taste = (poi: DraftPoi) => (tasteScore(poi, input.tastes) > 0 ? 0 : 1);
-    // In the day's areas (or the one beside them) before one across town, then by worth, then
-    // what suits the crew.
+    // What pages agree on first, then in the day's areas (or the one beside them) before one
+    // across town, then what suits the crew.
     const here = day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
     const away = (poi: DraftPoi) => (areaStep(input, poi.id, here) < 2 ? 0 : 1);
     const candidates = nearFirst(input, offered, last == null ? [] : [last])
-      .map((poi, rank) => ({ poi, rank, away: away(poi) }))
+      .map((poi, rank) => ({ poi, rank, away: away(poi), agreement: agreementOf(input, poi) }))
       .sort(
         (a, b) =>
+          a.agreement - b.agreement ||
           a.away - b.away ||
-          worth(a.poi) - worth(b.poi) ||
           taste(a.poi) - taste(b.poi) ||
           a.rank - b.rank,
       )

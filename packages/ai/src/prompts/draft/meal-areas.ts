@@ -5,8 +5,9 @@
  * before it nor of the one after gives way to a place in one of those areas, when there is one and
  * the day stays as clean, as full and as straight as it was, with no stop moved off its best time.
  * A crew with tastes also has a meal in the right area that suits none of them swapped for one
- * that does (a hawker centre for a street food crew, a brewpub for a nightlife crew). A meal the
- * crew asked for or placed stays; a famous meal gives way only to another famous one.
+ * that does (a hawker centre for a street food crew, a brewpub for a nightlife crew), and a meal
+ * there that itinerary pages do not agree on gives way to one they do (./agreement). A meal the
+ * crew asked for or placed stays; one the pages agree on gives way only to another they agree on.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
 import {
@@ -23,6 +24,7 @@ import {
   type DraftPoi,
 } from '@cp/planner';
 
+import { agreementOf, isAgreed } from './agreement';
 import { ownArea, rideFrom } from './areas';
 import { dayFaults, editorsLine } from './complete-days';
 import type { DraftPlanInput } from './context';
@@ -61,8 +63,6 @@ function offTheirTime(input: DraftPlanInput, day: DraftDay): number {
   }).length;
 }
 
-const famous = (poi: DraftPoi) => poi.essential === true || poi.mustSee;
-
 /** The ids of the nearest stops that are not meals before and after `at`. */
 function aroundMeal(day: DraftDay, at: number): string[] {
   const before = day.items
@@ -76,8 +76,9 @@ function aroundMeal(day: DraftDay, at: number): string[] {
 }
 
 /**
- * Places that could take the meal at `at` instead, best first: in an area of the stops around it
- * (the area both share first), famous before the rest, then the crew's tastes, then the nearest.
+ * Places that could take the meal at `at` instead, best first: in an area of the stops around it,
+ * those itinerary pages agree on before the rest, then in the area both share, then the crew's
+ * tastes, then the nearest.
  */
 function insteadOf(
   input: DraftPlanInput,
@@ -108,7 +109,7 @@ function insteadOf(
       (poi) =>
         !used.has(poi.id) &&
         wanted.has(area(poi.id) ?? '') &&
-        (!famous(current) || famous(poi)) &&
+        (!isAgreed(input, current) || isAgreed(input, poi)) &&
         (input.pools.openDays.get(poi.id) ?? []).includes(day.day_no) &&
         mealSlots(poi, day.date).includes(slot) &&
         !otherMeals.some((other) => sameDish(other, poi)),
@@ -117,14 +118,14 @@ function insteadOf(
       poi,
       rank,
       both: around.every((id) => area(id) === area(poi.id)) && shared.size > 0 ? 0 : 1,
-      worth: famous(poi) ? 0 : 1,
+      agreement: agreementOf(input, poi),
       taste: tasteScore(poi, input.tastes),
       ride: rideFrom(input, poi.id, around),
     }))
     .sort(
       (a, b) =>
         a.both - b.both ||
-        a.worth - b.worth ||
+        a.agreement - b.agreement ||
         b.taste - a.taste ||
         a.ride - b.ride ||
         a.rank - b.rank,
@@ -186,16 +187,23 @@ export function withMealsInDayAreas(
     const wanted = new Set(aroundMeal(day, at).flatMap((id) => area(id) ?? []));
     const mine = area(poi.id);
     const inPlace = mine !== undefined && wanted.has(mine);
-    if (wanted.size === 0 || (inPlace && (!tasteful || tasteScore(poi, input.tastes) > 0))) {
-      continue;
-    }
+    const agreed = isAgreed(input, poi);
+    if (wanted.size === 0 || (inPlace && agreed)) continue;
+    // In the right area, a meal pages do not agree on gives way to one they do, or (for a crew with
+    // tastes, where it suits none of them) to one that suits the crew.
+    const forTaste = tasteful && tasteScore(poi, input.tastes) === 0;
     const before = dayFaults(input, itinerary, outline.dayNo);
     const shape = dayShape(input, day);
     const opened = misplacedOpeners(input, day).length;
     const off = offTheirTime(input, day);
     for (const candidate of insteadOf(input, itinerary, day, at, wanted)) {
-      // In the right area already, a meal gives way only to one that suits the crew.
-      if (inPlace && tasteScore(candidate, input.tastes) === 0) continue;
+      if (
+        inPlace &&
+        !isAgreed(input, candidate) &&
+        !(forTaste && tasteScore(candidate, input.tastes) > 0)
+      ) {
+        continue;
+      }
       const next = withMealAt(input, outline, itinerary, day, at, candidate);
       const made = dayOf(next);
       if (made === undefined || made.items.length !== day.items.length) continue;

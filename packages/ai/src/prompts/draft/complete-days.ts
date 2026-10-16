@@ -19,6 +19,7 @@ import {
   type DraftPoi,
 } from '@cp/planner';
 
+import { agreementOfStop } from './agreement';
 import { areaStep, besideStops, hopCap, rideFrom } from './areas';
 import { placeNames, type DraftPlanInput } from './context';
 import { scheduleChoices } from './day';
@@ -249,7 +250,9 @@ export function fillMeals(
               item.kind === 'activity' &&
               input.pois.get(item.poi_id ?? '')?.essential !== true,
           )
-          .reverse();
+          .reverse()
+          // A sight itinerary pages agree on gives way last.
+          .sort((a, b) => agreementOfStop(input, b) - agreementOfStop(input, a));
         for (const item of giveWay) {
           const lighter = {
             ...itinerary,
