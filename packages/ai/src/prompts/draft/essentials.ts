@@ -192,10 +192,11 @@ function withStop(day: DraftDay, poi: DraftPoi): DraftDay {
 const ROUNDS = 3;
 
 /**
- * Puts each essential the settled draft still lacks on a day it is open, the day whose stops it
- * sits nearest first: added when the day stays as clean; else in the seat of a stop that is
- * neither the crew's own nor an essential (the last such stop first); else in the seat of a
- * shorter essential, which is then placed again on another day in the next round.
+ * Puts each essential the settled draft still lacks on a day it is open, the researchers' first
+ * ranked first, on the day whose stops it sits nearest first: added when the day stays as clean
+ * and keeps its other essentials; else in the seat of a stop that is neither the crew's own nor an
+ * essential (the one itinerary pages agree on least first); else in the seat of a shorter
+ * essential, which is then placed again on another day in the next round.
  */
 export function placeEssentials(
   input: DraftPlanInput,
@@ -206,7 +207,10 @@ export function placeEssentials(
   const before = essentialsLeftOut(input, start).length;
   for (let round = 0; round < ROUNDS; round += 1) {
     let moved = false;
-    for (const gap of essentialsLeftOut(input, itinerary)) {
+    // The essentials the researchers rank first get the first seats (the gardens before a deck).
+    const rank = (gap: EssentialLeftOut) =>
+      input.pois.get(gap.poiId)?.essentialRank ?? Number.MAX_SAFE_INTEGER;
+    for (const gap of essentialsLeftOut(input, itinerary).sort((a, b) => rank(a) - rank(b))) {
       const poi = input.pois.get(gap.poiId);
       if (poi === undefined || !['no_room', 'held_in_the_way', 'days_full'].includes(gap.reason)) {
         continue;
