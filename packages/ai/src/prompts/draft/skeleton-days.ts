@@ -4,7 +4,8 @@
  * (hours, meal times, the time of day a place is for) and it sits within reach of the day's other
  * stops. A day the outline left light is topped up from the unused activities in its areas, so no
  * day is a single stop beside a full one while there are places to go. Each day's meal places are
- * the best eateries in its areas or beside them, those that suit the crew's tastes first (never the same place on two days, never a dish
+ * the best eateries in its areas or beside them, those itinerary pages agree on first and then those
+ * that suit the crew's tastes (never the same place on two days, never a dish
  * the day before already has); its spares are set aside in ./skeleton-spares.ts.
  */
 import {
@@ -23,6 +24,7 @@ import {
   type DraftPoi,
 } from '@cp/planner';
 
+import { agreementOf } from './agreement';
 import { areaStep, byArea, dayOutOf, homeOf, hopCap } from './areas';
 import { byVariety, kindOf, oneTooMany } from './variety';
 import { stopBudget } from './budget';
@@ -82,7 +84,8 @@ export function anchorsOf(input: DraftPlanInput, day: OutlineDay): string[] {
 
 /**
  * Eateries the day could use for `slot`: in the day's own areas first, best first within them
- * (with `tasteFirst`, those that suit the crew's tastes before the rest of their area).
+ * (with `tasteFirst`, the places itinerary pages agree on first, then the day's own areas, then
+ * those that suit the crew's tastes).
  */
 function eateriesFor(
   input: DraftPlanInput,
@@ -107,7 +110,30 @@ function eateriesFor(
       ring(poi) < 2,
   );
   const suits = (poi: DraftPoi) => (tasteScore(poi, input.tastes) > 0 ? 0 : 1);
-  return byArea(input, tasteFirst ? [...open].sort((a, b) => suits(a) - suits(b)) : open, anchors);
+  const near = byArea(
+    input,
+    tasteFirst ? [...open].sort((a, b) => suits(a) - suits(b)) : open,
+    anchors,
+  );
+  if (!tasteFirst) return near;
+  // The places pages agree on lead in the day's areas and beside them, those that suit the crew
+  // first; then the rest of the areas as before; one across town stays last.
+  return near
+    .map((poi, rank) => ({
+      poi,
+      rank,
+      across: areaStep(input, poi.id, anchors) === 2 ? 1 : 0,
+      agreement: agreementOf(input, poi),
+    }))
+    .sort(
+      (a, b) =>
+        a.across - b.across ||
+        Math.min(a.agreement, 1) - Math.min(b.agreement, 1) ||
+        suits(a.poi) - suits(b.poi) ||
+        a.agreement - b.agreement ||
+        a.rank - b.rank,
+    )
+    .map((entry) => entry.poi);
 }
 
 /** Stand-ins for the day's meals while sizing it: the nearest place that serves each meal. */

@@ -1,6 +1,7 @@
 /**
  * Meals where the day is: a lunch or dinner away from the areas of the stops around it gives way
- * to a place in one of them, and a crew's tastes choose between the meal places of an area.
+ * to a place in one of them, a place itinerary pages agree on comes before the rest of an area, and
+ * a crew's tastes choose between the others.
  */
 import type { Itinerary } from '@cp/domain';
 import { mealSlots, sameDish, tasteScore, type DraftPoi } from '@cp/planner';
@@ -9,6 +10,7 @@ import { describe, expect, it } from 'vitest';
 import { baselineItinerary } from '../evals/draft/baseline';
 import { CREWS, planInput } from '../evals/draft/cases';
 import type { DraftPlanInput } from '../src/prompts/draft/context';
+import { isAgreed } from '../src/prompts/draft/agreement';
 import { ownArea } from '../src/prompts/draft/areas';
 import { dayShape, withMealsInDayAreas } from '../src/prompts/draft/meal-areas';
 import type { SkeletonDay } from '../src/prompts/draft/skeleton';
@@ -59,6 +61,38 @@ function mealsBeside(input: DraftPlanInput, day: Day): boolean[] {
   });
 }
 
+/** Day 3's first meal, and a lunch place of its area the draft does not use. */
+function areaLunch(plain: DraftPlanInput) {
+  const base = baselineItinerary(plain);
+  const day = dayOf(base, 3);
+  const meal = day.items.find((item) => item.kind === 'meal');
+  const area = (id: string) => ownArea(plain, id);
+  const used = new Set(base.days.flatMap((d) => d.items.map((i) => i.poi_id)));
+  const meals = base.days.flatMap((d) =>
+    d.items.flatMap((i) => (i.kind === 'meal' ? (plain.pois.get(i.poi_id ?? '') ?? []) : [])),
+  );
+  const lunch = plain.pools.eateries.find(
+    (poi) =>
+      !used.has(poi.id) &&
+      !meals.some((other) => sameDish(other, poi)) &&
+      area(poi.id) === area(meal?.poi_id ?? '') &&
+      mealSlots(poi, day.date).includes('lunch') &&
+      (plain.pools.openDays.get(poi.id) ?? []).includes(3),
+  );
+  if (meal?.poi_id == null || lunch === undefined) throw new Error('no lunch to swap in');
+  return { base, day, meal: { ...meal, poi_id: meal.poi_id }, lunch };
+}
+
+/** `input` where itinerary pages lay out a first visit holding `poiId`. */
+function onPagesDay(input: DraftPlanInput, poiId: string): DraftPlanInput {
+  return {
+    ...input,
+    firstVisit: {
+      days: [{ theme: 'Old town', areas: [], stops: [{ name: 'a lunch', poiId }], pages: 4 }],
+    },
+  };
+}
+
 describe('meals in the day areas', () => {
   it('moves a lunch that makes the day go back to an area into the area of its stops', () => {
     const input = inputOf('danang-v6-5');
@@ -85,23 +119,7 @@ describe('meals in the day areas', () => {
 
   it("takes the meal place of the area that suits the crew's tastes", () => {
     const plain = inputOf('danang-real-1');
-    const base = baselineItinerary(plain);
-    const day = dayOf(base, 3);
-    const meal = day.items.find((item) => item.kind === 'meal');
-    const area = (id: string) => ownArea(plain, id);
-    const used = new Set(base.days.flatMap((d) => d.items.map((i) => i.poi_id)));
-    const meals = base.days.flatMap((d) =>
-      d.items.flatMap((i) => (i.kind === 'meal' ? (plain.pois.get(i.poi_id ?? '') ?? []) : [])),
-    );
-    const lunch = plain.pools.eateries.find(
-      (poi) =>
-        !used.has(poi.id) &&
-        !meals.some((other) => sameDish(other, poi)) &&
-        area(poi.id) === area(meal?.poi_id ?? '') &&
-        mealSlots(poi, day.date).includes('lunch') &&
-        (plain.pools.openDays.get(poi.id) ?? []).includes(3),
-    );
-    if (meal?.poi_id == null || lunch === undefined) throw new Error('no lunch to swap in');
+    const { base, day, meal, lunch } = areaLunch(plain);
     // A crew of market lovers, and one place of the area that is a market stall.
     const tagged: DraftPoi = { ...lunch, tags: [...lunch.tags, 'markets'] };
     const pois = new Map(plain.pois);
@@ -120,6 +138,50 @@ describe('meals in the day areas', () => {
     expect(swapped.items.some((item) => item.poi_id === tagged.id)).toBe(true);
     // The crew with no tastes keeps the meal it had.
     const kept = dayOf(withMealsInDayAreas(plain, outlineOf(day), base), 3);
+    expect(kept.items.map((item) => item.poi_id)).toEqual(day.items.map((item) => item.poi_id));
+  });
+
+  it('swaps a meal pages do not agree on for one of the same area they do', () => {
+    const plain = inputOf('danang-real-1');
+    const { base, day, meal, lunch } = areaLunch(plain);
+    expect(isAgreed(plain, plain.pois.get(meal.poi_id) as DraftPoi)).toBe(false);
+    const input = onPagesDay(plain, lunch.id);
+    const swapped = dayOf(withMealsInDayAreas(input, outlineOf(day), base), 3);
+    expect(swapped.items.some((item) => item.poi_id === lunch.id)).toBe(true);
+    expect(swapped.items).toHaveLength(day.items.length);
+    expect(violations(input, base, 3)).toBeGreaterThanOrEqual(
+      violations(input, withMealsInDayAreas(input, outlineOf(day), base), 3),
+    );
+  });
+
+  it("keeps a meal pages agree on, even where another suits the crew's tastes", () => {
+    const plain = onPagesDay(inputOf('danang-real-1'), '');
+    const { base, day, meal, lunch } = areaLunch(plain);
+    const tagged: DraftPoi = { ...lunch, tags: [...lunch.tags, 'markets'] };
+    const pois = new Map(plain.pois);
+    pois.set(tagged.id, tagged);
+    const input: DraftPlanInput = {
+      ...onPagesDay(plain, meal.poi_id),
+      tastes: { markets: 2 },
+      pois,
+      pools: {
+        ...plain.pools,
+        eateries: plain.pools.eateries.map((poi) => (poi.id === tagged.id ? tagged : poi)),
+      },
+    };
+    const kept = dayOf(withMealsInDayAreas(input, outlineOf(day), base), 3);
+    expect(kept.items.map((item) => item.poi_id)).toEqual(day.items.map((item) => item.poi_id));
+  });
+
+  it("keeps a meal that suits the crew's tastes over one pages agree on that does not", () => {
+    const plain = inputOf('danang-real-1');
+    const { base, day, meal, lunch } = areaLunch(plain);
+    const current = plain.pois.get(meal.poi_id) as DraftPoi;
+    const tagged: DraftPoi = { ...current, tags: [...current.tags, 'markets'] };
+    const pois = new Map(plain.pois);
+    pois.set(tagged.id, tagged);
+    const input: DraftPlanInput = { ...onPagesDay(plain, lunch.id), tastes: { markets: 2 }, pois };
+    const kept = dayOf(withMealsInDayAreas(input, outlineOf(day), base), 3);
     expect(kept.items.map((item) => item.poi_id)).toEqual(day.items.map((item) => item.poi_id));
   });
 });

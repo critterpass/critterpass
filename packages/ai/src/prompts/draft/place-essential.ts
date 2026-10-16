@@ -15,6 +15,7 @@ import {
   type DraftPoi,
 } from '@cp/planner';
 
+import { agreementOfStop } from './agreement';
 import { areaStep, homeOf, hopCap, insideVisit, rideFrom, spanOf } from './areas';
 import { addOne, dayFaults, fillMeals, nearFirst } from './complete-days';
 import type { DraftPlanInput } from './context';
@@ -46,7 +47,15 @@ function bestSeats(input: DraftPlanInput, plan: Itinerary, dayNo: number, poi: D
   return [...new Set([...first, ...seats])].slice(0, SEATS_TRIED + first.length);
 }
 
-/** `poi` on one of the days in `outlines`; with `addOnly`, never in another stop's seat. */
+const rankOf = (poi: DraftPoi) => poi.essentialRank ?? Number.MAX_SAFE_INTEGER;
+/** Whether essential `other` ranks before `poi` among the researchers' essentials. */
+const outranks = (other: DraftPoi, poi: DraftPoi) =>
+  other.essential === true && rankOf(other) < rankOf(poi);
+
+/**
+ * `poi` on one of the days in `outlines`; with `addOnly`, never in another stop's seat. An
+ * essential the researchers rank before it never gives way to it, nor counts as inside its visit.
+ */
 export function placeOne(
   input: DraftPlanInput,
   outlines: readonly SkeletonDay[],
@@ -166,6 +175,7 @@ export function placeOne(
             .filter((item) => {
               const other = input.pois.get(item.poi_id ?? '');
               if (other === undefined || isKept(item) || item.must_do_id !== null) return false;
+              if (outranks(other, poi)) return false;
               const lunch =
                 item.kind === 'meal' &&
                 minuteOfDate(new Date(item.starts_at), day.date, input.frame.tz) < 15 * 60;
@@ -196,6 +206,7 @@ export function placeOne(
           // need for its morning than this one has.
           return displace
             ? other !== undefined &&
+                !outranks(other, poi) &&
                 (other.durationMin < poi.durationMin ||
                   (opensDay(poi, reach) &&
                     opensDay(other, reach) &&
@@ -205,11 +216,14 @@ export function placeOne(
                     earlyNeed(other) < earlyNeed(poi)))
             : other === undefined;
         })
-        .reverse();
-      // One stop gives way; where the newcomer is long, two that nobody asked for.
+        .reverse()
+        // What itinerary pages agree on least gives way first (the last such stop first).
+        .sort((a, b) => agreementOfStop(input, b) - agreementOfStop(input, a));
+      // One stop gives way; where the newcomer is long, two nobody asked for nor pages agree on.
+      const loose = giveWay.filter((item) => agreementOfStop(input, item) === 2);
       const sets = [
         ...giveWay.map((item) => [item]),
-        ...(displace ? [] : giveWay.flatMap((a, i) => giveWay.slice(i + 1).map((b) => [a, b]))),
+        ...(displace ? [] : loose.flatMap((a, i) => loose.slice(i + 1).map((b) => [a, b]))),
       ];
       for (const out of sets) {
         const gone = new Set(out.map((item) => item.stable_id));
@@ -239,7 +253,9 @@ const SHAPE_CODES: ReadonlySet<string> = new Set([
 
 /**
  * The day of `outline` without the stops that break its shape once `keep` is on it: those come
- * off (never `keep`, a must-do or a stop of the crew's), and the rest are timed again.
+ * off (never `keep`, a must-do, a stop of the crew's, an essential ranked before it, nor another
+ * stop of the days itinerary pages lay out: the day keeps those rather than take the newcomer),
+ * and the rest are timed again.
  */
 function withoutShapeFaults(
   input: DraftPlanInput,
@@ -256,8 +272,16 @@ function withoutShapeFaults(
       )
       .flatMap((v) => (v.stableId === null ? [] : [v.stableId])),
   );
+  const newcomer = input.pois.get(keep);
+  const stays = (item: DraftDay['items'][number]) => {
+    const other = input.pois.get(item.poi_id ?? '');
+    if (other === undefined || newcomer === undefined) return false;
+    return other.essential === true
+      ? outranks(other, newcomer)
+      : agreementOfStop(input, item) === 0;
+  };
   const kept = day.items.filter(
-    (item) => !gone.has(item.stable_id) || isKept(item) || item.must_do_id !== null,
+    (item) => !gone.has(item.stable_id) || isKept(item) || item.must_do_id !== null || stays(item),
   );
   if (kept.length === day.items.length) return itinerary;
   const next = scheduleChoices(
