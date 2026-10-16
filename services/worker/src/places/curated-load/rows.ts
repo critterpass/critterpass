@@ -128,6 +128,7 @@ export function curatedNoteLines(
   });
   const curated = curatedNoteSchema.parse({
     rank,
+    category: row.category,
     fee: fact(row.entry_fee),
     hours: fact(row.hours),
     crowd_basis: 'estimate',

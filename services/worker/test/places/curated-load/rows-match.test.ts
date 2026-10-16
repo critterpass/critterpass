@@ -49,6 +49,7 @@ describe('curated places lines', () => {
     const note = curatedNoteLines(rows[0]!, 3);
     expect(note.lines.curated).toEqual({
       rank: 3,
+      category: 'temple_shrine',
       fee: { text: 'Adults 3,000 won', basis: 'cited', source_url: 'https://royal.khs.go.kr/a' },
       hours: { text: '9:00-18:00, closed Tue', basis: 'estimate' },
       crowd_basis: 'estimate',

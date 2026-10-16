@@ -137,6 +137,15 @@ describe('what a curated line tells the planner beyond typed facts', () => {
     expect(curatedCategory('stay', null)).toBe('stay');
   });
 
+  it('plans a curated place as the kind the researcher found it to be', () => {
+    // Khao San Road filed as a restaurant is a night out, meal role or not.
+    expect(curatedCategory('food', curated({ category: 'nightlife', meal_role: 'light' }))).toBe(
+      'nightlife',
+    );
+    expect(curatedCategory('museum', curated({ category: 'other' }))).toBe('other');
+    expect(curatedCategory('stay', curated({ category: 'food' }))).toBe('food');
+  });
+
   it('carries the area, standing, pages, rain fit and the matched pairs only', () => {
     expect(
       curatedPlaceFacts(
