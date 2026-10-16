@@ -76,6 +76,7 @@ export async function findCuratedOsmPlace(
     category: row.category,
     lat: row.lat,
     lng: row.lng,
+    subtype: row.subtype ?? null,
   };
   const far = farReaching(row);
   // A bracket in the English name is an area or a note ("Sedlec Ossuary (Kutná Hora)").

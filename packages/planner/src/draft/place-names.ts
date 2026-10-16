@@ -20,6 +20,40 @@ export function nameTokens(text: string): string[] {
     .map((token) => (token.length > 3 && token.endsWith('s') ? token.slice(0, -1) : token));
 }
 
+/**
+ * Joining words that name nothing: "Mercado Central de Mendoza" is "Mercado Central", "The Cave
+ * Church" is "Cave Church". Both names drop them, so only a difference in them is ignored.
+ */
+const JOINING = new Set([
+  'of',
+  'the',
+  'and',
+  'de',
+  'del',
+  'des',
+  'du',
+  'di',
+  'la',
+  'el',
+  'y',
+  'e',
+  'et',
+  'und',
+  'der',
+]);
+
+/** Name words without joining words, or all of them when that leaves none. */
+export function namingWords(tokens: readonly string[]): string[] {
+  const naming = tokens.filter((token) => !JOINING.has(token));
+  return naming.length > 0 ? naming : [...tokens];
+}
+
+/** Its telling words, the destination's own aside (all of them when that leaves none). */
+export function tellingWords(tokens: readonly string[], plain: ReadonlySet<string>): string[] {
+  const telling = tokens.filter((token) => !plain.has(token));
+  return telling.length > 0 ? telling : [...tokens];
+}
+
 export interface NameAliases {
   /** What the place is called: the leading part of its name and any name in brackets beside it. */
   readonly primary: readonly (readonly string[])[];

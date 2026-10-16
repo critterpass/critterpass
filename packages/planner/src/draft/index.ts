@@ -23,6 +23,7 @@ export {
   type WishMatches,
 } from './place-names';
 export * from './named-place-match';
+export * from './curated-kind-rules';
 export * from './curated-name-rules';
 export * from './osm-result-match';
 export { alignStableIds, redraftDiff } from './redraft-diff';

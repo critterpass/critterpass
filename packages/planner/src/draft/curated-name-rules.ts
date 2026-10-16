@@ -10,8 +10,9 @@
  * Two Latin names that each hold two telling words the other lacks are different places, whatever
  * their non-Latin local names say ("Banker-Tattoo Train Night Market Ratchada" is not "Rot Fai
  * Ratchada Train Night Market"), unless the row is written in the place's Latin local name.
- * Among rows that qualify, the closer name wins, then the same kind of place, then the nearer
- * row. Short of that, a row whose name is nearly the same text (`SIMILAR_TEXT`, for scripts
+ * A row of the wrong kind is never the place, and one of a clashing kind goes after one that is
+ * not (`curated-kind-rules`: "IPPUDO Clarke Quay" is not Clarke Quay). Among rows that qualify,
+ * the closer name wins, then the same kind of place, then the nearer row. Short of that, a row whose name is nearly the same text (`SIMILAR_TEXT`, for scripts
  * written without spaces) close to the point (`SIMILAR_RADIUS_M`). A place no row carries is
  * reported and never created from the researcher's point: open data stays the source of a
  * place's name, point and address.
@@ -24,7 +25,8 @@ import {
   type PickCandidate,
   type PlacePickKind,
 } from './named-place-match';
-import { nameAliases, nameTokens } from './place-names';
+import { kindClash, wrongKind } from './curated-kind-rules';
+import { nameAliases, nameTokens, namingWords, tellingWords } from './place-names';
 
 export const SAME_NAME_RADIUS_M = 1_500;
 export const CLOSE_NAME_RADIUS_M = 400;
@@ -46,6 +48,8 @@ export interface CuratedLead {
   readonly category: PoiCategory;
   readonly lat: number;
   readonly lng: number;
+  /** The researcher's kind of place ("riverside bar strip"); absent for a typed search. */
+  readonly subtype?: string | null;
 }
 
 export interface MatchCandidate extends PickCandidate {
@@ -90,40 +94,6 @@ export function withoutBranchNote(name: string, leadWords: ReadonlySet<string>):
   const inside = parts?.[2]?.trim() ?? '';
   if (outside === '' || !LATIN.test(outside) || !LATIN.test(inside)) return name;
   return nameTokens(outside).some((word) => leadWords.has(word)) ? name : outside;
-}
-
-/**
- * Joining words that name nothing: "Mercado Central de Mendoza" is "Mercado Central", "The Cave
- * Church" is "Cave Church". Both names drop them, so only a difference in them is ignored.
- */
-const JOINING = new Set([
-  'of',
-  'the',
-  'and',
-  'de',
-  'del',
-  'des',
-  'du',
-  'di',
-  'la',
-  'el',
-  'y',
-  'e',
-  'et',
-  'und',
-  'der',
-]);
-
-/** Name words without joining words, or all of them when that leaves none. */
-function namingWords(tokens: readonly string[]): string[] {
-  const naming = tokens.filter((token) => !JOINING.has(token));
-  return naming.length > 0 ? naming : [...tokens];
-}
-
-/** Its telling words, the destination's own aside (all of them when that leaves none). */
-function tellingWords(tokens: readonly string[], plain: ReadonlySet<string>): string[] {
-  const telling = tokens.filter((token) => !plain.has(token));
-  return telling.length > 0 ? telling : [...tokens];
 }
 
 interface FullName {
@@ -230,6 +200,7 @@ export function chooseCuratedMatch(
   const open = free.filter(
     (row) =>
       !clearlyDifferentNames(lead, row, plain) &&
+      !wrongKind(lead, row, plain) &&
       (row.distanceM <= STRONG_NAME_RADIUS_M || sameFullName(lead, row, plain, leadWords)),
   );
   const ranked = rankNamedPlace(
@@ -248,7 +219,8 @@ export function chooseCuratedMatch(
       const full = words >= 2 ? SAME_NAME_SCORE : words === 1 ? ONE_TELLING_WORD_SCORE : 0;
       const rank = scored.get(row.id);
       const score = Math.max(full, rank?.score ?? 0);
-      return { row, score, order: rank?.order ?? ranked.length + index };
+      const clash = kindClash(lead, row) ? 1 : 0;
+      return { row, score, clash, order: rank?.order ?? ranked.length + index };
     })
     .filter(
       (c) =>
@@ -258,6 +230,7 @@ export function chooseCuratedMatch(
     .sort(
       (a, b) =>
         b.score - a.score ||
+        a.clash - b.clash ||
         Math.floor(a.row.distanceM / NEAR_STEP_M) - Math.floor(b.row.distanceM / NEAR_STEP_M) ||
         a.order - b.order,
     );
