@@ -13,6 +13,9 @@
  * worker has finished it. Once no ingest can add places, the destination loads against those it
  * has (`sparse: true`; `reingest_queued` when the places of its last run are being ingested again,
  * so a later run matches more). Unmatched activities (`curated_stops`) are kept by name, never looked up.
+ * A destination whose place box misses its curated points gets a box drawn around them and that
+ * box ingested first (`box_redrawn`, `ingest_queued`). `claimed` counts matches moved here from
+ * another destination; `shared`, matches whose owner keeps them (`./match.ts`).
  *
  * After a destination's places, its itinerary (`<slug>.json` in `--itineraries <folder>`, by
  * default the `itineraries` folder beside the places folder) is loaded when there is one, each
@@ -94,8 +97,11 @@ async function main(): Promise<void> {
           status: report.status,
           ...(report.sparse ? { sparse: true } : {}),
           ...(report.reingestQueued ? { reingest_queued: true } : {}),
+          ...(report.boxRedrawn ? { box_redrawn: true } : {}),
           rows: report.rows,
           matched: report.matched.length,
+          claimed: report.matched.filter((m) => m.hold === 'claim').length,
+          shared: report.matched.filter((m) => m.hold === 'shared').length,
           unmatched: report.unmatched,
           osm_queued: flag('osm') ? report.unmatchedLines.length : 0,
           curated_stops: report.curatedStops,

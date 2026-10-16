@@ -6,7 +6,9 @@
  * matched place's is. Idempotent: the row of the same OSM id is reused, and a place a row now
  * matches (a sibling lookup or an ingest added it) is written there without asking OSM.
  *
- * A row of that OSM id another destination owns is left alone (`owned_elsewhere`).
+ * A row another destination owns may be the place too: a claimable one moves here with the note,
+ * any other resolves the place and keeps its owner's note (`./match.ts`). A row of the looked-up
+ * OSM id another destination owns is left alone (`owned_elsewhere`).
  */
 import { attachOsmPlace, withSystem } from '@cp/db';
 import type { NominatimSearch } from '@cp/suppliers';
@@ -15,7 +17,7 @@ import type pg from 'pg';
 import { allowIndexMaintenance } from '../batch-sql';
 import { plainWords } from '../pick/match';
 import { writeCuratedNote } from './load';
-import { chooseCuratedMatch, curatedCandidates, type CuratedLead } from './match';
+import { chooseAcrossOwners, curatedCandidates, type CuratedLead } from './match';
 import { findCuratedOsmPlace } from './osm-lookup';
 import { curatedNoteLines, type CuratedPlaceRow } from './rows';
 
@@ -76,11 +78,14 @@ export async function lookUpCuratedPlace(
           AND (editorial->'curated'->>'rank')::int <> $2`,
       [destination.id, rank],
     );
-    return chooseCuratedMatch(lead, candidates, plain, new Set(rows.map((row) => row.id)));
+    return chooseAcrossOwners(lead, candidates, plain, new Set(rows.map((row) => row.id)));
   });
   if (verdict.kind === 'match') {
-    if (input.dryRun !== true)
-      await writeCuratedNote(pool, verdict.row.id, note, place.busy_windows);
+    // A row its owner keeps resolves the place; the note stays the owner's (`./match.ts`).
+    if (input.dryRun !== true && verdict.hold !== 'shared') {
+      const claimFor = verdict.hold === 'claim' ? destination.id : null;
+      await writeCuratedNote(pool, verdict.row.id, note, place.busy_windows, claimFor);
+    }
     return { outcome: 'matched', poi_id: verdict.row.id, row: verdict.row.name };
   }
   const lookup = await findCuratedOsmPlace(place, plain, search, destination.name);
