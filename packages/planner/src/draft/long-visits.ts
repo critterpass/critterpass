@@ -4,7 +4,8 @@
  * shares that half with it, and meals go around it. A visit of a whole day (a hill resort, a
  * theme park, a long hike) has its day to itself, meals inside or beside it, and never lands on
  * the day the crew arrives or leaves. A stop a few minutes' walk from the anchor is part of the
- * visit (a bridge inside the old town), not a rival to it. The length is the place's own
+ * visit (a bridge inside the old town), not a rival to it, unless our researchers name the two as
+ * places seen together (the Tower of London and Tower Bridge): those are two stops of one outing. The length is the place's own
  * (`time_needed_min`); `derivedDurationMin` reads it from the kind and the editors' notes only
  * where that is missing. A visit is never shortened to fit another stop.
  */
@@ -47,16 +48,30 @@ export function visitSpan(
 }
 
 /**
+ * Whether our researchers pair the two places (`pairsWith`, either way): people see them on one
+ * outing as two visits, each with its own time.
+ */
+export function pairedPlaces(
+  a: Pick<DraftPoi, 'id' | 'pairsWith'>,
+  b: Pick<DraftPoi, 'id' | 'pairsWith'>,
+): boolean {
+  return a.pairsWith?.includes(b.id) === true || b.pairsWith?.includes(a.id) === true;
+}
+
+/**
  * Whether a visit to `anchor` takes in `poi` too: `anchor` is a long visit (`anchorRideMin` from
  * the stay) and `poi` lies within its grounds (a bridge inside the resort, a house in the old town).
+ * Nearness alone says nothing of a pair (`pairedPlaces`): the bridge beside the castle is a visit
+ * of its own.
  */
 export function partOfVisit(
-  poi: Pick<DraftPoi, 'lat' | 'lng' | 'id' | 'durationMin'>,
+  poi: Pick<DraftPoi, 'lat' | 'lng' | 'id' | 'durationMin' | 'pairsWith'>,
   anchor: DraftPoi,
   anchorRideMin = 0,
 ): boolean {
   return (
     poi.id !== anchor.id &&
+    !pairedPlaces(poi, anchor) &&
     // The bigger place takes in the smaller: a village inside the resort, never the other way.
     poi.durationMin < anchor.durationMin &&
     visitSpan(anchor, anchorRideMin) !== null &&
@@ -127,6 +142,7 @@ export function longVisitFaults(
         stop.item.kind !== 'meal' &&
         !partOfVisit(stop.poi, anchor.poi, rideOf(anchor.poi)) &&
         !together(stop.poi.id, anchor.poi.id) &&
+        !pairedPlaces(stop.poi, anchor.poi) &&
         // After dinner is the evening's, whatever the day held.
         stop.startMin < mealsOf(day.window).dinner.startMin &&
         (span === 'full' || halfOf(stop.startMin) === half),
