@@ -146,6 +146,8 @@ describe('stops beside a day out', () => {
   const park = place(413, 'Park in town', 'nature');
   const dinner = place(414, 'Dinner in town', 'food');
   const farDinner = place(415, 'Dinner off the road', 'food');
+  const palace = place(416, 'Second palace up the hill', 'museum');
+  const hillDinner = place(417, 'Dinner up the hill', 'food');
   const travel = line({
     home: 0,
     [id(410)]: 40,
@@ -154,6 +156,8 @@ describe('stops beside a day out', () => {
     [id(413)]: 2,
     [id(414)]: 3,
     [id(415)]: -36,
+    [id(416)]: 55,
+    [id(417)]: 52,
   });
   const stop = (poi: DraftPoi, startMin: number, kind: 'activity' | 'meal' = 'activity') => ({
     item: {
@@ -203,5 +207,10 @@ describe('stops beside a day out', () => {
     ]);
     const home = day([stop(peninsula, 600), stop(dinner, 1080, 'meal'), stop(park, 1170)]);
     expect(farAfterDayOut(home, whole, travel, 'home', 40)).toEqual([]);
+  });
+
+  it('keeps a second sight and the dinner beside a whole day out on its day', () => {
+    const out = day([stop(peninsula, 600), stop(palace, 840), stop(hillDinner, 1080, 'meal')]);
+    expect(farAfterDayOut(out, whole, travel, 'home', 40)).toEqual([]);
   });
 });

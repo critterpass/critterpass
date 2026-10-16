@@ -7,7 +7,7 @@ import type { DraftItem } from '@cp/domain';
 import { describe, expect, it } from 'vitest';
 
 import { derivedDurationMin, visitSpan } from '../../src/draft/index';
-import { longVisitFaults } from '../../src/draft/long-visits';
+import { insideFaults, longVisitFaults } from '../../src/draft/long-visits';
 import type { TimedDay, TimedStop } from '../../src/draft/validate-day-sense';
 import { id, place } from './day-sense-fixture';
 
@@ -24,6 +24,12 @@ const bakery = place(5, 'Bakery', 'food', {
 const lunch = place(6, 'Lunch', 'food', { lat: 11.93, lng: 108.44 });
 const coaster = place(7, 'Coaster', 'nature', { lat: 11.9005, lng: 108.4505 });
 const bridge = place(8, 'Bridge on the hill', 'museum', { lat: 16.004, lng: 107.993 });
+const nightMarket = place(9, 'Night market', 'market', {
+  lat: 11.9004,
+  lng: 108.4504,
+  durationMin: 60,
+  bestTimes: ['evening', 'after_dark'],
+});
 
 const timed = (
   poi: typeof falls,
@@ -85,6 +91,15 @@ describe('long visits', () => {
     expect(faulted(day([timed(hills, 8 * 60), timed(temple, 17 * 60)]))).toEqual(['Temple']);
     expect(faulted(day([timed(hills, 8 * 60), timed(bridge, 11 * 60)]))).toEqual([]);
     expect(faulted(day([timed(hills, 8 * 60)], 1), true)).toEqual(['Hill resort']);
+  });
+
+  it('folds a stop inside a long visit into it, but not a night out hours later', () => {
+    const inside = (stops: TimedStop[]) => insideFaults(day(stops)).map((stop) => stop.poi.name);
+    expect(inside([timed(falls, 8 * 60), timed(coaster, 11 * 60)])).toEqual(['Coaster']);
+    expect(inside([timed(falls, 8 * 60), timed(coaster, 19 * 60)])).toEqual(['Coaster']);
+    // The night market after a morning in the old town is an evening of its own.
+    expect(inside([timed(falls, 8 * 60), timed(nightMarket, 19 * 60)])).toEqual([]);
+    expect(inside([timed(falls, 8 * 60), timed(nightMarket, 11 * 60)])).toEqual(['Night market']);
   });
 
   it('reads a missing length from the notes, then the kind', () => {
