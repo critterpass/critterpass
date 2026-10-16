@@ -13,7 +13,7 @@ import { localMinute } from '../feasibility/grid';
 import { ceilGrid } from './day-minutes';
 import { foodRole } from './food-role';
 import { opensDay, startFloor } from './day-start';
-import { DINNER, mealAt, mealDuration, mealShare, mealSlotAt } from './meal-slots';
+import { mealAt, mealDuration, mealHoursIn, mealShare, mealSlotAt, mealsOf } from './meal-slots';
 import { placeWindows, windowFor } from './time-of-day';
 import { heldWindow, timedDuration } from './wish-time';
 import {
@@ -102,13 +102,14 @@ export function stopPriceMinor(
   kind: 'activity' | 'meal',
   startMin: number,
   bands: CostBands | null,
+  local = mealHoursIn(poi.tz),
 ): number {
   if (bands === null) return 0;
   const factor = poi.priceLevel === null ? 1 : (LEVEL_FACTOR[poi.priceLevel] ?? 1);
   // A coffee or a snack comes out of the food money, a small part of it.
   if (foodRole(poi) === 'light') return Math.round(bands.foodPpDayMinor * 0.15 * factor);
   if (kind === 'activity') return Math.round((bands.funPpDayMinor / 2) * factor);
-  return Math.round(bands.foodPpDayMinor * mealShare(startMin) * factor);
+  return Math.round(bands.foodPpDayMinor * mealShare(startMin, local) * factor);
 }
 
 function openFrom(poi: DraftPoi, date: string, minute: number): number {
@@ -155,6 +156,8 @@ export interface ScheduleDayInput {
 
 export function scheduleDay(input: ScheduleDayInput): DraftDay {
   const items: DraftItem[] = [];
+  const local = mealsOf(input.window);
+  const dinnerFrom = local.dinner.startMin;
   // The clock starts where a stop that opens the day may (each stop then waits for its own floor).
   let at = startFloor(input.window, true, null);
   let previous: string | null = null;
@@ -171,8 +174,8 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
       start = Math.max(
         start,
         choice.mealSlot === 'dinner'
-          ? DINNER.startMin
-          : mealSlotAt(start, lunched, input.dayOut?.has(previous ?? '') === true).startMin,
+          ? dinnerFrom
+          : mealSlotAt(start, lunched, local, input.dayOut?.has(previous ?? '') === true).startMin,
       );
     }
     const opener =
@@ -191,12 +194,12 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
       start = openFrom(poi, input.date, start);
     }
     // A meal its place's opening pushed past lunch waits for dinner: nobody eats at four.
-    if (choice.kind === 'meal' && held === null && mealAt(start) === null) {
-      if (start < DINNER.startMin) {
-        start = poi === undefined ? DINNER.startMin : openFrom(poi, input.date, DINNER.startMin);
+    if (choice.kind === 'meal' && held === null && mealAt(start, local) === null) {
+      if (start < dinnerFrom) {
+        start = poi === undefined ? dinnerFrom : openFrom(poi, input.date, dinnerFrom);
       }
     }
-    if (choice.kind === 'meal' && mealAt(start) === 'lunch') lunched = true;
+    if (choice.kind === 'meal' && mealAt(start, local) === 'lunch') lunched = true;
     const duration = ceilGrid(
       poi === undefined
         ? defaultDurationMin(choice.kind === 'meal' ? 'food' : 'other')
@@ -206,7 +209,9 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
     const fixed = fixedMinutes(choice, input.date, poi?.tz ?? input.tz);
     if (fixed !== null) start = fixed.startMin;
     const length =
-      choice.kind === 'meal' && poi !== undefined ? mealDuration(poi, start, duration) : duration;
+      choice.kind === 'meal' && poi !== undefined
+        ? mealDuration(poi, start, duration, local)
+        : duration;
     const end = fixed === null ? start + length : fixed.endMin;
     const tz = poi?.tz ?? input.tz;
     items.push({
@@ -220,7 +225,8 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
       booking_id: null,
       locked_reason: choice.mustDoId === null ? (choice.lockedReason ?? null) : 'must_do',
       cost_model: 'per_person',
-      amount_minor: poi === undefined ? 0 : stopPriceMinor(poi, choice.kind, start, input.bands),
+      amount_minor:
+        poi === undefined ? 0 : stopPriceMinor(poi, choice.kind, start, input.bands, local),
       currency: input.currency,
       travel_min: Math.max(0, Math.round(travelMin)),
       note: choice.note,

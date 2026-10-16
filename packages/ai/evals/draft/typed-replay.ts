@@ -14,6 +14,7 @@ import {
   collapseSamePlaces,
   foodRole,
   mealAt,
+  mealHoursIn,
   minuteOfDate,
   partOfVisit,
   placeTimes,
@@ -72,12 +73,14 @@ function grade(tally: Tally, plan: Itinerary, judge: ReadonlyMap<string, DraftPo
     });
     const slots = stops
       .filter(({ item }) => item.kind === 'meal')
-      .map(({ item }) => mealAt(minuteOfDate(new Date(item.starts_at), day.date, item.tz)));
+      .map(({ item }) =>
+        mealAt(minuteOfDate(new Date(item.starts_at), day.date, item.tz), mealHoursIn(item.tz)),
+      );
     add(tally.fed, slots.includes('lunch') && slots.includes('dinner'));
     for (const { item, poi } of stops) {
       seen.push(poi);
       const start = minuteOfDate(new Date(item.starts_at), day.date, item.tz);
-      if (item.kind === 'meal') add(tally.meals, mealAt(start) !== null);
+      if (item.kind === 'meal') add(tally.meals, mealAt(start, mealHoursIn(item.tz)) !== null);
       const times = placeTimes(poi);
       const late = times.find((t) => t !== 'morning');
       if (late !== undefined && !times.includes('morning')) {

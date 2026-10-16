@@ -20,7 +20,7 @@ import { fillMeals } from './complete-days';
 import { placeEssentials } from './essentials';
 import { withoutMisplacedOpeners } from './openers';
 import { fillEvenings } from './evenings';
-import { fillThinDays } from './fill-days';
+import { fillThinDays, withNearerMeals } from './fill-days';
 import type { DraftPlanInput } from './context';
 import { scheduleChoices } from './day';
 import type { SkeletonDay } from './skeleton';
@@ -258,6 +258,11 @@ export function settle(
     const done = fill(input, outlines, itinerary);
     itinerary = done.itinerary;
     filled += done.added;
+  }
+  if (options.fillThin) {
+    // Where dinner is late, the evening's stop may come before it and stand in another area:
+    // dinner then follows it rather than riding back to where the afternoon was.
+    for (const outline of outlines) itinerary = withNearerMeals(input, outline, itinerary);
   }
   return {
     itinerary,

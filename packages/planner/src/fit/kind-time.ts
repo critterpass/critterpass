@@ -1,17 +1,14 @@
 /**
  * When in the day a place is suggested for, by the same rules the drafted days follow
  * (../draft/day-rules): a place for the sunset, the evening or after dark goes there, a morning
- * place before eleven, a place that serves meals at lunch or dinner. These are the place's own
+ * place before eleven, a place that serves meals at the local lunch or dinner. These are the place's own
  * hours of the day: a slot inside them is preferred to any slot outside. Every other place has no
  * hour of its own and is only nudged: from mid-morning on rather than its opening minute, and a
  * place seen by daylight begun by sunset.
  */
 import {
-  DINNER,
-  DINNER_LAST_START_MIN,
   foodRole,
-  LUNCH,
-  LUNCH_LAST_START_MIN,
+  mealHoursIn,
   MORNING_ENDS_MIN,
   placeTime,
   placeWindow,
@@ -71,10 +68,11 @@ export function kindWindows(
     toMin: Math.max(MID_MORNING_MIN, placeWindow(poi, date)?.toMin ?? 24 * 60),
   };
   if (foodRole(poi) === 'meal') {
+    const { lunch, dinner } = mealHoursIn(tz);
     return {
       own: [
-        { fromMin: LUNCH.startMin, toMin: LUNCH_LAST_START_MIN },
-        { fromMin: DINNER.startMin, toMin: DINNER_LAST_START_MIN },
+        { fromMin: lunch.startMin, toMin: lunch.lastStartMin },
+        { fromMin: dinner.startMin, toMin: dinner.lastStartMin },
       ],
       usual,
     };

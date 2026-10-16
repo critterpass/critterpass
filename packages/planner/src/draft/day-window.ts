@@ -10,6 +10,7 @@
  * mid-afternoon (a morning's stops and lunch); a known arrival or departure replaces either.
  */
 import { ceilGrid } from './day-minutes';
+import { beforeLeaving, mealHoursIn } from './meal-hours';
 import { heldWindow, timedDuration, timeWindow, type WishTime } from './wish-time';
 import type { Chronotype, DayWindow, DraftPoi, TripFrame } from './types';
 
@@ -68,7 +69,7 @@ export function baseWindow(frame: TripFrame): DayWindow {
     : majority(frame, 'night_owl')
       ? 10 * 60
       : 9 * 60;
-  return { startMin, endMin: 22 * 60 };
+  return { startMin, endMin: 22 * 60, meals: mealHoursIn(frame.tz) };
 }
 
 /** A timed stop may start this early (a sunrise) and end this late (a night show). */
@@ -89,6 +90,7 @@ export function dayWindow(frame: TripFrame, dayIndex: number): DayWindow {
   let { startMin, endMin } = base;
   let earliestMin = EARLIEST_TIMED_MIN;
   let latestMin = LATEST_TIMED_MIN;
+  let meals = base.meals ?? mealHoursIn(frame.tz);
   if (landsOn(frame, dayIndex)) {
     const landed = frame.arrivalMin ?? DEFAULT_ARRIVAL_MIN;
     startMin = Math.max(startMin, ceilGrid(landed + ARRIVAL_BUFFER_MIN));
@@ -98,6 +100,8 @@ export function dayWindow(frame: TripFrame, dayIndex: number): DayWindow {
     const leaves = frame.departureMin ?? DEFAULT_DEPARTURE_MIN;
     endMin = Math.min(endMin, leaves - DEPARTURE_BUFFER_MIN);
     latestMin = Math.min(latestMin, leaves - DEPARTURE_BUFFER_MIN);
+    // An evening flight: dinner before the ride to the airport.
+    meals = beforeLeaving(meals, endMin);
   }
   const reach = frame.reach?.[dayIndex + 1];
   if (reach?.fromMin !== undefined) {
@@ -119,6 +123,7 @@ export function dayWindow(frame: TripFrame, dayIndex: number): DayWindow {
     endMin: Math.max(startMin, endMin),
     earliestMin,
     latestMin,
+    meals,
     ...(laterStart ? { laterStart } : {}),
   };
 }

@@ -10,7 +10,7 @@
  * A place that takes the whole day (./long-visits) is an outing wherever it is.
  */
 import { foodRole } from './food-role';
-import { DINNER } from './meal-slots';
+import { mealsOf } from './meal-slots';
 import { metresBetween } from './same-place';
 import { FULL_DAY_VISIT_MIN, partOfVisit, visitSpan } from './long-visits';
 import { isTheirs, type DraftPoi, type TravelMatrix } from './types';
@@ -235,7 +235,7 @@ export function offTheOuting(
   return day.stops.filter(
     (stop) =>
       // After dinner the crew is back near the stay: an evening out there is no second ride out.
-      stop.startMin < DINNER.startMin &&
+      stop.startMin < mealsOf(day.window).dinner.startMin &&
       (whole ||
         otherOuting(stop.poi.id) ||
         awayBefore(stop) ||

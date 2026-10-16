@@ -8,6 +8,7 @@ import {
   landsOn,
   leavesOn,
   timeFitsDay,
+  USUAL_MEALS,
   type DraftPoi,
   type TripFrame,
 } from '../../src/draft/index';
@@ -36,6 +37,7 @@ const w = (startMin: number, endMin: number, earliestMin: number, latestMin: num
   endMin,
   earliestMin,
   latestMin,
+  meals: USUAL_MEALS,
 });
 const LANDS = w(840, 1320, 840, 1440);
 const FULL = w(540, 1320, 270, 1440);

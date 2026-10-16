@@ -10,7 +10,14 @@
  * follow the wallet, not this rule.
  */
 import type { DraftDay, DraftItem, Itinerary } from '@cp/domain';
-import { foodRole, mealAt, minuteOfDate, type DraftPoi, type TravelMatrix } from '@cp/planner';
+import {
+  foodRole,
+  mealAt,
+  mealHoursIn,
+  minuteOfDate,
+  type DraftPoi,
+  type TravelMatrix,
+} from '@cp/planner';
 import type pg from 'pg';
 
 export interface HeldStop {
@@ -100,7 +107,10 @@ export function withMealKinds(
     const meal =
       date === undefined
         ? null
-        : mealAt(minuteOfDate(new Date(stop.item.starts_at), date, frame.tz));
+        : mealAt(
+            minuteOfDate(new Date(stop.item.starts_at), date, frame.tz),
+            mealHoursIn(frame.tz),
+          );
     const eats = stop.item.kind === 'meal' || (poi !== undefined && foodRole(poi) === 'meal');
     const kind = eats && (meal === 'lunch' || meal === 'dinner') ? 'meal' : 'activity';
     return kind === stop.item.kind ? stop : { ...stop, item: { ...stop.item, kind } };

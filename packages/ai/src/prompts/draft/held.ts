@@ -9,6 +9,7 @@ import {
   isTheirs,
   mealAt,
   mealsInWindow,
+  mealsOf,
   minuteOfDate,
   pinIdOf,
   placeIdOf,
@@ -37,12 +38,15 @@ export function mealsNeeded(
   dayNo: number,
 ): ('lunch' | 'dinner')[] {
   const date = input.frame.dates[dayNo - 1] ?? '';
+  const window = dayWindow(input.frame, dayNo - 1);
   const own = new Set(
     (input.held ?? [])
       .filter((stop) => stop.dayNo === dayNo && stop.item.kind === 'meal')
-      .map((stop) => mealAt(minuteOfDate(new Date(stop.item.starts_at), date, input.frame.tz))),
+      .map((stop) =>
+        mealAt(minuteOfDate(new Date(stop.item.starts_at), date, input.frame.tz), mealsOf(window)),
+      ),
   );
-  return mealsInWindow(dayWindow(input.frame, dayNo - 1)).filter((slot) => !own.has(slot));
+  return mealsInWindow(window).filter((slot) => !own.has(slot));
 }
 
 /** One line per held stop of the day, for the guide: when, where, and what it is. */
@@ -55,11 +59,12 @@ export function heldLines(
     .filter((stop) => stop.dayNo === dayNo)
     .sort((a, b) => Date.parse(a.item.starts_at) - Date.parse(b.item.starts_at))
     .map(({ item }) => {
+      const local = mealsOf(dayWindow(input.frame, dayNo - 1));
       const at = (iso: string) => clockText(minuteOfDate(new Date(iso), date, input.frame.tz));
       const poi = input.pois.get(placeIdOf(item) ?? '');
       const what =
         item.kind === 'meal'
-          ? `a meal (it is the day's ${mealAt(minuteOfDate(new Date(item.starts_at), date, input.frame.tz)) ?? 'meal'}: plan no other)`
+          ? `a meal (it is the day's ${mealAt(minuteOfDate(new Date(item.starts_at), date, input.frame.tz), local) ?? 'meal'}: plan no other)`
           : (poi?.category.replaceAll('_', ' ') ?? 'a stop');
       return `- ${at(item.starts_at)}–${at(item.ends_at)} | ${poi?.name ?? item.note ?? 'a stop of their own'} | ${what}`;
     });

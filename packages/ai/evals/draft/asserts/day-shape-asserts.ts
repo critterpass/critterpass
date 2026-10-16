@@ -6,7 +6,15 @@
  * opens the day later, and a slower or lighter day still eats when a place is free to feed it.
  */
 import type { DraftDay, Itinerary, RedraftReasonKey } from '@cp/domain';
-import { dayWindow, isKept, mealAt, mealSlots, mealsInWindow, minuteOfDate } from '@cp/planner';
+import {
+  dayWindow,
+  isKept,
+  mealAt,
+  mealHoursIn,
+  mealSlots,
+  mealsInWindow,
+  minuteOfDate,
+} from '@cp/planner';
 
 import { spanOf } from '../../../src/prompts/draft/areas';
 import type { RedraftNoteAsk } from '../../../src/decide/questions';
@@ -29,7 +37,7 @@ function mealsOf(day: DraftDay, tz: string): Set<string> {
   return new Set(
     day.items.flatMap((item) => {
       if (item.kind !== 'meal') return [];
-      const slot = mealAt(minuteOfDate(new Date(item.starts_at), day.date, tz));
+      const slot = mealAt(minuteOfDate(new Date(item.starts_at), day.date, tz), mealHoursIn(tz));
       return slot === null ? [] : [slot];
     }),
   );
@@ -181,12 +189,12 @@ export function gradeHeld(input: DraftPlanInput, itinerary: Itinerary): string[]
           own.poi_id !== null && item.poi_id === own.poi_id && item.stable_id !== own.stable_id,
       );
     if (again.length > 0) failures.push(`held: ${name} is planned a second time`);
-    const slot = mealAt(minuteOfDate(new Date(own.starts_at), day.date, tz));
+    const slot = mealAt(minuteOfDate(new Date(own.starts_at), day.date, tz), mealHoursIn(tz));
     if (own.kind === 'meal' && slot !== null) {
       const second = others.some(
         (item) =>
           item.kind === 'meal' &&
-          mealAt(minuteOfDate(new Date(item.starts_at), day.date, tz)) === slot,
+          mealAt(minuteOfDate(new Date(item.starts_at), day.date, tz), mealHoursIn(tz)) === slot,
       );
       if (second) failures.push(`held: a second ${slot} beside ${name}`);
     }

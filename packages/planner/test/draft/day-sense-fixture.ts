@@ -110,6 +110,9 @@ export const NEAR = line({
 });
 
 export const MEAL_PLACES = [P.lunch, P.dinner, P.farLunch];
+/** The meal places as `pois` has them (the fixture's own unless moved to another zone). */
+const mealPlacesIn = (pois: ReadonlyMap<string, DraftPoi>) =>
+  pois === POIS ? MEAL_PLACES : MEAL_PLACES.map((poi) => pois.get(poi.id) ?? poi);
 
 export const stop = (poi: DraftPoi, kind: DayChoice['kind'] = 'activity'): DayChoice => ({
   poiId: poi.id,
@@ -124,18 +127,19 @@ export function drafted(
   choices: readonly DayChoice[],
   frame = FRAME,
   asGiven = false,
+  pois: ReadonlyMap<string, DraftPoi> = POIS,
 ): Itinerary {
   const window = dayWindow(frame, dayIndex);
   const input = {
     date: frame.dates[dayIndex] as string,
     choices,
-    pois: POIS,
+    pois,
     window,
     travel: NEAR,
   };
   const order = asGiven
     ? choices.map((_, index) => index)
-    : bestOrder({ ...input, hopCapMin: 40, mealPlaces: MEAL_PLACES }).order;
+    : bestOrder({ ...input, hopCapMin: 40, mealPlaces: mealPlacesIn(pois) }).order;
   let next = 0;
   const day = scheduleDay({
     ...input,
@@ -150,14 +154,18 @@ export function drafted(
   return { currency: frame.currency, days: [day] };
 }
 
-export function codes(plan: Itinerary, frame = FRAME): DraftViolationCode[] {
+export function codes(
+  plan: Itinerary,
+  frame = FRAME,
+  pois: ReadonlyMap<string, DraftPoi> = POIS,
+): DraftViolationCode[] {
   return validateItinerary({
     itinerary: plan,
-    pois: POIS,
+    pois,
     frame,
     travel: NEAR,
     requiredMustDoIds: [],
-    mealPlaces: MEAL_PLACES,
+    mealPlaces: mealPlacesIn(pois),
     hopCapMin: 40,
   }).violations.map((v) => v.code);
 }

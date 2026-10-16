@@ -7,9 +7,11 @@
 import type { DraftDay, Itinerary } from '@cp/domain';
 import {
   choicesOfDay,
+  dayWindow,
   isKept,
   longRideMin,
   mealSlots,
+  mealsOf,
   minuteOfDate,
   RIDE_HOME_MAX_MIN,
   stopKind,
@@ -149,19 +151,32 @@ export function addOne(
   return null;
 }
 
-/** Lunch is eaten among the day's stops until mid-afternoon, dinner where its afternoon goes. */
-const MEAL_HALF_MIN = 15 * 60;
+/**
+ * Lunch is eaten among the day's stops until mid-afternoon, dinner where its afternoon goes: the
+ * halves part three hours before the local dinner (three in the afternoon where dinner is at six,
+ * half past five in Barcelona).
+ */
+const HALF_BEFORE_DINNER_MIN = 180;
 
 /**
  * The stops a missing meal belongs beside: those of its half of the day (all of them when that
  * half has none), so a dinner is near where the afternoon ends, not back where the morning was.
+ * A stop the crew is still at in the hour before dinner (a market before a late dinner) is where
+ * dinner is.
  */
 function mealNeighbours(input: DraftPlanInput, day: DraftDay, slot: 'lunch' | 'dinner'): string[] {
   const at = (iso: string) => minuteOfDate(new Date(iso), day.date, input.frame.tz);
   const ids = (items: DraftDay['items']) =>
     items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
+  const dinner = mealsOf(dayWindow(input.frame, day.day_no - 1)).dinner.startMin;
+  const split = dinner - HALF_BEFORE_DINNER_MIN;
+  const out = day.items.filter(
+    (item) =>
+      item.kind !== 'meal' && at(item.ends_at) >= dinner - 60 && at(item.starts_at) <= dinner,
+  );
+  if (slot === 'dinner' && out.length > 0) return ids(out);
   const half = day.items.filter((item) =>
-    slot === 'lunch' ? at(item.starts_at) < MEAL_HALF_MIN : at(item.ends_at) > MEAL_HALF_MIN,
+    slot === 'lunch' ? at(item.starts_at) < split : at(item.ends_at) > split,
   );
   return half.length > 0 ? ids(half) : ids(day.items);
 }

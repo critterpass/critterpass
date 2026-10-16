@@ -7,13 +7,10 @@
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
 import {
-  DINNER,
-  DINNER_LAST_START_MIN,
-  LUNCH,
-  LUNCH_LAST_START_MIN,
   dayWindow,
   mealAt,
   mealsInWindow,
+  mealsOf,
   minuteOfDate,
   ASSUMED_ARRIVAL_NOTE,
   ASSUMED_DEPARTURE_NOTE,
@@ -118,6 +115,8 @@ function withRideAndMealNotes(
   const cap = hopCap(input);
   const words = plannerLines(input.locale);
   const at = (iso: string) => minuteOfDate(new Date(iso), day.date, tz);
+  const window = dayWindow(input.frame, dayIndex);
+  const local = mealsOf(window);
   const lines = new Map<number, string[]>();
   const say = (index: number, line: string) =>
     lines.set(index, [...(lines.get(index) ?? []), line]);
@@ -133,14 +132,10 @@ function withRideAndMealNotes(
     }
   });
   const had = new Set(
-    day.items.flatMap((item) => (item.kind === 'meal' ? [mealAt(at(item.starts_at))] : [])),
+    day.items.flatMap((item) => (item.kind === 'meal' ? [mealAt(at(item.starts_at), local)] : [])),
   );
-  const spans = {
-    lunch: [LUNCH.startMin, LUNCH_LAST_START_MIN],
-    dinner: [DINNER.startMin, DINNER_LAST_START_MIN],
-  } as const;
-  for (const slot of mealsInWindow(dayWindow(input.frame, dayIndex))) {
-    const [from, to] = spans[slot];
+  for (const slot of mealsInWindow(window)) {
+    const { startMin: from, lastStartMin: to } = local[slot];
     const through = day.items.some(
       (item) => at(item.starts_at) <= from && at(item.ends_at) >= to + 30,
     );
@@ -153,7 +148,7 @@ function withRideAndMealNotes(
   const full = !landsOn(input.frame, dayIndex) && !leavesOn(input.frame, dayIndex);
   day.items.forEach((item, index) => {
     const next = day.items[index + 1];
-    if (!full || next === undefined || at(next.starts_at) > DINNER_LAST_START_MIN) return;
+    if (!full || next === undefined || at(next.starts_at) > local.dinner.lastStartMin) return;
     const free = at(next.starts_at) - at(item.ends_at) - next.travel_min;
     if (free < FREE_HOURS_MIN) return;
     say(

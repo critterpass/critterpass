@@ -5,17 +5,19 @@
  * there may start between (./time-of-day), and the usable part of a trip day (./schedule-day).
  */
 export {
+  beforeLeaving,
   BREAKFAST,
-  DINNER,
-  DINNER_LAST_START_MIN,
-  LUNCH,
-  LUNCH_LAST_START_MIN,
   mealAt,
   mealDuration,
   mealSlotAt,
   mealSlots,
+  mealHoursIn,
   mealsInWindow,
+  mealsOf,
+  USUAL_MEALS,
+  type MealHours,
   type MealSlot,
+  type MealStretch,
 } from './meal-slots';
 export {
   MORNING_ENDS_MIN,

@@ -102,6 +102,28 @@ describe('long visits', () => {
     expect(inside([timed(falls, 8 * 60), timed(nightMarket, 11 * 60)])).toEqual(['Night market']);
   });
 
+  it('keeps a place paired with the long visit as a stop of its own beside it', () => {
+    // The Tower of London and Tower Bridge, 300 m apart: two visits people make together.
+    const tower = place(10, 'Tower of London', 'temple_shrine', {
+      durationMin: 180,
+      lat: 51.5081,
+      lng: -0.0759,
+    });
+    const towerBridge = place(11, 'Tower Bridge', 'other', {
+      durationMin: 60,
+      lat: 51.5055,
+      lng: -0.0754,
+      pairsWith: [tower.id],
+    });
+    const unpaired = { ...towerBridge, pairsWith: [] };
+    const stops = (bridge: typeof towerBridge) => [timed(tower, 9 * 60), timed(bridge, 12 * 60)];
+    expect(insideFaults(day(stops(unpaired))).map((stop) => stop.poi.name)).toEqual([
+      'Tower Bridge',
+    ]);
+    expect(insideFaults(day(stops(towerBridge)))).toEqual([]);
+    expect(faulted(day(stops(towerBridge)))).toEqual([]);
+  });
+
   it('reads a missing length from the notes, then the kind', () => {
     expect(derivedDurationMin('nature', [], ['Give it a full day: the cable car is long'])).toBe(
       420,

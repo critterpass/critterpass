@@ -8,13 +8,13 @@
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
 import {
-  DINNER,
   dayWindow,
   detourMin,
   mealAcrossTown,
   foodRole,
   isKept,
   mealsInWindow,
+  mealsOf,
   minuteOfDate,
   type DayWindow,
   type DraftPoi,
@@ -58,7 +58,7 @@ function longestHole(input: DraftPlanInput, day: DraftDay, window: DayWindow): H
     if (free > longest.minutes) longest = { minutes: free, at: index };
     at = minuteOfDate(new Date(item.ends_at), day.date, input.frame.tz);
   });
-  const tail = Math.min(window.endMin, DINNER.startMin) - at;
+  const tail = Math.min(window.endMin, mealsOf(window).dinner.startMin) - at;
   return tail > longest.minutes ? { minutes: tail, at: day.items.length } : longest;
 }
 
@@ -76,7 +76,11 @@ const rides = (day: DraftDay | undefined) =>
  * is a meal in neither the area of the stop before it nor of the one after, a ride from both (a
  * dinner back where the morning was).
  */
-function withNearerMeals(input: DraftPlanInput, outline: SkeletonDay, start: Itinerary): Itinerary {
+export function withNearerMeals(
+  input: DraftPlanInput,
+  outline: SkeletonDay,
+  start: Itinerary,
+): Itinerary {
   let itinerary = start;
   const far = Math.round(hopCap(input) / 2);
   const dayOf = (plan: Itinerary) => plan.days.find((d) => d.day_no === outline.dayNo);
