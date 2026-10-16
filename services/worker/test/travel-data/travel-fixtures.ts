@@ -109,12 +109,16 @@ export async function insertTripWithPlan(
     readonly destinationId: string;
     readonly status: 'confirmed' | 'pre_trip' | 'in_trip';
     readonly items: readonly PlanItemSeed[];
+    /** The test's clock, so the trip's dates run around it; the database's date by default. */
+    readonly today?: Date;
   },
 ): Promise<{ tripId: string; stableIds: string[] }> {
   const trip = await pool.query<{ id: string }>(
     `INSERT INTO trips (crew_id, status, destination_id, tz, start_date, end_date)
-     VALUES ($1, 'setup', $2, 'Asia/Makassar', CURRENT_DATE - 1, CURRENT_DATE + 5) RETURNING id`,
-    [options.crewId, options.destinationId],
+     VALUES ($1, 'setup', $2, 'Asia/Makassar',
+             coalesce(($3::timestamptz AT TIME ZONE 'UTC')::date, CURRENT_DATE) - 1,
+             coalesce(($3::timestamptz AT TIME ZONE 'UTC')::date, CURRENT_DATE) + 5) RETURNING id`,
+    [options.crewId, options.destinationId, options.today ?? null],
   );
   const tripId = trip.rows[0]?.id ?? '';
   for (const status of TO_STATUS.slice(0, TO_STATUS.indexOf(options.status) + 1)) {
