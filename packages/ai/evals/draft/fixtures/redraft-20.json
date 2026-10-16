@@ -1,17 +1,17 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-16.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "87e22a79-0686-4506-872f-3bce5c42168e",
+        "id": "bc1241a2-4d82-4d91-8ff0-34dda29a89df",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Sun, Snacks and Surprises\",\n  \"summary\": \"A late-start day that trades the far temple for a relaxed food crawl, a hidden waterfall and a proper beach club finish.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lazy brunch to kick things off, because the sun won’t wait but we certainly can.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle ridge walk to earn the next plate, with views that cost nothing.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: a waterfall tucked away where you least expect it. I know a guy who swears by it.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper local plate, the kind that makes you say terima kasih (thank you) between bites.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The beach the crew asked for, kept right where it belongs as the sun starts to think about leaving.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A splashy nightcap for five night owls, because the sun won’t wait but the bass will.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Markets, Temples and a Beach Sunset\",\n  \"summary\": \"A slower, food-led day around Seminyak and nearby temples, with a proper sit-down lunch, a local market stop and an unexpected nightcap by the sand.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one thing I would never cut. Late start, long toes in the sand, zero rush.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch, because one of you asked for it and the sun won’t wait.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little temple surprise near the old streets, quick and calm before the evening.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Something nobody asked for: a beach club after dark. I know a guy, and the night owls will thank me.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A second food stop, lighter and greener, to round off the day without weighing anyone down.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 3,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1792,
-          "output_tokens": 450,
+          "output_tokens": 356,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "e34c3b46-71bb-43da-b0fb-6cbfef79420e",
+        "id": "5e3122e0-acf8-43d8-b5a7-797c399ee318",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Sun, Snacks and a Secret Stop\",\n  \"summary\": \"A lazy Sunday that starts with the sea, wanders through Ubud's green heart, and ends with a proper sit-down meal and a nightcap the crew won't see coming.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The sun won't wait, and neither should you. A long, slow morning on the sand is the right way to start a day with no alarms.\",\n      \"area\": \"A\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle ridge walk to shake the sand off and earn the next meal. Green views, no rush.\",\n      \"area\": \"B\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch, the kind this crew asked for. Fresh, calm and full of good things.\",\n      \"area\": \"B\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet temple stop before the evening gets lively. It is small, lovely and free.\",\n      \"area\": \"B\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is the surprise: a local warung with big flavour and a small price. Terima kasih (thank you) to the crew for trusting me.\",\n      \"area\": \"F\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"Sunset, Snacks and a Secret Stop\",\n  \"summary\": \"A late-start Bali day that trades the usual rush for beach time, a proper sit-down dinner and one surprise the crew won't see coming.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one thing you asked to keep, and rightly so. The sun won’t wait, so we start where the sand is soft and the pace is ours.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper chairs and a menu, because sit-down dining deserves a proper meal. Terima kasih (thank you) to whoever suggested this.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: a beach club after dark. Not our usual temple trail, but the crew are night owls, so rise and shine means something different here.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a market spirit and a proper plate of local chicken rice. I know a guy who swears by this one.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 121,
+          "input_tokens": 38,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1792,
-          "output_tokens": 407,
+          "output_tokens": 360,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "bba11edf-a283-47fb-ad25-2037867f5314",
+        "id": "f9559907-1322-4e79-917f-339f648cc6bc",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "2: A morning on the ridge, a temple, a café"
+            "text": "2: Beach day ending in a warung"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 307,
+          "input_tokens": 296,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
-          "output_tokens": 13,
+          "output_tokens": 9,
           "service_tier": "standard"
         }
       }

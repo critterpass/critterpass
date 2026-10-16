@@ -70,6 +70,8 @@ export {
   type SequenceInput,
 } from './sequence';
 export { dishOf, foodRole, sameDish, sharesDish, stopKind, type FoodRole } from './food-role';
+export { missesBestTime } from './best-times';
+export { tasteScore } from './place-score';
 export {
   detourMin,
   dinnerIsRideHome,

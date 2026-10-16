@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-16.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "1ad5aa98-113a-4eb5-961c-7d56fa42c593",
+        "id": "ed3bd278-a012-4da1-bba0-ff94ac011120",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Gentle Day in Denpasar\",\n  \"summary\": \"A slower day close together, with one temple visit, easy local meals and plenty of time left free.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p51\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, sweet temple stop to start the day without rushing.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p55\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right beside the temple, because a lighter day still eats well.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p59\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays local and easy, with the evening left open for whatever feels right.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A Lighter Day in Denpasar\",\n  \"summary\": \"A slower, closer-to-home day around Denpasar with one gentle temple visit and two easy local meals, leaving plenty of time to wander.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p51\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, easy temple stop that keeps the day light and close by.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p25\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quick local lunch right in the same area, no long ride needed.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p55\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays simple and nearby, so the evening feels unhurried.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 122,
+          "input_tokens": 106,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2176,
-          "output_tokens": 230,
+          "output_tokens": 235,
           "service_tier": "standard"
         }
       }

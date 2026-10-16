@@ -28,6 +28,8 @@ export interface Areas {
   readonly links: readonly string[];
   /** The longest ride between two stops of one day (the planner's hop cap). */
   readonly capMin: number;
+  /** The label of the area the destination calls `name`, when one is laid out. */
+  readonly named: (name: string) => string | undefined;
 }
 
 interface Area {
@@ -147,12 +149,27 @@ export function areasOf(input: Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>
       byPlace.set(poiId, found);
       return found;
     },
+    named: (name) => areas.find((area) => area.name === name)?.label,
     lines: lines.map((entry) => entry.line),
     links: lines.map((entry) => entry.link),
     capMin,
   };
   AREAS.set(input.pools, made);
   return made;
+}
+
+/**
+ * The area a place is in as its own record names it, where that area is laid out (an eatery on
+ * the edge of a district belongs to the district the itinerary pages put it in), else the area of
+ * the listed place nearest it.
+ */
+export function ownArea(
+  input: Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>,
+  poiId: string,
+): string | undefined {
+  const areas = areasOf(input);
+  const name = input.pois.get(poiId)?.area ?? null;
+  return (name === null ? undefined : areas.named(name)) ?? areas.of(poiId);
 }
 
 /** A neighbouring area is a short ride away: a quarter of the hop cap. */

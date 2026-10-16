@@ -1,17 +1,17 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-16.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "b8333a79-8ca0-4249-8c88-b952cac0fe06",
+        "id": "f9b0b041-3f16-4b3d-93f1-ad2302a0a977",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Slow Morning, A Lantern Evening\",\n  \"summary\": \"A gentle day with one temple, a long vegan lunch, and Pontocho after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One temple is enough after a late Pontocho night. Forty-five unhurried minutes, then we eat.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, easy vegan lunch suits every taste in the crew and gives the morning room to breathe.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one thing we keep from the old plan. Shoes off, phone down, eyes up after dark.\",\n      \"must_do_id\": \"m3\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Gentle Kyoto Morning and Night\",\n  \"summary\": \"A slower day with just two sights, a long vegan lunch, and the kept evening stroll through Pontocho.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One temple, not three. Forty-five unhurried minutes among the thousand statues, then we breathe.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays, and it suits everyone. Shoes off, phone down, eyes up, then eat slowly.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one the crew asked to keep. After dark, lanterns on, and no rush to be anywhere else.\",\n      \"must_do_id\": \"m3\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,31 @@
           "input_tokens": 59,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1536,
-          "output_tokens": 252,
+          "output_tokens": 256,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "4d5d683f-3650-4f30-8389-d707f2d1d658",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "3: A morning of temple, an evening of alley"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 188,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 11,
           "service_tier": "standard"
         }
       }

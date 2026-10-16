@@ -1,50 +1,50 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-06.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-16.",
   "calls": {
-    "g2:skeleton": {
+    "skeleton": {
       "status": 200,
       "body": {
-        "id": "491e2a16-7383-4a2e-ac3f-c5c8b8ec9727",
+        "id": "5e96ad24-f33c-46aa-a1b6-99e424ed43b9",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Imperial Arrival & Riverside Glow\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p7\", \"p9\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Tombs & Imperial Heart\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p3\", \"p4\", \"p5\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Pagoda, Market & Farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p2\", \"p6\", \"p8\", \"p12\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area B, near the river and My Khe Beach\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"River lights and market bites\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p12\", \"p5\", \"p4\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Marble peaks and coastal views\",\n      \"area\": \"Area A and Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p15\", \"p8\", \"p13\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 726,
+          "input_tokens": 1356,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 203,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 155,
           "service_tier": "standard"
         }
       }
     },
-    "skeleton": {
+    "g2:skeleton": {
       "status": 200,
       "body": {
-        "id": "53ae4ae1-8142-4ead-92b4-7af481e5d9a6",
+        "id": "9a395580-b891-444b-b9eb-e51a59052b69",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stay_area\": \"Area B, near the river and My Khe Beach\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"River lights and market bites\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p12\", \"p10\", \"p4\", \"p3\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Marble peaks and coastal views\",\n      \"area\": \"Area A and Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p5\", \"p8\", \"p13\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Imperial Arrival\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p7\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Tombs and Temples\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p2\", \"p3\", \"p4\", \"p5\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Markets and Museums\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p6\", \"p8\", \"p12\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1174,
+          "input_tokens": 838,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1792,
-          "output_tokens": 163,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 192,
           "service_tier": "standard"
         }
       }
@@ -52,47 +52,23 @@
     "g2:day-3": {
       "status": 200,
       "body": {
-        "id": "95c9b144-94f8-412c-a5e1-562dfe34971f",
+        "id": "30394b0a-f41b-493a-ac89-348f8eeb7175",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old pagoda by the river, with its seven tiers watching over the water.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Royal treasures and quiet stories from the old court.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A lively maze of stalls, spices, and the hum of local trade.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Dive into the clamour of Đông Ba: silk, spices, and the best street snacks in the old quarter.\"},{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A quiet hall of imperial treasures, where the Nguyễn court left its gilded fingerprints.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A tiny balcony above the market bustle, perfect for a slow coffee and people-watching.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 315,
+          "input_tokens": 260,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 161,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "g2:day-2": {
-      "status": 200,
-      "body": {
-        "id": "f4c43769-ff72-4539-8edb-b24d90904637",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the old imperial halls before the heat settles in.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the dragon stairs and admire the mosaic work.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Stroll the pine-shaded paths around the lake and pavilions.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Soak in the symmetry and calm of the grandest tomb.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 341,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 205,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 133,
           "service_tier": "standard"
         }
       }
@@ -100,47 +76,47 @@
     "g2:day-1": {
       "status": 200,
       "body": {
-        "id": "aa035dcc-da85-44c5-8c19-a592a5131b52",
+        "id": "f4f396cf-f3d0-466d-97e3-df2930b4f26b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"The bánh khoái here crackles with a golden edge, a proper Huế welcome for hungry travellers.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old iron bridge arches over the Perfume River, a lovely frame for your first photos.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Madam Thu's table is a gentle lesson in Huế flavours, refined and full of history.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The walking street wakes up with lantern light and a lazy evening hum by the river.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the old citadel walls and courtyards, where the Nguyễn emperors once held court.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crisp bánh khoái with herbs and peanut sauce, a proper Huế street bite.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old iron bridge over the Perfume River, lovely in the fading light.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Sweet chè in a little alley bowl, a gentle close to the evening.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 430,
+          "input_tokens": 354,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 234,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 231,
           "service_tier": "standard"
         }
       }
     },
-    "day-1": {
+    "g2:day-2": {
       "status": 200,
       "body": {
-        "id": "d8be8f3c-343b-4136-ad14-8b1d61b523a9",
+        "id": "3201404b-1acc-4fba-b7d0-e2e6652b2b76",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ancient sandstone dancers and gods, all in one cool hall. Give the Cham stories a slow look.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Squeeze past the fruit pyramids and bubbling stalls. Sniff out the sesame rice crackers and a bowl of something hot.\"\n    },\n    {\n      \"poi_id\": \"p21\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Turmeric-yellow noodles, shrimp, pork and that cracker on top. Slurp loudly, it tastes better that way.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The dragon breathes fire and water when the sky goes dark. Claim a riverside spot and let the cameras eat.\"\n    },\n    {\n      \"poi_id\": \"p28\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Seafood smoke, sizzling skewers and fairy lights down the lane. Wander, point, share, repeat.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The pagoda rises over the Perfume River, seven tiers of quiet history and a view worth the climb.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Khai Dinh's tomb is a wild mix of European pomp and Vietnamese dragons, all in grey concrete.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Madam Thu does a proper spread of local dishes, a good pause between emperors.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tu Duc's tomb feels like a poet's garden, all pine hills and lotus ponds hiding a modest emperor's rest.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Minh Mang's tomb is the grandest of the lot, a perfect balance of courtyards, lakes and forest.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 799,
+          "input_tokens": 326,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 309,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 300,
           "service_tier": "standard"
         }
       }
@@ -148,23 +124,71 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "eac43dc6-89d0-4bed-aed3-bb0e56065775",
+        "id": "aea8968a-7f1c-4481-9ff3-63910647d338",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the stone steps early, peek into the cave shrines, and let the sea air cool the climb.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The tall Lady Buddha watches over the bay; the view back toward the city is worth the walk.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sơn Trà (the forested peninsula north-east of the city, home of the red-shanked doucs) is my backyard; keep eyes up for red socks in the canopy.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Soft sand, gentle waves, and a long stretch of blue; perfect for a slow barefoot wander.\"\n    },\n    {\n      \"poi_id\": \"p27\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Egg coffee by the river as the sky turns gold; the dragon bridge glows behind you.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ride the wheel as the city lights flicker on; the river bends like a ribbon below.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the stone steps early, the caves stay cool and the view over the coast is worth every breath.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Soft sand, gentle waves, and a long stretch for walking off the temple dust.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crackly turmeric pancakes rolled with herbs, a proper street-food lunch between the beach and the hills.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Windy roads, wild green slopes, and if you are lucky, a flash of red socks in the canopy.\"\n    },\n    {\n      \"poi_id\": \"p27\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Egg coffee by the river as the sky turns orange behind the Dragon Bridge.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ride the big wheel after sunset, the city lights spread out like a fishing net of gold.\"\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Fish cake noodles in a clear, peppery broth, the kind of bowl that ends a long day of looking.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 506,
+          "input_tokens": 674,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1536,
-          "output_tokens": 361,
+          "output_tokens": 400,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "g2:titles": {
+      "status": 200,
+      "body": {
+        "id": "2fc7d5e7-959d-4f46-bf19-c8ee196b69b2",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "3: A market morning, then a museum"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 250,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 9,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "083c740f-0a0b-481e-9dd0-14ca3930d211",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Follow your nose past the dried squid to the stall with the longest queue. That's the one.\"\n    },\n    {\n      \"poi_id\": \"p21\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bowl of mì Quảng (turmeric noodles with pork, shrimp and a sesame cracker) here and you'll understand why I never skip lunch.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The Lady of the Sea watches over the boats. Up here the breeze does the talking.\"\n    },\n    {\n      \"poi_id\": \"p24\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Pick your crab, point at the clams, let the kitchen shout. Dinner with its sleeves rolled up.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wait for the breath of fire. The dragon shows off best when the river goes dark.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 784,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 300,
           "service_tier": "standard"
         }
       }

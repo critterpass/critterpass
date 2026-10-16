@@ -1,17 +1,17 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-16.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "ca4fb6ae-0977-4f9d-ae8d-4e89fd6be1b9",
+        "id": "57ea6032-764b-485a-86ea-322f1dcaeb0b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Reykjavik, Unhurried\",\n  \"summary\": \"A slower day with just the Blue Lagoon, leaving plenty of room to breathe, soak, and let the bus rides fade from memory.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one stop that earns its keep. Half a day of warm water and quiet, no rushing anywhere.\",\n      \"must_do_id\": \"m3\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Softer Reykjavik Day\",\n  \"summary\": \"A slower day with two long, unhurried stops, keeping the Blue Lagoon and trading the other sights for a single Reykjavik landmark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A calm indoor wander with room to breathe between the long soak and the ride back.\",\n      \"note\": \"A calm indoor wander with room to breathe between the long soak and the ride back.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The big soak stays, and now it gets the unhurried half-day it deserves.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 16,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 131,
+          "output_tokens": 193,
           "service_tier": "standard"
         }
       }
@@ -28,7 +28,7 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "a502112c-a111-48ef-ad53-86fae3024852",
+        "id": "7963edf6-0245-44c9-a534-1ace0c855db4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
@@ -41,7 +41,7 @@
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 179,
+          "input_tokens": 188,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
           "output_tokens": 9,

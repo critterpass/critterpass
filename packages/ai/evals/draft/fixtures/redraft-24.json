@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-15.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-16.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "2087b464-e435-4b9a-9f69-a15bcae2c273",
+        "id": "df6312d2-5dc4-41e0-9895-8174ba265da4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Slow Sips and Sơn Trà Skies\",\n  \"summary\": \"A gentle day around the same leafy corner of town, with one temple, one square, and plenty of time to sit, eat, and watch the light change.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p8\",\n      \"note\": \"Morning light on the mosaics is the whole point, so we go early and take our time. No rush, just tiles and quiet.\",\n      \"must_do_id\": \"p8\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays because a slower day still needs a proper sit-down. The nem nướng here is worth lingering over.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p14\",\n      \"note\": \"We keep the square for sunset, not as a checklist stop. One slow loop, watch the sky do its thing.\",\n      \"must_do_id\": \"p14\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is a long, easy sit-down because you asked for slow. Order like you mean it.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Slow Sips and Night Lights\",\n  \"summary\": \"A gentle day around the same corner of Đà Lạt: one big sight, a long lunch, a quiet coffee, then the market after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p8\",\n      \"note\": \"The one big sight today, and it deserves the whole unhurried morning. Red socks off, eyes wide.\",\n      \"note\": \"The one big sight today, and it deserves the whole unhurried morning. Red socks off, eyes wide.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"p157\",\n      \"note\": \"Lunch stays right here, slow and smoky. I would taste-test every skewer for you, no charge.\"\n    },\n    {\n      \"poi_id\": \"p37\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One coffee, no rush, just watching local life drift by. This is the easy pace you asked for.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p20\",\n      \"note\": \"The night market stays, because after dark is when it truly wakes up. Wander, snack, repeat.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner kept slow and sit-down, the way a long day should end. Ngon quá (so tasty), I promise.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1297,
+          "input_tokens": 17,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 350,
+          "cache_read_input_tokens": 2688,
+          "output_tokens": 387,
           "service_tier": "standard"
         }
       }

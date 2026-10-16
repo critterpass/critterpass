@@ -4,7 +4,7 @@
  * (hours, meal times, the time of day a place is for) and it sits within reach of the day's other
  * stops. A day the outline left light is topped up from the unused activities in its areas, so no
  * day is a single stop beside a full one while there are places to go. Each day's meal places are
- * the best eateries in its areas or beside them (never the same place on two days, never a dish
+ * the best eateries in its areas or beside them, those that suit the crew's tastes first (never the same place on two days, never a dish
  * the day before already has); its spares are set aside in ./skeleton-spares.ts.
  */
 import {
@@ -16,6 +16,7 @@ import {
   sameDish,
   sharesDish,
   stopKind,
+  tasteScore,
   withinReach,
   type DayChoice,
   type DayWindow,
@@ -79,12 +80,16 @@ export function anchorsOf(input: DraftPlanInput, day: OutlineDay): string[] {
   return [...mustDoChoices(input, day).map((choice) => choice.poiId), ...day.poiIds];
 }
 
-/** Eateries the day could use for `slot`: in the day's own areas first, best first within them. */
+/**
+ * Eateries the day could use for `slot`: in the day's own areas first, best first within them
+ * (with `tasteFirst`, those that suit the crew's tastes before the rest of their area).
+ */
 function eateriesFor(
   input: DraftPlanInput,
   day: OutlineDay,
   slot: 'lunch' | 'dinner',
   anchors: readonly string[],
+  tasteFirst = false,
 ): DraftPoi[] {
   const cap = hopCap(input);
   const mustDoPlaces = new Set(input.pools.mustDos.map((s) => s.poiId));
@@ -101,7 +106,8 @@ function eateriesFor(
       mealSlots(poi, day.date).includes(slot) &&
       ring(poi) < 2,
   );
-  return byArea(input, open, anchors);
+  const suits = (poi: DraftPoi) => (tasteScore(poi, input.tastes) > 0 ? 0 : 1);
+  return byArea(input, tasteFirst ? [...open].sort((a, b) => suits(a) - suits(b)) : open, anchors);
 }
 
 /** Stand-ins for the day's meals while sizing it: the nearest place that serves each meal. */
@@ -248,7 +254,7 @@ export function assignMeals(input: DraftPlanInput, days: readonly OutlineDay[]):
         const key = `${day.dayNo}:${slot}`;
         const count = counts.get(key) ?? 0;
         if (count !== round) continue;
-        const poi = eateriesFor(input, day, slot, anchors).find(
+        const poi = eateriesFor(input, day, slot, anchors, true).find(
           (candidate) =>
             !listed.has(candidate.id) &&
             ![...around, ...eaten(day)].some((other) => sameDish(other, candidate)) &&

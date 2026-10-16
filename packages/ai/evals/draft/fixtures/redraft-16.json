@@ -1,17 +1,17 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-16.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "32bc5d68-68d7-402c-9b0d-ff054dbc13cf",
+        "id": "dce2916a-55d5-4465-abc5-1d00ece3078d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Cusco Flavours and Sights\",\n  \"summary\": \"A relaxed afternoon and evening in Cusco, pairing a chocolate museum with market-style lunch and a proper dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The chocolate stop stays, of course. Sweet learning before the savoury part of our day.\",\n      \"start_by\": \"18:00\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A light, market-fresh lunch stop with plenty of vegetarian choices for our crew.\",\n      \"start_by\": \"21:00\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down dinner to end the day, with good vegetarian options and a warm room.\",\n      \"start_by\": \"20:45\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Market Bites and Cusco Sights\",\n  \"summary\": \"A gentle afternoon through Cusco's old stones and sweet chocolate, with a proper market-minded lunch and a relaxed dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start with the temple walls while the afternoon light is still kind to the stones.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The chocolate stop stays, of course, because no one should rush past cacao in Cusco.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch leans into the market spirit with bright, fresh plates, as Tom asked.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner keeps it local and warm, a proper meal to close the day without rushing.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,31 @@
           "input_tokens": 1,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 249,
+          "output_tokens": 312,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "0a19407f-268b-4872-aa5f-7d064d06c498",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "1: An afternoon of bites and temples"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 244,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 8,
           "service_tier": "standard"
         }
       }

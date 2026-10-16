@@ -1,17 +1,17 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-16.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "d68cebf8-31f1-4711-a983-c0f9a9b48271",
+        "id": "e76371ce-a972-487f-96f5-de6c73ea48a3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Sunset, Sea and a Slow Sunday\",\n  \"summary\": \"A lighter day that skips the temples and heads from the coast to Ubud for an easy wander, a proper meal, and a long evening by the water.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one temple worth keeping, and the sea air does the talking. Rise and shine, the sun won’t wait.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"No more temples, so we swap stone for stalls. A little colour, a little haggling, very Ubud.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with a leafy, vegan heart. Terima kasih (thank you) to whoever found this one.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"We end where the night begins. The crew wanted nightlife, so here’s the long, lazy version of it.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Coast, Falls and a Long Dinner\",\n  \"summary\": \"A slower day that keeps the two must-sees, swaps the temple for a waterfall and market, and ends with a long dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The sun won’t wait, and neither should you. This is the one temple that stays, for the view alone.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped the temple for this one. A proper jungle adventure, and a fine way to cool off.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little local life and shopping. I know a guy who swears by the woven baskets here.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"Rise and shine, night owls. This is the spot to end the day, as the crew wanted.\",\n      \"must_do_id\": \"m4\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, lazy dinner to wind down. They have proper vegetarian options, so everyone’s happy.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 67,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 319,
+          "output_tokens": 397,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "3133d420-5546-4d48-b8c5-c0ea6d2f039e",
+        "id": "c03cca4a-649b-467a-a2a5-7e0e0a74c5c0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Cliffs, Falls and Feasts\",\n  \"summary\": \"A slower day swapping temples for a waterfall, an art market and a long dinner, while keeping the sunset and beach club moments the crew loves.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one temple we keep, and for good reason: the sea temple at sunset is pure Bali. Leo, you can sit this one out with a coconut if the temple fatigue is real.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for Uluwatu Temple: a waterfall with light rays through the canyon. Nature wins today, and it is a proper adventure.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market stop instead of another shrine: local life, photo spots and a little shopping. The sun won’t wait, so we go early.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays at Alchemy: fresh, vegan and exactly what a slower day needs. Terima kasih (thank you) to whoever found this one.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"Kept as the nightcap, but we arrive before last entry so nobody misses the after-dark magic. Rise and shine, night owls.\",\n      \"must_do_id\": \"m4\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is a long, slow feast at Locavore NXT: vegetarian options for everyone, and a proper way to end the day.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"Sunset, Sea and a Slow Sip\",\n  \"summary\": \"A gentler day with the crew: one iconic sea temple, a waterfall adventure, and a long, lazy evening at Potato Head.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one temple worth the trip, and the sea does half the talking.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A cool splash of nature to balance the heat and the history.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper vegan spread to keep everyone happy before the night shift.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"We get here before dark, so the sun can clock out while we clock in.\",\n      \"must_do_id\": \"m4\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 104,
+          "input_tokens": 159,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 520,
+          "output_tokens": 299,
           "service_tier": "standard"
         }
       }
@@ -52,20 +52,20 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "0351cc5f-13cf-4ed7-8cac-b7d251dbeb1d",
+        "id": "3ed44d7c-1fcc-4c9d-b889-a3c35dd5d25e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "2: Market, café and a temple at sunset"
+            "text": "2: A temple morning, then a slow evening"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 317,
+          "input_tokens": 310,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
           "output_tokens": 10,
