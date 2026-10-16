@@ -76,7 +76,11 @@ const rides = (day: DraftDay | undefined) =>
  * is a meal in neither the area of the stop before it nor of the one after, a ride from both (a
  * dinner back where the morning was).
  */
-function withNearerMeals(input: DraftPlanInput, outline: SkeletonDay, start: Itinerary): Itinerary {
+export function withNearerMeals(
+  input: DraftPlanInput,
+  outline: SkeletonDay,
+  start: Itinerary,
+): Itinerary {
   let itinerary = start;
   const far = Math.round(hopCap(input) / 2);
   const dayOf = (plan: Itinerary) => plan.days.find((d) => d.day_no === outline.dayNo);
