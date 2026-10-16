@@ -13,6 +13,7 @@ import { checkFeasibility } from '../feasibility/check';
 import type { FeasibilityItem } from '../feasibility/types';
 import { opensDay, startFloor } from './day-start';
 import { itineraryCostPpMinor } from './metrics';
+import { stopEndLimit } from './day-window';
 import { baseWindow, dayWindow, minuteOfDate } from './schedule-day';
 import {
   isKept,
@@ -162,10 +163,12 @@ function dayChecks(
     held === null
       ? startFloor(window, opensDay(poi, input), earlierEndMin)
       : (window.earliestMin ?? window.startMin);
-  const until = held === null ? window.endMin : (window.latestMin ?? window.endMin);
+  // A night out after dinner may run until the local night ends (./day-window).
+  const until = stopEndLimit(window, poi, item.kind, held !== null);
   if (start < from || end > until) {
     const base = baseWindow(input.frame);
-    const inBase = start >= base.startMin && end <= base.endMin;
+    const inBase =
+      start >= base.startMin && end <= stopEndLimit(base, poi, item.kind, held !== null);
     out.push(at(inBase ? 'FLIGHT_BUFFER' : 'DAY_OVERRUN'));
   }
   return out;

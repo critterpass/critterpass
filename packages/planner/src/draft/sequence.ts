@@ -18,6 +18,7 @@ import { opensDay, startFloor } from './day-start';
 import { dinnerIsRideHome, longHops, mealDetours } from './hops';
 import { mealAt, mealDuration, mealSlotAt, mealsOf, servingOn, type MealHours } from './meal-slots';
 import { MORNING_ENDS_MIN, placeTime, placeWindows, windowFor } from './time-of-day';
+import { stopEndLimit } from './day-window';
 import { defaultDurationMin, fixedMinutes } from './schedule-day';
 import { heldWindow, timedDuration } from './wish-time';
 import type { DayChoice, DayWindow, DraftPoi, TravelMatrix } from './types';
@@ -171,10 +172,7 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
     idle += Math.max(0, start - Math.max(reached, input.window.startMin));
     if (choice.kind === 'meal') idle += mealLateness(start, held?.fromMin ?? null, local);
     at = start + (choice.kind === 'meal' ? mealDuration(poi, start, duration, local) : duration);
-    if (
-      at > (held === null ? input.window.endMin : (input.window.latestMin ?? input.window.endMin))
-    )
-      broken += 1;
+    if (at > stopEndLimit(input.window, poi, choice.kind, held !== null)) broken += 1;
     previous = poi.id;
   }
   if (input.hopCapMin !== undefined) {

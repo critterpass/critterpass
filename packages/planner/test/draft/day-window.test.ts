@@ -32,17 +32,25 @@ const frame = (days: number, extra: Partial<TripFrame> = {}): TripFrame => ({
 });
 
 const FLIGHTS = { arrivalMin: 8 * 60, departureMin: 20 * 60 };
-const w = (startMin: number, endMin: number, earliestMin: number, latestMin: number) => ({
+const w = (
+  startMin: number,
+  endMin: number,
+  earliestMin: number,
+  latestMin: number,
+  nightEndMin = endMin,
+) => ({
   startMin,
   endMin,
+  nightEndMin,
   earliestMin,
   latestMin,
   meals: USUAL_MEALS,
 });
-const LANDS = w(840, 1320, 840, 1440);
-const FULL = w(540, 1320, 270, 1440);
+// A night out may run to half past ten where dinner is at six, except before a flight.
+const LANDS = w(840, 1320, 840, 1440, 1350);
+const FULL = w(540, 1320, 270, 1440, 1350);
 const LEAVES = w(540, 900, 270, 900);
-const LANDS_FLOWN = w(570, 1320, 570, 1440);
+const LANDS_FLOWN = w(570, 1320, 570, 1440, 1350);
 const LEAVES_FLOWN = w(540, 1020, 270, 1020);
 
 describe('the usable part of each day, with no stops or day trips in the frame', () => {
@@ -56,6 +64,27 @@ describe('the usable part of each day, with no stops or day trips in the frame',
   ])('%s: lands on the first day and leaves on the last', (_name, trip, windows) => {
     expect(trip.dates.map((_, index) => dayWindow(trip, index))).toEqual(windows);
     expect(edgeDays(trip)).toEqual(trip.dates.length === 1 ? [1] : [1, trip.dates.length]);
+  });
+});
+
+describe('how late a night out may run', () => {
+  it.each([
+    ['Europe/Lisbon', 23 * 60 + 30],
+    ['Europe/Madrid', 24 * 60],
+    ['Europe/London', 23 * 60],
+    ['Asia/Bangkok', 22 * 60 + 30],
+  ])('in %s, until the local night ends', (tz, nightEnd) => {
+    const full = dayWindow(frame(3, { tz }), 1);
+    expect(full.endMin).toBe(22 * 60);
+    expect(full.nightEndMin).toBe(nightEnd);
+  });
+
+  it('never past the ride to the airport or back from a day trip', () => {
+    const lisbon = frame(2, { tz: 'Europe/Lisbon', departureMin: 23 * 60 + 30 });
+    expect(dayWindow(lisbon, 1).nightEndMin).toBe(20 * 60 + 30);
+    const out = frame(1, { tz: 'Europe/Lisbon', arrivalDay: null, leavingDay: null });
+    const trip = { ...out, reach: { 1: dayTripReach(60) } };
+    expect(dayWindow(trip, 0).nightEndMin).toBe(20 * 60);
   });
 });
 

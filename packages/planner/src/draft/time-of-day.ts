@@ -9,13 +9,16 @@
  * is never started after sunset, and a place's own opening hours win over its time of day.
  *
  * Evening times follow the sun at the place on the date (`solarDay`), within clock bounds so a
- * far-north summer does not push the evening to midnight. A place for two times of day (early or
- * late) is held to either of them (`placeWindows`).
+ * far-north summer does not push the evening to midnight, and they end with the local evening:
+ * where dinner is late (Lisbon, Madrid) the evening place still follows dinner, and a night out
+ * may run until an hour after the local kitchens close (`nightEndMin`). A place for two times of
+ * day (early or late) is held to either of them (`placeWindows`).
  */
 import { solarDay } from '@cp/domain';
 
 import { localMinute } from '../feasibility/grid';
 import { ceilGrid, floorGrid, spansOn } from './day-minutes';
+import { mealHoursIn, type MealHours } from './meal-hours';
 import { textPlaceTimes } from './place-time';
 import { isTyped, typedPlaceTimes } from './typed-facts';
 import type { DraftPoi } from './types';
@@ -67,6 +70,32 @@ export function sunsetMin(poi: Pick<DraftPoi, 'lat' | 'lng' | 'tz'>, date: strin
   return kept;
 }
 
+/** A night out runs until this long after the local kitchens close, and never past midnight. */
+const NIGHT_AFTER_DINNER_MIN = 60;
+/** An evening place may start as late as this long after dinner is aimed at. */
+const EVENING_AFTER_DINNER_MIN = 90;
+/** A stop for after dark is begun at least this long before the night ends. */
+const NIGHT_LAST_STOP_MIN = 60;
+
+/**
+ * When a night out ends where people eat at `meals`: half past ten where dinner is at six, eleven
+ * in London, half past eleven in Lisbon and Istanbul, midnight in Madrid.
+ */
+export function nightEndMin(meals: MealHours): number {
+  return Math.min(24 * 60, meals.dinner.endMin + NIGHT_AFTER_DINNER_MIN);
+}
+
+/** Whether `poi` is a place for a night out: for the evening or after dark, or a bar. */
+export function isNightPlace(poi: DraftPoi): boolean {
+  const times = placeTimes(poi);
+  return (
+    times.includes('evening') ||
+    times.includes('after_dark') ||
+    poi.category === 'nightlife' ||
+    poi.tags.includes('nightlife')
+  );
+}
+
 const clamp = (value: number, low: number, high: number) => Math.min(high, Math.max(low, value));
 
 /** The start window of each time of day at `poi` on `date`, before its opening hours. */
@@ -81,12 +110,16 @@ export function timeOfDayWindow(time: PlaceTime, poi: DraftPoi, date: string): P
       return { fromMin, toMin: Math.max(fromMin, floorGrid(sunset)) };
     }
     case 'evening': {
+      // Until well into the evening, and after a late local dinner too.
       const fromMin = clamp(ceilGrid(sunset - 30), 17 * 60, 19 * 60 + 30);
-      return { fromMin, toMin: fromMin + 150 };
+      const dinner = mealHoursIn(poi.tz).dinner.startMin;
+      return { fromMin, toMin: Math.max(fromMin + 150, dinner + EVENING_AFTER_DINNER_MIN) };
     }
     case 'after_dark': {
+      // Begun by half past nine, or later where the local night runs later.
       const fromMin = clamp(ceilGrid(sunset + 30), 17 * 60 + 30, 20 * 60 + 30);
-      return { fromMin, toMin: Math.max(fromMin, 21 * 60 + 30) };
+      const last = nightEndMin(mealHoursIn(poi.tz)) - NIGHT_LAST_STOP_MIN;
+      return { fromMin, toMin: Math.max(fromMin, 21 * 60 + 30, last) };
     }
   }
 }

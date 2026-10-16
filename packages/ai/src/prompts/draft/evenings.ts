@@ -6,7 +6,9 @@
  * must-sees that happen after dark (the fado house, the water puppets, the fire show, the night
  * market) and the evening places that suit its tastes, and a crew that wants quiet evenings never a
  * bar. One in the day's areas first; then
- * an essential, then a must-see, then the nearest. One evening per place.
+ * an essential, then a must-see, then the nearest. One evening per place. The stop follows dinner
+ * and keeps the place's own evening: it may run until the local night ends (half past eleven in
+ * Lisbon, midnight in Madrid, earlier where dinner is at six), never past its closing.
  */
 import type { Itinerary } from '@cp/domain';
 import {
@@ -133,8 +135,6 @@ export function fillEvenings(
       undefined,
       undefined,
       day.items.length,
-      undefined,
-      'night',
     );
     if (next === null) continue;
     itinerary = next;

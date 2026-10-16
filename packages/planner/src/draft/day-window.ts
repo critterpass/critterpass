@@ -11,6 +11,7 @@
  */
 import { ceilGrid } from './day-minutes';
 import { beforeLeaving, mealHoursIn } from './meal-hours';
+import { isNightPlace, nightEndMin } from './time-of-day';
 import { heldWindow, timedDuration, timeWindow, type WishTime } from './wish-time';
 import type { Chronotype, DayWindow, DraftPoi, TripFrame } from './types';
 
@@ -69,7 +70,25 @@ export function baseWindow(frame: TripFrame): DayWindow {
     : majority(frame, 'night_owl')
       ? 10 * 60
       : 9 * 60;
-  return { startMin, endMin: 22 * 60, meals: mealHoursIn(frame.tz) };
+  const meals = mealHoursIn(frame.tz);
+  const endMin = 22 * 60;
+  return { startMin, endMin, nightEndMin: Math.max(endMin, nightEndMin(meals)), meals };
+}
+
+/**
+ * The latest a stop may end on a day with `window`: a stop held to its time of day at the day's
+ * hard edge, a night out (a place for the evening or after dark) when the local night ends, and
+ * anything else with the usual day.
+ */
+export function stopEndLimit(
+  window: DayWindow,
+  poi: DraftPoi | undefined,
+  kind: string,
+  held: boolean,
+): number {
+  if (held) return window.latestMin ?? window.endMin;
+  const night = kind !== 'meal' && poi !== undefined && isNightPlace(poi);
+  return night ? (window.nightEndMin ?? window.endMin) : window.endMin;
 }
 
 /** A timed stop may start this early (a sunrise) and end this late (a night show). */
@@ -91,6 +110,8 @@ export function dayWindow(frame: TripFrame, dayIndex: number): DayWindow {
   let earliestMin = EARLIEST_TIMED_MIN;
   let latestMin = LATEST_TIMED_MIN;
   let meals = base.meals ?? mealHoursIn(frame.tz);
+  // Cut, like the day's end, by the flight home and the ride back from a day trip.
+  let nightMin = base.nightEndMin ?? base.endMin;
   if (landsOn(frame, dayIndex)) {
     const landed = frame.arrivalMin ?? DEFAULT_ARRIVAL_MIN;
     startMin = Math.max(startMin, ceilGrid(landed + ARRIVAL_BUFFER_MIN));
@@ -100,6 +121,7 @@ export function dayWindow(frame: TripFrame, dayIndex: number): DayWindow {
     const leaves = frame.departureMin ?? DEFAULT_DEPARTURE_MIN;
     endMin = Math.min(endMin, leaves - DEPARTURE_BUFFER_MIN);
     latestMin = Math.min(latestMin, leaves - DEPARTURE_BUFFER_MIN);
+    nightMin = Math.min(nightMin, endMin);
     // An evening flight: dinner before the ride to the airport.
     meals = beforeLeaving(meals, endMin);
   }
@@ -111,6 +133,7 @@ export function dayWindow(frame: TripFrame, dayIndex: number): DayWindow {
   if (reach?.untilMin !== undefined) {
     endMin = Math.min(endMin, reach.untilMin);
     latestMin = Math.min(latestMin, reach.untilMin);
+    nightMin = Math.min(nightMin, endMin);
   }
   const laterStart = frame.laterStartDays?.includes(dayIndex + 1) === true;
   if (laterStart) {
@@ -121,6 +144,7 @@ export function dayWindow(frame: TripFrame, dayIndex: number): DayWindow {
   return {
     startMin,
     endMin: Math.max(startMin, endMin),
+    nightEndMin: Math.max(startMin, endMin, nightMin),
     earliestMin,
     latestMin,
     meals,
