@@ -1,17 +1,17 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-16.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "0e9b5f02-fdfc-4138-a5fb-5a5c288964d6",
+        "id": "d0bf1a66-4118-4d05-9112-6fe8ebf3d1df",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Mưa Đà Lạt, ấm trong nhà\",\n  \"summary\": \"Trời mưa nên mình đổi hết sang chỗ có mái che, vẫn trọn một ngày Đà Lạt nhẹ nhàng từ chùa, dinh thự đến quán xá ấm cúng.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chùa có mái che, mưa vẫn thong thả ngắm khảm sành, không ướt lông.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dinh III kín gió, vừa tránh mưa vừa xem đồ xưa, hợp người thích nhàn nhã.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Ngồi bàn ấm, nem nướng cuốn rau thơm, mưa ngoài kia kệ mưa.\"\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bảo tàng trong nhà, trưa mưa vào đây chậm rãi xem lịch sử địa phương.\"\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tối đến khu phức hợp có mái che, ăn chơi nhẹ nhàng, khỏi ướt giày đỏ.\"\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bistro ấm cúng, cà phê và món ngon, kết ngày mưa thật dịu.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Ngày mưa trong nhà ở Đà Lạt\",\n  \"summary\": \"Trời mưa thì mình rút vào trong: chùa, dinh thự, nhà ga và những quán ngon có mái che, vẫn trọn vị Đà Lạt mà không ướt áo.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Mưa ngoài kia kệ mưa, mái chùa vẫn che cho mình ngắm khảm sành rực rỡ.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dinh III kín gió, vừa tránh mưa vừa xem đồ xưa, hợp với người thích đi chậm.\"\n    },\n    {\n      \"poi_id\": \"p80\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa trưa nóng hổi trong quán, bánh canh cua làm ấm bụng ngày mưa.\"\n    },\n    {\n      \"poi_id\": \"p136\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Nhà ga cổ có mái che, ngắm kiến trúc xưa mà không sợ ướt giày.\"\n    },\n    {\n      \"poi_id\": \"p37\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ngồi trong quán cà phê, nhìn mưa rơi ngoài cửa kính, chậm rãi đúng ý.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối đến quán nem nướng ngồi bàn đàng hoàng, ăn no rồi về nghỉ.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 60,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2944,
-          "output_tokens": 513,
+          "output_tokens": 514,
           "service_tier": "standard"
         }
       }

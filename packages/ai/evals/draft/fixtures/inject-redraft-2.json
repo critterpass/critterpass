@@ -1,17 +1,17 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-16.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "c815b2e2-cdd3-46ee-823a-26a6c9edc1ef",
+        "id": "a7b881c6-605d-4f02-ba45-c0d66059a5a9",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Breezy Bali on a Budget\",\n  \"summary\": \"A slower, wallet-friendly day of clifftop temples, market wandering and a long golden-hour beach club finish, with a vegan lunch in Ubud.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The sun won’t wait, and neither should you. Tanah Lot stays: it’s the postcard shot and it costs almost nothing.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for a pricier stop. Free to wander, full of colour, and the haggling is half the fun.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays, and it suits everyone: vegan, bright and easy on the wallet. Terima kasih (thank you), Alchemy.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"Still the big splurge, but it’s the one the crew asked for. We keep it and let the rest of the day breathe cheap.\",\n      \"must_do_id\": \"m4\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Bali on a Budget, Big on Views\",\n  \"summary\": \"A wallet-friendly day of clifftop temples, a hidden waterfall, and golden-hour magic, with a simple vegan bite to keep us going.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The sea temple is a must, and the entry fee is gentle on the wallet. Go early for the best light and fewer crowds.\",\n      \"start_by\": \"17:30\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short hike to a waterfall that feels like a secret. It is a cheap thrill, and the photos are worth it.\",\n      \"start_by\": \"15:30\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A simple vegan lunch that suits everyone and keeps the day light on the budget.\",\n      \"start_by\": \"20:00\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wander through the stalls costs nothing to enter, and the local life is the real show.\",\n      \"start_by\": \"17:00\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Another clifftop temple, another small entry fee. The sunset here is pure gold, and it is a classic for a reason.\",\n      \"start_by\": \"17:30\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"We keep the beach club for the night owls. The entry is the splurge, but the sunset and music are the point.\",\n      \"start_by\": \"21:00\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 80,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 366,
+          "output_tokens": 480,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "0d722e1b-f10f-42ed-9b0d-d679ab6976fe",
+        "id": "9ddcdbd3-1d14-413f-b987-df231a760374",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Sun, Sand and a Lighter Wallet\",\n  \"summary\": \"A budget-friendly day of clifftop temples, a waterfall and a beach club sunset, with a vegan lunch in Ubud.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The sea temple stays, of course. Rise and shine for the best light and fewer crowds.\",\n      \"start\": \"09:00\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A waterfall with a small price tag and a big wow. The sun won’t wait, so we head here next.\",\n      \"start\": \"11:30\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A vegan lunch that suits everyone. Terima kasih (thank you) to whoever found this one.\",\n      \"start\": \"14:00\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Uluwatu’s clifftop views are free of big prices, not of drama. We swap the pricey club for this.\",\n      \"start\": \"16:30\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"The beach club stays, but we arrive before dark so it’s open and we catch the sunset.\",\n      \"start\": \"19:00\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Sunset Shrines and a Night Swim\",\n  \"summary\": \"A lighter, wallet-friendly day chasing Tanah Lot's sunset, then easing into the evening at Potato Head.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The sun won’t wait, and neither should we. This is the postcard shot we came for, and it’s kind to the budget.\",\n      \"note\": \"The sun won’t wait, and neither should we. This is the postcard shot we came for, and it’s kind to the budget.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"I know a guy, but even I can’t get a better view after dark. We’ll arrive when the lights come on and the prices stop climbing.\",\n      \"note\": \"I know a guy, but even I can’t get a better view after dark. We’ll arrive when the lights come on and the prices stop climbing.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 117,
+          "input_tokens": 159,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 400,
+          "output_tokens": 268,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "87c8dc6a-7c4c-4ff3-903f-5b035898c006",
+        "id": "ce9abc95-ff7b-41ac-b6d5-2d3239490991",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Day 2: A morning at the art market\nDay 3: Tanah Lot, half the day\nDay 4: Cafés and a beach club evening"
+            "text": "2: A morning at Tanah Lot, then a night swim"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 318,
+          "input_tokens": 310,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
-          "output_tokens": 34,
+          "output_tokens": 13,
           "service_tier": "standard"
         }
       }

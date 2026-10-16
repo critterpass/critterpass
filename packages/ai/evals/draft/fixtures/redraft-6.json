@@ -1,17 +1,17 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-16.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "f288717d-e3ef-4d99-a97d-9c002a82f1d0",
+        "id": "83fc206c-4d3b-4b24-820d-b36f7b896400",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Hidden Gems and Quiet Wonders\",\n  \"summary\": \"A day that trades the usual beach buzz for a waterfall, a sacred spring, and a surprise stop the crew won't see coming.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Rise and shine. We keep the waterfall because it is the one thing you must see, and the early light makes it magic.\",\n      \"note\": \"The sun won't wait, and neither should you. This is the must-see, so we start here before the day warms up.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise for the soul. You came for adventure, but a dip in a holy spring is the local secret you did not know you needed.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Hidden Falls and Beach Club\",\n  \"summary\": \"A day of hidden nature and a lively beach club, with a surprise temple stop to round things out.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The crew keeps this one. Rise and shine, the sun won’t wait, and neither does this waterfall.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise stop. I know a guy who says the water here is special, and it is not what the crew expects today.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The night owls get their wish. After dark, this place is the right kind of loud.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,31 @@
           "input_tokens": 124,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1280,
-          "output_tokens": 220,
+          "output_tokens": 226,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "b3cbced9-ee30-41e4-8a76-8c74c66f4730",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "3: A morning at the waterfall, evening at the beach club"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 295,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 13,
           "service_tier": "standard"
         }
       }

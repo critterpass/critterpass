@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-16.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "fdfec97d-3620-432b-a20f-69d8a41cd505",
+        "id": "0b8269b7-bcb6-45a8-8c2f-2624c03a177b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"First taste of the centre\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Chapultepec heights and history\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p6\", \"p5\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Pyramids of Teotihuacan\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Coyoacán colours and canals\",\n      \"area\": \"Area B and Area D\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p2\", \"p9\", \"p7\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Market morning and farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\", \"m3\"],\n      \"poi_ids\": [\"p4\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
+            "text": "```json\n{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Centro Histórico Arrival\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p5\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Chapultepec & Lucha Libre\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p6\", \"p13\", \"p11\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Teotihuacan Day Trip\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Coyoacán & Xochimilco\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p2\", \"p9\", \"p7\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Markets & Farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p4\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 107,
+          "input_tokens": 1115,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2048,
-          "output_tokens": 306,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 310,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "6066d451-b2bf-4f75-82fc-a2cd3fa62408",
+        "id": "d3b29b15-1ae4-4252-9d5d-a85397411782",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\"stops\":[{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Walk the Avenue of the Dead and climb the big pyramids, the scale is unreal.\"}]}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Walk the Avenue of the Dead and climb the big pyramids for a proper dose of ancient history.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 245,
+          "input_tokens": 317,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 48,
+          "output_tokens": 68,
           "service_tier": "standard"
         }
       }
@@ -52,47 +52,23 @@
     "day-5": {
       "status": 200,
       "body": {
-        "id": "b0e7cc1e-e571-4e2b-9880-5c0fa614352f",
+        "id": "02188962-930c-40db-b7c4-cecfb8df34a8",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Wander the stalls for chiles, insects and market banter; it is gloriously alive.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Stroll the leafy streets and admire the old mansions turned cafés and galleries.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Wander the stalls of San Juan, where the city's cooks come for the good stuff.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 282,
+          "input_tokens": 324,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 87,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-4": {
-      "status": 200,
-      "body": {
-        "id": "64d5747e-4780-400a-8d5c-70f534082389",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The blue house where Frida lived and painted, full of her spirit and her garden.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the market for tostadas, fresh fruit and the hum of Coyoacán life.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Drift the old canals on a painted trajinera, with mariachi drifting by.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 332,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 177,
+          "output_tokens": 70,
           "service_tier": "standard"
         }
       }
@@ -100,23 +76,47 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "c84951d7-fd5c-4d4b-8414-56a0aba3a759",
+        "id": "3720a8bc-24a5-46e0-8f87-35b872b25d9c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The heart of the city, where the flag waves and the stones have watched centuries pass.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Walk among the old Mexica ruins and imagine the great temple before the city grew around it.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A green escape with lakes and shaded paths, perfect for stretching your legs after the centre.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The heart of the city, where the flag waves and history hums under your feet.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Halal comfort food with a Moorish twist, perfect for a thrifty, hungry crew.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"That golden dome and marble glow make for the best photo stop around.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Walk among Aztec ruins right behind the cathedral, history stacked like a torta.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 294,
+          "input_tokens": 429,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 176,
+          "output_tokens": 224,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "52fb7fee-f047-4fa3-afc1-c2cc957ed91e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"A stroll through Roma Norte's leafy streets and old facades, free and full of local life.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The blue house where Frida lived and painted, full of her spirit and her things.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A proper neighbourhood market: tostadas, quesadillas and the hum of Coyoacán life.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow boat through the old canals, with mariachi drifting over the water.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 443,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 233,
           "service_tier": "standard"
         }
       }
@@ -124,23 +124,47 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "ce6eb46a-f3fb-4c11-a5c2-828eadecc3be",
+        "id": "6c8f5750-e98a-403c-9fd1-e7531f4b10df",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"The great stone umbrella in the courtyard is the first thing that stops you, then the Aztec Sun Stone pulls you in.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A calm, halal spread with plenty of vegetables, a gentle pause after all that history.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the hill to the castle for the view over the park and the city, and the murals inside.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The marble palace glows inside, and the murals by Rivera and Siqueiros are worth a slow look.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"The Aztec sun stone alone is worth the visit, and the courtyard feels like a calm stone forest.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the shaded paths and watch chilangos rowing on the lake, a green lung in the middle of the city.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the hill for the castle's murals and a sweeping view over the treetops.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The masked luchadores fly, the crowd roars, and you will leave hoarse and grinning.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 394,
+          "input_tokens": 429,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 246,
+          "output_tokens": 244,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "0ae257c5-d5cd-489d-ae99-c9ea7699cdcb",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Day 4: A morning of markets and Frida\nDay 5: A market morning"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 228,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 19,
           "service_tier": "standard"
         }
       }
@@ -148,23 +172,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "febe7bc0-f4ec-4cd4-9b0c-e6f2c3527236",
+        "id": "46d1645a-010c-4647-98cb-213832bf3242",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "A gentle first wander, a hill of history, a whole morning at Teotihuacan, then colour, canals and one last market goodbye."
+            "text": "A gentle landing in the Centro, then Chapultepec and a spot of lucha libre, a whole morning out at Teotihuacan, Roma Norte with Frida, and a market farewell."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 217,
+          "input_tokens": 218,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 29,
+          "output_tokens": 39,
           "service_tier": "standard"
         }
       }
