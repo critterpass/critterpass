@@ -5,14 +5,14 @@
  * far, the crew would wait an hour with nothing planned, or the day would go back to an area it
  * has left), the planner tries the other orders of the same stops and takes the workable one
  * closest to the guide's (fewest broken stops, then a long outdoor sight that is best early before
- * the day's other sights, then no meal the day rides out of its way for, then the fewest morning
- * places left for later in the day, then the least waiting, then the fewest sights outside their
- * best times, then the fewest returns to an area, then the fewest swapped pairs, then the earliest
- * finish). The stops never change here: dropping or swapping one is the repair's.
+ * the day's other sights, then no meal the day rides out of its way for, then the fewest slips:
+ * morning places left for later, waiting, sights outside their best times and returns to an area,
+ * a return weighing double; then the fewest swapped pairs, then the earliest finish). The stops
+ * never change here: dropping or swapping one is the repair's.
  */
 import { areaReturns } from './area-returns';
 import { missesBestTime } from './best-times';
-import { inversions, permutations } from './order-search';
+import { improveByMoves, inversions, permutations } from './order-search';
 import { ceilGrid, spansOn } from './day-minutes';
 import { opensDay, startFloor } from './day-start';
 import { dinnerIsRideHome, longHops, mealDetours } from './hops';
@@ -31,6 +31,11 @@ export const MAX_SEARCHED_STOPS = 7;
 const IDLE_STEP_MIN = 45;
 /** A meal this long after its stretch opens is a late one, and counts like waiting. */
 const LATE_MEAL_MIN = 60;
+/**
+ * A return to an area the day has left weighs like this many other slips (a 45-minute wait, a
+ * sight off its hour): itinerary pages never zigzag across town to keep every sight on its hour.
+ */
+const RETURN_WEIGHT = 2;
 
 export interface SequenceInput {
   readonly date: string;
@@ -217,12 +222,7 @@ export interface PlannedOrder {
   readonly broken: number;
 }
 
-/**
- * The order to visit `choices` in: the guide's own order when it works, else the order with the
- * fewest broken stops, then the fewest late morning places, then the least waiting, then the
- * fewest sights outside their best times, then the fewest returns to an area, then the fewest
- * swapped pairs, then the earliest finish.
- */
+/** The order to visit `choices` in: the guide's own when it works, else the best (see above). */
 export function bestOrder(input: SequenceInput): PlannedOrder {
   const identity = input.choices.map((_, index) => index);
   const keyOf = (order: readonly number[]) => {
@@ -230,25 +230,30 @@ export function bestOrder(input: SequenceInput): PlannedOrder {
       input,
       order.map((index) => input.choices[index] as DayChoice),
     );
+    const returns = areaReturns(order, input.choices, input.areaOf);
     return [
       made.broken,
       made.notFirst,
       made.detours,
+      // The day's slips weighed together, so one area at a time can cost a short wait or a sight
+      // a little off its hour, but never two of them.
+      made.late + made.idle + made.misfit + RETURN_WEIGHT * returns,
+      made.misfit,
+      returns,
       made.late,
       made.idle,
-      // Seeing one area at a time never costs a stop its time of day.
-      made.misfit,
-      areaReturns(order, input.choices, input.areaOf),
       inversions(order),
       made.end,
     ];
   };
   const own = keyOf(identity);
   // The guide's order stands when nothing breaks, waits or goes back to an area it left.
-  if (own.slice(0, 5).every((count) => count === 0) && own[6] === 0) {
+  const [broken, notFirst, detours, , , returns, late, idle] = own;
+  if ([broken, notFirst, detours, returns, late, idle].every((count) => count === 0)) {
     return { order: identity, broken: 0 };
   }
-  // Too many stops to try every order: the guide's, or its order with the day's openers first.
+  // Too many stops to try every order: the guide's, or its order with the day's openers first,
+  // whichever is better, then improved a stop at a time.
   const orders =
     input.choices.length > MAX_SEARCHED_STOPS
       ? [identity, openersFirst(input, identity)]
@@ -258,6 +263,7 @@ export function bestOrder(input: SequenceInput): PlannedOrder {
     const key = keyOf(order);
     if (before(key, best.key)) best = { order: [...order], key };
   }
+  if (input.choices.length > MAX_SEARCHED_STOPS) best = improveByMoves(best, keyOf, before);
   return { order: best.order, broken: best.key[0] ?? 0 };
 }
 
