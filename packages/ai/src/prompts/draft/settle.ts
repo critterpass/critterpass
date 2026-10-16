@@ -21,6 +21,7 @@ import { placeEssentials } from './essentials';
 import { withoutMisplacedOpeners } from './openers';
 import { fillEvenings } from './evenings';
 import { fillThinDays, withNearerMeals } from './fill-days';
+import { withMealsInDayAreas } from './meal-areas';
 import type { DraftPlanInput } from './context';
 import { scheduleChoices } from './day';
 import type { SkeletonDay } from './skeleton';
@@ -263,6 +264,8 @@ export function settle(
     // Where dinner is late, the evening's stop may come before it and stand in another area:
     // dinner then follows it rather than riding back to where the afternoon was.
     for (const outline of outlines) itinerary = withNearerMeals(input, outline, itinerary);
+    // Then each meal is eaten in the area of the stops around it, where the day has such a place.
+    for (const outline of outlines) itinerary = withMealsInDayAreas(input, outline, itinerary);
   }
   return {
     itinerary,

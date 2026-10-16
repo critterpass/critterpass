@@ -64,7 +64,7 @@ export function nearFirst(
     .map((entry) => entry.poi);
 }
 
-function editorsLine(input: DraftPlanInput, poi: DraftPoi): string | null {
+export function editorsLine(input: DraftPlanInput, poi: DraftPoi): string | null {
   // Our editors write in English: a reader of another language gets no line rather than theirs.
   if (input.locale !== undefined && !input.locale.toLowerCase().startsWith('en')) return null;
   const line = poi.whyGo ?? null;
