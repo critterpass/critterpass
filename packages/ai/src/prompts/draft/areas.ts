@@ -202,8 +202,21 @@ export function rideFrom(
 }
 
 /**
- * Orders places for a day planned around `here`: its own areas first (best first, as they came),
- * then a second area, then the rest, each of those the nearest first.
+ * Whether `poiId` is a short ride from one of `here` (a quarter of the hop cap, as a neighbouring
+ * area is): a named area can span a district, and the lunch at its far end is a ride of its own.
+ */
+export function besideStops(
+  input: Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>,
+  poiId: string,
+  here: readonly string[],
+): boolean {
+  return rideFrom(input, poiId, here) <= areasOf(input).capMin * NEIGHBOUR_SHARE;
+}
+
+/**
+ * Orders places for a day planned around `here`: its own areas first, those a short ride from
+ * its stops before the rest of the area (best first within each, as they came), then a second
+ * area, then the rest, each of those the nearest first.
  */
 export function byArea<T extends { readonly id: string }>(
   input: Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>,
@@ -213,9 +226,11 @@ export function byArea<T extends { readonly id: string }>(
   return places
     .map((place, rank) => {
       const step = areaStep(input, place.id, here);
-      return { place, rank, step, ride: step === 0 ? 0 : rideFrom(input, place.id, here) };
+      const ride = rideFrom(input, place.id, here);
+      const far = step === 0 && ride > areasOf(input).capMin * NEIGHBOUR_SHARE ? 1 : 0;
+      return { place, rank, step, far, ride: step === 0 ? 0 : ride };
     })
-    .sort((a, b) => a.step - b.step || a.ride - b.ride || a.rank - b.rank)
+    .sort((a, b) => a.step - b.step || a.far - b.far || a.ride - b.ride || a.rank - b.rank)
     .map((entry) => entry.place);
 }
 

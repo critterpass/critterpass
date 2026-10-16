@@ -219,16 +219,8 @@ export function offTheOuting(
 ): TimedStop[] {
   const outing = outings.find((o) => o.dayNo === day.dayNo);
   if (outing === undefined || hopCapMin === undefined) return [];
-  const reach = hopCapMin * TOGETHER_SHARE;
-  // Beside the outing: close to one of its places, or (where the stay is known) nearer to them
-  // than to the stay, like a peak on the same peninsula.
   const ride = (a: string, b: string) => travel(a, b) ?? Number.POSITIVE_INFINITY;
-  const near = (poiId: string) =>
-    outing.poiIds.some(
-      (id) =>
-        id === poiId ||
-        (ride(id, poiId) <= reach && (homeId === null || ride(id, poiId) < ride(homeId, poiId))),
-    );
+  const near = besideOuting(outing, travel, hopCapMin, homeId);
   // The outing's own stops, and the sights beside them (a peak on the same peninsula).
   const own = day.stops.filter((stop) => stop.item.kind !== 'meal' && near(stop.poi.id));
   const first = Math.min(...own.map((stop) => stop.startMin));
@@ -256,10 +248,28 @@ export function offTheOuting(
   );
 }
 
+/** The outing's places and those beside them: nearer to one of them than to the stay. */
+function besideOuting(
+  outing: Outing,
+  travel: TravelMatrix,
+  hopCapMin: number,
+  homeId: string | null,
+) {
+  const reach = hopCapMin * TOGETHER_SHARE;
+  const ride = (a: string, b: string) => travel(a, b) ?? Number.POSITIVE_INFINITY;
+  return (poiId: string) =>
+    outing.poiIds.some(
+      (id) =>
+        id === poiId ||
+        (ride(id, poiId) <= reach && (homeId === null || ride(id, poiId) < ride(homeId, poiId))),
+    );
+}
+
 /**
- * After a day out (any but a short one) the crew rides home: dinner and the evening are near the stay, or on
- * the way back. The stops after the outing's last that are neither (a dinner half an hour off
- * the road home, then another ride to a bridge) are returned. The crew's own stops stay.
+ * After a day out (any but a short one) the crew rides home: dinner and the evening are out there
+ * beside the outing, near the stay, or on the way back. The stops after the last of the day out
+ * that are none of these (a dinner half an hour off the road home, then another ride to a bridge)
+ * are returned. The crew's own stops stay.
  */
 export function farAfterDayOut(
   day: TimedDay,
@@ -271,14 +281,15 @@ export function farAfterDayOut(
   // Any day out longer than a short one: the crew comes back from it, not on to more riding.
   const outing = outings.find((o) => o.dayNo === day.dayNo && !o.short);
   if (outing === undefined || homeId == null || hopCapMin === undefined) return [];
-  const own = day.stops.filter((stop) => outing.poiIds.includes(stop.poi.id));
+  const beside = besideOuting(outing, travel, hopCapMin, homeId);
+  const own = day.stops.filter((stop) => beside(stop.poi.id));
   const lastOwn = own[own.length - 1];
   if (lastOwn === undefined) return [];
   const ride = (a: string, b: string) => travel(a, b) ?? Number.POSITIVE_INFINITY;
   const homeward = ride(lastOwn.poi.id, homeId);
   let from = lastOwn.poi.id;
   return day.stops.filter((stop) => {
-    if (stop.startMin <= lastOwn.startMin || outing.poiIds.includes(stop.poi.id)) return false;
+    if (stop.startMin <= lastOwn.startMin || beside(stop.poi.id)) return false;
     const nearHome = ride(homeId, stop.poi.id) <= hopCapMin / 2;
     const onTheWay =
       ride(from, stop.poi.id) + ride(stop.poi.id, homeId) - homeward <= ON_THE_WAY_MIN;

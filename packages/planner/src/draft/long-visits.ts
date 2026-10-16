@@ -11,6 +11,7 @@
 import { foodRole } from './food-role';
 import { DINNER, LUNCH } from './meal-slots';
 import { metresBetween } from './same-place';
+import { placeTimes } from './time-of-day';
 import { defaultDurationMin } from './schedule-day';
 import { isTheirs, type DraftPoi } from './types';
 import type { TimedDay, TimedStop } from './validate-day-sense';
@@ -147,10 +148,20 @@ export function longVisitFaults(
   return faults;
 }
 
+/** Hours after a long visit, a place inside its grounds that is for the night is a visit of its own. */
+const APART_MIN = 120;
+
+/** A place for the evening or after dark only (a night market), not for the morning too. */
+function forTheNight(poi: DraftPoi): boolean {
+  const times = placeTimes(poi);
+  return !times.includes('morning') && (times.includes('evening') || times.includes('after_dark'));
+}
+
 /**
  * Stops inside a long visit on the same day (a bridge at the hill resort it is part of): the
  * visit takes them in, so as stops of their own they count its time and a ride twice. Meals,
- * light stops and the crew's own are never folded in.
+ * light stops and the crew's own are never folded in, nor a place for the night hours after the
+ * visit (the night market after a morning in the old town: the crew comes back for it).
  */
 export function insideFaults(
   day: TimedDay,
@@ -167,6 +178,7 @@ export function insideFaults(
           anchor !== stop &&
           anchor.item.kind !== 'meal' &&
           anchor.poi.durationMin > stop.poi.durationMin &&
+          !(forTheNight(stop.poi) && stop.startMin >= anchor.endMin + APART_MIN) &&
           partOfVisit(stop.poi, anchor.poi, rideOf(anchor.poi)),
       ),
   );

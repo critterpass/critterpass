@@ -8,6 +8,7 @@ import { withTypedFacts, type DraftPoi, type ProfileFacts } from '@cp/planner';
 import { describe, expect, it } from 'vitest';
 
 import {
+  curatedCategory,
   curatedMustSee,
   curatedPlaceFacts,
   essentialRankOf,
@@ -76,8 +77,18 @@ describe('a curated place’s typed facts', () => {
   });
 
   it('keeps the profile’s facts where the line has none', () => {
-    const place = planned(curated({ best_times: ['evening'] }));
-    expect(place).toMatchObject({ bestTimes: ['evening'], mealRole: 'meal', dish: 'bánh căn' });
+    const place = planned(curated({ dish: 'bánh căn nướng' }));
+    expect(place).toMatchObject({ bestTimes: ['midday'], mealRole: 'meal' });
+  });
+
+  it('reads a line with times of day and no meal role as a place that is no eatery', () => {
+    // A tower matched to the restaurant inside it: its profile describes the restaurant.
+    expect(typedFactsWithCurated(profile, curated({ best_times: ['sunset'] }))).toEqual({
+      bestTimes: ['sunset'],
+      visitMin: 45,
+      mealRole: null,
+      dish: null,
+    });
   });
 
   it('plans a first-version line, or no curated block, from the profile alone', () => {
@@ -111,6 +122,19 @@ describe('what a curated line tells the planner beyond typed facts', () => {
     expect(curatedMustSee(curated({ blog_count: 3 }))).toBe(true);
     expect(curatedMustSee(curated({ prominence: 'popular', blog_count: 2 }))).toBe(false);
     expect(curatedMustSee(null)).toBe(false);
+  });
+
+  it('decides from the meal role whether a row open data files as a restaurant is one', () => {
+    const sight = (tags: CuratedNote['tags']) => curated({ best_times: ['evening'], tags });
+    expect(curatedCategory('food', sight(['nightlife', 'culture']))).toBe('nightlife');
+    expect(curatedCategory('food', sight(['markets', 'shopping']))).toBe('market');
+    expect(curatedCategory('food', sight(['photo_spots']))).toBe('other');
+    expect(curatedCategory('food', curated({ meal_role: 'meal' }))).toBe('food');
+    // A sight or an eatery filed as a hotel or a station is the place the researchers meant.
+    expect(curatedCategory('stay', sight(['culture']))).toBe('other');
+    expect(curatedCategory('transit', curated({ meal_role: 'light' }))).toBe('food');
+    expect(curatedCategory('museum', sight(['nightlife']))).toBe('museum');
+    expect(curatedCategory('stay', null)).toBe('stay');
   });
 
   it('carries the area, standing, pages, rain fit and the matched pairs only', () => {

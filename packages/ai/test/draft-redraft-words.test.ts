@@ -10,7 +10,7 @@ import { CREWS, planInput } from '../evals/draft/cases';
 import { resolvePersonaPack } from '../src/persona/resolve';
 import { claimsTransport, titleFits } from '../src/prompts/draft/day-titles';
 import { scheduleChoices } from '../src/prompts/draft/day';
-import { isForEvening, wantsEvenings } from '../src/prompts/draft/evenings';
+import { isForEvening, suitsEvening, wantsEvenings } from '../src/prompts/draft/evenings';
 import { withoutHedge } from '../src/prompts/draft/hedge';
 
 const crew = CREWS.find((c) => c.id === 'dalat-curated-1');
@@ -89,5 +89,18 @@ describe('the evening', () => {
     ).toBe(false);
     const evening = [...input.pois.values()].filter(isForEvening).map((poi) => poi.name);
     expect(evening.some((name) => /night market|chợ đêm/iu.test(name))).toBe(true);
+  });
+
+  it('holds what a first visit is known for after dark for every crew, a bar only for the night', () => {
+    const calm = { ...input, tastes: {}, frame: { ...input.frame, chronotypes: {} } };
+    const quiet = { ...calm, tastes: { quiet_evenings: 2 } };
+    const place = [...input.pois.values()][0];
+    if (place === undefined) throw new Error('no places');
+    const market = { ...place, category: 'market', mustSee: true, essential: true };
+    const bar = { ...place, category: 'nightlife', mustSee: true, essential: false };
+    const plainBar = { ...bar, mustSee: false };
+    expect([market, bar, plainBar].map(suitsEvening(input))).toEqual([true, true, true]);
+    expect([market, bar, plainBar].map(suitsEvening(calm))).toEqual([true, true, false]);
+    expect([market, bar, plainBar].map(suitsEvening(quiet))).toEqual([true, false, false]);
   });
 });
