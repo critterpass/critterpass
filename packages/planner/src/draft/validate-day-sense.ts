@@ -10,17 +10,7 @@ import type { DraftItem } from '@cp/domain';
 
 import { foodRole, sameDish, sharesDish } from './food-role';
 import { dinnerIsRideHome, longHops, longRideMin, RIDE_HOME_MAX_MIN, withinReach } from './hops';
-import {
-  DINNER,
-  DINNER_LAST_START_MIN,
-  LUNCH,
-  LUNCH_LAST_START_MIN,
-  mealAt,
-  mealSlots,
-  servingOn,
-  mealsInWindow,
-  type MealSlot,
-} from './meal-slots';
+import { mealAt, mealSlots, mealsInWindow, mealsOf, servingOn, type MealSlot } from './meal-slots';
 import { placeWindows } from './time-of-day';
 import { isKept, isTheirs, type DayWindow, type DraftPoi, type TravelMatrix } from './types';
 
@@ -94,7 +84,7 @@ function mealChecks(day: TimedDay): { out: DaySenseViolation[]; had: Set<MealSlo
   // The crew's own meals count first: beside one, the guide's meal in the same stretch is the extra.
   const meals = day.stops.filter((stop) => stop.item.kind === 'meal');
   for (const stop of [...meals.filter(isMustDo), ...meals.filter((s) => !isMustDo(s))]) {
-    const slot = mealAt(stop.startMin);
+    const slot = mealAt(stop.startMin, mealsOf(day.window));
     if (slot === null) {
       if (!stop.held && !isTheirs(stop.item)) out.push(at('MEAL_OFF_HOURS', day, stop));
       continue;
@@ -108,9 +98,10 @@ function mealChecks(day: TimedDay): { out: DaySenseViolation[]; had: Set<MealSlo
 
 /** A stop that runs through the whole stretch a meal could start in (a full-day place, a show). */
 function covered(day: TimedDay, slot: 'lunch' | 'dinner'): boolean {
-  const from = slot === 'lunch' ? LUNCH.startMin : DINNER.startMin;
-  const to = slot === 'lunch' ? LUNCH_LAST_START_MIN : DINNER_LAST_START_MIN;
-  return day.stops.some((stop) => stop.startMin <= from && stop.endMin >= to + 30);
+  const stretch = mealsOf(day.window)[slot];
+  return day.stops.some(
+    (stop) => stop.startMin <= stretch.startMin && stop.endMin >= stretch.lastStartMin + 30,
+  );
 }
 
 function missingMeals(
@@ -122,7 +113,8 @@ function missingMeals(
   if (input.mealPlaces === undefined || day.stops.length === 0) return [];
   const all = day.stops.map((stop) => stop.poi.id);
   // A lunch is near where the day is spent, not near the dinner the crew rides home to.
-  const daytime = day.stops.filter((stop) => stop.startMin < DINNER.startMin - 30);
+  const local = mealsOf(day.window);
+  const daytime = day.stops.filter((stop) => stop.startMin < local.dinner.startMin - 30);
   return mealsInWindow(day.window).flatMap((slot): DaySenseViolation[] => {
     if (had.has(slot) || covered(day, slot)) return [];
     const here = slot === 'lunch' ? daytime.map((stop) => stop.poi.id) : all;
@@ -130,7 +122,7 @@ function missingMeals(
     const possible = (input.mealPlaces ?? []).some(
       (place) =>
         !used.has(place.id) &&
-        mealSlots(place, day.date).includes(slot) &&
+        mealSlots(place, day.date, local).includes(slot) &&
         (input.hopCapMin === undefined ||
           withinReach(
             place.id,
@@ -156,7 +148,7 @@ function hopChecks(input: DaySenseInput, day: TimedDay): DaySenseViolation[] {
   if (input.hopCapMin === undefined) return [];
   const ids = day.stops.map((stop) => stop.poi.id);
   const dinnerAt = day.stops.findIndex(
-    (stop) => stop.item.kind === 'meal' && mealAt(stop.startMin) === 'dinner',
+    (stop) => stop.item.kind === 'meal' && mealAt(stop.startMin, mealsOf(day.window)) === 'dinner',
   );
   // A dinner far from the day is the ride home only when no dinner place was near the day.
   const rideHome =
@@ -164,7 +156,7 @@ function hopChecks(input: DaySenseInput, day: TimedDay): DaySenseViolation[] {
     input.mealPlaces !== undefined &&
     dinnerIsRideHome(
       ids.slice(0, dinnerAt),
-      servingOn(input.mealPlaces, day.date, 'dinner'),
+      servingOn(input.mealPlaces, day.date, 'dinner', mealsOf(day.window)),
       input.travel,
       input.hopCapMin,
     );

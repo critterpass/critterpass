@@ -19,7 +19,7 @@ export function openOnDay(poi: DraftPoi, frame: TripFrame, index: number, timed:
   const visit = ceilGrid(poi.durationMin);
   const owns = timed ? placeWindows(poi, date) : [];
   if (timed && foodRole(poi) === 'meal') {
-    const served = mealSlots(poi, date);
+    const served = mealSlots(poi, date, window.meals);
     if (!mealsInWindow(window).some((slot) => served.includes(slot))) return false;
   }
   // Any of its times of day will do (a beach early or late).

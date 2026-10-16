@@ -3,7 +3,7 @@
  * is on two groups' days, a day trip's stops sit between reaching the area and starting back and
  * the day has its lunch, and the first day at a later stop starts after the crew gets there.
  */
-import { mealAt, minuteOfDate } from '@cp/planner';
+import { mealAt, mealHoursIn, minuteOfDate } from '@cp/planner';
 
 import type { DayGroup } from '../../../src/prompts/draft/groups';
 import type { DraftPlanResult } from '../../../src/prompts/draft/pipeline';
@@ -60,7 +60,9 @@ export function gradeGroups(
       }
     }
     const lunched = (day?.items ?? []).some(
-      (item) => item.kind === 'meal' && mealAt(at(item.starts_at, day?.date ?? '')) === 'lunch',
+      (item) =>
+        item.kind === 'meal' &&
+        mealAt(at(item.starts_at, day?.date ?? ''), mealHoursIn(tz)) === 'lunch',
     );
     if (!lunched) failures.push(`day trip day ${dayNo} has no lunch`);
   }

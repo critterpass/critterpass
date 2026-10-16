@@ -10,6 +10,7 @@ import {
   isKept,
   mealAcrossTown,
   mealAt,
+  mealHoursIn,
   minuteOfDate,
   opensDay,
   placeIdOf,
@@ -51,7 +52,8 @@ export function gradeDayRules(input: DraftPlanInput, itinerary: Itinerary): stri
       const between = before !== undefined && next !== undefined && index < day.items.length - 1;
       if (item.kind === 'meal' && !isKept(item) && between) {
         const [a, b, c] = [placeIdOf(before), placeIdOf(item), placeIdOf(next)];
-        const dinnerHome = mealAt(at(item.starts_at)) === 'dinner' && next.kind !== 'meal';
+        const dinnerHome =
+          mealAt(at(item.starts_at), mealHoursIn(tz)) === 'dinner' && next.kind !== 'meal';
         if (a !== null && b !== null && c !== null && !dinnerHome) {
           if (mealAcrossTown(a, b, c, input.travel)) {
             failures.push(
@@ -63,7 +65,7 @@ export function gradeDayRules(input: DraftPlanInput, itinerary: Itinerary): stri
       // A breakfast is followed by the first sight, not by a hole.
       if (
         item.kind === 'meal' &&
-        mealAt(at(item.starts_at)) === 'breakfast' &&
+        mealAt(at(item.starts_at), mealHoursIn(tz)) === 'breakfast' &&
         next !== undefined
       ) {
         const hole = at(next.starts_at) - at(item.ends_at) - next.travel_min;

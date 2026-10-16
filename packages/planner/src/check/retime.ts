@@ -12,7 +12,7 @@
 import { openThrough, type ChangeSetOp, type OpenSpan } from '@cp/domain';
 
 import { GRID_MIN } from '../draft/day-minutes';
-import { mealAt } from '../draft/meal-slots';
+import { mealAt, USUAL_MEALS, type MealHours } from '../draft/meal-slots';
 import { instantAt } from '../draft/schedule-day';
 import type { FitTravel } from '../fit/context';
 import { overlaps, type DayModel, type ModelItem } from '../fit/day-model';
@@ -88,6 +88,8 @@ export interface MovedStop {
   readonly outdoor: boolean;
   /** Local minute the open air is dark from. */
   readonly darkFromMin: number;
+  /** When lunch and dinner are eaten where the trip is (`mealHoursIn`); the usual hours if absent. */
+  readonly meals?: MealHours;
 }
 
 const NOON = 12 * 60;
@@ -100,9 +102,10 @@ const partOf = (minute: number) => (minute < NOON ? 0 : minute < EVENING ? 1 : 2
 export function suitsPlace(item: ModelItem, what: MovedStop, start: number): boolean {
   const end = start + (item.end - item.start);
   if (what.category === 'meal') {
-    const now = mealAt(item.start);
+    const local = what.meals ?? USUAL_MEALS;
+    const now = mealAt(item.start, local);
     // A meal stays the meal it is; one already between meals may only move into a meal time.
-    return now === null ? mealAt(start) !== null : mealAt(start) === now;
+    return now === null ? mealAt(start, local) !== null : mealAt(start, local) === now;
   }
   // In the open air: done before dark, unless it is an evening stop already.
   if (what.outdoor && item.start < what.darkFromMin) return end <= what.darkFromMin;

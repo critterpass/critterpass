@@ -8,7 +8,15 @@
  * an essential, then a must-see, then the nearest. One evening per place.
  */
 import type { Itinerary } from '@cp/domain';
-import { DINNER, leavesOn, minuteOfDate, placeTime, withinReach, type DraftPoi } from '@cp/planner';
+import {
+  dayWindow,
+  leavesOn,
+  mealsOf,
+  minuteOfDate,
+  placeTime,
+  withinReach,
+  type DraftPoi,
+} from '@cp/planner';
 
 import { areaStep, homeOf, hopCap, spanOf } from './areas';
 
@@ -65,8 +73,9 @@ export function fillEvenings(
       continue;
     }
     const at = (iso: string) => minuteOfDate(new Date(iso), day.date, input.frame.tz);
+    const dinner = mealsOf(dayWindow(input.frame, outline.dayNo - 1)).dinner;
     const dined = day.items.some(
-      (item) => item.kind === 'meal' && at(item.starts_at) >= DINNER.startMin - 30,
+      (item) => item.kind === 'meal' && at(item.starts_at) >= dinner.startMin - 30,
     );
     const out = day.items.some(
       (item) => item.kind !== 'meal' && at(item.starts_at) >= EVENING_FROM_MIN,

@@ -8,13 +8,13 @@
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
 import {
-  DINNER,
   dayWindow,
   detourMin,
   mealAcrossTown,
   foodRole,
   isKept,
   mealsInWindow,
+  mealsOf,
   minuteOfDate,
   type DayWindow,
   type DraftPoi,
@@ -58,7 +58,7 @@ function longestHole(input: DraftPlanInput, day: DraftDay, window: DayWindow): H
     if (free > longest.minutes) longest = { minutes: free, at: index };
     at = minuteOfDate(new Date(item.ends_at), day.date, input.frame.tz);
   });
-  const tail = Math.min(window.endMin, DINNER.startMin) - at;
+  const tail = Math.min(window.endMin, mealsOf(window).dinner.startMin) - at;
   return tail > longest.minutes ? { minutes: tail, at: day.items.length } : longest;
 }
 

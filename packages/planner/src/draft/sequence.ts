@@ -16,7 +16,7 @@ import { inversions, permutations } from './order-search';
 import { ceilGrid, spansOn } from './day-minutes';
 import { opensDay, startFloor } from './day-start';
 import { dinnerIsRideHome, longHops, mealDetours } from './hops';
-import { DINNER, LUNCH, mealAt, mealDuration, mealSlotAt, servingOn } from './meal-slots';
+import { mealAt, mealDuration, mealSlotAt, mealsOf, servingOn, type MealHours } from './meal-slots';
 import { MORNING_ENDS_MIN, placeTime, placeWindows, windowFor } from './time-of-day';
 import { defaultDurationMin, fixedMinutes } from './schedule-day';
 import { heldWindow, timedDuration } from './wish-time';
@@ -69,6 +69,8 @@ interface Timeline {
 }
 
 function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
+  const local = mealsOf(input.window);
+  const dinnerFrom = local.dinner.startMin;
   let at = startFloor(input.window, true, null);
   let previous: string | null = null;
   let broken = 0;
@@ -90,7 +92,7 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
       if (previous !== null && arrived > fixed.startMin) broken += 1;
       idle += Math.max(0, fixed.startMin - Math.max(arrived, input.window.startMin));
       if (choice.kind === 'meal') {
-        const slot = mealAt(fixed.startMin);
+        const slot = mealAt(fixed.startMin, local);
         if (slot !== null) meals.add(slot);
         if (slot === 'dinner') dinnerAt ??= index;
       }
@@ -110,8 +112,8 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
     if (untimedMeal) {
       const from =
         choice.mealSlot === 'dinner'
-          ? DINNER.startMin
-          : mealSlotAt(start, meals.has('lunch'), input.dayOut?.has(previous ?? '') === true)
+          ? dinnerFrom
+          : mealSlotAt(start, meals.has('lunch'), local, input.dayOut?.has(previous ?? '') === true)
               .startMin;
       start = Math.max(start, from);
     }
@@ -134,18 +136,18 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
     if (own !== null) start = Math.max(start, own.fromMin);
     const duration = ceilGrid(timedDuration(poi, choice.when) || defaultDurationMin(poi.category));
     // Hours that are only a guess never move a held stop or count against it.
-    const hours = held !== null && poi.hoursGuessed === true ? null : poi.hours;
-    const span = spansOn(hours, input.date).find(
+    const open = held !== null && poi.hoursGuessed === true ? null : poi.hours;
+    const span = spansOn(open, input.date).find(
       (s) => Math.max(start, ceilGrid(s.start)) + duration <= s.end,
     );
     if (span === undefined) broken += 1;
     else start = Math.max(start, ceilGrid(span.start));
     // A meal its place's opening pushed past lunch waits for dinner (as `scheduleDay` times it).
-    if (untimedMeal && mealAt(start) === null && start < DINNER.startMin) {
-      const evening = spansOn(hours, input.date).find(
-        (s) => Math.max(DINNER.startMin, ceilGrid(s.start)) + duration <= s.end,
+    if (untimedMeal && mealAt(start, local) === null && start < dinnerFrom) {
+      const evening = spansOn(open, input.date).find(
+        (s) => Math.max(dinnerFrom, ceilGrid(s.start)) + duration <= s.end,
       );
-      if (evening !== undefined) start = Math.max(DINNER.startMin, ceilGrid(evening.start));
+      if (evening !== undefined) start = Math.max(dinnerFrom, ceilGrid(evening.start));
     }
     // Held to its time of day: too late for it is broken; running past the usual end is not.
     if (held !== null && start > held.toMin) broken += 1;
@@ -154,7 +156,7 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
       late += placeTime(poi) === 'morning' ? 1 : 0;
     }
     if (choice.kind === 'meal') {
-      const slot = mealAt(start);
+      const slot = mealAt(start, local);
       // An untimed meal outside every stretch, or a second one in the same stretch.
       if (slot === null ? untimedMeal : meals.has(slot)) broken += 1;
       if (slot !== null) meals.add(slot);
@@ -162,8 +164,8 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
     }
     if (held === null && choice.kind !== 'meal' && missesBestTime(poi, start)) misfit += 1;
     idle += Math.max(0, start - Math.max(reached, input.window.startMin));
-    if (choice.kind === 'meal') idle += mealLateness(start, held?.fromMin ?? null);
-    at = start + (choice.kind === 'meal' ? mealDuration(poi, start, duration) : duration);
+    if (choice.kind === 'meal') idle += mealLateness(start, held?.fromMin ?? null, local);
+    at = start + (choice.kind === 'meal' ? mealDuration(poi, start, duration, local) : duration);
     if (
       at > (held === null ? input.window.endMin : (input.window.latestMin ?? input.window.endMin))
     )
@@ -177,7 +179,7 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
       input.mealPlaces !== undefined &&
       dinnerIsRideHome(
         ids.slice(0, dinnerAt),
-        servingOn(input.mealPlaces, input.date, 'dinner'),
+        servingOn(input.mealPlaces, input.date, 'dinner', local),
         input.travel,
         input.hopCapMin,
       );
@@ -200,11 +202,11 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
  * How late a meal is: a lunch or dinner more than an hour into its stretch, or a breakfast a
  * must-do asked for that does not open the day.
  */
-function mealLateness(start: number, heldFrom: number | null): number {
-  const slot = mealAt(start);
+function mealLateness(start: number, heldFrom: number | null, local: MealHours): number {
+  const slot = mealAt(start, local);
   if (heldFrom !== null) return slot === 'breakfast' || slot === null ? start - heldFrom : 0;
-  if (slot === 'lunch') return Math.max(0, start - LUNCH.startMin - LATE_MEAL_MIN);
-  if (slot === 'dinner') return Math.max(0, start - DINNER.startMin - LATE_MEAL_MIN);
+  if (slot === 'lunch') return Math.max(0, start - local.lunch.startMin - LATE_MEAL_MIN);
+  if (slot === 'dinner') return Math.max(0, start - local.dinner.startMin - LATE_MEAL_MIN);
   return 0;
 }
 

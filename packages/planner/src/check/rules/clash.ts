@@ -8,6 +8,7 @@
 const DARK_FROM_MIN = 18 * 60 + 30;
 import { checkFeasibility } from '../../feasibility/check';
 import type { FeasibilityItem } from '../../feasibility/types';
+import { mealHoursIn } from '../../draft/meal-hours';
 import { retimeOp, settleClash } from '../retime';
 import type { CheckIssueDraft } from '../types';
 import { itemOf, spansOf, travelFor, type CheckDay } from './shared';
@@ -45,6 +46,7 @@ export function clashIssues(check: CheckDay): CheckIssueDraft[] {
           category: itemOf(day, item.stableId)?.category ?? null,
           outdoor: itemOf(day, item.stableId)?.outdoor ?? false,
           darkFromMin: check.input.darkFromMin ?? DARK_FROM_MIN,
+          meals: mealHoursIn(context.tz),
         },
       }));
       const ops = (moves ?? []).map((move) =>

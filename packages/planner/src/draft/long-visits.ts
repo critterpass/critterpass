@@ -9,7 +9,7 @@
  * where that is missing. A visit is never shortened to fit another stop.
  */
 import { foodRole } from './food-role';
-import { DINNER, LUNCH } from './meal-slots';
+import { mealsOf } from './meal-slots';
 import { metresBetween } from './same-place';
 import { placeTimes } from './time-of-day';
 import { defaultDurationMin } from './schedule-day';
@@ -26,7 +26,7 @@ export const FULL_DAY_VISIT_MIN = 420;
 /** A stop this close to a long visit is inside it (a hill resort's bridge, an old town's). */
 const PART_OF_IT_M = 1000;
 /** Where the morning half of a day ends and the afternoon's begins. */
-const HALVES_SPLIT_MIN = LUNCH.startMin + 60;
+const HALVES_SPLIT_MIN = 12 * 60 + 30;
 
 export type VisitSpan = 'full' | 'half';
 
@@ -128,7 +128,7 @@ export function longVisitFaults(
         !partOfVisit(stop.poi, anchor.poi, rideOf(anchor.poi)) &&
         !together(stop.poi.id, anchor.poi.id) &&
         // After dinner is the evening's, whatever the day held.
-        stop.startMin < DINNER.startMin &&
+        stop.startMin < mealsOf(day.window).dinner.startMin &&
         (span === 'full' || halfOf(stop.startMin) === half),
     );
     let light = 0;

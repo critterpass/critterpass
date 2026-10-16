@@ -17,6 +17,7 @@ import type {
 } from '@cp/domain';
 
 import { localMinute } from '../feasibility/grid';
+import type { MealHours } from './meal-hours';
 import type { WishTime } from './wish-time';
 
 /** A meal that starts from half past five is a dinner (see ./meal-slots). */
@@ -227,4 +228,6 @@ export interface DayWindow {
   readonly latestMin?: number;
   /** The crew asked this day to start later: nothing opens it before `startMin`. */
   readonly laterStart?: boolean;
+  /** When lunch and dinner are eaten this day (./meal-hours); the usual hours when absent. */
+  readonly meals?: MealHours;
 }

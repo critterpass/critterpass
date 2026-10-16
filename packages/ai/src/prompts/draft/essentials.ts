@@ -8,7 +8,8 @@
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
 import {
-  DINNER,
+  dayWindow,
+  mealsOf,
   foodRole,
   isKept,
   minuteOfDate,
@@ -131,12 +132,13 @@ export function essentialsLeftOut(input: DraftPlanInput, itinerary: Itinerary): 
  */
 function fullOfSights(input: DraftPlanInput, itinerary: Itinerary, dayNo: number): boolean {
   const day = itinerary.days.find((d) => d.day_no === dayNo);
+  const dinnerFrom = mealsOf(dayWindow(input.frame, dayNo - 1)).dinner.startMin;
   // The evening's stops never stand in the way of a sight: they are after dinner.
   const sights = (day?.items ?? []).filter(
     (item) =>
       item.kind !== 'meal' &&
       day !== undefined &&
-      minuteOfDate(new Date(item.starts_at), day.date, input.frame.tz) < DINNER.startMin,
+      minuteOfDate(new Date(item.starts_at), day.date, input.frame.tz) < dinnerFrom,
   );
   return (
     sights.length > 0 &&
