@@ -6,7 +6,8 @@
  * must-sees that happen after dark (the fado house, the water puppets, the fire show, the night
  * market) and the evening places that suit its tastes, and a crew that wants quiet evenings never a
  * bar. One in the day's areas or the one beside them comes before one that takes the day to a
- * third area or across town: pages end a day where it is. Within those, the
+ * third area, and across town only a night out for a crew that likes the night: pages end a day
+ * where it is, and see a sight across town before dinner (./across-town). Within those, the
  * places itinerary pages agree on first (./agreement), those that suit the crew's tastes first
  * among them; then the essentials and the stops of the pages' days before what three or more pages
  * hold; then the nearest. One evening per place. The stop follows dinner
@@ -112,7 +113,9 @@ export function fillEvenings(
     // pages agree on first and what suits the crew first among it.
     const here = day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
     const away = (poi: DraftPoi) => (areaStep(input, poi.id, here) < 2 ? 0 : 1);
-    const candidates = nearFirst(input, offered, last == null ? [] : [last])
+    const night = wantsEvenings(input);
+    const reachable = offered.filter((poi) => away(poi) === 0 || (night && isNightlife(poi)));
+    const candidates = nearFirst(input, reachable, last == null ? [] : [last])
       .map((poi, rank) => ({ poi, rank, away: away(poi), agreement: agreementOf(input, poi) }))
       .sort(
         (a, b) =>

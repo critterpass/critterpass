@@ -11,7 +11,7 @@ import type { DraftItem } from '@cp/domain';
 import { foodRole, sameDish, sharesDish } from './food-role';
 import { dinnerIsRideHome, longHops, longRideMin, RIDE_HOME_MAX_MIN, withinReach } from './hops';
 import { mealAt, mealSlots, mealsInWindow, mealsOf, servingOn, type MealSlot } from './meal-slots';
-import { placeWindows } from './time-of-day';
+import { windowsAfter } from './time-of-day';
 import { isKept, isTheirs, type DayWindow, type DraftPoi, type TravelMatrix } from './types';
 
 export type DaySenseCode =
@@ -136,9 +136,9 @@ function missingMeals(
 }
 
 function placeTimeChecks(day: TimedDay): DaySenseViolation[] {
-  return day.stops.flatMap((stop) => {
+  return day.stops.flatMap((stop, index) => {
     if (stop.held || isMustDo(stop) || stop.item.kind === 'meal') return [];
-    const windows = placeWindows(stop.poi, day.date);
+    const windows = windowsAfter(stop.poi, day.stops[index - 1]?.poi, day.date);
     const inside = windows.some((w) => stop.startMin >= w.fromMin && stop.startMin <= w.toMin);
     return windows.length > 0 && !inside ? [at('WRONG_TIME_OF_DAY', day, stop)] : [];
   });

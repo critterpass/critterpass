@@ -4,9 +4,9 @@
  * (hours, meal times, the time of day a place is for) and it sits within reach of the day's other
  * stops. A day the outline left light is topped up from the unused activities in its areas, so no
  * day is a single stop beside a full one while there are places to go. Each day's meal places are
- * the best eateries in its areas or beside them, those itinerary pages agree on first and then those
- * that suit the crew's tastes (never the same place on two days, never a dish
- * the day before already has); its spares are set aside in ./skeleton-spares.ts.
+ * the best eateries in its areas or beside them, those itinerary pages agree on first, then those
+ * that suit the crew's tastes (never the same place on two days, never a dish the day before
+ * already has). Spares are set aside in ./skeleton-spares.ts; ./paired-seats seats one outing.
  */
 import {
   bestOrder,
@@ -30,6 +30,7 @@ import { byVariety, kindOf, oneTooMany } from './variety';
 import { stopBudget } from './budget';
 import type { DraftPlanInput } from './context';
 import { heldChoices, mealsNeeded } from './held';
+import { intoPairedSeat } from './paired-seats';
 import { whenOf } from './wish-answers';
 
 export interface OutlineDay {
@@ -203,8 +204,9 @@ export function keepWhatFits(
             kindOf(other) !== kindOf(poi) &&
             (input.pools.openDays.get(other.id) ?? []).includes(day.dayNo),
         );
-      if (!same && fits(input, day, [...keep, id])) keep.push(id);
-      else taken.delete(id);
+      const fitting = (ids: readonly string[]) => fits(input, day, ids);
+      if (!same && fitting([...keep, id])) keep.push(id);
+      else taken.delete((same ? null : intoPairedSeat(input, keep, id, fitting)) ?? id);
     }
     day.poiIds.splice(0, day.poiIds.length, ...keep);
   }

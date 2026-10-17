@@ -205,3 +205,27 @@ function withinHours(poi: DraftPoi, date: string, window: PlaceWindow): PlaceWin
   }
   return null;
 }
+
+/**
+ * The windows a stop at `poi` may start in right after a stop at `previous`. Two places our
+ * researchers pair (`pairsWith`: the pagoda on the lake) and both held to a time of day are one
+ * outing at that time: the second follows the first, so its window runs on until the first's has
+ * run its visit's length. Two sunset places on one shore are then one sunset, not a day each.
+ */
+export function windowsAfter(
+  poi: DraftPoi,
+  previous: DraftPoi | undefined,
+  date: string,
+): readonly PlaceWindow[] {
+  const own = placeWindows(poi, date);
+  if (own.length === 0 || previous === undefined) return own;
+  const paired =
+    poi.pairsWith?.includes(previous.id) === true || previous.pairsWith?.includes(poi.id) === true;
+  const theirs = paired ? placeWindows(previous, date) : [];
+  return own.map((window) => {
+    const shared = theirs.filter((t) => t.fromMin <= window.toMin && window.fromMin <= t.toMin);
+    if (shared.length === 0) return window;
+    const until = Math.max(...shared.map((t) => t.toMin)) + ceilGrid(previous.durationMin);
+    return { fromMin: window.fromMin, toMin: Math.max(window.toMin, until) };
+  });
+}

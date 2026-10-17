@@ -6,7 +6,10 @@
  * no worse in any other way: no rule broken, no meal lost, no stop off its time of day or out of
  * the place it opens the day, no return to an area it has left. A meal the crew asked for or
  * placed stays; one itinerary pages agree on (./agreement) gives way only to another they agree
- * on, and one that suits the crew's tastes only to another that suits them.
+ * on, unless it is very far out of the way (`FAR_DETOUR_M`): a ride across town for a meal the
+ * pages list costs the day more than a good place on its way. One that suits the crew's tastes
+ * gives way only to another that suits them, and among the places that fit, the ones pages agree
+ * on come first.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
 import {
@@ -30,6 +33,8 @@ import type { SkeletonDay } from './skeleton';
 
 /** A meal this many metres out of the day's way is worth moving. */
 export const DETOUR_M = 1_000;
+/** A meal this many metres out of the day's way gives way even when pages agree on it. */
+export const FAR_DETOUR_M = 2_500;
 /** A place for it must cut the day's walk by at least this much. */
 const SAVING_M = 500;
 /** Places tried for one meal. */
@@ -38,7 +43,7 @@ const TRIED = 6;
 type Point = { readonly lat: number; readonly lng: number };
 
 /** Metres the day goes out of its way to reach `poi` from the stops around it and back. */
-function detourOf(poi: Point, around: readonly Point[]): number {
+export function detourOf(poi: Point, around: readonly Point[]): number {
   const [before, after] = around;
   if (before === undefined) return 0;
   if (after === undefined) return metresBetween(before, poi);
@@ -80,13 +85,15 @@ function nearerFor(
         return poi === undefined ? [] : [poi];
       }),
     );
-  const limit = detourOf(current, around) - SAVING_M;
+  const detour = detourOf(current, around);
+  const limit = detour - SAVING_M;
   const suits = tasteScore(current, input.tastes) > 0;
+  const keepsAgreed = isAgreed(input, current) && detour <= FAR_DETOUR_M;
   return input.pools.eateries
     .filter(
       (poi) =>
         !used.has(poi.id) &&
-        (!isAgreed(input, current) || isAgreed(input, poi)) &&
+        (!keepsAgreed || isAgreed(input, poi)) &&
         (!suits || tasteScore(poi, input.tastes) > 0) &&
         (input.pools.openDays.get(poi.id) ?? []).includes(day.day_no) &&
         mealSlots(poi, day.date).includes(slot) &&

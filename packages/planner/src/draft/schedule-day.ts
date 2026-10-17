@@ -14,7 +14,7 @@ import { ceilGrid } from './day-minutes';
 import { foodRole } from './food-role';
 import { opensDay, startFloor } from './day-start';
 import { mealAt, mealDuration, mealHoursIn, mealShare, mealSlotAt, mealsOf } from './meal-slots';
-import { placeWindows, windowFor } from './time-of-day';
+import { windowFor, windowsAfter } from './time-of-day';
 import { heldWindow, timedDuration } from './wish-time';
 import {
   isPinId,
@@ -187,7 +187,9 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
     }
     // A place that is for the evening (or the sunset, or after dark) waits for it.
     const own =
-      held !== null || poi === undefined ? null : windowFor(placeWindows(poi, input.date), start);
+      held !== null || poi === undefined
+        ? null
+        : windowFor(windowsAfter(poi, input.pois.get(previous ?? ''), input.date), start);
     if (own !== null && choice.kind !== 'meal') start = Math.max(start, own.fromMin);
     // Hours that are only a guess never move a held stop.
     if (poi !== undefined && !(held !== null && poi.hoursGuessed === true)) {

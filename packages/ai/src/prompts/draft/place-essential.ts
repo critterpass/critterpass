@@ -2,8 +2,7 @@
  * Putting one essential sight on a day, the days in its own area first: added where it rides least
  * out of the way and the day stays as clean; else, on a day in its area or beside it, in the seat
  * of a stop nobody asked for, or of a shorter essential (which is placed again later). A long
- * visit takes in the stops inside it, and a whole-day visit the day's lunch stop, before it is
- * tried.
+ * visit takes in the stops inside it, and a whole-day visit the day's lunch stop, before trying.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
 import {
@@ -15,6 +14,7 @@ import {
   type DraftPoi,
 } from '@cp/planner';
 
+import { acrossTownAfterDinner } from './across-town';
 import { agreementOfStop } from './agreement';
 import { areaStep, homeOf, hopCap, insideVisit, rideFrom, spanOf } from './areas';
 import { addOne, dayFaults, fillMeals, nearFirst } from './complete-days';
@@ -25,6 +25,7 @@ import { scheduleChoices } from './day';
 import type { SkeletonDay } from './skeleton';
 import { validate } from './validate';
 
+type Faults = { readonly hard: number; readonly meals: number };
 /** Seats tried for a place added to a day, in order. */
 const SEATS_TRIED = 3;
 
@@ -95,12 +96,12 @@ export function placeOne(
         a.ride - b.ride ||
         a.day.items.length - b.day.items.length,
     );
-  // As clean as it was, and no sight that should open the day left behind another.
-  const clean = (
-    was: { hard: number; meals: number },
-    now: { hard: number; meals: number },
-    made: DraftDay,
-  ) => now.hard <= was.hard && now.meals <= was.meals && misplacedOpeners(input, made).length === 0;
+  // As clean as it was, no opener left behind another, never across town after dinner.
+  const clean = (was: Faults, now: Faults, made: DraftDay) =>
+    now.hard <= was.hard &&
+    now.meals <= was.meals &&
+    misplacedOpeners(input, made).length === 0 &&
+    !acrossTownAfterDinner(input, made, poi.id);
   // First without touching another essential, on any day; then in a shorter essential's seat.
   // Across town it is only added: a day's own stops never give way to a sight that zigzags it.
   for (const displace of [false, true]) {
@@ -161,8 +162,7 @@ export function placeOne(
                 : d,
             ),
           };
-          // A lunch may be missed coming back from it (the day's note says so): better than no
-          // day out at all.
+          // A lunch may be missed coming back from it (the day's note says so), not the day out.
           const was = dayFaults(input, itinerary, day.day_no);
           const taken = tryOn(cleared, 'outing', { ...was, meals: was.meals + 1 });
           if (taken !== null) return taken;
