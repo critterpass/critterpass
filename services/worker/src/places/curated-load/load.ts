@@ -2,10 +2,11 @@
  * Loads one destination's curated places: makes sure its open-data places are there (a sparse
  * destination gets the on-demand `places.ingest` job while one can still add places, and is
  * loaded against what there is once none can: `./sparse.ts`), matches each line to one of our
- * rows (`./match.ts`) and writes the line into that row's note as reviewed content
- * (`curation = 'editorial'`), so the note wins over any AI profile. An unmatched line for an
- * activity no map has (a cruise, a hike, a show: `curatedStopOnly`) is a curated-only stop: the
- * itinerary keeps it by name and the OpenStreetMap lookup is not asked.
+ * rows (our row of its pinned OpenStreetMap element first, `./pinned.ts`; else `./match.ts`)
+ * and writes the line into that row's note as reviewed content (`curation = 'editorial'`), so
+ * the note wins over any AI profile. An unmatched line for an activity no map has (a cruise, a
+ * hike, a show: `curatedStopOnly`) is a curated-only stop: the itinerary keeps it by name and
+ * the OpenStreetMap lookup is not asked.
  * `editorial.curated.rank` makes the place popular in its destination. A re-run writes the same
  * lines again; a place the file no longer names keeps its note but loses its curated block.
  * Before matching, a destination whose place box misses its curated points gets a box drawn
@@ -24,7 +25,8 @@ import type pg from 'pg';
 
 import { allowIndexMaintenance } from '../batch-sql';
 import { plainWords } from '../pick/match';
-import { findCuratedRow, type CuratedHold, type CuratedLead } from './match';
+import { findCuratedRow, findPinnedRow, type CuratedHold, type CuratedLead } from './match';
+import { osmSourceId, PINNED_RADIUS_M } from './pinned';
 import { curatedStopOnly } from './osm-lookup';
 import {
   curatedNameKey,
@@ -189,9 +191,14 @@ export async function loadCuratedPlaces(
       lng: line.lng,
       subtype: line.subtype ?? null,
     };
+    const pinned = line.osm === undefined ? null : osmSourceId(line.osm);
     const verdict = await withSystem(pool, async (tx) => {
       await allowIndexMaintenance(tx);
-      return findCuratedRow(tx, destination.id, lead, plain, taken);
+      const exact =
+        pinned === null
+          ? null
+          : await findPinnedRow(tx, destination.id, lead, pinned, PINNED_RADIUS_M, taken);
+      return exact ?? findCuratedRow(tx, destination.id, lead, plain, taken);
     });
     if (verdict.kind === 'none' && curatedStopOnly(line)) {
       curatedStops.push(line.name_en);

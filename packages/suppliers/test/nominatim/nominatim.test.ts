@@ -10,6 +10,7 @@ import {
   createNominatimSearch,
   MAX_BACKOFF_MS,
   MIN_REQUEST_INTERVAL_MS,
+  nominatimLookupUrl,
   NOMINATIM_USER_AGENT,
   REFUSED_ATTEMPTS,
   REFUSED_BACKOFF_MS,
@@ -107,5 +108,39 @@ describe('the paced Nominatim search', () => {
     const { search, at } = scripted([400]);
     await expect(search({ q: 'a', box })).rejects.toThrow('400');
     expect(at).toHaveLength(1);
+  });
+
+  it('looks an element up by id through the same turns, and answers null when it is gone', async () => {
+    let clock = 0;
+    const calls: { url: string; at: number }[] = [];
+    const fetcher = ((url: string) => {
+      calls.push({ url, at: clock });
+      const body = url.includes('/lookup') && url.includes('W42') ? '[{"osm_id":42}]' : '[]';
+      return Promise.resolve(new Response(body, { status: 200 }));
+    }) as typeof fetch;
+    const client = createNominatimSearch({
+      fetcher,
+      now: () => clock,
+      sleep: (ms) => {
+        clock += ms;
+        return Promise.resolve();
+      },
+    });
+    const [found, gone] = await Promise.all([
+      client.lookup('way/42'),
+      client.lookup('node/7'),
+      client({ q: 'a', box }),
+    ]);
+    expect(found).toMatchObject({ osm_id: 42 });
+    expect(gone).toBeNull();
+    expect(calls).toHaveLength(3);
+    expect(calls[2]!.at - calls[1]!.at).toBeGreaterThanOrEqual(MIN_REQUEST_INTERVAL_MS);
+    expect(Object.fromEntries(new URL(calls[0]!.url).searchParams)).toMatchObject({
+      osm_ids: 'W42',
+      format: 'jsonv2',
+      namedetails: '1',
+      extratags: '1',
+    });
+    expect(() => nominatimLookupUrl('way/abc')).toThrow();
   });
 });

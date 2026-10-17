@@ -5,11 +5,13 @@
  * reused, and one another destination owns, or one we hid, is left alone; one another curated
  * place holds keeps its note, and a reused row whose name is not the place's takes OSM's name and
  * category.
+ * A line naming its OpenStreetMap element takes that element whatever its name, and falls back to
+ * the search when the element is gone or far from the line's point.
  * Nominatim answers with the jsonv2 reply kept in `@cp/planner`'s test fixture.
  */
 import { runMigrations } from '@cp/db';
 import { startPostgres, type StartedPostgreSqlContainer } from '@cp/db/testing';
-import { readEditorialOverlay } from '@cp/domain';
+import { readEditorialOverlay, type NominatimResult } from '@cp/domain';
 import pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
@@ -22,10 +24,25 @@ let pool: pg.Pool;
 let phuket: string;
 
 let asked = 0;
-const search = () => {
-  asked += 1;
-  return Promise.resolve(PATONG_BEACH_REPLY);
+let lookedUp = 0;
+const hotel = PATONG_BEACH_REPLY[1]!;
+/** Elements by id, as Nominatim's lookup answers them; any other id is gone. */
+const elements: Record<string, NominatimResult> = {
+  'node/4412345678': hotel,
+  'node/4412345679': { ...hotel, osm_id: 4412345679, lat: '8.2000', lon: '98.2981' },
 };
+const search = Object.assign(
+  () => {
+    asked += 1;
+    return Promise.resolve(PATONG_BEACH_REPLY);
+  },
+  {
+    lookup: (osm: string) => {
+      lookedUp += 1;
+      return Promise.resolve(elements[osm] ?? null);
+    },
+  },
+);
 
 const place = (over: Partial<CuratedPlaceRow> = {}): CuratedPlaceRow => ({
   destination: 'th-phuket',
@@ -172,5 +189,46 @@ describe('adding a curated place from OpenStreetMap', () => {
     const rows = await stored();
     expect(rows).toHaveLength(1);
     expect(readEditorialOverlay(rows[0]!.editorial)?.curated).toBeUndefined();
+  });
+});
+
+describe('a curated line that names its OpenStreetMap element', () => {
+  const rooftop = place({ name_en: 'Sky Deck Rooftop', name_local: null, category: 'nightlife' });
+
+  it('takes the element whatever its name, without searching', async () => {
+    const before = asked;
+    const outcome = await lookUpCuratedPlace(
+      pool,
+      { rank: 4, place: { ...rooftop, osm: 'node/4412345678' } },
+      search,
+    );
+    expect(outcome).toMatchObject({ outcome: 'inserted', osm: 'n4412345678', pinned: true });
+    expect(asked).toBe(before);
+    const { rows } = await pool.query<{ name: string; editorial: unknown }>(
+      `SELECT name, editorial FROM pois WHERE source_ids->>'osm' = 'n4412345678'`,
+    );
+    expect(rows).toHaveLength(1);
+    expect(rows[0]!.name).toBe('Patong Beach Hotel');
+    expect(readEditorialOverlay(rows[0]!.editorial)).toMatchObject({ curated: { rank: 4 } });
+  });
+
+  it('matches our row of the element on a re-run, whatever the rules make of its name', async () => {
+    const before = lookedUp;
+    const outcome = await lookUpCuratedPlace(
+      pool,
+      { rank: 4, place: { ...rooftop, osm: 'node/4412345678' } },
+      search,
+    );
+    expect(outcome).toMatchObject({ outcome: 'matched', row: 'Patong Beach Hotel' });
+    expect(lookedUp).toBe(before);
+  });
+
+  it('falls back to the search when the element is gone or far from the point', async () => {
+    for (const osm of ['node/1', 'node/4412345679']) {
+      const before = asked;
+      const outcome = await lookUpCuratedPlace(pool, { rank: 6, place: place({ osm }) }, search);
+      expect(outcome).not.toHaveProperty('pinned');
+      expect(asked).toBeGreaterThan(before);
+    }
   });
 });

@@ -4,7 +4,9 @@
  * reviewed and popular in its rank, a place no row carries is reported and never created, a re-run
  * updates, a place the file drops loses its curated block, and a sparse destination gets the
  * on-demand ingest job instead of a load until one has run: then it loads against the places it
- * has, and a run whose places are gone is queued again once. An unmatched activity is kept as a curated-only stop, never looked up.
+ * has, and a run whose places are gone is queued again once. A line naming its OpenStreetMap
+ * element matches our row of it whatever its name, unless the row is far from the line's point.
+ * An unmatched activity is kept as a curated-only stop, never looked up.
  */
 import { popularPlaces, withSystem } from '@cp/db';
 import { PLACES_QUEUES, readEditorialOverlay } from '@cp/domain';
@@ -193,6 +195,22 @@ describe('loading curated places', () => {
     );
     expect(report.status).toBe('checked');
     expect((await editorial(palace)).editorial).toEqual(before.editorial);
+  });
+
+  it("matches a line to our row of its OpenStreetMap element, whatever the row's name", async () => {
+    const { rows } = await harness.pool.query<{ id: string }>(
+      `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids)
+       VALUES ($1, 'Seoul Sky', 'viewpoint', 37.5126, 127.1025, '{"osm":"w77"}') RETURNING id`,
+      [seoul],
+    );
+    const tower = line({ name_en: 'Lotte World Tower Observatory', lat: 37.5125, lng: 127.1026 });
+    const pinned = { ...tower, osm: 'way/77' };
+    const far = { ...pinned, lat: 37.9, name_en: 'Far Pin' };
+    const report = await loadCuratedPlaces(harness.pool, 'kr-seoul', [far, pinned, tower], {
+      dryRun: true,
+    });
+    expect(report.matched).toEqual([expect.objectContaining({ poiId: rows[0]!.id, hold: 'own' })]);
+    expect(report.unmatched.map((u) => u.name)).toEqual(['Far Pin', tower.name_en]);
   });
 
   it('queues the on-demand ingest for a sparse destination and loads nothing', async () => {

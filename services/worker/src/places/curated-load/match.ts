@@ -144,6 +144,65 @@ export async function curatedCandidates(
   }));
 }
 
+/**
+ * Our active row of a line's pinned OpenStreetMap element (`./pinned.ts`), with who keeps it, or
+ * null when no row carries it, another line holds it (`taken`) or it lies beyond `radiusM` of the
+ * line's point. No name rule is asked: the researcher confirmed the element.
+ */
+export async function findPinnedRow(
+  tx: pg.PoolClient,
+  destinationId: string,
+  lead: CuratedLead,
+  sourceId: string,
+  radiusM: number,
+  taken: ReadonlySet<string> = new Set(),
+): Promise<OwnedMatch | null> {
+  const { rows } = await tx.query<{
+    id: string;
+    name: string;
+    name_local: string | null;
+    category: string;
+    lat: number;
+    lng: number;
+    address: string | null;
+    distance_m: number;
+    own: boolean;
+    claimable: boolean | null;
+  }>(
+    `SELECT p.id, p.name, p.name_local, p.category, p.lat, p.lng, p.address,
+            ST_Distance(p.location, ST_SetSRID(ST_MakePoint($4::float8, $3::float8), 4326)::geography)::float8
+              AS distance_m,
+            p.destination_id = $1 AS own,
+            p.destination_id <> $1 AND ST_Intersects(p.location, m.place_bounds)
+              AND (o.place_bounds IS NULL OR NOT ST_Intersects(p.location, o.place_bounds)
+                   OR ST_Distance(p.location, ${centreSql('m')})
+                      < ST_Distance(p.location, ${centreSql('o')})) AS claimable
+       FROM pois p JOIN destinations o ON o.id = p.destination_id, destinations m
+      WHERE m.id = $1 AND p.source_ids ? 'osm' AND p.source_ids->>'osm' = $2
+        AND p.status = 'active' AND p.merged_into_id IS NULL
+      ORDER BY p.id LIMIT 1`,
+    [destinationId, sourceId, lead.lat, lead.lng],
+  );
+  const found = rows[0];
+  if (found === undefined || taken.has(found.id) || found.distance_m > radiusM) return null;
+  const row: OwnedCandidate = {
+    id: found.id,
+    name: found.name,
+    nameLocal: found.name_local,
+    category: found.category,
+    lat: found.lat,
+    lng: found.lng,
+    address: found.address,
+    quality: 0,
+    distanceM: found.distance_m,
+    similarity: 1,
+    own: found.own,
+    claimable: found.claimable === true,
+  };
+  const hold: CuratedHold = row.own ? 'own' : row.claimable ? 'claim' : 'shared';
+  return { kind: 'match', row, hold };
+}
+
 /** Who keeps the matched row: the loading destination owns it, takes it over, or leaves it. */
 export type CuratedHold = 'own' | 'claim' | 'shared';
 

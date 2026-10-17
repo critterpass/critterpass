@@ -6,7 +6,7 @@
  * refuses. The outcome is the job's output and a log line.
  */
 import { curatedOsmLookupKey, PLACES_QUEUES } from '@cp/domain';
-import { createNominatimSearch, type NominatimSearch } from '@cp/suppliers';
+import { createNominatimSearch, type NominatimClient } from '@cp/suppliers';
 import { z } from 'zod';
 
 import { defineJob, type AnyJobDefinition } from '../../boss';
@@ -25,7 +25,7 @@ export const curatedOsmLookupJobSchema = z.object({
 export type CuratedOsmLookupJob = z.input<typeof curatedOsmLookupJobSchema>;
 
 export function curatedOsmLookupJob(
-  search: NominatimSearch = createNominatimSearch(),
+  search: NominatimClient = createNominatimSearch(),
 ): AnyJobDefinition {
   return defineJob({
     queue: CURATED_OSM_LOOKUP_QUEUE,
