@@ -160,7 +160,46 @@ const clarkeQuay = [
   element('way', 149965088, ['1.2912094', '103.8440168'], ['highway', 'pedestrian']),
 ];
 
+/**
+ * "花見小路" in Kyoto's Gion: the street (Hanami-koji) and a restaurant named after it. Element
+ * ids, tags, names and points are OpenStreetMap's (read through Overpass).
+ */
+const hanamikoji = [
+  {
+    osm_type: 'way',
+    osm_id: 27908626,
+    lat: '35.0026525',
+    lon: '135.7748509',
+    category: 'highway',
+    type: 'residential',
+    name: '花見小路',
+    address: { road: '花見小路', suburb: '東山区', city: '京都市' },
+    extratags: { surface: 'paving_stones' },
+    namedetails: {
+      name: '花見小路',
+      'name:en': 'Hanami-koji',
+      'name:fr': 'Ruelle Hanami',
+      'name:ja-Hira': 'はなみ こうじ',
+      'name:ja-Latn': 'Hanami-kōji',
+      'name:zh-Hans': '花见小路',
+    },
+  },
+  {
+    osm_type: 'node',
+    osm_id: 4886634238,
+    lat: '35.0054044',
+    lon: '135.7753186',
+    category: 'amenity',
+    type: 'restaurant',
+    name: '花見小路',
+    address: { road: '花見小路', suburb: '東山区', city: '京都市' },
+    extratags: {},
+    namedetails: { name: '花見小路', 'name:ja': '花見小路' },
+  },
+];
+
 // Whole replies, with the fields the lookup does not read (place_id, licence, display_name...).
 export const PATONG_BEACH_REPLY: readonly NominatimResult[] = patongBeach;
 export const HOOVER_DAM_REPLY: readonly NominatimResult[] = hooverDam;
 export const CLARKE_QUAY_REPLY: readonly NominatimResult[] = clarkeQuay;
+export const HANAMIKOJI_REPLY: readonly NominatimResult[] = hanamikoji;

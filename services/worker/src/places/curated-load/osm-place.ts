@@ -8,16 +8,25 @@
  *
  * A row another destination owns may be the place too: a claimable one moves here with the note,
  * any other resolves the place and keeps its owner's note (`./match.ts`). A row of the looked-up
- * OSM id another destination owns is left alone (`owned_elsewhere`).
+ * OSM id another destination owns is left alone (`owned_elsewhere`), and so is one another
+ * curated place of the file holds (`held`: its note stays). A reused row whose name does not
+ * carry the place's name ("Diwali on Trafalgar Square" for OSM's Trafalgar Square) takes OSM's
+ * name, local name and category: OSM stays the source of what the row is called and is.
  */
 import { attachOsmPlace, withSystem } from '@cp/db';
 import type { NominatimSearch } from '@cp/suppliers';
+import type { OsmPlace } from '@cp/planner';
 import type pg from 'pg';
 
 import { allowIndexMaintenance } from '../batch-sql';
 import { plainWords } from '../pick/match';
 import { writeCuratedNote } from './load';
-import { chooseAcrossOwners, curatedCandidates, type CuratedLead } from './match';
+import {
+  chooseAcrossOwners,
+  chooseCuratedMatch,
+  curatedCandidates,
+  type CuratedLead,
+} from './match';
 import { findCuratedOsmPlace } from './osm-lookup';
 import { curatedNoteLines, type CuratedPlaceRow } from './rows';
 
@@ -30,7 +39,7 @@ export type CuratedOsmOutcome =
       readonly nearest_rejected: { readonly name: string; readonly distanceM: number } | null;
     }
   | {
-      readonly outcome: 'inserted' | 'reused' | 'owned_elsewhere' | 'checked';
+      readonly outcome: 'inserted' | 'reused' | 'held' | 'owned_elsewhere' | 'checked';
       readonly poi_id: string | null;
       readonly osm: string;
       readonly name: string;
@@ -103,9 +112,13 @@ export async function lookUpCuratedPlace(
       ? undefined
       : await withSystem(pool, async (tx) => {
           await allowIndexMaintenance(tx);
-          return attachOsmPlace(tx, destination.id, found);
+          const row = await attachOsmPlace(tx, destination.id, found);
+          if (row === null || row.inserted) return row && { ...row, held: false };
+          return { ...row, held: await settleReusedRow(tx, row.id, lead, found, rank, plain) };
         });
-  if (attached) await writeCuratedNote(pool, attached.id, note, place.busy_windows);
+  if (attached && !attached.held) {
+    await writeCuratedNote(pool, attached.id, note, place.busy_windows);
+  }
   const outcome =
     attached === undefined
       ? 'checked'
@@ -113,7 +126,9 @@ export async function lookUpCuratedPlace(
         ? 'owned_elsewhere'
         : attached.inserted
           ? 'inserted'
-          : 'reused';
+          : attached.held
+            ? 'held'
+            : 'reused';
   return {
     outcome,
     poi_id: attached?.id ?? null,
@@ -126,4 +141,57 @@ export async function lookUpCuratedPlace(
     distance_m: Math.round(found.distanceM),
     queries: lookup.queries,
   };
+}
+
+/**
+ * A row of the looked-up OSM id this destination already has: whether another curated place of
+ * the file holds it (its note stays), else, when its names do not carry the place's name, it takes
+ * OSM's name, local name and category (see the file header).
+ */
+async function settleReusedRow(
+  tx: pg.PoolClient,
+  id: string,
+  lead: CuratedLead,
+  found: OsmPlace,
+  rank: number,
+  plain: ReadonlySet<string>,
+): Promise<boolean> {
+  const { rows } = await tx.query<{
+    name: string;
+    name_local: string | null;
+    category: string;
+    rank: string | null;
+  }>(
+    `SELECT name, name_local, category, editorial->'curated'->>'rank' AS rank
+       FROM pois WHERE id = $1 FOR UPDATE`,
+    [id],
+  );
+  const row = rows[0];
+  if (row === undefined) return false;
+  if (row.rank !== null && Number(row.rank) !== rank) return true;
+  const named = chooseCuratedMatch(
+    lead,
+    [
+      {
+        id,
+        name: row.name,
+        nameLocal: row.name_local,
+        category: row.category,
+        lat: found.lat,
+        lng: found.lng,
+        address: null,
+        quality: 0,
+        distanceM: 0,
+        similarity: 0,
+      },
+    ],
+    plain,
+  );
+  if (named.kind === 'none') {
+    await tx.query(
+      `UPDATE pois SET name = $2, name_local = $3, category = $4, updated_at = now() WHERE id = $1`,
+      [id, found.name, found.nameLocal, found.category],
+    );
+  }
+  return false;
 }

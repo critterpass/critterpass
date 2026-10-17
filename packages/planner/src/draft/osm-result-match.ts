@@ -13,6 +13,14 @@
  * market, a waterfront park, or a business
  * of its own kind under its exact name (a shopping street's mall); never a station or a sight
  * named after it ("Clarke Quay" the MRT station).
+ *
+ * Open data and researchers name what stands on a street after the street, so for a researched
+ * place a road or path (`STREETS`) or a district (`DISTRICTS`) is the place only when the place
+ * may be one (`streetScope`: a street or area, a trail, bridge or pass, a village, town or
+ * island; never a bar, an izakaya, a river or a temple, whatever its kind words say). A trail,
+ * village or island by its kind alone ("coastal path") must also carry its English name in one
+ * of the result's names, or hold one of them, spaces, hyphens and accents aside: its local name
+ * alone does not make it that street. A typed search (no researched kind) takes what it names.
  */
 import {
   classifyOsmTags,
@@ -29,7 +37,7 @@ import {
   type CuratedLead,
   type MatchCandidate,
 } from './curated-name-rules';
-import { namesAnArea } from './curated-kind-rules';
+import { namesAnArea, streetScope } from './curated-kind-rules';
 import { metresBetween } from './same-place';
 
 /** A place OpenStreetMap carries, as a `pois` row takes it. */
@@ -85,6 +93,39 @@ const AREAS: Readonly<Record<string, RegExp>> = {
 const isStop = (result: NominatimResult) => STOPS[result.category]?.test(result.type) ?? false;
 const isArea = (result: NominatimResult) => AREAS[result.category]?.test(result.type) ?? false;
 
+/** OSM's roads and paths (stops and platforms are weighed above). */
+const STREETS: Readonly<Record<string, RegExp>> = { highway: /./u };
+/** OSM's districts and neighbourhoods. */
+const DISTRICTS: Readonly<Record<string, RegExp>> = {
+  place: /^(?:quarter|neighbourhood|suburb|city_block|plot)$/u,
+  boundary: /^administrative$/u,
+  landuse: /^(?:retail|commercial|residential)$/u,
+};
+
+const tagged = (classes: Readonly<Record<string, RegExp>>, result: NominatimResult) =>
+  classes[result.category]?.test(result.type) ?? false;
+
+/** A name in Latin letters without spaces, hyphens, accents or case ("hanamikoji"). */
+const squashed = (name: string) =>
+  name
+    .normalize('NFD')
+    .replace(/\p{M}+/gu, '')
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, '');
+
+/**
+ * Whether the English name (or a part of a compound one: "DUMBO and Brooklyn Bridge Park") and one
+ * of the result's names hold one another, written squashed (see the file header).
+ */
+export function carriesEnglishName(english: string, names: readonly string[]): boolean {
+  const bare = english.replace(/\s*\([^)]*\)\s*/gu, ' ');
+  const ours = [bare, ...bare.split(/\s+(?:and|&|\/)\s+/iu)]
+    .map(squashed)
+    .filter((n) => n.length >= 4);
+  const theirs = names.map(squashed).filter((name) => name.length >= 4);
+  return ours.some((a) => theirs.some((b) => a.includes(b) || b.includes(a)));
+}
+
 /** Every name a result goes by: its namedetails variants and its display name. */
 export function resultNames(result: NominatimResult): string[] {
   const names = Object.entries(result.namedetails ?? {})
@@ -130,30 +171,49 @@ export function acceptResult(
   const tags: OsmTags = { ...result.extratags, name: own, [result.category]: result.type };
   const classified = classifyOsmTags(tags);
   if (lead.category !== 'transit' && isStop(result)) return null;
+  // A typed search (no researched kind) asks for what it names, a street included.
+  const researched = lead.subtype !== undefined;
+  const street = researched && tagged(STREETS, result);
+  const district = researched && tagged(DISTRICTS, result);
+  const scope = streetScope(lead);
+  if (street ? !scope.way : district && !scope.district) return null;
   // A business is weighed by the kind rules below; anything else must be an area to be one.
   if (namesAnArea(lead) && classified?.kind !== 'hours_only' && !isArea(result)) return null;
   const sourceId = `${prefix}${String(result.osm_id)}`;
   const alike = away <= SIMILAR_RADIUS_M && classified?.kind !== 'hours_only';
   // Each name is weighed on its own, as if at the point: the distance is checked above.
-  const candidates: MatchCandidate[] = resultNames(result).map((name, index) => ({
-    id: `${sourceId}:${index}`,
-    name,
-    nameLocal: null,
-    category: classified?.category ?? 'other',
-    lat,
-    lng,
-    address: null,
-    quality: 0,
-    distanceM: 0,
-    similarity: alike
-      ? Math.max(
-          trigramSimilarity(name, lead.name),
-          lead.localName === null ? 0 : trigramSimilarity(name, lead.localName),
-        )
-      : 0,
-  }));
-  const verdict = chooseCuratedMatch(lead, candidates, plain);
+  const names = resultNames(result);
+  const candidates = (asked: CuratedLead): MatchCandidate[] =>
+    names.map((name, index) => ({
+      id: `${sourceId}:${index}`,
+      name,
+      nameLocal: null,
+      category: classified?.category ?? 'other',
+      lat,
+      lng,
+      address: null,
+      quality: 0,
+      distanceM: 0,
+      similarity: alike
+        ? Math.max(
+            trigramSimilarity(name, asked.name),
+            asked.localName === null ? 0 : trigramSimilarity(name, asked.localName),
+          )
+        : 0,
+    }));
+  const verdict = chooseCuratedMatch(lead, candidates(lead), plain);
   if (verdict.kind === 'none') return null;
+  // A trail, village or island by its kind alone is a street or district only by its English name.
+  const byEnglish = { ...lead, localName: null };
+  if (
+    (street || district) &&
+    !scope.named &&
+    !namesAnArea(lead) &&
+    !carriesEnglishName(lead.name, names) &&
+    chooseCuratedMatch(byEnglish, candidates(byEnglish), plain).kind === 'none'
+  ) {
+    return null;
+  }
   const english = clean(details['name:en']);
   const extra = result.extratags ?? {};
   return {

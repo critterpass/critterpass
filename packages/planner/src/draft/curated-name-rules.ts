@@ -106,7 +106,7 @@ interface FullName {
 }
 
 /** British and American spellings of one word, read as one ("Maxwell Food Center"). */
-const SPELLING: Readonly<Record<string, string>> = {
+export const SPELLING: Readonly<Record<string, string>> = {
   centre: 'center',
   theatre: 'theater',
   harbour: 'harbor',

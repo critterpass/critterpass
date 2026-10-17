@@ -96,6 +96,57 @@ export function namesAnArea(lead: KindLead): boolean {
   return [...last, ...heads].some((word) => AREA.test(word));
 }
 
+/** Kind or name words for a place a map draws as a road or a path ("coastal path", "Road to Hana"). */
+const WAY =
+  /^(?:trail|path|footpath|boardwalk|bridge|ponte|pont|puente|pas|drive|highway|road|step|stair|staircase|escalator|alley|alleyway|courtyard|prospect|prospekt|arcade)$/u;
+/** Kind or name words for a place a map draws as a district or a market area ("old town"). */
+const SETTLEMENT =
+  /^(?:village|town|township|island|isle|medina|settlement|port|hutong|kampung|barrio|commune|ward|subdistrict|area|market|bazaar|souk)$/u;
+/** A name's last word that says the place is a thing of its own, whatever its kind says ("Kamo River"). */
+const FEATURE =
+  /^(?:river|lake|canal|creek|stream|waterfall|beach|bay|cove|lagoon|temple|shrine|pagoda|church|cathedral|basilica|mosque|monastery|museum|palace|castle|tower|zoo|aquarium|bar|pub|cafe|restaurant|izakaya|hotel)$/u;
+/** Name words for a square, which maps draw as a pedestrian way or a district. */
+const SQUARE = /^(?:place|platz|plaza|piazza|plein|praca|placa|plac|maidan)$/u;
+
+/** Where a place may be one of OSM's roads, paths or districts (`streetScope`). */
+export interface StreetScope {
+  readonly way: boolean;
+  readonly district: boolean;
+  /** The place's own name says it is a street, square or area ("Yinyu Lane", "Old Medina"). */
+  readonly named: boolean;
+}
+
+/**
+ * Whether the place may be one of OSM's roads or paths (`way`) or one of its districts
+ * (`district`): a street, quay, square or district (`namesAnArea`), a place whose name holds a
+ * street or square word ("Queen Street Mall", "Wiener Platz"), or one whose name or kind says it
+ * is a road, path, bridge or pass (`WAY`) or a village, town, island, old town or market area
+ * (`SETTLEMENT`). A place whose name ends in a thing of its own (`FEATURE`: "Kamo River", a
+ * "riverside promenade") or whose kind is a business ("bar in a former geisha house", "local
+ * izakaya") is neither, unless its name holds a street or square word.
+ */
+export function streetScope(lead: KindLead): StreetScope {
+  const name = nameTokens(lead.name);
+  const words = [...name, ...nameTokens(lead.subtype ?? '')];
+  const street = name.some((word) => STREET.test(word) || SQUARE.test(word) || AREA.test(word));
+  const named = street || name.some((word) => WAY.test(word) || SETTLEMENT.test(word));
+  if (street) return { way: true, district: true, named };
+  const parts = lead.name
+    .split(/\s+(?:and|&|\/)\s+/iu)
+    .map((part) => nameTokens(part).at(-1) ?? '');
+  if (parts.every((word) => FEATURE.test(word))) return { way: false, district: false, named };
+  if (namesAnArea(lead)) return { way: true, district: true, named };
+  const heads = kindHeads(lead.subtype ?? '');
+  if (heads.some((word) => Object.values(KIND_WORDS).some((re) => re.test(word)))) {
+    return { way: false, district: false, named: false };
+  }
+  return {
+    way: words.some((word) => WAY.test(word)),
+    district: words.some((word) => SETTLEMENT.test(word)),
+    named,
+  };
+}
+
 function telling(name: string | null, plain: ReadonlySet<string>): Set<string> {
   if (name === null) return new Set();
   return new Set(tellingWords(namingWords(nameTokens(name)), plain));
