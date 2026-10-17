@@ -17,6 +17,7 @@
 import { solarDay } from '@cp/domain';
 
 import { localMinute } from '../feasibility/grid';
+import { EARLY_MORNING_ENDS_MIN } from './best-times';
 import { ceilGrid, floorGrid, spansOn } from './day-minutes';
 import { mealHoursIn, type MealHours } from './meal-hours';
 import { textPlaceTimes } from './place-time';
@@ -170,7 +171,9 @@ export function placeWindow(poi: DraftPoi, date: string): PlaceWindow | null {
 
 /**
  * The windows a stop at `poi` may start in on `date`: `placeWindow`'s one, or for a place named
- * for two times of day, one for each (a beach early or late, never at noon).
+ * for two times of day, one for each (a beach early or late, never at noon). A place good early
+ * in the morning or late, and not in the rest of the morning (the old bridge before the crowds or
+ * under its lanterns), is held to the early morning: a day that starts later sees it late.
  */
 export function placeWindows(poi: DraftPoi, date: string): readonly PlaceWindow[] {
   const times = placeTimes(poi);
@@ -178,12 +181,18 @@ export function placeWindows(poi: DraftPoi, date: string): readonly PlaceWindow[
     const one = placeWindow(poi, date);
     return one === null ? [] : [one];
   }
+  const early = poi.bestTimes?.includes('early_morning') && !poi.bestTimes.includes('morning');
   return times.flatMap((time) => {
     const window =
       time === 'morning'
-        ? poi.category === 'beach'
-          ? { fromMin: 0, toMin: BEACH_MORNING_BY_MIN }
-          : { fromMin: 0, toMin: MORNING_ENDS_MIN }
+        ? {
+            fromMin: 0,
+            toMin: early
+              ? EARLY_MORNING_ENDS_MIN
+              : poi.category === 'beach'
+                ? BEACH_MORNING_BY_MIN
+                : MORNING_ENDS_MIN,
+          }
         : timeOfDayWindow(time, poi, date);
     const held = withinHours(poi, date, window);
     return held === null ? [] : [held];

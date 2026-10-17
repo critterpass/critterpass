@@ -7,8 +7,11 @@ import type { PlaceBestTime } from '@cp/domain';
 
 import type { DraftPoi } from './types';
 
+/** An early morning is over at half past eight. */
+export const EARLY_MORNING_ENDS_MIN = 510;
+
 const SPANS: Readonly<Record<PlaceBestTime, readonly [number, number]>> = {
-  early_morning: [300, 510],
+  early_morning: [300, EARLY_MORNING_ENDS_MIN],
   morning: [420, 690],
   midday: [660, 870],
   afternoon: [810, 1050],
