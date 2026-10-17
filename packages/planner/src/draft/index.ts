@@ -121,6 +121,7 @@ export {
   type PlaceWindow,
   placeTimes,
   placeWindows,
+  windowsAfter,
   windowFor,
 } from './time-of-day';
 export { estimatedMinutes, routedPairKey, straightLineMatrix, type RoutedPairs } from './travel';
@@ -174,6 +175,7 @@ export {
   derivedDurationMin,
   FULL_DAY_VISIT_MIN,
   HALF_DAY_VISIT_MIN,
+  pairedPlaces,
   partOfVisit,
   visitSpan,
   type VisitSpan,

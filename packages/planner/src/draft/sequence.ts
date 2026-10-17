@@ -17,7 +17,7 @@ import { ceilGrid, spansOn } from './day-minutes';
 import { opensDay, startFloor } from './day-start';
 import { dinnerIsRideHome, longHops, mealDetours } from './hops';
 import { mealAt, mealDuration, mealSlotAt, mealsOf, servingOn, type MealHours } from './meal-slots';
-import { MORNING_ENDS_MIN, placeTime, placeWindows, windowFor } from './time-of-day';
+import { MORNING_ENDS_MIN, placeTime, windowFor, windowsAfter } from './time-of-day';
 import { stopEndLimit } from './day-window';
 import { defaultDurationMin, fixedMinutes } from './schedule-day';
 import { heldWindow, timedDuration } from './wish-time';
@@ -137,7 +137,10 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
     if (opener && (sights > 0 || mealsBefore > 0)) notFirst += 1;
     if (held === null && choice.kind !== 'meal') sights += 1;
     if (choice.kind === 'meal' && !breakfast) mealsBefore += 1;
-    const windows = held !== null || choice.kind === 'meal' ? [] : placeWindows(poi, input.date);
+    const windows =
+      held !== null || choice.kind === 'meal'
+        ? []
+        : windowsAfter(poi, input.pois.get(previous ?? ''), input.date);
     const own = windows.length === 0 ? null : windowFor(windows, start);
     if (own !== null) start = Math.max(start, own.fromMin);
     const duration = ceilGrid(timedDuration(poi, choice.when) || defaultDurationMin(poi.category));
@@ -250,8 +253,7 @@ export function bestOrder(input: SequenceInput): PlannedOrder {
   if ([broken, notFirst, detours, returns, late, idle].every((count) => count === 0)) {
     return { order: identity, broken: 0 };
   }
-  // Too many stops to try every order: the guide's, or its order with the day's openers first,
-  // whichever is better, then improved a stop at a time.
+  // Too many stops for every order: the guide's or its openers-first one, then a stop at a time.
   const orders =
     input.choices.length > MAX_SEARCHED_STOPS
       ? [identity, openersFirst(input, identity)]
