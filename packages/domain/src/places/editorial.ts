@@ -8,6 +8,7 @@ import { z } from 'zod';
 
 import { appLocaleSchema } from '../locale/app-locale';
 import { TASTE_TAGS } from '../taste/taxonomy';
+import { POI_CATEGORIES } from './categories';
 import { ESTIMATE_BASES, PLACE_BEST_TIMES } from './estimates';
 
 export const editorialPhotoSchema = z
@@ -93,6 +94,11 @@ export const curatedNoteSchema = z
   .object({
     /** 1-based order of the place among its destination's curated places. */
     rank: z.number().int().positive(),
+    /**
+     * The kind of place the researcher found it to be; the planner reads it over the row's own
+     * category, which stays as open data files it ("Khao San Road" filed as a restaurant).
+     */
+    category: z.enum(POI_CATEGORIES).optional(),
     fee: curatedFactSchema.optional(),
     hours: curatedFactSchema.optional(),
     crowd_basis: z.enum(ESTIMATE_BASES).optional(),

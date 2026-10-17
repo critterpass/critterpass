@@ -186,6 +186,7 @@ export async function loadCuratedPlaces(
       category: line.category,
       lat: line.lat,
       lng: line.lng,
+      subtype: line.subtype ?? null,
     };
     const candidates = await withSystem(pool, async (tx) => {
       await allowIndexMaintenance(tx);
