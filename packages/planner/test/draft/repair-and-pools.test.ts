@@ -124,4 +124,28 @@ describe('candidatePools', () => {
     expect(pools.meals.map((p) => p.id)).not.toContain(P.yakitori.id);
     expect(pools.activities[0]?.id).toBe(P.museum.id);
   });
+
+  it('offers no supermarket or convenience store nobody curated', () => {
+    const shop = (n: number, name: string, category: string, editorial = false) => ({
+      ...P.museum,
+      id: uuid(n),
+      name,
+      category,
+      hours: null,
+      editorial,
+      durationMin: 20,
+    });
+    const mart = shop(801, "L's Place Food Mart", 'shopping');
+    const eleven = shop(802, '7-Eleven', 'food');
+    const curated = shop(803, 'Mrs Woolly General Store & Mart', 'food', true);
+    const pools = candidatePools({
+      pois: [...POIS.values(), mart, eleven, curated],
+      frame: FRAME,
+      tastes: {},
+    });
+    const offered = [...pools.activities, ...pools.sights, ...pools.eateries].map((p) => p.id);
+    expect(offered).not.toContain(mart.id);
+    expect(offered).not.toContain(eleven.id);
+    expect(offered).toContain(curated.id);
+  });
 });

@@ -90,6 +90,38 @@ function hasRun(tokens: readonly string[], run: readonly string[]): boolean {
   return false;
 }
 
+/** Name runs (accents folded, as `nameTokens` writes them) that say a grocery or corner shop. */
+const SHOP_WORDS: readonly (readonly string[])[] = [
+  ['mart'],
+  ['minimart'],
+  ['supermarket'],
+  ['hypermarket'],
+  ['convenience'],
+  ['grocery'],
+  ['grocerie'],
+  ['7', 'eleven'],
+  ['circle', 'k'],
+  ['familymart'],
+  ['family', 'mart'],
+  ['lawson'],
+  ['ministop'],
+  ['winmart'],
+  ['bach', 'hoa'],
+  ['tap', 'hoa'],
+  ['sieu', 'thi'],
+  ['tien', 'loi'],
+];
+
+/**
+ * A supermarket or a convenience store ("L's Place Food Mart", a 7-Eleven) that our editors did
+ * not curate: somewhere to buy water, never a stop, a break or a meal of the trip.
+ */
+export function everydayShop(poi: DraftPoi): boolean {
+  if (poi.editorial) return false;
+  const tokens = nameTokens(poi.name);
+  return SHOP_WORDS.some((run) => hasRun(tokens, run));
+}
+
 const ROLES = new WeakMap<DraftPoi, FoodRole | null>();
 
 /** Whether `poi` can be a day's lunch or dinner (`meal`), is a break (`light`), or is not food. */
