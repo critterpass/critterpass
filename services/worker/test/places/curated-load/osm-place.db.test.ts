@@ -122,14 +122,14 @@ describe('adding a curated place from OpenStreetMap', () => {
       `UPDATE pois SET name = 'Beach Road Car Park', name_local = NULL
         WHERE source_ids->>'osm' = 'w151234567'`,
     );
-    const reused = await lookUpCuratedPlace(pool, { rank: 3, place: place() }, search);
-    expect(reused).toMatchObject({ outcome: 'reused', poi_id: (await stored())[0]!.id });
     const elsewhere = await lookUpCuratedPlace(
       pool,
       { rank: 1, place: place({ destination: 'th-kathu' }) },
       search,
     );
     expect(elsewhere).toMatchObject({ outcome: 'owned_elsewhere', poi_id: null });
+    const reused = await lookUpCuratedPlace(pool, { rank: 3, place: place() }, search);
+    expect(reused).toMatchObject({ outcome: 'reused', poi_id: (await stored())[0]!.id });
     const rows = await stored();
     expect(rows).toHaveLength(1);
     expect(rows[0]).toMatchObject({ address: 'Thawewong Road, Patong, Kathu District' });
