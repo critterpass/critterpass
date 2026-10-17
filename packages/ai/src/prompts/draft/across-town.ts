@@ -23,21 +23,29 @@ export function isAcrossTown(input: DraftPlanInput, day: DraftDay, poiId: string
   return here.length > 0 && areaStep(input, poiId, here) >= 2;
 }
 
-/** Whether `day` holds the stop at `poiId` across town from the rest of it after its dinner. */
-export function acrossTownAfterDinner(
-  input: DraftPlanInput,
-  day: DraftDay,
-  poiId: string,
-): boolean {
+/**
+ * Whether the stop at `poiId` on `day` comes after the day's dinner (on a day without one, starts
+ * from dinner time on).
+ */
+export function afterDinner(input: DraftPlanInput, day: DraftDay, poiId: string): boolean {
   const at = day.items.findIndex((item) => item.poi_id === poiId && item.kind !== 'meal');
   const stop = day.items[at];
-  if (stop === undefined || !isAcrossTown(input, day, poiId)) return false;
+  if (stop === undefined) return false;
   const minute = (iso: string) => minuteOfDate(new Date(iso), day.date, input.frame.tz);
   const dinnerFrom = mealsOf(dayWindow(input.frame, day.day_no - 1)).dinner.startMin;
   const dined = day.items.findIndex(
     (item) => item.kind === 'meal' && minute(item.starts_at) >= dinnerFrom - DINNER_EARLY_MIN,
   );
   return dined === -1 ? minute(stop.starts_at) >= dinnerFrom : at > dined;
+}
+
+/** Whether `day` holds the stop at `poiId` across town from the rest of it after its dinner. */
+export function acrossTownAfterDinner(
+  input: DraftPlanInput,
+  day: DraftDay,
+  poiId: string,
+): boolean {
+  return isAcrossTown(input, day, poiId) && afterDinner(input, day, poiId);
 }
 
 /** Whether `made` holds a stop `was` did not that is across town after dinner. */
