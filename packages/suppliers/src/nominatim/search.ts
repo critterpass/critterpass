@@ -1,6 +1,6 @@
 /**
  * Nominatim's public search (`format=jsonv2`, with address parts, every name and extra tags),
- * bounded to a box. The public instance's usage policy is strict and part of the contract here:
+ * bounded to a box, and its lookup of one OpenStreetMap element by id (the same reply shape). The public instance's usage policy is strict and part of the contract here:
  * at most one request a second across the whole app, a User-Agent naming the app with a contact
  * address, answers kept so the same question is not asked twice, and backing off when refused. A
  * caller supplies the pacing (`createNominatimSearch` paces one process; the api's fallback shares a
@@ -11,6 +11,7 @@ import type { NominatimBox, NominatimQuery, NominatimResult } from '@cp/domain';
 export type { NominatimBox, NominatimQuery, NominatimResult };
 
 export const NOMINATIM_SEARCH_URL = 'https://nominatim.openstreetmap.org/search';
+export const NOMINATIM_LOOKUP_URL = 'https://nominatim.openstreetmap.org/lookup';
 export const NOMINATIM_USER_AGENT =
   'critterpass-places/1.0 (https://critterpass.app; hello@critterpass.app)';
 export const MIN_REQUEST_INTERVAL_MS = 1_100;
@@ -25,6 +26,12 @@ const RESULTS = 5;
 const CACHE_LIMIT = 5_000;
 
 export type NominatimSearch = (query: NominatimQuery) => Promise<readonly NominatimResult[]>;
+/** One element by its id (`node/<id>`, `way/<id>` or `relation/<id>`), or null when it is gone. */
+export type NominatimLookup = (osm: string) => Promise<NominatimResult | null>;
+/** A paced search that also looks elements up by id, both through the same turns and cache. */
+export type NominatimClient = NominatimSearch & { readonly lookup: NominatimLookup };
+
+const OSM_ELEMENT = /^(node|way|relation)\/([1-9]\d*)$/u;
 
 /** The box `degrees` either side of a point. */
 export function boxAround(lat: number, lng: number, degrees: number): NominatimBox {
@@ -53,6 +60,22 @@ export function nominatimUrl(query: NominatimQuery): string {
   return `${NOMINATIM_SEARCH_URL}?${params.toString()}`;
 }
 
+/** The lookup URL of one element (`node/<id>`, `way/<id>`, `relation/<id>`); throws on any other. */
+export function nominatimLookupUrl(osm: string): string {
+  const element = OSM_ELEMENT.exec(osm);
+  if (element === null) throw new Error(`not an OpenStreetMap element: ${osm}`);
+  const [, type = '', id = ''] = element;
+  const params = new URLSearchParams({
+    osm_ids: `${type.charAt(0).toUpperCase()}${id}`,
+    format: 'jsonv2',
+    addressdetails: '1',
+    namedetails: '1',
+    extratags: '1',
+    'accept-language': 'en',
+  });
+  return `${NOMINATIM_LOOKUP_URL}?${params.toString()}`;
+}
+
 /** A 429 or 5xx answer: the instance asks us to slow down, `retryAfterMs` when it said how long. */
 export class NominatimRefusedError extends Error {
   constructor(
@@ -75,10 +98,11 @@ function retryAfterMs(header: string | null): number | null {
  * 5xx answer and a plain error on any other failed request.
  */
 export async function fetchNominatim(
-  query: NominatimQuery,
+  query: NominatimQuery | string,
   fetcher: typeof fetch = fetch,
 ): Promise<readonly NominatimResult[]> {
-  const response = await fetcher(nominatimUrl(query), {
+  const url = typeof query === 'string' ? query : nominatimUrl(query);
+  const response = await fetcher(url, {
     headers: { 'User-Agent': NOMINATIM_USER_AGENT, Accept: 'application/json' },
     signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
   });
@@ -100,12 +124,12 @@ export interface PacedSearchOptions {
 }
 
 /**
- * A search for one process: one request at a time, `MIN_REQUEST_INTERVAL_MS` apart, cached. A
+ * A search for one process (with `lookup` by element id): one request at a time, `MIN_REQUEST_INTERVAL_MS` apart, cached. A
  * refused or failing answer pauses every later request too, for `REFUSED_BACKOFF_MS` doubled per
  * refusal in a row (at most `MAX_BACKOFF_MS`, at least the answer's `Retry-After`), and asks the
  * same question again up to `REFUSED_ATTEMPTS` times before throwing; an answer resets the pause.
  */
-export function createNominatimSearch(options: PacedSearchOptions = {}): NominatimSearch {
+export function createNominatimSearch(options: PacedSearchOptions = {}): NominatimClient {
   const sleep =
     options.sleep ?? ((ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms)));
   const now = options.now ?? Date.now;
@@ -113,12 +137,12 @@ export function createNominatimSearch(options: PacedSearchOptions = {}): Nominat
   let next = -Infinity;
   let refusals = 0;
   let queue: Promise<unknown> = Promise.resolve();
-  const turn = async (query: NominatimQuery): Promise<readonly NominatimResult[]> => {
+  const turn = async (url: string): Promise<readonly NominatimResult[]> => {
     const wait = next - now();
     if (wait > 0) await sleep(wait);
     next = now() + MIN_REQUEST_INTERVAL_MS;
     try {
-      const results = await fetchNominatim(query, options.fetcher);
+      const results = await fetchNominatim(url, options.fetcher);
       refusals = 0;
       return results;
     } catch (error) {
@@ -129,13 +153,12 @@ export function createNominatimSearch(options: PacedSearchOptions = {}): Nominat
       throw error;
     }
   };
-  const ask = async (query: NominatimQuery): Promise<readonly NominatimResult[]> => {
-    const key = nominatimUrl(query);
+  const ask = async (key: string): Promise<readonly NominatimResult[]> => {
     const cached = cache.get(key);
     if (cached !== undefined) return cached;
     for (let attempt = 1; ; attempt += 1) {
       try {
-        const results = await turn(query);
+        const results = await turn(key);
         if (cache.size >= CACHE_LIMIT) cache.delete(cache.keys().next().value as string);
         cache.set(key, results);
         return results;
@@ -144,9 +167,12 @@ export function createNominatimSearch(options: PacedSearchOptions = {}): Nominat
       }
     }
   };
-  return (query) => {
-    const run = queue.then(() => ask(query));
+  const paced = (url: string): Promise<readonly NominatimResult[]> => {
+    const run = queue.then(() => ask(url));
     queue = run.catch(() => undefined);
     return run;
   };
+  const search = (query: NominatimQuery) => paced(nominatimUrl(query));
+  const lookup: NominatimLookup = async (osm) => (await paced(nominatimLookupUrl(osm)))[0] ?? null;
+  return Object.assign(search, { lookup });
 }

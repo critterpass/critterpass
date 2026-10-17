@@ -8,7 +8,8 @@
  * A second version of the file adds what the planner lays out days with: the place's area, its
  * times of day, busy windows, taste tags, how known it is, its rank among a first visit's
  * essentials, whether it works in the rain, how many itinerary pages include it, what a place to
- * eat serves, and the places it pairs with. Each is optional, so a first-version line still loads.
+ * eat serves, and the places it pairs with. Each is optional, so a first-version line still loads,
+ * and so is the place's OpenStreetMap element when the researcher confirmed it.
  */
 import {
   busyWindowSchema,
@@ -69,6 +70,11 @@ export const curatedPlaceRowSchema = z
     meal_role: z.enum(['meal', 'light']).optional(),
     dish: line(80).optional(),
     pairs_with: z.array(line(200)).max(3).optional(),
+    /** The place's OpenStreetMap element, confirmed by the researcher (`./pinned.ts`). */
+    osm: z
+      .string()
+      .regex(/^(node|way|relation)\/[1-9]\d*$/u)
+      .optional(),
   })
   .refine((row) => row.tips_en.length === row.tips_vi.length, {
     message: 'tips_en and tips_vi hold the same tips',

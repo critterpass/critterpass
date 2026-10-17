@@ -12,17 +12,22 @@
  * one another curated place of the file holds (`held`: its note stays). A reused row whose name does not
  * carry the place's name ("Diwali on Trafalgar Square" for OSM's Trafalgar Square) takes OSM's
  * name, local name and category: OSM stays the source of what the row is called and is.
+ *
+ * A line that names its OpenStreetMap element (`./pinned.ts`) takes our row of that element
+ * first, else the row the name rules match, else the element fetched by its id; only when the
+ * element is gone or too far does it fall back to the search by name.
  */
 import { attachOsmPlace, withSystem } from '@cp/db';
-import type { NominatimSearch } from '@cp/suppliers';
+import type { NominatimClient } from '@cp/suppliers';
 import type { OsmPlace } from '@cp/planner';
 import type pg from 'pg';
 
 import { allowIndexMaintenance } from '../batch-sql';
 import { plainWords } from '../pick/match';
 import { writeCuratedNote } from './load';
-import { chooseCuratedMatch, findCuratedRow, type CuratedLead } from './match';
+import { chooseCuratedMatch, findCuratedRow, findPinnedRow, type CuratedLead } from './match';
 import { findCuratedOsmPlace } from './osm-lookup';
+import { lookUpPinned, osmSourceId, PINNED_RADIUS_M } from './pinned';
 import { curatedNoteLines, type CuratedPlaceRow } from './rows';
 
 export type CuratedOsmOutcome =
@@ -44,6 +49,8 @@ export type CuratedOsmOutcome =
       readonly lng: number;
       readonly distance_m: number;
       readonly queries: number;
+      /** The element came from the line's own OpenStreetMap id (`./pinned.ts`). */
+      readonly pinned?: true;
     };
 
 /**
@@ -53,7 +60,7 @@ export type CuratedOsmOutcome =
 export async function lookUpCuratedPlace(
   pool: pg.Pool,
   input: { readonly rank: number; readonly place: CuratedPlaceRow; readonly dryRun?: boolean },
-  search: NominatimSearch,
+  search: NominatimClient,
 ): Promise<CuratedOsmOutcome> {
   const { place, rank } = input;
   const destination = await withSystem(pool, async (tx) => {
@@ -82,7 +89,13 @@ export async function lookUpCuratedPlace(
           AND (editorial->'curated'->>'rank')::int <> $2`,
       [destination.id, rank],
     );
-    return findCuratedRow(tx, destination.id, lead, plain, new Set(rows.map((row) => row.id)));
+    const taken = new Set(rows.map((row) => row.id));
+    const sourceId = place.osm === undefined ? null : osmSourceId(place.osm);
+    const exact =
+      sourceId === null
+        ? null
+        : await findPinnedRow(tx, destination.id, lead, sourceId, PINNED_RADIUS_M, taken);
+    return exact ?? findCuratedRow(tx, destination.id, lead, plain, taken);
   });
   if (verdict.kind === 'match') {
     // A row its owner keeps resolves the place; the note stays the owner's (`./match.ts`).
@@ -92,12 +105,17 @@ export async function lookUpCuratedPlace(
     }
     return { outcome: 'matched', poi_id: verdict.row.id, row: verdict.row.name };
   }
-  const lookup = await findCuratedOsmPlace(place, plain, search, destination.name);
+  const pinned = await lookUpPinned(place, lead, search.lookup);
+  const asked = place.osm === undefined ? 0 : 1;
+  const lookup =
+    pinned === null
+      ? await findCuratedOsmPlace(place, plain, search, destination.name)
+      : { place: pinned, queries: 0, nearestRejected: null };
   const found = lookup.place;
   if (found === null) {
     return {
       outcome: 'unmatched',
-      queries: lookup.queries,
+      queries: lookup.queries + asked,
       nearest_rejected: lookup.nearestRejected,
     };
   }
@@ -133,7 +151,8 @@ export async function lookUpCuratedPlace(
     lat: found.lat,
     lng: found.lng,
     distance_m: Math.round(found.distanceM),
-    queries: lookup.queries,
+    queries: lookup.queries + asked,
+    ...(pinned === null ? {} : { pinned: true as const }),
   };
 }
 
