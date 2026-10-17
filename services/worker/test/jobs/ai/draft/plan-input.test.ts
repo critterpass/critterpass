@@ -4,6 +4,7 @@
  * time of day read only from must-dos a member typed, never from the name of a place picked from
  * search, and a must-do planned at the recommended row of its spot.
  */
+import type { FirstVisit } from '@cp/ai';
 import { ARRIVAL_BUFFER_MIN, dayWindow, type DraftPoi } from '@cp/planner';
 import { describe, expect, it } from 'vitest';
 
@@ -170,5 +171,34 @@ describe('arriving at a later stop', () => {
   it('assumes a midday arrival with no link, and keeps the city it leaves for a full last day', () => {
     expect(dayWindow(frameOf(trip, later), 0).startMin).toBe(14 * 60);
     expect(dayWindow(frameOf(trip, first), 1).endMin).toBe(22 * 60);
+  });
+});
+
+describe('the breaks the draft may plan', () => {
+  // More coffee shops than the trip has days: the list of breaks keeps only the best-scored few.
+  const names = ['Anh', 'Biển', 'Cầu', 'Dừa', 'Gió', 'Hồ'];
+  const cafes = names.map((word, n) => ({
+    ...place(500 + n * 20, `${word} Coffee`, 'food'),
+    editorial: n < 5,
+    mustSee: n < 2,
+  }));
+  const pageCafe = cafes[5] as DraftPoi;
+  const places = [...PLACES, ...cafes];
+  const listed = (firstVisit?: FirstVisit) =>
+    buildPlanInput(TRIP, places, { ...OPTIONS, firstVisit }).pools.activities.map((p) => p.id);
+
+  it('holds the coffee stop on a day itinerary pages lay out, however it scores', () => {
+    expect(listed()).not.toContain(pageCafe.id);
+    const visit: FirstVisit = {
+      days: [
+        {
+          theme: 'Old town',
+          areas: [],
+          stops: [{ name: pageCafe.name, poiId: pageCafe.id }],
+          pages: 3,
+        },
+      ],
+    };
+    expect(listed(visit)).toContain(pageCafe.id);
   });
 });

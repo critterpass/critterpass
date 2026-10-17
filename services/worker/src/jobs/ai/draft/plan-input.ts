@@ -17,6 +17,7 @@ import type { ClosureRecord } from '@cp/domain';
 import {
   candidatePools,
   datesOf,
+  foodRole,
   knownPlaceFor,
   minuteOfDate,
   MOVES_ON_AT_MIN,
@@ -153,6 +154,19 @@ export function wishOffer(
   };
 }
 
+/**
+ * The coffee and snack stops on the days itinerary pages lay out (the bagel shop on the market
+ * day): always on the list of breaks, which otherwise only holds the best-scored few.
+ */
+function pagesBreaks(visit: FirstVisit | undefined, pois: ReadonlyMap<string, DraftPoi>): string[] {
+  return (visit?.days ?? []).flatMap((day) =>
+    day.stops.flatMap((stop) => {
+      const poi = stop.poiId === null ? undefined : pois.get(stop.poiId);
+      return poi !== undefined && foodRole(poi) === 'light' ? [poi.id] : [];
+    }),
+  );
+}
+
 export function buildPlanInput(
   trip: DraftTripData,
   places: readonly DraftPoi[],
@@ -208,7 +222,11 @@ export function buildPlanInput(
           : places.filter((poi) => !options.notOffered?.has(poi.id)),
       frame,
       tastes,
-      include: [...(options.wished?.offered ?? []), ...(options.prefer ?? [])],
+      include: [
+        ...(options.wished?.offered ?? []),
+        ...(options.prefer ?? []),
+        ...pagesBreaks(options.firstVisit, pois),
+      ],
       ignoreNames: ignore,
       ...(options.routed === undefined ? {} : { routed: options.routed }),
     }),
