@@ -2,11 +2,12 @@
  * How far itinerary pages agree on a place. A first visit is built around some places (the
  * destination's essentials, and the stops of the days most pages lay out the same way), three or
  * more pages hold others (or they are an icon of the town), and the rest are what one page or a
- * local likes. Meals, evenings and the stops that give way to them are ranked by it before their
- * area and the crew's tastes: a newer local favourite takes a seat only where no place the pages
- * agree on fits the day's area and time.
+ * local likes. Meals and the stops that give way to them are ranked by it before their area: a
+ * newer local favourite takes a seat only where no place the pages agree on fits the day's area and
+ * time. Among places pages agree on alike (or both not), the one that suits the crew's tastes wins
+ * before area or list order; an evening, the crew's own time, puts the crew's tastes first.
  */
-import type { DraftPoi } from '@cp/planner';
+import { tasteScore, type DraftPoi } from '@cp/planner';
 
 import type { DraftPlanInput } from './context';
 
@@ -48,4 +49,15 @@ export function agreementOfStop(
 ): Agreement {
   const poi = input.pois.get(item.poi_id ?? '');
   return poi === undefined ? 2 : agreementOf(input, poi);
+}
+
+/**
+ * Where a place stands among equally near ones: those pages agree on first, and among places
+ * pages agree on alike, those that suit the crew's tastes first (0 best, 3 last).
+ */
+export function agreedThenSuits(
+  input: Pick<DraftPlanInput, 'firstVisit' | 'tastes'>,
+): (poi: DraftPoi) => number {
+  return (poi) =>
+    2 * Math.min(agreementOf(input, poi), 1) + (tasteScore(poi, input.tastes) > 0 ? 0 : 1);
 }

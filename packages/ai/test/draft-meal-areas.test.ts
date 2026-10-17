@@ -173,6 +173,41 @@ describe('meals in the day areas', () => {
     expect(kept.items.map((item) => item.poi_id)).toEqual(day.items.map((item) => item.poi_id));
   });
 
+  it("swaps a meal pages agree on for one they agree on as much that suits the crew's tastes", () => {
+    const plain = inputOf('danang-real-1');
+    const { base, day, meal, lunch } = areaLunch(plain);
+    const tagged: DraftPoi = { ...lunch, tags: [...lunch.tags, 'markets'] };
+    const pois = new Map(plain.pois);
+    pois.set(tagged.id, tagged);
+    const agreedOn = onPagesDay(plain, meal.poi_id);
+    const input: DraftPlanInput = {
+      ...agreedOn,
+      firstVisit: {
+        days: [
+          {
+            theme: 'Old town',
+            areas: [],
+            stops: [
+              { name: 'a lunch', poiId: meal.poi_id },
+              { name: 'a market lunch', poiId: tagged.id },
+            ],
+            pages: 4,
+          },
+        ],
+      },
+      tastes: { markets: 2 },
+      pois,
+      pools: {
+        ...plain.pools,
+        eateries: plain.pools.eateries.map((poi) => (poi.id === tagged.id ? tagged : poi)),
+      },
+    };
+    const swapped = dayOf(withMealsInDayAreas(input, outlineOf(day), base), 3);
+    expect(swapped.items.some((item) => item.poi_id === tagged.id)).toBe(true);
+    expect(swapped.items.some((item) => item.poi_id === meal.poi_id)).toBe(false);
+    expect(swapped.items).toHaveLength(day.items.length);
+  });
+
   it("keeps a meal that suits the crew's tastes over one pages agree on that does not", () => {
     const plain = inputOf('danang-real-1');
     const { base, day, meal, lunch } = areaLunch(plain);

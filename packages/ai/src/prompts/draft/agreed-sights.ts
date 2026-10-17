@@ -39,7 +39,10 @@ const DAYS_TRIED = 3;
 export const placesOf = (day: DraftDay) =>
   day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
 
-/** The agreed sights no day holds, those pages agree on most first, then the most written up. */
+/**
+ * The agreed sights no day holds: those pages agree on most first, then those that suit the crew,
+ * then the most written up.
+ */
 function agreedLeftOut(input: DraftPlanInput, plan: Itinerary): DraftPoi[] {
   const used = new Set(plan.days.flatMap(placesOf));
   return [...new Set([...input.pools.activities, ...input.pools.sights])]
@@ -54,7 +57,9 @@ function agreedLeftOut(input: DraftPlanInput, plan: Itinerary): DraftPoi[] {
     )
     .sort(
       (a, b) =>
-        agreementOf(input, a) - agreementOf(input, b) || (b.blogCount ?? 0) - (a.blogCount ?? 0),
+        agreementOf(input, a) - agreementOf(input, b) ||
+        Number(tasteScore(b, input.tastes) > 0) - Number(tasteScore(a, input.tastes) > 0) ||
+        (b.blogCount ?? 0) - (a.blogCount ?? 0),
     );
 }
 

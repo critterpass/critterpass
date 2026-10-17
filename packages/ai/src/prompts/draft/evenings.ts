@@ -110,7 +110,7 @@ export function fillEvenings(
     );
     const taste = (poi: DraftPoi) => (tasteScore(poi, input.tastes) > 0 ? 0 : 1);
     // In the day's areas (or the one beside them) before one across town; within those, what
-    // pages agree on first and what suits the crew first among it.
+    // suits the crew first (an evening is the crew's own time), then what pages agree on.
     const here = day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
     const away = (poi: DraftPoi) => (areaStep(input, poi.id, here) < 2 ? 0 : 1);
     const night = wantsEvenings(input);
@@ -120,8 +120,8 @@ export function fillEvenings(
       .sort(
         (a, b) =>
           a.away - b.away ||
-          Math.min(a.agreement, 1) - Math.min(b.agreement, 1) ||
           taste(a.poi) - taste(b.poi) ||
+          Math.min(a.agreement, 1) - Math.min(b.agreement, 1) ||
           a.agreement - b.agreement ||
           a.rank - b.rank,
       )

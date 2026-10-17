@@ -1,6 +1,7 @@
 /**
  * Evenings end the day where it is: a stop for after dinner in the day's areas (or the one beside
- * them) comes before one across town, even one itinerary pages agree on.
+ * them) comes before one across town, even one itinerary pages agree on. Within those, the evening
+ * is the crew's own time: what suits its tastes comes before what pages agree on.
  */
 import type { Itinerary } from '@cp/domain';
 import { straightLineMatrix, type DraftPoi } from '@cp/planner';
@@ -105,6 +106,41 @@ describe('evening areas', { timeout: 60_000 }, () => {
       if (evening === undefined || evening.length === 0) continue;
       checked += 1;
       expect(evening).toEqual(['near']);
+    }
+    expect(checked).toBeGreaterThan(0);
+  });
+
+  it("spends the evening at what suits the crew's tastes before a nearer one pages agree on", () => {
+    let checked = 0;
+    for (const crew of CREWS) {
+      const plain = planInput(crew);
+      const base = baselineItinerary(plain);
+      const day = base.days.find(
+        (d, index) => index > 0 && index < base.days.length - 1 && d.items.at(-1)?.kind === 'meal',
+      );
+      const last = plain.pois.get(day?.items.at(-1)?.poi_id ?? '');
+      if (day === undefined || last === undefined) continue;
+      // A lookout for after dark pages agree on, and a little farther a bar nobody wrote up.
+      const lookout: DraftPoi = {
+        ...barAt(last, 'lookout', 150, true),
+        category: 'other',
+        tags: [],
+      };
+      const input = withBars(plain, [lookout, barAt(last, 'bar', 200, false)]);
+      const here = day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
+      if (areaStep(input, 'lookout', here) === 2 || areaStep(input, 'bar', here) === 2) continue;
+      const after = fillEvenings(input, base.days.map(outlineOf), base).itinerary;
+      // The first evening that takes one of them takes the bar.
+      const evening = after.days
+        .map((d) =>
+          d.items.flatMap((item) =>
+            item.poi_id === 'lookout' || item.poi_id === 'bar' ? [item.poi_id] : [],
+          ),
+        )
+        .find((ids) => ids.length > 0);
+      if (evening === undefined) continue;
+      checked += 1;
+      expect(evening).toEqual(['bar']);
     }
     expect(checked).toBeGreaterThan(0);
   });

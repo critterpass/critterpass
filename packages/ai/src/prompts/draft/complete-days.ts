@@ -19,7 +19,7 @@ import {
   type DraftPoi,
 } from '@cp/planner';
 
-import { agreementOfStop } from './agreement';
+import { agreedThenSuits, agreementOfStop } from './agreement';
 import { areaStep, besideStops, hopCap, rideFrom } from './areas';
 import { placeNames, type DraftPlanInput } from './context';
 import { scheduleChoices } from './day';
@@ -39,6 +39,8 @@ export function nearFirst(
   places: readonly DraftPoi[],
   here: readonly string[],
   dinner = false,
+  /** Among places as near (same reach, area step and side of it), lower first. */
+  prefer: (poi: DraftPoi) => number = () => 0,
 ): DraftPoi[] {
   const cap = hopCap(input);
   const reaches = [cap, longRideMin(cap), ...(dinner ? [RIDE_HOME_MAX_MIN] : [])];
@@ -53,13 +55,19 @@ export function nearFirst(
         ring: ring(poi),
         step,
         far: step === 0 && !besideStops(input, poi.id, here) ? 1 : 0,
+        prefer: prefer(poi),
         ride: step === 0 ? 0 : rideFrom(input, poi.id, here),
       };
     })
     .filter((entry) => entry.ring !== -1)
     .sort(
       (a, b) =>
-        a.ring - b.ring || a.step - b.step || a.far - b.far || a.ride - b.ride || a.rank - b.rank,
+        a.ring - b.ring ||
+        a.step - b.step ||
+        a.far - b.far ||
+        a.prefer - b.prefer ||
+        a.ride - b.ride ||
+        a.rank - b.rank,
     )
     .map((entry) => entry.poi);
 }
@@ -209,13 +217,16 @@ export function fillMeals(
       const listed = outline.mealIds
         .map((id) => input.pois.get(id))
         .filter((poi): poi is DraftPoi => poi !== undefined);
-      const nearby = nearFirst(input, input.pools.eateries, here, slot === 'dinner');
+      // As near, those pages agree on first, and among them alike those that suit the crew.
+      const prefer = agreedThenSuits(input);
+      const nearby = nearFirst(input, input.pools.eateries, here, slot === 'dinner', prefer);
       // The nearest first, wherever they were listed: the day may have moved since the outline.
       const ringed = nearFirst(
         input,
         [...new Set([...listed, ...nearby])],
         here,
         slot === 'dinner',
+        prefer,
       );
       const candidates = [...new Set([...ringed, ...listed])].filter(
         (poi) => !used.has(poi.id) && mealSlots(poi, outline.date).includes(slot),
