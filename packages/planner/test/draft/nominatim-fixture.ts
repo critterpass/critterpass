@@ -123,6 +123,44 @@ const hooverDam = [
   },
 ];
 
+/**
+ * "Clarke Quay" in Singapore: the bus stop, the MRT station, the neighbourhood and the riverside
+ * walk all carry the quay's name. Element ids, tags and points are OpenStreetMap's (read through
+ * Overpass); the bus stop is the nearest to the researcher's point.
+ */
+const element = (
+  osm_type: string,
+  osm_id: number,
+  [lat, lon]: [string, string],
+  [category, type]: [string, string],
+  extratags: Record<string, string> = {},
+) => ({
+  osm_type,
+  osm_id,
+  lat,
+  lon,
+  category,
+  type,
+  name: 'Clarke Quay',
+  address: { road: 'River Valley Road', suburb: 'Clarke Quay', city: 'Singapore' },
+  extratags,
+  namedetails: { name: 'Clarke Quay', 'name:zh': '克拉码头' },
+});
+
+const clarkeQuay = [
+  element('node', 410473631, ['1.2904609', '103.8471469'], ['highway', 'bus_stop'], {
+    public_transport: 'platform',
+  }),
+  element('way', 743599220, ['1.2882602', '103.8465975'], ['railway', 'station'], {
+    public_transport: 'station',
+  }),
+  element('node', 2601316092, ['1.2895991', '103.8445791'], ['place', 'neighbourhood'], {
+    admin_level: '7',
+  }),
+  element('way', 149965088, ['1.2912094', '103.8440168'], ['highway', 'pedestrian']),
+];
+
 // Whole replies, with the fields the lookup does not read (place_id, licence, display_name...).
 export const PATONG_BEACH_REPLY: readonly NominatimResult[] = patongBeach;
 export const HOOVER_DAM_REPLY: readonly NominatimResult[] = hooverDam;
+export const CLARKE_QUAY_REPLY: readonly NominatimResult[] = clarkeQuay;

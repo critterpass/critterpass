@@ -49,7 +49,6 @@ describe('curated places lines', () => {
     const note = curatedNoteLines(rows[0]!, 3);
     expect(note.lines.curated).toEqual({
       rank: 3,
-      category: 'temple_shrine',
       fee: { text: 'Adults 3,000 won', basis: 'cited', source_url: 'https://royal.khs.go.kr/a' },
       hours: { text: '9:00-18:00, closed Tue', basis: 'estimate' },
       crowd_basis: 'estimate',
@@ -58,6 +57,8 @@ describe('curated places lines', () => {
     });
     expect(note.lines.crowd_hint).toBe('Crowded at weekends from 11:00.');
     expect(note.lines.time_needed_min).toBe(120);
+    // The researched kind is kept out of the note, which installed app builds read strictly.
+    expect(note.category).toBe('temple_shrine');
     expect(note.vi).toEqual({
       why_go: 'Cung điện lớn nhất trong năm cung.',
       tips: ['Mặc hanbok để vào miễn phí.'],

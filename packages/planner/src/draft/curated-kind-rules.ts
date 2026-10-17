@@ -10,6 +10,10 @@
  *   another kind whose name is the place's name plus words of its own ("Trattoria Ponte Vecchio"
  *   is not Ponte Vecchio), unless the researched kind says it is that business ("palace hotel":
  *   "Hotel Emirates Palace" is Emirates Palace). A bar open data files as a restaurant is alike.
+ *   A row's words that only say what the place is or where it stands are not words of its own:
+ *   its address after a comma or note in brackets ("Đền Thái Vi, xã Ninh Hải"), a word of the
+ *   researched kind ("Anzac War Memorial", a war memorial) and a word for a street ("Jalan Main
+ *   Bazaar").
  * - Among rows that pass, one of a clashing kind goes after one that does not clash.
  */
 import { nameTokens, namingWords, tellingWords } from './place-names';
@@ -20,6 +24,10 @@ const BUSINESSES: ReadonlySet<string> = new Set(['food', 'stay', 'shopping']);
 /** Words that make a place an area to walk, not one door. */
 const AREA =
   /^(?:street|road|strip|quay|avenue|lane|district|square|quarter|neighbourhood|neighborhood|precinct|promenade|boulevard)$/u;
+
+/** Words for a street, in English and the local ways of writing one before or after its name. */
+const STREET =
+  /^(?:street|road|avenue|lane|quay|boulevard|jalan|jl|rue|calle|rua|avenida|thanon|soi|strasse|gasse)$/u;
 
 /** The researched kind's words that say a place is that business. */
 const KIND_WORDS: Readonly<Record<string, RegExp>> = {
@@ -72,9 +80,21 @@ function telling(name: string | null, plain: ReadonlySet<string>): Set<string> {
   return new Set(tellingWords(namingWords(nameTokens(name)), plain));
 }
 
+/** A name without its address after a comma or its note in brackets, or null when the same. */
+function bareName(name: string | null): string | null {
+  if (name === null) return null;
+  const bare =
+    name
+      .replace(/\s*\([^)]*\)/gu, '')
+      .split(',')[0]
+      ?.trim() ?? '';
+  return bare === '' || bare === name.trim() ? null : bare;
+}
+
 /**
  * Whether the row's name is the place's name plus words of its own: one of its names holds every
  * telling word of one of the place's names and more, and none is the place's name word for word.
+ * Words of the researched kind, words for a street and a name's address or note are not its own.
  */
 export function nameWithExtraWords(
   lead: KindLead,
@@ -82,12 +102,15 @@ export function nameWithExtraWords(
   plain: ReadonlySet<string>,
 ): boolean {
   const ours = [telling(lead.name, plain), telling(lead.localName, plain)].filter((s) => s.size);
-  const theirs = [telling(row.name, plain), telling(row.nameLocal, plain)].filter((s) => s.size);
+  const names = [row.name, row.nameLocal, bareName(row.name), bareName(row.nameLocal)];
+  const theirs = names.map((name) => telling(name, plain)).filter((s) => s.size);
+  const kindWords = new Set(nameTokens(lead.subtype ?? ''));
   let extra = false;
   for (const a of ours) {
     for (const b of theirs) {
       if (![...a].every((word) => b.has(word))) continue;
-      if (b.size === a.size) return false;
+      const own = [...b].filter((w) => a.has(w) || !(kindWords.has(w) || STREET.test(w)));
+      if (own.length === a.size) return false;
       extra = true;
     }
   }

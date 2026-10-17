@@ -69,6 +69,8 @@ export const pois = pgTable('pois', {
   priceLevel: integer('price_level'),
   sourceIds: jsonb('source_ids').notNull().default({}),
   editorial: jsonb('editorial').notNull().default({}),
+  /** The kind of place a curated place's researcher found it to be; null without a curated block. */
+  curatedCategory: text('curated_category'),
   tags: text('tags').array().notNull().default([]),
   /** Generated column (`app.unaccent_immutable(name/name_local/address/tags)`); never written directly. */
   fts: tsvector('fts'),

@@ -62,17 +62,23 @@ export function curatedPlaceFacts(
 const NOT_SIGHTS: ReadonlySet<string> = new Set(['food', 'stay', 'transit', 'health']);
 
 /**
- * The kind of place a curated row is planned as: the kind the researcher found it to be, so a
- * nightlife street open data files as a restaurant takes an evening, not a meal. A note loaded
- * before it kept that kind is read from its line: the researchers give every place to eat a meal
- * role, so a fado house, a tower or a market street that open data files as a restaurant is a
+ * The kind of place a curated row is planned as: the kind the researcher found it to be
+ * (`researched`, `pois.curated_category`), so a nightlife street open data files as a restaurant
+ * takes an evening, not a meal. A researched `other` says only that no kind fits, so it never
+ * replaces a kind open data knows (a museum, a park); then, and for a place loaded before the
+ * researched kind was kept, the kind is read from its line: the researchers give every place to
+ * eat a meal role, so a fado house, a tower or a market street that open data files as a restaurant is a
  * sight (a night out where they tagged it for nightlife, a market where they tagged it for
  * markets), and a puppet theatre or a cable car filed as a hotel or a station is a sight too. A
  * row without a line keeps its kind.
  */
-export function curatedCategory(category: string, curated: CuratedNote | null): string {
+export function curatedCategory(
+  category: string,
+  curated: CuratedNote | null,
+  researched: string | null = null,
+): string {
   if (curated === null) return category;
-  if (curated.category !== undefined) return curated.category;
+  if (researched !== null && researched !== 'other') return researched;
   if (curated.meal_role !== undefined) return NOT_SIGHTS.has(category) ? 'food' : category;
   if (!NOT_SIGHTS.has(category)) return category;
   const tags = curated.tags ?? [];

@@ -108,10 +108,10 @@ export async function writeCuratedNote(
       [poiId],
     );
     await tx.query(
-      `UPDATE pois SET editorial = $2::jsonb, curation = 'editorial', updated_at = now(),
-              destination_id = coalesce($3::uuid, destination_id)
+      `UPDATE pois SET editorial = $2::jsonb, curation = 'editorial', curated_category = $4,
+              updated_at = now(), destination_id = coalesce($3::uuid, destination_id)
         WHERE id = $1`,
-      [poiId, JSON.stringify(mergeCuratedNote(rows[0]?.editorial, note)), claimFor],
+      [poiId, JSON.stringify(mergeCuratedNote(rows[0]?.editorial, note)), claimFor, note.category],
     );
     const week = busyWeek(busy);
     if (week.length === 0) return;
@@ -256,7 +256,7 @@ export async function loadCuratedPlaces(
           SET editorial = CASE WHEN editorial->'curated' ? 'essential_rank'
                                THEN editorial - 'curated' - 'must_see' - 'essential'
                                ELSE editorial - 'curated' END,
-              updated_at = now()
+              curated_category = NULL, updated_at = now()
         WHERE destination_id = $1 AND editorial ? 'curated' AND id <> ALL($2::uuid[])`,
       [destination.id, [...taken]],
     );

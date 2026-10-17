@@ -109,7 +109,8 @@ const editorial = async (id: string) =>
       curation: string;
       name: string;
       lat: number;
-    }>('SELECT editorial, curation, name, lat FROM pois WHERE id = $1', [id])
+      curated_category: string | null;
+    }>('SELECT editorial, curation, name, lat, curated_category FROM pois WHERE id = $1', [id])
   ).rows[0]!;
 
 describe('loading curated places', () => {
@@ -140,6 +141,9 @@ describe('loading curated places', () => {
     expect(report.unmatched).toEqual([{ name: 'Bukchon Hanok Village', closest: null }]);
     const stored = await editorial(palace);
     expect(stored).toMatchObject({ curation: 'editorial', name: '경복궁', lat: 37.5796 });
+    // The researched kind sits beside the note, which installed app builds read strictly.
+    expect(stored.curated_category).toBe('temple_shrine');
+    expect(stored.editorial['curated']).not.toHaveProperty('category');
     const note = readEditorialOverlay(stored.editorial);
     expect(note).toMatchObject({
       why_go: 'The grandest of the five palaces.',
@@ -175,6 +179,7 @@ describe('loading curated places', () => {
     );
     const kept = readEditorialOverlay((await editorial(market)).editorial);
     expect(kept.curated).toBeUndefined();
+    expect((await editorial(market)).curated_category).toBeNull();
     expect(kept.why_go).toBe('The grandest of the five palaces.');
   });
 

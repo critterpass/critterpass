@@ -22,6 +22,7 @@ import {
   type CuratedNote,
   type CuratedPair,
   type EditorialText,
+  type PoiCategory,
 } from '@cp/domain';
 import { z } from 'zod';
 
@@ -105,6 +106,11 @@ export interface CuratedNoteLines {
     readonly essential?: true;
   };
   readonly vi: Pick<EditorialText, 'why_go' | 'tips'>;
+  /**
+   * The kind of place the researcher found it to be, kept out of the note (`pois.curated_category`):
+   * installed app builds read the note strictly.
+   */
+  readonly category: PoiCategory;
 }
 
 /** A name in the one form the researchers' checker compares names in. */
@@ -128,7 +134,6 @@ export function curatedNoteLines(
   });
   const curated = curatedNoteSchema.parse({
     rank,
-    category: row.category,
     fee: fact(row.entry_fee),
     hours: fact(row.hours),
     crowd_basis: 'estimate',
@@ -157,5 +162,6 @@ export function curatedNoteLines(
       ...(essentialRank === undefined ? {} : { must_see: true, essential: true }),
     },
     vi: { why_go: row.why_go_vi, tips: row.tips_vi },
+    category: row.category,
   };
 }
