@@ -2,8 +2,9 @@
  * A curated place found in OpenStreetMap, written on a migrated Postgres (Testcontainers): the new
  * row carries the OSM id, name, local name, point, address and the destination's time zone, plus
  * the curated note; a re-run matches that row without asking OSM; a row of the same OSM id is
- * reused, and one another destination owns is left alone. Nominatim answers with the jsonv2 reply
- * kept in `@cp/planner`'s test fixture.
+ * reused, and one another destination owns is left alone; one another curated place holds keeps
+ * its note, and a reused row whose name is not the place's takes OSM's name and category.
+ * Nominatim answers with the jsonv2 reply kept in `@cp/planner`'s test fixture.
  */
 import { runMigrations } from '@cp/db';
 import { startPostgres, type StartedPostgreSqlContainer } from '@cp/db/testing';
@@ -129,5 +130,30 @@ describe('adding a curated place from OpenStreetMap', () => {
     expect(rows[0]).toMatchObject({ address: 'Thawewong Road, Patong, Kathu District' });
     const count = await pool.query('SELECT 1 FROM pois WHERE destination_id <> $1', [phuket]);
     expect(count.rows).toEqual([]);
+  });
+
+  it('leaves a row another curated place holds with its note', async () => {
+    await pool.query(
+      `UPDATE pois SET editorial = jsonb_set(editorial, '{curated,rank}', '5')
+        WHERE source_ids->>'osm' = 'w151234567'`,
+    );
+    const held = await lookUpCuratedPlace(pool, { rank: 3, place: place() }, search);
+    expect(held).toMatchObject({ outcome: 'held', poi_id: (await stored())[0]!.id });
+    expect(readEditorialOverlay((await stored())[0]!.editorial)).toMatchObject({
+      curated: { rank: 5 },
+    });
+  });
+
+  it("gives a reused row that does not carry the place's name OSM's name and kind", async () => {
+    await pool.query(
+      `UPDATE pois SET name = 'Songkran Water Fight', name_local = NULL, category = 'food',
+              editorial = editorial - 'curated'
+        WHERE source_ids->>'osm' = 'w151234567'`,
+    );
+    const reused = await lookUpCuratedPlace(pool, { rank: 3, place: place() }, search);
+    expect(reused).toMatchObject({ outcome: 'reused' });
+    const [row] = await stored();
+    expect(row).toMatchObject({ name: 'Patong Beach', name_local: 'หาดป่าตอง', category: 'beach' });
+    expect(readEditorialOverlay(row!.editorial)).toMatchObject({ curated: { rank: 3 } });
   });
 });
