@@ -7,6 +7,7 @@ import {
   coverage,
   dayShape,
   meals,
+  missesItsTime,
   overall,
   personalFit,
   timeFit,
@@ -30,6 +31,7 @@ const stop = (name: string, over: Partial<ScoredStop> = {}): ScoredStop => ({
   name,
   kind: 'activity',
   startMin: 600,
+  sunsetMin: 17 * 60 + 15,
   lat: 11.94,
   lng: 108.44,
   category: 'other',
@@ -90,6 +92,15 @@ describe('blog benchmark scoring', () => {
       ]),
     ];
     expect(timeFit(days)).toBe(0.5);
+  });
+
+  it('times a sunset stop by the real sunset at the place on the day', () => {
+    // London in November: the sun sets at twenty past four.
+    const london = { bestTimes: ['sunset'], sunsetMin: 16 * 60 + 20 };
+    const golden = stop('primrose hill', { ...london, startMin: 15 * 60 });
+    const dark = stop('sky garden', { ...london, startMin: 17 * 60 + 30 });
+    expect(missesItsTime(golden)).toBe(false);
+    expect(missesItsTime(dark)).toBe(true);
   });
 
   it('wants a real meal place at lunch and at dinner, not a coffee', () => {

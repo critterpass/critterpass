@@ -12,6 +12,7 @@ import {
   instantAt,
   metresBetween,
   minuteOfDate,
+  sunsetMin,
   type DraftPoi,
 } from '@cp/planner';
 
@@ -131,6 +132,7 @@ function scoredStop(
     name: poi.name,
     kind: item.kind,
     startMin: minuteOfDate(new Date(item.starts_at), date, item.tz),
+    sunsetMin: sunsetMin({ lat: poi.lat, lng: poi.lng, tz: item.tz }, date),
     lat: poi.lat,
     lng: poi.lng,
     category: ref?.category ?? poi.category,
