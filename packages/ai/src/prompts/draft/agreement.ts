@@ -6,6 +6,11 @@
  * newer local favourite takes a seat only where no place the pages agree on fits the day's area and
  * time. Among places pages agree on alike (or both not), the one that suits the crew's tastes wins
  * before area or list order; an evening, the crew's own time, puts the crew's tastes first.
+ *
+ * A must-see that is neither an essential nor on the pages' days and that suits none of a crew's
+ * tastes may give way to a place pages agree on at least as much that does (`mustSeeYieldsTo`):
+ * one on the pages' days, or held by three or more pages and by no fewer than the must-see. A crew
+ * with no tastes keeps every must-see.
  */
 import { tasteScore, type DraftPoi } from '@cp/planner';
 
@@ -35,6 +40,35 @@ export function agreementOf(input: Pick<DraftPlanInput, 'firstVisit'>, poi: Draf
     return 0;
   }
   return poi.mustSee || poi.prominence === 'icon' || (poi.blogCount ?? 0) >= AGREED_PAGES ? 1 : 2;
+}
+
+type CrewInput = Pick<DraftPlanInput, 'firstVisit' | 'tastes'>;
+
+/** Whether `poi` is a must-see that may give way for this crew (see the file note). */
+export function mustSeeYields(input: CrewInput, poi: DraftPoi): boolean {
+  return (
+    poi.mustSee &&
+    Object.keys(input.tastes).length > 0 &&
+    agreementOf(input, poi) === 1 &&
+    tasteScore(poi, input.tastes) <= 0
+  );
+}
+
+/** Whether a must-see may give way to `poi`: one pages agree on that suits the crew. */
+export function earnsYield(input: CrewInput, poi: DraftPoi): boolean {
+  return (
+    tasteScore(poi, input.tastes) > 0 &&
+    (agreementOf(input, poi) === 0 || (poi.blogCount ?? 0) >= AGREED_PAGES)
+  );
+}
+
+/** Whether the must-see `held` may give way to `incoming` for this crew (see the file note). */
+export function mustSeeYieldsTo(input: CrewInput, held: DraftPoi, incoming: DraftPoi): boolean {
+  return (
+    mustSeeYields(input, held) &&
+    earnsYield(input, incoming) &&
+    (agreementOf(input, incoming) === 0 || (incoming.blogCount ?? 0) >= (held.blogCount ?? 0))
+  );
 }
 
 /** Whether itinerary pages agree on the place (see the file note). */

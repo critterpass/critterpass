@@ -7,6 +7,7 @@
  */
 import { foodRole, tasteScore, type DraftPoi } from '@cp/planner';
 
+import { earnsYield, mustSeeYields } from './agreement';
 import type { DraftPlanInput } from './context';
 
 /** Stops of one kind a day carries while other kinds are on offer. */
@@ -37,6 +38,15 @@ export function oneTooMany(
 }
 
 /**
+ * Where a candidate stands before kinds and tastes: a must-see first, but one that may give way
+ * for the crew (./agreement) after the places pages agree on that suit it.
+ */
+function tierOf(input: Pick<DraftPlanInput, 'tastes' | 'firstVisit'>, poi: DraftPoi): number {
+  if (poi.mustSee) return mustSeeYields(input, poi) ? 2 : 0;
+  return earnsYield(input, poi) ? 1 : 3;
+}
+
+/**
  * `candidates` in the order the planner should try them for a day holding `dayIds` on a trip
  * holding `tripIds`: must-sees first, then kinds the day lacks, then places that suit the crew's
  * tastes, then kinds the day has least of, then kinds new to the trip, then as they came. One of a
@@ -45,7 +55,7 @@ export function oneTooMany(
  * must-see across town.
  */
 export function byVariety(
-  input: Pick<DraftPlanInput, 'pois' | 'tastes'>,
+  input: Pick<DraftPlanInput, 'pois' | 'tastes' | 'firstVisit'>,
   candidates: readonly DraftPoi[],
   dayIds: readonly string[],
   tripIds: readonly string[],
@@ -61,12 +71,13 @@ export function byVariety(
       day: inDay.get(kindOf(poi)) ?? 0,
       taste: tasteScore(poi, input.tastes) > 0 ? 0 : 1,
       seen: inTrip.has(kindOf(poi)) ? 1 : 0,
+      tier: tierOf(input, poi),
     }))
     .sort(
       // Among must-sees the order they came in stands (the caller ranks them); the rest by kind.
       (a, b) =>
         a.near - b.near ||
-        Number(b.poi.mustSee) - Number(a.poi.mustSee) ||
+        a.tier - b.tier ||
         (a.poi.mustSee ? a.rank - b.rank : 0) ||
         Math.min(a.day, 1) - Math.min(b.day, 1) ||
         a.taste - b.taste ||

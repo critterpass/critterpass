@@ -4,7 +4,8 @@
  * one beside it, the nearest first. Pages see the museum across town in the afternoon of the day
  * they spend near it, not after dinner (./across-town). It is added where the day has room; else
  * it takes the seat of a stop pages do not agree on that the crew did not ask for and that does
- * not suit its tastes. The day must stay as clean as it was (hours, meals, openers), keep to its
+ * not suit its tastes, else, for a sight that suits the crew, of a must-see that gives way to it
+ * (./agreement). The day must stay as clean as it was (hours, meals, openers), keep to its
  * areas and dine after the new stop. Evening places are left to ./evenings, cafés and snacks to the
  * meal passes.
  */
@@ -21,7 +22,7 @@ import {
 } from '@cp/planner';
 
 import { addsAcrossTownAfterDinner, afterDinner } from './across-town';
-import { agreementOf, agreementOfStop } from './agreement';
+import { agreementOf, agreementOfStop, mustSeeYieldsTo } from './agreement';
 import { areaStep, dayOutOf, rideFrom, spanOf } from './areas';
 import { stopBudget } from './budget';
 import { addOne, dayFaults, fillMeals, type Attempt } from './complete-days';
@@ -74,23 +75,32 @@ export function seatBeforeDinner(input: DraftPlanInput, day: DraftDay): number {
   return at === -1 ? day.items.length : at;
 }
 
-/** Stops of `day` an agreed sight may take the seat of: the last of them first. */
-export function fillersOf(input: DraftPlanInput, day: DraftDay): DraftDay['items'] {
-  return day.items
-    .filter((item) => {
-      const poi = input.pois.get(item.poi_id ?? '');
-      return (
-        poi !== undefined &&
-        item.kind !== 'meal' &&
-        !isKept(item) &&
-        poi.essential !== true &&
-        agreementOfStop(input, item) === 2 &&
-        foodRole(poi) === null &&
-        tasteScore(poi, input.tastes) <= 0 &&
-        !afterDinner(input, day, poi.id)
-      );
-    })
-    .reverse();
+/**
+ * Stops of `day` an agreed sight may take the seat of, the last of them first: those pages do not
+ * agree on, then, when `incoming` is the sight, the must-sees that give way to it.
+ */
+export function fillersOf(
+  input: DraftPlanInput,
+  day: DraftDay,
+  incoming?: DraftPoi,
+): DraftDay['items'] {
+  const open = day.items.flatMap((item) => {
+    const poi = input.pois.get(item.poi_id ?? '');
+    return poi !== undefined &&
+      item.kind !== 'meal' &&
+      !isKept(item) &&
+      poi.essential !== true &&
+      foodRole(poi) === null &&
+      !afterDinner(input, day, poi.id)
+      ? [{ item, poi }]
+      : [];
+  });
+  const unagreed = open.filter(
+    ({ item, poi }) => agreementOfStop(input, item) === 2 && tasteScore(poi, input.tastes) <= 0,
+  );
+  const yielding =
+    incoming === undefined ? [] : open.filter(({ poi }) => mustSeeYieldsTo(input, poi, incoming));
+  return [...unagreed.reverse(), ...yielding.reverse()].map(({ item }) => item);
 }
 
 /**
@@ -177,7 +187,7 @@ function seatOn(
     });
     if (added !== null) return added;
   }
-  for (const filler of fillersOf(input, day)) {
+  for (const filler of fillersOf(input, day, poi)) {
     const swapped = seatKeepingShape(input, outline, plan, poi, {
       position: day.items.indexOf(filler),
       replacing: filler,
