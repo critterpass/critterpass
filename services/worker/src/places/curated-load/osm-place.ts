@@ -68,6 +68,7 @@ export async function lookUpCuratedPlace(
     category: place.category,
     lat: place.lat,
     lng: place.lng,
+    subtype: place.subtype ?? null,
   };
   const verdict = await withSystem(pool, async (tx) => {
     await allowIndexMaintenance(tx);

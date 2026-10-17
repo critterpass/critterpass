@@ -15,7 +15,7 @@ import {
   plainWords,
   type CuratedLead,
 } from '../../src/draft';
-import { HOOVER_DAM_REPLY, PATONG_BEACH_REPLY } from './nominatim-fixture';
+import { CLARKE_QUAY_REPLY, HOOVER_DAM_REPLY, PATONG_BEACH_REPLY } from './nominatim-fixture';
 
 const [beach, hotel] = PATONG_BEACH_REPLY;
 const [dam] = HOOVER_DAM_REPLY;
@@ -70,6 +70,30 @@ describe('accepting a Nominatim result', () => {
       openingHours: 'Mo-Su 09:00-17:00',
     });
     expect(acceptResult({ ...lead, name: 'Lake Mead Marina' }, dam!, vegas, 2_000)).toBeNull();
+  });
+
+  it('takes a quay as its neighbourhood or walk, never the stop or station named after it', () => {
+    const singapore = plainWords('Singapore', 'Singapore');
+    const clarke: CuratedLead = {
+      name: 'Clarke Quay',
+      localName: null,
+      category: 'nightlife',
+      lat: 1.2906,
+      lng: 103.8465,
+      subtype: 'riverside dining',
+    };
+    const [stop, station, neighbourhood, walk] = CLARKE_QUAY_REPLY;
+    expect(acceptResult(clarke, stop!, singapore, 2_000)).toBeNull();
+    expect(acceptResult(clarke, station!, singapore, 2_000)).toBeNull();
+    expect(acceptResult(clarke, neighbourhood!, singapore, 2_000)?.place).toMatchObject({
+      sourceId: 'n2601316092',
+      name: 'Clarke Quay',
+      category: 'nightlife',
+    });
+    expect(acceptResult(clarke, walk!, singapore, 2_000)?.place.sourceId).toBe('w149965088');
+    // A stop is no place of any kind it is named after.
+    const eatery = { ...clarke, category: 'food' as const, subtype: 'riverside restaurant' };
+    expect(acceptResult(eatery, stop!, singapore, 2_000)).toBeNull();
   });
 
   it('composes an address only from the parts it has', () => {

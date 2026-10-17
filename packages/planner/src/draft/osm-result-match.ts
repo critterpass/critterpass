@@ -6,6 +6,13 @@
  * business must share the place's words ("Patong Beach Hotel" is not Patong Beach). The accepted
  * place takes OpenStreetMap's name, local name, point, address parts and, through the ingest's
  * OSM mapping, its category (the lead's when OSM's tags are not a kind we map).
+ *
+ * A stop or platform named after a place is never the place. A street, quay, square or district
+ * (`namesAnArea`) is one of OSM's streets, squares, quarters and districts: a named road or
+ * pedestrian way, a `place` or an administrative area, a shopping or commercial area, a street
+ * market, a waterfront park, or a business
+ * of its own kind under its exact name (a shopping street's mall); never a station or a sight
+ * named after it ("Clarke Quay" the MRT station).
  */
 import {
   classifyOsmTags,
@@ -22,6 +29,7 @@ import {
   type CuratedLead,
   type MatchCandidate,
 } from './curated-name-rules';
+import { namesAnArea } from './curated-kind-rules';
 import { metresBetween } from './same-place';
 
 /** A place OpenStreetMap carries, as a `pois` row takes it. */
@@ -53,6 +61,29 @@ const clean = (value: string | null | undefined): string | null => {
 };
 
 const distanceM = metresBetween;
+
+/** Stops and platforms: they take the name of what they serve. */
+const STOPS: Readonly<Record<string, RegExp>> = {
+  highway: /^(?:bus_stop|platform)$/u,
+  railway: /^(?:platform|stop|halt|tram_stop|subway_entrance)$/u,
+  public_transport: /./u,
+  amenity: /^(?:bus_station|taxi)$/u,
+};
+
+/** OSM objects a street, quay, square or district is mapped as (Nominatim's class and type). */
+const AREAS: Readonly<Record<string, RegExp>> = {
+  highway:
+    /^(?:pedestrian|footway|living_street|residential|unclassified|tertiary|secondary|primary|service|road)$/u,
+  place: /^(?:quarter|neighbourhood|suburb|square|locality|city_block|plot)$/u,
+  boundary: /^administrative$/u,
+  landuse: /^(?:retail|commercial)$/u,
+  tourism: /^attraction$/u,
+  amenity: /^marketplace$/u,
+  leisure: /^park$/u,
+};
+
+const isStop = (result: NominatimResult) => STOPS[result.category]?.test(result.type) ?? false;
+const isArea = (result: NominatimResult) => AREAS[result.category]?.test(result.type) ?? false;
 
 /** Every name a result goes by: its namedetails variants and its display name. */
 export function resultNames(result: NominatimResult): string[] {
@@ -98,6 +129,9 @@ export function acceptResult(
   if (own === null) return null;
   const tags: OsmTags = { ...result.extratags, name: own, [result.category]: result.type };
   const classified = classifyOsmTags(tags);
+  if (lead.category !== 'transit' && isStop(result)) return null;
+  // A business is weighed by the kind rules below; anything else must be an area to be one.
+  if (namesAnArea(lead) && classified?.kind !== 'hours_only' && !isArea(result)) return null;
   const sourceId = `${prefix}${String(result.osm_id)}`;
   const alike = away <= SIMILAR_RADIUS_M && classified?.kind !== 'hours_only';
   // Each name is weighed on its own, as if at the point: the distance is checked above.
