@@ -20,6 +20,7 @@ import {
   type DraftPoi,
 } from '@cp/planner';
 
+import { addsAcrossTownAfterDinner } from './across-town';
 import { stopBudget } from './budget';
 import { areaStep, areasHeld, areasOf, besideStops, dayOutOf, hopCap } from './areas';
 import { addOne, dayFaults, fillMeals, nearFirst, type Attempt } from './complete-days';
@@ -186,7 +187,8 @@ export function fillThinDays(
             !used.has(poi.id) &&
             !(hasBreak && foodRole(poi) === 'light') &&
             // A hole is filled from the day's areas or a neighbouring one; across town only for
-            // an essential on a day still in one area that is not a day out, never into a third.
+            // an essential on a day still in one area that is not a day out, never into a third,
+            // and only before dinner (./across-town).
             (areaStep(input, poi.id, here) < 2 ||
               (poi.essential === true && areasHeld(input, here).size < 2 && !dayOut)),
         );
@@ -218,6 +220,7 @@ export function fillThinDays(
           after.hard <= before.hard &&
           after.meals <= before.meals &&
           misplacedOpeners(input, filled).length === 0 &&
+          !addsAcrossTownAfterDinner(input, day, filled) &&
           (thin ||
             (lateOpen
               ? filled.items[0]?.kind !== 'meal'
