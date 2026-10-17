@@ -200,7 +200,7 @@ describe('loading curated places', () => {
   it("matches a line to our row of its OpenStreetMap element, whatever the row's name", async () => {
     const { rows } = await harness.pool.query<{ id: string }>(
       `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids)
-       VALUES ($1, 'Seoul Sky', 'viewpoint', 37.5126, 127.1025, '{"osm":"w77"}') RETURNING id`,
+       VALUES ($1, 'Seoul Sky', 'other', 37.5126, 127.1025, '{"osm":"w77"}') RETURNING id`,
       [seoul],
     );
     const tower = line({ name_en: 'Lotte World Tower Observatory', lat: 37.5125, lng: 127.1026 });
