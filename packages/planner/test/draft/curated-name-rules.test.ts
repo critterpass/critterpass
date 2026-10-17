@@ -179,3 +179,53 @@ describe('accepting an OpenStreetMap answer named only in the local language', (
     expect(found?.place.sourceId).toBe('n11');
   });
 });
+
+describe('choosing among rows of one name', () => {
+  const london = plainWords('London', 'United Kingdom');
+
+  it('takes the whole place over a room, a ticket office or a business inside it', () => {
+    const museum = { ...lead('British Museum', null, 'museum'), subtype: 'world history museum' };
+    const rows = [
+      row('British Museum - Room 23: Greek and Roman sculpture', 40, 'museum'),
+      row('British Museum - Laboratorio della Dr. Angela Darling', 30, 'museum'),
+      row('The British Museum', 3, 'museum'),
+    ];
+    const verdict = chooseCuratedMatch(museum, rows, london);
+    expect(verdict.kind === 'match' && verdict.row.name).toBe('The British Museum');
+    const parts = [rows[0]!, row('British Museum Ticket office', 20, 'museum'), rows[1]!];
+    const part = chooseCuratedMatch(museum, parts, london);
+    // Short of the whole place, a part with no part word in its name goes first.
+    expect(part.kind === 'match' && part.row.name).toBe(rows[1]!.name);
+  });
+
+  it('reads British and American spellings as one word', () => {
+    const singapore = plainWords('Singapore', 'Singapore');
+    // OpenStreetMap's food court, way 47298639, under the American spelling.
+    const result = {
+      place_id: 2,
+      licence: 'Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright',
+      osm_type: 'way',
+      osm_id: 47298639,
+      lat: '1.2804',
+      lon: '103.8448',
+      category: 'amenity',
+      type: 'food_court',
+      place_rank: 30,
+      importance: 1e-5,
+      addresstype: 'amenity',
+      name: 'Maxwell Food Center',
+      display_name: 'Maxwell Food Center, Kadayanallur Street, Singapore',
+      address: { road: 'Kadayanallur Street', city: 'Singapore', country_code: 'sg' },
+      extratags: {},
+      namedetails: { name: 'Maxwell Food Center' },
+      boundingbox: ['1.2801', '1.2807', '103.8445', '103.8451'],
+    } as NominatimResult;
+    const hawker = {
+      ...lead('Maxwell Food Centre', null, 'food'),
+      subtype: 'hawker centre',
+      lat: 1.2803,
+      lng: 103.8445,
+    };
+    expect(acceptResult(hawker, result, singapore, 2_000)?.place.sourceId).toBe('w47298639');
+  });
+});

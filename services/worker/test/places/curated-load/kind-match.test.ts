@@ -1,7 +1,8 @@
 /**
  * A curated place is never a business of another kind named after it: a quay or a street is not
  * the ramen shop, the hotel or the restaurant that carries its name, a sight is not the trattoria
- * named after it, and among same-name rows the one of a fitting kind wins. A business the
+ * named after it, a square is not its bus stop or station, a street is no row named after it
+ * with words of its own, and among same-name rows the one of a fitting kind wins. A business the
  * researcher says the place is (a palace hotel, a bar filed as a restaurant) still matches, and a
  * typed search with no researched kind keeps its matches.
  */
@@ -135,6 +136,45 @@ describe('matching a curated place to a row of its own kind', () => {
     expect(matchOf(palace, rows, split)).toBe('sight');
     // A row of a clashing kind under exactly the name is still the place when it is the only one.
     expect(matchOf(palace, [rows[0]!], split)).toBe('hotel');
+  });
+
+  it('never takes a stop or a station named after a place that is no stop', () => {
+    const london = plainWords('London', 'United Kingdom');
+    const square = place('Trafalgar Square', 'other', 'public square');
+    const stop = row('stop', 'Trafalgar Square/Charing Cross Station Bus Stop F', 'transit', 40);
+    const tube = row('tube', 'Trafalgar Square tube station', 'transit', 200);
+    expect(matchOf(square, [stop, tube], london)).toBeNull();
+    const gardens = place('Kew Gardens', 'nature', 'botanical garden, UNESCO');
+    const rows = [
+      row('station', 'Kew Gardens', 'transit', 30),
+      row('garden', 'Kew Gardens', 'nature'),
+    ];
+    expect(matchOf(gardens, rows, london)).toBe('garden');
+    // A station the researcher says the place is stays its match.
+    const mumbai = plainWords('Mumbai', 'India');
+    const terminus = place('Chhatrapati Shivaji Terminus', 'other', 'UNESCO railway terminus');
+    const cst = row('cst', 'Chhatrapati Shivaji Terminus, Mumbai', 'transit');
+    expect(matchOf(terminus, [cst], mumbai)).toBe('cst');
+  });
+
+  it('never takes a row of any kind named after a street or quay with words of its own', () => {
+    const robertson = place('Robertson Quay', 'nightlife', 'riverside dining strip');
+    const up = { ...row('up', 'UP at Robertson Quay', 'museum'), similarity: 0.71 };
+    // Nearly the same Latin text is no street either.
+    const building = { ...row('100', 'Robertson 100', 'museum', 120), similarity: 0.53 };
+    expect(matchOf(robertson, [up, building], singapore)).toBeNull();
+    // A name written twice, in Latin letters and its own script, is still the street's.
+    const macau = plainWords('Macau', 'China');
+    const lane = place('Rua da Felicidade', 'other', 'old shopping lane');
+    const both = row('rua', '福隆新街 Rua da Felicidade', 'other');
+    expect(matchOf(lane, [both], macau)).toBe('rua');
+  });
+
+  it('reads a neighbourhood walk as an area', () => {
+    const vallarta = plainWords('Puerto Vallarta', 'Mexico');
+    const zona = place('Zona Romántica', 'other', 'old-town neighbourhood walk');
+    const food = { ...row('food', 'Zona Romántica - Old Town', 'food'), similarity: 0.62 };
+    expect(matchOf(zona, [food], vallarta)).toBeNull();
   });
 
   it('leaves a typed search without a researched kind to the name rules', () => {
