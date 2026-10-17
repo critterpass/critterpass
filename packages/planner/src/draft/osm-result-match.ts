@@ -1,7 +1,8 @@
 /**
- * Which Nominatim result (`@cp/suppliers` asks) is a place we were asked for. A result is the place only
- * when one of its names (its namedetails variants) passes the curated name rules of
- * `@cp/planner` and, when a radius is given, it lies within it of the lead's point. The text-alike
+ * Which Nominatim result (`@cp/suppliers` asks) is a place we were asked for. A result is the
+ * place only when one of its names (its namedetails variants) passes the curated name rules and,
+ * when a radius is given, it lies within it of the lead's point, or carries the place's own full
+ * name within `FAR_NAME_RADIUS_M` while no result of that name stands elsewhere. The text-alike
  * rule (for scripts written without spaces) holds only for a sight within `SIMILAR_RADIUS_M`: a
  * business must share the place's words ("Patong Beach Hotel" is not Patong Beach). The accepted
  * place takes OpenStreetMap's name, local name, point, address parts and, through the ingest's
@@ -10,9 +11,9 @@
  * A stop or platform named after a place is never the place. A street, quay, square or district
  * (`namesAnArea`) is one of OSM's streets, squares, quarters and districts: a named road or
  * pedestrian way, a `place` or an administrative area, a shopping or commercial area, a street
- * market, a waterfront park, or a business
- * of its own kind under its exact name (a shopping street's mall); never a station or a sight
- * named after it ("Clarke Quay" the MRT station).
+ * market, a waterfront park, or a business of its own kind under its exact name (a shopping
+ * street's mall); never a station or a sight named after it ("Clarke Quay" the MRT station). A
+ * road or district itself may carry a word more ("Calle Apolinar Jaen": `mapsArea`).
  *
  * Open data and researchers name what stands on a street after the street, so for a researched
  * place a road or path (`STREETS`) or a district (`DISTRICTS`) is the place only when the place
@@ -30,14 +31,17 @@ import {
   type PoiCategory,
 } from '@cp/domain';
 
+import { FAR_NAME_RADIUS_M, farNamed } from './curated-full-names';
 import {
   chooseCuratedMatch,
+  sharedFullName,
   SIMILAR_RADIUS_M,
   trigramSimilarity,
   type CuratedLead,
   type MatchCandidate,
 } from './curated-name-rules';
 import { namesAnArea, streetScope } from './curated-kind-rules';
+import { nameTokens } from './place-names';
 import { metresBetween } from './same-place';
 
 /** A place OpenStreetMap carries, as a `pois` row takes it. */
@@ -158,13 +162,15 @@ export function acceptResult(
   result: NominatimResult,
   plain: ReadonlySet<string>,
   radiusM: number | null,
-): { readonly place: OsmPlace; readonly score: number } | null {
+): { readonly place: OsmPlace; readonly score: number; readonly far: boolean } | null {
   const lat = Number(result.lat);
   const lng = Number(result.lon);
   const prefix = OSM_PREFIX[result.osm_type];
   if (!Number.isFinite(lat) || !Number.isFinite(lng) || prefix === undefined) return null;
   const away = distanceM(lead, { lat, lng });
-  if (radiusM !== null && away > radiusM) return null;
+  // Beyond the radius only the place's own full name will do (`farNamed`).
+  const beyond = radiusM !== null && away > radiusM;
+  if (beyond && away > Math.max(radiusM, FAR_NAME_RADIUS_M)) return null;
   const details = result.namedetails ?? {};
   const own = clean(details['name']) ?? clean(result.name);
   if (own === null) return null;
@@ -185,6 +191,7 @@ export function acceptResult(
   const names = resultNames(result);
   const candidates = (asked: CuratedLead): MatchCandidate[] =>
     names.map((name, index) => ({
+      ...(street || district ? { mapsArea: true } : {}),
       id: `${sourceId}:${index}`,
       name,
       nameLocal: null,
@@ -203,6 +210,9 @@ export function acceptResult(
     }));
   const verdict = chooseCuratedMatch(lead, candidates(lead), plain);
   if (verdict.kind === 'none') return null;
+  const words = new Set(nameTokens(`${lead.name} ${lead.localName ?? ''}`));
+  const fullName = (row: MatchCandidate) => sharedFullName(lead, row, plain, words, true) >= 2;
+  if (beyond && !candidates(lead).some(fullName)) return null;
   // A trail, village or island by its kind alone is a street or district only by its English name.
   const byEnglish = { ...lead, localName: null };
   if (
@@ -218,6 +228,7 @@ export function acceptResult(
   const extra = result.extratags ?? {};
   return {
     score: verdict.score,
+    far: beyond,
     place: {
       sourceId,
       name: english ?? own,
@@ -263,7 +274,15 @@ export async function findOsmPlace(
       .map((result) => acceptResult(lead, result, plain, radiusM))
       .filter((found) => found !== null)
       .sort((a, b) => b.score - a.score || a.place.distanceM - b.place.distanceM);
-    const best = accepted[0];
+    const near = accepted.find((found) => !found.far);
+    // From afar only when every result of the name stands in one place (`farNamed`).
+    const named = results.map((r) => acceptResult(lead, r, plain, null)?.place ?? null);
+    const alone =
+      farNamed(
+        named.filter((place) => place !== null),
+        () => 2,
+      ).length > 0;
+    const best = near ?? (alone ? accepted[0] : undefined);
     if (best !== undefined) return { place: best.place, queries: asked, nearestRejected };
     for (const result of results) {
       const away = Math.round(

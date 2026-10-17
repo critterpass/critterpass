@@ -24,7 +24,7 @@ import type pg from 'pg';
 
 import { allowIndexMaintenance } from '../batch-sql';
 import { plainWords } from '../pick/match';
-import { chooseAcrossOwners, curatedCandidates, type CuratedHold, type CuratedLead } from './match';
+import { findCuratedRow, type CuratedHold, type CuratedLead } from './match';
 import { curatedStopOnly } from './osm-lookup';
 import {
   curatedNameKey,
@@ -189,11 +189,10 @@ export async function loadCuratedPlaces(
       lng: line.lng,
       subtype: line.subtype ?? null,
     };
-    const candidates = await withSystem(pool, async (tx) => {
+    const verdict = await withSystem(pool, async (tx) => {
       await allowIndexMaintenance(tx);
-      return curatedCandidates(tx, destination.id, lead, plain);
+      return findCuratedRow(tx, destination.id, lead, plain, taken);
     });
-    const verdict = chooseAcrossOwners(lead, candidates, plain, taken);
     if (verdict.kind === 'none' && curatedStopOnly(line)) {
       curatedStops.push(line.name_en);
       continue;

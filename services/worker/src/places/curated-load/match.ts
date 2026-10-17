@@ -18,6 +18,7 @@
 import { QUALITY_SCORE } from '@cp/db';
 import {
   chooseCuratedMatch,
+  NAMESAKE_RADIUS_M,
   pickKindOf,
   SAME_NAME_RADIUS_M,
   searchWords,
@@ -64,14 +65,16 @@ const centreSql = (alias: string) =>
             ST_Centroid(${alias}.place_bounds::geometry)::geography)`;
 
 /**
- * Active rows near the lead whose name shares words with, or resembles, it, whatever destination
- * owns them (see the file header for when another destination's row is claimable).
+ * Active rows within `radiusM` of the lead whose name shares words with, or resembles, it,
+ * whatever destination owns them (see the file header for when another destination's row is
+ * claimable).
  */
 export async function curatedCandidates(
   tx: pg.PoolClient,
   destinationId: string,
   lead: CuratedLead,
   plain: ReadonlySet<string>,
+  radiusM: number = SAME_NAME_RADIUS_M,
 ): Promise<OwnedCandidate[]> {
   const words = searchWords(
     { name: lead.name, localName: lead.localName, kind: pickKindOf(lead.category), area: null },
@@ -117,7 +120,7 @@ export async function curatedCandidates(
       destinationId,
       lead.lat,
       lead.lng,
-      SAME_NAME_RADIUS_M,
+      radiusM,
       words.join(' | '),
       lead.name,
       lead.localName ?? lead.name,
@@ -172,4 +175,25 @@ export function chooseAcrossOwners(
   if (row === undefined) return { kind: 'none', closest: null };
   if (row.own) return { kind: 'match', row, hold: 'own' };
   return { kind: 'match', row, hold: row.claimable ? 'claim' : 'shared' };
+}
+
+/**
+ * The row a curated place is: among the rows near its point, else among rows out to
+ * `NAMESAKE_RADIUS_M`, where only the place's own full name within `FAR_NAME_RADIUS_M` will do
+ * and only when no row of that name stands elsewhere (`@cp/planner`'s far rule: the researcher's
+ * point can be kilometres off). `taken` rows are not the place.
+ */
+export async function findCuratedRow(
+  tx: pg.PoolClient,
+  destinationId: string,
+  lead: CuratedLead,
+  plain: ReadonlySet<string>,
+  taken: ReadonlySet<string> = new Set(),
+): Promise<OwnedMatch> {
+  const near = await curatedCandidates(tx, destinationId, lead, plain);
+  const verdict = chooseAcrossOwners(lead, near, plain, taken);
+  if (verdict.kind === 'match') return verdict;
+  const wide = await curatedCandidates(tx, destinationId, lead, plain, NAMESAKE_RADIUS_M);
+  const far = chooseAcrossOwners(lead, wide, plain, taken);
+  return far.kind === 'match' ? far : verdict;
 }

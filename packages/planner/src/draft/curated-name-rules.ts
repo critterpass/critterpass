@@ -14,8 +14,11 @@
  * not (`curated-kind-rules`: "IPPUDO Clarke Quay" is not Clarke Quay). Among rows that qualify,
  * the closer name wins, then the same kind of place, then the whole place over a part of it or a
  * business inside it (a room, a gate, a ticket office, a café: `PART_WORDS`), then the nearer row.
- * British and American spellings are one word ("centre", "center"). Short of that, a row whose name is nearly the same text (`SIMILAR_TEXT`, for scripts
- * written without spaces) close to the point (`SIMILAR_RADIUS_M`). A place no row carries is
+ * Full names are compared as `curated-full-names` folds them (spellings, Vietnamese head words,
+ * names written joined). Short of that, a row whose name is nearly the same text (`SIMILAR_TEXT`,
+ * for scripts written without spaces) close to the point (`SIMILAR_RADIUS_M`); short of that, a
+ * row of the place's own full name further off, when no other row of that name stands elsewhere
+ * (`farNamed`: the researcher's point can be kilometres off). A place no row carries is
  * reported and never created from the researcher's point: open data stays the source of a
  * place's name, point and address.
  */
@@ -28,7 +31,15 @@ import {
   type PlacePickKind,
 } from './named-place-match';
 import { kindClash, namesAnArea, wholeness, wrongKind } from './curated-kind-rules';
-import { nameAliases, nameTokens, namingWords, tellingWords } from './place-names';
+import { farNamed, sharedFullNameWords } from './curated-full-names';
+import { nameAliases, nameTokens, namingWords } from './place-names';
+
+export {
+  FAR_NAME_RADIUS_M,
+  NAMESAKE_RADIUS_M,
+  SAME_PLACE_APART_M,
+  SPELLING,
+} from './curated-full-names';
 
 export const SAME_NAME_RADIUS_M = 1_500;
 export const CLOSE_NAME_RADIUS_M = 400;
@@ -58,6 +69,8 @@ export interface MatchCandidate extends PickCandidate {
   readonly distanceM: number;
   /** The best trigram similarity of the row's names to the place's names. */
   readonly similarity: number;
+  /** The row is one of OSM's roads or districts (`curated-kind-rules`). */
+  readonly mapsArea?: boolean;
 }
 
 export type CuratedMatch =
@@ -98,61 +111,19 @@ export function withoutBranchNote(name: string, leadWords: ReadonlySet<string>):
   return nameTokens(outside).some((word) => leadWords.has(word)) ? name : outside;
 }
 
-interface FullName {
-  /** The telling naming words in any order: accents, case and joining words aside. */
-  readonly key: string;
-  /** How many telling words the name is written with, joining words counted. */
-  readonly words: number;
-}
-
-/** British and American spellings of one word, read as one ("Maxwell Food Center"). */
-export const SPELLING: Readonly<Record<string, string>> = {
-  centre: 'center',
-  theatre: 'theater',
-  harbour: 'harbor',
-  neighbourhood: 'neighborhood',
-  colour: 'color',
-};
-
-function fullName(tokens: readonly string[], plain: ReadonlySet<string>): FullName {
-  const words = tellingWords(namingWords(tokens), plain).map((word) => SPELLING[word] ?? word);
-  return {
-    key: words.sort().join(' '),
-    words: tellingWords(tokens, plain).length,
-  };
-}
-
-/** A name read whole and as each name it carries ("Chùa Ghositaram (Chùa Cù Lao)" holds two). */
-function fullNames(name: string | null, plain: ReadonlySet<string>): FullName[] {
-  if (name === null) return [];
-  return [nameTokens(name), ...nameAliases(name).primary]
-    .map((tokens) => fullName(tokens, plain))
-    .filter((full) => full.key !== '');
-}
-
 /**
  * How many words the full name one of the row's names shares with one of the place's names
- * (see `FullName`; the shorter of the two as written), or 0 when none is the same. A branch's
- * area in brackets is not one of the row's names (`withoutBranchNote`).
+ * (`curated-full-names`), or 0 when none is the same. A branch's area in brackets is not one of
+ * the row's names (`withoutBranchNote`); `telling` counts only a name that says which place it is.
  */
 export function sharedFullName(
   lead: CuratedLead,
   row: MatchCandidate,
   plain: ReadonlySet<string>,
   leadWords: ReadonlySet<string>,
+  telling = false,
 ): number {
-  const wanted = [...fullNames(lead.name, plain), ...fullNames(lead.localName, plain)];
-  const theirs = [
-    ...fullNames(withoutBranchNote(row.name, leadWords), plain),
-    ...fullNames(row.nameLocal, plain),
-  ];
-  let best = 0;
-  for (const ours of wanted) {
-    for (const name of theirs) {
-      if (ours.key === name.key) best = Math.max(best, Math.min(ours.words, name.words));
-    }
-  }
-  return best;
+  return sharedFullNameWords(lead, row, plain, withoutBranchNote(row.name, leadWords), telling);
 }
 
 /** Whether one of the row's names is one of the place's names, word for word. */
@@ -262,6 +233,14 @@ export function chooseCuratedMatch(
       withoutBranchNote(row.name, leadWords) === row.name,
   );
   if (similar !== undefined) return { kind: 'match', row: similar, score: similar.similarity };
+  // The point is approximate: a row of the place's own full name further off (`farNamed`).
+  const [far] = farNamed(open, (row) => sharedFullName(lead, row, plain, leadWords, true)).sort(
+    (a, b) =>
+      Number(kindClash(lead, a)) - Number(kindClash(lead, b)) ||
+      wholeness(a.name, plain, leadWords) - wholeness(b.name, plain, leadWords) ||
+      a.distanceM - b.distanceM,
+  );
+  if (far !== undefined) return { kind: 'match', row: far, score: SAME_NAME_SCORE };
   return { kind: 'none', closest: free[0] ?? null };
 }
 
