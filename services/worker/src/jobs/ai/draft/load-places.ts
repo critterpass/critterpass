@@ -65,6 +65,7 @@ interface PoiRow {
   readonly price_level: number | null;
   readonly tags: string[] | null;
   readonly editorial: unknown;
+  readonly curated_category: string | null;
   readonly curation: string;
   readonly pick_source: string | null;
   /** The place's ready profile, when it has one. */
@@ -77,7 +78,8 @@ interface PoiRow {
 /** The columns every draft place query reads (`p` the place, `d` its destination). */
 const PLACE_COLUMNS = `p.id, p.name, p.name_local, p.category, p.lat, p.lng,
        coalesce(p.timezone, d.tz) AS timezone, p.hours, p.price_level, p.tags, p.editorial,
-       p.curation, p.pick_source, pp.best_times, pp.visit_min, pp.meal_role, pp.dish`;
+       p.curated_category, p.curation, p.pick_source, pp.best_times, pp.visit_min, pp.meal_role,
+       pp.dish`;
 /** A place of the destination, or one another destination owns inside its place box. */
 const BORROWED_SQL = `(p.destination_id = $1 OR ST_Intersects(p.location,
   (SELECT b.place_bounds FROM destinations b WHERE b.id = $1)))`;
@@ -164,7 +166,7 @@ function toDraftPoi(row: PoiRow, typed: boolean, ranked = false): DraftPoi {
     id: row.id,
     name: row.name,
     nameLocal: row.name_local,
-    category: curatedCategory(row.category, curated),
+    category: curatedCategory(row.category, curated, row.curated_category),
     lat: row.lat,
     lng: row.lng,
     tz: row.timezone,

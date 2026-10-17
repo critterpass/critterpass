@@ -139,11 +139,18 @@ describe('what a curated line tells the planner beyond typed facts', () => {
 
   it('plans a curated place as the kind the researcher found it to be', () => {
     // Khao San Road filed as a restaurant is a night out, meal role or not.
-    expect(curatedCategory('food', curated({ category: 'nightlife', meal_role: 'light' }))).toBe(
-      'nightlife',
-    );
-    expect(curatedCategory('museum', curated({ category: 'other' }))).toBe('other');
-    expect(curatedCategory('stay', curated({ category: 'food' }))).toBe('food');
+    expect(curatedCategory('food', curated({ meal_role: 'light' }), 'nightlife')).toBe('nightlife');
+    expect(curatedCategory('stay', curated({}), 'food')).toBe('food');
+    expect(curatedCategory('other', curated({}), 'museum')).toBe('museum');
+  });
+
+  it('never lets a researched other replace a kind open data knows', () => {
+    expect(curatedCategory('museum', curated({}), 'other')).toBe('museum');
+    expect(curatedCategory('nature', curated({}), 'other')).toBe('nature');
+    // Where open data's kind is no sight, the line decides as before.
+    const night = curated({ best_times: ['evening'], tags: ['nightlife'] });
+    expect(curatedCategory('food', night, 'other')).toBe('nightlife');
+    expect(curatedCategory('stay', curated({ tags: ['culture'] }), 'other')).toBe('other');
   });
 
   it('carries the area, standing, pages, rain fit and the matched pairs only', () => {
