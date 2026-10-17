@@ -17,7 +17,6 @@
 import { solarDay } from '@cp/domain';
 
 import { localMinute } from '../feasibility/grid';
-import { EARLY_MORNING_ENDS_MIN } from './best-times';
 import { ceilGrid, floorGrid, spansOn } from './day-minutes';
 import { mealHoursIn, type MealHours } from './meal-hours';
 import { textPlaceTimes } from './place-time';
@@ -25,6 +24,9 @@ import { isTyped, typedPlaceTimes } from './typed-facts';
 import type { DraftPoi } from './types';
 
 export type PlaceTime = 'morning' | 'sunset' | 'evening' | 'after_dark';
+
+/** An early morning is over at half past eight. */
+export const EARLY_MORNING_ENDS_MIN = 510;
 
 /** The local minutes a stop may start between. */
 export interface PlaceWindow {

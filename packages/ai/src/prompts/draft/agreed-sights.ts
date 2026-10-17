@@ -150,7 +150,7 @@ export function seatKeepingShape(
       after.meals <= b.meals &&
       misplacedOpeners(input, made).length === 0 &&
       (options.afterDinner === true || !afterDinner(input, made, poi.id)) &&
-      !missesBestTime(poi, startOf(made)) &&
+      !missesBestTime(poi, startOf(made), made.date) &&
       shapeKept(made) &&
       areaStep(input, poi.id, placesOf(made)) === 0 &&
       !addsAcrossTownAfterDinner(input, rest, made),

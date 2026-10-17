@@ -171,7 +171,8 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
       if (slot !== null) meals.add(slot);
       if (slot === 'dinner') dinnerAt ??= index;
     }
-    if (held === null && choice.kind !== 'meal' && missesBestTime(poi, start)) misfit += 1;
+    if (held === null && choice.kind !== 'meal' && missesBestTime(poi, start, input.date))
+      misfit += 1;
     idle += Math.max(0, start - Math.max(reached, input.window.startMin));
     if (choice.kind === 'meal') idle += mealLateness(start, held?.fromMin ?? null, local);
     at = start + (choice.kind === 'meal' ? mealDuration(poi, start, duration, local) : duration);

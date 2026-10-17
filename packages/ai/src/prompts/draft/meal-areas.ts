@@ -61,7 +61,7 @@ export function offTheirTime(input: DraftPlanInput, day: DraftDay): number {
   return day.items.filter((item) => {
     const poi = item.kind === 'activity' ? input.pois.get(item.poi_id ?? '') : undefined;
     const start = minuteOfDate(new Date(item.starts_at), day.date, input.frame.tz);
-    return poi !== undefined && missesBestTime(poi, start);
+    return poi !== undefined && missesBestTime(poi, start, day.date);
   }).length;
 }
 

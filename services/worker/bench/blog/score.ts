@@ -21,6 +21,8 @@ export interface ScoredStop {
   readonly kind: 'activity' | 'meal';
   /** Local minute of the day the stop starts. */
   readonly startMin: number;
+  /** Local minute the sun sets at the stop on its day. */
+  readonly sunsetMin: number;
   readonly lat: number;
   readonly lng: number;
   readonly category: string;
@@ -52,10 +54,23 @@ export const BEST_TIME_WINDOWS: Readonly<Record<string, readonly [number, number
   morning: [420, 690],
   midday: [660, 870],
   afternoon: [810, 1050],
-  sunset: [990, 1170],
   evening: [1050, 1320],
   after_dark: [1140, 1560],
 };
+/**
+ * A sunset stop follows the real sun at the place on the day: begun up to two hours before it
+ * (the golden hour pages send people up for) and no later than an hour after it, when the sky has
+ * gone dark. Three hours wide, like the other times of day.
+ */
+const SUNSET_BEFORE_MIN = 120;
+const SUNSET_AFTER_MIN = 60;
+
+/** The local minutes `time` covers for `stop`, or undefined for a time the scorer does not know. */
+function windowOf(time: string, stop: ScoredStop): readonly [number, number] | undefined {
+  return time === 'sunset'
+    ? [stop.sunsetMin - SUNSET_BEFORE_MIN, stop.sunsetMin + SUNSET_AFTER_MIN]
+    : BEST_TIME_WINDOWS[time];
+}
 const LUNCH: readonly [number, number] = [660, 870];
 const DINNER: readonly [number, number] = [1020, 1290];
 
@@ -132,7 +147,7 @@ export function missesItsTime(stop: ScoredStop): boolean {
     stop.kind === 'activity' &&
     stop.bestTimes.length > 0 &&
     !stop.bestTimes.some((time) => {
-      const window = BEST_TIME_WINDOWS[time];
+      const window = windowOf(time, stop);
       return window !== undefined && within(stop.startMin, window);
     })
   );
