@@ -11,6 +11,8 @@
  * holds the time of day the place is for (./place-time) or a meal it serves: a bar is never
  * offered to the morning of the flight home.
  *
+ * A supermarket or convenience store nobody curated is on no list (./food-role `everydayShop`).
+ *
  * Hundreds of curated places tie on that score, and only a few dozen fit a list, so what breaks
  * the tie decides the trip. It is never the alphabet: one row per place first (the curated set
  * lists some places several times), then the places listed most often, then a spread across
@@ -22,7 +24,7 @@
  * other places a point or two, and without this the sights a city is known for would lose their
  * seats to them unless somebody typed their names.
  */
-import { foodRole } from './food-role';
+import { everydayShop, foodRole } from './food-role';
 import { keepEdgeDaysNearHome, outingsFor } from './home';
 import type { Outing } from './outings';
 import { collapseSamePlaces } from './same-place';
@@ -232,7 +234,8 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
       ignore: input.ignoreNames ?? [],
     },
   );
-  const open = places.kept.filter((poi) => !mustDoPois.has(poi.id));
+  // A corner shop or supermarket is never offered, as a sight, a break or a meal.
+  const open = places.kept.filter((poi) => !mustDoPois.has(poi.id) && !everydayShop(poi));
   const ranking: Ranking = {
     tastes: input.tastes,
     mentions: places.mentions,

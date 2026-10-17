@@ -153,6 +153,13 @@ describe('what a curated line tells the planner beyond typed facts', () => {
     expect(curatedCategory('stay', curated({ tags: ['culture'] }), 'other')).toBe('other');
   });
 
+  it('plans a curated station people come to see as a sight', () => {
+    // Dalat Railway Station: researched as transit, filed by open data as a museum.
+    expect(curatedCategory('museum', curated({}), 'transit')).toBe('museum');
+    // A station's own row is a sight too, never a stop the draft leaves out.
+    expect(curatedCategory('transit', curated({ tags: ['history'] }), 'transit')).toBe('other');
+  });
+
   it('carries the area, standing, pages, rain fit and the matched pairs only', () => {
     expect(
       curatedPlaceFacts(

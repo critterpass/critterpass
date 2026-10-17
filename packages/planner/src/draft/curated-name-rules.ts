@@ -12,7 +12,9 @@
  * Ratchada Train Night Market"), unless the row is written in the place's Latin local name.
  * A row of the wrong kind is never the place, and one of a clashing kind goes after one that is
  * not (`curated-kind-rules`: "IPPUDO Clarke Quay" is not Clarke Quay). Among rows that qualify,
- * the closer name wins, then the same kind of place, then the nearer row. Short of that, a row whose name is nearly the same text (`SIMILAR_TEXT`, for scripts
+ * the closer name wins, then the same kind of place, then the whole place over a part of it or a
+ * business inside it (a room, a gate, a ticket office, a café: `PART_WORDS`), then the nearer row.
+ * British and American spellings are one word ("centre", "center"). Short of that, a row whose name is nearly the same text (`SIMILAR_TEXT`, for scripts
  * written without spaces) close to the point (`SIMILAR_RADIUS_M`). A place no row carries is
  * reported and never created from the researcher's point: open data stays the source of a
  * place's name, point and address.
@@ -25,7 +27,7 @@ import {
   type PickCandidate,
   type PlacePickKind,
 } from './named-place-match';
-import { kindClash, wrongKind } from './curated-kind-rules';
+import { kindClash, namesAnArea, wholeness, wrongKind } from './curated-kind-rules';
 import { nameAliases, nameTokens, namingWords, tellingWords } from './place-names';
 
 export const SAME_NAME_RADIUS_M = 1_500;
@@ -103,9 +105,19 @@ interface FullName {
   readonly words: number;
 }
 
+/** British and American spellings of one word, read as one ("Maxwell Food Center"). */
+const SPELLING: Readonly<Record<string, string>> = {
+  centre: 'center',
+  theatre: 'theater',
+  harbour: 'harbor',
+  neighbourhood: 'neighborhood',
+  colour: 'color',
+};
+
 function fullName(tokens: readonly string[], plain: ReadonlySet<string>): FullName {
+  const words = tellingWords(namingWords(tokens), plain).map((word) => SPELLING[word] ?? word);
   return {
-    key: tellingWords(namingWords(tokens), plain).sort().join(' '),
+    key: words.sort().join(' '),
     words: tellingWords(tokens, plain).length,
   };
 }
@@ -220,7 +232,8 @@ export function chooseCuratedMatch(
       const rank = scored.get(row.id);
       const score = Math.max(full, rank?.score ?? 0);
       const clash = kindClash(lead, row) ? 1 : 0;
-      return { row, score, clash, order: rank?.order ?? ranked.length + index };
+      const part = wholeness(row.name, plain, leadWords);
+      return { row, score, clash, part, order: rank?.order ?? ranked.length + index };
     })
     .filter(
       (c) =>
@@ -231,14 +244,19 @@ export function chooseCuratedMatch(
       (a, b) =>
         b.score - a.score ||
         a.clash - b.clash ||
+        a.part - b.part ||
         Math.floor(a.row.distanceM / NEAR_STEP_M) - Math.floor(b.row.distanceM / NEAR_STEP_M) ||
         a.order - b.order,
     );
   const best = near[0];
   if (best !== undefined) return { kind: 'match', row: best.row, score: best.score };
   // Candidates arrive closest text first; a branch in the place's area is never the place.
+  // For a street or district, only a name in a script without spaces ("Robertson 100" is not
+  // Robertson Quay).
+  const area = namesAnArea(lead);
   const similar = open.find(
     (row) =>
+      !(area && LATIN.test(row.name)) &&
       row.similarity >= SIMILAR_TEXT &&
       row.distanceM <= SIMILAR_RADIUS_M &&
       withoutBranchNote(row.name, leadWords) === row.name,
