@@ -4,8 +4,10 @@
  * named after it, a square is not its bus stop or station, a street is no row named after it
  * with words of its own, and among same-name rows the one of a fitting kind wins. A business the
  * researcher says the place is (a palace hotel, a bar filed as a restaurant) still matches, and a
- * typed search with no researched kind keeps its matches.
+ * typed search with no researched kind keeps its matches. Only a place that may be a street or
+ * district is ever given one of OpenStreetMap's: never a bar, an izakaya or a river.
  */
+import { streetScope } from '@cp/planner';
 import { describe, expect, it } from 'vitest';
 
 import {
@@ -188,5 +190,26 @@ describe('matching a curated place to a row of its own kind', () => {
     };
     const trattoria = row('trattoria', 'Trattoria Ponte Vecchio', 'food');
     expect(matchOf(typed, [trattoria], florence)).toBe('trattoria');
+  });
+
+  it('lets only a street, area, trail or village be a street or district', () => {
+    const scope = (name: string, category: string, subtype: string) => {
+      const { way, district } = streetScope(place(name, category, subtype));
+      return [way, district];
+    };
+    expect(scope('Kamo River', 'nature', 'riverside promenade')).toEqual([false, false]);
+    expect(scope('Gion Finlandia Bar', 'nightlife', 'bar in a former geisha house')).toEqual([
+      false,
+      false,
+    ]);
+    expect(scope('Yasukawa', 'food', 'local izakaya')).toEqual([false, false]);
+    expect(scope('Wat Phanan Choeng', 'temple_shrine', 'riverside temple')).toEqual([false, false]);
+    expect(scope('Gion Hanamikoji', 'other', 'historic geisha district')).toEqual([true, true]);
+    expect(scope('Queen Street Mall', 'shopping', 'pedestrian shopping mall')).toEqual([
+      true,
+      true,
+    ]);
+    expect(scope('Lushui Trail', 'nature', 'short forest walk')).toEqual([true, false]);
+    expect(scope('Cheung Chau Island', 'nature', 'car-free island')).toEqual([false, true]);
   });
 });

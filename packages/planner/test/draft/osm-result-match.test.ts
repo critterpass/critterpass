@@ -15,7 +15,12 @@ import {
   plainWords,
   type CuratedLead,
 } from '../../src/draft';
-import { CLARKE_QUAY_REPLY, HOOVER_DAM_REPLY, PATONG_BEACH_REPLY } from './nominatim-fixture';
+import {
+  CLARKE_QUAY_REPLY,
+  HANAMIKOJI_REPLY,
+  HOOVER_DAM_REPLY,
+  PATONG_BEACH_REPLY,
+} from './nominatim-fixture';
 
 const [beach, hotel] = PATONG_BEACH_REPLY;
 const [dam] = HOOVER_DAM_REPLY;
@@ -94,6 +99,43 @@ describe('accepting a Nominatim result', () => {
     // A stop is no place of any kind it is named after.
     const eatery = { ...clarke, category: 'food' as const, subtype: 'riverside restaurant' };
     expect(acceptResult(eatery, stop!, singapore, 2_000)).toBeNull();
+  });
+
+  it('gives a street only to a place that is one, never by a local name alone', () => {
+    const kyoto = plainWords('Kyoto', 'Japan');
+    const [street] = HANAMIKOJI_REPLY;
+    const gion = (name: string, category: CuratedLead['category'], subtype: string) => ({
+      name,
+      localName: '花見小路',
+      category,
+      lat: 35.0035,
+      lng: 135.7748,
+      subtype,
+    });
+    // The researchers wrote the street's name as the local name of a river and a bar on it.
+    expect(
+      acceptResult(gion('Kamo River', 'nature', 'riverside promenade'), street!, kyoto, 2_000),
+    ).toBeNull();
+    const bar = gion('Gion Finlandia Bar', 'nightlife', 'bar in a former geisha house');
+    expect(acceptResult(bar, street!, kyoto, 2_000)).toBeNull();
+    const district = gion('Gion Hanamikoji', 'other', 'historic geisha district');
+    expect(acceptResult(district, street!, kyoto, 2_000)?.place).toMatchObject({
+      sourceId: 'w27908626',
+      name: 'Hanami-koji',
+      nameLocal: '花見小路',
+    });
+    // A trail by its kind alone takes a street only by its English name.
+    const trail = gion('Shirakawa Lanterns', 'other', 'evening walking trail');
+    expect(acceptResult(trail, street!, kyoto, 2_000)).toBeNull();
+    // A typed search takes the street it names.
+    const typed: CuratedLead = {
+      name: '花見小路',
+      localName: null,
+      category: 'other',
+      lat: 35.0035,
+      lng: 135.7748,
+    };
+    expect(acceptResult(typed, street!, kyoto, 2_000)?.place.sourceId).toBe('w27908626');
   });
 
   it('composes an address only from the parts it has', () => {
