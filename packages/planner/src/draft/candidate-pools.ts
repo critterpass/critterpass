@@ -51,6 +51,8 @@ export interface CandidatePools {
   readonly activities: readonly DraftPoi[];
   /** Every sight we may plan with, one row per place: what a hole is filled from after the pool. */
   readonly sights: readonly DraftPoi[];
+  /** Every coffee or snack stop we may plan with, one row per place (most are not activities). */
+  readonly breaks: readonly DraftPoi[];
   /** The best meal places across the destination. */
   readonly meals: readonly DraftPoi[];
   /** Every meal place that suits the crew, best first: each day's own list is cut from these. */
@@ -253,12 +255,8 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
   // Eight a day (where visits are short, a day takes many), and a seat for every must-see sight.
   const mustSees = sights.filter((poi) => poi.mustSee).length;
   const activityLimit = Math.min(48, Math.max(24, days * 8, mustSees + days * 2));
-  const breaks = pick(
-    open.filter((poi) => foodRole(poi) === 'light'),
-    days,
-    ranking,
-  );
-  const activities = pick([...sights, ...breaks], activityLimit, {
+  const breaks = open.filter((poi) => foodRole(poi) === 'light');
+  const activities = pick([...sights, ...pick(breaks, days, ranking)], activityLimit, {
     ...ranking,
     wellKnown: Math.floor(activityLimit / 3),
     mustSees: Math.max(mustSees, Math.floor((activityLimit * 2) / 3)),
@@ -271,5 +269,15 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     { ...ranking, mustSees: Math.floor(MAX_EATERIES / 4) },
   );
   const meals = eateries.slice(0, Math.min(30, Math.max(12, days * 3)));
-  return { mustDos, unplaceable, activities, sights, meals, eateries, openDays, outings };
+  return {
+    mustDos,
+    unplaceable,
+    activities,
+    sights,
+    breaks,
+    meals,
+    eateries,
+    openDays,
+    outings,
+  };
 }
