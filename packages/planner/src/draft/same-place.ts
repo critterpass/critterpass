@@ -9,12 +9,39 @@
  * before "Marble Mountains Elevator"), else the one nearest the others (a stray pin is the
  * likelier mistake), else the first by id. How many rows named a
  * place is kept: the places a set lists three times are the ones everybody goes to.
+ *
+ * A row nobody curated is also the same place as a curated one when it is that place under its
+ * other name: the Vietnamese and the English name of one craft village a hundred metres apart
+ * ("Làng mộc Kim Bồng", "Kim Bong Carpentry Village"), or the mausoleum under a stray pin across
+ * town. The curated row stands for it. Each such row joins its nearest curated twin only, so two
+ * curated places are never made one through a third row.
  */
 import { nameAliases } from './place-names';
 import type { DraftPoi } from './types';
 
 const SAME_PLACE_M = 150;
 const NAME_OVERLAP = 0.6;
+/** Little words left out of a name's word pairs ("Torre de Belém" pairs "torre belem"). */
+const LINK_WORDS: ReadonlySet<string> = new Set([
+  'the',
+  'of',
+  'and',
+  'a',
+  'an',
+  'de',
+  'da',
+  'do',
+  'das',
+  'dos',
+  'del',
+  'la',
+  'el',
+  'le',
+  'les',
+  'di',
+  'e',
+  'y',
+]);
 
 export function metresBetween(
   a: Pick<DraftPoi, 'lat' | 'lng'>,
@@ -33,6 +60,15 @@ interface Named {
   readonly tokens: ReadonlySet<string>;
   /** The leading name without kind words, short forms spelt out; null under two words. */
   readonly core: string | null;
+  /** Each two words in a row of the row's names, little words left out. */
+  readonly pairs: readonly string[];
+}
+
+function pairsOf(aliases: readonly (readonly string[])[]): string[] {
+  return aliases.flatMap((alias) => {
+    const words = alias.filter((word) => !LINK_WORDS.has(word));
+    return words.slice(1).map((word, index) => `${words[index]} ${word}`);
+  });
 }
 
 const LOOKALIKE_M = 8000;
@@ -61,6 +97,21 @@ function overlap(a: ReadonlySet<string>, b: ReadonlySet<string>): number {
   let shared = 0;
   for (const token of a) if (b.has(token)) shared += 1;
   return shared / Math.min(a.size, b.size);
+}
+
+/** Whether our researchers wrote a line for the place (`editorial.curated`). */
+function isCurated(poi: DraftPoi): boolean {
+  return poi.area != null || poi.prominence != null || poi.blogCount != null;
+}
+
+/**
+ * Whether `row`, which nobody curated, is the curated place `curated` under another name: on the
+ * same spot, both naming it by the same two words in a row (its proper name: "kim bong").
+ */
+function curatedTwin(curated: Named, row: Named): boolean {
+  if (curated.poi.category === 'food' || row.poi.category === 'food') return false;
+  if (metresBetween(curated.poi, row.poi) > SAME_PLACE_M) return false;
+  return curated.pairs.some((pair) => row.pairs.includes(pair));
 }
 
 function samePlace(a: Named, b: Named): boolean {
@@ -99,6 +150,7 @@ export function collapseSamePlaces(
       names: aliases.filter((alias) => alias.length >= 2).map((alias) => alias.join(' ')),
       tokens: new Set(aliases.flat()),
       core: coreName(aliases[0]),
+      pairs: pairsOf(aliases),
     };
   });
   const parent = named.map((_, index) => index);
@@ -150,6 +202,20 @@ export function collapseSamePlaces(
       mentions.set(poi.id, rows.length);
     }
     for (const poi of sorted) if (!kept.has(poi.id)) keptFor.set(poi.id, head.id);
+  }
+  // A kept row nobody curated gives way to its nearest curated twin, with every row it stood for.
+  const keptNamed = named.filter((entry) => kept.has(entry.poi.id));
+  const curated = keptNamed.filter((entry) => isCurated(entry.poi));
+  for (const entry of keptNamed) {
+    if (isCurated(entry.poi) || keep.has(entry.poi.id)) continue;
+    const twin = curated
+      .filter((other) => curatedTwin(other, entry))
+      .sort((a, b) => metresBetween(a.poi, entry.poi) - metresBetween(b.poi, entry.poi))[0];
+    if (twin === undefined) continue;
+    kept.delete(entry.poi.id);
+    mentions.set(twin.poi.id, (mentions.get(twin.poi.id) ?? 1) + (mentions.get(entry.poi.id) ?? 1));
+    mentions.delete(entry.poi.id);
+    for (const [row, head] of keptFor) if (head === entry.poi.id) keptFor.set(row, twin.poi.id);
   }
   return { kept: pois.filter((poi) => kept.has(poi.id)), mentions, keptFor };
 }
