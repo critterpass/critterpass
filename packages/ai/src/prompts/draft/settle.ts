@@ -22,6 +22,7 @@ import { withoutMisplacedOpeners } from './openers';
 import { fillEvenings } from './evenings';
 import { fillThinDays, withNearerMeals } from './fill-days';
 import { withMealsInDayAreas } from './meal-areas';
+import { withMealsOnTheWay } from './meal-detours';
 import type { DraftPlanInput } from './context';
 import { scheduleChoices } from './day';
 import type { SkeletonDay } from './skeleton';
@@ -266,6 +267,8 @@ export function settle(
     for (const outline of outlines) itinerary = withNearerMeals(input, outline, itinerary);
     // Then each meal is eaten in the area of the stops around it, where the day has such a place.
     for (const outline of outlines) itinerary = withMealsInDayAreas(input, outline, itinerary);
+    // And a meal far off the line between those stops moves nearer it.
+    for (const outline of outlines) itinerary = withMealsOnTheWay(input, outline, itinerary);
   }
   return {
     itinerary,

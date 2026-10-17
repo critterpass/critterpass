@@ -56,7 +56,7 @@ export function dayShape(
 }
 
 /** Stops of the day that start outside every time of day they are best at. */
-function offTheirTime(input: DraftPlanInput, day: DraftDay): number {
+export function offTheirTime(input: DraftPlanInput, day: DraftDay): number {
   return day.items.filter((item) => {
     const poi = item.kind === 'activity' ? input.pois.get(item.poi_id ?? '') : undefined;
     const start = minuteOfDate(new Date(item.starts_at), day.date, input.frame.tz);
@@ -65,7 +65,7 @@ function offTheirTime(input: DraftPlanInput, day: DraftDay): number {
 }
 
 /** The ids of the nearest stops that are not meals before and after `at`. */
-function aroundMeal(day: DraftDay, at: number): string[] {
+export function aroundMeal(day: DraftDay, at: number): string[] {
   const before = day.items
     .slice(0, at)
     .reverse()
@@ -136,7 +136,7 @@ function insteadOf(
 }
 
 /** `day` with the meal at `at` at `poi` instead, timed again by the planner. */
-function withMealAt(
+export function withMealAt(
   input: DraftPlanInput,
   outline: SkeletonDay,
   itinerary: Itinerary,
