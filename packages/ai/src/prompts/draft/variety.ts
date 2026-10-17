@@ -1,8 +1,9 @@
 /**
  * Variety in a day and across a trip. A day carries at most three stops of one kind (four temples
  * in a row is a day nobody remembers) as long as places of another kind are on its list; and when
- * the planner picks a place itself, it takes a must-see before the rest, and among equals the
- * kind the day lacks, then one that suits the crew's tastes, then a kind the trip has not had yet.
+ * the planner picks a place itself, it takes a must-see before the rest, and among equals a kind
+ * the day lacks, then one that suits the crew's tastes, then the kind the day has least of, then a
+ * kind the trip has not had yet.
  */
 import { foodRole, tasteScore, type DraftPoi } from '@cp/planner';
 
@@ -37,8 +38,9 @@ export function oneTooMany(
 
 /**
  * `candidates` in the order the planner should try them for a day holding `dayIds` on a trip
- * holding `tripIds`: must-sees first, then kinds the day has least of, then places that suit the
- * crew's tastes, then kinds new to the trip, then as they came. One of a kind too many is left out while another kind is offered.
+ * holding `tripIds`: must-sees first, then kinds the day lacks, then places that suit the crew's
+ * tastes, then kinds the day has least of, then kinds new to the trip, then as they came. One of a
+ * kind too many is left out while another kind is offered.
  * `near` (lower first) comes before all of that: a place in the day's own areas before a
  * must-see across town.
  */
@@ -66,8 +68,9 @@ export function byVariety(
         a.near - b.near ||
         Number(b.poi.mustSee) - Number(a.poi.mustSee) ||
         (a.poi.mustSee ? a.rank - b.rank : 0) ||
-        a.day - b.day ||
+        Math.min(a.day, 1) - Math.min(b.day, 1) ||
         a.taste - b.taste ||
+        a.day - b.day ||
         a.seen - b.seen ||
         a.rank - b.rank,
     );

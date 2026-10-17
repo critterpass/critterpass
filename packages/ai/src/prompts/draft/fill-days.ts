@@ -20,6 +20,7 @@ import {
   type DraftPoi,
 } from '@cp/planner';
 
+import { agreedThenSuits } from './agreement';
 import { addsAcrossTownAfterDinner } from './across-town';
 import { stopBudget } from './budget';
 import { areaStep, areasHeld, areasOf, besideStops, dayOutOf, hopCap } from './areas';
@@ -158,6 +159,8 @@ export function fillThinDays(
       const here = day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
       const openToday = (poi: DraftPoi) =>
         (input.pools.openDays.get(poi.id) ?? []).includes(outline.dayNo);
+      // As near, what pages agree on first, and among it alike what suits the crew.
+      const prefer = agreedThenSuits(input);
       // The pool first; then any sight we know near the day, so a hole beside a part of the map
       // the pool passed over is still filled.
       const nearby = [
@@ -168,8 +171,14 @@ export function fillThinDays(
             .filter((poi): poi is DraftPoi => poi !== undefined && openToday(poi)),
           here,
         ),
-        ...nearFirst(input, input.pools.activities.filter(openToday), here).slice(0, NEARBY_TRIED),
-        ...nearFirst(input, input.pools.sights.filter(openToday), here).slice(0, NEARBY_TRIED),
+        ...nearFirst(input, input.pools.activities.filter(openToday), here, false, prefer).slice(
+          0,
+          NEARBY_TRIED,
+        ),
+        ...nearFirst(input, input.pools.sights.filter(openToday), here, false, prefer).slice(
+          0,
+          NEARBY_TRIED,
+        ),
       ].map((poi) => poi.id);
       const used = new Set(itinerary.days.flatMap((d) => d.items.map((item) => item.poi_id)));
       const hasBreak = day.items.some((item) => {
