@@ -88,6 +88,31 @@ describe('matching a curated place to a row of its own kind', () => {
     expect(matchOf(tower, [row('h', 'Hotel Torre Del Reloj', 'stay')], cartagena)).toBeNull();
   });
 
+  it('reads past an address, a note, a word of the kind and a word for a street', () => {
+    const sydney = plainWords('Sydney', 'Australia');
+    const memorial = place('Anzac Memorial', 'museum', 'war memorial');
+    // Nearly the same text close by (the name rules' trigram match).
+    const war = { ...row('m', 'Anzac War Memorial', 'stay'), similarity: 0.6 };
+    expect(matchOf(memorial, [war], sydney)).toBe('m');
+    const ninhBinh = plainWords('Ninh Binh', 'Vietnam');
+    const temple = {
+      ...place('Thai Vi Temple', 'temple_shrine', 'temple'),
+      localName: 'Đền Thái Vi',
+    };
+    const filed = row('t', 'Đền Thái Vi, xã Ninh Hải, huyện Hoa Lư', 'food');
+    expect(matchOf(temple, [filed], ninhBinh)).toBe('t');
+    const kuching = plainWords('Kuching', 'Malaysia');
+    const bazaar = place('Main Bazaar', 'shopping', 'heritage shophouse street');
+    expect(matchOf(bazaar, [row('j', 'Jalan Main Bazaar', 'shopping')], kuching)).toBe('j');
+    const hiroshima = plainWords('Hiroshima', 'Japan');
+    const arcade = place('Hondori Shopping Arcade', 'shopping', 'covered shopping street');
+    const noted = row('h', 'Hondori Shopping Arcade (250 meters from the Hypocenter)', 'shopping');
+    expect(matchOf(arcade, [noted], hiroshima)).toBe('h');
+    // A word of the business's own is still one ("Trattoria" above, "Hotel" here).
+    const hotel = { ...row('x', 'Anzac Memorial Hotel', 'stay'), similarity: 0.6 };
+    expect(matchOf(memorial, [hotel], sydney)).toBeNull();
+  });
+
   it('keeps a business the researched kind says the place is, and a bar filed as food', () => {
     const abuDhabi = plainWords('Abu Dhabi', 'United Arab Emirates');
     const palace = place('Emirates Palace', 'other', 'palace hotel');
