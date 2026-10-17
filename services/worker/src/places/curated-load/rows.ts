@@ -24,6 +24,7 @@ import {
   type EditorialText,
   type PoiCategory,
 } from '@cp/domain';
+import { streetScope } from '@cp/planner';
 import { z } from 'zod';
 
 const line = (max: number) => z.string().trim().min(1).max(max);
@@ -164,4 +165,32 @@ export function curatedNoteLines(
     vi: { why_go: row.why_go_vi, tips: row.tips_vi },
     category: row.category,
   };
+}
+
+/**
+ * A local name several lines of one file give to places of different English names is where they
+ * stand (a street: Kyoto's bar, izakaya and river all written 花見小路), not each one's name. Only
+ * a line that may itself be a street or district (`streetScope`) keeps it; the others are matched
+ * and looked up by their English name.
+ */
+export function withoutSharedLocalNames(lines: readonly CuratedPlaceRow[]): CuratedPlaceRow[] {
+  const owners = new Map<string, Set<string>>();
+  for (const line of lines) {
+    const local = line.name_local?.trim() ?? '';
+    if (local === '') continue;
+    const names = owners.get(local) ?? new Set<string>();
+    names.add(line.name_en.trim().toLowerCase());
+    owners.set(local, names);
+  }
+  return lines.map((line) => {
+    const local = line.name_local?.trim() ?? '';
+    if ((owners.get(local)?.size ?? 0) < 2) return line;
+    const scope = streetScope({
+      name: line.name_en,
+      localName: local,
+      category: line.category,
+      subtype: line.subtype ?? null,
+    });
+    return scope.way || scope.district ? line : { ...line, name_local: null };
+  });
 }

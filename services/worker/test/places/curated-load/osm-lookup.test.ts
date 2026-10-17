@@ -2,7 +2,9 @@
  * The questions a curated place puts to Nominatim: its local name, then its English name (a
  * bracketed note left out), then the English name with the city, and a compound name's first part,
  * near the researcher's point; a day trip or nature area is asked again in a wider box and accepted
- * further from the point, a beach a little further. An activity is never asked about.
+ * further from the point, a beach a little further. An activity is never asked about. A name
+ * written the British way is asked the American way too, and a local name several lines share
+ * (the street they stand on) stays only with the line that is a street or district.
  */
 import type { NominatimResult } from '@cp/domain';
 import type { NominatimQuery } from '@cp/domain';
@@ -15,7 +17,9 @@ import {
   findCuratedOsmPlace,
 } from '../../../src/places/curated-load/osm-lookup';
 import type { CuratedPlaceRow } from '../../../src/places/curated-load/rows';
+import { withoutSharedLocalNames } from '../../../src/places/curated-load/rows';
 import { plainWords } from '../../../src/places/pick/match';
+import { HANAMIKOJI_REPLY } from '../../../../../packages/planner/test/draft/nominatim-fixture';
 
 const line = (over: Partial<CuratedPlaceRow>): CuratedPlaceRow => ({
   destination: 'th-pattaya',
@@ -137,5 +141,63 @@ describe('asking Nominatim for a curated place', () => {
     expect(stop('Thang Long Water Puppet Theatre', 'water puppet show')).toBe(false);
     expect(stop('Donaukanal', 'canal promenade')).toBe(false);
     expect(stop('Lycian Way Ölüdeniz to Faralya', 'coastal hiking trail')).toBe(false);
+  });
+
+  it('asks a British spelling the American way too', async () => {
+    const maxwell = line({
+      destination: 'sg-singapore',
+      name_en: 'Maxwell Food Centre',
+      name_local: null,
+      category: 'food',
+      subtype: 'hawker centre',
+      lat: 1.2803,
+      lng: 103.8445,
+    });
+    expect((await asked(maxwell, 'Singapore')).map(([q]) => q)).toEqual([
+      'Maxwell Food Centre',
+      'Maxwell Food Centre, Singapore',
+      'Maxwell Food Center',
+    ]);
+  });
+
+  it('keeps a local name several places share only for the street, never for a bar on it', async () => {
+    const gion = (name_en: string, category: CuratedPlaceRow['category'], subtype: string) =>
+      line({
+        destination: 'kyoto',
+        name_en,
+        name_local: '花見小路',
+        category,
+        subtype,
+        lat: 35.0046,
+        lng: 135.7737,
+      });
+    const lines = withoutSharedLocalNames([
+      gion('Gion Hanamikoji', 'other', 'historic geisha district'),
+      gion('Kamo River', 'nature', 'riverside promenade'),
+      gion('Gion Finlandia Bar', 'nightlife', 'bar in a former geisha house'),
+      gion('Yasukawa', 'food', 'local izakaya'),
+    ]);
+    expect(lines.map((l) => l.name_local ?? null)).toEqual(['花見小路', null, null, null]);
+    // Asked by its English name only, the izakaya is not the restaurant called 花見小路.
+    const yasukawa = lines[3]!;
+    const found = await findCuratedOsmPlace(
+      yasukawa,
+      plainWords('Kyoto', 'Japan'),
+      (query) => Promise.resolve(query.q === '花見小路' ? HANAMIKOJI_REPLY : []),
+      'Kyoto',
+    );
+    expect(found.place).toBeNull();
+    // With the shared local name it would have been.
+    const before = await findCuratedOsmPlace(
+      gion('Yasukawa', 'food', 'local izakaya'),
+      plainWords('Kyoto', 'Japan'),
+      (query) => Promise.resolve(query.q === '花見小路' ? HANAMIKOJI_REPLY : []),
+      'Kyoto',
+    );
+    expect(before.place?.sourceId).toBe('n4886634238');
+    // A line alone keeps its local name.
+    expect(
+      withoutSharedLocalNames([gion('Yasukawa', 'food', 'local izakaya')])[0]?.name_local,
+    ).toBe('花見小路');
   });
 });

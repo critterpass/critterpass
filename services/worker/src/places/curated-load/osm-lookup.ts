@@ -2,7 +2,9 @@
  * The OpenStreetMap answer for a curated place no row of ours carries (`@cp/suppliers` asks Nominatim,
  * `@cp/planner` accepts). Nominatim is asked, inside a box around the researcher's point
  * (`NEAR_DEGREES`), for the place's local name first (what the map itself is written in), then its
- * English name, then the English name with the city; a compound name ("Bronte Beach and Baths") is
+ * English name, then the English name with the city, then the English name in the other spelling
+ * (Nominatim matches words as written: "Maxwell Food Centre" is mapped as "Maxwell Food
+ * Center"); a compound name ("Bronte Beach and Baths") is
  * asked once more by its first part. A day trip or nature area is asked again inside a wider box
  * (`WIDE_DEGREES`). A result is the place only when one of its names passes the curated name rules
  * and it lies within `ACCEPT_RADIUS_M` of the point (`SPREAD_ACCEPT_RADIUS_M` for a beach, whose
@@ -14,7 +16,7 @@
  * map: `curatedStopOnly` tells the loader to keep it as a curated-only stop instead of asking.
  */
 import type { NominatimQuery } from '@cp/domain';
-import { findOsmPlace, type CuratedLead, type OsmLookup } from '@cp/planner';
+import { findOsmPlace, SPELLING, type CuratedLead, type OsmLookup } from '@cp/planner';
 import { boxAround, type NominatimSearch } from '@cp/suppliers';
 
 import type { CuratedPlaceRow } from './rows';
@@ -63,6 +65,27 @@ function firstPart(name: string): string | null {
   return first !== undefined && first !== name && first.trim().length >= 3 ? first.trim() : null;
 }
 
+const RESPELLED: Readonly<Record<string, string>> = Object.fromEntries(
+  Object.entries(SPELLING).flatMap(([british, american]) => [
+    [british, american],
+    [american, british],
+  ]),
+);
+
+/**
+ * The name with its British spellings written the American way and back ("Maxwell Food Centre"
+ * as "Maxwell Food Center"), or null when it has none: a search engine matches words as written.
+ */
+export function otherSpelling(name: string): string | null {
+  const respelled = name.replace(/\p{L}+/gu, (word) => {
+    const other = RESPELLED[word.toLowerCase()];
+    if (other === undefined) return word;
+    const capital = word.charAt(0) === word.charAt(0).toUpperCase();
+    return capital ? other.charAt(0).toUpperCase() + other.slice(1) : other;
+  });
+  return respelled === name ? null : respelled;
+}
+
 /** Asks Nominatim for one curated place (see the file header); `city` is its destination's name. */
 export async function findCuratedOsmPlace(
   row: CuratedPlaceRow,
@@ -86,7 +109,12 @@ export async function findCuratedOsmPlace(
     city === null || bare.toLowerCase().includes(city.toLowerCase()) ? '' : `${bare}, ${city}`;
   const part = firstPart(bare);
   const groups: { lead: CuratedLead; names: string[] }[] = [
-    { lead, names: [...new Set([local, bare, withCity])].filter((n) => n !== '') },
+    {
+      lead,
+      names: [...new Set([local, bare, withCity, otherSpelling(bare) ?? ''])].filter(
+        (n) => n !== '',
+      ),
+    },
   ];
   if (part !== null && part !== local)
     groups.push({ lead: { ...lead, name: part }, names: [part] });

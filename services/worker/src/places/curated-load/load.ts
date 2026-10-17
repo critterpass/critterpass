@@ -31,6 +31,7 @@ import {
   curatedNoteLines,
   type CuratedNoteLines,
   type CuratedPlaceRow,
+  withoutSharedLocalNames,
 } from './rows';
 import { redrawnBox } from './bounds';
 import { destinationOf, handleSparse, SPARSE_PLACES } from './sparse';
@@ -179,7 +180,7 @@ export async function loadCuratedPlaces(
   const unmatchedLines: { rank: number; line: CuratedPlaceRow }[] = [];
   const curatedStops: string[] = [];
   const placed: { poiId: string; rank: number; line: CuratedPlaceRow; claim: boolean }[] = [];
-  for (const [index, line] of lines.entries()) {
+  for (const [index, line] of withoutSharedLocalNames(lines).entries()) {
     const lead: CuratedLead = {
       name: line.name_en,
       localName: line.name_local ?? null,
