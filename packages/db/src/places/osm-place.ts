@@ -4,7 +4,8 @@
  * local name, point, address, category, hours, website and phone, `curation = 'auto'`, and the
  * destination's time zone. Used when a place no row carries is found in OSM on demand (a curated
  * place, a place search with no answer). Idempotent: the row of the same OSM id is reused; one
- * another destination owns is left alone (null). Runs in a system transaction.
+ * another destination owns, or one we hid, is left alone (null): a later
+ * lookup never brings a hidden row back or writes a note on it. Runs in a system transaction.
  */
 import { defaultVisitRadiusM, parseOsmOpeningHours, type PoiCategory } from '@cp/domain';
 import type pg from 'pg';
@@ -29,13 +30,15 @@ export async function attachOsmPlace(
   destinationId: string,
   place: OsmPlaceInput,
 ): Promise<{ readonly id: string; readonly inserted: boolean } | null> {
-  const existing = await tx.query<{ id: string; destination_id: string }>(
-    `SELECT id, destination_id FROM pois WHERE source_ids ? 'osm' AND source_ids->>'osm' = $1`,
+  const existing = await tx.query<{ id: string; destination_id: string; status: string }>(
+    `SELECT id, destination_id, status FROM pois
+      WHERE source_ids ? 'osm' AND source_ids->>'osm' = $1`,
     [place.sourceId],
   );
   const found = existing.rows[0];
   if (found !== undefined) {
-    return found.destination_id === destinationId ? { id: found.id, inserted: false } : null;
+    const ours = found.destination_id === destinationId && found.status !== 'hidden';
+    return ours ? { id: found.id, inserted: false } : null;
   }
   const hours = parseOsmOpeningHours(place.openingHours);
   const { rows } = await tx.query<{ id: string }>(
