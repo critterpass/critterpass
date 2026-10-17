@@ -5,7 +5,7 @@
  *
  * The replies (`./nominatim-fixture.ts`) follow Nominatim's documented jsonv2 format.
  */
-import type { NominatimBox } from '@cp/domain';
+import type { NominatimBox, NominatimResult } from '@cp/domain';
 import { describe, expect, it } from 'vitest';
 
 import {
@@ -53,9 +53,14 @@ describe('accepting a Nominatim result', () => {
   it('turns down a hotel named after the beach and a namesake out of range', () => {
     expect(acceptResult(patong, hotel!, phuket, 2_000)).toBeNull();
     const north = { ...patong, lat: 7.9205 };
-    expect(acceptResult(north, beach!, phuket, 2_000)).toBeNull();
-    expect(acceptResult(north, beach!, phuket, 10_000)?.place.sourceId).toBe('w151234567');
+    expect(acceptResult(north, beach!, phuket, 10_000)).toMatchObject({ far: false });
     expect(acceptResult(north, beach!, phuket, null)?.place.sourceId).toBe('w151234567');
+    // Beyond the radius only the place's own full name will do, and never beyond 10 km.
+    expect(acceptResult(north, beach!, phuket, 2_000)).toMatchObject({ far: true });
+    const kata = { ...north, name: 'Patong Kata Beach' };
+    expect(acceptResult(kata, beach!, phuket, 10_000)?.place.sourceId).toBe('w151234567');
+    expect(acceptResult(kata, beach!, phuket, 2_000)).toBeNull();
+    expect(acceptResult({ ...patong, lat: 8.0 }, beach!, phuket, 2_000)).toBeNull();
   });
 
   it('accepts by an alternative name and falls back to the lead kind when OSM has none', () => {
@@ -138,6 +143,34 @@ describe('accepting a Nominatim result', () => {
     expect(acceptResult(typed, street!, kyoto, 2_000)?.place.sourceId).toBe('w27908626');
   });
 
+  it('takes a street or district with a word more for a street or area, never a business', () => {
+    const laPaz = plainWords('La Paz', 'Bolivia');
+    const jaen: CuratedLead = {
+      name: 'Calle Jaén',
+      localName: 'Calle Jaén',
+      category: 'other',
+      lat: -16.4931,
+      lng: -68.1376,
+      subtype: 'colonial street',
+    };
+    // OSM way 44557411 names the street in full, after Apolinar Jaén.
+    const street: NominatimResult = {
+      osm_type: 'way',
+      osm_id: 44557411,
+      lat: '-16.4903',
+      lon: '-68.1370',
+      category: 'highway',
+      type: 'pedestrian',
+      name: 'Calle Apolinar Jaen',
+      namedetails: { name: 'Calle Apolinar Jaen' },
+      extratags: { tourism: 'attraction' },
+      address: { road: 'Calle Apolinar Jaen', city: 'La Paz' },
+    };
+    expect(acceptResult(jaen, street, laPaz, 2_000)?.place.sourceId).toBe('w44557411');
+    const cafe = { ...street, osm_type: 'node', category: 'amenity', type: 'restaurant' };
+    expect(acceptResult(jaen, cafe, laPaz, 2_000)).toBeNull();
+  });
+
   it('composes an address only from the parts it has', () => {
     expect(addressFromParts({ suburb: 'Patong', town: 'Patong' })).toBe('Patong');
     expect(addressFromParts({ country: 'Thailand' })).toBeNull();
@@ -174,6 +207,18 @@ describe('finding a place across queries', () => {
     );
     expect(missed).toMatchObject({ place: null, queries: 1 });
     expect(missed.nearestRejected?.name).toBe('Patong Beach Hotel');
+  });
+
+  it('takes a full name further off only when no result of that name stands elsewhere', async () => {
+    const north = { ...patong, lat: 7.9205 };
+    const ask = (reply: readonly NominatimResult[]) =>
+      findOsmPlace(north, [{ q: 'Patong Beach', box }], phuket, 2_000, () =>
+        Promise.resolve(reply),
+      );
+    expect((await ask([beach!])).place?.sourceId).toBe('w151234567');
+    // A second beach of that name 3 km on: two places, and neither is taken from afar.
+    const namesake = { ...beach!, osm_id: 151234568, lat: '7.9500' };
+    expect((await ask([beach!, namesake])).place).toBeNull();
   });
 
   it('stops without a place when the search may not ask now', async () => {

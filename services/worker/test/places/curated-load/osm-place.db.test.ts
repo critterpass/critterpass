@@ -2,8 +2,9 @@
  * A curated place found in OpenStreetMap, written on a migrated Postgres (Testcontainers): the new
  * row carries the OSM id, name, local name, point, address and the destination's time zone, plus
  * the curated note; a re-run matches that row without asking OSM; a row of the same OSM id is
- * reused, and one another destination owns is left alone; one another curated place holds keeps
- * its note, and a reused row whose name is not the place's takes OSM's name and category.
+ * reused, and one another destination owns, or one we hid, is left alone; one another curated
+ * place holds keeps its note, and a reused row whose name is not the place's takes OSM's name and
+ * category.
  * Nominatim answers with the jsonv2 reply kept in `@cp/planner`'s test fixture.
  */
 import { runMigrations } from '@cp/db';
@@ -116,15 +117,19 @@ describe('adding a curated place from OpenStreetMap', () => {
   });
 
   it('reuses the row of the same OSM id and leaves another destination its own', async () => {
-    await pool.query(`UPDATE pois SET status = 'hidden' WHERE source_ids->>'osm' = 'w151234567'`);
-    const reused = await lookUpCuratedPlace(pool, { rank: 3, place: place() }, search);
-    expect(reused).toMatchObject({ outcome: 'reused', poi_id: (await stored())[0]!.id });
+    // A name no row match reads, so only the OSM id finds the row.
+    await pool.query(
+      `UPDATE pois SET name = 'Beach Road Car Park', name_local = NULL
+        WHERE source_ids->>'osm' = 'w151234567'`,
+    );
     const elsewhere = await lookUpCuratedPlace(
       pool,
       { rank: 1, place: place({ destination: 'th-kathu' }) },
       search,
     );
     expect(elsewhere).toMatchObject({ outcome: 'owned_elsewhere', poi_id: null });
+    const reused = await lookUpCuratedPlace(pool, { rank: 3, place: place() }, search);
+    expect(reused).toMatchObject({ outcome: 'reused', poi_id: (await stored())[0]!.id });
     const rows = await stored();
     expect(rows).toHaveLength(1);
     expect(rows[0]).toMatchObject({ address: 'Thawewong Road, Patong, Kathu District' });
@@ -155,5 +160,17 @@ describe('adding a curated place from OpenStreetMap', () => {
     const [row] = await stored();
     expect(row).toMatchObject({ name: 'Patong Beach', name_local: 'หาดป่าตอง', category: 'beach' });
     expect(readEditorialOverlay(row!.editorial)).toMatchObject({ curated: { rank: 3 } });
+  });
+
+  it('never brings back or writes a note on a row we hid', async () => {
+    await pool.query(
+      `UPDATE pois SET status = 'hidden', editorial = editorial - 'curated'
+        WHERE source_ids->>'osm' = 'w151234567'`,
+    );
+    const hidden = await lookUpCuratedPlace(pool, { rank: 3, place: place() }, search);
+    expect(hidden).toMatchObject({ outcome: 'owned_elsewhere', poi_id: null });
+    const rows = await stored();
+    expect(rows).toHaveLength(1);
+    expect(readEditorialOverlay(rows[0]!.editorial)?.curated).toBeUndefined();
   });
 });

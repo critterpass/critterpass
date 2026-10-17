@@ -8,8 +8,8 @@
  *
  * A row another destination owns may be the place too: a claimable one moves here with the note,
  * any other resolves the place and keeps its owner's note (`./match.ts`). A row of the looked-up
- * OSM id another destination owns is left alone (`owned_elsewhere`), and so is one another
- * curated place of the file holds (`held`: its note stays). A reused row whose name does not
+ * OSM id another destination owns, or one we hid, is left alone (`owned_elsewhere`), and so is
+ * one another curated place of the file holds (`held`: its note stays). A reused row whose name does not
  * carry the place's name ("Diwali on Trafalgar Square" for OSM's Trafalgar Square) takes OSM's
  * name, local name and category: OSM stays the source of what the row is called and is.
  */
@@ -21,12 +21,7 @@ import type pg from 'pg';
 import { allowIndexMaintenance } from '../batch-sql';
 import { plainWords } from '../pick/match';
 import { writeCuratedNote } from './load';
-import {
-  chooseAcrossOwners,
-  chooseCuratedMatch,
-  curatedCandidates,
-  type CuratedLead,
-} from './match';
+import { chooseCuratedMatch, findCuratedRow, type CuratedLead } from './match';
 import { findCuratedOsmPlace } from './osm-lookup';
 import { curatedNoteLines, type CuratedPlaceRow } from './rows';
 
@@ -81,14 +76,13 @@ export async function lookUpCuratedPlace(
   };
   const verdict = await withSystem(pool, async (tx) => {
     await allowIndexMaintenance(tx);
-    const candidates = await curatedCandidates(tx, destination.id, lead, plain);
     // Rows another curated place of the file holds are not this place.
     const { rows } = await tx.query<{ id: string }>(
       `SELECT id FROM pois WHERE destination_id = $1 AND editorial ? 'curated'
           AND (editorial->'curated'->>'rank')::int <> $2`,
       [destination.id, rank],
     );
-    return chooseAcrossOwners(lead, candidates, plain, new Set(rows.map((row) => row.id)));
+    return findCuratedRow(tx, destination.id, lead, plain, new Set(rows.map((row) => row.id)));
   });
   if (verdict.kind === 'match') {
     // A row its owner keeps resolves the place; the note stays the owner's (`./match.ts`).

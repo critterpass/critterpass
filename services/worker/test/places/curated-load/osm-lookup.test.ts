@@ -3,7 +3,8 @@
  * bracketed note left out), then the English name with the city, and a compound name's first part,
  * near the researcher's point; a day trip or nature area is asked again in a wider box and accepted
  * further from the point, a beach a little further. An activity is never asked about. A name
- * written the British way is asked the American way too, and a local name several lines share
+ * written the British way is asked the American way too, a Vietnamese local name also without its
+ * eatery or site head word ("Nhà hàng", "Quán"), and a local name several lines share
  * (the street they stand on) stays only with the line that is a street or district.
  */
 import type { NominatimResult } from '@cp/domain';
@@ -158,6 +159,26 @@ describe('asking Nominatim for a curated place', () => {
       'Maxwell Food Centre, Singapore',
       'Maxwell Food Center',
     ]);
+  });
+
+  it('asks a Vietnamese local name without its eatery head word too', async () => {
+    const sonThuy = line({
+      destination: 'vn-ly-son',
+      name_en: 'Son Thuy Restaurant',
+      name_local: 'Nhà hàng Sơn Thủy',
+      category: 'food',
+      subtype: 'seafood restaurant',
+      lat: 15.3803,
+      lng: 109.1189,
+    });
+    expect((await asked(sonThuy)).map(([q]) => q)).toEqual([
+      'Nhà hàng Sơn Thủy',
+      'Sơn Thủy',
+      'Son Thuy Restaurant',
+    ]);
+    // One word left would ask for a bare given name.
+    const mau = line({ name_en: 'Quan Mau', name_local: 'Quán Mậu', category: 'food' });
+    expect((await asked(mau)).map(([q]) => q)).toEqual(['Quán Mậu', 'Quan Mau']);
   });
 
   it('keeps a local name several places share only for the street, never for a bar on it', async () => {

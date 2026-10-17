@@ -7,7 +7,7 @@
  *   word: `AREA`, read past "walk": an "old-town neighbourhood walk") is never a place to eat, a stay or a
  *   shop, unless the place itself is that kind and the row bears exactly its name, and never any
  *   row whose name is its name plus words of its own ("UP at Robertson Quay", whatever open data
- *   files it under).
+ *   files it under) unless the row is OSM's road or district itself (`mapsArea`).
  * - A stop or a station named after a place is not the place: a researched place is never a
  *   transit row unless the researcher found it to be transit, or its kind says it is a station, a
  *   railway, a pier or a ride ("UNESCO railway terminus", "funicular and viewpoint").
@@ -64,6 +64,12 @@ export interface KindRow {
   readonly name: string;
   readonly nameLocal: string | null;
   readonly category: string;
+  /**
+   * The row is one of OSM's roads or districts itself: its words of its own name the road or
+   * district ("Calle Apolinar Jaén", "Yulin South Road", "Barrio Mágico de Jalatlaco"), never a
+   * business standing on it.
+   */
+  readonly mapsArea?: boolean;
 }
 
 /** A kind's last word that says how a place is seen, not what it is ("neighbourhood walk"). */
@@ -262,7 +268,7 @@ export function transitStandIn(lead: KindLead, row: KindRow): boolean {
 export function wrongKind(lead: KindLead, row: KindRow, plain: ReadonlySet<string>): boolean {
   if (transitStandIn(lead, row)) return true;
   if (namesAnArea(lead)) {
-    if (nameWithExtraWords(lead, row, plain)) return true;
+    if (row.mapsArea !== true && nameWithExtraWords(lead, row, plain)) return true;
     if (BUSINESSES.has(row.category)) return row.category !== lead.category;
   }
   return kindClash(lead, row) && nameWithExtraWords(lead, row, plain);

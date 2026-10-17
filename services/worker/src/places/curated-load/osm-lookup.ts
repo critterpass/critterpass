@@ -2,6 +2,7 @@
  * The OpenStreetMap answer for a curated place no row of ours carries (`@cp/suppliers` asks Nominatim,
  * `@cp/planner` accepts). Nominatim is asked, inside a box around the researcher's point
  * (`NEAR_DEGREES`), for the place's local name first (what the map itself is written in), then its
+ * local name without a Vietnamese head word ("Quán", "Nhà hàng": OSM often leaves it out), then its
  * English name, then the English name with the city, then the English name in the other spelling
  * (Nominatim matches words as written: "Maxwell Food Centre" is mapped as "Maxwell Food
  * Center"); a compound name ("Bronte Beach and Baths") is
@@ -9,8 +10,9 @@
  * (`WIDE_DEGREES`). A result is the place only when one of its names passes the curated name rules
  * and it lies within `ACCEPT_RADIUS_M` of the point (`SPREAD_ACCEPT_RADIUS_M` for a beach, whose
  * map point is often a stretch of coast away; `FAR_ACCEPT_RADIUS_M` for a day trip or nature
- * area). The name, point and address then come from OpenStreetMap, never from the researcher's
- * point.
+ * area), or carries the place's own full name within `FAR_NAME_RADIUS_M` while no other result of
+ * that name stands elsewhere (`@cp/planner`). The name, point and address then come from
+ * OpenStreetMap, never from the researcher's point.
  *
  * An activity (a cruise, a hike from one place to another, a class, a night show) is no point on a
  * map: `curatedStopOnly` tells the loader to keep it as a curated-only stop instead of asking.
@@ -86,6 +88,19 @@ export function otherSpelling(name: string): string | null {
   return respelled === name ? null : respelled;
 }
 
+/** A Vietnamese eatery's or site's head words, which signs and OSM write or leave out. */
+const HEAD =
+  /^(?:quán ăn|quán|nhà hàng|tiệm|khu di tích lịch sử|khu di tích|khu du lịch|di tích)\s+/iu;
+
+/**
+ * The name without a leading Vietnamese head word ("Nhà hàng Sơn Thủy" as "Sơn Thủy"), or null
+ * when it has none or fewer than two words would be left: Nominatim wants every word asked.
+ */
+export function withoutHeadWord(name: string): string | null {
+  const rest = name.normalize('NFC').replace(HEAD, '').trim();
+  return rest !== name.trim() && rest.split(/\s+/u).length >= 2 ? rest : null;
+}
+
 /** Asks Nominatim for one curated place (see the file header); `city` is its destination's name. */
 export async function findCuratedOsmPlace(
   row: CuratedPlaceRow,
@@ -111,9 +126,15 @@ export async function findCuratedOsmPlace(
   const groups: { lead: CuratedLead; names: string[] }[] = [
     {
       lead,
-      names: [...new Set([local, bare, withCity, otherSpelling(bare) ?? ''])].filter(
-        (n) => n !== '',
-      ),
+      names: [
+        ...new Set([
+          local,
+          withoutHeadWord(local) ?? '',
+          bare,
+          withCity,
+          otherSpelling(bare) ?? '',
+        ]),
+      ].filter((n) => n !== ''),
     },
   ];
   if (part !== null && part !== local)

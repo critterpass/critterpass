@@ -227,12 +227,15 @@ describe('choosing the row a curated place is', () => {
       localName: '서울로7017',
       category: 'nature',
     };
-    const spaced = row('spaced', '서울로 7017', 128, { similarity: 0.55, category: 'nature' });
-    expect(chooseCuratedMatch(seoullo, [spaced], plain)).toMatchObject({
+    const alike = row('alike', '서울로 7017 공원', 128, { similarity: 0.55, category: 'nature' });
+    expect(chooseCuratedMatch(seoullo, [alike], plain)).toMatchObject({
       kind: 'match',
-      row: { id: 'spaced' },
+      row: { id: 'alike' },
     });
-    expect(chooseCuratedMatch(seoullo, [{ ...spaced, distanceM: 400 }], plain).kind).toBe('none');
+    expect(chooseCuratedMatch(seoullo, [{ ...alike, distanceM: 400 }], plain).kind).toBe('none');
+    // The same letters with a space are the same name, within the same-name radius.
+    const spaced = row('spaced', '서울로 7017', 900, { similarity: 0.55, category: 'nature' });
+    expect(chooseCuratedMatch(seoullo, [spaced], plain).kind).toBe('match');
   });
 });
 
