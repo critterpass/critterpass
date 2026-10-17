@@ -36,7 +36,7 @@ import type { SkeletonDay } from './skeleton';
 /** Days tried for one sight, nearest first. */
 const DAYS_TRIED = 3;
 
-const placesOf = (day: DraftDay) =>
+export const placesOf = (day: DraftDay) =>
   day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
 
 /** The agreed sights no day holds, those pages agree on most first, then the most written up. */
@@ -59,7 +59,7 @@ function agreedLeftOut(input: DraftPlanInput, plan: Itinerary): DraftPoi[] {
 }
 
 /** Where in `day` a stop before dinner goes: in the dinner's seat (so before it), else last. */
-function seatBeforeDinner(input: DraftPlanInput, day: DraftDay): number {
+export function seatBeforeDinner(input: DraftPlanInput, day: DraftDay): number {
   const dinnerFrom = mealsOf(dayWindow(input.frame, day.day_no - 1)).dinner.startMin;
   const at = day.items.findIndex(
     (item) =>
@@ -70,7 +70,7 @@ function seatBeforeDinner(input: DraftPlanInput, day: DraftDay): number {
 }
 
 /** Stops of `day` an agreed sight may take the seat of: the last of them first. */
-function fillersOf(input: DraftPlanInput, day: DraftDay): DraftDay['items'] {
+export function fillersOf(input: DraftPlanInput, day: DraftDay): DraftDay['items'] {
   return day.items
     .filter((item) => {
       const poi = input.pois.get(item.poi_id ?? '');
@@ -88,17 +88,30 @@ function fillersOf(input: DraftPlanInput, day: DraftDay): DraftDay['items'] {
     .reverse();
 }
 
-/** `poi` on the day of `outline`: added, else in a filler's seat; null where neither fits. */
-function seatOn(
+/**
+ * `poi` on the day of `outline` at `position`, in the seat of `replacing` when given; null unless
+ * the day stays as clean as it was, keeps its shape and has the new stop in its own area.
+ */
+export function seatKeepingShape(
   input: DraftPlanInput,
   outline: SkeletonDay,
   plan: Itinerary,
   poi: DraftPoi,
+  options: {
+    readonly position: number;
+    readonly replacing?: DraftDay['items'][number];
+    /** Whether the new stop may come after dinner (a sight never does). */
+    readonly afterDinner?: boolean;
+  },
 ): Itinerary | null {
   const day = plan.days.find((d) => d.day_no === outline.dayNo);
   if (day === undefined) return null;
-  const window = dayWindow(input.frame, outline.dayNo - 1);
   const before = dayFaults(input, plan, outline.dayNo);
+  const rest =
+    options.replacing === undefined
+      ? day
+      : { ...day, items: day.items.filter((item) => item !== options.replacing) };
+  if (rest !== day && areaStep(input, poi.id, placesOf(rest)) > 0) return null;
   // The meals as the day will have them: fed, then moved beside the stops around them.
   const finish = (candidate: Itinerary) =>
     [withNearerMeals, withMealsInDayAreas, withMealsOnTheWay].reduce(
@@ -114,55 +127,56 @@ function seatOn(
   // Pages keep a day in one area or two, seen one at a time, each stop at its time of day: the
   // new stop never opens a third area, sends the day back to one it left, or moves a stop off
   // its time.
-  const shapeKept = (was: DraftDay, made: DraftDay) => {
-    const [then, now] = [dayShape(input, was), dayShape(input, made)];
+  const shapeKept = (made: DraftDay) => {
+    const [then, now] = [dayShape(input, day), dayShape(input, made)];
     return (
       now.returns <= then.returns &&
       (now.areas <= 2 || now.areas <= then.areas) &&
-      offTheirTime(input, made) <= offTheirTime(input, was)
+      offTheirTime(input, made) <= offTheirTime(input, day)
     );
   };
-  const accept = (was: DraftDay) => (b: typeof before, after: typeof before, made: DraftDay) =>
-    after.hard <= b.hard &&
-    after.meals <= b.meals &&
-    misplacedOpeners(input, made).length === 0 &&
-    !afterDinner(input, made, poi.id) &&
-    !missesBestTime(poi, startOf(made)) &&
-    shapeKept(day, made) &&
-    areaStep(input, poi.id, placesOf(made)) === 0 &&
-    !addsAcrossTownAfterDinner(input, was, made);
+  return addOne(
+    input,
+    outline,
+    rest === day ? plan : { ...plan, days: plan.days.map((d) => (d === day ? rest : d)) },
+    [poi],
+    (b, after, made) =>
+      after.hard <= b.hard &&
+      after.meals <= b.meals &&
+      misplacedOpeners(input, made).length === 0 &&
+      (options.afterDinner === true || !afterDinner(input, made, poi.id)) &&
+      !missesBestTime(poi, startOf(made)) &&
+      shapeKept(made) &&
+      areaStep(input, poi.id, placesOf(made)) === 0 &&
+      !addsAcrossTownAfterDinner(input, rest, made),
+    `agreed-${outline.dayNo}${options.replacing === undefined ? '' : `-${options.replacing.stable_id}`}`,
+    finish,
+    before,
+    options.position,
+  );
+}
+
+/** `poi` on the day of `outline`: added, else in a filler's seat; null where neither fits. */
+function seatOn(
+  input: DraftPlanInput,
+  outline: SkeletonDay,
+  plan: Itinerary,
+  poi: DraftPoi,
+): Itinerary | null {
+  const day = plan.days.find((d) => d.day_no === outline.dayNo);
+  if (day === undefined) return null;
+  const window = dayWindow(input.frame, outline.dayNo - 1);
   if (day.items.length < stopBudget(window.endMin - window.startMin)) {
-    const added = addOne(
-      input,
-      outline,
-      plan,
-      [poi],
-      accept(day),
-      `agreed-${outline.dayNo}`,
-      finish,
-      undefined,
-      seatBeforeDinner(input, day),
-    );
+    const added = seatKeepingShape(input, outline, plan, poi, {
+      position: seatBeforeDinner(input, day),
+    });
     if (added !== null) return added;
   }
   for (const filler of fillersOf(input, day)) {
-    const rest = { ...day, items: day.items.filter((item) => item !== filler) };
-    if (areaStep(input, poi.id, placesOf(rest)) > 0) continue;
-    const without = {
-      ...plan,
-      days: plan.days.map((d) => (d === day ? rest : d)),
-    };
-    const swapped = addOne(
-      input,
-      outline,
-      without,
-      [poi],
-      accept(rest),
-      `agreed-${outline.dayNo}-${filler.stable_id}`,
-      finish,
-      before,
-      day.items.indexOf(filler),
-    );
+    const swapped = seatKeepingShape(input, outline, plan, poi, {
+      position: day.items.indexOf(filler),
+      replacing: filler,
+    });
     if (swapped !== null) return swapped;
   }
   return null;

@@ -214,6 +214,7 @@ export function joinInputs(
       unplaceable: each((input) => input.pools.unplaceable),
       activities: each((input) => input.pools.activities),
       sights: each((input) => input.pools.sights),
+      breaks: each((input) => input.pools.breaks),
       meals: each((input) => input.pools.meals),
       eateries: each((input) => input.pools.eateries),
       outings: each((input) => input.pools.outings),
